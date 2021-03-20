@@ -1,0 +1,358 @@
+/* Documentation For Entrophy HTML5 Template */
+
+
+/*** 
+
+====================================================================
+	Fonts
+====================================================================
+
+***/
+
+
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+@import url(http://fonts.googleapis.com/css?family=Open+Sans+Condensed:300,700);
+
+@import url('font-awesome.css');
+
+/*** 
+
+====================================================================
+	Reset
+====================================================================
+
+***/
+* {
+	margin:0px;
+	padding:0px;
+	border:none;
+	outline:none;
+}
+
+/*** 
+
+====================================================================
+	Global Settings
+====================================================================
+
+ ***/
+
+body {
+	font-family: 'Open Sans', sans-serif;
+	font-size:14px;
+	color:#353535;
+	line-height:1.6em;
+	font-weight:500;
+	background:#ffffff;
+	-webkit-font-smoothing: antialiased;
+}
+
+a{
+	text-decoration:none;
+	cursor:pointer;
+	color:#ff6262;	
+}
+
+a:hover,a:focus,a:visited{
+	text-decoration:none;
+	outline:none;
+}
+
+h1,h2,h3,h4,h5,h6 {
+	position:relative;
+	margin:0px;
+	background:none;
+}
+
+h1 {
+	font-size:24px;
+}
+
+h2 {
+	font-size:20px;
+}
+
+h3 {
+	font-size:18px;
+}
+
+p{
+	font-size:14px;
+	line-height:1.6em;	
+}
+
+
+
+/*** 
+
+====================================================================
+	Sidebar
+====================================================================
+
+****/
+
+#sidebar{
+	position:fixed;
+	left:0px;
+	top:0px;
+	width:250px;
+	height:100%;
+	padding:0px 20px;
+	border-right:2px solid #ff6262;
+	z-index:10;
+}
+
+#sidebar .mCSB_inside > .mCSB_container{
+	margin-right:12px !important;	
+}
+
+#sidebar .mCS_no_scrollbar .mCSB_container{
+	margin-right:0px !important;	
+}
+
+#sidebar .menu-box{
+	position:absolute;
+	left:0px;
+	top:0px;
+	width:100%;
+	height:100%;
+	overflow:auto;
+	padding:0px 0px 30px;
+	background:rgba(0,0,0,0.80);
+	transition:all 1000ms ease;
+	-moz-transition:all 1000ms ease;
+	-webkit-transition:all 1000ms ease;
+	-ms-transition:all 1000ms ease;
+	-o-transition:all 1000ms ease;
+}
+
+#sidebar .menu-box .logo{
+	position:relative;
+	text-align:center;
+	margin-bottom:35px;
+	padding:30px 20px 10px;
+}
+
+#sidebar .menu-box .logo img{
+	position:relative;
+	display:inline-block;
+	max-width:100%;	
+}
+
+#sidebar .menu-box .sticky-menu{
+	position:relative;	
+}
+
+#sidebar .menu-box .sticky-menu > ul{
+	position:relative;
+	display:block;
+	margin:0px;
+	padding:0px;
+	border-top:1px solid rgba(255,255,255,0.20);	
+}
+
+#sidebar .menu-box .sticky-menu > ul > li{
+	position:relative;
+	display:block;
+	padding:3px 0px;
+	border-bottom:1px solid rgba(255,255,255,0.20);
+	font-size:20px;
+	color:#ffffff;
+	text-align:right;
+}
+
+#sidebar .menu-box .sticky-menu > ul > li > a{
+	position:relative;
+	display:block;
+	padding:7px 30px 7px 0px;
+	color:#ffffff;
+	font-size:13px;
+	font-weight:600;
+	line-height:20px;
+	text-transform:uppercase;
+	transition:all 300ms ease;
+	-moz-transition:all 300ms ease;
+	-webkit-transition:all 300ms ease;
+	-ms-transition:all 300ms ease;
+	-o-transition:all 300ms ease;
+}
+
+#sidebar .menu-box .sticky-menu > ul > li a .fa{
+	position:absolute;
+	right:-10px;
+	top:0px;
+	width:24px;
+	text-align:right;
+	color:#ffffff;
+	opacity:0;
+	font-size:12px;
+	display:block;
+	line-height:34px;
+	transition:all 500ms ease;
+	-moz-transition:all 500ms ease;
+	-webkit-transition:all 500ms ease;
+	-ms-transition:all 500ms ease;
+	-o-transition:all 500ms ease;
+}
+
+#sidebar .menu-box .sticky-menu > ul > li.current a .fa,
+#sidebar .menu-box .sticky-menu > ul > li:hover a .fa{
+	right:6px;
+	opacity:1;	
+}
+
+#sidebar .menu-box .sticky-menu > ul > li > a:hover,
+#sidebar .menu-box .sticky-menu > ul > li.current > a,
+#sidebar .menu-box .sticky-menu > ul > li.current-menu-item > a{
+	color:#ff6262;	
+}
+
+#sidebar .copyright{
+	position:fixed;
+	left:0px;
+	bottom:5px;
+	width:250px;
+	height:30px;
+	font-size:13px;
+	color:#ffffff;
+	line-height:30px;
+	text-align:center;	
+}
+
+/*** 
+
+====================================================================
+	Content Section
+====================================================================
+
+****/
+
+
+
+#content-section{
+	position:relative;
+	padding:0px 0px 30px 250px;
+	width:100%;
+	z-index:5;
+}
+
+#content-section .section{
+	position:relative;
+	min-height:200px;
+	margin-bottom:50px;	
+}
+
+#content-section .sec-title{
+	position:relative;
+	padding:10px 20px 10px 50px;
+	background:rgba(0,0,0,0.70);
+	color:#ffffff;
+}
+
+#content-section .sec-title h2{
+	position:relative;
+	font-size:24px;
+	text-transform:capitalize;
+	font-weight:600;
+}
+
+#content-section .sec-title h3{
+	position:relative;
+	font-size:22px;
+	text-transform:uppercase;
+	font-weight:600;
+}
+
+#content-section .sec-title .icon{
+	position:absolute;
+	left:20px;
+	top:10px;
+	width:30px;
+	height:40px;
+	line-height:30px;
+	font-size:18px;
+}
+
+#content-section .separator{
+	position:relative;
+	margin:20px 0px;
+	height:1px;
+}
+
+#content-section .separator:before{
+	content:'';
+	position:relative;
+	display:block;
+	width:100%;
+	height:1px;
+	background:linear-gradient(left,#d0d0d0,#f1f1f1,#ffffff);
+	background:-moz-linear-gradient(left,#d0d0d0,#f1f1f1,#ffffff);
+	background:-webkit-linear-gradient(left,#d0d0d0,#f1f1f1,#ffffff);
+	background:-ms-linear-gradient(left,#d0d0d0,#f1f1f1,#ffffff);
+	background:-o-linear-gradient(left,#d0d0d0,#f1f1f1,#ffffff);
+}
+
+#content-section .sec-content{
+	position:relative;
+	padding:10px 20px;
+}
+
+.introduction .sec-content h2{
+	font-size:32px;
+	text-transform:uppercase;
+	margin-bottom:10px;
+	font-weight:600;
+	font-family: 'Open Sans Condensed', sans-serif;
+	color:#ff6262;	
+}
+
+.introduction .sec-content h3{
+	font-size:22px;
+	text-transform:capitalize;
+	margin-bottom:10px;
+	font-family: 'Open Sans Condensed', sans-serif;
+}
+
+.html-structure .sec-content h3,
+.css-structure .sec-content h3,
+.javascript .sec-content h3,
+.sources-credits .sec-content h3,
+.contact-form .sec-content h3,
+.support .sec-content h3,
+.map-settings .sec-content h3,
+.count-timer .sec-content h3{
+	font-size:15px;
+	font-weight:600;
+	margin-bottom:30px;
+	line-height:1.4em;
+}
+
+.html-structure code{
+	font-size:14px;
+	font-family: 'Open Sans', sans-serif;
+	color:#353535;
+	padding:30px 20px;
+	background:#f1f1f1;
+	height:auto;
+	display:block;
+}
+
+.javascript ul li{
+	list-style:none;	
+}
+
+.sources-credits p{
+	margin-bottom:2px;	
+}
+
+#content-section img{
+	display:inline-block;
+	max-width:100%;
+	height:auto;	
+}
+
+#content-section .image-box{
+	position:relative;
+	padding:0px;
+	margin:30px 0px;	
+}
