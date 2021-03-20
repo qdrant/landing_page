@@ -80,11 +80,11 @@
  ***/
 
 :root {
-  --secondary-color: #182b3a;
+  --brand-primary: #bc1439;
+  --brand-secondary: #182b3a;
 }
 
 body {
-  --brand-primary: #bc1439;
 	font-family: 'Open Sans' ;
 	font-size:14px;
 	color:#777777;
@@ -446,7 +446,7 @@ img{
 	height: 100%;
 	width: 100%;
 	content: "";
-	background-color: #2b2b2b;
+	background-color: var(--brand-secondary);
 	-webkit-transform: scale(0, 1);
 	-ms-transform: scale(0, 1);
 	transform: scale(0, 1);
@@ -554,7 +554,7 @@ img{
 .social-icon-one li{
 	position:relative;
 	margin-right:7px;
-	color:var(--secondary-color);
+	color:var(--brand-secondary);
 	font-size:18px;
 	float:left;
 }
@@ -991,7 +991,7 @@ img{
 	top:0px;
 	width:100%;
 	padding:0px 0px;
-	background:var(--secondary-color);
+	background:var(--brand-secondary);
 	z-index:0;
 	transition:all 500ms ease;
 	-moz-transition:all 500ms ease;
@@ -1177,7 +1177,7 @@ img{
 	font-weight:400;
 	font-size:18px;
 	text-transform:capitalize;
-	color:var(--secondary-color);
+	color:var(--brand-secondary);
 	transition:all 500ms ease;
 	-moz-transition:all 500ms ease;
 	-webkit-transition:all 500ms ease;
@@ -1200,7 +1200,7 @@ img{
 	width:10px;
 	height:20px;
 	display:block;
-	color:var(--secondary-color);
+	color:var(--brand-secondary);
 	line-height:20px;
 	font-size:16px;
 	font-weight:normal;
@@ -1256,7 +1256,7 @@ img{
 	font-weight:400;
 	font-size:18px;
 	text-transform:capitalize;
-	color:var(--secondary-color);
+	color:var(--brand-secondary);
 	transition:all 500ms ease;
 	-moz-transition:all 500ms ease;
 	-webkit-transition:all 500ms ease;
@@ -1340,7 +1340,7 @@ img{
 	right:0px;
 	top:0px;
 	padding:0px;
-	background-color:var(--secondary-color);
+	background-color:var(--brand-secondary);
 	box-shadow:0px 0px 15px rgba(0,0,0,0.12);
 }
 
@@ -1387,7 +1387,7 @@ img{
 }
 
 .header-style-two.fixed-header .header-upper .outer-box .theme-btn:hover{
-	color:var(--secondary-color);
+	color:var(--brand-secondary);
 }
 
 .header-style-two.fixed-header .header-upper .outer-box .nav-toggler .nav-btn{
@@ -3177,7 +3177,7 @@ img{
 	width:170px;	
 	border-radius:0px;
 	margin-top:0px;
-	background-color:var(--secondary-color);
+	background-color:var(--brand-secondary);
 	border:none;
 	padding:0px;
     border-top:3px solid var(--brand-primary);
@@ -3495,7 +3495,6 @@ img{
 .clients-section{
 	position:relative;
 	padding:40px 0px 40px;
-	background-color:#f1eff7;
 }
 
 .clients-section .sponsors-outer .owl-dots,
@@ -3641,16 +3640,6 @@ img{
 	font-size:64px;
 	line-height:114px;
 	margin-bottom:25px;
-}
-
-.business-block .inner-box .icon-box:before{
-	position:absolute;
-	content:'';
-	left:0px;
-	top:0px;
-	right:0px;
-	bottom:0px;
-	background:url(../images/icons/business-icon.png) no-repeat;
 }
 
 .business-block .inner-box .lower-content h5{
@@ -4465,23 +4454,13 @@ img{
 
 .intelligence-block .inner-box .icon-box{
 	position:relative;
-	width:118px;
-	height:114px;
+	width:160px;
+	height:160px;
 	color:var(--brand-primary);
-	font-size:58px;
+	font-size:80px;
 	text-align:center;
-	line-height:114px;
+	line-height:160px;
 	margin-bottom:20px;
-}
-
-.intelligence-block .inner-box .icon-box:before{
-	position:absolute;
-	content:'';
-	left:0px;
-	top:0px;
-	right:0px;
-	bottom:0px;
-	background:url(../images/icons/business-icon.png) no-repeat;
 }
 
 .intelligence-block .inner-box h5{
@@ -4600,7 +4579,7 @@ img{
 	padding:14px 64px;
 	border-radius:5px;
 	display:inline-block;
-	background-color:var(--secondary-color);
+	background-color:var(--brand-secondary);
 	-webkit-transition:all 300ms ease;
 	-ms-transition:all 300ms ease;
 	-o-transition:all 300ms ease;
@@ -6222,7 +6201,7 @@ img{
 	height:50px;
 	padding:6px 30px;
 	width:100%;
-	color:var(--secondary-color);
+	color:var(--brand-secondary);
 	border-radius:50px;
 	border:1px solid #f2f2f2;
 	transition:all 500ms ease;
@@ -6792,7 +6771,7 @@ img{
 	height:50px;
 	padding:6px 30px;
 	width:100%;
-	color:var(--secondary-color);
+	color:var(--brand-secondary);
 	border-radius:50px;
 	border:1px solid #f2f2f2;
 	transition:all 500ms ease;
@@ -7873,4 +7852,14 @@ img{
 
 .about-section .content-column .btn-style-five:hover .txt{
 	color:#ffffff;
+}
+
+.code {
+  display: inline-block;
+  padding: 0.6rem 1rem;
+  margin-bottom: 1rem;
+  background:#f6f8fa;
+  box-shadow: 0 0 0 2px var(--brand-secondary);
+  border-radius: 5px;
+  font-size: 1rem;
 }

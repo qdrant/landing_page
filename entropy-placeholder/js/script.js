@@ -253,11 +253,11 @@
 		$('.sponsors-carousel').owlCarousel({
 			//animateOut: 'fadeOut',
     		//animateIn: 'fadeIn',
-			loop:true,
+			loop:false,
 			margin:30,
 			nav:true,
 			smartSpeed: 500,
-			autoplay: 6000,
+			autoplay: false,
 			navText: [ '<span class="fa fa-angle-left"></span>', '<span class="fa fa-angle-right"></span>' ],
 			responsive:{
 				0:{
@@ -270,13 +270,13 @@
 					items:3
 				},
 				1024:{
-					items:4
+					items:2
 				},
 				1200:{
-					items:4
+					items:2
 				},
 				1500:{
-					items:4
+					items:2
 				}
 			}
 		});    		
