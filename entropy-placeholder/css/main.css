@@ -3016,7 +3016,7 @@ img{
 
 .main-footer .nav-list li:before{
 	position:absolute;
-	content: "\f106";
+	content: "\f107";
 	left:0px;
 	top:1px;
 	color:var(--brand-primary);
@@ -4673,7 +4673,7 @@ img{
 .business-section-two .business-tabs .content .content-column .business-list li:before,
 .intelligence-section .intelligence-block .text li:before{
 	position:absolute;
-	content:'\f106';
+	content:'\f107';
 	left:0px;
 	top:0px;
 	width:50px;
@@ -7887,7 +7887,7 @@ img{
 }
 .intelligence-section .intelligence-block .text li:before{
   position:absolute;
-  content:'\f106';
+  content:'\f107';
   left:0;
   top:0;
   width:24px;
