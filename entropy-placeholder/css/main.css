@@ -5171,7 +5171,7 @@ img{
 	overflow:hidden;
 	text-align:center;
 	padding:200px 0px 150px;
-	background-image: linear-gradient(to right, #6a14d1, #5c2ec3, #533bb4, #4d43a3, #4c4990);
+  background: var(--brand-secondary);
 }
 
 .page-title .pattern-layer{
@@ -7897,4 +7897,17 @@ img{
   line-height:24px;
   text-align:center;
   font-family: "Flaticon";
+}
+
+/** Link Group **/
+.link-group.active .link-group-heading {
+  box-shadow: inset 3px 0 0 0 var(--brand-primary);
+}
+
+.link-group .btn,
+.link-group a {
+  color: var(--brand-secondary);
+}
+.link-group a:hover {
+  color: var(--brand-primary);
 }

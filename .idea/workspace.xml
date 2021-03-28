@@ -2,20 +2,22 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa3daba2-454f-484b-9325-cdf36daf319c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/entropy-placeholder/documentation.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/css/flaticon.css" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/css/flaticon.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/entropy-placeholder/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/css/main.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.eot" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.eot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff2" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/entropy-placeholder/index-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/index-4.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -32,6 +34,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -59,7 +62,7 @@
       <updated>1616074735223</updated>
       <workItem from="1616074736567" duration="16736000" />
       <workItem from="1616925802401" duration="1034000" />
-      <workItem from="1616926838689" duration="13979000" />
+      <workItem from="1616926838689" duration="20382000" />
     </task>
     <servers />
   </component>
