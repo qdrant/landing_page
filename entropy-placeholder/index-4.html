@@ -92,10 +92,7 @@
             </nav>
 
             <div class="outer-box">
-              <!--Search Box-->
-              <div class="searched-popup search-box-outer">
-                <button class="search-box-btn"><span class="flaticon-magnifying-glass-1"></span></button>
-              </div>
+              <a class="btn btn-lg mt-1" href="https://github.com/qdrant/qdrant" target="_blank" title="github"><i class="flaticon flaticon-github"></i></a>
             </div>
 
           </div>
@@ -183,10 +180,10 @@
             <div class="row clearfix">
 
               <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
+              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
                 <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
                   <div class="icon-box d-flex justify-content-center">
-                    <span class="icon flaticon-brain"></span>
+                    <i class="flaticon-api"></i>
                   </div>
                   <h5><a href="services.html">Robust</a></h5>
                   <div class="text">
@@ -200,10 +197,26 @@
               </div>
 
               <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
+              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
                 <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
                   <div class="icon-box d-flex justify-content-center">
-                    <span class="icon flaticon-cloud-1"></span>
+                    <i class="flaticon-data-1"></i>
+                  </div>
+                  <h5><a href="services.html">Accurate</a></h5>
+                  <div class="text">
+                    Maintain index integrity even with multiple filters:
+                    <ul>
+                      <li>Custom implementation of HNSW index preventing accuracy degradation (TBP)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Intelligence Block -->
+              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
+                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
+                  <div class="icon-box d-flex justify-content-center">
+                    <i class="flaticon-data-1"></i>
                   </div>
                   <h5><a href="services.html">Accurate</a></h5>
                   <div class="text">
@@ -219,10 +232,10 @@
             <div class="row clearfix">
 
               <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
+              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
                 <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
                   <div class="icon-box d-flex justify-content-center">
-                    <span class="icon flaticon-brain"></span>
+                    <i class="flaticon-distribution"></i>
                   </div>
                   <h5><a href="services.html">Distributed (TBD)</a></h5>
                   <div class="text">
@@ -235,10 +248,28 @@
               </div>
 
               <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
+              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
                 <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
                   <div class="icon-box d-flex justify-content-center">
-                    <span class="icon flaticon-cloud-1"></span>
+                    <i class="flaticon-microprocessor"></i>
+                  </div>
+                  <h5><a href="services.html">Optimized</a></h5>
+                  <div class="text">
+                    Search index tuning enables effective query execution:
+                    <ul>
+                      <li>Dynamic query planning</li>
+                      <li>Payload data indexing</li>
+                      <li>Vector quantization (TBP)</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Intelligence Block -->
+              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
+                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
+                  <div class="icon-box d-flex justify-content-center">
+                    <i class="flaticon-microprocessor"></i>
                   </div>
                   <h5><a href="services.html">Optimized</a></h5>
                   <div class="text">
@@ -273,7 +304,7 @@
       <div class="code">
         <code id="copy-code">docker pull generall/qdrant</code>
         <button class="copy-btn lead ml-4" data-clipboard-target="#copy-code" title="Copy code">
-         <i class="flaticon-data-copy"></i>
+         <i class="flaticon-copy"></i>
         </button>
       </div>
       <div class="alert alert-dark alert-dismissible fade fixed-top mt-0" role="alert">
@@ -308,17 +339,17 @@
               <li data-tab="#prod-diabetes" class="tab-btn active-btn wow fadeInLeft" data-wow-delay="0ms"
                   data-wow-duration="1500ms">
                 <h5>Neural<br>Text Search</h5>
-                <span class="icon flaticon-brain"></span>
+                <i class="icon flaticon-paper"></i>
               </li>
               <li data-tab="#prod-sales" class="tab-btn wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
                 <h5>Image Search -<br>food discovery</h5>
-                <span class="icon flaticon-cloud-1"></span>
+                <i class="icon flaticon-image-1"></i>
 
               </li>
               <li data-tab="#prod-education" class="tab-btn wow fadeInRight" data-wow-delay="0ms"
                   data-wow-duration="1500ms">
                 <h5>Recommendations<br>with conditions</h5>
-                <span class="icon flaticon-face"></span>
+                <i class="icon flaticon-advertising"></i>
               </li>
             </ul>
 
@@ -540,106 +571,6 @@
   </section>
   <!-- End Projects Section Two -->
 
-  <!-- About Section -->
-  <section class="about-section style-two">
-    <div class="pattern-layer paroller" data-paroller-factor="0.20" data-paroller-factor-lg="0.60"
-         data-paroller-type="foreground" data-paroller-direction="horizontal"
-         style="background-image: url(images/background/pattern-10.png)"></div>
-    <div class="auto-container">
-      <div class="row clearfix">
-
-        <!-- Counter Column -->
-        <div class="counter-column col-lg-6 col-md-12 col-sm-12">
-          <div class="inner-column">
-
-            <div class="fact-counter">
-              <div class="row clearfix">
-
-                <!-- Column -->
-                <div class="column counter-column col-lg-6 col-md-6 col-sm-12">
-                  <div class="inner wow fadeInLeft" data-wow-delay="300ms" data-wow-duration="1500ms">
-                    <div class="icon-box">
-                      <span class="icon flaticon-career"></span>
-                    </div>
-                    <div class="count-outer count-box">
-                      <span class="count-text" data-speed="3000" data-stop="120">0</span>+
-                      <h4 class="counter-title">Successful Projects</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <!--Column-->
-                <div class="column counter-column col-lg-6 col-md-6 col-sm-12">
-                  <div class="inner wow fadeInLeft" data-wow-delay="600ms" data-wow-duration="1500ms">
-                    <div class="icon-box">
-                      <span class="icon flaticon-user-5"></span>
-                    </div>
-                    <div class="count-outer count-box">
-                      <span class="count-text" data-speed="2500" data-stop="105">0</span>+
-                      <h4 class="counter-title">Professional Experts</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <!--Column-->
-                <div class="column counter-column col-lg-6 col-md-6 col-sm-12">
-                  <div class="inner wow fadeInLeft" data-wow-delay="900ms" data-wow-duration="1500ms">
-                    <div class="icon-box">
-                      <span class="icon flaticon-agreement"></span>
-                    </div>
-                    <div class="count-outer count-box">
-                      <span class="count-text" data-speed="3500" data-stop="120">0</span>+
-                      <h4 class="counter-title">Happy Customers</h4>
-                    </div>
-                  </div>
-                </div>
-
-                <!--Column-->
-                <div class="column counter-column col-lg-6 col-md-6 col-sm-12">
-                  <div class="inner wow fadeInLeft" data-wow-delay="900ms" data-wow-duration="1500ms">
-                    <div class="icon-box">
-                      <span class="icon flaticon-world"></span>
-                    </div>
-                    <div class="count-outer count-box">
-                      <span class="count-text" data-speed="2000" data-stop="40">0</span>+
-                      <h4 class="counter-title">Happy Customers</h4>
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-
-            </div>
-
-          </div>
-        </div>
-
-        <!-- Content Column -->
-        <div class="content-column col-lg-6 col-md-12 col-sm-12">
-          <div class="inner-column">
-            <!-- Sec Title -->
-            <div class="sec-title">
-              <h2>Get in <span>touch</span></h2>
-              <div class="text">Not sure how Qdrant can be useful for you? Ask us!</div>
-            </div>
-            <!-- Newsletter Form -->
-            <div class="newsletter-form">
-              <form method="post" action="contact.html">
-                <div class="form-group">
-                  <input type="email" name="email" value="" placeholder="Enter Your Email" required="">
-                  <button type="submit" class="theme-btn btn-style-four mr-0"><span class="txt">Send</span></button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-
-
-      </div>
-    </div>
-  </section>
-  <!-- End About Section -->
-
   <!-- Main Footer -->
   <footer class="main-footer">
     <div class="pattern-layer" style="background-image: url(images/background/pattern-4.png)"></div>
@@ -799,11 +730,12 @@
 <script src="js/clipboard.min.js"></script>
 <script>
   var clipboard = new ClipboardJS('.copy-btn');
+  $('.alert').hide();
 
   clipboard.on('success', function(e) {
-    $('.alert').alert().addClass('show');
+    $('.alert').alert().show().addClass('show');
     const to = setTimeout(() => {
-      $('.alert').alert().removeClass('show');
+      $('.alert').alert().removeClass('show').hide();
       clearTimeout(to);
     }, 2000);
 
