@@ -429,7 +429,7 @@ img{
 	overflow: hidden;
 	background: none;
 	border-radius:0px;
-	background-color:var(--brand-primary);
+  background-color: var(--brand-secondary);
 	text-transform: capitalize;
 	font-family: 'Roboto Condensed' ;
 	-webkit-box-shadow: 0 10px 30px rgba(255,98,98,0.10);
@@ -446,7 +446,7 @@ img{
 	height: 100%;
 	width: 100%;
 	content: "";
-	background-color: var(--brand-secondary);
+  background-color:var(--brand-primary);
 	-webkit-transform: scale(0, 1);
 	-ms-transform: scale(0, 1);
 	transform: scale(0, 1);
@@ -4334,7 +4334,8 @@ img{
 	color:var(--brand-primary);
 }
 
-.banner-section-two .content-column .newsletter-form .form-group button{
+.banner-section-two .content-column .newsletter-form .form-group button,
+.content-column .inner-column .newsletter-form .form-group button{
 	border-radius:50px;
 	padding:9px 36px 9px;
 }
@@ -4454,7 +4455,6 @@ img{
 
 .intelligence-block .inner-box .icon-box{
 	position:relative;
-	width:160px;
 	height:160px;
 	color:var(--brand-primary);
 	font-size:80px;
@@ -4492,7 +4492,7 @@ img{
 	margin-bottom:0px;
 }
 
-/*** 
+/***
 
 ====================================================================
 	Business Section Two
@@ -4666,7 +4666,8 @@ img{
 	padding-left:70px;
 }
 
-.business-section-two .business-tabs .content .content-column .business-list li:before{
+.business-section-two .business-tabs .content .content-column .business-list li:before,
+.intelligence-section .intelligence-block .text li:before{
 	position:absolute;
 	content:'\f1a9';
 	left:0px;
@@ -7854,12 +7855,42 @@ img{
 	color:#ffffff;
 }
 
+.copy-btn {
+  cursor: pointer;
+  color: white;
+  background: transparent;
+}
+
 .code {
   display: inline-block;
-  padding: 0.6rem 1rem;
+  padding: 1rem 1.6rem;
   margin-bottom: 1rem;
   background:#f6f8fa;
-  box-shadow: 0 0 0 2px var(--brand-secondary);
+  background: var(--brand-secondary);
   border-radius: 5px;
-  font-size: 1rem;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 1.6rem;
+}
+.code>code {
+  color: white;
+}
+
+.intelligence-section .intelligence-block .text li{
+  display: block;
+  position: relative;
+  text-align: left;
+  padding-left: 25px;
+}
+.intelligence-section .intelligence-block .text li:before{
+  position:absolute;
+  content:'\f1a9';
+  left:0;
+  top:0;
+  width:24px;
+  height:24px;
+  color:var(--brand-primary);
+  font-size:12px;
+  line-height:24px;
+  text-align:center;
+  font-family: "Flaticon";
 }

@@ -10,6 +10,8 @@
 
   <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
   <link rel="icon" href="images/favicon.png" type="image/x-icon">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
 
   <!-- Responsive -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -140,7 +142,7 @@
                 <form method="post" action="contact.html">
                   <div class="form-group">
                     <input type="email" name="email" value="" placeholder="Enter Your Email" required="">
-                    <button type="submit" class="theme-btn btn-style-four"><span class="txt">Tell me more</span>
+                    <button type="submit" class="theme-btn btn-style-three"><span class="txt">Tell me more</span>
                     </button>
                   </div>
                 </form>
@@ -182,8 +184,8 @@
 
               <!-- Intelligence Block -->
               <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInLeft text-center" data-wow-delay="0ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-inline-block">
+                <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                  <div class="icon-box d-flex justify-content-center">
                     <span class="icon flaticon-brain"></span>
                   </div>
                   <h5><a href="services.html">Robust</a></h5>
@@ -199,8 +201,8 @@
 
               <!-- Intelligence Block -->
               <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInLeft text-center" data-wow-delay="150ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-inline-block">
+                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
+                  <div class="icon-box d-flex justify-content-center">
                     <span class="icon flaticon-cloud-1"></span>
                   </div>
                   <h5><a href="services.html">Accurate</a></h5>
@@ -218,13 +220,13 @@
 
               <!-- Intelligence Block -->
               <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInLeft text-center" data-wow-delay="0ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-inline-block">
+                <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                  <div class="icon-box d-flex justify-content-center">
                     <span class="icon flaticon-brain"></span>
                   </div>
                   <h5><a href="services.html">Distributed (TBD)</a></h5>
                   <div class="text">
-                    Most reliable for large scale deployment:
+                    Most reliable for large scale deployment:<br>
                     <ul>
                       <li>Distributed consensus algorithm with no single point of failure (TBP)</li>
                     </ul>
@@ -234,8 +236,8 @@
 
               <!-- Intelligence Block -->
               <div class="intelligence-block col-lg-6 col-md-6 col-sm-12">
-                <div class="inner-box wow fadeInLeft text-center" data-wow-delay="150ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-inline-block">
+                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
+                  <div class="icon-box d-flex justify-content-center">
                     <span class="icon flaticon-cloud-1"></span>
                   </div>
                   <h5><a href="services.html">Optimized</a></h5>
@@ -268,7 +270,15 @@
     </div>
     <div class="text-center">
       <p>Get started by downloading a pre-build Docker Image - it is only 35Mb!</p>
-      <code class="code">docker pull generall/qdrant</code>
+      <div class="code">
+        <code id="copy-code">docker pull generall/qdrant</code>
+        <button class="copy-btn lead ml-4" data-clipboard-target="#copy-code" title="Copy code">
+         <i class="flaticon-data-copy"></i>
+        </button>
+      </div>
+      <div class="alert alert-dark alert-dismissible fade fixed-top mt-0" role="alert">
+        <span class="lead">Text copied</span>
+      </div>
       <p>Take a look a tour through our [Quick Start Guide]<br>
         or build your first neural search wit out step-by-step [Tutorial]</p>
     </div>
@@ -617,7 +627,7 @@
               <form method="post" action="contact.html">
                 <div class="form-group">
                   <input type="email" name="email" value="" placeholder="Enter Your Email" required="">
-                  <button type="submit" class="theme-btn btn-style-one"><span class="txt">Send</span></button>
+                  <button type="submit" class="theme-btn btn-style-four mr-0"><span class="txt">Send</span></button>
                 </div>
               </form>
             </div>
@@ -786,6 +796,25 @@
 <script src="js/jquery-ui.js"></script>
 <script src="js/element-in-view.js"></script>
 <script src="js/script.js"></script>
+<script src="js/clipboard.min.js"></script>
+<script>
+  var clipboard = new ClipboardJS('.copy-btn');
+
+  clipboard.on('success', function(e) {
+    $('.alert').alert().addClass('show');
+    const to = setTimeout(() => {
+      $('.alert').alert().removeClass('show');
+      clearTimeout(to);
+    }, 2000);
+
+    e.clearSelection();
+  });
+
+  clipboard.on('error', function(e) {
+    console.error('Action:', e.action);
+    console.error('Trigger:', e.trigger);
+  });
+</script>
 
 </body>
 </html>
