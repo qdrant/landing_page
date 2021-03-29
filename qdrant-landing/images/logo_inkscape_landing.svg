@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="2340.0662"
+   height="623.40393"
+   viewBox="0 0 619.14249 164.9423"
+   version="1.1"
+   id="svg8"
+   sodipodi:docname="logo_inkscape_landing.svg"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
+   inkscape:export-filename="/home/generall/projects/vector_search/landing_page/entropy-placeholder/images/qdrant_logo.png"
+   inkscape:export-xdpi="7.7922306"
+   inkscape:export-ydpi="7.7922306">
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1053"
+     id="namedview957"
+     showgrid="false"
+     inkscape:pagecheckerboard="true"
+     inkscape:zoom="0.33166796"
+     inkscape:cx="1140.4314"
+     inkscape:cy="354.08996"
+     inkscape:window-x="0"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     fit-margin-left="20"
+     fit-margin-top="20"
+     fit-margin-bottom="20"
+     fit-margin-right="20" />
+  <defs
+     id="defs2">
+    <rect
+       x="764.6814"
+       y="790.23376"
+       width="807.76056"
+       height="404.10809"
+       id="rect911" />
+    <rect
+       x="-66.179222"
+       y="-127.80811"
+       width="914.09833"
+       height="516.0083"
+       id="rect881" />
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     id="layer1"
+     transform="translate(-25.583805,-4.6643292)">
+    <g
+       id="g877"
+       transform="matrix(0.83501157,0,0,0.83501157,26.787862,5.8683841)"
+       style="stroke-width:1.19759">
+      <path
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#182b3a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.19774;stroke-linecap:butt;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+         d="M 10.043123,4.8952756 4.8952736,10.043125 V 159.29021 l 5.1478494,5.14785 H 159.29021 l 5.14785,-5.14785 V 10.043125 L 159.29021,4.8952756 Z M 35.782367,35.782369 147.27857,22.054771 133.55097,133.55097 22.054769,147.27857 Z"
+         id="path979" />
+      <path
+         style="color:#000000;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:normal;font-family:sans-serif;font-variant-ligatures:normal;font-variant-position:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-alternates:normal;font-variant-east-asian:normal;font-feature-settings:normal;font-variation-settings:normal;text-indent:0;text-align:start;text-decoration:none;text-decoration-line:none;text-decoration-style:solid;text-decoration-color:#000000;letter-spacing:normal;word-spacing:normal;text-transform:none;writing-mode:lr-tb;direction:ltr;text-orientation:mixed;dominant-baseline:auto;baseline-shift:baseline;text-anchor:start;white-space:normal;shape-padding:0;shape-margin:0;inline-size:0;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;vector-effect:none;fill:#182b3a;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.19774;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate;stop-color:#000000"
+         d="M 68.224962,6.8003851 V 10.043125 L 54.497364,114.83597 162.53295,101.10837 160.88203,9.1352997 Z M 95.301836,13.285864 H 156.04747 V 74.031495 L 81.574238,87.759093 Z"
+         id="path985"
+         sodipodi:nodetypes="ccccccccccc" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:176.213px;line-height:1.25;font-family:Squarified;-inkscape-font-specification:'Squarified, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#182b3a;fill-opacity:1;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none"
+       x="180.40067"
+       y="138.94028"
+       id="text873"><tspan
+         sodipodi:role="line"
+         id="tspan871"
+         x="180.40067"
+         y="138.94028"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:176.213px;font-family:Squarified;-inkscape-font-specification:'Squarified, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-variant-east-asian:normal;fill:#182b3a;fill-opacity:1;stroke-width:0.264583;stroke-miterlimit:4;stroke-dasharray:none">Qdrant</tspan></text>
+    <text
+       xml:space="preserve"
+       id="text879"
+       style="font-size:8.46667px;line-height:1.25;font-family:EuropeanTypewriter;-inkscape-font-specification:EuropeanTypewriter;white-space:pre;shape-inside:url(#rect881);" />
+    <text
+       xml:space="preserve"
+       id="text909"
+       style="font-size:8.46667px;line-height:1.25;font-family:EuropeanTypewriter;-inkscape-font-specification:EuropeanTypewriter;white-space:pre;shape-inside:url(#rect911);" />
+  </g>
+</svg>

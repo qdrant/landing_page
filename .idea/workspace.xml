@@ -3,15 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="fa3daba2-454f-484b-9325-cdf36daf319c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/css/flaticon.css" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/css/flaticon.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/css/responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/css/responsive.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/documentation.html" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/documentation.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.eot" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.eot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.svg" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/fonts/flaticon.woff2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/entropy-placeholder/index-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/index-4.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,13 +36,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/entropy-placeholder/fonts" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/entropy-placeholder/fonts" />
       <recent name="$PROJECT_DIR$/entropy-placeholder/css" />
       <recent name="$PROJECT_DIR$/entropy-placeholder" />
