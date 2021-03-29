@@ -1,5 +1,7 @@
 /* Entropy HTML Template*/
 
+@import url('colors.css');
+
 @media only screen and (max-width: 2240px){
 	
 	.banner-section-two .side-layer{
@@ -131,7 +133,7 @@
 	}
 	
 	.banner-section-two{
-		background-color:#5539a3;
+		background-color:var(--brand-secondary);
 	}
 	
 	.science-section-two .image-column .inner-column{
@@ -853,11 +855,27 @@
 	
 	.business-section-two .business-tabs .tab-btns .tab-btn,
 	.projects-section .project-tabs .tab-btns .tab-btn{
-		margin-left:0px;
-		margin-right:0px;
+		margin-left:0;
+		margin-right:0;
+    margin-bottom:10px;
 		width:100%;
+    padding: 0;
 	}
-	
+
+  .business-section-two .business-tabs .tab-btns .tab-btn h5 {
+    display: block;
+    top: 0;
+    margin-top: 0;
+  }
+
+  .business-section-two .business-tabs .tab-btns .tab-btn h5 br {
+    display: none;
+  }
+
+  .business-section-two .business-tabs .tab-btns .tab-btn .icon {
+    display: none;
+  }
+
 	.magic-section .image-column .inner-column .image img{
 		width:100%;
 	}

@@ -55,6 +55,7 @@
 @import url('jquery.fancybox.min.css');
 @import url('jquery.bootstrap-touchspin.css');
 @import url('jquery.mCustomScrollbar.min.css');
+@import url('colors.css');
 
 /*** 
 
@@ -78,11 +79,6 @@
 ====================================================================
 
  ***/
-
-:root {
-  --brand-primary: #bc1439;
-  --brand-secondary: #182b3a;
-}
 
 body {
 	font-family: 'Open Sans' ;
@@ -1398,13 +1394,13 @@ img{
 	color:#ffffff;
 }
 
-.header-style-three .header-upper .outer-box .theme-btn{
-	border-color:var(--brand-primary);
-	color:var(--brand-primary);
+.header-style-three .header-upper .outer-box .theme-btn,
+.header-style-three .header-upper .outer-box .btn {
+  color: white;
 }
-
-.header-style-three .header-upper .outer-box .theme-btn:hover{
-	color:#ffffff;
+.header-style-three .header-upper .outer-box .theme-btn:hover,
+.header-style-three .header-upper .outer-box .btn:hover {
+	color:var(--brand-primary);
 }
 
 .header-style-three.fixed-header .header-upper{
@@ -1413,7 +1409,8 @@ img{
 }
 
 .header-style-three.fixed-header .header-upper .outer-box .search-box-outer button,
-.header-style-three.fixed-header .header-upper .outer-box .cart-box .icon{
+.header-style-three.fixed-header .header-upper .outer-box .cart-box .icon,
+.header-style-three.fixed-header .header-upper .outer-box .icon{
 	color:#2b2a41;
 }
 
@@ -1961,6 +1958,7 @@ img{
 	background:none;
 	border-radius:50px;
 	border:1px solid #dddddd;
+  background:white;
 	-webkit-transition:all 300ms ease;
 	-ms-transition:all 300ms ease;
 	-o-transition:all 300ms ease;

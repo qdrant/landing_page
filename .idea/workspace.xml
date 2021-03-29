@@ -2,9 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa3daba2-454f-484b-9325-cdf36daf319c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/entropy-placeholder/documentation.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/entropy-placeholder/css/colors.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/entropy-placeholder/css/main.css" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/css/main.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/entropy-placeholder/css/responsive.css" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/css/responsive.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/entropy-placeholder/index-4.html" beforeDir="false" afterPath="$PROJECT_DIR$/entropy-placeholder/index-4.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -16,6 +17,7 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="HTML File" />
+        <option value="CSS File" />
       </list>
     </option>
   </component>
@@ -39,6 +41,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/entropy-placeholder/fonts" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
@@ -62,7 +65,8 @@
       <updated>1616074735223</updated>
       <workItem from="1616074736567" duration="16736000" />
       <workItem from="1616925802401" duration="1034000" />
-      <workItem from="1616926838689" duration="20382000" />
+      <workItem from="1616926838689" duration="21014000" />
+      <workItem from="1617020313456" duration="4215000" />
     </task>
     <servers />
   </component>
