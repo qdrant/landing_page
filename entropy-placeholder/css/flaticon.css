@@ -1,10 +1,10 @@
 @font-face {
     font-family: "flaticon";
-    src: url("../fonts/flaticon.ttf?5bab1abee0ea10fa3df733171ad02c3a") format("truetype"),
-url("../fonts/flaticon.woff?5bab1abee0ea10fa3df733171ad02c3a") format("woff"),
-url("../fonts/flaticon.woff2?5bab1abee0ea10fa3df733171ad02c3a") format("woff2"),
-url("../fonts/flaticon.eot?5bab1abee0ea10fa3df733171ad02c3a#iefix") format("embedded-opentype"),
-url("../fonts/flaticon.svg?5bab1abee0ea10fa3df733171ad02c3a#flaticon") format("svg");
+    src: url("../fonts/flaticon.ttf?5752bb6e5be233d3621824cf8234af16") format("truetype"),
+url("../fonts/flaticon.woff?5752bb6e5be233d3621824cf8234af16") format("woff"),
+url("../fonts/flaticon.woff2?5752bb6e5be233d3621824cf8234af16") format("woff2"),
+url("../fonts/flaticon.eot?5752bb6e5be233d3621824cf8234af16#iefix") format("embedded-opentype"),
+url("../fonts/flaticon.svg?5752bb6e5be233d3621824cf8234af16#flaticon") format("svg");
 }
 
 i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
@@ -111,54 +111,57 @@ i[class^="flaticon-"]:before, i[class*=" flaticon-"]:before {
 .flaticon-loupe:before {
     content: "\f11f";
 }
-.flaticon-microprocessor:before {
+.flaticon-menu:before {
     content: "\f120";
 }
-.flaticon-neural:before {
+.flaticon-microprocessor:before {
     content: "\f121";
 }
-.flaticon-optimization:before {
+.flaticon-neural:before {
     content: "\f122";
 }
-.flaticon-paper:before {
+.flaticon-optimization:before {
     content: "\f123";
 }
-.flaticon-scan:before {
+.flaticon-paper:before {
     content: "\f124";
 }
-.flaticon-scatter-graph:before {
+.flaticon-scan:before {
     content: "\f125";
 }
-.flaticon-search-1:before {
+.flaticon-scatter-graph:before {
     content: "\f126";
 }
-.flaticon-search-2:before {
+.flaticon-search-1:before {
     content: "\f127";
 }
-.flaticon-search:before {
+.flaticon-search-2:before {
     content: "\f128";
 }
-.flaticon-searching:before {
+.flaticon-search:before {
     content: "\f129";
 }
-.flaticon-star-1:before {
+.flaticon-searching:before {
     content: "\f12a";
 }
-.flaticon-star:before {
+.flaticon-star-1:before {
     content: "\f12b";
 }
-.flaticon-telegram:before {
+.flaticon-star:before {
     content: "\f12c";
 }
-.flaticon-turn:before {
+.flaticon-telegram:before {
     content: "\f12d";
 }
-.flaticon-twitter:before {
+.flaticon-turn:before {
     content: "\f12e";
 }
-.flaticon-unstructured-data:before {
+.flaticon-twitter:before {
     content: "\f12f";
 }
-.flaticon-x-mark:before {
+.flaticon-unstructured-data:before {
     content: "\f130";
+}
+.flaticon-x-mark:before {
+    content: "\f131";
 }

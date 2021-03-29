@@ -1002,6 +1002,11 @@
 		padding-left:20px;
 		padding-right:20px;
 	}
+
+  .business-section-two .business-tabs .content .theme-btn {
+    padding-left: 25px;
+    padding-right: 25px;
+  }
 	
 	.news-section .section-lower-box .older-posts{
 		position:relative;
