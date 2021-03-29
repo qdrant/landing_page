@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fa3daba2-454f-484b-9325-cdf36daf319c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/qdrant-landing/solutions.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -36,13 +37,14 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/qdrant-landing" />
     <property name="list.type.of.created.stylesheet" value="CSS" />
     <property name="settings.editor.selected.configurable" value="preferences.lookFeel" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/qdrant-landing" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/entropy-placeholder/fonts" />
       <recent name="$PROJECT_DIR$/entropy-placeholder/css" />
@@ -65,6 +67,7 @@
       <workItem from="1616925802401" duration="1034000" />
       <workItem from="1616926838689" duration="21014000" />
       <workItem from="1617020313456" duration="5622000" />
+      <workItem from="1617030621077" duration="361000" />
     </task>
     <servers />
   </component>
