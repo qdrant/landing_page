@@ -47,8 +47,8 @@
 
 @import url('font-awesome.css');
 @import url('animate.css');
-@import url('owl.css');
-@import url(swiper.css);
+/* @import url('owl.css'); */
+/* @import url(swiper.css); */
 @import url('flaticon.css');
 @import url('jquery-ui.css');
 @import url('custom-animate.css');
@@ -1048,11 +1048,6 @@ img{
 .main-header .header-upper .logo-box{
 	position: relative;
 	padding: 20px 0px 20px;
-	transition: all 500ms ease;
-    -moz-transition: all 500ms ease;
-    -webkit-transition: all 500ms ease;
-    -ms-transition: all 500ms ease;
-    -o-transition: all 500ms ease;
 }
 
 .main-header .header-upper .logo-box .logo{

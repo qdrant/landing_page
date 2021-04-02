@@ -1,0 +1,14 @@
+
+
+<link href="{{ "css/bootstrap.css" | absURL }}" rel="stylesheet">
+<link href="{{ "css/main.css" | absURL }}" rel="stylesheet">
+<link href="{{ "css/responsive.css" | absURL }}" rel="stylesheet">
+
+<link rel="preconnect" href="https://fonts.gstatic.com">
+
+
+<!-- google fonts -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{ .Site.Params.font }}&display=swap">
+
+<!-- highlight.js -->
+{{ if .Site.Params.highlight | default false }} <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/styles/default.min.css"> {{ end }}
