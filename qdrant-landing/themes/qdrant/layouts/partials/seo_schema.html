@@ -1,0 +1,28 @@
+
+<meta name="description" content="{{ .Site.Params.Description }}">
+<meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }}, {{ end }} qdrant">
+
+
+<script type="application/ld+json">
+  {
+      "@context" : "http://schema.org",
+      "@type" : "WebPage",
+      "mainEntityOfPage": {
+           "@type": "WebPage",
+           "@id": "{{ .Site.BaseURL }}"
+      },
+      "name" : "{{ .Title }}",
+      "headline" : "{{ .Title }}",
+      "description" : "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}",
+      "inLanguage" : "en-US",
+      "author" : "{{ .Site.Params.Author }}",
+      "accountablePerson" : "{{ .Site.Params.Author }}",
+      "copyrightHolder" : "{{ .Site.Params.Author }}",
+      "copyrightYear" : "{{ .Date.Format "2006" }}",
+      "datePublished": "{{ .Date }}",
+      "dateModified" : "{{ .Date }}",
+      "url" : "{{ .Permalink }}",
+      "wordCount" : "{{ .WordCount }}",
+      "keywords" : [ {{ range .Site.Params.Keywords }}"{{ . }}", {{ end }} "Qdrant" ]
+  }
+</script>

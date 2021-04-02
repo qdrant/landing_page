@@ -1,0 +1,47 @@
+<!-- highlight.js -->
+{{ if .Site.Params.highlight }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    {{ range .Site.Params.highlightLanguages }}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/{{ . }}.min.js"></script>
+    {{ end }}
+    <script>hljs.highlightAll();</script>
+{{ end }}
+
+<script src="{{ "js/jquery.js" | absURL }}"></script>
+<script src="{{ "js/popper.min.js" | absURL }}"></script>
+<script src="{{ "js/jquery.scrollTo.js" | absURL }}"></script>
+<script src="{{ "js/bootstrap.min.js" | absURL }}"></script>
+<script src="{{ "js/jquery.mCustomScrollbar.concat.min.js" | absURL }}"></script>
+<script src="{{ "js/jquery.fancybox.js" | absURL }}"></script>
+<script src="{{ "js/appear.js" | absURL }}"></script>
+<!-- <script src="{{ "js/swiper.min.js" | absURL }}"></script> -->
+<!-- <script src="{{ "js/jquery.paroller.min.js" | absURL }}"></script> -->
+<!-- <script src="{{ "js/parallax.min.js" | absURL }}"></script> -->
+<!-- <script src="{{ "js/tilt.jquery.min.js" | absURL }}"></script> -->
+<!--Master Slider-->
+<!-- <script src="{{ "js/jquery.easing.min.js" | absURL }}"></script> -->
+<!-- <script src="{{ "js/owl.js" | absURL }}"></script> -->
+<!-- <script src="{{ "js/wow.js" | absURL }}"></script> -->
+<!-- <script src="{{ "js/jquery-ui.js" | absURL }}"></script> -->
+<!-- <script src="{{ "js/element-in-view.js" | absURL }}"></script> -->
+<script src="{{ "js/script.js" | absURL }}"></script>
+<script src="{{ "js/clipboard.min.js" | absURL }}"></script>
+<script>
+  var clipboard = new ClipboardJS('.copy-btn');
+  $('.alert').hide();
+
+  clipboard.on('success', function(e) {
+    $('.alert').alert().show().addClass('show');
+    const to = setTimeout(() => {
+      $('.alert').alert().removeClass('show').hide();
+      clearTimeout(to);
+    }, 2000);
+
+    e.clearSelection();
+  });
+
+  clipboard.on('error', function(e) {
+    console.error('Action:', e.action);
+    console.error('Trigger:', e.trigger);
+  });
+</script>

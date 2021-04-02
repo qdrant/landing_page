@@ -1,0 +1,26 @@
+baseURL = "https://qdrant.tech/"
+languageCode = "en-us"
+title = "Qdrant - Vector Search Engine"
+theme = "qdrant"
+
+googleAnalytics = ""
+enableRobotsTXT = true
+canonifyURLs = true
+
+keywords = "search engine, neural network, matching, filter, SaaS, approximate nearest neighbor search, image search, recommender system, vectors, knn algorithm, hnsw, vector search, embeddings, similarity"
+
+
+[params]
+    author = "Andrey Vasnetsov"
+    description = "Qdrant - Open-Source Vector Search Engine"
+    keywords = ["search engine", "neural network", "matching", "filter", "SaaS",
+        "approximate nearest neighbor search", "image search", "recommender system", "vectors",
+        "knn algorithm", "hnsw", "vector search", "embeddings", "similarity", "simaes networks",
+        "BERT", "transformer", "word2vec", "fasttext"]
+
+    font = "Anonymous Pro"
+    highlight = true
+    highlightStyle = "monokailight"
+    highlightLanguages = ["python", "rust", "json", "bash"]
+    yandexWebmaster = ""
+

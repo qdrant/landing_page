@@ -1,29 +1,5 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <title>Entropy HTML Template | Homepage Three</title>
-  <!-- Stylesheets -->
-  <link href="css/bootstrap.css" rel="stylesheet">
-  <link href="css/main.css" rel="stylesheet">
-  <link href="css/responsive.css" rel="stylesheet">
+{{ partial "header" . }}
 
-  <link rel="shortcut icon" href="images/favicon.png" type="image/x-icon">
-  <link rel="icon" href="images/favicon.png" type="image/x-icon">
-  <link rel="preconnect" href="https://fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css2?family=Anonymous+Pro&display=swap" rel="stylesheet">
-
-  <!-- Responsive -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-  <!--[if lt IE 9]>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-  <!--[if lt IE 9]>
-  <script src="js/respond.js"></script><![endif]-->
-</head>
-
-<body>
 
 <div class="page-wrapper">
 
@@ -36,7 +12,8 @@
         <div class="clearfix">
 
           <div class="pull-left logo-box">
-            <div class="logo"><a href="index.html"><img src="images/qdrant_logo.png" alt="" title="Entropy"></a>
+            <div class="logo"><a href="index.html"><img src="/images/qdrant_logo.svg" width="190px" alt=""
+                  title="Qdrant"></a>
             </div>
           </div>
 
@@ -47,8 +24,8 @@
             <nav class="main-menu show navbar-expand-md">
               <div class="navbar-header">
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                  data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                  aria-label="Toggle navigation">
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
                   <span class="icon-bar"></span>
@@ -66,7 +43,8 @@
             </nav>
 
             <div class="outer-box">
-              <a class="btn btn-lg mt-1" href="https://github.com/qdrant/qdrant" target="_blank" title="github"><i class="icon flaticon-github"></i></a>
+              <a class="btn btn-lg mt-1" href="https://github.com/qdrant/qdrant" target="_blank" title="github"><i
+                  class="icon flaticon-github"></i></a>
             </div>
 
           </div>
@@ -95,7 +73,7 @@
 
   <!-- Banner Section -->
   <section class="banner-section-two">
-    <div class="side-layer" style="background-image: url(images/background/2.png)"></div>
+    <div class="side-layer" style="background-image: url(/images/background/2.png)"></div>
     <div class="outer-container">
       <div class="auto-container">
         <div class="row clearfix">
@@ -123,9 +101,9 @@
 
           <!-- Image Column -->
           <div class="image-column col-lg-6 col-md-12 col-sm-12">
-            <div class="inner-column parallax-scene-1">
-              <div data-depth="0.30" class="image parallax-layer">
-                <img src="images/cube_less_dots_purple.png" alt=""/>
+            <div class="inner-column">
+              <div data-depth="0.30" class="image">
+                <img src="/images/cube_less_dots_purple.png" alt="" />
               </div>
             </div>
           </div>
@@ -136,8 +114,11 @@
   </section>
   <!-- End Banner Section -->
 
-  <!-- Intelligence Section -->
-  <section class="intelligence-section">
+
+  {{ with (.Site.GetPage "section" "features") }}
+
+  <!-- Feature Section -->
+  <section class="features-section">
     <div class="auto-container">
       <div class="row clearfix">
 
@@ -146,117 +127,28 @@
           <div class="inner-column">
             <!-- Sec Title -->
             <div class="sec-title text-center">
-              <h2>We Create The Most Realistic <span>Artificial Intelligence</span></h2>
-              <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus at mauris eu
-                sollicitudin que venenatis.
+              <h2> {{ .Title | safeHTML }}</h2>
+              <div class="text">{{ .Content }}
               </div>
             </div>
             <div class="row clearfix">
 
+              {{ range .Pages }}
+              
               <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
+              <div class="feature-block col-lg-4 col-md-4 col-sm-12">
                 <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
                   <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-api"></i>
+                    <i class="flaticon-{{ .Params.icon }}"></i>
                   </div>
-                  <h5><a href="services.html">Robust</a></h5>
+                  <h5><a>{{ .Title }}</a></h5>
                   <div class="text">
-                    Fast integration, support larger variety of data type:
-                    <ul>
-                      <li>OpenAPI v3 documentation</li>
-                      <li>Support for strings, geo-locations, and other data types.</li>
-                    </ul>
+                    {{ .Content }}
                   </div>
                 </div>
               </div>
 
-              <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
-                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-data-1"></i>
-                  </div>
-                  <h5><a href="services.html">Accurate</a></h5>
-                  <div class="text">
-                    Maintain index integrity even with multiple filters:
-                    <ul>
-                      <li>Custom implementation of HNSW index preventing accuracy degradation (TBP)</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
-                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-data-1"></i>
-                  </div>
-                  <h5><a href="services.html">Accurate</a></h5>
-                  <div class="text">
-                    Maintain index integrity even with multiple filters:
-                    <ul>
-                      <li>Custom implementation of HNSW index preventing accuracy degradation (TBP)</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-            <div class="row clearfix">
-
-              <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
-                <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-distribution"></i>
-                  </div>
-                  <h5><a href="services.html">Distributed (TBD)</a></h5>
-                  <div class="text">
-                    Most reliable for large scale deployment:<br>
-                    <ul>
-                      <li>Distributed consensus algorithm with no single point of failure (TBP)</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
-                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-microprocessor"></i>
-                  </div>
-                  <h5><a href="services.html">Optimized</a></h5>
-                  <div class="text">
-                    Search index tuning enables effective query execution:
-                    <ul>
-                      <li>Dynamic query planning</li>
-                      <li>Payload data indexing</li>
-                      <li>Vector quantization (TBP)</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Intelligence Block -->
-              <div class="intelligence-block col-lg-4 col-md-4 col-sm-12">
-                <div class="inner-box wow fadeInLeft" data-wow-delay="150ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-microprocessor"></i>
-                  </div>
-                  <h5><a href="services.html">Optimized</a></h5>
-                  <div class="text">
-                    Search index tuning enables effective query execution:
-                    <ul>
-                      <li>Dynamic query planning</li>
-                      <li>Payload data indexing</li>
-                      <li>Vector quantization (TBP)</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
+              {{ end }}
             </div>
 
           </div>
@@ -265,7 +157,9 @@
       </div>
     </div>
   </section>
-  <!-- End Intelligence Section -->
+
+  {{ end }}
+  <!-- End Features Section -->
 
 
   <!--Installation Section-->
@@ -278,7 +172,7 @@
       <div class="code">
         <code id="copy-code">docker pull generall/qdrant</code>
         <button class="copy-btn lead ml-4" data-clipboard-target="#copy-code" title="Copy code">
-         <i class="flaticon-copy"></i>
+          <i class="flaticon-copy"></i>
         </button>
       </div>
       <div class="alert alert-dark alert-dismissible fade fixed-top mt-0" role="alert">
@@ -292,7 +186,7 @@
 
   <!-- Business Section Two -->
   <section class="business-section-two">
-    <div class="pattern-layer" style="background-image: url(images/background/pattern-11.png)"></div>
+    <div class="pattern-layer" style="background-image: url(/images/background/pattern-11.png)"></div>
     <div class="auto-container">
       <!-- Sec Title -->
       <div class="sec-title centered">
@@ -302,7 +196,7 @@
         </div>
       </div>
       <div class="inner-container">
-        <div class="pattern-layer-two" style="background-image: url(images/background/3.png)"></div>
+        <div class="pattern-layer-two" style="background-image: url(/images/background/3.png)"></div>
         <!-- Business Info Tabs -->
         <div class="business-info-tabs">
           <!-- Business Tabs -->
@@ -311,7 +205,7 @@
             <!--Tab Btns-->
             <ul class="tab-btns tab-buttons clearfix">
               <li data-tab="#prod-diabetes" class="tab-btn active-btn wow fadeInLeft" data-wow-delay="0ms"
-                  data-wow-duration="1500ms">
+                data-wow-duration="1500ms">
                 <h5>Neural <br>Text Search</h5>
                 <i class="icon flaticon-paper"></i>
               </li>
@@ -321,7 +215,7 @@
 
               </li>
               <li data-tab="#prod-education" class="tab-btn wow fadeInRight" data-wow-delay="0ms"
-                  data-wow-duration="1500ms">
+                data-wow-duration="1500ms">
                 <h5>Recommendations <br>with conditions</h5>
                 <i class="icon flaticon-advertising"></i>
               </li>
@@ -360,7 +254,7 @@
                       <div class="inner-column">
                         <div class="image">
                           <a href="https://via.placeholder.com/536x513" data-fancybox="business" data-caption=""><img
-                                  src="https://via.placeholder.com/536x513" alt=""/></a>
+                              src="https://via.placeholder.com/536x513" alt="" /></a>
                         </div>
                       </div>
                     </div>
@@ -397,7 +291,7 @@
                       <div class="inner-column">
                         <div class="image">
                           <a href="https://via.placeholder.com/536x513" data-fancybox="business" data-caption=""><img
-                                  src="https://via.placeholder.com/536x513" alt=""/></a>
+                              src="https://via.placeholder.com/536x513" alt="" /></a>
                         </div>
                       </div>
                     </div>
@@ -434,7 +328,7 @@
                       <div class="inner-column">
                         <div class="image">
                           <a href="https://via.placeholder.com/536x513" data-fancybox="business" data-caption=""><img
-                                  src="https://via.placeholder.com/536x513" alt=""/></a>
+                              src="https://via.placeholder.com/536x513" alt="" /></a>
                         </div>
                       </div>
                     </div>
@@ -460,11 +354,11 @@
     <div class="auto-container">
       <div class="sponsors-outer">
         <!--Sponsors Carousel-->
-        <ul class="sponsors-carousel owl-carousel owl-theme">
-          <li class="slide-item">
+        <ul class="row clearfix">
+          <li class="col">
             <figure class="image-box"><a href="#"><img src="https://via.placeholder.com/300x115" alt=""></a></figure>
           </li>
-          <li class="slide-item">
+          <li class="col">
             <figure class="image-box"><a href="#"><img src="https://via.placeholder.com/300x115" alt=""></a></figure>
           </li>
         </ul>
@@ -475,7 +369,7 @@
   <!--End Clients Section-->
 
   <!-- End Projects Section Two -->
-  <section class="projects-section-two" style="background-image: url(images/background/pattern-9.png)">
+  <section class="projects-section-two" style="background-image: url(/images/background/pattern-9.png)">
     <div class="auto-container">
       <!-- Sec Title -->
       <div class="sec-title centered">
@@ -491,7 +385,7 @@
           <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
             <div class="block-content">
               <div class="image">
-                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt=""/></a>
+                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt="" /></a>
               </div>
               <div class="lower-content">
                 <h5><a href="blog-detail.html">Metric Learning</a></h5>
@@ -509,7 +403,7 @@
           <div class="inner-box wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
             <div class="block-content">
               <div class="image">
-                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt=""/></a>
+                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt="" /></a>
               </div>
               <div class="lower-content">
                 <h5><a href="blog-detail.html">Vector Search Tutorial</a></h5>
@@ -527,7 +421,7 @@
           <div class="inner-box wow fadeInRight" data-wow-delay="0ms" data-wow-duration="1500ms">
             <div class="block-content">
               <div class="image">
-                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt=""/></a>
+                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt="" /></a>
               </div>
               <div class="lower-content">
                 <h5><a href="blog-detail.html">Filterable HNSW</a></h5>
@@ -547,8 +441,8 @@
 
   <!-- Main Footer -->
   <footer class="main-footer">
-    <div class="pattern-layer" style="background-image: url(images/background/pattern-4.png)"></div>
-    <div class="pattern-layer-two" style="background-image: url(images/background/pattern-5.png)"></div>
+    <div class="pattern-layer" style="background-image: url(/images/background/pattern-4.png)"></div>
+    <div class="pattern-layer-two" style="background-image: url(/images/background/pattern-5.png)"></div>
     <div class="auto-container">
       <!--Widgets Section-->
       <div class="widgets-section">
@@ -562,8 +456,7 @@
               </div>
               <ul class="contact-list">
                 <li><span class="icon fa fa-map-o"></span> Berlin</li>
-                <li><span class="icon fa fa-envelope"></span> <a
-                        href="mailto:info@qdrant.com">info@qdrant.com</a></li>
+                <li><span class="icon fa fa-envelope"></span> <a href="mailto:info@qdrant.com">info@qdrant.com</a></li>
               </ul>
             </div>
           </div>
@@ -595,7 +488,7 @@
                   <div class="thumb"><a href="blog-detail.html"><img src="https://via.placeholder.com/76x70" alt=""></a>
                   </div>
                   <h4><a href="blog-detail.html">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus
-                    at.</a></h4>
+                      at.</a></h4>
                 </div>
 
                 <div class="post">
@@ -615,7 +508,8 @@
               <ul class="social-box">
                 <li><a href="https://github.com/qdrant/qdrant" target="_blank"><i class="flaticon-github"></i></a></li>
                 <li><a href="#" target="_blank"><i class="flaticon-linkedin"></i></a></li>
-                <li><a href="https://t.me/neural_network_engineering" target="_blank"><i class="flaticon-telegram"></i></a></li>
+                <li><a href="https://t.me/neural_network_engineering" target="_blank"><i
+                      class="flaticon-telegram"></i></a></li>
               </ul>
 
             </div>
@@ -639,8 +533,8 @@
           <div class="language-column col-lg-6 col-md-12 col-sm-12">
             <!--Language-->
             <div class="language dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu2"
-                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#">Language:
-              English &nbsp;<span class="icon fa fa-angle-down"></span></a>
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#">Language:
+                English &nbsp;<span class="icon fa fa-angle-down"></span></a>
               <ul class="dropdown-menu style-one" aria-labelledby="dropdownMenu2">
                 <li><a href="#">English</a></li>
               </ul>
@@ -659,44 +553,4 @@
 <!--Scroll to top-->
 <div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-arrow-circle-up"></span></div>
 
-<script src="js/jquery.js"></script>
-<script src="js/popper.min.js"></script>
-<script src="js/jquery.scrollTo.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script src="js/jquery.fancybox.js"></script>
-<script src="js/appear.js"></script>
-<script src="js/swiper.min.js"></script>
-<script src="js/jquery.paroller.min.js"></script>
-<script src="js/parallax.min.js"></script>
-<script src="js/tilt.jquery.min.js"></script>
-<!--Master Slider-->
-<script src="js/jquery.easing.min.js"></script>
-<script src="js/owl.js"></script>
-<script src="js/wow.js"></script>
-<script src="js/jquery-ui.js"></script>
-<script src="js/element-in-view.js"></script>
-<script src="js/script.js"></script>
-<script src="js/clipboard.min.js"></script>
-<script>
-  var clipboard = new ClipboardJS('.copy-btn');
-  $('.alert').hide();
-
-  clipboard.on('success', function(e) {
-    $('.alert').alert().show().addClass('show');
-    const to = setTimeout(() => {
-      $('.alert').alert().removeClass('show').hide();
-      clearTimeout(to);
-    }, 2000);
-
-    e.clearSelection();
-  });
-
-  clipboard.on('error', function(e) {
-    console.error('Action:', e.action);
-    console.error('Trigger:', e.trigger);
-  });
-</script>
-
-</body>
-</html>
+{{ partial "footer" . }}
