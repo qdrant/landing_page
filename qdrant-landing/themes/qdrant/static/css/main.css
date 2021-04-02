@@ -4403,54 +4403,54 @@ img{
 /*** 
 
 ====================================================================
-	Inteligence Section
+	Feature Section
 ====================================================================
 
 ***/
 
-.intelligence-section{
+.features-section{
 	position:relative;
 	padding:60px 0px 60px;
 }
 
-.intelligence-section .image-column{
+.features-section .image-column{
 	position:relative;
 }
 
-.intelligence-section .image-column .inner-column{
+.features-section .image-column .inner-column{
 	position:relative;
 }
 
-.intelligence-section .content-column{
+.features-section .content-column{
 	position:relative;
 }
 
-.intelligence-section .content-column .inner-column{
+.features-section .content-column .inner-column{
 	position:relative;
 }
 
-.intelligence-section .content-column .theme-btn{
+.features-section .content-column .theme-btn{
 	border-radius:50px;
 }
 
-.intelligence-section.style-two .image-column{
+.features-section.style-two .image-column{
 	text-align:center;
 }
 
-.intelligence-section.style-two{
+.features-section.style-two{
 	padding-top:100px;
 }
 
-.intelligence-block{
+.feature-block{
 	position:relative;
 	margin-bottom:30px;
 }
 
-.intelligence-block .inner-box{
+.feature-block .inner-box{
 	position:relative;
 }
 
-.intelligence-block .inner-box .icon-box{
+.feature-block .inner-box .icon-box{
 	position:relative;
 	height:160px;
 	color:var(--brand-primary);
@@ -4460,14 +4460,14 @@ img{
 	margin-bottom:20px;
 }
 
-.intelligence-block .inner-box h5{
+.feature-block .inner-box h5{
 	position:relative;
 	line-height:1.4em;
 	font-weight:700;
 	margin-bottom:10px;
 }
 
-.intelligence-block .inner-box h5 a{
+.feature-block .inner-box h5 a{
 	position:relative;
 	color:#2b2b2b;
 	-webkit-transition:all 300ms ease;
@@ -4477,11 +4477,11 @@ img{
 	transition:all 300ms ease;
 }
 
-.intelligence-block .inner-box h5 a:hover{
+.feature-block .inner-box h5 a:hover{
 	color:var(--brand-primary);
 }
 
-.intelligence-block .inner-box .text{
+.feature-block .inner-box .text{
 	position:relative;
 	line-height:1.7em;
 	color:#5a5a5a;
@@ -4664,7 +4664,7 @@ img{
 }
 
 .business-section-two .business-tabs .content .content-column .business-list li:before,
-.intelligence-section .intelligence-block .text li:before{
+.features-section .feature-block .text li:before{
 	position:absolute;
 	content:'\f107';
 	left:0px;
@@ -7872,13 +7872,13 @@ img{
   color: white;
 }
 
-.intelligence-section .intelligence-block .text li{
+.features-section .feature-block .text li{
   display: block;
   position: relative;
   text-align: left;
   padding-left: 25px;
 }
-.intelligence-section .intelligence-block .text li:before{
+.features-section .feature-block .text li:before{
   position:absolute;
   content:'\f107';
   left:0;

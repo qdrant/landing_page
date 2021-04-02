@@ -1,4 +1,4 @@
-baseURL = "http://example.org/"
+baseURL = "https://qdrant.tech/"
 languageCode = "en-us"
 title = "Qdrant - Vector Search Engine"
 theme = "qdrant"
@@ -23,3 +23,4 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     highlightStyle = "monokailight"
     highlightLanguages = ["python", "rust", "json", "bash"]
     yandexWebmaster = ""
+
