@@ -357,7 +357,7 @@ img{
 	position: relative;
 	display: inline-block;
 	font-size: 18px;
-	line-height: 30px;
+	line-height: 32px;
 	color: #ffffff;
 	padding: 12px 44px 12px;
 	font-weight: 400;
@@ -367,11 +367,11 @@ img{
 	background-color:var(--brand-primary);
 	text-transform: capitalize;
 	font-family: 'Roboto Condensed' ;
-	-webkit-box-shadow: 0 10px 30px rgba(255,98,98,0.10);
-	-moz-box-shadow: 0 10px 30px rgba(255,98,98,0.10);
-	-ms-box-shadow: 0 10px 30px rgba(255,98,98,0.10);
-	-o-box-shadow: 0 10px 30px rgba(255,98,98,0.10);
-	box-shadow: 0 10px 30px rgba(255,98,98,0.10);
+	-webkit-box-shadow: 0 10px 32px rgba(255,98,98,0.10);
+	-moz-box-shadow: 0 10px 32px rgba(255,98,98,0.10);
+	-ms-box-shadow: 0 10px 32px rgba(255,98,98,0.10);
+	-o-box-shadow: 0 10px 32px rgba(255,98,98,0.10);
+	box-shadow: 0 10px 32px rgba(255,98,98,0.10);
 }
 
 .btn-style-three:before{
@@ -683,7 +683,8 @@ img{
 	margin-bottom:0px;
 }
 
-.sec-title h2 span{
+.sec-title h2 span,
+.sec-title h5 span{
 	color:var(--brand-primary);
 }
 
@@ -4299,12 +4300,13 @@ img{
 
 .banner-section-two .side-layer{
 	position:absolute;
-	right:0px;
-	top:0px;
+	right:0;
+	top:0;
 	width:77%;
 	height:981px;
-	background-position:left top;
+  background-position:right top;
 	background-repeat:no-repeat;
+  background-size: 70%;
 }
 
 .banner-section-two .content-column{
