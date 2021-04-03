@@ -4,6 +4,18 @@
 <link href="{{ "css/main.css" | absURL }}" rel="stylesheet">
 <link href="{{ "css/responsive.css" | absURL }}" rel="stylesheet">
 
+
+{{/*
+{{ $maincss := resources.Get "css/main.css" }}
+{{ $style := $maincss | resources.Minify }}
+
+<link rel="stylesheet"
+      href="{{ $style.Permalink }}"
+      integrity="{{ $style.Data.Integrity }}">
+
+*/}}
+
+
 <link rel="preconnect" href="https://fonts.gstatic.com">
 
 

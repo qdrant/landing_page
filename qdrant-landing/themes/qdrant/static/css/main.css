@@ -46,15 +46,15 @@
 */
 
 @import url('font-awesome.css');
-@import url('animate.css');
+/* @import url('animate.css'); */
 /* @import url('owl.css'); */
 /* @import url(swiper.css); */
 @import url('flaticon.css');
-@import url('jquery-ui.css');
-@import url('custom-animate.css');
-@import url('jquery.fancybox.min.css');
-@import url('jquery.bootstrap-touchspin.css');
-@import url('jquery.mCustomScrollbar.min.css');
+/* @import url('jquery-ui.css'); */
+/* @import url('custom-animate.css'); */
+/* @import url('jquery.fancybox.min.css'); */
+/* @import url('jquery.bootstrap-touchspin.css'); */
+/* @import url('jquery.mCustomScrollbar.min.css'); */
 @import url('colors.css');
 
 /*** 
@@ -7641,218 +7641,14 @@ img{
 
 
 
-/*** 
+/* 
 
-====================================================================
-	Comments Area
-====================================================================
 
- ***/
+QDRANT - RELATED
 
-.sidebar-page-container .comments-area{
-	position:relative;
-	margin-top:60px;
-	margin-bottom:50px;
-}
 
-.sidebar-page-container .group-title{
-	position:relative;
-}
+*/
 
-.sidebar-page-container .group-title h4{
-	position:relative;
-	font-size:20px;
-	color:#161e39;
-	font-weight:700;
-	margin-bottom:25px;
-	text-transform:capitalize;
-}
-
-.sidebar-page-container .comments-area .comment-box{
-	position:relative;
-	margin-bottom:30px;
-	padding-bottom:30px;
-	border-bottom:1px solid #e5e5e5;
-	-webkit-transition:all 300ms ease;
-	-ms-transition:all 300ms ease;
-	-o-transition:all 300ms ease;
-	-moz-transition:all 300ms ease;
-	transition:all 300ms ease;
-}
-
-.sidebar-page-container .comments-area .comment-box:last-child{
-	margin-bottom:0px;
-}
-
-.sidebar-page-container .comments-area .comment{
-	position:relative;
-	font-size:14px;
-	min-height:120px;
-	padding:0px 0px 0px 110px;
-}
-
-.sidebar-page-container .comments-area .reply-comment{
-	margin-left:100px;	
-}
-
-.sidebar-page-container .comments-area .comment-box .author-thumb{
-	position:absolute;
-	left:0px;
-	top:0px;
-	width:90px;
-	border-radius:50%;
-	margin-bottom:20px;
-	overflow:hidden;
-	background-color:#7a7a7a;
-}
-
-.sidebar-page-container .comments-area .comment-box .author-thumb img{
-	width:100%;
-	display:block;
-}
-
-.sidebar-page-container .comments-area .comment-info{
-	margin-bottom:10px;
-}
-
-.sidebar-page-container .comments-area .comment-box strong{
-	font-size:18px;
-	font-weight:600;
-	color:#161e39;
-	display:block;
-	line-height:1.3em;
-	display:inline-block;
-	text-transform:capitalize;
-}
-
-.sidebar-page-container .comments-area .comment-box .text{
-	color:#404040;
-	font-size:16px;
-	line-height:1.7em;
-	margin-bottom:10px;
-}
-
-.sidebar-page-container .comments-area .comment-info .comment-time{
-	position:absolute;
-	right:0px;
-	font-size:15px;
-	color:#161e39;
-	padding-left:24px;
-	display:inline-block;
-}
-
-.sidebar-page-container .comments-area .comment-info .comment-time:before{
-	position:absolute;
-	content: "\f17c";
-	left:0px;
-	top:0px;
-	color:var(--brand-primary);
-	font-family: "Flaticon";
-}
-
-.sidebar-page-container .comments-area .comment-box .theme-btn{
-	position:relative;
-	font-size:15px;
-	color:var(--brand-primary);
-	font-weight:400;
-	text-decoration:underline;
-	text-transform:capitalize;
-}
-
-.sidebar-page-container .comments-area .comment-box .theme-btn:hover{
-	color:#3d415b;
-}
-
-/*** 
-
-====================================================================
-	Comment Form
-====================================================================
-
-***/
-
-.comment-form .group-title h4{
-	position:relative;
-	margin-bottom:15px;	
-}
-
-.comment-form .form-group{
-	margin-bottom:20px;
-}
-
-.comment-form .form-group input[type="text"],
-.comment-form .form-group input[type="password"],
-.comment-form .form-group input[type="tel"],
-.comment-form .form-group input[type="email"],
-.comment-form .form-group select{
-	position:relative;
-	display:block;
-	width:100%;
-	line-height:28px;
-	padding:10px 25px;
-	color:#888888;
-	border:1px solid transparent;
-	height:50px;
-	font-size:14px;
-	border-radius:5px;
-	background:#eef1f9;
-	-webkit-transition:all 300ms ease;
-	-ms-transition:all 300ms ease;
-	-o-transition:all 300ms ease;
-	-moz-transition:all 300ms ease;
-	transition:all 300ms ease;
-}
-
-.comment-form .form-group input[type="text"]:focus,
-.comment-form .form-group input[type="password"]:focus,
-.comment-form .form-group input[type="tel"]:focus,
-.comment-form .form-group input[type="email"]:focus,
-.comment-form .form-group select:focus,
-.comment-form .form-group textarea:focus{
-	border-color:#ff5b00;
-}
-
-.comment-form .form-group textarea{
-	position:relative;
-	display:block;
-	width:100%;
-	line-height:24px;
-	padding:15px 25px 25px;
-	color:#888888;
-	border:1px solid transparent;
-	height:225px;
-	background:#eef1f9;
-	resize:none;
-	font-size:14px;
-	border-radius:5px;
-	-webkit-transition:all 300ms ease;
-	-ms-transition:all 300ms ease;
-	-o-transition:all 300ms ease;
-	-moz-transition:all 300ms ease;
-	transition:all 300ms ease;
-}
-
-.comment-form .theme-btn{
-	position:relative;
-	margin-top:10px;
-	width:100%;
-	cursor:pointer;
-	border-radius:50px;
-}
-
-.about-section .content-column .btn-style-five{
-	border-radius:0px;
-	color:#a1a1a1;
-	border-color:#a1a1a1;
-}
-
-.about-section .content-column .btn-style-five:hover{
-	border-color:var(--brand-primary);
-}
-
-.about-section .content-column .btn-style-five:hover .txt{
-	color:#ffffff;
-}
 
 .copy-btn {
   cursor: pointer;
