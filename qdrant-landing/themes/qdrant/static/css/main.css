@@ -683,7 +683,8 @@ img{
 	margin-bottom:0px;
 }
 
-.sec-title h2 span{
+.sec-title h2 span,
+.sec-title h5 span{
 	color:var(--brand-primary);
 }
 
