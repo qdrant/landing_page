@@ -40,3 +40,80 @@
     </head>
 
     <body>
+
+        <div class="page-wrapper">
+
+            <!-- Main Header-->
+            <header class="main-header header-style-three">
+          
+              <!--Header-Upper-->
+              <div class="header-upper">
+                <div class="auto-container">
+                  <div class="clearfix">
+          
+                    <div class="pull-left logo-box">
+                      <div class="logo"><a href="/"><img src="{{ .Site.Params.logo }}" width="190px" alt=""
+                                                                  title="Qdrant"></a>
+                      </div>
+                    </div>
+          
+                    <div class="nav-outer clearfix">
+                      <!--Mobile Navigation Toggler-->
+                      <div class="mobile-nav-toggler"><i class="icon flaticon-menu"></i></div>
+                      <!-- Main Menu -->
+                      <nav class="main-menu show navbar-expand-md">
+                        <div class="navbar-header">
+                          <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                  data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                  aria-expanded="false"
+                                  aria-label="Toggle navigation">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                          </button>
+                        </div>
+          
+                        <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+                          <ul class="navigation clearfix">
+
+                            {{ $currentPage := . }}
+                            {{ range .Site.Menus.main }}
+                            <li {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}class="current"{{end}}><a href="{{ .URL }}">{{ .Name }}</a></li>
+                            {{ end }}
+
+                            <!-- <li class="current"><a href="index.html">Home</a></li>
+                            <li><a href="solutions.html">Solutions</a></li>
+                            <li><a href="documentation.html">Documentation</a></li> -->
+                          </ul>
+                        </div>
+          
+                      </nav>
+          
+                      <div class="outer-box">
+                        <a class="btn btn-lg mt-1" href="{{ .Site.Params.github }}" target="_blank" title="github"><i
+                                class="icon flaticon-github"></i></a>
+                      </div>
+          
+                    </div>
+          
+                  </div>
+                </div>
+              </div>
+              <!--End Header Upper-->
+          
+              <!-- Mobile Menu  -->
+              <div class="mobile-menu">
+                <div class="menu-backdrop"></div>
+                <div class="close-btn"><span class="icon flaticon-multiply"></span></div>
+          
+                <nav class="menu-box">
+                  <div class="nav-logo"><a href="/"><img src="{{ .Site.Params.logo }}" alt="" title=""></a>
+                  </div>
+                  <div class="menu-outer">
+                    <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
+                  </div>
+                </nav>
+              </div><!-- End Mobile Menu -->
+          
+            </header>
+            <!--End Main Header -->

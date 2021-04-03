@@ -24,3 +24,31 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     highlightLanguages = ["python", "rust", "json", "bash"]
     yandexWebmaster = ""
 
+    logo = "/images/qdrant_logo.svg"
+
+    github = "https://github.com/qdrant/qdrant"
+    quick_start = "https://github.com/qdrant/qdrant#usage"
+    tutorial = "/404.html"
+
+
+[menu]
+
+  [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    weight = -110
+    url = "/"
+
+
+  [[menu.main]]
+    identifier = "solutions"
+    name = "Solutions"
+    weight = -100
+    url = "/solutions/"
+
+  [[menu.main]]
+    identifier = "documentation"
+    name = "Documentation"
+    weight = -90
+    url = "/documentation/"
+  
