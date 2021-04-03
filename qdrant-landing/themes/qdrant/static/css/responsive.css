@@ -6,18 +6,25 @@
 	
 	.banner-section-two .side-layer{
 		background-position:right top;
+    background-size: auto;
 	}
-	
+
 	.main-header.header-style-three .header-top .info-list li:last-child a{
 		color:#222222;
 	}
 	
 }
 
+@media only screen and (max-width: 1920px){
+  .banner-section-two .side-layer{
+    background-size: 85%;
+  }
+}
+
 @media only screen and (max-width: 1740px){
 	
 	.banner-section-two .side-layer{
-		background-position:left top;
+    background-size: 90%;
 	}
 	
 	.main-header.header-style-three .header-top .info-list li:last-child a{
@@ -29,7 +36,7 @@
 @media only screen and (max-width: 1500px){
 	
 	.banner-section-two .side-layer{
-		background-position:left top;
+		background-position:right top;
 	}
 	
 }

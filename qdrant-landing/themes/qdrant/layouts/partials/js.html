@@ -31,12 +31,13 @@
   $('.alert').hide();
 
   clipboard.on('success', function(e) {
-    $('.alert').alert().show().addClass('show');
+    // $('.alert').alert().show().addClass('show');
+    $('#copy-popover').popover('show')
     const to = setTimeout(() => {
-      $('.alert').alert().removeClass('show').hide();
+      $('#copy-popover').popover('hide')
+      $('#modal').modal('show')
       clearTimeout(to);
-    }, 2000);
-
+    }, 3000);
     e.clearSelection();
   });
 
