@@ -30,6 +30,12 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     quick_start = "https://github.com/qdrant/qdrant#usage"
     tutorial = "/404.html"
 
+    linkedin = "#"
+    telegram = "https://t.me/neural_network_engineering"
+
+    email = "info@qdrant.tech"
+    location = "Berlin"
+
 
 [menu]
 
@@ -39,16 +45,28 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     weight = -110
     url = "/"
 
+  [[menu.main]]
+    identifier = "use-case"
+    name = "Use cases"
+    weight = -100
+    url = "/use-cases/"
 
   [[menu.main]]
     identifier = "solutions"
     name = "Solutions"
-    weight = -100
+    weight = -90
     url = "/solutions/"
 
   [[menu.main]]
     identifier = "documentation"
     name = "Documentation"
-    weight = -90
+    weight = -80
     url = "/documentation/"
   
+
+  [[menu.main]]
+    identifier = "articles"
+    name = "Articles"
+    weight = -70
+    url = "/articles/"
+
