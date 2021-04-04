@@ -1,3 +1,4 @@
 ---
-title: What can you build with Qdrant?
+title: Use Cases and Examples For <span>Your Business</span>
+subtitle:  Build your next AI project with Qdrant. Here are just a few examples of applications for which Qdrant can be useful.
 ---

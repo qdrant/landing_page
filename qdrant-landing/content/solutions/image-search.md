@@ -1,7 +1,9 @@
 ---
-title: Image search
+title: Similar Image Search
 icon: image-1
-image: 
+tabid: imagesearch
+image: /content/images/image_search.png
+image_caption: Visual Food Discovery
 source_link: https://github.com/qdrant/food_exploration
 demo_link: https://food-discovery.qdrant.tech/
 tutorial_link: 

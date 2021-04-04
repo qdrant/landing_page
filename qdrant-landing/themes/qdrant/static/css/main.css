@@ -610,9 +610,6 @@ img{
 	-o-transition:all 0.3s ease;
 }
 
-.social-icon-one li a:hover{
-	
-}
 
 .theme_color{
 	color:var(--brand-primary);

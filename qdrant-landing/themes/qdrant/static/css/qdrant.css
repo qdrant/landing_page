@@ -8,58 +8,66 @@ QDRANT - RELATED
 
 
 .copy-btn {
-    cursor: pointer;
-    color: white;
-    background: transparent;
-  }
-  
-  .code {
-    display: inline-block;
-    padding: 1rem 1.6rem;
-    margin-bottom: 1rem;
-    background:#f6f8fa;
-    background: var(--brand-secondary);
-    border-radius: 5px;
-    font-family: 'Anonymous Pro', monospace;
-    font-size: 1.6rem;
-  }
-  .code>code {
-    color: white;
-  }
-  
-  .features-section .feature-block .text li{
-    display: block;
-    position: relative;
-    text-align: left;
-    padding-left: 25px;
-  }
-  .features-section .feature-block .text li:before{
-    position:absolute;
-    content:'\f107';
-    left:0;
-    top:0;
-    width:24px;
-    height:24px;
-    color:var(--brand-primary);
-    font-size:12px;
-    line-height:24px;
-    text-align:center;
-    font-family: "Flaticon";
-  }
-  
-  /** Link Group **/
-  .link-group.active .link-group-heading {
-    box-shadow: inset 3px 0 0 0 var(--brand-primary);
-  }
-  
-  .link-group .btn,
-  .link-group a {
-    color: var(--brand-secondary);
-  }
-  .link-group a:hover {
-    color: var(--brand-primary);
-  }
-  
-  .installation-section p {
-      font-size: 16px;
-  }
+  cursor: pointer;
+  color: white;
+  background: transparent;
+}
+
+.code {
+  display: inline-block;
+  padding: 1rem 1.6rem;
+  margin-bottom: 1rem;
+  background:#f6f8fa;
+  background: var(--brand-secondary);
+  border-radius: 5px;
+  font-family: 'Anonymous Pro', monospace;
+  font-size: 1.6rem;
+}
+.code>code {
+  color: white;
+}
+
+.features-section .feature-block .text li{
+  display: block;
+  position: relative;
+  text-align: left;
+  padding-left: 25px;
+}
+.features-section .feature-block .text li:before{
+  position:absolute;
+  content:'\f107';
+  left:0;
+  top:0;
+  width:24px;
+  height:24px;
+  color:var(--brand-primary);
+  font-size:12px;
+  line-height:24px;
+  text-align:center;
+  font-family: "Flaticon";
+}
+
+/** Link Group **/
+.link-group.active .link-group-heading {
+  box-shadow: inset 3px 0 0 0 var(--brand-primary);
+}
+
+.link-group .btn,
+.link-group a {
+  color: var(--brand-secondary);
+}
+.link-group a:hover {
+  color: var(--brand-primary);
+}
+
+.installation-section p {
+    font-size: 16px;
+}
+
+.os-link {
+  text-decoration: underline;
+}
+
+/* .business-tabs .tabs-content {
+  min-height: 550px;
+} */
