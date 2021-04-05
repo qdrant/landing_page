@@ -194,77 +194,51 @@
     </div>
   </section>
   <!--End Clients Section-->
+  
 
+  {{ with (.Site.GetPage "section" "articles") }}
   <!-- End Projects Section Two -->
   <section class="projects-section-two" style="background-image: url(/images/background/pattern-9.png)">
     <div class="auto-container">
       <!-- Sec Title -->
       <div class="sec-title centered">
-        <h2>Our Latest <span>Articles</span></h2>
-        <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus at mauris eu
-          sollicitudin. Maecenas a im-<br>perdiet libero, ac congue orci. Pellentesque et erat id leo tincidunt aliquam.
+        <h2>{{ .Title | safeHTML }}</h2>
+        <div class="text">{{ .Params.subtitle | safeHTML }}
         </div>
       </div>
       <div class="row clearfix">
+        
+        {{ range $i, $e := first 3 .Pages }}
+        
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+          {{ $link = .Params.external_link }}
+        {{ end }}
 
         <!-- Project Block -->
         <div class="project-block col-lg-4 col-md-6 col-sm-12">
           <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
             <div class="block-content">
               <div class="image">
-                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt=""/></a>
+                <a href="{{ $link }}"><img src="{{ .Params.preview_image }}" alt=""/></a>
               </div>
               <div class="lower-content">
-                <h5><a href="blog-detail.html">Metric Learning</a></h5>
-                <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus at mauris eu
-                  sollicitudin ac congue orci.
+                <h5><a href="{{ $link }}">{{ .Title }}</a></h5>
+                <div class="text">{{ .Params.description }}
                 </div>
-                <a href="blog-detail.html" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
+                <a href="{{ $link }}" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
               </div>
             </div>
           </div>
         </div>
-
-        <!-- Project Block -->
-        <div class="project-block col-lg-4 col-md-6 col-sm-12">
-          <div class="inner-box wow fadeInUp" data-wow-delay="0ms" data-wow-duration="1500ms">
-            <div class="block-content">
-              <div class="image">
-                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt=""/></a>
-              </div>
-              <div class="lower-content">
-                <h5><a href="blog-detail.html">Vector Search Tutorial</a></h5>
-                <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus at mauris eu
-                  sollicitudin ac congue orci.
-                </div>
-                <a href="blog-detail.html" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Project Block -->
-        <div class="project-block col-lg-4 col-md-6 col-sm-12">
-          <div class="inner-box wow fadeInRight" data-wow-delay="0ms" data-wow-duration="1500ms">
-            <div class="block-content">
-              <div class="image">
-                <a href="blog-detail.html"><img src="https://via.placeholder.com/370x223" alt=""/></a>
-              </div>
-              <div class="lower-content">
-                <h5><a href="blog-detail.html">Filterable HNSW</a></h5>
-                <div class="text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus at mauris eu
-                  sollicitudin ac congue orci.
-                </div>
-                <a href="blog-detail.html" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
-              </div>
-            </div>
-          </div>
-        </div>
+        {{ end }}
 
       </div>
     </div>
   </section>
   <!-- End Projects Section Two -->
+
+  {{ end }}
 
   <!-- Contact Form Section -->
   <section class="clients-section my-5">

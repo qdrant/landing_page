@@ -40,29 +40,31 @@
           <div class="footer-column col-lg-5 col-md-6 col-sm-12">
             <div class="footer-widget news-widget">
               <div class="footer-title">
-                <h4>Latest Blog Posts</h4>
+                <h4>Latest Publications</h4>
               </div>
               <!-- Footer Column -->
               <div class="widget-content">
 
-                <div class="post">
-                  <div class="thumb"><a href="blog-detail.html"><img src="https://via.placeholder.com/76x70" alt=""></a>
-                  </div>
-                  <h4><a href="blog-detail.html">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus
-                    at.</a></h4>
-                </div>
+                {{ with (.Site.GetPage "section" "articles") }}
+                {{ range $i, $e := first 3 .Pages }}
+
+                {{ $link := .Permalink }}
+                {{ if .Params.external_link }}
+                  {{ $link = .Params.external_link }}
+                {{ end }}
+        
 
                 <div class="post">
-                  <div class="thumb"><a href="blog-detail.html"><img src="https://via.placeholder.com/76x70" alt=""></a>
+                  <div class="thumb"><a href="{{ $link }}"><img src="{{ .Params.small_preview_image }}" alt=""></a>
                   </div>
-                  <h4><a href="blog-detail.html">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></h4>
+                  <h4><a href="{{ $link }}">{{ .Params.short_description }}</a></h4>
                 </div>
 
-                <div class="post">
-                  <div class="thumb"><a href="blog-detail.html"><img src="https://via.placeholder.com/76x70" alt=""></a>
-                  </div>
-                  <h4><a href="blog-detail.html">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</a></h4>
-                </div>
+
+
+                {{ end }}
+                {{ end }}
+
 
               </div>
 
