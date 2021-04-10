@@ -30,7 +30,9 @@
               <ul class="nav-list">
                 {{ $currentPage := . }}
                 {{ range .Site.Menus.main }}
-                <li {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}class="current"{{end}}><a href="{{ .URL }}">{{ .Name }}</a></li>
+                <li {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}class="current"{{end}}>
+                  <i class="flaticon-check-mark small text-brand-p mr-2"></i>
+                  <a href="{{ .URL }}">{{ .Name }}</a></li>
                 {{ end }}
               </ul>
             </div>

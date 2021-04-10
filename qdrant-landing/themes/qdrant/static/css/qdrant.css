@@ -6,6 +6,7 @@ QDRANT - RELATED
 
 */
 
+@import url('colors.css');
 
 .copy-btn {
   cursor: pointer;
@@ -71,3 +72,11 @@ QDRANT - RELATED
 /* .business-tabs .tabs-content {
   min-height: 550px;
 } */
+
+.text-brand-p {
+  color: var(--brand-primary);
+}
+
+.text-brand-s {
+  color: var(--brand-secondary);
+}
