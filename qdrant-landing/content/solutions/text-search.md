@@ -1,15 +1,20 @@
 ---
-title: Semantic Sext Search
+title: Semantic Text Search
 tabid: textsearch
 icon: paper
 image: /content/images/text_search.png
 image_caption: Neural Text Search
 source_link: https://github.com/qdrant/qdrant_demo
 demo_link: https://demo.qdrant.tech/
+default_link: https://demo.qdrant.tech/
+default_link_name: Demo
 tutorial_link: 
 custom_link:
 custom_link_name: 
 weight: 10
+short_description: |
+    The neural search uses **semantic embeddings** instead of keywords and works best with short texts.
+    With Qdrant and a pre-trained neural network, you can build and deploy semantic neural search on your data in minutes!
 ---
 
 In many cases, the usual full-text search does not give the desired result.

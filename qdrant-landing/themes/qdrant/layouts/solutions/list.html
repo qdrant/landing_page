@@ -1,0 +1,50 @@
+{{ define "main" }}
+
+<section>
+    <div class="auto-container pt-5">
+        <div class="row clearfix">
+
+            <div class="col-12 sec-title text-center">
+                <h4>{{ .Params.description }}</h4>
+                <div class="text">
+                </div>
+            </div>
+
+            {{ range .Pages }}
+
+            {{ if .Params.short_description  }}
+
+            <div class="col-lg-4 col-md-6 col-sm-12">
+                <!-- News block Two -->
+                <div class="news-block-two">
+                    <div class="inner-box">
+                        <div class="upper-box">
+                            <h4><a href="blog-detail.html">{{ .Title }}</a></h4>
+                            <!-- <div class="category">{{ .Params.subtitle }}</div> -->
+                        </div>
+                        <div class="image">
+                            <a data-caption="{{ .Params.image_caption }}"><img src="{{ .Params.image }}" alt="" /></a>
+                        </div>
+                        <div class="lower-box">
+                            <div class="clearfix">
+                                <p>{{ .Params.short_description | markdownify }}</p>
+                                <div class="pull-right">
+                                    {{ if .Params.default_link }}
+                                    <a href="{{ .Params.default_link }}" class="theme-btn btn-style-five"><span
+                                            class="txt">{{ .Params.default_link_name }}</span></a>
+                                    {{ else }}
+                                        <a href="#" class="theme-btn btn-style-five btn-small"><span class="txt">Learn More...</span></a>
+                                    {{end}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</section>
+
+{{ end }}
