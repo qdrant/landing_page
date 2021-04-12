@@ -61,12 +61,12 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     identifier = "documentation"
     name = "Documentation"
     weight = -80
-    url = "/documentation/"
+    url = "https://github.com/qdrant/qdrant#usage"
   
 
   [[menu.main]]
     identifier = "articles"
     name = "Articles"
     weight = -70
-    url = "/articles/"
+    url = "#articles"
 
