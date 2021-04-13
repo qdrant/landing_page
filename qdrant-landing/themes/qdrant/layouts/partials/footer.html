@@ -19,6 +19,17 @@
                 <li><span class="icon fa fa-envelope"></span> <a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></li>
               </ul>
             </div>
+            
+
+            <div class="footer-widget contact-widget">
+              <div class="footer-title">
+                <h4>Info</h4>
+              </div>
+              <ul class="contact-list">
+                <li> <span class="icon fa fa-star"></span> Icons made by <a href="https://www.flaticon.com/authors/srip" title="srip">srip</a> from <a href="https://www.flaticon.com/" title="Flaticon">flaticon.com</a></li>
+              </ul>
+            </div>
+
           </div>
 
           <!-- Footer Column -->
@@ -57,8 +68,8 @@
         
 
                 <div class="post">
-                  <!-- <div class="thumb"><a href="{{ $link }}"><img src="{{ .Params.small_preview_image }}" alt=""></a> -->
-                  <!-- </div> -->
+                  <div class="thumb"><a href="{{ $link }}"><img src="{{ .Params.small_preview_image }}" alt=""></a>
+                  </div>
                   <h4><a href="{{ $link }}">{{ .Params.short_description }}</a></h4>
                 </div>
 

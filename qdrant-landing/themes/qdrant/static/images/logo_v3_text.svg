@@ -12,9 +12,9 @@
    viewBox="0 0 541.47013 162.39999"
    version="1.1"
    id="svg886"
-   inkscape:version="1.0.2 (394de47547, 2021-03-26)"
+   inkscape:version="1.0.2 (e86c870879, 2021-01-15)"
    sodipodi:docname="logo_v3_text.svg"
-   inkscape:export-filename="/home/avasnetsov/sideproject/landing_page/qdrant-landing/themes/qdrant/static/images/logo_v3_small_white.png"
+   inkscape:export-filename="/home/generall/projects/vector_search/landing_page/qdrant-landing/themes/qdrant/static/images/logo_v3_small.png"
    inkscape:export-xdpi="9.166667"
    inkscape:export-ydpi="9.166667">
   <defs
@@ -26,9 +26,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.51507095"
-     inkscape:cx="822.85721"
-     inkscape:cy="13.011439"
+     inkscape:zoom="0.35472096"
+     inkscape:cx="889.68992"
+     inkscape:cy="530.62912"
      inkscape:document-units="mm"
      inkscape:current-layer="g10"
      inkscape:document-rotation="0"
@@ -38,10 +38,10 @@
      fit-margin-top="5"
      fit-margin-right="5"
      fit-margin-bottom="5"
-     inkscape:window-width="2560"
-     inkscape:window-height="1411"
+     inkscape:window-width="1920"
+     inkscape:window-height="1053"
      inkscape:window-x="0"
-     inkscape:window-y="0"
+     inkscape:window-y="27"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata883">
@@ -64,6 +64,10 @@
        transform="matrix(0.35277776,0,0,-0.35277776,-44.779828,244.94881)"
        id="g10"
        style="opacity:1">
+      <path
+         id="path14-3"
+         style="fill:#201d1d;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.0999998"
+         d="m 399.99966,615.99921 -93.54199,-54 -93.51709,-54 v -108.00003 -108 l 93.51709,-54 93.54199,-54.00001 59.84034,34.52783 63.60938,-34.52783 63.60938,36.70898 v 287.29106 l -93.542,54 z" />
       <path
          id="path14"
          style="fill:#201d1d;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.1"
@@ -98,7 +102,7 @@
          d="M 459.84,218.527 523.449,184 V 471.263 L 461.711,506.895 400,542.525 338.262,506.895 276.551,471.263 V 400 328.709 L 338.262,293.077 400,257.445 459.84,292 Z m 0,146.918 -59.84,-34.553 -59.84,34.553 v 69.08 L 400,469.08 459.84,434.525 v -69.08" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:360px;line-height:1.25;font-family:'Noto Sans Caucasian Albanian';-inkscape-font-specification:'Noto Sans Caucasian Albanian';fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.75"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:360px;line-height:1.25;font-family:'Noto Sans Caucasian Albanian';-inkscape-font-specification:'Noto Sans Caucasian Albanian';fill:#201d1d;fill-opacity:1;stroke:none;stroke-width:0.75;"
          x="619.7832"
          y="-259.25787"
          id="text1747"
@@ -107,7 +111,7 @@
            id="tspan1745"
            x="619.7832"
            y="-259.25787"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:360px;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:0.75">drant</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:360px;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:0.75;fill:#201d1d;fill-opacity:1;">drant</tspan></text>
     </g>
   </g>
 </svg>

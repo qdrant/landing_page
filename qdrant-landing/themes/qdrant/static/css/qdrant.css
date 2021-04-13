@@ -63,11 +63,12 @@ QDRANT - RELATED
 
 .installation-section p {
     font-size: 16px;
+    color: #5a5a5a;
 }
 
-.os-link {
+/* .os-link {
   text-decoration: underline;
-}
+} */
 
 /* .business-tabs .tabs-content {
   min-height: 550px;
@@ -79,4 +80,8 @@ QDRANT - RELATED
 
 .text-brand-s {
   color: var(--brand-secondary);
+}
+
+.news-icon {
+  font-size: 40px;
 }
