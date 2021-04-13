@@ -56,8 +56,12 @@
                   <div class="clearfix">
           
                     <div class="pull-left logo-box">
-                      <div class="logo"><a href="/"><img src="{{ .Site.Params.logo }}" width="190px" alt=""
-                                                                  title="Qdrant"></a>
+                      <div class="logo"><a href="/">
+                        {{ if and ($.IsNode) (eq $.Section "") }}
+                        <img src="{{ .Site.Params.logo }}" width="{{ .Site.Params.logo_width }}px" alt="" title="Qdrant"></a>
+                        {{ else }}
+                        <img src="{{ .Site.Params.logo_white }}" width="{{ .Site.Params.logo_width }}px" alt="" title="Qdrant"></a>
+                        {{ end }}
                       </div>
                     </div>
           
@@ -79,7 +83,7 @@
           
                         <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                           <ul class="navigation clearfix">
-
+                            
                             {{ $currentPage := . }}
                             {{ range .Site.Menus.main }}
                             <li {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}class="current"{{end}}><a href="{{ .URL }}">{{ .Name }}</a></li>
