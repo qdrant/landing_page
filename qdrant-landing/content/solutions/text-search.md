@@ -2,6 +2,7 @@
 title: Semantic Text Search
 tabid: textsearch
 icon: paper
+landing_image: /content/images/abstract_cubes_1.svg
 image: /content/images/text_search.png
 image_caption: Neural Text Search
 source_link: https://github.com/qdrant/qdrant_demo
