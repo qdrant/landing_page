@@ -162,7 +162,7 @@
                     </div>
                     
                     <!-- Image Column -->
-                    <div class="image-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="image-column col-6 d-none d-lg-block d-xl-block">
                       <div class="inner-column">
                         <div class="image">
                           <!-- <h5>{{ .Params.image_caption }}</h5> -->
@@ -188,27 +188,29 @@
   {{ end }}
   <!-- End Business Section -->
 
+
+  {{ with (.Site.GetPage "section" "stack") }}
   <!--Clients Section-->
   <section class="clients-section my-5">
     <div class="sec-title text-center">
-      <h2>Who uses <span>Qdrant</span>?</h2>
+      <h2>{{ .Title | safeHTML }}</h2>
     </div>
     <div class="auto-container">
       <div class="sponsors-outer">
         <!--Sponsors Carousel-->
         <ul class="row clearfix">
-          <li class="col">
-            <figure class="image-box"><a href="#"><img src="https://via.placeholder.com/300x115" alt=""></a></figure>
+          {{ range $i, $e := first 3 .Pages }}
+          <li class="col d-flex align-self-center m-3">
+            <figure class="image-box"><a href="{{ .Params.origin_url }}"><img src="{{ .Params.image }}" alt=""></a></figure>
           </li>
-          <li class="col">
-            <figure class="image-box"><a href="#"><img src="https://via.placeholder.com/300x115" alt=""></a></figure>
-          </li>
+          {{ end }}
         </ul>
       </div>
 
     </div>
   </section>
   <!--End Clients Section-->
+  {{ end }}
   
 
   {{ with (.Site.GetPage "section" "articles") }}

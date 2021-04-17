@@ -27,8 +27,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.35472096"
-     inkscape:cx="889.68992"
-     inkscape:cy="530.62912"
+     inkscape:cx="1387.0889"
+     inkscape:cy="38.343664"
      inkscape:document-units="mm"
      inkscape:current-layer="g10"
      inkscape:document-rotation="0"
@@ -102,7 +102,7 @@
          d="M 459.84,218.527 523.449,184 V 471.263 L 461.711,506.895 400,542.525 338.262,506.895 276.551,471.263 V 400 328.709 L 338.262,293.077 400,257.445 459.84,292 Z m 0,146.918 -59.84,-34.553 -59.84,34.553 v 69.08 L 400,469.08 459.84,434.525 v -69.08" />
       <text
          xml:space="preserve"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:360px;line-height:1.25;font-family:'Noto Sans Caucasian Albanian';-inkscape-font-specification:'Noto Sans Caucasian Albanian';fill:#201d1d;fill-opacity:1;stroke:none;stroke-width:0.75;"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:360px;line-height:1.25;font-family:'Noto Sans Caucasian Albanian';-inkscape-font-specification:'Noto Sans Caucasian Albanian';fill:#bc1439;fill-opacity:1;stroke:none;stroke-width:0.75;"
          x="619.7832"
          y="-259.25787"
          id="text1747"
@@ -111,7 +111,7 @@
            id="tspan1745"
            x="619.7832"
            y="-259.25787"
-           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:360px;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:0.75;fill:#201d1d;fill-opacity:1;">drant</tspan></text>
+           style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:360px;font-family:Roboto;-inkscape-font-specification:'Roboto Bold';stroke-width:0.75;fill:#bc1439;fill-opacity:1;">drant</tspan></text>
     </g>
   </g>
 </svg>
