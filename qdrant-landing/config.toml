@@ -42,6 +42,12 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 [menu]
 
   [[menu.main]]
+    identifier = "home"
+    name = "Home"
+    weight = -100
+    url = "/"
+
+  [[menu.main]]
     identifier = "use-case"
     name = "Use cases"
     weight = -100
@@ -64,5 +70,5 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     identifier = "articles"
     name = "Articles"
     weight = -70
-    url = "#articles"
+    url = "/#articles"
 

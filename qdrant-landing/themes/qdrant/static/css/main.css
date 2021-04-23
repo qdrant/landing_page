@@ -4333,6 +4333,10 @@ img{
 	text-transform:capitalize;
 }
 
+.banner-section-two .content-column h2{
+	font-weight:700;
+}
+
 .banner-section-two .content-column h1 span{
 	color:var(--brand-primary);
 }

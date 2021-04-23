@@ -156,10 +156,8 @@
                     <div class="content-column col-lg-6 col-md-12 col-sm-12">
                       <div class="inner-column mb-5">
                         {{ .Content }}
-                        {{ if .Params.demo_link }}<a target="_blank" href="{{ .Params.demo_link }}" class="theme-btn btn-style-four"><span class="txt">Demo</span></a>{{end}}
-                        {{ if .Params.tutorial_link }}<a target="_blank" href="{{ .Params.tutorial_link }}" class="theme-btn btn-style-four"><span class="txt">Tutorial</span></a>{{end}}
-                        {{ if .Params.source_link }}<a target="_blank" href="{{ .Params.source_link }}" class="theme-btn btn-style-four"><span class="txt">Source Code</span></a>{{end}}
-                        {{ if .Params.custom_link }}<a target="_blank" href="{{ .Params.custom_link }}" class="theme-btn btn-style-four"><span class="txt">{{ .Params.custom_link_name }}</span></a>{{end}}
+                        {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four"><span class="txt">{{ .Params.default_link_name }}</span></a>{{end}}
+                        <a target="_blank" href="#" class="theme-btn btn-style-four"><span class="txt">Contact us</span></a>
                       </div>
                     </div>
                     
