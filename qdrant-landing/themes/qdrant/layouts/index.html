@@ -157,7 +157,7 @@
                       <div class="inner-column mb-5">
                         {{ .Content }}
                         {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four"><span class="txt">{{ .Params.default_link_name }}</span></a>{{end}}
-                        <a target="_blank" href="#" class="theme-btn btn-style-four"><span class="txt">Contact us</span></a>
+                        <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four"><span class="txt">Contact us</span></a>
                       </div>
                     </div>
                     
@@ -270,9 +270,12 @@
         <div class="content-column offset-lg-3 col-lg-6 col-md-12 col-sm-12">
           <!-- Newsletter Form -->
           <div class="newsletter-form">
-            <form method="post" action="contact.html">
+            <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
               <div class="form-group">
-                <input type="email" name="email" value="" placeholder="Enter Your Email" required="">
+                <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required="" id="mce-EMAIL">
+                <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                  <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1" value="">
+                </div>
                 <button type="submit" class="theme-btn btn-style-three"><span class="txt">Subscribe</span>
                 </button>
               </div>

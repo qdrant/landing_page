@@ -38,6 +38,12 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     email = "info@qdrant.tech"
     location = "Berlin"
 
+    mailchimp_contact_form = "https://us1.list-manage.com/contact-form?u=69617d79374ac6280dd2230b2&form_id=cce004c91b038a38e5ef1ece5318fd1e"
+
+    mailchimp_subscribe = "https://tech.us1.list-manage.com/subscribe/post?u=69617d79374ac6280dd2230b2&amp;id=acb2b876fc"
+
+    mailchimp_subscribe_id = "b_69617d79374ac6280dd2230b2_acb2b876fc"
+
 
 [menu]
 
