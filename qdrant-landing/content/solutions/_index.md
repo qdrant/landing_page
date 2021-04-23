@@ -1,6 +1,6 @@
 ---
 title: Solutions
-section_title: Use Cases and Examples For <span>Your Business</span>
-subtitle:  Build your next AI project with Qdrant. Here are just a few examples of applications for which Qdrant can be helpful.
+section_title: Elevate <span>Your Business</span> with Qdrant
+subtitle: Here are just a few examples of how Qdrant can help your Business 
 description: Tasks and Problems solved with Qdrant
 ---

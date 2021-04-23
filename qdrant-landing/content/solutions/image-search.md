@@ -20,12 +20,12 @@ short_description: |
 
 Sometimes text search is not enough. 
 
-Find similar images, detect duplicates, or even find a picture by text description - all of that you can do with Qdrant.
-Mostly you won't even need to train a neural network for that. Pre-trained models are usually enough to begin with. 
+Qdrant allows you to find similar images, detect duplicates, or even find a picture by text description.
+No need to train your own neural network, get started with pre-trained models. 
 
-And with Qdrant filters, you can apply arbitrary business logic on top of a similarity search.
+Qdrant filters enable you to apply arbitrary business logic on top of a similarity search.
 Look for similar clothes cheaper than $20? Search for a similar artwork published in the last year?
-Qdrant handles all of these conditions!
+Qdrant handles all possible conditions!
 
-For the Demo, we put together a food discovery service - it will show you a lunch based on what you visually like or dislike. It can also search for a place near you. And we didn't train any neural network for that.
+For the Demo, we put together a food discovery service - it will show you a lunch suggestion based on what you visually like or dislike. It can also search for a place near you.
 

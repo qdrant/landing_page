@@ -18,9 +18,9 @@ short_description: |
 ---
 
 User behavior can be represented as a semantic vector is similar way as text or images.
-This vector can represent the user's preferences, behavior patterns, or interest in the product.
+This vector can represent user preferences, behavior patterns, or interest in the product.
 
-With Qdrant, user vectors can be updated in real-time, no need to deploy a MapReduce cluster.\
-Besides, Qdrant will allow you to place arbitrary restrictions on recommendations.
-What if the user signed up 3 days ago and premium offers are in effect for him?
-Qdrant will be able to handle this and such conditions.
+
+
+With Qdrant, user vectors can be updated in real-time, no need to deploy a MapReduce cluster.
+Understand user behavior in real time.

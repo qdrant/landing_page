@@ -10,11 +10,12 @@
           <!-- Content Column -->
           <div class="content-column col-lg-6 col-md-12 col-sm-12">
             <div class="inner-column">
+              <h2><a target="_blank" href="{{ .Site.Params.github }}">Open Source</a></h2>
               <h1>Neural Search Engine</h1>
               <div class="sec-title text mb-3">Build your own
-                AI-powered product with Qdrant - <a class="os-link" target="_blank" href="{{ .Site.Params.github }}">open-source</a> vector similarity search engine.
-                <br/><br/>
-                Get started by downloading a pre-build Docker Image - it is only 35Mb!<br>
+                proprietary AI products.
+                <br/>
+                
 
                 <div class="code mt-3">
                   <code id="copy-code">docker pull generall/qdrant</code>
@@ -24,6 +25,7 @@
                     </button>
                   </span>
                 </div> <br>
+                Get started by downloading a pre-build Docker Image - it is only <b>35Mb!</b><br>
                 
                 Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
                   or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a>
@@ -190,10 +192,11 @@
 
 
   {{ with (.Site.GetPage "section" "stack") }}
-  <!--Clients Section-->
+  <!--Clients Section--> 
   <section class="clients-section my-5">
     <div class="sec-title text-center">
       <h2>{{ .Title | safeHTML }}</h2>
+      <div class="text">We can integrate with anything, some of our featured technologies</div>
     </div>
     <div class="auto-container">
       <div class="sponsors-outer">
@@ -263,7 +266,7 @@
       <div class="row">
         <div class="col-12 sec-title text-center">
           <h2>Get <span>Updates</span> from Qdrant</h2>
-          <div class="text">We will write about new features that appear in Qdrant and novel examples of its applications.
+          <div class="text">We will update you on new features and news regarding Qdrant 
           </div>
         </div>
         <div class="content-column offset-lg-3 col-lg-6 col-md-12 col-sm-12">
