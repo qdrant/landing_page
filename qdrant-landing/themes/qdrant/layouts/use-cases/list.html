@@ -25,9 +25,12 @@
                                 <div class="media-body">
                                     <h5 class="mt-0">{{ .Title }}</h5>
                                     <p>{{ .Content }}</p>
-                                    <a target="_blank" href="#" class="float-right mr-3"><span class="txt">Learn more</span></a>
+                                    <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="float-right mr-3"><span class="txt">Contact Us</span></a>
                                     {{ if .Params.custom_link }}
                                     <a target="_blank" href="{{ .Params.custom_link }}" class="float-right mr-3"><span class="txt">{{ .Params.custom_link_name }}</span></a>
+                                    {{ end }}
+                                    {{ if .Params.custom_link2 }}
+                                    <a target="_blank" href="{{ .Params.custom_link2 }}" class="float-right mr-3"><span class="txt">{{ .Params.custom_link_name2 }}</span></a>
                                     {{ end }}
                                   </div>
                             </div>

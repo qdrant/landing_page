@@ -1,6 +1,8 @@
 ---
 title: Fintech
 icon: bank
+custom_link_name: Related Research
+custom_link: https://arxiv.org/abs/1808.05492
 ---
 
 Fraud detection is like recommendations in reverse. 

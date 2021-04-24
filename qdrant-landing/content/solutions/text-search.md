@@ -10,7 +10,8 @@ default_link_name: Demo
 weight: 10
 short_description: |
     The neural search uses **semantic embeddings** instead of keywords and works best with short texts.
-    With Qdrant and a pre-trained neural network, you can build and deploy semantic neural search on your data in minutes!
+    With Qdrant and a pre-trained neural network, you can build and deploy semantic neural search on your data in minutes.
+    Check out our [demo](https://demo.qdrant.tech/)!
 ---
 
 In many cases, the usual full-text search does not provide the desired result.

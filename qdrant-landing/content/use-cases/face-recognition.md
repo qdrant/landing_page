@@ -1,6 +1,11 @@
 ---
-title: Face recognition
+title: Biometric identification
 icon: face-scan
+custom_link_name: Face Recognition Paper
+custom_link: https://arxiv.org/abs/1810.06951v1
+custom_link_name2: Speaker Recognition Paper
+custom_link2: https://arxiv.org/abs/2003.11982
+
 ---
 
 Not only totalitarian states use facial recognition. 

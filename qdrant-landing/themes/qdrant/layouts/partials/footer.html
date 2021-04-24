@@ -141,11 +141,15 @@
       </div>
       <div class="modal-body">
         <!-- Newsletter Form -->
-        <p>Subscribe to our e-mail newsletter if you want to receive news about new features and applications of Qdrant.</p>
+        <p>Subscribe to our e-mail newsletter if you want to be updated on new features and news regarding Qdrant.</p>
+        <p>Like what we are doing? Consider giving us a ⭐ <a href="{{ .Site.Params.github }}">on Github</a>.</p>
         <div class="newsletter-form">
-          <form method="post" action="contact.html">
+          <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
             <div class="form-group">
-              <input type="email" name="email" value="" placeholder="Enter Your Email" required="">
+              <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1" value="">
+              </div>
+              <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required="">
               <button type="submit" class="theme-btn btn-style-three"><span class="txt">Subscribe</span>
               </button>
             </div>

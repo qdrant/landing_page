@@ -215,7 +215,7 @@
   
 
   {{ with (.Site.GetPage "section" "articles") }}
-  <!-- End Projects Section Two -->
+  <!-- End Articles Section -->
   <section id="articles" class="projects-section-two" style="background-image: url(/images/background/pattern-9.png)">
     <div class="auto-container">
       <!-- Sec Title -->
@@ -238,13 +238,13 @@
           <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
             <div class="block-content">
               <div class="image">
-                <a href="{{ $link }}"><img src="{{ .Params.preview_image }}" alt=""/></a>
+                <a href="{{ $link }}" target="_blank"><img src="{{ .Params.preview_image }}" alt=""/></a>
               </div>
               <div class="lower-content">
                 <h5><a href="{{ $link }}">{{ .Title }}</a></h5>
                 <div class="text">{{ .Params.description }}
                 </div>
-                <a href="{{ $link }}" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
+                <a href="{{ $link }}" target="_blank" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
               </div>
             </div>
           </div>
@@ -254,7 +254,7 @@
       </div>
     </div>
   </section>
-  <!-- End Projects Section Two -->
+  <!-- End Articles Section -->
 
   {{ end }}
 

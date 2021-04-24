@@ -85,3 +85,9 @@ QDRANT - RELATED
 .news-icon {
   font-size: 40px;
 }
+
+article img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}

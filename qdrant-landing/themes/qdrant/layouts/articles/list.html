@@ -12,25 +12,27 @@
 
             {{ range .Pages }}
 
-            {{ if .Params.short_description  }}
+            {{ $link := .Permalink }}
+            {{ if .Params.external_link }}
+            {{ $link = .Params.external_link }}
+            {{ end }}
+
+            {{ if .Params.short_description }}
 
             <div class="col-lg-4 col-md-6 col-sm-12">
                 <!-- News block Two -->
                 <div class="news-block-two">
                     <div class="inner-box">
-                        <div class="upper-box">
-                            <h4><a href="blog-detail.html">{{ .Title }}</a></h4>
-                            <!-- <div class="category">{{ .Params.subtitle }}</div> -->
-                        </div>
                         <div class="image">
-                            <a data-caption="{{ .Params.image_caption }}"><img src="{{ .Params.image }}" alt="" /></a>
+                            <a href="{{ $link }}" data-caption="{{ .Title }}"><img src="{{ .Params.preview_image }}" alt="" /></a>
                         </div>
                         <div class="lower-box">
                             <div class="clearfix">
+                                <h5>{{ .Title }}</h5>
                                 <p>{{ .Params.short_description | markdownify }}</p>
                                 <div class="pull-right">
-                                    <a href="{{ .Site.Params.mailchimp_contact_form }}" target="_blank" class="theme-btn btn-style-five btn-small">
-                                        <span class="txt">Contact Us</span>
+                                    <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five btn-small">
+                                        <span class="txt">Read</span>
                                     </a>
                                 </div>
                             </div>
@@ -38,6 +40,7 @@
                     </div>
                 </div>
             </div>
+
             {{ end }}
             {{ end }}
         </div>
