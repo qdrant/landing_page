@@ -5,11 +5,8 @@ tabid: recommendations
 landing_image: /content/images/abstract_cubes_3.svg
 image: /content/images/recommendations.png
 image_caption: History-based Recommendations
-source_link:
-demo_link:
-tutorial_link: 
-custom_link:
-custom_link_name: 
+default_link: 
+default_link_name: 
 weight: 30
 short_description: |
     User behavior can be represented as a semantic vector is similar way as text or images.

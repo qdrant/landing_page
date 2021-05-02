@@ -4,11 +4,8 @@ icon: compare-1
 tabid: matching
 image: /content/images/matching_engines.png
 image_caption: Matching Engines
-source_link:
-demo_link:
-tutorial_link: 
-custom_link:
-custom_link_name: 
+default_link: 
+default_link_name: 
 weight: 40
 short_description: |
     Matching semantically complex objects is a special case of search.

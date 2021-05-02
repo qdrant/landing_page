@@ -91,3 +91,9 @@ article img {
   margin-left: auto;
   margin-right: auto;
 }
+
+article ul li {
+  list-style: circle;
+  padding: 0;
+  margin: 1em;
+}

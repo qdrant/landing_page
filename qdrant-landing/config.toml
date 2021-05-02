@@ -3,7 +3,7 @@ languageCode = "en-us"
 title = "Qdrant - Vector Search Engine"
 theme = "qdrant"
 
-googleAnalytics = ""
+googleAnalytics = "G-NZYW2651NE"
 enableRobotsTXT = true
 canonifyURLs = true
 
@@ -43,6 +43,8 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     mailchimp_subscribe = "https://tech.us1.list-manage.com/subscribe/post?u=69617d79374ac6280dd2230b2&amp;id=acb2b876fc"
 
     mailchimp_subscribe_id = "b_69617d79374ac6280dd2230b2_acb2b876fc"
+
+    gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
 
 [menu]

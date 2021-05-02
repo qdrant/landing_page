@@ -5,13 +5,8 @@ tabid: imagesearch
 landing_image: /content/images/abstract_cubes_2.svg
 image: /content/images/image_search.png
 image_caption: Visual Food Discovery
-source_link: 
-demo_link: https://food-discovery.qdrant.tech/
 default_link: https://food-discovery.qdrant.tech/
 default_link_name: Demo
-tutorial_link: 
-custom_link:
-custom_link_name: 
 weight: 20
 short_description: |
     Find similar images, detect duplicates, or even find a picture by text description - all of that you can do with Qdrant.

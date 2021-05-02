@@ -49,9 +49,9 @@
 
   $(function(){
     $.cookit({
-      messageText: "Pursuing navigation on this site, you accept the use of cookies.",
+      messageText: "{{ .Site.Params.gdpr }}",
       linkText: "Learn more",
-      linkUrl: "/privacy/",
+      linkUrl: "/legal/privacy-policy",
       buttonText: "I accept",
       backgroundColor: '#1c1c1c',
       messageColor: '#fff',
