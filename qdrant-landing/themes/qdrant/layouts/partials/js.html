@@ -14,6 +14,7 @@
 <script src="{{ "js/jquery.mCustomScrollbar.concat.min.js" | absURL }}"></script>
 <script src="{{ "js/jquery.fancybox.js" | absURL }}"></script>
 <script src="{{ "js/appear.js" | absURL }}"></script>
+<script src="{{ "js/cookit.js" | absURL }}"></script>
 <!-- <script src="{{ "js/swiper.min.js" | absURL }}"></script> -->
 <!-- <script src="{{ "js/jquery.paroller.min.js" | absURL }}"></script> -->
 <!-- <script src="{{ "js/parallax.min.js" | absURL }}"></script> -->
@@ -45,4 +46,16 @@
     console.error('Action:', e.action);
     console.error('Trigger:', e.trigger);
   });
+
+  $(function(){
+    $.cookit({
+      messageText: "Pursuing navigation on this site, you accept the use of cookies.",
+      linkText: "Learn more",
+      linkUrl: "/privacy/",
+      buttonText: "I accept",
+      backgroundColor: '#1c1c1c',
+      messageColor: '#fff',
+      linkColor: '#fad04c',
+      buttonColor: '#fad04c'
+    });  });
 </script>
