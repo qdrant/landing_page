@@ -1,0 +1,29 @@
+body { margin: 0;}
+
+#cookit {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: .6rem 2rem;
+  display: flex;
+  z-index: 999;
+}
+
+#cookit #cookit-container {
+  margin: auto;
+  width: 1200px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+#cookit #cookit-container > * { margin: .4rem; }
+#cookit #cookit-container p { line-height: 1.4rem; }
+
+#cookit #cookit-container a { text-decoration: none; }
+#cookit #cookit-container a:hover { opacity: .9; }
+
+#cookit #cookit-container #cookit-button {
+  padding: .5rem 1rem;
+  margin-left: auto;
+}

@@ -23,7 +23,11 @@
                             <!-- <div class="category">{{ .Params.subtitle }}</div> -->
                         </div>
                         <div class="image">
-                            <a data-caption="{{ .Params.image_caption }}"><img src="{{ .Params.image }}" alt="" /></a>
+                            {{ if .Params.default_link }}
+                                <a href="{{ .Params.default_link }}" data-caption="{{ .Params.image_caption }}"><img src="{{ .Params.image }}" alt="" /></a>
+                            {{ else }}
+                                <img src="{{ .Params.image }}" alt="" />
+                            {{ end }}
                         </div>
                         <div class="lower-box">
                             <div class="clearfix">
