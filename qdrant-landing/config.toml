@@ -28,7 +28,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     logo_width = "192"
 
     github = "https://github.com/qdrant/qdrant"
-    quick_start = "https://github.com/qdrant/qdrant#usage"
+    quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
     tutorial = "/articles/neural-search-tutorial/"
 
     linkedin = "https://www.linkedin.com/company/qdrant"
@@ -70,7 +70,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     identifier = "documentation"
     name = "Documentation"
     weight = -80
-    url = "https://github.com/qdrant/qdrant#usage"
+    url = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
   
 
   [[menu.main]]
