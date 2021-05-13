@@ -31,7 +31,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     quick_start = "https://github.com/qdrant/qdrant#usage"
     tutorial = "/articles/neural-search-tutorial/"
 
-    linkedin = "https://www.linkedin.com/in/andrey-vasnetsov-75268897/"
+    linkedin = "https://www.linkedin.com/company/qdrant"
     telegram = "https://t.me/neural_network_engineering"
 
     email = "info@qdrant.tech"
