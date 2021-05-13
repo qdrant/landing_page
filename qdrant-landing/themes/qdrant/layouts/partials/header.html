@@ -57,11 +57,7 @@
           
                     <div class="pull-left logo-box">
                       <div class="logo"><a href="/">
-                        {{ if and ($.IsNode) (eq $.Section "") }}
                         <img src="{{ .Site.Params.logo }}" width="{{ .Site.Params.logo_width }}px" alt="" title="Qdrant"></a>
-                        {{ else }}
-                        <img src="{{ .Site.Params.logo_white }}" width="{{ .Site.Params.logo_width }}px" alt="" title="Qdrant"></a>
-                        {{ end }}
                       </div>
                     </div>
           
