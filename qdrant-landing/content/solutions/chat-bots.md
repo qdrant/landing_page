@@ -9,5 +9,5 @@ default_link_name:
 weight: 40
 short_description: |
     Semantic search for similar phrases is one of the key technologies for building chatbots.
-    In combination with conversation scripts, modern pre-trained NLP models and Qdant, it is possible to build an automated FAQ answering system.    
+    In combination with conversation scripts, modern pre-trained NLP models and Qdrant, it is possible to build an automated FAQ answering system.    
 ---
