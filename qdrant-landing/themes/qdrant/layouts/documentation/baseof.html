@@ -1,0 +1,16 @@
+{{- partial "header.html" . -}}
+
+{{- partial "second_header.html" . -}}
+
+
+<section>
+    <div class="auto-container pt-5">
+        <div class="row clearfix">
+            {{- partial "docs_sidebar.html" . -}}
+            {{ block "main" . }}{{ end }}
+        </div>
+    </div>
+</section>
+
+
+{{- partial "footer.html" . -}}

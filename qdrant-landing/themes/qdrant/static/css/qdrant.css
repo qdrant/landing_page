@@ -95,5 +95,5 @@ article img {
 article ul li {
   list-style: circle;
   padding: 0;
-  margin: 1em;
+  margin: 1em 1em 1em 2em;
 }
