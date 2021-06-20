@@ -1,4 +1,4 @@
 ---
 title: Quick Start - Python client
-weight: 11
+weight: 12
 ---
