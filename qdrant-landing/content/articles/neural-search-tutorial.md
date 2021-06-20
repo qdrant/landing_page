@@ -40,7 +40,7 @@ The encoder must be trained so that similar objects, such as texts with the same
 Having this vector representation, it is easy to understand what the second step should be.
 To find documents similar to the query you now just need to find the nearest vectors.
 The most convenient way to determine the distance between two vectors is to calculate the cosine distance.
-The usual Euclidean distance can also be used, but in the case of vectors of high dimensions, it is not so efficient.
+The usual Euclidean distance can also be used, but it is not so efficient due to [the curse of dimensionality](https://en.wikipedia.org/wiki/Curse_of_dimensionality).
 
 ## Which model could be used?
 
@@ -52,7 +52,7 @@ However, not only specially trained models can be used.
 If the model is trained on a large enough dataset, its internal features can work as embeddings too.
 So, for instance, you can take any pre-trained on ImageNet model and cut off the last layer from it.
 In the penultimate layer of the neural network, as a rule, the highest-level features are formed, which, however, do not correspond to specific classes.
-The output of this model can be used as an embedding.
+The output of this layer can be used as an embedding.
 
 ## What tasks is neural search good for?
 
@@ -105,7 +105,7 @@ And most importantly, we need a way to search for the nearest vectors.
 
 The vector search engine can take care of all these tasks. 
 It provides a convenient API for searching and managing vectors. 
-In our tutorial we will use [Qdrant](https://github.com/qdrant/qdrant) vector search engine.
+In our tutorial we will use [Qdrant](https://qdrant.tech/) vector search engine.
 It not only supports all necessary operations with vectors but also allows to store additional payload along with vectors and use it to perform filtering of the search result.
 Qdrant has a client for python and also defines the API schema if you need to use it from other languages.
 
