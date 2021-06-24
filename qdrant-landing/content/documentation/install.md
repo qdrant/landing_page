@@ -92,7 +92,7 @@ Among other things, the configuration file allows you to specify the following s
 - Default vector index parameters
 - Storage settings
 
-For details, see the comments in the [configuration file itself](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
+See the comments in the [configuration file itself](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for details.
 
 
 ## Python client
