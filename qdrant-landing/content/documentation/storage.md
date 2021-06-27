@@ -6,6 +6,7 @@ weight: 29
 
 # Storage
 
+## Segments
 
 ## Vector storage
 

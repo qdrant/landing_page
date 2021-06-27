@@ -6,12 +6,12 @@ weight: 21
 ## Collections
 
 A collection is a named set of points (vectors with a payload) among which you can search.
-Vectors within the same collection must have the same dimensionality, and be compared by the single metric.
+Vectors within the same collection must have the same dimensionality and be compared by a single metric.
 
-Distance metrics are used to measure similarities among vectors.
-The choice of metric depends on the way of vectors obtaining and in particular on the method of neural network encoder training.
+Distance metrics used to measure similarities among vectors.
+The choice of metric depends on the way vectors obtaining and, in particular, on the method of neural network encoder training.
 
-Qdrant supports the most popular types of metrics:
+Qdrant supports these most popular types of metrics:
 
 * Dot product: `Dot` - https://en.wikipedia.org/wiki/Dot_product
 * Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
@@ -25,16 +25,25 @@ These settings can be changed at any time by a suitable request.
 ```json
 ```
 
+<!-- 
+#### Python
+
 ```python
 ```
+ -->
 
 ### Delete collection
 
 ```json
 ```
 
+<!-- 
+#### Python
+
 ```python
 ```
+ -->
+
 
 ### Update collection parameters
 
@@ -45,8 +54,13 @@ As a result, you will not waste extra time on rebuilding the index.
 ```json
 ```
 
+<!-- 
+#### Python
+
 ```python
 ```
+ -->
+
 
 ## Collection aliases
 
@@ -66,21 +80,35 @@ Due to the fact that all changes of aliases happen atomically, no concurrent req
 ```json
 ```
 
+<!-- 
+#### Python
+
 ```python
 ```
+ -->
+
 
 ### Change alias
 
 ```json
 ```
 
+<!-- 
+#### Python
+
 ```python
 ```
+ -->
+
 
 ### Remove alias
 
 ```json
 ```
 
+<!-- 
+#### Python
+
 ```python
 ```
+ -->

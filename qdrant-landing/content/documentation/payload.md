@@ -75,10 +75,13 @@ With REST API
 ```bash
 ```
 
-With python
+<!--
+ With python
 
 ```python
 ```
+-->
+
 
 ## Update payload
 
@@ -87,10 +90,13 @@ With REST API
 ```bash
 ```
 
+<!-- 
 With Python client
 
 ```python
 ```
+ -->
+
 
 ## Payload indexing
 
@@ -111,10 +117,12 @@ With REST API
 ```json
 ```
 
+<!-- 
 With Python client
 
 ```python
 ```
+ -->
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).
 

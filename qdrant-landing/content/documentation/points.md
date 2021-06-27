@@ -106,11 +106,15 @@ POST /collections/{collection_name}
 }
 ```
 
+<!-- 
+
 The Python client has additional features for loading points.
 These include parallel loading, and also loading directly from a numpy file.
 
 ```python
-```
+``` 
+
+-->
 
 All APIs in Qdrant, including point loading, are idempotent.
 This means that executing the same method several times in a row is equivalent to a single execution.
@@ -149,10 +153,14 @@ POST /collections/{collection_name}
 }
 ```
 
+<!-- 
+
 Python client:
 
 ```python
-```
+``` 
+
+-->
 
 #### Delete specified payload keys from points
 
@@ -169,10 +177,14 @@ POST /collections/{collection_name}
 }
 ```
 
+<!-- 
+
 Python client:
 
 ```python
-```
+``` 
+
+-->
 
 #### Clear payload
 
@@ -190,10 +202,14 @@ POST /collections/{collection_name}
 }
 ```
 
-Python client:
+<!--
+
+ Python client:
 
 ```python
-```
+``` 
+
+-->
 
 ## Delete points
 
@@ -210,10 +226,14 @@ POST /collections/{collection_name}
 }
 ```
 
-Python client:
+<!--
+
+ Python client:
 
 ```python
 ```
+
+ -->
 
 ## Retrieve points
 
@@ -230,10 +250,13 @@ POST /collections/{collection_name}/points
 }
 ```
 
-Python client:
+<!--
+
+ Python client:
 
 ```python
 ```
+ -->
 
 This method has additional parameters `?with_vector` and `?with_payload`. 
 Using these parameters, you can select parts of the point you want as a result.
@@ -248,11 +271,12 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/ge
 GET /collections/{collection_name}/points/{point_id}
 ```
 
+<!-- 
 Python client:
 
 ```python
 ```
-
+ -->
 
 ## Scroll points
 
@@ -308,9 +332,10 @@ All resulting points are sorted by ID. To query the next page it is necessary to
 For convenience, this ID is also returned in the field `next_page_offset`.
 If the value of the `next_page_offset` field is `null` - the last page is reached.
 
-<!-- Python client: -->
+<!-- 
+Python client:
 
-<!-- ```python -->
-<!-- ``` -->
-
+```python
+```
+ -->
 
