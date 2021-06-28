@@ -110,15 +110,20 @@ For example, building an index for the object ID (if it is actually used in the 
 
 In the case of compound queries involving multiple fields, Qdrant will attempt to use the most restrictive index first.
 
-To mark a field as indexable, you can use the following code.
+To mark a field as indexable, you can use the following:
 
-With REST API
+REST API
 
-```json
+```
+POST /collections/{collection_name}
+
+{
+    "create_index": "name_of_the_field_to_index"
+}
 ```
 
 <!-- 
-With Python client
+Python client
 
 ```python
 ```

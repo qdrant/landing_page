@@ -15,6 +15,8 @@ A segment can be `appendable` or `non-appendable` depending on the type of stora
 You can freely add, delete and query data in the `appendable` segment.
 With `non-appendable` segment can only read and delete data.
 
+The configuration of the segments in the collection can be different and independent from one another, but at least one `appendable' segment must be present in a collection.
+
 ## Vector storage
 
 Depending on the requirements of the application, Qdrant can use one of the data storage options.

@@ -3,11 +3,103 @@ title: Indexing
 weight: 30
 ---
 
-# Indexing in Qdrant
+A key feature of Qdrant is the effective combination of vector and traditional indices.
+It is essential, because for vector search to work effectively with filters vector index only is not enough.
+
+The indexes in the segments exist independently of each other, but the parameters of the indexes themselves are configured for the whole collection.
+
+Not all segments automatically have indexes.
+Their necessity is determined by the [optimizer](../optimizer) settings and depends, as a rule, on the number of stored points.
 
 
 ## Payload Index
 
+Payload index in Qdrant is similar to the index in conventional document-oriented databases.
+This index is built for a specific field and is used for quick point requests by the corresponding filtering condition.
+
+The index is also used to accurately estimate the cardinality of the filter, which helps [query planned](../search) choose a search strategy.
+
+Creating an index requires additional computational resources and memory, so the choice of fields to be indexed is important.
+Qdrant does not take this choice, but grants it to the user.
+
+To mark a field as indexable, you can use the following:
+
+REST API
+
+```
+POST /collections/{collection_name}
+
+{
+    "create_index": "name_of_the_field_to_index"
+}
+```
+
+<!-- 
+With Python client
+
+```python
+```
+ -->
+
+For indexing, it is recommended to choose the field that limits the search result the most.
+As a rule, the more different values a payload value has, the more efficient the index will be used.
+You should not create an index for Boolean fields and fields with only a few possible values.
+
+
 ## Vector Index
 
+Vector index is a data structure built on vectors through a certain mathematical model.
+Through the vector index, we can efficiently query several vectors similar to the target vector.
+
+Qdrant currently only uses HNSW as a vector index.
+
+[HNSW](https://arxiv.org/abs/1603.09320) (Hierarchical Navigable Small World Graph) is a graph-based indexing algorithm. It builds a multi-layer navigation structure for an image according to certain rules. In this structure, the upper layers are more sparse and the distances between nodes are farther; the lower layers are denser and the distances between nodes are closer. The search starts from the uppermost layer, finds the node closest to the target in this layer, and then enters the next layer to begin another search. After multiple iterations, it can quickly approach the target position.
+
+In order to improve performance, HNSW limits the maximum degree of nodes on each layer of the graph to `m`. In addition, you can use `ef_construct` (when building index) or `ef` (when searching targets) to specify a search range.
+
+The corresponding parameters could be configured in the configuration file:
+
+```yaml
+storage:
+  # Default parameters of HNSW Index. Could be override for each collection individually
+  hnsw_index:
+    # Number of edges per node in the index graph.
+    # Larger the value - more accurate the search, more space required.
+    m: 16
+    # Number of neighbours to consider during the index building.
+    # Larger the value - more accurate the search, more time required to build index.
+    ef_construct: 100
+    # Minimal amount of points for additional payload-based indexing.
+    # If payload chunk is smaller than `full_scan_threshold` additional indexing won't be used -
+    # in this case full-scan search should be preferred by query planner
+    # and additional indexing is not required.
+    full_scan_threshold: 10000
+
+```
+
+And so in the process of creating a [collection](../collections). The `ef` parameter is configured during [the search](../search) and by default is equal to `ef_construct`.
+
+
+HNSW is chosen for several reasons.
+First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
+Second, it is one of the most accurate and fastest algorithm, according to [public benchmarks](https://github.com/erikbern/ann-benchmarks).
+
 ## Filtrable Index
+
+Separately, payload index and vector index cannot solve the problem of search using the filter completely.
+
+In case of weak filters you can use HNSW index as it is, in case of very strong filters you can use payload index and full rescore.
+However, for cases in the middle, this approach does not work well.
+
+On the one hand we cannot apply full scan on too many vectors, on the other hand HNSW graph starts to fall apart when using too strict filters.
+
+![HNSW fail](/docs/precision_by_m.png)
+
+![hnsw graph](/docs/graph.gif)
+
+More information on why this happens can be found in our [blog post](https://blog.vasnetsov.com/posts/categorical-hnsw/).
+
+Qdrant solves this problem by extending the HNSW graph with additional edges, based on the stored payload values.
+Additional edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph. 
+
+This approach also minimizes the overhead on condition checks, since you only need to calculate the conditions for a small fraction of the points involved in the search.
