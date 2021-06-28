@@ -49,7 +49,7 @@ These settings can be changed at any time by a suitable request.
 
 Dynamic parameter update may be useful, for example, for more efficient initial loading of vectors.
 With these settings, you can disable indexing during the upload process and enable it immediately after it is finished.
-As a result, you will not waste extra time on rebuilding the index.
+As a result, you will not waste extra computation resources on rebuilding the index.
 
 ```json
 ```
