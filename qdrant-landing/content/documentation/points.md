@@ -133,7 +133,7 @@ Currently you would need to re-upload point in order to modify vector.
 
 The second is not modify payload, for which there are several methods.
 
-#### Set payload to a list of points
+#### Set payload
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
 
@@ -162,7 +162,7 @@ Python client:
 
 -->
 
-#### Delete specified payload keys from points
+#### Delete payload keys
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
 
