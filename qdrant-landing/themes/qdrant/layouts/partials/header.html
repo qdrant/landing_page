@@ -48,7 +48,12 @@
         <div class="page-wrapper">
 
             <!-- Main Header-->
+
+            {{ if (eq $.Section "documentation") }}
             <header class="main-header header-style-three">
+            {{ else }}
+            <header class="main-header main-sticky-header header-style-three">
+            {{ end }}
           
               <!--Header-Upper-->
               <div class="header-upper">

@@ -11,6 +11,11 @@
                     </a>
                 </h5>
             </div>
+            {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+            <div class="pl-4">
+                {{ .TableOfContents }}
+            </div>
+            {{ end }}
         </div>
         {{ end }}
     </div>

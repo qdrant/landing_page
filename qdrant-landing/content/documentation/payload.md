@@ -72,7 +72,30 @@ The filtering process is discussed in detail in the section [Filtering](../filte
 
 With REST API
 
-```bash
+```
+POST /collections/{collection_name}
+
+{
+    "upsert_points": {
+        "points": [
+            {
+                "id": 1,
+                "vector": [0.05, 0.61, 0.76, 0.74],
+                "payload": {"city": "Berlin", price: 1.99}
+            },
+            {
+                "id": 2,
+                "vector": [0.19, 0.81, 0.75, 0.11],
+                "payload": {"city": ["Berlin", "London"], price: 1.99}
+            },
+            {
+                "id": 3,
+                "vector": [0.36, 0.55, 0.47, 0.94],
+                "payload": {"city": ["Berlin", "Moscow"], price: [1.99, 2.99]}
+            }
+        ]
+    }
+}
 ```
 
 <!--
@@ -85,9 +108,77 @@ With REST API
 
 ## Update payload
 
-With REST API
 
-```bash
+### Set payload
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+
+```
+POST /collections/{collection_name}
+
+{
+    "set_payload": {
+        "payload": {
+            "property1": "string",
+            "property2": "string"
+        },
+        "points": [
+            0, 3, 100
+        ]
+    }
+}
+```
+
+<!-- 
+
+Python client:
+
+```python
+``` 
+
+-->
+
+### Delete payload
+
+This method removes specified payload keys from specified points
+
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+
+```
+POST /collections/{collection_name}
+
+{
+    "delete_payload": {
+        "keys": ["color", "price"],
+        "points": [0, 3, 100]
+    }
+}
+```
+
+<!-- 
+
+Python client:
+
+```python
+``` 
+
+-->
+
+### Clear payload
+
+This method removes all payload keys from specified points
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+
+```
+POST /collections/{collection_name}
+
+{
+    "clear_payload": {
+        "points": [0, 3, 100]
+    }
+}
 ```
 
 <!-- 

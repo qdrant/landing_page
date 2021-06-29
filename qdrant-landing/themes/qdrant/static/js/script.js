@@ -31,9 +31,9 @@
 	function headerStyle() {
 		if($('.main-header').length){
 			var windowpos = $(window).scrollTop();
-			var siteHeader = $('.main-header');
+			var siteHeader = $('.main-sticky-header');
 			var scrollLink = $('.scroll-to-top');
-			var sticky_header = $('.main-header .sticky-header');
+			var sticky_header = $('.main-sticky-header .sticky-header');
 			if (windowpos > 100) {
 				siteHeader.addClass('fixed-header');
 				sticky_header.addClass("animated slideInDown");
