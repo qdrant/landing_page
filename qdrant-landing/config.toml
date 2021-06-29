@@ -45,6 +45,10 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
+    githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v0.3.x/"
+
+    docVersion = "v0.3.x"
+
 
 [menu]
 
@@ -70,7 +74,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     identifier = "documentation"
     name = "Documentation"
     weight = -80
-    url = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
+    url = "/documentation/"
   
 
   [[menu.main]]

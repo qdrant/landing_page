@@ -1,7 +1,14 @@
 {{ define "main" }}
-<article class="col-lg-8 col-md-8 col-12 pb-5">
 
-    {{ .Content }}
+<div class="col-lg-8 col-md-8 col-12 pb-5">
+    <div style="overflow: auto">
+            <p style="float: right">
+            <a href="{{ .Site.Params.githubDocPrefix }}{{ .File.LogicalName }}">Edit on GitHub</a>
+        </p>
+    </div>
 
-</article>
+    <article >
+        {{ .Content }}
+    </article>
+</div>
 {{ end }}
