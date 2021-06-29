@@ -289,20 +289,20 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/sc
 POST /collections/{collection_name}/points/scroll
 
 {
-  "filter": {
-    "must": [
-      {
-        "key": "color",
-        "match": {
-          "keyword": "red"
-        }
-      }
-    ]
-  },
-  "limit": 1,
-  "offset": 0,
-  "with_payload": true,
-  "with_vector": false
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "keyword": "red"
+                }
+            }
+        ]
+    },
+    "limit": 1,
+    "offset": 0,
+    "with_payload": true,
+    "with_vector": false
 }
 ```
 
@@ -310,19 +310,19 @@ Returns all point with `color` = `red`.
 
 ```json
 {
-  "result": {
-    "next_page_offset": 1,
-    "points": [
-      {
-        "id": 0,
-        "payload": {
-          "color": { "type": "keyword", "value": [ "red" ] },
-        }
-      }
-    ]
-  },
-  "status": "ok",
-  "time": 0.0001
+    "result": {
+        "next_page_offset": 1,
+        "points": [
+            {
+                "id": 0,
+                "payload": {
+                    "color": { "type": "keyword", "value": [ "red" ] }
+                }
+            }
+        ]
+    },
+    "status": "ok",
+    "time": 0.0001
 }
 ```
 
