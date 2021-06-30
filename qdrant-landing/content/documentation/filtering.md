@@ -4,7 +4,7 @@ weight: 27
 ---
 
 Qdrant allows you to set the conditions to be used when searching or retrieving points.
-You can impose conditions both on the [payload](../payload) that corresponds to the [point](../points) and on, for example, the `id` of the point.
+You can impose conditions both on the [payload](../payload) and on, for example, the `id` of the point.
 
 The use of additional conditions is important when, for example, it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
@@ -12,8 +12,8 @@ Examples include a variety of business requirements: stock availability, user lo
 ## Filtering causes
 
 Qdrant allows you to combine conditions in causes.
-Clauses are different logical operations, such as `OR`, `AND` and `NOT`.
-Causes can be recursively nested into each other, so that you can reproduce an arbitrary boolean expressions.
+Clauses are different logical operations, such as `OR`, `AND`, and `NOT`.
+Clauses can be recursively nested into each other so that you can reproduce an arbitrary boolean expression.
 
 Let's take a look at the clauses implemented in Qdrant.
 
@@ -55,8 +55,8 @@ Filtered points would be:
 ```
 
 
-When using `must`, the clause takes a true value only if every condition listed inside `must` is satisfied.
-In this sense `must` is equivalent to the operator `AND`.
+When using `must`, the clause becomes `true` only if every condition listed inside `must` is satisfied.
+In this sense, `must` is equivalent to the operator `AND`.
 
 ### Should
 
@@ -85,8 +85,8 @@ Filtered points would be:
 ]
 ```
 
-When using `should`, the clause takes a true value if at least one condition listed inside `should` is satisfied.
-In this sense `should` is equivalent to the operator `OR`.
+When using `should`, the clause becomes `true` if at least one condition listed inside `should` is satisfied.
+In this sense, `should` is equivalent to the operator `OR`.
 
 
 ### Must Not
@@ -114,8 +114,8 @@ Filtered points would be:
 ]
 ```
 
-When using `must_not`, the clause takes a true value if none if the conditions listed inside `should` is satisfied.
-In this sense `must_not` is equivalent to the expression `(NOT A) AND (NOT B) AND (NOT C)`.
+When using `must_not`, the clause becomes `true` if none if the conditions listed inside `should` is satisfied.
+In this sense, `must_not` is equivalent to the expression `(NOT A) AND (NOT B) AND (NOT C)`.
 
 
 ### Clauses combination
@@ -179,7 +179,7 @@ Filtered points would be:
 
 ## Filtering conditions
 
-Different types of values in payload correspond to different types of queries that can be applied to them.
+Different types of values in payload correspond to different kinds of queries that we can apply to them.
 Let's look at the existing condition variants and what types of data they apply to.
 
 ### Match
@@ -203,9 +203,7 @@ Let's look at the existing condition variants and what types of data they apply 
 ```
 
 
-The simplest kind of condition that checks if the stored value equals to the given one.
-If several values are stored, at least one of them should match the condition.
-Can be applied to payloads of type `keyword` or `integer`.
+The simplest kind of condition is one that checks if the stored value equals the given one. If several values are stored, at least one of them should match the condition. You can apply it to payloads of type `keyword` or `integer`.
 
 ### Range
 
@@ -252,7 +250,7 @@ Can be applied to payloads of type `float` or `integer`.
 ```
 
 
-Matches with `location`, which are inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
+It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 
 ```
@@ -268,7 +266,7 @@ Matches with `location`, which are inside a rectangle with the coordinates of th
 }
 ```
 
-Matches with `location`, which is inside a circle with the `center` at the center and a radius of `radius` meters.
+It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
 
 If several values are stored, at least one of them should match the condition.
 These conditions can only be applied to payloads of the `geo` type.
@@ -277,7 +275,7 @@ These conditions can only be applied to payloads of the `geo` type.
 ### Has id
 
 This type of query is not related to payload, but can be very useful in some situations.
-For example, the user could mark some specific search results as not interesting, or we want to search only among the specified points.
+For example, the user could mark some specific search results as irrelevant, or we want to search only among the specified points.
 
 ```
 {

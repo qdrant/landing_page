@@ -18,7 +18,7 @@ Qdrant supports these most popular types of metrics:
 * Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
 
 In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
-These settings can be changed at any time by a suitable request.
+These settings can be changed at any time by a corresponding request.
 
 ### Create collection
 
@@ -42,7 +42,7 @@ In addition to the required options, you can also specify custom values for the 
 - `wal_config`
 - `optimizers_config`
 
-See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_collections) and [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters. 
+See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_collections) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters. 
 
 
 <!-- 
@@ -74,7 +74,7 @@ POST /collections
 
 ### Update collection parameters
 
-Dynamic parameter updates may be useful, for example, for more efficient initial loading of vectors.
+Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
 With these settings, you can disable indexing during the upload process.  And enable it immediately after the upload is finished.
 As a result, you will not waste extra computation resources on rebuilding the index.
 
@@ -107,7 +107,7 @@ This command enables indexing for segments that have more than 10000 vectors sto
 In a production environment, it is sometimes necessary to switch different versions of vectors seamlessly.
 For example, when upgrading to a new version of the neural network.
 
-In these situations, there is no way to stop the service and rebuild the collection with new vectors.
+There is no way to stop the service and rebuild the collection with new vectors in these situations.
 To avoid this, you can use aliases. 
 Aliases are additional names for existing collections.
 All queries to the collection can also be done identically, using an alias instead of the collection name.

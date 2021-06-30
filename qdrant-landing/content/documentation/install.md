@@ -15,7 +15,7 @@ sudo docker info
 ```
 
 * If you do not see the server listed, start the Docker daemon.
-* On Linux, Docker needs sudo privileges. To run Docker commands without sudo privileges, create a docker group and add your users (see [Post-installation Steps for Linux](https://docs.docker.com/engine/install/linux-postinstall/) for details).
+* On Linux, Docker needs `sudo` privileges. To run Docker commands without `sudo` privileges, create a docker group and add your users (see [Post-installation Steps for Linux](https://docs.docker.com/engine/install/linux-postinstall/) for details).
 
 
 Pull the image:
@@ -31,19 +31,19 @@ docker run -p 6333:6333 \
     generall/qdrant
 ```
 
-With this command you will start a Qdrant instance with the default configuration.
+With this command, you will start a Qdrant instance with the default configuration.
 It will store all data in `./path/to/data` directory.
 
-By default, Qdrant uses port 6333, so at [localhost:6333](http://localhost:6333) you should be able to see the welcome message.
+By default, Qdrant uses port 6333, so at [localhost:6333](http://localhost:6333) you should see the welcome message.
 
 
 ## From source
 
 Qdrant is written in Rust and can be compiled into a binary executable.
-This way of installation can be useful if you want to compile Qdrant for a specific processor architecture, or if you do not want to use Docker for some reason.
+This installation method can be helpful if you want to compile Qdrant for a specific processor architecture or if you do not want to use Docker for some reason.
 
 Before compiling, make sure that the necessary libraries and the [rust toolchain](https://www.rust-lang.org/tools/install) are installed.
-The current list of required libraries can be found in the [Dockerfile](https://github.com/qdrant/qdrant/blob/master/Dockerfile)
+The current list of required libraries can be found in the [Dockerfile](https://github.com/qdrant/qdrant/blob/master/Dockerfile).
 
 Select the minimum set of processor instructions that will be available when using the service.
 The instruction set depends on the hardware at your disposal.
@@ -97,7 +97,7 @@ See the comments in the [configuration file itself](https://github.com/qdrant/qd
 
 ## Python client
 
-In addition to the service itself, Qdrant has a special python client which has some additional features compared to clients generated from OpenAPI directly.
+In addition to the service itself, Qdrant has a distinct python client, which has some additional features compared to clients generated from OpenAPI directly.
 
 To install this client, just run the following command:
 

@@ -6,10 +6,9 @@ weight: 26
 
 ## Similarity search
 
-Searching for nearest vectors is at the core of many representational learning applications.
+Searching for the nearest vectors is at the core of many representational learning applications.
 Modern neural networks are trained to transform objects into vectors so that objects close in the real world appear close in vector space.
-For example texts with the similar meaning, visually similar pictures or songs of the same genre.
-
+It could be, for example, texts with similar meanings, visually similar pictures, or songs of the same genre.
 
 ![Embeddings](/docs/encoders.png)
 
@@ -18,7 +17,7 @@ For example texts with the similar meaning, visually similar pictures or songs o
 
 There are many ways to estimate the similarity of vectors with each other.
 In Qdrant terms, these ways are called metrics.
-The choice of metric depends on the way of vectors obtaining and in particular on the method of neural network encoder training.
+The choice of metric depends on vectors obtaining and, in particular, on the method of neural network encoder training.
 
 Qdrant supports these most popular types of metrics:
 
@@ -35,7 +34,7 @@ The first step is to normalize the vector when adding it to the collection.
 It happens only once for each vector.
 
 The second step is the comparison of vectors.
-In this case it becomes equivalent to dot production - a very fast operation due to SIMD.
+In this case, it becomes equivalent to dot production - a very fast operation due to SIMD.
 
 ## Query planning
 
@@ -47,10 +46,10 @@ The strategy selection process relies heavily on heuristics and can vary from re
 However, the general principles are:
 
 - planning is performed for each segment independently (see [storage](../storage) for more information about segments)
-- prefer a full scan if amount of points is below threshold
-- estimate cardinality of a filtered result before selecting strategy
+- prefer a full scan if the amount of points is below a threshold
+- estimate the cardinality of a filtered result before selecting a strategy
 - retrieve points using payload index (see [indexing](../indexing)) if cardinality is below threshold
-- use filterable vector index if cardinality is above threshold
+- use filterable vector index if the cardinality is above a threshold
 
 
 You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
@@ -82,17 +81,17 @@ POST /collections/{collection_name}/points/search
 }
 ```
 
-In this example we are looking for vectors which are similar to vector `[0.2, 0.1, 0.9, 0.7]`. 
+In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`. 
 Parameter `top` specifies the amount of most similar results we would like to retrieve.
 
-Values under the key `params` specifies custom parameters for the search.
-Currently it could be:
+Values under the key `params` specify custom parameters for the search.
+Currently, it could be:
 
 * `hnsw_ef` - value that specifies `ef` parameter of the HNSW algorithm.
 
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
-See details of possible filters and how they work in [filtering](../filtering) section.
+See details of possible filters and their work in the [filtering](../filtering) section.
 
 Example result of this API would be 
 
@@ -119,12 +118,12 @@ The `result` contains ordered by `score` list of found point ids.
 
 ## Recommendation API
 
-**DISCLAIMER**: Negative vectors is an experimental functionality which is not guaranteed to work with all king of embeddings.
+**DISCLAIMER**: Negative vectors is an experimental functionality that is not guaranteed to work with all king of embeddings.
 
-In addition to the regular search, Qdrant also allows you to perform a search based on multiple, already stored in the collection vectors.
-This API allows to use vector search without the need to use a neural network encoder for already encoded objects.
+In addition to the regular search, Qdrant also allows you to search based on multiple already stored data collection vectors.
+This API allows using vector search without using a neural network encoder for already encoded objects.
 
-The recommendation API allows to specify several positive and negative vector IDs, which will be combined into a certain average vector.
+The recommendation API allows specifying several positive and negative vector IDs, which the service will combine into a certain average vector.
 
 ` average_vector = avg(positive_vectors) + ( avg(positive_vectors) - avg(negative_vectors) )`
 

@@ -3,20 +3,20 @@ title: Points
 weight: 24
 ---
 
-The points are the main entity that Qdrant operates with.
+The points are the central entity that Qdrant operates with.
 A point is a record consisting of a vector and an optional [payload](../payload).
 
-You can search among the points grouped in one [collection](../collections) on the base of vector similarity.
+You can search among the points grouped in one [collection](../collections) based on vector similarity.
 This procedure is described in more detail in the [search](../search) and [filtering](../filtering) sections.
 
 This section explains how to create and manage vectors.
 
 Any point modification operation is asynchronous and takes place in 2 steps.
-At the first stage the operation is written to the Write-ahead-log.
+At the first stage, the operation is written to the Write-ahead-log.
 
-After this moment the service will not lose the data, even if the machine loses power supply.
+After this moment, the service will not lose the data, even if the machine loses power supply.
 
-If the API is called with the `&wait=false` parameter, or if it is not explicitly specified, the client will receive an acknowledgement of receiving data: 
+If the API is called with the `&wait=false` parameter, or if it is not explicitly specified, the client will receive an acknowledgment of receiving data: 
 
 ```json
 {
@@ -29,10 +29,11 @@ If the API is called with the `&wait=false` parameter, or if it is not explicitl
 }
 ```
 
-This does not yet mean that the data is available for retrieval, as it is only added to the collection in the second step.
-Actual addition to the collection happens in the background, and if you are doing initial vector loading, we recommend using asynchronous addition to take advantage of pipelining.
+This response does not yet mean that the data is available for retrieval, as it is only added to the collection in the second step.
+Actual addition to the collection happens in the background, and if you are doing initial vector loading, we recommend using asynchronous requests to take advantage of pipelining.
 
-If the logic of your application requires a guarantee that the vector will be available for searching immediately after the API execution, then use the flag `?wait=true`. In this case the API will return the result only after the operation is finished:
+If the logic of your application requires a guarantee that the vector will be available for searching immediately after the API execution, then use the flag `?wait=true`.
+In this case, the API will return the result only after the operation is finished:
 
 ```json
 {
@@ -48,8 +49,8 @@ If the logic of your application requires a guarantee that the vector will be av
 
 ## Upload points
 
-To optimize performance, Qdrant supports batch loading of points. I.e. you can load several points into the service in one API call.
-This allows you to minimize the overhead of creating a network connection.
+To optimize performance, Qdrant supports batch loading of points. I.e., you can load several points into the service in one API call.
+Batching allows you to minimize the overhead of creating a network connection.
 
 The Qdrant API supports two ways of creating batches - record-oriented and column-oriented.
 Internally, these options do not differ and are made only for the convenience of interaction.
@@ -117,21 +118,20 @@ These include parallel loading, and also loading directly from a numpy file.
 -->
 
 All APIs in Qdrant, including point loading, are idempotent.
-This means that executing the same method several times in a row is equivalent to a single execution.
+It means that executing the same method several times in a row is equivalent to a single execution.
 
-In this case it means that points with the same id will be overwritten when re-uploaded.
-Idempotence property is useful if you use, for example, a message queue that doesn't provide exactly-ones guarantee.
+In this case, it means that points with the same id will be overwritten when re-uploaded.
+
+Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
 Even with such a system, Qdrant ensures data consistency.
-
-
 
 
 ## Modify points
 
-You can modify a point in two ways. The first is to modify vector.
-Currently you would need to re-upload point in order to modify vector.
+You can modify a point in two ways. The first is to modify the vector.
+Currently, you would need to re-upload the point to modify the vector.
 
-The second is not modify payload, for which there are several methods.
+The second is to modify the payload, for which there are several methods.
 
 #### Set payload
 

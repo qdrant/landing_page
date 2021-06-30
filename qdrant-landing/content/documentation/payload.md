@@ -3,13 +3,11 @@ title: Payload
 weight: 25
 ---
 
-One of the key features of Qdrant is the ability to store additional values along with vectors.
+One of the significant features of Qdrant is the ability to store additional values along with vectors.
 These values are called `payload` in Qdrant terminology.
+A payload is a set of key-value data. Each key can have several values of the same type.
 
-Payload is a set of key-value data. Each key can have several values of the same type.
-
-Here is an example of a typical payload represented in json:
-
+Here is an example of a typical payload represented in JSON:
 ```json
 {
     "colors": ["red", "blue"],
@@ -23,7 +21,7 @@ Here is an example of a typical payload represented in json:
 }
 ```
 
-Qdrant will try to automatically recognize the value type for each key, but you can also specify it explicitly:
+Qdrant will try to recognize the value type for each key automatically, but you can also specify it explicitly:
 
 ```json
 {
@@ -62,8 +60,9 @@ This schema is available at the [collection info API](https://qdrant.github.io/q
 
 ## Payload filtered search
 
-Qdrant not only stores payload along with vectors, but also allows you to search based on its values.
-This feature is implemented as additional filters during the search and allows you to incorporate custom logic on top of semantic similarity.
+Qdrant stores payload along with vectors and allows you to search based on its values. 
+This feature is implemented as additional filters during the search and will enable you to incorporate custom logic on top of semantic similarity.
+
 
 The filtering process is discussed in detail in the section [Filtering](../filtering).
 
@@ -191,15 +190,15 @@ With Python client
 
 ## Payload indexing
 
-In order to search more efficiently with filters, Qdrant allows you to specify payload fields as indexed.
+To search more efficiently with filters, Qdrant allows you to specify payload fields as indexed.
 For marked fields will Qdrant will build an index for the corresponding types of queries.
 
-The indexed fields also affect the vector index, see [Indexing](../indexing) for details.
+The indexed fields also affect the vector index. See [Indexing](../indexing) for details.
 
 In practice, we recommend creating an index on those fields that could potentially constrain the results the most.
-For example, building an index for the object ID (if it is actually used in the filter) will be much more efficient than an index by its color, which has only a few possible values.
+For example, building an index for the object ID (if it is used in the filter) will be much more efficient than an index by its color, which has only a few possible values.
 
-In the case of compound queries involving multiple fields, Qdrant will attempt to use the most restrictive index first.
+In compound queries involving multiple fields, Qdrant will attempt to use the most restrictive index first.
 
 To mark a field as indexable, you can use the following:
 
