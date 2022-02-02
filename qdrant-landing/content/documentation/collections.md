@@ -25,14 +25,12 @@ These settings can be changed at any time by a corresponding request.
 With REST API
 
 ```
-POST /collections
+PUT /collections/example_collection
 
 {
-    "create_collection": {
-        "name": "example_collection",
-        "distance": "Cosine",
-        "vector_size": 300
-    }
+    "name": "example_collection",
+    "distance": "Cosine",
+    "vector_size": 300
 }
 ```
 
@@ -42,7 +40,7 @@ In addition to the required options, you can also specify custom values for the 
 - `wal_config`
 - `optimizers_config`
 
-See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_collections) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters. 
+See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters. 
 
 
 <!-- 
@@ -57,11 +55,7 @@ See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operat
 With REST API
 
 ```
-POST /collections
-
-{
-    "delete_collection": "example_collection"
-}
+DELETE /collections/example_collection
 ```
 
 <!-- 
@@ -79,15 +73,12 @@ With these settings, you can disable indexing during the upload process.  And en
 As a result, you will not waste extra computation resources on rebuilding the index.
 
 ```
-POST /collections
+PATCH /collections/example_collection
 
 {
-    "update_collection": {
-        "name": "example_collection",
-        "optimizers_config": {
-            "indexing_threshold": 10000
-        }
-    } 
+    "optimizers_config": {
+        "indexing_threshold": 10000
+    }
 }
 ```
 
@@ -118,19 +109,17 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 ### Crate alias
 
 ```
-POST /collections
+POST /collections/aliases
 
 {
-    "change_aliases": {
-        "actions": [
-            {
-                "create_alias": {
-                    "alias_name": "production_collection",
-                    "collection_name": "example_collection"
-                }
+    "actions": [
+        {
+            "create_alias": {
+                "alias_name": "production_collection",
+                "collection_name": "example_collection"
             }
-        ]
-    }
+        }
+    ]
 }
 ```
 
@@ -145,18 +134,16 @@ POST /collections
 ### Remove alias
 
 ```
-POST /collections
+POST /collections/aliases
 
 {
-    "change_aliases": {
-        "actions": [
-            {
-                "delete_alias": {
-                    "alias_name": "production_collection"
-                }
+    "actions": [
+        {
+            "delete_alias": {
+                "alias_name": "production_collection"
             }
-        ]
-    }
+        }
+    ]
 }
 ```
 
@@ -174,23 +161,21 @@ For example, you can switch underlying collection with the following command:
 
 
 ```
-POST /collections
+POST /collections/aliases
 
 {
-    "change_aliases": {
-        "actions": [
-            {
-                "delete_alias": {
-                    "alias_name": "production_collection"
-                }
-            },
-            {
-                "create_alias": {
-                    "alias_name": "production_collection",
-                    "collection_name": "new_collection"
-                }
+    "actions": [
+        {
+            "delete_alias": {
+                "alias_name": "production_collection"
             }
-        ]
-    }
+        },
+        {
+            "create_alias": {
+                "alias_name": "production_collection",
+                "collection_name": "new_collection"
+            }
+        }
+    ]
 }
 ```

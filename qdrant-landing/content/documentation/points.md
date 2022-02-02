@@ -46,6 +46,68 @@ In this case, the API will return the result only after the operation is finishe
 }
 ```
 
+## Point IDs
+
+Qdrant supports using both `64-bit unsigned integers` and `UUID` as identifiers for points.
+
+Examples of UUID string representations:
+
+* simple: `936DA01F9ABD4d9d80C702AF85C822A8`
+* hyphenated: `550e8400-e29b-41d4-a716-446655440000`
+* urn: `urn:uuid:F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4`
+
+That means that in every request UUID string could be used instead of numerical id.
+Example:
+
+```
+PUT /collections/{collection_name}/points
+
+{
+    "points": [
+        {
+            "id": "5c56c793-69f3-4fbf-87e6-c4bf54c28c26",
+            "payload": {"color": "red"},
+            "vector": [0.9, 0.1, 0.1]
+        }
+    ]
+}
+```
+
+<!-- 
+
+Python client:
+
+```python
+``` 
+
+-->
+
+and
+
+```
+PUT /collections/{collection_name}/points
+
+{
+    "points": [
+        {
+            "id": 1,
+            "payload": {"color": "red"},
+            "vector": [0.9, 0.1, 0.1]
+        }
+    ]
+}
+```
+
+<!-- 
+
+Python client:
+
+```python
+``` 
+
+-->
+
+both are possible.
 
 ## Upload points
 
@@ -58,23 +120,21 @@ Internally, these options do not differ and are made only for the convenience of
 Create points with REST API :
 
 ```
-POST /collections/{collection_name}
+PUT /collections/{collection_name}/points
 
 {
-    "upsert_points": {
-        "batch": {
-            "ids": [1, 2, 3],
-            "payloads": [
-                {"color": "red"},
-                {"color": "green"},
-                {"color": "blue"}
-            ],
-            "vectors": [
-                [0.9, 0.1, 0.1],
-                [0.1, 0.9, 0.1],
-                [0.1, 0.1, 0.9],
-            ]
-        }
+    "batch": {
+        "ids": [1, 2, 3],
+        "payloads": [
+            {"color": "red"},
+            {"color": "green"},
+            {"color": "blue"}
+        ],
+        "vectors": [
+            [0.9, 0.1, 0.1],
+            [0.1, 0.9, 0.1],
+            [0.1, 0.1, 0.9],
+        ]
     }
 }
 ```
@@ -82,28 +142,26 @@ POST /collections/{collection_name}
 or record-oriented equivalent:
 
 ```
-POST /collections/{collection_name}
+PUT /collections/{collection_name}/points
 
 {
-    "upsert_points": {
-        "points": [
-            {
-                "id": 1,
-                "payload": {"color": "red"},
-                "vector": [0.9, 0.1, 0.1]
-            },
-            {
-                "id": 2,
-                "payload": {"color": "green"},
-                "vector": [0.1, 0.9, 0.1]
-            },
-            {
-                "id": 3,
-                "payload": {"color": "blue"},
-                "vector": [0.1, 0.1, 0.9]
-            },
-        ] 
-    }
+    "points": [
+        {
+            "id": 1,
+            "payload": {"color": "red"},
+            "vector": [0.9, 0.1, 0.1]
+        },
+        {
+            "id": 2,
+            "payload": {"color": "green"},
+            "vector": [0.1, 0.9, 0.1]
+        },
+        {
+            "id": 3,
+            "payload": {"color": "blue"},
+            "vector": [0.1, 0.1, 0.9]
+        },
+    ]
 }
 ```
 
@@ -135,21 +193,19 @@ The second is to modify the payload, for which there are several methods.
 
 #### Set payload
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
 ```
-POST /collections/{collection_name}
+POST /collections/{collection_name}/points/payload
 
 {
-    "set_payload": {
-        "payload": {
-            "property1": "string",
-            "property2": "string"
-        },
-        "points": [
-            0, 3, 100
-        ]
-    }
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "points": [
+        0, 3, 100
+    ]
 }
 ```
 
@@ -164,16 +220,14 @@ Python client:
 
 #### Delete payload keys
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
 
 ```
-POST /collections/{collection_name}
+POST /collections/{collection_name}/points/payload/delete
 
 {
-    "delete_payload": {
-        "keys": ["color", "price"],
-        "points": [0, 3, 100]
-    }
+    "keys": ["color", "price"],
+    "points": [0, 3, 100]
 }
 ```
 
@@ -190,15 +244,13 @@ Python client:
 
 This method removes all payload keys from specified points
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/clear_payload)):
 
 ```
-POST /collections/{collection_name}
+POST /collections/{collection_name}/points/payload/clear
 
 {
-    "clear_payload": {
-        "points": [0, 3, 100]
-    }
+    "points": [0, 3, 100]
 }
 ```
 
@@ -214,15 +266,13 @@ POST /collections/{collection_name}
 ## Delete points
 
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_points)):
 
 ```
-POST /collections/{collection_name}
+POST /collections/{collection_name}/points/delete
 
 {
-    "delete_points": {
-        "ids": [0, 3, 100]
-    }
+    "points": [0, 3, 100]
 }
 ```
 
@@ -234,6 +284,28 @@ POST /collections/{collection_name}
 ```
 
  -->
+
+Alternative way to specify which points to remove is to use filter.
+
+```
+POST /collections/{collection_name}/points/delete
+
+{
+    "filter": {
+        "must": [
+            {
+                "key": "color"
+                "match": {
+                    "keyword": "red"
+                }
+            }
+        ]
+    }
+}
+```
+
+This example removes all points with `{ "color": "red" }` from the collection.
+
 
 ## Retrieve points
 
@@ -258,7 +330,7 @@ POST /collections/{collection_name}/points
 ```
  -->
 
-This method has additional parameters `?with_vector` and `?with_payload`. 
+This method has additional parameters `with_vector` and `with_payload`. 
 Using these parameters, you can select parts of the point you want as a result.
 Excluding helps you not to waste traffic transmitting useless data.
 
@@ -300,7 +372,6 @@ POST /collections/{collection_name}/points/scroll
         ]
     },
     "limit": 1,
-    "offset": 0,
     "with_payload": true,
     "with_vector": false
 }

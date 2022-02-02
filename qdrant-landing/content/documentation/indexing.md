@@ -25,10 +25,10 @@ To mark a field as indexable, you can use the following:
 REST API
 
 ```
-POST /collections/{collection_name}
+PUT /collections/{collection_name}/index
 
 {
-    "create_index": "name_of_the_field_to_index"
+    "field_name": "name_of_the_field_to_index"
 }
 ```
 

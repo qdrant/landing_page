@@ -72,28 +72,26 @@ The filtering process is discussed in detail in the section [Filtering](../filte
 With REST API
 
 ```
-POST /collections/{collection_name}
+PUT http://localhost:6333/collections/{collection_name}/points
 
 {
-    "upsert_points": {
-        "points": [
-            {
-                "id": 1,
-                "vector": [0.05, 0.61, 0.76, 0.74],
-                "payload": {"city": "Berlin", price: 1.99}
-            },
-            {
-                "id": 2,
-                "vector": [0.19, 0.81, 0.75, 0.11],
-                "payload": {"city": ["Berlin", "London"], price: 1.99}
-            },
-            {
-                "id": 3,
-                "vector": [0.36, 0.55, 0.47, 0.94],
-                "payload": {"city": ["Berlin", "Moscow"], price: [1.99, 2.99]}
-            }
-        ]
-    }
+    "points": [
+        {
+            "id": 1,
+            "vector": [0.05, 0.61, 0.76, 0.74],
+            "payload": {"city": "Berlin", price: 1.99}
+        },
+        {
+            "id": 2,
+            "vector": [0.19, 0.81, 0.75, 0.11],
+            "payload": {"city": ["Berlin", "London"], price: 1.99}
+        },
+        {
+            "id": 3,
+            "vector": [0.36, 0.55, 0.47, 0.94],
+            "payload": {"city": ["Berlin", "Moscow"], price: [1.99, 2.99]}
+        }
+    ]
 }
 ```
 
@@ -110,21 +108,19 @@ POST /collections/{collection_name}
 
 ### Set payload
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
 ```
-POST /collections/{collection_name}
+POST /collections/{collection_name}/points/payload
 
 {
-    "set_payload": {
-        "payload": {
-            "property1": "string",
-            "property2": "string"
-        },
-        "points": [
-            0, 3, 100
-        ]
-    }
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "points": [
+        0, 3, 100
+    ]
 }
 ```
 
@@ -142,16 +138,14 @@ Python client:
 This method removes specified payload keys from specified points
 
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
 
 ```
-POST /collections/{collection_name}
+POST /collections/{collection_name}/points/payload/delete
 
 {
-    "delete_payload": {
-        "keys": ["color", "price"],
-        "points": [0, 3, 100]
-    }
+    "keys": ["color", "price"],
+    "points": [0, 3, 100]
 }
 ```
 
@@ -168,15 +162,13 @@ Python client:
 
 This method removes all payload keys from specified points
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/clear_payload)):
 
 ```
-POST /collections/{collection_name}
+POST /collections/{collection_name}/points/payload/clear
 
 {
-    "clear_payload": {
-        "points": [0, 3, 100]
-    }
+    "points": [0, 3, 100]
 }
 ```
 
@@ -205,10 +197,10 @@ To mark a field as indexable, you can use the following:
 REST API
 
 ```
-POST /collections/{collection_name}
+PUT /collections/{collection_name}/index
 
 {
-    "create_index": "name_of_the_field_to_index"
+    "field_name": "name_of_the_field_to_index"
 }
 ```
 
