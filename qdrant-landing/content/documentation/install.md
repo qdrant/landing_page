@@ -48,6 +48,14 @@ The current list of required libraries can be found in the [Dockerfile](https://
 Select the minimum set of processor instructions that will be available when using the service.
 The instruction set depends on the hardware at your disposal.
 
+You can enable runtime selection of the architecture at the cost of a slightly bigger binary file size: 
+
+```bash
+export OPENBLAS_DYNAMIC_ARCH=1
+```
+
+Or select specific architecture:
+
 ```bash
 export OPENBLAS_TARGET=CORE2
 ```

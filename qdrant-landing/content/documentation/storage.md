@@ -43,6 +43,6 @@ In the first step, the data is written to the Write-ahead-log(WAL), which orders
 
 Once a change has been added to the WAL, it will not be lost even if power loss occurs.
 Then the changes go into the segments.
-Each segment stores the last version of the change applied to it. 
-If the new change has a sequential number less than the current version of the segment, the segment will ignore the change.
+Each segment stores the last version of the change applied to it as well as version of each individual point. 
+If the new change has a sequential number less than the current version of the point, the updater will ignore the change.
 This mechanism allows Qdrant to safely and efficiently restore the storage from the WAL in case of an abnormal shutdown.
