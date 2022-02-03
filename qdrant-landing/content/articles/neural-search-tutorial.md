@@ -114,10 +114,10 @@ So make sure you have Docker installed on your system.
 
 To start Qdrant, use the instructions on its [homepage](https://github.com/qdrant/qdrant).
 
-Download image from [DockerHub](https://hub.docker.com/r/generall/qdrant):
+Download image from [DockerHub](https://hub.docker.com/r/qdrant/qdrant):
 
 ```
-docker pull generall/qdrant
+docker pull qdrant/qdrant
 ```
 
 And run the service inside the docker:
@@ -125,7 +125,7 @@ And run the service inside the docker:
 ```
 docker run -p 6333:6333 \
     -v $(pwd)/qdrant_storage:/qdrant/storage \
-    generall/qdrant
+    qdrant/qdrant
 ```
 You should see output like this
 

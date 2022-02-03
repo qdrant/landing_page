@@ -6,7 +6,7 @@ weight: 11
 ## With Docker
 
 The easiest way to start using Qdrant is to run it from a ready-made Docker image.
-The latest versions are always available on [DockerHub](https://hub.docker.com/r/generall/qdrant/tags?page=1&ordering=last_updated) and [GitHub Packages](https://github.com/qdrant/qdrant/packages/713873/versions).
+The latest versions are always available on [DockerHub](https://hub.docker.com/r/qdrant/qdrant/tags?page=1&ordering=last_updated) and [GitHub Packages](https://github.com/qdrant/qdrant/packages/713873/versions).
 
 Make sure that Docker daemon is installed and running:
 
@@ -20,7 +20,7 @@ sudo docker info
 
 Pull the image:
 ```bash
-docker pull generall/qdrant
+docker pull qdrant/qdrant
 ```
 
 Run the container:
@@ -28,7 +28,7 @@ Run the container:
 ```bash
 docker run -p 6333:6333 \
     -v $(pwd)/path/to/data:/qdrant/storage \
-    generall/qdrant
+    qdrant/qdrant
 ```
 
 With this command, you will start a Qdrant instance with the default configuration.
@@ -88,7 +88,7 @@ If you are using Docker, then running the service with a custom configuration wi
 docker run -p 6333:6333 \
     -v $(pwd)/path/to/data:/qdrant/storage \
     -v $(pwd)/path/to/custom_config.yaml:/qdrant/config/production.yaml \
-    generall/qdrant
+    qdrant/qdrant
 ```
 
 Where `./path/to/custom_config.yaml` is your custom configuration file with values to override.

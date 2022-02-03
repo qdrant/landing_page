@@ -7,10 +7,10 @@ weight: 10
 
 The easiest way to use Qdrant is to run a pre-built image. To do this, make sure Docker is installed on your system.
 
-Download image from [DockerHub](https://hub.docker.com/r/generall/qdrant):
+Download image from [DockerHub](https://hub.docker.com/r/qdrant/qdrant):
 
 ```bash
-docker pull generall/qdrant
+docker pull qdrant/qdrant
 ```
 
 And run the service inside the docker:
@@ -18,7 +18,7 @@ And run the service inside the docker:
 ```bash
 docker run -p 6333:6333 \
     -v $(pwd)/qdrant_storage:/qdrant/storage \
-    generall/qdrant
+    qdrant/qdrant
 ```
 
 In this case Qdrant will use default configuration and store all data under `./qdrant_storage` directory.
