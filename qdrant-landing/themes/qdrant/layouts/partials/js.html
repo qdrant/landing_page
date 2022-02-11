@@ -1,8 +1,8 @@
 <!-- highlight.js -->
 {{ if .Site.Params.highlight }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
     {{ range .Site.Params.highlightLanguages }}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.1/languages/{{ . }}.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/{{ . }}.min.js"></script>
     {{ end }}
     <script>hljs.highlightAll();</script>
 {{ end }}
@@ -27,6 +27,7 @@
 <!-- <script src="{{ "js/element-in-view.js" | absURL }}"></script> -->
 <script src="{{ "js/script.js" | absURL }}"></script>
 <script src="{{ "js/clipboard.min.js" | absURL }}"></script>
+<script src="{{ "js/anchor.min.js" | absURL }}"></script>
 <script>
   var clipboard = new ClipboardJS('.copy-btn');
   $('.alert').hide();
@@ -57,5 +58,9 @@
       messageColor: '#fff',
       linkColor: '#fad04c',
       buttonColor: '#fad04c'
-    });  });
+    });  
+  });
+  
+  anchors.options.placement = 'left';
+  anchors.add("article > :is(h1, h2, h3, h4, h5, h6)");
 </script>

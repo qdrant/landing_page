@@ -20,7 +20,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     font = "Anonymous Pro"
     highlight = true
-    highlightStyle = "monokailight"
+    highlightStyle = "default"
     highlightLanguages = ["python", "rust", "json", "bash"]
     yandexWebmaster = ""
 

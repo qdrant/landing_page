@@ -6,7 +6,7 @@ QDRANT - RELATED
 
 */
 
-@import url('colors.css');
+@import url("colors.css");
 
 .copy-btn {
   cursor: pointer;
@@ -14,37 +14,42 @@ QDRANT - RELATED
   background: transparent;
 }
 
+code {
+  color: #6e0c21;
+}
+
 .code {
   display: inline-block;
   padding: 1rem 1.6rem;
   margin-bottom: 1rem;
-  background:#f6f8fa;
+  background: #f6f8fa;
   background: var(--brand-secondary);
   border-radius: 5px;
-  font-family: 'Anonymous Pro', monospace;
+  font-family: "Anonymous Pro", monospace;
   font-size: 1.6rem;
 }
-.code>code {
+
+.code > code {
   color: white;
 }
 
-.features-section .feature-block .text li{
+.features-section .feature-block .text li {
   display: block;
   position: relative;
   text-align: left;
   padding-left: 25px;
 }
-.features-section .feature-block .text li:before{
-  position:absolute;
-  content:'\f107';
-  left:0;
-  top:0;
-  width:24px;
-  height:24px;
-  color:var(--brand-primary);
-  font-size:12px;
-  line-height:24px;
-  text-align:center;
+.features-section .feature-block .text li:before {
+  position: absolute;
+  content: "\f107";
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--brand-primary);
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
   font-family: "Flaticon";
 }
 
@@ -62,8 +67,8 @@ QDRANT - RELATED
 }
 
 .installation-section p {
-    font-size: 16px;
-    color: #5a5a5a;
+  font-size: 16px;
+  color: #5a5a5a;
 }
 
 /* .os-link {
@@ -86,14 +91,3 @@ QDRANT - RELATED
   font-size: 40px;
 }
 
-article img {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
-
-article ul li {
-  list-style: circle;
-  padding: 0;
-  margin: 1em 1em 1em 2em;
-}
