@@ -201,7 +201,7 @@
         <!--Sponsors Carousel-->
         <ul class="row clearfix">
           {{ range $i, $e := first 3 .Pages }}
-          <li class="col d-flex align-self-center m-3">
+          <li class="col d-flex align-self-center justify-content-center m-3">
             <figure class="image-box"><a href="{{ .Params.origin_url }}"><img src="{{ .Params.image }}" alt=""></a></figure>
           </li>
           {{ end }}
