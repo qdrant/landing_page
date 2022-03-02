@@ -9,7 +9,7 @@ weight: 20
 ---
 
 
-## How to use metric learning effectively to train an anomaly detection model and why it is important
+## Effective use of metric learning for anomaly detection
 
 
 Anomaly detection is a thirsting yet challenging task that has numerous use cases across various industries.
@@ -29,28 +29,23 @@ In this post, I will detail the lessons learned from such a use case.
 Coffee beans may be in undesirable states due to environmental conditions.
 They may fully or partly become bug-infested, get wet, go black, be broken or chipped,
 include stones, or contact various foreign matters, among others.
-And the task is to detect the state of coffee beans in captured images as good vs. anomaly, e.g., one of the conditions listed above.
-The dataset is composed of ~40k images labeled with one of the 29 classes, including "good" and various anomalies,
-and it is split into train and validation subsets with percentages of 80 and 20, respectively.
-One characteristic of anomaly detection is highly unbalanced data, which is also present in the current task.
-The training subset includes almost  ~10k images labeled as "good,"
-while some classes have as few as ~10 samples.
+I should note that anomalies are very diverse, so the enumeration of all possible anomalies is a challenging task on it's own.
+The task is to detect the state of coffee beans in captured images as good vs. anomaly, e.g., one of the conditions listed above.
 
-The first attempt was to finetune a pretrained Resnet50 model just like a regular classification model, and the F1 score was around ~0.86.
-Considering the limitations of this approach, we decided to use it as a baseline and wanted to see what we can achieve with a metric learning approach.
 
-## Metric learning approach to anomaly detection
-In this approach, we aimed to encode images in an n-dimensional vector space and then apply KNN classification to label images during the inference.
-KNN classification is the task to retrieve K-nearest neighbors to a given query vector and assign it a label based on the majority vote of their labels.
+## Metric learning approach
+In this approach, we aimed to encode images in an n-dimensional vector space and then use learned similarities to label images during the inference.
+The simplest way to do this is KNN classification.
+The algorithm retrieves K-nearest neighbors to a given query vector and assigns a label based on the majority vote.
 This idea has the following advantages:
 1. We can benefit from unlabeled data, considering labeling is time-consuming and expensive.
 2. The relevant metric, e.g., precision or recall, can be tuned according to changing requirements during the inference without re-training.
 3. Queries labeled with a high score can be added to the KNN classifier on the fly as new data points.
 
-The third point also means that its performance can be improved over time without re-training.
+It is easy to achieve the third point with Qdrant in production, and it can be converted to a fully-fledged machine learning application.
 
 ### Step 1 - Autoencoder for unlabeled data
-First, we finetuned a pretrained Resnet18 model in a vanilla autoencoder architecture by leaving the labels aside.
+First, we pretrained a Resnet18-like model in a vanilla autoencoder architecture by leaving the labels aside.
 Autoencoder is a model architecture composed of an encoder and a decoder, with the latter trying to recreate the original input from the low-dimensional bottleneck output of the former.
 There is no intuitive evaluation metric to indicate the performance in this setup, but we can evaluate the success by examining the recreated samples visually.
 
@@ -59,10 +54,9 @@ There is no intuitive evaluation metric to indicate the performance in this setu
 Then we encoded a subset of the data into 128-dimensional vectors by using the encoder,
 and created a KNN classifier on top of these embeddings and associated labels.
 ![Metrics for the autoencoder model with KNN classifier](/articles_data/detecting-coffee-anomalies/ae_report_knn.png)
-Although the results are promising, it is well below the supervised classification method,
-so we decided to finetune it with a metric learning approach.
+Although the results are promising, we can do even better by finetuning with metric learning.
 
-### Step 3 - Finetuning with metric learning for higher F1 score
+### Step 2 - Finetuning with metric learning for higher F1 score
 We started by selecting 200 labeled samples randomly without replacement.
 In this step, The model was composed of the encoder part of the autoencoder with a randomly initialized projection layer stacked on top of it.
 We applied transfer learning from the frozen encoder and trained only the projection layer with Triplet Loss and an online batch-all triplet mining strategy.
@@ -74,8 +68,15 @@ This time it converged smoothly, and our evaluation metrics also improved consid
 We repeated this experiment with 500 and 2000 samples, but it didn't show a better improvement than a slight change.
 Thus we decided to stick to 200 samples --see below for why.
 
+## Supervised classification approach
+We also wanted to compare our results with the metrics of a traditional supervised classification model.
+For this purpose, a Resnet50 model was finetuned with ~30k labeled images, made available for training.
+Surprisingly, the F1 score was around ~0.86.
+Please note that we used only 200 labeled samples in the metric learning approach instead of ~30k in the supervised classification approach.
+These numbers indicate a huge saving with no considerable compromise in the performance.
+
 ## Conclusion
-We obtained results comparable to those of the supervised classification method by using only 0.66% of the labeled data with metric learning and finetuning.
+We obtained results comparable to those of the supervised classification method by using only 0.66% of the labeled data with metric learning.
 This approach is time-saving and resource-efficient, and that may be improved further. Possible next steps might be:
 - Collect more unlabeled data and pretrain a larger autoencoder.
 - Obtain high-quality labels for a small number of images instead of tens of thousands for finetuning.
