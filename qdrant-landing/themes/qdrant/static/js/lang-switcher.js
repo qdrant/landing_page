@@ -1,5 +1,10 @@
 (function () {
-
+  /**
+   * @class LangSwitcher
+   * create tabs with buttons to switching
+   * between languages variants,
+   * works with highlights.js
+   */
   class LangSwitcher {
     constructor(tabs, index) {
       this.tabs = tabs || [];
@@ -11,31 +16,30 @@
      * creates tabs with languages names in the interface
      */
     initLangButtons() {
-      // create an element
+      // create a wrapper element
       this.langButtons = document.createElement('section');
-      this.langButtons.classList.add('lang-tabs')
-      // for each tab
+      this.langButtons.classList.add('lang-tabs');
+      // adds a button for each tab
       this.tabs.forEach((tab, i) => {
-        // - getLang
         const lang = this.getLang(tab);
-        let lTab = document.createElement('span');
-        lTab.classList.add('lang-tabs__button');
-        (i == 0) && lTab.classList.add('active');
-        lTab.dataset.lang = lang;
-        lTab.innerText = lang;
-        // - append new el into element
-        this.langButtons.append(lTab);
+        let button = document.createElement('span');
+        button.classList.add('lang-tabs__button');
+        (i == 0) && button.classList.add('active');
+        button.dataset.lang = lang;
+        button.innerText = lang;
+        // append new button into wrapper element
+        this.langButtons.append(button);
       });
       this.tabs[0].before(this.langButtons);
     }
 
-    changeLanguage(lang) {
-      const activeHlt = this.tabs.find(t => {
+    switchLanguage(lang) {
+      const activeTab = this.tabs.find(t => {
         return t.querySelectorAll(`code.language-${lang}`).length > 0
       })
 
       this.tabs.forEach(t => t.style.display = 'none');
-      activeHlt.style.display = 'block';
+      activeTab.style.display = 'block';
       this.#setActiveButton(lang);
     }
 
@@ -52,18 +56,21 @@
       return this.langButtons;
     }
 
+    // should be used together with changing of the active tab visibility
     #setActiveButton(lang) {
       this.langButtons.querySelector('.active').classList.remove('active');
       this.langButtons.querySelector(`[data-lang=${lang}]`).classList.add('active');
     }
   }
 
-  const allHighlights = document.getElementsByClassName('highlight')
-  let highlightsGroups = [];
+  const allTabs = document.getElementsByClassName('highlight')
+  let tabsGroups = [];
   let groupArr = [];
-  /*
-  1. go through all highlights */
-  for (let hl of allHighlights) {
+
+  /**
+   * go through all tabs (elements with class .highlight)
+   */
+  for (let hl of allTabs) {
     let isFirstInGroup = !hl.previousElementSibling.classList.contains('highlight');
     let isLastInGroup = !hl.nextElementSibling.classList.contains('highlight');
 
@@ -73,22 +80,22 @@
 
     if (isLastInGroup) {
       if (groupArr.length > 0) {
-        highlightsGroups.push(groupArr);
+        tabsGroups.push(groupArr);
       }
     }
 
     groupArr.push(hl);
   }
 
-  /*
-  2. init switcher for each new arr
+  /**
+   * init switcher for each group of tabs
    */
-  highlightsGroups.forEach((g, i) => {
+  tabsGroups.forEach((g, i) => {
     const langSwitcher = new LangSwitcher(g);
     langSwitcher.initLangButtons();
 
     langSwitcher.getLangButtons().addEventListener("click", (e) => {
-      langSwitcher.changeLanguage(e.target.dataset.lang);
+      langSwitcher.switchLanguage(e.target.dataset.lang);
     })
   })
 }).call(this);
