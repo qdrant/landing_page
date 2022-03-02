@@ -49,6 +49,8 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     docVersion = "v0.5.x"
 
+    googleTagManager = "GTM-KRLCXD5"
+
 
 [menu]
 
