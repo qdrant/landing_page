@@ -1,0 +1,19 @@
+.highlight + .highlight {
+    display: none;
+}
+.lang-tabs {
+    display: block;
+}
+.lang-tabs__button {
+    padding: 2px 4px 5px;
+    background: #dcdcdc;
+    color: inherit;
+    cursor: pointer;
+}
+.lang-tabs__button.active {
+    background: #8d8d8d;
+    color: #fff;
+}
+.lang-tabs__button:not(:last-of-type) {
+    border-right: 1px solid #fff;
+}
