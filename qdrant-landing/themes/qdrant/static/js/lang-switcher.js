@@ -71,20 +71,14 @@
    * go through all tabs (elements with class .highlight)
    */
   for (let hl of allTabs) {
-    let isFirstInGroup = !hl.previousElementSibling.classList.contains('highlight');
-    let isLastInGroup = !hl.nextElementSibling.classList.contains('highlight');
+    groupArr.push(hl);
 
-    if (isFirstInGroup) {
+    let isLastInGroup = !hl.nextElementSibling?.classList?.contains('highlight');
+
+    if(isLastInGroup) {
+      tabsGroups.push(groupArr);
       groupArr = [];
     }
-
-    if (isLastInGroup) {
-      if (groupArr.length > 0) {
-        tabsGroups.push(groupArr);
-      }
-    }
-
-    groupArr.push(hl);
   }
 
   /**
