@@ -21,7 +21,7 @@ In addition to metrics and vector size, each collection uses its own set of para
 These settings can be changed at any time by a corresponding request.
 
 ### Create collection
-
+lkdsfksdlk
 With REST API
 
 ```
