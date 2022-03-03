@@ -3,6 +3,7 @@
 }
 .lang-tabs {
     display: block;
+    min-height: 27px;
 }
 .lang-tabs__button {
     padding: 2px 4px 5px;
