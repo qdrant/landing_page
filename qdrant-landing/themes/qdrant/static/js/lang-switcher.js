@@ -89,7 +89,7 @@
     langSwitcher.initLangButtons();
 
     langSwitcher.getLangButtons().addEventListener("click", (e) => {
-      langSwitcher.switchLanguage(e.target.dataset.lang);
+      e.target?.dataset?.lang && langSwitcher.switchLanguage(e.target.dataset.lang);
     })
   })
 }).call(this);
