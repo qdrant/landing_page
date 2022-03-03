@@ -17,7 +17,7 @@
      */
     initLangButtons() {
       // create a wrapper element
-      this.langButtons = document.createElement('section');
+      this.langButtons = document.createElement('div');
       this.langButtons.classList.add('lang-tabs');
       // adds a button for each tab
       this.tabs.forEach((tab, i) => {
