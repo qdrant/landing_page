@@ -21,10 +21,8 @@
 <script src="{{ "js/anchor.min.js" | absURL }}"></script>
 <script>
   var clipboard = new ClipboardJS('.copy-btn');
-  $('.alert').hide();
 
   clipboard.on('success', function(e) {
-    // $('.alert').alert().show().addClass('show');
     $('#copy-popover').popover('show')
     const to = setTimeout(() => {
       $('#copy-popover').popover('hide')
@@ -39,7 +37,7 @@
     console.error('Trigger:', e.trigger);
   });
 
-  $(function(){
+  $(function () {
     $.cookit({
       messageText: "{{ .Site.Params.gdpr }}",
       linkText: "Learn more",
@@ -66,3 +64,4 @@
 
 {{ end }}
 <script src="{{ "js/lang-switcher.js" | absURL }}"></script>
+<script src="{{ "js/copy-code.js" | absURL }}"></script>
