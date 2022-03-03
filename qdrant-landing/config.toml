@@ -47,7 +47,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v0.5.x/"
 
-    docVersion = "v0.5.x"
+    docVersion = "v0.6.x"
 
     googleTagManager = "GTM-KRLCXD5"
 
