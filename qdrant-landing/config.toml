@@ -85,3 +85,5 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     weight = -70
     url = "/articles"
 
+[markup.goldmark.renderer]
+unsafe= true
