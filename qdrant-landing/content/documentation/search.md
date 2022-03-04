@@ -81,6 +81,12 @@ POST /collections/{collection_name}/points/search
 }
 ```
 
+
+<!--
+```python
+```
+ -->
+
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`. 
 Parameter `top` specifies the amount of most similar results we would like to retrieve.
 
@@ -109,12 +115,33 @@ Example result of this API would be
 
 The `result` contains ordered by `score` list of found point ids.
 
+### Payload in vector in the result
 
-<!--
-```python
+By default, retrieval methods do not return any stored information.
+Additional parameters `with_vector` and `with_payload` could alter this behavior.
+
+Example:
+
 ```
- -->
+POST /collections/{collection_name}/points/search
+{
+    "vector": [0.2, 0.1, 0.9, 0.7],
+    "with_vector": true,
+    "with_payload": true
+}
+```
 
+Parameter `with_payload` might also be used to include or exclude specific fields only:
+
+```
+POST /collections/{collection_name}/points/search
+{
+    "vector": [0.2, 0.1, 0.9, 0.7],
+    "with_payload": {
+      "exclude": ["city"]
+    }
+}
+```
 
 ## Recommendation API
 
