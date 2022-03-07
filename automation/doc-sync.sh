@@ -2,7 +2,6 @@
 
 set -e
 
-cd "$GITHUB_WORKSPACE"
 DOC_REP=docs
 git clone git@github.com:qdrant/$DOC_REP.git
 
