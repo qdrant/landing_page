@@ -12,6 +12,16 @@ fi;
 DOC_DESTINATION=./qdrant-landing/content/documentation
 DOC_SOURCE=./docs/qdrant/$DOC_VERSION
 
-rm -rf ./qdrant-landing/content/documentation
+DIFFER=$(diff -qr qdrant-landing/content/documentation docs/qdrant/"$DOC_VERSION" | cat);
+
+#if there is no changes, script just exits with code 0
+if [ -z "$DIFFER" ]; then
+  echo "Sync is not needed, files are identical"
+  rm -rf ./$DOC_REP
+  exit 0;
+fi;
+
+#updates docs
+rm -rf $DOC_DESTINATION
 mv "$DOC_SOURCE" "$DOC_DESTINATION"
 rm -rf ./$DOC_REP
