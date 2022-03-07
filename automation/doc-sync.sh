@@ -3,7 +3,7 @@
 set -e
 
 DOC_REP=docs
-git clone git@github.com:qdrant/$DOC_REP.git
+git clone https://github.com/qdrant/$DOC_REP.git
 
 if [ -d $DOC_REP ]; then
   DOC_VERSION=$(grep -o 'docVersion = .*' ./qdrant-landing/config.toml | awk -F'"' '/(docVersion = )"([^"]+)"/{ print $2 }')
