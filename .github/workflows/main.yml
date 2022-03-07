@@ -5,10 +5,10 @@ name: CI
 # Controls when the workflow will run
 on:
   # Triggers the workflow on push or pull request events but only for the master branch
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
+#  push:
+#    branches: [ master ]
+#  pull_request:
+#    branches: [ master ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
@@ -27,10 +27,14 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
-        run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+       run: |
+         cd $GITHUB_WORKSPACE
+         bash -x automation/doc-sync.sh
+         git config --global user.name 'qdrant'
+         git config --global user.email 'qdrant@users.noreply.github.com'
+         git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+         git checkout $GITHUB_HEAD_REF
+         git commit -am "docs auto-sync" && git push || true
+         git push
+       env:
+         GITHUB_WORKSPACE: ${{GITHUB_WORKSPACE}}
