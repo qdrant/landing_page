@@ -7037,7 +7037,7 @@ img{
 
 .sidebar-page-container{
 	position:relative;
-	padding:100px 0px 0px;
+	padding: 0;
 }
 
 .sidebar-page-container .content-side,
@@ -7466,6 +7466,7 @@ img{
 	color:#5a5a5a;
 	font-size:16px;
 	display:inline-block;
+	vertical-align: middle;
 }
 
 .news-block-two .inner-box .lower-box .post-meta li .icon{

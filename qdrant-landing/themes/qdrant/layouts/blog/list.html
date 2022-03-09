@@ -1,0 +1,162 @@
+{{ define "main" }}
+
+<section>
+    <div class="auto-container pt-5">
+        <div class="row clearfix">
+
+            <!-- Sidebar Page Container -->
+            <div class="sidebar-page-container">
+                <div class="auto-container">
+                    <div class="row clearfix">
+
+                        <!-- Sidebar Side -->
+                        <div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+                            <aside class="sidebar sticky-top">
+
+                                {{ range where (where .Pages "Section" "blog") ".Params.featured" "=" true }}
+                                <!-- Featured Post Widget -->
+                                {{ $link := .Permalink }}
+                                {{ if .Params.external_link }}
+                                {{ $link = .Params.external_link }}
+                                {{ end }}
+                                <div class="sidebar-title">
+                                    <h4>Featured Post</h4>
+                                </div>
+                                <!-- News Widget -->
+                                <div class="news-widget sidebar-widget">
+                                    <div class="inner-box">
+                                        <div class="image">
+                                            <a href="{{ $link }}"><img src="https://via.placeholder.com/370x223"
+                                                                            alt=""/></a>
+                                        </div>
+                                        <div class="lower-content">
+                                            <h5><a href="{{ $link }}">{{ .Title }}</a></h5>
+                                            <div class="text">{{ .Params.short_description | markdownify }}</div>
+                                            <a href="{{ $link }}" target="_blank" class="learn">Learn More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ end }}
+
+                                <!-- Categories Widget -->
+                                <div class="sidebar-widget categories-widget">
+                                    <div class="sidebar-title">
+                                        <h4>Categories</h4>
+                                    </div>
+                                    <div class="widget-content">
+                                        <ul>
+                                            <li><a href="#">Machine Learning</a></li>
+                                            <li><a href="#">Deep Learning</a></li>
+                                            <li><a href="#">Artificial Intelligence</a></li>
+                                            <li><a href="#">Computer Vision</a></li>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <!-- Tags Widget -->
+                                <div class="sidebar-widget tags-widget">
+                                    <div class="sidebar-title">
+                                        <h4>Tags</h4>
+                                    </div>
+                                    <div class="widget-content">
+                                        <ul>
+                                            <li><a href="#">App</a></li>
+                                            <li><a href="#">Development</a></li>
+                                            <li><a href="#">Design</a></li>
+                                            <li><a href="#">Artificial Intelligence</a></li>
+                                            <li><a href="#">Development</a></li>
+                                            <li><a href="#">Learning</a></li>
+                                            <li><a href="#">App</a></li>
+                                            <li><a href="#">Development</a></li>
+                                            <li><a href="#">Design</a></li>
+                                            <li><a href="#">Artificial Intelligence</a></li>
+                                            <li><a href="#">Development</a></li>
+                                            <li><a href="#">Learning</a></li>
+                                            <li><a href="#">App</a></li>
+                                            <li><a href="#">Development</a></li>
+                                            <li><a href="#">Design</a></li>
+                                            <li><a href="#">Artificial Intelligence</a></li>
+                                            <li><a href="#">Development</a></li>
+                                            <li><a href="#">Learning</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </aside>
+                        </div>
+
+                        <!-- Content Side -->
+                        <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                            <div class="our-blogs">
+                                {{ range .Pages }}
+
+                                {{ $link := .Permalink }}
+                                {{ if .Params.external_link }}
+                                {{ $link = .Params.external_link }}
+                                {{ end }}
+
+
+                                {{ if .Params.short_description }}
+                                <!-- News block Two -->
+                                <div class="news-block-two">
+                                    <div class="inner-box">
+                                        <div class="upper-box">
+                                            <h4><a href="{{ $link }}">{{ .Title }}</a></h4>
+                                        </div>
+                                        <div class="image">
+                                            <a href="{{ $link }}"><img src="{{ .Params.preview_image }}"
+                                                                            alt=""/></a>
+                                        </div>
+                                        <div class="lower-box">
+                                            <p>{{ .Params.short_description | markdownify }}</p>
+                                            <div class="clearfix">
+                                                <div class="pull-left">
+                                                    <ul class="post-meta">
+                                                        <li><span class="fa fa-user mr-1"></span>{{ .Params.author
+                                                            }}
+                                                        </li>
+                                                        {{ $postDate := .Date | time.Format ":date_medium" }}
+                                                        <li><span class="fa fa-calendar mr-1"></span>{{ $postDate }}
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="pull-right">
+                                                    <a href="{{ $link }}" class="theme-btn btn-style-five"><span
+                                                            class="txt">Learn More...</span></a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{ end }}
+                                {{ end }}
+
+                                <!-- Post Share Options -->
+                                <div class="pagination-outer text-center">
+                                    <div class="styled-pagination">
+                                        <ul class="clearfix">
+                                            <li class="prev"><a href="#"><span
+                                                    class="arrow flaticon-left-arrow-2"></span>&ensp; Older</a></li>
+                                            <li><a href="#">1</a></li>
+                                            <li><a href="#">2</a></li>
+                                            <li class="active"><a href="#">3</a></li>
+                                            <li><a href="#">4</a></li>
+                                            <li><a href="#">5</a></li>
+                                            <li class="next"><a class="next" href="#">&ensp; Newest <span
+                                                    class="arrow flaticon-right-arrow-2"></span></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{ end }}
