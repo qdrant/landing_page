@@ -1,0 +1,23 @@
+name: doc-sync
+on:
+  pull_request:
+    branches: [ master ]
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Run a one-line script
+        run: |
+          bash -x automation/doc-sync.sh
+          git config --global user.name 'qdrant'
+          git config --global user.email 'qdrant@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout $GITHUB_HEAD_REF
+          git commit -am "docs auto-sync" && git push || true
