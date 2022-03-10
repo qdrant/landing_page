@@ -1,0 +1,27 @@
+<section class="auto-container pt-5">
+    <div class="row clearfix">
+
+        <!-- Sidebar Page Container -->
+        <div class="sidebar-page-container">
+            <div class="auto-container">
+                <div class="row clearfix">
+
+                    {{ partial "blog-sidebar" . }}
+
+                    <!-- Content Side -->
+                    <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                        <div class="our-blogs">
+                            {{ range .Pages }}
+
+                            {{ partial "blogpost-preview" . }}
+
+                            {{ end }}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
