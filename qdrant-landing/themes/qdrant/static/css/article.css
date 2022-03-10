@@ -1,3 +1,7 @@
+article {
+  font-size: 14px;
+}
+
 article img {
   display: block;
   margin-left: auto;
@@ -42,4 +46,12 @@ article h6 {
 article p {
     line-height: 1.8em;
     margin-bottom: 0.7rem;
+}
+
+article .auto-container{
+	max-width: 960px;
+}
+
+article figure {
+  text-align: center;
 }
