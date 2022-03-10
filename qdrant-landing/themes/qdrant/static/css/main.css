@@ -7576,7 +7576,7 @@ img{
 	margin-right:0px;
 }
 
-.blog-detail .inner-box .lower-box p{
+.blog-detail .inner-box .lower-box article {
 	position:relative;
 	color:#5a5a5a;
 	font-size:16px;

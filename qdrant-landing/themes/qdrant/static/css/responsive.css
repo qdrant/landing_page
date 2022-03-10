@@ -979,7 +979,7 @@
 		padding-left:25px;
 	}
 	
-	.blog-detail .inner-box .lower-box p{
+	.blog-detail .inner-box .lower-box article{
 		padding-left:25px;
 		padding-right:25px;
 	}
@@ -1073,7 +1073,7 @@
 		padding-left:15px;
 	}
 	
-	.blog-detail .inner-box .lower-box p{
+	.blog-detail .inner-box .lower-box article{
 		padding-left:15px;
 		padding-right:15px;
 	}

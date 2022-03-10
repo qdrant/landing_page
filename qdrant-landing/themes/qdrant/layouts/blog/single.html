@@ -1,10 +1,49 @@
 {{ define "main" }}
+<section class="auto-container pt-5">
+    <div class="row clearfix">
 
-<article>
-    <div class="auto-container mb-5 mt-5">
-        {{ .Content }}
+        <!-- Sidebar Side -->
+        {{ partial "blog-sidebar" . }}
+
+        <!-- Content Side -->
+        <div class="content-side col-lg-8 col-md-12 col-sm-12">
+            <div class="blog-detail">
+                <div class="inner-box">
+                    <div class="upper-box">
+
+                        <h4>{{ .Params.Title }}</h4>
+                    </div>
+                    <div class="image">
+                       <img src="{{ .Params.preview_image}}" alt=""/>
+                    </div>
+                    <div class="lower-box">
+                        <ul class="post-meta">
+                            <li><span class="icon flaticon-user-1"></span>{{ .Params.author }}</li>
+                            <li><span class="icon flaticon-calendar"></span>{{ .Date | time.Format ":date_long" }}</li>
+                            <li>
+                            {{ range .Params.Categories }}
+                            <a class="category" href='{{ "/categories/" | relLangURL }}{{ . | urlize }}'>{{ . }}</a>
+                            {{ end }}
+                            </li>
+                        </ul>
+                        <article>
+                            {{ .Content }}
+                        </article>
+                    </div>
+
+                    <!-- Post Share Options -->
+                    <div class="post-share-options">
+                        <ul class="social-box">
+                            <span class="share">Share on this article <i class="flaticon-right-arrow-2"></i></span>
+                            <li><a href="#"><span class="fa fa-facebook-f"></span></a></li>
+                            <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                            <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</article>
-
+</section>
 
 {{ end }}
