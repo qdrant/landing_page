@@ -45,11 +45,9 @@
                                     </div>
                                     <div class="widget-content">
                                         <ul>
-                                            <li><a href="#">Machine Learning</a></li>
-                                            <li><a href="#">Deep Learning</a></li>
-                                            <li><a href="#">Artificial Intelligence</a></li>
-                                            <li><a href="#">Computer Vision</a></li>
-                                            </li>
+                                            {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+                                            <li><a href="{{ "/categories/" | relLangURL }}{{ $name | urlize }}">{{ $name }}</a></li>
+                                            {{end}}
                                         </ul>
                                     </div>
                                 </div>
@@ -61,24 +59,9 @@
                                     </div>
                                     <div class="widget-content">
                                         <ul>
-                                            <li><a href="#">App</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">Design</a></li>
-                                            <li><a href="#">Artificial Intelligence</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">Learning</a></li>
-                                            <li><a href="#">App</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">Design</a></li>
-                                            <li><a href="#">Artificial Intelligence</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">Learning</a></li>
-                                            <li><a href="#">App</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">Design</a></li>
-                                            <li><a href="#">Artificial Intelligence</a></li>
-                                            <li><a href="#">Development</a></li>
-                                            <li><a href="#">Learning</a></li>
+                                            {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+                                            <li><a href="{{ "/tags/" | relLangURL }}{{ $name | urlize }}">{{ $name }}</a></li>
+                                            {{end}}
                                         </ul>
                                     </div>
                                 </div>
@@ -116,8 +99,7 @@
                                                         <li><span class="fa fa-user mr-1"></span>{{ .Params.author
                                                             }}
                                                         </li>
-                                                        {{ $postDate := .Date | time.Format ":date_medium" }}
-                                                        <li><span class="fa fa-calendar mr-1"></span>{{ $postDate }}
+                                                        <li><span class="fa fa-calendar mr-1"></span>{{ .Date.Format "January 2, 2006" }}
                                                         </li>
                                                     </ul>
                                                 </div>
@@ -131,23 +113,6 @@
                                 </div>
                                 {{ end }}
                                 {{ end }}
-
-                                <!-- Post Share Options -->
-                                <div class="pagination-outer text-center">
-                                    <div class="styled-pagination">
-                                        <ul class="clearfix">
-                                            <li class="prev"><a href="#"><span
-                                                    class="arrow flaticon-left-arrow-2"></span>&ensp; Older</a></li>
-                                            <li><a href="#">1</a></li>
-                                            <li><a href="#">2</a></li>
-                                            <li class="active"><a href="#">3</a></li>
-                                            <li><a href="#">4</a></li>
-                                            <li><a href="#">5</a></li>
-                                            <li class="next"><a class="next" href="#">&ensp; Newest <span
-                                                    class="arrow flaticon-right-arrow-2"></span></a></li>
-                                        </ul>
-                                    </div>
-                                </div>
 
                             </div>
                         </div>

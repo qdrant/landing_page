@@ -51,6 +51,10 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     googleTagManager = "GTM-KRLCXD5"
 
+[taxonomies]
+    tag = "tags"
+    category = "categories"
+    example = "examples"
 
 [menu]
 
