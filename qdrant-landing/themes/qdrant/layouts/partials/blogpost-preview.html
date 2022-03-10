@@ -1,0 +1,37 @@
+<!-- News block Two -->
+{{ $link := .Permalink }}
+{{ if .Params.external_link }}
+{{ $link = .Params.external_link }}
+{{ end }}
+
+<div class="news-block-two">
+    <div class="inner-box">
+        <div class="upper-box">
+            <h4><a href="{{ $link }}">{{ .Title }}</a></h4>
+        </div>
+        <div class="image">
+            <a href="{{ $link }}"><img src="{{ .Params.preview_image }}"
+                                       alt=""/></a>
+        </div>
+        <div class="lower-box">
+            {{ if .Params.short_description }}
+            <p>{{ .Params.short_description | markdownify }}</p>
+            {{ end }}
+            <div class="clearfix">
+                <div class="pull-left">
+                    <ul class="post-meta">
+                        <li><span class="fa fa-user mr-1"></span>{{ .Params.author
+                            }}
+                        </li>
+                        <li><span class="fa fa-calendar mr-1"></span>{{ .Date.Format "January 2, 2006" }}
+                        </li>
+                    </ul>
+                </div>
+                <div class="pull-right">
+                    <a href="{{ $link }}" class="theme-btn btn-style-five"><span
+                            class="txt">Learn More...</span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
