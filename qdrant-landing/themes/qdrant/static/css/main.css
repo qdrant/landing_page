@@ -7609,9 +7609,7 @@ img{
 
 .blog-detail .inner-box .post-share-options .social-box .share{
 	position:relative;
-	color:#2b2b2b;
-	font-size:18px;
-	font-family: 'Roboto Condensed' ;
+	font-size:1rem;
 }
 
 .blog-detail .inner-box .post-share-options .social-box .share i{
@@ -7638,6 +7636,14 @@ img{
 
 .blog-detail .inner-box .post-share-options .social-box li a:hover{
 	color:var(--brand-primary);
+}
+
+.blog-detail h2>a {
+	color: var(--dark);
+}
+
+.blog-detail h2>a:hover {
+	color: var(--brand-primary);
 }
 
 .copy-code {

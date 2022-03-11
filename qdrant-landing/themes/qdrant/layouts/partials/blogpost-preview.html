@@ -4,10 +4,10 @@
 {{ $link = .Params.external_link }}
 {{ end }}
 
-<div class="news-block-two">
+<div class="news-block-two blog-detail">
     <div class="inner-box">
         <div class="upper-box pb-3">
-            <h2>{{ .Title }}</h2>
+            <h2><a href="{{ $link }}">{{ .Title }}</a></h2>
         </div>
         <div class="lower-box pt-0">
             <article>{{ .Content }}</article>
@@ -19,6 +19,31 @@
                             {{ end }}
                         </li>
                         <li><span class="fa fa-calendar mr-1"></span>{{ .Date | time.Format ":date_long" }}
+                        </li>
+                        <li>
+
+                            <!-- Post Share Options -->
+                            <div class="post-share-options">
+                                <ul class="social-box">
+                                    <span class="share">Share on this article:</span>
+                                    <li><a href="#"><span class="fa fa-facebook-f"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-twitter"></span></a></li>
+                                    <li><a href="#"><span class="fa fa-linkedin"></span></a></li>
+                                </ul>
+                            </div>
+
+                        </li>
+                    </ul>
+                    <ul class="post-meta">
+                        <li>Category:
+                            {{ range .Params.Categories }}
+                            <a class="category" href='{{ "/categories/" | relLangURL }}{{ . | urlize }}'>{{ . }}</a>
+                            {{ end }}
+                        </li>
+                        <li>Tags:&nbsp;
+                            {{ range .Params.Tags }}
+                            <a class="category" href='{{ "/categories/" | relLangURL }}{{ . | urlize }}'>#{{ . }}</a>&nbsp;
+                            {{ end }}
                         </li>
                     </ul>
                 </div>
