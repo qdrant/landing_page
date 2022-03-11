@@ -7,6 +7,7 @@ weight: 20
 category: main
 date: 2022-03-10T01:36:43+03:00
 author: Alyona Kavyerina
+featured: true
 categories:
 - News
 tags:

@@ -14,10 +14,12 @@
         <!-- News Widget -->
         <div class="news-widget sidebar-widget">
             <div class="inner-box">
+                {{ if .Params.preview_image }}
                 <div class="image">
-                    <a href="{{ $link }}"><img src="{{ .Params.preview_image}}"
+                    <a href="{{ $link }}"><img src="{{ .Params.preview_image }}"
                                                alt=""/></a>
                 </div>
+                {{ end }}
                 <div class="lower-content">
                     <h5><a href="{{ $link }}">{{ .Title }}</a></h5>
                     <div class="text">{{ .Params.short_description | markdownify }}</div>
