@@ -6,8 +6,11 @@
 
 <div class="news-block-two">
     <div class="inner-box">
-        <div class="upper-box">
+        <div class="upper-box pb-3">
             <h2>{{ .Title }}</h2>
+        </div>
+        <div class="lower-box pt-0">
+            <article>{{ .Content }}</article>
             <div class="clearfix">
                 <div class="pull-left">
                     <ul class="post-meta">
@@ -20,15 +23,6 @@
                     </ul>
                 </div>
             </div>
-        </div>
-        {{ if .Params.preview_image }}
-        <div class="image">
-            <img src="{{ .Params.preview_image }}" alt=""/>
-        </div>
-        {{ end }}
-        <div class="lower-box">
-            <p>{{ .Content }}</p>
-
         </div>
     </div>
 </div>
