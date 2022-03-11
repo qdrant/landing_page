@@ -7415,7 +7415,7 @@ img{
 
 .news-block-two .inner-box .upper-box h4 a{
 	position:relative;
-	color:#2b2b2b;
+	color: var(--dark);
 	transition:all 0.3s ease;
 	-moz-transition:all 0.3s ease;
 	-webkit-transition:all 0.3s ease;
@@ -7425,6 +7425,14 @@ img{
 
 .news-block-two .inner-box .upper-box h4 a:hover{
 	color:var(--brand-primary);
+}
+
+.news-block-two .inner-box .upper-box h2{
+	position:relative;
+	line-height:1.3em;
+	font-weight:700;
+	margin-top:8px;
+	color: var(--dark);
 }
 
 .news-block-two .inner-box .image{
@@ -7455,12 +7463,12 @@ img{
 	padding:20px 40px 20px;
 }
 
-.news-block-two .inner-box .lower-box .post-meta{
+.news-block-two .inner-box .post-meta{
 	position:relative;
 	margin-top:17px;
 }
 
-.news-block-two .inner-box .lower-box .post-meta li{
+.news-block-two .inner-box .post-meta li{
 	position:relative;
 	margin-right:20px;
 	color:#5a5a5a;
@@ -7469,12 +7477,12 @@ img{
 	vertical-align: middle;
 }
 
-.news-block-two .inner-box .lower-box .post-meta li .icon{
+.news-block-two .inner-box .post-meta li .icon{
 	position:relative;
 	margin-right:10px;
 }
 
-.news-block-two .inner-box .lower-box .post-meta li:last-child{
+.news-block-two .inner-box .post-meta li:last-child{
 	margin-right:0px;
 }
 
