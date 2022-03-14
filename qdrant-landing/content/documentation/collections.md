@@ -24,7 +24,7 @@ These settings can be changed at any time by a corresponding request.
 
 With REST API
 
-``` http
+```
 PUT /collections/example_collection
 
 {
@@ -32,21 +32,6 @@ PUT /collections/example_collection
     "distance": "Cosine",
     "vector_size": 300
 }
-```
-
-``` python
-from qdrant_client import QdrantClient
-from qdrant_openapi_client.models.models import CreateCollection, Distance
-   
-client = QdrantClient(host="localhost", port=6333)
-
-client.http.collections_api.create_collection(
-   name="example_collection",
-   create_collection=CreateCollection(
-      distance=Distance.COSINE,
-      vector_size=300,
-   )
-)
 ```
 
 In addition to the required options, you can also specify custom values for the following collection options:
@@ -175,7 +160,7 @@ Multiple alias actions are performed atomically.
 For example, you can switch underlying collection with the following command:
 
 
-```http
+```
 POST /collections/aliases
 
 {
