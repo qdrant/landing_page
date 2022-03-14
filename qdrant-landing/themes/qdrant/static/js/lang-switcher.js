@@ -16,6 +16,9 @@
      * creates tabs with languages names in the interface
      */
     initLangButtons() {
+      if (this.tabs.length < 2) {
+        return null;
+      }
       // create a wrapper element
       this.langButtons = document.createElement('div');
       this.langButtons.classList.add('lang-tabs');
