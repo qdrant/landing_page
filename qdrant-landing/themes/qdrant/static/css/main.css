@@ -6960,7 +6960,7 @@ img{
 
 .styled-pagination li.prev a{
 	position:relative;
-	color:#a1a1a1;
+	color:var(--dark);
 	font-size:18px;
 	width:160px;
 	height:48px;
@@ -6970,7 +6970,7 @@ img{
 	padding:10px 20px;
 	border-radius:50px;
 	margin-bottom:20px;
-	border:1px solid #dddddd;
+	border:1px solid var(--dark);
 	font-family: 'Roboto Condensed';
 	/* -webkit-transition:all 300ms ease; */
 	/* -ms-transition:all 300ms ease; */
@@ -6996,7 +6996,7 @@ img{
 	position:relative;
 	right:0px;
 	top:0px;
-	color:#a1a1a1;
+	color:var(--dark);
 	font-size:18px;
 	width:160px;
 	height:48px;
@@ -7006,7 +7006,7 @@ img{
 	padding:10px 20px;
 	border-radius:50px;
 	margin-bottom:20px;
-	border:1px solid #dddddd;
+	border:1px solid var(--dark);
 	font-family: 'Roboto Condensed';
 	/* -webkit-transition:all 300ms ease; */
 	/* -ms-transition:all 300ms ease; */
@@ -7023,8 +7023,8 @@ img{
 
 .styled-pagination li.prev a:hover,
 .styled-pagination li.next a:hover{
-	background-color:#ff6754;
-	border-color:#ff6754;
+	border-color:var(--brand-primary);
+	background-color:var(--brand-primary);
 }
 
 /*** 

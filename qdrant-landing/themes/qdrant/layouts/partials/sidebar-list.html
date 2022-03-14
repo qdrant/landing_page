@@ -10,11 +10,16 @@
 
                     <!-- Content Side -->
                     <div class="content-side col-lg-8 col-md-12 col-sm-12">
+                        {{ $paginator := .Paginate (where .Pages "Section" "blog") 5 }}
                         <div class="our-blogs">
-                            {{ range .Pages }}
+                            {{ range $paginator.Pages}}
 
                             {{ partial "blogpost" . }}
 
+                            {{ end }}
+
+                            {{ if gt $paginator.TotalPages 1}}
+                                {{ partial "paginator" $paginator }}
                             {{ end }}
                         </div>
                     </div>
