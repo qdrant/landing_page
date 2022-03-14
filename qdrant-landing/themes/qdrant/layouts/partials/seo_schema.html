@@ -27,13 +27,39 @@
   }
 </script>
 
-<meta property="og:url" content="{{ .Permalink }}">
-{{ if or ( and (.IsPage) (eq $.Section "blog") ) ( and ($.IsNode) (eq $.Section "") ) }}
-<meta property="og:title" content="{{ .Title }}">
-{{ else }}
-<meta property="og:title" content="Qdrant - {{ .Title }}">
-{{ end }}
-<meta property="og:description" content="{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}">
+{{ $url := urls.Parse .Site.BaseURL }}
+{{ $domain := index (split $url.Host ".") 0 }}
+
+{{ $imageUrl := path.Join .Site.BaseURL .Site.Params.share_preview_img}}
 {{ if .Params.preview_image }}
-<meta property="og:image" content="{{ path.Join .Site.BaseURL .Params.preview_image }}">
+    {{ $imageUrl := path.Join .Site.BaseURL .Params.preview_image }}
 {{ end }}
+
+{{ $title := printf "%s" "Qdrant" | printf "%s%s" " - " | printf "%s%s" .Title | printf "%s" }}
+{{ if or ( and (.IsPage) (eq $.Section "blog") ) ( and ($.IsNode) (eq $.Section "") ) }}
+    {{ $title := .Title }}
+{{ end }}
+
+{{ $description := "" }}
+{{ if .Description }}
+    {{ $description := .Description }}
+{{ else }}
+    {{if .IsPage}}
+        {{ $description := .Summary }}
+    {{ end }}
+{{ end }}
+
+<!-- Facebook Meta Tags -->
+<meta property="og:url" content="{{ .Permalink }}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{ $title }}">
+<meta property="og:description" content="{{ $description }}">
+<meta property="og:image" content="{{ $imageUrl }}">
+
+<!-- Twitter Meta Tags -->
+<meta name="twitter:card" content="summary_large_image">
+<meta property="twitter:domain" content="{{ $domain }}">
+<meta property="twitter:url" content="{{ .Permalink }}">
+<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:image" content="{{ $imageUrl }}">
