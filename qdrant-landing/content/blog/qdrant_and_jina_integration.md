@@ -1,6 +1,6 @@
 ---
 title: "Qdrant and Jina integration: storage backend support for DocArray"
-short_description: "One more way to use Qdrant: Jinas DocArray is now supporting Qdrant as a storage backend."
+short_description: "One more way to use Qdrant: Jina's DocArray is now supporting Qdrant as a storage backend."
 description: We are happy to announce that Jina.AI integrates Qdrant engine as a storage backend to their DocArray solution.
 preview_image: /blog_data/qdrant_and_jina_intergationpreview.png
 category: main
