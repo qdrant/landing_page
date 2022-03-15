@@ -1,0 +1,65 @@
+<!-- News block Two -->
+{{ $link := .Permalink }}
+{{ if .Params.external_link }}
+{{ $link = .Params.external_link }}
+{{ end }}
+
+<div class="news-block-two blog-detail">
+    <div class="inner-box">
+        <div class="upper-box pb-3">
+            <h2><a href="{{ $link }}">{{ .Title }}</a></h2>
+        </div>
+        <div class="lower-box pt-0">
+            <article>{{ .Content }}</article>
+            <hr>
+            <div class="clearfix">
+                <div class="pull-left">
+                    <ul class="post-meta">
+                        {{ if and .Params.author .Params.author_link }}
+                        <li>
+                            <a href="{{ .Params.author_link }}" target="_blank">
+                                <span class="fa fa-user mr-1"></span>{{ .Params.author }}
+                            </a>
+                        </li>
+                        {{ else if and .Params.author (ne .Params.author_link) }}
+                        <li>
+                            <span class="fa fa-user mr-1"></span>{{ .Params.author }}
+                        </li>
+                        {{ end }}
+
+                        <li>Category:
+                            {{ range .Params.Categories }}
+                            <a class="category" href='{{ "/categories/" | relLangURL }}{{ . | urlize }}'>{{ . }}</a>
+                            {{ end }}
+                        </li>
+                        <li>Tags:&nbsp;
+                            {{ range .Params.Tags }}
+                            <a class="category" href='{{ "/tags/" | relLangURL }}{{ . | urlize }}'>#{{ . }}</a>&nbsp;
+                            {{ end }}
+                        </li>
+                    </ul>
+                    <ul class="post-meta">
+                        <li><span class="fa fa-calendar mr-1"></span>{{ .Date | time.Format ":date_long" }}
+                        </li>
+                        <li>
+                            <!-- Post Share Options -->
+                            <div class="post-share-options">
+                                <ul class="social-box">
+                                    <span class="share">Share this post:</span>
+                                    <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ $link }}"><span
+                                            class="fa fa-facebook-f"></span></a></li>
+                                    <li>
+                                        <a href="https://twitter.com/intent/tweet?url={{ $link }}&text={{ .Title }}"><span
+                                                class="fa fa-twitter"></span></a></li>
+                                    <li><a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $link }}"><span
+                                            class="fa fa-linkedin"></span></a></li>
+                                </ul>
+                            </div>
+
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -26,6 +26,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     logo = "/images/logo_small_with_text.png"
     logo_width = "192"
+    share_preview_img = "/images/logo_with_text.svg"
 
     github = "https://github.com/qdrant/qdrant"
     quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
@@ -51,6 +52,10 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     googleTagManager = "GTM-KRLCXD5"
 
+[taxonomies]
+    tag = "tags"
+    category = "categories"
+    example = "examples"
 
 [menu]
 
@@ -84,6 +89,12 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     name = "Articles"
     weight = -70
     url = "/articles"
+
+  [[menu.main]]
+    identifier = "blog"
+    name = "Blog"
+    weight = -60
+    url = "/blog/"
 
 [markup.goldmark.renderer]
 unsafe= true
