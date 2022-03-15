@@ -15,17 +15,7 @@
             <div class="clearfix">
                 <div class="pull-left">
                     <ul class="post-meta">
-                        {{ if and .Params.author .Params.author_link }}
-                        <li>
-                            <a href="{{ .Params.author_link }}" target="_blank">
-                                <span class="fa fa-user mr-1"></span>{{ .Params.author }}
-                            </a>
-                        </li>
-                        {{ else if and .Params.author (ne .Params.author_link) }}
-                        <li>
-                            <span class="fa fa-user mr-1"></span>{{ .Params.author }}
-                        </li>
-                        {{ end }}
+                        {{ partial "author" . }}
 
                         <li>Category:
                             {{ range .Params.Categories }}
