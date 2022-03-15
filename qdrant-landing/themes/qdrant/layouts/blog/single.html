@@ -1,0 +1,15 @@
+{{ define "main" }}
+<section class="auto-container pt-5">
+    <div class="row clearfix">
+
+        <!-- Sidebar Side -->
+        {{ partial "blog-sidebar" . }}
+
+        <!-- Content Side -->
+        <div class="content-side col-lg-8 col-md-12 col-sm-12">
+            {{ partial "blogpost" .}}
+        </div>
+    </div>
+</section>
+
+{{ end }}

@@ -1,0 +1,23 @@
+{{ define "main" }}
+<section class="auto-container pt-5">
+    <div class="row">
+        {{ partial "blog-sidebar" . }}
+
+        <div class="content-side col-lg-8 col-md-12 col-sm-12">
+            <h3>Categories</h3>
+            <ul>
+                {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+                <li><a href='{{ "/categories/" | relLangURL }}{{ $name | urlize }}'>{{ $name }}</a></li>
+                {{end}}
+            </ul>
+
+            <h3>Tags</h3>
+            <ul>
+                {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+                <li><a href='{{ "/tags/" | relLangURL }}{{ $name | urlize }}'>{{ $name }}</a></li>
+                {{end}}
+            </ul>
+        </div>
+    </div>
+</section>
+{{ end }}
