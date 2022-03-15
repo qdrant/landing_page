@@ -7631,10 +7631,6 @@ img{
 	color:var(--brand-primary);
 }
 
-article pre {
-	position: relative;
-}
-
 .copy-code {
 	position: absolute;
 	right: 8px;

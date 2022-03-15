@@ -1,3 +1,7 @@
+article pre {
+ position: relative;
+}
+
 article img {
   display: block;
   margin-left: auto;
