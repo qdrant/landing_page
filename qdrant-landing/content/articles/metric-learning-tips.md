@@ -6,6 +6,8 @@ external_link: https://vasnetsov93.medium.com/metric-learning-tips-n-tricks-2e4c
 preview_image: /articles_data/metric-learning-tips/preview.png
 small_preview_image: /articles_data/metric-learning-tips/scatter-graph.svg
 weight: 20
+author: Andrei Vasnetsov
+author_link: https://blog.vasnetsov.com/
 ---
 
 
