@@ -1,0 +1,61 @@
+<!-- Sidebar Side -->
+<div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
+    <aside class="sidebar sticky-top">
+
+        {{ range where (where .Pages "Section" "blog") ".Params.featured" "=" true }}
+        <!-- Featured Post Widget -->
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+        {{ $link = .Params.external_link }}
+        {{ end }}
+        <div class="sidebar-title">
+            <h4>Featured Post</h4>
+        </div>
+        <!-- News Widget -->
+        <div class="news-widget sidebar-widget">
+            <div class="inner-box">
+                {{ if .Params.preview_image }}
+                <div class="image">
+                    <a href="{{ $link }}"><img src="{{ .Params.preview_image }}"
+                                               alt=""/></a>
+                </div>
+                {{ end }}
+                <div class="lower-content">
+                    <h5><a href="{{ $link }}">{{ .Title }}</a></h5>
+                    <div class="text">{{ .Params.short_description | markdownify }}</div>
+                    <a href="{{ $link }}" target="_blank" class="learn">Learn More</a>
+                </div>
+            </div>
+        </div>
+        {{ end }}
+
+        <!-- Categories Widget -->
+        <div class="sidebar-widget categories-widget">
+            <div class="sidebar-title">
+                <h4>Categories</h4>
+            </div>
+            <div class="widget-content">
+                <ul>
+                    {{ range $name, $taxonomy := .Site.Taxonomies.categories }}
+                    <li><a href='{{ "/categories/" | relLangURL }}{{ $name | urlize }}'>{{ $name }}</a></li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+
+        <!-- Tags Widget -->
+        <div class="sidebar-widget tags-widget">
+            <div class="sidebar-title">
+                <h4>Tags</h4>
+            </div>
+            <div class="widget-content">
+                <ul>
+                    {{ range $name, $taxonomy := .Site.Taxonomies.tags }}
+                    <li><a href='{{ "/tags/" | relLangURL }}{{ $name | urlize }}'>{{ $name }}</a></li>
+                    {{end}}
+                </ul>
+            </div>
+        </div>
+
+    </aside>
+</div>

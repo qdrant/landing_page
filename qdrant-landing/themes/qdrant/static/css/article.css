@@ -1,3 +1,7 @@
+article pre {
+ position: relative;
+}
+
 article img {
   display: block;
   margin-left: auto;
@@ -9,10 +13,22 @@ article ul {
     margin-bottom: 1em;
 }
 
-article ul li {
-  list-style: circle;
-  padding: 0;
-  margin: 0em 0em 0em 2em;
+article ul>li {
+ list-style: none;
+ margin: 0em 0em 0em 2em;
+ padding-left: 10px;
+ position: relative;
+}
+
+article ul>li:before {
+ position: absolute;
+ content: '';
+ left: 0;
+ top: calc(50% - 2px);
+ width: 4px;
+ height: 4px;
+ border-radius: 50px;
+ background-color: var(--dark);
 }
 
 article h1 {
@@ -42,4 +58,47 @@ article h6 {
 article p {
     line-height: 1.8em;
     margin-bottom: 0.7rem;
+}
+
+article aside[role="alert"],
+article aside[role="status"] {
+ border: 1px solid transparent;
+ position: relative;
+ padding: .75rem 1.25rem .75rem 3rem;
+ margin-bottom: 1rem;
+ border-radius: 0.25rem;
+}
+
+article aside[role="alert"] {
+ color: var(--brand-primary);
+ background-color: #FBBFBF;
+ border-color: #fdb8b8;
+}
+
+article aside[role="alert"]:before,
+article aside[role="status"]:before {
+ width: 3rem;
+ position: absolute;
+ top: calc(50% - 0.75rem);
+ left: 0;
+ font-size: 1rem;
+ text-align: center;
+}
+
+article aside[role="alert"]:before {
+ content: "\f071";
+ font-family: "FontAwesome";
+ font-size: 1rem;
+}
+
+article aside[role="status"] {
+ color: var(--brand-secondary);
+ background-color: #d1ecf1;
+ border-color: #bee5eb;
+}
+
+article aside[role="status"]:before {
+ content: "\f129";
+ font-family: "FontAwesome";
+ font-size: 1rem;
 }
