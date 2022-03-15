@@ -7633,17 +7633,12 @@ img{
 
 .blog-detail .inner-box .post-share-options .social-box li a{
 	position:relative;
-	color:#5a5a5a;
 	font-size:18px;
 	/* transition:all 0.3s ease; */
 	/* -moz-transition:all 0.3s ease; */
 	/* -webkit-transition:all 0.3s ease; */
 	/* -ms-transition:all 0.3s ease; */
 	/* -o-transition:all 0.3s ease; */
-}
-
-.blog-detail .inner-box .post-share-options .social-box li a:hover{
-	color:var(--brand-primary);
 }
 
 .blog-detail h2>a {
