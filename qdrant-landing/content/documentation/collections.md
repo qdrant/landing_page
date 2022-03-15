@@ -24,7 +24,7 @@ These settings can be changed at any time by a corresponding request.
 
 With REST API
 
-```
+``` http
 PUT /collections/example_collection
 
 {
