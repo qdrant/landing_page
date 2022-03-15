@@ -78,7 +78,7 @@
 
     let isLastInGroup = !hl.nextElementSibling?.classList?.contains('highlight');
 
-    if(isLastInGroup) {
+    if (isLastInGroup) {
       tabsGroups.push(groupArr);
       groupArr = [];
     }
@@ -91,8 +91,11 @@
     const langSwitcher = new LangSwitcher(g);
     langSwitcher.initLangButtons();
 
-    langSwitcher.getLangButtons().addEventListener("click", (e) => {
-      e.target?.dataset?.lang && langSwitcher.switchLanguage(e.target.dataset.lang);
-    })
+    const tabBtns = langSwitcher.getLangButtons();
+    if (tabBtns) {
+      langSwitcher.getLangButtons().addEventListener("click", (e) => {
+        e.target?.dataset?.lang && langSwitcher.switchLanguage(e.target.dataset.lang);
+      })
+    }
   })
 }).call(this);
