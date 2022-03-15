@@ -21,7 +21,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     font = "Anonymous Pro"
     highlight = true
     highlightStyle = "default"
-    highlightLanguages = ["python", "rust", "json", "bash"]
+    highlightLanguages = ["python", "rust", "json", "bash", "http"]
     yandexWebmaster = ""
 
     logo = "/images/logo_small_with_text.png"
@@ -85,3 +85,5 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     weight = -70
     url = "/articles"
 
+[markup.goldmark.renderer]
+unsafe= true
