@@ -21,6 +21,5 @@ collections:
       - { label: 'Author Link', name: 'author_link', widget: 'string'}
       - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: 'false'}
       - { label: 'Category', name: 'categories', widget: "select", options: ["News"]}
-      - { label: "Tags (use , to separate)", name: "tags", widget: "list",
-          fields: [release, jina-integration, grpc, docarray], allow_add: true, }
+      - { label: "Tags (use , to separate)", name: "tags", widget: "list", allow_add: true, }
       - { label: 'Body', name: 'body', widget: 'markdown' }
