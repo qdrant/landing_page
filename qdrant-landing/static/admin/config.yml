@@ -1,0 +1,27 @@
+backend:
+  name: git-gateway
+  branch: cms # Branch to update (optional; defaults to master)
+media_folder: static/blog_data/from_cms
+public_folder: /img
+collections:
+  - name: 'blog'
+    label: 'Blog'
+    folder: 'content/blog'
+    create: true
+    slug: '{{year}}-{{month}}-{{day}}-{{slug}}'
+    editor:
+      preview: false
+    fields:
+      - { label: 'Title', name: 'title', widget: 'string' }
+      - { label: 'Short Description', name: 'short_description', widget: 'string'}
+      - { label: 'Description', name: 'description', widget: 'string' }
+      - { label: 'Preview Image', name: 'preview_image', widget: 'preview_image'}
+      - { label: 'Weight', name: 'weight', widget: 'number'}
+      - { label: 'Category', name: 'category', widget: 'string'}
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Author', name: 'author', widget: 'string'}
+      - { label: 'Author Link', name: 'author_link', widget: 'string'}
+      - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: 'false'}
+      - { label: 'Category', name: 'categories', widget: "select", options: ["News"]}
+      - { label: "Tags", name: "tags", widget: "list", default: [ "news" ] }
+      - { label: 'Body', name: 'body', widget: 'markdown' }
