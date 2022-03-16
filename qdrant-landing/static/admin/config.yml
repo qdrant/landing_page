@@ -20,6 +20,6 @@ collections:
       - { label: 'Author', name: 'author', widget: 'string'}
       - { label: 'Author Link', name: 'author_link', widget: 'string', required: false}
       - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: false}
-      - { label: 'Category (choose from list or write a new one in this field)', name: 'categories', widget: "select", options: ["News"]}
+      - { label: 'Category (choose from list or write a new one in this field)', name: 'categories', widget: "select", multiple: true, options: ["News"]}
       - { label: "Tags (use , to separate)", name: "tags", widget: "list", allow_add: true, }
       - { label: 'Body', name: 'body', widget: 'markdown' }
