@@ -1,6 +1,6 @@
 backend:
   name: git-gateway
-  branch: cms # Branch to update (optional; defaults to master)
+  branch: master # Branch to update (optional; defaults to master)
 media_folder: qdrant-landing/static/blog_data/from_cms
 public_folder: /blog_data/from_cms
 collections:
@@ -12,6 +12,7 @@ collections:
     editor:
       preview: true
     fields:
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: true}
       - { label: 'Title of blog post', name: 'title', widget: 'string' }
       - { label: 'Short Description', name: 'short_description', widget: 'string'}
       - { label: 'Description for preview (including social media)', name: 'description', widget: 'string' }
@@ -20,6 +21,6 @@ collections:
       - { label: 'Author', name: 'author', widget: 'string'}
       - { label: 'Author Link', name: 'author_link', widget: 'string', required: false}
       - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: false}
-      - { label: 'Category (it is better to use only one category)', name: 'categories', widget: "list", allow_add: true}
-      - { label: "Tags (use , to separate)", name: "tags", widget: "list", allow_add: true, }
+      - { label: 'Category (it is better to use only one category)', name: 'categories', widget: 'list', allow_add: true}
+      - { label: 'Tags (use , to separate)', name: 'tags', widget: 'list', allow_add: true, }
       - { label: 'Body', name: 'body', widget: 'markdown' }
