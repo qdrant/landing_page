@@ -121,7 +121,7 @@ All queries to the collection can also be done identically, using an alias inste
 Thus, it is possible to build a second collection in the background and then switch alias from the old to the new collection.
 Since all changes of aliases happen atomically, no concurrent requests will be affected during the switch.
 
-### Crate alias
+### Create alias
 
 ```
 POST /collections/aliases
