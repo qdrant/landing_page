@@ -1,6 +1,6 @@
 ---
-draft: true
-title: Qdrant v0.6.0 engine with gRPC interface has been released
+draft: false
+title: Qdrant v0.6.0 engine with gRPC interface has been released 1
 slug: qdrant-grpc
 short_description: We’ve released a new engine, version 0.6.0.
 description: We’ve released a new engine, version 0.6.0. The main feature of the
