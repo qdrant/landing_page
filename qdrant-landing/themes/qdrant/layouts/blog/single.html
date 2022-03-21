@@ -1,8 +1,9 @@
 {{ define "main" }}
-<section class="auto-container pt-5">
+<section class="auto-container pt-5 single-page">
     <div class="row clearfix">
 
         <!-- Sidebar Side -->
+        {{ .Scratch.Set "scope" "single" }}
         {{ partial "blog-sidebar" . }}
 
         <!-- Content Side -->

@@ -6,9 +6,11 @@
 
 <div class="news-block-two blog-detail">
     <div class="inner-box">
+        {{ if eq (.Scratch.Get "scope") "list" }}
         <div class="upper-box pb-3">
             <h2><a href="{{ $link }}">{{ .Title }}</a></h2>
         </div>
+        {{ end }}
         <div class="lower-box pt-0">
             <article>{{ .Content }}</article>
             <hr>
@@ -21,22 +23,26 @@
                                 <span class="fa fa-user mr-1"></span>{{ .Params.author }}
                             </a>
                         </li>
-                        {{ else if and .Params.author (ne .Params.author_link) }}
+                        {{ else if and .Params.author (not .Params.author_link) }}
                         <li>
                             <span class="fa fa-user mr-1"></span>{{ .Params.author }}
                         </li>
                         {{ end }}
 
+                        {{ if .Params.Categories }}
                         <li>Category:
                             {{ range .Params.Categories }}
                             <a class="category" href='{{ "/categories/" | relLangURL }}{{ . | urlize }}'>{{ . }}</a>
                             {{ end }}
                         </li>
+                        {{ end }}
+                        {{ if .Params.Tags }}
                         <li>Tags:&nbsp;
                             {{ range .Params.Tags }}
                             <a class="category" href='{{ "/tags/" | relLangURL }}{{ . | urlize }}'>#{{ . }}</a>&nbsp;
                             {{ end }}
                         </li>
+                        {{ end }}
                     </ul>
                     <ul class="post-meta">
                         <li><span class="fa fa-calendar mr-1"></span>{{ .Date | time.Format ":date_long" }}
