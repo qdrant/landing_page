@@ -5,6 +5,8 @@ description: Practical use of metric learning for anomaly detection. A way to ma
 preview_image: /articles_data/detecting-coffee-anomalies/preview.png
 small_preview_image: /articles_data/detecting-coffee-anomalies/anomalies_icon.svg
 weight: 30
+author: Yusuf Sarıgöz
+author_name: https://medium.com/@yusufsarigoz
 ---
 
 Anomaly detection is a thirsting yet challenging task that has numerous use cases across various industries.
