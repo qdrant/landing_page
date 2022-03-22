@@ -60,6 +60,10 @@ article p {
     margin-bottom: 0.7rem;
 }
 
+article figure {
+  text-align: center;
+}
+
 article aside[role="alert"],
 article aside[role="status"] {
  border: 1px solid transparent;
