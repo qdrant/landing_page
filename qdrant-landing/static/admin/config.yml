@@ -1,0 +1,38 @@
+backend:
+  name: git-gateway
+  branch: master # Branch to update (optional; defaults to master)
+media_folder: qdrant-landing/static/blog_data/from_cms
+public_folder: /blog_data/from_cms
+collections:
+  - name: 'blog'
+    label: 'Blog'
+    folder: 'qdrant-landing/content/blog'
+    create: true
+    slug: '{{slug}}'
+    editor:
+      preview: true
+    fields:
+      - { label: 'Draft', name: 'draft', widget: 'boolean', default: true,
+          hint: 'If enabled, the post will be saved but not displayed on the site'}
+      - { label: 'Title of blog post', name: 'title', widget: 'string' }
+      - { label: 'Slug', name: 'slug', widget: 'string', required: true,
+          pattern: [ '^[a-z0-9]+(?:-[a-z0-9]+)*$','A slug can have no spaces or special characters' ],
+          hint: 'The post URL (do not include folder or file extension)' }
+      - { label: 'Short Description', name: 'short_description', widget: 'string'}
+      - { label: 'Description', name: 'description', widget: 'string',
+          hint: 'Shown in previews of featured posts and on social media' }
+      - { label: 'Preview Image', name: 'preview_image', widget: 'image',
+          hint: 'Shown in previews of featured posts and on social media' }
+      - { label: 'Publish Date', name: 'date', widget: 'datetime' }
+      - { label: 'Author', name: 'author', widget: 'string', hint: 'Name'}
+      - { label: 'Author Link', name: 'author_link', widget: 'string', required: false,
+          hint: 'Link to the author (personal blog, social media, or anything else)' }
+      - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: false,
+          hint: 'If enabled, the post will appear in the left column of the blog. Do not overuse it.' }
+      - { label: 'Category', name: 'categories', widget: 'list',
+          allow_add: true, hint: 'It is technically possible to add more than one, but it is better not to do so.
+          It may behave strangely with spaces. If you can not put a space,
+          type everything together and add a space afterwards.'}
+      - { label: 'Tags', name: 'tags', widget: 'list', allow_add: true,
+          hint: 'Use a comma without a space to separate tags (this widget will add spaces after commas itself)' }
+      - { label: 'Body', name: 'body', widget: 'markdown' }

@@ -1,3 +1,18 @@
 {{ define "main" }}
-    {{ partial "sidebar-list" . }}
+<section class="auto-container pt-5">
+    <div class="row clearfix">
+
+        <!-- Sidebar Page Container -->
+        <div class="sidebar-page-container">
+            <div class="auto-container">
+                <div class="row clearfix">
+
+                    <!-- Content Side -->
+                   {{ partial "sidebar-list" . }}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {{ end }}
