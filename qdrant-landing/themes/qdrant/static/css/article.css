@@ -60,11 +60,6 @@ article p {
     margin-bottom: 0.7rem;
 }
 
-/* TODO: change it for a more specific use */
-article .auto-container{
-	max-width: 960px;
-}
-
 article figure {
   text-align: center;
 }
