@@ -7,24 +7,8 @@
             <div class="auto-container">
                 <div class="row clearfix">
 
-                    {{ partial "blog-sidebar" . }}
-
                     <!-- Content Side -->
-                    <div class="content-side col-lg-8 col-md-12 col-sm-12">
-                        {{ $paginator := .Paginate (where .Pages "Section" "blog") 5 }}
-                        <div class="our-blogs">
-                            {{ range $paginator.Pages}}
-                            {{ .Scratch.Set "scope" "list" }}
-
-                            {{ partial "blogpost" . }}
-
-                            {{ end }}
-
-                            {{ if gt $paginator.TotalPages 1}}
-                            {{ partial "paginator" $paginator }}
-                            {{ end }}
-                        </div>
-                    </div>
+                   {{ partial "sidebar-list" . }}
 
                 </div>
             </div>
