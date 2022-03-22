@@ -102,3 +102,8 @@ article aside[role="status"]:before {
  font-family: "FontAwesome";
  font-size: 1rem;
 }
+
+.single-page article {
+ padding-top: 38px;
+}
+
