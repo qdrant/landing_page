@@ -1,10 +1,12 @@
 {{ define "main" }}
-
-<article>
-    <div class="auto-container mb-5 mt-5">
-        {{ .Content }}
+<section class="auto-container pt-5 single-page">
+    <div class="row clearfix">
+        <!-- Content Side -->
+        <div class="content-side col-lg-12 col-md-12 col-sm-12">
+            {{ .Scratch.Set "scope" "single" }}
+            {{ partial "blogpost" .}}
+        </div>
     </div>
-</article>
-
+</section>
 
 {{ end }}
