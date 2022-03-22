@@ -30,7 +30,10 @@
                             <div class="clearfix">
                                 <h5>{{ .Title }}</h5>
                                 <p>{{ .Params.short_description | markdownify }}</p>
-                                <div class="pull-right">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-self-stretch align-items-center">
+                                        {{ partial "author" . }}
+                                    </div>
                                     <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five btn-small">
                                         <span class="txt">Read</span>
                                     </a>
