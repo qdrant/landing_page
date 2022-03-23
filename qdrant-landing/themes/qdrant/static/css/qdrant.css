@@ -8,29 +8,8 @@ QDRANT - RELATED
 
 @import url("colors.css");
 
-.copy-btn {
-  cursor: pointer;
-  color: white;
-  background: transparent;
-}
-
 code {
   color: #6e0c21;
-}
-
-.code {
-  display: inline-block;
-  padding: 1rem 1.6rem;
-  margin-bottom: 1rem;
-  background: #f6f8fa;
-  background: var(--brand-secondary);
-  border-radius: 5px;
-  font-family: "Anonymous Pro", monospace;
-  font-size: 1.6rem;
-}
-
-.code > code {
-  color: white;
 }
 
 .features-section .feature-block .text li {

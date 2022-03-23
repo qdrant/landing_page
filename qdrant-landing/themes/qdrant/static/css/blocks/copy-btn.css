@@ -1,0 +1,28 @@
+/*.copy-btn {*/
+/*	cursor: pointer;*/
+/*	color: white;*/
+/*	background: transparent;*/
+/*}*/
+
+.copy-code {
+	position: absolute;
+	right: 8px;
+	top: 8px;
+}
+
+.copy-code__btn {
+	padding: 4px;
+	background: none;
+}
+
+.copy-code__btn:hover {
+	background: #dcdcdc;
+}
+
+.copy-code__btn_light {
+	color: white;
+}
+
+.copy-code__btn_light:hover {
+	background: transparent;
+}
