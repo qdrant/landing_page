@@ -8,27 +8,22 @@ article img {
   margin-right: auto;
 }
 
-article ul {
+article ul,
+article ol {
     margin-top: 1em;
     margin-bottom: 1em;
 }
 
 article ul>li {
- list-style: none;
- margin: 0em 0em 0em 2em;
- padding-left: 10px;
+ list-style: disc;
+ margin: 0 0 0 2em;
  position: relative;
 }
 
-article ul>li:before {
- position: absolute;
- content: '';
- left: 0;
- top: calc(50% - 2px);
- width: 4px;
- height: 4px;
- border-radius: 50px;
- background-color: var(--dark);
+article ol>li {
+ list-style: decimal;
+ margin: 0 0 0 2em;
+ position: relative;
 }
 
 article h1 {
