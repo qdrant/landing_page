@@ -5,7 +5,7 @@
 @import url("../colors.css");
 .hero-code {
 	display: inline-block;
-	padding: 1rem 1.6rem;
+	padding: 1rem 3rem 1rem 1.6rem;
 	margin-bottom: 1rem;
 	background: #f6f8fa;
 	background: var(--brand-secondary);
@@ -21,17 +21,13 @@
 
 .hero-code__btn {
 	position: absolute;
-	top: 5px;
-	right: -1.6rem;
+	top: 15px;
+	right: 1rem;
 }
 
-@media (max-width: 991.98px) {
+@media (max-width: 1140px) {
 	.hero-code {
 		background: var(--gray);
 		padding-right: 3rem;
-	}
-
-	.hero-code__btn {
-		right: -1.6rem;
 	}
 }
