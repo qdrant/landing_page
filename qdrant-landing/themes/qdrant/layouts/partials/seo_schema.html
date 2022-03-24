@@ -40,20 +40,11 @@
     {{ $title := .Title }}
 {{ end }}
 
-{{ $description := "" }}
-{{ if .Description }}
-    {{ $description := .Description }}
-{{ else }}
-    {{if .IsPage}}
-        {{ $description := .Summary }}
-    {{ end }}
-{{ end }}
-
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ $title }}">
-<meta property="og:description" content="{{ $description }}">
+<meta property="og:description" content="{{ .Description }}">
 <meta property="og:image" content="{{ $imageUrl }}">
 
 <!-- Twitter Meta Tags -->
@@ -61,5 +52,5 @@
 <meta property="twitter:domain" content="{{ $domain }}">
 <meta property="twitter:url" content="{{ .Permalink }}">
 <meta name="twitter:title" content="{{ $title }}">
-<meta name="twitter:description" content="{{ $description }}">
+<meta name="twitter:description" content="{{ .Description }}">
 <meta name="twitter:image" content="{{ $imageUrl }}">
