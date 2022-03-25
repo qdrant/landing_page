@@ -30,11 +30,6 @@
 {{ $url := urls.Parse .Site.BaseURL }}
 {{ $domain := index (split $url.Host ".") 0 }}
 
-{{ $imageUrl := path.Join .Site.BaseURL .Site.Params.share_preview_img}}
-{{ if .Params.preview_image }}
-    {{ $imageUrl := path.Join .Site.BaseURL .Params.preview_image }}
-{{ end }}
-
 {{ $title := printf "%s" "Qdrant" | printf "%s%s" " - " | printf "%s%s" .Title | printf "%s" }}
 {{ if or ( and (.IsPage) (eq $.Section "blog") ) ( and ($.IsNode) (eq $.Section "") ) }}
     {{ $title := .Title }}
@@ -45,7 +40,6 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ $title }}">
 <meta property="og:description" content="{{ .Description }}">
-<meta property="og:image" content="{{ $imageUrl }}">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
@@ -53,4 +47,12 @@
 <meta property="twitter:url" content="{{ .Permalink }}">
 <meta name="twitter:title" content="{{ $title }}">
 <meta name="twitter:description" content="{{ .Description }}">
-<meta name="twitter:image" content="{{ $imageUrl }}">
+
+<!-- Image -->
+{{ if .Params.preview_image }}
+<meta name="og:image" content="{{ path.Join .Site.BaseURL .Params.preview_image }}">
+<meta name="twitter:image" content="{{ path.Join .Site.BaseURL .Params.preview_image }}">
+{{ else }}
+<meta name="og:image" content="{{ path.Join .Site.BaseURL .Site.Params.preview_img | relURL }}">
+<meta name="twitter:image" content="{{ path.Join .Site.BaseURL .Site.Params.preview_img | relURL }}">
+{{ end }}
