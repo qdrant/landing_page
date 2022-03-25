@@ -50,9 +50,9 @@
 
 <!-- Image -->
 {{ if .Params.preview_image }}
-<meta name="og:image" content="{{ path.Join .Site.BaseURL .Params.preview_image }}">
-<meta name="twitter:image" content="{{ path.Join .Site.BaseURL .Params.preview_image }}">
+<meta name="og:image" content="{{ .Params.preview_image | relURL }}">
+<meta name="twitter:image" content="{{ .Params.preview_image | relURL }}">
 {{ else }}
-<meta name="og:image" content="{{ path.Join .Site.BaseURL .Site.Params.preview_img | relURL }}">
-<meta name="twitter:image" content="{{ path.Join .Site.BaseURL .Site.Params.preview_img | relURL }}">
+<meta name="og:image" content="{{ .Site.Params.preview_img | relURL }}">
+<meta name="twitter:image" content="{{ .Site.Params.preview_img | relURL }}">
 {{ end }}
