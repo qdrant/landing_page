@@ -7,6 +7,7 @@ image_caption: Automated FAQ
 default_link: /articles/detecting-coffee-anomalies/
 default_link_name: 
 weight: 60
+draft: true
 short_description: |
     Anomaly detection is one of the non-obvious applications of Metric Learning.
     However, Metric Learning has a number of properties that make it an excellent way to approach anomaly detection.
