@@ -57,6 +57,9 @@
 /* @import url('jquery.mCustomScrollbar.min.css'); */
 @import url('colors.css');
 
+@import "blocks/copy-btn.css";
+@import "blocks/hero-code.css";
+
 /*** 
 
 ====================================================================
@@ -7657,25 +7660,11 @@ img{
 	color: var(--brand-primary);
 }
 
-.copy-code {
-	position: absolute;
-	right: 8px;
-	top: 8px;
-}
-
-.copy-code__btn {
-	padding: 4px;
-	background: none;
-}
-
-.copy-code__btn:hover {
-	background: #dcdcdc;
-}
-
 .pull-left {
 	float: left;
 }
 
-.fa-pull-right {
+.pull-right {
 	float: right;
 }
+
