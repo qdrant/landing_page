@@ -26,14 +26,15 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
     logo = "/images/logo_small_with_text.png"
     logo_width = "192"
-    share_preview_img = "/images/logo_with_text.svg"
+    preview_image = "/images/social_preview.png"
 
     github = "https://github.com/qdrant/qdrant"
     quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
     tutorial = "/articles/neural-search-tutorial/"
 
     linkedin = "https://www.linkedin.com/company/qdrant"
-    telegram = "https://t.me/neural_network_engineering"
+    twitter = "https://twitter.com/qdrant_engine"
+    discord = "https://discord.gg/tdtYvXjC4h"
 
     email = "info@qdrant.tech"
     location = "Berlin"

@@ -86,7 +86,8 @@ article aside[role="status"]:before {
 
 article aside[role="alert"]:before {
  content: "\f071";
- font-family: "FontAwesome";
+ font-family: "Font Awesome 5 Free";
+ font-weight: 900;
  font-size: 1rem;
 }
 
@@ -98,7 +99,8 @@ article aside[role="status"] {
 
 article aside[role="status"]:before {
  content: "\f129";
- font-family: "FontAwesome";
+ font-family: "Font Awesome 5 Free";
+ font-weight: 900;
  font-size: 1rem;
 }
 

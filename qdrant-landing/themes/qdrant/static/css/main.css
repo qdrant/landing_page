@@ -1188,7 +1188,8 @@ img{
 }
 
 .main-menu .navigation > li > ul > li.dropdown > a:after{
-	font-family: 'FontAwesome';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
 	content: "\f105";
 	position:absolute;
 	right:15px;
@@ -1267,7 +1268,8 @@ img{
 }
 
 .main-menu .navigation > li > ul > li > ul > li.dropdown > a:after{
-	font-family: 'FontAwesome';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
 	content: "\f105";
 	position:absolute;
 	right:10px;
@@ -2976,9 +2978,13 @@ img{
 	padding-left:25px;
 }
 
-.main-footer .contact-list li .icon{
+.main-footer li .icon{
+	width: 18px;
 	position:absolute;
-	left:0px;
+	left:0;
+	bottom: 50%;
+	margin-bottom: -7px;
+	text-align: center;
 	color:var(--brand-primary);
 }
 
@@ -6313,7 +6319,8 @@ img{
 	overflow: hidden;
 	background: transparent;
 	text-align: center;
-	font-family: 'FontAwesome';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
 	/* -webkit-transition: max-width 500ms ease; */
 	/* -moz-transition: max-width 500ms ease; */
 	/* -ms-transition: max-width 500ms ease; */
@@ -6409,7 +6416,8 @@ img{
 	overflow: hidden;
 	background: transparent;
 	text-align: center;
-	font-family: 'FontAwesome';
+	font-family: 'Font Awesome 5 Free';
+	font-weight: 900;
 	/* -webkit-transition: max-width 500ms ease; */
 	/* -moz-transition: max-width 500ms ease; */
 	/* -ms-transition: max-width 500ms ease; */
@@ -7651,3 +7659,12 @@ img{
 .blog-detail h2>a:hover {
 	color: var(--brand-primary);
 }
+
+.pull-left {
+	float: left;
+}
+
+.pull-right {
+	float: right;
+}
+

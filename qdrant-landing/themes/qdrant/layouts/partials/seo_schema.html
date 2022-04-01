@@ -30,36 +30,36 @@
 {{ $url := urls.Parse .Site.BaseURL }}
 {{ $domain := index (split $url.Host ".") 0 }}
 
-{{ $imageUrl := path.Join .Site.BaseURL .Site.Params.share_preview_img}}
-{{ if .Params.preview_image }}
-    {{ $imageUrl := path.Join .Site.BaseURL .Params.preview_image }}
-{{ end }}
-
 {{ $title := printf "%s" "Qdrant" | printf "%s%s" " - " | printf "%s%s" .Title | printf "%s" }}
 {{ if or ( and (.IsPage) (eq $.Section "blog") ) ( and ($.IsNode) (eq $.Section "") ) }}
     {{ $title := .Title }}
-{{ end }}
-
-{{ $description := "" }}
-{{ if .Description }}
-    {{ $description := .Description }}
-{{ else }}
-    {{if .IsPage}}
-        {{ $description := .Summary }}
-    {{ end }}
 {{ end }}
 
 <!-- Facebook Meta Tags -->
 <meta property="og:url" content="{{ .Permalink }}">
 <meta property="og:type" content="website">
 <meta property="og:title" content="{{ $title }}">
-<meta property="og:description" content="{{ $description }}">
-<meta property="og:image" content="{{ $imageUrl }}">
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary_large_image">
 <meta property="twitter:domain" content="{{ $domain }}">
 <meta property="twitter:url" content="{{ .Permalink }}">
 <meta name="twitter:title" content="{{ $title }}">
-<meta name="twitter:description" content="{{ $description }}">
-<meta name="twitter:image" content="{{ $imageUrl }}">
+
+{{ if .Description }}
+<meta property="og:description" content="{{ .Description }}">
+<meta name="twitter:description" content="{{ .Description }}">
+{{ else }}
+<meta property="og:description" content="{{ .Site.Params.description }}">
+<meta name="twitter:description" content="{{ .Site.Params.description }}">
+{{ end }}
+
+<!-- Image -->
+{{ if .Params.preview_image }}
+<meta name="og:image" content="{{ .Params.preview_image | relURL }}">
+<meta name="twitter:image" content="{{ .Params.preview_image | relURL }}">
+<meta content="my-check!!">
+{{ else }}
+<meta name="og:image" content="{{ .Site.Params.preview_image | relURL }}">
+<meta name="twitter:image" content="{{ .Site.Params.preview_image | relURL }}">
+{{ end }}
