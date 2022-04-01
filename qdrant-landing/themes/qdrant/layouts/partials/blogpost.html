@@ -18,17 +18,7 @@
                 <div class="pull-left">
                     <ul class="post-meta">
 
-                        {{ if and .Params.author .Params.author_link }}
-                        <li>
-                            <a href="{{ .Params.author_link }}" target="_blank">
-                                <span class="fa fa-user mr-1"></span>{{ .Params.author }}
-                            </a>
-                        </li>
-                        {{ else if and .Params.author (not .Params.author_link) }}
-                        <li>
-                            <span class="fa fa-user mr-1"></span>{{ .Params.author }}
-                        </li>
-                        {{ end }}
+                        {{ partial "author" . }}
 
                         {{ if .Params.Categories }}
                         <li>Category:
@@ -46,7 +36,7 @@
                         {{ end }}
                     </ul>
                     <ul class="post-meta">
-                        <li><span class="fa fa-calendar mr-1"></span>{{ .Date | time.Format ":date_long" }}
+                        <li><span class="fa fa-calendar mr-2"></span>{{ .Date | time.Format ":date_long" }}
                         </li>
                         <li>
                             <!-- Post Share Options -->
@@ -54,12 +44,12 @@
                                 <ul class="social-box">
                                     <span class="share">Share this post:</span>
                                     <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ $link }}"><span
-                                            class="fa fa-facebook-f"></span></a></li>
+                                            class="fab fa-facebook-f"></span></a></li>
                                     <li>
                                         <a href="https://twitter.com/intent/tweet?url={{ $link }}&text={{ .Title }}"><span
-                                                class="fa fa-twitter"></span></a></li>
+                                                class="fab fa-twitter"></span></a></li>
                                     <li><a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $link }}"><span
-                                            class="fa fa-linkedin"></span></a></li>
+                                            class="fab fa-linkedin"></span></a></li>
                                 </ul>
                             </div>
 
