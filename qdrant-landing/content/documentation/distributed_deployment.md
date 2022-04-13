@@ -5,16 +5,16 @@ weight: 50
 
 # Distributed Deployment
 
-ToDo
+Currently work-in-progress, see [Roadmap](https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md)
 
 ## Replication
 
-ToDo
+Currently work-in-progress, see [Roadmap](https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md)
 
 ## Sharding
 
-ToDo
+Currently work-in-progress, see [Roadmap](https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md)
 
 ## RAFT
 
-ToDo
+Currently work-in-progress, see [Roadmap](https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md)

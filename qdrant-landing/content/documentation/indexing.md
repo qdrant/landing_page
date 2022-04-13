@@ -14,7 +14,7 @@ Their necessity is determined by the [optimizer](../optimizer) settings and depe
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
-This index is built for a specific field and is used for quick point requests by the corresponding filtering condition.
+This index is built for a specific field and type and is used for quick point requests by the corresponding filtering condition.
 
 The index is also used to accurately estimate the filter cardinality, which helps the [query planned](../search) choose a search strategy.
 
@@ -28,7 +28,8 @@ REST API
 PUT /collections/{collection_name}/index
 
 {
-    "field_name": "name_of_the_field_to_index"
+    "field_name": "name_of_the_field_to_index",
+    "field_type": "keyword"
 }
 ```
 
@@ -39,8 +40,15 @@ With Python client
 ```
  -->
 
+ Available field types are:
+
+ * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
+ * `integer` - for [integer](../payload/#integer) payload, affects [Match](../filtering/#match) and [Range](../filtering/#range) filtering conditions.
+ * `float` - for [float](../payload/#float) payload, affects [Range](../filtering/#range) filtering conditions.
+ * `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
+
 For indexing, it is recommended to choose the field that limits the search result the most.
-As a rule, the more different values a payload value has, the more efficient the index will be used.
+As a rule, the more different values a payload value has, the more efficiently the index will be used.
 You should not create an index for Boolean fields and fields with only a few possible values.
 
 

@@ -38,8 +38,8 @@ Example:
 {
     "filter": {
         "must": [
-            { "key": "city", "match": { "keyword": "London" } },
-            { "key": "color", "match": { "keyword": "red" } }
+            { "key": "city", "match": { "value": "London" } },
+            { "key": "color", "match": { "value": "red" } }
         ]
     }
   ...
@@ -66,8 +66,8 @@ Example:
 {
     "filter": {
         "should": [
-            { "key": "city", "match": { "keyword": "London" } },
-            { "key": "color", "match": { "keyword": "red" } }
+            { "key": "city", "match": { "value": "London" } },
+            { "key": "color", "match": { "value": "red" } }
         ]
     }
   ...
@@ -97,8 +97,8 @@ Example:
 {
     "filter": {
         "must_not": [
-            { "key": "city", "match": { "keyword": "London" } },
-            { "key": "color", "match": { "keyword": "red" } }
+            { "key": "city", "match": { "value": "London" } },
+            { "key": "color", "match": { "value": "red" } }
         ]
     }
   ...
@@ -126,10 +126,10 @@ It is also possible to use several clauses simultaneously:
 {
     "filter": {
         "must": [
-            { "key": "city", "match": { "keyword": "London" } }
+            { "key": "city", "match": { "value": "London" } }
         ],
         "must_not": [
-            { "key": "color", "match": { "keyword": "red" } }
+            { "key": "color", "match": { "value": "red" } }
         ]
     }
   ...
@@ -155,8 +155,8 @@ Also the conditions could be recursively nested. Example:
         "must_not": [
             {
                 "must": [
-                    { "key": "city", "match": { "keyword": "London" } },
-                    { "key": "color", "match": { "keyword": "red" } }
+                    { "key": "city", "match": { "value": "London" } },
+                    { "key": "color", "match": { "value": "red" } }
                 ]
             }
         ]
@@ -188,7 +188,7 @@ Let's look at the existing condition variants and what types of data they apply 
 { 
     "key": "color",
     "match": {
-        "keyword": "red" 
+        "value": "red" 
     }
 }
 ```
@@ -197,13 +197,15 @@ Let's look at the existing condition variants and what types of data they apply 
 { 
     "key": "count",
     "match": {
-        "integer": 0 
+        "value": 0 
     }
 }
 ```
 
 
-The simplest kind of condition is one that checks if the stored value equals the given one. If several values are stored, at least one of them should match the condition. You can apply it to payloads of type `keyword` or `integer`.
+The simplest kind of condition is one that checks if the stored value equals the given one.
+If several values are stored, at least one of them should match the condition.
+You can apply it to [keyword](../payload/#keyword), [integer](../payload/#integer) and [bool](../payload/#bool) payloads.
 
 ### Range
 
@@ -229,9 +231,11 @@ Comparisons that can be used:
 - `lt` - less than
 - `lte` - less than or equal
 
-Can be applied to payloads of type `float` or `integer`.
+Can be applied to [float](../payload/#float) and [integer](../payload/#integer) payloads.
 
 ### Geo
+
+#### Geo Bounding Box 
 
 ```
 {
@@ -253,6 +257,8 @@ Can be applied to payloads of type `float` or `integer`.
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 
+#### Geo Radius
+
 ```
 {
     "key": "location",
@@ -269,8 +275,58 @@ It matches with `location`s inside a rectangle with the coordinates of the upper
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
 
 If several values are stored, at least one of them should match the condition.
-These conditions can only be applied to payloads of the `geo` type.
+These conditions can only be applied to payloads that match the [geo-data format](../payload/#geo).
 
+### Values count
+
+In addition to the direct value comparison, it is also possible to filter by the amount of values.
+
+For example, given the data:
+
+```
+[
+    {"id": 1, "name": "product A", "comments": ["Very good!", "Excellent"]},
+    {"id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"]},
+]
+```
+
+We can perform the search only among the items with more than two comments:
+
+```
+{
+    "key": "comments",
+    "values_count": {
+        "gt": 2
+    }
+}
+```
+
+The result would be:
+
+```
+[
+    {"id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"]},
+]
+```
+
+If stored value is not an array - it is assumed that the amount of values is equals to 1.
+
+### Is Empty
+
+Sometimes it is also useful to filter out records that are missing some value.
+The `IsEmpty` condition may help you with that:
+
+```
+{
+    "is_empty": {
+        "key": "reports"
+    }
+}
+```
+
+This condition will match all records where the field `reports` either does not exists, or have `NULL` or `[]` value.
+
+<aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not<b>. In this case all non-empty values will be selected.</aside>
 
 ### Has id
 
