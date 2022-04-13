@@ -296,7 +296,7 @@ POST /collections/{collection_name}/points/delete
             {
                 "key": "color"
                 "match": {
-                    "keyword": "red"
+                    "value": "red"
                 }
             }
         ]
@@ -366,7 +366,7 @@ POST /collections/{collection_name}/points/scroll
             {
                 "key": "color",
                 "match": {
-                    "keyword": "red"
+                    "value": "red"
                 }
             }
         ]
@@ -387,7 +387,7 @@ Returns all point with `color` = `red`.
             {
                 "id": 0,
                 "payload": {
-                    "color": { "type": "keyword", "value": [ "red" ] }
+                    "color": "red"
                 }
             }
         ]
