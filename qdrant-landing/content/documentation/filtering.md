@@ -326,7 +326,7 @@ The `IsEmpty` condition may help you with that:
 
 This condition will match all records where the field `reports` either does not exists, or have `NULL` or `[]` value.
 
-<aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not<b>. In this case all non-empty values will be selected.</aside>
+<aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
 
 ### Has id
 
