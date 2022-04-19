@@ -1,24 +1,24 @@
 <div class="col-12">
-  <div class="sidebar-widget popular-posts">
-    <div class="sidebar-title">
+  <div class="sidebar-widget">
+    <div class="widget-title">
       <h4>Recent News</h4>
     </div>
 
-    {{ range where (where site.Pages "Section" "blog") ".Params.featured" "=" true | first 2 }}
+    {{ range where (where site.Pages "Section" "blog") ".Params.featured" "=" true | first 3 }}
     {{ $link := .Permalink }}
     {{ if .Params.external_link }}
     {{ $link = .Params.external_link }}
     {{ end }}
-    <article class="post">
-      <div class="post-inner">
-        <figure class="post-thumb"><img src="{{ .Params.preview_image }}" alt=""><a href="{{ $link }}" class="overlay-box"></a></figure>
+    <article class="post-preview">
+      <div class="post-preview__description">
+        <figure class="post-preview__thumb"><img class="post-preview__img" src="{{ .Params.preview_image }}" alt=""><a href="{{ $link }}" class="overlay-box"></a></figure>
         {{ if .Params.Categories }}
-        {{ range .Params.Categories }}
-        <div class="title">{{ . }}</div>
+        {{ range .Params.Categories | first 1 }}
+        <div class="post-preview__title">{{ . }}</div>
         {{ end }}
         {{ end }}
-        <div class="text"><a href="{{ $link }}">{{ .Title }}</a></div>
-        <a href="{{ $link }}" class="learn-more">Learn More</a>
+        <div class="post-preview__text"><a class="post-preview__link" href="{{ $link }}">{{ .Title }}</a></div>
+        <a href="{{ $link }}" class="post-preview__learn-more">Learn More</a>
       </div>
     </article>
     {{ end }}
