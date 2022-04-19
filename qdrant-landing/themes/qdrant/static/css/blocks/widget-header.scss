@@ -1,0 +1,17 @@
+.widget-title,
+.sidebar-title {
+	position: relative;
+	margin-bottom:0px;
+	padding:14px 20px;
+	display:block;
+	border-radius:8px;
+	background-color:#eef1f9;
+}
+
+.widget-title h4,
+.sidebar-title h4 {
+	color: #2b2b2b;
+	font-weight: 700;
+	line-height: 1.2em;
+	text-transform: capitalize;
+}
