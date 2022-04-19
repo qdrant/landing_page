@@ -7241,14 +7241,14 @@ img{
 
 .popular-posts .post .post-inner{
 	position:relative;
-	padding-left:120px;
+	padding-left:185px;
 }
 
 .popular-posts .post .post-thumb{
 	 position:absolute;
 	 left:0px;
 	 top:0px;
-	 width:80px;
+	 width:162px;
 	 height:80px;
 }
 
