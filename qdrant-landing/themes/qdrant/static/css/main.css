@@ -146,10 +146,16 @@
   top: 0px;
   width: 162px;
   height: 80px;
+  background-color: var(--brand-primary);
+  overflow: hidden;
 }
 .post-preview__img {
   display: block;
   width: 100%;
+}
+.post-preview__img:hover {
+  transform: scale(1.04, 1.04);
+  opacity: 0.5;
 }
 .post-preview__text {
   position: relative;

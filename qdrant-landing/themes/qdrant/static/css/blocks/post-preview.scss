@@ -20,11 +20,18 @@
     top: 0px;
     width: 162px;
     height: 80px;
+    background-color:var(--brand-primary);
+    overflow: hidden;
   }
 
   &__img {
     display: block;
     width: 100%;
+
+    &:hover {
+      transform:scale(1.04,1.04);
+      opacity:0.5;
+    }
   }
 
   &__text {
@@ -41,10 +48,10 @@
 
   &__link {
     color: #2b2b2b;
-  }
 
-  &__link:hover {
-    color: var(--brand-primary);
+    &:hover {
+      color: var(--brand-primary);
+    }
   }
 
   &__title {

@@ -11,44 +11,23 @@
     {{ end }}
     <article class="post-preview">
       <div class="post-preview__description">
-        <figure class="post-preview__thumb"><img class="post-preview__img" src="{{ .Params.preview_image }}" alt=""><a href="{{ $link }}" class="overlay-box"></a></figure>
+        <a class="post-preview__thumb" href="{{ $link }}">
+          <img class="post-preview__img" src="{{ .Params.preview_image }}" alt="">
+        </a>
         {{ if .Params.Categories }}
         {{ range .Params.Categories | first 1 }}
-        <div class="post-preview__title">{{ . }}</div>
+        <a href='{{ "/categories/" | relLangURL }}{{ . | urlize }}' class="post-preview__title">{{ . }}</a>
         {{ end }}
         {{ end }}
         <div class="post-preview__text"><a class="post-preview__link" href="{{ $link }}">{{ .Title }}</a></div>
-        <a href="{{ $link }}" class="post-preview__learn-more">Learn More</a>
+
+        {{ if .Params.Tags }}
+          {{ range .Params.Tags }}
+          <a href='{{ "/tags/" | relLangURL }}{{ . | urlize }}' class="post-preview__learn-more">#{{ . }}</a>
+          {{ end }}
+        {{ end }}
       </div>
     </article>
     {{ end }}
-
-<!--    <article class="post">-->
-<!--      <div class="post-inner">-->
-<!--        <figure class="post-thumb"><img src="https://via.placeholder.com/80x76" alt=""><a href="blog-detail.html" class="overlay-box"></a></figure>-->
-<!--        <div class="title">Post category title</div>-->
-<!--        <div class="text"><a href="blog-detail.html">Prediction Data Mining</a></div>-->
-<!--        <a href="blog-detail.html" class="learn-more">Learn More</a>-->
-<!--      </div>-->
-<!--    </article>-->
-
-<!--    <article class="post">-->
-<!--      <div class="post-inner">-->
-<!--        <figure class="post-thumb"><img src="https://via.placeholder.com/80x76" alt=""><a href="blog-detail.html" class="overlay-box"></a></figure>-->
-<!--        <div class="title">Post category title</div>-->
-<!--        <div class="text"><a href="blog-detail.html">Prediction Data Mining</a></div>-->
-<!--        <a href="blog-detail.html" class="learn-more">Learn More</a>-->
-<!--      </div>-->
-<!--    </article>-->
-
-<!--    <article class="post">-->
-<!--      <div class="post-inner">-->
-<!--        <figure class="post-thumb"><img src="https://via.placeholder.com/80x76" alt=""><a href="blog-detail.html" class="overlay-box"></a></figure>-->
-<!--        <div class="title">Post category title</div>-->
-<!--        <div class="text"><a href="blog-detail.html">Prediction Data Mining</a></div>-->
-<!--        <a href="blog-detail.html" class="learn-more">Learn More</a>-->
-<!--      </div>-->
-<!--    </article>-->
-
   </div>
 </div>
