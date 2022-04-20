@@ -104,7 +104,7 @@ article aside[role="status"]:before {
  font-size: 1rem;
 }
 
-.single-page article {
+.single-page article:first-of-type {
  padding-top: 38px;
 }
 

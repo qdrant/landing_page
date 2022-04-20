@@ -17,7 +17,7 @@
   &__thumb {
     position: absolute;
     left: 0px;
-    top: 0px;
+    top: 2px;
     width: 162px;
     height: 80px;
     background-color:var(--brand-primary);
@@ -61,11 +61,9 @@
     font-weight: 400;
   }
 
-  &__learn-more {
+  &__tags {
     position: relative;
-    font-size: 18px;
     color: var(--brand-primary);
-    font-weight: 400;
     text-decoration: underline;
   }
 }

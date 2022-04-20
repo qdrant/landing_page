@@ -143,7 +143,7 @@
 .post-preview__thumb {
   position: absolute;
   left: 0px;
-  top: 0px;
+  top: 2px;
   width: 162px;
   height: 80px;
   background-color: var(--brand-primary);
@@ -180,11 +180,9 @@
   color: #5a5a5a;
   font-weight: 400;
 }
-.post-preview__learn-more {
+.post-preview__tags {
   position: relative;
-  font-size: 18px;
   color: var(--brand-primary);
-  font-weight: 400;
   text-decoration: underline;
 }
 

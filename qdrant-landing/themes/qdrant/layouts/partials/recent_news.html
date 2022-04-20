@@ -23,7 +23,7 @@
 
         {{ if .Params.Tags }}
           {{ range .Params.Tags }}
-          <a href='{{ "/tags/" | relLangURL }}{{ . | urlize }}' class="post-preview__learn-more">#{{ . }}</a>
+          <a href='{{ "/tags/" | relLangURL }}{{ . | urlize }}' class="post-preview__tags">#{{ . }}</a>
           {{ end }}
         {{ end }}
       </div>
