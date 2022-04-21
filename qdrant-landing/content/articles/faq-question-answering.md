@@ -4,113 +4,96 @@ sitemapExclude: True
 
 # Question-answering system with Metric learning and Quaterion
 
-There are vast amount of tasks in modern machine learning which are being decided as classification 
-tasks. Some of them are naturally classification tasks and some of them were converged to such, it 
-is not a rare case. Seeing a new problem, the most of us start with an endeavour to solve it with 
-an approach we already applied to other tasks? It is a well-known way, it probably might be 
-implemented with less effort and so on. The main drawback of such an approach is that it is a part 
-of supervised learning.
-
-Supervised learning assumes that in our dataset besides data objects themselves we also have labels
-determining to which class our objects belong to. There are more unlabelled data in the wild, 
-rather labelled one and data labelling might be a really time-consuming and expensive task, since 
-modern models requires huge amount of data.
-
-Well, today we are going to solve a problem without a classification approach. We will build a 
-question-answering system which makes its decisions based on distances between questions and 
-answers. A technique which solves problems by analysing distances between objects is metric 
-learning.
-
-Metric learning might be used both in supervised and unsupervised learning. Today we are going to 
-work with the latter one. Our dataset contains questions and answers downloaded from F.A.Q. pages 
-of popular cloud providers, such as AWS, GCP, etc.
-
-It's a common practice in NLP to represent texts as a collection of high-dimensional vectors, also 
-called _embeddings_. And to measure distance between embeddings one can just compute cosine or 
-euclidean distances. Then nothing prevents us from training a model which is capable of placing 
-embeddings from the same question-answer pair close in space and embeddings from different pairs 
-far from each other. Then the nearest to question embedding will be it's right answer. 
-And that's it! Also, we don't need any classes and might be able to add new questions and answers 
-without re-training.
-
-We haven't discussed yet how to obtain embeddings and how to train a model.
-
-As embeddings is not a novel technique in NLP, there are already plenty of algorithms and models 
-which can provide suitable representations. There are two general ways to train a model with 
-embeddings. One  is when  you use them as features:  apply some model, get embeddings and use them 
-as input for your model with a task-specific architecture to emit whatever output you want. This is 
-so called _feature-based_ approach, and some of well-known algorithms used here are Word2Vec, GloVe, 
-ELMo.
-
-Quaterion, however, encourages another approach &ndash; _fine-tuning_. In fine-tuning you take a 
-model pre-trained on another task (e.g. to achieve a general language understanding), apply a 
-couple of layers on top of it and tune parameters which you need during training. In such an 
-approach you don't need to generate embeddings explicitly, model's hidden states could be used as 
-ones. You also don't need to build a task-specific architecture. In our case we usually just apply 
-some linear layers and train model with a metric learning loss to be able to measure distance 
-between model's outputs.
-
-One of the most known and easy to understand losses is a Contrastive Loss.
-Contrastive loss formula is straightforward:
-
-![contrastive_loss_formula](https://gist.githubusercontent.com/joein/f8318cac8ea1d205ac3533c7d313f459/raw/3f6e754f53fc0b544b36b9f4359b0edcdc0411dd/contrastive_loss_formula.png)
-Contrastive loss (http://yann.lecun.com/exdb/publis/pdf/hadsell-chopra-lecun-06.pdf)
-
-It makes similar objects to be close to each other (left part) and pushes away objects marked as 
-dissimilar (right part). When distance between dissimilar objects is greater than (m)argin, loss 
-stops to push them away, and focuses on similar objects. On the picture you can see how it works. 
-After training, the green circles were attracted to each other, the blue one remained at the same 
-distance, and the orange circle repelled from the green ones.
-
-![contrastive_loss_image](https://gist.githubusercontent.com/joein/f8318cac8ea1d205ac3533c7d313f459/raw/f3e8049ef5180c8a8fc391edf79641005672be67/contrastive_loss_image.png)
-Contrastive loss example
-
-With contrastive loss you need to set which objects are similar and which are not. But in our case 
-we have only positive pairs: question and its answer, why would we need to label negative examples?
-There is a loss, called multiple negative ranking loss, and it treats all other sentences in a 
-batch as negative examples, and it is exactly what we need here.
-
-Having all this theory in mind, let's start practising!
-
-During this tutorial we will need a couple of _utils_ scripts. They  can be found in the repository. 
-
-- `train_val_split.py` - to split data into train and val parts.
-
-- `download_data.sh` - to download data from storage, create data folder and apply train_val_split.
-
-- `config.py` - for universal path usage.
-
-Let's begin with data acquisition. To download and split data you need to
-launch `download_data.sh` (don't forget to make it executable with `chmod +x download_data.sh` ).
-
-After data downloading you should see 3 files: `cloud_faq_dataset.jsonl`, 
-`train_cloud_faq_dataset.jsonl`, `val_cloud_faq.jsonl`.
-Our dataset is pretty imbalanced, but according to experiments, it is not a severe problem for us. 
-Let's take a look at a pie plot of our data.
 
 
-![dataset_pie_plot](https://gist.githubusercontent.com/joein/f8318cac8ea1d205ac3533c7d313f459/raw/f3e8049ef5180c8a8fc391edf79641005672be67/dataset_pie_plot.png)
-Cloud providers F.A.Q dataset distribution
+Vast amount of tasks in modern machine learning being solved as classification ones. Some of them
+are naturally classification tasks, but the others were converged to such. And when you try to
+apply an approach, which does not naturally fit your task or data, you risk coming up with 
+tricky or bulky solutions, or even with results worse than you could obtain. 
 
-A regular record from our datasets will be a JSON object contains four fields:
+Imagine that you got a new task and decided to solve it with a good old classification approach. 
+Firstly, you will need a labeled data. You're lucky, if it came on a plate with the task, but if it 
+didn't, you might need to label it manually. And I guess you are already familiar how painful it
+may be.
 
-- source - name of cloud provider to which this particular record belongs to (might be useful in 
-experiments, won't be used in this tutorial)
+Let's assume you somehow labelled all required data, trained a model, it shows good performance, 
+well done! But a day later e.g. your manager said you about a bunch of new data with new classes 
+which have to be handled by your model too. And you repeat your pipeline again. Then, two days 
+later you've been reached out one more time, you need to update a model again, and again, and 
+again. Sounds tedious and expensive for me, does not it for you? But ok, it works, let's keep it as
+it is.
+ 
+Ok, that all was a bit abstract, let's come with a more realistic example. Assume your company has
+some complicated products or just new clients come quite often. In such situations users have a lot 
+of questions. At the beginning, F.A.Q page might be helpful, but amount of questions raises with 
+growth of a product. F.A.Q either can't cover everything either become huge and hard to navigate. 
+Then you probably have two solutions, bring some automation to the process or hire a support team,
+or even both. With the former one, e.g. a chatbot or just smart search could be implemented. 
+Obviously, you can come up with classification based decision, e.g. build a bunch of classification
+models to sequentially determine question's topic, retrieve documents and extract correct answer 
+from them. But as for me - it seems bulky, also it is not that easy to scale as new features and
+hence classes delivered. But what if we don't want to build such a pipeline, maybe we can find the 
+right answer from the very beginning? And actually we might be able to do this if we replace
+classification with metric learning. 
 
-- filename - if F.A.Q is divided into several sections, it is a section name (also won't be used in 
-this tutorial)
-- question - question in lower case
-- answer - answer in lower case
+Metric learning is a way to look at a problem from a different angle. It suggests getting rid of 
+the classes and instead make decisions based on distance between objects. In our case we would like
+a question, and it's answer to be the nearest objects to each other. We can't calculate distance
+just between raw strings, we need some intermediate representation - embeddings. Embeddings are
+high-dimensional vectors with semantic information in them. As embeddings are vectors, one can
+apply simple function to calculate distances between them, like cosine or euclidean. So with metric
+learning all we need to provide an answer to a question are the knowledge which answer belongs to
+which question, suitable embeddings for them and some distance calculation.
 
-Notices about questions and answers:
-may contain unicode characters
-joint length of question and its answer does not exceed 384 (just a feature of the data)
+>If you are not familiar with metric learning, we have an 
+[article](https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc) which might be an asset.
 
-As Quaterion suggests usage of fine-tuning approach, a common model built via it will consist of an 
-encoder(s) and a head attached upon it. Let's make our one then.
+Metric learning approach seems a lot simpler than classification in this case, and if you have some
+doubts on your mind, let me dispel them. We haven't any resource with exhaustive F.A.Q. which might 
+serve as a dataset, so we've scrapped it from sites of popular cloud providers such as AWS, GCP, 
+Azure, IBM, Hetzner and YandexCloud. Our dataset consists of almost 8.5k pairs of question and 
+answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq)
 
-The main entity in Quaterion is `TrainableModel`. It is a class to make model building process fast 
-and convenient.
+Well, we have data, we need to obtain embeddings for it, but how to do this? It is not a novel
+technique in NLP to represent texts as embeddings, thus there are plenty of algorithms and models
+to make them. You could hear of Word2Vec, GloVe, ELMo, BERT, all these models can provide text
+embeddings. However, it is better to produce embeddings with a model trained for semantic
+similarity tasks. For instance, we can find such models at 
+[sentence-transformers](https://www.sbert.net/docs/pretrained_models.html). Authors claim that 
+`all-mpnet-base-v2` provides the best quality, but let's pick `all-MiniLM-L6-v2` for our tutorial
+as it 5x faster and still offers good quality. 
+
+Having all this, we can test our approach. We won't take all our dataset at the moment, but only
+a part of it. To measure model's performance we will use two metrics -
+[mean reciprocal rank](https://en.wikipedia.org/wiki/Mean_reciprocal_rank) and 
+[precision@1](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k).
+We have a [ready script](https://github.com/qdrant/demo-cloud-faq/blob/experiments/faq/baseline.py)
+for this experiment, let's just launch it now.
+
+
+| precision@1    | mean_reciprocal_rank |
+|----------------|----------------------|
+| AWESOME RESULT | MORE AWESOME RESULT  |
+
+That's already quite decent quality, but maybe we can do better?
+
+Actually, we can. Model we used has a good natural language understanding, but it has never seen
+our data. Nowadays in such situations usually being applied an approach called `fine-tuning`. In 
+fine-tuning you don't need to design a task-specific architecture, but take a model pre-trained on 
+another task (e.g. to achieve a general language understanding), apply a couple of layers on top of
+it and tune parameters which you need during training. Sounds good, but as metric learning is not
+as traditional as classification, it might be a bit inconvenient to build fine-tune a model.
+For this reason we built our framework - Quaterion. Quaterion provides a user-friendly interface to
+fine-tune metric learning models and use them for serving after all. Let us not be unfounded and 
+prepare a model with you.
+
+Before we start, let's create our project and call it `faq`. 
+
+> All project dependencies, utils scripts not covered in the tutorial can be found in the
+> [repository](https://github.com/qdrant/demo-cloud-faq/tree/tutorial). 
+
+The main entity in Quaterion is `TrainableModel`. It is a class to make model's building process 
+fast and convenient.
 
 `TrainableModel` is a wrapper around `pytorch_lightning.LightningModule`. Lightning handles all the 
 training process complexities, like training loop, device managing, etc. and saves user from a 
@@ -119,17 +102,15 @@ mentioned. Modularity improves separation of responsibilities, makes code more r
 easy to write. And these are exactly the features we tried to provide in our metric learning 
 framework.
 
-First, we need to create a package to store our scripts. Let's call it `faq`.
-Then we should take a closer look at `TrainableModel`.
-
 `TrainableModel` is an abstract class whose methods need to be overridden to perform training. 
 Mandatory methods are `configure_loss`, `configure_encoders`, `configure_head`, 
-`configure_optimizers`.
-The majority of these methods are quite easy to realise, you'll probably need a couple of imports 
-to do that. But `configure_encoders` requires some code:)
+`configure_optimizers`. Encoders task is to emit embeddings, usually they are pre-trained models.
+Head is a collection of layers we apply on top of the model.
+The majority of mentioned methods are quite easy to realise, you'll probably need a couple of 
+imports to do that. But `configure_encoders` requires some code:)
 
-Let's create a  `model.py` with model's template and a blank space instead of `configure_encoders` at 
-the moment.
+Let's create a  `model.py` with model's template and a blank space instead of `configure_encoders` 
+at the moment.
 
 ```python
 from typing import Union, Dict, Optional, Any
@@ -162,20 +143,9 @@ class FAQModel(TrainableModel):
         return SkipConnectionHead(input_embedding_size)
 ```
 
-P.S. all required dependencies can be found in `pyproject.toml` in the repository. If you are not 
-familiar with poetry, you can just run this script in your project root:
-
-```shell
-#!/bin/bash
-python3 -m venv venv  # creates new virtual environment
-source venv/bin/activate  # activates virtual environment
-pip3 install poetry  # install poetry
-poetry install  # install dependencies listed in pyproject.toml
-```
-
-- `configure_optimizers` is a method provided by Lightning. An eagle-eye of you could notice mysterious
-`self.model` in our implementation, it is actually a `quaterion_models.MetricModel` instance. We will 
-cover it later.
+- `configure_optimizers` is a method provided by Lightning. An eagle-eye of you could notice 
+mysterious `self.model` in our implementation, it is actually a `quaterion_models.MetricModel` 
+instance. We will cover it later.
 - `configure_loss` is a loss function to be used during training. You can choose a ready loss class 
 from already implemented in Quaterion.
 However, since Quaterion's purpose is not to cover all possible losses, or other entities and 
@@ -183,27 +153,27 @@ features of metric learning, but to provide a convenient framework to build and 
 there might not be a desired loss. In this case it is possible to use `PytorchMetricLearningWrapper` 
 to bring required loss from `pytorch-metric-learning` library, which has more rich collection of 
 losses. Also, you can implement a desired loss yourself.
-By default, `MultipleNegativesRankingLoss` use cosine to measure distance under the hood, but it is
-a configurable parameter. Quaterion provides several objects to calculate similarities or 
-distances. You can find available ones at `quaterion.distances`.
 - `configure_head` - model built via Quaterion is a combination of encoders and a top layer - head.
 As with losses, some ready head implementations are provided. They can be found at 
 `quaterion_models.heads`.
 
+Here we use `MultipleNegativesRankingLoss`. It is a loss especially good for retrieval tasks. It 
+assumes that we pass only positive pairs (similar objects) and considers all other objects outside 
+a pair being considered as negative examples. `MultipleNegativesRankingLoss` use cosine to measure 
+distance under the hood, but it is a configurable parameter. Quaterion provides several objects to 
+calculate similarities or distances. You can find available ones at `quaterion.distances`.
+
 Having our methods described, we can return to `configure_encoders`:)
 
-There is a base class for encoders in quaterion_models - `Encoder`.
+There is a base class for encoders in quaterion_models - `Encoder`. 
 Similar to `TrainableModel`, `Encoder` has some methods and properties which have to be 
 implemented. Two properties - `trainable` and `embedding_size` and one method - `forward` are 
 required. The other methods have no strict requirement to be overridden, but it's up to you and 
 depends on particular task.
 
-Our encoder should have noticeable general language understanding to provide embeddings for our 
-questions and answers. A nice choice might be to use one of presented in `sentence-transformers`. 
-In  our case we will use `all-MiniLM-L6-v2`, as it was trained on a dataset combined from different 
-sources with contrastive objective, so it might work well for the task.
+We will use the model used in baseline as encoder - `all-MiniLM-L6-v2` from `sentence-transformers`.
 
-Having all this, we can create our first encoder in `encoder.py`:
+Let's create our encoder in `encoder.py`
 
 ```python
 import os
@@ -270,11 +240,12 @@ output.
 
 - `embedding_size` is a size of encoder's output, it is required for proper head configuration.
 
-- `get_collate_fn` is a tricky one. Here you should return a method which prepares a batch of raw data 
-into encoder suitable input. If `get_collate_fn` is not overridden, then default implementation 
-will be used. The default one is `default_collate` from `torch.utils.data._utils.collate`.
+- `get_collate_fn` is a tricky one. Here you should return a method which prepares a batch of raw 
+data into encoder suitable input. If `get_collate_fn` is not overridden, then the default 
+implementation will be used. The default one is `default_collate` from 
+`torch.utils.data._utils.collate`.
 
-The remaining methods are considered self-describing:)
+The remaining methods are considered self-describing.
 
 As our encoder is ready, we now are able to fill `configure_encoders`. Just insert the following code 
 into `model.py`:
@@ -296,14 +267,14 @@ class FAQModel(TrainableModel):
 Ok, we have a model, we have raw data, we know how to prepare input for encoders, we don't know yet
 how to pass this data to our model and how it has to look like.
 
-Currently, Quaterion assumes two kind of data representation - pairs and groups. In pairs, you 
-should label if a couple of objects are similar or dissimilar, for example, it is a suitable input 
-for _ContrastiveLoss_. And the groups format assumes that all objects split into groups of similar 
-objects. All objects inside one group are similar, and all other objects outside this group 
-considered dissimilar to them.
 
-In our case we have a collection of questions and answers. We can use here both approaches, but 
-pairs seems more intuitive for this case.
+Currently, Quaterion assumes two kind of data representation - pairs and groups. 
+In pairs, you should take two objects and label if they are similar or not. It is a suitable input 
+for example for _ContrastiveLoss_ or _MultipleNegativesRankingLoss_. 
+The groups format assumes that all objects split into groups of similar objects. All objects inside
+one group are similar, and all other objects outside this group considered dissimilar to them.
+
+We can apply any of the approaches with our data, but pairs one seems more intuitive.
 
 To represent pairs we have `SimilarityPairSample` in `quaterion.dataset.similarity_samples`. Let's take
 a look at it:
@@ -323,11 +294,13 @@ Well, `score` is a measure of samples similarity, generally it is just being con
 _0.0_ into _False_ and all other values into _True_. But you also can make your own implementations
 to tune impact of particular pairs on a loss function.
 
-Up to this point pairs might look like an absolutely separated entities which can't have any 
-relation between them. That's where subgroup came into a play: we can union some pairs into a 
-subgroup, so other objects from the same subgroup can't be considered as negative examples, but 
-objects from the others subgroups can. By default, all objects are in the same subgroup, so we 
-consider only explicitly set links between points.
+What if we don't use `MultipleNegativesRankingLoss` to take care of negative samples? Then we have
+2 ways of feeding our model with negative examples: 
+1. construct negative pairs explicitly
+2. use subgroups
+
+All objects outside a `subgroup` will be considered as negative examples in loss, and thus it 
+provides a way to set negative examples implicitly.
 
 After this introduction we can create our `Dataset` class in `dataset.py` to feed our model:
 ```python
@@ -365,21 +338,18 @@ class FAQDataset(Dataset):
             return [json.loads(json_line) for json_line in fd]
 ```
 
+We assigned a unique subgroup for each question-answer pair, so all other objects which do not 
+belong to a particular pair will be considered as negative examples.
 
-We assign a unique subgroup for each question-answer pair, so all other objects which do not belong 
-to a particular pair will be considered as negative examples.
+We still haven't added any metrics to the model. To make any additional evaluations on embeddings, 
+we should override `process_results` method of `TrainableModel`.
 
-We are already able to train our model, but at the moment the only obvious way to measure its 
-performance is loss observations. To make any additional evaluations on embeddings, e.g. perform 
-metrics calculation, one should override `process_results` method of `TrainableModel`.
+Quaterion has some popular retrieval metrics such as _precision @ k_ or _mean reciprocal rank_ 
+implemented, they can be found in `quaterion.eval` module. But there is quite a few of metrics, it 
+is assumed that desirable ones will be made by user or taken from another libraries. You will 
+probably need to inherit from `PairMetric` or `GroupMetric` to implement a new one.
 
-Quaterion has some popular retrieval metrics such as _retrieval precision @ k_ or _retrieval 
-reciprocal rank_ implemented, they can be found in `quaterion.eval` module. But there is quite a 
-few of metrics, it is assumed that desirable ones will be made by user or taken from another 
-libraries. You will probably need to inherit from `PairMetric` or `GroupMetric` to implement a new 
-one.
-
-Let's bring it all together and add some visibility and control to our training process. 
+Let's add mentioned metrics to our `FAQModel`.
 Add this code to `model.py`:
 
 ```python
@@ -658,6 +628,6 @@ trained model today with Quaterion.
 Thank you for being with us. I hope you enjoyed this huge tutorial and will use Quaterion for your 
 metric learning projects.
 
-All ready to use code can be found here: some awesome repo
+All ready to use code can be found [here](https://github.com/qdrant/demo-cloud-faq/tree/tutorial). 
 
 Stay tuned!:)
