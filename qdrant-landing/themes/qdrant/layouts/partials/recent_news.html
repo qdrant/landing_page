@@ -1,0 +1,33 @@
+<div class="col-12">
+  <div class="sidebar-widget">
+    <div class="widget-title">
+      <h4>Recent News</h4>
+    </div>
+
+    {{ range where (where site.Pages "Section" "blog") ".Params.featured" "=" true | first 3 }}
+    {{ $link := .Permalink }}
+    {{ if .Params.external_link }}
+    {{ $link = .Params.external_link }}
+    {{ end }}
+    <article class="post-preview">
+      <div class="post-preview__description">
+        <a class="post-preview__thumb" href="{{ $link }}">
+          <img class="post-preview__img" src="{{ .Params.preview_image }}" alt="">
+        </a>
+        {{ if .Params.Categories }}
+        {{ range .Params.Categories | first 1 }}
+        <a href='{{ "/categories/" | relLangURL }}{{ . | urlize }}' class="post-preview__title">{{ . }}</a>
+        {{ end }}
+        {{ end }}
+        <div class="post-preview__text"><a class="post-preview__link" href="{{ $link }}">{{ .Title }}</a></div>
+
+        {{ if .Params.Tags }}
+          {{ range .Params.Tags }}
+          <a href='{{ "/tags/" | relLangURL }}{{ . | urlize }}' class="post-preview__tags">#{{ . }}</a>
+          {{ end }}
+        {{ end }}
+      </div>
+    </article>
+    {{ end }}
+  </div>
+</div>
