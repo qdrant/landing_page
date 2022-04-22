@@ -6193,7 +6193,11 @@ img {
 ***/
 .login-page-section {
   position: relative;
-  padding: 95px 0px 0px;
+}
+@media (min-width: 992px) {
+  .login-page-section {
+    padding: 95px 0px 0px;
+  }
 }
 
 .login-page-section .image-column {
