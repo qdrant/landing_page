@@ -1,67 +1,63 @@
----
-sitemapExclude: True
----
-
-# Question-answering system with Metric learning and Quaterion
+# Question-answering system with Similarity Learning and Quaterion
 
 
-
-Vast amount of tasks in modern machine learning being solved as classification ones. Some of them
-are naturally classification tasks, but the others were converged to such. And when you try to
-apply an approach, which does not naturally fit your task or data, you risk coming up with 
-tricky or bulky solutions, or even with results worse than you could obtain. 
+Many problems in modern machine learning are approached as classification tasks.
+Some are the classification tasks by design, but others are artificially transformed into such.
+And when you try to apply an approach, which does not naturally fit your problem, you risk coming up with over-complicated or bulky solutions.
+In some cases, you would even get worse performance. 
 
 Imagine that you got a new task and decided to solve it with a good old classification approach. 
-Firstly, you will need a labeled data. You're lucky, if it came on a plate with the task, but if it 
-didn't, you might need to label it manually. And I guess you are already familiar how painful it
-may be.
+Firstly, you will need labeled data.
+If it came on a plate with the task, you're lucky, but if it didn't, you might need to label it manually.
+And I guess you are already familiar with how painful it might be.
 
-Let's assume you somehow labelled all required data, trained a model, it shows good performance, 
-well done! But a day later e.g. your manager said you about a bunch of new data with new classes 
-which have to be handled by your model too. And you repeat your pipeline again. Then, two days 
-later you've been reached out one more time, you need to update a model again, and again, and 
-again. Sounds tedious and expensive for me, does not it for you? But ok, it works, let's keep it as
-it is.
+Assuming you somehow labeled all required data and trained a model. 
+It shows good performance - well done!
+But a day later, your manager told you about a bunch of new data with new classes, which your model has to handle.
+You repeat your pipeline.
+Then, two days later, you've been reached out one more time.
+You need to update the model again, and again, and again.
+Sounds tedious and expensive for me, does not it for you?
  
-Ok, that all was a bit abstract, let's come with a more realistic example. Assume your company has
-some complicated products or just new clients come quite often. In such situations users have a lot 
-of questions. At the beginning, F.A.Q page might be helpful, but amount of questions raises with 
-growth of a product. F.A.Q either can't cover everything either become huge and hard to navigate. 
-Then you probably have two solutions, bring some automation to the process or hire a support team,
-or even both. With the former one, e.g. a chatbot or just smart search could be implemented. 
-Obviously, you can come up with classification based decision, e.g. build a bunch of classification
-models to sequentially determine question's topic, retrieve documents and extract correct answer 
-from them. But as for me - it seems bulky, also it is not that easy to scale as new features and
-hence classes delivered. But what if we don't want to build such a pipeline, maybe we can find the 
-right answer from the very beginning? And actually we might be able to do this if we replace
-classification with metric learning. 
+## Automating customer support
 
-Metric learning is a way to look at a problem from a different angle. It suggests getting rid of 
-the classes and instead make decisions based on distance between objects. In our case we would like
-a question, and it's answer to be the nearest objects to each other. We can't calculate distance
-just between raw strings, we need some intermediate representation - embeddings. Embeddings are
-high-dimensional vectors with semantic information in them. As embeddings are vectors, one can
-apply simple function to calculate distances between them, like cosine or euclidean. So with metric
-learning all we need to provide an answer to a question are the knowledge which answer belongs to
-which question, suitable embeddings for them and some distance calculation.
+Let's now take a look at the concrete example. There is a pressing problem with automating customer support. 
+The service should be capable of answering user questions and retrieving relevant articles from the documentation without any human involvement.
 
->If you are not familiar with metric learning, we have an 
-[article](https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc) which might be an asset.
+With the classification approach, you need to build a hierarchy of classification models to determine the question's topic. 
+You have to collect and label a whole custom dataset of your private documentation topics to train that. 
+And then, each time you have a new topic in your documentation, you have to re-train the whole pile of classifiers with additionally labeled data.
+Can we make it easier?
+ 
+## Similarity option
 
-Metric learning approach seems a lot simpler than classification in this case, and if you have some
-doubts on your mind, let me dispel them. We haven't any resource with exhaustive F.A.Q. which might 
-serve as a dataset, so we've scrapped it from sites of popular cloud providers such as AWS, GCP, 
-Azure, IBM, Hetzner and YandexCloud. Our dataset consists of almost 8.5k pairs of question and 
-answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq)
+One of the possible alternatives is Similarity Learning, which we are going to discuss in this article.
+It suggests getting rid of the classes and making decisions based on the similarity between objects instead.
+To do it quickly, we would need some intermediate representation - embeddings.
+Embeddings are high-dimensional vectors with semantic information accumulated in them.
 
-Well, we have data, we need to obtain embeddings for it, but how to do this? It is not a novel
-technique in NLP to represent texts as embeddings, thus there are plenty of algorithms and models
-to make them. You could hear of Word2Vec, GloVe, ELMo, BERT, all these models can provide text
-embeddings. However, it is better to produce embeddings with a model trained for semantic
-similarity tasks. For instance, we can find such models at 
-[sentence-transformers](https://www.sbert.net/docs/pretrained_models.html). Authors claim that 
-`all-mpnet-base-v2` provides the best quality, but let's pick `all-MiniLM-L6-v2` for our tutorial
-as it 5x faster and still offers good quality. 
+As embeddings are vectors, one can apply a simple function to calculate the similarity score between them, for example, cosine or euclidean distance.
+So with similarity learning, all we need to do is provide pairs of correct questions and answers.
+And then, the model will learn to distinguish proper answers by the similarity of embeddings.
+
+>If you want to learn more about similarity learning and applications, check out this [article](https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc) which might be an asset.
+
+## Let's build
+
+Similarity learning approach seems a lot simpler than classification in this case, and if you have some
+doubts on your mind, let me dispel them.
+
+We haven't any resource with exhaustive F.A.Q. which might serve as a dataset, so we've scrapped it from sites of popular cloud providers.
+Our dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
+
+Once have data, we need to obtain embeddings for it.
+It is not a novel technique in NLP to represent texts as embeddings.
+There are plenty of algorithms and models to calculate them.
+You could hear of Word2Vec, GloVe, ELMo, BERT, all these models can provide text embeddings.
+
+However, it is better to produce embeddings with a model trained for semantic similarity tasks. For instance, we can find such models at [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html).
+Authors claim that `all-mpnet-base-v2` provides the best quality, but let's pick `all-MiniLM-L6-v2` for our tutorial
+as it 5x faster and still offers good results. 
 
 Having all this, we can test our approach. We won't take all our dataset at the moment, but only
 a part of it. To measure model's performance we will use two metrics -
@@ -77,40 +73,44 @@ for this experiment, let's just launch it now.
 
 That's already quite decent quality, but maybe we can do better?
 
-Actually, we can. Model we used has a good natural language understanding, but it has never seen
-our data. Nowadays in such situations usually being applied an approach called `fine-tuning`. In 
-fine-tuning you don't need to design a task-specific architecture, but take a model pre-trained on 
-another task (e.g. to achieve a general language understanding), apply a couple of layers on top of
-it and tune parameters which you need during training. Sounds good, but as metric learning is not
-as traditional as classification, it might be a bit inconvenient to build fine-tune a model.
-For this reason we built our framework - Quaterion. Quaterion provides a user-friendly interface to
-fine-tune metric learning models and use them for serving after all. Let us not be unfounded and 
-prepare a model with you.
+## Improving results with fine-tuning
 
-Before we start, let's create our project and call it `faq`. 
+Actually, we can! Model we used has a good natural language understanding, but it has never seen
+our data. An approach called `fine-tuning` might be helpful to overcome this issue. With 
+fine-tuning you don't need to design a task-specific architecture, but take a model pre-trained on 
+another task, apply a couple of layers on top and train its parameters.
+
+Sounds good, but as similarity learning is not as common as classification, it might be a bit inconvenient to fine-tune a model with traditional tools.
+For this reason we will use [Quaterion](https://github.com/qdrant/quaterion) - a framework for fine-tuning similarity learning models.
+Let's see how you can train models with it
+
+First, we create our project and call it `faq`. 
 
 > All project dependencies, utils scripts not covered in the tutorial can be found in the
 > [repository](https://github.com/qdrant/demo-cloud-faq/tree/tutorial). 
 
-The main entity in Quaterion is `TrainableModel`. It is a class to make model's building process 
+### Configure training
+
+The main entity in Quaterion is `TrainableModel`. This class makes model's building process 
 fast and convenient.
 
-`TrainableModel` is a wrapper around `pytorch_lightning.LightningModule`. Lightning handles all the 
-training process complexities, like training loop, device managing, etc. and saves user from a 
-necessity to implement all this routine manually. Also Lightning's modularity is worth to be 
-mentioned. Modularity improves separation of responsibilities, makes code more readable, robust and
-easy to write. And these are exactly the features we tried to provide in our metric learning 
-framework.
+`TrainableModel` is a wrapper around `pytorch_lightning.LightningModule`. 
 
-`TrainableModel` is an abstract class whose methods need to be overridden to perform training. 
+[Lightning](https://www.pytorchlightning.ai/) handles all the training process complexities, like training loop, device managing, etc. and saves user from a necessity to implement all this routine manually.
+Also Lightning's modularity is worth to be mentioned. 
+It improves separation of responsibilities, makes code more readable, robust and easy to write.
+All these features make Pytorch Lightning a perfect training backend for Quaterion.
+
+To use `TrainableModel` you need to inherit your model class from it.
+The same way you would use `LightningModule` in pure `pytorch_lightning`.
 Mandatory methods are `configure_loss`, `configure_encoders`, `configure_head`, 
-`configure_optimizers`. Encoders task is to emit embeddings, usually they are pre-trained models.
-Head is a collection of layers we apply on top of the model.
-The majority of mentioned methods are quite easy to realise, you'll probably need a couple of 
+`configure_optimizers`.
+
+The majority of mentioned methods are quite easy to implement, you'll probably just need a couple of 
 imports to do that. But `configure_encoders` requires some code:)
 
-Let's create a  `model.py` with model's template and a blank space instead of `configure_encoders` 
-at the moment.
+Let's create a `model.py` with model's template and a placeholder for `configure_encoders` 
+for the moment.
 
 ```python
 from typing import Union, Dict, Optional, Any
@@ -126,7 +126,7 @@ from quaterion_models.heads.skip_connection_head import SkipConnectionHead
 
 
 class FAQModel(TrainableModel):
-    def __init__(self, lr=10e-2, *args, **kwargs):
+    def __init__(self, lr=10e-5, *args, **kwargs):
         self.lr = lr
         super().__init__(*args, **kwargs)
         
@@ -137,7 +137,7 @@ class FAQModel(TrainableModel):
         return MultipleNegativesRankingLoss(symmetric=True)
     
     def configure_encoders(self) -> Union[Encoder, Dict[str, Encoder]]:
-        ...
+        ... # ToDo
         
     def configure_head(self, input_embedding_size: int) -> EncoderHead:
         return SkipConnectionHead(input_embedding_size)
@@ -146,32 +146,28 @@ class FAQModel(TrainableModel):
 - `configure_optimizers` is a method provided by Lightning. An eagle-eye of you could notice 
 mysterious `self.model` in our implementation, it is actually a `quaterion_models.MetricModel` 
 instance. We will cover it later.
-- `configure_loss` is a loss function to be used during training. You can choose a ready loss class 
-from already implemented in Quaterion.
+- `configure_loss` is a loss function to be used during training. You can choose a ready-made implementation from Quaterion.
 However, since Quaterion's purpose is not to cover all possible losses, or other entities and 
-features of metric learning, but to provide a convenient framework to build and use such models, 
+features of similarity learning, but to provide a convenient framework to build and use such models, 
 there might not be a desired loss. In this case it is possible to use `PytorchMetricLearningWrapper` 
-to bring required loss from `pytorch-metric-learning` library, which has more rich collection of 
-losses. Also, you can implement a desired loss yourself.
+to bring required loss from `pytorch-metric-learning` library, which has a rich collection of 
+losses. You can also implement a custom loss yourself.
 - `configure_head` - model built via Quaterion is a combination of encoders and a top layer - head.
-As with losses, some ready head implementations are provided. They can be found at 
-`quaterion_models.heads`.
+As with losses, some head implementations are provided. They can be found at `quaterion_models.heads`.
 
-Here we use `MultipleNegativesRankingLoss`. It is a loss especially good for retrieval tasks. It 
-assumes that we pass only positive pairs (similar objects) and considers all other objects outside 
-a pair being considered as negative examples. `MultipleNegativesRankingLoss` use cosine to measure 
-distance under the hood, but it is a configurable parameter. Quaterion provides several objects to 
-calculate similarities or distances. You can find available ones at `quaterion.distances`.
+At our example we use `MultipleNegativesRankingLoss`. This loss is especially good for training retrieval tasks.
+It assumes that we pass only positive pairs (similar objects) and considers all other objects as negative examples.
 
-Having our methods described, we can return to `configure_encoders`:)
+`MultipleNegativesRankingLoss` use cosine to measure distance under the hood, but it is a configurable parameter.
+Quaterion provides implementation for other distances as well. You can find available ones at `quaterion.distances`.
 
-There is a base class for encoders in quaterion_models - `Encoder`. 
-Similar to `TrainableModel`, `Encoder` has some methods and properties which have to be 
-implemented. Two properties - `trainable` and `embedding_size` and one method - `forward` are 
-required. The other methods have no strict requirement to be overridden, but it's up to you and 
-depends on particular task.
+Now we can come back to `configure_encoders`:)
 
-We will use the model used in baseline as encoder - `all-MiniLM-L6-v2` from `sentence-transformers`.
+### Configure Encoder
+
+The encoder task is to convert objects into embeddings.
+They usually take advantage of some pre-trained models, in our case `all-MiniLM-L6-v2` from `sentence-transformers`.
+In order to use it in Quaterion, we need to create a wrapper inherited from the `Encoder` class.
 
 Let's create our encoder in `encoder.py`
 
@@ -185,7 +181,6 @@ from quaterion_models.encoders import Encoder
 from quaterion_models.types import TensorInterchange, CollateFnType
 
 
-
 class FAQEncoder(Encoder):
     def __init__(self, transformer, pooling):
         super().__init__()
@@ -195,6 +190,7 @@ class FAQEncoder(Encoder):
         
     @property
     def trainable(self) -> bool:
+        # Defines if we want to train encoder itself, or head layer only
         return False
     
     @property    
@@ -232,28 +228,28 @@ class FAQEncoder(Encoder):
 
 As you can notice, there are more methods implemented, then we've already discussed. Let's go 
 through them now!
-- In `__init__` we need to register our layers, as `Encoder` is actually `torch.nn.Module` heir.
+- In `__init__` we register our pre-trained layers, similar as you do in `torch.nn.Module` descendant.
 
-- `trainable` defines whether current `Encoder` layers should change during training or not. If 
-trainable is False, then all layers will be frozen. Quaterion also can cache frozen encoders 
-output.
+- `trainable` defines whether current `Encoder` layers should be updated during training or not. If `trainable=False`, then all layers will be frozen. 
 
-- `embedding_size` is a size of encoder's output, it is required for proper head configuration.
+- `embedding_size` is a size of encoder's output, it is required for proper `head` configuration.
 
 - `get_collate_fn` is a tricky one. Here you should return a method which prepares a batch of raw 
-data into encoder suitable input. If `get_collate_fn` is not overridden, then the default 
-implementation will be used. The default one is `default_collate` from 
-`torch.utils.data._utils.collate`.
+data into the input, suitable for the encoder. If `get_collate_fn` is not overridden, then the default 
+implementation from `torch.utils.data._utils.collate` will be used. 
+
 
 The remaining methods are considered self-describing.
 
-As our encoder is ready, we now are able to fill `configure_encoders`. Just insert the following code 
-into `model.py`:
+As our encoder is ready, we now are able to fill `configure_encoders`.
+Just insert the following code into `model.py`:
+
 ```python
 ...
 from sentence_transformers import SentenceTransformer
 from sentence_transformers.models import Transformer, Pooling
 from faq.encoder import FAQEncoder
+
 class FAQModel(TrainableModel):
     ...
     def configure_encoders(self) -> Union[Encoder, Dict[str, Encoder]]:
@@ -264,17 +260,22 @@ class FAQModel(TrainableModel):
         return encoder
 ```
 
-Ok, we have a model, we have raw data, we know how to prepare input for encoders, we don't know yet
-how to pass this data to our model and how it has to look like.
+### Data preparation
+
+Okay, we have raw data and a trainable model. But we don't know yet how to feed this data to our model.
 
 
-Currently, Quaterion assumes two kind of data representation - pairs and groups. 
-In pairs, you should take two objects and label if they are similar or not. It is a suitable input 
-for example for _ContrastiveLoss_ or _MultipleNegativesRankingLoss_. 
+Currently, Quaterion takes two types of similarity representation - pairs and groups. 
+
 The groups format assumes that all objects split into groups of similar objects. All objects inside
 one group are similar, and all other objects outside this group considered dissimilar to them.
 
+But in the case of pairs, we can only assume similarity between explicitly specified pairs of objects.
+
 We can apply any of the approaches with our data, but pairs one seems more intuitive.
+
+The format in which Similarity is represented determines which loss can be used.
+For example, _ContrastiveLoss_ and _MultipleNegativesRankingLoss_ works with pairs format.
 
 To represent pairs we have `SimilarityPairSample` in `quaterion.dataset.similarity_samples`. Let's take
 a look at it:
@@ -288,21 +289,21 @@ class SimilarityPairSample:
     subgroup: int = 0
 ```
 
-Here might occur some questions: why `score` is float and what is a `subgroup`?
+Here might be some questions: what `score` and `subgroup` are?
 
-Well, `score` is a measure of samples similarity, generally it is just being converted into _bool_ - 
-_0.0_ into _False_ and all other values into _True_. But you also can make your own implementations
-to tune impact of particular pairs on a loss function.
+Well, `score` is a measure of expected samples similarity. 
+If you only need to specify if two samples are similar or not, you can use `1.0` and `0.0` respectively.
 
-What if we don't use `MultipleNegativesRankingLoss` to take care of negative samples? Then we have
-2 ways of feeding our model with negative examples: 
-1. construct negative pairs explicitly
-2. use subgroups
-
-All objects outside a `subgroup` will be considered as negative examples in loss, and thus it 
+`subgroups` parameter is required for more granular description of what negative examples could be.
+By default, all pairs belong the subgroup zero.
+That means that we would need to specify all negative examples manually.
+But in most cases, we can avoid this by enabling different subgroups.
+All objects from different subgroups will be considered as negative examples in loss, and thus it 
 provides a way to set negative examples implicitly.
 
-After this introduction we can create our `Dataset` class in `dataset.py` to feed our model:
+
+With this knowledge, we now can create our `Dataset` class in `dataset.py` to feed our model:
+
 ```python
 import json
 from typing import List, Dict
@@ -626,7 +627,7 @@ So far, we've implemented a whole training process, prepared model for serving a
 trained model today with Quaterion.
 
 Thank you for being with us. I hope you enjoyed this huge tutorial and will use Quaterion for your 
-metric learning projects.
+similarity learning projects.
 
 All ready to use code can be found [here](https://github.com/qdrant/demo-cloud-faq/tree/tutorial). 
 
