@@ -55,7 +55,8 @@ It is not a novel technique in NLP to represent texts as embeddings.
 There are plenty of algorithms and models to calculate them.
 You could hear of Word2Vec, GloVe, ELMo, BERT, all these models can provide text embeddings.
 
-However, it is better to produce embeddings with a model trained for semantic similarity tasks. For instance, we can find such models at [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html).
+However, it is better to produce embeddings with a model trained for semantic similarity tasks. 
+For instance, we can find such models at [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html).
 Authors claim that `all-mpnet-base-v2` provides the best quality, but let's pick `all-MiniLM-L6-v2` for our tutorial
 as it 5x faster and still offers good results. 
 
@@ -91,10 +92,10 @@ First, create our project and call it `faq`.
 
 ### Configure training
 
-The main entity in Quaterion is `TrainableModel`. This class makes model's building process 
-fast and convenient.
+The main entity in Quaterion is [TrainableModel](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html). 
+This class makes model's building process fast and convenient.
 
-`TrainableModel` is a wrapper around `pytorch_lightning.LightningModule`. 
+`TrainableModel` is a wrapper around [pytorch_lightning.LightningModule](https://pytorch-lightning.readthedocs.io/en/latest/common/lightning_module.html). 
 
 [Lightning](https://www.pytorchlightning.ai/) handles all the training process complexities, like training loop, device managing, etc. and saves user from a necessity to implement all this routine manually.
 Also Lightning's modularity is worth to be mentioned. 
@@ -144,21 +145,22 @@ class FAQModel(TrainableModel):
 ```
 
 - `configure_optimizers` is a method provided by Lightning. An eagle-eye of you could notice 
-mysterious `self.model`, it is actually a `quaterion_models.MetricModel` instance. We will cover it later.
+mysterious `self.model`, it is actually a [MetricModel](https://quaterion-models.qdrant.tech/quaterion_models.model.html) instance. We will cover it later.
 - `configure_loss` is a loss function to be used during training. You can choose a ready-made implementation from Quaterion.
 However, since Quaterion's purpose is not to cover all possible losses, or other entities and 
 features of similarity learning, but to provide a convenient framework to build and use such models, 
-there might not be a desired loss. In this case it is possible to use `PytorchMetricLearningWrapper` 
-to bring required loss from `pytorch-metric-learning` library, which has a rich collection of 
-losses. You can also implement a custom loss yourself.
+there might not be a desired loss. In this case it is possible to use [PytorchMetricLearningWrapper](https://quaterion.qdrant.tech/quaterion.loss.extras.pytorch_metric_learning_wrapper.html) 
+to bring required loss from [pytorch-metric-learning](https://kevinmusgrave.github.io/pytorch-metric-learning/) library, which has a rich collection of losses.
+You can also implement a custom loss yourself.
 - `configure_head` - model built via Quaterion is a combination of encoders and a top layer - head.
-As with losses, some head implementations are provided. They can be found at `quaterion_models.heads`.
+As with losses, some head implementations are provided. They can be found at [quaterion_models.heads](https://quaterion-models.qdrant.tech/quaterion_models.heads.html).
 
-At our example we use `MultipleNegativesRankingLoss`. This loss is especially good for training retrieval tasks.
+At our example we use [MultipleNegativesRankingLoss](https://quaterion.qdrant.tech/quaterion.loss.multiple_negatives_ranking_loss.html). 
+This loss is especially good for training retrieval tasks. 
 It assumes that we pass only positive pairs (similar objects) and considers all other objects as negative examples.
 
 `MultipleNegativesRankingLoss` use cosine to measure distance under the hood, but it is a configurable parameter.
-Quaterion provides implementation for other distances as well. You can find available ones at `quaterion.distances`.
+Quaterion provides implementation for other distances as well. You can find available ones at [quaterion.distances](https://quaterion.qdrant.tech/quaterion.distances.html).
 
 Now we can come back to `configure_encoders`:)
 
@@ -166,7 +168,7 @@ Now we can come back to `configure_encoders`:)
 
 The encoder task is to convert objects into embeddings.
 They usually take advantage of some pre-trained models, in our case `all-MiniLM-L6-v2` from `sentence-transformers`.
-In order to use it in Quaterion, we need to create a wrapper inherited from the `Encoder` class.
+In order to use it in Quaterion, we need to create a wrapper inherited from the [Encoder](https://quaterion-models.qdrant.tech/quaterion_models.encoders.encoder.html) class.
 
 Let's create our encoder in `encoder.py`
 
@@ -227,15 +229,14 @@ class FAQEncoder(Encoder):
 
 As you can notice, there are more methods implemented, then we've already discussed. Let's go 
 through them now!
-- In `__init__` we register our pre-trained layers, similar as you do in `torch.nn.Module` descendant.
+- In `__init__` we register our pre-trained layers, similar as you do in [torch.nn.Module](https://pytorch.org/docs/stable/generated/torch.nn.Module.html) descendant.
 
 - `trainable` defines whether current `Encoder` layers should be updated during training or not. If `trainable=False`, then all layers will be frozen. 
 
 - `embedding_size` is a size of encoder's output, it is required for proper `head` configuration.
 
 - `get_collate_fn` is a tricky one. Here you should return a method which prepares a batch of raw 
-data into the input, suitable for the encoder. If `get_collate_fn` is not overridden, then the default 
-implementation from `torch.utils.data._utils.collate` will be used. 
+data into the input, suitable for the encoder. If `get_collate_fn` is not overridden, then the [default_collate](https://pytorch.org/docs/stable/data.html#torch.utils.data.default_collate) will be used. 
 
 
 The remaining methods are considered self-describing.
@@ -276,8 +277,8 @@ We can apply any of the approaches with our data, but pairs one seems more intui
 The format in which Similarity is represented determines which loss can be used.
 For example, _ContrastiveLoss_ and _MultipleNegativesRankingLoss_ works with pairs format.
 
-To represent pairs we have `SimilarityPairSample` in `quaterion.dataset.similarity_samples`. Let's take
-a look at it:
+[SimilarityPairSample](https://quaterion.qdrant.tech/quaterion.dataset.similarity_samples.html#quaterion.dataset.similarity_samples.SimilarityPairSample) could be used to represent pairs. 
+Let's take a look at it:
 
 ```python
 @dataclass
@@ -345,9 +346,9 @@ We still haven't added any metrics to the model. To make any additional evaluati
 we should override `process_results` method of `TrainableModel`.
 
 Quaterion has some popular retrieval metrics such as _precision @ k_ or _mean reciprocal rank_ 
-implemented, they can be found in `quaterion.eval` module. But there is quite a few of metrics, it 
-is assumed that desirable ones will be made by user or taken from another libraries. You will 
-probably need to inherit from `PairMetric` or `GroupMetric` to implement a new one.
+implemented, they can be found in [quaterion.eval](https://quaterion.qdrant.tech/quaterion.eval.html) package.
+But there is quite a few of metrics, it is assumed that desirable ones will be made by user or taken from another libraries. 
+You will probably need to inherit from `PairMetric` or `GroupMetric` to implement a new one.
 
 Let's add mentioned metrics to our `FAQModel`.
 Add this code to `model.py`:
@@ -428,7 +429,7 @@ define which encoders are trainable and which are not and set cache settings. An
 everything else Quaterion will handle for you.
 
 To configure cache you need override `configure_cache` method in `TrainableModel`. This method 
-should return instance of `CacheConfig` object, in most of the situations it will just point to 
+should return instance of [CacheConfig](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheConfig) , in most of the situations it will just point to 
 device on which you want to store calculated embeddings and set `batch_size` to be used during 
 caching.
 
@@ -444,7 +445,7 @@ class FAQModel(TrainableModel):
     ...
 ```
 
-`CacheType` determines device to store embeddings, `AUTO` chooses GPU if it is available, else CPU.
+[CacheType](https://quaterion.qdrant.tech/quaterion.eval.html) determines device to store embeddings, `AUTO` chooses GPU if it is available, else CPU.
 Now we need to combine all our code together in `train.py` and launch a training process.
 
 ```python
@@ -501,7 +502,8 @@ Here are a couple of unseen classes, `PairsSimilarityDataLoader`, which is a nat
 `SimilarityPairSample` objects, and `Quaterion` as an entry point to training process.
 
 As you could already notice, Quaterion framework is split into two separate libraries: Quaterion 
-and Quaterion-models. The former one contains training related stuff like losses, cache, 
+and [Quaterion-models](https://quaterion-models.qdrant.tech/).
+The former one contains training related stuff like losses, cache, 
 `pytorch-lightning` dependency, etc. While the latter one contains only necessary for serving 
 modules: encoders, heads and `MetricModel` itself. The most important benefits here are:
 - less amount of entities you need to operate in a production environment
@@ -533,7 +535,7 @@ experimentation.
 The only remaining part is serving. It's time to sort it out.
 
 As we got rid of Quaterion dependency, we need a new means to supply our model with data. We can 
-just create a new dataset and dataloader dependent only on `torch` for it:
+just create a new dataset and dataloader dependent only on [torch](https://pytorch.org/docs/stable/torch.html) for it:
 
 ```python
 import os 
@@ -588,7 +590,6 @@ if __name__ == "__main__":
             [answer_embeddings, model.encode(batch, to_numpy=False)]
         )
         
-    # probably it's worthwhile to index your vectors and search among them with some kind of vector search engine like Qdrant :)
     # Some prepared questions and answers to ensure that our model works as intended
     questions = [
         "what is the pricing of aws lambda functions powered by aws graviton2 processors?",
@@ -619,11 +620,11 @@ if __name__ == "__main__":
 ```
 
 We stored our collection of answer embeddings in memory and perform search directly in Python. 
-For production purposes, it's probably better to use some sort of vector search engine like `Qdrant` 
+For production purposes, it's probably better to use some sort of vector search engine like [Qdrant](https://qdrant.tech/) 
 to get durability, speed boost, and a bunch of other features.
 
 So far, we've implemented a whole training process, prepared model for serving and even applied a 
-trained model today with Quaterion.
+trained model today with `Quaterion`.
 
 Thank you for your time and attention! 
 I hope you enjoyed this huge tutorial and will use `Quaterion` for your similarity learning projects.
