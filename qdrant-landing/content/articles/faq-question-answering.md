@@ -1,3 +1,15 @@
+---
+title: Q&A with Similarity Learning
+short_description: todo
+description: todo
+preview_image: /articles_data/faq-question-answering/todo.png
+small_preview_image: /articles_data/faq-question-answering/todo.svg
+weight: 9
+author: George Panchuk
+author_link: ToDo
+draft: true
+---
+
 # Question-answering system with Similarity Learning and Quaterion
 
 
@@ -321,6 +333,8 @@ class FAQDataset(Dataset):
     def __getitem__(self, index) -> SimilarityPairSample:
         line = self.dataset[index]
         question = line["question"]
+        # All questions have a unique subgroup
+        # Meaning that all other answers are considered negative pairs
         subgroup = hash(question)
         return SimilarityPairSample(
             obj_a=question,
@@ -339,18 +353,21 @@ class FAQDataset(Dataset):
             return [json.loads(json_line) for json_line in fd]
 ```
 
-We assigned a unique subgroup for each question-answer pair, so all other objects which do not 
-belong to a particular pair will be considered as negative examples.
+We assigned a unique subgroup for each question, so all other objects which have different question will be considered as negative examples.
+
+### Evaluation Metric
+
+<!-- ToDo: rewrite metric configuration -->
 
 We still haven't added any metrics to the model. To make any additional evaluations on embeddings, 
 we should override `process_results` method of `TrainableModel`.
 
-Quaterion has some popular retrieval metrics such as _precision @ k_ or _mean reciprocal rank_ 
-implemented, they can be found in [quaterion.eval](https://quaterion.qdrant.tech/quaterion.eval.html) package.
-But there is quite a few of metrics, it is assumed that desirable ones will be made by user or taken from another libraries. 
+Quaterion has some popular retrieval metrics implemented - such as _precision @ k_ or _mean reciprocal rank_. 
+They can be found in [quaterion.eval](https://quaterion.qdrant.tech/quaterion.eval.html) package.
+But there are just a few metrics, it is assumed that desirable ones will be made by user or taken from another libraries. 
 You will probably need to inherit from `PairMetric` or `GroupMetric` to implement a new one.
 
-Let's add mentioned metrics to our `FAQModel`.
+Let's add mentioned metrics for our `FAQModel`.
 Add this code to `model.py`:
 
 ```python
@@ -408,30 +425,30 @@ class FAQModel(TrainableModel):
         self.retrieval_precision.reset()
 ```
 
-When we calculate metrics like this, they can fluctuate a lot depending on a batch size. It might 
-be useful to calculate metrics not among batch but among whole available dataset, similar to a real
-application. Unfortunately, it is not always possible to send a whole dataset inside one batch:)
-Raw data may consume a huge amount of memory, but embeddings most probably will consume less. 
+When we calculate metrics like this, they can fluctuate a lot depending on a batch size.
+It might be helpful to calculate metrics not for each batch but among the whole available dataset, similar to an actual application.
+Unfortunately, it is not always possible to fit the whole dataset inside one batch.
+Raw data may consume a huge amount of memory, but embeddings most probably will consume less.
+
 Quaterion metrics are designed to accumulate embeddings across batches (via `update` call) and then 
-`compute` them, when you want, e.g. before validation starts or right after its end (you can 
-override callback).
+`compute` them whenever you want, for example, after each training step or when the epoch ends.
 
-However, in this particular `process_result` implementation, we calculate new values per-batch.
+In this particular `process_result` implementation, we calculate new values per-batch.
 
-Quaterion has one more cherry on top of the cake when it comes to non-trainable encoders. If 
-encoders are frozen, they are deterministic and emits exactly the same embeddings for the same 
-input data each epoch. So why not to avoid repeated embeddings calculations and reduce training 
-time? Actually, Quaterion has a cache exactly for this purpose.
+### Fast training with Cache
 
-Before training starts, cache runs one epoch to calculate all embeddings from frozen encoders and 
-then store them on a device you chose (currently CPU or GPU). Everything you need to do is to 
-define which encoders are trainable and which are not and set cache settings. And that's it: 
-everything else Quaterion will handle for you.
+Quaterion has one more cherry on top of the cake when it comes to non-trainable encoders.
+If encoders are frozen, they are deterministic and emit the exact embeddings for the same input data on each epoch. 
+It provides a way to avoid repeated calculations and reduce training time.
+For this purpose Quaterion has a cache functionality.
 
-To configure cache you need override `configure_cache` method in `TrainableModel`. This method 
-should return instance of [CacheConfig](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheConfig) , in most of the situations it will just point to 
-device on which you want to store calculated embeddings and set `batch_size` to be used during 
-caching.
+
+Before training starts, the cache runs one epoch to pre-calculate all embeddings with frozen encoders and then store them on a device you chose (currently CPU or GPU).
+Everything you need is to define which encoders are trainable or not and set cache settings.
+And that's it: everything else Quaterion will handle for you.
+
+To configure cache you need to override `configure_cache` method in `TrainableModel`.
+This method should return an instance of [CacheConfig](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheConfig).
 
 Let's add cache to our model:
 ```python
@@ -441,11 +458,15 @@ from quaterion.train.cache import CacheConfig, CacheType
 class FAQModel(TrainableModel):
     ...
     def configure_caches(self) -> Optional[CacheConfig]:
-        return CacheConfig(CacheType.AUTO, batch_size=1024)
+        return CacheConfig(CacheType.AUTO)
     ...
 ```
 
-[CacheType](https://quaterion.qdrant.tech/quaterion.eval.html) determines device to store embeddings, `AUTO` chooses GPU if it is available, else CPU.
+[CacheType](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheType) determines how the cache will be stored in memory.
+
+
+### Training
+
 Now we need to combine all our code together in `train.py` and launch a training process.
 
 ```python
@@ -499,23 +520,11 @@ if __name__ == "__main__":
 ```
 
 Here are a couple of unseen classes, `PairsSimilarityDataLoader`, which is a native dataloader for 
-`SimilarityPairSample` objects, and `Quaterion` as an entry point to training process.
+`SimilarityPairSample` objects, and `Quaterion` is an entry point to the training process.
 
-As you could already notice, Quaterion framework is split into two separate libraries: Quaterion 
-and [Quaterion-models](https://quaterion-models.qdrant.tech/).
-The former one contains training related stuff like losses, cache, 
-`pytorch-lightning` dependency, etc. While the latter one contains only necessary for serving 
-modules: encoders, heads and `MetricModel` itself. The most important benefits here are:
-- less amount of entities you need to operate in a production environment
-- reduced memory footprint. (Memory footprint is important, because there are plenty of libraries in 
-the wild which make you download all auxiliary modules and dependencies due to their architecture 
-decisions and cause your project or your docker images to blow up and lead to e.g. significance 
-growth of deployment time.)
+### Train Results
 
-The very last row of `train.py` - `faq_model.save_servable(...)` saves encoders and model in a 
-fashion eliminating all Quaterion dependencies and storing only the most necessary data to run a 
-model in a production.
-At this point we should train our model, I do it via `python3 -m faq.train`.
+At this point we can train our model, I do it via `python3 -m faq.train`.
 
 |epoch|train_precision@1|train_reciprocal_rank|val_precision@1|val_reciprocal_rank|
 |-----|-----------------|---------------------|---------------|-------------------|
@@ -527,46 +536,29 @@ At this point we should train our model, I do it via `python3 -m faq.train`.
 |500  |0.701            |0.778                |0.700          |0.777              |
 
 
-After training all the metrics have been increased. Of course one can say, that growth is 
-insignificant, but all this training was done in 3 minutes on a single gpu! There is no overfitting
-and the results are steadily growing, although I think there is still room for improvement and 
-experimentation.
+After training all the metrics have been increased.
+And this training was done in just 3 minutes on a single gpu!
+There is no overfitting and the results are steadily growing, although I think there is still room for improvement and  experimentation.
 
-The only remaining part is serving. It's time to sort it out.
+## Model serving
 
-As we got rid of Quaterion dependency, we need a new means to supply our model with data. We can 
-just create a new dataset and dataloader dependent only on [torch](https://pytorch.org/docs/stable/torch.html) for it:
+As you could already notice, Quaterion framework is split into two separate libraries: `quaterion` 
+and [quaterion-models](https://quaterion-models.qdrant.tech/).
+The former one contains training related stuff like losses, cache, `pytorch-lightning` dependency, etc.
+While the latter one contains only modules necessary for serving: encoders, heads and `MetricModel` itself.
 
-```python
-import os 
-import json
-from typing import List
+The reasons for this separation are:
 
-import torch
-from torch.utils.data import DataLoader, Dataset
+- less amount of entities you need to operate in a production environment
+- reduced memory footprint
+
+It is essential to isolate training dependencies from the serving environment cause the training step is usually more complicated.
+Training dependencies are quickly going out of control, significantly slowing down the deployment and serving timings and increasing unnecessary resource usage. 
 
 
-class ServeFAQDataset(Dataset):
-    "Dataset class to process .jsonl files with FAQ from popular cloud providers"""
-    def __init__(self, dataset_path):
-        self.dataset: List[str] = self.read_dataset(dataset_path)
-            
-    def __getitem__(self, index) -> str:
-        return self.dataset[index]
-    
-    def __len__(self):
-        return len(self.dataset)
-    
-    @staticmethod
-    def read_dataset(dataset_path) -> List[str]:
-        with open(dataset_path) as fd:
-            return [json.loads(json_line)["answer"] for json_line in fd]
-```
+The very last row of `train.py` - `faq_model.save_servable(...)` saves encoders and the model in a fashion that eliminates all Quaterion dependencies and stores only the most necessary data to run a model in production.
 
-It is our new dataset, it looks pretty concise and brief for me, doesn't it for you?
-
-Nevertheless, we are ready for serving, let's extend our `serve.py` and finish this extensive 
-tutorial:)
+In `serve.py` we load and encode all the answers and then look for the closest vectors to the questions we are interested in:
 
 ```python
 ...
@@ -579,16 +571,13 @@ if __name__ == "__main__":
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
     model = MetricModel.load(os.path.join(ROOT_DIR, "servable"))
     model.to(device)
-    path = os.path.join(DATA_DIR, "val_cloud_faq_dataset.jsonl")
-    dataset = ServeFAQDataset(path)
-    dataloader = DataLoader(dataset)
+    dataset_path = os.path.join(DATA_DIR, "val_cloud_faq_dataset.jsonl")
+
+    with open(dataset_path) as fd:
+        answers = [json.loads(json_line)["answer"] for json_line in fd]
     
     # everything is ready, let's encode our answers
-    answer_embeddings = torch.Tensor().to(device)
-    for batch in dataloader:
-        answer_embeddings = torch.cat(
-            [answer_embeddings, model.encode(batch, to_numpy=False)]
-        )
+    answer_embeddings = model.encode(answers, to_numpy=False)
         
     # Some prepared questions and answers to ensure that our model works as intended
     questions = [
@@ -620,8 +609,8 @@ if __name__ == "__main__":
 ```
 
 We stored our collection of answer embeddings in memory and perform search directly in Python. 
-For production purposes, it's probably better to use some sort of vector search engine like [Qdrant](https://qdrant.tech/) 
-to get durability, speed boost, and a bunch of other features.
+For production purposes, it's better to use some sort of vector search engine like [Qdrant](https://qdrant.tech/).
+It provides durability, speed boost, and a bunch of other features.
 
 So far, we've implemented a whole training process, prepared model for serving and even applied a 
 trained model today with `Quaterion`.
