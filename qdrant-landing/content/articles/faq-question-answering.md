@@ -535,6 +535,12 @@ At this point we can train our model, I do it via `python3 -m faq.train`.
 |400  |0.695            |0.772                |0.694          |0.773              |
 |500  |0.701            |0.778                |0.700          |0.777              |
 
+Don't forget that these metrics are batch-wise. You can twick `baseline.py` to calculate it, I
+only show my results:
+
+| precision@1 | reciprocal_rank |
+|-------------|-----------------|
+| 0.577       | 0.675           |
 
 After training all the metrics have been increased.
 And this training was done in just 3 minutes on a single gpu!
