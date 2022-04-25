@@ -38,12 +38,9 @@
 34. Contact Form
 
 **********************************************/
+@import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Roboto+Condensed:400,700,700i&display=swap');
-
-/*  font-family: 'Open Sans' ;
-	font-family: 'Roboto Condensed' ;
-*/
 
 @import url('font-awesome.css');
 /* @import url('animate.css'); */
@@ -56,6 +53,8 @@
 /* @import url('jquery.bootstrap-touchspin.css'); */
 /* @import url('jquery.mCustomScrollbar.min.css'); */
 @import url('colors.css');
+
+@import "article";
 
 @import "blocks/copy-btn";
 @import "blocks/hero-code";
