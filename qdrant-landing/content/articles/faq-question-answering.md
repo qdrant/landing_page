@@ -47,8 +47,8 @@ And then, the model will learn to distinguish proper answers by the similarity o
 Similarity learning approach seems a lot simpler than classification in this case, and if you have some
 doubts on your mind, let me dispel them.
 
-We haven't any resource with exhaustive F.A.Q. which might serve as a dataset, so we've scrapped it from sites of popular cloud providers.
-Our dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
+As I have no any resource with exhaustive F.A.Q. which might serve as a dataset, I've scrapped it from sites of popular cloud providers.
+Dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
 
 Once have data, we need to obtain embeddings for it.
 It is not a novel technique in NLP to represent texts as embeddings.
@@ -82,9 +82,9 @@ another task, apply a couple of layers on top and train its parameters.
 
 Sounds good, but as similarity learning is not as common as classification, it might be a bit inconvenient to fine-tune a model with traditional tools.
 For this reason we will use [Quaterion](https://github.com/qdrant/quaterion) - a framework for fine-tuning similarity learning models.
-Let's see how you can train models with it
+Let's see how we can train models with it
 
-First, we create our project and call it `faq`. 
+First, create our project and call it `faq`. 
 
 > All project dependencies, utils scripts not covered in the tutorial can be found in the
 > [repository](https://github.com/qdrant/demo-cloud-faq/tree/tutorial). 
@@ -144,8 +144,7 @@ class FAQModel(TrainableModel):
 ```
 
 - `configure_optimizers` is a method provided by Lightning. An eagle-eye of you could notice 
-mysterious `self.model` in our implementation, it is actually a `quaterion_models.MetricModel` 
-instance. We will cover it later.
+mysterious `self.model`, it is actually a `quaterion_models.MetricModel` instance. We will cover it later.
 - `configure_loss` is a loss function to be used during training. You can choose a ready-made implementation from Quaterion.
 However, since Quaterion's purpose is not to cover all possible losses, or other entities and 
 features of similarity learning, but to provide a convenient framework to build and use such models, 
@@ -534,7 +533,7 @@ experimentation.
 The only remaining part is serving. It's time to sort it out.
 
 As we got rid of Quaterion dependency, we need a new means to supply our model with data. We can 
-just create a new dataset and dataloader dependent only on torch for it:
+just create a new dataset and dataloader dependent only on `torch` for it:
 
 ```python
 import os 
@@ -620,14 +619,14 @@ if __name__ == "__main__":
 ```
 
 We stored our collection of answer embeddings in memory and perform search directly in Python. 
-For production purposes, it's probably better to use some sort of vector search engine like Qdrant 
+For production purposes, it's probably better to use some sort of vector search engine like `Qdrant` 
 to get durability, speed boost, and a bunch of other features.
 
 So far, we've implemented a whole training process, prepared model for serving and even applied a 
 trained model today with Quaterion.
 
-Thank you for being with us. I hope you enjoyed this huge tutorial and will use Quaterion for your 
-similarity learning projects.
+Thank you for your time and attention! 
+I hope you enjoyed this huge tutorial and will use `Quaterion` for your similarity learning projects.
 
 All ready to use code can be found [here](https://github.com/qdrant/demo-cloud-faq/tree/tutorial). 
 
