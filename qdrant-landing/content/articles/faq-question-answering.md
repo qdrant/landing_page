@@ -561,11 +561,15 @@ The very last row of `train.py` - `faq_model.save_servable(...)` saves encoders 
 In `serve.py` we load and encode all the answers and then look for the closest vectors to the questions we are interested in:
 
 ```python
-...
+import os
+import json
+
+import torch
 from quaterion_models.model import MetricModel
 from quaterion.distances import Distance
+
 from faq.config import DATA_DIR, ROOT_DIR
-...
+
 
 if __name__ == "__main__":
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
@@ -602,10 +606,10 @@ if __name__ == "__main__":
     answers_indices = question_answers_distances.min(dim=1)[1]
     for q_ind, a_ind in enumerate(answers_indices):
         print("Q:", questions[q_ind])
-        print("A:", dataset[a_ind], end='\n\n')
+        print("A:", answers[a_ind], end="\n\n")
         assert (
-            dataset[a_ind] == ground_truth_answers[q_ind]
-        ), f"<{dataset[a_ind]}> != <{ground_truth_answers[q_ind]}>"
+            answers[a_ind] == ground_truth_answers[q_ind]
+        ), f"<{answers[a_ind]}> != <{ground_truth_answers[q_ind]}>"
 ```
 
 We stored our collection of answer embeddings in memory and perform search directly in Python. 
