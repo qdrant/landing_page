@@ -7,7 +7,7 @@ small_preview_image: /articles_data/faq-question-answering/todo.svg
 weight: 9
 author: George Panchuk
 author_link: ToDo
-draft: true
+date: 2025-04-13T08:57:07.604Z
 ---
 
 # Question-answering system with Similarity Learning and Quaterion
