@@ -6193,7 +6193,11 @@ img {
 ***/
 .login-page-section {
   position: relative;
-  padding: 95px 0px 0px;
+}
+@media (min-width: 992px) {
+  .login-page-section {
+    padding: 95px 0px 0px;
+  }
 }
 
 .login-page-section .image-column {
@@ -6233,7 +6237,7 @@ img {
   font-size: 16px;
   line-height: 1.3em;
   margin-top: 12px;
-  margin-bottom: 40px;
+  margin-bottom: 25px;
 }
 
 /* Styled Form */
@@ -7630,6 +7634,10 @@ img {
 
 .pull-right {
   float: right;
+}
+
+.asterisk {
+  color: var(--brand-primary);
 }
 
 /*# sourceMappingURL=main.css.map */
