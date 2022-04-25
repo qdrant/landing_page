@@ -68,9 +68,9 @@ We have a [ready script](https://github.com/qdrant/demo-cloud-faq/blob/experimen
 for this experiment, let's just launch it now.
 
 
-| precision@1    | mean_reciprocal_rank |
-|----------------|----------------------|
-| AWESOME RESULT | MORE AWESOME RESULT  |
+| precision@1 | reciprocal_rank |
+|-------------|-----------------|
+| 0.564       | 0.663           |
 
 That's already quite decent quality, but maybe we can do better?
 
