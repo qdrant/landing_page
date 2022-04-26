@@ -145,7 +145,7 @@ POST /collections/{collection_name}/points/search
 
 ## Recommendation API
 
-**DISCLAIMER**: Negative vectors is an experimental functionality that is not guaranteed to work with all king of embeddings.
+<aside role="alert">Negative vectors is an experimental functionality that is not guaranteed to work with all king of embeddings.</aside>
 
 In addition to the regular search, Qdrant also allows you to search based on multiple already stored data collection vectors.
 This API allows using vector search without using a neural network encoder for already encoded objects.
