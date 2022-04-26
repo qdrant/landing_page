@@ -8,6 +8,61 @@
         </div>
 
         {{ partial "recent_news" . }}
+
+        <!-- Social Media Links -->
+        <section class="col-12 contact-info-section">
+            <div class="auto-container">
+                <!-- Sec Title -->
+                <div class="sec-title centered">
+                    <h2>Join our <span>Community</span></h2>
+                    <div class="text">Lorem Ipsum is simply dummy text of the printing and typesetting industry.</div>
+                </div>
+                <div class="inner-container">
+                    <div class="row clearfix">
+
+                        <!-- Info Column -->
+                        <div class="info-column col-lg-4 col-md-6 col-sm-12">
+                            <div class="inner-column pl-0 text-center">
+                                <ul>
+                                    <li><a href="{{ .Site.Params.discord }}" target="_blank"><i class="fab fa-discord"></i> Discord</a></li>
+                                    <li><a href="{{ .Site.Params.twitter }}" target="_blank"><i class="fab fa-twitter"></i> Twitter</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Info Column -->
+                        <div class="info-column col-lg-4 col-md-6 col-sm-12">
+                            <div class="inner-column pl-0 text-center">
+                                <ul>
+                                    <li><a href="{{ .Site.Params.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i> Linkedin</a></li>
+                                    <li><a href="{{ .Site.Params.facebook }}" target="_blank"><i class="fab fa-facebook"></i> Facebook</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Info Column -->
+                        <div class="info-column col-lg-4 col-md-6 col-sm-12">
+                            <div class="inner-column pl-0 text-center">
+                                <ul>
+                                    <li><a href="{{ .Site.Params.github }}" target="_blank"><i class="fab fa-github"></i> Github</a></li>
+                                </ul>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End of Social Media Links -->
+
+        <div class="col-6 offset-3 mb-5">
+            <div class="sec-title centered">
+                <h2>Subscribe to our <span>Newsletter</span></h2>
+            </div>
+
+            {{ partial "subscribe-form" . }}
+        </div>
+
     </div>
 </section>
 
