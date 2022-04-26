@@ -4,7 +4,7 @@
       <h4>Recent News</h4>
     </div>
 
-    {{ range where (where site.Pages "Section" "blog") ".Params.featured" "=" true | first 3 }}
+    {{ range where (where site.Pages "Section" "blog") ".Params.featured" "=" true | first 2 }}
     {{ $link := .Permalink }}
     {{ if .Params.external_link }}
     {{ $link = .Params.external_link }}
