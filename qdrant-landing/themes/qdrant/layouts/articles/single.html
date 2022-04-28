@@ -9,9 +9,6 @@
 
         <!-- Contact Form -->
         <section class="content-column offset-lg-3 col-lg-6 col-md-12 col-sm-12">
-            <div class="col-12 sec-title text-center mb-3">
-                <h5>Get <span>Updates</span> from Qdrant</h5>
-            </div>
 
             <!-- Newsletter Form -->
             <div class="newsletter-form">
@@ -23,7 +20,7 @@
                         <div style="position: absolute; left: -5000px;" aria-hidden="true">
                             <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1" value="">
                         </div>
-                        <button type="submit" class="theme-btn btn-style-three"><span class="txt">Subscribe</span>
+                        <button type="submit" class="theme-btn btn-style-three"><span class="txt">Get updates</span>
                         </button>
                     </div>
                 </form>
@@ -32,43 +29,24 @@
         <!-- End of Contact Form -->
 
         <!-- Social Media Links -->
-        <section class="col-12 contact-info-section pt-3">
+        <section class="col-12 contact-info-section pt-0">
             <div class="auto-container">
                 <!-- Sec Title -->
-                <div class="sec-title centered mb-0">
-                    <h5>Join our <span>Community</span></h5>
-                </div>
                 <div class="inner-container">
                     <div class="row clearfix">
 
                         <!-- Info Column -->
-                        <div class="info-column col-lg-4 col-md-6 col-sm-12">
+                        <div class="info-column col-12">
                             <div class="inner-column pl-0 text-center">
-                                <ul>
+                                <ul class="d-flex justify-content-between">
                                     <li><a href="{{ .Site.Params.discord }}" target="_blank"><i
                                             class="fab fa-discord"></i> Discord</a></li>
                                     <li><a href="{{ .Site.Params.twitter }}" target="_blank"><i
                                             class="fab fa-twitter"></i> Twitter</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Info Column -->
-                        <div class="info-column col-lg-4 col-md-6 col-sm-12">
-                            <div class="inner-column pl-0 text-center">
-                                <ul>
                                     <li><a href="{{ .Site.Params.linkedin }}" target="_blank"><i
                                             class="fab fa-linkedin"></i> Linkedin</a></li>
                                     <li><a href="{{ .Site.Params.facebook }}" target="_blank"><i
                                             class="fab fa-facebook"></i> Facebook</a></li>
-                                </ul>
-                            </div>
-                        </div>
-
-                        <!-- Info Column -->
-                        <div class="info-column col-lg-4 col-md-6 col-sm-12">
-                            <div class="inner-column pl-0 text-center">
-                                <ul>
                                     <li><a href="{{ .Site.Params.github }}" target="_blank"><i
                                             class="fab fa-github"></i> Github</a></li>
                                 </ul>
