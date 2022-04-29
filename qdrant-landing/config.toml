@@ -61,42 +61,107 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
 [menu]
 
-  [[menu.main]]
-    identifier = "home"
-    name = "Home"
-    weight = -100
+[[menu.main]]
+    identifier = "resources"
+    name = "Resources"
+    weight = 1
     url = "/"
 
-  [[menu.main]]
+[[menu.main]]
     identifier = "use-case"
     name = "Use cases"
-    weight = -100
+    weight = 1
+    parent = "resources"
     url = "/use-cases/"
 
   [[menu.main]]
     identifier = "solutions"
     name = "Solutions"
-    weight = -90
+    weight = 2
+    parent = "resources"
     url = "/solutions/"
-
-  [[menu.main]]
-    identifier = "documentation"
-    name = "Documentation"
-    weight = -80
-    url = "/documentation/"
-  
 
   [[menu.main]]
     identifier = "articles"
     name = "Articles"
-    weight = -70
-    url = "/articles"
+    weight = 3
+    parent = "resources"
+    url = "/articles/"
 
   [[menu.main]]
     identifier = "blog"
     name = "Blog"
-    weight = -60
+    weight = 4
+    parent = "resources"
     url = "/blog/"
+
+  [[menu.main]]
+    identifier = "roadmap"
+    name = "Roadmap"
+    weight = 5
+    parent = "resources"
+    url = "https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md"
+    [menu.main.params]
+       external = true
+
+[[menu.main]]
+    identifier = "changelog"
+    name = "Changelog"
+    weight = 6
+    parent = "resources"
+    url = "https://github.com/qdrant/qdrant/releases"
+    [menu.main.params]
+        external = true
+
+[[menu.main]]
+identifier = "documentation"
+    name = "Documentation"
+    weight = 2
+    url = "/"
+
+  [[menu.main]]
+    identifier = "community"
+    name = "Community"
+    weight = 3
+    url = "/"
+
+  [[menu.main]]
+    identifier = "github"
+    name = "Github"
+    weight = 1
+    parent = "community"
+    url = "https://github.com/qdrant/qdrant"
+    pre = "<i class='fab fa-github'></i>"
+    [menu.main.params]
+        external = true
+
+[[menu.main]]
+    identifier = "discord"
+    name = "Discord"
+    weight = 2
+    parent = "community"
+    url = "https://discord.gg/tdtYvXjC4h"
+    pre = "<i class='fab fa-discord'></i>"
+    [menu.main.params]
+        external = true
+
+[[menu.main]]
+    identifier = "twitter"
+    name = "Twitter"
+    weight = 3
+    parent = "community"
+    url = "https://twitter.com/qdrant_engine"
+    pre = "<i class='fab fa-twitter'></i>"
+    [menu.main.params]
+        external = true
+
+[[menu.main]]
+    identifier = "newsletter"
+    name = "Newsletter"
+    weight = 4
+    parent = "community"
+    url = "/subscribe/"
+    pre = "<i class='fas fa-envelope'></i>"
 
 [markup.goldmark.renderer]
 unsafe= true
