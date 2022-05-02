@@ -101,9 +101,12 @@
                             
                             {{ $currentPage := . }}
                             {{ range .Site.Menus.main }}
-                            <li class="{{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}} dropdown"><a href="#">{{ .Name }}
+                            <li class="navigation__item {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}}
+                              {{if .HasChildren }}dropdown{{ end }}">
+                              <a class="navigation__link" href="#">{{ .Name }}
                               {{ if .HasChildren }}
-                              <i class="fas fa-chevron-down"></i>                              </a>
+                                <i class="fas fa-chevron-down"></i>
+                              </a>
                               <ul>
                                   {{ range .Children }}
                                   <li><a href="{{ .URL }}" {{ if .Params.external }}target="_blank"{{ end }}>
@@ -120,16 +123,17 @@
 
                            {{ end }}
 
+                           <li>
+                               <a class="btn btn_in-header" href="{{ .Site.Params.github }}" target="_blank" title="github" role="button">
+                                   <span class="btn btn__text"><i class="icon flaticon-github"></i> Github</span></a>
+
+                           </li>
+
                           </ul>
                         </div>
           
                       </nav>
-          
-                      <div class="outer-box">
-                        <a class="btn btn-lg mt-1" href="{{ .Site.Params.github }}" target="_blank" title="github"><i
-                                class="icon flaticon-github"></i></a>
-                      </div>
-          
+
                     </div>
           
                   </div>
