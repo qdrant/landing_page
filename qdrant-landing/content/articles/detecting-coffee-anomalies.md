@@ -105,11 +105,12 @@ Please note that we used only 200 labeled samples in the metric learning approac
 These numbers indicate a huge saving with no considerable compromise in the performance.
 
 ## Conclusion
-We obtained results comparable to those of the supervised classification method by using only 0.66% of the labeled data with metric learning.
+We obtained results comparable to those of the supervised classification method by using **only 0.66%** of the labeled data with metric learning.
 This approach is time-saving and resource-efficient, and that may be improved further. Possible next steps might be:
 
 - Collect more unlabeled data and pretrain a larger autoencoder.
 - Obtain high-quality labels for a small number of images instead of tens of thousands for finetuning.
 - Use hyperparameter optimization and possibly gradual unfreezing in the finetuning step.
+- Use [vector search engine](https://github.com/qdrant/qdrant) to serve Metric Learning in production. 
 
 We are actively looking into these, and we will continue to publish our findings in this challenge and other use cases of metric learning.
