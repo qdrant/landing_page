@@ -1,5 +1,5 @@
 ---
-title: Metric learning for Anomaly Detection
+title: Metric Learning for Anomaly Detection
 short_description: "How to use metric learning to detect anomalies: quality assessment of coffee beans with just 200 labelled samples"
 description: Practical use of metric learning for anomaly detection. A way to match the results of a classification-based approach with only ~0.6% of the labeled data. 
 preview_image: /articles_data/detecting-coffee-anomalies/preview.png
@@ -36,7 +36,7 @@ In the course of work, new types of defects appear, and shooting conditions chan
 
 Let's find out how metric learning might help to address this challenge.
 
-## Metric learning approach
+## Metric Learning Approach
 
 In this approach, we aimed to encode images in an n-dimensional vector space and then use learned similarities to label images during the inference.
 
@@ -62,7 +62,7 @@ Training such an encoder from scratch may require a significant amount of data w
 {{< figure src=/articles_data/detecting-coffee-anomalies/anomaly_detection_training.png caption="Model training architecture" >}}
 
 
-### Step 1 - Autoencoder for unlabeled data
+### Step 1 - Autoencoder for Unlabeled Data
 
 First, we pretrained a Resnet18-like model in a vanilla autoencoder architecture by leaving the labels aside.
 Autoencoder is a model architecture composed of an encoder and a decoder, with the latter trying to recreate the original input from the low-dimensional bottleneck output of the former.
@@ -76,7 +76,7 @@ and created a KNN classifier on top of these embeddings and associated labels.
 
 Although the results are promising, we can do even better by finetuning with metric learning.
 
-### Step 2 - Finetuning with metric learning
+### Step 2 - Finetuning with Metric Learning
 
 We started by selecting 200 labeled samples randomly without replacement.
 
@@ -96,7 +96,7 @@ This time it converged smoothly, and our evaluation metrics also improved consid
 We repeated this experiment with 500 and 2000 samples, but it showed only a slight improvement.
 Thus we decided to stick to 200 samples - see below for why.
 
-## Supervised classification approach
+## Supervised Classification Approach
 We also wanted to compare our results with the metrics of a traditional supervised classification model.
 For this purpose, a Resnet50 model was finetuned with ~30k labeled images, made available for training.
 Surprisingly, the F1 score was around ~0.86.
