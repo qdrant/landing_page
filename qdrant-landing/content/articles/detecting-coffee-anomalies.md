@@ -1,5 +1,5 @@
 ---
-title: Metric learning for Anomalies Detection
+title: Metric learning for Anomaly Detection
 short_description: "How to use metric learning to detect anomalies: quality assessment of coffee beans with just 200 labelled samples"
 description: Practical use of metric learning for anomaly detection. A way to match the results of a classification-based approach with only ~0.6% of the labeled data. 
 preview_image: /articles_data/detecting-coffee-anomalies/preview.png
