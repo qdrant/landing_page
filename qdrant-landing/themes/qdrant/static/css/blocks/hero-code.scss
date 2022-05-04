@@ -4,30 +4,43 @@
 
 @import url("colors.css");
 .hero-code {
-	display: inline-block;
-	padding: 1rem 3rem 1rem 1.6rem;
-	margin-bottom: 1rem;
-	background: #f6f8fa;
-	background: var(--brand-secondary);
-	border-radius: 5px;
-	font-family: "Anonymous Pro", monospace;
-	font-size: 1.6rem;
-	position: relative;
-}
+  display: inline-block;
+  padding: 1rem 4.45rem 1rem 1.6rem;
+  margin-bottom: 1rem;
+  background: #f6f8fa;
+  background: var(--brand-secondary);
+  border-radius: 5px;
+  font-family: "Anonymous Pro", monospace;
+  font-size: 1.6rem;
+  position: relative;
+  cursor: pointer;
 
-.hero-code__text {
-	color: white;
-}
+  @media (max-width: 1140px) {
+    background: var(--gray);
+    padding-right: 3rem;
+  }
 
-.hero-code__btn {
-	position: absolute;
-	top: 15px;
-	right: 1rem;
-}
+  &__text {
+    color: white;
+  }
 
-@media (max-width: 1140px) {
-	.hero-code {
-		background: var(--gray);
-		padding-right: 3rem;
-	}
+  &__btn {
+    position: absolute;
+    top: 15px;
+    right: 1rem;
+  }
+
+  &__logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80px;
+    height: 80px;
+    position: absolute;
+    right: -50px;
+    top: -70%;
+    background: var(--brand-primary);
+    color: var(--white);
+    border-radius: 50%;
+  }
 }
