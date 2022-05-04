@@ -67,7 +67,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   weight = 1
   url = "/"
 
-  [[menu.main]]
+[[menu.main]]
     identifier = "use-case"
     name = "Use cases"
     weight = 1
