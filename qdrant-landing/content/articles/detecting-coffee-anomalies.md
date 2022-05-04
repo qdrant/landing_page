@@ -1,5 +1,5 @@
 ---
-title: Metric learning for Anomalies Detection
+title: Metric Learning for Anomaly Detection
 short_description: "How to use metric learning to detect anomalies: quality assessment of coffee beans with just 200 labelled samples"
 description: Practical use of metric learning for anomaly detection. A way to match the results of a classification-based approach with only ~0.6% of the labeled data. 
 preview_image: /articles_data/detecting-coffee-anomalies/preview.png
@@ -7,7 +7,8 @@ small_preview_image: /articles_data/detecting-coffee-anomalies/anomalies_icon.sv
 weight: 30
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
-draft: true
+date: 2022-05-04T13:00:00+03:00
+draft: false
 ---
 
 Anomaly detection is a thirsting yet challenging task that has numerous use cases across various industries.
@@ -31,12 +32,14 @@ In this post, we will detail the lessons learned from such a use case.
 They have collected and labeled more than **30 thousand** images of coffee beans with various defects - wet, broken, chipped, or bug-infested samples.
 This data is used to train a classifier that evaluates crop quality and highlights possible problems.
 
+{{< figure src=/articles_data/detecting-coffee-anomalies/detection.gif caption="Anomalies in coffee" width="400px" >}}
+
 We should note that anomalies are very diverse, so the enumeration of all possible anomalies is a challenging task on it's own.
 In the course of work, new types of defects appear, and shooting conditions change. Thus, a one-time labeled dataset becomes insufficient.
 
 Let's find out how metric learning might help to address this challenge.
 
-## Metric learning approach
+## Metric Learning Approach
 
 In this approach, we aimed to encode images in an n-dimensional vector space and then use learned similarities to label images during the inference.
 
@@ -44,6 +47,8 @@ The simplest way to do this is KNN classification.
 The algorithm retrieves K-nearest neighbors to a given query vector and assigns a label based on the majority vote.
 
 In production environment kNN classifier could be easily replaced with [Qdrant](https://qdrant.tech/) vector search engine.
+
+{{< figure src=/articles_data/detecting-coffee-anomalies/anomalies_detection.png caption="Production deployment" >}}
 
 This approach has the following advantages:
 
@@ -62,7 +67,7 @@ Training such an encoder from scratch may require a significant amount of data w
 {{< figure src=/articles_data/detecting-coffee-anomalies/anomaly_detection_training.png caption="Model training architecture" >}}
 
 
-### Step 1 - Autoencoder for unlabeled data
+### Step 1 - Autoencoder for Unlabeled Data
 
 First, we pretrained a Resnet18-like model in a vanilla autoencoder architecture by leaving the labels aside.
 Autoencoder is a model architecture composed of an encoder and a decoder, with the latter trying to recreate the original input from the low-dimensional bottleneck output of the former.
@@ -76,7 +81,7 @@ and created a KNN classifier on top of these embeddings and associated labels.
 
 Although the results are promising, we can do even better by finetuning with metric learning.
 
-### Step 2 - Finetuning with metric learning
+### Step 2 - Finetuning with Metric Learning
 
 We started by selecting 200 labeled samples randomly without replacement.
 
@@ -96,7 +101,7 @@ This time it converged smoothly, and our evaluation metrics also improved consid
 We repeated this experiment with 500 and 2000 samples, but it showed only a slight improvement.
 Thus we decided to stick to 200 samples - see below for why.
 
-## Supervised classification approach
+## Supervised Classification Approach
 We also wanted to compare our results with the metrics of a traditional supervised classification model.
 For this purpose, a Resnet50 model was finetuned with ~30k labeled images, made available for training.
 Surprisingly, the F1 score was around ~0.86.
@@ -105,11 +110,12 @@ Please note that we used only 200 labeled samples in the metric learning approac
 These numbers indicate a huge saving with no considerable compromise in the performance.
 
 ## Conclusion
-We obtained results comparable to those of the supervised classification method by using only 0.66% of the labeled data with metric learning.
+We obtained results comparable to those of the supervised classification method by using **only 0.66%** of the labeled data with metric learning.
 This approach is time-saving and resource-efficient, and that may be improved further. Possible next steps might be:
 
 - Collect more unlabeled data and pretrain a larger autoencoder.
 - Obtain high-quality labels for a small number of images instead of tens of thousands for finetuning.
 - Use hyperparameter optimization and possibly gradual unfreezing in the finetuning step.
+- Use [vector search engine](https://github.com/qdrant/qdrant) to serve Metric Learning in production. 
 
 We are actively looking into these, and we will continue to publish our findings in this challenge and other use cases of metric learning.
