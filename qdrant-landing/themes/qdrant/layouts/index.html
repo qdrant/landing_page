@@ -10,28 +10,27 @@
           <!-- Content Column -->
           <div class="content-column col-lg-6 col-md-12 col-sm-12">
             <div class="inner-column">
-              <h2><a target="_blank" href="{{ .Site.Params.github }}">Open Source</a></h2>
               <h1>Neural Search Engine</h1>
-              <div class="sec-title text mb-3">Build your own
-                exclusive AI products.
-                <br/>
-                
+              <h4 class="d-inline-block mb-3">Build your own exclusive AI products.</h4>
 
-                <div class="hero-code mt-3">
-                  <code id="copy-code" class="hero-code__text">docker pull qdrant/qdrant</code>
-                  <span class="hero-code__btn copy-code" id="copy-popover" data-toggle="popover" data-content="Text copied!">
-                    <button class="copy-btn copy-code__btn copy-code__btn_light lead ml-2" data-clipboard-target="#copy-code" title="Copy code">
-                      <i class="flaticon-copy"></i>
-                    </button>
+
+                <div class="hero-code mt-3 mb-4 copy-btn" id="copy-popover" data-toggle="popover" data-content="Text copied!" data-clipboard-target="#copy-code">
+                  <code id="copy-code" class="hero-code__text" title="Copy code">docker pull qdrant/qdrant</code>
+                  <span class="hero-code__logo">
+                    <i class="fab fa-docker"></i>
                   </span>
                 </div> <br>
-                Get started by downloading a pre built Docker Image - it is only <b>40Mb!</b><br>
-                
-                Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
-                  or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a>
+<!--                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_big mr-3" target="_blank" href="{{ .Site.Params.quick_start }}">-->
+<!--                  <span class="text">Quick Start Guide</span>-->
+<!--                </a>-->
+<!--                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big" target="_blank" href="{{ .Site.Params.tutorial }}">-->
+<!--                  <span class="text">Tutorial</span>-->
+<!--                </a>-->
 
-                <!-- <h4 class="font-weight-bold mt-3 mb-0">It's Free and <a class="os-link" target="_blank" href="{{ .Site.Params.github }}">Open Source </a></h4> -->
-              </div>
+              <div class="sec-title text">Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
+                or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a></div>
+
+              <!-- <h4 class="font-weight-bold mt-3 mb-0">It's Free and <a class="os-link" target="_blank" href="{{ .Site.Params.github }}">Open Source </a></h4> -->
 
               <!-- Installation Section -->
               <!-- <section class="installation-section">
@@ -141,7 +140,7 @@
                 </li>
               {{ end }}
             </ul>
-            
+
             {{ range $i, $e := first 3 .Pages }}
 
             <!--Tabs Container-->
@@ -160,7 +159,7 @@
                         <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four"><span class="txt">Contact us</span></a>
                       </div>
                     </div>
-                    
+
                     <!-- Image Column -->
                     <div class="image-column col-6 d-none d-lg-block d-xl-block">
                       <div class="inner-column">
@@ -190,7 +189,7 @@
 
 
   {{ with (.Site.GetPage "section" "stack") }}
-  <!--Clients Section--> 
+  <!--Clients Section-->
   <section class="clients-section my-5">
     <div class="sec-title text-center">
       <h2>{{ .Title | safeHTML }}</h2>
@@ -212,7 +211,7 @@
   </section>
   <!--End Clients Section-->
   {{ end }}
-  
+
 
   {{ with (.Site.GetPage "section" "articles") }}
   <!-- End Articles Section -->
@@ -225,9 +224,9 @@
         </div>
       </div>
       <div class="row clearfix">
-        
+
         {{ range $i, $e := first 3 .Pages }}
-        
+
         {{ $link := .Permalink }}
         {{ if .Params.external_link }}
           {{ $link = .Params.external_link }}
@@ -264,7 +263,7 @@
       <div class="row">
         <div class="col-12 sec-title text-center">
           <h2>Get <span>Updates</span> from Qdrant</h2>
-          <div class="text">We will update you on new features and news regarding Qdrant 
+          <div class="text">We will update you on new features and news regarding Qdrant
           </div>
         </div>
         <div class="content-column offset-lg-3 col-lg-6 col-md-12 col-sm-12">
