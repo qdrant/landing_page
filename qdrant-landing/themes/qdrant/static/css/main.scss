@@ -717,6 +717,15 @@ img{
 	color:#ff5b00;
 }
 
+.sec-title h5{
+	position:relative;
+	color:#2b2a41;
+	font-size: 36px;
+	font-weight:700;
+	line-height:1.2em;
+	margin-bottom:0px;
+}
+
 /*** 
 
 ====================================================================
@@ -6890,7 +6899,7 @@ img{
 
 .contact-info-section .info-column ul li a{
 	position:relative;
-	color:#5a5a5a;
+	//color:#5a5a5a;
 	font-size:15px;
 	/* transition:all 500ms ease; */
 	/* -moz-transition:all 500ms ease; */
@@ -6900,7 +6909,7 @@ img{
 }
 
 .contact-info-section .info-column ul li a:hover{
-	color:var(--brand-primary);
+	//color:var(--brand-primary);
 }
 
 .contact-info-section .info-column .text{
