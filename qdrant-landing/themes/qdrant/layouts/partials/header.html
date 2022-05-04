@@ -101,22 +101,39 @@
                             
                             {{ $currentPage := . }}
                             {{ range .Site.Menus.main }}
-                            <li {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}class="current"{{end}}><a href="{{ .URL }}">{{ .Name }}</a></li>
-                            {{ end }}
+                            <li class="navigation__item {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}}
+                              {{if .HasChildren }}dropdown{{ end }}">
+                              <a class="navigation__link" {{if not .HasChildren }}href="{{ .URL }}"{{end}}>{{ .Name }}
+                              {{ if .HasChildren }}
+                                <i class="fas fa-chevron-down"></i>
+                              </a>
+                              <ul>
+                                  {{ range .Children }}
+                                  <li><a href="{{ .URL }}" {{ if .Params.external }}target="_blank"{{ end }}>
+                                      {{ if .Pre }} {{ .Pre }}&nbsp;{{ end }}
+                                      {{ .Name }}
+                                  </a></li>
+                                  {{ end }}
+                              </ul>
+                              {{ else }}
+                              </a>
+                              {{ end }}
 
-                            <!-- <li class="current"><a href="index.html">Home</a></li>
-                            <li><a href="solutions.html">Solutions</a></li>
-                            <li><a href="documentation.html">Documentation</a></li> -->
+                            </li>
+
+                           {{ end }}
+
+                           <li>
+                               <a class="btn btn_in-header" href="{{ .Site.Params.github }}" target="_blank" title="github" role="button">
+                                   <span class="btn btn__text"><i class="icon flaticon-github"></i> Github</span></a>
+
+                           </li>
+
                           </ul>
                         </div>
           
                       </nav>
-          
-                      <div class="outer-box">
-                        <a class="btn btn-lg mt-1" href="{{ .Site.Params.github }}" target="_blank" title="github"><i
-                                class="icon flaticon-github"></i></a>
-                      </div>
-          
+
                     </div>
           
                   </div>

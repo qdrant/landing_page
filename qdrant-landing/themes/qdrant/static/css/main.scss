@@ -56,6 +56,7 @@
 
 @import "article";
 
+@import "blocks/button";
 @import "blocks/copy-btn";
 @import "blocks/hero-code";
 @import "blocks/widget-header";
@@ -1087,8 +1088,10 @@ img{
 }
 
 .main-menu .navigation{
+	display: flex;
+	align-items: center;
 	position:static;
-	margin:0px;
+	margin:0;
 }
 
 .main-menu .navigation > li{
@@ -1106,7 +1109,7 @@ img{
 	margin-right:0px;
 }
 
-.main-menu .navigation > li > a{
+.main-menu .navigation > .navigation__item > .navigation__link {
 	position:relative;
 	display:block;
 	color:#ffffff;
@@ -1134,7 +1137,7 @@ img{
 .main-menu .navigation > li > ul{
 	position:absolute;
 	left:0px;
-	top:100%;
+	top:90%;
 	width:230px;
 	z-index:100;
 	display:none;
@@ -1360,7 +1363,7 @@ img{
 	padding-top:0px;
 }
 
-.main-header.fixed-header .main-menu .navigation > li > a{
+.main-header.fixed-header .main-menu .navigation > .navigation__item > .navigation__link{
 	padding:27px 0px;
 }
 
