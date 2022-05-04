@@ -134,10 +134,10 @@
 		$('.mobile-menu .menu-box').mCustomScrollbar();
 		
 		var mobileMenuContent = $('.main-header .nav-outer .main-menu').html();
+		mobileMenuContent = $(mobileMenuContent).find('.fa-chevron-down').remove().end();
 		$('.mobile-menu .menu-box .menu-outer').append(mobileMenuContent);
 		$('.sticky-header .main-menu').append(mobileMenuContent);
-		
-		//Dropdown Button
+
 		$('.mobile-menu li.dropdown .dropdown-btn').on('click', function() {
 			$(this).toggleClass('open');
 			$(this).prev('ul').slideToggle(500);

@@ -103,7 +103,7 @@
                             {{ range .Site.Menus.main }}
                             <li class="navigation__item {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}}
                               {{if .HasChildren }}dropdown{{ end }}">
-                              <a class="navigation__link" href="{{ .URL }}">{{ .Name }}
+                              <a class="navigation__link" {{if not .HasChildren }}href="{{ .URL }}"{{end}}>{{ .Name }}
                               {{ if .HasChildren }}
                                 <i class="fas fa-chevron-down"></i>
                               </a>
