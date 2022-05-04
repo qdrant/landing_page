@@ -32,6 +32,8 @@ In this post, we will detail the lessons learned from such a use case.
 They have collected and labeled more than **30 thousand** images of coffee beans with various defects - wet, broken, chipped, or bug-infested samples.
 This data is used to train a classifier that evaluates crop quality and highlights possible problems.
 
+{{< figure src=/articles_data/detecting-coffee-anomalies/detection.gif caption="Anomalies in coffee" width="400px" >}}
+
 We should note that anomalies are very diverse, so the enumeration of all possible anomalies is a challenging task on it's own.
 In the course of work, new types of defects appear, and shooting conditions change. Thus, a one-time labeled dataset becomes insufficient.
 
@@ -45,6 +47,8 @@ The simplest way to do this is KNN classification.
 The algorithm retrieves K-nearest neighbors to a given query vector and assigns a label based on the majority vote.
 
 In production environment kNN classifier could be easily replaced with [Qdrant](https://qdrant.tech/) vector search engine.
+
+{{< figure src=/articles_data/detecting-coffee-anomalies/anomalies_detection.png caption="Production deployment" >}}
 
 This approach has the following advantages:
 
