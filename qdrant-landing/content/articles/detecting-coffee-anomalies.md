@@ -7,6 +7,7 @@ small_preview_image: /articles_data/detecting-coffee-anomalies/anomalies_icon.sv
 weight: 30
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
+date: 2022-05-04T13:00:00+03:00
 draft: false
 ---
 
