@@ -11,48 +11,48 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
 
 [params]
-    author = "Andrey Vasnetsov"
-    description = "Qdrant - Open-Source Vector Search Engine"
-    keywords = ["search engine", "neural network", "matching", "filter", "SaaS",
-        "approximate nearest neighbor search", "image search", "recommender system", "vectors",
-        "knn algorithm", "hnsw", "vector search", "embeddings", "similarity", "simaes networks",
-        "BERT", "transformer", "word2vec", "fasttext"]
+  author = "Andrey Vasnetsov"
+  description = "Qdrant - Open-Source Vector Search Engine"
+  keywords = ["search engine", "neural network", "matching", "filter", "SaaS",
+    "approximate nearest neighbor search", "image search", "recommender system", "vectors",
+    "knn algorithm", "hnsw", "vector search", "embeddings", "similarity", "simaes networks",
+    "BERT", "transformer", "word2vec", "fasttext"]
 
-    font = "Anonymous Pro"
-    highlight = true
-    highlightStyle = "default"
-    highlightLanguages = ["python", "rust", "json", "bash", "http"]
-    yandexWebmaster = ""
+  font = "Anonymous Pro"
+  highlight = true
+  highlightStyle = "default"
+  highlightLanguages = ["python", "rust", "json", "bash", "http"]
+  yandexWebmaster = ""
 
-    logo = "/images/logo_small_with_text.png"
-    logo_width = "192"
-    preview_image = "/images/social_preview.png"
+  logo = "/images/logo_small_with_text.png"
+  logo_width = "192"
+  preview_image = "/images/social_preview.png"
 
-    github = "https://github.com/qdrant/qdrant"
-    quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
-    tutorial = "/articles/neural-search-tutorial/"
+  github = "https://github.com/qdrant/qdrant"
+  quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
+  tutorial = "/articles/neural-search-tutorial/"
 
-    linkedin = "https://www.linkedin.com/company/qdrant"
-    twitter = "https://twitter.com/qdrant_engine"
-    discord = "https://discord.gg/tdtYvXjC4h"
-    facebook = "https://www.facebook.com/qdrant.tech"
+  linkedin = "https://www.linkedin.com/company/qdrant"
+  twitter = "https://twitter.com/qdrant_engine"
+  discord = "https://discord.gg/tdtYvXjC4h"
+  facebook = "https://www.facebook.com/qdrant.tech"
 
-    email = "info@qdrant.tech"
-    location = "Berlin"
+  email = "info@qdrant.tech"
+  location = "Berlin"
 
-    mailchimp_contact_form = "https://us1.list-manage.com/contact-form?u=69617d79374ac6280dd2230b2&form_id=cce004c91b038a38e5ef1ece5318fd1e"
+  mailchimp_contact_form = "https://us1.list-manage.com/contact-form?u=69617d79374ac6280dd2230b2&form_id=cce004c91b038a38e5ef1ece5318fd1e"
 
-    mailchimp_subscribe = "https://tech.us1.list-manage.com/subscribe/post?u=69617d79374ac6280dd2230b2&amp;id=acb2b876fc"
+  mailchimp_subscribe = "https://tech.us1.list-manage.com/subscribe/post?u=69617d79374ac6280dd2230b2&amp;id=acb2b876fc"
 
-    mailchimp_subscribe_id = "b_69617d79374ac6280dd2230b2_acb2b876fc"
+  mailchimp_subscribe_id = "b_69617d79374ac6280dd2230b2_acb2b876fc"
 
-    gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
+  gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
-    githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v0.7.x/"
+  githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v0.7.x/"
 
-    docVersion = "v0.7.x"
+  docVersion = "v0.7.x"
 
-    googleTagManager = "GTM-KRLCXD5"
+  googleTagManager = "GTM-KRLCXD5"
 
 [taxonomies]
     tag = "tags"
@@ -62,12 +62,12 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 [menu]
 
 [[menu.main]]
-    identifier = "resources"
-    name = "Resources"
-    weight = 1
-    url = "/"
+  identifier = "resources"
+  name = "Resources"
+  weight = 1
+  url = "/"
 
-[[menu.main]]
+  [[menu.main]]
     identifier = "use-case"
     name = "Use cases"
     weight = 1
@@ -104,7 +104,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     [menu.main.params]
        external = true
 
-[[menu.main]]
+  [[menu.main]]
     identifier = "changelog"
     name = "Changelog"
     weight = 6
@@ -114,16 +114,16 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
         external = true
 
 [[menu.main]]
-identifier = "documentation"
-    name = "Documentation"
-    weight = 2
-    url = "/"
+  identifier = "documentation"
+  name = "Documentation"
+  weight = 2
+  url = "/documentation/"
 
-  [[menu.main]]
-    identifier = "community"
-    name = "Community"
-    weight = 3
-    url = "/"
+[[menu.main]]
+  identifier = "community"
+  name = "Community"
+  weight = 3
+  url = "/"
 
   [[menu.main]]
     identifier = "github"
@@ -135,7 +135,7 @@ identifier = "documentation"
     [menu.main.params]
         external = true
 
-[[menu.main]]
+  [[menu.main]]
     identifier = "discord"
     name = "Discord"
     weight = 2
@@ -143,9 +143,9 @@ identifier = "documentation"
     url = "https://discord.gg/tdtYvXjC4h"
     pre = "<i class='fab fa-discord'></i>"
     [menu.main.params]
-        external = true
+      external = true
 
-[[menu.main]]
+  [[menu.main]]
     identifier = "twitter"
     name = "Twitter"
     weight = 3
@@ -153,9 +153,9 @@ identifier = "documentation"
     url = "https://twitter.com/qdrant_engine"
     pre = "<i class='fab fa-twitter'></i>"
     [menu.main.params]
-        external = true
+      external = true
 
-[[menu.main]]
+  [[menu.main]]
     identifier = "newsletter"
     name = "Newsletter"
     weight = 4
