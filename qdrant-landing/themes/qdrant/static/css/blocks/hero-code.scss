@@ -11,17 +11,21 @@
   background: var(--brand-secondary);
   border-radius: 5px;
   font-family: "Anonymous Pro", monospace;
-  font-size: 1.6rem;
+  font-size: 1.4rem;
   position: relative;
   cursor: pointer;
 
   @media (max-width: 1140px) {
     background: var(--gray);
-    padding-right: 3rem;
+  }
+
+  @include media-breakpoint-up(sm) {
+    padding-right: 3.5rem;
   }
 
   &__text {
     color: white;
+    white-space: pre-wrap;
   }
 
   &__btn {
@@ -34,13 +38,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 80px;
-    height: 80px;
+    width: 40px;
+    height: 40px;
     position: absolute;
-    right: -50px;
-    top: -70%;
+    right: 10px;
+    top: 10px;
     background: var(--brand-primary);
     color: var(--white);
     border-radius: 50%;
+
+    @include media-breakpoint-up(sm) {
+      width: 80px;
+      height: 80px;
+      right: -30px;
+      top: -20%;
+    }
   }
 }
