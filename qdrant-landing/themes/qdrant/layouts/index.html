@@ -11,24 +11,29 @@
           <div class="content-column col-lg-6 col-md-12 col-sm-12">
             <div class="inner-column">
               <h1>Neural Search Engine</h1>
-              <h4 class="d-inline-block mb-3">Build your own exclusive AI products.</h4>
+              <h4 class="d-inline-block mb-3">Build your own exclusive AI products.</h4><br>
 
 
                 <div class="hero-code mt-3 mb-4 copy-btn" id="copy-popover" data-toggle="popover" data-content="Text copied!" data-clipboard-target="#copy-code">
-                  <code id="copy-code" class="hero-code__text" title="Copy code">docker pull qdrant/qdrant</code>
+                  <!-- Don't change an alignment inside this code tag-->
+                  <code id="copy-code" class="hero-code__text" title="Copy code">
+docker pull qdrant/qdrant;
+docker run -p 6333:6333 qdrant/qdrant
+                  </code>
                   <span class="hero-code__logo">
                     <i class="fab fa-docker"></i>
                   </span>
                 </div> <br>
-<!--                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_big mr-3" target="_blank" href="{{ .Site.Params.quick_start }}">-->
-<!--                  <span class="text">Quick Start Guide</span>-->
-<!--                </a>-->
-<!--                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big" target="_blank" href="{{ .Site.Params.tutorial }}">-->
-<!--                  <span class="text">Tutorial</span>-->
-<!--                </a>-->
 
               <div class="sec-title text">Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
                 or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a></div>
+
+                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive mr-sm-3" target="_blank" href="{{ .Site.Params.quick_start }}">
+                  <span class="text">Quick Start Guide</span>
+                </a>
+                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive" target="_blank" href="{{ .Site.Params.tutorial }}">
+                  <span class="text">Tutorial</span>
+                </a>
 
               <!-- <h4 class="font-weight-bold mt-3 mb-0">It's Free and <a class="os-link" target="_blank" href="{{ .Site.Params.github }}">Open Source </a></h4> -->
 
