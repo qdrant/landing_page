@@ -3725,6 +3725,13 @@ img{
 	border-radius:50px;
 	padding:9px 36px 9px;
 }
+.banner-section-two .image-column {
+	display: none;
+
+	@include media-breakpoint-up(lg) {
+		display: block;
+	}
+}
 
 .banner-section .image-column{
 	position:relative;

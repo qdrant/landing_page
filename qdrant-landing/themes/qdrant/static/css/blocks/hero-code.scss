@@ -4,9 +4,9 @@
 
 @import url("colors.css");
 .hero-code {
-  display: inline-block;
+  display: none;
   margin-bottom: 1rem;
-  padding: 1rem 4.45rem 1rem 1.6rem;
+  padding: 1.6rem 1rem;
   position: relative;
   border-radius: 5px;
   background: var(--brand-secondary);
@@ -18,6 +18,7 @@
   }
 
   @include media-breakpoint-up(sm) {
+    display: inline-block;
     padding-right: 3.5rem;
   }
 
@@ -33,7 +34,7 @@
   }
 
   &__logo {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     width: 40px;
@@ -49,24 +50,11 @@
     &:hover {
       color: var(--brand-primary);
       background-color: var(--white);
-      box-shadow: 0 0 0 1px var(--brand-primary);
-    }
-
-    // touchscreen only
-    @media (hover: none) {
-      &:hover {
-        color: unset;
-        background-color: unset;
-      }
-
-      &:active {
-        color: var(--brand-primary);
-        background-color: var(--white);
-        box-shadow: 0 0 0 1px var(--brand-primary);
-      }
+      box-shadow: inset 0 0 0 2px var(--brand-primary);
     }
 
     @include media-breakpoint-up(sm) {
+      display: flex;
       width: 80px;
       height: 80px;
       padding-left: 6px;
