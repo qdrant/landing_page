@@ -5,14 +5,13 @@
 @import url("colors.css");
 .hero-code {
   display: inline-block;
-  padding: 1rem 4.45rem 1rem 1.6rem;
   margin-bottom: 1rem;
-  background: #f6f8fa;
-  background: var(--brand-secondary);
+  padding: 1rem 4.45rem 1rem 1.6rem;
+  position: relative;
   border-radius: 5px;
+  background: var(--brand-secondary);
   font-family: "Anonymous Pro", monospace;
   font-size: 1.4rem;
-  position: relative;
 
   @media (max-width: 1140px) {
     background: var(--gray);
@@ -23,8 +22,8 @@
   }
 
   &__text {
-    color: white;
     white-space: pre-wrap;
+    color: white;
   }
 
   &__btn {
@@ -35,22 +34,46 @@
 
   &__logo {
     display: flex;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     width: 40px;
     height: 40px;
+    padding-left: 3px;
     position: absolute;
-    right: 10px;
     top: 10px;
-    background: var(--brand-primary);
+    right: 10px;
     color: var(--white);
     border-radius: 50%;
+    background: var(--brand-primary);
+
+    &:hover {
+      color: var(--brand-primary);
+      background-color: var(--white);
+      box-shadow: 0 0 0 1px var(--brand-primary);
+    }
+
+    // touchscreen only
+    @media (hover: none) {
+      &:hover {
+        color: unset;
+        background-color: unset;
+      }
+
+      &:active {
+        color: var(--brand-primary);
+        background-color: var(--white);
+        box-shadow: 0 0 0 1px var(--brand-primary);
+      }
+    }
 
     @include media-breakpoint-up(sm) {
       width: 80px;
       height: 80px;
-      right: -30px;
+      padding-left: 6px;
       top: -40%;
+      right: -30px;
+      transition: all 0.5s ease-in-out;
+      font-size: 2.4rem;
     }
   }
 }
