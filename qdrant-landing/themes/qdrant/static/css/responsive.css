@@ -209,10 +209,6 @@
     text-align: left;
   }
 
-  .page-title {
-    padding: 110px 0px;
-  }
-
   .main-header .nav-outer {
     width: 100%;
     margin-top: -25px;
@@ -1074,8 +1070,8 @@
   }
 
   .blog-detail .inner-box .lower-box article {
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 0;
+    padding-right: 0;
   }
 
 }

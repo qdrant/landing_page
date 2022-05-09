@@ -674,7 +674,11 @@ img{
 .sec-title{
 	position:relative;
 	z-index:1;
-	margin-bottom:40px;
+	margin-bottom:20px;
+
+	@include media-breakpoint-up(md) {
+		margin-bottom:40px;
+	}
 }
 
 .sec-title h2{
@@ -5194,8 +5198,16 @@ img{
 	position:relative;
 	overflow:hidden;
 	text-align:center;
-	padding:200px 0px 150px;
-  background: var(--brand-secondary);
+  	background: var(--brand-secondary);
+	padding: 40px 0;
+
+	@include media-breakpoint-up(md) {
+		padding: 110px 0px;
+	}
+
+	@include media-breakpoint-up(lg) {
+		padding:200px 0px 150px;
+	}
 }
 
 .page-title .pattern-layer{

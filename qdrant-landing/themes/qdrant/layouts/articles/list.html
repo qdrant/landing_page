@@ -1,14 +1,14 @@
 {{ define "main" }}
 
 <section>
-    <div class="auto-container pt-5">
+    <div class="auto-container pt-3 pt-md-4">
         <div class="row clearfix">
 
+            {{ if .Params.description }}
             <div class="col-12 sec-title text-center">
                 <h4>{{ .Params.description }}</h4>
-                <div class="text">
-                </div>
             </div>
+            {{ end }}
 
             {{ range .Pages }}
 
