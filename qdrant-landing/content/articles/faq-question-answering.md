@@ -357,15 +357,19 @@ We assigned a unique subgroup for each question, so all other objects which have
 
 ### Evaluation Metric
 
-<!-- ToDo: rewrite metric configuration -->
-
-We still haven't added any metrics to the model. To make any additional evaluations on embeddings, 
-we should override `process_results` method of `TrainableModel`.
+We still haven't added any metrics to the model. For this purpose Quaterion provides `configure_metrics`.
+We just need to override it and attach interested metrics.
 
 Quaterion has some popular retrieval metrics implemented - such as _precision @ k_ or _mean reciprocal rank_. 
 They can be found in [quaterion.eval](https://quaterion.qdrant.tech/quaterion.eval.html) package.
 But there are just a few metrics, it is assumed that desirable ones will be made by user or taken from another libraries. 
 You will probably need to inherit from `PairMetric` or `GroupMetric` to implement a new one.
+
+In `configure_metrics` we need to return a list of `AttachedMetric`.
+They are just wrappers around metric instances and helps to log metrics more easily.
+Under the hood `logging` is handled by `pytorch-lightning`.
+You can configure it as you want - pass required parameters as keyword arguments to `AttachedMetric`.
+For additional info visit [logging documentation page](https://pytorch-lightning.readthedocs.io/en/stable/extensions/logging.html)
 
 Let's add mentioned metrics for our `FAQModel`.
 Add this code to `model.py`:
@@ -374,66 +378,31 @@ Add this code to `model.py`:
 ...
 from quaterion.utils.enums import TrainStage
 from quaterion.eval.pair import RetrievalPrecision, RetrievalReciprocalRank
+from quaterion.eval.attached_metric import AttachedMetric
 
 
 class FAQModel(TrainableModel):
     def __init__(self, lr=10e-5, *args, **kwargs):
         self.lr = lr
         super().__init__(*args, **kwargs)
-        self.retrieval_precision = RetrievalPrecision(k=1)
-        self.retrieval_reciprocal_rank = RetrievalReciprocalRank()
     
     ...
-    def process_results(
-        self,
-        embeddings: Tensor,
-        targets: Dict[str, Any],
-        batch_idx: int,
-        stage: TrainStage,
-        **kwargs,
-    ):
-        device = embeddings.device
-
-        self.retrieval_reciprocal_rank.update(
-            embeddings, 
-            **targets, 
-            device=device
-        )
-
-        self.log(
-            f"{stage}.rrk",
-            self.retrieval_reciprocal_rank.compute().mean(),
-            prog_bar=True,
-            on_step=False,
-            on_epoch=True
-        )
-        self.retrieval_reciprocal_rank.reset()
-
-        self.retrieval_precision.update(
-            embeddings,
-            **targets, 
-            device=device
-        )
-        self.log(
-            f"{stage}.rp@1",
-            self.retrieval_precision.compute().mean(),
-            on_step=False,
-            on_epoch=True,
-            prog_bar=True,
-        )
-
-        self.retrieval_precision.reset()
+    def configure_metrics(self):
+        return [
+            AttachedMetric(
+                "RetrievalPrecision",
+                RetrievalPrecision(k=1),
+                prog_bar=True,
+                on_epoch=True,
+            ),
+            AttachedMetric(
+                "RetrievalReciprocalRank",
+                RetrievalReciprocalRank(),
+                prog_bar=True,
+                on_epoch=True
+            ),
+        ]
 ```
-
-When we calculate metrics like this, they can fluctuate a lot depending on a batch size.
-It might be helpful to calculate metrics not for each batch but among the whole available dataset, similar to an actual application.
-Unfortunately, it is not always possible to fit the whole dataset inside one batch.
-Raw data may consume a huge amount of memory, but embeddings most probably will consume less.
-
-Quaterion metrics are designed to accumulate embeddings across batches (via `update` call) and then 
-`compute` them whenever you want, for example, after each training step or when the epoch ends.
-
-In this particular `process_result` implementation, we calculate new values per-batch.
 
 ### Fast training with Cache
 
@@ -499,7 +468,7 @@ def train(model, train_dataset_path, val_dataset_path, params):
     )
     
     Quaterion.fit(model, trainer, train_dataloader, val_dataloader)
-
+    
 if __name__ == "__main__":
     import os
     from pytorch_lightning import seed_everything
@@ -515,12 +484,52 @@ if __name__ == "__main__":
         DATA_DIR,
         "val_cloud_faq_dataset.jsonl"
     )
-    train(faq_model, train_path, val_path, {})
+    
     faq_model.save_servable(os.path.join(ROOT_DIR, "servable"))
 ```
 
 Here are a couple of unseen classes, `PairsSimilarityDataLoader`, which is a native dataloader for 
 `SimilarityPairSample` objects, and `Quaterion` is an entry point to the training process.
+
+### Dataset-wise evaluation
+
+Up to this moment we've calculated only batch-wise metrics. 
+Such metrics can fluctuate a lot depending on a batch size and can be misleading.
+It might be helpful if we can calculate a metric on a whole dataset or some large part of it.
+Raw data may consume a huge amount of memory, and usually we can't fit it into one batch.
+Embeddings, on the contrary, most probably will consume less.
+
+That's where `Evaluator` enters the scene. 
+At first, having dataset of `SimilaritySample`, `Evaluator` encodes it via `MetricModel` and compute corresponding labels.
+After that, it calculates a metric value, which could be more representative than batch-wise ones.
+
+However, you still can find yourself in a situation where evaluation becomes too slow, or there is no enough space left in the memory.
+A bottleneck might be a squared distance matrix, which one needs to calculate to compute a retrieval metric.
+You can mitigate this bottleneck by calculating a rectangle matrix with reduced size. 
+`Evaluator` accepts `sampler` with a sample size to select only specified amount of embeddings.
+If sample size is not specified, evaluation is performed on all embeddings. 
+
+Fewer words! Let's add evaluator to our code and finish `train.py`.
+  
+```python
+...
+from quaterion.eval.evaluator import Evaluator
+from quaterion.eval.pair import RetrievalReciprocalRank, RetrievalPrecision
+from quaterion.eval.samplers.pair_sampler import PairSampler
+...
+
+def train(model, train_dataset_path, val_dataset_path, params):
+    ...
+
+    metrics = {
+        "rrk": RetrievalReciprocalRank(),
+        "rp@1": RetrievalPrecision(k=1)
+    }
+    sampler = PairSampler()
+    evaluator = Evaluator(metrics, sampler)
+    results = Quaterion.evaluate(evaluator, val_dataset, model.model)
+    print(f"results: {results}")
+```
 
 ### Train Results
 
@@ -535,8 +544,7 @@ At this point we can train our model, I do it via `python3 -m faq.train`.
 |400  |0.695            |0.772                |0.694          |0.773              |
 |500  |0.701            |0.778                |0.700          |0.777              |
 
-Don't forget that these metrics are batch-wise. You can twick `baseline.py` to calculate it, I
-only show my results:
+Results obtained with `Evaluator`:
 
 | precision@1 | reciprocal_rank |
 |-------------|-----------------|
