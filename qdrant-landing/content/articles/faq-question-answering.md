@@ -60,17 +60,17 @@ Similarity learning approach seems a lot simpler than classification in this cas
 doubts on your mind, let me dispel them.
 
 As I have no any resource with exhaustive F.A.Q. which might serve as a dataset, I've scrapped it from sites of popular cloud providers.
-Dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
+The dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
 
-Once have data, we need to obtain embeddings for it.
+Once we have data, we need to obtain embeddings for it.
 It is not a novel technique in NLP to represent texts as embeddings.
 There are plenty of algorithms and models to calculate them.
-You could hear of Word2Vec, GloVe, ELMo, BERT, all these models can provide text embeddings.
+You could have heard of Word2Vec, GloVe, ELMo, BERT, all these models can provide text embeddings.
 
 However, it is better to produce embeddings with a model trained for semantic similarity tasks. 
 For instance, we can find such models at [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html).
 Authors claim that `all-mpnet-base-v2` provides the best quality, but let's pick `all-MiniLM-L6-v2` for our tutorial
-as it 5x faster and still offers good results. 
+as it is 5x faster and still offers good results. 
 
 Having all this, we can test our approach. We won't take all our dataset at the moment, but only
 a part of it. To measure model's performance we will use two metrics -
