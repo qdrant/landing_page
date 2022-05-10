@@ -44,8 +44,11 @@ article aside[role="status"]:before {
 }
 
 article:first-of-type {
-  padding-top: 38px;
+  padding-top: 18px;
 
+  @include media-breakpoint-up(md) {
+    padding-top: 38px;
+  }
 
   table {
     @extend .table;

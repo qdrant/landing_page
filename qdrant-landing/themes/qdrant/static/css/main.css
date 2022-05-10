@@ -10043,7 +10043,12 @@ article aside[role=status]:before {
 }
 
 article:first-of-type {
-  padding-top: 38px;
+  padding-top: 18px;
+}
+@media (min-width: 768px) {
+  article:first-of-type {
+    padding-top: 38px;
+  }
 }
 article:first-of-type pre {
   position: relative;
@@ -10886,7 +10891,12 @@ img {
 .sec-title {
   position: relative;
   z-index: 1;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
+}
+@media (min-width: 768px) {
+  .sec-title {
+    margin-bottom: 40px;
+  }
 }
 
 .sec-title h2 {
@@ -15358,8 +15368,18 @@ img {
   position: relative;
   overflow: hidden;
   text-align: center;
-  padding: 200px 0px 150px;
   background: var(--brand-secondary);
+  padding: 40px 0;
+}
+@media (min-width: 768px) {
+  .page-title {
+    padding: 110px 0px;
+  }
+}
+@media (min-width: 992px) {
+  .page-title {
+    padding: 200px 0px 150px;
+  }
 }
 
 .page-title .pattern-layer {

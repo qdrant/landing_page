@@ -1,6 +1,6 @@
 <!-- Sidebar Side -->
-<div class="sidebar-side col-lg-4 col-md-12 col-sm-12">
-    <aside class="sidebar sticky-top">
+<div class="sidebar-side col-lg-4 col-md-12 col-sm-12 order-1 order-md-0 mb-5 mb-md-0">
+    <aside class="sidebar sticky-top mb-4">
 
         {{ range where (where .Pages "Section" "blog") ".Params.featured" "=" true }}
         <!-- Featured Post Widget -->

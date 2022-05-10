@@ -1,14 +1,14 @@
 {{ define "main" }}
 
 <section>
-    <div class="auto-container pt-5">
+    <div class="auto-container pt-3 pt-md-5">
         <div class="row clearfix">
 
+            {{ if .Params.description }}
             <div class="col-12 sec-title text-center">
                 <h4>{{ .Params.description }}</h4>
-                <div class="text">
-                </div>
             </div>
+            {{ end }}
 
             {{ range .Pages }}
 
@@ -19,9 +19,9 @@
 
             {{ if .Params.short_description }}
 
-            <div class="col-lg-4 col-md-6 col-sm-12">
+            <div class="col-lg-4 col-md-6 col-sm-12 d-flex">
                 <!-- News block Two -->
-                <div class="news-block-two">
+                <div class="news-block-two d-flex">
                     <div class="inner-box">
                         <div class="image">
                             <a href="{{ $link }}" data-caption="{{ .Title }}"><img src="{{ .Params.preview_image }}" alt="" /></a>
