@@ -114,6 +114,13 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     url = "/articles/"
 
   [[menu.main]]
+    identifier = "demo"
+    name = "Demo"
+    weight = 5
+    parent = "resources"
+    url = "/demo/"
+
+  [[menu.main]]
     identifier = "blog"
     name = "Blog"
     weight = 5
