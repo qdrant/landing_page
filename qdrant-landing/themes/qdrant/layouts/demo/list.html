@@ -1,0 +1,37 @@
+{{ define "main" }}
+
+{{ range $i,$p := where .Data.Pages "Section" "demo" }}
+
+<section class="api-section mt-0 mt-md-5 mb-5">
+    <div class="pattern-layer" style="background-image: url(images/background/pattern-8.png)"></div>
+    <div class="auto-container">
+        <div class="row clearfix align-items-center pt-4 pt-md-0">
+
+            <!-- Content Column -->
+            <div class="content-column col-lg-6 col-md-12 col-sm-12 order-1
+                 {{if not (modBool $i 2)}} order-md-2{{ else }} order-md-0{{ end }}">
+                <div class="inner-column">
+                    <!-- Sec Title -->
+                    <div class="sec-title">
+                        <h2>{{ $p.Title }}</h2>
+                        <div class="text">{{ $p.Description }}</div>
+                    </div>
+                    <a href="{{ $p.Params.link }}" class="theme-btn btn-style-four"><span class="txt">Live Demo</span></a>
+                </div>
+            </div>
+
+            <!-- Image Column -->
+            <div class="image-column col-lg-6 col-md-12 col-sm-12 order-0 order-md-1">
+                <div class="inner-column parallax-scene-2">
+                    <div data-depth="0.30" class="image parallax-layer">
+                        <img src="{{ $p.Params.preview_image }}" alt=""/>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{{ end }}
+
+{{ end }}

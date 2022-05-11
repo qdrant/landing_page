@@ -14070,7 +14070,7 @@ img {
 .api-section {
   position: relative;
   overflow: hidden;
-  padding: 95px 0px 70px;
+  padding: 0;
 }
 
 .api-section .pattern-layer {
