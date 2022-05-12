@@ -169,5 +169,34 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   weight = 4
   url = "/"
 
+  [[menu.main]]
+    identifier = "jobs"
+    name = "Jobs"
+    weight = 1
+    parent = "company"
+    url = "https://qdrant.join.com"
+
+  [[menu.main]]
+    identifier = "privacy-policy"
+    name = "Privacy Policy"
+    weight = 2
+    parent = "company"
+    url = "/privacy-policy/"
+
+  [[menu.main]]
+    identifier = "terms"
+    name = "Terms"
+    weight = 3
+    parent = "company"
+    url = "/terms/"
+
+  [[menu.main]]
+    identifier = "impressum"
+    name = "Impressum"
+    weight = 4
+    parent = "company"
+    url = "/impressum/"
+
+
 [markup.goldmark.renderer]
 unsafe= true
