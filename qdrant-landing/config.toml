@@ -163,5 +163,11 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     url = "/subscribe/"
     pre = "<i class='fas fa-envelope'></i>"
 
+[[menu.main]]
+  identifier = "company"
+  name = "Company"
+  weight = 4
+  url = "/"
+
 [markup.goldmark.renderer]
 unsafe= true
