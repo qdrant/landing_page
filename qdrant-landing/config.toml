@@ -65,7 +65,6 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   identifier = "resources"
   name = "Resources"
   weight = 1
-  url = "/"
 
 [[menu.main]]
     identifier = "use-case"
@@ -123,7 +122,6 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   identifier = "community"
   name = "Community"
   weight = 3
-  url = "/"
 
   [[menu.main]]
     identifier = "github"
@@ -167,7 +165,6 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   identifier = "company"
   name = "Company"
   weight = 4
-  url = "/"
 
   [[menu.main]]
     identifier = "jobs"

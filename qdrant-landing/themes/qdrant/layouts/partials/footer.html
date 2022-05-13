@@ -9,53 +9,41 @@
         <div class="row clearfix">
 
           <!-- Footer Column -->
-          <div class="footer-column col-lg-4 col-md-6 col-sm-12">
-            <div class="footer-widget contact-widget">
-              <div class="footer-title">
-                <h4>Contact us</h4>
-              </div>
-              <ul class="contact-list">
-                <li><span class="icon fa fa-map"></span> {{ .Site.Params.location }}</li>
-                <li><span class="icon fa fa-envelope"></span> <a href="mailto:{{ .Site.Params.email }}">{{ .Site.Params.email }}</a></li>
-              </ul>
-            </div>
-            
+          <div class="main-footer__column col-lg-7 col-md-6 col-sm-12">
 
-            <div class="footer-widget contact-widget">
-              <div class="footer-title">
-                <h4>Info</h4>
+            {{ $currentPage := . }}
+            {{ range .Site.Menus.main }}
+            <div class="main-footer__widget">
+              <div class="main-footer__title">
+                {{ if .URL }}
+                <h4><a class="main-footer__link" href="{{ .URL }}">{{ .Name }}</a></h4>
+                {{ else }}
+                <h4>{{ .Name }}</h4>
+                {{ end }}
               </div>
-              <ul class="contact-list">
-                <li> <span class="icon fa fa-star"></span> <a href="/legal/credits">Credits </a> </li>
-                <li> <span class="icon fa fa-file"></span> <a href="/legal/privacy-policy">Privacy Policy </a> </li>
-                <li> <span class="icon fa fa-file"></span> <a href="/legal/impressum">Impressum </a> </li>
-                <li> <span class="icon fa fa-file"></span> <a href="/legal/terms_and_conditions">Terms & Conditions</a> </li>
-              </ul>
-            </div>
 
-          </div>
-
-          <!-- Footer Column -->
-          <div class="footer-column col-lg-3 col-md-6 col-sm-12">
-            <div class="footer-widget contact-widget">
-              <div class="footer-title">
-                <h4>Navigation</h4>
-              </div>
-              <ul class="nav-list">
-                {{ $currentPage := . }}
-                {{ range .Site.Menus.main }}
-                <li {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}class="current"{{end}}>
-                  <i class="flaticon-check-mark small text-brand-p mr-2"></i>
-                  <a href="{{ .URL }}">{{ .Name }}</a></li>
+              {{ if .HasChildren }}
+              <ul class="main-footer__list">
+                {{ range .Children }}
+                <li><a href="{{ .URL }}" {{ if .Params.external }}target="_blank"{{ end }}>
+                  {{ if .Pre }}
+                    {{ .Pre }}&nbsp;
+                  {{ else }}
+                    <i class="fas fa-check-circle"></i>
+                  {{ end }}
+                  {{ .Name }}
+                </a></li>
                 {{ end }}
               </ul>
+              {{ end }}
             </div>
+            {{ end }}
           </div>
 
           <!-- Footer Column -->
           <div class="footer-column col-lg-5 col-md-6 col-sm-12">
-            <div class="footer-widget news-widget">
-              <div class="footer-title">
+            <div class="main-footer__widget news-widget">
+              <div class="main-footer__title">
                 <h4>Latest Publications</h4>
               </div>
               <!-- Footer Column -->
