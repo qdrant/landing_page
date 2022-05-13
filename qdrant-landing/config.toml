@@ -34,7 +34,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
   linkedin = "https://www.linkedin.com/company/qdrant"
   twitter = "https://twitter.com/qdrant_engine"
-  discord = "https://discord.gg/tdtYvXjC4h"
+  discord = "https://discord.qdrant.tech"
   facebook = "https://www.facebook.com/qdrant.tech"
 
   email = "info@qdrant.tech"
@@ -65,7 +65,6 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   identifier = "resources"
   name = "Resources"
   weight = 1
-  url = "/"
 
 [[menu.main]]
     identifier = "use-case"
@@ -123,7 +122,6 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   identifier = "community"
   name = "Community"
   weight = 3
-  url = "/"
 
   [[menu.main]]
     identifier = "github"
@@ -162,6 +160,46 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     parent = "community"
     url = "/subscribe/"
     pre = "<i class='fas fa-envelope'></i>"
+
+[[menu.main]]
+  identifier = "company"
+  name = "Company"
+  weight = 4
+
+  [[menu.main]]
+    identifier = "jobs"
+    name = "Jobs"
+    weight = 1
+    parent = "company"
+    url = "https://qdrant.join.com"
+
+  [[menu.main]]
+    identifier = "privacy-policy"
+    name = "Privacy Policy"
+    weight = 2
+    parent = "company"
+    url = "/legal/privacy-policy/"
+
+  [[menu.main]]
+    identifier = "terms"
+    name = "Terms"
+    weight = 3
+    parent = "company"
+    url = "/legal/terms_and_conditions/"
+
+  [[menu.main]]
+    identifier = "impressum"
+    name = "Impressum"
+    weight = 4
+    parent = "company"
+    url = "/legal/impressum/"
+
+  [[menu.main]]
+    identifier = "credits"
+    name = "Credits"
+    weight = 5
+    parent = "company"
+    url = "/legal/credits/"
 
 [markup.goldmark.renderer]
 unsafe= true

@@ -101,6 +101,7 @@
                             
                             {{ $currentPage := . }}
                             {{ range .Site.Menus.main }}
+                            {{ if ne .Identifier "company" }}
                             <li class="navigation__item {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}}
                               {{if .HasChildren }}dropdown{{ end }}">
                               <a class="navigation__link" {{if not .HasChildren }}href="{{ .URL }}"{{end}}>{{ .Name }}
@@ -121,6 +122,7 @@
 
                             </li>
 
+                           {{ end }}
                            {{ end }}
 
                            <li>
