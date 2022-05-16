@@ -1,0 +1,44 @@
+{{ $seed := "foo" }}
+{{ $random := delimit (shuffle (split (md5 $seed) "" )) "" }}
+{{ $random }}
+<form name="cloud-request" method="POST" id="{{ $random }}" novalidate>
+    {{ range .Params.Form }}
+    <div class="form-group" data-step="{{ .id }}" style="display: none;">
+        <label for="{{ .id }}{{ .name }}">{{ .label }}</label>
+        <input type="{{ .type }}" name="{{ .name }}"
+               class="form-control" id="{{ .id }}{{ .name }}"
+               {{ if .required }}required{{ end }}>
+        <div class="invalid-feedback">
+            Please provide a valid {{ .type }}.
+        </div>
+    </div>
+    {{ end }}
+    <button id="next">Next</button>
+    <button id="prev">Prev</button>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var form = document.getElementById({{ $random }});
+
+      form.addEventListener('submit', function(event) {
+        if (form.checkValidity() === false) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      });
+
+      const steps = $(form).find('[data-step]');
+      $.each(steps, (k,v) => {
+        $(steps[0]).show();
+      });
+      console.log(steps)
+    }, false);
+  })();
+
+</script>
