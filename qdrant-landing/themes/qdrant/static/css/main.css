@@ -10290,6 +10290,47 @@ article:first-of-type figure {
   text-decoration: underline;
 }
 
+.steps-form {
+  height: 90vh;
+  background-color: var(--brand-secondary);
+  justify-content: center;
+}
+.steps-form__form {
+  align-self: center;
+}
+.steps-form__form.was-validated .form-control:invalid:focus,
+.steps-form__form .form-control.is-invalid:focus {
+  box-shadow: none;
+  outline: none;
+}
+.steps-form__input {
+  background-color: var(--brand-secondary);
+  border: 0;
+  border-bottom: 1px solid var(--light);
+  font-size: 1.4rem;
+  color: white;
+  padding-left: 0;
+  padding-right: 0;
+  border-radius: 0;
+}
+.steps-form__input:focus {
+  box-shadow: none;
+  background: inherit;
+  border: 0;
+  border-bottom: 1px solid var(--white);
+  outline: none;
+  color: white;
+}
+.steps-form__label {
+  font-size: 1.4rem;
+  color: white;
+  margin-bottom: 2rem;
+}
+.steps-form .owl-stage {
+  display: flex;
+  align-items: center;
+}
+
 /***
 
 ====================================================================

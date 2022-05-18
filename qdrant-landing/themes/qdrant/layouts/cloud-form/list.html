@@ -1,18 +1,12 @@
-{{ define "main" }}
-<section class="auto-container pt-3 pt-md-5">
-    <div class="row clearfix">
+{{ partial "header" . }}
+<style>
+  .main-header {
+    background-image: url(/images/background/2.png);
+  }
+</style>
 
-        <!-- Sidebar Page Container -->
-        <div class="sidebar-page-container">
-            <div class="auto-container">
-                <div class="row clearfix">
-
-                    <!-- Content Side -->
-                   {{ partial "steps-form" . }}
-
-                </div>
-            </div>
-        </div>
-    </div>
+<section class="container-fluid clearfix pt-3 pt-md-5">
+    <!-- Content Side -->
+    {{ partial "steps-form" . }}
 </section>
-{{ end }}
+{{ partial "footer" . }}
