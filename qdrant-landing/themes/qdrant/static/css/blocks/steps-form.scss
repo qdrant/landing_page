@@ -1,43 +1,43 @@
 .steps-form {
+  justify-content: center;
   height: 90vh;
   background-color: var(--brand-secondary);
-  justify-content: center;
 
   &__form {
     align-self: center;
 
     &.was-validated .form-control:invalid:focus,
     .form-control.is-invalid:focus {
-      box-shadow: none;
       outline: none;
+      box-shadow: none;
     }
   }
 
   &__input {
-    background-color: var(--brand-secondary);
+    padding-right: 0;
+    padding-left: 0;
+    color: white;
     border: 0;
     border-bottom: 1px solid var(--light);
-    font-size: 1.4rem;
-    color: white;
-    padding-left: 0;
-    padding-right: 0;
     border-radius: 0;
+    background-color: var(--brand-secondary);
+    font-size: 1.4rem;
 
     &:focus {
-      box-shadow: none;
-      background: inherit;
+      color: white;
       border: 0;
       border-bottom: 1px solid var(--white);
       outline: none;
-      color: white;
+      background: inherit;
+      box-shadow: none;
     }
 
   }
 
   &__label {
-    font-size: 1.4rem;
-    color: white;
     margin-bottom: 2rem;
+    color: white;
+    font-size: 1.4rem;
   }
 
   .owl-stage {
