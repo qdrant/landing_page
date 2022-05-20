@@ -10330,6 +10330,10 @@ article:first-of-type figure {
   display: flex;
   align-items: center;
 }
+.steps-form .owl-nav {
+  display: flex;
+  justify-content: space-between;
+}
 
 /***
 
