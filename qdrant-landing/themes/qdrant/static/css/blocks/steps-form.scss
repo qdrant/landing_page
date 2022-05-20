@@ -1,7 +1,21 @@
+@use "sass:color";
+@use "checkbox";
+
 .steps-form {
+  $form-font-size: 1.4rem;
+
   justify-content: center;
   height: 90vh;
   background-color: var(--brand-secondary);
+
+  &__spinner {
+    align-self: center;
+    width: 8rem;
+    height: 8rem;
+    border-top-color: var(--brand-primary);
+    border-left-color: var(--brand-primary);
+    border-bottom-color: var(--brand-primary);
+  }
 
   &__form {
     align-self: center;
@@ -21,7 +35,7 @@
     border-bottom: 1px solid var(--light);
     border-radius: 0;
     background-color: var(--brand-secondary);
-    font-size: 1.4rem;
+    font-size: $form-font-size;
 
     &:focus {
       color: white;
@@ -37,8 +51,14 @@
   &__label {
     margin-bottom: 2rem;
     color: white;
-    font-size: 1.4rem;
+    font-size: $form-font-size;
+
+    &_big {
+      line-height: 1.5;
+      font-size: $form-font-size + 0.4rem;
+    }
   }
+
 
   .owl-stage {
     display: flex;

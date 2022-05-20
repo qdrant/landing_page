@@ -2,13 +2,18 @@
 {{ $random := delimit (shuffle (split (md5 $seed) "" )) "" }}
 <!--suppress XmlDuplicatedId -->
 <div class="steps-form row">
-<div class="spinner-border" role="status" style="width: 5rem; height: 5rem;">
+<div class="spinner-border steps-form__spinner" role="status" style="width: 5rem; height: 5rem;">
     <span class="sr-only">Loading...</span>
 </div>
-<form class="steps-form__form owl-carousel col-6" name="cloud-request" method="POST" id="{{ $random }}" novalidate>
+<form class="steps-form__form owl-carousel col-12 col-md-10 col-lg-6" name="cloud-request"
+      method="POST" id="{{ $random }}" novalidate>
     {{ range .Params.Form }}
     <div class="form-group" data-step="{{ .id }}">
-        <label class="steps-form__label" for="{{ .id }}{{ .name }}">{{ .label }}</label>
+        <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
+            {{ .label }}
+            {{ if eq .type "radio"}}(Choose one){{ end }}
+            {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
+        </label>
         {{ if eq .type "select" }}
         <select class="steps-form__input custom-select" id="{{ .id }}{{ .name }}" name="{{ .name }}">
             <option selected>Open this select menu</option>
@@ -16,33 +21,22 @@
             <option value="{{ . }}">{{ . }}</option>
             {{ end }}
         </select>
-        {{ else if eq .type "radio"}}
-            {{ $input := . }}
-            {{ range .options }}
-            <div class="form-check">
-                <label class="steps-form__label">
-                    <input class="steps-form__input form-check-input" type="{{ $input.type }}" name="{{ $input.name }}" id="{{ $input.id }}{{ $input.name }}"
-                           value="{{ . }}">
-                    {{ . }}
-                </label>
-            </div>
-            {{ end }}
-
-        {{ else if eq .type "checkbox"}}
+        {{ else if or (eq .type "radio") (eq .type "checkbox")}}
         {{ $input := . }}
-        {{ range .options }}
-        <div class="form-check">
-            <label class="steps-form__label">
-                <input class="steps-form__input form-check-input" type="{{ $input.type }}" name="{{ $input.name }}" id="{{ $input.id }}{{ $input.name }}"
+        <div class="checkbox mb-5">
+            {{ range .options }}
+                <input class="checkbox__input" type="{{ $input.type }}" name="{{ $input.name }}"
+                       id="{{ $input.id }}{{ $input.name }}{{ . }}"
                        value="{{ . }}">
-                {{ . }}
-            </label>
+                <label class="steps-form__label checkbox__label" for="{{ $input.id }}{{ $input.name }}{{ . }}">
+                    {{ . }}</label>
+            {{ end }}
         </div>
-        {{ end }}
+
 
         {{ else if eq .type "text"}}
         <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
-                  rows="1" placeholder="{{ .placeholder }}">
+                  rows="3" placeholder="{{ .placeholder }}">
         </textarea>
         {{ else }}
         <input type="{{ .type }}" name="{{ .name }}"
@@ -56,8 +50,10 @@
     {{ end }}
 
     <div class="form-group">
-        <p class="steps-form__label">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
-        <button type="submit" class="theme-btn btn-style-three">Submit</button>
+        <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
+        <button type="submit" class="btn btn-style-four btn-style-four_reversed btn-style-four_big btn-style-four_border">
+            <span class="text">Submit</span>
+        </button>
     </div>
 </form>
 </div>
@@ -111,7 +107,7 @@
         loop: false,
         margin: 10,
         stagePadding: 5,
-        navText: ['<div class="theme-btn btn-style-three"><i class="fas fa-chevron-left"></i> Back</div>', '<div class="theme-btn btn-style-three">Next question <i class="fas fa-chevron-right"></i></div>'],
+        navText: ['<div class="btn btn-style-four btn-style-four_small btn-style-four_border"><span class="text"> <i class="fas fa-chevron-left"></i> Back</span></div>', '<div class="btn btn-style-four btn-style-four_small btn-style-four_border"><span class="text"> Next question <i class="fas fa-chevron-right"></i></span></div>'],
         onInitialized: () => {
           document.getElementsByClassName('spinner-border')[0].remove();
         }

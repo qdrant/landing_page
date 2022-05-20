@@ -3,56 +3,56 @@
 
   &_in-header {
     padding: 0.1rem 0.5rem;
-    line-height: 1;
     background: var(--white);
+    line-height: 1;
 
     &:before {
-      position: absolute;
-      left: 0;
-      top: 0;
-      height: 100%;
       width: 100%;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      left: 0;
       content: "";
-      background-color: var(--brand-primary);
-      -webkit-transform: scale(0, 1);
-      -ms-transform: scale(0, 1);
-      transform: scale(0, 1);
-      -webkit-transform-origin: top right;
-      -ms-transform-origin: top right;
-      transform-origin: top right;
-      -webkit-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
       -moz-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
       -o-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+      -webkit-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
       transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
-      -webkit-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
       -moz-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
       -o-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+      -webkit-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
       transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+      -ms-transform: scale(0, 1);
+      -webkit-transform: scale(0, 1);
+      transform: scale(0, 1);
+      -ms-transform-origin: top right;
+      -webkit-transform-origin: top right;
+      transform-origin: top right;
       border-radius: inherit;
+      background-color: var(--brand-primary);
     }
 
     &:hover::before {
       display: block;
-      -webkit-transform: scale(1, 1);
       -ms-transform: scale(1, 1);
+      -webkit-transform: scale(1, 1);
       transform: scale(1, 1);
-      -webkit-transform-origin: bottom left;
       -ms-transform-origin: bottom left;
+      -webkit-transform-origin: bottom left;
       transform-origin: bottom left;
     }
 
     .btn__text {
-      color: var(--brand-primary);
-      text-transform: uppercase;
-      font-weight: 600;
-      font-size: 16px;
       position: relative;
       z-index: 1;
+      text-transform: uppercase;
+      color: var(--brand-primary);
+      font-size: 16px;
+      font-weight: 600;
     }
 
     i {
-      vertical-align: inherit;
       margin-right: 0.4rem;
+      vertical-align: inherit;
     }
 
     &:hover {
@@ -66,4 +66,381 @@
 
 .fixed-header .btn_in-header {
   border-color: var(--brand-primary);
+}
+
+.theme-btn {
+  display: inline-block;
+  -moz-transition: all 0.3s ease;
+  -ms-transition: all 0.3s ease;
+  -o-transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+/* Btn Style One */
+
+.btn-style-one {
+  display: inline-block;
+  padding: 10px 44px 10px;
+  position: relative;
+  text-transform: capitalize;
+  color: #ffffff;
+  border: 1px solid var(--brand-primary);
+  border-radius: 50px;
+  background: none;
+  background-color: var(--brand-primary);
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.10);
+  font-family: 'Roboto Condensed', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  overflow: hidden;
+
+  & .txt {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    content: '';
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -webkit-transition: all 0.4s;
+    transition: all 0.4s;
+    -webkit-transform: scale(1, 0.5);
+    transform: scale(1, 0.5);
+    opacity: 0;
+    background-color: #ffffff;
+  }
+
+  &:hover::before {
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    opacity: 1;
+  }
+
+  &:hover {
+    color: var(--brand-primary);
+    border-color: #ffffff;
+  }
+
+}
+
+/* Btn Style Two */
+
+.btn-style-two {
+  display: inline-block;
+  padding: 10px 44px 10px;
+  position: relative;
+  text-transform: capitalize;
+  color: #ffffff;
+  border: 1px solid #ffffff;
+  border-radius: 50px;
+  background: none;
+  font-family: 'Roboto Condensed', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  overflow: hidden;
+
+  &:before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    -moz-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -moz-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -ms-transform: scale(0, 1);
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+    -ms-transform-origin: top right;
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    background-color: var(--brand-primary);
+  }
+
+  &:hover::before {
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -ms-transform-origin: bottom left;
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+  }
+
+  & .txt {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    color: #ffffff;
+    border-color: var(--brand-primary);
+    -moz-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+    -ms-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+    -o-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+    -webkit-box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.10);
+  }
+
+}
+
+/* Btn Style Three */
+
+.btn-style-three {
+  display: inline-block;
+  padding: 12px 44px 12px;
+  position: relative;
+  text-transform: capitalize;
+  color: #ffffff;
+  border-radius: 50px;
+  background: none;
+  background-color: var(--brand-primary);
+  -moz-box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
+  -ms-box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
+  -o-box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
+  -webkit-box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
+  box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
+  font-family: 'Roboto Condensed', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 32px;
+  overflow: hidden;
+
+  &:before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    -moz-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -moz-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -ms-transform: scale(0, 1);
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+    -ms-transform-origin: top right;
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    background-color: #2b2b2b;
+  }
+
+  &:hover::before {
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -ms-transform-origin: bottom left;
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+  }
+
+  & .txt {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    color: #ffffff;
+  }
+
+}
+
+/* Btn Style Four */
+
+.btn-style-four {
+  display: inline-block;
+  padding: 10px 48px 10px;
+  position: relative;
+  text-transform: capitalize;
+  color: #ffffff;
+  border-radius: 0;
+  background: none;
+  background-color: var(--brand-secondary);
+  -moz-box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
+  -ms-box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
+  -o-box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
+  -webkit-box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
+  box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
+  font-family: 'Roboto Condensed', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  overflow: hidden;
+
+  &:before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    -moz-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -moz-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -ms-transform: scale(0, 1);
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+    -ms-transform-origin: top right;
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    background-color: var(--brand-primary);
+  }
+
+  &:hover::before {
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -ms-transform-origin: bottom left;
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+  }
+
+  & .text {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    color: #ffffff;
+  }
+
+  &_rounded {
+    border-radius: 5px;
+  }
+
+  &_reversed {
+    background-color: var(--brand-primary);
+
+    &:before {
+      background-color: var(--brand-secondary);
+    }
+  }
+
+  &_border {
+    box-shadow: inset 0 0 0 2px var(--brand-primary);
+
+    &.btn-style-four_reversed {
+      box-shadow: inset 0 0 0 2px var(--brand-primary);
+      &:before {
+        box-shadow: inset 0 0 0 2px var(--brand-primary);
+      }
+    }
+  }
+
+  &_big {
+    .text {
+      font-size: 1rem;
+
+      @include media-breakpoint-up(md) {
+        font-size: 1.4rem;
+      }
+
+    }
+  }
+
+  &_small {
+    padding: 3px 15px;
+
+    .text {
+      font-size: 0.9rem;
+    }
+  }
+
+  &_responsive {
+    width: 100%;
+    text-align: center;
+
+    @include media-breakpoint-up(sm) {
+      width: inherit;
+    }
+  }
+}
+
+/* Btn Style Five */
+
+.btn-style-five {
+  display: inline-block;
+  padding: 9px 44px 9px;
+  position: relative;
+  text-transform: capitalize;
+  color: var(--brand-primary);
+  border: 1px solid var(--brand-primary);
+  border-radius: 50px;
+  background: none;
+  font-family: 'Roboto Condensed', serif;
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 30px;
+  overflow: hidden;
+
+  &:before {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    content: "";
+    -moz-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition: transform 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -moz-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -o-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -webkit-transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    transition-timing-function: cubic-bezier(0.860, 0.000, 0.070, 1.000);
+    -ms-transform: scale(0, 1);
+    -webkit-transform: scale(0, 1);
+    transform: scale(0, 1);
+    -ms-transform-origin: top right;
+    -webkit-transform-origin: top right;
+    transform-origin: top right;
+    background-color: var(--brand-primary);
+  }
+
+  &:hover::before {
+    -ms-transform: scale(1, 1);
+    -webkit-transform: scale(1, 1);
+    transform: scale(1, 1);
+    -ms-transform-origin: bottom left;
+    -webkit-transform-origin: bottom left;
+    transform-origin: bottom left;
+  }
+
+  & .txt {
+    position: relative;
+    z-index: 1;
+  }
+
+  &:hover {
+    color: #ffffff;
+    border-color: var(--brand-primary);
+  }
+
+
+
 }

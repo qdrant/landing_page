@@ -61,14 +61,14 @@ form:
     label: Have you ever used any search-as-a-service? (e.g., Algolia, Elastic Enterprise Search, Mongo Atlas, etc.)?
     type: radio
     options:
-    - Yes
-    - No
+    - "Yes"
+    - "No"
     name: experienced
   - id: 8
     label: Are you interested in paying a plan for a cloud-hosted service?
     type: radio
     options:
-      - Yes
-      - No
+      - "Yes"
+      - "No"
     name: payingPlan
 ---
