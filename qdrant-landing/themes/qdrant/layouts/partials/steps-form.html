@@ -2,60 +2,60 @@
 {{ $random := delimit (shuffle (split (md5 $seed) "" )) "" }}
 <!--suppress XmlDuplicatedId -->
 <div class="steps-form row">
-<div class="spinner-border steps-form__spinner" role="status" style="width: 5rem; height: 5rem;">
-    <span class="sr-only">Loading...</span>
-</div>
-<form class="steps-form__form col-12 col-md-10 col-lg-6" name="cloud-request"
-      method="POST" id="{{ $random }}" novalidate>
-    <section class="owl-carousel">
-        {{ range .Params.Form }}
-        <div class="form-group" data-step="{{ .id }}">
-            <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
-                {{ .label }}
-                {{ if eq .type "radio"}}(Choose one){{ end }}
-                {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
-            </label>
-            {{ if eq .type "select" }}
-            <select class="steps-form__input custom-select" id="{{ .id }}{{ .name }}" name="{{ .name }}">
-                <option selected>Open this select menu</option>
-                {{ range .options }}
-                <option value="{{ . }}">{{ . }}</option>
-                {{ end }}
-            </select>
-            {{ else if or (eq .type "radio") (eq .type "checkbox")}}
-            {{ $input := . }}
-            <div class="checkbox mb-5">
-                {{ range .options }}
-                <input class="checkbox__input" type="{{ $input.type }}" name="{{ $input.name }}"
-                       id="{{ $input.id }}{{ $input.name }}{{ . }}"
-                       value="{{ . }}">
-                <label class="steps-form__label checkbox__label" for="{{ $input.id }}{{ $input.name }}{{ . }}">
-                    {{ . }}</label>
-                {{ end }}
-            </div>
+    <form class="steps-form__form col-12 col-md-10 col-lg-6" name="cloud-request"
+          method="POST" id="{{ $random }}" novalidate>
+        <div class="spinner-border steps-form__spinner" role="status" style="width: 5rem; height: 5rem;">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <section class="owl-carousel">
+            {{ range .Params.Form }}
+            <div class="form-group" data-step="{{ .id }}">
+                <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
+                    {{ .label }}
+                    {{ if eq .type "radio"}}(Choose one){{ end }}
+                    {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
+                </label>
+                {{ if eq .type "select" }}
+                <select class="steps-form__input custom-select" id="{{ .id }}{{ .name }}" name="{{ .name }}">
+                    <option selected>Open this select menu</option>
+                    {{ range .options }}
+                    <option value="{{ . }}">{{ . }}</option>
+                    {{ end }}
+                </select>
+                {{ else if or (eq .type "radio") (eq .type "checkbox")}}
+                {{ $input := . }}
+                <div class="checkbox mb-5">
+                    {{ range .options }}
+                    <input class="checkbox__input" type="{{ $input.type }}" name="{{ $input.name }}"
+                           id="{{ $input.id }}{{ $input.name }}{{ . }}"
+                           value="{{ . }}">
+                    <label class="steps-form__label checkbox__label" for="{{ $input.id }}{{ $input.name }}{{ . }}">
+                        {{ . }}</label>
+                    {{ end }}
+                </div>
 
-            {{ else if eq .type "text"}}
-            <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
-                      rows="3" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}"></textarea>
-            {{ else }}
-            <input type="{{ .type }}" name="{{ .name }}"
-                   class="steps-form__input form-control" id="{{ .id }}{{ .name }}"
-                   {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
-            <div class="invalid-feedback">
-                Please provide a valid {{ .type }}.
+                {{ else if eq .type "text"}}
+                <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
+                          rows="3" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}"></textarea>
+                {{ else }}
+                <input type="{{ .type }}" name="{{ .name }}"
+                       class="steps-form__input form-control" id="{{ .id }}{{ .name }}"
+                       {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
+                <div class="invalid-feedback">
+                    Please provide a valid {{ .type }}.
+                </div>
+                {{ end }}
             </div>
             {{ end }}
-        </div>
-        {{ end }}
 
-        <div class="form-group">
-            <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
-            <button type="submit" class="btn btn-style-four btn-style-four_reversed btn-style-four_big btn-style-four_border">
-                <span class="text">Submit</span>
-            </button>
-        </div>
-    </section>
-</form>
+            <div class="form-group">
+                <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
+                <button type="submit" class="btn btn-style-four btn-style-four_reversed btn-style-four_big btn-style-four_border">
+                    <span class="text">Submit</span>
+                </button>
+            </div>
+        </section>
+    </form>
 </div>
 
 <script>
@@ -65,9 +65,8 @@
 
     window.addEventListener('load', function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
-      var form = document.getElementById({{ $random }});
+      const form = document.getElementById({{ $random }});
 
-      console.log(form)
       form.addEventListener('submit', function(event) {
         if (form.checkValidity() === false) {
           event.preventDefault();
@@ -80,9 +79,20 @@
         }
 
         form.classList.add('was-validated');
+
+        /**
+         * form.querySelectorAll('.form-group').forEach(input => {
+          console.log(input)
+          input.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+              event.preventDefault();
+              stepsFormCarousel.trigger('next.owl.carousel');
+            }
+          });
+        }); */
       });
 
-      const stepsFormCarousel = $(".owl-carousel").owlCarousel({
+      const stepsFormCarousel = $('.owl-carousel').owlCarousel({
         items: 1,
         mouseDrag: false,
         touchDrag: false,
