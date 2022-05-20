@@ -31,7 +31,7 @@ form:
     name: purpose
   - id: 3
     label: What's the size of your company?
-    type: checkbox
+    type: radio
     options:
     - 1
     - 2-10
