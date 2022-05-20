@@ -6,7 +6,7 @@
     <span class="sr-only">Loading...</span>
 </div>
 <form class="steps-form__form owl-carousel col-12 col-md-10 col-lg-6" name="cloud-request"
-      method="POST" id="{{ $random }}" novalidate>
+      method="POST" id="{{ $random }}" novalidate data-netlify="true">
     {{ range .Params.Form }}
     <div class="form-group" data-step="{{ .id }}">
         <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
