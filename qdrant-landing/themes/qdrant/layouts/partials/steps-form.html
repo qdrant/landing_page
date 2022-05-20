@@ -33,10 +33,9 @@
             {{ end }}
         </div>
 
-
         {{ else if eq .type "text"}}
         <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
-                  rows="3" placeholder="{{ .placeholder }}">
+                  rows="3" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
         </textarea>
         {{ else }}
         <input type="{{ .type }}" name="{{ .name }}"
@@ -63,28 +62,6 @@
   (function() {
     'use strict';
 
-    /* ==============================
-         Wait until an element is ready
-         */
-    function waitForElm(selector) {
-      return new Promise(resolve => {
-        if (document.querySelector(selector)) {
-          return resolve(document.querySelector(selector));
-        }
-
-        const observer = new MutationObserver(mutations => {
-          if (document.querySelector(selector)) {
-            resolve(document.querySelector(selector));
-            observer.disconnect();
-          }
-        });
-
-        observer.observe(document.body, {
-          childList: true,
-          subtree: true
-        });
-      });
-    }
     window.addEventListener('load', function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
       var form = document.getElementById({{ $random }});
@@ -93,11 +70,17 @@
         if (form.checkValidity() === false) {
           event.preventDefault();
           event.stopPropagation();
+
+          const invalidFieldNames = Array.from(form.querySelectorAll(':invalid')).map(field => field)
+          const nextInvalid = $(invalidFieldNames[0]).closest('[data-step]').data('step');
+
+          stepsFormCarousel.trigger('to.owl.carousel', [nextInvalid]);
         }
+
         form.classList.add('was-validated');
       });
 
-      $(".owl-carousel").owlCarousel({
+      const stepsFormCarousel = $(".owl-carousel").owlCarousel({
         items: 1,
         mouseDrag: false,
         touchDrag: false,

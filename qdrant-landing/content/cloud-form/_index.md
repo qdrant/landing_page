@@ -2,13 +2,13 @@
 title: Join the waiting list for the Qdrant cloud-hosted version private beta.
 section_title: Request early access to Qdrant cloud 
 form:
-  - id: 1
+  - id: 0
     label: All right! 😊 What is your e-mail? *
     placeholder: name@example.com
     type: email
     name: email
     required: True
-  - id: 2
+  - id: 1
     label: What best describes your current role?
     type: radio
     options:
@@ -20,7 +20,7 @@ form:
     - Marketer
     - Designer
     name: role
-  - id: 3
+  - id: 2
     label: For what purpose do you/will you use a cloud-hosted solution?
     type: checkbox
     options:
@@ -29,7 +29,7 @@ form:
     - For a client as an agency or a freelancer
     - For a personal project
     name: purpose
-  - id: 4
+  - id: 3
     label: What's the size of your company?
     type: checkbox
     options:
@@ -40,7 +40,7 @@ form:
     - 201-1000
     - 1001+
     name: companySize
-  - id: 5
+  - id: 4
     label: What is your use case?
     type: radio
     options:
@@ -52,19 +52,19 @@ form:
     - Internal Tool
     - Other
     name: case
-  - id: 6
+  - id: 5
     label: In your opinion, what is the essential aspect/functionality of a cloud-hosted API?
     type: text
     placeholder: Type your answer here...
     name: opinion
-  - id: 7
+  - id: 6
     label: Have you ever used any search-as-a-service? (e.g., Algolia, Elastic Enterprise Search, Mongo Atlas, etc.)?
     type: radio
     options:
     - "Yes"
     - "No"
     name: experienced
-  - id: 8
+  - id: 7
     label: Are you interested in paying a plan for a cloud-hosted service?
     type: radio
     options:

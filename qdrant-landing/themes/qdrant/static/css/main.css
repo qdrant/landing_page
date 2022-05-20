@@ -10152,6 +10152,9 @@ article:first-of-type figure {
 .btn_in-header:hover .btn__text {
   color: var(--white);
 }
+.btn.disabled {
+  display: none;
+}
 
 .fixed-header .btn_in-header {
   border-color: var(--brand-primary);
