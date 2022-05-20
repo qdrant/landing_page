@@ -5,55 +5,56 @@
 <div class="spinner-border steps-form__spinner" role="status" style="width: 5rem; height: 5rem;">
     <span class="sr-only">Loading...</span>
 </div>
-<form class="steps-form__form owl-carousel col-12 col-md-10 col-lg-6" name="cloud-request"
-      method="POST" id="{{ $random }}" novalidate data-netlify="true">
-    {{ range .Params.Form }}
-    <div class="form-group" data-step="{{ .id }}">
-        <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
-            {{ .label }}
-            {{ if eq .type "radio"}}(Choose one){{ end }}
-            {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
-        </label>
-        {{ if eq .type "select" }}
-        <select class="steps-form__input custom-select" id="{{ .id }}{{ .name }}" name="{{ .name }}">
-            <option selected>Open this select menu</option>
-            {{ range .options }}
-            <option value="{{ . }}">{{ . }}</option>
-            {{ end }}
-        </select>
-        {{ else if or (eq .type "radio") (eq .type "checkbox")}}
-        {{ $input := . }}
-        <div class="checkbox mb-5">
-            {{ range .options }}
+<form class="steps-form__form col-12 col-md-10 col-lg-6" name="cloud-request"
+      method="POST" id="{{ $random }}" novalidate>
+    <section class="owl-carousel">
+        {{ range .Params.Form }}
+        <div class="form-group" data-step="{{ .id }}">
+            <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
+                {{ .label }}
+                {{ if eq .type "radio"}}(Choose one){{ end }}
+                {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
+            </label>
+            {{ if eq .type "select" }}
+            <select class="steps-form__input custom-select" id="{{ .id }}{{ .name }}" name="{{ .name }}">
+                <option selected>Open this select menu</option>
+                {{ range .options }}
+                <option value="{{ . }}">{{ . }}</option>
+                {{ end }}
+            </select>
+            {{ else if or (eq .type "radio") (eq .type "checkbox")}}
+            {{ $input := . }}
+            <div class="checkbox mb-5">
+                {{ range .options }}
                 <input class="checkbox__input" type="{{ $input.type }}" name="{{ $input.name }}"
                        id="{{ $input.id }}{{ $input.name }}{{ . }}"
                        value="{{ . }}">
                 <label class="steps-form__label checkbox__label" for="{{ $input.id }}{{ $input.name }}{{ . }}">
                     {{ . }}</label>
+                {{ end }}
+            </div>
+
+            {{ else if eq .type "text"}}
+            <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
+                      rows="3" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}"></textarea>
+            {{ else }}
+            <input type="{{ .type }}" name="{{ .name }}"
+                   class="steps-form__input form-control" id="{{ .id }}{{ .name }}"
+                   {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
+            <div class="invalid-feedback">
+                Please provide a valid {{ .type }}.
+            </div>
             {{ end }}
         </div>
+        {{ end }}
 
-        {{ else if eq .type "text"}}
-        <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
-                  rows="3" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
-        </textarea>
-        {{ else }}
-        <input type="{{ .type }}" name="{{ .name }}"
-               class="steps-form__input form-control" id="{{ .id }}{{ .name }}"
-               {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
-        <div class="invalid-feedback">
-            Please provide a valid {{ .type }}.
+        <div class="form-group">
+            <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
+            <button type="submit" class="btn btn-style-four btn-style-four_reversed btn-style-four_big btn-style-four_border">
+                <span class="text">Submit</span>
+            </button>
         </div>
-    {{ end }}
-    </div>
-    {{ end }}
-
-    <div class="form-group">
-        <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
-        <button type="submit" class="btn btn-style-four btn-style-four_reversed btn-style-four_big btn-style-four_border">
-            <span class="text">Submit</span>
-        </button>
-    </div>
+    </section>
 </form>
 </div>
 

@@ -69,6 +69,11 @@
     display: flex;
     justify-content: space-between;
   }
+
+  .owl-prev.disabled .btn,
+  .owl-next.disabled .btn {
+    display: none;
+  }
 }
 
 

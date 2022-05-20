@@ -68,7 +68,7 @@ form:
     label: Are you interested in paying a plan for a cloud-hosted service?
     type: radio
     options:
-      - "Yes"
-      - "No"
+    - "Yes"
+    - "No"
     name: payingPlan
 ---
