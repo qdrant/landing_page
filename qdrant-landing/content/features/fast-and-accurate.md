@@ -2,6 +2,7 @@
 title: Fast and Accurate
 icon: bullseye
 weight: 20
+sitemapExclude: True
 ---
 
 Implement a unique custom modification of the [HNSW algorithm](https://arxiv.org/abs/1603.09320) for Approximate Nearest Neighbor Search.

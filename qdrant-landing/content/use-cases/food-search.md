@@ -4,6 +4,7 @@ weight: 20
 icon: search
 custom_link_name: Our Demo
 custom_link: https://food-discovery.qdrant.tech
+sitemapExclude: True
 ---
 
 There are multiple ways to discover things, text search is not the only one. 

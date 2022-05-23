@@ -3,6 +3,7 @@ title: Medical Diagnostics
 icon: x-rays
 custom_link_name: Related Research
 custom_link: https://www.sciencedirect.com/science/article/abs/pii/S0925231217308445
+sitemapExclude: True
 ---
 
 The growing volume of data and the increasing interest in the topic of health care is creating products to help doctors with diagnostics.

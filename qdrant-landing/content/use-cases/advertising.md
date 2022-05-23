@@ -3,6 +3,7 @@ title: Advertising
 icon: ad-campaign
 custom_link_name: Article by Twitter
 custom_link: https://www.sciencedirect.com/science/article/abs/pii/S0925231217308445
+sitemapExclude: True
 ---
 
 User interests cannot be described with rules, and that's where neural networks come in. 

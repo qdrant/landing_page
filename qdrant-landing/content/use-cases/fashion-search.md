@@ -3,6 +3,7 @@ title: Fashion Search
 icon: clothing
 custom_link_name: Article by Zalando
 custom_link: https://engineering.zalando.com/posts/2018/02/search-deep-neural-network.html
+sitemapExclude: True
 ---
 
 

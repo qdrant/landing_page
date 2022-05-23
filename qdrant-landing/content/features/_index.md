@@ -1,6 +1,7 @@
 ---
 title: "Make the most of your <span>Unstructured Data</span>"
 icon: 
+sitemapExclude: True
 ---
 
 Qdrant is a vector similarity engine.
