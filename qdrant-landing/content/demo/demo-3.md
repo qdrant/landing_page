@@ -1,9 +1,9 @@
 ---
 draft: false
-title: Demo three
-short_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus at mauris eu sollicitudin. Maecenas a imperdiet libero, ac congue orci. Pellentesque et erat id leo tincidunt aliquam eget sit amet purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-preview_image: /demo/img.png
-link: https://demo.qdrant.tech
+title: E-commerce products categorization
+short_description: E-commerce products categorization demo from Qdrant
+description: This demo shows how you can use vector search in e-commerce. Enter the name of the product and the application will understand which category it belongs to, based on the multi-language model. The dots represent clusters of products.
+preview_image: /demo/products_categorization_demo.jpg
+link: https://categories.qdrant.tech/
 weight: 3
 ---

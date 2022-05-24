@@ -1,9 +1,9 @@
 ---
 draft: false
-title: Demo two
-short_description: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-description: Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi finibus at mauris eu sollicitudin. Maecenas a imperdiet libero, ac congue orci. Pellentesque et erat id leo tincidunt aliquam eget sit amet purus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-preview_image: /demo/img.png
-link: https://demo.qdrant.tech
+title: Food Discovery
+short_description: Qdrant Food Discovery Demo recommends more similar meals based on how they look and the user's preferences
+description: This demo uses data from Wolt Delivery for Berlin. Users may like or dislike a dish from a photo, and the app will recommend more similar meals based on how they look and the user's preferences. It's also possible to choose to view dishes from the nearest restaurants first.
+preview_image: /demo/food_discovery_demo.jpg
+link: https://food-discovery.qdrant.tech/
 weight: 2
 ---
