@@ -2,6 +2,7 @@
 title: HR & Job Search
 icon: job-search
 weight: 10
+sitemapExclude: True
 ---
 
 Neural search can be used to match candidates and jobs even if there are no matching keywords or explicit skill descriptions. 

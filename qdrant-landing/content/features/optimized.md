@@ -2,6 +2,7 @@
 title: Efficient
 icon: microprocessor
 weight: 60
+sitemapExclude: True
 ---
 
 Effectively utilizes your resources.

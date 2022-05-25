@@ -12,6 +12,7 @@ short_description: |
     Find similar images, detect duplicates, or even find a picture by text description - all of that you can do with Qdrant.
     Mostly you won't even need to train a neural network for that. Pre-trained models are usually enough to begin with. 
     Check out our [demo](https://food-discovery.qdrant.tech/)!
+sitemapExclude: True
 ---
 
 Sometimes text search is not enough. 

@@ -2,6 +2,7 @@
 title: Filtrable
 icon: data-1
 weight: 30
+sitemapExclude: True
 ---
 
 Support additional payload associated with vectors.

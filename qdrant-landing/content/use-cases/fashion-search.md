@@ -5,6 +5,7 @@ custom_link_name: Article by Zalando
 custom_link: https://engineering.zalando.com/posts/2018/02/search-deep-neural-network.html
 custom_link_name2: Our Demo
 custom_link2: https://h-and-m.qdrant.tech/
+sitemapExclude: True
 ---
 
 
