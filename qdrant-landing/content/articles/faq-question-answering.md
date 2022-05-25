@@ -1,3 +1,7 @@
+---
+sitemapExclude: True
+---
+
 # Question-answering system with Metric learning and Quaterion
 
 There are vast amount of tasks in modern machine learning which are being decided as classification 
