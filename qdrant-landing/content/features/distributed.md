@@ -2,6 +2,7 @@
 title: Distributed
 icon: distribution
 weight: 50
+sitemapExclude: True
 ---
 
 Cloud-native and scales horizontally. \

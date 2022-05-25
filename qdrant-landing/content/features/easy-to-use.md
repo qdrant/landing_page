@@ -2,6 +2,7 @@
 title: Easy to Use API
 icon: api
 weight: 10
+sitemapExclude: True
 ---
 
 Provides the [OpenAPI v3 specification](https://qdrant.github.io/qdrant/redoc/index.html) to generate a client library in almost any programming language.

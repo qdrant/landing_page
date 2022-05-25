@@ -10,4 +10,5 @@ weight: 40
 short_description: |
     Matching semantically complex objects is a special case of search.
     Usually a large number of additional conditions are used in matching, which makes Qdrant an ideal tool for building such systems.
+sitemapExclude: True
 ---

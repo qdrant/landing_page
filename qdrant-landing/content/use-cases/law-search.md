@@ -3,6 +3,7 @@ title: Law Case Search
 icon: hammer
 custom_link_name: Related Research
 custom_link: https://arxiv.org/abs/2004.12307
+sitemapExclude: True
 ---
 
 The wording of court decisions can be difficult not only for ordinary people, but sometimes for the lawyers themselves.

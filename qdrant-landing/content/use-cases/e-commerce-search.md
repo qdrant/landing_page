@@ -4,6 +4,7 @@ icon: dairy-products
 weight: 30
 custom_link_name: Paper by The Home Depot
 custom_link: https://arxiv.org/abs/2104.07572
+sitemapExclude: True
 ---
 
 Increase your online basket size and revenue with the AI-powered search.
