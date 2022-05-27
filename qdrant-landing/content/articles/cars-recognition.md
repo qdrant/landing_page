@@ -1,5 +1,5 @@
 ---
-title: Similarity Learning for Car Search
+title: More Accurate Similar Cars Search with Fine Tuning
 short_description: "How to use similarity learning to search for similar cars"
 description: Learn how to train a similarity model that can retrieve similar car images in novel categories. 
 preview_image: /articles_data/cars-recognition/preview.png
@@ -29,17 +29,18 @@ However, similarity learning comes with its own difficulties such as:
 2. more sophisticated loss functions,
 3. changing architectures between training and inference.
 
-These are challenges that not every practitioner can overcome easily.
-Luckily, Quaterion is built to tackle such problems.
-It offers great functionalities such as:
+Quaterion is a fine tuning framework built to tackle such problems in similarity learning.
+It uses [PyTorch Lightning](https://www.pytorchlightning.ai/) as a backend, which is advertized with the motto, "spend more time on research, less on engineering."
+This is also true for Quaterion, and it includes:
 
-1. caching for smaller memory footprint and an incredible speedup.
+1. Trainable and servable model classes,
 2. annotated built-in loss functions, and a wrapper over [pytorch-metric-learning](https://kevinmusgrave.github.io/pytorch-metric-learning/) when you need even more,
-3. training and inference abstraction to easily go from experimentation to model serving.
+3. Sample, dataset and data loader classes to make it easier to work with similarity learning data,
+4. A caching mechanism for faster iterations and less memory footprint.
 
 ## A closer look at Quaterion
-Quaterion is built upon [PyTorch Lightning](https://www.pytorchlightning.ai/), which is advertized with the motto, "spend more time on research, less on engineering."
-This is also true for Quaterion. Let's break down some important modules:
+
+Let's break down some important modules:
 
 - `TrainableModel`: A subclass of `pl.LightNingModule` that has additional hook methods such as `configure_encoders`, `configure_head`, `configure_metrics` and others
 to define objects needed for training and evaluation.
@@ -54,10 +55,13 @@ models from `transformers`, with a trainable `EncoderHead` stacked on top of it.
 but you may also create your own by subclassing a parent class or easily listing PyTorch modules in a `SequentialHead`.
 
 Quaterion has other objects such as distance functions, evaluation metrics, evaluators, convenient dataset and data loader classes, but these are mostly self-explanatory.
-Additionally, caching is one of the best features of Quaterion, and it is strongly recommended that you read and fully understand the [tutorial on caching in Quaterion](https://quaterion.qdrant.tech/).
+Thus, they will not be explained in detail in this article for brevity.
+However, you can always go check out the [documentation](https://quaterion.qdrant.tech) to learn more about them.
+
 The focus of this tutorial is step-by-step solution of a similarity learning problem with Quaterion.
 This will also help us better understand how the abovementioned objects fit together in a real project.
 Let's start walking through some of the important parts of the code.
+
 If you are looking for the complete source code instead, you can find it under the [examples](https://github.com/qdrant/quaterion/tree/master/examples/cars) directory in the Quaterion repo.
 
 ## Dataset
