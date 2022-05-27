@@ -10672,12 +10672,12 @@ article:first-of-type figure {
   align-self: center;
   width: 8rem;
   height: 8rem;
-  border-top-color: var(--brand-primary);
-  border-left-color: var(--brand-primary);
-  border-bottom-color: var(--brand-primary);
   position: absolute;
   top: 35%;
   left: calc(50% - 4rem);
+  border-top-color: var(--brand-primary);
+  border-bottom-color: var(--brand-primary);
+  border-left-color: var(--brand-primary);
 }
 .steps-form__form {
   align-self: center;
@@ -10711,8 +10711,18 @@ article:first-of-type figure {
   font-size: 1.4rem;
 }
 .steps-form__label_big {
-  line-height: 1.5;
   font-size: 1.8rem;
+  line-height: 1.5;
+}
+.steps-form label a {
+  text-decoration: underline;
+  color: inherit;
+  font-size: inherit;
+  transition: 0.25s ease all;
+}
+.steps-form label a:hover {
+  color: var(--brand-primary);
+  text-decoration: none;
 }
 .steps-form .owl-stage {
   display: flex;

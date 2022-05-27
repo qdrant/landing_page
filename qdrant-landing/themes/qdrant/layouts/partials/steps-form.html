@@ -48,9 +48,22 @@
             </div>
             {{ end }}
 
-            <div class="form-group">
+            <div class="form-group" data-step="{{ len .Params.Form }}">
                 <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
-                <button type="submit" class="btn btn-style-four btn-style-four_reversed btn-style-four_big btn-style-four_border">
+                <div class="checkbox">
+                    <input class="checkbox__input" type="checkbox" name="termsConsent"
+                           id="termsConsent" required>
+                    <label class="steps-form__label checkbox__label d-flex align-items-center mb-2" for="termsConsent">
+                        <span>I am consent to all of
+                        <a href="/legal/terms_and_conditions/" target="_blank">terms and conditions</a>
+                            and you agree to be contacted again for your onboarding.*</span>
+                    </label>
+                    <div class="invalid-feedback">
+                        You must accept the terms and conditions
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-style-four btn-style-four_reversed
+                                             btn-style-four_big btn-style-four_border mt-4">
                     <span class="text">Submit</span>
                 </button>
             </div>
@@ -62,6 +75,17 @@
   // Example starter JavaScript for disabling form submissions if there are invalid fields
   (function() {
     'use strict';
+
+    function checkForm(form)
+    {
+      if(!form.termsConsent.checked) {
+        alert("Please indicate that you accept the Terms and Conditions");
+        form.termsConsent.focus();
+        return false;
+      }
+      return true;
+    }
+
 
     window.addEventListener('load', function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
