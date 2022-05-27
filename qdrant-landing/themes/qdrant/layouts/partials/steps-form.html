@@ -36,7 +36,7 @@
 
                 {{ else if eq .type "text"}}
                 <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
-                          rows="3" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}"></textarea>
+                          rows="{{ .rows }}" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}"></textarea>
                 {{ else }}
                 <input type="{{ .type }}" name="{{ .name }}"
                        class="steps-form__input form-control" id="{{ .id }}{{ .name }}"

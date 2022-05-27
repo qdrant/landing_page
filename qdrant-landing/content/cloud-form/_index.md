@@ -9,18 +9,6 @@ form:
     name: email
     required: True
   - id: 1
-    label: What best describes your current role?
-    type: radio
-    options:
-    - CTO
-    - Entrepreneur
-    - Student
-    - Product Manager
-    - Developer
-    - Marketer
-    - Designer
-    name: role
-  - id: 2
     label: For what purpose do you/will you use a cloud-hosted solution?
     type: checkbox
     options:
@@ -29,7 +17,7 @@ form:
     - For a client as an agency or a freelancer
     - For a personal project
     name: purpose
-  - id: 3
+  - id: 2
     label: What's the size of your company?
     type: radio
     options:
@@ -40,35 +28,19 @@ form:
     - 201-1000
     - 1001+
     name: companySize
-  - id: 4
+  - id: 3
     label: What is your use case?
     type: radio
     options:
-    - SaaS Application
-    - B2C Application
-    - E-Commerce/Marketplace
-    - Media
-    - Site Search (Documentation/Website)
-    - Internal Tool
+    - Semantic Search
+    - Image Search
+    - Recommendations
     - Other
     name: case
-  - id: 5
-    label: In your opinion, what is the essential aspect/functionality of a cloud-hosted API?
+  - id: 4
+    label: Have you ever used any vector search engines? If yes, which ones?
     type: text
-    placeholder: Type your answer here...
-    name: opinion
-  - id: 6
-    label: Have you ever used any search-as-a-service? (e.g., Algolia, Elastic Enterprise Search, Mongo Atlas, etc.)?
-    type: radio
-    options:
-    - "Yes"
-    - "No"
+    rows: 1
+    placeholder: Type here your answer
     name: experienced
-  - id: 7
-    label: Are you interested in paying a plan for a cloud-hosted service?
-    type: radio
-    options:
-    - "Yes"
-    - "No"
-    name: payingPlan
 ---
