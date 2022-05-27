@@ -3,7 +3,7 @@ title: Similar Image Search
 icon: image-1
 tabid: imagesearch
 landing_image: /content/images/abstract_cubes_2.svg
-image: /content/images/image_search.png
+image: /content/images/solutions/similar_image_search.svg
 image_caption: Visual Food Discovery
 default_link: https://food-discovery.qdrant.tech/
 default_link_name: Demo

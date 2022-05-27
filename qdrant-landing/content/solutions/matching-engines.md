@@ -2,7 +2,7 @@
 title: Matching Engines
 icon: compare-1
 tabid: matching
-image: /content/images/matching_engines.png
+image: /content/images/solutions/matching_engines.svg
 image_caption: Matching Engines
 default_link: 
 default_link_name: 
