@@ -184,3 +184,123 @@ class CarsDataset(Dataset):
 
         return SimilarityGroupSample(obj=image, group=label)
 ```
+
+## Trainable Model
+
+Now it's time to review one of the most exciting building blocks of Quaterion: [TrainableModel](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#module-quaterion.train.trainable_model).
+It is the base class for models you would like to configure for training,
+and it provides several hook methods starting with `configure_` to set up every aspect of the training phase
+just like [`pl.LightningModule`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.core.LightningModule.html), its own base class.
+It is central to fine tuning with Quaterion, so we will break down of this essential code and review each method separately. Let's begin with the imports:
+
+```python
+import torch
+import torchvision
+from quaterion_models.encoders import Encoder
+from quaterion_models.heads import EncoderHead, SkipConnectionHead
+from torch import nn
+from typing import Dict, Union, Optional
+
+from quaterion import TrainableModel
+from quaterion.eval.attached_metric import AttachedMetric
+from quaterion.eval.group import RetrievalRPrecision
+from quaterion.loss import SimilarityLoss, TripletLoss
+from quaterion.train.cache import CacheConfig, CacheType
+
+from .encoders import CarsEncoder
+```
+
+In the following code snippet, we subclass `TrainableModel`.
+You may use `__init__()` to store some attributes to be used in various `configure_*` methods later on.
+The more interesting part is, however, in the the [`configure_encoders()`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.configure_encoders) method.
+We need to return an instance of [`Encoder`](https://quaterion-models.qdrant.tech/quaterion_models.encoders.encoder.html#quaterion_models.encoders.encoder.Encoder) (or a dictionary with `Encoder` instances as values) from this method.
+In our case, it is an instance `CarsEncoders`, which we will review soon.
+Notice now how it is created with a pretrained ResNet152 model whose classification layer is replaced by an identity function.
+
+
+```python
+class Model(TrainableModel):
+    def __init__(self, lr: float, mining: str):
+        self._lr = lr
+        self._mining = mining
+        super().__init__()
+
+    def configure_encoders(self) -> Union[Encoder, Dict[str, Encoder]]:
+        pre_trained_encoder = torchvision.models.resnet152(pretrained=True)
+        pre_trained_encoder.fc = nn.Identity()
+        return CarsEncoder(pre_trained_encoder)
+```
+
+In Quaterion, a [`SimilarityModel`](https://quaterion-models.qdrant.tech/quaterion_models.model.html#quaterion_models.model.SimilarityModel) is composed of one or more `Encoder`s
+and an [`EncoderHead`](https://quaterion-models.qdrant.tech/quaterion_models.heads.encoder_head.html#quaterion_models.heads.encoder_head.EncoderHead).
+`quaterion_models` has [several `EncoderHead` implementations](https://quaterion-models.qdrant.tech/quaterion_models.heads.html#module-quaterion_models.heads) with a unified API such as a configurable dropout value.
+You may use one of them or create your own my subclassing `EncoderHead`.
+In either case, you need to return an instance of it from [`configure_head`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.configure_head) 
+In this example, we will use a `SkipConnectionHead`, which is lightweight and more resistant to overfitting.
+
+```python
+    def configure_head(self, input_embedding_size) -> EncoderHead:
+        return SkipConnectionHead(input_embedding_size, dropout=0.1)
+```
+
+Quaterion has implementations of [some popular loss functions](https://quaterion.qdrant.tech/quaterion.loss.html) for similarity learning, all of which subclass either [`GroupLoss`](https://quaterion.qdrant.tech/quaterion.loss.group_loss.html#quaterion.loss.group_loss.GroupLoss)
+or [`PairwiseLoss`](https://quaterion.qdrant.tech/quaterion.loss.pairwise_loss.html#quaterion.loss.pairwise_loss.PairwiseLoss).
+In this example, we will use [`TripletLoss`](https://quaterion.qdrant.tech/quaterion.loss.triplet_loss.html#quaterion.loss.triplet_loss.TripletLoss),
+which is a subclass of `GroupLoss`. In general, subclasses of `GroupLoss` are used with
+datasets that emit `SimilarityGroupSample`s, and subclasses of `PairwiseLoss` should be used in the case of `SimilarityPairSample`s.
+To see an example for the latter, you may need to check out the [NLP Tutorial](https://quaterion.qdrant.tech)
+
+```python
+    def configure_loss(self) -> SimilarityLoss:
+        return TripletLoss(mining=self._mining, margin=0.5)
+```
+
+
+`configure_optimizers()` may be familiar to PyTorch Lightning users,
+but there is a novel `self.model` used inside that method.
+It is an instance of `SimilarityModel` and automatically created by Quaterion from the return values of `configure_encoders()` and `configure_head()`.
+
+```python
+    def configure_optimizers(self):
+        optimizer = torch.optim.Adam(self.model.parameters(), self._lr)
+        return optimizer
+```
+
+Caching in Quaterion is used for avoiding calculation of outputs of a frozen pretrained `Encoder` in every epoch.
+When it is configured, outputs will be computed once and cached in the preferred device for direct usage later on.
+It both provides a considerable sspeedup and less memory footprint.
+However, it is quite a bit versatile and has several knobs to tune.
+To get most out of its potential, it's recommended that you check out the [caching tutorial](https://quaterion.qdrant.tech).
+For the sake of making this article self-contained, you need to return a [`CacheConfig`](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheConfig)
+instance from [`configure_caches()`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.configure_caches)
+to specify cache-related preferences such as:
+- [`CacheType`](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheType), i.e., whether to store caches on CPU or GPU,
+- `save_dir`, i.e., where to persist caches for subsequent runs,
+- `batch_size`, i.e., batch size to be used only when creating caches —the batch size to be used during the actual training might be different.
+
+```python
+    def configure_caches(self) -> Optional[CacheConfig]:
+        return CacheConfig(
+            cache_type=CacheType.AUTO, save_dir="./cache_dir", batch_size=32
+        )
+```
+
+We have just configured training-related settings of a `TrainableModel`.
+However, evaluation is an integral part of experimentation in machine learning,
+and you may configure evaluation metrics by returning an instance of [`AttachedMetric`](https://quaterion.qdrant.tech/quaterion.eval.attached_metric.html#quaterion.eval.attached_metric.AttachedMetric)
+from `configure_metrics()`. Quaterion has several built-in [group](https://quaterion.qdrant.tech/quaterion.eval.group.html)
+and [pairwise](https://quaterion.qdrant.tech/quaterion.eval.pair.html)
+evaluation metrics.
+
+```python
+    def configure_metrics(self) -> AttachedMetric:
+        return AttachedMetric(
+            "rrp",
+            metric=RetrievalRPrecision(),
+            prog_bar=True,
+            on_epoch=True,
+            on_step=False,
+        )
+```
+
+## Encoder
