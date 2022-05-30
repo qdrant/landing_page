@@ -1,0 +1,26 @@
+.logo {
+  &__link {
+    display: block;
+    height: 100%;
+    background: url("/images/logo_with_text.svg") no-repeat;
+    background-size: contain;
+  }
+
+  &_with-text {
+    width: 192px;
+    height: 55px;
+  }
+
+
+  &_dark-bg {
+    .logo__link {
+      background: url("/images/logo_with_text_dark_bg.svg") no-repeat;
+      background-size: contain;
+    }
+  }
+}
+
+.fixed-header .logo_with-text .logo__link {
+  background: url("/images/logo_with_text.svg") no-repeat;
+  background-size: contain;
+}
