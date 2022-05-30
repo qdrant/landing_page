@@ -268,7 +268,7 @@ It is an instance of `SimilarityModel` and automatically created by Quaterion fr
 
 Caching in Quaterion is used for avoiding calculation of outputs of a frozen pretrained `Encoder` in every epoch.
 When it is configured, outputs will be computed once and cached in the preferred device for direct usage later on.
-It both provides a considerable speedup and less memory footprint.
+It provides both a considerable speedup and less memory footprint.
 However, it is quite a bit versatile and has several knobs to tune.
 To get most out of its potential, it's recommended that you check out the [caching tutorial](https://quaterion.qdrant.tech).
 For the sake of making this article self-contained, you need to return a [`CacheConfig`](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheConfig)
