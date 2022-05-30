@@ -14,8 +14,8 @@ draft: false
 Supervised classification is one of the most widely used training objectives in machine learning,
 but not every task can be defined as such. For example,
 
-1. Your classes may change quickly --e.g., new classes may be added over time,
-2. You may not have samples from every possible categories,
+1. Your classes may change quickly —e.g., new classes may be added over time,
+2. You may not have samples from every possible category,
 3. It may be impossible to enumerate all the possible classes during the training time,
 4. You may have an essentially different task, e.g., search or retrieval.
 
@@ -25,16 +25,16 @@ N.B.: If you are new to the similarity learning concept, checkout the [awesome-m
 
 However, similarity learning comes with its own difficulties such as:
 
-1. need for larger batch sizes usually,
-2. more sophisticated loss functions,
-3. changing architectures between training and inference.
+1. Need for larger batch sizes usually,
+2. More sophisticated loss functions,
+3. Changing architectures between training and inference.
 
 Quaterion is a fine tuning framework built to tackle such problems in similarity learning.
 It uses [PyTorch Lightning](https://www.pytorchlightning.ai/) as a backend, which is advertized with the motto, "spend more time on research, less on engineering."
 This is also true for Quaterion, and it includes:
 
 1. Trainable and servable model classes,
-2. annotated built-in loss functions, and a wrapper over [pytorch-metric-learning](https://kevinmusgrave.github.io/pytorch-metric-learning/) when you need even more,
+2. Annotated built-in loss functions, and a wrapper over [pytorch-metric-learning](https://kevinmusgrave.github.io/pytorch-metric-learning/) when you need even more,
 3. Sample, dataset and data loader classes to make it easier to work with similarity learning data,
 4. A caching mechanism for faster iterations and less memory footprint.
 
@@ -43,7 +43,7 @@ This is also true for Quaterion, and it includes:
 Let's break down some important modules:
 
 - `TrainableModel`: A subclass of `pl.LightNingModule` that has additional hook methods such as `configure_encoders`, `configure_head`, `configure_metrics` and others
-to define objects needed for training and evaluation.
+to define objects needed for training and evaluation —see below to learn more on these.
 - `SimilarityModel`: An inference-only export method to boost code transfer and lower dependencies during the inference time.
 In fact, Quaterion is composed of two packages:
     1. `quaterion_models`: package that you need for inference.
@@ -58,7 +58,7 @@ Quaterion has other objects such as distance functions, evaluation metrics, eval
 Thus, they will not be explained in detail in this article for brevity.
 However, you can always go check out the [documentation](https://quaterion.qdrant.tech) to learn more about them.
 
-The focus of this tutorial is step-by-step solution of a similarity learning problem with Quaterion.
+The focus of this tutorial is a step-by-step solution of a similarity learning problem with Quaterion.
 This will also help us better understand how the abovementioned objects fit together in a real project.
 Let's start walking through some of the important parts of the code.
 
@@ -67,10 +67,9 @@ If you are looking for the complete source code instead, you can find it under t
 ## Dataset
 In this tutorial, we will use the [Stanford Cars](https://pytorch.org/vision/main/generated/torchvision.datasets.StanfordCars.html) dataset.
 It has 16185 images of cars from 196 classes,
-and it is split to training and testing subsets with almost a 50-50% split.
+and it is split into training and testing subsets with almost a 50-50% split.
 To make things even more interesting, however, we will first merge training and testing subsets,
-then we will split it into two again in such a way that
-the half of the 196 classes will be put into training set and the other half will be in the testing set.
+then we will split it into two again in such a way that the half of the 196 classes will be put into the training set and the other half will be in the testing set.
 This will let us test our model with samples from novel classes that it has never seen in the training phase,
 which is what supervised classification cannot achieve but similarity learning can.
 
@@ -84,7 +83,6 @@ N.B.: Currently, Quaterion has two data types to represent samples in a dataset.
 ```python
 import numpy as np
 import os
-import pickle
 import tqdm
 from torch.utils.data import Dataset, Subset
 from torchvision import datasets, transforms
@@ -103,57 +101,14 @@ seed_everything(seed=42)
 dataset_path = os.path.join(".", "torchvision", "datasets")
 
 
-def get_raw_dataset(input_size: int, split_cache_path="split_cache.pkl"):
-    """
-    Create dataset for extracting images, associated with vectors.
-    Args:
-        input_size: Resize images to this size
-        split_cache_path: Path to train split
-
-    Returns:
-
-    """
-    transform = transforms.Compose(
-        [
-            transforms.Resize(input_size, max_size=input_size + 1),
-        ]
-    )
-
-    full_dataset = datasets.StanfordCars(
-        root=dataset_path, split="train", download=True, transform=transform
-    ) + datasets.StanfordCars(
-        root=dataset_path, split="test", download=True, transform=transform
-    )
-
-    # Use same indexes, as was used for training
-    train_indices, test_indices = pickle.load(open(split_cache_path, "rb"))
-
-    train_dataset = Subset(full_dataset, train_indices)
-
-    test_dataset = Subset(full_dataset, test_indices)
-
-    return train_dataset, test_dataset
-
-
-def get_datasets(
-    input_size: int,
-    split_cache_path="split_cache.pkl",
-):
+def get_datasets(input_size: int):
     # Use Mean and std values for the ImageNet dataset as the base model was pretrained on it.
     # taken from https://www.geeksforgeeks.org/how-to-normalize-images-in-pytorch/
     mean = [0.485, 0.456, 0.406]
     std = [0.229, 0.224, 0.225]
 
     # create train and test transforms
-    train_transform = transforms.Compose(
-        [
-            transforms.Resize((input_size, input_size)),
-            transforms.ToTensor(),
-            transforms.Normalize(mean, std),
-        ]
-    )
-
-    test_transform = transforms.Compose(
+    transform = transforms.Compose(
         [
             transforms.Resize((input_size, input_size)),
             transforms.ToTensor(),
@@ -167,39 +122,31 @@ def get_datasets(
         root=dataset_path, split="train", download=True
     ) + datasets.StanfordCars(root=dataset_path, split="test", download=True)
 
-    train_indices, test_indices = None, None
+    # full_dataset contains examples from 196 categories labeled with an integer from 0 to 195
+    # randomly sample half of it to be used for training
+    train_categories = np.random.choice(a=196, size=196 // 2, replace=False)
 
-    if not split_cache_path or not os.path.exists(split_cache_path):
-        # full_dataset contains examples from 196 categories labeled with an integer from 0 to 195
-        # randomly sample half of it to be used for training
-        train_categories = np.random.choice(a=196, size=196 // 2, replace=False)
+    # get a list of labels for all samples in the dataset
+    labels_list = np.array([label for _, label in tqdm.tqdm(full_dataset)])
 
-        # get a list of labels for all samples in the dataset
-        labels_list = np.array([label for _, label in tqdm.tqdm(full_dataset)])
+    # get a mask for indices where label is included in train_categories
+    labels_mask = np.isin(labels_list, train_categories)
 
-        # get a mask for indices where label is included in train_categories
-        labels_mask = np.isin(labels_list, train_categories)
+    # get a list of indices to be used as train samples
+    train_indices = np.argwhere(labels_mask).squeeze()
 
-        # get a list of indices to be used as train samples
-        train_indices = np.argwhere(labels_mask).squeeze()
-
-        # others will be used as test samples
-        test_indices = np.argwhere(np.logical_not(labels_mask)).squeeze()
-
-    if train_indices is None or test_indices is None:
-        train_indices, test_indices = pickle.load(open(split_cache_path, "rb"))
-    else:
-        pickle.dump((train_indices, test_indices), open(split_cache_path, "wb"))
+    # others will be used as test samples
+    test_indices = np.argwhere(np.logical_not(labels_mask)).squeeze()
 
     # now that we have distinct indices for train and test sets, we can use `Subset` to create new datasets
     # from `full_dataset`, which contain only the samples at given indices.
     # finally, we apply transformations created above.
     train_dataset = CarsDataset(
-        Subset(full_dataset, train_indices), transform=train_transform
+        Subset(full_dataset, train_indices), transform=transform
     )
 
     test_dataset = CarsDataset(
-        Subset(full_dataset, test_indices), transform=test_transform
+        Subset(full_dataset, test_indices), transform=transform
     )
 
     return train_dataset, test_dataset
@@ -209,9 +156,8 @@ def get_dataloaders(
     batch_size: int,
     input_size: int,
     shuffle: bool = False,
-    split_cache_path="split_cache.pkl",
 ):
-    train_dataset, test_dataset = get_datasets(input_size, split_cache_path)
+    train_dataset, test_dataset = get_datasets(input_size)
 
     train_dataloader = GroupSimilarityDataLoader(
         train_dataset, batch_size=batch_size, shuffle=shuffle
