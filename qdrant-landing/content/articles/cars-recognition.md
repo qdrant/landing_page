@@ -276,7 +276,7 @@ instance from [`configure_caches()`](https://quaterion.qdrant.tech/quaterion.tra
 to specify cache-related preferences such as:
 - [`CacheType`](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheType), i.e., whether to store caches on CPU or GPU,
 - `save_dir`, i.e., where to persist caches for subsequent runs,
-- `batch_size`, i.e., batch size to be used only when creating caches —the batch size to be used during the actual training might be different.
+- `batch_size`, i.e., batch size to be used only when creating caches - the batch size to be used during the actual training might be different.
 
 ```python
     def configure_caches(self) -> Optional[CacheConfig]:
