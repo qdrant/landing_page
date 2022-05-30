@@ -247,7 +247,7 @@ Quaterion has implementations of [some popular loss functions](https://quaterion
 or [`PairwiseLoss`](https://quaterion.qdrant.tech/quaterion.loss.pairwise_loss.html#quaterion.loss.pairwise_loss.PairwiseLoss).
 In this example, we will use [`TripletLoss`](https://quaterion.qdrant.tech/quaterion.loss.triplet_loss.html#quaterion.loss.triplet_loss.TripletLoss),
 which is a subclass of `GroupLoss`. In general, subclasses of `GroupLoss` are used with
-datasets that emit `SimilarityGroupSample`s, and subclasses of `PairwiseLoss` should be used in the case of `SimilarityPairSample`s.
+datasets in which samples are assigned with some group (or label). In our example label is a make of the car. Those datasets should emit `SimilarityGroupSample`. Another alternatives are implementations `PairwiseLoss`, which consume `SimilarityPairSample` - pair of objects for which similarity is specified individually.
 To see an example for the latter, you may need to check out the [NLP Tutorial](https://quaterion.qdrant.tech)
 
 ```python
