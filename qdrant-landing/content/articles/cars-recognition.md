@@ -234,7 +234,7 @@ class Model(TrainableModel):
 In Quaterion, a [`SimilarityModel`](https://quaterion-models.qdrant.tech/quaterion_models.model.html#quaterion_models.model.SimilarityModel) is composed of one or more `Encoder`s
 and an [`EncoderHead`](https://quaterion-models.qdrant.tech/quaterion_models.heads.encoder_head.html#quaterion_models.heads.encoder_head.EncoderHead).
 `quaterion_models` has [several `EncoderHead` implementations](https://quaterion-models.qdrant.tech/quaterion_models.heads.html#module-quaterion_models.heads) with a unified API such as a configurable dropout value.
-You may use one of them or create your own my subclassing `EncoderHead`.
+You may use one of them or create your own subclass of `EncoderHead`.
 In either case, you need to return an instance of it from [`configure_head`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.configure_head) 
 In this example, we will use a `SkipConnectionHead`, which is lightweight and more resistant to overfitting.
 
