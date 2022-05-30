@@ -214,7 +214,7 @@ In the following code snippet, we subclass `TrainableModel`.
 You may use `__init__()` to store some attributes to be used in various `configure_*` methods later on.
 The more interesting part is, however, in the the [`configure_encoders()`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.configure_encoders) method.
 We need to return an instance of [`Encoder`](https://quaterion-models.qdrant.tech/quaterion_models.encoders.encoder.html#quaterion_models.encoders.encoder.Encoder) (or a dictionary with `Encoder` instances as values) from this method.
-In our case, it is an instance `CarsEncoders`, which we will review soon.
+In our case, it is an instance of `CarsEncoders`, which we will review soon.
 Notice now how it is created with a pretrained ResNet152 model whose classification layer is replaced by an identity function.
 
 
