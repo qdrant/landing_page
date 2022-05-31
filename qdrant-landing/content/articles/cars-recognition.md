@@ -191,7 +191,7 @@ Now it's time to review one of the most exciting building blocks of Quaterion: [
 It is the base class for models you would like to configure for training,
 and it provides several hook methods starting with `configure_` to set up every aspect of the training phase
 just like [`pl.LightningModule`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.core.LightningModule.html), its own base class.
-It is central to fine tuning with Quaterion, so we will break down this essential code and review each method separately. Let's begin with the imports:
+It is central to fine tuning with Quaterion, so we will break down this essential code in `models.py` and review each method separately. Let's begin with the imports:
 
 ```python
 import torch
@@ -306,3 +306,67 @@ evaluation metrics.
 ```
 
 ## Encoder
+
+As previously stated, a `SimilarityModel` is composed of one or more `Encoder`s and an `EncoderHead`.
+Even if we freeze pretrained `Encoder` instances,
+`EncoderHead` is still trainable and has enough parameters to adapt to the new task at hand.
+It is recommended that you set the `trainable` property to `False` whenever possible,
+as it lets you benefit from the caching mechanism described above.
+Another important property is `embedding_size`, which will be passed to `TrainableModel.configure_head()` as `input_embedding_size`
+to let you properly initialize the head layer.
+Let's see how an `Encoder` is implemented in the following code borrowed from `encoders.py`:
+
+```python
+import os
+
+import torch
+import torch.nn as nn
+from quaterion_models.encoders import Encoder
+
+
+class CarsEncoder(Encoder):
+    def __init__(self, encoder_model: nn.Module):
+        super().__init__()
+        self._encoder = encoder_model
+        self._embedding_size = 2048  # last dimension from the ResNet model
+
+    @property
+    def trainable(self) -> bool:
+        return False
+
+    @property
+    def embedding_size(self) -> int:
+        return self._embedding_size
+```
+
+An `Encoder` is a regular `torch.nn.Module` subclass,
+and we need to implement the forward pass logic in the `forward` method.
+Depending on how you create your submodules, this method may be more complex;
+however, we simply pass the input through a pretrained ResNet152 backbone in this example:
+
+```python
+    def forward(self, images):
+        embeddings = self._encoder.forward(images)
+        return embeddings
+```
+
+An important step of machine learning development is proper saving and loading of models.
+Quaterion lets you save your `SimilarityModel` with [`TrainableModel.save_servable()`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.save_servable)
+and restore it with [`SimilarityModel.load()`](https://quaterion-models.qdrant.tech/quaterion_models.model.html#quaterion_models.model.SimilarityModel.load).
+To be able to use these two methods, you need to implement `save()` and `load()` methods in your `Encoder`.
+Additionally, it is also important that you define your subclass of `Encoder` outside the `__main__` namespace,
+i.e., in a separate file from your main entry point.
+It may not be restored properly otherwise.
+
+```python
+    def save(self, output_path: str):
+        os.makedirs(output_path, exist_ok=True)
+        torch.save(self._encoder, os.path.join(output_path, "encoder.pth"))
+
+    @classmethod
+    def load(cls, input_path):
+        encoder_model = torch.load(os.path.join(input_path, "encoder.pth"))
+        return CarsEncoder(encoder_model)
+```
+
+## Training
