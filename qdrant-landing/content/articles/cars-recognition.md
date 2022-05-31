@@ -370,3 +370,75 @@ It may not be restored properly otherwise.
 ```
 
 ## Training
+
+With all essential objects implemented, it is easy to bring them all together and run a training loop with the [`Quaterion.fit()`](https://quaterion.qdrant.tech/quaterion.main.html#quaterion.main.Quaterion.fit)
+method. It expects:
+- A `TrainableModel`,
+- A [`pl.Trainer`](https://pytorch-lightning.readthedocs.io/en/stable/common/trainer.html),
+- A [`SimilarityDataLoader`](https://quaterion.qdrant.tech/quaterion.dataset.similarity_data_loader.html#quaterion.dataset.similarity_data_loader.SimilarityDataLoader) for training data,
+- And optionally, another `SimilarityDataLoader` for evaluation data.
+
+We need to import a few objects to prepare all of these:
+
+```python
+import os
+import pytorch_lightning as pl
+import torch
+from pytorch_lightning.callbacks import EarlyStopping, ModelSummary
+
+from quaterion import Quaterion
+from .data import get_dataloaders
+from .models import Model
+```
+
+The `train()` function in the following code snippet expects several hyperparameter values as arguments.
+They can be defined in a `config.py` or passed from the command line.
+However, that part of the code is omitted for brevity.
+Instead let's focus on how all the building blocks are initialized and passed to `Quaterion.fit()`,
+which is responsible for running the whole loop.
+When the training loop is complete, you can simply call `TrainableModel.save_servable()`
+to save the current state of the `SimilarityModel` instance:
+
+```python
+def train(
+    lr: float,
+    mining: str,
+    batch_size: int,
+    epochs: int,
+    input_size: int,
+    shuffle: bool,
+    save_dir: str,
+):
+
+    model = Model(
+        lr=lr,
+        mining=mining,
+    )
+    
+    
+    train_dataloader, val_dataloader = get_dataloaders(
+        batch_size=batch_size, input_size=input_size, shuffle=shuffle
+    )
+
+    early_stopping = EarlyStopping(
+        monitor="validation_loss",
+        patience=50,
+    )
+
+    trainer = pl.Trainer(
+        gpus=1 if torch.cuda.is_available() else 0,
+        max_epochs=epochs,
+        callbacks=[early_stopping, ModelSummary(max_depth=3)],
+        enable_checkpointing=False,
+        log_every_n_steps=1,
+    )
+
+    Quaterion.fit(
+        trainable_model=model,
+        trainer=trainer,
+        train_dataloader=train_dataloader,
+        val_dataloader=val_dataloader,
+    )
+
+    model.save_servable(save_dir)
+```
