@@ -3,10 +3,13 @@
 
   &_in-header {
     padding: 0.1rem 0.5rem;
+    position: relative;
     background: var(--white);
     line-height: 1;
+    border: 0;
 
     &:before {
+      border-radius: 0.25rem;
       width: 100%;
       height: 100%;
       position: absolute;
@@ -27,18 +30,21 @@
       -ms-transform-origin: top right;
       -webkit-transform-origin: top right;
       transform-origin: top right;
-      border-radius: inherit;
       background-color: var(--brand-primary);
     }
 
-    &:hover::before {
-      display: block;
-      -ms-transform: scale(1, 1);
-      -webkit-transform: scale(1, 1);
-      transform: scale(1, 1);
-      -ms-transform-origin: bottom left;
-      -webkit-transform-origin: bottom left;
-      transform-origin: bottom left;
+    &:hover {
+      //border-color: var(--brand-primary);
+
+      &:before {
+        display: block;
+        -ms-transform: scale(1, 1);
+        -webkit-transform: scale(1, 1);
+        transform: scale(1, 1);
+        -ms-transform-origin: bottom left;
+        -webkit-transform-origin: bottom left;
+        transform-origin: bottom left;
+      }
     }
 
     .btn__text {
@@ -350,6 +356,7 @@
 
     &.btn-style-four_reversed {
       box-shadow: inset 0 0 0 2px var(--brand-primary);
+
       &:before {
         box-shadow: inset 0 0 0 2px var(--brand-primary);
       }
@@ -444,7 +451,6 @@
     color: #ffffff;
     border-color: var(--brand-primary);
   }
-
 
 
 }

@@ -10101,10 +10101,13 @@ article:first-of-type figure {
 
 .btn_in-header {
   padding: 0.1rem 0.5rem;
+  position: relative;
   background: var(--white);
   line-height: 1;
+  border: 0;
 }
 .btn_in-header:before {
+  border-radius: 0.25rem;
   width: 100%;
   height: 100%;
   position: absolute;
@@ -10125,10 +10128,9 @@ article:first-of-type figure {
   -ms-transform-origin: top right;
   -webkit-transform-origin: top right;
   transform-origin: top right;
-  border-radius: inherit;
   background-color: var(--brand-primary);
 }
-.btn_in-header:hover::before {
+.btn_in-header:hover:before {
   display: block;
   -ms-transform: scale(1, 1);
   -webkit-transform: scale(1, 1);
