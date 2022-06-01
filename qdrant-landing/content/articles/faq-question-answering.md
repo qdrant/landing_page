@@ -157,7 +157,7 @@ class FAQModel(TrainableModel):
 ```
 
 - `configure_optimizers` is a method provided by Lightning. An eagle-eye of you could notice 
-mysterious `self.model`, it is actually a [MetricModel](https://quaterion-models.qdrant.tech/quaterion_models.model.html) instance. We will cover it later.
+mysterious `self.model`, it is actually a [SimilarityModel](https://quaterion-models.qdrant.tech/quaterion_models.model.html) instance. We will cover it later.
 - `configure_loss` is a loss function to be used during training. You can choose a ready-made implementation from Quaterion.
 However, since Quaterion's purpose is not to cover all possible losses, or other entities and 
 features of similarity learning, but to provide a convenient framework to build and use such models, 
@@ -500,7 +500,7 @@ Raw data may consume a huge amount of memory, and usually we can't fit it into o
 Embeddings, on the contrary, most probably will consume less.
 
 That's where `Evaluator` enters the scene. 
-At first, having dataset of `SimilaritySample`, `Evaluator` encodes it via `MetricModel` and compute corresponding labels.
+At first, having dataset of `SimilaritySample`, `Evaluator` encodes it via `SimilarityModel` and compute corresponding labels.
 After that, it calculates a metric value, which could be more representative than batch-wise ones.
 
 However, you still can find yourself in a situation where evaluation becomes too slow, or there is no enough space left in the memory.
@@ -559,7 +559,7 @@ There is no overfitting and the results are steadily growing, although I think t
 As you could already notice, Quaterion framework is split into two separate libraries: `quaterion` 
 and [quaterion-models](https://quaterion-models.qdrant.tech/).
 The former one contains training related stuff like losses, cache, `pytorch-lightning` dependency, etc.
-While the latter one contains only modules necessary for serving: encoders, heads and `MetricModel` itself.
+While the latter one contains only modules necessary for serving: encoders, heads and `SimilarityModel` itself.
 
 The reasons for this separation are:
 
@@ -579,7 +579,7 @@ import os
 import json
 
 import torch
-from quaterion_models.model import MetricModel
+from quaterion_models.model import SimilarityModel
 from quaterion.distances import Distance
 
 from faq.config import DATA_DIR, ROOT_DIR
@@ -587,7 +587,7 @@ from faq.config import DATA_DIR, ROOT_DIR
 
 if __name__ == "__main__":
     device = "cuda:0" if torch.cuda.is_available() else "cpu"
-    model = MetricModel.load(os.path.join(ROOT_DIR, "servable"))
+    model = SimilarityModel.load(os.path.join(ROOT_DIR, "servable"))
     model.to(device)
     dataset_path = os.path.join(DATA_DIR, "val_cloud_faq_dataset.jsonl")
 
