@@ -442,3 +442,50 @@ def train(
 
     model.save_servable(save_dir)
 ```
+
+## Evaluation
+
+Let's see what we have achieved with these simple steps.
+`evaluate.py` has two functions to evaluate both the baseline model and the tuned similarity model.
+We will review only the latter for brevity.
+In addition to the ease of restoring a `SimilarityModel`, this code snippet also shows
+how to use [`Evaluator`](https://quaterion.qdrant.tech/quaterion.eval.evaluator.html#quaterion.eval.evaluator.Evaluator)
+to evaluate the performance of a `SimilarityModel` on a given dataset
+by given evaluation metrics.
+Full evaluation of a dataset usually grows exponentially,
+and thus you may want to perform a partial evaluation on a sampled subset.
+In this case, you may use [samplers](https://quaterion.qdrant.tech/quaterion.eval.samplers.html)
+to limit the evaluation.
+Similar to `Quaterion.fit()` used for training, [`Quaterion.evaluate()`](https://quaterion.qdrant.tech/quaterion.main.html#quaterion.main.Quaterion.evaluate)
+runs a complete evaluation loop. It takes the following as arguments:
+- An `Evaluator` instance created with given evaluation metrics,and a `Sampler`,
+- The `SimilarityModel` to be evaluated,
+- And the evaluation dataset.
+
+```python
+def eval_tuned_encoder(dataset, device):
+    print("Evaluating tuned encoder...")
+    tuned_cars_model = SimilarityModel.load(
+        os.path.join(os.path.dirname(__file__), "cars_encoders")
+    ).to(device)
+    tuned_cars_model.eval()
+
+    result = Quaterion.evaluate(
+        evaluator=Evaluator(
+            metrics=RetrievalRPrecision(),
+            sampler=GroupSampler(sample_size=1000, device=device, log_progress=True),
+        ),
+        model=tuned_cars_model,
+        dataset=dataset,
+    )
+
+    print(result)
+```
+
+## Conclusion
+
+In this tutorial, we trained a similarity model to search for similar cars from novel categories unseen in the training phase.
+Then, we evaluated it on a test dataset by the Retrieval R-Precision metric.
+The base model scored 0.1207,
+and our tuned model hit 0.2540, a twice higher score.
+These scored can be seen in the following figure:
