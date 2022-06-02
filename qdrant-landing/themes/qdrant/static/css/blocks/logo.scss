@@ -2,7 +2,7 @@
   &__link {
     display: block;
     height: 100%;
-    background: url("/images/logo_with_text.svg") no-repeat;
+    background: url("/images/logo_with_text_dark_bg.png") no-repeat;
     background-size: contain;
   }
 
@@ -12,15 +12,27 @@
   }
 
 
-  &_dark-bg {
+  &_home {
     .logo__link {
-      background: url("/images/logo_with_text_dark_bg.svg") no-repeat;
+      background: url("/images/logo_with_text.png") no-repeat;
       background-size: contain;
+
+      @media only screen and (min-width: 1024px) and (max-width: 1140px) {
+        background: url("/images/logo_with_text_dark_bg.png") no-repeat;
+        background-size: contain;
+      }
     }
   }
 }
 
 .fixed-header .logo_with-text .logo__link {
-  background: url("/images/logo_with_text.svg") no-repeat;
+  background: url("/images/logo_with_text.png") no-repeat;
   background-size: contain;
+}
+
+.fixed-header .logo_with-text.logo_home .logo__link {
+  @media only screen and (min-width: 1024px) and (max-width: 1140px) {
+    background: url("/images/logo_with_text_dark_bg.png") no-repeat;
+    background-size: contain;
+  }
 }
