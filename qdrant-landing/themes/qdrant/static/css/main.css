@@ -10132,6 +10132,15 @@ article:first-of-type figure {
   }
 }
 
+body::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("/images/logo_with_text.svg") url("/images/logo_with_text_dark_bg.svg");
+}
+
 .btn_in-header {
   padding: 0.1rem 0.5rem;
   line-height: 1;

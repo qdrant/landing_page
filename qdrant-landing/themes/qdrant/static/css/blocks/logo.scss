@@ -36,3 +36,8 @@
     background-size: contain;
   }
 }
+// preload images
+body::after{
+  position:absolute; width:0; height:0; overflow:hidden; z-index:-1; // hide images
+  content:url("/images/logo_with_text.svg") url("/images/logo_with_text_dark_bg.svg");
+}
