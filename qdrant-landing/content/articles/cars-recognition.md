@@ -30,7 +30,8 @@ However, similarity learning comes with its own difficulties such as:
 3. Changing architectures between training and inference.
 
 Quaterion is a fine tuning framework built to tackle such problems in similarity learning.
-It uses [PyTorch Lightning](https://www.pytorchlightning.ai/) as a backend, which is advertized with the motto, "spend more time on research, less on engineering."
+It uses [PyTorch Lightning](https://www.pytorchlightning.ai/)
+as a backend, which is advertized with the motto, "spend more time on research, less on engineering."
 This is also true for Quaterion, and it includes:
 
 1. Trainable and servable model classes,
@@ -62,10 +63,12 @@ The focus of this tutorial is a step-by-step solution of a similarity learning p
 This will also help us better understand how the abovementioned objects fit together in a real project.
 Let's start walking through some of the important parts of the code.
 
-If you are looking for the complete source code instead, you can find it under the [examples](https://github.com/qdrant/quaterion/tree/master/examples/cars) directory in the Quaterion repo.
+If you are looking for the complete source code instead, you can find it under the [examples](https://github.com/qdrant/quaterion/tree/master/examples/cars)
+directory in the Quaterion repo.
 
 ## Dataset
-In this tutorial, we will use the [Stanford Cars](https://pytorch.org/vision/main/generated/torchvision.datasets.StanfordCars.html) dataset.
+In this tutorial, we will use the [Stanford Cars](https://pytorch.org/vision/main/generated/torchvision.datasets.StanfordCars.html)
+dataset.
 It has 16185 images of cars from 196 classes,
 and it is split into training and testing subsets with almost a 50-50% split.
 To make things even more interesting, however, we will first merge training and testing subsets,
@@ -78,7 +81,7 @@ In the following code borrowed from `data.py`:
 - `get_dataloaders()` function creates `GroupSimilarityDataLoader` instances from training and testing datasets.
 - Datasets are regular PyTorch datasets that emit `SimilarityGroupSample` instances.
 
-N.B.: Currently, Quaterion has two data types to represent samples in a dataset. To learn more about `SimilarityPairSample`, check out the [NLP tutorial](https://quaterion.qdrant.tech/)
+N.B.: Currently, Quaterion has two data types to represent samples in a dataset. To learn more about `SimilarityPairSample`, check out the [NLP tutorial](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html)
 
 ```python
 import numpy as np
@@ -233,7 +236,8 @@ class Model(TrainableModel):
 
 In Quaterion, a [`SimilarityModel`](https://quaterion-models.qdrant.tech/quaterion_models.model.html#quaterion_models.model.SimilarityModel) is composed of one or more `Encoder`s
 and an [`EncoderHead`](https://quaterion-models.qdrant.tech/quaterion_models.heads.encoder_head.html#quaterion_models.heads.encoder_head.EncoderHead).
-`quaterion_models` has [several `EncoderHead` implementations](https://quaterion-models.qdrant.tech/quaterion_models.heads.html#module-quaterion_models.heads) with a unified API such as a configurable dropout value.
+`quaterion_models` has [several `EncoderHead` implementations](https://quaterion-models.qdrant.tech/quaterion_models.heads.html#module-quaterion_models.heads)
+with a unified API such as a configurable dropout value.
 You may use one of them or create your own subclass of `EncoderHead`.
 In either case, you need to return an instance of it from [`configure_head`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.configure_head) 
 In this example, we will use a `SkipConnectionHead`, which is lightweight and more resistant to overfitting.
@@ -250,7 +254,7 @@ which is a subclass of `GroupLoss`. In general, subclasses of `GroupLoss` are us
 datasets in which samples are assigned with some group (or label). In our example label is a make of the car.
 Those datasets should emit `SimilarityGroupSample`.
 Other alternatives are implementations of `PairwiseLoss`, which consume `SimilarityPairSample` - pair of objects for which similarity is specified individually.
-To see an example of the latter, you may need to check out the [NLP Tutorial](https://quaterion.qdrant.tech)
+To see an example of the latter, you may need to check out the [NLP Tutorial](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html)
 
 ```python
     def configure_loss(self) -> SimilarityLoss:
@@ -272,7 +276,7 @@ Caching in Quaterion is used for avoiding calculation of outputs of a frozen pre
 When it is configured, outputs will be computed once and cached in the preferred device for direct usage later on.
 It provides both a considerable speedup and less memory footprint.
 However, it is quite a bit versatile and has several knobs to tune.
-To get the most out of its potential, it's recommended that you check out the [caching tutorial](https://quaterion.qdrant.tech).
+To get the most out of its potential, it's recommended that you check out the [caching tutorial](https://quaterion.qdrant.tech/tutorials/caching_tutorial.html).
 For the sake of making this article self-contained, you need to return a [`CacheConfig`](https://quaterion.qdrant.tech/quaterion.train.cache.cache_config.html#quaterion.train.cache.cache_config.CacheConfig)
 instance from [`configure_caches()`](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel.configure_caches)
 to specify cache-related preferences such as:
