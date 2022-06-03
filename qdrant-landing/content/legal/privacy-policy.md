@@ -4,7 +4,7 @@ title: Privacy Policy
 
 # Privacy Policy
 
-At qdrant.tech, accessible from qdrant.tech, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by qdrant.tech and how we use it.
+At qdrant.tech, accessible from qdrant.tech, qdrant.co, qdrant.com, qdrant.io, one of our main priorities is the privacy of our visitors. This Privacy Policy document contains types of information that is collected and recorded by qdrant.tech and how we use it.
 
 If you have additional questions or require more information about our Privacy Policy, do not hesitate to contact us. Our Privacy Policy was generated with the help of <a href="https://www.gdprprivacynotice.com/">GDPR Privacy Policy Generator from GDPRPrivacyNotice.com</a>
 

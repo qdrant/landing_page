@@ -5,13 +5,13 @@ icon: paper
 landing_image: /content/images/abstract_cubes_1.svg
 image: /content/images/text_search.png
 image_caption: Neural Text Search
-default_link: https://demo.qdrant.tech/
+default_link: https://qdrant.to/semantic-search-demo
 default_link_name: Demo
 weight: 10
 short_description: |
     The neural search uses **semantic embeddings** instead of keywords and works best with short texts.
     With Qdrant and a pre-trained neural network, you can build and deploy semantic neural search on your data in minutes.
-    Check out our [demo](https://demo.qdrant.tech/)!
+    Check out our [demo](https://qdrant.to/semantic-search-demo)!
 sitemapExclude: True
 ---
 

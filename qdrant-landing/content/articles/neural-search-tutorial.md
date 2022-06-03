@@ -107,7 +107,7 @@ And most importantly, we need a way to search for the nearest vectors.
 
 The vector search engine can take care of all these tasks. 
 It provides a convenient API for searching and managing vectors. 
-In our tutorial we will use [Qdrant](https://qdrant.tech/) vector search engine.
+In our tutorial we will use [Qdrant](https://github.com/qdrant/qdrant) vector search engine.
 It not only supports all necessary operations with vectors but also allows to store additional payload along with vectors and use it to perform filtering of the search result.
 Qdrant has a client for python and also defines the API schema if you need to use it from other languages.
 
@@ -356,7 +356,7 @@ This concludes the tutorial.
 
 ### Online Demo
 
-The described code is the core of this [online demo](https://demo.qdrant.tech).
+The described code is the core of this [online demo](https://qdrant.to/semantic-search-demo).
 You can try it to get an intuition for cases when the neural search is useful.
 The demo contains a switch that selects between neural and full-text searches.
 You can turn neural search on and off to compare the result with regular full-text search.

@@ -46,7 +46,7 @@ In this approach, we aimed to encode images in an n-dimensional vector space and
 The simplest way to do this is KNN classification.
 The algorithm retrieves K-nearest neighbors to a given query vector and assigns a label based on the majority vote.
 
-In production environment kNN classifier could be easily replaced with [Qdrant](https://qdrant.tech/) vector search engine.
+In production environment kNN classifier could be easily replaced with [Qdrant](https://github.com/qdrant/qdrant) vector search engine.
 
 {{< figure src=/articles_data/detecting-coffee-anomalies/anomalies_detection.png caption="Production deployment" >}}
 

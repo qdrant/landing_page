@@ -21,4 +21,4 @@ Now you can experience the convenience of Pythonic API and Rust performance in a
 DocArray library defines a structure for the unstructured data and simplifies processing a collection of documents,
 including audio, video, text, and other data types. Qdrant engine empowers scaling of its vector search and storage.
 
-Read more about the integration by this [link](https://qdrant.tech/documentation/install/#docarray)
+Read more about the integration by this [link](/documentation/install/#docarray)

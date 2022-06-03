@@ -25,7 +25,7 @@ This results in 3 times faster data uploading on our benchmarks:
 
 ![REST API vs gRPC upload time, sec](/blog_data/qdrant-v-0-6-0-engine-with-grpc-released/upload_time.png)
 
-Read more about the gRPC interface and whether you should use it by this [link](https://qdrant.tech/documentation/quick_start/#grpc).
+Read more about the gRPC interface and whether you should use it by this [link](/documentation/quick_start/#grpc).
 
 The release v0.6.0 includes several bug fixes. More information is available in a [changelog](https://github.com/qdrant/qdrant/releases/tag/v0.6.0).
 

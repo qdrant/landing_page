@@ -1,4 +1,4 @@
-baseURL = "https://qdrant.tech/"
+baseURL = ""
 languageCode = "en-us"
 title = "Qdrant - Vector Search Engine"
 theme = "qdrant"
@@ -32,10 +32,10 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
   tutorial = "/articles/neural-search-tutorial/"
 
-  linkedin = "https://www.linkedin.com/company/qdrant"
-  twitter = "https://twitter.com/qdrant_engine"
-  discord = "https://discord.qdrant.tech"
-  facebook = "https://www.facebook.com/qdrant.tech"
+  linkedin = "https://qdrant.to/linkedin"
+  twitter = "https://qdrant.to/twitter"
+  discord = "https://qdrant.to/discord"
+  facebook = "https://qdrant.to/facebook"
 
   email = "info@qdrant.tech"
   location = "Berlin"
@@ -99,7 +99,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     name = "Roadmap"
     weight = 5
     parent = "resources"
-    url = "https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md"
+    url = "https://qdrant.to/roadmap"
     [menu.main.params]
        external = true
 
@@ -138,7 +138,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     name = "Discord"
     weight = 2
     parent = "community"
-    url = "https://discord.gg/tdtYvXjC4h"
+    url = "https://qdrant.to/discord"
     pre = "<i class='fab fa-discord'></i>"
     [menu.main.params]
       external = true
@@ -148,7 +148,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     name = "Twitter"
     weight = 3
     parent = "community"
-    url = "https://twitter.com/qdrant_engine"
+    url = "https://qdrant.to/twitter"
     pre = "<i class='fab fa-twitter'></i>"
     [menu.main.params]
       external = true

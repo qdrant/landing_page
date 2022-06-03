@@ -3,7 +3,7 @@ title: Food Discovery
 weight: 20
 icon: search
 custom_link_name: Our Demo
-custom_link: https://food-discovery.qdrant.tech
+custom_link: https://qdrant.to/food-discovery
 sitemapExclude: True
 ---
 

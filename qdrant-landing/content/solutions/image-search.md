@@ -5,13 +5,13 @@ tabid: imagesearch
 landing_image: /content/images/abstract_cubes_2.svg
 image: /content/images/image_search.png
 image_caption: Visual Food Discovery
-default_link: https://food-discovery.qdrant.tech/
+default_link: https://qdrant.to/food-discovery
 default_link_name: Demo
 weight: 20
 short_description: |
     Find similar images, detect duplicates, or even find a picture by text description - all of that you can do with Qdrant.
     Mostly you won't even need to train a neural network for that. Pre-trained models are usually enough to begin with. 
-    Check out our [demo](https://food-discovery.qdrant.tech/)!
+    Check out our [demo](https://qdrant.to/food-discovery)!
 sitemapExclude: True
 ---
 
