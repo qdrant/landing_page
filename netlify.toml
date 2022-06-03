@@ -1,6 +1,6 @@
 [build]
 publish = "qdrant-landing/public"
-command = "cd qdrant-landing ; hugo --gc --minify -n '/'"
+command = "cd qdrant-landing ; hugo --gc --minify -b '/'"
 
 [context.production.environment]
 HUGO_VERSION = "0.93.3"
