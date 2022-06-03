@@ -1,4 +1,4 @@
-baseURL = "https://qdrant.tech/"
+baseURL = "/"
 languageCode = "en-us"
 title = "Qdrant - Vector Search Engine"
 theme = "qdrant"
