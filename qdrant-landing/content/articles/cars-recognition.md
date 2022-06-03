@@ -493,3 +493,5 @@ Then, we evaluated it on a test dataset by the Retrieval R-Precision metric.
 The base model scored 0.1207,
 and our tuned model hit 0.2540, a twice higher score.
 These scored can be seen in the following figure:
+
+{{< figure src=/articles_data/cars-recognition/cars_metrics.png caption="Metrics for the base and tuned models" >}}
