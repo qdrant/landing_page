@@ -76,7 +76,7 @@ then we will split it into two again in such a way that the half of the 196 clas
 This will let us test our model with samples from novel classes that it has never seen in the training phase,
 which is what supervised classification cannot achieve but similarity learning can.
 
-In the following code borrowed from `data.py`:
+In the following code borrowed from [`data.py`](https://github.com/qdrant/quaterion/blob/master/examples/cars/data.py):
 - `get_datasets()` function performs the splitting task described above.
 - `get_dataloaders()` function creates `GroupSimilarityDataLoader` instances from training and testing datasets.
 - Datasets are regular PyTorch datasets that emit `SimilarityGroupSample` instances.
@@ -194,7 +194,8 @@ Now it's time to review one of the most exciting building blocks of Quaterion: [
 It is the base class for models you would like to configure for training,
 and it provides several hook methods starting with `configure_` to set up every aspect of the training phase
 just like [`pl.LightningModule`](https://pytorch-lightning.readthedocs.io/en/stable/api/pytorch_lightning.core.LightningModule.html), its own base class.
-It is central to fine tuning with Quaterion, so we will break down this essential code in `models.py` and review each method separately. Let's begin with the imports:
+It is central to fine tuning with Quaterion, so we will break down this essential code in [`models.py`](https://github.com/qdrant/quaterion/blob/master/examples/cars/models.py)
+and review each method separately. Let's begin with the imports:
 
 ```python
 import torch
@@ -318,7 +319,7 @@ It is recommended that you set the `trainable` property to `False` whenever poss
 as it lets you benefit from the caching mechanism described above.
 Another important property is `embedding_size`, which will be passed to `TrainableModel.configure_head()` as `input_embedding_size`
 to let you properly initialize the head layer.
-Let's see how an `Encoder` is implemented in the following code borrowed from `encoders.py`:
+Let's see how an `Encoder` is implemented in the following code borrowed from [`encoders.py`](https://github.com/qdrant/quaterion/blob/master/examples/cars/encoders.py):
 
 ```python
 import os
@@ -450,7 +451,7 @@ def train(
 ## Evaluation
 
 Let's see what we have achieved with these simple steps.
-`evaluate.py` has two functions to evaluate both the baseline model and the tuned similarity model.
+[`evaluate.py`](https://github.com/qdrant/quaterion/blob/master/examples/cars/evaluate.py) has two functions to evaluate both the baseline model and the tuned similarity model.
 We will review only the latter for brevity.
 In addition to the ease of restoring a `SimilarityModel`, this code snippet also shows
 how to use [`Evaluator`](https://quaterion.qdrant.tech/quaterion.eval.evaluator.html#quaterion.eval.evaluator.Evaluator)
