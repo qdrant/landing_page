@@ -59,7 +59,7 @@ Quaterion has other objects such as distance functions, evaluation metrics, eval
 Thus, they will not be explained in detail in this article for brevity.
 However, you can always go check out the [documentation](https://quaterion.qdrant.tech) to learn more about them.
 
-The focus of this tutorial is a step-by-step solution of a similarity learning problem with Quaterion.
+The focus of this tutorial is a step-by-step solution to a similarity learning problem with Quaterion.
 This will also help us better understand how the abovementioned objects fit together in a real project.
 Let's start walking through some of the important parts of the code.
 
@@ -265,7 +265,7 @@ To see an example of the latter, you may need to check out the [NLP Tutorial](ht
 
 `configure_optimizers()` may be familiar to PyTorch Lightning users,
 but there is a novel `self.model` used inside that method.
-It is an instance of `SimilarityModel` and automatically created by Quaterion from the return values of `configure_encoders()` and `configure_head()`.
+It is an instance of `SimilarityModel` and is automatically created by Quaterion from the return values of `configure_encoders()` and `configure_head()`.
 
 ```python
     def configure_optimizers(self):
@@ -292,7 +292,7 @@ to specify cache-related preferences such as:
         )
 ```
 
-We have just configured training-related settings of a `TrainableModel`.
+We have just configured the training-related settings of a `TrainableModel`.
 However, evaluation is an integral part of experimentation in machine learning,
 and you may configure evaluation metrics by returning one or more [`AttachedMetric`](https://quaterion.qdrant.tech/quaterion.eval.attached_metric.html#quaterion.eval.attached_metric.AttachedMetric)
 instances from `configure_metrics()`. Quaterion has several built-in [group](https://quaterion.qdrant.tech/quaterion.eval.group.html)
