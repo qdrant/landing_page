@@ -462,7 +462,7 @@ In this case, you may use [samplers](https://quaterion.qdrant.tech/quaterion.eva
 to limit the evaluation.
 Similar to `Quaterion.fit()` used for training, [`Quaterion.evaluate()`](https://quaterion.qdrant.tech/quaterion.main.html#quaterion.main.Quaterion.evaluate)
 runs a complete evaluation loop. It takes the following as arguments:
-- An `Evaluator` instance created with given evaluation metrics,and a `Sampler`,
+- An `Evaluator` instance created with given evaluation metrics and a `Sampler`,
 - The `SimilarityModel` to be evaluated,
 - And the evaluation dataset.
 
@@ -492,6 +492,6 @@ In this tutorial, we trained a similarity model to search for similar cars from 
 Then, we evaluated it on a test dataset by the Retrieval R-Precision metric.
 The base model scored 0.1207,
 and our tuned model hit 0.2540, a twice higher score.
-These scored can be seen in the following figure:
+These scores can be seen in the following figure:
 
 {{< figure src=/articles_data/cars-recognition/cars_metrics.png caption="Metrics for the base and tuned models" >}}
