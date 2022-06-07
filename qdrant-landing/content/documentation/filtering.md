@@ -19,7 +19,7 @@ Let's take a look at the clauses implemented in Qdrant.
 
 Suppose we have a set of points with the following payload:
 
-```
+```json
 [
     {"id": 1, "city": "London", "color": "green"},
     {"id": 2, "city": "London", "color": "red"},
@@ -34,7 +34,9 @@ Suppose we have a set of points with the following payload:
 
 Example:
 
-```
+```http request
+POST /collections/{collection_name}/points/scroll
+
 {
     "filter": {
         "must": [
@@ -46,9 +48,32 @@ Example:
 }
 ```
 
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.scroll(
+    collection_name="{collection_name}", 
+    scroll_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="city", 
+                match=models.Match(value="London"),
+            ),
+            models.FieldCondition(
+                key="color",
+                match=models.Match(value="red"),
+            ),
+        ]
+    ),
+)
+```
+
 Filtered points would be:
 
-```
+```json
 [
     {"id": 2, "city": "London", "color": "red"}
 ]
@@ -62,7 +87,9 @@ In this sense, `must` is equivalent to the operator `AND`.
 
 Example:
 
-```
+```http request
+POST /collections/{collection_name}/points/scroll
+
 {
     "filter": {
         "should": [
@@ -74,9 +101,27 @@ Example:
 }
 ```
 
+```python
+client.scroll(
+    collection_name="{collection_name}", 
+    scroll_filter=models.Filter(
+        should=[
+            models.FieldCondition(
+                key="city", 
+                match=models.Match(value="London"),
+            ),
+            models.FieldCondition(
+                key="color", 
+                match=models.Match(value="red"),
+            ),
+        ]
+    ),
+)
+```
+
 Filtered points would be:
 
-```
+```json
 [
     {"id": 1, "city": "London", "color": "green"},
     {"id": 2, "city": "London", "color": "red"},
@@ -93,7 +138,9 @@ In this sense, `should` is equivalent to the operator `OR`.
 
 Example:
 
-```
+```http request
+POST /collections/{collection_name}/points/scroll
+
 {
     "filter": {
         "must_not": [
@@ -105,9 +152,27 @@ Example:
 }
 ```
 
+```python
+client.scroll(
+    collection_name="{collection_name}", 
+    scroll_filter=models.Filter(
+        must_not=[
+            models.FieldCondition(
+                key="city", 
+                match=models.Match(value="London")
+            ),
+            models.FieldCondition(
+                key="color", 
+                match=models.Match(value="red")
+            ),
+        ]
+    ),
+)
+```
+
 Filtered points would be:
 
-```
+```json
 [
     {"id": 5, "city": "Moscow", "color": "green"},
     {"id": 6, "city": "Moscow", "color": "blue"}
@@ -122,7 +187,9 @@ In this sense, `must_not` is equivalent to the expression `(NOT A) AND (NOT B) A
 
 It is also possible to use several clauses simultaneously:
 
-```
+```http request
+POST /collections/{collection_name}/points/scroll
+
 {
     "filter": {
         "must": [
@@ -136,9 +203,29 @@ It is also possible to use several clauses simultaneously:
 }
 ```
 
+```python
+client.scroll(
+    collection_name="{collection_name}", 
+    scroll_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="city", 
+                match=models.Match(value="London")
+            ),
+        ],
+        must_not=[
+            models.FieldCondition(
+                key="color", 
+                match=models.Match(value="red")
+            ),
+        ],
+    ),
+)
+```
+
 Filtered points would be:
 
-```
+```json
 [
     {"id": 1, "city": "London", "color": "green"},
     {"id": 3, "city": "London", "color": "blue"},
@@ -147,9 +234,11 @@ Filtered points would be:
 
 In this case, the conditions are combined by `AND`.
 
-Also the conditions could be recursively nested. Example:
+Also, the conditions could be recursively nested. Example:
 
-```
+```http request
+POST /collections/{collection_name}/points/scroll
+
 {
     "filter": {
         "must_not": [
@@ -165,9 +254,31 @@ Also the conditions could be recursively nested. Example:
 }
 ```
 
+```python
+client.scroll(
+    collection_name="{collection_name}", 
+    scroll_filter=models.Filter(
+        must_not=[
+            models.Filter(
+                must=[
+                    models.FieldCondition(
+                        key="city", 
+                        match=models.Match(value="London")
+                    ),
+                    models.FieldCondition(
+                        key="color", 
+                        match=models.Match(value="red")
+                    ),
+                ],
+            ),
+        ],
+    ),
+)
+```
+
 Filtered points would be:
 
-```
+```json
 [
     {"id": 1, "city": "London", "color": "green"},
     {"id": 3, "city": "London", "color": "blue"},
@@ -184,7 +295,7 @@ Let's look at the existing condition variants and what types of data they apply 
 
 ### Match
 
-```
+```json
 { 
     "key": "color",
     "match": {
@@ -193,13 +304,29 @@ Let's look at the existing condition variants and what types of data they apply 
 }
 ```
 
+```python
+models.FieldCondition(
+    key="color",
+    match=models.MatchValue(value="red"),
+)
 ```
+
+For the other types, the match condition will look exactly the same, except for the type used:
+
+```json
 { 
     "key": "count",
     "match": {
         "value": 0 
     }
 }
+```
+
+```python
+models.FieldCondition(
+    key="count",
+    match=models.MatchValue(value=0),
+)
 ```
 
 
@@ -209,7 +336,7 @@ You can apply it to [keyword](../payload/#keyword), [integer](../payload/#intege
 
 ### Range
 
-```
+```json
 {
     "key": "price",
     "range": {
@@ -219,6 +346,18 @@ You can apply it to [keyword](../payload/#keyword), [integer](../payload/#intege
         "lte": 450.0
     }
 }
+```
+
+```python
+models.FieldCondition(
+    key="price",
+    range=models.Range(
+        gt=None, 
+        gte=100.0, 
+        lt=None, 
+        lte=450.0,
+    ),
+)
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -237,7 +376,7 @@ Can be applied to [float](../payload/#float) and [integer](../payload/#integer) 
 
 #### Geo Bounding Box 
 
-```
+```json
 {
     "key": "location",
     "geo_bounding_box": {
@@ -253,13 +392,28 @@ Can be applied to [float](../payload/#float) and [integer](../payload/#integer) 
 }
 ```
 
+```python
+models.FieldCondition(
+    key="location",
+    geo_bounding_box=models.GeoBoundingBox(
+        bottom_right=models.GeoPoint(
+            lat=52.495862,
+            lon=13.455868,
+        ),
+        top_left=models.GeoPoint(
+            lat=52.520711,
+            lon=13.403683,
+        ),
+    ),
+)
+```
 
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 
 #### Geo Radius
 
-```
+```json
 {
     "key": "location",
     "geo_radius": {
@@ -272,6 +426,20 @@ It matches with `location`s inside a rectangle with the coordinates of the upper
 }
 ```
 
+```python
+models.FieldCondition(
+    key="location",
+    geo_radius=models.GeoRadius(
+        center=models.GeoPoint(
+            lat=52.520711,
+            lon=13.403683,
+        ),
+        radius=1000.0,
+    ),
+)
+```
+
+
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
 
 If several values are stored, at least one of them should match the condition.
@@ -283,7 +451,7 @@ In addition to the direct value comparison, it is also possible to filter by the
 
 For example, given the data:
 
-```
+```json
 [
     {"id": 1, "name": "product A", "comments": ["Very good!", "Excellent"]},
     {"id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"]},
@@ -292,7 +460,7 @@ For example, given the data:
 
 We can perform the search only among the items with more than two comments:
 
-```
+```json
 {
     "key": "comments",
     "values_count": {
@@ -301,9 +469,16 @@ We can perform the search only among the items with more than two comments:
 }
 ```
 
+```python
+models.FieldCondition(
+    key="comments",
+    values_count=models.ValuesCount(gt=2),
+)
+```
+
 The result would be:
 
-```
+```json
 [
     {"id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"]},
 ]
@@ -316,7 +491,7 @@ If stored value is not an array - it is assumed that the amount of values is equ
 Sometimes it is also useful to filter out records that are missing some value.
 The `IsEmpty` condition may help you with that:
 
-```
+```json
 {
     "is_empty": {
         "key": "reports"
@@ -324,7 +499,13 @@ The `IsEmpty` condition may help you with that:
 }
 ```
 
-This condition will match all records where the field `reports` either does not exists, or have `NULL` or `[]` value.
+```python
+models.IsEmptyCondition(
+    is_empty=models.PayloadField(key="reports"),
+)
+```
+
+This condition will match all records where the field `reports` either does not exist, or have `NULL` or `[]` value.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
 
@@ -333,7 +514,9 @@ This condition will match all records where the field `reports` either does not 
 This type of query is not related to payload, but can be very useful in some situations.
 For example, the user could mark some specific search results as irrelevant, or we want to search only among the specified points.
 
-```
+```http request
+POST /collections/{collection_name}/points/scroll
+
 {
     "filter": {
         "must": [
@@ -344,10 +527,21 @@ For example, the user could mark some specific search results as irrelevant, or 
 }
 ```
 
+```python
+client.scroll(
+    collection_name="{collection_name}", 
+    scroll_filter=models.Filter(
+        must=[
+            models.HasIdCondition(has_id=[1, 3, 5, 7, 9, 11]),
+        ],
+    ),
+)
+```
+
 
 Filtered points would be:
 
-```
+```json
 [
     {"id": 1, "city": "London", "color": "green"},
     {"id": 3, "city": "London", "color": "blue"},

@@ -33,8 +33,21 @@ Thus, segments using mmap storage are `non-appendable` and can only be construed
 
 ## Payload storage
 
-In the current version of Qdrant, payload storage is organized in the same way as in-memory vectors.
-Payload is loaded into RAM at service startup while disk and [RocksDB](https://rocksdb.org/) are used for persistence.
+Qdrant supports two types of payload storages: InMemory and OnDisk.
+
+InMemory payload storage is organized in the same way as in-memory vectors.
+Payload is loaded into RAM at service startup while disk and [RocksDB](https://rocksdb.org/) are used for persistence only.
+This type of storage works quite fast, but it may require a lot of space to keep all the data in RAM, especially if the payload has large values attached - abstracts of text or even images.
+
+In the case of large payload values, it might be better to use OnDisk payload storage.
+This type of storage will read and write payload directly to RocksDB, so it won't require any significant amount of RAM to store.
+The downside, however, is the access latency. 
+If you need to query vectors with some payload-based conditions - checking values stored on disk might take too much time.
+In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
+Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
+
+You can specify the desired type of payload storage with [configuration file](../configuration/) or with collection parameter `on_disk_payload` during [creation](../collections/#create-collection) of the collection.
+
 
 ## Versioning
 

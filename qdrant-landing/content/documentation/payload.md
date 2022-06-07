@@ -138,39 +138,66 @@ Coordinate should be described as an object containing two fields: `lon` - for l
 
 ## Create point with payload
 
-With REST API
-
-```
-PUT http://localhost:6333/collections/{collection_name}/points
+```http request
+PUT /collections/{collection_name}/points
 
 {
     "points": [
         {
             "id": 1,
             "vector": [0.05, 0.61, 0.76, 0.74],
-            "payload": {"city": "Berlin", price: 1.99}
+            "payload": {"city": "Berlin", "price": 1.99}
         },
         {
             "id": 2,
             "vector": [0.19, 0.81, 0.75, 0.11],
-            "payload": {"city": ["Berlin", "London"], price: 1.99}
+            "payload": {"city": ["Berlin", "London"], "price": 1.99}
         },
         {
             "id": 3,
             "vector": [0.36, 0.55, 0.47, 0.94],
-            "payload": {"city": ["Berlin", "Moscow"], price: [1.99, 2.99]}
+            "payload": {"city": ["Berlin", "Moscow"], "price": [1.99, 2.99]}
         }
     ]
 }
 ```
 
-<!--
- With python
-
 ```python
-```
--->
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
 
+client = QdrantClient(host="localhost", port=6333)
+
+client.upsert(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1,
+            vector=[0.05, 0.61, 0.76, 0.74],
+            payload={
+                "city": "Berlin", 
+                "price": 1.99,
+            },
+        ),
+        models.PointStruct(
+            id=2,
+            vector=[0.19, 0.81, 0.75, 0.11],
+            payload={
+                "city": ["Berlin", "London"], 
+                "price": 1.99,
+            },
+        ),
+        models.PointStruct(
+            id=3,
+            vector=[0.36, 0.55, 0.47, 0.94],
+            payload={
+                "city": ["Berlin", "Moscow"], 
+                "price": [1.99, 2.99],
+            },
+        ),
+    ]
+)
+```
 
 ## Update payload
 
@@ -179,7 +206,7 @@ PUT http://localhost:6333/collections/{collection_name}/points
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
-```
+```http request
 POST /collections/{collection_name}/points/payload
 
 {
@@ -193,14 +220,16 @@ POST /collections/{collection_name}/points/payload
 }
 ```
 
-<!-- 
-
-Python client:
-
 ```python
-``` 
-
--->
+client.set_payload(
+    collection_name="{collection_name}",
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=[0, 3, 10],
+)
+```
 
 ### Delete payload
 
@@ -209,7 +238,7 @@ This method removes specified payload keys from specified points
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
 
-```
+```http request
 POST /collections/{collection_name}/points/payload/delete
 
 {
@@ -218,14 +247,13 @@ POST /collections/{collection_name}/points/payload/delete
 }
 ```
 
-<!-- 
-
-Python client:
-
 ```python
+client.delete_payload(
+    collection_name="{collection_name}",
+    keys=["color", "price"],
+    points=[0, 3, 100],
+)
 ``` 
-
--->
 
 ### Clear payload
 
@@ -233,7 +261,7 @@ This method removes all payload keys from specified points
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/clear_payload)):
 
-```
+```http request
 POST /collections/{collection_name}/points/payload/clear
 
 {
@@ -241,13 +269,16 @@ POST /collections/{collection_name}/points/payload/clear
 }
 ```
 
-<!-- 
-With Python client
-
 ```python
+client.clear_payload(
+    collection_name="{collection_name}",
+    points_selector=models.PointIdsList(
+        points=[0, 3, 100],
+    )
+)
 ```
- -->
 
+<aside role="status">You can also use `models.FilterSelector` to remove the points matching given filter criteria, instead of providing the ids.</aside>
 
 ## Payload indexing
 
@@ -265,7 +296,7 @@ To create index for the field, you can use the following:
 
 REST API
 
-```
+```http request
 PUT /collections/{collection_name}/index
 
 {
@@ -274,12 +305,13 @@ PUT /collections/{collection_name}/index
 }
 ```
 
-<!-- 
-Python client
-
 ```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_type="keyword",
+)
 ```
- -->
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).
 

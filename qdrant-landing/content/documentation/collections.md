@@ -22,10 +22,8 @@ These settings can be changed at any time by a corresponding request.
 
 ### Create collection
 
-With REST API
-
-```
-PUT /collections/example_collection
+```http request
+PUT /collections/{collection_name}
 
 {
     "name": "example_collection",
@@ -34,13 +32,29 @@ PUT /collections/example_collection
 }
 ```
 
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.recreate_collection(
+    name="{collection_name}",
+    distance="Cosine",
+    vector_size=300, 
+)
+```
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
-- `hnsw_config`
-- `wal_config`
-- `optimizers_config`
+- `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
+- `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
+- `optimizers_config` - see [optimizer](../optimizer) for details.
+- `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../distributed_deployment#sharding) section for details.
+- `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
 
-See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters. 
+Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
+
+See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters.
 
 
 <!-- 
@@ -52,18 +66,13 @@ See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operat
 
 ### Delete collection
 
-With REST API
-
+```http request
+DELETE /collections/{collection_name}
 ```
-DELETE /collections/example_collection
-```
-
-<!-- 
-#### Python
 
 ```python
+client.delete_collection(collection_name="{collection_name}")
 ```
- -->
 
 
 ### Update collection parameters
@@ -72,8 +81,8 @@ Dynamic parameter updates may be helpful, for example, for more efficient initia
 With these settings, you can disable indexing during the upload process.  And enable it immediately after the upload is finished.
 As a result, you will not waste extra computation resources on rebuilding the index.
 
-```
-PATCH /collections/example_collection
+```http request
+PATCH /collections/{collection_name}
 
 {
     "optimizers_config": {
@@ -108,7 +117,7 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 
 ### Create alias
 
-```
+```http request
 POST /collections/aliases
 
 {
@@ -133,7 +142,7 @@ POST /collections/aliases
 
 ### Remove alias
 
-```
+```http request
 POST /collections/aliases
 
 {
@@ -160,7 +169,7 @@ Multiple alias actions are performed atomically.
 For example, you can switch underlying collection with the following command:
 
 
-```
+```http request
 POST /collections/aliases
 
 {

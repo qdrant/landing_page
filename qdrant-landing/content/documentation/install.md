@@ -71,7 +71,14 @@ After a successful build, the binary is available at `./target/release/qdrant`.
 
 ## With Kubernetes
 
-ToDo
+You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubeternetes cluster.
+
+```bash
+helm repo add qdrant https://qdrant.to/helm
+helm install qdrant-release qdrant/qdrant
+```
+
+Read further instructions in [qdrant-helm](https://github.com/qdrant/qdrant-helm) repository.
 
 ## Configuration
 

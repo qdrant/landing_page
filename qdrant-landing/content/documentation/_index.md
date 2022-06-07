@@ -24,6 +24,6 @@ These can be:
 
 In addition to this documentation, you may be interested in looking at examples of projects made with Qdrant:
 
-* [Semantic Search for startups](https://qdrant.to/semantic-search-demo) + [Source Code](https://github.com/qdrant/qdrant_demo)
-* [Visual Food Discovery](https://qdrant.to/food-discovery)
-* [Step-by-Step tutorial on building neural search](/articles/neural-search-tutorial/)
+* [Semantic Search for startups](https://demo.qdrant.tech/) + [Source Code](https://github.com/qdrant/qdrant_demo)
+* [Visual Food Discovery](https://food-discovery.qdrant.tech/)
+* [Step-by-Step tutorial on building neural search](http://localhost:1313/articles/neural-search-tutorial/)

@@ -22,9 +22,7 @@ Creating an index requires additional computational resources and memory, so cho
 
 To mark a field as indexable, you can use the following:
 
-REST API
-
-```
+```http request
 PUT /collections/{collection_name}/index
 
 {
@@ -33,12 +31,15 @@ PUT /collections/{collection_name}/index
 }
 ```
 
-<!-- 
-With Python client
-
 ```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.create_payload_index(collection_name="{collection_name}", 
+                            field_name="name_of_the_field_to_index", 
+                            field_type="keyword")
 ```
- -->
 
  Available field types are:
 
@@ -75,10 +76,10 @@ storage:
     # Number of neighbours to consider during the index building.
     # Larger the value - more accurate the search, more time required to build index.
     ef_construct: 100
-    # Minimal amount of points for additional payload-based indexing.
-    # If payload chunk is smaller than `full_scan_threshold` additional indexing won't be used -
-    # in this case full-scan search should be preferred by query planner
-    # and additional indexing is not required.
+    # Minimal size (in KiloBytes) of vectors for additional payload-based indexing.
+    # If payload chunk is smaller than `full_scan_threshold_kb` additional indexing won't be used -
+    # in this case full-scan search should be preferred by query planner and additional indexing is not required.
+    # Note: 1Kb = 1 vector of size 256
     full_scan_threshold: 10000
 
 ```
