@@ -22,7 +22,7 @@ Creating an index requires additional computational resources and memory, so cho
 
 To mark a field as indexable, you can use the following:
 
-```http request
+```http
 PUT /collections/{collection_name}/index
 
 {

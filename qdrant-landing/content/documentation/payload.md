@@ -138,7 +138,7 @@ Coordinate should be described as an object containing two fields: `lon` - for l
 
 ## Create point with payload
 
-```http request
+```http
 PUT /collections/{collection_name}/points
 
 {
@@ -206,7 +206,7 @@ client.upsert(
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/payload
 
 {
@@ -238,7 +238,7 @@ This method removes specified payload keys from specified points
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/payload/delete
 
 {
@@ -261,7 +261,7 @@ This method removes all payload keys from specified points
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/clear_payload)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/payload/clear
 
 {
@@ -296,7 +296,7 @@ To create index for the field, you can use the following:
 
 REST API
 
-```http request
+```http
 PUT /collections/{collection_name}/index
 
 {

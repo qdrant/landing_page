@@ -60,7 +60,7 @@ Let's look at an example of a search query.
 
 REST API - API Schema definition is available [here](https://qdrant.github.io/qdrant/redoc/index.html#operation/search_points)
 
-```http request
+```http
 POST /collections/{collection_name}/points/search
 
 {
@@ -152,7 +152,7 @@ Additional parameters `with_vector` and `with_payload` could alter this behavior
 
 Example:
 
-```http request
+```http
 POST /collections/{collection_name}/points/search
 
 {
@@ -173,7 +173,7 @@ client.search(
 
 Parameter `with_payload` might also be used to include or exclude specific fields only:
 
-```http request
+```http
 POST /collections/{collection_name}/points/search
 
 {
@@ -213,7 +213,7 @@ This average vector will be used to find the most similar vectors in the collect
 
 REST API - API Schema definition is available [here](https://qdrant.github.io/qdrant/redoc/index.html#operation/recommend_points)
 
-```http request
+```http
 POST /collections/{collection_name}/points/recommend
 
 {

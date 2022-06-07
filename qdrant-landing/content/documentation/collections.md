@@ -22,7 +22,7 @@ These settings can be changed at any time by a corresponding request.
 
 ### Create collection
 
-```http request
+```http
 PUT /collections/{collection_name}
 
 {
@@ -66,7 +66,7 @@ See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operat
 
 ### Delete collection
 
-```http request
+```http
 DELETE /collections/{collection_name}
 ```
 
@@ -81,7 +81,7 @@ Dynamic parameter updates may be helpful, for example, for more efficient initia
 With these settings, you can disable indexing during the upload process.  And enable it immediately after the upload is finished.
 As a result, you will not waste extra computation resources on rebuilding the index.
 
-```http request
+```http
 PATCH /collections/{collection_name}
 
 {
@@ -117,7 +117,7 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 
 ### Create alias
 
-```http request
+```http
 POST /collections/aliases
 
 {
@@ -142,7 +142,7 @@ POST /collections/aliases
 
 ### Remove alias
 
-```http request
+```http
 POST /collections/aliases
 
 {
@@ -169,7 +169,7 @@ Multiple alias actions are performed atomically.
 For example, you can switch underlying collection with the following command:
 
 
-```http request
+```http
 POST /collections/aliases
 
 {

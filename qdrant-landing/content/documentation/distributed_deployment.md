@@ -128,7 +128,7 @@ Each node knows where all parts of the collection are stored through the [consen
 
 You can define number of shards in your create-collection request:
 
-```http request
+```http
 PUT /collections/{collection_name}
 
 {

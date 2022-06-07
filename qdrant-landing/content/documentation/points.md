@@ -61,7 +61,7 @@ Examples of UUID string representations:
 That means that in every request UUID string could be used instead of numerical id.
 Example:
 
-```http request
+```http
 PUT /collections/{collection_name}/points
 
 {
@@ -97,7 +97,7 @@ client.upsert(
 
 and
 
-```http request
+```http
 PUT /collections/{collection_name}/points
 
 {
@@ -138,7 +138,7 @@ Internally, these options do not differ and are made only for the convenience of
 
 Create points with REST API :
 
-```http request
+```http
 PUT /collections/{collection_name}/points
 
 {
@@ -179,7 +179,7 @@ client.upsert(
 
 or record-oriented equivalent:
 
-```http request
+```http
 PUT /collections/{collection_name}/points
 
 {
@@ -262,7 +262,7 @@ The second is to modify the payload, for which there are several methods.
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/payload
 
 {
@@ -291,7 +291,7 @@ client.set_payload(
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/payload/delete
 
 {
@@ -314,7 +314,7 @@ This method removes all payload keys from specified points
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/clear_payload)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/payload/clear
 
 {
@@ -336,7 +336,7 @@ client.clear_payload(
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_points)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/delete
 
 {
@@ -355,7 +355,7 @@ client.delete(
 
 Alternative way to specify which points to remove is to use filter.
 
-```http request
+```http
 POST /collections/{collection_name}/points/delete
 
 {
@@ -398,7 +398,7 @@ There is a method for retrieving points by their ids.
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_points)):
 
-```http request
+```http
 POST /collections/{collection_name}/points
 
 {
@@ -422,7 +422,7 @@ The single point can also be retrieved via the API:
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_point)):
 
-```http request
+```http
 GET /collections/{collection_name}/points/{point_id}
 ```
 
@@ -440,7 +440,7 @@ Sometimes it might be necessary to get all stored points without knowing ids, or
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
 
-```http request
+```http
 POST /collections/{collection_name}/points/scroll
 
 {

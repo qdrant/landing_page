@@ -34,7 +34,7 @@ Suppose we have a set of points with the following payload:
 
 Example:
 
-```http request
+```http
 POST /collections/{collection_name}/points/scroll
 
 {
@@ -87,7 +87,7 @@ In this sense, `must` is equivalent to the operator `AND`.
 
 Example:
 
-```http request
+```http
 POST /collections/{collection_name}/points/scroll
 
 {
@@ -138,7 +138,7 @@ In this sense, `should` is equivalent to the operator `OR`.
 
 Example:
 
-```http request
+```http
 POST /collections/{collection_name}/points/scroll
 
 {
@@ -187,7 +187,7 @@ In this sense, `must_not` is equivalent to the expression `(NOT A) AND (NOT B) A
 
 It is also possible to use several clauses simultaneously:
 
-```http request
+```http
 POST /collections/{collection_name}/points/scroll
 
 {
@@ -236,7 +236,7 @@ In this case, the conditions are combined by `AND`.
 
 Also, the conditions could be recursively nested. Example:
 
-```http request
+```http
 POST /collections/{collection_name}/points/scroll
 
 {
@@ -514,7 +514,7 @@ This condition will match all records where the field `reports` either does not 
 This type of query is not related to payload, but can be very useful in some situations.
 For example, the user could mark some specific search results as irrelevant, or we want to search only among the specified points.
 
-```http request
+```http
 POST /collections/{collection_name}/points/scroll
 
 {
