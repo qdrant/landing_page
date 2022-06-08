@@ -79,7 +79,7 @@ curl 'http://localhost:6333/collections/test_collection'
 
 Expected response:
 
-```
+```json
 {
   "result": {
     "status": "green",

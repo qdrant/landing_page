@@ -75,16 +75,16 @@ Here is an example of parameter values:
 ```yaml
 storage:
   optimizers:
-    # Maximum number of vectors to store in-memory per segment.
+    # Maximum size (in KiloBytes) of vectors to store in-memory per segment.
     # Segments larger than this threshold will be stored as read-only memmaped file.
-    memmap_threshold: 50000
-    # Maximum number of vectors allowed for plain index.
-    # Default value based on 
-    # https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
-    indexing_threshold: 20000
-    # Starting from this amount of vectors per-segment 
-    # the engine will start building index for payload.
-    payload_indexing_threshold: 10000
+    # To enable memmap storage, lower the threshold
+    # Note: 1Kb = 1 vector of size 256
+    memmap_threshold_kb: 200000
+
+    # Maximum size (in KiloBytes) of vectors allowed for plain index.
+    # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
+    # Note: 1Kb = 1 vector of size 256
+    indexing_threshold_kb: 20000
 ```
 
 In addition to the configuration file, you can also set optimizer parameters separately for each [collection](../collections).
