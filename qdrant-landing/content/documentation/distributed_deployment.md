@@ -48,7 +48,7 @@ To do this, they need to be provided with a bootstrap URL:
 The URL of the new peers themselves will be calculated automatically from the IP address of their request.
 But it is also possible to provide them individually using `--uri` argument.
 
-```plain
+```text
 USAGE:
     qdrant [OPTIONS]
 
