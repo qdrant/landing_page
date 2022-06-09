@@ -27,6 +27,6 @@ The new version of our engine - v0.8.0, went live. Let's go through the new feat
 * The payload can be indexed in the process without rebuilding the segment.
 * Advanced filtering support now includes filtering by similarity score.
 
-Also, it has a faster payload index, better error reporting, HNSW Speed improvements, and many more. Check out the change log for more details** <https://github.com/qdrant/qdrant/releases/tag/v0.8.0>**.
+Also, it has a faster payload index, better error reporting, HNSW Speed improvements, and many more. Check out the change log for more details <https://github.com/qdrant/qdrant/releases/tag/v0.8.0>.
 
 <!--EndFragment-->
