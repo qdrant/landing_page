@@ -126,9 +126,8 @@ Let's create a `model.py` with model's template and a placeholder for `configure
 for the moment.
 
 ```python
-from typing import Union, Dict, Optional, Any
+from typing import Union, Dict, Optional
 
-from torch import Tensor
 from torch.optim import Adam
 
 from quaterion import TrainableModel
@@ -376,7 +375,6 @@ Add this code to `model.py`:
 
 ```python
 ...
-from quaterion.utils.enums import TrainStage
 from quaterion.eval.pair import RetrievalPrecision, RetrievalReciprocalRank
 from quaterion.eval.attached_metric import AttachedMetric
 
@@ -484,7 +482,7 @@ if __name__ == "__main__":
         DATA_DIR,
         "val_cloud_faq_dataset.jsonl"
     )
-    
+    train(faq_model, train_path, val_path, {})
     faq_model.save_servable(os.path.join(ROOT_DIR, "servable"))
 ```
 
