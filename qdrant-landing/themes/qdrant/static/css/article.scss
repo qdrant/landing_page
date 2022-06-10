@@ -45,6 +45,8 @@ article aside[role="status"]:before {
 
 article:first-of-type {
   padding-top: 18px;
+  font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 20px;
 
   @include media-breakpoint-up(md) {
     padding-top: 38px;
@@ -52,6 +54,7 @@ article:first-of-type {
 
   table {
     @extend .table;
+    font-size: 20px;
   }
 
   pre {
@@ -74,12 +77,19 @@ article:first-of-type {
     list-style: disc;
     margin: 0 0 0 2em;
     position: relative;
+    font-size: 20px;
   }
 
   ol > li {
     list-style: decimal;
     margin: 0 0 0 2em;
     position: relative;
+    font-size: 20px;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    margin-bottom: 1rem;
+    font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
   }
 
   h1 {
@@ -109,6 +119,7 @@ article:first-of-type {
   p {
     line-height: 1.8em;
     margin-bottom: 0.7rem;
+    font-size: 20px;
   }
 
   figure {
