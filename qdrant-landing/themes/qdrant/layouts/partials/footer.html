@@ -13,7 +13,7 @@
 
             {{ $currentPage := . }}
             {{ range .Site.Menus.main }}
-            {{ if ne .Identifier "documentation" }}
+            {{ if .Params.in_footer }}
             <div class="main-footer__widget">
               <div class="main-footer__title">
                 {{ if .URL }}

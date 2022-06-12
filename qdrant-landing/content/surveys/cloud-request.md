@@ -3,6 +3,7 @@ title: Join the waiting list for the Qdrant cloud-hosted version private beta.
 section_title: Request early access to the Qdrant Cloud
 form:
   - id: 0
+    header: "Get <span style='color: var(--brand-primary);'>Early Access</span> to Qdrant Cloud"
     label: All right! 😊 What is your e-mail? *
     placeholder: name@example.com
     type: email

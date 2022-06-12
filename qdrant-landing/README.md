@@ -1,6 +1,14 @@
 To rebuild scss to css:
 
+```bash
+npm install
+```
+
+```bash
+npm install -g sass
+```
+
 ``` bash
 cd qdrant-landing
-sass --watch ./themes/qdrant/static/css/main.scss ./themes/qdrant/static/css/main.css 
+sass --watch ./themes/qdrant/static/css/
 ```

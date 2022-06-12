@@ -11,7 +11,8 @@
             {{ range .Params.Form }}
             <div class="form-group" data-step="{{ .id }}">
                 <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
-                    {{ .label }}
+                    {{ if .header }} <h2>{{ .header | safeHTML }}</h2> {{ end }}
+                    {{ .label | safeHTML }}
                     {{ if eq .type "radio"}}(Choose one){{ end }}
                     {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
                 </label>

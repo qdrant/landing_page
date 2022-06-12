@@ -62,30 +62,49 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 [menu]
 
 [[menu.main]]
-  identifier = "resources"
-  name = "Resources"
+  identifier = "product"
+  name = "Product"
   weight = 1
+  [menu.main.params]
+      in_header = true
+      in_footer = true
 
-[[menu.main]]
+  [[menu.main]]
     identifier = "use-case"
     name = "Use cases"
     weight = 1
-    parent = "resources"
+    parent = "product"
     url = "/use-cases/"
 
   [[menu.main]]
     identifier = "solutions"
     name = "Solutions"
     weight = 2
-    parent = "resources"
+    parent = "product"
     url = "/solutions/"
 
   [[menu.main]]
-    identifier = "cloud"
-    name = "Cloud"
+    identifier = "pricing"
+    name = "Pricing"
     weight = 3
+    parent = "product"
+    url = "/pricing/"
+
+
+[[menu.main]]
+  identifier = "resources"
+  name = "Resources"
+  weight = 2
+  [menu.main.params]
+    in_header = true
+    in_footer = false
+
+  [[menu.main]]
+    identifier = "documentation"
+    name = "Documentation"
     parent = "resources"
-    url = "/cloud/"
+    weight = 1
+    url = "/documentation/"
 
   [[menu.main]]
     identifier = "articles"
@@ -120,15 +139,12 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
         external = true
 
 [[menu.main]]
-  identifier = "documentation"
-  name = "Documentation"
-  weight = 2
-  url = "/documentation/"
-
-[[menu.main]]
   identifier = "community"
   name = "Community"
-  weight = 3
+  weight = 4
+  [menu.main.params]
+    in_header = true
+    in_footer = true
 
   [[menu.main]]
     identifier = "github"
@@ -172,6 +188,9 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   identifier = "company"
   name = "Company"
   weight = 4
+  [menu.main.params]
+    in_header = false
+    in_footer = true
 
   [[menu.main]]
     identifier = "jobs"
