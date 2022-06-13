@@ -2,7 +2,7 @@
 title: Anomalies Detection
 icon: bot
 tabid: anomalies
-image: /content/images/anomalies_detection.png
+image: /content/images/solutions/anomaly_detection.svg
 image_caption: Automated FAQ
 default_link: /articles/detecting-coffee-anomalies/
 default_link_name: 

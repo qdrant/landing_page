@@ -6869,13 +6869,11 @@ img{
 }
 
 .sidebar .news-widget .inner-box:hover .image {
-	background-color: var(--brand-primary);
 	transition: 0.4s ease-in;
 }
 
 .sidebar .news-widget .inner-box:hover .image img{
 	transform:scale(1.04,1.04);
-	opacity:0.5;
 }
 
 .sidebar .news-widget .inner-box .lower-content{
@@ -7098,13 +7096,11 @@ img{
 }
 
 .news-block-two .inner-box:hover .image {
-	background-color: var(--brand-primary);
 	transition: 0.4s ease-in;
 }
 
 .news-block-two .inner-box:hover .image img{
 	transform:scale(1.04,1.04);
-	opacity:0.5;
 }
 
 .news-block-two .inner-box .lower-box{

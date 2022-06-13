@@ -2,7 +2,7 @@
 title: Chat Bots
 icon: bot
 tabid: chatbot
-image: /content/images/chat_bots.png
+image: /content/images/solutions/chat_bots.svg
 image_caption: Automated FAQ
 default_link: 
 default_link_name: 
