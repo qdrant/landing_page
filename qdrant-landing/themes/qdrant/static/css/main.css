@@ -10099,6 +10099,48 @@ article:first-of-type figure {
   text-align: center;
 }
 
+.logo__link {
+  display: block;
+  height: 100%;
+  background: url("/images/logo_with_text_dark_bg.svg") no-repeat;
+  background-size: contain;
+}
+.logo_with-text {
+  width: 192px;
+  height: 55px;
+}
+.logo_home .logo__link {
+  background: url("/images/logo_with_text.svg") no-repeat;
+  background-size: contain;
+}
+@media only screen and (min-width: 1024px) and (max-width: 1140px) {
+  .logo_home .logo__link {
+    background: url("/images/logo_with_text_dark_bg.svg") no-repeat;
+    background-size: contain;
+  }
+}
+
+.fixed-header .logo_with-text .logo__link {
+  background: url("/images/logo_with_text.svg") no-repeat;
+  background-size: contain;
+}
+
+@media only screen and (min-width: 1024px) and (max-width: 1140px) {
+  .fixed-header .logo_with-text.logo_home .logo__link {
+    background: url("/images/logo_with_text_dark_bg.svg") no-repeat;
+    background-size: contain;
+  }
+}
+
+body::after {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  z-index: -1;
+  content: url("/images/logo_with_text.svg") url("/images/logo_with_text_dark_bg.svg");
+}
+
 .btn_in-header {
   padding: 0.1rem 0.5rem;
   line-height: 1;
@@ -11335,16 +11377,14 @@ img {
   padding: 30px 0px;
 }
 
-.main-header .main-box .logo-box .logo img {
-  display: inline-block;
-  max-width: 100%;
-  /* -webkit-transition:all 300ms ease; */
-  /* -ms-transition:all 300ms ease; */
-  /* -o-transition:all 300ms ease; */
-  /* -moz-transition:all 300ms ease; */
-  /* transition:all 300ms ease;	 */
-}
-
+/* .main-header .main-box .logo-box .logo img{
+	display:inline-block;
+	max-width:100%; */
+/* -webkit-transition:all 300ms ease; */
+/* -ms-transition:all 300ms ease; */
+/* -o-transition:all 300ms ease; */
+/* -moz-transition:all 300ms ease; */
+/* transition:all 300ms ease;	 */
 .main-header .header-upper {
   position: relative;
   z-index: 1;

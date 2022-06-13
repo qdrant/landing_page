@@ -75,8 +75,8 @@
                   <div class="clearfix">
           
                     <div class="pull-left logo-box">
-                      <div class="logo"><a href="/">
-                        <img src="{{ .Site.Params.logo }}" width="{{ .Site.Params.logo_width }}px" alt="" title="Qdrant"></a>
+                      <div class="logo logo_with-text {{ if .IsHome }}logo_home{{ end }}">
+                          <a href="/" class="logo__link"></a>
                       </div>
                     </div>
           
