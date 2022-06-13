@@ -10087,21 +10087,22 @@ article:first-of-type ol > li {
 }
 article:first-of-type h1, article:first-of-type h2, article:first-of-type h3, article:first-of-type h4, article:first-of-type h5, article:first-of-type h6 {
   margin-bottom: 1rem;
+  font-weight: 600;
 }
 article:first-of-type h1 {
-  font-size: 2.25rem;
+  font-size: 2.45rem;
 }
 article:first-of-type h2 {
-  font-size: 1.75rem;
+  font-size: 2rem;
 }
 article:first-of-type h3 {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
 }
 article:first-of-type h4 {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
 }
 article:first-of-type h5 {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
 }
 article:first-of-type h6 {
   font-size: 1.25rem;
