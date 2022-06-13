@@ -5,8 +5,8 @@
     padding: 0.1rem 0.5rem;
     position: relative;
     background: var(--white);
-    line-height: 1;
     border: 0;
+    line-height: 1;
 
     &:before {
       border-radius: 0.25rem;
@@ -34,7 +34,6 @@
     }
 
     &:hover {
-      //border-color: var(--brand-primary);
 
       &:before {
         display: block;
@@ -75,7 +74,7 @@
 }
 
 .fixed-header .btn_in-header {
-  border-color: var(--brand-primary);
+  box-shadow: inset 0 0 0 1px var(--brand-primary);
 }
 
 .theme-btn {
