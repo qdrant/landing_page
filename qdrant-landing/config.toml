@@ -84,12 +84,18 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     url = "/solutions/"
 
   [[menu.main]]
-    identifier = "pricing"
-    name = "Pricing"
+    identifier = "demo"
+    name = "Demo"
     weight = 3
     parent = "product"
-    url = "/pricing/"
+    url = "/demo/"
 
+  [[menu.main]]
+    identifier = "pricing"
+    name = "Pricing"
+    weight = 4
+    parent = "product"
+    url = "/pricing/"
 
 [[menu.main]]
   identifier = "resources"
@@ -112,13 +118,6 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     weight = 4
     parent = "resources"
     url = "/articles/"
-
-  [[menu.main]]
-    identifier = "demo"
-    name = "Demo"
-    weight = 5
-    parent = "resources"
-    url = "/demo/"
 
   [[menu.main]]
     identifier = "blog"
