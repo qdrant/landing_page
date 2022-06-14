@@ -5910,8 +5910,10 @@ img{
 }
 
 .price-block .inner-box .content-box .start-btn{
+	justify-content: center;
+    display: flex;
 	position:relative;
-	padding:13px 80px;
+	padding:13px 20px;
 	color:var(--brand-primary);
 	font-size:18px;
 	font-weight:400;

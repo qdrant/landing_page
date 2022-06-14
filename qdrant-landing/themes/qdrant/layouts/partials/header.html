@@ -101,7 +101,7 @@
                             
                             {{ $currentPage := . }}
                             {{ range .Site.Menus.main }}
-                            {{ if ne .Identifier "company" }}
+                            {{ if .Params.in_header }}
                             <li class="navigation__item {{if or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}}
                               {{if .HasChildren }}dropdown{{ end }}">
                               <a class="navigation__link" {{if not .HasChildren }}href="{{ .URL }}"{{end}}>{{ .Name }}
@@ -126,9 +126,10 @@
                            {{ end }}
 
                            <li>
-                               <a class="btn btn_in-header" href="{{ .Site.Params.github }}" target="_blank" title="github" role="button">
+                               <a class="btn btn_in-header mr-3" href="/surveys/cloud-request/" title="Cloud" role="button">
+                                   <span class="btn btn__text"><i class="fas fa-cloud"></i> Cloud</span></a>
+                               <a class="btn btn_in-header" href="{{ .Site.Params.github }}" target="_blank" title="GitHub" role="button">
                                    <span class="btn btn__text"><i class="icon flaticon-github"></i> Github</span></a>
-
                            </li>
 
                           </ul>

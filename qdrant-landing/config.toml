@@ -40,7 +40,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   email = "info@qdrant.tech"
   location = "Berlin"
 
-  mailchimp_contact_form = "https://us1.list-manage.com/contact-form?u=69617d79374ac6280dd2230b2&form_id=cce004c91b038a38e5ef1ece5318fd1e"
+  mailchimp_contact_form = "https://qdrant.to/contact-us"
 
   mailchimp_subscribe = "https://tech.us1.list-manage.com/subscribe/post?u=69617d79374ac6280dd2230b2&amp;id=acb2b876fc"
 
@@ -62,42 +62,68 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 [menu]
 
 [[menu.main]]
-  identifier = "resources"
-  name = "Resources"
+  identifier = "product"
+  name = "Product"
   weight = 1
+  [menu.main.params]
+      in_header = true
+      in_footer = true
 
-[[menu.main]]
+  [[menu.main]]
     identifier = "use-case"
     name = "Use cases"
     weight = 1
-    parent = "resources"
+    parent = "product"
     url = "/use-cases/"
 
   [[menu.main]]
     identifier = "solutions"
     name = "Solutions"
     weight = 2
-    parent = "resources"
+    parent = "product"
     url = "/solutions/"
+
+  [[menu.main]]
+    identifier = "pricing"
+    name = "Pricing"
+    weight = 3
+    parent = "product"
+    url = "/pricing/"
+
+
+[[menu.main]]
+  identifier = "resources"
+  name = "Resources"
+  weight = 2
+  [menu.main.params]
+    in_header = true
+    in_footer = false
+
+  [[menu.main]]
+    identifier = "documentation"
+    name = "Documentation"
+    parent = "resources"
+    weight = 1
+    url = "/documentation/"
 
   [[menu.main]]
     identifier = "articles"
     name = "Articles"
-    weight = 3
+    weight = 4
     parent = "resources"
     url = "/articles/"
 
   [[menu.main]]
     identifier = "blog"
     name = "Blog"
-    weight = 4
+    weight = 5
     parent = "resources"
     url = "/blog/"
 
   [[menu.main]]
     identifier = "roadmap"
     name = "Roadmap"
-    weight = 5
+    weight = 6
     parent = "resources"
     url = "https://qdrant.to/roadmap"
     [menu.main.params]
@@ -106,22 +132,19 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   [[menu.main]]
     identifier = "changelog"
     name = "Changelog"
-    weight = 6
+    weight = 7
     parent = "resources"
     url = "https://github.com/qdrant/qdrant/releases"
     [menu.main.params]
         external = true
 
 [[menu.main]]
-  identifier = "documentation"
-  name = "Documentation"
-  weight = 2
-  url = "/documentation/"
-
-[[menu.main]]
   identifier = "community"
   name = "Community"
-  weight = 3
+  weight = 4
+  [menu.main.params]
+    in_header = true
+    in_footer = true
 
   [[menu.main]]
     identifier = "github"
@@ -165,6 +188,9 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   identifier = "company"
   name = "Company"
   weight = 4
+  [menu.main.params]
+    in_header = false
+    in_footer = true
 
   [[menu.main]]
     identifier = "jobs"
