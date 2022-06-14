@@ -329,13 +329,17 @@
     transform-origin: bottom left;
   }
 
-  & .text {
+  & .text,
+  & .txt{
     position: relative;
     z-index: 1;
   }
 
   &:hover {
-    color: #ffffff;
+    & .text,
+    & .txt {
+      color: #ffffff;
+    }
   }
 
   &_rounded {
