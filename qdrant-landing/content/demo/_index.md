@@ -1,3 +1,3 @@
 ---
-title: Demo
+title: Demos
 ---

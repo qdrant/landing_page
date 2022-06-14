@@ -85,7 +85,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
   [[menu.main]]
     identifier = "demo"
-    name = "Demo"
+    name = "Demos"
     weight = 3
     parent = "product"
     url = "/demo/"
