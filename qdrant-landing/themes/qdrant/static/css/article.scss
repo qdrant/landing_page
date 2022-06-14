@@ -54,8 +54,11 @@ article:first-of-type {
 
   table {
     @extend .table;
-    font-size: 20px;
+    font-size: 18px;
     color: rgb(41, 41, 41);
+    @include media-breakpoint-up(md) {
+      font-size: 20px;
+    }
   }
 
   pre {
@@ -78,18 +81,24 @@ article:first-of-type {
     list-style: disc;
     margin: 0 0 0 2em;
     position: relative;
-    font-size: 20px;
+    font-size: 18px;
     color: rgb(41, 41, 41);
     line-height: 32px;
+    @include media-breakpoint-up(md) {
+      font-size: 20px;
+    }
   }
 
   ol > li {
     list-style: decimal;
     margin: 0 0 0 2em;
     position: relative;
-    font-size: 20px;
+    font-size: 18px;
     color: rgb(41, 41, 41);
     line-height: 32px;
+    @include media-breakpoint-up(md) {
+      font-size: 20px;
+    }
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -125,8 +134,11 @@ article:first-of-type {
     line-height: 32px;
     margin-top: 0.86em;
     margin-bottom: 1.5em;
-    font-size: 20px;
+    font-size: 18px;
     color: rgb(41, 41, 41);
+    @include media-breakpoint-up(md) {
+      font-size: 20px;
+    }
   }
 
   figure {
