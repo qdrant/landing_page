@@ -10044,10 +10044,21 @@ article aside[role=status]:before {
 
 article:first-of-type {
   padding-top: 18px;
+  font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
+  font-size: 20px;
 }
 @media (min-width: 768px) {
   article:first-of-type {
     padding-top: 38px;
+  }
+}
+article:first-of-type table {
+  font-size: 18px;
+  color: rgb(41, 41, 41);
+}
+@media (min-width: 768px) {
+  article:first-of-type table {
+    font-size: 20px;
   }
 }
 article:first-of-type pre {
@@ -10060,40 +10071,68 @@ article:first-of-type img {
 }
 article:first-of-type ul,
 article:first-of-type ol {
-  margin-top: 1em;
-  margin-bottom: 1em;
+  margin-top: 0.86em;
+  margin-bottom: 1.5em;
 }
 article:first-of-type ul > li {
   list-style: disc;
   margin: 0 0 0 2em;
   position: relative;
+  font-size: 18px;
+  color: rgb(41, 41, 41);
+  line-height: 32px;
+}
+@media (min-width: 768px) {
+  article:first-of-type ul > li {
+    font-size: 20px;
+  }
 }
 article:first-of-type ol > li {
   list-style: decimal;
   margin: 0 0 0 2em;
   position: relative;
+  font-size: 18px;
+  color: rgb(41, 41, 41);
+  line-height: 32px;
+}
+@media (min-width: 768px) {
+  article:first-of-type ol > li {
+    font-size: 20px;
+  }
+}
+article:first-of-type h1, article:first-of-type h2, article:first-of-type h3, article:first-of-type h4, article:first-of-type h5, article:first-of-type h6 {
+  margin-bottom: 1rem;
+  font-weight: 600;
 }
 article:first-of-type h1 {
-  font-size: 2.25rem;
+  font-size: 2.45rem;
 }
 article:first-of-type h2 {
-  font-size: 1.75rem;
+  font-size: 2rem;
 }
 article:first-of-type h3 {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
 }
 article:first-of-type h4 {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
 }
 article:first-of-type h5 {
-  font-size: 1.25rem;
+  font-size: 1.45rem;
 }
 article:first-of-type h6 {
   font-size: 1.25rem;
 }
 article:first-of-type p {
-  line-height: 1.8em;
-  margin-bottom: 0.7rem;
+  line-height: 32px;
+  margin-top: 0.86em;
+  margin-bottom: 1.5em;
+  font-size: 18px;
+  color: rgb(41, 41, 41);
+}
+@media (min-width: 768px) {
+  article:first-of-type p {
+    font-size: 20px;
+  }
 }
 article:first-of-type figure {
   text-align: center;
@@ -17811,8 +17850,8 @@ img {
   font-size: 16px;
   line-height: 1.8em;
   margin-bottom: 28px;
-  padding-left: 70px;
-  padding-right: 70px;
+  padding-left: 180px;
+  padding-right: 180px;
 }
 
 .blog-detail .inner-box .lower-box .column {
