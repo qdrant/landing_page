@@ -10474,11 +10474,11 @@ body::after {
   -webkit-transform-origin: bottom left;
   transform-origin: bottom left;
 }
-.btn-style-four .text {
+.btn-style-four .text, .btn-style-four .txt {
   position: relative;
   z-index: 1;
 }
-.btn-style-four:hover {
+.btn-style-four:hover .text, .btn-style-four:hover .txt {
   color: #ffffff;
 }
 .btn-style-four_rounded {
