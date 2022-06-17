@@ -4,7 +4,7 @@ short_description: "What are the advantages of Triplet Loss and how to efficient
 description: "What are the advantages of Triplet Loss over Contrastive loss and how to efficiently implement it?"
 preview_image: /articles_data/triplet-loss/preview.png
 small_preview_image: /articles_data/triplet-loss/icon.svg
-weight: 10
+weight: 30
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-03-24T15:12:00+03:00

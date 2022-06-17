@@ -1,13 +1,13 @@
 ---
-title: More Accurate Similar Cars Search with Fine Tuning
+title: Fine Tuning Similar Cars Search 
 short_description: "How to use similarity learning to search for similar cars"
 description: Learn how to train a similarity model that can retrieve similar car images in novel categories. 
-preview_image: /articles_data/cars-recognition/preview.png
+preview_image: /articles_data/cars-recognition/preview.jpeg
 small_preview_image: /articles_data/cars-recognition/icon.svg
-weight: 30
+weight: 10
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
-date: 2022-05-04T13:00:00+03:00
+date: 2022-06-28T13:00:00+03:00
 draft: true
 ---
 
@@ -69,6 +69,10 @@ directory in the Quaterion repo.
 ## Dataset
 In this tutorial, we will use the [Stanford Cars](https://pytorch.org/vision/main/generated/torchvision.datasets.StanfordCars.html)
 dataset.
+
+{{< figure src=https://storage.googleapis.com/quaterion/docs/class_montage.jpg caption="Stanford Cars Dataset" >}}
+
+
 It has 16185 images of cars from 196 classes,
 and it is split into training and testing subsets with almost a 50-50% split.
 To make things even more interesting, however, we will first merge training and testing subsets,
@@ -414,12 +418,10 @@ def train(
     shuffle: bool,
     save_dir: str,
 ):
-
     model = Model(
         lr=lr,
         mining=mining,
     )
-    
     
     train_dataloader, val_dataloader = get_dataloaders(
         batch_size=batch_size, input_size=input_size, shuffle=shuffle
@@ -457,6 +459,11 @@ In addition to the ease of restoring a `SimilarityModel`, this code snippet also
 how to use [`Evaluator`](https://quaterion.qdrant.tech/quaterion.eval.evaluator.html#quaterion.eval.evaluator.Evaluator)
 to evaluate the performance of a `SimilarityModel` on a given dataset
 by given evaluation metrics.
+
+
+{{< figure src=https://storage.googleapis.com/quaterion/docs/original_vs_tuned_cars.png caption="Comparison of original and tuned models for retrieval" >}}
+
+
 Full evaluation of a dataset usually grows exponentially,
 and thus you may want to perform a partial evaluation on a sampled subset.
 In this case, you may use [samplers](https://quaterion.qdrant.tech/quaterion.eval.samplers.html)
