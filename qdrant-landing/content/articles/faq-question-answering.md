@@ -2,12 +2,12 @@
 title: Q&A with Similarity Learning
 short_description: A complete guide to building a Q&A system with similarity learning.
 description: A complete guide to building a Q&A system using Quaterion and SentenceTransformers.
-preview_image: /articles_data/faq-question-answering/todo.png
-small_preview_image: /articles_data/faq-question-answering/todo.svg
+preview_image: /articles_data/faq-question-answering/preview.png
+small_preview_image: /articles_data/faq-question-answering/icon.svg
 weight: 9
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
-date: 2025-04-13T08:57:07.604Z
+date: 2022-06-28T08:57:07.604Z
 ---
 
 # Question-answering system with Similarity Learning and Quaterion
