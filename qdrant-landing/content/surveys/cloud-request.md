@@ -10,6 +10,12 @@ form:
     name: email
     required: True
   - id: 1
+    label: May we have your name, please?
+    type: text
+    rows: 1
+    placeholder: Dr. Smith
+    name: name
+  - id: 2
     label: For what purpose do you/will you use a cloud-hosted solution?
     type: checkbox
     options:
@@ -18,7 +24,7 @@ form:
     - For a client as an agency or a freelancer
     - For a personal project
     name: purpose
-  - id: 2
+  - id: 3
     label: What's the size of your company?
     type: radio
     options:
@@ -29,7 +35,7 @@ form:
     - 201-1000
     - 1001+
     name: companySize
-  - id: 3
+  - id: 4
     label: What is your use case?
     type: radio
     options:
@@ -41,7 +47,7 @@ form:
     - Anomalies Detection
     - Other
     name: case
-  - id: 4
+  - id: 5
     label: Have you ever used any vector search engines? If yes, which ones?
     type: text
     rows: 1
