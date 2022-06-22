@@ -12,7 +12,9 @@
         </div>
         {{ end }}
         <div class="lower-box pt-0">
-            <article>{{ .Content }}</article>
+            <article class="{{ if eq .Section "blog"}}blog{{else if eq .Section "articles"}}article{{end}}">
+                {{ .Content }}
+            </article>
             <hr>
             <div class="clearfix">
                 <div class="pull-left">

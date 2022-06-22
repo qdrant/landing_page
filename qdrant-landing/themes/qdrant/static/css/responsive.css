@@ -975,11 +975,6 @@
     padding-left: 25px;
   }
 
-  .blog-detail .inner-box .lower-box article {
-    padding-left: 25px;
-    padding-right: 25px;
-  }
-
 }
 
 @media only screen and (max-width: 599px) {
@@ -1067,11 +1062,6 @@
 
   .blog-detail .inner-box .lower-box .post-meta {
     padding-left: 15px;
-  }
-
-  .blog-detail .inner-box .lower-box article {
-    padding-left: 0;
-    padding-right: 0;
   }
 
 }
