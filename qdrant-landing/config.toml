@@ -13,7 +13,7 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 [params]
   author = "Andrey Vasnetsov"
   description = "Qdrant - Open-Source Vector Search Engine"
-  keywords = ["search engine", "neural network", "matching", "filter", "SaaS",
+  keywords = ["vector search engine", "neural network", "matching", "SaaS",
     "approximate nearest neighbor search", "image search", "recommender system", "vectors",
     "knn algorithm", "hnsw", "vector search", "embeddings", "similarity", "simaes networks",
     "BERT", "transformer", "word2vec", "fasttext"]

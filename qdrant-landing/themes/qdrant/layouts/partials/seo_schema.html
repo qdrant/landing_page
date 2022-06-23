@@ -48,8 +48,13 @@
           "https://qdrant.to/discord"
       ],
       "mainEntityOfPage": {
-          "@type": "WebPage",
-          "@id": "{{ .Site.BaseURL }}"
+          "@type": "SoftwareApplication",
+          "name": "Qdrant",
+          "applicationCategory": "Vector Search Engine",
+          "downloadUrl": "https://github.com/qdrant/qdrant",
+          "installUrl": "https://github.com/qdrant/qdrant/pkgs/container/qdrant%2Fqdrant",
+          "abstract": "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}",
+          "image": "https://qdrant.tech/images/logo_with_text.svg"
       }
   }
 </script>
