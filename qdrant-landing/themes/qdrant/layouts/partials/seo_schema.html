@@ -12,9 +12,9 @@
       "url": "https://qdrant.tech",
       "email": "info@qdrant.com",
       "@id": "https://qdrant.tech",
-      "logo": "https://qdrant.tech/images/logo_with_text.svg",
+      "logo": "https://qdrant.tech/images/logo_with_text.png",
       "headline" : "{{ .Title }}",
-      "description" : "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}",
+      "description" : "{{ .Site.Params.description }}",
       "keywords" : [ {{ range .Site.Params.Keywords }}"{{ . }}", {{ end }} "Qdrant" ],
       "foundingDate": "2021",
       "founders": [
@@ -42,19 +42,19 @@
           "email": "info@qdrant.com"
       },
       "sameAs": [
-          "https://github.com/qdrant/qdrant",
-          "https://twitter.com/qdrant_engine",
-          "https://www.linkedin.com/company/qdrant",
-          "https://qdrant.to/discord"
+          {{ .Site.Params.github }}
+          {{ .Site.Params.twitter }}
+          {{ .Site.Params.linkedin }}
+          {{ .Site.Params.discord }}
       ],
       "mainEntityOfPage": {
           "@type": "SoftwareApplication",
           "name": "Qdrant",
           "applicationCategory": "Vector Search Engine",
           "downloadUrl": "https://github.com/qdrant/qdrant",
-          "installUrl": "https://github.com/qdrant/qdrant/pkgs/container/qdrant%2Fqdrant",
-          "abstract": "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}",
-          "image": "https://qdrant.tech/images/logo_with_text.svg"
+          "installUrl": "https://hub.docker.com/r/qdrant/qdrant",
+          "abstract": "{{ .Site.Params.description }}",
+          "image": "https://qdrant.tech/images/logo_with_text.png"
       }
   }
 </script>
