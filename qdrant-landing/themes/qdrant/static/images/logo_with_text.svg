@@ -19,7 +19,7 @@
  </g>
  <path d="m66 126.5v-25.914l-21-12.086v25.871z" fill="url(#paint0_linear_425_56)"/>
  <defs>
-  <linearGradient id="paint0_linear_425_56" x1="65.982" x2="45.057" y1="105.54" y2="105.54" gradientUnits="userSpaceOnUse">
+  <linearGradient id="paint0_linear_425_56" x1="62.128" x2="41.202" y1="105.54" y2="105.54" gradientUnits="userSpaceOnUse">
    <stop stop-color="#FF3364" offset="0"/>
    <stop stop-color="#C91540" stop-opacity="0" offset="1"/>
   </linearGradient>
