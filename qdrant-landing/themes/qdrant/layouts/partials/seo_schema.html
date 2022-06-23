@@ -5,25 +5,52 @@
 
 <script type="application/ld+json">
   {
-      "@context" : "http://schema.org",
-      "@type" : "WebPage",
-      "mainEntityOfPage": {
-           "@type": "WebPage",
-           "@id": "{{ .Site.BaseURL }}"
-      },
-      "name" : "{{ .Title }}",
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "Qdrant",
+      "legalName" : "Qdrant Solutions GmbH",
+      "url": "{{ .Permalink }}",
+      "email": "info@qdrant.com",
+      "@id": "{{ .Permalink }}",
+      "logo": "{{ .Permalink }}/images/logo_with_text.svg",
       "headline" : "{{ .Title }}",
       "description" : "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}",
-      "inLanguage" : "en-US",
-      "author" : "{{ .Site.Params.Author }}",
-      "accountablePerson" : "{{ .Site.Params.Author }}",
-      "copyrightHolder" : "{{ .Site.Params.Author }}",
-      "copyrightYear" : "{{ .Date.Format "2006" }}",
-      "datePublished": "{{ .Date }}",
-      "dateModified" : "{{ .Date }}",
-      "url" : "{{ .Permalink }}",
-      "wordCount" : "{{ .WordCount }}",
-      "keywords" : [ {{ range .Site.Params.Keywords }}"{{ . }}", {{ end }} "Qdrant" ]
+      "keywords" : [ {{ range .Site.Params.Keywords }}"{{ . }}", {{ end }} "Qdrant" ],
+      "foundingDate": "2021",
+      "founders": [
+          {
+              "@type": "Person",
+              "name": "{{ .Site.Params.Author }}"
+          }, {
+              "@type": "Person",
+              "name": "Andre Zayarni"
+          }
+      ],
+      "location": "Berlin, Germany",
+      "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "Chausseestraße 86",
+          "addressLocality": "Berlin",
+          "addressRegion": "Berlin",
+          "postalCode": "10115",
+          "addressCountry": "DE"
+      },
+      "contactPoint": {
+          "@type": "ContactPoint",
+          "contactType": "customer support",
+          "telephone": "+49 3040797694",
+          "email": "info@qdrant.com"
+      },
+      "sameAs": [
+          "https://github.com/qdrant/qdrant",
+          "https://twitter.com/qdrant_engine",
+          "https://www.linkedin.com/company/qdrant",
+          "https://qdrant.to/discord"
+      ],
+      "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "{{ .Site.BaseURL }}"
+      }
   }
 </script>
 
