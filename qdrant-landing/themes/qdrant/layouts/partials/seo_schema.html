@@ -12,7 +12,7 @@
       "url": "{{ .Permalink }}",
       "email": "info@qdrant.com",
       "@id": "{{ .Permalink }}",
-      "logo": "{{ .Permalink }}/images/logo_with_text.svg",
+      "logo": "{{ .Site.BaseURL }}/images/logo_with_text.svg",
       "headline" : "{{ .Title }}",
       "description" : "{{ if .Description }}{{ .Description }}{{ else }}{{if .IsPage}}{{ .Summary }}{{ end }}{{ end }}",
       "keywords" : [ {{ range .Site.Params.Keywords }}"{{ . }}", {{ end }} "Qdrant" ],
