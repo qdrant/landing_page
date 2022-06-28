@@ -8,7 +8,7 @@ weight: 10
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-06-28T13:00:00+03:00
-draft: true
+draft: false
 ---
 
 Supervised classification is one of the most widely used training objectives in machine learning,
