@@ -89,10 +89,10 @@
 
 <!-- Image -->
 {{ if .Params.preview_image }}
-<meta name="og:image" content="{{ .Params.preview_image | relURL }}">
-<meta name="twitter:image" content="{{ .Params.preview_image | relURL }}">
+<meta name="og:image" content="{{ .Params.preview_image | absURL }}">
+<meta name="twitter:image" content="{{ .Params.preview_image | absURL }}">
 <meta content="my-check!!">
 {{ else }}
-<meta name="og:image" content="{{ .Site.Params.preview_image | relURL }}">
-<meta name="twitter:image" content="{{ .Site.Params.preview_image | relURL }}">
+<meta name="og:image" content="{{ .Site.Params.preview_image | absURL }}">
+<meta name="twitter:image" content="{{ .Site.Params.preview_image | absURL }}">
 {{ end }}
