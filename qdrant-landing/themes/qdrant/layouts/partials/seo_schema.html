@@ -88,9 +88,9 @@
 {{ end }}
 
 <!-- Image -->
-{{ if .Params.preview_image }}
-<meta name="og:image" content="{{ .Params.preview_image | absURL }}">
-<meta name="twitter:image" content="{{ .Params.preview_image | absURL }}">
+{{ if .Params.social_preview_image }}
+<meta name="og:image" content="{{ .Params.social_preview_image | absURL }}">
+<meta name="twitter:image" content="{{ .Params.social_preview_image | absURL }}">
 {{ else }}
 <meta name="og:image" content="{{ .Site.Params.preview_image | absURL }}">
 <meta name="twitter:image" content="{{ .Site.Params.preview_image | absURL }}">
