@@ -75,8 +75,8 @@
 
 <!-- Twitter Meta Tags -->
 <meta name="twitter:card" content="summary">
-<meta property="twitter:domain" content="{{ $domain }}">
-<meta property="twitter:url" content="{{ .Permalink }}">
+<meta name="twitter:domain" content="{{ $domain }}">
+<meta name="twitter:url" content="{{ .Permalink }}">
 <meta name="twitter:title" content="{{ $title }}">
 
 {{ if .Description }}
@@ -89,9 +89,14 @@
 
 <!-- Image -->
 {{ if .Params.social_preview_image }}
-<meta property="og:image" content="{{ .Params.social_preview_image | absURL }}">
+<meta name="image" property="og:image" content="{{ .Params.social_preview_image | absURL }}">
 <meta name="twitter:image:src" content="{{ .Params.social_preview_image | absURL }}">
 {{ else }}
-<meta property="og:image" content="{{ .Site.Params.preview_image | absURL }}">
+<meta name="image" property="og:image" content="{{ .Site.Params.preview_image | absURL }}">
 <meta name="twitter:image:src" content="{{ .Site.Params.preview_image | absURL }}">
+{{ end }}
+
+<!-- Author -->
+{{ if .Params.author }}
+<meta name="author" content="{{ .Params.author }}">
 {{ end }}
