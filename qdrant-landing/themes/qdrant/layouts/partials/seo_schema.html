@@ -90,7 +90,7 @@
 <!-- Image -->
 {{ if .Params.social_preview_image }}
 <meta name="og:image" content="{{ .Params.social_preview_image | absURL }}">
-<meta name="twitter:image" content="{{ .Params.social_preview_image | absURL }}">
+<meta name="twitter:image:src" content="{{ .Params.social_preview_image | absURL }}">
 {{ else }}
 <meta name="og:image" content="{{ .Site.Params.preview_image | absURL }}">
 <meta name="twitter:image:src" content="{{ .Site.Params.preview_image | absURL }}">
