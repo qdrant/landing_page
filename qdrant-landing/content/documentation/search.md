@@ -78,7 +78,7 @@ POST /collections/{collection_name}/points/search
         "hnsw_ef": 128
     },
     "vector": [0.2, 0.1, 0.9, 0.7],
-    "top": 3
+    "limit": 3
 }
 ```
 
@@ -104,12 +104,12 @@ client.search(
         hnsw_ef=128
     ),
     query_vector=[0.2, 0.1, 0.9, 0.7],
-    top=3,
+    limit=3,
 )
 ```
 
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`. 
-Parameter `top` specifies the amount of most similar results we would like to retrieve.
+Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
 Values under the key `params` specify custom parameters for the search.
 Currently, it could be:
@@ -145,7 +145,7 @@ It will exclude all results with a score worse than the given.
 
 <aside role="status">This parameter may exclude lower or higher scores depending on the used metric. For example, higher scores of Euclidean metric are considered more distant and, therefore, will be excluded.</aside>
 
-### Payload in vector in the result
+### Payload and vector in the result
 
 By default, retrieval methods do not return any stored information.
 Additional parameters `with_vector` and `with_payload` could alter this behavior.
@@ -229,7 +229,7 @@ POST /collections/{collection_name}/points/recommend
   },
   "negative": [718],
   "positive": [100, 231],
-  "top": 10
+  "limit": 10
 }
 ```
 
@@ -248,7 +248,7 @@ client.recommend(
     ),
     negative=[718],
     positive=[100, 231],
-    top=10,
+    limit=10,
 )
 ```
 
@@ -265,3 +265,46 @@ Example result of this API would be
   "time": 0.001
 }
 ```
+
+## Pagination
+
+*Avalable since v0.8.3*
+
+Search and recommendation APIs allow to skip first results of the search and return only the result starting from some specified offset:
+
+Example:
+
+```http
+POST /collections/{collection_name}/points/search
+
+{
+    "vector": [0.2, 0.1, 0.9, 0.7],
+    "with_vector": true,
+    "with_payload": true,
+    "limit": 10,
+    "offset": 100
+}
+```
+
+```python
+client.search(
+    collection_name="{collection_name}",
+    query_vector=[0.2, 0.1, 0.9, 0.7],
+    with_vector=True,
+    with_payload=True,
+    limit=10,
+    offset=100
+)
+```
+
+Is equvalent to retrieving 11th page with 10 records per page.
+
+<aside role="alert">Large offset values may cause performance issues</aside>
+
+Vector-based retrieval in general and HNSW index in particular, are not designed to be paginated.
+It is impossible to retrieve Nth closest vector without retrieving the first N vectors first.
+
+However, using the offset parameter saves the resources by reducing network traffic and the number of times the storage is accessed.
+
+Using an `offset` parameter, will require to internally retrieve `offset + limit` points, but only access payload and vector from the storage those points which are going to be actually returned.
+

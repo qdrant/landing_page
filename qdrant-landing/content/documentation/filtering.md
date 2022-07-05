@@ -60,11 +60,11 @@ client.scroll(
         must=[
             models.FieldCondition(
                 key="city", 
-                match=models.Match(value="London"),
+                match=models.MatchValue(value="London"),
             ),
             models.FieldCondition(
                 key="color",
-                match=models.Match(value="red"),
+                match=models.MatchValue(value="red"),
             ),
         ]
     ),
@@ -108,11 +108,11 @@ client.scroll(
         should=[
             models.FieldCondition(
                 key="city", 
-                match=models.Match(value="London"),
+                match=models.MatchValue(value="London"),
             ),
             models.FieldCondition(
                 key="color", 
-                match=models.Match(value="red"),
+                match=models.MatchValue(value="red"),
             ),
         ]
     ),
@@ -159,11 +159,11 @@ client.scroll(
         must_not=[
             models.FieldCondition(
                 key="city", 
-                match=models.Match(value="London")
+                match=models.MatchValue(value="London")
             ),
             models.FieldCondition(
                 key="color", 
-                match=models.Match(value="red")
+                match=models.MatchValue(value="red")
             ),
         ]
     ),
@@ -210,13 +210,13 @@ client.scroll(
         must=[
             models.FieldCondition(
                 key="city", 
-                match=models.Match(value="London")
+                match=models.MatchValue(value="London")
             ),
         ],
         must_not=[
             models.FieldCondition(
                 key="color", 
-                match=models.Match(value="red")
+                match=models.MatchValue(value="red")
             ),
         ],
     ),
@@ -263,11 +263,11 @@ client.scroll(
                 must=[
                     models.FieldCondition(
                         key="city", 
-                        match=models.Match(value="London")
+                        match=models.MatchValue(value="London")
                     ),
                     models.FieldCondition(
                         key="color", 
-                        match=models.Match(value="red")
+                        match=models.MatchValue(value="red")
                     ),
                 ],
             ),

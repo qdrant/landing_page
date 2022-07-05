@@ -3,6 +3,8 @@ title: Snapshots
 weight: 51
 ---
 
+*avalable since v0.8.4*
+
 Snapshots are performed on a per collection basis and consist in a `tar` archive file containing the necessary data to restore the collection at the time of the snapshot.
 
 This feature can be used to archive data or easily replicate an existing deployment.

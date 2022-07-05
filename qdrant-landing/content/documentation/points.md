@@ -467,7 +467,7 @@ client.scroll(
         must=[
             models.FieldCondition(
                 key="color", 
-                match=models.Match(value="red")
+                match=models.MatchValue(value="red")
             ),
         ]
     ),
@@ -510,3 +510,58 @@ Python client:
 ```
  -->
 
+## Counting points
+
+*Avalable since v0.8.4*
+
+Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
+
+Among others, for example, we can highlight the following scenarios: 
+
+* Evaluation of results size for faceted search
+* Determining the number of pages for pagination
+* Debugging the query execution speed
+
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
+
+```http
+POST /collections/{collection_name}/points/count
+
+{
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "value": "red"
+                }
+            }
+        ]
+    },
+    "exact": true
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}", 
+    scroll_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color", 
+                match=models.MatchValue(value="red")
+            ),
+        ]
+    ),
+    exact=True,
+)
+```
+
+Returns number of counts mathcing given filtering conditions:
+
+```json
+{
+    "count": 3811
+}
+```
