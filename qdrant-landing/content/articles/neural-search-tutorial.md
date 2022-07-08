@@ -261,12 +261,15 @@ The search function looks as simple as possible:
         vector = self.model.encode(text).tolist()
 
         # Use `vector` for search for closest vectors in the collection
-        payloads = self.qdrant_client.search(
+        search_result = self.qdrant_client.search(
             collection_name=self.collection_name,
             query_vector=vector,
             query_filter=None,  # We don't want any filters for now
             top=5  # 5 the most closest results is enough
         )
+        # `search_result` contains found vector ids with similarity scores along with the stored payload
+        # In this function we are interested in payload only
+        payloads = [hit.payload for hit in search_result]
         return payloads
 ```
 
