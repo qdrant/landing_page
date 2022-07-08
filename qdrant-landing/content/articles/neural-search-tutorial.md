@@ -171,7 +171,11 @@ Many independent vector collections can exist on one service at the same time.
 Let's create a new collection for our startup vectors.
 
 ```python
-qdrant_client.recreate_collection(collection_name='startups', vector_size=768)
+qdrant_client.recreate_collection(
+    collection_name='startups', 
+    vector_size=768, 
+    distance="Cosine"
+)
 ```
 
 The `recreate_collection` function first tries to remove an existing collection with the same name.
@@ -181,6 +185,8 @@ The `vector_size` parameter is very important.
 It tells the service the size of the vectors in that collection.
 All vectors in a collection must have the same size, otherwise, it is impossible to calculate the distance between them.
 `768` is the output dimensionality of the encoder we are using.
+
+The `distance` parameter allows specifying the function used to measure the distance between two points.
 
 The Qdrant client library defines a special function that allows you to load datasets into the service.
 However, since there may be too much data to fit a single computer memory, the function takes an iterator over the data as input.
@@ -252,19 +258,15 @@ The search function looks as simple as possible:
 ```python
     def search(self, text: str):
         # Convert text query into vector
-        vector = self.model.encode(text)
+        vector = self.model.encode(text).tolist()
 
         # Use `vector` for search for closest vectors in the collection
-        search_result = self.qdrant_client.search(
+        payloads = self.qdrant_client.search(
             collection_name=self.collection_name,
             query_vector=vector,
             query_filter=None,  # We don't want any filters for now
             top=5  # 5 the most closest results is enough
         )
-
-        # `search_result` contains found vector ids with similarity scores along with the stored payload
-        # In this function we are interested in payload only
-        payloads = [payload for point, payload in search_result]
         return payloads
 ```
 
@@ -272,7 +274,7 @@ With Qdrant it is also feasible to add some conditions to the search.
 For example, if we wanted to search for startups in a certain city, the search query could look like this:
 
 ```python
-from qdrant_openapi_client.models.models import Filter
+from qdrant_client.http.models.models import Filter
 
     ...
 
