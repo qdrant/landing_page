@@ -42,6 +42,9 @@ However, this is again a resource intensive task, both in time and manual labour
 An alternative approach would be to use a pre-trained model to produce embeddings for your data and then measure the distances between them. 
 The idea is to find the objects that are farthest from the anchor. 
 Assume we want to search for anything other than a single bed in «Single beds».
+
+{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/references.png caption="Single beds references" >}}
+
 Then our pipeline will look like this:
 - Take the name of the category as an anchor, calculate the anchor embedding.
 - Calculate embeddings for images of each object placed into this category.
