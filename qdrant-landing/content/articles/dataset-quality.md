@@ -34,13 +34,15 @@ Objects placed in a wrong category may be considered outliers or anomalies.
 Of course you can train a model or a bunch of models capable of looking for anomalies, e.g. autoencoder and a classifier on it.
 However, this is again a resource intensive task, both in time and manual labour, since you need to label data for classification.
 
-An alternative approach would be to use a pre-trained model capable of producing embeddings for your data and measure the distances between them. 
+An alternative approach would be to use a pre-trained model to produce embeddings for your data and then measure the distances between them. 
 The idea is to find the objects that are farthest from the anchor. 
 Assume we want to search for anything other than a single bed in «Single beds». 
-We can take the name of the category as an anchor, calculate anchor embedding. 
-Calculate embeddings for images of every object placed into this category. 
-Compare obtained anchor and objects embeddings. 
-For instance, we can do it with [CLIP](sentence-transformers/clip-ViT-B-32-multilingual-v1) model.
+- Take the name of the category as an anchor, calculate the anchor embedding.
+- Calculate embeddings for images of each object placed into this category.
+- Compare obtained anchor and objects embeddings.
+- Find the furthest.
+
+For instance, we can do it with the [CLIP](sentence-transformers/clip-ViT-B-32-multilingual-v1) model.
 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_image.png caption="Category vs. Image" >}}
 
@@ -49,7 +51,7 @@ We can also calculate embeddings for titles instead of images, or even for both 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_name_and_image.png caption="Category vs. Title and Image" >}}
 
 As you can see, different approaches can find new outliers, or the same ones. 
-Stacking several techniques or even same techniques with different models may provide a better results. 
+Stacking several techniques or even the same techniques with different models may provide a better result. 
 Caching embeddings for the same models and reusing them among different methods can really speed up your lookup.
 
 Since pretrained models have only general knowledge about the data, they can still leave some outliers undetected. 
@@ -64,7 +66,7 @@ If your data is really huge and does not fit into a memory, vector search engine
 Although the described methods can be used alone, their combination is simple to implement and has more capabilities. 
 If the quality remains insufficient, you can fine-tune the models using a similarity learning approach (e.g. with [Quaterion](https://quaterion.qdran.tech), both to provide a better representation of your data and pull apart dissimilar objects in space.
 
-I hope the highlighted methods will help you get rid of outliers in your data and make your users experience more enjoyable.
+I hope the highlighted methods will help you get rid of outliers in your data and make your users` experience more enjoyable.
 
 Poke the [demo](https://dataset-quality.qdrant.tech).
 Checkout the [source code](https://github.com/qdrant/demo-dataset-quality/tree/master/experiments) with methods implementation.
