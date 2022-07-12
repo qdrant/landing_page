@@ -81,7 +81,6 @@ In this article we enlighten distance-based methods to find outliers in datasets
 I hope these methods will help you get rid of outliers in your data and make your users` experience more enjoyable.
 
 Poke the [demo](https://dataset-quality.qdrant.tech).
-Checkout the [source code](https://github.com/qdrant/demo-dataset-quality/tree/master/experiments) with methods implementation.
 
 Stay tuned :)
 
