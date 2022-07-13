@@ -43,7 +43,7 @@ An alternative approach would be to use a pre-trained model to produce embedding
 The idea is to find the objects that are farthest from the anchor. 
 Assume we want to search for anything other than a single bed in «Single beds».
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/references.png caption="Single beds references" >}}
+{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/references.webp caption="Single beds references" >}}
 
 Then our pipeline will look like this:
 - Take the name of the category as an anchor, calculate the anchor embedding.
@@ -53,11 +53,11 @@ Then our pipeline will look like this:
 
 For instance, we can do it with the [CLIP](https://huggingface.co/sentence-transformers/clip-ViT-B-32-multilingual-v1) model.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/outliers_category_vs_image.png caption="Category vs. Image" >}}
+{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/outliers_category_vs_image.webp caption="Category vs. Image" >}}
 
 We can also calculate embeddings for titles instead of images, or even for both of them to find more outliers.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/outliers_category_vs_name_and_image.png caption="Category vs. Title and Image" >}}
+{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/outliers_category_vs_name_and_image.webp caption="Category vs. Title and Image" >}}
 
 As you can see, different approaches can find new outliers, or the same ones. 
 Stacking several techniques or even the same techniques with different models may provide a better result. 
@@ -70,7 +70,7 @@ Since pretrained models have only general knowledge about the data, they can sti
 You might find yourself in a situation when the model focuses on non-important features, selects a lot of irrelevant items, and fails to find genuine outliers. 
 To mitigate this issue, you can perform a diversity search.
 
-{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/outliers_diversity_search.png caption="Diversity search" >}}
+{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/outliers_diversity_search.webp caption="Diversity search" >}}
 
 Diversity search utilizes the very same embeddings, and you can reuse them.
 If your data is really huge and does not fit into a memory, vector search engines like [Qdrant](https://qdrant.tech/) might be helpful.
