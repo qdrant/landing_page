@@ -1,7 +1,7 @@
 ---
-title: Search for outliers
-short_description: Finding outliers with distance-based methods
-description: Finding outliers in the furniture online marketplace with distance-based methods.
+title: Finding errors in categorized datasets
+short_description: Finding errors in categorized datasets with distance-based methods
+description: Finding errors in the furniture online marketplace categories with distance-based methods.
 preview_image: /articles_data/dataset-quality/preview.png
 small_preview_image: /articles_data/dataset-quality/icon.svg
 weight: 9
@@ -11,17 +11,22 @@ date: 2022-07-13T013:00:00.000Z
 ---
 
 
-Real world data is a living structure.
-It grows day by day, changes a lot, it becomes harder and harder to maintain.
-All this leads to appearance of outliers in our datasets, which in some cases can be very undesirable and spoil the predictive ability of our model.
-However, the data is not only a source for training, but also the result of our model, which is also capable of producing outliers.
-These outliers are more important to handle as our clients encounter them when using applications.
+Nowadays, people creates a huge amount of applications of various types, and solves problems in a really different areas.
+Despite such diversity, they have something in common - they need to process data.
+Real world data is a living structure, it grows day by day, changes a lot, becomes harder to work with.
+In some cases, you need to categorize or label your data, which can be a tough problem given the scale of the data.
+Process of splitting or labelling the data is error-prone and these errors can be very costly.
+Imagine that you failed to achieve the desired quality of the model due to inaccurate labels.
+Worse, your users are faced with a lot of irrelevant items, unable to find what they need, getting annoyed by it.
+Thus, you get poor retention, and it directly impacts on company revenue.
+It is really important to avoid such errors in your data.
 
-Tabular, univariate or low-dimensional  data, which has interpretable features, is usually easier to analyze. 
+Tabular, univariate or low-dimensional data, which has interpretable features, is usually easier to analyze. 
 That’s the kind of data we used to in classic machine learning algorithms.
-There are plenty of methods you can use to find outliers, from simple sorting, applying statistical tests, calculating percentiles, etc.
+We already have some tricks and techniques for detecting errors in such datasets. 
+For instance, we can calculate some statistics and compare one with another, we rather know how to treat the results.
 
-Nowadays, solving a problem involving text or image data you will probably stick with deep learning models and more likely obtain better results. 
+But currently, solving a problem involving text or image data you will probably stick with deep learning models and more likely obtain better results. 
 Neural networks produce features on their own, and it is much more difficult to make any assumptions about their meaning and desired distribution. 
 Therefore, classical approaches don’t work for them.
 
@@ -33,9 +38,10 @@ Obviously, one can arrange all the items manually, get reliable results and spen
 There is another way: train a classification or similarity model and rely on it. 
 Such a model can be wrong, some mistakes can be caught by analysing most uncertain predictions, but the others will still leak to the site. 
 
-Objects placed in a wrong category may be considered outliers or anomalies. 
-Of course you can train a model or a bunch of models capable of looking for anomalies, e.g. autoencoder and a classifier on it.
+When you are sure that there are not many objects placed in the wrong category, they can be considered outliers or anomalies. 
+Thus you can train a model or a bunch of models capable of looking for anomalies, e.g. autoencoder and a classifier on it.
 However, this is again a resource intensive task, both in time and manual labour, since you need to label data for classification.
+On the contrary, if the proportion of out-of-place elements is high enough, outlier search methods are likely to be useless.
 
 ### Similarity search
 
@@ -55,19 +61,19 @@ For instance, we can do it with the [CLIP](https://huggingface.co/sentence-trans
 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_image_transparent.png caption="Category vs. Image" >}}
 
-We can also calculate embeddings for titles instead of images, or even for both of them to find more outliers.
+We can also calculate embeddings for titles instead of images, or even for both of them to find more errors.
 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/category_vs_name_and_image_transparent.png caption="Category vs. Title and Image" >}}
 
-As you can see, different approaches can find new outliers, or the same ones. 
+As you can see, different approaches can find new errors, or the same ones. 
 Stacking several techniques or even the same techniques with different models may provide better coverage. 
-Caching embeddings for the same models and reusing them among different methods can really speed up your lookup.
+Hint: Caching embeddings for the same models and reusing them among different methods can really speed up your lookup.
 
 
 ### Diversity search
 
-Since pretrained models have only general knowledge about the data, they can still leave some outliers undetected. 
-You might find yourself in a situation when the model focuses on non-important features, selects a lot of irrelevant items, and fails to find genuine outliers. 
+Since pretrained models have only general knowledge about the data, they can still leave some misplaced items undetected. 
+You might find yourself in a situation when the model focuses on non-important features, selects a lot of irrelevant elements, and fails to find genuine errors. 
 To mitigate this issue, you can perform a diversity search.
 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/diversity_transparent.png caption="Diversity search" >}}
@@ -80,8 +86,9 @@ If the quality remains insufficient, you can fine-tune the models using a simila
 
 ## Conclusion
 
-In this article we enlighten distance-based methods to find outliers in datasets, and found categories with misplaced items in the furniture web-store.
-I hope these methods will help you get rid of outliers in your data and make your users` experience more enjoyable.
+In this article we enlightened distance-based methods to find errors in categorized datasets.
+Showed how to find incorrectly placed items in the furniture web-store.
+I hope these methods will help you catch sneaky samples leaked into wrong categories in your data, and make your users` experience more enjoyable.
 
 Poke the [demo](https://dataset-quality.qdrant.tech).
 
