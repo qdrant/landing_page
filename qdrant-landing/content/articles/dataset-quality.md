@@ -11,11 +11,11 @@ date: 2022-07-13T013:00:00.000Z
 ---
 
 
-Nowadays, people creates a huge amount of applications of various types, and solves problems in a really different areas.
+Nowadays, people create a huge number of applications of various types, and solve problems in different areas.
 Despite such diversity, they have something in common - they need to process data.
 Real world data is a living structure, it grows day by day, changes a lot, becomes harder to work with.
-In some cases, you need to categorize or label your data, which can be a tough problem given the scale of the data.
-Process of splitting or labelling the data is error-prone and these errors can be very costly.
+In some cases, you need to categorize or label data, which can be a tough problem given its scale.
+The process of splitting or labelling is error-prone and these errors can be very costly.
 Imagine that you failed to achieve the desired quality of the model due to inaccurate labels.
 Worse, your users are faced with a lot of irrelevant items, unable to find what they need, getting annoyed by it.
 Thus, you get poor retention, and it directly impacts on company revenue.
@@ -26,7 +26,7 @@ That’s the kind of data we used to in classic machine learning algorithms.
 We already have some tricks and techniques for detecting errors in such datasets. 
 For instance, we can calculate some statistics and compare one with another, we rather know how to treat the results.
 
-But currently, solving a problem involving text or image data you will probably stick with deep learning models and more likely obtain better results. 
+But currently, solving a problem involving texts or images you will probably stick with deep learning models and most likely obtain better results. 
 Neural networks produce features on their own, and it is much more difficult to make any assumptions about their meaning and desired distribution. 
 Therefore, classical approaches don’t work for them.
 
@@ -40,7 +40,7 @@ Such a model can be wrong, some mistakes can be caught by analysing most uncerta
 
 When you are sure that there are not many objects placed in the wrong category, they can be considered outliers or anomalies. 
 Thus you can train a model or a bunch of models capable of looking for anomalies, e.g. autoencoder and a classifier on it.
-However, this is again a resource intensive task, both in time and manual labour, since you need to label data for classification.
+However, this is again a resource-intensive task, both in terms of time and manual labour, since labels have to be provided for classification.
 On the contrary, if the proportion of out-of-place elements is high enough, outlier search methods are likely to be useless.
 
 ### Similarity search
