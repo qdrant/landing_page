@@ -25,7 +25,7 @@ Tabular, univariate or low-dimensional data, which has interpretable features, i
 That’s the kind of data we used to in classic machine learning algorithms.
 We already have some tricks and techniques for detecting errors in such datasets.
 For instance, we can calculate some statistics and compare one with another.
-In general, we know how to treat such results.
+In general, we know how to treat such results.  
 
 But currently, solving a problem involving texts or images you will probably stick with deep learning models and most likely obtain better results. 
 Neural networks produce features on their own, and it is much more difficult to make any assumptions about their meaning and desired distribution. 
@@ -91,6 +91,7 @@ To mitigate this issue, you can perform a diversity search.
 Diversity search is a method for finding the most distinctive examples in the data.
 As similarity search, it also operates on embeddings and measure the distances between them.
 But diversity search is an iterative process.
+
 For example, similarity search can calculate the distances between the embeddings one time and then just fetch any number of the nearest (or the furthest) embeddings you want.
 Diversity search, in turn, requires calculating the distances on each step to determine the next point. 
 The process of finding 3 most distinct points can be described as:
