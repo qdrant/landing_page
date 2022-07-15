@@ -25,7 +25,7 @@ Tabular, univariate or low-dimensional data, which has interpretable features, i
 That’s the kind of data we used to in classic machine learning algorithms.
 We already have some tricks and techniques for detecting errors in such datasets.
 For instance, we can calculate some statistics and compare one with another.
-We rather know how to treat the results.
+In general, we know how to treat such results.
 
 But currently, solving a problem involving texts or images you will probably stick with deep learning models and most likely obtain better results. 
 Neural networks produce features on their own, and it is much more difficult to make any assumptions about their meaning and desired distribution. 
@@ -81,7 +81,7 @@ To mitigate this issue, you can perform a diversity search.
 Diversity search utilizes the very same embeddings, and you can reuse them.
 If your data is huge and does not fit into memory, vector search engines like [Qdrant](https://qdrant.tech/) might be helpful.
 
-Although the described methods can be used alone, their combination is simple to implement and has more capabilities.
+Although the described methods can be used independently. But they are simple to combine and improve detection capabilities.
 If the quality remains insufficient, you can fine-tune the models using a similarity learning approach (e.g. with [Quaterion](https://quaterion.qdrant.tech) both to provide a better representation of your data and pull apart dissimilar objects in space.
 
 ## Conclusion
