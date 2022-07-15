@@ -25,6 +25,9 @@ It is really important to avoid such errors in your data.
 ## Furniture web-marketplace
 
 Let’s say you work on an online furniture marketplace. 
+
+{{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/furniture_marketplace.png caption="Furniture marketplace" >}}
+
 In this case, to ensure a good user experience, you need to split items into different categories: tables, chairs, beds, etc.
 One can arrange all the items manually and spend a lot of money and time on this.
 There is also another way: train a classification or similarity model and rely on it.
@@ -84,7 +87,7 @@ Diversity search is a method for finding the most distinctive examples in the da
 As similarity search, it also operates on embeddings and measure the distances between them.
 But diversity search is an iterative process.
 
-For example, similarity search can calculate the distances between the embeddings one time and then just fetch any number of the nearest (or the furthest) embeddings you want.
+For example, similarity search can calculate the distances between the embeddings once and then just fetch any number of the nearest (or the furthest) embeddings you want.
 Diversity search, in turn, requires calculating the distances on each step to determine the next point. 
 The process of finding 3 most distinct points can be described as:
 - Initialize a starting point (randomly or according to the certain conditions)
