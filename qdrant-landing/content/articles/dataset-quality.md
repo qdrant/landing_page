@@ -29,7 +29,7 @@ In this case, to ensure a good user experience, you need to split items into dif
 One can arrange all the items manually and spend a lot of money and time on this.
 There is also another way: train a classification or similarity model and rely on it.
 With both approaches it is difficult to avoid mistakes.
-Manual labelling is a tedious task, which however requires staying focused.
+Manual labelling is a tedious task, but it requires concentration.
 Once you got distracted or your eyes became blurred mistakes won't keep you waiting.
 The model also can be wrong.
 You can analyse the most uncertain predictions and fix them, but the other errors will still leak to the site.
@@ -45,11 +45,13 @@ On the contrary, if the proportion of out-of-place elements is high enough, outl
 The idea behind similarity search is to measure semantic similarity between related parts of the data.
 E.g. between category title and item images.
 The hypothesis is, that unsuitable items will be less similar.
-However, we can't directly compare text and image data.
+
+We can't directly compare text and image data.
 For this we need an intermediate representation - embeddings.
 Embeddings are just numeric vectors containing semantic information.
 We can apply a pre-trained model to our data to produce these vectors.
 After embeddings are created, we can measure the distances between them.
+
 Assume we want to search for something other than a single bed in «Single beds» category.
 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/similarity_search.png caption="Similarity search" >}}
