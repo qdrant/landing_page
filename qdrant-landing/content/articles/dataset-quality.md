@@ -88,6 +88,16 @@ Since pre-trained models have only general knowledge about the data, they can st
 You might find yourself in a situation when the model focuses on non-important features, selects a lot of irrelevant elements, and fails to find genuine errors. 
 To mitigate this issue, you can perform a diversity search.
 
+Diversity search is a method for finding the most distinctive examples in the data.
+As similarity search, it also operates on embeddings and measure the distances between them.
+But diversity search is an iterative process.
+For example, similarity search can calculate the distances between the embeddings one time and then just fetch any number of the nearest (or the furthest) embeddings you want.
+Diversity search, in turn, requires calculating the distances on each step to determine the next point. 
+The process of finding 3 most distinct points can be described as:
+- Initialize a starting point (randomly or according to the certain conditions)
+- Calculate the distances from the starting point and fetch the furthest example 
+- Calculate the distances from the 2 selected points and get the furthest one from each of them
+
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/diversity_transparent.png caption="Diversity search" >}}
 
 Diversity search utilizes the very same embeddings, and you can reuse them.
