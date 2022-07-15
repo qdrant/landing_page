@@ -51,13 +51,20 @@ On the contrary, if the proportion of out-of-place elements is high enough, outl
 
 ### Similarity search
 
-An alternative approach would be to use a pre-trained model to produce embeddings for your data and then measure the distances between them.
-The idea is to find the objects that are farthest from the anchor.
-Assume we want to search for anything other than a single bed in «Single beds».
+An alternative approach is similarity search. 
+The idea behind similarity search is to measure semantic similarity between related parts of the data.
+E.g. between category title and item images.
+The hypothesis is, that unsuitable items will be less similar.
+However, we can't directly compare text and image data.
+For this we need an intermediate representation - embeddings.
+Embeddings are just numeric vectors containing semantic information.
+We can apply a pre-trained model to our data to produce these vectors.
+After embeddings are created, we can measure the distances between them.
+Assume we want to search for something other than a single bed in «Single beds» category.
 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/similarity_search.png caption="Similarity search" >}}
 
-Then our pipeline will look like this:
+One of the possible pipelines would look like this:
 - Take the name of the category as an anchor and calculate the anchor embedding.
 - Calculate embeddings for images of each object placed into this category.
 - Compare obtained anchor and object embeddings.
