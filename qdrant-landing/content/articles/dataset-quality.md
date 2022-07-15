@@ -35,9 +35,14 @@ Therefore, classical approaches don’t work for them.
 
 Let’s say you work on an online furniture marketplace. 
 In this case, to ensure a good user experience, you need to split items into different categories: tables, chairs, beds, etc.
-One can arrange all the items manually, get reliable results and spend a lot of money and time on this.
-There is another way: train a classification or similarity model and rely on it.
-Such a model can be wrong, some mistakes can be caught by analysing most uncertain predictions, but the others will still leak to the site.
+One can arrange all the items manually and spend a lot of money and time on this.
+There is also another way: train a classification or similarity model and rely on it.
+With both approaches it is difficult to avoid mistakes.
+Manual labelling is a tedious task, which however requires staying focused.
+Once you got distracted or your eyes became blurred mistakes won't keep you waiting.
+The model also can be wrong.
+You can analyse the most uncertain predictions and fix them, but the other errors will still leak to the site.
+There is no silver bullet.
 
 When you are sure that there are not many objects placed in the wrong category, they can be considered outliers or anomalies.
 Thus, you can train a model or a bunch of models capable of looking for anomalies, e.g. autoencoder and a classifier on it.
