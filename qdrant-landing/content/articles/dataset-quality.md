@@ -1,7 +1,7 @@
 ---
-title: Finding errors in categorized datasets
-short_description: Finding errors in categorized datasets with distance-based methods
-description: Finding errors in the furniture online marketplace categories with distance-based methods.
+title: Finding errors in datasets with Similarity Search
+short_description: Finding errors datasets with distance-based methods
+description: Improving quality of text-and-images datasets on the online furniture marketplace example.
 preview_image: /articles_data/dataset-quality/preview.png
 small_preview_image: /articles_data/dataset-quality/icon.svg
 weight: 9
