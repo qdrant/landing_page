@@ -21,16 +21,6 @@ Worse, your users are faced with a lot of irrelevant items, unable to find what 
 Thus, you get poor retention, and it directly impacts company revenue.
 It is really important to avoid such errors in your data.
 
-Tabular, univariate or low-dimensional data, which has interpretable features, is usually easier to analyze.
-That’s the kind of data we used to in classic machine learning algorithms.
-We already have some tricks and techniques for detecting errors in such datasets.
-For instance, we can calculate some statistics and compare one with another.
-In general, we know how to treat such results.  
-
-But currently, solving a problem involving texts or images you will probably stick with deep learning models and most likely obtain better results. 
-Neural networks produce features on their own, and it is much more difficult to make any assumptions about their meaning and desired distribution. 
-Therefore, classical approaches don’t work for them.
-
 ## Furniture web-marketplace
 
 Let’s say you work on an online furniture marketplace. 
@@ -51,7 +41,6 @@ On the contrary, if the proportion of out-of-place elements is high enough, outl
 
 ### Similarity search
 
-An alternative approach is similarity search. 
 The idea behind similarity search is to measure semantic similarity between related parts of the data.
 E.g. between category title and item images.
 The hypothesis is, that unsuitable items will be less similar.
