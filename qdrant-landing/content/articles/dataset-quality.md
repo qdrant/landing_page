@@ -36,7 +36,7 @@ Manual labelling is a tedious task, but it requires concentration.
 Once you got distracted or your eyes became blurred mistakes won't keep you waiting.
 The model also can be wrong.
 You can analyse the most uncertain predictions and fix them, but the other errors will still leak to the site.
-There is no silver bullet.
+There is no silver bullet. You should validate your dataset thoroughly, and you need tools for this.
 
 When you are sure that there are not many objects placed in the wrong category, they can be considered outliers or anomalies.
 Thus, you can train a model or a bunch of models capable of looking for anomalies, e.g. autoencoder and a classifier on it.
