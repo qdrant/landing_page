@@ -84,8 +84,8 @@ You might find yourself in a situation when the model focuses on non-important f
 To mitigate this issue, you can perform a diversity search.
 
 Diversity search is a method for finding the most distinctive examples in the data.
-As similarity search, it also operates on embeddings and measure the distances between them.
-But the search of new points itself differs from the similarity one.
+As similarity search, it also operates on embeddings and measures the distances between them.
+The difference lies in deciding which point should be extracted next.
 
 Let's imagine how to get 3 points with similarity search and then with diversity search.
 
