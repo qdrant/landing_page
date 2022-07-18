@@ -10,5 +10,5 @@ npm install -g sass
 
 ``` bash
 cd qdrant-landing
-sass --watch ./themes/qdrant/static/css/
+sass --watch --style=compressed ./themes/qdrant/static/css/
 ```
