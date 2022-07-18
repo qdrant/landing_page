@@ -4,7 +4,7 @@ short_description: Finding errors datasets with distance-based methods
 description: Improving quality of text-and-images datasets on the online furniture marketplace example.
 preview_image: /articles_data/dataset-quality/preview.png
 small_preview_image: /articles_data/dataset-quality/icon.svg
-weight: 9
+weight: 8
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-07-13T013:00:00.000Z
