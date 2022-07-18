@@ -184,9 +184,9 @@ article:first-of-type {
 }
 
 .article {
+  padding-top: 18px;
   padding-right: 180px;
   padding-left: 180px;
-  padding-top: 18px;
 
   @media only screen and (max-width: 599px) {
     padding-right: 0;
@@ -209,9 +209,10 @@ article:first-of-type {
 }
 
 .blog {
+  padding-top: 20px;
   padding-right: 70px;
   padding-left: 70px;
-  padding-top: 20px;
+  word-break: break-word;
 
   @media only screen and (max-width: 599px) {
     padding-right: 0;
