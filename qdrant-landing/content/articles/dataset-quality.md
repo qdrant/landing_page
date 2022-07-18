@@ -7,7 +7,7 @@ small_preview_image: /articles_data/dataset-quality/icon.svg
 weight: 8
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
-date: 2022-07-18T010:18:00.000Z
+date: 2022-07-18T10:18:00.000Z
 ---
 
 
