@@ -85,14 +85,24 @@ To mitigate this issue, you can perform a diversity search.
 
 Diversity search is a method for finding the most distinctive examples in the data.
 As similarity search, it also operates on embeddings and measure the distances between them.
-But diversity search is an iterative process.
+But the search of new points itself differs from the similarity one.
 
-For example, similarity search can calculate the distances between the embeddings once and then just fetch any number of the nearest (or the furthest) embeddings you want.
-Diversity search, in turn, requires calculating the distances on each step to determine the next point. 
-The process of finding 3 most distinct points can be described as:
-- Initialize a starting point (randomly or according to the certain conditions)
-- Calculate the distances from the starting point and fetch the furthest example 
-- Calculate the distances from the 2 selected points and get the furthest one from each of them
+Let's imagine how to get 3 points with similarity search and then with diversity search.
+
+Similarity:
+1. Calculate distance matrix
+2. Choose your anchor
+3. Get a vector corresponding to the distances from the selected anchor from the distance matrix
+4. Sort fetched vector
+5. Get top-3 embeddings
+ 
+Diversity:
+1. Calculate distance matrix
+2. Initialize starting point (randomly or according to the certain conditions)
+3. Get a distance vector for the selected starting point from the distance matrix
+4. Find the furthest point
+5. Get a distance vector for the new point
+6. Find the furthest point from all of already fetched points 
 
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/diversity_transparent.png caption="Diversity search" >}}
 
