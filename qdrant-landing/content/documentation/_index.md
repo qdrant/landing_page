@@ -26,4 +26,4 @@ In addition to this documentation, you may be interested in looking at examples 
 
 * [Semantic Search for startups](https://demo.qdrant.tech/) + [Source Code](https://github.com/qdrant/qdrant_demo)
 * [Visual Food Discovery](https://food-discovery.qdrant.tech/)
-* [Step-by-Step tutorial on building neural search](http://localhost:1313/articles/neural-search-tutorial/)
+* [Step-by-Step tutorial on building neural search](/articles/neural-search-tutorial/)
