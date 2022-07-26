@@ -44,3 +44,47 @@ but it is also allowed to customize it with a callable passed as as an argument.
 Thanks to this flexibility, we were able to run a variety of experiments in different setups,
 and I believe that these findings will be helpful for your future projects.
 
+## Experiments
+We conducted different experiments to test the performance with:
+1. Different numbers of layers recycled in [the similar cars search example](https://quaterion.qdrant.tech/tutorials/cars-tutorial.html).
+2. Different numbers of samples in the dataset for training and fine-tuning.
+3. Different numbers of layers recycled in [the question answerring example](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html).
+
+## Easy layer recycling with Quaterion
+The easiest way of caching layers in Quaterion is to compose a [TrainableModel](https://quaterion.qdrant.tech/quaterion.train.trainable_model.html#quaterion.train.trainable_model.TrainableModel)
+with a frozen [Encoder](https://quaterion-models.qdrant.tech/quaterion_models.encoders.encoder.html#quaterion_models.encoders.encoder.Encoder)
+and an unfrozen [EncoderHead](https://quaterion-models.qdrant.tech/quaterion_models.heads.encoder_head.html#quaterion_models.heads.encoder_head.EncoderHead).
+Therefore, we modified the `TrainableModel` in the [example](https://github.com/qdrant/quaterion/blob/master/examples/cars/models.py)
+as in the following:
+
+```python
+class Model(TrainableModel):
+    ...
+
+
+    def configure_encoders(self) -> Union[Encoder, Dict[str, Encoder]]:
+        pre_trained_encoder = torchvision.models.resnet34(pretrained=True)
+        self.avgpool = copy.deepcopy(pre_trained_encoder.avgpool)
+        self.finetuned_block = copy.deepcopy(pre_trained_encoder.layer4)
+        modules = []
+
+        for name, child in pre_trained_encoder.named_children():
+            modules.append(child)
+            if name == "layer3":
+                break
+
+        pre_trained_encoder = nn.Sequential(*modules)
+        
+        return CarsEncoder(pre_trained_encoder)
+
+    def configure_head(self, input_embedding_size) -> EncoderHead:
+        return SequentialHead(self.finetuned_block,
+        self.avgpool,
+        nn.Flatten(),
+        SkipConnectionHead(512, dropout=0.3, skip_dropout=0.2),
+        output_size=512)
+    ...
+```
+
+This trick lets us finetune one more layers from the base model as a part of the `EncoderHead`
+while still benefiting from the speedup in the frozen `Encoder` provided by the cache.
