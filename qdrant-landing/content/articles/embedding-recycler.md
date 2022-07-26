@@ -83,8 +83,12 @@ class Model(TrainableModel):
         nn.Flatten(),
         SkipConnectionHead(512, dropout=0.3, skip_dropout=0.2),
         output_size=512)
+
+
     ...
 ```
 
 This trick lets us finetune one more layers from the base model as a part of the `EncoderHead`
 while still benefiting from the speedup in the frozen `Encoder` provided by the cache.
+
+## Experiment 1: Percentage of layers recycled
