@@ -3,7 +3,7 @@ title: Snapshots
 weight: 51
 ---
 
-*avalable since v0.8.4*
+*Avalable since v0.8.4*
 
 Snapshots are performed on a per collection basis and consist in a `tar` archive file containing the necessary data to restore the collection at the time of the snapshot.
 
@@ -78,9 +78,64 @@ The main entry point is the `--snapshot` argument which accepts a list of pairs 
 For example:
 
 ```bash
-./qdrant --snapshot /snapshots/test-collection-archive.tar:test-collection /snapshots/test-collection-archive.tar:test-copy-collection 
+./qdrant --snapshot /snapshots/test-collection-archive.snapshot:test-collection --snapshot /snapshots/test-collection-archive.snapshot:test-copy-collection 
 ```
 
 The target collection **must** be absent otherwise the program will exit with an error.
 
 If you wish instead to overwrite an existing collection, use the `--force_snapshot` flag with caution.
+
+
+## Snapshots for the whole storage
+
+*Avalable since v0.8.5*
+
+Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
+Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collecton_name`:
+
+
+### Create full storage snapshot
+
+```http
+POST /snapshots
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.create_full_snapshot()
+```
+
+### List full storage snapshots
+
+
+```http
+GET /snapshots
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.list_full_snapshots()
+```
+
+### Download full storage snapshot
+
+```http
+GET /snapshots/{snapshot_name}
+```
+## Restore full storage snapshot
+
+Restoring snapshots is done through the Qdrant CLI at startup time.
+
+For example:
+
+```bash
+./qdrant --storage-snapshot /snapshots/full-snapshot-2022-07-18-11-20-51.snapshot 
+```
