@@ -91,16 +91,18 @@ class Model(TrainableModel):
 This trick lets us finetune one more layers from the base model as a part of the `EncoderHead`
 while still benefiting from the speedup in the frozen `Encoder` provided by the cache.
 
-n.b.: During these experiments, we used ResNet34 instead of ResNet152 as the pretrained model
-in order to be able to use a reasonable batch size in full training.
 
 ## Experiment 1: Percentage of layers recycled
 The paper states that recycling 50% of the layers yields little to no loss in performance when compared to full fine-tuning.
-In this setup, we compared performances of three methods:
+In this setup, we compared performances of four methods:
 1. Freeze the whole base model and train only `EncoderHead`.
 2. Move one of the four residual blocks `EncoderHead` and train it together with the head layer while freezing the rest (75% layer recycling).
-3. Move two of the residual blocks to `EncoderHead` while freezing the rest (50% layer recycling).
+3. Move two of the four residual blocks to `EncoderHead` while freezing the rest (50% layer recycling).
 4. Train the whole base model together with `EncoderHead`.
+
+**Note**: During these experiments, we used ResNet34 instead of ResNet152 as the pretrained model
+in order to be able to use a reasonable batch size in full training.
+The baseline score with ResNet34 is 0.106.
 
 {{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_full_dataset.png caption="Performances with different methods of fine-tuning" >}}
 
