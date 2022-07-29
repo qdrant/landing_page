@@ -123,3 +123,16 @@ while we can still improve over the baseline by training only `EncoderHead`.
 
 
 ## Experiment 3: Layer recycling in question answering
+We also wanted to test layer recycling in a different domain
+as one of the most important takeaways of the paper is the fact that
+the performance of layer recycling is task-dependent.
+To this end, we set up an experiment with the code from the [Question Answering with Similarity Learning tutorial](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html).
+
+{{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_qa.png caption="Layer recycling for question answering with similarity learning" >}}
+
+In this task, 50% layer recycling can still do a good job with only a small drop in performance when compared to full training.
+However, the level of degradation is smaller than that in the similar cars search example.
+This can be attributed to several factors such as the pretrained model quality, dataset size and task definition,
+and it can be the subject of a more elaborate and comprehensive research project.
+
+## Conclusion
