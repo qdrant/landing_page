@@ -59,7 +59,7 @@ as in the following:
 
 ```python
 class Model(TrainableModel):
-    ...
+    # ...
 
 
     def configure_encoders(self) -> Union[Encoder, Dict[str, Encoder]]:
@@ -85,10 +85,23 @@ class Model(TrainableModel):
         output_size=512)
 
 
-    ...
+    # ...
 ```
 
 This trick lets us finetune one more layers from the base model as a part of the `EncoderHead`
 while still benefiting from the speedup in the frozen `Encoder` provided by the cache.
 
 ## Experiment 1: Percentage of layers recycled
+The paper states that recycling 50% of the layers yields little to no loss in performance when compared to full fine-tuning.
+In this setup, we compared performances of three methods:
+1. Freeze the whole base model and train only `EncoderHead`.
+2. Move one of the residual blocks `EncoderHead` and train it together with the head layer while freezing the rest (25% layer recycling).
+3. Move two of the residual blocks to `EncoderHead` while freezing the rest (50% layer recycling).
+4. Train the whole base model together with `EncoderHead`.
+
+{{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_full_dataset.png caption="Performances with different methods of fine-tuning" >}}
+
+As is seen in the figure, the performance in 50% layer recycling is very close to that in full training.
+Additionally, we can still have a considerable speedup in 50% layer recycling with only a small drop in performance.
+Although 25% layer recycling is better than training only `EncoderHead`,
+its performance drops quickly when compared to 50% layer recycling and full training.
