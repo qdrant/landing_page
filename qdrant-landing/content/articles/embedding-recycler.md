@@ -105,3 +105,11 @@ As is seen in the figure, the performance in 50% layer recycling is very close t
 Additionally, we can still have a considerable speedup in 50% layer recycling with only a small drop in performance.
 Although 25% layer recycling is better than training only `EncoderHead`,
 its performance drops quickly when compared to 50% layer recycling and full training.
+
+## Experiment 2: Amount of available data
+In the second experiment setup, we compared performances of fine-tuning strategies with different dataset sizes.
+We sampled 50% of the training set randomly while still evaluating models on the whole validation set.
+
+{{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_small_dataset.png caption="Performances with differen dataset sizes" >}}
+
+This gives us
