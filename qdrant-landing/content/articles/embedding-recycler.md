@@ -136,3 +136,13 @@ This can be attributed to several factors such as the pretrained model quality, 
 and it can be the subject of a more elaborate and comprehensive research project.
 
 ## Conclusion
+We set up several experiments to test layer recycling under different constraints
+and confirmed that layer recycling yields varying performances with different tasks and domains.
+One of the most important observations is the fact that the level of degradation in layer recycling
+is sublinear with a comparison to full training, i.e., we lose a smaller percentage of performance than
+the percentage we recycle. Additionally, training only `EncoderHead`
+is more resistant to small dataset sizes.
+There is even a critical size under which full training does not work at all.
+The issue of performance differences shows that there is still room for further research on layer recycling,
+and luckily Quaterion is flexible enough to run such experiments quickly.
+We will continue to report our findings on fine-tuning efficiency.
