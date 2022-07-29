@@ -47,7 +47,7 @@ and I believe that these findings will be helpful for your future projects.
 ## Experiments
 We conducted different experiments to test the performance with:
 1. Different numbers of layers recycled in [the similar cars search example](https://quaterion.qdrant.tech/tutorials/cars-tutorial.html).
-2. Different numbers of samples in the dataset for training and fine-tuning.
+2. Different numbers of samples in the dataset for training and fine-tuning for similar cars search.
 3. Different numbers of layers recycled in [the question answerring example](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html).
 
 ## Easy layer recycling with Quaterion
@@ -98,7 +98,7 @@ in order to be able to use a reasonable batch size in full training.
 The paper states that recycling 50% of the layers yields little to no loss in performance when compared to full fine-tuning.
 In this setup, we compared performances of three methods:
 1. Freeze the whole base model and train only `EncoderHead`.
-2. Move one of the residual blocks `EncoderHead` and train it together with the head layer while freezing the rest (25% layer recycling).
+2. Move one of the four residual blocks `EncoderHead` and train it together with the head layer while freezing the rest (75% layer recycling).
 3. Move two of the residual blocks to `EncoderHead` while freezing the rest (50% layer recycling).
 4. Train the whole base model together with `EncoderHead`.
 
@@ -106,7 +106,7 @@ In this setup, we compared performances of three methods:
 
 As is seen in the figure, the performance in 50% layer recycling is very close to that in full training.
 Additionally, we can still have a considerable speedup in 50% layer recycling with only a small drop in performance.
-Although 25% layer recycling is better than training only `EncoderHead`,
+Although 75% layer recycling is better than training only `EncoderHead`,
 its performance drops quickly when compared to 50% layer recycling and full training.
 
 ## Experiment 2: Amount of available data
@@ -116,7 +116,10 @@ We sampled 50% of the training set randomly while still evaluating models on the
 {{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_small_dataset.png caption="Performances with differen dataset sizes" >}}
 
 This experiment shows that, the smaller the available dataset is,
-the bigger drop  in performance we observe in full training, 50% and 25% layer recycling.
+the bigger drop  in performance we observe in full training, 50% and 75% layer recycling.
 On the other hand, the level of degradation in training only `EncoderHead` is really small when compared to others.
 When we further reduce the dataset size, full training becomes untrainable at some point,
 while we can still improve over the baseline by training only `EncoderHead`.
+
+
+## Experiment 3: Layer recycling in question answering
