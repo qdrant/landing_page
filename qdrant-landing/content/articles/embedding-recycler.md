@@ -17,7 +17,7 @@ in the training and inference phases to achieve a speedup of ~83%
 with a negligible loss in model performance.
 This technique is quite similar to [the caching mechanism in Quaterion](https://quaterion.qdrant.tech/tutorials/cache_tutorial.html),
 but the latter is intended for any data modalities while the former focuses only on language models
-despite presenting inportant insights from their experiments.
+despite presenting important insights from their experiments.
 In this post, I will share our findings combined with those,
 hoping to provide the community with a wider perspective on layer recycling.
 
@@ -30,7 +30,7 @@ and use them as inputs to the unfrozen layers in future epochs.
 
 In the paper, they usually cache 50% of the layers, e.g., the output of the 6th multi-head self-attention block in a 12-block encoder.
 However, they find out that it does not work equally for all the tasks.
-For example, the question answering task suffers from a greater degradation in performance with 50% of the layers recycled,
+For example, the question answering task suffers from a more significant degradation in performance with 50% of the layers recycled,
 and they choose to lower it down to 25% for this task,
 so they suggest determining the level of caching based on the task at hand.
 they also note that caching provides a more considerable speedup for larger models and on lower-end machines.
@@ -38,9 +38,10 @@ they also note that caching provides a more considerable speedup for larger mode
 In layer recycling, the cache is hit for exactly the same object.
 It is easy to achieve this in textual data as it is easily hashable,
 but you may need more advanced tricks to generate keys for the cache
-when you want to generalize this technique to any other domain.
-Quaterion comes with an intelligent key extractor that may be applied any data type,
-but it is also allowed to customize it with a callable passed as as an argument.
+when you want to generalize this technique to diverse data types.
+For instance, hashing PyTorch tensors [does not work as you may expect](https://github.com/joblib/joblib/issues/1282).
+Quaterion comes with an intelligent key extractor that may be applied to any data type,
+but it is also allowed to customize it with a callable passed as an argument.
 Thanks to this flexibility, we were able to run a variety of experiments in different setups,
 and I believe that these findings will be helpful for your future projects.
 
@@ -88,7 +89,7 @@ class Model(TrainableModel):
     # ...
 ```
 
-This trick lets us finetune one more layers from the base model as a part of the `EncoderHead`
+This trick lets us finetune one more layer from the base model as a part of the `EncoderHead`
 while still benefiting from the speedup in the frozen `Encoder` provided by the cache.
 
 
@@ -126,7 +127,7 @@ while we can still improve over the baseline by training only `EncoderHead`.
 
 ## Experiment 3: Layer recycling in question answering
 We also wanted to test layer recycling in a different domain
-as one of the most important takeaways of the paper is the fact that
+as one of the most important takeaways of the paper is that
 the performance of layer recycling is task-dependent.
 To this end, we set up an experiment with the code from the [Question Answering with Similarity Learning tutorial](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html).
 
@@ -136,6 +137,8 @@ In this task, 50% layer recycling can still do a good job with only a small drop
 However, the level of degradation is smaller than that in the similar cars search example.
 This can be attributed to several factors such as the pretrained model quality, dataset size and task definition,
 and it can be the subject of a more elaborate and comprehensive research project.
+Another observation is that the performance of 75% layer recycling is closer to that of training only `EncoderHead`
+than 50% layer recycling.
 
 ## Conclusion
 We set up several experiments to test layer recycling under different constraints
