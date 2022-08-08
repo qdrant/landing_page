@@ -155,13 +155,40 @@ client.recreate_collection(
 We recommend selecting the number of shards as a factor of the number of nodes you are currently running in your cluster.
 For example, if you have 3 nodes, 6 shards could be a good option.
 
-### Shard re-balancing
+### Cluster scaling
 
-In case you want to extend your cluster with new nodes or some nodes become slower than the others, it might be helpful to re-balance shard alignment in the cluster.
+If you want to extend your cluster with new nodes or some nodes become slower than the others, it might be helpful to re-balance the shard distribution in the cluster.
 
-Shard re-balancing operation will move shards from over-loaded nodes to less loaded, creating more even data distribution.
+*Since version v0.9.0*, Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster.
 
-Shard re-balancing is currently work-in-progress, see [Roadmap](https://qdrant.to/roadmap)
+This functionality unlocks the ability to dynamically scale the cluster size without downtime.
+
+Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.9.0#tag/cluster/operation/collection_cluster_info).
+
+Use the [Update collection cluster setup API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.9.0#tag/cluster/operation/update_collection_cluster) to initiate the shard transfer:
+
+```http
+POST /collections/{collection_name}/cluster
+
+{
+  "move_shard": {
+    "shard_id": 0,
+    "from_peer_id": 381894127,
+    "to_peer_id": 467122995
+  }
+}
+```
+
+After the transfer is initiated, the service will keep both copies of the shard updated until the transfer is complete.
+It will also make sure the transferred shard indexing process is keeping up before performing a final switch. This way, Qdrant ensures that there will be no degradation in performance at the end of the transfer.
+
+In case you want to downscale the cluster, you can move all shards away from a peer and then remove the peer using [Remove peer from the cluster API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.9.0#tag/cluster/operation/remove_peer).
+
+```http
+DELETE /cluster/peer/{peer_id}
+```
+
+After that, Qdrant will exclude the node from the consensus, and the instance will be ready for the shutdown.
 
 ## Replication
 
