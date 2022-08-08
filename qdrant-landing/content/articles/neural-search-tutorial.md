@@ -12,8 +12,6 @@ author_link: https://blog.vasnetsov.com/
 
 ## How to build a neural search service with BERT + Qdrant + FastAPI
 
-![Intro](https://gist.githubusercontent.com/generall/c229cc94be8c15095286b0c55a3f19d7/raw/d866e37a60036ebe65508bd736faff817a5d27e9/intro.png)
-
 Information retrieval technology is one of the main technologies that enabled the modern Internet to exist.
 These days, search technology is the heart of a variety of applications.
 From web-pages search to product recommendations.

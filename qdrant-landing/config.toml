@@ -48,9 +48,9 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
 
   gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
-  githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v0.8.x/"
+  githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v0.9.x/"
 
-  docVersion = "v0.8.x"
+  docVersion = "v0.9.x"
 
   googleTagManager = "GTM-KRLCXD5"
 
