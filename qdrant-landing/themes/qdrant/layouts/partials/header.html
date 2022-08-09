@@ -122,7 +122,6 @@
                               {{if .HasChildren }}dropdown{{ end }}">
                               <a class="navigation__link" {{if not .HasChildren }}href="{{ .URL }}"{{end}}>{{ .Name }}
                               {{ if .HasChildren }}
-                                <i class="fas fa-chevron-down"></i>
                               </a>
                               <ul>
                                   {{ range .Children }}
