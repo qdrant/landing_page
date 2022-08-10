@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: '"Vector search and applications" by Andrey Vasnetsov, CTO at Qdrant'
 slug: vector-search-and-applications-record
 short_description: Andrey Vasnetsov, Co-founder and CTO at Qdrant has shared
