@@ -3,8 +3,8 @@
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">      
+        
         {{ if and ($.IsNode) (eq $.Section "") }}
         <title>{{ .Title }}</title>
         {{ else }}
@@ -12,7 +12,7 @@
         {{ end }}
 
         {{ partial "seo_schema" . }}
-
+        
 
         <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
         <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
@@ -25,10 +25,11 @@
         <meta name="theme-color" content="#ffffff">
 
 
+
         {{ partial "css" . }}
-
+        
         {{ hugo.Generator }}
-
+        
         {{ with .OutputFormats.Get "RSS" }}
             <link href="{{ .RelPermalink }}" rel="alternate" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
             <link href="{{ .RelPermalink }}" rel="feed" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
@@ -62,11 +63,6 @@
         <!-- Required because netlify sends a registration link that redirects to the home page -->
         <!-- but commented because slows down a site and used extremely rarely -->
         <!-- <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>-->
-
-        {{ if eq .Section "benchmarks" }}
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          <script src="{{ "js/benchmarks.js" | absURL }}"></script>
-        {{ end }}
     </head>
 
     <body>
@@ -80,21 +76,22 @@
             <!-- Main Header-->
 
             {{ if (eq $.Section "documentation") }}
-            <header class="main-header">
+            <header class="main-header header-style-three">
             {{ else }}
-            <header class="main-header main-sticky-header">
+            <header class="my-main-header main-sticky-header header-style-three">
             {{ end }}
-
+          
               <!--Header-Upper-->
+              <div class="header-upper">
                 <div class="auto-container">
                   <div class="clearfix">
-
+          
                     <div class="pull-left logo-box">
                       <div class="logo logo_with-text {{ if .IsHome }}logo_home{{ end }}">
                           <a href="/" class="logo__link"></a>
                       </div>
                     </div>
-
+          
                     <div class="nav-outer clearfix">
                       <!--Mobile Navigation Toggler-->
                       <div class="mobile-nav-toggler"><i class="icon flaticon-menu"></i></div>
@@ -110,10 +107,10 @@
                             <span class="icon-bar"></span>
                           </button>
                         </div>
-
+          
                         <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
                           <ul class="navigation clearfix">
-
+                            
                             {{ $currentPage := . }}
                             {{ range .Site.Menus.main }}
                             {{ if .Params.in_header }}
@@ -143,25 +140,26 @@
                                <a class="btn btn_in-header" href="/surveys/cloud-request/" title="Cloud" role="button">
                                    <span class="btn__text"><i class="fas fa-cloud"></i> Cloud</span></a>
                                <a class="btn btn_in-header" href="{{ .Site.Params.github }}" target="_blank" title="GitHub" role="button">
-                                   <span class="btn btn__text"><i class="fab fa-github"></i> Github</span></a>
+                                   <span class="btn__text"><i class="icon flaticon-github"></i> Github</span></a>
                            </li>
 
                           </ul>
                         </div>
-
+          
                       </nav>
 
                     </div>
-
+          
                   </div>
                 </div>
-                <!--End Header Upper-->
-
+              </div>
+              <!--End Header Upper-->
+          
               <!-- Mobile Menu  -->
               <div class="mobile-menu">
                 <div class="menu-backdrop"></div>
                 <div class="close-btn"><span class="icon flaticon-multiply"></span></div>
-
+          
                 <nav class="menu-box">
                   <div class="nav-logo"><a href="/"><img src="{{ .Site.Params.logo }}" alt="" title=""></a>
                   </div>
@@ -170,6 +168,6 @@
                   </div>
                 </nav>
               </div><!-- End Mobile Menu -->
-
+          
             </header>
             <!--End Main Header -->
