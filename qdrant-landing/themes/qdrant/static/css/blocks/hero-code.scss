@@ -13,6 +13,10 @@
   font-family: "SF Mono", "Anonymous Pro", monospace;
   font-size: 18px;
 
+  code {
+    font-size: 18px;
+  }
+
   @media (max-width: 1140px) {
     background: var(--gray);
   }
