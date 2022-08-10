@@ -2,16 +2,15 @@
   @extend .btn;
 
   &_in-header {
-    padding: 0.1rem 0.5rem;
+    padding: 8px;
     position: relative;
-    background: var(--white);
     border: 0;
-    line-height: 1;
-    box-shadow: inset 0 0 0 1px var(--brand-primary);
     border-radius: 32px;
+    background: var(--white);
+    box-shadow: inset 0 0 0 1px var(--brand-primary);
+    overflow: hidden;
 
     &:before {
-      border-radius: 0.25rem;
       width: 100%;
       height: 100%;
       position: absolute;
@@ -32,8 +31,9 @@
       -ms-transform-origin: top right;
       -webkit-transform-origin: top right;
       transform-origin: top right;
-      background-color: var(--brand-primary);
+      border-radius: 0.25rem;
       border-radius: 32px;
+      background-color: var(--brand-primary);
     }
 
     &:hover {
@@ -52,10 +52,8 @@
     .btn__text {
       position: relative;
       z-index: 1;
-      text-transform: uppercase;
       color: var(--brand-primary);
-      font-size: 16px;
-      font-weight: 600;
+      font-size: 18px;
     }
 
     i {
@@ -69,6 +67,9 @@
       }
     }
 
+    &:not(:last-of-type) {
+      margin-right: 40px;
+    }
   }
 
   &.disabled {
@@ -333,7 +334,7 @@
   }
 
   & .text,
-  & .txt{
+  & .txt {
     position: relative;
     z-index: 1;
   }
