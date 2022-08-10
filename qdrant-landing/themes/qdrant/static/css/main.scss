@@ -353,7 +353,11 @@ img{
 	z-index:1;
 	margin-bottom:20px;
 	@include media-breakpoint-up(md) {
-		margin-bottom:40px;
+		margin-bottom:56px;
+	}
+	&.text {
+		font-size: 12px;
+		line-height: 23px;
 	}
 }
 
@@ -2966,7 +2970,7 @@ img{
 
 .banner-section-two{
 	position:relative;
-	padding-top:220px;
+	padding-top:170px;
 	padding-bottom:0;
 }
 
@@ -2993,7 +2997,6 @@ img{
 
 .banner-section-two .content-column .inner-column{
 	position:relative;
-	padding-top:100px;
 	padding-bottom:60px;
 }
 
@@ -3003,7 +3006,6 @@ img{
 	font-weight:700;
 	font-size: 56px;
 	line-height:1.25em;
-	margin-bottom:20px;
 	text-transform:capitalize;
 }
 
@@ -3039,8 +3041,8 @@ img{
 
 .banner-section-two .image-column .inner-column{
 	position:relative;
-	padding-left:70px;
-	margin-right:-200px;
+	width: 126%;
+	margin-left: -10%;
 }
 
 /*** 
@@ -3097,7 +3099,7 @@ img{
 
 .features-section{
 	position:relative;
-	padding:60px 0 60px;
+	padding:117px 0 60px;
 }
 
 .features-section .image-column{
