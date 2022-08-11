@@ -2,7 +2,7 @@
   @extend .btn;
 
   &_in-header {
-    padding: 8px;
+    padding: 9px;
     position: relative;
     border: 0;
     border-radius: 32px;
@@ -31,7 +31,6 @@
       -ms-transform-origin: top right;
       -webkit-transform-origin: top right;
       transform-origin: top right;
-      border-radius: 0.25rem;
       border-radius: 32px;
       background-color: var(--brand-primary);
     }
@@ -50,10 +49,16 @@
     }
 
     .btn__text {
+      display: flex;
       position: relative;
       z-index: 1;
+      -moz-transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+      -o-transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+      -webkit-transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+      transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
       color: var(--brand-primary);
       font-size: 18px;
+      line-height: 1;
     }
 
     i {
@@ -63,6 +68,10 @@
 
     &:hover {
       .btn__text {
+        -moz-transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+        -o-transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+        -webkit-transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
+        transition: color 500ms cubic-bezier(0.860, 0.000, 0.070, 1.000);
         color: var(--white);
       }
     }
