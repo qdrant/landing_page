@@ -17,10 +17,6 @@
     font-size: 18px;
   }
 
-  @media (max-width: 1140px) {
-    background: var(--gray);
-  }
-
   @include media-breakpoint-up(sm) {
     display: inline-block;
     padding-right: 3.5rem;

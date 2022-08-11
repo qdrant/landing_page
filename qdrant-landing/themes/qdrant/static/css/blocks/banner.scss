@@ -1,0 +1,187 @@
+/***
+
+====================================================================
+	Banner Section
+====================================================================
+
+***/
+
+.banner-section {
+  padding-top: 220px;
+  padding-bottom: 100px;
+  position: relative;
+
+  .side-layer {
+    width: 100%;
+    height: 1459px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: right top;
+  }
+
+  .pattern-layer {
+    width: 100%;
+    height: 942px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  .content-column {
+    position: relative;
+    z-index: 3;
+
+    .inner-column {
+      padding-top: 100px;
+      padding-bottom: 60px;
+      padding-left: 30px;
+      position: relative;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      position: relative;
+      text-transform: capitalize;
+      color: #ffffff;
+      font-weight: 700;
+      line-height: 1.25em;
+
+      span {
+        color: var(--brand-primary);
+      }
+    }
+
+    .text {
+      margin-bottom: 35px;
+      position: relative;
+      color: #ffffff;
+      font-size: 18px;
+      font-weight: 400;
+      line-height: 1.8em;
+    }
+
+    .buttons-box {
+      position: relative;
+
+      .theme-btn {
+        margin-right: 25px;
+      }
+    }
+  }
+
+  .image-column {
+    position: relative;
+
+    .inner-column {
+      margin-left: -200px;
+      position: relative;
+    }
+  }
+}
+
+/***
+
+====================================================================
+	Banner Section
+====================================================================
+
+***/
+
+.banner-section-two {
+  padding-top: 170px;
+  padding-bottom: 0;
+  position: relative;
+
+  @include media-breakpoint-down(lg) {
+    padding-top: 70px;
+  }
+
+  .outer-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .side-layer {
+    width: 77%;
+    height: 981px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 73%;
+  }
+
+  .content-column {
+    position: relative;
+    z-index: 3;
+
+    .inner-column {
+      padding-bottom: 60px;
+      position: relative;
+    }
+
+    h1 {
+      position: relative;
+      text-transform: capitalize;
+      color: var(--brand-secondary);
+      font-size: 56px;
+      font-weight: 700;
+      line-height: 1.25em;
+
+      span {
+        color: var(--brand-primary);
+      }
+    }
+
+    h2 {
+      font-weight: 700;
+    }
+
+    h4 {
+      color: var(--brand-gray);
+      font-size: 24px;
+    }
+
+    .newsletter-form {
+      .form-group {
+        button {
+          padding: 9px 36px 9px;
+          border-radius: 50px;
+        }
+      }
+    }
+  }
+
+  .image-column {
+    display: none;
+
+    @include media-breakpoint-up(lg) {
+      display: block;
+    }
+
+    .inner-column {
+      width: 126%;
+      margin-left: -10%;
+      position: relative;
+    }
+  }
+
+  .content-column {
+    .inner-column {
+      .newsletter-form {
+        .form-group {
+          button {
+            padding: 9px 36px 9px;
+            border-radius: 50px;
+          }
+        }
+      }
+    }
+
+  }
+}

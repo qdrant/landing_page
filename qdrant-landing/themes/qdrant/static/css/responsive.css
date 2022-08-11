@@ -133,16 +133,6 @@
     right: 15px;
   }
 
-  .header-style-three .header-top .info-list li a,
-  .banner-section-two .content-column .text,
-  .banner-section-two .content-column h1 {
-    color: #ffffff;
-  }
-
-  .banner-section-two {
-    background-color: var(--brand-secondary);
-  }
-
   .science-section-two .image-column .inner-column {
     margin-left: 0px;
     padding-right: 0px;
@@ -179,10 +169,6 @@
     border-radius: 45px;
   }
 
-  .banner-section-two {
-    padding-top: 120px;
-  }
-
   .main-header.header-style-three {
     background-color: #ffffff;
   }
@@ -211,12 +197,10 @@
 
   .main-header .nav-outer {
     width: 100%;
-    margin-top: -25px;
   }
 
   .main-header {
     position: relative;
-    background-color: #222222;
   }
 
   .main-header .header-upper .outer-box {
@@ -705,13 +689,7 @@
     height: 2px;
     width: 26px;
     display: block;
-    margin: 0 auto;
     margin: 5px 11px;
-  }
-
-  .main-header .nav-outer {
-    width: 100%;
-    margin-top: -81px;
   }
 
   .main-slider h3 {
@@ -802,10 +780,9 @@
   .nav-outer .mobile-nav-toggler {
     display: block;
     margin: 0;
-    padding: 12px 0px;
     margin-left: 20px;
     font-size: 32px;
-    color: #ffffff;
+    color: var(--brand-secondary);
   }
 
   #navbarSupportedContent {
@@ -820,11 +797,6 @@
     background-size: auto !important;
     background-position: center center;
     background-repeat: no-repeat;
-  }
-
-  .banner-section-two .content-column .text,
-  .header-style-two .nav-outer .mobile-nav-toggler {
-    color: #ffffff;
   }
 
   .main-header.header-style-two .nav-outer {
