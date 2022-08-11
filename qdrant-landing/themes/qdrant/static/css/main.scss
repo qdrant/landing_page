@@ -59,6 +59,7 @@
 @import "blocks/steps-form";
 
 @import "blocks/header";
+@import "blocks/banner";
 @import "blocks/footer";
 
 /*** 
@@ -412,91 +413,6 @@ img{
 }
 
 /***
-
-====================================================================
-	Banner Section
-====================================================================
-
-***/
-
-.banner-section{
-	position:relative;
-	padding-top:220px;
-	padding-bottom:100px;
-}
-
-.banner-section .side-layer{
-	position:absolute;
-	right:0;
-	top:0;
-	width:100%;
-	height:1459px;
-	background-position:right top;
-	background-repeat:no-repeat;
-}
-
-.banner-section .pattern-layer{
-	position:absolute;
-	right:0;
-	top:0;
-	width:100%;
-	height:942px;
-	background-repeat:no-repeat;
-	background-position:center center;
-}
-
-.banner-section .content-column{
-	position:relative;
-	z-index:3;
-}
-
-.banner-section .content-column .inner-column{
-	position:relative;
-	padding-top:100px;
-	padding-left:30px;
-	padding-bottom:60px;
-}
-
-.banner-section .content-column h1{
-	position:relative;
-	color:#ffffff;
-	font-weight:700;
-	line-height:1.25em;
-	margin-bottom:20px;
-	text-transform:capitalize;
-}
-
-.banner-section .content-column h1 span{
-	color:var(--brand-primary);
-}
-
-.banner-section .content-column .text{
-	position:relative;
-	color:#ffffff;
-	font-size:18px;
-	line-height:1.8em;
-	margin-bottom:35px;
-	font-weight:400;
-}
-
-.banner-section .content-column .buttons-box{
-	position:relative;
-}
-
-.banner-section .content-column .buttons-box .theme-btn{
-	margin-right:25px;
-}
-
-.banner-section .image-column{
-	position:relative;
-}
-
-.banner-section .image-column .inner-column{
-	position:relative;
-	margin-left:-200px;
-}
-
-/*** 
 
 ====================================================================
 			Mobile Menu
@@ -2960,90 +2876,6 @@ img{
 	border-radius:50px;
 }
 
-/*** 
-
-====================================================================
-	Banner Section
-====================================================================
-
-***/
-
-.banner-section-two{
-	position:relative;
-	padding-top:170px;
-	padding-bottom:0;
-}
-
-.banner-section-two .outer-container{
-	position:relative;
-	overflow:hidden;
-}
-
-.banner-section-two .side-layer{
-	position:absolute;
-	right:0;
-	top:0;
-	width:77%;
-	height:981px;
-  background-position:right top;
-	background-repeat:no-repeat;
-  background-size: 73%;
-}
-
-.banner-section-two .content-column{
-	position:relative;
-	z-index:3;
-}
-
-.banner-section-two .content-column .inner-column{
-	position:relative;
-	padding-bottom:60px;
-}
-
-.banner-section-two .content-column h1{
-	position:relative;
-	color: var(--brand-secondary);
-	font-weight:700;
-	font-size: 56px;
-	line-height:1.25em;
-	text-transform:capitalize;
-}
-
-.banner-section-two .content-column h2{
-	font-weight:700;
-}
-
-.banner-section-two .content-column h1 span{
-	color:var(--brand-primary);
-}
-
-.banner-section-two .content-column h4 {
-	color: var(--brand-gray);
-	font-size: 24px;
-}
-
-.banner-section-two .content-column .newsletter-form .form-group button,
-.content-column .inner-column .newsletter-form .form-group button{
-	border-radius:50px;
-	padding:9px 36px 9px;
-}
-.banner-section-two .image-column {
-	display: none;
-
-	@include media-breakpoint-up(lg) {
-		display: block;
-	}
-}
-
-.banner-section .image-column{
-	position:relative;
-}
-
-.banner-section-two .image-column .inner-column{
-	position:relative;
-	width: 126%;
-	margin-left: -10%;
-}
 
 /*** 
 
