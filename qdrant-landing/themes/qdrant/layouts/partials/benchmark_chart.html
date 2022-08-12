@@ -1,0 +1,85 @@
+<div class="col">
+
+  <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
+  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}', 'rps')">
+
+  </select>
+
+  <label for="parallel-selector-{{ .Params.id }}">Search threads:</label>
+  <select name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}', 'rps')">
+  </select>
+
+
+  <canvas id="chart-{{ .Params.id }}"></canvas>
+</div>
+
+
+
+<script type="module">
+  let url = "{{ .Params.data }}";
+
+  let datasetSelector = document.getElementById("datasets-selector-{{ .Params.id }}");
+
+  let parallelSelector = document.getElementById("parallel-selector-{{ .Params.id }}");
+
+
+  const config = {
+    type: 'line',
+    data: {
+      datasets: []
+    },
+    options: {
+      responsive: true,
+      interaction: {
+        intersect: false,
+      },
+      scales: {
+        x: {
+          type: 'linear',
+          title: 'precision'
+        }
+      },
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (tooltipItem) {
+              return tooltipItem.parsed.setup_name + ": " + tooltipItem.parsed.y;
+            },
+          }
+        },
+      }
+    }
+  };
+
+  const chart = new Chart(
+    document.getElementById('chart-{{ .Params.id }}'),
+    config
+  );
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      console.log(data[0])
+
+      const datasets = getDatasetsList(data);
+      updataDropdown(datasetSelector, datasets);
+
+      const parallels = getParallelOptions(data);
+      updataDropdown(parallelSelector, parallels);
+
+      let parallelsInt = parseInt(parallels[0]);
+
+      let selectedData = filterData(data, {
+        "dataset_name": datasets[0],
+        "parallel": parallelsInt
+      });
+
+      window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
+      window.charts = { "{{ .Params.id }}": chart, ...window.charts }
+
+      renderSelected("{{ .Params.id }}", "rps");
+
+      // Chart js set min x value
+
+    });
+</script>

@@ -25,7 +25,6 @@
         <meta name="theme-color" content="#ffffff">
 
 
-
         {{ partial "css" . }}
         
         {{ hugo.Generator }}
@@ -65,7 +64,8 @@
         <!-- <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>-->
 
         {{ if eq .Section "benchmarks" }}
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          <script src="{{ "js/benchmarks.js" | absURL }}"></script>
         {{ end }}
     </head>
 
