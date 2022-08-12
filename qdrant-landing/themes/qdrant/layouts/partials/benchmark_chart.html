@@ -1,16 +1,38 @@
 <div class="col">
 
   <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
-  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}', 'rps')">
+  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
 
   </select>
 
   <label for="parallel-selector-{{ .Params.id }}">Search threads:</label>
-  <select name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}', 'rps')">
+  <select name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
   </select>
 
+  Plot values:
+
+  <!-- Radio button group to select values to render -->
+  <label>
+    <input checked type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    RPS
+  </label> |
+
+  <label>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="mean_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    Latency
+  </label> |
+
+  <label>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="p95_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    p95 latency
+  </label>
 
   <canvas id="chart-{{ .Params.id }}"></canvas>
+
+  <div class="form-group">
+    <input type="range" class="custom-range" id="precision-selector-{{ .Params.id }}" onchange="updateLine('{{ .Params.id }}', this.value)">
+  </div>
+
 </div>
 
 
@@ -22,6 +44,7 @@
 
   let parallelSelector = document.getElementById("parallel-selector-{{ .Params.id }}");
 
+  let precisionSelector = document.getElementById("precision-selector-{{ .Params.id }}");
 
   const config = {
     type: 'line',
@@ -36,7 +59,17 @@
       scales: {
         x: {
           type: 'linear',
-          title: 'precision'
+          title: {
+            display: true,
+            text: 'Precision'
+          },
+        },
+        y: {
+          type: 'linear',
+          title: {
+            display: true,
+            text: ''
+          },
         }
       },
       plugins: {
@@ -45,6 +78,9 @@
             label: function (tooltipItem) {
               return tooltipItem.parsed.setup_name + ": " + tooltipItem.parsed.y;
             },
+            title: function (tooltipItem) {
+              return "Precision: " + tooltipItem[0].parsed.x;
+            }
           }
         },
       }
@@ -77,7 +113,7 @@
       window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
       window.charts = { "{{ .Params.id }}": chart, ...window.charts }
 
-      renderSelected("{{ .Params.id }}", "rps");
+      renderSelected("{{ .Params.id }}");
 
       // Chart js set min x value
 
