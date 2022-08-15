@@ -21,6 +21,20 @@ let lowerIsBetterMap = {
   "p99_time": true,
   "upload_time": true,
   "total_time": true,
+  "total_upload_time": true,
+}
+
+const normalizedTitles = {
+  total_time: 'Total Time (s)',
+  engine_name: 'Engine',
+  dataset_name: 'Dataset',
+  rps: 'RPS',
+  mean_precisions: 'Precision',
+  total_upload_time: 'Upload + Index Time (s)',
+  upload_time: 'Upload Time (s)',
+  mean_time: 'Latency (s)',
+  p95_time: 'P95 (s)',
+  p99_time: 'P99 (s)'
 }
 
 
@@ -249,7 +263,7 @@ function updateLine(chartId, x) {
   let selectedData = getSelectedData(chartId);
   let filteredByPrecision = selectByPrecision(selectedData, x);
   let tableData = selectDataForTable(filteredByPrecision, selectedPlotValue);
-  renderTable(tableData, chartId);
+  renderTable(tableData, chartId, selectedPlotValue);
 }
 
 function drawLine(chart, x) {
@@ -298,22 +312,22 @@ function renderSelected(chartId) {
 
   let tableData = selectDataForTable(filteredByPrecision, selectedPlotValue);
 
-  renderTable(tableData, chartId);
+  renderTable(tableData, chartId, selectedPlotValue);
 }
 
-const renderTable = function (tableData, chartId) {
+const renderTable = function (tableData, chartId, selectedPlotValue) {
   if (!tableData[0]) {
     return;
   }
-  const normalizedTitles = {
-    total_time: 'Total Time',
-    engine_name: 'Engine Name'
-  }
-  const titles = Object.keys(tableData[0]).map(titile => {
-    if (normalizedTitles.hasOwnProperty(titile)) {
-      titile = normalizedTitles[titile];
+
+  let titles = Object.keys(tableData[0]);
+
+  const titleElements = titles.map(title => {
+    let normTitle = title;
+    if (normalizedTitles.hasOwnProperty(title)) {
+      normTitle = normalizedTitles[title];
     }
-    return `<th scope="col">${titile}</th>`;
+    return `<th scope="col">${normTitle}</th>`;
   });
 
   const rows = tableData.map(obj => {
@@ -325,7 +339,7 @@ const renderTable = function (tableData, chartId) {
       if (typeof value === 'number' && Math.trunc(value) !== value) {
         value = value.toFixed(20).match(/^-?\d*\.?0*\d{0,2}/)[0];
       }
-      if (i === 0) {
+      if (titles[i] === selectedPlotValue) {
         return `<th scope="row">${value}</th>`;
       }
       return `<td>${value}</td>`;
@@ -335,7 +349,7 @@ const renderTable = function (tableData, chartId) {
 
   const table = document.createElement('table');
   table.classList.add('table', 'table-striped', 'table-responsive', 'table-sm');
-  table.innerHTML = `<thead><tr>${titles.join('')}</tr></thead><tbody>${rows.join('')}</tbody>`;
+  table.innerHTML = `<thead><tr>${titleElements.join('')}</tr></thead><tbody>${rows.join('')}</tbody>`;
 
   if (document.getElementById('table-' + chartId).querySelector('.table')) {
     document.getElementById('table-' + chartId).querySelector('.table').remove();
