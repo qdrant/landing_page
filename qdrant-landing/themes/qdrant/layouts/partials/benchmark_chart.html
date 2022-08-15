@@ -106,7 +106,9 @@
       const datasets = getDatasetsList(data);
       updataDropdown(datasetSelector, datasets);
 
-      const parallels = getParallelOptions(data);
+      // reverse parallels list to have the highest number of parallel threads first
+      const parallels = getParallelOptions(data).reverse();
+
       updataDropdown(parallelSelector, parallels);
 
       let parallelsInt = parseInt(parallels[0]);

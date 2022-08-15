@@ -22,7 +22,6 @@ let lowerIsBetterMap = {
   "p99_time": true,
   "upload_time": true,
   "total_time": true,
-  "max_time": true,
 }
 
 
@@ -73,6 +72,7 @@ function filterBestPoints(data, lowerIsBetter) {
 
   // keep only point with increasing y value
   let bestValue = data[0].y;
+  filtered.push(data[0]);
   for (const point of data) {
 
     let is_current_best = point.y > bestValue;
@@ -134,6 +134,53 @@ function getPlotData(data, key) {
   return plotData;
 }
 
+function selectByPrecision(data, minPrecision) {
+  let filtered = [];
+
+  for (const row of data) {
+    if (row.mean_precisions >= minPrecision) {
+      filtered.push(row);
+    }
+  }
+
+  return filtered;
+}
+
+function selectDataForTable(data, sortKey) {
+  let lowerIsBetter = lowerIsBetterMap[sortKey];
+
+  let engines = {}
+  // Select best value per engine
+  for (const row of data) {
+    let engine = row.engine_name;
+    if (!engines[engine]) {
+      engines[engine] = row;
+    } else {
+      let current = engines[engine];
+      // If engine alredy present, check if current value is better
+      if (lowerIsBetter) {
+        if (row[sortKey] < current[sortKey]) {
+          engines[engine] = row;
+        }
+      } else {
+        if (row[sortKey] > current[sortKey]) {
+          engines[engine] = row;
+        }
+      }
+    }
+  }
+
+  // get value from engines
+  let vals = Object.values(engines);
+
+  // sort by sortKey
+  if (lowerIsBetter) {
+    vals.sort((a, b) => a[sortKey] - b[sortKey]);
+  } else {
+    vals.sort((a, b) => b[sortKey] - a[sortKey]);
+  }
+  return vals;
+}
 
 /**
  * 
@@ -172,10 +219,38 @@ function renderPlot(chart, data) {
   chart.update();
 }
 
+function getSelectedData(chart_id) {
+  let data = window.datasets[chart_id];
+
+  let datasetSelector = document.getElementById("datasets-selector-" + chart_id);
+  let parallelSelector = document.getElementById("parallel-selector-" + chart_id);
+
+  let selectedDataset = getSelectedValue(datasetSelector);
+  let selectedParallel = getSelectedValue(parallelSelector);
+
+  let parallelsInt = parseInt(selectedParallel);
+
+  let selectedData = filterData(data, {
+    "dataset_name": selectedDataset,
+    "parallel": parallelsInt
+  });
+
+  return selectedData;
+}
+
+
 function updateLine(chart_id, x) {
   let chart = window.charts[chart_id];
   chart.data.datasets.pop();
   drawLine(chart, x);
+
+  let plotValueSelector = document.getElementsByName("plot-value-" + chart_id);
+  let selectedPlotValue = getRadioButtonValue(plotValueSelector);
+
+  let selectedData = getSelectedData(chart_id);
+  let filteredByPrecision = selectByPrecision(selectedData, x);
+  let tableData = selectDataForTable(filteredByPrecision, selectedPlotValue);
+  console.table(tableData);
 }
 
 function drawLine(chart, x) {
@@ -194,29 +269,17 @@ function drawLine(chart, x) {
 
 function renderSelected(chart_id) {
 
-  let data = window.datasets[chart_id];
   let chart = window.charts[chart_id];
 
-
-  let datasetSelector = document.getElementById("datasets-selector-" + chart_id);
-  let parallelSelector = document.getElementById("parallel-selector-" + chart_id);
   let plotValueSelector = document.getElementsByName("plot-value-" + chart_id);
   let precisionSelector = document.getElementById("precision-selector-" + chart_id);
 
-
-  let selectedDataset = getSelectedValue(datasetSelector);
-  let selectedParallel = getSelectedValue(parallelSelector);
+  let selectedData = getSelectedData(chart_id);
   let selectedPlotValue = getRadioButtonValue(plotValueSelector);
-  
+
 
   chart.options.scales.y.title.text = selectedPlotValue;
 
-  let parallelsInt = parseInt(selectedParallel);
-
-  let selectedData = filterData(data, {
-    "dataset_name": selectedDataset,
-    "parallel": parallelsInt
-  });
 
   let plotData = getPlotData(selectedData, selectedPlotValue);
 
@@ -233,4 +296,11 @@ function renderSelected(chart_id) {
   console.log(precisionValue);
 
   drawLine(chart, precisionValue);
+
+  let filteredByPrecision = selectByPrecision(selectedData, precisionValue);
+
+  let tableData = selectDataForTable(filteredByPrecision, selectedPlotValue);
+
+  console.table(tableData);
+
 }
