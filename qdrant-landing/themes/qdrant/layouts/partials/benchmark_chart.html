@@ -1,4 +1,4 @@
-<div class="col">
+<div class="col benchmark-wrapper">
 
   <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
   <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
@@ -39,10 +39,14 @@
     <input type="range" class="custom-range" id="precision-selector-{{ .Params.id }}" onchange="updateLine('{{ .Params.id }}', this.value)">
   </div>
 
+  <div id="table-{{ .Params.id }}"></div>
+
 </div>
 
 
 
+
+<!--<script type="module" src="/benchmark.js"></script>-->
 <script type="module">
   let url = "{{ .Params.data }}";
 

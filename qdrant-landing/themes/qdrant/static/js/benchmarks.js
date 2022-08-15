@@ -1,8 +1,7 @@
-
 /**
- * 
+ *
  * Data processing functions
- * 
+ *
  */
 
 
@@ -75,13 +74,13 @@ function filterBestPoints(data, lowerIsBetter) {
   filtered.push(data[0]);
   for (const point of data) {
 
-    let is_current_best = point.y > bestValue;
+    let isCurrentBest = point.y > bestValue;
     if (lowerIsBetter) {
-      is_current_best = point.y < bestValue;
+      isCurrentBest = point.y < bestValue;
     }
 
 
-    if (is_current_best) {
+    if (isCurrentBest) {
       filtered.push(point);
       bestValue = point.y;
     }
@@ -110,7 +109,7 @@ function getPrecisionVsValue(data, key) {
 }
 
 function getPlotDataForEngine(data, engine, key) {
-  let filtered = filterData(data, { "engine_name": engine });
+  let filtered = filterData(data, {"engine_name": engine});
 
 
   return {
@@ -183,11 +182,11 @@ function selectDataForTable(data, sortKey) {
 }
 
 /**
- * 
- * 
+ *
+ *
  * Interface functions
- * 
- * 
+ *
+ *
  */
 
 function updataDropdown(selector, options) {
@@ -219,11 +218,11 @@ function renderPlot(chart, data) {
   chart.update();
 }
 
-function getSelectedData(chart_id) {
-  let data = window.datasets[chart_id];
+function getSelectedData(chartId) {
+  let data = window.datasets[chartId];
 
-  let datasetSelector = document.getElementById("datasets-selector-" + chart_id);
-  let parallelSelector = document.getElementById("parallel-selector-" + chart_id);
+  let datasetSelector = document.getElementById("datasets-selector-" + chartId);
+  let parallelSelector = document.getElementById("parallel-selector-" + chartId);
 
   let selectedDataset = getSelectedValue(datasetSelector);
   let selectedParallel = getSelectedValue(parallelSelector);
@@ -239,18 +238,18 @@ function getSelectedData(chart_id) {
 }
 
 
-function updateLine(chart_id, x) {
-  let chart = window.charts[chart_id];
+function updateLine(chartId, x) {
+  let chart = window.charts[chartId];
   chart.data.datasets.pop();
   drawLine(chart, x);
 
-  let plotValueSelector = document.getElementsByName("plot-value-" + chart_id);
+  let plotValueSelector = document.getElementsByName("plot-value-" + chartId);
   let selectedPlotValue = getRadioButtonValue(plotValueSelector);
 
-  let selectedData = getSelectedData(chart_id);
+  let selectedData = getSelectedData(chartId);
   let filteredByPrecision = selectByPrecision(selectedData, x);
   let tableData = selectDataForTable(filteredByPrecision, selectedPlotValue);
-  console.table(tableData);
+  renderTable(tableData, chartId);
 }
 
 function drawLine(chart, x) {
@@ -261,20 +260,20 @@ function drawLine(chart, x) {
     backgroundColor: "#ff000033",
     parsing: false,
     data: [
-      { x: x, y: chart.scales.y.max, setup_name: "cutoff" }
+      {x: x, y: chart.scales.y.max, setup_name: "cutoff"}
     ],
   });
   chart.update();
 }
 
-function renderSelected(chart_id) {
+function renderSelected(chartId) {
 
-  let chart = window.charts[chart_id];
+  let chart = window.charts[chartId];
 
-  let plotValueSelector = document.getElementsByName("plot-value-" + chart_id);
-  let precisionSelector = document.getElementById("precision-selector-" + chart_id);
+  let plotValueSelector = document.getElementsByName("plot-value-" + chartId);
+  let precisionSelector = document.getElementById("precision-selector-" + chartId);
 
-  let selectedData = getSelectedData(chart_id);
+  let selectedData = getSelectedData(chartId);
   let selectedPlotValue = getRadioButtonValue(plotValueSelector);
 
 
@@ -292,8 +291,6 @@ function renderSelected(chart_id) {
   precisionSelector.step = (precisionRange[1] - precisionRange[0]) / 100;
   let precisionValue = precisionRange[0] + (precisionRange[1] - precisionRange[0]) / 2;
   precisionSelector.value = precisionValue;
-  console.log(precisionRange);
-  console.log(precisionValue);
 
   drawLine(chart, precisionValue);
 
@@ -301,6 +298,47 @@ function renderSelected(chart_id) {
 
   let tableData = selectDataForTable(filteredByPrecision, selectedPlotValue);
 
-  console.table(tableData);
+  renderTable(tableData, chartId);
+}
 
+const renderTable = function (tableData, chartId) {
+  if (!tableData[0]) {
+    return;
+  }
+  const normalizedTitles = {
+    total_time: 'Total Time',
+    engine_name: 'Engine Name'
+  }
+  const titles = Object.keys(tableData[0]).map(titile => {
+    if (normalizedTitles.hasOwnProperty(titile)) {
+      titile = normalizedTitles[titile];
+    }
+    return `<th scope="col">${titile}</th>`;
+  });
+
+  const rows = tableData.map(obj => {
+    const row = Object.values(obj).map((value, i) => {
+      if (typeof value === 'object') {
+        value = JSON.stringify(value)
+      }
+      // check for float point
+      if (typeof value === 'number' && Math.trunc(value) !== value) {
+        value = value.toFixed(20).match(/^-?\d*\.?0*\d{0,2}/)[0];
+      }
+      if (i === 0) {
+        return `<th scope="row">${value}</th>`;
+      }
+      return `<td>${value}</td>`;
+    });
+    return `<tr>${row.join('')}</tr>`;
+  });
+
+  const table = document.createElement('table');
+  table.classList.add('table', 'table-striped', 'table-responsive', 'table-sm');
+  table.innerHTML = `<thead><tr>${titles.join('')}</tr></thead><tbody>${rows.join('')}</tbody>`;
+
+  if (document.getElementById('table-' + chartId).querySelector('.table')) {
+    document.getElementById('table-' + chartId).querySelector('.table').remove();
+  }
+  document.getElementById('table-' + chartId).append(table)
 }
