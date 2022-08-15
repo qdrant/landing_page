@@ -22,6 +22,7 @@ let lowerIsBetterMap = {
   "p99_time": true,
   "upload_time": true,
   "total_time": true,
+  "max_time": true,
 }
 
 

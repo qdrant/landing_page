@@ -25,11 +25,17 @@
   <label>
     <input type="radio" name="plot-value-{{ .Params.id }}" value="p95_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
     p95 latency
+  </label> |
+
+  <label>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="p99_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    p99 latency
   </label>
+
 
   <canvas id="chart-{{ .Params.id }}"></canvas>
 
-  <div class="form-group">
+  <div class="form-group" style="margin-left: 5%; margin-right: 1%;">
     <input type="range" class="custom-range" id="precision-selector-{{ .Params.id }}" onchange="updateLine('{{ .Params.id }}', this.value)">
   </div>
 
