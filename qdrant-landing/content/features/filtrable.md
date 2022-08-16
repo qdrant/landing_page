@@ -1,6 +1,7 @@
 ---
 title: Filtrable
-icon: data-1
+icon:
+  - url: /features/filter.svg
 weight: 30
 sitemapExclude: True
 ---

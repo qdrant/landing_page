@@ -1,6 +1,8 @@
 ---
 title: Distributed
-icon: distribution
+icon:
+  - url: /features/cloud.svg
+  - url: /features/cluster.svg
 weight: 50
 sitemapExclude: True
 ---
