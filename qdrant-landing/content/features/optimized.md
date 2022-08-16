@@ -1,6 +1,7 @@
 ---
 title: Efficient
-icon: microprocessor
+icon:
+  - url: /features/sight.svg
 weight: 60
 sitemapExclude: True
 ---

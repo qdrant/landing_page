@@ -79,29 +79,31 @@ docker run -p 6333:6333 qdrant/qdrant</code>
         <div class="content-column col-lg-12 col-md-12 col-sm-12">
           <div class="inner-column">
             <!-- Sec Title -->
-            <div class="sec-title text-center">
+            <div class="sec-title">
               <h2>{{ .Title | safeHTML }}</h2>
               <div class="text">{{ .Content }}
               </div>
             </div>
             <div class="row clearfix">
 
-              {{ range .Pages }}
-
-              <!-- Intelligence Block -->
-              <div class="feature-block col-lg-4 col-md-4 col-sm-12">
-                <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-{{ .Params.icon }}"></i>
-                  </div>
-                  <h5><a>{{ .Title }}</a></h5>
-                  <div class="text">
-                    {{ .Content }}
+              <div class="col-12 d-flex justify-content-between flex-wrap">
+                {{ range .Pages }}
+                <!-- Features Block -->
+                <div class="feature-block">
+                  <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    <div class="icon-box">
+                      {{ range .Params.Icon }}
+                      <img src="{{ .url }}" alt="">
+                      {{ end }}
+                    </div>
+                    <h5><a>{{ .Title }}</a></h5>
+                    <div class="text">
+                      {{ .Content }}
+                    </div>
                   </div>
                 </div>
+                {{ end }}
               </div>
-
-              {{ end }}
             </div>
 
           </div>
@@ -121,7 +123,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
     <div class="pattern-layer" style="background-image: url(/images/background/pattern-11.webp)"></div>
     <div class="auto-container">
       <!-- Sec Title -->
-      <div class="sec-title centered">
+      <div class="sec-title">
         <h2>{{ .Params.section_title | safeHTML }}</h2>
         <div class="text">{{ .Params.subtitle }}</div>
       </div>
@@ -191,25 +193,29 @@ docker run -p 6333:6333 qdrant/qdrant</code>
 
   {{ with (.Site.GetPage "section" "stack") }}
   <!--Clients Section-->
-  <section class="clients-section my-5">
-    <div class="sec-title text-center">
-      <h2>{{ .Title | safeHTML }}</h2>
-      <div class="text">{{ .Params.subtitle}}</div>
-    </div>
-    <div class="auto-container">
-      <div class="sponsors-outer">
-        <!--Sponsors Carousel-->
-        <ul class="row clearfix">
-          {{ range $i, $e := first 3 .Pages }}
-          <li class="col d-flex align-self-center justify-content-center m-3">
-            <figure class="image-box"><a href="{{ .Params.origin_url }}"><img src="{{ .Params.image }}" alt=""></a></figure>
-          </li>
-          {{ end }}
-        </ul>
+<section class="clients-section my-5">
+  <div class="auto-container">
+    <div class="row">
+      <div class="col-12 sec-title">
+        <h2>{{ .Title | safeHTML }}</h2>
+        <div class="text">{{ .Params.subtitle}}</div>
       </div>
+      <div class="auto-container">
+        <div class="sponsors-outer">
+          <!--Sponsors Carousel-->
+          <ul class="row clearfix">
+            {{ range $i, $e := first 3 .Pages }}
+            <li class="col d-flex align-self-center justify-content-center m-3">
+              <figure class="image-box"><a href="{{ .Params.origin_url }}"><img src="{{ .Params.image }}" alt=""></a></figure>
+            </li>
+            {{ end }}
+          </ul>
+        </div>
 
+      </div>
     </div>
-  </section>
+  </div>
+</section>
   <!--End Clients Section-->
   {{ end }}
 
@@ -219,7 +225,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
   <section id="articles" class="projects-section-two" style="background-image: url(/images/background/pattern-9.webp)">
     <div class="auto-container">
       <!-- Sec Title -->
-      <div class="sec-title centered">
+      <div class="sec-title">
         <h2>{{ .Title | safeHTML }}</h2>
         <div class="text">{{ .Params.subtitle | safeHTML }}
         </div>
@@ -262,8 +268,8 @@ docker run -p 6333:6333 qdrant/qdrant</code>
   <section class="clients-section my-5">
     <div class="auto-container">
       <div class="row">
-        <div class="col-12 sec-title text-center">
-          <h2>Get <span>Updates</span> from Qdrant</h2>
+        <div class="col-12 sec-title">
+          <h2>Get Updates from Qdrant</h2>
           <div class="text">We will update you on new features and news regarding Qdrant
           </div>
         </div>

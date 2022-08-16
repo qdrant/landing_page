@@ -1,5 +1,5 @@
 ---
-title: "Make the most of your <span>Unstructured Data</span>"
+title: "Make the most of your Unstructured Data"
 icon: 
 sitemapExclude: True
 ---

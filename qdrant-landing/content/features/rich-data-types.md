@@ -1,6 +1,7 @@
 ---
 title: Rich data types
-icon: scan
+icon:
+  - url: /features/data.svg
 weight: 40
 sitemapExclude: True
 ---
