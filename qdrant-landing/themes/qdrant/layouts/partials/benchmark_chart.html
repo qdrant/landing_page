@@ -29,7 +29,7 @@
 
   <label>
     <input type="radio" name="plot-value-{{ .Params.id }}" value="total_upload_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
-    Upload time
+    Index time
   </label>
 
 
@@ -86,10 +86,13 @@
         tooltip: {
           callbacks: {
             label: function (tooltipItem) {
-              return tooltipItem.parsed.setup_name + ": " + tooltipItem.parsed.y;
+              return [
+                " - " + tooltipItem.parsed.setup_name,
+                JSON.stringify(tooltipItem.parsed.engine_params)
+              ];
             },
             title: function (tooltipItem) {
-              return "Precision: " + tooltipItem[0].parsed.x;
+              return "Precision: " + tooltipItem[0].parsed.x + ", y: " + tooltipItem[0].parsed.y;
             }
           }
         },
