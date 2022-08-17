@@ -135,15 +135,6 @@ docker run -p 6333:6333 qdrant/qdrant</code>
           <div class="business-tabs tabs-box">
 
             <!--Tab Btns-->
-            <ul class="tab-btns tab-buttons clearfix">
-              {{ range $i, $e := first 3 .Pages }}
-                <li data-tab="#prod-{{ .Params.tabid }}" class="tab-btn {{ if not $i }}active-btn{{ end }} fadeInLeft">
-                  <h5>{{ $e.Title | safeHTML }}</h5>
-                  <i class="icon flaticon-{{ .Params.icon }}"></i>
-                </li>
-              {{ end }}
-            </ul>
-
             {{ range $i, $e := first 3 .Pages }}
 
             <!--Tabs Container-->
@@ -152,19 +143,19 @@ docker run -p 6333:6333 qdrant/qdrant</code>
               <!--Tab / Active Tab-->
               <div class="tab {{ if not $i }}active-tab{{ end }}" id="prod-{{ .Params.tabid }}">
                 <div class="content">
-                  <div class="row clearfix">
 
                     <!-- Content Column -->
-                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="content-column">
                       <div class="inner-column mb-5">
+                        <h5>{{ .Params.title }}</h5>
                         {{ .Content }}
-                        {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four"><span class="txt">{{ .Params.default_link_name }}</span></a>{{end}}
-                        <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four"><span class="txt">Contact us</span></a>
+                        {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big mr-sm-3"><span class="text">{{ .Params.default_link_name }}</span></a>{{end}}
+                        <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big"><span class="text">Contact us</span></a>
                       </div>
                     </div>
 
                     <!-- Image Column -->
-                    <div class="image-column col-6 d-none d-lg-block d-xl-block">
+                    <div class="image-column">
                       <div class="inner-column">
                         <div class="image">
                           <!-- <h5>{{ .Params.image_caption }}</h5> -->
@@ -174,16 +165,23 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                       </div>
                     </div>
 
-                  </div>
                 </div>
               </div>
 
             {{ end }}
 
             </div>
+
           </div>
+
         </div>
 
+        <ul class="tab-btns tab-buttons">
+          {{ range $i, $e := first 3 .Pages }}
+          <li data-tab="#prod-{{ .Params.tabid }}" class="tab-btn {{ if not $i }}active-btn{{ end }} fadeInLeft">
+          </li>
+          {{ end }}
+        </ul>
       </div>
     </div>
   </section>
