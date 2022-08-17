@@ -54,6 +54,7 @@
 @import "blocks/button";
 @import "blocks/copy-btn";
 @import "blocks/hero-code";
+@import "blocks/features-section";
 @import "blocks/widget-header";
 @import "blocks/post-preview";
 @import "blocks/steps-form";
@@ -2918,104 +2919,6 @@ img{
 
 .clients-section-two .sponsors-outer .image-box img:hover{
 	opacity:0.5;
-}
-
-/*** 
-
-====================================================================
-	Feature Section
-====================================================================
-
-***/
-
-.features-section{
-	position:relative;
-	padding:117px 0 60px;
-}
-
-.features-section .image-column{
-	position:relative;
-}
-
-.features-section .image-column .inner-column{
-	position:relative;
-}
-
-.features-section .content-column{
-	position:relative;
-}
-
-.features-section .content-column .inner-column{
-	position:relative;
-}
-
-.features-section .content-column .theme-btn{
-	border-radius:50px;
-}
-
-.features-section.style-two .image-column{
-	text-align:center;
-}
-
-.features-section.style-two{
-	padding-top:100px;
-}
-
-.feature-block{
-	width: 285px;
-	position:relative;
-	margin-bottom:30px;
-	&:nth-child(2) {
-		margin-left: 5%;
-		margin-right: 5%;
-	}
-}
-
-.feature-block .inner-box{
-	position:relative;
-}
-
-.feature-block .inner-box .icon-box{
-	position:relative;
-	color:var(--brand-primary);
-	font-size:48px;
-	line-height: 1;
-	margin-bottom: 12px;
-}
-
-.feature-block .inner-box h5{
-	position:relative;
-	line-height:1.4em;
-	font-weight:700;
-	margin-bottom:10px;
-}
-
-.feature-block .inner-box h5 a{
-	position:relative;
-}
-
-.feature-block .inner-box h5 a:hover{
-	color:var(--brand-primary);
-}
-
-.feature-block .inner-box .text{
-	position:relative;
-	line-height:1.7em;
-	color: var(--brand-gray);
-	font-size:18px;
-	margin-bottom:0;
-
-	p {
-		line-height: 28px;
-	}
-}
-
-.feature-block .inner-box .text a {
- color: var(--brand-secondary);
-}
-
-.feature-block .inner-box .text a:hover {
-	color: var(--brand-primary);
 }
 
 /***

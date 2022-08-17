@@ -362,11 +362,6 @@
     margin-bottom: 50px;
   }
 
-  .features-section .image-column {
-    text-align: center;
-    margin-bottom: 45px;
-  }
-
   .business-section-two .business-tabs .tab-btns .tab-btn {
     width: 45%;
     margin-bottom: 55px;
@@ -961,10 +956,6 @@
   }
 
   h3 {
-    font-size: 28px;
-  }
-
-  .sec-title h2 {
     font-size: 28px;
   }
 
