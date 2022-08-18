@@ -8,7 +8,7 @@ weight: 10
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-07-20T13:00:00+03:00
-draft: true
+draft: false
 ---
 
 A recent [paper](https://arxiv.org/abs/2207.04993)
