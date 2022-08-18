@@ -85,18 +85,18 @@ Please note that some of the engines might not satisfy the precision criteria, i
 
 ## Side notes
 
-* Redis took over 8 hours to complete with indexing the `deep-image-96-angular`. That’s why we interrupted the tests and didn’t include those results.
-* Weaviate was able to index the `deep-image-96-angular` only with the lightweight configuration under a given limitations (25Gb RAM). That’s why there are only few datapoints with low precision for this dataset and Weaviate on the plot.
+* `Redis` took over 8 hours to complete with indexing the `deep-image-96-angular`. That’s why we interrupted the tests and didn’t include those results.
+* `Weaviate` was able to index the `deep-image-96-angular` only with the lightweight configuration under a given limitations (25Gb RAM). That’s why there are only few datapoints with low precision for this dataset and Weaviate on the plot.
 
 ## Conclusons
 
 Some of the engines are clearly doing better than others and here are some interesting findings of us:
 
-* Qdrant and Milvus are the fastest engines when it comes to indexing time. The time they need to build internal search structures is order of magnitude lower than for the competitors.
-* Qdrant wins the competition on the biggest dataset we used, deep-image-96-angular with almost 10M of vectors. It achieves the best results no matter the precision threshold and the metric we choose.
-* There is a noticeable difference between engines which tries to do a single HNSW index and ones with multiple segments. 
-* Redis does better than the others while using one thread only. When we just use a single thread, the bottleneck might be the client, not the server. 
-* Elasticsearch is typically way slower than all the competitors, no matter the dataset and metric.
+* `Qdrant` and `Milvus` are the fastest engines when it comes to indexing time. The time they need to build internal search structures is order of magnitude lower than for the competitors.
+* `Qdrant` achives highest RPS and lowest latencies in almost all scenarios, no matter the precision threshold and the metric we choose.
+* There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. Qdrant allows you to configure the number of segments to achieve your desired goal.
+* `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck might be the client, not the server, where `Redis`'s custom protocol and gives it a significant advantage. But it is architecturally limited to only a single thread execution, which makes it impossible to scale vertically. 
+* `Elasticsearch` is typically way slower than all the competitors, no matter the dataset and metric.
 
 ## How to reproduce the benchmark
 
