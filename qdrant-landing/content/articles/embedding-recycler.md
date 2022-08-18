@@ -2,7 +2,7 @@
 title: Layer Recycling and Fine-tuning Efficiency
 short_description: Tradeoff between speed and performance in layer recycling
 description: Learn when and how to use layer recycling to achieve different performance targets.
-preview_image: /articles_data/embedding-recycling/preview.jpeg
+preview_image: /articles_data/embedding-recycling/preview.png
 small_preview_image: /articles_data/embedding-recycling/icon.svg
 weight: 10
 author: Yusuf Sarıgöz
