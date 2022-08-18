@@ -77,6 +77,12 @@ article:first-of-type {
     list-style: decimal;
   }
 
+  figure {
+    text-align: center;
+  }
+}
+
+.documentation {
   h1 {
     font-size: 2.25rem;
   }
@@ -103,11 +109,6 @@ article:first-of-type {
 
   p {
     margin-bottom: 0.7rem;
-    line-height: 1.8em;
-  }
-
-  figure {
-    text-align: center;
   }
 }
 
@@ -115,6 +116,8 @@ article:first-of-type {
 .blog {
   font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
   font-size: 20px;
+  letter-spacing: -0.003em;
+  line-height: 32px;
 
   table {
     color: rgb(41, 41, 41);
@@ -124,6 +127,7 @@ article:first-of-type {
     }
   }
 
+  p,
   ul,
   ol {
     margin-top: 0.86em;
@@ -201,11 +205,6 @@ article:first-of-type {
   @include media-breakpoint-up(md) {
     padding-top: 38px;
   }
-
-  p {
-    margin-top: 0.86em;
-    margin-bottom: 1.5em;
-  }
 }
 
 .blog {
@@ -225,9 +224,6 @@ article:first-of-type {
   }
 
   p {
-    margin-top: 0.86em;
-    margin-bottom: 1.5em;
-
     &:first-child {
       margin-top: 0;
     }
