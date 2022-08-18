@@ -170,3 +170,7 @@ There is even a critical size under which full training does not work at all.
 The issue of performance differences shows that there is still room for further research on layer recycling,
 and luckily Quaterion is flexible enough to run such experiments quickly.
 We will continue to report our findings on fine-tuning efficiency.
+
+**Fun fact**: The preview image for this article was created with Dall.e with the following prompt: "Photo-realistic robot using a tuning fork to adjust a piano."
+[Click here](/articles_data/embedding-recycling/full.png)
+to see it in full size!
