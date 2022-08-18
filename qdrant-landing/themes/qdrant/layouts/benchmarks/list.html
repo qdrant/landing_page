@@ -7,29 +7,29 @@
         <div class="row clearfix align-content-center align-items-center pt-4 pt-md-0 mb-4 mb-md-5">
 
             <!-- Content Column -->
-            <div class="content-column col-lg-6 col-md-12 col-sm-12">
+            <div class="content-column {{ if $p.Params.preview_image}}col-lg-6{{ else }}col-lg-12{{end}} col-md-12 col-sm-12">
                 <div class="inner-column pt-4 pt-lg-0">
                     <!-- Sec Title -->
                     <div class="sec-title">
-                        <h2>{{ $p.Title }}</h2>
+                        <h2><a href="{{ .Permalink }}">{{ $p.Title }}</a></h2>
                         <div class="text">{{ $p.Description }}</div>
                     </div>
                     <a class="theme-btn btn-style-four"
-                       href="/benchmarks/{{if $p.Params.slug}}{{$p.Params.slug}}{{else}}benchmark-{{ $p.Params.id }}{{end}}">
+                       href="{{ .Permalink }}">
                        <span class="txt">Read more</span></a>
                 </div>
             </div>
-
+            
+            {{ if $p.Params.preview_image}}
             <!-- Image Column -->
             <div class="image-column col-lg-6 col-md-12 col-sm-12">
                 <div class="inner-column parallax-scene-2">
-                    {{ if $p.Params.preview_image}}
                     <div data-depth="0.30" class="image border">
                         <img src="{{ $p.Params.preview_image }}" alt=""/>
                     </div>
-                    {{end}}
                 </div>
             </div>
+            {{end}}
 
         </div>
     </div>
