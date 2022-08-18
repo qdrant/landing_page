@@ -2,33 +2,37 @@
 
 {{ range $i,$p := where .Data.Pages "Section" "benchmarks" }}
 
-<section class="auto-container mt-md-5">
-    <div class="row clearfix pt-4 pt-md-0 mb-4 mb-md-5">
-        <div class="col">
-            <h1>{{ $p.Title }}</h1>
-            <p>{{ $p.Description }}</p>
-            <canvas id="myChart-{{ $p.Params.id }}"></canvas>
+<section class="api-section mt-0 mt-md-5 mb-5">
+    <div class="auto-container mt-md-5">
+        <div class="row clearfix align-content-center align-items-center pt-4 pt-md-0 mb-4 mb-md-5">
+
+            <!-- Content Column -->
+            <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-column pt-4 pt-lg-0">
+                    <!-- Sec Title -->
+                    <div class="sec-title">
+                        <h2>{{ $p.Title }}</h2>
+                        <div class="text">{{ $p.Description }}</div>
+                    </div>
+                    <a class="theme-btn btn-style-four"
+                       href="/benchmarks/{{if $p.Params.slug}}{{$p.Params.slug}}{{else}}benchmark-{{ $p.Params.id }}{{end}}">
+                       <span class="txt">Read more</span></a>
+                </div>
+            </div>
+
+            <!-- Image Column -->
+            <div class="image-column col-lg-6 col-md-12 col-sm-12">
+                <div class="inner-column parallax-scene-2">
+                    {{ if $p.Params.preview_image}}
+                    <div data-depth="0.30" class="image border">
+                        <img src="{{ $p.Params.preview_image }}" alt=""/>
+                    </div>
+                    {{end}}
+                </div>
+            </div>
+
         </div>
     </div>
 </section>
-
-<script type="module" src="{{ $p.Params.data }}"></script>
-
-<script type="module">
-  import data from "{{ $p.Params.data }}";
-  console.log(data)
-
-  const config = {
-    type: 'line',
-    data: data,
-    options: {}
-  };
-
-  const myChart = new Chart(
-    document.getElementById('myChart-{{ $p.Params.id }}'),
-    config
-  );
-</script>
-
 {{ end }}
 {{ end }}
