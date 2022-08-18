@@ -43,7 +43,7 @@ article aside[role="status"]:before {
   font-weight: 900;
 }
 
-article:first-of-type:not(.article) {
+article:first-of-type {
 
   table {
     @extend .table;
@@ -77,6 +77,12 @@ article:first-of-type:not(.article) {
     list-style: decimal;
   }
 
+  figure {
+    text-align: center;
+  }
+}
+
+.documentation {
   h1 {
     font-size: 2.25rem;
   }
@@ -103,10 +109,6 @@ article:first-of-type:not(.article) {
 
   p {
     margin-bottom: 0.7rem;
-  }
-
-  figure {
-    text-align: center;
   }
 }
 
