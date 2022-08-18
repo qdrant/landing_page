@@ -7,7 +7,7 @@ small_preview_image: /articles_data/embedding-recycling/icon.svg
 weight: 10
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
-date: 2022-07-20T13:00:00+03:00
+date: 2022-08-18T13:00:00+03:00
 draft: false
 ---
 
