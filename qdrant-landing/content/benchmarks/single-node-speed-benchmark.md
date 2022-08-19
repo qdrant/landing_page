@@ -9,6 +9,14 @@ preview_image: /benchmarks/benchmark-1.png
 weight: 2
 ---
 
+# Disclaimer
+
+Even if we try to be objective, we are not experts in using all the existing vector databases.
+We develop Qdrant and try to make it stand out from the crowd.
+Due to that, we could have missed some important tweaks in different engines.
+
+We tried our best, kept scrolling the docs up and down, and experimented with different configurations to get the most out of the tools. However, we believe you can do it better than us, so all **benchmarks are fully [open-sourced](https://github.com/qdrant/vector-db-benchmark), and contributions are welcome**!
+
 
 ## Benchmarking vector databases in a single node setup
 
@@ -95,7 +103,7 @@ Some of the engines are clearly doing better than others and here are some inter
 * `Qdrant` and `Milvus` are the fastest engines when it comes to indexing time. The time they need to build internal search structures is order of magnitude lower than for the competitors.
 * `Qdrant` achives highest RPS and lowest latencies in almost all scenarios, no matter the precision threshold and the metric we choose.
 * There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. Qdrant allows you to configure the number of segments to achieve your desired goal.
-* `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck might be the client, not the server, where `Redis`'s custom protocol and gives it a significant advantage. But it is architecturally limited to only a single thread execution, which makes it impossible to scale vertically. 
+* `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck might be the client, not the server, where `Redis`'s custom protocol gives it an advantage. But it is architecturally limited to only a single thread execution, which makes it impossible to scale vertically. 
 * `Elasticsearch` is typically way slower than all the competitors, no matter the dataset and metric.
 
 ## How to reproduce the benchmark
