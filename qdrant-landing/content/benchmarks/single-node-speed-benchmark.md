@@ -47,7 +47,7 @@ We selected an average machine, which you can easily rent from almost any cloud 
 
 For this particular experiment, we used 8 CPUs and 32GB of RAM as a Server, with additionally timited memory to 25Gb by means of Docker, to make it exact.
 
-And 8 CPUs + 16Gb RAM for client machine. We were trying to make it bottleneck on client side as wide as possible.
+And 8 CPUs + 16Gb RAM for client machine. We were trying to make the bottleneck on client side as wide as possible.
 
 
 
