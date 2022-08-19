@@ -1,0 +1,150 @@
+/***
+
+====================================================================
+	Business Section Two
+====================================================================
+
+***/
+
+.business-section-two {
+  padding: 30px 0 70px;
+  position: relative;
+
+  .sec-title {
+    margin-bottom: 80px;
+  }
+
+  .pattern-layer {
+    width: 402px;
+    height: 566px;
+    position: absolute;
+    top: -180px;
+    right: 0;
+    background-repeat: no-repeat;
+  }
+
+  .pattern-layer-two {
+    width: 1850px;
+    height: 897px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+  }
+
+  .inner-container {
+    position: relative;
+  }
+
+  .business-tabs {
+    display: flex;
+    position: relative;
+
+    .tab-btns {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      margin-top: 138px;
+      margin-left: 100px;
+      position: relative;
+
+      .tab-btn {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        margin: 14px 0;
+        cursor: pointer;
+        border-radius: 50%;
+        background: var(--brand-light-grey);
+
+        &:hover {
+          background: var(--brand-mid-gray);
+        }
+      }
+
+      .tab-btn.active-btn {
+        background: var(--brand-mid-gray);
+      }
+    }
+
+    .tabs-content {
+      position: relative;
+
+      .tab {
+        display: none;
+        position: relative;
+        transform: rotateY(90deg);
+      }
+
+      .tab.active-tab {
+        display: block;
+        transform: rotateY(0deg);
+      }
+
+      .content {
+        max-width: 1030px;
+        margin: 0 auto;
+        position: relative;
+      }
+    }
+
+    .content {
+      display: flex;
+
+      .content-column {
+        position: relative;
+
+        .inner-column {
+          position: relative;
+          width: 645px;
+        }
+
+        h5 {
+          margin-bottom: 10px;
+          font-weight: 700;
+          font-size: 24px;
+          line-height: 28px;
+        }
+
+        p {
+          margin-bottom: 25px;
+          position: relative;
+          font-weight: 400;
+          font-size: 18px;
+          line-height: 28px;
+          color: var(--brand-gray);
+        }
+
+        .business-list {
+          margin-bottom: 35px;
+          position: relative;
+
+          li {
+            min-height: 50px;
+            margin-bottom: 18px;
+            padding-left: 70px;
+            position: relative;
+            color: #2b2a41;
+            font-size: 14px;
+            font-weight: 600;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+
+      .theme-btn {
+        margin-top: 22px;
+        border-radius: 50px;
+      }
+
+      .image-column {
+        margin-top: 44px;
+        position: relative;
+        padding-left: 40px;
+      }
+    }
+  }
+}
