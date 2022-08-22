@@ -37,6 +37,10 @@ code {
   box-shadow: inset 3px 0 0 0 var(--brand-primary);
 }
 
+.link-group-heading span {
+  font-family: "Roboto Condensed";
+}
+
 .link-group .btn,
 .link-group a {
   color: var(--brand-secondary);

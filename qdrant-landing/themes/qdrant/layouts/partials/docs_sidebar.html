@@ -5,11 +5,11 @@
 
         <div class="link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}">
             <div class="link-group-heading" id="headingOne">
-                <h5 class="mb-0">
+                <span class="mb-0">
                     <a class="btn btn-link collapsed" href="{{ .Permalink }}">
                         {{ .Title }}
                     </a>
-                </h5>
+                </span>
             </div>
             {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
             <div class="pl-4">
