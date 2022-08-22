@@ -6,4 +6,5 @@ description: This demo uses short descriptions of startups to perform a semantic
 preview_image: /demo/startup_search_demo.jpg
 link: https://qdrant.to/semantic-search-demo
 weight: 1
+sitemapExclude: True
 ---

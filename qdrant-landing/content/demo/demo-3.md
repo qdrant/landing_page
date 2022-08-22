@@ -6,4 +6,5 @@ description: This demo shows how you can use vector search in e-commerce. Enter 
 preview_image: /demo/products_categorization_demo.jpg
 link: https://qdrant.to/extreme-classification-demo
 weight: 3
+sitemapExclude: True
 ---

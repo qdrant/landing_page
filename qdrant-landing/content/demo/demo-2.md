@@ -6,4 +6,5 @@ description: This demo uses data from Delivery Service for Berlin. Users may lik
 preview_image: /demo/food_discovery_demo.jpg
 link: https://qdrant.to/food-discovery
 weight: 2
+sitemapExclude: True
 ---
