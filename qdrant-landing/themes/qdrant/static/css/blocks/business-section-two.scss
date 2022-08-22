@@ -90,29 +90,33 @@
 
     .content {
       display: flex;
+      min-height: 600px;
 
       .content-column {
+        display: flex;
+        align-items: stretch;
         position: relative;
 
         .inner-column {
-          position: relative;
           width: 645px;
+          padding-bottom: 54px;
+          position: relative;
         }
 
         h5 {
           margin-bottom: 10px;
-          font-weight: 700;
           font-size: 24px;
+          font-weight: 700;
           line-height: 28px;
         }
 
         p {
           margin-bottom: 25px;
           position: relative;
-          font-weight: 400;
-          font-size: 18px;
-          line-height: 28px;
           color: var(--brand-gray);
+          font-size: 18px;
+          font-weight: 400;
+          line-height: 28px;
         }
 
         .business-list {
@@ -135,6 +139,11 @@
         }
       }
 
+      .tab-content-btns {
+        position: absolute;
+        bottom: 0;
+      }
+
       .theme-btn {
         margin-top: 22px;
         border-radius: 50px;
@@ -142,8 +151,8 @@
 
       .image-column {
         margin-top: 44px;
-        position: relative;
         padding-left: 40px;
+        position: relative;
       }
     }
   }
