@@ -120,7 +120,6 @@ docker run -p 6333:6333 qdrant/qdrant</code>
   {{ with (.Site.GetPage "section" "solutions") }}
 
   <section class="business-section-two">
-    <div class="pattern-layer" style="background-image: url(/images/background/pattern-11.webp)"></div>
     <div class="auto-container">
       <!-- Sec Title -->
       <div class="sec-title">
@@ -149,8 +148,10 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                       <div class="inner-column mb-5">
                         <h5>{{ .Params.title }}</h5>
                         {{ .Content }}
-                        {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big mr-sm-3"><span class="text">{{ .Params.default_link_name }}</span></a>{{end}}
-                        <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big"><span class="text">Contact us</span></a>
+                        <div class="tab-content-btns">
+                          {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big mr-sm-3"><span class="text">{{ .Params.default_link_name }}</span></a>{{end}}
+                          <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big"><span class="text">Contact us</span></a>
+                        </div>
                       </div>
                     </div>
 
