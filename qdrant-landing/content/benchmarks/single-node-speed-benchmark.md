@@ -53,7 +53,7 @@ And 8 CPUs + 16Gb RAM for client machine. We were trying to make the bottleneck 
  └────────┘      └──────────┘
 ```
 
-Python Client uploads data to the server, waits for all required indexes to be constructed, and then performs search with multiple threads. We repeat this process with multiple different configurations for each engine, and then select the best one for a given precision.
+The Python Client uploads data to the server, waits for all required indexes to be constructed, and then performs searches with multiple threads. We repeat this process with multiple different configurations for each engine, and then select the best one for a given precision.
 
 ### Why we decided to test with the Python client
 
@@ -79,9 +79,9 @@ Then, you can select a precision level that would be satisfactory for you.
 After doing all this, the table under the chart will get automatically refreshed and will only display the best results of each of the engines, with all its configuration properties.
 The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
 
-The graph displays the best configuration / result for a given precision, so it allows us to avoid visual and measurement noize.  
+The graph displays the best configuration / result for a given precision, so it allows us to avoid visual and measurement noise.
 
-Please note that some of the engines might not satisfy the precision criteria, if you select a really high threshold. Some of them also failed miserably on a specific dataset, due to i.e. memory issues. That’s why the list may sometimes be incomplete and not contain all the engines.
+Please note that some of the engines might not satisfy the precision criteria, if you select a really high threshold. Some of them also failed on a specific dataset, due to memory issues. That’s why the list may sometimes be incomplete and not contain all the engines.
 
 ## Side notes
 
