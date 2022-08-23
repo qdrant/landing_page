@@ -1,7 +1,11 @@
 ---
 title: Benchmarks
-description: Vector databases comparative benchmark. Qdrant vs Milvus, Qdrant vs Weaviate, Qdrant vs ElasticSearch.
-keywords: 
+description: The first comparative benchmark and benchmarking framework for vector search engines
+keywords:
+  - vector databases comparative benchmark
+  - Qdrant vs Milvus
+  - Qdrant vs Weaviate
+  - Qdrant vs ElasticSearch
   - benchmark
   - performance
   - latency
