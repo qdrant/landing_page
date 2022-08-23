@@ -1,7 +1,14 @@
-
+{{ if .Params.description }}
+<meta name="description" content="{{ .Params.Description }}">
+{{ else }}
 <meta name="description" content="{{ .Site.Params.Description }}">
-<meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }}, {{ end }} qdrant">
+{{ end }}
 
+{{ if .Params.keywords }}
+<meta name="keywords" content="{{ range .Params.Keywords }}{{ . }}, {{ end }} qdrant">
+{{ else }}
+<meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }}, {{ end }} qdrant">
+{{ end }}
 
 <script type="application/ld+json">
   {
@@ -79,9 +86,9 @@
 <meta property="twitter:url" content="{{ .Permalink }}">
 <meta name="twitter:title" content="{{ $title }}">
 
-{{ if .Description }}
-<meta property="og:description" content="{{ .Description }}">
-<meta name="twitter:description" content="{{ .Description }}">
+{{ if .Params.description }}
+<meta property="og:description" content="{{ .Params.description }}">
+<meta name="twitter:description" content="{{ .Params.description }}">
 {{ else }}
 <meta property="og:description" content="{{ .Site.Params.description }}">
 <meta name="twitter:description" content="{{ .Site.Params.description }}">
