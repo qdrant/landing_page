@@ -96,7 +96,7 @@ Please note that some of the engines might not satisfy the precision criteria, i
 * `Redis` took over 8 hours to complete with indexing the `deep-image-96-angular`. That’s why we interrupted the tests and didn’t include those results.
 * `Weaviate` was able to index the `deep-image-96-angular` only with the lightweight configuration under a given limitations (25Gb RAM). That’s why there are only few datapoints with low precision for this dataset and Weaviate on the plot.
 
-## Conclusons
+## Conclusions
 
 Some of the engines are clearly doing better than others and here are some interesting findings of us:
 
