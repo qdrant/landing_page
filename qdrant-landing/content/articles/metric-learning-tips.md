@@ -3,7 +3,7 @@ title: Metric Learning Tips & Tricks
 short_description: How to train an object matching model and serve it in production.
 description: Practical recommendations on how to train a matching model and serve it in production. Even with no labeled data.
 external_link: https://vasnetsov93.medium.com/metric-learning-tips-n-tricks-2e4cfee6b75b
-social_preview_image: /articles_data/metric-learning-tips/social_preview.png
+social_preview_image: /articles_data/metric-learning-tips/social_preview.jpg
 preview_image: /articles_data/metric-learning-tips/preview.png
 small_preview_image: /articles_data/metric-learning-tips/scatter-graph.svg
 weight: 20

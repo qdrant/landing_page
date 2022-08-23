@@ -2,7 +2,7 @@
 title: Triplet Loss - Advanced Intro
 short_description: "What are the advantages of Triplet Loss and how to efficiently implement it?"
 description: "What are the advantages of Triplet Loss over Contrastive loss and how to efficiently implement it?"
-social_preview_image: /articles_data/triplet-loss/social_preview.png
+social_preview_image: /articles_data/triplet-loss/social_preview.jpg
 preview_image: /articles_data/triplet-loss/preview.png
 small_preview_image: /articles_data/triplet-loss/icon.svg
 weight: 30
