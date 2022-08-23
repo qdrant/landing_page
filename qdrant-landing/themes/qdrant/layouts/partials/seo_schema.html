@@ -81,9 +81,9 @@
 <meta property="og:title" content="{{ $title }}">
 
 <!-- Twitter Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta property="twitter:domain" content="{{ $domain }}">
-<meta property="twitter:url" content="{{ .Permalink }}">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:domain" content="{{ $domain }}">
+<meta name="twitter:url" content="{{ .Permalink }}">
 <meta name="twitter:title" content="{{ $title }}">
 
 {{ if .Params.description }}
@@ -95,11 +95,23 @@
 {{ end }}
 
 <!-- Image -->
-{{ if .Params.preview_image }}
-<meta name="og:image" content="{{ .Params.preview_image | relURL }}">
-<meta name="twitter:image" content="{{ .Params.preview_image | relURL }}">
-<meta content="my-check!!">
+{{ if .Params.social_preview_image }}
+<meta name="image" property="og:image" content="{{ .Params.social_preview_image | absURL }}">
+<meta name="image" property="og:image:secure_url" content="{{ .Params.social_preview_image | absURL }}">
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image:src" content="{{ .Params.social_preview_image | absURL }}">
 {{ else }}
-<meta name="og:image" content="{{ .Site.Params.preview_image | relURL }}">
-<meta name="twitter:image" content="{{ .Site.Params.preview_image | relURL }}">
+<meta name="image" property="og:image" content="{{ .Site.Params.preview_image | absURL }}">
+<meta name="image" property="og:image:secure_url" content="{{ .Site.Params.preview_image | absURL }}">
+<meta property="og:image:type" content="image/jpeg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:image:src" content="{{ .Site.Params.preview_image | absURL }}">
+{{ end }}
+
+<!-- Author -->
+{{ if .Params.author }}
+<meta name="author" content="{{ .Params.author }}">
 {{ end }}
