@@ -2,7 +2,6 @@
 draft: false
 id: 3
 title: Benchmarks F.A.Q.
-description: Everything you always wanted to know about Benchmarks* (*But were afraid to ask)
 weight: 10
 ---
 

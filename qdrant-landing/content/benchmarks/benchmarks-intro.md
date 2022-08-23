@@ -2,7 +2,6 @@
 draft: false
 id: 2
 title: How vector search databases should be tested?
-description: As an Open Source vector search engine, we are often compared to the competitors and asked about our performance vs the other tools. But the answer was never simple, as the world of vector databases lacked a unified open benchmark that would show the differences. So we created one, making some bold assumptions about how it should be done. Here we describe why we think that’s the best way.
 weight: 1
 ---
 
@@ -29,6 +28,8 @@ The list will be updated:
 * Memory consumption benchmark - TBD
 * Filtered search benchmark - TBD
 * Cluster mode benchmark - TBD
+
+Some of our experiment design decisions are described at [F.A.Q Section](/benchmarks/#benchmarks-faq).
 
 Suggest your variants of what you want to test in our [Discord channel](https://qdrant.to/discord)!
 

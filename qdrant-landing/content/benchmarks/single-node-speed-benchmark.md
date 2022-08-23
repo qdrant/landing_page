@@ -9,8 +9,6 @@ preview_image: /benchmarks/benchmark-1.png
 weight: 2
 ---
 
-# Single node speed benchmark
-
 ## Disclaimer
 
 Even if we try to be objective, we are not experts in using all the existing vector databases.
@@ -18,14 +16,6 @@ We develop Qdrant and try to make it stand out from the crowd.
 Due to that, we could have missed some important tweaks in different engines.
 
 We tried our best, kept scrolling the docs up and down, and experimented with different configurations to get the most out of the tools. However, we believe you can do it better than us, so all **benchmarks are fully [open-sourced](https://github.com/qdrant/vector-db-benchmark), and contributions are welcome**!
-
-
-## Benchmarking vector databases in a single node setup
-
-We benchmarked several engines using various configurations of them on 3 different datasets to check how the results may vary.
-Those datasets may have different vector dimensionality but also vary in terms of the distance function being used.
-We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately.
-It is also quite interesting to see how the number of search threads may impact the performance of the engines, so we added that option as well.
 
 
 ### Tested datasets
