@@ -9,21 +9,13 @@ preview_image: /benchmarks/benchmark-1.png
 weight: 2
 ---
 
-# Disclaimer
+## Disclaimer
 
 Even if we try to be objective, we are not experts in using all the existing vector databases.
 We develop Qdrant and try to make it stand out from the crowd.
 Due to that, we could have missed some important tweaks in different engines.
 
 We tried our best, kept scrolling the docs up and down, and experimented with different configurations to get the most out of the tools. However, we believe you can do it better than us, so all **benchmarks are fully [open-sourced](https://github.com/qdrant/vector-db-benchmark), and contributions are welcome**!
-
-
-## Benchmarking vector databases in a single node setup
-
-We benchmarked several engines using various configurations of them on 3 different datasets to check how the results may vary.
-Those datasets may have different vector dimensionality but also vary in terms of the distance function being used.
-We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately.
-It is also quite interesting to see how the number of search threads may impact the performance of the engines, so we added that option as well.
 
 
 ### Tested datasets
@@ -45,7 +37,7 @@ It was just wiped off between launching different engines.
 
 We selected an average machine, which you can easily rent from almost any cloud provider. No extra quota or custom configuration is required.
 
-For this particular experiment, we used 8 CPUs and 32GB of RAM as a Server, with additionally timited memory to 25Gb by means of Docker, to make it exact.
+For this particular experiment, we used 8 CPUs and 32GB of RAM as a Server, with additionally limited memory to 25Gb by means of Docker, to make it exact.
 
 And 8 CPUs + 16Gb RAM for client machine. We were trying to make the bottleneck on client side as wide as possible.
 
@@ -61,7 +53,7 @@ And 8 CPUs + 16Gb RAM for client machine. We were trying to make the bottleneck 
  └────────┘      └──────────┘
 ```
 
-Python Client uploads data to the server, waits for all required indexe to be constructed, and then performs search with multiple threads. We repeat this process with multiple different configurations for each engine, and then select the best one for a given precision.
+Python Client uploads data to the server, waits for all required indexes to be constructed, and then performs search with multiple threads. We repeat this process with multiple different configurations for each engine, and then select the best one for a given precision.
 
 ### Why we decided to test with the Python client
 
@@ -87,7 +79,7 @@ Then, you can select a precision level that would be satisfactory for you.
 After doing all this, the table under the chart will get automatically refreshed and will only display the best results of each of the engines, with all its configuration properties.
 The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
 
-The graph displays best configuration / result for a given precision, so it allows us to avoid visual and measurement noize.  
+The graph displays the best configuration / result for a given precision, so it allows us to avoid visual and measurement noize.  
 
 Please note that some of the engines might not satisfy the precision criteria, if you select a really high threshold. Some of them also failed miserably on a specific dataset, due to i.e. memory issues. That’s why the list may sometimes be incomplete and not contain all the engines.
 
@@ -96,21 +88,12 @@ Please note that some of the engines might not satisfy the precision criteria, i
 * `Redis` took over 8 hours to complete with indexing the `deep-image-96-angular`. That’s why we interrupted the tests and didn’t include those results.
 * `Weaviate` was able to index the `deep-image-96-angular` only with the lightweight configuration under a given limitations (25Gb RAM). That’s why there are only few datapoints with low precision for this dataset and Weaviate on the plot.
 
-## Conclusons
+## Conclusions
 
 Some of the engines are clearly doing better than others and here are some interesting findings of us:
 
 * `Qdrant` and `Milvus` are the fastest engines when it comes to indexing time. The time they need to build internal search structures is order of magnitude lower than for the competitors.
 * `Qdrant` achives highest RPS and lowest latencies in almost all scenarios, no matter the precision threshold and the metric we choose.
-* There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. Qdrant allows you to configure the number of segments to achieve your desired goal.
+* There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. `Qdrant` allows you to configure the number of segments to achieve your desired goal.
 * `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck might be the client, not the server, where `Redis`'s custom protocol gives it an advantage. But it is architecturally limited to only a single thread execution, which makes it impossible to scale vertically. 
 * `Elasticsearch` is typically way slower than all the competitors, no matter the dataset and metric.
-
-## How to reproduce the benchmark
-
-The source code is available on [Github](https://github.com/qdrant/vector-db-benchmark) and has a README file describing the process of running the benchmark for a specific engine.
-
-## How to contribute
-
-We made the benchmark Open Source because we believe that it has to be transparent. We could have misconfigured one of the engines or just done it inefficiently. If you feel like you could help us out, check out the [benchmark repository](https://github.com/qdrant/vector-db-benchmark).
-
