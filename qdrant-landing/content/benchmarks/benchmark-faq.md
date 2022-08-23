@@ -66,3 +66,11 @@ That makes the comparison unfair. That’s why we purely focused on testing the 
 This is not the final list, and we’ll continue benchmarking as many different engines as possible.
 Some applications do not support the full list of features needed for any particular benchmark, in which case we will exclude them from the list.
 
+
+## How to reproduce the benchmark?
+
+The source code is available on [Github](https://github.com/qdrant/vector-db-benchmark) and has a README file describing the process of running the benchmark for a specific engine.
+
+## How to contribute?
+
+We made the benchmark Open Source because we believe that it has to be transparent. We could have misconfigured one of the engines or just done it inefficiently. If you feel like you could help us out, check out the [benchmark repository](https://github.com/qdrant/vector-db-benchmark).
