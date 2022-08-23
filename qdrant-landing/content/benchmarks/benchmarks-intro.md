@@ -61,7 +61,7 @@ The list will be updated:
 Suggest your variants of what you want to test in our [Discord channel](https://qdrant.to/discord)!
 
 
-## Why you are not comparing with FAILSS or Annoy?
+## Why you are not comparing with FAISS or Annoy?
 
 Libraries like FAISS provide a great tool to do experiments with vector search. But they are far away from real usage in production environments.
 If you are using FAISS in production, in the best case, you never need to update it in real-time. In the worst case, you have to create your custom wrapper around it to support CRUD, high availability, horizontal scalability, concurrent access, and so on.
