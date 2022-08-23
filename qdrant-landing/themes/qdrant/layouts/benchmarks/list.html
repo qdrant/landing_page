@@ -2,37 +2,31 @@
 
 {{ range $i,$p := where .Data.Pages "Section" "benchmarks" }}
 
-<section class="api-section mt-0 mt-md-5 mb-5">
-    <div class="auto-container mt-md-5">
-        <div class="row clearfix align-content-center align-items-center pt-4 pt-md-0 mb-4 mb-md-5">
 
-            <!-- Content Column -->
-            <div class="content-column {{ if $p.Params.preview_image}}col-lg-6{{ else }}col-lg-12{{end}} col-md-12 col-sm-12">
-                <div class="inner-column pt-4 pt-lg-0">
-                    <!-- Sec Title -->
-                    <div class="sec-title">
-                        <h2><a href="{{ .Permalink }}">{{ $p.Title }}</a></h2>
-                        <div class="text">{{ $p.Description }}</div>
-                    </div>
-                    <a class="theme-btn btn-style-four"
-                       href="{{ .Permalink }}">
-                       <span class="txt">Read more</span></a>
-                </div>
-            </div>
-            
-            {{ if $p.Params.preview_image}}
-            <!-- Image Column -->
-            <div class="image-column col-lg-6 col-md-12 col-sm-12">
-                <div class="inner-column parallax-scene-2">
-                    <div data-depth="0.30" class="image border">
-                        <img src="{{ $p.Params.preview_image }}" alt=""/>
-                    </div>
-                </div>
-            </div>
-            {{end}}
-
+{{ if .Params.data }}
+    <div class="auto-container pt-3 pt-md-5 single-page">
+        <div class="row clearfix">
+            <section class="content-side col-lg-12 col-md-12 col-sm-12">
+                {{ partial "benchmark_chart" . }}
+            </section>
         </div>
     </div>
-</section>
+{{ end }}
+
+
+
+<div class="auto-container pt-3 pt-md-5 single-page">
+    <div class="row clearfix">
+        <!-- Content Side -->
+        <section class="content-side col-lg-12 col-md-12 col-sm-12">
+            {{ .Scratch.Set "scope" "single" }}
+            {{ partial "blogpost" . }}
+        </section>
+    </div>
+
+</div>
+
+
+
 {{ end }}
 {{ end }}
