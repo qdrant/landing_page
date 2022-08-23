@@ -25,7 +25,6 @@
         <meta name="theme-color" content="#ffffff">
 
 
-
         {{ partial "css" . }}
         
         {{ hugo.Generator }}
@@ -63,6 +62,11 @@
         <!-- Required because netlify sends a registration link that redirects to the home page -->
         <!-- but commented because slows down a site and used extremely rarely -->
         <!-- <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>-->
+
+        {{ if eq .Section "benchmarks" }}
+          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+          <script src="{{ "js/benchmarks.js" | absURL }}"></script>
+        {{ end }}
     </head>
 
     <body>

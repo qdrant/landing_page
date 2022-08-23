@@ -1,0 +1,48 @@
+{{ $link := .Permalink }}
+{{ if .Params.external_link }}
+{{ $link = .Params.external_link }}
+{{ end }}
+
+<div class="clearfix">
+    <div class="pull-left">
+        <ul class="post-meta">
+
+            {{ partial "author" . }}
+
+            {{ if .Params.Categories }}
+            <li>Category:
+                {{ range .Params.Categories }}
+                <a class="category" href='{{ "/categories/" | relLangURL }}{{ . | urlize }}'>{{ . }}</a>
+                {{ end }}
+            </li>
+            {{ end }}
+            {{ if .Params.Tags }}
+            <li>Tags:&nbsp;
+                {{ range .Params.Tags }}
+                <a class="category" href='{{ "/tags/" | relLangURL }}{{ . | urlize }}'>#{{ . }}</a>&nbsp;
+                {{ end }}
+            </li>
+            {{ end }}
+        </ul>
+        <ul class="post-meta">
+            <li><span class="fa fa-calendar mr-2"></span>{{ .Date | time.Format ":date_long" }}
+            </li>
+            <li>
+                <!-- Post Share Options -->
+                <div class="post-share-options">
+                    <ul class="social-box">
+                        <span class="share">Share this post:</span>
+                        <li><a href="https://www.facebook.com/sharer/sharer.php?u={{ $link }}"><span
+                                class="fab fa-facebook-f"></span></a></li>
+                        <li>
+                            <a href="https://twitter.com/intent/tweet?url={{ $link }}&text={{ .Title }}"><span
+                                    class="fab fa-twitter"></span></a></li>
+                        <li><a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $link }}"><span
+                                class="fab fa-linkedin"></span></a></li>
+                    </ul>
+                </div>
+
+            </li>
+        </ul>
+    </div>
+</div>

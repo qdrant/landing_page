@@ -1,0 +1,30 @@
+{{ define "main" }}
+
+
+{{ if .Params.data }}
+    <div class="auto-container pt-3 pt-md-5 single-page">
+        <div class="row clearfix">
+            <section class="content-side col-lg-12 col-md-12 col-sm-12">
+                {{ partial "benchmark_chart" . }}
+            </section>
+        </div>
+    </div>
+{{ end }}
+
+
+
+<div class="auto-container pt-3 pt-md-5 single-page">
+    <div class="row clearfix">
+        <!-- Content Side -->
+        <section class="content-side col-lg-12 col-md-12 col-sm-12">
+            {{ .Scratch.Set "scope" "single" }}
+            {{ partial "blogpost" . }}
+        </section>
+    </div>
+
+    {{ partial "article_footer" .}}
+
+</div>
+
+
+{{ end }}
