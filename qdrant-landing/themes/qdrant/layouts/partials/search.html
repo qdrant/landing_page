@@ -1,7 +1,7 @@
 <!-- Modal -->
-<div class="modal fade search" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
+<div class="modal fade search" id="searchModal" data-keyboard="true" tabindex="-1"
      aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
 
             <div class="modal-header search__header">
@@ -11,7 +11,7 @@
               <i class="fa fa-search"></i>
             </span>
                     </div>
-                    <input type="text" class="form-control search__input" placeholder="Recipient's username"
+                    <input type="text" class="form-control search__input" placeholder="Search..."
                            aria-label="Recipient's username" aria-describedby="basic-addon2">
                 </div>
 
@@ -43,8 +43,8 @@
 
             </div>
 
-            <div class="modal-footer">
-                <figure><img class="search__logo" class="" src="/images/logo_with_text.svg" alt="Qdrant logo"></figure>
+            <div class="modal-footer search__footer">
+                Powered by <figure><img class="search__logo" class="" src="/images/logo_with_text.svg" alt="Qdrant logo"></figure>
             </div>
         </div>
     </div>

@@ -1,19 +1,19 @@
 .search-input-btn {
   display: block;
   width: 90%;
-  margin-bottom: 6px;
   margin-right: 8px;
+  margin-bottom: 6px;
   margin-left: 8px;
   padding: 8px 10px;
   text-align: left;
+  color: #6d7376;
   border: 1px solid #888c8e;
   border-radius: 4px;
   background: none;
-  color: #6d7376;
 
   &:hover {
-    box-shadow: 0 0 1px 0 var(--brand-secondary);
     color: var(--brand-secondary);
+    box-shadow: 0 0 1px 0 var(--brand-secondary);
   }
 }
 
@@ -51,10 +51,15 @@
     padding: 8px 16px;
   }
 
+  &__footer {
+    line-height: 1;
+  }
+
   &__logo {
     width: auto;
     height: 24px;
     margin-right: 4px;
+    margin-left: 4px;
   }
 }
 
