@@ -1,18 +1,18 @@
 <!-- Modal -->
 <div class="modal fade search" id="searchModal" data-keyboard="true" tabindex="-1"
-     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+     aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable modal-lg">
         <div class="modal-content">
 
             <div class="modal-header search__header">
                 <div class="modal-title input-group">
                     <div class="input-group-append">
-            <span class="input-group-text search__icon" id="basic-addon2">
-              <i class="fa fa-search"></i>
-            </span>
+                        <span class="input-group-text search__icon" id="basic-addon2">
+                            <i class="fa fa-search"></i>
+                        </span>
                     </div>
                     <input type="text" class="form-control search__input" placeholder="Search..."
-                           aria-label="Recipient's username" aria-describedby="basic-addon2">
+                           id="searchInput" aria-label="Search">
                 </div>
 
                 <button type="button" class="close search__close" data-dismiss="modal" aria-label="Close">
@@ -22,29 +22,29 @@
 
             <div class="modal-body search__results">
                 <a class="media search-result" href="#">
-                  <span class="align-self-center search-result__icon">
-                    <i class="fas fa-file-alt"></i>
-                  </span>
-                  <div class="media-body">
-                    <h5 class="mt-0">Center-aligned media</h5>
-                    <p>Hobble oppressively like a cold rum.</p>
-                  </div>
+                    <span class="align-self-center search-result__icon">
+                        <i class="fas fa-file-alt"></i>
+                    </span>
+                    <div class="media-body">
+                        <h5 class="mt-0">Center-aligned media</h5>
+                        <p>Hobble oppressively like a cold rum.</p>
+                    </div>
                 </a>
 
                 <a class="media search-result" href="#">
-                  <span class="align-self-center search-result__icon">
-                    <i class="fas fa-file-alt"></i>
-                  </span>
-                  <div class="media-body">
-                    <h5 class="mt-0">Center-aligned media</h5>
-                    <p>Hobble oppressively like a cold rum.</p>
-                  </div>
+                    <span class="align-self-center search-result__icon">
+                        <i class="fas fa-file-alt"></i>
+                    </span>
+                    <div class="media-body">
+                        <h5 class="mt-0">Center-aligned media</h5>
+                        <p>Hobble oppressively like a cold rum.</p>
+                    </div>
                 </a>
-
             </div>
 
             <div class="modal-footer search__footer">
-                Powered by <figure><img class="search__logo" class="" src="/images/logo_with_text.svg" alt="Qdrant logo"></figure>
+                Powered by
+                <figure><img class="search__logo" class="" src="/images/logo_with_text.svg" alt="Qdrant logo"></figure>
             </div>
         </div>
     </div>

@@ -304,6 +304,10 @@
 	
 	$(window).on('load', function() {
 		handlePreloader();
-	});	
+	});
+
+	$('#searchModal').on('shown.bs.modal', function (event) {
+		document.getElementById("searchInput").focus();
+	});
 
 })(window.jQuery);
