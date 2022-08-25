@@ -50,7 +50,6 @@
      * ]}
      */
     fetchData() {
-      console.log(this.apiUrl)
       const url = this.apiUrl + '/?=' + this.ref.value;
       fetch(url)
         .then(res => res.json())
@@ -67,12 +66,18 @@
    * @return {string}
    */
   const generateUrlWithSelector = (data) => {
-    const url = new URL(data?.payload?.url);
+    // todo: remove replace
+    const url = new URL(data?.payload?.url.replace('https://qdrant.tech', 'http://localhost:1313'));
     url.searchParams.append('selector', btoa(data?.payload?.location));
 
     return url.toString();
   }
 
+  /**
+   * generates DOM element (<a>) with inner HTML for one result
+   * @param data - an object for one result
+   * @return {HTMLAnchorElement}
+   */
   const generateSearchResult = (data) => {
     const resultElem = document.createElement('a');
     resultElem.classList.add('media', 'search-result');
@@ -86,10 +91,10 @@
   // when a search modal is shown
   $('#searchModal').on('shown.bs.modal', function (event) {
     document.getElementById("searchInput").focus();
+    // todo: replace with a real url
     const search = new Search(document.getElementById('searchInput'), '/temp/data.json');
 
     document.addEventListener('searchDataIsReady', () => {
-      console.log(search.data)
       search.data.forEach(res => {
         const resultsContainerSelector = '.search__results';
         const resultsContainer = document.querySelector(resultsContainerSelector);
