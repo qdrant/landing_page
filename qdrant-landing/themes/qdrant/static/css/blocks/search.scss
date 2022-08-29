@@ -1,4 +1,4 @@
-.search-input-btn {
+.qdr-search-input-btn {
   display: block;
   width: 90%;
   margin-right: 8px;
@@ -17,7 +17,11 @@
   }
 }
 
-.search {
+.qdr-search {
+  &__dialog {
+    margin-top: 110px;
+  }
+
   &__header {
     padding-right: 0;
     padding-left: 0;
@@ -48,6 +52,7 @@
   }
 
   &__results {
+    min-height: 180px;
     padding: 8px 16px;
   }
 
@@ -63,7 +68,7 @@
   }
 }
 
-.search-result {
+.qdr-search-result {
   margin: 8px 0;
   padding: 16px;
   color: #6d7376;

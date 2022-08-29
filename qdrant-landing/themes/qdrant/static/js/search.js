@@ -1,16 +1,21 @@
 (function () {
+  // todo: 1. сделать все ~~библиотекой~~ плагином
 
   /**
    * @class Search
+   * @param {String} ref - query input DOM element - DOM element
+   * @param {String} apiUrl - URL of the search API
    */
   class Search {
     #updEvent;
+    #dataVersion;
 
-    constructor(ref, apiUrl) {
-      this.ref = ref;
+    constructor(selector, apiUrl) {
+      this.ref = document.querySelector(selector);
       this.apiUrl = apiUrl;
       this.data = [];
       this.#updEvent = new Event('searchDataIsReady');
+      this.#dataVersion = 0;
 
       // listens when user types in the search input
       this.boundEventHandler = this.fetchData.bind(this)
@@ -50,12 +55,18 @@
      * ]}
      */
     fetchData() {
-      const url = this.apiUrl + '/?=' + this.ref.value;
+      const url = this.apiUrl + '/?q=' + this.ref.value;
+      let reqVersion = this.#dataVersion + 1;
+
       fetch(url)
         .then(res => res.json())
         .then(data => {
-          this.data = data.result;
-          document.dispatchEvent(this.#updEvent);
+
+          if (reqVersion > this.#dataVersion) {
+            this.data = data.result;
+            this.#dataVersion = reqVersion;
+            document.dispatchEvent(this.#updEvent);
+          }
         });
     }
   }
@@ -80,9 +91,9 @@
    */
   const generateSearchResult = (data) => {
     const resultElem = document.createElement('a');
-    resultElem.classList.add('media', 'search-result');
+    resultElem.classList.add('media', 'qdr-search-result');
     resultElem.href = generateUrlWithSelector(data);
-    resultElem.innerHTML = `<span class="align-self-center search-result__icon"><i class="fas fa-file-alt"></i></span>
+    resultElem.innerHTML = `<span class="align-self-center qdr-search-result__icon"><i class="fas fa-file-alt"></i></span>
                    <div class="media-body"><h5 class="mt-0">${data.payload.titles.join(' > ')}</h5>
                    <p>${data.payload.text}</p></div>`;
     return resultElem;
@@ -92,14 +103,16 @@
   $('#searchModal').on('shown.bs.modal', function (event) {
     document.getElementById("searchInput").focus();
     // todo: replace with a real url
-    const search = new Search(document.getElementById('searchInput'), '/temp/data.json');
+    const search = new Search('#searchInput', '/temp/data.json');
 
     document.addEventListener('searchDataIsReady', () => {
+      const resultsContainerSelector = '.qdr-search__results';
+      const resultsContainer = document.querySelector(resultsContainerSelector);
+      const newResultChildren = [];
       search.data.forEach(res => {
-        const resultsContainerSelector = '.search__results';
-        const resultsContainer = document.querySelector(resultsContainerSelector);
-        resultsContainer.appendChild(generateSearchResult(res));
+        newResultChildren.push(generateSearchResult(res));
       });
+      resultsContainer.replaceChildren(...newResultChildren);
     });
   });
 })();
