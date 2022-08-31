@@ -7,8 +7,8 @@ small_preview_image: /articles_data/embedding-recycling/icon.svg
 weight: 10
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
-date: 2022-07-20T13:00:00+03:00
-draft: true
+date: 2022-08-23T13:00:00+03:00
+draft: false
 ---
 
 A recent [paper](https://arxiv.org/abs/2207.04993)
@@ -105,9 +105,15 @@ In this setup, we compared performances of four methods:
 in order to be able to use a reasonable batch size in full training.
 The baseline score with ResNet34 is 0.106.
 
-{{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_full_dataset.png caption="Performances with different methods of fine-tuning" >}}
+| Model         | RRP  |
+| ------------- | ---- |
+| Full training   | 0.32 |
+| 50% recycling | 0.31 |
+| 75% recycling | 0.28 |
+| Head only     | 0.22 |
+| Baseline     | 0.11 |
 
-As is seen in the figure, the performance in 50% layer recycling is very close to that in full training.
+As is seen in the table, the performance in 50% layer recycling is very close to that in full training.
 Additionally, we can still have a considerable speedup in 50% layer recycling with only a small drop in performance.
 Although 75% layer recycling is better than training only `EncoderHead`,
 its performance drops quickly when compared to 50% layer recycling and full training.
@@ -116,7 +122,13 @@ its performance drops quickly when compared to 50% layer recycling and full trai
 In the second experiment setup, we compared performances of fine-tuning strategies with different dataset sizes.
 We sampled 50% of the training set randomly while still evaluating models on the whole validation set.
 
-{{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_small_dataset.png caption="Performances with differen dataset sizes" >}}
+| Model         | RRP  |
+| ------------- | ---- |
+| Full training   | 0.27 |
+| 50% recycling | 0.26 |
+| 75% recycling | 0.25 |
+| Head only     | 0.21 |
+| Baseline     | 0.11 |
 
 This experiment shows that, the smaller the available dataset is,
 the bigger drop  in performance we observe in full training, 50% and 75% layer recycling.
@@ -131,7 +143,14 @@ as one of the most important takeaways of the paper is that
 the performance of layer recycling is task-dependent.
 To this end, we set up an experiment with the code from the [Question Answering with Similarity Learning tutorial](https://quaterion.qdrant.tech/tutorials/nlp_tutorial.html).
 
-{{< figure src=/articles_data/embedding-recycling/finetuning_efficiency_qa.png caption="Layer recycling for question answering with similarity learning" >}}
+| Model         | RP@1  | RRK |
+| ------------- | ---- | ---- |
+| Full training   | 0.76 | 0.65 |
+| 50% recycling | 0.75 | 0.63 |
+| 75% recycling | 0.69 | 0.59 |
+| Head only     | 0.67 | 0.58 |
+| Baseline     | 0.64 | 0.55 |
+
 
 In this task, 50% layer recycling can still do a good job with only a small drop in performance when compared to full training.
 However, the level of degradation is smaller than that in the similar cars search example.
@@ -151,3 +170,7 @@ There is even a critical size under which full training does not work at all.
 The issue of performance differences shows that there is still room for further research on layer recycling,
 and luckily Quaterion is flexible enough to run such experiments quickly.
 We will continue to report our findings on fine-tuning efficiency.
+
+**Fun fact**: The preview image for this article was created with Dall.e with the following prompt: "Photo-realistic robot using a tuning fork to adjust a piano."
+[Click here](/articles_data/embedding-recycling/full.png)
+to see it in full size!
