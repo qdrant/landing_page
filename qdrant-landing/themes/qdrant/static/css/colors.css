@@ -3,8 +3,9 @@
 :root {
   --brand-primary: #DC244C;
   --brand-secondary: #24386C;
-  --brand-gray: #7589BE;
-  --brand-mid-gray: #B2BFE8;
-  --brand-light-grey: #EBF1FF;
+  --brand-dark-gray: #7589BE;
+  --brand-gray: #B2BFE8;
+  --brand-mid-grey: #EBF1FF;
+  --brand-light-gray: #F4F6FF;
 
 }

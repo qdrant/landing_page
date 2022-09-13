@@ -380,7 +380,7 @@ img{
 	position:relative;
 	font-size:18px;
 	line-height:1.8em;
-	color: var(--brand-gray);
+	color: var(--brand-dark-gray);
 	margin-top:12px;
 }
 
@@ -2685,7 +2685,7 @@ img{
 
 .projects-section-two{
 	position:relative;
-	padding:95px 0 80px;
+	padding: 76px 0 80px;
 	background-color:#f1eff7;
 }
 
@@ -2696,7 +2696,6 @@ img{
 
 .project-block .inner-box{
 	position:relative;
-	text-align:center;
 }
 
 .project-block .inner-box .title{
@@ -2712,9 +2711,10 @@ img{
 }
 
 .project-block .inner-box .image{
+	height: 124px;
 	position:relative;
 	overflow:hidden;
-	background-color:var(--brand-primary);
+	border-radius: 7px 7px 0 0;
 }
 
 .project-block .inner-box .image img{
@@ -2736,19 +2736,23 @@ img{
 .project-block .inner-box .block-content{
 	position:relative;
 	background-color:#ffffff;
+	border-radius: 7px;
 }
 
 .project-block .inner-box .block-content .lower-content{
 	position:relative;
-	padding:25px 30px 0;
+	padding:25px 30px;
+	border-radius: 0 0 7px 7px;
 }
 
 .project-block .inner-box .block-content h5{
 	position:relative;
-	line-height:1.5em;
-	color:#2b2b2b;
+	font-size: 24px;
+	line-height: 28px;
+	color: var(--brand-secondary);
 	font-weight:700;
 	margin-bottom:15px;
+	min-height: 56px;
 }
 
 .project-block .inner-box .block-content h5 a{
@@ -2767,9 +2771,10 @@ img{
 
 .project-block .inner-box .block-content .text{
 	position:relative;
-	font-size:16px;
-	line-height:1.8em;
+	font-size:18px;
+	line-height:28px;
 	margin-bottom:15px;
+	min-height: 120px;
 }
 
 .project-block .inner-box .block-content .learn-btn{

@@ -7,7 +7,7 @@
 ***/
 .main-footer {
   position: relative;
-  background-color: var(--brand-secondary);
+  background-color: var(--brand-primary);
   overflow: hidden;
 
   &__widget {
@@ -15,6 +15,7 @@
     position: relative;
 
     h4 {
+      color: var(--white);
       position: relative;
       text-transform: capitalize;
       font-weight: 700;
@@ -51,13 +52,14 @@
       bottom: 0;
       left: 0;
       content: '';
-      background-color: var(--brand-primary);
+      background-color: var(--white);
     }
   }
   &__link {
     color: var(--white);
     &:hover {
-      color: var(--brand-primary);
+      color: var(--white);
+      text-decoration: underline;
     }
   }
 
@@ -76,13 +78,13 @@
         color: #ececec;
 
         &:hover {
-          color: var(--brand-primary);
+          color: var(--white);
         }
       }
     }
     i {
       margin-right: 10px;
-      color: var(--brand-primary);
+      color: var(--white);
     }
   }
 
@@ -94,7 +96,7 @@
       bottom: 50%;
       left: 0;
       text-align: center;
-      color: var(--brand-primary);
+      color: var(--white);
     }
   }
 
@@ -115,7 +117,7 @@
         font-size: 14px;
 
         &:hover {
-          color: var(--brand-primary);
+          color: var(--white);
         }
       }
     }
@@ -164,7 +166,7 @@
           color: #ececec;
 
           &:hover {
-            color: var(--brand-primary);
+            color: var(--white);
           }
         }
       }
@@ -185,7 +187,7 @@
           font-size: 16px;
 
           &:hover {
-            color: var(--brand-primary);
+            color: var(--white);
           }
         }
       }
@@ -248,14 +250,14 @@
         right: 0;
         left: auto;
         border: none;
-        border-top: 3px solid var(--brand-primary);
+        border-top: 3px solid var(--white);
         border-radius: 0;
-        background-color: var(--brand-secondary);
+        background-color: var(--brand-primary);
 
         & > li {
           display: block !important;
-          margin: 0px !important;
-          padding-right: 0px !important;
+          margin: 0 !important;
+          padding-right: 0 !important;
           float: none;
           border-bottom: 1px solid rgba(255, 255, 255, 0.20);
 

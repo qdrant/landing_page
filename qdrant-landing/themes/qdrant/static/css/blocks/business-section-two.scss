@@ -55,15 +55,15 @@
         margin: 14px 0;
         cursor: pointer;
         border-radius: 50%;
-        background: var(--brand-light-grey);
+        background: var(--brand-mid-grey);
 
         &:hover {
-          background: var(--brand-mid-gray);
+          background: var(--brand-gray);
         }
       }
 
       .tab-btn.active-btn {
-        background: var(--brand-mid-gray);
+        background: var(--brand-gray);
       }
     }
 
@@ -113,7 +113,7 @@
         p {
           margin-bottom: 25px;
           position: relative;
-          color: var(--brand-gray);
+          color: var(--brand-dark-gray);
           font-size: 18px;
           font-weight: 400;
           line-height: 28px;

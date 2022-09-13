@@ -221,10 +221,10 @@ docker run -p 6333:6333 qdrant/qdrant</code>
 
   {{ with (.Site.GetPage "section" "articles") }}
   <!-- End Articles Section -->
-  <section id="articles" class="projects-section-two" style="background-image: url(/images/background/pattern-9.webp)">
+  <section id="articles" class="projects-section-two" style="background: var(--brand-light-gray);">
     <div class="auto-container">
       <!-- Sec Title -->
-      <div class="sec-title">
+      <div class="sec-title mb-4">
         <h2>{{ .Title | safeHTML }}</h2>
         <div class="text">{{ .Params.subtitle | safeHTML }}
         </div>
@@ -249,7 +249,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                 <h5><a href="{{ $link }}">{{ .Title }}</a></h5>
                 <div class="text">{{ .Params.description }}
                 </div>
-                <a href="{{ $link }}" target="_blank" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
+                <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five"><span class="txt">Learn More</span></a>
               </div>
             </div>
           </div>
