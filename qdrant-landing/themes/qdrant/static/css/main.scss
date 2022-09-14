@@ -356,7 +356,7 @@ img{
 	z-index:1;
 	margin-bottom:20px;
 	@include media-breakpoint-up(md) {
-		margin-bottom:56px;
+		margin-bottom:45px;
 	}
 	&.text {
 		font-size: 12px;
@@ -849,44 +849,25 @@ img{
 	margin-bottom:35px;
 }
 
-.newsletter-form .form-group{
+.newsletter-form input[type="text"],
+.newsletter-form input[type="email"]{
 	position:relative;
-	display:block;
-	margin-bottom:10px;
-}
-
-.newsletter-form .form-group input[type="text"],
-.newsletter-form .form-group input[type="email"]{
-	position:relative;
-	display:block;
-	width:100%;
-	line-height:26px;
+	display:flex;
+	flex: auto;
 	padding:10px 180px 10px 25px;
-	height:50px;
+	height:56px;
 	font-size:18px;
-	color:#000000;
+	color:var(--brand-secondary);
 	background:none;
 	border-radius:50px;
-	border:1px solid #dddddd;
-  background:white;
-	/* -webkit-transition:all 300ms ease; */
-	/* -ms-transition:all 300ms ease; */
-	/* -o-transition:all 300ms ease; */
-	/* -moz-transition:all 300ms ease; */
-	/* transition:all 300ms ease;	 */
+	border:1px solid var(--brand-dark-gray);
+	background:white;
 	font-family: $font-family-non-content;
+	margin-right: 24px;
 }
 
-.newsletter-form .form-group button{
-	position:absolute;
-	right:1px;
-	top:1px;
-	cursor:pointer;
-	padding:8px 36px 8px;
-}
-
-.newsletter-form.style-two .form-group input,
-.newsletter-form.style-two .form-group button{
+.newsletter-form.style-two input,
+.newsletter-form.style-two button{
 	border-radius:0;
 }
 
@@ -2728,11 +2709,6 @@ img{
 	transition:all 600ms ease;
 }
 
-.project-block .inner-box:hover .image img{
-	transform:scale(1.05,1.05);
-	opacity:0.5;
-}
-
 .project-block .inner-box .block-content{
 	position:relative;
 	background-color:#ffffff;
@@ -2757,7 +2733,7 @@ img{
 
 .project-block .inner-box .block-content h5 a{
 	position:relative;
-	color:#2b2b2b;
+	color: var(--brand-secondary);
 	-webkit-transition:all 300ms ease;
 	-ms-transition:all 300ms ease;
 	-o-transition:all 300ms ease;
@@ -2775,6 +2751,7 @@ img{
 	line-height:28px;
 	margin-bottom:15px;
 	min-height: 120px;
+	color: var(--brand-dark-gray);
 }
 
 .project-block .inner-box .block-content .learn-btn{

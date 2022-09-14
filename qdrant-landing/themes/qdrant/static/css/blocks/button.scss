@@ -386,7 +386,8 @@
   }
 
   &_big {
-    .text {
+    .text,
+    .txt {
       font-size: 1rem;
 
       @include media-breakpoint-up(md) {
