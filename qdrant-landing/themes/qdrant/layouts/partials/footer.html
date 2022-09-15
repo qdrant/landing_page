@@ -7,7 +7,7 @@
         <div class="row clearfix">
 
           <!-- Footer Column -->
-          <div class="main-footer__column col-lg-7 col-md-6 col-sm-12">
+          <div class="main-footer__column col-12">
 
             {{ $currentPage := . }}
             {{ range .Site.Menus.main }}
@@ -38,10 +38,7 @@
             </div>
             {{ end }}
             {{ end }}
-          </div>
 
-          <!-- Footer Column -->
-          <div class="footer-column col-lg-5 col-md-6 col-sm-12">
             <div class="main-footer__widget news-widget">
               <div class="main-footer__title">
                 <h4>Latest Publications</h4>
@@ -54,9 +51,9 @@
 
                 {{ $link := .Permalink }}
                 {{ if .Params.external_link }}
-                  {{ $link = .Params.external_link }}
+                {{ $link = .Params.external_link }}
                 {{ end }}
-        
+
 
                 <div class="post">
                   <div class="thumb"><a href="{{ $link }}"><img src="{{ .Params.small_preview_image }}" alt=""></a>
@@ -72,19 +69,25 @@
 
               </div>
 
-              <ul class="social-box">
-                <li><a href="{{ .Site.Params.github }}" target="_blank"><i class="fab fa-github"></i></a></li>
-                <li><a href="{{ .Site.Params.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-                <li><a href="{{ .Site.Params.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="{{ .Site.Params.discord }}" target="_blank"><i class="fab fa-discord"></i></a></li>
-                <li><a href="{{ .Site.Params.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a></li>
-              </ul>
 
             </div>
           </div>
 
+          <!-- Footer Column -->
+<!--          <div class="footer-column col-lg-5 col-md-6 col-sm-12">-->
+<!--          </div>-->
+
         </div>
       </div>
+
+      <ul class="social-box">
+        <li><a href="{{ .Site.Params.github }}" target="_blank"><i class="fab fa-github"></i></a></li>
+        <li><a href="{{ .Site.Params.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+        <li><a href="{{ .Site.Params.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+        <li><a href="{{ .Site.Params.discord }}" target="_blank"><i class="fab fa-discord"></i></a></li>
+        <li><a href="{{ .Site.Params.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a></li>
+      </ul>
+
     </div>
 
     <!-- Footer Bottom -->

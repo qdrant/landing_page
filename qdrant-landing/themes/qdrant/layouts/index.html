@@ -276,7 +276,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
           <!-- Newsletter Form -->
           <div class="newsletter-form">
             <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-              <div class="d-flex justify-content-between">
+              <div class="d-flex justify-content-between flex-wrap">
                 <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required="" id="mce-EMAIL">
                 <div style="position: absolute; left: -5000px;" aria-hidden="true">
                   <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1" value="">

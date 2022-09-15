@@ -20,43 +20,32 @@
       text-transform: capitalize;
       font-weight: 700;
       line-height: 1.2em;
+      font-size: 24px;
     }
   }
 
   &__column {
     display: flex;
-    flex-direction: column;
     flex-wrap: wrap;
+    justify-content: space-between;
     max-height: 450px;
     gap: 8px 10px;
-
-    & > * {
-      width: 30%;
-    }
   }
 
   .widgets-section {
-    padding: 90px 0 50px;
+    padding: 90px 0 0;
     position: relative;
   }
 
   &__title {
-    margin-bottom: 25px;
-    padding-bottom: 15px;
+    margin-bottom: 30px;
     position: relative;
 
-    &:before {
-      width: 40px;
-      height: 1px;
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      content: '';
-      background-color: var(--white);
-    }
   }
+
   &__link {
     color: var(--white);
+
     &:hover {
       color: var(--white);
       text-decoration: underline;
@@ -68,10 +57,11 @@
     white-space: nowrap;
 
     li {
-      margin-bottom: 8px;
+      margin-bottom: 16px;
       position: relative;
       color: #ececec;
-      font-size: 14px;
+      font-size: 18px;
+      line-height: 28px;
 
       a {
         position: relative;
@@ -82,8 +72,9 @@
         }
       }
     }
+
     i {
-      margin-right: 10px;
+      margin-right: 8px;
       color: var(--white);
     }
   }
@@ -124,10 +115,11 @@
   }
 
   .news-widget {
+    width: 396px;
+
     .post {
       min-height: 70px;
       margin-bottom: 15px;
-      padding-right: 90px;
       padding-left: 75px;
       position: relative;
 
@@ -171,24 +163,21 @@
         }
       }
     }
+  }
 
-    .social-box {
-      position: absolute;
-      right: 0;
-      bottom: 0;
 
-      li {
-        margin-top: 18px;
-        position: relative;
+  .social-box {
+    display: flex;
+    margin-bottom: 42px;
+    li {
+      margin-right: 32px;
 
-        a {
-          position: relative;
-          color: #ffffff;
-          font-size: 16px;
+      a {
+        color: var(--white);
+        font-size: 32px;
 
-          &:hover {
-            color: var(--white);
-          }
+        &:hover {
+          color: var(--white);
         }
       }
     }
@@ -250,9 +239,9 @@
         right: 0;
         left: auto;
         border: none;
-        border-top: 3px solid var(--white);
+        border-top: 3px solid var(--brand-secondary);
         border-radius: 0;
-        background-color: var(--brand-primary);
+        background-color: var(--white);
 
         & > li {
           display: block !important;
@@ -269,12 +258,12 @@
             display: block;
             padding: 14px 20px !important;
             text-align: left;
-            color: #ffffff;
+            color: var(--brand-secondary);
             font-size: 14px;
 
             &:hover {
-              color: #ffffff !important;
-              background-color: var(--brand-primary);
+              color: var(--brand-dark-gray) !important;
+              background-color: var(--white);
             }
           }
         }
