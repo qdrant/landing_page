@@ -10,7 +10,7 @@
   padding: 0 0 60px;
   position: relative;
   @include media-breakpoint-up(lg) {
-    padding: 117px 0 60px;
+    padding: 177px 0 60px;
   }
 
   .image-column {
@@ -31,6 +31,10 @@
 
     .inner-column {
       position: relative;
+
+      .sec-title {
+        margin-bottom: 69px;
+      }
     }
 
     .theme-btn {
@@ -49,7 +53,7 @@
 
 .feature-block {
   width: auto;
-  margin-bottom: 30px;
+  margin-bottom: 80px;
   position: relative;
 
   @include media-breakpoint-up(lg) {
@@ -67,7 +71,7 @@
     position: relative;
 
     .icon-box {
-      margin-bottom: 12px;
+      margin-bottom: 20px;
       position: relative;
       color: var(--brand-primary);
       font-size: 48px;
