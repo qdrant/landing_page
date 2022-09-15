@@ -6,7 +6,7 @@
 .hero-code {
   display: none;
   margin-bottom: 1rem;
-  padding: 1.6rem 1rem;
+  padding: 1.2rem 1rem;
   position: relative;
   border-radius: 5px;
   background: var(--brand-mid-grey);
@@ -15,6 +15,7 @@
 
   code {
     font-size: 18px;
+    line-height: 1.7;
   }
 
   @include media-breakpoint-up(sm) {

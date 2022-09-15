@@ -92,12 +92,21 @@
 ***/
 
 .banner-section-two {
-  padding-top: 170px;
+  padding-top: 73px;
   padding-bottom: 0;
   position: relative;
 
   @include media-breakpoint-down(lg) {
     padding-top: 70px;
+  }
+
+  .sec-title.text {
+    margin-bottom: 54px;
+  }
+
+  .d-inline-block {
+    margin-top: 0.25rem;
+    margin-bottom: 3.6rem;
   }
 
   .outer-container {
@@ -121,6 +130,7 @@
     z-index: 3;
 
     .inner-column {
+      padding-top: 130px;
       padding-bottom: 60px;
       position: relative;
     }
@@ -166,7 +176,8 @@
 
     .inner-column {
       width: 126%;
-      margin-left: -10%;
+      padding-top: 105px;
+      margin-left: -11%;
       position: relative;
     }
   }
