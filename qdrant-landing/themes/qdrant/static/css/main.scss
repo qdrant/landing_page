@@ -850,11 +850,11 @@ img{
 }
 
 .newsletter-form input[type="text"],
-.newsletter-form input[type="email"]{
+.newsletter-form input[type="email"] {
 	position:relative;
 	display:flex;
 	flex: auto;
-	padding:10px 180px 10px 25px;
+	padding: 10px 25px;
 	height:56px;
 	font-size:18px;
 	color:var(--brand-secondary);
@@ -864,6 +864,11 @@ img{
 	background:white;
 	font-family: $font-family-non-content;
 	margin-right: 24px;
+	margin-bottom: 0;
+	@include media-breakpoint-down(md) {
+		margin-right: 0;
+		margin-bottom: 10px;
+	}
 }
 
 .newsletter-form.style-two input,
