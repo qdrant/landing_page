@@ -186,6 +186,8 @@
 
   // go to the next tab
   async function autoplay() {
+    if (!tabs || tabs.length === 0) return;
+
     do {
       await sleep(3000).then(t => clearTimeout(t));
     } while(paused)

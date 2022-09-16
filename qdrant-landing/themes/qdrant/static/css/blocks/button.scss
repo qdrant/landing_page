@@ -118,7 +118,6 @@
   background: none;
   background-color: var(--brand-primary);
   box-shadow: 0 5px 10px rgba(0, 0, 0, 0.10);
-  font-family: 'Roboto Condensed', serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 30px;
@@ -171,7 +170,6 @@
   border: 1px solid #ffffff;
   border-radius: 50px;
   background: none;
-  font-family: 'Roboto Condensed', serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 30px;
@@ -243,7 +241,6 @@
   -o-box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
   -webkit-box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
   box-shadow: 0 10px 32px rgba(255, 98, 98, 0.10);
-  font-family: 'Roboto Condensed', serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 32px;
@@ -309,7 +306,6 @@
   -o-box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
   -webkit-box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
   box-shadow: 0 10px 30px rgba(255, 98, 98, 0.10);
-  font-family: 'Roboto Condensed', serif;
   font-size: 18px;
   font-weight: 400;
   line-height: 30px;
@@ -386,7 +382,7 @@
   }
 
   &_big {
-    line-height: 38px;
+    line-height: 33px;
     .text,
     .txt {
       font-size: 1rem;
@@ -428,10 +424,9 @@
   border: 1px solid var(--brand-primary);
   border-radius: 50px;
   background: none;
-  font-family: 'Roboto Condensed', serif;
   font-size: 24px;
   font-weight: 700;
-  line-height: 38px;
+  line-height: 35px;
   overflow: hidden;
 
   &:before {
