@@ -93,12 +93,12 @@
       min-height: 618px;
 
       .content-column {
-        width: 100%;
         display: flex;
         align-items: stretch;
+        width: 100%;
         position: relative;
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
           width: unset;
         }
 
@@ -107,7 +107,7 @@
           padding-bottom: 450px;
           position: relative;
 
-          @include media-breakpoint-up(md) {
+          @include media-breakpoint-up(lg) {
             padding-bottom: 54px;
           }
         }
@@ -125,7 +125,8 @@
           color: var(--brand-dark-gray);
           font-size: 18px;
           font-weight: 400;
-          line-height: 28px;        }
+          line-height: 28px;
+        }
 
         .business-list {
           margin-bottom: 35px;
@@ -158,19 +159,32 @@
       }
 
       .image-column {
+        width: 100%;
         position: absolute;
         right: 0;
-        left: 0;
         bottom: 150px;
-        width: 100%;
+        left: 0;
 
-        @include media-breakpoint-up(md) {
+        @include media-breakpoint-up(lg) {
+          width: 330px;
           margin-top: 38px;
           padding-left: 40px;
-          left: unset;
-          right: -31px;
           top: 0;
+          right: -31px;
+          left: unset;
+        }
+
+        @include media-breakpoint-up(xl) {
           width: 416px;
+        }
+
+        .image {
+          @include media-breakpoint-up(md) {
+            max-width: 300px;
+          }
+          @include media-breakpoint-up(lg) {
+            max-width: 100%;
+          }
         }
       }
     }
