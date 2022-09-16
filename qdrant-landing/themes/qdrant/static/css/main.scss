@@ -49,22 +49,7 @@
 @import url('custom-animate.css');
 @import url('colors.css');
 
-@import "article";
-@import "blocks/logo";
-@import "blocks/button";
-@import "blocks/copy-btn";
-@import "blocks/hero-code";
-@import "blocks/features-section";
-@import "blocks/business-section-two";
-@import "blocks/widget-header";
-@import "blocks/post-preview";
-@import "blocks/steps-form";
-
-@import "blocks/header";
-@import "blocks/banner";
-@import "blocks/footer";
-
-/*** 
+/***
 
 ====================================================================
 	Reset
@@ -376,12 +361,13 @@ img{
 	color:var(--brand-primary);
 }
 
-.sec-title .text{
+.sec-title .text,
+.sec-title .text > p{
 	position:relative;
-	font-size:18px;
-	line-height:1.8em;
+	font-size: 18px;
+	line-height: 28px;
 	color: var(--brand-dark-gray);
-	margin-top:12px;
+	margin-top: 8px;
 }
 
 .sec-title.centered{
@@ -854,7 +840,7 @@ img{
 	position:relative;
 	display:flex;
 	flex: auto;
-	padding: 10px 25px;
+	padding: 10px 39px;
 	height:56px;
 	font-size:18px;
 	color:var(--brand-secondary);
@@ -2076,7 +2062,12 @@ img{
 
 .clients-section{
 	position:relative;
-	padding:40px 0 40px;
+	padding: 19px 0 40px;
+}
+
+.clients-section.contact-section {
+	padding-top: 90px;
+	padding-bottom: 53px;
 }
 
 .clients-section .sponsors-outer .owl-dots,
@@ -2671,7 +2662,7 @@ img{
 
 .projects-section-two{
 	position:relative;
-	padding: 76px 0 80px;
+	padding: 76px 0 42px;
 	background-color:#f1eff7;
 }
 
@@ -2697,7 +2688,7 @@ img{
 }
 
 .project-block .inner-box .image{
-	height: 124px;
+	height: 116px;
 	position:relative;
 	overflow:hidden;
 	border-radius: 7px 7px 0 0;
@@ -2722,7 +2713,7 @@ img{
 
 .project-block .inner-box .block-content .lower-content{
 	position:relative;
-	padding:25px 30px;
+	padding: 23px 30px;
 	border-radius: 0 0 7px 7px;
 }
 
@@ -2732,7 +2723,7 @@ img{
 	line-height: 28px;
 	color: var(--brand-secondary);
 	font-weight:700;
-	margin-bottom:15px;
+	margin-bottom:6px;
 	min-height: 56px;
 }
 
@@ -2754,7 +2745,7 @@ img{
 	position:relative;
 	font-size:18px;
 	line-height:28px;
-	margin-bottom:15px;
+	margin-bottom:13px;
 	min-height: 120px;
 	color: var(--brand-dark-gray);
 }
@@ -5802,3 +5793,18 @@ img{
 .asterisk {
 	color: var(--brand-primary);
 }
+
+@import "article";
+@import "blocks/logo";
+@import "blocks/button";
+@import "blocks/copy-btn";
+@import "blocks/hero-code";
+@import "blocks/features-section";
+@import "blocks/business-section-two";
+@import "blocks/widget-header";
+@import "blocks/post-preview";
+@import "blocks/steps-form";
+
+@import "blocks/header";
+@import "blocks/banner";
+@import "blocks/footer";
