@@ -7,7 +7,7 @@
 ***/
 
 .business-section-two {
-  padding: 30px 0 70px;
+  padding: 0 0 70px;
   position: relative;
 
   .sec-title {
@@ -44,7 +44,7 @@
       display: flex;
       align-items: center;
       flex-direction: column;
-      margin-top: 138px;
+      margin-top: 156px;
       margin-left: 100px;
       position: relative;
 
@@ -52,7 +52,7 @@
         display: inline-block;
         width: 14px;
         height: 14px;
-        margin: 14px 0;
+        margin: 7px 0;
         cursor: pointer;
         border-radius: 50%;
         background: var(--brand-mid-grey);
@@ -68,6 +68,7 @@
     }
 
     .tabs-content {
+      width: 100%;
       position: relative;
 
       .tab {
@@ -83,14 +84,13 @@
 
       .content {
         max-width: 1030px;
-        margin: 0 auto;
         position: relative;
       }
     }
 
     .content {
       display: flex;
-      min-height: 600px;
+      min-height: 618px;
 
       .content-column {
         display: flex;
@@ -104,7 +104,7 @@
         }
 
         h5 {
-          margin-bottom: 10px;
+          margin-bottom: 5px;
           font-size: 24px;
           font-weight: 700;
           line-height: 28px;
@@ -116,8 +116,7 @@
           color: var(--brand-dark-gray);
           font-size: 18px;
           font-weight: 400;
-          line-height: 28px;
-        }
+          line-height: 28px;        }
 
         .business-list {
           margin-bottom: 35px;
@@ -150,9 +149,12 @@
       }
 
       .image-column {
-        margin-top: 44px;
+        margin-top: 38px;
         padding-left: 40px;
-        position: relative;
+        position: absolute;
+        width: 416px;
+        right: -31px;
+        top: 0;
       }
     }
   }
