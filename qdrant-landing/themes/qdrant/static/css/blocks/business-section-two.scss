@@ -93,14 +93,23 @@
       min-height: 618px;
 
       .content-column {
+        width: 100%;
         display: flex;
         align-items: stretch;
         position: relative;
 
+        @include media-breakpoint-up(md) {
+          width: unset;
+        }
+
         .inner-column {
           width: 645px;
-          padding-bottom: 54px;
+          padding-bottom: 450px;
           position: relative;
+
+          @include media-breakpoint-up(md) {
+            padding-bottom: 54px;
+          }
         }
 
         h5 {
@@ -149,12 +158,20 @@
       }
 
       .image-column {
-        margin-top: 38px;
-        padding-left: 40px;
         position: absolute;
-        width: 416px;
-        right: -31px;
-        top: 0;
+        right: 0;
+        left: 0;
+        bottom: 150px;
+        width: 100%;
+
+        @include media-breakpoint-up(md) {
+          margin-top: 38px;
+          padding-left: 40px;
+          left: unset;
+          right: -31px;
+          top: 0;
+          width: 416px;
+        }
       }
     }
   }
