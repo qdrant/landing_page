@@ -2,7 +2,7 @@
 title: Recommendations
 icon: advertising
 tabid: recommendations
-landing_image: /content/images/recomendations_big.svg
+landing_image: /content/images/recomendations_big.png
 image: /content/images/solutions/recomendations.svg
 image_caption: History-based Recommendations
 default_link: 

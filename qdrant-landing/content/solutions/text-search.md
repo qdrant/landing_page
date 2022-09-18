@@ -2,7 +2,7 @@
 title: Semantic Text Search
 tabid: textsearch
 icon: paper
-landing_image: /content/images/semantic_search_big.svg
+landing_image: /content/images/semantic_search_big.png
 image: /content/images/solutions/semantic_text_search.svg
 image_caption: Neural Text Search
 default_link: https://qdrant.to/semantic-search-demo
