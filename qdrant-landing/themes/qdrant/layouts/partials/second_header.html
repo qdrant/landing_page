@@ -1,19 +1,29 @@
 <!--End Page Title-->
 <section class="page-title">
-    <div class="pattern-layer" style="background-image: url(/images/background/pattern-12.webp)"></div>
     <div class="auto-container">
-        <h1> {{ .Params.title | safeHTML }}</h1>
-        <ul class="bread-crumb clearfix">
-            <li><a href="/"><i class="flaticon-home small"></i> Home</a></li>
-            {{ $paths := (split .RelPermalink "/") }}
-            {{ $len := sub (len $paths) 2 }}
-            {{ range first $len $paths }}
-                {{ if gt (len . ) 0 }}
+        <div class="row">
+            <div class="col-6">
+                <ul class="bread-crumb clearfix">
+                    <li><a href="/"><i class="flaticon-home small"></i> Home</a></li>
+                    {{ $paths := (split .RelPermalink "/") }}
+                    {{ $len := sub (len $paths) 2 }}
+                    {{ range first $len $paths }}
+                    {{ if gt (len . ) 0 }}
                     <li><a href="/{{ . }}">{{ humanize . }}</a></li>
-                {{ end }}
-            {{ end }}
-            <li>{{ .Params.title | safeHTML }}</li>
-        </ul>
+                    {{ end }}
+                    {{ end }}
+                    <li>{{ .Params.title | safeHTML }}</li>
+                </ul>
+
+                <h1> {{ .Params.title | safeHTML }}</h1>
+               <h2>{{ .Params.section_title | safeHTML }}</h2>
+            </div>
+            <div class="col-6">
+                <img src="{{ .Params.img }}" alt="">
+            </div>
+        </div>
     </div>
 </section>
+
+
 <!--End Page Title-->

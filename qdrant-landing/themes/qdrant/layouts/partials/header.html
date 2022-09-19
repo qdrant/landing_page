@@ -82,7 +82,7 @@
             {{ if (eq $.Section "documentation") }}
             <header class="main-header">
             {{ else }}
-            <header class="main-header main-sticky-header">
+            <header class="main-header main-sticky-header{{ if .IsHome }} main-header__home{{ end }}">
             {{ end }}
 
               <!--Header-Upper-->
