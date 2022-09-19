@@ -334,6 +334,36 @@ The simplest kind of condition is one that checks if the stored value equals the
 If several values are stored, at least one of them should match the condition.
 You can apply it to [keyword](../payload/#keyword), [integer](../payload/#integer) and [bool](../payload/#bool) payloads.
 
+### Full Text Match
+
+*Avaliable since version 0.10.0*
+
+A special case of the `match` condition is the `text` match condition.
+It allows you to search for a specific substring, token or phrase within the text field.
+
+Exact texts that will match the condition depend on full-text index configuration.
+Configuration is defined during the index creation and describe at [full-text index](../indexing/#full-text-index).
+
+If there is no full-text index for the field, the condition will work as exact substring match.
+
+```json
+{ 
+    "key": "description",
+    "match": {
+        "text": "good cheap" 
+    }
+}
+```
+
+```python
+models.FieldCondition(
+    key="description",
+    match=models.MatchText(text="good cheap"),
+)
+```
+
+If the query has several words, the condition will be satisfied if all of them are present in the text.
+
 ### Range
 
 ```json

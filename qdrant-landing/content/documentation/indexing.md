@@ -27,7 +27,7 @@ PUT /collections/{collection_name}/index
 
 {
     "field_name": "name_of_the_field_to_index",
-    "field_type": "keyword"
+    "field_schema": "keyword"
 }
 ```
 
@@ -38,7 +38,7 @@ client = QdrantClient(host="localhost", port=6333)
 
 client.create_payload_index(collection_name="{collection_name}", 
                             field_name="name_of_the_field_to_index", 
-                            field_type="keyword")
+                            field_schema="keyword")
 ```
 
  Available field types are:
@@ -47,11 +47,65 @@ client.create_payload_index(collection_name="{collection_name}",
  * `integer` - for [integer](../payload/#integer) payload, affects [Match](../filtering/#match) and [Range](../filtering/#range) filtering conditions.
  * `float` - for [float](../payload/#float) payload, affects [Range](../filtering/#range) filtering conditions.
  * `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
+ * `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
 
 For indexing, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 You should not create an index for Boolean fields and fields with only a few possible values.
 
+### Full-text index
+
+*Available since Qdrant v0.10.0*
+
+Qdrant supports full-text search for string payload.
+Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
+
+Full-text index configuration is a bit more complex than other indexes, as you can specify the tokenization parameters.
+Tokenization is the process of splitting a string into tokens, which are then indexed in the inverted index.
+
+To create a full-text index, you can use the following:
+
+```http
+PUT /collections/{collection_name}/index
+
+{
+    "field_name": "name_of_the_field_to_index",
+    "field_schema": {
+        "type": "text",
+        "tokenizer": "word",
+        "min_token_len": 2,
+        "max_token_len": 20,
+        "lowercase": true
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema=models.TextIndexParams(
+        type="text",
+        tokenizer=models.TokenizerType.WORD,
+        min_token_len=2,
+        max_token_len=15,
+        lowercase=True,
+    )
+)
+```
+
+Available tokenizers are:
+
+* `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
+* `whitespace` - splits the string into words, separated by spaces.
+* `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
+
+See [Full Text match](../filtering/#full-text-match) for examples of querying with full-text index.
 
 ## Vector Index
 

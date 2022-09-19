@@ -12,7 +12,6 @@ It could be, for example, texts with similar meanings, visually similar pictures
 
 ![Embeddings](/docs/encoders.png)
 
-
 ## Metrics
 
 There are many ways to estimate the similarity of vectors with each other.
@@ -50,7 +49,6 @@ However, the general principles are:
 - estimate the cardinality of a filtered result before selecting a strategy
 - retrieve points using payload index (see [indexing](../indexing)) if cardinality is below threshold
 - use filterable vector index if the cardinality is above a threshold
-
 
 You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
 
@@ -116,11 +114,10 @@ Currently, it could be:
 
 * `hnsw_ef` - value that specifies `ef` parameter of the HNSW algorithm.
 
-
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](../filtering) section.
 
-Example result of this API would be 
+Example result of this API would be
 
 ```json
 {
@@ -135,6 +132,37 @@ Example result of this API would be
 ```
 
 The `result` contains ordered by `score` list of found point ids.
+
+*Available since v0.10.0*
+
+If the collection was created with multiple vectors, the name of the vector to use for searching should be provided:
+
+```http
+POST /collections/{collection_name}/points/search
+
+{
+    "vector": {
+        "name": "image",
+        "vector": [0.2, 0.1, 0.9, 0.7]
+    },
+    "limit": 3
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.search(
+    collection_name="{collection_name}",
+    query_vector=("image", [0.2, 0.1, 0.9, 0.7]),
+    limit=3,
+)
+```
+
+Search is processing only among vectors with the same name.
 
 ### Filtering results by score
 
@@ -185,6 +213,11 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
 client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
@@ -193,6 +226,117 @@ client.search(
     ),
 )
 ```
+
+## Batch search API
+
+*Available since v0.10.0*
+
+The batch search API enables to perform multiple search requests via a single request.
+
+Its semantic is straightforward, `n` batched search requests are equivalent to `n` singular search requests.
+
+This approach has several advantages. Logically, fewer network connections are required which can be very beneficial on its own.
+
+More importantly, batched requests will be efficiently processed via the query planner which can detect and optimize requests if they have the same `filter`.
+
+This can have a great effect on latency for non trivial filters as the intermediary results can be shared among the request.
+
+In order to use it, simply pack together your search requests. All the regular attributes of a search request are of course available.
+
+```http
+POST /collections/{collection_name}/points/search/batch
+
+{
+    "searches": [
+        {
+            "filter": {
+                "must": [
+                    {
+                        "key": "city",
+                        "match": {
+                            "value": "London"
+                        }
+                    }
+                ]
+            },
+            "vector": [0.2, 0.1, 0.9, 0.7],
+            "limit": 3
+        },
+        {
+            "filter": {
+                "must": [
+                    {
+                        "key": "city",
+                        "match": {
+                            "value": "London"
+                        }
+                    }
+                ]
+            },
+            "vector": [0.5, 0.3, 0.2, 0.3],
+            "limit": 3
+        }
+    ]
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+filter = models.Filter(
+    must=[
+        models.FieldCondition(
+            key="city",
+            match=models.MatchValue(
+                value="London",
+            ),
+        )
+    ]
+)
+
+search_queries = [
+    SearchRequest(
+        vector=[0.2, 0.1, 0.9, 0.7],
+        filter=filter,
+        limit=3
+    ),
+    SearchRequest(
+        vector=[0.5, 0.3, 0.2, 0.3],
+        filter=filter,
+        limit=3
+    )
+]
+
+client.search_batch(
+    collection_name="{collection_name}",
+    requests=search_queries
+)
+```
+
+The result of this API contains one array per search requests.
+
+```json
+{
+  "result": [
+    [
+        { "id": 10, "score": 0.81 },
+        { "id": 14, "score": 0.75 },
+        { "id": 11, "score": 0.73 }
+    ],
+    [
+        { "id": 1, "score": 0.92 },
+        { "id": 3, "score": 0.89 },
+        { "id": 9, "score": 0.75 }
+    ]
+  ],
+  "status": "ok",
+  "time": 0.001
+}
+```
+
 
 ## Recommendation API
 
@@ -209,7 +353,6 @@ If there is only one positive ID provided - this request is equivalent to the re
 
 Vector components that have a greater value in a negative vector are penalized, and those that have a greater value in a positive vector, on the contrary, are amplified.
 This average vector will be used to find the most similar vectors in the collection.
-
 
 REST API - API Schema definition is available [here](https://qdrant.github.io/qdrant/redoc/index.html#operation/recommend_points)
 
@@ -234,6 +377,11 @@ POST /collections/{collection_name}/points/recommend
 ```
 
 ```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
 client.recommend(
     collection_name="{collection_name}",
     query_filter=models.Filter(
@@ -252,7 +400,7 @@ client.recommend(
 )
 ```
 
-Example result of this API would be 
+Example result of this API would be
 
 ```json
 {
@@ -266,9 +414,140 @@ Example result of this API would be
 }
 ```
 
+*Available since v0.10.0*
+
+If the collection was created with multiple vectors, the name of the vector should be specified in the recommendation request:
+
+```http
+POST /collections/{collection_name}/points/recommend
+
+{
+  "positive": [100, 231],
+  "negative": [718],
+  "using": "image",
+  "limit": 10
+ }
+```
+
+```python
+client.recommend(
+    collection_name="{collection_name}",
+    positive=[100, 231],
+    negative=[718],
+    using="image",
+    limit=10,
+)
+```
+
+Parameter `using` specifies which stored vectors to use for the recommendation. 
+
+## Batch recommendation API
+
+*Available since v0.10.0*
+
+Similar to the batch search API in terms of usage and advantages, it enables the batching of recommendation requests.
+
+```http
+POST /collections/{collection_name}/points/recommend/batch
+
+{
+    "searches": [
+        {
+            "filter": {
+                    "must": [
+                        {
+                            "key": "city",
+                            "match": {
+                                "value": "London"
+                            }
+                        }
+                    ]
+            },
+            "negative": [718],
+            "positive": [100, 231],
+            "limit": 10
+        },
+        {
+            "filter": {
+                "must": [
+                    {
+                        "key": "city",
+                        "match": {
+                            "value": "London"
+                        }
+                    }
+                    ]
+            },
+            "negative": [300],
+            "positive": [200, 67],
+            "limit": 10
+        }
+    ]
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+filter = models.Filter(
+    must=[
+        models.FieldCondition(
+            key="city",
+            match=models.MatchValue(
+                value="London",
+            ),
+        )
+    ]
+)
+
+recommend_queries = [
+    models.RecommendRequest(
+        positive=[100, 231],
+        negative=[718],
+        filter=filter,
+        limit=3
+    ),
+    models.RecommendRequest(
+        positive=[200, 67],
+        negative=[300],
+        filter=filter,
+        limit=3
+    )
+]
+
+client.recommend_batch(
+    collection_name="{collection_name}",
+    requests=recommend_queries
+)
+```
+
+The result of this API contains one array per recommendation requests.
+
+```json
+{
+  "result": [
+    [
+        { "id": 10, "score": 0.81 },
+        { "id": 14, "score": 0.75 },
+        { "id": 11, "score": 0.73 }
+    ],
+    [
+        { "id": 1, "score": 0.92 },
+        { "id": 3, "score": 0.89 },
+        { "id": 9, "score": 0.75 }
+    ]
+  ],
+  "status": "ok",
+  "time": 0.001
+}
+```
+
 ## Pagination
 
-*Avalable since v0.8.3*
+*Available since v0.8.3*
 
 Search and recommendation APIs allow to skip first results of the search and return only the result starting from some specified offset:
 
@@ -287,6 +566,10 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="localhost", port=6333)
+
 client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
@@ -297,7 +580,7 @@ client.search(
 )
 ```
 
-Is equvalent to retrieving 11th page with 10 records per page.
+Is equivalent to retrieving 11th page with 10 records per page.
 
 <aside role="alert">Large offset values may cause performance issues</aside>
 
@@ -307,4 +590,3 @@ It is impossible to retrieve Nth closest vector without retrieving the first N v
 However, using the offset parameter saves the resources by reducing network traffic and the number of times the storage is accessed.
 
 Using an `offset` parameter, will require to internally retrieve `offset + limit` points, but only access payload and vector from the storage those points which are going to be actually returned.
-

@@ -230,7 +230,7 @@ client.upsert(
         ),
     ]
 )
-``` 
+```
 
 <!-- 
 
@@ -250,6 +250,54 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
+*Available since v0.10.0*
+
+If the collection was created with multiple vectors, each vector data should be provided using the vectors name:
+
+```http
+PUT /collections/{collection_name}/points
+
+{
+    "points": [
+        {
+            "id": 1,
+            "vector": {
+                "image": [0.9, 0.1, 0.1, 0.2],
+                "text": [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2]
+            }
+        },
+        {
+            "id": 2,
+            "vector": {
+                "image": [0.2, 0.1, 0.3, 0.9],
+                "text": [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9]
+            }
+        }
+    ]
+}
+```
+
+```python
+client.upsert(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1,
+            vector={
+                "image": [0.9, 0.1, 0.1, 0.2],
+                "text": [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+            },
+        ),
+        models.PointStruct(
+            id=2,
+            vector={
+                "image": [0.2, 0.1, 0.3, 0.9],
+                "text": [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+            },
+        ),
+    ]
+)
+```
 
 ## Modify points
 
@@ -512,7 +560,7 @@ Python client:
 
 ## Counting points
 
-*Avalable since v0.8.4*
+*Available since v0.8.4*
 
 Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
 
