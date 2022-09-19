@@ -383,15 +383,11 @@
 
   &_big {
     line-height: 33px;
+
     .text,
     .txt {
-      font-size: 1rem;
-
-      @include media-breakpoint-up(md) {
-        font-size: 24px;
-        font-weight: 700;
-      }
-
+      font-size: 24px;
+      font-weight: 700;
     }
   }
 

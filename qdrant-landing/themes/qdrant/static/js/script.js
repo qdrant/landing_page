@@ -178,6 +178,9 @@
   }
 
   // autoplay
+
+  // if the user's device is small mobile
+  let isSmallMobile = window.matchMedia('only screen and (max-width: 991px)').matches;
   const tabs = [...document.querySelectorAll('.tabs-box .tab-buttons .tab-btn')].map(tab => $(tab.dataset.tab));
   const sleep = m => new Promise(r => {
     return setTimeout(r, m)
@@ -186,11 +189,12 @@
 
   // go to the next tab
   async function autoplay() {
+    console.log({isSmallMobile})
     if (!tabs || tabs.length === 0) return;
 
     do {
       await sleep(3000).then(t => clearTimeout(t));
-    } while(paused)
+    } while(isSmallMobile || paused)
     autoplay.idx = ((autoplay.idx || 0) + 1) % tabs.length;
     activateTab(tabs[autoplay.idx]);
     await autoplay();
@@ -205,6 +209,16 @@
 
     tabsContainer.mouseleave(() => {
       paused = false;
+    });
+
+    $(window).resize(function () {
+      isSmallMobile = window.matchMedia('only screen and (max-width: 992px)').matches;
+      if (isSmallMobile) {
+        tabs.forEach(tab => {
+          $(tab).show();
+        })
+      }
+      console.log({isSmallMobile}, 'resize')
     });
 
     await autoplay()

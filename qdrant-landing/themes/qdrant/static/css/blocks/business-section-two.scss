@@ -41,12 +41,16 @@
     position: relative;
 
     .tab-btns {
-      display: flex;
+      display: none;
       align-items: center;
       flex-direction: column;
       margin-top: 156px;
       margin-left: 100px;
       position: relative;
+
+      @include media-breakpoint-up(lg) {
+        display: flex;
+      }
 
       .tab-btn {
         display: inline-block;
@@ -72,9 +76,12 @@
       position: relative;
 
       .tab {
-        display: none;
+        display: block;
         position: relative;
-        transform: rotateY(90deg);
+        @include media-breakpoint-up(lg) {
+          display: none;
+          transform: rotateY(90deg);
+        }
       }
 
       .tab.active-tab {
@@ -103,11 +110,11 @@
         }
 
         .inner-column {
-          width: 645px;
           padding-bottom: 450px;
           position: relative;
 
           @include media-breakpoint-up(lg) {
+            width: 645px;
             padding-bottom: 54px;
           }
         }
