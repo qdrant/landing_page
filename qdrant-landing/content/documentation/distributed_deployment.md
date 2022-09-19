@@ -3,7 +3,7 @@ title: Distributed deployment
 weight: 50
 ---
 
-Since version v0.8.0 Qdrant supports an experimental mode of distributed deployment.
+Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
 To enable distributed deployment - enable the cluster mode in the [configuration](../configuration) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
@@ -133,21 +133,23 @@ PUT /collections/{collection_name}
 
 {
     "name": "example_collection",
-    "distance": "Cosine",
-    "vector_size": 300,
+    vectors: {
+      "size": 300,
+      "distance": "Cosine"
+    },
     "shard_number": 6
 }
 ```
 
 ```python
 from qdrant_client import QdrantClient
+from qdrant_client.http import models
 
 client = QdrantClient(host="localhost", port=6333)
 
 client.recreate_collection(
     name="{collection_name}",
-    distance="Cosine",
-    vector_size=300, 
+    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6
 )
 ```

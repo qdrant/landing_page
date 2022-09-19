@@ -27,20 +27,22 @@ PUT /collections/{collection_name}
 
 {
     "name": "example_collection",
-    "distance": "Cosine",
-    "vector_size": 300
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    }
 }
 ```
 
 ```python
 from qdrant_client import QdrantClient
+from qdrant_client.http import models
 
 client = QdrantClient(host="localhost", port=6333)
 
 client.recreate_collection(
     name="{collection_name}",
-    distance="Cosine",
-    vector_size=300, 
+    vectors_config=models.VectorParams(size=100, distance=models.Distance.COSINE),
 )
 ```
 
@@ -56,13 +58,49 @@ Default parameters for the optional collection parameters are defined in [config
 
 See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters.
 
+### Collection with multiple vectors
 
-<!-- 
-#### Python
+*Available since v0.10.0*
+
+It is possible to have multiple vectors per record.
+This feature allows for multiple vector storages per collection. 
+To distinguish vectors in one record, they should have a unique name defined when creating the collection.
+Each named vector in this mode has its distance and size:
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "name": "example_collection",
+    "vectors": {
+        "image": {
+            "size": 4,
+            "distance": "Dot"
+        },
+        "text": {
+            "size": 8,
+            "distance": "Cosine"
+        }
+    }
+}
+```
 
 ```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.recreate_collection(
+    name="{collection_name}",
+    vectors_config={
+        "image": models.VectorParams(size=4, distance=models.Distance.DOT),
+        "text": models.VectorParams(size=8, distance=models.Distance.COSINE),
+    }
+)
 ```
- -->
+
+For rare use cases, it is possible to create a collection without any vector storage.
 
 ### Delete collection
 
@@ -91,15 +129,16 @@ PATCH /collections/{collection_name}
 }
 ```
 
-This command enables indexing for segments that have more than 10000 vectors stored.
-
-
-<!-- 
-#### Python
-
 ```python
+client.update_collection(
+    collection_name="{collection_name}",
+    optimizer_config=models.OptimizersConfigDiff(
+        max_segment_size=10000
+    )
+)
 ```
- -->
+
+This command enables indexing for segments that have more than 10000 vectors stored.
 
 
 ## Collection aliases
@@ -132,13 +171,18 @@ POST /collections/aliases
 }
 ```
 
-<!-- 
-#### Python
-
 ```python
+client.update_collection_aliases(
+    change_aliases_operations=[
+        models.CreateAliasOperation(
+            create_alias=models.CreateAlias(
+                collection_name="example_collection",
+                alias_name="production_collection"
+            )
+        )
+    ]
+)
 ```
- -->
-
 
 ### Remove alias
 

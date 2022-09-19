@@ -301,7 +301,7 @@ PUT /collections/{collection_name}/index
 
 {
     "field_name": "name_of_the_field_to_index",
-    "field_type": "keyword"
+    "field_schema": "keyword"
 }
 ```
 
@@ -309,7 +309,7 @@ PUT /collections/{collection_name}/index
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="name_of_the_field_to_index",
-    field_type="keyword",
+    field_schema="keyword",
 )
 ```
 
