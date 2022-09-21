@@ -124,7 +124,6 @@ client.list_full_snapshots()
 GET /snapshots/{snapshot_name}
 ```
 
-
 ## Restore full storage snapshot
 
 Restoring snapshots is done through the Qdrant CLI at startup time.

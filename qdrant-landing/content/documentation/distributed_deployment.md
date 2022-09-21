@@ -33,7 +33,7 @@ All peers should be accessible on this port from within the cluster, but make su
 Additionally, the first peer of the cluster should be provided with its URL, so it could tell other nodes how it should be reached.
 Use the `uri` CLI argument to provide the URL to the peer:
 
-```
+```bash
 ./qdrant --uri 'http://qdrant_node_1:6335'
 ```
 
@@ -41,7 +41,7 @@ Subsequent peers in a cluster must know at least one node of the existing cluste
 
 To do this, they need to be provided with a bootstrap URL:
 
-```
+```bash
 ./qdrant --bootstrap 'http://qdrant_node_1:6335'
 ```
 
@@ -70,7 +70,7 @@ OPTIONS:
 
 After a successful synchronization you can observe the state of the cluster through the [REST API](https://qdrant.github.io/qdrant/redoc/index.html?v=master#tag/cluster):
 
-```
+```http
 GET /cluster
 ```
 

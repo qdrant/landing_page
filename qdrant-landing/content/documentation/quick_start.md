@@ -53,7 +53,9 @@ We recommend switching to it if you are already familiar with Qdrant and are try
 If you are applying Qdrant for the first time or working on a prototype, you might prefer to use REST.
 
 ### Create collection
+
 First - let's create a collection with dot-production metric.
+
 ```bash
 curl -X PUT 'http://localhost:6333/collections/test_collection' \
     -H 'Content-Type: application/json' \
@@ -66,6 +68,7 @@ curl -X PUT 'http://localhost:6333/collections/test_collection' \
 ```
 
 Expected response:
+
 ```json
 {
     "result": true,
@@ -75,6 +78,7 @@ Expected response:
 ```
 
 We can ensure that collection was created:
+
 ```bash
 curl 'http://localhost:6333/collections/test_collection'
 ```
@@ -106,8 +110,8 @@ Expected response:
 }
 ```
 
-
 ### Add points
+
 Let's now add vectors with some payload:
 
 ```bash
@@ -126,6 +130,7 @@ curl -L -X PUT 'http://localhost:6333/collections/test_collection/points?wait=tr
 ```
 
 Expected response:
+
 ```json
 {
     "result": {
@@ -186,6 +191,7 @@ curl -L -X POST 'http://localhost:6333/collections/test_collection/points/search
 ```
 
 Expected response:
+
 ```json
 {
     "result": [
