@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "bootstrap": "^4.6.1"
+    "bootstrap": "^4.6.1",
+    "qdrant-page-search": "^1.0.1"
   }
 }

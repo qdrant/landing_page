@@ -29,3 +29,7 @@
 
 <link rel="stylesheet" href="{{ "css/mathjax.css" | absURL }}">
 <link rel="stylesheet" href="/css/owl.css">
+
+{{ if eq .Section "documentation" }}
+<link rel="stylesheet" href="/css/qdrant-page-search/styles.min.css">
+{{ end }}
