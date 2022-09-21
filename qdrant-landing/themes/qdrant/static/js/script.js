@@ -153,76 +153,76 @@
     });
   }
 
-  //Tabs Box
-  function activateTab(tab) {
-    if ($(tab).is(':visible')) {
-      return false;
-    } else {
-      tab.parents('.tabs-box').find('.tab-buttons').find('.tab-btn').removeClass('active-btn');
-      $('[data-tab="#' + tab.attr('id') + '"]').addClass('active-btn');
-      tab.parents('.tabs-box').find('.tabs-content').find('.tab').fadeOut(0);
-      tab.parents('.tabs-box').find('.tabs-content').find('.tab').removeClass('active-tab');
-      $(tab).fadeIn(300);
-      $(tab).addClass('active-tab');
-    }
-  }
-
-  if ($('.tabs-box').length) {
-    // switch the tab on click
-    $('.tabs-box .tab-buttons .tab-btn').on('click', function (e) {
-      e.preventDefault();
-      var target = $($(this).attr('data-tab'));
-
-      activateTab(target);
-    });
-  }
-
-  // autoplay
-
-  // if the user's device is small mobile
-  let isSmallMobile = window.matchMedia('only screen and (max-width: 991px)').matches;
-  const tabs = [...document.querySelectorAll('.tabs-box .tab-buttons .tab-btn')].map(tab => $(tab.dataset.tab));
-  const sleep = m => new Promise(r => {
-    return setTimeout(r, m)
-  });
-  let paused = false;
-
-  // go to the next tab
-  async function autoplay() {
-    console.log({isSmallMobile})
-    if (!tabs || tabs.length === 0) return;
-
-    do {
-      await sleep(3000).then(t => clearTimeout(t));
-    } while(isSmallMobile || paused)
-    autoplay.idx = ((autoplay.idx || 0) + 1) % tabs.length;
-    activateTab(tabs[autoplay.idx]);
-    await autoplay();
-  }
-
-  (async function (){
-
-    const tabsContainer = $('.business-info-tabs');
-    tabsContainer.mouseenter((e) => {
-      paused = true;
-    });
-
-    tabsContainer.mouseleave(() => {
-      paused = false;
-    });
-
-    $(window).resize(function () {
-      isSmallMobile = window.matchMedia('only screen and (max-width: 992px)').matches;
-      if (isSmallMobile) {
-        tabs.forEach(tab => {
-          $(tab).show();
-        })
-      }
-      console.log({isSmallMobile}, 'resize')
-    });
-
-    await autoplay()
-  })();
+  // //Tabs Box
+  // function activateTab(tab) {
+  //   if ($(tab).is(':visible')) {
+  //     return false;
+  //   } else {
+  //     tab.parents('.tabs-box').find('.tab-buttons').find('.tab-btn').removeClass('active-btn');
+  //     $('[data-tab="#' + tab.attr('id') + '"]').addClass('active-btn');
+  //     tab.parents('.tabs-box').find('.tabs-content').find('.tab').fadeOut(0);
+  //     tab.parents('.tabs-box').find('.tabs-content').find('.tab').removeClass('active-tab');
+  //     $(tab).fadeIn(300);
+  //     $(tab).addClass('active-tab');
+  //   }
+  // }
+  //
+  // if ($('.tabs-box').length) {
+  //   // switch the tab on click
+  //   $('.tabs-box .tab-buttons .tab-btn').on('click', function (e) {
+  //     e.preventDefault();
+  //     var target = $($(this).attr('data-tab'));
+  //
+  //     activateTab(target);
+  //   });
+  // }
+  //
+  // // autoplay
+  //
+  // // if the user's device is small mobile
+  // let isSmallMobile = window.matchMedia('only screen and (max-width: 991px)').matches;
+  // const tabs = [...document.querySelectorAll('.tabs-box .tab-buttons .tab-btn')].map(tab => $(tab.dataset.tab));
+  // const sleep = m => new Promise(r => {
+  //   return setTimeout(r, m)
+  // });
+  // let paused = false;
+  //
+  // // go to the next tab
+  // async function autoplay() {
+  //   console.log({isSmallMobile})
+  //   if (!tabs || tabs.length === 0) return;
+  //
+  //   do {
+  //     await sleep(3000).then(t => clearTimeout(t));
+  //   } while(isSmallMobile || paused)
+  //   autoplay.idx = ((autoplay.idx || 0) + 1) % tabs.length;
+  //   activateTab(tabs[autoplay.idx]);
+  //   await autoplay();
+  // }
+  //
+  // (async function (){
+  //
+  //   const tabsContainer = $('.business-info-tabs');
+  //   tabsContainer.mouseenter((e) => {
+  //     paused = true;
+  //   });
+  //
+  //   tabsContainer.mouseleave(() => {
+  //     paused = false;
+  //   });
+  //
+  //   $(window).resize(function () {
+  //     isSmallMobile = window.matchMedia('only screen and (max-width: 991px)').matches;
+  //     if (isSmallMobile) {
+  //       tabs.forEach(tab => {
+  //         $(tab).show();
+  //       })
+  //     }
+  //     console.log({isSmallMobile}, 'resize')
+  //   });
+  //
+  //   await autoplay()
+  // })();
 
 
   //Header Search

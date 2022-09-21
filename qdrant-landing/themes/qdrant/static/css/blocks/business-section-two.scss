@@ -78,6 +78,7 @@
       .tab {
         display: block;
         position: relative;
+        transform: none;
         @include media-breakpoint-up(lg) {
           display: none;
           transform: rotateY(90deg);
