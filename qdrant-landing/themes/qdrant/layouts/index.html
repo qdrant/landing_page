@@ -121,49 +121,45 @@ docker run -p 6333:6333 qdrant/qdrant</code>
 
   <section class="business-section-two">
     <div class="auto-container">
-
-<!--      todo: example -->
-<!--    <section class="splide" aria-label="Splide Basic HTML Example"-->
-<!--      data-splide='{"direction": "ttb",-->
-<!--       "type": "slide",-->
-<!--       "height": 618,-->
-<!--       "loop": true,-->
-<!--       "autoplay": true,-->
-<!--       "interval": 3000,-->
-<!--       "pagination": true,-->
-<!--       "pauseOnHover": true,-->
-<!--       "arrows":  false,-->
-<!--       "paginationDirection": "ttb"}'>-->
-<!--        <div class="splide__track">-->
-<!--          <ul class="splide__list">-->
-<!--            <li class="splide__slide">Slide 01</li>-->
-<!--            <li class="splide__slide">Slide 02</li>-->
-<!--            <li class="splide__slide">Slide 03</li>-->
-<!--          </ul>-->
-<!--        </div>-->
-<!--      </section>-->
-
-
       <!-- Sec Title -->
       <div class="sec-title">
         <h2>{{ .Params.section_title | safeHTML }}</h2>
         <div class="text">{{ .Params.subtitle }}</div>
       </div>
       <div class="inner-container">
-        <div class="pattern-layer-two"></div>
         <!-- Business Info Tabs -->
-        <div class="business-info-tabs">
+        <div class="business-info-tabs splide" aria-label="How Qdrant can help your Business"
+              data-splide='{
+              "direction": "ttb",
+               "type": "loop",
+               "height": 618,
+               "loop": true,
+               "autoplay": true,
+               "interval": 3000,
+               "pauseOnHover": true,
+               "arrows":  false,
+               "paginationDirection": "ttb",
+               "classes": {
+                  "pagination": "splide__pagination tab-btns",
+                  "page": "splide__pagination__page tab-btn"
+               },
+               "breakpoints": {
+                  "992": {
+                    "destroy": true
+                  }
+               }
+             }'>
           <!-- Business Tabs -->
-          <div class="business-tabs tabs-box">
+          <div class="business-tabs tabs-box splide__track">
 
+            <ul class="tabs-content splide__list">
             <!--Tab Btns-->
             {{ range $i, $e := first 3 .Pages }}
 
             <!--Tabs Container-->
-            <div class="tabs-content">
 
               <!--Tab / Active Tab-->
-              <div class="tab {{ if not $i }}active-tab{{ end }}" id="prod-{{ .Params.tabid }}">
+              <li class="tab splide__slide">
                 <div class="content">
 
                     <!-- Content Column -->
@@ -190,22 +186,16 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                     </div>
 
                 </div>
-              </div>
+              </li>
 
             {{ end }}
 
-            </div>
 
+            </ul>
           </div>
 
         </div>
 
-        <ul class="tab-btns tab-buttons">
-          {{ range $i, $e := first 3 .Pages }}
-          <li data-tab="#prod-{{ .Params.tabid }}" class="tab-btn {{ if not $i }}active-btn{{ end }} fadeInLeft">
-          </li>
-          {{ end }}
-        </ul>
       </div>
     </div>
   </section>
