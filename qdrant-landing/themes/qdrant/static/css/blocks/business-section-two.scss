@@ -14,62 +14,52 @@
     margin-bottom: 80px;
   }
 
-  .pattern-layer {
-    width: 402px;
-    height: 566px;
-    position: absolute;
-    top: -180px;
-    right: 0;
-    background-repeat: no-repeat;
-  }
-
-  .pattern-layer-two {
-    width: 1850px;
-    height: 897px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    background-repeat: no-repeat;
-  }
-
   .inner-container {
     position: relative;
   }
 
-  .business-tabs {
-    display: flex;
+  .tab-btns {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    width: 14px;
+    margin-left: 50px;
+    margin-top: -200px;
     position: relative;
 
-    .tab-btns {
-      display: none;
-      align-items: center;
-      flex-direction: column;
-      margin-top: 156px;
+    @include media-breakpoint-up(lg) {
+      display: flex;
       margin-left: 100px;
-      position: relative;
+    }
 
-      @include media-breakpoint-up(lg) {
-        display: flex;
-      }
+    .tab-btn {
+      display: inline-block;
+      width: 14px;
+      height: 14px;
+      margin: 7px 0;
+      cursor: pointer;
+      border-radius: 50%;
+      background: var(--brand-mid-grey);
 
-      .tab-btn {
-        display: inline-block;
-        width: 14px;
-        height: 14px;
-        margin: 7px 0;
-        cursor: pointer;
-        border-radius: 50%;
-        background: var(--brand-mid-grey);
-
-        &:hover {
-          background: var(--brand-gray);
-        }
-      }
-
-      .tab-btn.active-btn {
+      &:hover {
         background: var(--brand-gray);
       }
     }
+
+    .tab-btn.is-active {
+      background: var(--brand-gray);
+    }
+  }
+
+
+  .business-info-tabs {
+    display: flex;
+  }
+
+  .business-tabs {
+    display: flex;
+    width: 100%;
+    position: relative;
 
     .tabs-content {
       width: 100%;
@@ -78,16 +68,10 @@
       .tab {
         display: block;
         position: relative;
-        transform: none;
-        @include media-breakpoint-up(lg) {
-          display: none;
-          transform: rotateY(90deg);
-        }
-      }
 
-      .tab.active-tab {
-        display: block;
-        transform: rotateY(0deg);
+        @include media-breakpoint-up(lg) {
+          cursor: crosshair;
+        }
       }
 
       .content {
@@ -98,7 +82,7 @@
 
     .content {
       display: flex;
-      min-height: 618px;
+      height: 618px;
 
       .content-column {
         display: flex;
@@ -115,7 +99,7 @@
           position: relative;
 
           @include media-breakpoint-up(lg) {
-            width: 645px;
+            width: 560px;
             padding-bottom: 54px;
           }
         }
@@ -174,11 +158,10 @@
         left: 0;
 
         @include media-breakpoint-up(lg) {
-          width: 330px;
+          width: 360px;
           margin-top: 38px;
           padding-left: 40px;
           top: 0;
-          right: -31px;
           left: unset;
         }
 
