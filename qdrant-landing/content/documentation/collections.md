@@ -48,11 +48,11 @@ client.recreate_collection(
 
 In addition to the required options, you can also specify custom values for the following collection options:
 
-- `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
-- `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
-- `optimizers_config` - see [optimizer](../optimizer) for details.
-- `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../distributed_deployment#sharding) section for details.
-- `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
+* `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
+* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
+* `optimizers_config` - see [optimizer](../optimizer) for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../distributed_deployment#sharding) section for details.
+* `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
@@ -112,7 +112,6 @@ DELETE /collections/{collection_name}
 client.delete_collection(collection_name="{collection_name}")
 ```
 
-
 ### Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
@@ -140,14 +139,13 @@ client.update_collection(
 
 This command enables indexing for segments that have more than 10000 vectors stored.
 
-
 ## Collection aliases
 
 In a production environment, it is sometimes necessary to switch different versions of vectors seamlessly.
 For example, when upgrading to a new version of the neural network.
 
 There is no way to stop the service and rebuild the collection with new vectors in these situations.
-To avoid this, you can use aliases. 
+To avoid this, you can use aliases.
 Aliases are additional names for existing collections.
 All queries to the collection can also be done identically, using an alias instead of the collection name.
 
@@ -211,7 +209,6 @@ POST /collections/aliases
 
 Multiple alias actions are performed atomically.
 For example, you can switch underlying collection with the following command:
-
 
 ```http
 POST /collections/aliases

@@ -10,7 +10,6 @@ The indexes in the segments exist independently, but the parameters of the index
 Not all segments automatically have indexes.
 Their necessity is determined by the [optimizer](../optimizer) settings and depends, as a rule, on the number of stored points.
 
-
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
@@ -41,13 +40,13 @@ client.create_payload_index(collection_name="{collection_name}",
                             field_schema="keyword")
 ```
 
- Available field types are:
+Available field types are:
 
- * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
- * `integer` - for [integer](../payload/#integer) payload, affects [Match](../filtering/#match) and [Range](../filtering/#range) filtering conditions.
- * `float` - for [float](../payload/#float) payload, affects [Range](../filtering/#range) filtering conditions.
- * `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
- * `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
+* `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
+* `integer` - for [integer](../payload/#integer) payload, affects [Match](../filtering/#match) and [Range](../filtering/#range) filtering conditions.
+* `float` - for [float](../payload/#float) payload, affects [Range](../filtering/#range) filtering conditions.
+* `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
+* `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
 
 For indexing, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
@@ -140,7 +139,6 @@ storage:
 
 And so in the process of creating a [collection](../collections). The `ef` parameter is configured during [the search](../search) and by default is equal to `ef_construct`.
 
-
 HNSW is chosen for several reasons.
 First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
 Second, it is one of the most accurate and fastest algorithms, according to [public benchmarks](https://github.com/erikbern/ann-benchmarks).
@@ -158,11 +156,9 @@ On the one hand, we cannot apply a full scan on too many vectors. On the other h
 
 ![hnsw graph](/docs/graph.gif)
 
-
 You can find more information on why this happens in our [blog post](https://blog.vasnetsov.com/posts/categorical-hnsw/).
 Qdrant solves this problem by extending the HNSW graph with additional edges based on the stored payload values.
 
 Extra edges allow you to efficiently search for nearby vectors using the HNSW index and apply filters as you search in the graph.
 
 This approach minimizes the overhead on condition checks since you only need to calculate the conditions for a small fraction of the points involved in the search.
-

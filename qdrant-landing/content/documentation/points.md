@@ -18,7 +18,7 @@ After this moment, the service will not lose the data, even if the machine loses
 
 ## Awaiting result
 
-If the API is called with the `&wait=false` parameter, or if it is not explicitly specified, the client will receive an acknowledgment of receiving data: 
+If the API is called with the `&wait=false` parameter, or if it is not explicitly specified, the client will receive an acknowledgment of receiving data:
 
 ```json
 {
@@ -93,7 +93,7 @@ client.upsert(
         ),
     ]
 )
-``` 
+```
 
 and
 
@@ -124,7 +124,7 @@ client.upsert(
         ),
     ]
 )
-``` 
+```
 
 are both possible.
 
@@ -175,7 +175,7 @@ client.upsert(
         ]
     ),
 )
-``` 
+```
 
 or record-oriented equivalent:
 
@@ -306,7 +306,7 @@ Currently, you would need to re-upload the point to modify the vector.
 
 The second is to modify the payload, for which there are several methods.
 
-#### Set payload
+### Set payload
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
@@ -335,7 +335,7 @@ client.set_payload(
 )
 ```
 
-#### Delete payload keys
+### Delete payload keys
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
 
@@ -354,9 +354,9 @@ client.delete_payload(
     keys=["color", "price"],
     points=[0, 3, 100],
 )
-``` 
+```
 
-#### Clear payload
+### Clear payload
 
 This method removes all payload keys from specified points
 
@@ -380,7 +380,6 @@ client.clear_payload(
 ```
 
 ## Delete points
-
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_points)):
 
@@ -438,11 +437,9 @@ client.delete(
 
 This example removes all points with `{ "color": "red" }` from the collection.
 
-
 ## Retrieve points
 
 There is a method for retrieving points by their ids.
-
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_points)):
 
@@ -465,7 +462,6 @@ This method has additional parameters `with_vector` and `with_payload`.
 Using these parameters, you can select parts of the point you want as a result.
 Excluding helps you not to waste traffic transmitting useless data.
 
-
 The single point can also be retrieved via the API:
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_point)):
@@ -482,7 +478,6 @@ Python client:
  -->
 
 ## Scroll points
-
 
 Sometimes it might be necessary to get all stored points without knowing ids, or iterate over points that correspond to a filter.
 
@@ -569,7 +564,6 @@ Among others, for example, we can highlight the following scenarios:
 * Evaluation of results size for faceted search
 * Determining the number of pages for pagination
 * Debugging the query execution speed
-
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
 

@@ -38,7 +38,6 @@ storage:
     vacuum_min_vector_number: 1000
 ```
 
-
 ## Merge Optimizer
 
 The service may require the creation of temporary segments.
@@ -59,7 +58,6 @@ storage:
     # If the number of segments exceeds this value, the optimizer will merge the smallest segments.
     max_segment_number: 5
 ```
-
 
 ## Indexing Optimizer
 
@@ -88,6 +86,5 @@ storage:
 ```
 
 In addition to the configuration file, you can also set optimizer parameters separately for each [collection](../collections).
-
 
 Dynamic parameter updates may be useful, for example, for more efficient initial loading of points. You can disable indexing during the upload process with these settings and enable it immediately after it is finished. As a result, you will not waste extra computation resources on rebuilding the index.

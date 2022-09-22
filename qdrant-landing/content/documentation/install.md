@@ -17,8 +17,8 @@ sudo docker info
 * If you do not see the server listed, start the Docker daemon.
 * On Linux, Docker needs `sudo` privileges. To run Docker commands without `sudo` privileges, create a docker group and add your users (see [Post-installation Steps for Linux](https://docs.docker.com/engine/install/linux-postinstall/) for details).
 
-
 Pull the image:
+
 ```bash
 docker pull qdrant/qdrant
 ```
@@ -35,7 +35,6 @@ With this command, you will start a Qdrant instance with the default configurati
 It will store all data in `./path/to/data` directory.
 
 By default, Qdrant uses port 6333, so at [localhost:6333](http://localhost:6333) you should see the welcome message.
-
 
 ## From source
 
@@ -67,7 +66,6 @@ cargo build --release --bin qdrant
 ```
 
 After a successful build, the binary is available at `./target/release/qdrant`.
-
 
 ## With Kubernetes
 
@@ -109,7 +107,6 @@ Among other things, the configuration file allows you to specify the following s
 
 See the comments in the [configuration file itself](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for details.
 
-
 ## Python client
 
 In addition to the service itself, Qdrant has a distinct python client, which has some additional features compared to clients generated from OpenAPI directly.
@@ -121,11 +118,11 @@ pip install qdrant-client
 ```
 
 ### DocArray
+
 You can also use Qdrant natively in DocArray, where Qdrant serves as a high-performance document store to enable scalable vector search.
 
 DocArray is a library from Jina AI for nested, unstructured data in transit, including text, image, audio, video, 3D mesh, etc.
 It allows deep-learning engineers to efficiently process, embed, search, recommend, store, and transfer the data with a Pythonic API.
-
 
 To install DocArray with Qdrant support, please do
 
