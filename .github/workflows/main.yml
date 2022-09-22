@@ -21,4 +21,4 @@ jobs:
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
           git checkout $GITHUB_HEAD_REF
           git add qdrant-landing/content/documentation/*.md
-          git commit -am "docs auto-sync" && git push || true
+          git commit -am "docs auto-sync" && git push --force || true

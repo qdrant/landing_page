@@ -21,9 +21,8 @@ These can be:
 - Similar Image \ Audio \ Video search
 - Recommendation systems
 
-
 In addition to this documentation, you may be interested in looking at examples of projects made with Qdrant:
 
-* [Semantic Search for startups](https://demo.qdrant.tech/) + [Source Code](https://github.com/qdrant/qdrant_demo)
-* [Visual Food Discovery](https://food-discovery.qdrant.tech/)
-* [Step-by-Step tutorial on building neural search](/articles/neural-search-tutorial/)
+- [Semantic Search for startups](https://demo.qdrant.tech/) + [Source Code](https://github.com/qdrant/qdrant_demo)
+- [Visual Food Discovery](https://food-discovery.qdrant.tech/)
+- [Step-by-Step tutorial on building neural search](/articles/neural-search-tutorial/)

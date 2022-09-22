@@ -5,7 +5,7 @@ weight: 45
 
 To change or correct Qdrant's behavior, default collection settings, and network interface parameters, you can use the configuration file.
 
-Default configuration file is located in [config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). 
+Default configuration file is located in [config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
 In the production environment, you can override any value of this file by providing new values in `/qdrant/config/production.yaml` inside the docker.
 

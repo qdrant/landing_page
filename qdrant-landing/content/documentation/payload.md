@@ -55,7 +55,6 @@ Let's look at the data types that Qdrant supports for searching:
 
 `integer` - 64-bit integer in the range from `-9223372036854775808` to `9223372036854775807`.
 
-
 Example of single and multiple `integer` values:
 
 ```json
@@ -68,7 +67,6 @@ Example of single and multiple `integer` values:
 ### Float
 
 `float` - 64-bit floating point number.
-
 
 Example of single and multiple `float` values:
 
@@ -201,7 +199,6 @@ client.upsert(
 
 ## Update payload
 
-
 ### Set payload
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
@@ -235,7 +232,6 @@ client.set_payload(
 
 This method removes specified payload keys from specified points
 
-
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
 
 ```http
@@ -253,7 +249,7 @@ client.delete_payload(
     keys=["color", "price"],
     points=[0, 3, 100],
 )
-``` 
+```
 
 ### Clear payload
 

@@ -38,17 +38,17 @@ In this case, it becomes equivalent to dot production - a very fast operation du
 ## Query planning
 
 Depending on the filter used in the search - there are several possible scenarios for query execution.
-Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result. 
+Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result.
 This process is called query planning.
 
 The strategy selection process relies heavily on heuristics and can vary from release to release.
 However, the general principles are:
 
-- planning is performed for each segment independently (see [storage](../storage) for more information about segments)
-- prefer a full scan if the amount of points is below a threshold
-- estimate the cardinality of a filtered result before selecting a strategy
-- retrieve points using payload index (see [indexing](../indexing)) if cardinality is below threshold
-- use filterable vector index if the cardinality is above a threshold
+* planning is performed for each segment independently (see [storage](../storage) for more information about segments)
+* prefer a full scan if the amount of points is below a threshold
+* estimate the cardinality of a filtered result before selecting a strategy
+* retrieve points using payload index (see [indexing](../indexing)) if cardinality is below threshold
+* use filterable vector index if the cardinality is above a threshold
 
 You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
 
@@ -106,7 +106,7 @@ client.search(
 )
 ```
 
-In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`. 
+In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
 Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
 Values under the key `params` specify custom parameters for the search.
@@ -337,7 +337,6 @@ The result of this API contains one array per search requests.
 }
 ```
 
-
 ## Recommendation API
 
 <aside role="alert">Negative vectors is an experimental functionality that is not guaranteed to work with all kind of embeddings.</aside>
@@ -347,7 +346,7 @@ This API uses vector search without involving the neural network encoder for alr
 
 The recommendation API allows specifying several positive and negative vector IDs, which the service will combine into a certain average vector.
 
-` average_vector = avg(positive_vectors) + ( avg(positive_vectors) - avg(negative_vectors) )`
+`average_vector = avg(positive_vectors) + ( avg(positive_vectors) - avg(negative_vectors) )`
 
 If there is only one positive ID provided - this request is equivalent to the regular search with vector of that point.
 
@@ -439,7 +438,7 @@ client.recommend(
 )
 ```
 
-Parameter `using` specifies which stored vectors to use for the recommendation. 
+Parameter `using` specifies which stored vectors to use for the recommendation.
 
 ## Batch recommendation API
 
@@ -580,7 +579,7 @@ client.search(
 )
 ```
 
-Is equivalent to retrieving 11th page with 10 records per page.
+Is equivalent to retrieving the 11th page with 10 records per page.
 
 <aside role="alert">Large offset values may cause performance issues</aside>
 

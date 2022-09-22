@@ -4,7 +4,7 @@ weight: 29
 ---
 
 All data within one collection is divided into segments.
-Each segment has its independent vector and payload storage as well as indexes. 
+Each segment has its independent vector and payload storage as well as indexes.
 
 Data stored in segments usually do not overlap.
 However, storing the same point in different segments will not cause problems since the search contains a deduplication mechanism.
@@ -30,7 +30,6 @@ This scheme allows flexible use of available memory. With sufficient RAM, it is 
 However, dynamically adding vectors to the mmap file is fairly complicated and is not implemented in Qdrant.
 Thus, segments using mmap storage are `non-appendable` and can only be construed by the optimizer.
 
-
 ## Payload storage
 
 Qdrant supports two types of payload storages: InMemory and OnDisk.
@@ -41,13 +40,12 @@ This type of storage works quite fast, but it may require a lot of space to keep
 
 In the case of large payload values, it might be better to use OnDisk payload storage.
 This type of storage will read and write payload directly to RocksDB, so it won't require any significant amount of RAM to store.
-The downside, however, is the access latency. 
+The downside, however, is the access latency.
 If you need to query vectors with some payload-based conditions - checking values stored on disk might take too much time.
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
 Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
 
 You can specify the desired type of payload storage with [configuration file](../configuration/) or with collection parameter `on_disk_payload` during [creation](../collections/#create-collection) of the collection.
-
 
 ## Versioning
 
@@ -56,6 +54,6 @@ In the first step, the data is written to the Write-ahead-log(WAL), which orders
 
 Once a change has been added to the WAL, it will not be lost even if power loss occurs.
 Then the changes go into the segments.
-Each segment stores the last version of the change applied to it as well as version of each individual point. 
+Each segment stores the last version of the change applied to it as well as version of each individual point.
 If the new change has a sequential number less than the current version of the point, the updater will ignore the change.
 This mechanism allows Qdrant to safely and efficiently restore the storage from the WAL in case of an abnormal shutdown.
