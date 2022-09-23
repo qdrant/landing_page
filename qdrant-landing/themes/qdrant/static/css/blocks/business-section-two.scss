@@ -82,7 +82,10 @@
 
     .content {
       display: flex;
-      height: 618px;
+
+      @include media-breakpoint-up(lg) {
+        height: 618px;
+      }
 
       .content-column {
         display: flex;
