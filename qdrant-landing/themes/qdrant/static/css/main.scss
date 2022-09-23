@@ -2667,113 +2667,6 @@ img{
 	background-color:#f1eff7;
 }
 
-.project-block{
-	position:relative;
-	margin-bottom:35px;
-}
-
-.project-block .inner-box{
-	position:relative;
-}
-
-.project-block .inner-box .title{
-	position:relative;
-	font-size:18px;
-	font-weight:600;
-	padding:18px 15px;
-	border-radius:4px;
-	display:block;
-	color:#ffffff;
-	margin-bottom:30px;
-	background-image: linear-gradient(to right, #6a14d1, #5c2ec3, #533bb4, #4d43a3, #4c4990);
-}
-
-.project-block .inner-box .image{
-	height: 116px;
-	position:relative;
-	overflow:hidden;
-	border-radius: 7px 7px 0 0;
-}
-
-.project-block .inner-box .image img{
-	position:relative;
-	width:100%;
-	display:block;
-	-webkit-transition:all 600ms ease;
-	-moz-transition:all 600ms ease;
-	-ms-transition:all 600ms ease;
-	-o-transition:all 600ms ease;
-	transition:all 600ms ease;
-}
-
-.project-block .inner-box .block-content{
-	position:relative;
-	background-color:#ffffff;
-	border-radius: 7px;
-}
-
-.project-block .inner-box .block-content .lower-content{
-	position:relative;
-	padding: 23px 30px;
-	border-radius: 0 0 7px 7px;
-}
-
-.project-block .inner-box .block-content h5{
-	position:relative;
-	font-size: 24px;
-	line-height: 28px;
-	color: var(--brand-secondary);
-	font-weight:700;
-	margin-bottom:6px;
-	min-height: 56px;
-}
-
-.project-block .inner-box .block-content h5 a{
-	position:relative;
-	color: var(--brand-secondary);
-	-webkit-transition:all 300ms ease;
-	-ms-transition:all 300ms ease;
-	-o-transition:all 300ms ease;
-	-moz-transition:all 300ms ease;
-	transition:all 300ms ease;
-}
-
-.project-block .inner-box .block-content h5 a:hover{
-	color:var(--brand-primary);
-}
-
-.project-block .inner-box .block-content .text{
-	position:relative;
-	font-size:18px;
-	line-height:28px;
-	margin-bottom:13px;
-	min-height: 120px;
-	color: var(--brand-dark-gray);
-}
-
-.project-block .inner-box .block-content .learn-btn{
-	position:relative;
-	font-weight:500;
-	color:#2b2b2b;
-	bottom:-10px;
-	font-size:18px;
-	padding:14px 50px;
-	margin-bottom:-14px;
-	display:inline-block;
-	background-color:#ffffff;
-	font-family: $font-family-non-content;
-	box-shadow:0 0 25px rgba(0,0,0,0.10);
-	-webkit-transition:all 300ms ease;
-	-ms-transition:all 300ms ease;
-	-o-transition:all 300ms ease;
-	-moz-transition:all 300ms ease;
-	transition:all 300ms ease;
-}
-
-.project-block .inner-box:hover .block-content .learn-btn{
-	background-color:var(--brand-primary);
-	color:#ffffff;
-}
 
 /*** 
 
@@ -3355,86 +3248,7 @@ img{
 	color:var(--brand-primary);
 }
 
-/*** 
-
-====================================================================
-	Page Title
-====================================================================
-
-***/
-
-.page-title{
-	position:relative;
-	overflow:hidden;
-  	background: var(--brand-light-gray);
-	padding: 40px 0;
-
-	@include media-breakpoint-up(lg) {
-		padding: 139px 0 50px;
-	}
-}
-
-.page-title h1{
-	position:relative;
-	color: var(--brand-gray);
-	font-size: 56px;
-	font-weight: 700;
-	margin-bottom:16px;
-	line-height: 67px;
-}
-
-.page-title h2{
-	color: var(--brand-secondary);
-	font-size: 56px;
-	font-weight: 700;
-	line-height: 67px;
-}
-
-.page-title .bread-crumb {
-	position: relative;
-	margin-bottom: 32px;
-}
-
-.page-title .bread-crumb li{
-	position: relative;
-	font-weight: 400;
-	font-size: 14px;
-	line-height: 17px;
-	color: var(--brand-dark-gray);
-	padding-right:  15px;
-	margin-right: 12px;
-	display:inline-block;
-	text-transform: capitalize;
-}
-
-.page-title .bread-crumb li:before{
-	position: absolute;
-	right: -3px;
-	font-size: 14px;
-	line-height: 30px;
-	color: #ffffff;
-    content: "/";
-	font-weight:400;
-}
-
-.page-title .bread-crumb li:last-child{
-	padding-right: 0;
-	margin-right: 0;
-}
-
-.page-title .bread-crumb li:last-child:before{
-	display: none;
-}
-
-.page-title .bread-crumb li a{
-	color: var(--brand-dark-gray);
-}
-
-.page-title .bread-crumb li a:hover{
-	color: var(--brand-primary);
-}
-
-/*** 
+/***
 
 ====================================================================
 	About Text Section
@@ -5783,7 +5597,9 @@ img{
 	color: var(--brand-primary);
 }
 
-@import "article";
+@import "blocks/header";
+@import "blocks/banner";
+@import "blocks/page-title";
 @import "blocks/logo";
 @import "blocks/button";
 @import "blocks/copy-btn";
@@ -5793,7 +5609,7 @@ img{
 @import "blocks/widget-header";
 @import "blocks/post-preview";
 @import "blocks/steps-form";
-
-@import "blocks/header";
-@import "blocks/banner";
+@import "blocks/article-card";
+@import "blocks/breadcrumbs";
+@import "article";
 @import "blocks/footer";

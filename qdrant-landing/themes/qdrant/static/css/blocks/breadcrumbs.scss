@@ -1,0 +1,41 @@
+.breadcrumbs {
+  margin-bottom: 32px;
+  position: relative;
+  color: var(--brand-dark-gray);
+
+  li {
+    display: inline-block;
+    position: relative;
+    text-transform: capitalize;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+
+    &:before {
+      position: absolute;
+      right: -3px;
+      content: "/";
+      color: #ffffff;
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 30px;
+    }
+
+    &:last-child {
+      margin-right: 0;
+      padding-right: 0;
+
+      &:before {
+        display: none;
+      }
+    }
+
+    a {
+      color: var(--brand-dark-gray);
+
+      &:hover {
+        color: var(--brand-primary);
+      }
+    }
+  }
+}

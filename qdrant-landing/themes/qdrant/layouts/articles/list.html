@@ -1,14 +1,35 @@
 {{ define "main" }}
 
 <section>
-    <div class="auto-container pt-3 pt-md-5">
-        <div class="row clearfix">
+    <div class="auto-container">
+        <div class="row clearfix mb-5">
 
-            {{ if .Params.description }}
-            <div class="col-12 sec-title text-center">
-                <h4>{{ .Params.description }}</h4>
-            </div>
+            {{ range $i, $e := first 2 .Pages }}
+
+            {{ $link := .Permalink }}
+            {{ if .Params.external_link }}
+            {{ $link = .Params.external_link }}
             {{ end }}
+
+            <article class="article article_bb col-12">
+                <div class="article__info">{{ .Date | time.Format ":date_long" }} | {{ .Params.author }}</div>
+                <h2>
+                    <a href="{{ $link }}" class="article__title article-title">
+                    <span class="article-title__image" >
+                        <img src="{{ .Params.preview_image }}" alt="...">
+                    </span>
+                        {{ .Title }}
+                    </a>
+                </h2>
+                <p>{{ .Params.description }}</p>
+                <div class="d-flex justify-content-end">
+                    <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five btn-style-five_small mb-5"><span
+                            class="txt">Learn More</span></a>
+                </div>
+            </article>
+            {{ end }}
+        </div>
+        <div class="row clearfix pt-4">
 
             {{ range .Pages }}
 
@@ -19,30 +40,10 @@
 
             {{ if .Params.short_description }}
 
-            <div class="col-lg-4 col-md-6 col-sm-12 d-flex">
-                <!-- News block Two -->
-                <div class="news-block-two d-flex">
-                    <div class="inner-box">
-                        <div class="image">
-                            <a href="{{ $link }}" data-caption="{{ .Title }}"><img src="{{ .Params.preview_image }}" alt="" /></a>
-                        </div>
-                        <div class="lower-box">
-                            <div class="clearfix">
-                                <h5>{{ .Title }}</h5>
-                                <p>{{ .Params.short_description | markdownify }}</p>
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-self-stretch align-items-center">
-                                        {{ partial "author" . }}
-                                    </div>
-                                    <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five btn-small">
-                                        <span class="txt">Read</span>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- News block Two -->
+
+            {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style") }}
+
 
             {{ end }}
             {{ end }}

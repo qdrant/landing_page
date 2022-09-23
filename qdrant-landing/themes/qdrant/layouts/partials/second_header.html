@@ -2,23 +2,23 @@
 <section class="page-title">
     <div class="auto-container">
         <div class="row">
-            <div class="col-6">
-                <ul class="bread-crumb clearfix">
+            <div class="col-12 col-md-6 order-1 order-md-0">
+                <ul class="breadcrumbs clearfix">
                     <li><a href="/"><i class="flaticon-home small"></i> Home</a></li>
                     {{ $paths := (split .RelPermalink "/") }}
                     {{ $len := sub (len $paths) 2 }}
                     {{ range first $len $paths }}
                     {{ if gt (len . ) 0 }}
-                    <li><a href="/{{ . }}">{{ humanize . }}</a></li>
+                    / <li><a href="/{{ . }}">{{ humanize . }}</a></li>
                     {{ end }}
                     {{ end }}
-                    <li>{{ .Params.title | safeHTML }}</li>
+                    / <li>{{ .Params.title | safeHTML }}</li>
                 </ul>
 
                 <h1> {{ .Params.title | safeHTML }}</h1>
                <h2>{{ .Params.section_title | safeHTML }}</h2>
             </div>
-            <div class="col-6">
+            <div class="col-12 col-md-6 order-0 order-md-1 mb-5 mb-md-0">
                 <img src="{{ .Params.img }}" alt="">
             </div>
         </div>
