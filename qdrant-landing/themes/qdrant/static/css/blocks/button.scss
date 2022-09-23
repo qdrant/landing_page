@@ -103,6 +103,7 @@
   -o-transition: all 0.3s ease;
   -webkit-transition: all 0.3s ease;
   transition: all 0.3s ease;
+  font-family: $font-family-non-content;
 }
 
 /* Btn Style One */
@@ -456,6 +457,11 @@
     -ms-transform-origin: bottom left;
     -webkit-transform-origin: bottom left;
     transform-origin: bottom left;
+  }
+
+  &_small {
+    font-size: 18px;
+    line-height: 26px;
   }
 
   & .txt {
