@@ -1,14 +1,29 @@
-{{ define "main" }}
-<div class="auto-container pt-3 pt-md-5 single-page">
+{{ partial "header" . }}
+<div class="auto-container pt-3 pt-md-5 mb-5">
     <div class="row clearfix">
         <!-- Content Side -->
-        <section class="content-side col-lg-12 col-md-12 col-sm-12">
+        <section class="col-lg-12 col-md-12 col-sm-12">
             {{ .Scratch.Set "scope" "single" }}
-            {{ partial "blogpost" .}}
+            <div class="article__cover mt-5 mb-3">
+                <img src="{{ .Params.preview_image }}">
+            </div>
+            {{ partial "breadcrumbs" . }}
+            <article class="article">
+                <h1>{{ .Title }}</h1>
+                {{ .Content }}
+            </article>
         </section>
-
-        {{ partial "recent_news" . }}
     </div>
 </div>
+<div style="background: var(--brand-light);">
+    <div class="auto-container pt-5 pb-5">
+        <div class="row clearfix pt-4">
+            {{ range where site.Pages "Section" "articles" | first 3 }}
 
-{{ end }}
+            <!-- Project Block -->
+            {{ partial "article-card" (dict "context" . "classes" "article-card_border") }}
+            {{ end }}
+        </div>
+    </div>
+</div>
+{{ partial "footer" . }}
