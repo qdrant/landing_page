@@ -1,0 +1,35 @@
+<!-- Contact Form Section -->
+<section class="clients-section contact-section">
+    <div class="auto-container">
+        <div class="row">
+            <div class="col-12 sec-title">
+                <h2>Get Updates from Qdrant</h2>
+                <div class="text">We will update you on new features and news regarding Qdrant
+                </div>
+            </div>
+            <div class="content-column col-12">
+                <!-- Newsletter Form -->
+                <div class="newsletter-form">
+                    <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+                          name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div class="d-flex justify-content-between flex-wrap">
+                            <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
+                                   id="mce-EMAIL">
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
+                                       value="">
+                            </div>
+                            <button type="submit"
+                                    class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive">
+                                <span class="txt">Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- End of Contact Section -->
+
+

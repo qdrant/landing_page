@@ -18,23 +18,9 @@ ul.breadcrumbs,
     font-weight: 400;
     line-height: 17px;
 
-    &:before {
-      position: absolute;
-      right: -3px;
-      content: "/";
-      color: #ffffff;
-      font-size: 14px;
-      font-weight: 400;
-      line-height: 30px;
-    }
-
     &:last-child {
       margin-right: 0;
       padding-right: 0;
-
-      &:before {
-        display: none;
-      }
     }
 
     & > a {

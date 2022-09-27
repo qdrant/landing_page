@@ -15,20 +15,23 @@
     padding: 139px 0 50px;
   }
 
-  h1 {
+  &__title {
     margin-bottom: 16px;
     position: relative;
     color: var(--brand-gray);
     font-size: 56px;
     font-weight: 700;
     line-height: 67px;
+
+    &_dark {
+      color: var(--brand-secondary);
+    }
   }
 
-  h2 {
+  &__subtitle {
     color: var(--brand-secondary);
     font-size: 56px;
     font-weight: 700;
     line-height: 67px;
   }
-
 }
