@@ -43,7 +43,7 @@ article aside[role="status"]:before {
   font-weight: 900;
 }
 
-article:first-of-type {
+@mixin content-reset{
 
   table {
     @extend .table;
@@ -83,6 +83,8 @@ article:first-of-type {
 }
 
 .documentation {
+  @include content-reset;
+
   h1 {
     font-size: 2.25rem;
   }
@@ -112,88 +114,14 @@ article:first-of-type {
   }
 }
 
-//.article,
-//.blog {
-//  font-family: charter, Georgia, Cambria, "Times New Roman", Times, serif;
-//  font-size: 20px;
-//  letter-spacing: -0.003em;
-//  line-height: 32px;
-//
-//  table {
-//    color: rgb(41, 41, 41);
-//    font-size: 18px;
-//    @include media-breakpoint-up(md) {
-//      font-size: 20px;
-//    }
-//  }
-//
-//  p,
-//  ul,
-//  ol {
-//    margin-top: 0.86em;
-//    margin-bottom: 1.5em;
-//  }
-//
-//  ul > li {
-//    color: rgb(41, 41, 41);
-//    font-size: 18px;
-//    line-height: 32px;
-//    @include media-breakpoint-up(md) {
-//      font-size: 20px;
-//    }
-//  }
-//
-//  ol > li {
-//    color: rgb(41, 41, 41);
-//    font-size: 18px;
-//    line-height: 32px;
-//    @include media-breakpoint-up(md) {
-//      font-size: 20px;
-//    }
-//  }
-//
-//  h1, h2, h3, h4, h5, h6 {
-//    margin-bottom: 1rem;
-//    font-weight: 600;
-//  }
-//
-//  h1 {
-//    font-size: 2.45rem;
-//  }
-//
-//  h2 {
-//    font-size: 2rem;
-//  }
-//
-//  h3 {
-//    font-size: 1.45rem;
-//  }
-//
-//  h4 {
-//    font-size: 1.45rem;
-//  }
-//
-//  h5 {
-//    font-size: 1.45rem;
-//  }
-//
-//  p {
-//    color: rgb(41, 41, 41);
-//    font-size: 18px;
-//    line-height: 32px;
-//    @include media-breakpoint-up(md) {
-//      font-size: 20px;
-//    }
-//  }
-//}
-
-
 .article,
 .blog {
   font-size: 22px;
   line-height: 34px;
   font-weight: 400;
   font-family: $font-family-content;
+
+  @include content-reset;
 
   p, span, ul, ol, li {
     font: inherit;
@@ -293,7 +221,7 @@ article:first-of-type {
 }
 
 .article {
-  //padding-top: 38px;
+  padding-top: 38px;
 
   //@media only screen and (max-width: 599px) {
   //  padding-right: 0;

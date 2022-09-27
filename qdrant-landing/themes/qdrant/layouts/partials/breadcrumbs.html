@@ -1,13 +1,13 @@
 <ul class="breadcrumbs clearfix">
-    <li><a href="/"><i class="flaticon-home small"></i> Home</a></li>
+    <li class="breadcrumbs__crumb"><a href="/"><i class="flaticon-home small"></i> Home</a></li>
     {{ $paths := (split .RelPermalink "/") }}
     {{ $len := sub (len $paths) 2 }}
     {{ range first $len $paths }}
     {{ if gt (len . ) 0 }}
     /
-    <li><a href="/{{ . }}">{{ humanize . }}</a></li>
+    <li class="breadcrumbs__crumb"><a href="/{{ . }}">{{ humanize . }}</a></li>
     {{ end }}
     {{ end }}
     /
-    <li>{{ .Params.title | safeHTML }}</li>
+    <li class="breadcrumbs__crumb">{{ .Params.title | safeHTML }}</li>
 </ul>
