@@ -1,5 +1,6 @@
 ul.breadcrumbs,
 .breadcrumbs {
+  display: flex;
   margin-bottom: 32px;
   position: relative;
   color: var(--brand-dark-gray);
