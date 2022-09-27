@@ -1,10 +1,16 @@
+ul.breadcrumbs,
 .breadcrumbs {
   margin-bottom: 32px;
   position: relative;
   color: var(--brand-dark-gray);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
 
-  li {
+  &__crumb,
+  & > li.breadcrumbs__crumb {
     display: inline-block;
+    margin: 0;
     position: relative;
     text-transform: capitalize;
     font-size: 14px;
@@ -30,7 +36,7 @@
       }
     }
 
-    a {
+    & > a {
       color: var(--brand-dark-gray);
 
       &:hover {
