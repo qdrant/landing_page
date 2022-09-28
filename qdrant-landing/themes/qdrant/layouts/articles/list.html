@@ -13,15 +13,15 @@
 
             <article class="article article_bb col-12">
                 <div class="article__info">{{ .Date | time.Format ":date_long" }} | {{ .Params.author }}</div>
-                <h2>
-                    <a href="{{ $link }}" class="article__title article-title">
+                <a href="{{ $link }}" class="article__title article-title">
                     <span class="article-title__image" >
                         <img src="{{ .Params.preview_image }}" alt="...">
                     </span>
+                    <h2>
                         {{ .Title }}
-                    </a>
-                </h2>
-                <p>{{ .Params.description }}</p>
+                    </h2>
+                </a>
+                <p>{{ .Summary }}</p>
                 <div class="d-flex justify-content-end">
                     <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five btn-style-five_small mb-5"><span
                             class="txt">Learn More</span></a>

@@ -7,6 +7,7 @@
   &_border {
     box-shadow: 0 0 0 1px var(--brand-dark-gray);
   }
+
   &_contrast {
     .article-card__text {
       color: var(--brand-secondary);
@@ -20,20 +21,23 @@
   }
 
   &__image {
+    display: block;
     height: 116px;
     position: relative;
     border-radius: 7px 7px 0 0;
     overflow: hidden;
 
     img {
-      display: block;
-      width: 100%;
+      min-width: 100%;
+      min-height: 116px;
       position: relative;
       -moz-transition: all 600ms ease;
       -ms-transition: all 600ms ease;
       -o-transition: all 600ms ease;
       -webkit-transition: all 600ms ease;
       transition: all 600ms ease;
+      object-fit: cover;
+      border-radius: 7px 7px 0 0;
     }
   }
 

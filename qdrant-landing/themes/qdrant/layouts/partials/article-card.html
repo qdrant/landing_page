@@ -5,9 +5,7 @@
 
 <div class="col-lg-4 col-md-6 col-sm-12">
     <div class="article-card{{if .classes}} {{ .classes }}{{end}}">
-        <div class="article-card__image">
-            <a href="{{ $link }}" target="_blank"><img src="{{ .context.Params.preview_image }}" loading="lazy" alt=""/></a>
-        </div>
+        <a class="article-card__image" href="{{ $link }}" target="_blank"><img src="{{ .context.Params.preview_image }}" loading="lazy" alt=""/></a>
         <div class="article-card__content">
             <h5 class="article-card__title"><a href="{{ $link }}">{{ .context.Title }}</a></h5>
             <div class="article-card__text">{{ .context.Params.description }}

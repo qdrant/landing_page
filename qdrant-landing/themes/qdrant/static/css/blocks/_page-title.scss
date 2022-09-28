@@ -34,4 +34,11 @@
     font-weight: 700;
     line-height: 67px;
   }
+
+  &__image {
+    @include media-breakpoint-up(md) {
+      padding-left: 60px;
+      margin-top: -22px;
+    }
+  }
 }
