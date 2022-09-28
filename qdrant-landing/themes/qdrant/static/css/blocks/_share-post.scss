@@ -1,0 +1,28 @@
+.share-post {
+  display: flex;
+  align-items: center;
+  position: relative;
+
+  &__text {
+    display: inline-block;
+    position: relative;
+    font-size: 1rem;
+    margin-right: 1rem;
+  }
+
+  &__icon {
+    display: inline-block;
+    margin-left: 22px;
+    position: relative;
+
+    a {
+      position: relative;
+      font-size: 24px;
+      color: var(--brand-gray);
+
+      &:hover {
+        color: var(--brand-dark-gray);
+      }
+    }
+  }
+}

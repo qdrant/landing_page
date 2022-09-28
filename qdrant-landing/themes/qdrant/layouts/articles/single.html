@@ -12,10 +12,8 @@
                 <h1>{{ .Title }}</h1>
                 {{ .Content }}
             </article>
-            <ul class="pt-3">
-                {{ partial "author" . }}
-                <li class="article__info mt-4">{{ .Date | time.Format ":date_long" }}</li>
-            </ul>
+            <div class="pt-3">{{ partial "author" . }}</div>
+            <div class="article__info mt-4">{{ .Date | time.Format ":date_long" }}&nbsp;&nbsp;|&nbsp;&nbsp;{{ partial "share-post" . }}</div>
         </section>
     </div>
 </div>
