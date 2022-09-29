@@ -12,7 +12,7 @@
   overflow: hidden;
 
   @include media-breakpoint-up(lg) {
-    padding: 139px 0 50px;
+    padding: 139px 0 0;
   }
 
   &__title {

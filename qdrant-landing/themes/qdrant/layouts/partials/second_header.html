@@ -2,15 +2,17 @@
 <section class="page-title">
     <div class="auto-container">
         <div class="row">
-            <div class="col-12 col-md-5 order-1 order-md-0">
+            <div class="col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0 pb-5">
                 {{ partial "breadcrumbs" . }}
 
                 <h1 class="page-title__title{{ if not .Params.section_title }} page-title__title_dark{{ end }}"> {{ .Params.title | safeHTML }}</h1>
                 <h2 class="page-title__subtitle">{{ .Params.section_title | safeHTML }}</h2>
             </div>
-            <div class="page-title__image col-12 col-md-7 order-0 order-md-1 mb-5 mb-md-0">
+            {{ if .Params.img }}
+            <div class="page-title__image col-12 col-md-4 order-0 order-md-1 mb-5 mb-md-0">
                 <img src="{{ .Params.img }}" alt="">
             </div>
+            {{end}}
         </div>
     </div>
 </section>
