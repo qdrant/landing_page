@@ -1,3 +1,5 @@
+@use "../helpers/functions" as lib;
+
 article aside[role="alert"],
 article aside[role="status"] {
   margin-bottom: 1rem;
@@ -47,6 +49,7 @@ article aside[role="status"]:before {
 
   table {
     @extend .table;
+    color: var(--brand-secondary);
   }
 
   pre {
@@ -66,13 +69,13 @@ article aside[role="status"]:before {
   }
 
   ul > li {
-    margin: 0 0 0 19px;
+    margin: 0 0 0 lib.rem(19);
     position: relative;
     list-style: disc;
   }
 
   ol > li {
-    margin: 0 0 0 19px;
+    margin: 0 0 0 lib.rem(19);
     position: relative;
     list-style: decimal;
   }
@@ -117,9 +120,9 @@ article aside[role="status"]:before {
 .article,
 .blog {
   font-family: $font-family-content;
-  font-size: 22px;
+  font-size: lib.rem(22);
   font-weight: 400;
-  line-height: 34px;
+  line-height: lib.rem(34);
 
   @include content-reset;
 
@@ -132,24 +135,28 @@ article aside[role="status"]:before {
   }
 
   h1, h2, h3, h4, h5 {
-    margin-bottom: 24px;
+    margin-bottom: lib.rem(24);
     font-family: $font-family-non-content;
     font-weight: 700;
     font-style: normal;
   }
 
   h1 {
-    font-size: 40px;
-    line-height: 48px;
+    font-size: lib.rem(40);
+    line-height: lib.rem(48);
   }
 
   h2 {
-    font-size: 28px;
-    line-height: 33px;
+    font-size: lib.rem(28);
+    line-height: lib.rem(33);
   }
 
   ul, ol {
     margin-left: 0;
+  }
+
+  &>ul, &>ol {
+    margin-left: lib.rem(24);
   }
 
   li {
@@ -160,26 +167,27 @@ article aside[role="status"]:before {
     width: 100%;
     height: auto;
     margin: 0 auto;
-    border-radius: 14px;
+    border-radius: lib.rem(14);
   }
 
   figcaption {
-    margin-top: 10px;
-    font-size: 22px;
+    margin-top: lib.rem(10);
+    font-size: lib.rem(22);
     font-style: italic;
-    line-height: 34px;
+    line-height: lib.rem(34);
   }
 
   &__info {
     display: flex;
     align-items: center;
-    margin-bottom: 24px;
+    margin-bottom: lib.rem(24);
     color: var(--brand-dark-gray);
     font-family: $font-family-non-content;
     font-size: 1rem;
     font-weight: 400;
     font-style: normal;
-    line-height: 17px;
+    line-height: lib.rem(17);
+    flex-wrap: wrap;
   }
 
   &__cover {
@@ -187,9 +195,12 @@ article aside[role="status"]:before {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 300px;
-    border-radius: 14px;
+    border-radius: lib.rem(14);
     overflow: hidden;
+
+    @include media-breakpoint-up(lg) {
+      height: lib.rem(300);
+    }
 
     img {
       width: 100%;
@@ -206,57 +217,62 @@ article aside[role="status"]:before {
 .article-title {
   display: flex;
   align-items: center;
-  margin-bottom: 14px;
+  flex-direction: column;
+  margin-bottom: lib.rem(14);
   color: var(--brand-secondary);
+
+  @include media-breakpoint-up(md) {
+    flex-direction: row;
+  }
 
   & > h1, & > h2, & > h3 {
     margin-bottom: 0;
-    font-size: 40px;
-    line-height: 48px;
+    font-size: lib.rem(40);
+    line-height: lib.rem(48);
   }
 
   &__image {
     display: block;
-    width: 56px;
-    height: 56px;
-    margin-right: 12px;
+    width: 100%;
+    height: lib.rem(94);
+    margin-bottom: lib.rem(16);
     text-align: center;
-    border-radius: 14px;
+    border-radius: lib.rem(14);
     overflow: hidden;
+
+    @include media-breakpoint-up(md) {
+      width: lib.rem(56);
+      height: lib.rem(56);
+      margin-right: lib.rem(12);
+      margin-bottom: 0;
+    }
 
     img {
       width: auto;
-      height: 56px;
+      height: lib.rem(94);
       object-fit: cover;
+
+      @include media-breakpoint-up(md) {
+        width: auto;
+        height: lib.rem(56);
+      }
     }
   }
 
 }
 
 .article {
-  padding-top: 38px;
+  padding-top: lib.rem(24);
 
-  //@media only screen and (max-width: 599px) {
-  //  padding-right: 0;
-  //  padding-left: 0;
-  //}
-  //
-  //@media only screen and (max-width: 1023px) {
-  //  padding-right: 10px;
-  //  padding-left: 10px;
-  //}
-  //
-  //@include media-breakpoint-up(md) {
-  //  padding-top: 38px;
-  //}
-
-
+  @include media-breakpoint-up(lg) {
+    padding-top: lib.rem(38);
+  }
 }
 
 .blog {
-  padding-top: 20px;
-  padding-right: 70px;
-  padding-left: 70px;
+  padding-top: lib.rem(20);
+  padding-right: lib.rem(70);
+  padding-left: lib.rem(70);
   word-break: break-word;
 
   @media only screen and (max-width: 599px) {
@@ -265,8 +281,8 @@ article aside[role="status"]:before {
   }
 
   @media only screen and (max-width: 1023px) {
-    padding-right: 10px;
-    padding-left: 10px;
+    padding-right: lib.rem(10);
+    padding-left: lib.rem(10);
   }
 
   p {

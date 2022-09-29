@@ -1,7 +1,10 @@
 ul.breadcrumbs,
 .breadcrumbs {
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 30px;
+  margin-left: 0;
+  margin-right: 0;
   position: relative;
   color: var(--brand-dark-gray);
   font-size: 14px;
