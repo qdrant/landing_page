@@ -1,8 +1,10 @@
 .article-card {
+  display: flex;
+  flex-direction: column;
   margin-bottom: 35px;
   position: relative;
-  background: var(--white);
   border-radius: 7px;
+  background: var(--white);
 
   &_border {
     box-shadow: 0 0 0 1px var(--brand-dark-gray);
@@ -36,13 +38,14 @@
       -o-transition: all 600ms ease;
       -webkit-transition: all 600ms ease;
       transition: all 600ms ease;
-      object-fit: cover;
       border-radius: 7px 7px 0 0;
+      object-fit: cover;
     }
   }
 
   &__content {
-    padding: 23px 30px;
+    flex-grow: 1;
+    padding: 23px 30px 0;
     position: relative;
     border-radius: 0 0 7px 7px;
   }
@@ -88,5 +91,10 @@
         background-color: var(--brand-primary);
       }
     }
+  }
+
+  &__btn {
+    align-self: start;
+    margin: 0 30px 23px;
   }
 }

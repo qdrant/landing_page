@@ -9,8 +9,6 @@ author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-07-18T10:18:00.000Z
 ---
-
-
 Nowadays, people create a huge number of applications of various types and solve problems in different areas.
 Despite such diversity, they have something in common - they need to process data.
 Real-world data is a living structure, it grows day by day, changes a lot and becomes harder to work with.
