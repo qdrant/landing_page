@@ -268,7 +268,7 @@
     -ms-transform-origin: top right;
     -webkit-transform-origin: top right;
     transform-origin: top right;
-    background-color: #2b2b2b;
+    background-color: var(--brand-secondary);
   }
 
   &:hover::before {
