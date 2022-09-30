@@ -45,6 +45,10 @@
     margin-right: 0;
     margin-bottom: 10px;
   }
+
+  &:focus {
+    border: 1px solid var(--brand-secondary);
+  }
 }
 
 .newsletter-form.style-two input,

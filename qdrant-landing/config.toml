@@ -133,7 +133,9 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     name = "Blog"
     weight = 5
     parent = "resources"
-    url = "/blog/"
+    url = "https://blog.qdrant.tech/"
+    [menu.main.params]
+      external = true
 
   [[menu.main]]
     identifier = "roadmap"

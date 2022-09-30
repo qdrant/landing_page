@@ -1,6 +1,6 @@
 ---
 title: Documentation
-section_title: Everything you need to start working with Qdrant
+section_title: Everything you need to start with Qdrant
 subtitle: 
 ---
 

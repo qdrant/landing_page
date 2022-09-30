@@ -1,15 +1,17 @@
+@use "../helpers/functions" as lib;
+
 ul.breadcrumbs,
 .breadcrumbs {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 30px;
+  margin-bottom: lib.rem(30);
   margin-left: 0;
   margin-right: 0;
   position: relative;
   color: var(--brand-dark-gray);
-  font-size: 14px;
+  font-size: lib.rem(14);
   font-weight: 400;
-  line-height: 17px;
+  line-height: lib.rem(17);
 
   &__crumb,
   & > li.breadcrumbs__crumb {
@@ -17,9 +19,9 @@ ul.breadcrumbs,
     margin: 0;
     position: relative;
     text-transform: capitalize;
-    font-size: 14px;
+    font-size: lib.rem(14);
     font-weight: 400;
-    line-height: 17px;
+    line-height: lib.rem(17);
 
     &:last-child {
       margin-right: 0;
