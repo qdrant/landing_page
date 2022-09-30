@@ -1,3 +1,5 @@
+@use "../helpers/functions" as lib;
+
 /***
 
 ====================================================================
@@ -6,22 +8,22 @@
 
 ***/
 .page-title {
-  padding: 40px 0;
+  padding: lib.rem(40) 0;
   position: relative;
   background: var(--brand-light);
   overflow: hidden;
 
   @include media-breakpoint-up(lg) {
-    padding: 139px 0 0;
+    padding: lib.rem(139) 0 0;
   }
 
   &__title {
-    margin-bottom: 16px;
+    margin-bottom: lib.rem(16);
     position: relative;
     color: var(--brand-gray);
-    font-size: 56px;
+    font-size: lib.rem(56);
     font-weight: 700;
-    line-height: 67px;
+    line-height: lib.rem(67);
 
     &_dark {
       color: var(--brand-secondary);
@@ -30,15 +32,15 @@
 
   &__subtitle {
     color: var(--brand-secondary);
-    font-size: 56px;
+    font-size: lib.rem(56);
     font-weight: 700;
-    line-height: 67px;
+    line-height: lib.rem(67);
   }
 
   &__image {
     @include media-breakpoint-up(md) {
-      padding-left: 60px;
-      margin-top: -22px;
+      padding-left: lib.rem(60);
+      margin-top: lib.rem(-22);
     }
   }
 }

@@ -295,11 +295,6 @@
   text-align: center;
   font-family: 'Font Awesome 5 Free';
   font-weight: 900;
-  /* -webkit-transition: max-width 500ms ease; */
-  /* -moz-transition: max-width 500ms ease; */
-  /* -ms-transition: max-width 500ms ease; */
-  /* -o-transition: max-width 500ms ease; */
-  /* transition: max-width 500ms ease; */
 }
 
 .styled-form .form-group .radio-box input[type="radio"] {
@@ -358,17 +353,13 @@
   width:100%;
   color:var(--brand-secondary);
   border-radius:50px;
-  border: 1px solid var(--brand-dark-gray);  /* transition:all 500ms ease; */
-  /* -moz-transition:all 500ms ease; */
-  /* -webkit-transition:all 500ms ease; */
-  /* -ms-transition:all 500ms ease; */
-  /* -o-transition:all 500ms ease; */
+  border: 1px solid var(--brand-dark-gray);
   font-family: $font-family-non-content;
 }
 
 .contact-form .form-group textarea:focus,
 .contact-form .form-group input:focus{
-  border-color:var(--brand-primary);
+  border-color:var(--brand-secondary);
 }
 
 .contact-form .form-group textarea{
@@ -379,11 +370,6 @@
   padding:15px 30px;
   border-radius:20px;
   border:1px solid #f2f2f2;
-  /* transition:all 500ms ease; */
-  /* -moz-transition:all 500ms ease; */
-  /* -webkit-transition:all 500ms ease; */
-  /* -ms-transition:all 500ms ease; */
-  /* -o-transition:all 500ms ease; */
   font-family: $font-family-non-content;
 }
 

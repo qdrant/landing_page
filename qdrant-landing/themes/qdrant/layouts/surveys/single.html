@@ -1,20 +1,26 @@
 {{ partial "header" . }}
 <style>
-  .main-header {
+  .main-header:not(.fixed-header) {
     background: var(--brand-secondary);
   }
-  .main-header .main-menu .navigation__item a.navigation__link {
+  .main-header:not(.fixed-header) .main-menu .navigation__item a.navigation__link {
     color: white;
   }
-  .main-header .main-menu .btn.btn_in-header {
+  .main-header:not(.fixed-header) .main-menu .btn.btn_in-header {
     box-shadow: inset 0 0 0 1px white !important;
   }
-  .main-header .main-menu .btn.btn_in-header:hover {
+  .main-header:not(.fixed-header) .main-menu .btn.btn_in-header .btn__text {
+    color: white;
+  }
+  .main-header:not(.fixed-header) .main-menu .btn.btn_in-header:hover {
     box-shadow: inset 0 0 0 1px white !important;
   }
-
-  .main-header .main-menu .btn.btn_in-header:before {
-    box-shadow: inset 0 0 0 1px var(--brand-primary) !important;
+  .main-header:not(.fixed-header) .main-menu .btn.btn_in-header:before {
+    box-shadow: inset 0 0 0 1px white !important;
+    background: white;
+  }
+  .main-header:not(.fixed-header) .main-menu .btn.btn_in-header:hover .btn__text {
+    color: var(--brand-secondary);
   }
 </style>
 

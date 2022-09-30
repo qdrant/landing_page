@@ -68,6 +68,7 @@
 
         &:hover {
           color: var(--white);
+          text-decoration: underline;
         }
       }
     }
@@ -158,6 +159,7 @@
 
           &:hover {
             color: var(--white);
+            text-decoration: underline;
           }
         }
       }
@@ -168,6 +170,7 @@
   .social-box {
     display: flex;
     margin-bottom: 42px;
+
     li {
       margin-right: 32px;
 
@@ -177,27 +180,10 @@
 
         &:hover {
           color: var(--white);
+          color: var(--brand-primary);
         }
       }
     }
-  }
-
-  .pattern-layer {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-repeat: no-repeat;
-  }
-
-  .pattern-layer-two {
-    position: absolute;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    background-repeat: no-repeat;
   }
 
   .footer-bottom {

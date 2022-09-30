@@ -1,3 +1,5 @@
+@use "../helpers/functions" as lib;
+
 /***
 
 ====================================================================
@@ -7,11 +9,11 @@
 ***/
 
 .business-section-two {
-  padding: 0 0 70px;
+  padding: 0 0 lib.rem(70);
   position: relative;
 
   .sec-title {
-    margin-bottom: 80px;
+    margin-bottom: lib.rem(80);
   }
 
   .inner-container {
@@ -22,21 +24,21 @@
     display: none;
     align-items: center;
     flex-direction: column;
-    width: 14px;
-    margin-left: 50px;
+    width: lib.rem(14);
+    margin-left: lib.rem(50);
     margin-top: -200px;
     position: relative;
 
     @include media-breakpoint-up(lg) {
       display: flex;
-      margin-left: 100px;
+      margin-left: lib.rem(100);
     }
 
     .tab-btn {
       display: inline-block;
-      width: 14px;
-      height: 14px;
-      margin: 7px 0;
+      width: lib.rem(14);
+      height: lib.rem(14);
+      margin: lib.rem(7) 0;
       cursor: pointer;
       border-radius: 50%;
       background: var(--brand-light-grey);
@@ -75,7 +77,7 @@
       }
 
       .content {
-        max-width: 1030px;
+        max-width: lib.rem(1030);
         position: relative;
       }
     }
@@ -84,7 +86,7 @@
       display: flex;
 
       @include media-breakpoint-up(lg) {
-        height: 618px;
+        height: lib.rem(618);
       }
 
       .content-column {
@@ -98,42 +100,42 @@
         }
 
         .inner-column {
-          padding-bottom: 450px;
+          padding-bottom: lib.rem(450);
           position: relative;
 
           @include media-breakpoint-up(lg) {
-            width: 560px;
-            padding-bottom: 54px;
+            width: lib.rem(560);
+            padding-bottom: lib.rem(54);
           }
         }
 
         h5 {
-          margin-bottom: 5px;
-          font-size: 24px;
+          margin-bottom: lib.rem(5);
+          font-size: lib.rem(24);
           font-weight: 700;
-          line-height: 28px;
+          line-height: lib.rem(28);
         }
 
         p {
-          margin-bottom: 25px;
+          margin-bottom: lib.rem(25);
           position: relative;
           color: var(--brand-dark-gray);
-          font-size: 18px;
+          font-size: lib.rem(18);
           font-weight: 400;
-          line-height: 28px;
+          line-height: lib.rem(28);
         }
 
         .business-list {
-          margin-bottom: 35px;
+          margin-bottom: lib.rem(35);
           position: relative;
 
           li {
-            min-height: 50px;
-            margin-bottom: 18px;
-            padding-left: 70px;
+            min-height: lib.rem(50);
+            margin-bottom: lib.rem(18);
+            padding-left: lib.rem(70);
             position: relative;
             color: #2b2a41;
-            font-size: 14px;
+            font-size: lib.rem(14);
             font-weight: 600;
 
             &:last-child {
@@ -149,32 +151,32 @@
       }
 
       .theme-btn {
-        margin-top: 22px;
-        border-radius: 50px;
+        margin-top: lib.rem(22);
+        border-radius: lib.rem(50);
       }
 
       .image-column {
         width: 100%;
         position: absolute;
         right: 0;
-        bottom: 150px;
+        bottom: lib.rem(150);
         left: 0;
 
         @include media-breakpoint-up(lg) {
-          width: 360px;
-          margin-top: 38px;
-          padding-left: 40px;
+          width: lib.rem(360);
+          margin-top: lib.rem(38);
+          padding-left: lib.rem(40);
           top: 0;
           left: unset;
         }
 
         @include media-breakpoint-up(xl) {
-          width: 416px;
+          width: lib.rem(416);
         }
 
         .image {
           @include media-breakpoint-up(md) {
-            max-width: 300px;
+            max-width: lib.rem(300);
           }
           @include media-breakpoint-up(lg) {
             max-width: 100%;

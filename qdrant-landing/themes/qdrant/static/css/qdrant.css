@@ -6,6 +6,8 @@ QDRANT - RELATED
 
 */
 
+/** todo: move to related files */
+
 @import url("colors.css");
 
 code {
@@ -35,6 +37,7 @@ code {
 /** Link Group **/
 .link-group.active .link-group-heading {
   box-shadow: inset 3px 0 0 0 var(--brand-primary);
+  padding-left: 0.5rem;
 }
 
 .link-group-heading span {
@@ -53,14 +56,6 @@ code {
   font-size: 16px;
   color: #5a5a5a;
 }
-
-/* .os-link {
-  text-decoration: underline;
-} */
-
-/* .business-tabs .tabs-content {
-  min-height: 550px;
-} */
 
 .text-brand-p {
   color: var(--brand-primary);

@@ -1,3 +1,4 @@
+@use "../helpers/functions" as lib;
 /***
 
 ====================================================================
@@ -7,13 +8,13 @@
 ***/
 
 .banner-section {
-  padding-top: 220px;
-  padding-bottom: 100px;
+  padding-top: lib.rem(220);
+  padding-bottom: lib.rem(100);
   position: relative;
 
   .side-layer {
     width: 100%;
-    height: 1459px;
+    height: lib.rem(1459);
     position: absolute;
     top: 0;
     right: 0;
@@ -23,7 +24,7 @@
 
   .pattern-layer {
     width: 100%;
-    height: 942px;
+    height: lib.rem(942);
     position: absolute;
     top: 0;
     right: 0;
@@ -36,14 +37,14 @@
     z-index: 3;
 
     .inner-column {
-      padding-top: 100px;
-      padding-bottom: 60px;
-      padding-left: 30px;
+      padding-top: lib.rem(100);
+      padding-bottom: lib.rem(60);
+      padding-left: lib.rem(30);
       position: relative;
     }
 
     h1 {
-      margin-bottom: 20px;
+      margin-bottom: lib.rem(20);
       position: relative;
       text-transform: capitalize;
       color: #ffffff;
@@ -56,10 +57,10 @@
     }
 
     .text {
-      margin-bottom: 35px;
+      margin-bottom: lib.rem(35);
       position: relative;
       color: #ffffff;
-      font-size: 18px;
+      font-size: lib.rem(18);
       font-weight: 400;
       line-height: 1.8em;
     }
@@ -68,7 +69,7 @@
       position: relative;
 
       .theme-btn {
-        margin-right: 25px;
+        margin-right: lib.rem(25);
       }
     }
   }
@@ -92,16 +93,16 @@
 ***/
 
 .banner-section-two {
-  padding-top: 73px;
+  padding-top: lib.rem(73);
   padding-bottom: 0;
   position: relative;
 
   @include media-breakpoint-up(md) {
-    padding-top: 70px;
+    padding-top: lib.rem(70);
   }
 
   .sec-title.text {
-    margin-bottom: 54px;
+    margin-bottom: lib.rem(54);
   }
 
   .d-inline-block {
@@ -116,7 +117,7 @@
 
   .side-layer {
     width: 77%;
-    height: 981px;
+    height: lib.rem(981);
     position: absolute;
     top: 0;
     right: 0;
@@ -134,8 +135,8 @@
     }
 
     .inner-column {
-      padding-top: 115px;
-      padding-bottom: 60px;
+      padding-top: lib.rem(115);
+      padding-bottom: lib.rem(60);
       position: relative;
     }
 
@@ -143,7 +144,7 @@
       position: relative;
       text-transform: capitalize;
       color: var(--brand-secondary);
-      font-size: 56px;
+      font-size: lib.rem(56);
       font-weight: 700;
       line-height: 1.25em;
 
@@ -158,14 +159,14 @@
 
     h4 {
       color: var(--brand-dark-gray);
-      font-size: 24px;
+      font-size: lib.rem(24);
     }
 
     .newsletter-form {
       .form-group {
         button {
-          padding: 9px 36px 9px;
-          border-radius: 50px;
+          padding: lib.rem(9) lib.rem(36) lib.rem(9);
+          border-radius: lib.rem(50);
         }
       }
     }
@@ -179,7 +180,7 @@
 
     .inner-column {
       justify-content: center;
-      margin-bottom: 50px;
+      margin-bottom: lib.rem(50);
       margin-left: 0;
       position: relative;
 
@@ -188,7 +189,7 @@
         width: 126%;
         margin-bottom: 0;
         margin-left: -11%;
-        padding-top: 90px;
+        padding-top: lib.rem(90);
       }
     }
   }
@@ -198,8 +199,8 @@
       .newsletter-form {
         .form-group {
           button {
-            padding: 9px 36px 9px;
-            border-radius: 50px;
+            padding: lib.rem(9) lib.rem(36) lib.rem(9);
+            border-radius: lib.rem(50);
           }
         }
       }

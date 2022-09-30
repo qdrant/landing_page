@@ -41,6 +41,12 @@
       border-radius: 7px 7px 0 0;
       object-fit: cover;
     }
+
+    &:hover {
+      img {
+        transform: scale(1.05);
+      }
+    }
   }
 
   &__content {
