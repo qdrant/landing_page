@@ -22,13 +22,14 @@
 
 .price-block .inner-box{
   position:relative;
-  box-shadow:0 0 10px rgba(0,0,0,0.10);
+  box-shadow: 0 0 0 1px var(--brand-dark-gray);
+  border-radius: 7px;
 }
 
 .price-block .inner-box .title{
   position:relative;
   padding:24px 15px;
-  color:#2b2b2b;
+  color: var(--brand-secondary);
   font-size:36px;
   font-weight:700;
   line-height:1.3em;
@@ -64,7 +65,7 @@
 .price-block .inner-box .content-box .price-box .price-title{
   position:relative;
   font-weight:400;
-  color:#5a5a5a;
+  color: var(--brand-secondary);
   font-size:18px;
   display:block;
   margin-top:18px;
@@ -72,7 +73,7 @@
 
 .price-block .inner-box .content-box .text{
   position:relative;
-  color:#5a5a5a;
+  color: var(--brand-secondary);
   font-size:16px;
   line-height:1.8em;
   text-align:center;
@@ -108,7 +109,7 @@
 .price-block .inner-box .price-list li{
   position:relative;
   margin-bottom:8px;
-  color:#2b2b2b;
+  color: var(--brand-secondary);
   font-size:15px;
   font-weight:500;
   padding-left:15px;
@@ -252,7 +253,7 @@
 .price-block-two .inner-box .lower-content .price-list li{
   position:relative;
   margin-bottom:10px;
-  color:#2b2b2b;
+  color: var(--brand-secondary);
   font-size:15px;
   font-weight:500;
   padding-left:15px;

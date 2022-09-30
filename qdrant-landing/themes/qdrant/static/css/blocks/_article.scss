@@ -164,7 +164,7 @@ article aside[role="status"]:before {
   }
 
   img {
-    width: 100%;
+    max-width: 100%;
     height: auto;
     margin: 0 auto;
     border-radius: lib.rem(14);
