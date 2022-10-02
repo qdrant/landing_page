@@ -60,7 +60,7 @@ First - let's create a collection with dot-production metric.
 curl -X PUT 'http://localhost:6333/collections/test_collection' \
     -H 'Content-Type: application/json' \
     --data-raw '{
-        vectors: {
+        "vectors": {
             "size": 4,
             "distance": "Dot"
         }
