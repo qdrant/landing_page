@@ -67,6 +67,11 @@
           <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
           <script src="{{ "js/benchmarks.js" | absURL }}"></script>
         {{ end }}
+
+
+        {{ if eq .Section "documentation" }}
+        <script src="/js/qdr-scroll.min.js" type="module"></script>
+        {{ end }}
     </head>
 
     <body>

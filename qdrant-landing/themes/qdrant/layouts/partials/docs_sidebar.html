@@ -1,6 +1,10 @@
 {{$currentNode := .}}
 <nav class="col-lg-3 col-md-3 col-12 mt-0 mt-md-4 position-relative">
     <div id="accordion" class="sticky-top">
+        <!-- Button trigger modal -->
+        <button type="button" class="qdr-search-input-btn" data-target="#searchModal">
+            <i class="fa fa-search mr-2"></i>Search...
+        </button>
         {{ range where .Site.RegularPages "Section" .Section }}
 
         <div class="link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}">

@@ -37,14 +37,14 @@ module.exports = function (env, argv) {
     plugins: [
       new CopyPlugin({
         patterns: [
-        //   {
-        //   from: path.resolve(__dirname, 'node_modules/@splidejs/splide/dist/js/splide.min.js'),
-        //   to: 'themes/qdrant/vendor/js/splide.min.js'
-        // },
-       // {
-       //    from: path.resolve(__dirname, 'node_modules/@splidejs/splide/dist/css/splide-core.min.css'),
-       //    to: 'themes/qdrant/static/css/splide-core.min.css'
-       //  }
+          {
+            from: path.resolve(__dirname, 'node_modules/qdrant-page-search/dist/js/scroll.min.js'),
+            to: 'qdr-scroll.min.js'
+          },
+          {
+            from: path.resolve(__dirname, 'node_modules/qdrant-page-search/dist/css/styles.min.css'),
+            to: '../css/qdr-search.min.css'
+          }
         ]
       }),
     ]
