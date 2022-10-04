@@ -29,3 +29,7 @@
 <link rel="stylesheet" href="{{ "css/mathjax.css" | absURL }}">
 <link rel="stylesheet" href="/css/owl.css">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css">
+
+{{ if eq .Section "documentation" }}
+<link rel="stylesheet" href="/css/qdr-search.min.css">
+{{ end }}
