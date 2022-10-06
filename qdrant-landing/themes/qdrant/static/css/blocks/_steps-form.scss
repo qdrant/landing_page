@@ -30,6 +30,12 @@
     }
   }
 
+  &__group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
   &__input {
     padding-right: 0;
     padding-left: 0;
@@ -67,24 +73,20 @@
     color: inherit;
     font-size: inherit;
     transition: 0.25s ease all;
+
     &:hover {
       color: var(--brand-primary);
       text-decoration: none;
     }
   }
 
-  .owl-stage {
-    display: flex;
-    align-items: center;
-  }
-
-  .owl-nav {
+  &__arrows {
     display: flex;
     justify-content: space-between;
   }
 
-  .owl-prev.disabled .btn,
-  .owl-next.disabled .btn {
+  .btn[disabled],
+  {
     display: none;
   }
 }

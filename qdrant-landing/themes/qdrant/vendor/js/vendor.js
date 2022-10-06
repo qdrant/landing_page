@@ -6,7 +6,14 @@ import qdrSearch from 'qdrant-page-search';
 // todo: onload
 document.addEventListener( 'DOMContentLoaded', function() {
   if (document.querySelector('.splide')) {
-    new Splide('.splide').mount();
+    const splide = new Splide('.splide');
+
+    splide.on( 'ready', function () {
+      const e = new CustomEvent('splideIsReady', {detail: splide});
+      document.dispatchEvent(e);
+    });
+
+    splide.mount();
   }
 
   if (/documentation/.test(window.location?.pathname)) {
