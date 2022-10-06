@@ -2,80 +2,106 @@
 {{ $random := delimit (shuffle (split (md5 $seed) "" )) "" }}
 <!--suppress XmlDuplicatedId -->
 <div class="steps-form row">
-    <form class="steps-form__form col-12 col-md-10 col-lg-6" name="cloud-request"
-          method="POST" id="{{ $random }}" novalidate data-netlify="true">
+
+
+    <form class="steps-form__form col-12 col-md-10 col-lg-6 splide" name="cloud-request"
+          method="POST" id="{{ $random }}" novalidate data-netlify="true"
+          data-splide='{
+        "direction": "ttb",
+        "height": "70vh",
+        "autoplay": false,
+        "rewind": false,
+        "perPage": 1
+      }'>
         <div class="spinner-border steps-form__spinner" role="status" style="width: 5rem; height: 5rem;">
             <span class="sr-only">Loading...</span>
         </div>
-        <section class="owl-carousel">
-            {{ range .Params.Form }}
-            <div class="form-group" data-step="{{ .id }}">
-                <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
-                    {{ if .header }} <h2>{{ .header | safeHTML }}</h2> {{ end }}
-                    {{ .label | safeHTML }}
-                    {{ if eq .type "radio"}}(Choose one){{ end }}
-                    {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
-                </label>
-                {{ if eq .type "select" }}
-                <select class="steps-form__input custom-select" id="{{ .id }}{{ .name }}" name="{{ .name }}">
-                    <option selected>Open this select menu</option>
-                    {{ range .options }}
-                    <option value="{{ . }}">{{ . }}</option>
-                    {{ end }}
-                </select>
-                {{ else if or (eq .type "radio") (eq .type "checkbox")}}
-                {{ $input := . }}
-                <div class="checkbox mb-5">
-                    {{ range .options }}
-                    <input class="checkbox__input" type="{{ $input.type }}" name="{{ $input.name }}"
-                           id="{{ $input.id }}{{ $input.name }}{{ . }}"
-                           value="{{ . }}">
-                    <label class="steps-form__label checkbox__label" for="{{ $input.id }}{{ $input.name }}{{ . }}">
-                        {{ . }}</label>
-                    {{ end }}
-                </div>
+        <section class="splide__track">
+                <ul class="splide__list">
+                    {{ range .Params.Form }}
+                    <li class="steps-form__group form-group splide__slide" data-step="{{ .id }}">
+                        <label class="steps-form__label steps-form__label_big" for="{{ .id }}{{ .name }}">
+                            {{ if .header }} <h2>{{ .header | safeHTML }}</h2> {{ end }}
+                            {{ .label | safeHTML }}
+                            {{ if eq .type "radio"}}(Choose one){{ end }}
+                            {{ if eq .type "checkbox"}}(Choose as many as you want){{ end }}
+                        </label>
+                        {{ if eq .type "select" }}
+                        <select class="steps-form__input custom-select" id="{{ .id }}{{ .name }}" name="{{ .name }}">
+                            <option selected>Open this select menu</option>
+                            {{ range .options }}
+                            <option value="{{ . }}">{{ . }}</option>
+                            {{ end }}
+                        </select>
+                        {{ else if or (eq .type "radio") (eq .type "checkbox")}}
+                        {{ $input := . }}
+                        <div class="checkbox mb-5">
+                            {{ range .options }}
+                            <input class="checkbox__input" type="{{ $input.type }}" name="{{ $input.name }}"
+                                   id="{{ $input.id }}{{ $input.name }}{{ . }}"
+                                   value="{{ . }}">
+                            <label class="steps-form__label checkbox__label" for="{{ $input.id }}{{ $input.name }}{{ . }}">
+                                {{ . }}</label>
+                            {{ end }}
+                        </div>
 
-                {{ else if eq .type "text"}}
-                <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
-                          rows="{{ .rows }}" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}"></textarea>
-                {{ else }}
-                <input type="{{ .type }}" name="{{ .name }}"
-                       class="steps-form__input form-control" id="{{ .id }}{{ .name }}"
-                       {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
-                <div class="invalid-feedback">
-                    Please provide a valid {{ .type }}.
-                </div>
-                {{ end }}
-            </div>
-            {{ end }}
+                        {{ else if eq .type "text"}}
+                        <textarea class="form-control steps-form__input" id="{{ .id }}{{ .name }}" name="{{ .name }}"
+                                  rows="{{ .rows }}" {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}"></textarea>
+                        {{ else }}
+                        <input type="{{ .type }}" name="{{ .name }}"
+                               class="steps-form__input form-control" id="{{ .id }}{{ .name }}"
+                               {{ if .required }}required{{ end }} placeholder="{{ .placeholder }}">
+                        <div class="invalid-feedback">
+                            Please provide a valid {{ .type }}.
+                        </div>
+                        {{ end }}
+                    </li>
+                    {{ end }}
 
-            <div class="form-group" data-step="{{ len .Params.Form }}">
-                <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
-                <div class="checkbox">
-                    <input class="checkbox__input" type="checkbox" name="termsConsent"
-                           id="termsConsent" required>
-                    <label class="steps-form__label checkbox__label d-flex align-items-center mb-2" for="termsConsent">
+                    <li class="steps-form__group form-group splide__slide" data-step="{{ len .Params.Form }}">
+                        <p class="steps-form__label steps-form__label_big">Ta-da! We'll happily be in touch with you very soon! 🥳</p>
+                        <div class="checkbox">
+                            <input class="checkbox__input" type="checkbox" name="termsConsent"
+                                   id="termsConsent" required>
+                            <label class="steps-form__label checkbox__label d-flex align-items-center mb-2" for="termsConsent">
                         <span>I am consent to all of
                         <a href="/legal/terms_and_conditions/" target="_blank">terms and conditions</a>
                             and you agree to be contacted again for your onboarding.*</span>
-                    </label>
-                    <div class="invalid-feedback">
-                        You must accept the terms and conditions
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-style-four btn-style-four_reversed
+                            </label>
+                            <div class="invalid-feedback">
+                                You must accept the terms and conditions
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-style-four btn-style-four_reversed
                                              btn-style-four_big btn-style-four_border mt-4">
-                    <span class="text">Submit</span>
-                </button>
-            </div>
+                            <span class="text">Submit</span>
+                        </button>
+                    </li>
+                </ul>
         </section>
+
+        <div class="splide__arrows steps-form__arrows">
+            <div>
+            <button class="splide__arrow splide__arrow--prev btn btn-style-four btn-style-four_small btn-style-four_border" type="button">
+                Prev
+            </button>
+            </div>
+            <div>
+            <button class="splide__arrow splide__arrow--next btn btn-style-four btn-style-four_small btn-style-four_border" type="button">
+                Next
+            </button>
+            </div>
+        </div>
     </form>
 </div>
 
 <script>
-  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  // disabling form submissions if there are invalid fields
   (function() {
     'use strict';
+
+    let splide;
 
     function checkForm(form)
     {
@@ -87,6 +113,12 @@
       return true;
     }
 
+    document.addEventListener('splideIsReady', e => {
+      console.log('i got event', e)
+      splide = e.detail;
+      console.log(splide)
+      document.getElementsByClassName('spinner-border')[0].remove();
+    });
 
     window.addEventListener('load', function() {
       // Fetch all the forms we want to apply custom Bootstrap validation styles to
@@ -100,7 +132,10 @@
           const invalidFieldNames = Array.from(form.querySelectorAll(':invalid')).map(field => field)
           const nextInvalid = $(invalidFieldNames[0]).closest('[data-step]').data('step');
 
-          stepsFormCarousel.trigger('to.owl.carousel', [nextInvalid]);
+          if (splide) {
+            console.log('splide goes to', nextInvalid)
+            splide.go(nextInvalid);
+          }
         }
 
         form.classList.add('was-validated');
@@ -116,23 +151,8 @@
           });
         }); */
       });
-
-      const stepsFormCarousel = $('.owl-carousel').owlCarousel({
-        items: 1,
-        mouseDrag: false,
-        touchDrag: false,
-        nav: true,
-        rewind: false,
-        slideTransition: 'easy',
-        loop: false,
-        margin: 10,
-        stagePadding: 5,
-        navText: ['<div class="btn btn-style-four btn-style-four_small btn-style-four_border"><span class="text"> <i class="fas fa-chevron-left"></i> Back</span></div>', '<div class="btn btn-style-four btn-style-four_small btn-style-four_border"><span class="text"> Next question <i class="fas fa-chevron-right"></i></span></div>'],
-        onInitialized: () => {
-          document.getElementsByClassName('spinner-border')[0].remove();
-        }
-      });
     }, false);
+
   })();
 
 </script>
