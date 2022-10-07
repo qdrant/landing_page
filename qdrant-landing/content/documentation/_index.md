@@ -1,5 +1,6 @@
 ---
 title: Documentation
+section_title: Documentation
 subtitle: 
 ---
 
