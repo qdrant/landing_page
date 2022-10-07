@@ -15,12 +15,12 @@
     position: relative;
 
     h4 {
-      color: var(--white);
       position: relative;
       text-transform: capitalize;
+      color: var(--white);
+      font-size: 24px;
       font-weight: 700;
       line-height: 1.2em;
-      font-size: 24px;
     }
   }
 
@@ -46,8 +46,8 @@
     color: var(--white);
 
     &:hover {
-      color: var(--white);
       text-decoration: underline;
+      color: var(--white);
     }
   }
 
@@ -68,12 +68,16 @@
 
         &:hover {
           color: var(--white);
-          text-decoration: underline;
+
+          span {
+            text-decoration: underline;
+          }
         }
       }
     }
 
     i {
+      max-width: 18px;
       margin-right: 8px;
       color: var(--white);
     }
@@ -158,8 +162,8 @@
           color: #ececec;
 
           &:hover {
-            color: var(--white);
             text-decoration: underline;
+            color: var(--white);
           }
         }
       }
