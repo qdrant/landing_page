@@ -5,24 +5,18 @@
 <script src="{{ "js/jquery.fancybox.js" | absURL }}"></script>
 <script src="{{ "js/appear.js" | absURL }}"></script>
 <script src="{{ "js/cookit.js" | absURL }}"></script>
-<!-- <script src="{{ "js/swiper.min.js" | absURL }}"></script> -->
-<!-- <script src="{{ "js/jquery.paroller.min.js" | absURL }}"></script> -->
-<!-- <script src="{{ "js/parallax.min.js" | absURL }}"></script> -->
-<!-- <script src="{{ "js/tilt.jquery.min.js" | absURL }}"></script> -->
-<!--Master Slider-->
-<!-- <script src="{{ "js/jquery.easing.min.js" | absURL }}"></script> -->
-<!-- <script src="{{ "js/owl.js" | absURL }}"></script> -->
-<!-- <script src="{{ "js/wow.js" | absURL }}"></script> -->
-<!-- <script src="{{ "js/jquery-ui.js" | absURL }}"></script> -->
-<!-- <script src="{{ "js/element-in-view.js" | absURL }}"></script> -->
-<script src="{{ "js/vendor.min.js" | absURL }}"></script>
-<script src="{{ "js/script.js" | absURL }}"></script>
 <script src="{{ "js/clipboard.min.js" | absURL }}"></script>
 <script src="{{ "js/anchor.min.js" | absURL }}"></script>
+<script src="{{ "js/vendor.min.js" | absURL }}"></script>
+{{ if eq .Section "documentation" }}
+<script src="{{ "js/qdr-search.min.js" | absURL }}"></script>
+{{ end }}
+<script src="{{ "js/qdr-scroll.min.js" | absURL }}"></script>
+<script src="{{ "js/script.js" | absURL }}"></script>
 <script>
   var clipboard = new ClipboardJS('.copy-btn');
 
-  clipboard.on('success', function(e) {
+  clipboard.on('success', function (e) {
     $('#copy-popover').popover('show')
     const to = setTimeout(() => {
       $('#copy-popover').popover('hide')
@@ -32,7 +26,7 @@
     e.clearSelection();
   });
 
-  clipboard.on('error', function(e) {
+  clipboard.on('error', function (e) {
     console.error('Action:', e.action);
     console.error('Trigger:', e.trigger);
   });
@@ -47,24 +41,39 @@
       messageColor: '#fff',
       linkColor: '#fad04c',
       buttonColor: '#fad04c'
-    });  
+    });
   });
-  
+
   anchors.options.placement = 'left';
   anchors.add("article > :is(h1, h2, h3, h4, h5, h6)");
 </script>
 
 <!-- highlight.js -->
 {{ if .Site.Params.highlight }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-    {{ range .Site.Params.highlightLanguages }}
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/{{ . }}.min.js"></script>
-    {{ end }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
+{{ range .Site.Params.highlightLanguages }}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/{{ . }}.min.js"></script>
+{{ end }}
 <script>hljs.highlightAll();</script>
 
 {{ end }}
 <script src="{{ "js/lang-switcher.js" | absURL }}"></script>
 <script src="{{ "js/copy-code.js" | absURL }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    $('[data-toggle="popover"]').popover({
+      container: 'body'
+    });
+    $('.popover-dismiss').popover({
+      trigger: 'focus'
+    });
+
+    // qdrant-page-search initialization
+    if (/documentation/.test(window.location?.pathname)) {
+      window.initQdrantSearch({searchApiUrl: 'https://search.qdrant.tech/api/search'});
+    }
+  });
+</script>
 
 <!-- MathJax support -->
 <script>
@@ -87,14 +96,3 @@
 
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-<script src="/js/owl.js"></script>
-<script>
-  $(function () {
-    $('[data-toggle="popover"]').popover({
-      container: 'body'
-    });
-    $('.popover-dismiss').popover({
-      trigger: 'focus'
-    });
-  });
-</script>

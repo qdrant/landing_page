@@ -1,7 +1,7 @@
 // for now it only bundle js files required in ./themes/qdrant/vendor/js/vendor.js
 const path = require('path');
 const CopyPlugin = require('copy-webpack-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
+const TerserPlugin = require('terser-webpack-plugin');
 
 module.exports = function (env, argv) {
 
@@ -37,6 +37,10 @@ module.exports = function (env, argv) {
     plugins: [
       new CopyPlugin({
         patterns: [
+          {
+            from: path.resolve(__dirname, 'node_modules/qdrant-page-search/dist/js/search.min.js'),
+            to: 'qdr-search.min.js'
+          },
           {
             from: path.resolve(__dirname, 'node_modules/qdrant-page-search/dist/js/scroll.min.js'),
             to: 'qdr-scroll.min.js'
