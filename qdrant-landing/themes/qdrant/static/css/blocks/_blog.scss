@@ -1,3 +1,5 @@
+@use "../helpers/functions" as lib;
+
 /***
 
 ====================================================================
@@ -536,3 +538,25 @@
   color: var(--brand-primary);
 }
 
+.blog {
+  padding-top: lib.rem(20);
+  padding-right: lib.rem(70);
+  padding-left: lib.rem(70);
+  word-break: break-word;
+
+  @media only screen and (max-width: 599px) {
+    padding-right: 0;
+    padding-left: 0;
+  }
+
+  @media only screen and (max-width: 1023px) {
+    padding-right: lib.rem(10);
+    padding-left: lib.rem(10);
+  }
+
+  p {
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+}
