@@ -12,7 +12,7 @@
         </div>
         {{ end }}
         <div class="lower-box pt-0">
-            <article class="{{ if eq .Section "blog"}}blog{{else}}article{{end}}">
+            <article class="{{ if eq .Section "blog"}}blog{{else}}article article_narrow{{end}}">
                 {{ .Content }}
             </article>
             <hr>
