@@ -170,10 +170,11 @@ Many independent vector collections can exist on one service at the same time.
 Let's create a new collection for our startup vectors.
 
 ```python
+from qdrant_client.http import models
+
 qdrant_client.recreate_collection(
     collection_name='startups', 
-    vector_size=768, 
-    distance="Cosine"
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE)
 )
 ```
 
