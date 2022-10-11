@@ -55,6 +55,12 @@ article aside[role="status"]:before {
 
   @include mixins.content-reset;
 
+  &_narrow {
+    @include media-breakpoint-up(lg) {
+      margin: 0 6rem;
+    }
+  }
+
   p, span, ul, ol, li {
     font: inherit;
   }
