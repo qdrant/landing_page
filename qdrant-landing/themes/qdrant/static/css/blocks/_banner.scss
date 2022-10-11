@@ -93,9 +93,9 @@
 ***/
 
 .banner-section-two {
-  padding-top: lib.rem(73);
   padding-bottom: 0;
   position: relative;
+  padding-top: 2rem;
 
   @include media-breakpoint-up(md) {
     padding-top: lib.rem(70);
@@ -135,18 +135,27 @@
     }
 
     .inner-column {
-      padding-top: lib.rem(115);
+      padding-top: 0;
       padding-bottom: lib.rem(60);
       position: relative;
+
+      @include media-breakpoint-up(md) {
+        padding-top: lib.rem(115);
+      }
     }
 
     h1 {
       position: relative;
+      white-space: normal;
       text-transform: capitalize;
       color: var(--brand-secondary);
       font-size: lib.rem(56);
       font-weight: 700;
       line-height: 1.25em;
+
+      @include media-breakpoint-up(md) {
+        white-space: nowrap;
+      }
 
       span {
         color: var(--brand-primary);
