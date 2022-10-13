@@ -47,8 +47,7 @@
 
 @import url('font-awesome.css');
 @import url('flaticon.css');
-@import url('custom-animate.css');
-@import url('colors.css');
+@import "colors";
 
 @import "reset";
 
@@ -180,3 +179,8 @@ code {
 @import "blocks/breadcrumbs";
 @import "blocks/share-post";
 @import "blocks/footer";
+@import "responsive";
+
+@import "cookit";
+@import "mathjax";
+@import "lang-switcher";
