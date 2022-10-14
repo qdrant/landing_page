@@ -23,7 +23,7 @@
                 </a>
                 <p>{{ .Summary }}</p>
                 <div class="d-flex justify-content-end">
-                    <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five btn-style-five_small mb-5"><span
+                    <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five btn-style-five_small-md article__more-btn mb-5"><span
                             class="txt">Learn More</span></a>
                 </div>
             </article>
@@ -42,7 +42,7 @@
 
             <!-- News block Two -->
 
-            {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style") }}
+            {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style article-card_small-btn") }}
 
 
             {{ end }}
