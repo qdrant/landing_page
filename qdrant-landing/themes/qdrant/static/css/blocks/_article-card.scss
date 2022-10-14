@@ -22,6 +22,15 @@
     }
   }
 
+  &_small-btn {
+    .article-card__btn {
+      @include media-breakpoint-up(md) {
+        font-size: 1.125rem;
+        line-height: 1.625rem;
+      }
+    }
+  }
+
   &__image {
     display: block;
     height: 116px;
@@ -102,5 +111,9 @@
   &__btn {
     align-self: start;
     margin: 0 30px 23px;
+    @include media-breakpoint-down(sm) {
+      align-self: stretch;
+      text-align: center;
+    }
   }
 }

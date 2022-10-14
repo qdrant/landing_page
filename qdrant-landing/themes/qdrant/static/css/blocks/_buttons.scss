@@ -465,9 +465,26 @@
     transform-origin: bottom left;
   }
 
+  // small button on all sizes
   &_small {
     font-size: lib.rem(18);
     line-height: lib.rem(26);
+
+    // only on big devices
+    &-lg {
+      @include media-breakpoint-up(lg) {
+        font-size: lib.rem(18);
+        line-height: lib.rem(26);
+      }
+    }
+
+    // only on big devices and tablets
+    &-md {
+      @include media-breakpoint-up(md) {
+        font-size: lib.rem(18);
+        line-height: lib.rem(26);
+      }
+    }
   }
 
   & .txt {

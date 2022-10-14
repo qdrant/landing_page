@@ -24,7 +24,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
               <div class="sec-title text">Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
                 or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a></div>
 
-                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive mr-sm-3" target="_blank" href="{{ .Site.Params.quick_start }}">
+                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive mr-sm-3 mb-2 mb-lg-0" target="_blank" href="{{ .Site.Params.quick_start }}">
                   <span class="text">Quick Start Guide</span>
                 </a>
                 <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive" href="{{ .Site.Params.demos }}">
@@ -78,7 +78,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                       <img src="{{ .url }}" alt="">
                       {{ end }}
                     </div>
-                    <h5><a>{{ .Title }}</a></h5>
+                    <h5>{{ .Title }}</h5>
                     <div class="text">
                       {{ .Content }}
                     </div>
@@ -161,9 +161,10 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                     <div class="image-column">
                       <div class="inner-column">
                         <div class="image">
-                          <!-- <h5>{{ .Params.image_caption }}</h5> -->
-                          <img src="{{ .Params.landing_image }}" alt=""/>
-                          <!-- <a data-caption=""><img src="https://via.placeholder.com/536x513" alt=""/></a> -->
+                          <picture>
+                            <source srcset="{{ .Params.landing_image }}" type="image/webp">
+                            <img src="{{ .Params.landing_image_png }}" alt="{{ .Params.title }}"/>
+                          </picture>
                         </div>
                       </div>
                     </div>

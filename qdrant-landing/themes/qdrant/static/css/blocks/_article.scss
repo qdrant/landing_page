@@ -95,7 +95,7 @@ article aside[role="status"]:before {
     margin-left: 0;
   }
 
-  &>ul, &>ol {
+  & > ul, & > ol {
     margin-left: lib.rem(24);
   }
 
@@ -145,6 +145,19 @@ article aside[role="status"]:before {
     img {
       width: 100%;
       height: auto;
+    }
+  }
+
+  &__more-btn {
+    width: 100%;
+    text-align: center;
+    margin-left: lib.rem(30);
+    margin-right: lib.rem(30);
+
+    @include media-breakpoint-up(md) {
+      width: auto;
+      margin-left: 0;
+      margin-right: 0;
     }
   }
 
