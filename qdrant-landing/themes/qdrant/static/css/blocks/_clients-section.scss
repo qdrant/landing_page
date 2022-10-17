@@ -6,9 +6,9 @@
 
 ***/
 
-.clients-section{
-  position:relative;
+.clients-section {
   padding: 19px 0 40px;
+  position: relative;
 }
 
 .clients-section.contact-section {
@@ -18,8 +18,8 @@
 
 .clients-section .sponsors-outer {
   display: flex;
-  justify-content: space-between;
   flex-direction: column;
+  justify-content: space-between;
   @include media-breakpoint-up(md) {
     flex-direction: row;
   }
@@ -27,22 +27,24 @@
 }
 
 .clients-section .sponsors-outer .owl-dots,
-.clients-section .sponsors-outer .owl-nav{
-  position:relative;
-  display:none;
+.clients-section .sponsors-outer .owl-nav {
+  display: none;
+  position: relative;
 }
 
 .clients-section .sponsors-outer .image-box {
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.clients-section .sponsors-outer .image-box img{
-  max-width:100%;
-  width:auto;
-  display:inline-block;
+.clients-section .sponsors-outer .image-box img {
+  display: inline-block;
+  width: auto;
+  max-width: 100%;
 }
 
-.clients-section .sponsors-outer .image-box img:hover{
+.clients-section .sponsors-outer .image-box img:hover {
   -webkit-filter: saturate(1.5);
   filter: saturate(1.5);
 }
