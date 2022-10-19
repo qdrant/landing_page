@@ -1,9 +1,6 @@
 <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
 <script src="{{ "js/jquery.js" | absURL }}"></script>
-<script src="{{ "js/jquery.scrollTo.js" | absURL }}"></script>
 <script src="{{ "js/jquery.mCustomScrollbar.concat.min.js" | absURL }}"></script>
-<script src="{{ "js/jquery.fancybox.js" | absURL }}"></script>
-<script src="{{ "js/appear.js" | absURL }}"></script>
 <script src="{{ "js/cookit.js" | absURL }}"></script>
 <script src="{{ "js/clipboard.min.js" | absURL }}"></script>
 <script src="{{ "js/anchor.min.js" | absURL }}"></script>
@@ -75,6 +72,8 @@
   });
 </script>
 
+{{ if not .IsHome }}
+
 <!-- MathJax support -->
 <script>
   MathJax = {
@@ -96,3 +95,4 @@
 
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+{{ end }}

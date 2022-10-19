@@ -97,37 +97,6 @@
 
   hiddenBarMenuConfig();
 
-
-  //Fact Counter + Text Count
-  if ($('.count-box').length) {
-    $('.count-box').appear(function () {
-
-      var $t = $(this),
-        n = $t.find(".count-text").attr("data-stop"),
-        r = parseInt($t.find(".count-text").attr("data-speed"), 10);
-
-      if (!$t.hasClass("counted")) {
-        $t.addClass("counted");
-        $({
-          countNum: $t.find(".count-text").text()
-        }).animate({
-          countNum: n
-        }, {
-          duration: r,
-          easing: "linear",
-          step: function () {
-            $t.find(".count-text").text(Math.floor(this.countNum));
-          },
-          complete: function () {
-            $t.find(".count-text").text(this.countNum);
-          }
-        });
-      }
-
-    }, {accY: 0});
-  }
-
-
   //Mobile Nav Hide Show
   if ($('.mobile-menu').length) {
 
@@ -249,21 +218,6 @@
 
     });
   }
-
-
-  // Elements Animation
-  // if($('.wow').length){
-  // 	var wow = new WOW(
-  // 	  {
-  // 		boxClass:     'wow',      // animated element css class (default is wow)
-  // 		animateClass: 'animated', // animation css class (default is animated)
-  // 		offset:       0,          // distance to the element when triggering the animation (default is 0)
-  // 		mobile:       true,       // trigger animations on mobile devices (default is true)
-  // 		live:         true       // act on asynchronously loaded content (default is true)
-  // 	  }
-  // 	);
-  // 	wow.init();
-  // }
 
 
   /* ==========================================================================
