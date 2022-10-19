@@ -75,7 +75,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                   <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
                     <div class="icon-box">
                       {{ range .Params.Icon }}
-                      <img src="{{ .url }}" alt="">
+                      <img src="{{ .url }}" loading="lazy" alt="">
                       {{ end }}
                     </div>
                     <h5>{{ .Title }}</h5>
@@ -164,7 +164,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
                         <div class="image">
                           <picture>
                             <source srcset="{{ .Params.landing_image }}" type="image/webp">
-                            <img src="{{ .Params.landing_image_png }}" alt="{{ .Params.title }}"/>
+                            <img src="{{ .Params.landing_image_png }}" loading="lazy" alt="{{ .Params.title }}"/>
                           </picture>
                         </div>
                       </div>

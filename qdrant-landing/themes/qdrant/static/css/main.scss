@@ -1,59 +1,17 @@
-/* Entropy App HTML Template */
-
-/************ TABLE OF CONTENTS ***************
-
-1. Fonts
-2. Reset
-3. Global
-4. Main Header / Style Two / Style Three
-5. Banner Section / Style Two / Style Three
-6. Optimized Section
-7. Featured Section
-8. Services Section / Section Two
-9. Science Section
-10. Magic Section
-11. Projects Section / Section Two
-12. News Section
-13. Counter Section
-14. Main Footer
-15. Clients Section / Section Two
-16. Inteligence Section / Section Two
-17. Business Section / Section Two
-18. API Section
-19. Deliver Section
-20. Work Section
-21. About Section / Section Two
-22. Page Title
-23. Team Section
-24. Faq's Section
-25. Pricing Section
-26. Error Section
-27. Login Section
-28. Register Section
-29. Privacy Section
-30. Comming Soon Section
-31. Blog Widgets
-32. Comments Forms
-33. Map Section
-34. Contact Form
-
-**********************************************/
 @use "helpers/functions";
+
+@import "colors";
 @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
 
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800|Roboto:400,700,700i&display=swap');
-
-@import "variables";
-
 @import url('font-awesome.css');
 @import url('flaticon.css');
-@import "colors";
 
+@import "variables";
 @import "reset";
 
 @import "blocks/scroll-to-top";
 @import "blocks/sec-title";
-
 @import "blocks/mobile-menu";
 @import "blocks/optimized-section";
 @import "blocks/clients-section";
@@ -154,8 +112,6 @@ code {
 .news-icon {
 	font-size: 40px;
 }
-
-
 
 @import "blocks/forms";
 @import "blocks/categories-widget";
