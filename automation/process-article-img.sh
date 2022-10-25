@@ -17,23 +17,13 @@ if [ ! -f "$1" ]; then
   exit 1
 fi
 
-if [ ! -d ./qdrant-landing/static/articles_data/$2 ]; then
-  mkdir ./qdrant-landing/static/articles_data/$2
-fi
 
-if [ -f "./qdrant-landing/static/articles_data/${2}/preview.webp" ]; then
-  echo "File /qdrant-landing/static/articles_data/${2}/preview.webp already exists\n"
-  read -p "Do you want to overwrite it? (y/n)": answer
+IMG_DESTINATION="./qdrant-landing/static/articles_data/${2}"
+mkdir -p $IMG_DESTINATION
 
-  if [ "$answer" != "y" ]; then
-    echo "Exiting"
-    exit 0
-  fi
+convert "$1" "${IMG_DESTINATION}/title.jpg";
+mogrify -resize 898x300^ -gravity center -extent 898x300 "${IMG_DESTINATION}/title.jpg";
+convert "${IMG_DESTINATION}/title.jpg" -resize 530x145^ -gravity center -extent 530x145 "${IMG_DESTINATION}/preview.jpg";
 
-  rm ./qdrant-landing/static/articles_data/${2}/preview.webp
-fi
-
-EXTENSION="${1##*.}"
-
-cp "$1" ./qdrant-landing/static/articles_data/$2/preview.$EXTENSION
-cwebp -q 95 $1 -o "./qdrant-landing/static/articles_data/${2}/preview.webp"
+cwebp -q 95 "${IMG_DESTINATION}/title.jpg" -o "${IMG_DESTINATION}/title.webp";
+cwebp -q 95 "${IMG_DESTINATION}/preview.jpg" -o "${IMG_DESTINATION}/preview.webp";
