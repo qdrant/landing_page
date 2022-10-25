@@ -3,9 +3,8 @@
 {{ $link = .context.Params.external_link }}
 {{ end }}
 
-<div class="d-flex col-lg-4 col-md-6 col-sm-12">
     <div class="article-card{{if .classes}} {{ .classes }}{{end}}">
-        <a class="article-card__image" href="{{ $link }}" target="_blank">
+        <a class="article-card__image" href="{{ $link }}">
             <picture>
                 <source srcset="{{ .context.Params.preview_dir }}/preview.webp" type="image/webp" />
                 <img src="{{ .context.Params.preview_dir }}/preview.jpg" loading="lazy" alt=""/>
@@ -13,10 +12,7 @@
         </a>
         <div class="article-card__content">
             <h5 class="article-card__title"><a href="{{ $link }}">{{ .context.Title }}</a></h5>
-            <div class="article-card__text">{{ .context.Params.description }}
-            </div>
+            <a class="article-card__text mb-4" href="{{ $link }}">{{ .context.Params.description }}</a>
+            <div class="article__info">{{ .context.Date | time.Format ":date_long" }} | {{ .context.Params.author }}</div>
         </div>
-        <a href="{{ $link }}" target="_blank" class="theme-btn btn-style-five article-card__btn"><span
-                class="txt">Learn More</span></a>
     </div>
-</div>
