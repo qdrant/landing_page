@@ -3,8 +3,8 @@ title: Fine Tuning Similar Cars Search
 short_description: "How to use similarity learning to search for similar cars"
 description: Learn how to train a similarity model that can retrieve similar car images in novel categories.
 social_preview_image: /articles_data/cars-recognition/social_preview.jpg
-preview_image: /articles_data/cars-recognition/preview.jpeg
 small_preview_image: /articles_data/cars-recognition/icon.svg
+preview_dir: /articles_data/cars-recognition/preview
 weight: 10
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz

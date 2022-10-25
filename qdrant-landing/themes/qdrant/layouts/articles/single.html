@@ -6,7 +6,10 @@
             {{ .Scratch.Set "scope" "single" }}
             <article class="article article_narrow article_bb mb-4">
                 <div class="article__cover mt-lg-5 mb-4">
-                    <img src="{{ .Params.preview_image }}">
+                    <picture>
+                        <source srcset="{{ .Params.preview_dir }}/title.webp" type="image/webp">
+                        <img src="{{ .Params.preview_dir }}/title.jpg">
+                    </picture>
                 </div>
                 {{ partial "breadcrumbs" . }}
                 <h1>{{ .Title }}</h1>
