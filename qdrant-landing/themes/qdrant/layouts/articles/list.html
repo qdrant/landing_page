@@ -15,7 +15,7 @@
                 <div class="article__info">{{ .Date | time.Format ":date_long" }} | {{ .Params.author }}</div>
                 <a href="{{ $link }}" class="article__title article-title">
                     <span class="article-title__image" >
-                        <img src="{{ .Params.preview_image }}" alt="...">
+                        <img src="{{ .Params.preview_dir }}/thumb.jpg" alt="...">
                     </span>
                     <h2>
                         {{ .Title }}

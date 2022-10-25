@@ -18,7 +18,7 @@ if [ ! -f "$1" ]; then
 fi
 
 
-IMG_DESTINATION="./qdrant-landing/static/articles_data/${2}"
+IMG_DESTINATION="./qdrant-landing/static/articles_data/${2}/preview"
 mkdir -p $IMG_DESTINATION
 
 convert "$1" "${IMG_DESTINATION}/title.jpg";
