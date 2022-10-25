@@ -228,7 +228,9 @@ docker run -p 6333:6333 qdrant/qdrant</code>
 
 
         <!-- Project Block -->
-        {{ partial "article-card" (dict "context" . "classes" "") }}
+        <div class="d-flex col-md-4 col-sm-12">
+          {{ partial "article-card" (dict "context" . "classes" "") }}
+        </div>
         {{ end }}
 
       </div>

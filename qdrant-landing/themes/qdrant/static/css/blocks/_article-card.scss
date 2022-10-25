@@ -33,7 +33,7 @@
 
   &__image {
     display: block;
-    height: 116px;
+    height: 145px;
     position: relative;
     border-radius: 7px 7px 0 0;
     overflow: hidden;
@@ -90,7 +90,7 @@
   }
 
   &__text {
-    min-height: 120px;
+    display: inline-block;
     margin-bottom: 13px;
     position: relative;
     color: var(--brand-dark-gray);

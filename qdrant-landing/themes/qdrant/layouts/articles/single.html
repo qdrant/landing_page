@@ -31,7 +31,9 @@
             {{ range where site.Pages "Section" "articles" | first 3 }}
 
             <!-- Project Block -->
-            {{ partial "article-card" (dict "context" . "classes" "article-card_border") }}
+            <div class="d-flex col-md-4 col-sm-12">
+                {{ partial "article-card" (dict "context" . "classes" "article-card_border") }}
+            </div>
             {{ end }}
         </div>
     </div>
