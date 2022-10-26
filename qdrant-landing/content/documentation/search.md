@@ -73,7 +73,8 @@ POST /collections/{collection_name}/points/search
         ]
     },
     "params": {
-        "hnsw_ef": 128
+        "hnsw_ef": 128,
+        "exact": false
     },
     "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 3
@@ -99,7 +100,8 @@ client.search(
         ]
     ),
     search_params=models.SearchParams(
-        hnsw_ef=128
+        hnsw_ef=128,
+        exact=False
     ),
     query_vector=[0.2, 0.1, 0.9, 0.7],
     limit=3,
@@ -113,6 +115,7 @@ Values under the key `params` specify custom parameters for the search.
 Currently, it could be:
 
 * `hnsw_ef` - value that specifies `ef` parameter of the HNSW algorithm.
+* `exact` - option to not use the approximate search (ANN). If set to true, the search may run for a long as it performs a full scan to retrieve exact results.
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](../filtering) section.

@@ -133,7 +133,7 @@ PUT /collections/{collection_name}
 
 {
     "name": "example_collection",
-    vectors: {
+    "vectors": {
       "size": 300,
       "distance": "Cosine"
     },
@@ -194,4 +194,147 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 ## Replication
 
-Currently work-in-progress, see [Roadmap](https://qdrant.to/roadmap)
+*Since version v0.11.0*, Qdrant allows to replicate shards between nodes in the cluster.
+
+Shard replication increases the reliability of the cluster by keeping several copies of a shard spread among the cluster.
+This ensure the availability of the shards in case of node failures, except if all replicas are lost.
+
+By default, all the shards in a cluster have a replication factor of one, meaning no additional copy is maintained.
+
+The replication factor of a collection can be configured at creation time.
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "name": "example_collection",
+    vectors: {
+      "size": 300,
+      "distance": "Cosine"
+    },
+    "shard_number": 6,
+    "replication_factor": 2,
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.recreate_collection(
+    name="{collection_name}",
+    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
+    shard_number=6,
+    replication_factor=2,
+)
+```
+
+This code sample creates a collection with a total of 6 logical shards backed by a total of 12 physical shards.
+
+It is advised to make sure the hardware can host the additional shards beforehand.
+
+### Scaling replication factor
+
+It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.11.0#tag/cluster/operation/update_collection_cluster).
+
+A replica can be added on a specific peer by specifying the peer from which to replicate.
+
+```http
+POST /collections/{collection_name}/cluster
+
+{
+  "replicate_shard": {
+    "shard_id": 0,
+    "from_peer_id": 381894127,
+    "to_peer_id": 467122995
+  }
+}
+```
+
+And a replica can be removed on a specific peer.
+
+```http
+POST /collections/{collection_name}/cluster
+
+{
+  "drop_replica": {
+    "shard_id": 0,
+    "peer_id": 381894127
+  }
+}
+```
+
+Keep in mind that a collection must contain at least one active replica of a shard.
+
+### Error handling
+
+Replicas can be in different state:
+
+- Active: healthy and ready to serve traffic
+- Dead: unhealthy and not ready to serve traffic
+- Partial: currently under resynchronization before activation
+
+A replica is marked as dead if it does not respond to internal healthchecks or if it fails to serve traffic.
+
+A dead replica will not receive traffic from other peers and might require a manual intervention if it does not recover automatically.
+
+This mechanism ensures data consistency and availability if a subset of the replicas fail during an update operation.
+
+### Consistency guarantees
+
+During the normal state of operation, it is possible to search and modify data from any peers in the cluster.
+
+Before responding to the client, the peer handling the request dispatches all operations according to the current topology in order to keep the data synchronized across the cluster.
+
+- reads are using a partial fan-out strategy to optimize latency and availability
+- writes are executed in parallel on all active sharded replicas
+
+In case of write operations, it is possible to control when the server replies to the client using the write concern factor configuration.
+
+The `write_concern_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to one by default.
+
+It can be configured at the collection's creation time.
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "name": "example_collection",
+    vectors: {
+      "size": 300,
+      "distance": "Cosine"
+    },
+    "shard_number": 6,
+    "replication_factor": 2,
+    "write_concern_factor": 2,
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.recreate_collection(
+    name="{collection_name}",
+    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
+    shard_number=6,
+    replication_factor=2,
+    write_concern_factor=2,
+)
+```
+
+Setting `write_concern_factor` equal to `replication_factor` ensures that all replicas are updated synchonously, provididing a read after write consistency for sequential operations.
+
+However, it gets more complicated for concurrent operations, especially when they are issued against different peers.
+
+Given that, Qdrant does not provide transactional operations at the level of a collection, it is not possible to enforce that all peers have observed the same operations in the same order.
+
+![Embeddings](/docs/concurrent-operations-replicas.png)
+
+For this reason, it is recommended to perform write operation targeting a specific collection with overlapping keys in a sequential fashion by, for instance, using a distributed queueing mechanism as a proxy.
+
+Search queries can be safely performed concurrently without risks.
