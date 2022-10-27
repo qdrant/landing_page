@@ -82,7 +82,7 @@
       display: flex;
 
       @include media-breakpoint-up(lg) {
-        height: lib.rem(618);
+        height: lib.rem(500);
       }
 
       .content-column {
@@ -139,11 +139,6 @@
             }
           }
         }
-      }
-
-      .tab-content-btns {
-        position: absolute;
-        bottom: 0;
       }
 
       .theme-btn {

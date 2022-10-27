@@ -200,7 +200,17 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     weight = 4
     parent = "community"
     url = "/subscribe/"
+    pre = "<i class='fas fa-mail-bulk'></i>"
+
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact us"
+    weight = 5
+    parent = "community"
+    url = "https://qdrant.to/contact-us"
     pre = "<i class='fas fa-envelope'></i>"
+    [menu.main.params]
+      external = true
 
 [[menu.main]]
   identifier = "company"
