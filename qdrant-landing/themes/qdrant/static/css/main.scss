@@ -25,22 +25,22 @@
 
 ***/
 
-.projects-section-two{
-	position:relative;
-	padding: 76px 0 42px;
-	background-color:#f1eff7;
+.projects-section-two {
+  position: relative;
+  padding: 76px 0 42px;
+  background-color: #f1eff7;
 }
 
 .pull-left {
-	float: left;
+  float: left;
 }
 
 .pull-right {
-	float: right;
+  float: right;
 }
 
 .asterisk {
-	color: var(--brand-primary);
+  color: var(--brand-primary);
 }
 
 /*
@@ -54,63 +54,71 @@ QDRANT - RELATED
 /** todo: move to related files */
 
 code {
-	color: #6e0c21;
+  color: #6e0c21;
 }
 
 .features-section .feature-block .text li {
-	display: block;
-	position: relative;
-	text-align: left;
-	padding-left: 25px;
+  display: block;
+  position: relative;
+  text-align: left;
+  padding-left: 25px;
 }
+
 .features-section .feature-block .text li:before {
-	position: absolute;
-	content: "\f107";
-	left: 0;
-	top: 0;
-	width: 24px;
-	height: 24px;
-	color: var(--brand-primary);
-	font-size: 12px;
-	line-height: 24px;
-	text-align: center;
-	font-family: "Flaticon";
+  position: absolute;
+  content: "\f107";
+  left: 0;
+  top: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--brand-primary);
+  font-size: 12px;
+  line-height: 24px;
+  text-align: center;
+  font-family: "Flaticon";
 }
 
 /** Link Group **/
 .link-group.active .link-group-heading {
-	box-shadow: inset 3px 0 0 0 var(--brand-primary);
-	padding-left: 0.5rem;
+  box-shadow: inset 3px 0 0 0 var(--brand-primary);
+  padding-left: 0.5rem;
 }
 
 .link-group-heading span {
-	font-family: "Roboto Condensed";
+  font-family: "Roboto Condensed";
 }
 
 .link-group .btn,
 .link-group a {
-	font-family: $font-family-non-content;
-	color: var(--brand-secondary);
+  font-family: $font-family-non-content;
+  color: var(--brand-secondary);
 }
+
 .link-group a:hover {
-	color: var(--brand-primary);
+  color: var(--brand-primary);
 }
 
 .installation-section p {
-	font-size: 16px;
-	color: #5a5a5a;
+  font-size: 16px;
+  color: #5a5a5a;
 }
 
 .text-brand-p {
-	color: var(--brand-primary);
+  color: var(--brand-primary);
 }
 
 .text-brand-s {
-	color: var(--brand-secondary);
+  color: var(--brand-secondary);
 }
 
 .news-icon {
-	font-size: 40px;
+  font-size: 40px;
+}
+
+blockquote {
+  border-left: 3px solid var(--brand-gray);
+  padding-left: 12px;
+  font-style: italic;
 }
 
 @import "blocks/forms";
