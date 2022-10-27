@@ -15,7 +15,7 @@
 
 
             {{ if .Description }}
-            <article class="article article_narrow">
+            <article class="article article_benchmarks article_narrow">
                 <h1>{{ .Title }}</h1>
                 <p>{{ .Description }}</p>
             </article>
@@ -23,17 +23,15 @@
 
 
             {{ if .Params.data }}
-            <div class="auto-container pt-3 pt-md-5 single-page">
-                <div class="row clearfix">
-                    <section class="content-side col-lg-12 col-md-12 col-sm-12">
-                        {{ partial "benchmark_chart" . }}
-                    </section>
-                </div>
+            <div class="row clearfix">
+                <section class="content-side col-lg-12 col-md-12 col-sm-12">
+                    {{ partial "benchmark_chart" . }}
+                </section>
             </div>
             {{ end }}
 
 
-            <article class="article article_narrow">
+            <article class="article article_benchmarks article_narrow">
                 {{ .Content }}
             </article>
         </section>

@@ -6,6 +6,7 @@ description: We benchmarked several engines using various configurations of them
 
 data: /benchmarks/result-2022-08-10.json
 preview_image: /benchmarks/benchmark-1.png
+date: 2022-08-23
 weight: 2
 ---
 

@@ -220,4 +220,8 @@ article aside[role="status"]:before {
   @include media-breakpoint-up(lg) {
     padding-top: lib.rem(38);
   }
+  &_benchmarks {
+    margin-left: 0;
+    margin-right: 9rem;
+  }
 }
