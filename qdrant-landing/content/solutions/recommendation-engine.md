@@ -11,8 +11,8 @@ default_link_name:
 weight: 30
 short_description: |
     User behavior can be represented as a semantic vector is similar way as text or images.
-    Qdrant allows you to create a recommendation engine with custom filters and real-time updates.
-    No need to deploy a MapReduce cluster.
+    Qdrant allows you to create a real-time recommendation engine.
+    No MapReduce cluster required.
 sitemapExclude: True
 ---
 

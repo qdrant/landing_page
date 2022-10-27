@@ -1,10 +1,6 @@
 ---
 title: Documentation
-<<<<<<< HEAD
 section_title: Everything you need to start with Qdrant
-=======
-section_title: Everything you need to start working with Qdrant
->>>>>>> 68c6e27 (docs auto-sync)
 subtitle: 
 ---
 

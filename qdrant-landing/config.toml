@@ -29,8 +29,9 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   preview_image = "/images/social_preview.png"
 
   github = "https://github.com/qdrant/qdrant"
-  quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
+  quick_start = "/documentation/quick_start/"
   tutorial = "/articles/neural-search-tutorial/"
+  benchmarks = "/benchmarks/"
   demos = "/demo"
 
   linkedin = "https://qdrant.to/linkedin"
