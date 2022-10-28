@@ -10,6 +10,7 @@ author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-05-04T13:00:00+03:00
 draft: false
+# aliases: [ /articles/detecting-coffee-anomalies/ ]
 ---
 
 Anomaly detection is a thirsting yet challenging task that has numerous use cases across various industries.

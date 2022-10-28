@@ -9,6 +9,8 @@ small_preview_image: /articles_data/neural-search-tutorial/tutorial.svg
 weight: 50
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
+date: 2021-06-10T10:18:00.000Z
+# aliases: [ /articles/neural-search-tutorial/ ]
 ---
 
 ## How to build a neural search service with BERT + Qdrant + FastAPI

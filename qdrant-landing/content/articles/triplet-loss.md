@@ -9,6 +9,7 @@ weight: 30
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-03-24T15:12:00+03:00
+# aliases: [ /articles/triplet-loss/ ]
 ---
 
 ## What is Triplet Loss?

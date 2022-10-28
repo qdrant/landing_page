@@ -10,6 +10,7 @@ weight: 60
 date: 2019-11-24T22:44:08+03:00
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
+# aliases: [ /articles/filtrable-hnsw/ ]
 ---
 
 If you need to find some similar objects in vector space, provided e.g. by embeddings or matching NN, you can choose among a variety of libraries: Annoy, FAISS or NMSLib.
