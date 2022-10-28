@@ -2,6 +2,7 @@
 
 .btn {
   @extend .btn;
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
 
   &_in-header {
     padding: lib.rem(9) lib.rem(20);
@@ -40,7 +41,6 @@
       transform-origin: top right;
       border-radius: lib.rem(32);
       background-color: var(--brand-primary);
-      isolation: isolate;
     }
 
     &:hover {
@@ -53,7 +53,6 @@
         -ms-transform-origin: bottom left;
         -webkit-transform-origin: bottom left;
         transform-origin: bottom left;
-        isolation: isolate;
       }
     }
 
@@ -100,6 +99,7 @@
 }
 
 .theme-btn {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
   display: inline-block;
   -moz-transition: all 0.3s ease;
   -ms-transition: all 0.3s ease;
@@ -297,7 +297,6 @@
 /* Btn Style Four */
 
 .btn-style-four {
-  -webkit-mask-image: -webkit-radial-gradient(white, black);
   display: inline-block;
   padding: lib.rem(10) lib.rem(40) lib.rem(10);
   position: relative;
