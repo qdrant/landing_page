@@ -40,7 +40,7 @@
       transform-origin: top right;
       border-radius: lib.rem(32);
       background-color: var(--brand-primary);
-      -webkit-mask-image: -webkit-radial-gradient(white, black);
+      isolation: isolate;
     }
 
     &:hover {
@@ -53,6 +53,7 @@
         -ms-transform-origin: bottom left;
         -webkit-transform-origin: bottom left;
         transform-origin: bottom left;
+        isolation: isolate;
       }
     }
 
@@ -296,6 +297,7 @@
 /* Btn Style Four */
 
 .btn-style-four {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
   display: inline-block;
   padding: lib.rem(10) lib.rem(40) lib.rem(10);
   position: relative;
