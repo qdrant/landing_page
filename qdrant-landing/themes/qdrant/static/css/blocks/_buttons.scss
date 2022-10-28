@@ -10,7 +10,7 @@
     border-radius: lib.rem(32);
     background: transparent;
     box-shadow: inset 0 0 0 1px var(--brand-primary);
-    overflow: hidden;
+    overflow-x: hidden;
 
     @include media-breakpoint-down(md) {
       width: calc(100% - 20px);
@@ -40,6 +40,7 @@
       transform-origin: top right;
       border-radius: lib.rem(32);
       background-color: var(--brand-primary);
+      -webkit-mask-image: -webkit-radial-gradient(white, black);
     }
 
     &:hover {
@@ -123,7 +124,7 @@
   font-size: lib.rem(18);
   font-weight: 400;
   line-height: lib.rem(30);
-  overflow: hidden;
+  overflow-x: hidden;
 
   & .txt {
     position: relative;
@@ -175,7 +176,7 @@
   font-size: lib.rem(18);
   font-weight: 400;
   line-height: lib.rem(30);
-  overflow: hidden;
+  overflow-x: hidden;
 
   &:before {
     width: 100%;
@@ -246,7 +247,7 @@
   font-size: lib.rem(18);
   font-weight: 400;
   line-height: lib.rem(32);
-  overflow: hidden;
+  overflow-x: hidden;
 
   &:before {
     width: 100%;
@@ -311,7 +312,7 @@
   font-size: lib.rem(18);
   font-weight: 400;
   line-height: lib.rem(30);
-  overflow: hidden;
+  overflow-x: hidden;
 
   &:before {
     width: 100%;
@@ -430,7 +431,7 @@
   font-size: lib.rem(24);
   font-weight: 700;
   line-height: lib.rem(35);
-  overflow: hidden;
+  overflow-x: hidden;
 
   &:before {
     width: 100%;
