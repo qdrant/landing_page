@@ -8,7 +8,7 @@
         {{ if and ($.IsNode) (eq $.Section "") }}
         <title>{{ .Title }}</title>
         {{ else }}
-        <title>Qdrant - {{ .Title }}</title>
+        <title>{{ .Title }} - Qdrant</title>
         {{ end }}
 
         {{ partial "seo_schema" . }}

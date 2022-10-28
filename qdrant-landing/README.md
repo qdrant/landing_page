@@ -36,6 +36,11 @@ author: Yusuf Sarıgöz # Author of the article. Required.
 author_link: https://medium.com/@yusufsarigoz # Link to the author's page. Required.
 date: 2022-06-28T13:00:00+03:00 # Date of the article. Required.
 draft: false # If true, the article will not be published
+keywords: # Keywords for SEO
+  - vector databases comparative benchmark
+  - benchmark
+  - performance
+  - latency
 ---
 ```
 
