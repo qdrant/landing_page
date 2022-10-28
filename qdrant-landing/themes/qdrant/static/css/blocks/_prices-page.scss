@@ -17,6 +17,11 @@
   h4 {
     font-weight: 400;
   }
+  .sec-title .theme-btn .txt {
+    @include media-breakpoint-down(sm) {
+      font-size: 18px;
+    }
+  }
 }
 
 .price-block {

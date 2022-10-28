@@ -120,6 +120,7 @@ article aside[role="status"]:before {
   &__info {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     margin-bottom: lib.rem(24);
     color: var(--brand-dark-gray);
     font-family: $font-family-non-content;
@@ -127,7 +128,6 @@ article aside[role="status"]:before {
     font-weight: 400;
     font-style: normal;
     line-height: lib.rem(17);
-    flex-wrap: wrap;
   }
 
   &__cover {
@@ -150,14 +150,14 @@ article aside[role="status"]:before {
 
   &__more-btn {
     width: 100%;
-    text-align: center;
-    margin-left: lib.rem(30);
     margin-right: lib.rem(30);
+    margin-left: lib.rem(30);
+    text-align: center;
 
     @include media-breakpoint-up(md) {
       width: auto;
-      margin-left: 0;
       margin-right: 0;
+      margin-left: 0;
     }
   }
 
@@ -220,8 +220,12 @@ article aside[role="status"]:before {
   @include media-breakpoint-up(lg) {
     padding-top: lib.rem(38);
   }
+
   &_benchmarks {
-    margin-left: 0;
     margin-right: 9rem;
+    margin-left: 0;
+    @include media-breakpoint-up(lg) {
+      margin-right: 0;
+    }
   }
 }
