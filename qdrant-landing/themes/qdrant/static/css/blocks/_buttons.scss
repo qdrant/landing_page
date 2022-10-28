@@ -4,7 +4,7 @@
   @extend .btn;
 
   &_in-header {
-    padding: lib.rem(9);
+    padding: lib.rem(9) lib.rem(20);
     position: relative;
     border: 0;
     border-radius: lib.rem(32);
