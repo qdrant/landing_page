@@ -1,14 +1,15 @@
 {{ define "main" }}
 
+{{ $l := where .Data.Pages "Section" "demo" }}
 {{ range $i,$p := where .Data.Pages "Section" "demo" }}
 
 <section class="api-section mt-0 mt-md-5 mb-5">
-    <div class="auto-container mt-md-5">
-        <div class="row clearfix align-content-center align-items-center pt-4 pt-md-0 mb-4 mb-md-5">
+    <div class="auto-container mt-md-4">
+        <div class="row clearfix align-content-center align-items-start pt-4 pt-md-0">
 
             <!-- Content Column -->
             <div class="content-column col-lg-6 col-md-12 col-sm-12 order-1
-                 {{if not (modBool $i 2)}} order-md-2{{ else }} order-md-0{{ end }}">
+                 {{if not (modBool $i 2)}} order-md-2{{ else }} order-md-0{{ end }} mb-4">
                 <div class="inner-column pt-4 pt-lg-0{{if not (modBool $i 2)}} clearfix{{end}}">
                     <!-- Sec Title -->
                     <div class="sec-title">
@@ -22,7 +23,7 @@
             </div>
 
             <!-- Image Column -->
-            <div class="image-column col-lg-6 col-md-12 col-sm-12 order-0 order-md-1 mb-0">
+            <div class="image-column col-lg-6 col-md-12 col-sm-12 order-0 order-md-1 mb-5">
                 <div class="inner-column parallax-scene-2">
                     <div data-depth="0.30" class="image border">
                         <img src="{{ $p.Params.preview_image }}" alt=""/>
@@ -31,6 +32,10 @@
             </div>
 
         </div>
+        <!-- not after the last block -->
+        {{ if not (eq (add $i 1) (len $l)) }}
+        <hr>
+        {{ end }}
     </div>
 </section>
 {{ end }}
