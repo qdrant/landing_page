@@ -1,6 +1,8 @@
 ---
 title: Easy to Use API
-icon: api
+icon: 
+  - url: /features/settings.svg
+  - url: /features/microchip.svg 
 weight: 10
 sitemapExclude: True
 ---

@@ -1,0 +1,39 @@
+@use "../helpers/functions" as lib;
+
+ul.breadcrumbs,
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: lib.rem(30);
+  margin-left: 0;
+  margin-right: 0;
+  position: relative;
+  color: var(--brand-dark-gray);
+  font-size: lib.rem(14);
+  font-weight: 400;
+  line-height: lib.rem(17);
+
+  &__crumb,
+  & > li.breadcrumbs__crumb {
+    display: inline-block;
+    margin: 0;
+    position: relative;
+    text-transform: capitalize;
+    font-size: lib.rem(14);
+    font-weight: 400;
+    line-height: lib.rem(17);
+
+    &:last-child {
+      margin-right: 0;
+      padding-right: 0;
+    }
+
+    & > a {
+      color: var(--brand-dark-gray);
+
+      &:hover {
+        color: var(--brand-primary);
+      }
+    }
+  }
+}

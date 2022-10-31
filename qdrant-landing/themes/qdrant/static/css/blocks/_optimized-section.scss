@@ -1,0 +1,88 @@
+/***
+
+====================================================================
+	Optimized Section
+====================================================================
+
+***/
+
+.optimized-section{
+  position:relative;
+  padding:90px 0 40px;
+}
+
+.optimized-section .content-column{
+  position:relative;
+  margin-bottom:40px;
+}
+
+.optimized-section .content-column .inner-column{
+  position:relative;
+  padding-top:95px;
+}
+
+.newsletter-form{
+  margin-bottom:35px;
+
+  ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: var(--brand-gray);
+    opacity: 1;
+  }
+  ::-moz-placeholder { /* Firefox 19+ */
+    color: var(--brand-gray);
+    opacity: 1;
+  }
+  :-ms-input-placeholder { /* IE 10+ */
+    color: var(--brand-gray);
+    opacity: 1;
+  }
+  :-moz-placeholder { /* Firefox 18- */
+    color: var(--brand-gray);
+    opacity: 1;
+  }
+}
+
+.newsletter-form input[type="text"],
+.newsletter-form input[type="email"] {
+  position:relative;
+  display:flex;
+  flex: auto;
+  padding: 10px 39px;
+  height:56px;
+  font-size:18px;
+  color:var(--brand-secondary);
+  background:none;
+  border-radius:50px;
+  border:1px solid var(--brand-dark-gray);
+  background:white;
+  font-family: $font-family-non-content;
+  margin-right: 24px;
+  margin-bottom: 0;
+  @include media-breakpoint-down(md) {
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  &:focus {
+    border: 1px solid var(--brand-secondary);
+  }
+}
+
+.newsletter-form.style-two input,
+.newsletter-form.style-two button{
+  border-radius:0;
+}
+
+.optimized-section .image-column{
+  position:relative;
+}
+
+.optimized-section .image-column .inner-column{
+  position:relative;
+  padding-left:35px;
+  text-align:center;
+}
+
+.optimized-section .image-column .image{
+  position:relative;
+}

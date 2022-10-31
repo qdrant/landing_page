@@ -3,12 +3,13 @@ title: Q&A with Similarity Learning
 short_description: A complete guide to building a Q&A system with similarity learning.
 description: A complete guide to building a Q&A system using Quaterion and SentenceTransformers.
 social_preview_image: /articles_data/faq-question-answering/social_preview.jpg
-preview_image: /articles_data/faq-question-answering/preview.png
+preview_dir: /articles_data/faq-question-answering/preview
 small_preview_image: /articles_data/faq-question-answering/icon.svg
 weight: 9
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-06-28T08:57:07.604Z
+# aliases: [ /articles/faq-question-answering/ ]
 ---
 
 # Question-answering system with Similarity Learning and Quaterion
@@ -80,10 +81,13 @@ a part of it. To measure model's performance we will use two metrics -
 We have a [ready script](https://github.com/qdrant/demo-cloud-faq/blob/experiments/faq/baseline.py)
 for this experiment, let's just launch it now.
 
+<div class="table-responsive">
 
 | precision@1 | reciprocal_rank |
 |-------------|-----------------|
 | 0.564       | 0.663           |
+
+</div>
 
 That's already quite decent quality, but maybe we can do better?
 
@@ -534,6 +538,8 @@ def train(model, train_dataset_path, val_dataset_path, params):
 
 At this point we can train our model, I do it via `python3 -m faq.train`.
 
+<div class="table-responsive">
+
 |epoch|train_precision@1|train_reciprocal_rank|val_precision@1|val_reciprocal_rank|
 |-----|-----------------|---------------------|---------------|-------------------|
 |0    |0.650            |0.732                |0.659          |0.741              |
@@ -543,11 +549,17 @@ At this point we can train our model, I do it via `python3 -m faq.train`.
 |400  |0.695            |0.772                |0.694          |0.773              |
 |500  |0.701            |0.778                |0.700          |0.777              |
 
+</div>
+
 Results obtained with `Evaluator`:
+
+<div class="table-responsive">
 
 | precision@1 | reciprocal_rank |
 |-------------|-----------------|
 | 0.577       | 0.675           |
+
+</div>
 
 After training all the metrics have been increased.
 And this training was done in just 3 minutes on a single gpu!

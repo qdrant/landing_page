@@ -1,0 +1,46 @@
+@use "../helpers/functions" as lib;
+
+/***
+
+====================================================================
+	Page Title
+====================================================================
+
+***/
+.page-title {
+  padding: lib.rem(40) 0;
+  position: relative;
+  background: var(--brand-light);
+  overflow: hidden;
+
+  @include media-breakpoint-up(lg) {
+    padding: lib.rem(139) 0 0;
+  }
+
+  &__title {
+    margin-bottom: lib.rem(16);
+    position: relative;
+    color: var(--brand-gray);
+    font-size: lib.rem(56);
+    font-weight: 700;
+    line-height: lib.rem(67);
+
+    &_dark {
+      color: var(--brand-secondary);
+    }
+  }
+
+  &__subtitle {
+    color: var(--brand-secondary);
+    font-size: lib.rem(56);
+    font-weight: 700;
+    line-height: lib.rem(67);
+  }
+
+  &__image {
+    @include media-breakpoint-up(md) {
+      padding-left: lib.rem(60);
+      margin-top: lib.rem(-22);
+    }
+  }
+}

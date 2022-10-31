@@ -29,8 +29,10 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
   preview_image = "/images/social_preview.png"
 
   github = "https://github.com/qdrant/qdrant"
-  quick_start = "https://github.com/qdrant/qdrant/blob/master/QUICK_START.md"
+  quick_start = "/documentation/quick_start/"
   tutorial = "/articles/neural-search-tutorial/"
+  benchmarks = "/benchmarks/"
+  demos = "/demo"
 
   linkedin = "https://qdrant.to/linkedin"
   twitter = "https://qdrant.to/twitter"
@@ -132,7 +134,9 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     name = "Blog"
     weight = 5
     parent = "resources"
-    url = "/blog/"
+    url = "https://blog.qdrant.tech/"
+    [menu.main.params]
+      external = true
 
   [[menu.main]]
     identifier = "roadmap"
@@ -196,7 +200,17 @@ keywords = "search engine, neural network, matching, filter, SaaS, approximate n
     weight = 4
     parent = "community"
     url = "/subscribe/"
+    pre = "<i class='fas fa-mail-bulk'></i>"
+
+  [[menu.main]]
+    identifier = "contact"
+    name = "Contact us"
+    weight = 5
+    parent = "community"
+    url = "https://qdrant.to/contact-us"
     pre = "<i class='fas fa-envelope'></i>"
+    [menu.main.params]
+      external = true
 
 [[menu.main]]
   identifier = "company"

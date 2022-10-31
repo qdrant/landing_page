@@ -2,15 +2,14 @@
 title: Finding errors in datasets with Similarity Search
 short_description: Finding errors datasets with distance-based methods
 description: Improving quality of text-and-images datasets on the online furniture marketplace example.
-preview_image: /articles_data/dataset-quality/preview.png
+preview_dir: /articles_data/dataset-quality/preview
 small_preview_image: /articles_data/dataset-quality/icon.svg
 weight: 8
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-07-18T10:18:00.000Z
+# aliases: [ /articles/dataset-quality/ ]
 ---
-
-
 Nowadays, people create a huge number of applications of various types and solve problems in different areas.
 Despite such diversity, they have something in common - they need to process data.
 Real-world data is a living structure, it grows day by day, changes a lot and becomes harder to work with.

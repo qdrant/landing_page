@@ -1,0 +1,49 @@
+@use "../helpers/functions" as lib;
+
+@mixin content-reset {
+
+  table {
+    @extend .table;
+    color: var(--brand-secondary);
+  }
+
+  pre {
+    position: relative;
+  }
+
+  img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  ul,
+  ol {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  ul > li {
+    margin: 0 0 0 lib.rem(19);
+    position: relative;
+    list-style: disc;
+  }
+
+  ol > li {
+    margin: 0 0 0 lib.rem(19);
+    position: relative;
+    list-style: decimal;
+  }
+
+  figure {
+    text-align: center;
+  }
+}
+
+@mixin transitionAll($ms) {
+  -webkit-transition: all $ms ease;
+  -ms-transition: all $ms ease;
+  -o-transition: all $ms ease;
+  -moz-transition: all $ms ease;
+  transition: all $ms ease;
+}

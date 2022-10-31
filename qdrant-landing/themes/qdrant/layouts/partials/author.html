@@ -1,11 +1,7 @@
 {{ if and .Params.author .Params.author_link }}
-<li>
-    <a href="{{ .Params.author_link }}" target="_blank">
-        <span class="fa fa-user mr-2"></span>{{ .Params.author }}
-    </a>
-</li>
+<a href="{{ .Params.author_link }}" target="_blank">
+    <span class="fa fa-user mr-2"></span>{{ .Params.author }}
+</a>
 {{ else if and .Params.author (not .Params.author_link) }}
-<li>
-    <span class="fa fa-user mr-1"></span>{{ .Params.author }}
-</li>
+<span class="fa fa-user mr-1"></span>{{ .Params.author }}
 {{ end }}

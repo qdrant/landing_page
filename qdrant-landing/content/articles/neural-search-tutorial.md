@@ -2,13 +2,15 @@
 title: Neural Search Tutorial
 short_description: Step-by-step guide on how to build a neural search service.
 description: Our step-by-step guide on how to build a neural search service with BERT + Qdrant + FastAPI.
-external_link: https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc
+# external_link: https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc
 social_preview_image: /articles_data/neural-search-tutorial/social_preview.jpg
-preview_image: /articles_data/neural-search-tutorial/preview.png
+preview_dir: /articles_data/neural-search-tutorial/preview
 small_preview_image: /articles_data/neural-search-tutorial/tutorial.svg
 weight: 50
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
+date: 2021-06-10T10:18:00.000Z
+# aliases: [ /articles/neural-search-tutorial/ ]
 ---
 
 ## How to build a neural search service with BERT + Qdrant + FastAPI
@@ -160,6 +162,7 @@ First, let's create a client object for Qdrant.
 ```python
 # Import client library
 from qdrant_client import QdrantClient
+from qdrant_client.models import VectorParams, Distance
 
 qdrant_client = QdrantClient(host='localhost', port=6333)
 ```
@@ -172,8 +175,7 @@ Let's create a new collection for our startup vectors.
 ```python
 qdrant_client.recreate_collection(
     collection_name='startups', 
-    vector_size=768, 
-    distance="Cosine"
+    vectors_config=VectorParams(size=768, distance=Distance.COSINE),
 )
 ```
 
@@ -276,7 +278,7 @@ With Qdrant it is also feasible to add some conditions to the search.
 For example, if we wanted to search for startups in a certain city, the search query could look like this:
 
 ```python
-from qdrant_client.http.models.models import Filter
+from qdrant_client.models import Filter
 
     ...
 
@@ -371,4 +373,4 @@ Try to use startup description to find similar ones.
 In this tutorial, I have tried to give minimal information about neural search, but enough to start using it.
 Many potential applications are not mentioned here, this is a space to go further into the subject.
 
-Subscribe to my [telegram channel](https://t.me/neural_network_engineering), where I talk about neural networks engineering, publish other examples of neural networks and neural search applications.
+Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, publish other examples of neural networks and neural search applications.

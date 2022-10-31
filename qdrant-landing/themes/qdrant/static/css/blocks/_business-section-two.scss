@@ -1,0 +1,179 @@
+@use "../helpers/functions" as lib;
+
+/***
+
+====================================================================
+	Business Section Two
+====================================================================
+
+***/
+
+.business-section-two {
+  padding: 0 0 lib.rem(70);
+  position: relative;
+
+  .sec-title {
+    margin-bottom: lib.rem(80);
+  }
+
+  .inner-container {
+    position: relative;
+  }
+
+  .tab-btns {
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    width: lib.rem(14);
+    margin-left: lib.rem(50);
+    margin-top: -200px;
+    position: relative;
+
+    @include media-breakpoint-up(lg) {
+      display: flex;
+      margin-left: lib.rem(100);
+    }
+
+    .tab-btn {
+      display: inline-block;
+      width: lib.rem(14);
+      height: lib.rem(14);
+      margin: lib.rem(7) 0;
+      cursor: pointer;
+      border-radius: 50%;
+      background: var(--brand-light-grey);
+
+      &:hover {
+        background: var(--brand-gray);
+      }
+    }
+
+    .tab-btn.is-active {
+      background: var(--brand-gray);
+    }
+  }
+
+
+  .business-info-tabs {
+    display: flex;
+  }
+
+  .business-tabs {
+    display: flex;
+    width: 100%;
+    position: relative;
+
+    .tabs-content {
+      width: 100%;
+      position: relative;
+
+      .tab {
+        display: block;
+        position: relative;
+      }
+
+      .content {
+        max-width: lib.rem(1030);
+        position: relative;
+      }
+    }
+
+    .content {
+      display: flex;
+
+      @include media-breakpoint-up(lg) {
+        height: lib.rem(500);
+      }
+
+      .content-column {
+        display: flex;
+        align-items: stretch;
+        width: 100%;
+        position: relative;
+
+        @include media-breakpoint-up(lg) {
+          width: unset;
+        }
+
+        .inner-column {
+          padding-bottom: lib.rem(450);
+          position: relative;
+
+          @include media-breakpoint-up(lg) {
+            width: lib.rem(560);
+            padding-bottom: lib.rem(54);
+          }
+        }
+
+        h5 {
+          margin-bottom: lib.rem(5);
+          font-size: lib.rem(24);
+          font-weight: 700;
+          line-height: lib.rem(28);
+        }
+
+        p {
+          margin-bottom: lib.rem(25);
+          position: relative;
+          color: var(--brand-dark-gray);
+          font-size: lib.rem(18);
+          font-weight: 400;
+          line-height: lib.rem(28);
+        }
+
+        .business-list {
+          margin-bottom: lib.rem(35);
+          position: relative;
+
+          li {
+            min-height: lib.rem(50);
+            margin-bottom: lib.rem(18);
+            padding-left: lib.rem(70);
+            position: relative;
+            color: #2b2a41;
+            font-size: lib.rem(14);
+            font-weight: 600;
+
+            &:last-child {
+              margin-bottom: 0;
+            }
+          }
+        }
+      }
+
+      .theme-btn {
+        margin-top: lib.rem(22);
+        border-radius: lib.rem(50);
+      }
+
+      .image-column {
+        width: 100%;
+        position: absolute;
+        right: 0;
+        bottom: lib.rem(150);
+        left: 0;
+
+        @include media-breakpoint-up(lg) {
+          width: lib.rem(360);
+          margin-top: lib.rem(38);
+          padding-left: lib.rem(40);
+          top: 0;
+          left: unset;
+        }
+
+        @include media-breakpoint-up(xl) {
+          width: lib.rem(416);
+        }
+
+        .image {
+          @include media-breakpoint-up(md) {
+            max-width: lib.rem(300);
+          }
+          @include media-breakpoint-up(lg) {
+            max-width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

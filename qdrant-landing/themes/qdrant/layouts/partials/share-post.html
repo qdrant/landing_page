@@ -1,0 +1,15 @@
+{{ $link := .Permalink }}
+{{ if .Params.external_link }}
+{{ $link = .Params.external_link }}
+{{ end }}
+
+<ul class="share-post">
+    <li class="share-post__text">Share this post:</li>
+    <li class="share-post__icon"><a href="https://www.facebook.com/sharer/sharer.php?u={{ $link }}"><span
+            class="fab fa-facebook-f"></span></a></li>
+    <li class="share-post__icon">
+        <a href="https://twitter.com/intent/tweet?url={{ $link }}&text={{ .Title }}"><span
+                class="fab fa-twitter"></span></a></li>
+    <li class="share-post__icon"><a href="https://www.linkedin.com/sharing/share-offsite/?url={{ $link }}"><span
+            class="fab fa-linkedin"></span></a></li>
+</ul>

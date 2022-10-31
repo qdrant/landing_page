@@ -3,13 +3,14 @@ title: Metric Learning for Anomaly Detection
 short_description: "How to use metric learning to detect anomalies: quality assessment of coffee beans with just 200 labelled samples"
 description: Practical use of metric learning for anomaly detection. A way to match the results of a classification-based approach with only ~0.6% of the labeled data.
 social_preview_image: /articles_data/detecting-coffee-anomalies/social_preview.jpg
-preview_image: /articles_data/detecting-coffee-anomalies/preview.png
+preview_dir: /articles_data/detecting-coffee-anomalies/preview
 small_preview_image: /articles_data/detecting-coffee-anomalies/anomalies_icon.svg
 weight: 30
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-05-04T13:00:00+03:00
 draft: false
+# aliases: [ /articles/detecting-coffee-anomalies/ ]
 ---
 
 Anomaly detection is a thirsting yet challenging task that has numerous use cases across various industries.

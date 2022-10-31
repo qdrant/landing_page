@@ -1,0 +1,220 @@
+@use "../helpers/functions" as lib;
+/***
+
+====================================================================
+	Banner Section
+====================================================================
+
+***/
+
+.banner-section {
+  padding-top: lib.rem(220);
+  padding-bottom: lib.rem(100);
+  position: relative;
+
+  .side-layer {
+    width: 100%;
+    height: lib.rem(1459);
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: right top;
+  }
+
+  .pattern-layer {
+    width: 100%;
+    height: lib.rem(942);
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: center center;
+  }
+
+  .content-column {
+    position: relative;
+    z-index: 3;
+
+    .inner-column {
+      padding-top: lib.rem(100);
+      padding-bottom: lib.rem(60);
+      padding-left: lib.rem(30);
+      position: relative;
+    }
+
+    h1 {
+      margin-bottom: lib.rem(20);
+      position: relative;
+      text-transform: capitalize;
+      color: #ffffff;
+      font-weight: 700;
+      line-height: 1.25em;
+
+      span {
+        color: var(--brand-primary);
+      }
+    }
+
+    .text {
+      margin-bottom: lib.rem(35);
+      position: relative;
+      color: #ffffff;
+      font-size: lib.rem(18);
+      font-weight: 400;
+      line-height: 1.8em;
+    }
+
+    .buttons-box {
+      position: relative;
+
+      .theme-btn {
+        margin-right: lib.rem(25);
+      }
+    }
+  }
+
+  .image-column {
+    position: relative;
+
+    .inner-column {
+      margin-left: -200px;
+      position: relative;
+    }
+  }
+}
+
+/***
+
+====================================================================
+	Banner Section
+====================================================================
+
+***/
+
+.banner-section-two {
+  padding-bottom: 0;
+  position: relative;
+  padding-top: 2rem;
+
+  @include media-breakpoint-up(md) {
+    padding-top: lib.rem(70);
+  }
+
+  .sec-title.text {
+    margin-bottom: lib.rem(54);
+  }
+
+  .d-inline-block {
+    margin-top: 0.25rem;
+    margin-bottom: 3.1rem;
+  }
+
+  .outer-container {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .side-layer {
+    width: 77%;
+    height: lib.rem(981);
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-repeat: no-repeat;
+    background-position: right top;
+    background-size: 73%;
+  }
+
+  .content-column {
+    order: 1;
+    position: relative;
+    z-index: 3;
+    @include media-breakpoint-up(md) {
+      order: 0;
+    }
+
+    .inner-column {
+      padding-top: 0;
+      padding-bottom: lib.rem(60);
+      position: relative;
+
+      @include media-breakpoint-up(md) {
+        padding-top: lib.rem(115);
+      }
+    }
+
+    h1 {
+      position: relative;
+      white-space: normal;
+      text-transform: capitalize;
+      color: var(--brand-secondary);
+      font-size: lib.rem(56);
+      font-weight: 700;
+      line-height: 1.25em;
+
+      @include media-breakpoint-up(md) {
+        white-space: nowrap;
+      }
+
+      span {
+        color: var(--brand-primary);
+      }
+    }
+
+    h2 {
+      font-weight: 700;
+    }
+
+    h4 {
+      color: var(--brand-dark-gray);
+      font-size: lib.rem(24);
+      font-weight: 400;
+    }
+
+    .newsletter-form {
+      .form-group {
+        button {
+          padding: lib.rem(9) lib.rem(36) lib.rem(9);
+          border-radius: lib.rem(50);
+        }
+      }
+    }
+  }
+
+  .image-column {
+    order: 0;
+    @include media-breakpoint-up(md) {
+      order: 1;
+    }
+
+    .inner-column {
+      justify-content: center;
+      margin-bottom: lib.rem(50);
+      margin-left: 0;
+      position: relative;
+
+      @include media-breakpoint-up(md) {
+        justify-content: unset;
+        width: 126%;
+        margin-bottom: 0;
+        margin-left: -11%;
+        padding-top: lib.rem(90);
+      }
+    }
+  }
+
+  .content-column {
+    .inner-column {
+      .newsletter-form {
+        .form-group {
+          button {
+            padding: lib.rem(9) lib.rem(36) lib.rem(9);
+            border-radius: lib.rem(50);
+          }
+        }
+      }
+    }
+
+  }
+}

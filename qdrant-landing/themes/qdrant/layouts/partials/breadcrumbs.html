@@ -1,0 +1,13 @@
+<ul class="breadcrumbs">
+    <li class="breadcrumbs__crumb"><a href="/"><i class="flaticon-home small"></i> Home</a></li>
+    {{ $paths := (split .RelPermalink "/") }}
+    {{ $len := sub (len $paths) 2 }}
+    {{ range first $len $paths }}
+    {{ if gt (len . ) 0 }}
+    &nbsp;/&nbsp;
+    <li class="breadcrumbs__crumb"><a href="/{{ . }}">{{ humanize . }}</a></li>
+    {{ end }}
+    {{ end }}
+    &nbsp;/&nbsp;
+    <li class="breadcrumbs__crumb">{{ .Params.title | safeHTML }}</li>
+</ul>

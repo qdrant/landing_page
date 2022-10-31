@@ -2,7 +2,8 @@
 title: Recommendations
 icon: advertising
 tabid: recommendations
-landing_image: /content/images/abstract_cubes_3.svg
+landing_image: /content/images/recomendations_big.webp
+landing_image_png: /content/images/recomendations_big.png
 image: /content/images/solutions/recomendations.svg
 image_caption: History-based Recommendations
 default_link: 
@@ -10,8 +11,8 @@ default_link_name:
 weight: 30
 short_description: |
     User behavior can be represented as a semantic vector is similar way as text or images.
-    Qdrant allows you to create a recommendation engine with custom filters and real-time updates.
-    No need to deploy a MapReduce cluster.
+    Qdrant allows you to create a real-time recommendation engine.
+    No MapReduce cluster required.
 sitemapExclude: True
 ---
 

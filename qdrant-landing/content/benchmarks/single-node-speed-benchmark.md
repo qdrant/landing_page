@@ -6,6 +6,7 @@ description: We benchmarked several engines using various configurations of them
 
 data: /benchmarks/result-2022-08-10.json
 preview_image: /benchmarks/benchmark-1.png
+date: 2022-08-23
 weight: 2
 ---
 
@@ -22,12 +23,15 @@ We tried our best, kept scrolling the docs up and down, and experimented with di
 
 Our benchmark, inspired by [github.com/erikbern/ann-benchmarks/](https://github.com/erikbern/ann-benchmarks/), used the following datasets to test the performance of the engines:
 
+<div class="table-responsive">
 
 | Datasets              | Number of vectors | Vector dimensionality | Distance function |
 |-----------------------|-------------------|-----------------------|-------------------|
 | deep-image-96-angular | 9,990,000         | 96                    | cosine            |
 | gist-960-euclidean    | 1,000,000         | 960                   | euclidean         |
 | glove-100-angular     | 1,183,514         | 100                   | cosine            |
+
+</div>
 
 ### Hardware
 

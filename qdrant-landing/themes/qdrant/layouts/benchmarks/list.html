@@ -3,8 +3,6 @@
 {{ range $i,$p := where .Data.Pages "Section" "benchmarks" }}
 
 
-
-
 <div class="auto-container pt-3 pt-md-5 single-page">
     <div class="row clearfix">
         <!-- Content Side -->
@@ -15,47 +13,30 @@
             {{ $link = .Params.external_link }}
             {{ end }}
 
-            <div class="news-block-two blog-detail">
+
+            {{ if .Description }}
+            <article class="article article_benchmarks article_narrow">
+                <h1>{{ .Title }}</h1>
+                <p>{{ .Description }}</p>
+            </article>
+            {{ end }}
 
 
-                <div class="inner-box">
-                    
-                    {{ if .Description }}
-                        <article class="article">
-                            <h1>{{ .Title }}</h1>
-                            <p>{{ .Description }}</p>
-                        </article>
-                    {{ end }}
-
-
-                    
-
-                    {{ if .Params.data }}
-                    <div class="auto-container pt-3 pt-md-5 single-page">
-                            <div class="row clearfix">
-                                <section class="content-side col-lg-12 col-md-12 col-sm-12">
-                                    {{ partial "benchmark_chart" . }}
-                                </section>
-                            </div>
-                        </div>
-                    {{ end }}
-
-
-                    
-
-                    
-                    <div class="lower-box pt-0">
-                        <article class="article">
-                            {{ .Content }}
-                        </article>
-                    </div>
-                </div>
+            {{ if .Params.data }}
+            <div class="row clearfix">
+                <section class="content-side col-lg-12 col-md-12 col-sm-12">
+                    {{ partial "benchmark_chart" . }}
+                </section>
             </div>
+            {{ end }}
+
+
+            <article class="article article_benchmarks article_narrow">
+                {{ .Content }}
+            </article>
         </section>
     </div>
-
 </div>
-
 
 
 {{ end }}

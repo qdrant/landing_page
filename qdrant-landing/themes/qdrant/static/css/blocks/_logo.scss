@@ -1,0 +1,43 @@
+.logo {
+  &__link {
+    display: block;
+    height: 100%;
+    background: url("/images/logo_with_text.svg") no-repeat;
+    background-size: contain;
+  }
+
+  &_with-text {
+    width: 117px;
+    height: 39px;
+  }
+
+
+  &_home {
+    .logo__link {
+      background: url("/images/logo_with_text.svg") no-repeat;
+      background-size: contain;
+
+      @media only screen and (min-width: 1024px) and (max-width: 1140px) {
+        background: url("/images/logo_with_text.svg") no-repeat;
+        background-size: contain;
+      }
+    }
+  }
+}
+
+.fixed-header .logo_with-text .logo__link {
+  background: url("/images/logo_with_text.svg") no-repeat;
+  background-size: contain;
+}
+
+.fixed-header .logo_with-text.logo_home .logo__link {
+  @media only screen and (min-width: 1024px) and (max-width: 1140px) {
+    background: url("/images/logo_with_text.svg") no-repeat;
+    background-size: contain;
+  }
+}
+// preload images
+body::after{
+  position:absolute; width:0; height:0; overflow:hidden; z-index:-1; // hide images
+  content:url("/images/logo_with_text.svg");
+}

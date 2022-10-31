@@ -13,17 +13,24 @@
 
 
 
-<div class="auto-container pt-3 pt-md-5 single-page">
+<div class="auto-container pt-3 pt-md-2 mb-5 single-page">
     <div class="row clearfix">
         <!-- Content Side -->
-        <section class="content-side col-lg-12 col-md-12 col-sm-12">
+        <section class="col-lg-12 col-md-12 col-sm-12">
             {{ .Scratch.Set "scope" "single" }}
-            {{ partial "blogpost" . }}
+            <article class="article article_benchmarks article_narrow article_bb mb-4">
+                <h1>{{ .Title }}</h1>
+                {{ .Content }}
+            </article>
+            <div class="pt-3">{{ partial "author" . }}</div>
+            <div class="article__info mt-4">
+                <span class="d-inline-block mb-2 mb-md-0">
+                    {{if .Date }}{{ .Date | time.Format ":date_long" }}&nbsp;&nbsp;|&nbsp;&nbsp;{{end}}
+                </span>
+                {{ partial "share-post" . }}
+            </div>
         </section>
     </div>
-
-    {{ partial "article_footer" .}}
-
 </div>
 
 

@@ -1,6 +1,8 @@
 ---
 title: Fast and Accurate
-icon: bullseye
+icon:
+  - url: /features/speed.svg
+  - url: /features/target.svg
 weight: 20
 sitemapExclude: True
 ---

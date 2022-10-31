@@ -2,61 +2,43 @@
 
   <!-- Banner Section -->
   <section class="banner-section-two">
-    <div class="side-layer" style="background-image: url(/images/background/2.png)"></div>
     <div class="outer-container">
       <div class="auto-container">
         <div class="row clearfix">
 
           <!-- Content Column -->
-          <div class="content-column col-lg-6 col-md-12 col-sm-12">
+          <div class="content-column col-lg-6 col-md-7 col-sm-12">
             <div class="inner-column">
-              <h2><a target="_blank" href="{{ .Site.Params.github }}">Open Source</a></h2>
-              <h1>Neural Search Engine</h1>
-              <div class="sec-title text mb-3">Build your own
-                exclusive AI products.
-                <br/>
-                
+              <h1>Vector Search Engine</h1>
+              <h4 class="d-inline-block">Build your own exclusive AI products.</h4><br>
 
-                <div class="hero-code mt-3">
-                  <code id="copy-code" class="hero-code__text">docker pull qdrant/qdrant</code>
-                  <span class="hero-code__btn copy-code" id="copy-popover" data-toggle="popover" data-content="Text copied!">
-                    <button class="copy-btn copy-code__btn copy-code__btn_light lead ml-2" data-clipboard-target="#copy-code" title="Copy code">
-                      <i class="flaticon-copy"></i>
-                    </button>
-                  </span>
+                <div class="hero-code mb-4">
+                  <!-- Don't change an alignment inside this code tag-->
+                  <code class="hero-code__text">docker pull qdrant/qdrant
+docker run -p 6333:6333 qdrant/qdrant</code>
+                  <a class="hero-code__logo" href="https://hub.docker.com/r/qdrant/qdrant/" target="_blank">
+                    <i class="fab fa-docker"></i>
+                  </a>
                 </div> <br>
-                Get started by downloading a pre built Docker Image - it is only <b>40Mb!</b><br>
-                
-                Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
-                  or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a>
 
-                <!-- <h4 class="font-weight-bold mt-3 mb-0">It's Free and <a class="os-link" target="_blank" href="{{ .Site.Params.github }}">Open Source </a></h4> -->
-              </div>
+              <div class="sec-title text">Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
+                or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a></div>
 
-              <!-- Installation Section -->
-              <!-- <section class="installation-section">
-                <p>Get started by downloading a pre-build Docker Image - it is only 35Mb!</p>
-                <div class="code">
-                  <code id="copy-code">docker pull qdrant/qdrant</code>
-                  <span class="d-inline-block" id="copy-popover" data-toggle="popover" data-content="Text copied!">
-                    <button class="copy-btn lead ml-2" data-clipboard-target="#copy-code" title="Copy code">
-                      <i class="flaticon-copy"></i>
-                    </button>
-                  </span>
-                </div>
-                <p>Take a look at our <a target="_blank" href="{{ .Site.Params.quick_start }}">Quick Start Guide</a>
-                  or build your own neural search <br> with our step-by-step <a target="_blank" href="{{ .Site.Params.tutorial }}">Tutorial</a></p>
-              </section> -->
-              <!--End Installation Section-->
+                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive mr-sm-3 mb-2 mb-lg-0" href="{{ .Site.Params.benchmarks }}">
+                  <span class="text">Benchmarks</span>
+                </a>
+                <a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive" href="{{ .Site.Params.demos }}">
+                  <span class="text">Demos</span>
+                </a>
 
             </div>
           </div>
 
           <!-- Image Column -->
-          <div class="image-column col-lg-6 col-md-12 col-sm-12">
+          <div class="image-column col-lg-6 col-md-5 col-sm-12">
             <div class="inner-column">
               <div data-depth="0.30" class="image">
-                <img src="/images/cube.webp" alt=""/>
+                <img src="/images/qdrant_hero_image.svg" alt=""/>
               </div>
             </div>
           </div>
@@ -79,29 +61,31 @@
         <div class="content-column col-lg-12 col-md-12 col-sm-12">
           <div class="inner-column">
             <!-- Sec Title -->
-            <div class="sec-title text-center">
+            <div class="sec-title">
               <h2>{{ .Title | safeHTML }}</h2>
               <div class="text">{{ .Content }}
               </div>
             </div>
             <div class="row clearfix">
 
-              {{ range .Pages }}
-
-              <!-- Intelligence Block -->
-              <div class="feature-block col-lg-4 col-md-4 col-sm-12">
-                <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
-                  <div class="icon-box d-flex justify-content-center">
-                    <i class="flaticon-{{ .Params.icon }}"></i>
-                  </div>
-                  <h5><a>{{ .Title }}</a></h5>
-                  <div class="text">
-                    {{ .Content }}
+              <div class="col-12 d-flex justify-content-between flex-wrap">
+                {{ range .Pages }}
+                <!-- Features Block -->
+                <div class="feature-block">
+                  <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
+                    <div class="icon-box">
+                      {{ range .Params.Icon }}
+                      <img src="{{ .url }}" loading="lazy" alt="">
+                      {{ end }}
+                    </div>
+                    <h5>{{ .Title }}</h5>
+                    <div class="text">
+                      {{ .Content }}
+                    </div>
                   </div>
                 </div>
+                {{ end }}
               </div>
-
-              {{ end }}
             </div>
 
           </div>
@@ -118,68 +102,84 @@
   {{ with (.Site.GetPage "section" "solutions") }}
 
   <section class="business-section-two">
-    <div class="pattern-layer" style="background-image: url(/images/background/pattern-11.webp)"></div>
     <div class="auto-container">
       <!-- Sec Title -->
-      <div class="sec-title centered">
+      <div class="sec-title">
         <h2>{{ .Params.section_title | safeHTML }}</h2>
         <div class="text">{{ .Params.subtitle }}</div>
       </div>
       <div class="inner-container">
-        <div class="pattern-layer-two" style="background-image: url(/images/background/3.webp)"></div>
         <!-- Business Info Tabs -->
-        <div class="business-info-tabs">
+        <div class="business-info-tabs splide" aria-label="How Qdrant can help your Business"
+              data-splide='{
+              "direction": "ttb",
+               "type": "loop",
+               "height": 500,
+               "drag": false,
+               "loop": true,
+               "autoplay": true,
+               "interval": 3000,
+               "speed": 1000,
+               "pauseOnHover": true,
+               "pauseOnFocus": false,
+               "arrows":  false,
+               "paginationDirection": "ttb",
+               "classes": {
+                  "pagination": "splide__pagination tab-btns",
+                  "page": "splide__pagination__page tab-btn"
+               },
+               "breakpoints": {
+                  "992": {
+                    "destroy": true
+                  }
+               }
+             }'>
           <!-- Business Tabs -->
-          <div class="business-tabs tabs-box">
+          <div class="business-tabs tabs-box splide__track">
 
+            <ul class="tabs-content splide__list">
             <!--Tab Btns-->
-            <ul class="tab-btns tab-buttons clearfix">
-              {{ range $i, $e := first 3 .Pages }}
-                <li data-tab="#prod-{{ .Params.tabid }}" class="tab-btn {{ if not $i }}active-btn{{ end }} fadeInLeft">
-                  <h5>{{ $e.Title | safeHTML }}</h5>
-                  <i class="icon flaticon-{{ .Params.icon }}"></i>
-                </li>
-              {{ end }}
-            </ul>
-            
             {{ range $i, $e := first 3 .Pages }}
 
             <!--Tabs Container-->
-            <div class="tabs-content">
 
               <!--Tab / Active Tab-->
-              <div class="tab {{ if not $i }}active-tab{{ end }}" id="prod-{{ .Params.tabid }}">
+              <li class="tab splide__slide">
                 <div class="content">
-                  <div class="row clearfix">
 
                     <!-- Content Column -->
-                    <div class="content-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="content-column">
                       <div class="inner-column mb-5">
+                        <h5>{{ .Params.title }}</h5>
                         {{ .Content }}
-                        {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four"><span class="txt">{{ .Params.default_link_name }}</span></a>{{end}}
-                        <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four"><span class="txt">Contact us</span></a>
-                      </div>
-                    </div>
-                    
-                    <!-- Image Column -->
-                    <div class="image-column col-6 d-none d-lg-block d-xl-block">
-                      <div class="inner-column">
-                        <div class="image">
-                          <!-- <h5>{{ .Params.image_caption }}</h5> -->
-                          <img src="{{ .Params.landing_image }}" alt=""/>
-                          <!-- <a data-caption=""><img src="https://via.placeholder.com/536x513" alt=""/></a> -->
+                        <div class="tab-content-btns">
+                          {{ if .Params.default_link }}<a target="_blank" href="{{ .Params.default_link }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big mr-sm-3"><span class="text">{{ .Params.default_link_name }}</span></a>{{end}}
+                          <a target="_blank" href="{{ .Site.Params.mailchimp_contact_form }}" class="theme-btn btn-style-four btn-style-four_reversed btn-style-four_big"><span class="text">Contact us</span></a>
                         </div>
                       </div>
                     </div>
 
-                  </div>
+                    <!-- Image Column -->
+                    <div class="image-column">
+                      <div class="inner-column">
+                        <div class="image">
+                          <picture>
+                            <source srcset="{{ .Params.landing_image }}" type="image/webp">
+                            <img src="{{ .Params.landing_image_png }}" loading="lazy" alt="{{ .Params.title }}"/>
+                          </picture>
+                        </div>
+                      </div>
+                    </div>
+
                 </div>
-              </div>
+              </li>
 
             {{ end }}
 
-            </div>
+
+            </ul>
           </div>
+
         </div>
 
       </div>
@@ -190,64 +190,47 @@
 
 
   {{ with (.Site.GetPage "section" "stack") }}
-  <!--Clients Section--> 
-  <section class="clients-section my-5">
-    <div class="sec-title text-center">
-      <h2>{{ .Title | safeHTML }}</h2>
-      <div class="text">{{ .Params.subtitle}}</div>
-    </div>
-    <div class="auto-container">
-      <div class="sponsors-outer">
-        <!--Sponsors Carousel-->
-        <ul class="row clearfix">
-          {{ range $i, $e := first 3 .Pages }}
-          <li class="col d-flex align-self-center justify-content-center m-3">
-            <figure class="image-box"><a href="{{ .Params.origin_url }}"><img src="{{ .Params.image }}" alt=""></a></figure>
-          </li>
-          {{ end }}
-        </ul>
+  <!--Clients Section-->
+<section class="clients-section">
+  <div class="auto-container">
+    <div class="row">
+      <div class="col-12 sec-title">
+        <h2>{{ .Title | safeHTML }}</h2>
+        <div class="text">{{ .Params.subtitle}}</div>
       </div>
-
     </div>
-  </section>
+
+    <ul class="sponsors-outer">
+      {{ range $i, $e := first 3 .Pages }}
+      <li class="mt-3 mb-3 image-box">
+        <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img src="{{ .Params.image }}-mono.png" alt=""></a>
+      </li>
+      {{ end }}
+    </ul>
+
+  </div>
+</section>
   <!--End Clients Section-->
   {{ end }}
-  
 
   {{ with (.Site.GetPage "section" "articles") }}
-  <!-- End Articles Section -->
-  <section id="articles" class="projects-section-two" style="background-image: url(/images/background/pattern-9.webp)">
+  <!-- Start Articles Section -->
+  <section id="articles" class="projects-section-two" style="background: var(--brand-light);">
     <div class="auto-container">
       <!-- Sec Title -->
-      <div class="sec-title centered">
+      <div class="sec-title mb-4">
         <h2>{{ .Title | safeHTML }}</h2>
         <div class="text">{{ .Params.subtitle | safeHTML }}
         </div>
       </div>
       <div class="row clearfix">
-        
+
         {{ range $i, $e := first 3 .Pages }}
-        
-        {{ $link := .Permalink }}
-        {{ if .Params.external_link }}
-          {{ $link = .Params.external_link }}
-        {{ end }}
+
 
         <!-- Project Block -->
-        <div class="project-block col-lg-4 col-md-6 col-sm-12">
-          <div class="inner-box wow fadeInLeft" data-wow-delay="0ms" data-wow-duration="1500ms">
-            <div class="block-content">
-              <div class="image">
-                <a href="{{ $link }}" target="_blank"><img src="{{ .Params.preview_image }}" alt=""/></a>
-              </div>
-              <div class="lower-content">
-                <h5><a href="{{ $link }}">{{ .Title }}</a></h5>
-                <div class="text">{{ .Params.description }}
-                </div>
-                <a href="{{ $link }}" target="_blank" class="theme-btn learn-btn"><span class="txt">Learn More</span></a>
-              </div>
-            </div>
-          </div>
+        <div class="d-flex col-md-4 col-sm-12">
+          {{ partial "article-card" (dict "context" . "classes" "") }}
         </div>
         {{ end }}
 
@@ -258,33 +241,5 @@
 
   {{ end }}
 
-  <!-- Contact Form Section -->
-  <section class="clients-section my-5">
-    <div class="auto-container">
-      <div class="row">
-        <div class="col-12 sec-title text-center">
-          <h2>Get <span>Updates</span> from Qdrant</h2>
-          <div class="text">We will update you on new features and news regarding Qdrant 
-          </div>
-        </div>
-        <div class="content-column offset-lg-3 col-lg-6 col-md-12 col-sm-12">
-          <!-- Newsletter Form -->
-          <div class="newsletter-form">
-            <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-              <div class="form-group">
-                <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required="" id="mce-EMAIL">
-                <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                  <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1" value="">
-                </div>
-                <button type="submit" class="theme-btn btn-style-three"><span class="txt">Subscribe</span>
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-  <!-- End of Contact Section -->
-
+{{ partial "contact-section" . }}
 {{ partial "footer" . }}

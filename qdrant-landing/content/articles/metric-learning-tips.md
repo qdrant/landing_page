@@ -2,13 +2,15 @@
 title: Metric Learning Tips & Tricks
 short_description: How to train an object matching model and serve it in production.
 description: Practical recommendations on how to train a matching model and serve it in production. Even with no labeled data.
-external_link: https://vasnetsov93.medium.com/metric-learning-tips-n-tricks-2e4cfee6b75b
+# external_link: https://vasnetsov93.medium.com/metric-learning-tips-n-tricks-2e4cfee6b75b
 social_preview_image: /articles_data/metric-learning-tips/social_preview.jpg
-preview_image: /articles_data/metric-learning-tips/preview.png
+preview_dir: /articles_data/metric-learning-tips/preview
 small_preview_image: /articles_data/metric-learning-tips/scatter-graph.svg
 weight: 20
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
+date: 2021-05-15T10:18:00.000Z
+# aliases: [ /articles/metric-learning-tips/ ]
 ---
 
 
@@ -202,7 +204,7 @@ It should be easy to add new vectors if new job descriptions appear in the servi
 In our case, we also needed to apply additional conditions to the search.
 We needed to filter, for example, the location of candidates and the level of language proficiency. 
 
-We did not find a ready-made tool for such vector management, so we created and open sourced our internal vector search engine called [Qdrant](https://github.com/qdrant/qdrant).
+We did not find a ready-made tool for such vector management, so we created [Qdrant](https://github.com/qdrant/qdrant) - open-source vector search engine.
 
 It allows you to add and delete vectors with a simple API, independent of a programming language you are using. 
 You can also assign the payload to vectors.
@@ -223,5 +225,4 @@ In this article, I have shown how metric learning can be more scalable and flexi
 I suggest trying similar approaches in your tasks - it might be matching similar texts, images, or audio data.
 With the existing variety of pre-trained neural networks and a vector search engine, it is easy to build your metric learning-based application.
 
-Subscribe to my [telegram channel](https://t.me/neural_network_engineering), where I talk about neural networks engineering, publish other examples of metric learning and neural search applications.
 

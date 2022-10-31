@@ -1,121 +1,122 @@
-
-  <!-- Main Footer -->
-  <footer class="main-footer">
-    <div class="pattern-layer" style="background-image: url(/images/background/pattern-4.webp)"></div>
-    <div class="pattern-layer-two" style="background-image: url(/images/background/pattern-5.webp)"></div>
+<!-- Main Footer -->
+<footer class="main-footer">
     <div class="auto-container">
-      <!--Widgets Section-->
-      <div class="widgets-section">
-        <div class="row clearfix">
+        <!--Widgets Section-->
+        <div class="widgets-section">
+            <div class="row clearfix">
 
-          <!-- Footer Column -->
-          <div class="main-footer__column col-lg-7 col-md-6 col-sm-12">
+                <!-- Footer Column -->
+                <div class="main-footer__column col-12">
 
-            {{ $currentPage := . }}
-            {{ range .Site.Menus.main }}
-            {{ if .Params.in_footer }}
-            <div class="main-footer__widget">
-              <div class="main-footer__title">
-                {{ if .URL }}
-                <h4><a class="main-footer__link" href="{{ .URL }}">{{ .Name }}</a></h4>
-                {{ else }}
-                <h4>{{ .Name }}</h4>
-                {{ end }}
-              </div>
+                    {{ $currentPage := . }}
+                    {{ range .Site.Menus.main }}
+                    {{ if .Params.in_footer }}
+                    <div class="main-footer__widget">
+                        <div class="main-footer__title">
+                            {{ if .URL }}
+                            <h4><a class="main-footer__link" href="{{ .URL }}">{{ .Name }}</a></h4>
+                            {{ else }}
+                            <h4>{{ .Name }}</h4>
+                            {{ end }}
+                        </div>
 
-              {{ if .HasChildren }}
-              <ul class="main-footer__list">
-                {{ range .Children }}
-                <li><a href="{{ .URL }}" {{ if .Params.external }}target="_blank"{{ end }}>
-                  {{ if .Pre }}
-                    {{ .Pre }}&nbsp;
-                  {{ else }}
-                    <i class="fas fa-check-circle"></i>
-                  {{ end }}
-                  {{ .Name }}
-                </a></li>
-                {{ end }}
-              </ul>
-              {{ end }}
-            </div>
-            {{ end }}
-            {{ end }}
-          </div>
+                        {{ if .HasChildren }}
+                        <ul class="main-footer__list">
+                            {{ range .Children }}
+                            <li><a href="{{ .URL }}" {{ if .Params.external }}target="_blank" {{ end }}>
+                                {{ if .Pre }}
+                                {{ .Pre }}&nbsp;
+                                {{ else }}
+                                <i class="fas fa-check-circle"></i>
+                                {{ end }}
+                                <span>{{ .Name }}</span>
+                            </a></li>
+                            {{ end }}
+                        </ul>
+                        {{ end }}
+                    </div>
+                    {{ end }}
+                    {{ end }}
 
-          <!-- Footer Column -->
-          <div class="footer-column col-lg-5 col-md-6 col-sm-12">
-            <div class="main-footer__widget news-widget">
-              <div class="main-footer__title">
-                <h4>Latest Publications</h4>
-              </div>
-              <!-- Footer Column -->
-              <div class="widget-content">
+                    <div class="main-footer__widget news-widget">
+                        <div class="main-footer__title">
+                            <h4>Latest Publications</h4>
+                        </div>
+                        <!-- Footer Column -->
+                        <div class="widget-content">
 
-                {{ with (.Site.GetPage "section" "articles") }}
-                {{ range $i, $e := first 3 .Pages }}
+                            {{ with (.Site.GetPage "section" "articles") }}
+                            {{ range $i, $e := first 3 .Pages }}
 
-                {{ $link := .Permalink }}
-                {{ if .Params.external_link }}
-                  {{ $link = .Params.external_link }}
-                {{ end }}
-        
+                            {{ $link := .Permalink }}
+                            {{ if .Params.external_link }}
+                            {{ $link = .Params.external_link }}
+                            {{ end }}
 
-                <div class="post">
-                  <div class="thumb"><a href="{{ $link }}"><img src="{{ .Params.small_preview_image }}" alt=""></a>
-                  </div>
-                  <h4><a href="{{ $link }}">{{ .Params.short_description }}</a></h4>
+
+                            <div class="post">
+                                <div class="thumb"><a href="{{ $link }}"><img src="{{ .Params.small_preview_image }}"
+                                                                              alt=""></a>
+                                </div>
+                                <h4><a href="{{ $link }}">{{ .Params.short_description }}</a></h4>
+                            </div>
+
+
+                            {{ end }}
+                            {{ end }}
+
+
+                        </div>
+
+
+                    </div>
                 </div>
 
-
-
-                {{ end }}
-                {{ end }}
-
-
-              </div>
-
-              <ul class="social-box">
-                <li><a href="{{ .Site.Params.github }}" target="_blank"><i class="fab fa-github"></i></a></li>
-                <li><a href="{{ .Site.Params.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a></li>
-                <li><a href="{{ .Site.Params.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
-                <li><a href="{{ .Site.Params.discord }}" target="_blank"><i class="fab fa-discord"></i></a></li>
-                <li><a href="{{ .Site.Params.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a></li>
-              </ul>
+                <!-- Footer Column -->
+                <!--          <div class="footer-column col-lg-5 col-md-6 col-sm-12">-->
+                <!--          </div>-->
 
             </div>
-          </div>
-
         </div>
-      </div>
+
+        <ul class="social-box">
+            <li><a href="{{ .Site.Params.github }}" target="_blank"><i class="fab fa-github"></i></a></li>
+            <li><a href="{{ .Site.Params.linkedin }}" target="_blank"><i class="fab fa-linkedin"></i></a></li>
+            <li><a href="{{ .Site.Params.twitter }}" target="_blank"><i class="fab fa-twitter"></i></a></li>
+            <li><a href="{{ .Site.Params.discord }}" target="_blank"><i class="fab fa-discord"></i></a></li>
+            <li><a href="{{ .Site.Params.facebook }}" target="_blank"><i class="fab fa-facebook"></i></a></li>
+        </ul>
+
     </div>
 
     <!-- Footer Bottom -->
     <div class="footer-bottom">
-      <div class="auto-container">
-        <div class="row clearfix">
+        <div class="auto-container">
+            <div class="row clearfix">
 
-          <!-- Copyright Column -->
-          <div class="copyright-column col-lg-6 col-md-12 col-sm-12">
-            <div class="copyright">&copy; {{ now.Format "2006" }} Qdrant. All Rights Reserved</div>
-          </div>
+                <!-- Copyright Column -->
+                <div class="copyright-column col-lg-6 col-md-12 col-sm-12">
+                    <div class="copyright">&copy; {{ now.Format "2006" }} Qdrant. All Rights Reserved</div>
+                </div>
 
-          <!-- Language Column -->
-          <div class="language-column col-lg-6 col-md-12 col-sm-12">
-            <!--Language-->
-            <div class="language dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu2"
-                                              data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" href="#">Language:
-              English &nbsp;<span class="icon fa fa-angle-down"></span></a>
-              <ul class="dropdown-menu style-one" aria-labelledby="dropdownMenu2">
-                <li><a href="#">English</a></li>
-              </ul>
+                <!-- Language Column -->
+                <div class="language-column col-lg-6 col-md-12 col-sm-12">
+                    <!--Language-->
+                    <div class="language dropdown"><a class="btn btn-default dropdown-toggle" id="dropdownMenu2"
+                                                      data-toggle="dropdown" aria-haspopup="true" aria-expanded="true"
+                                                      href="#">Language:
+                        English &nbsp;<span class="icon fa fa-angle-down"></span></a>
+                        <ul class="dropdown-menu style-one" aria-labelledby="dropdownMenu2">
+                            <li><a href="#">English</a></li>
+                        </ul>
+                    </div>
+                </div>
+
             </div>
-          </div>
-
         </div>
-      </div>
     </div>
-  </footer>
-  <!-- End Main Footer -->
+</footer>
+<!-- End Main Footer -->
 
 </div>
 <!--End pagewrapper-->
@@ -125,36 +126,38 @@
 
 <!-- Modal -->
 <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="contact form" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Thanks for using Qdrant!</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <!-- Newsletter Form -->
-        <p>Subscribe to our e-mail newsletter if you want to be updated on new features and news regarding Qdrant.</p>
-        <p>Like what we are doing? Consider giving us a ⭐ <a href="{{ .Site.Params.github }}">on Github</a>.</p>
-        <div class="newsletter-form">
-          <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-            <div class="form-group">
-              <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1" value="">
-              </div>
-              <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required="">
-              <button type="submit" class="theme-btn btn-style-three"><span class="txt">Subscribe</span>
-              </button>
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thanks for using Qdrant!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-          </form>
+            <div class="modal-body">
+                <!-- Newsletter Form -->
+                <p>Subscribe to our e-mail newsletter if you want to be updated on new features and news regarding
+                    Qdrant.</p>
+                <p>Like what we are doing? Consider giving us a ⭐ <a href="{{ .Site.Params.github }}">on Github</a>.</p>
+                <div class="newsletter-form">
+                    <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+                          name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div class="form-group">
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
+                                       value="">
+                            </div>
+                            <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required="">
+                            <button type="submit" class="theme-btn btn-style-three"><span class="txt">Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>
 <!-- End of Modal -->
-
 
 
 {{ partial "js" .}}
