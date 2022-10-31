@@ -3,6 +3,7 @@ title: Finding errors in datasets with Similarity Search
 short_description: Finding errors datasets with distance-based methods
 description: Improving quality of text-and-images datasets on the online furniture marketplace example.
 preview_dir: /articles_data/dataset-quality/preview
+social_preview_image: /articles_data/dataset-quality/preview/social_preview.jpg
 small_preview_image: /articles_data/dataset-quality/icon.svg
 weight: 8
 author: George Panchuk

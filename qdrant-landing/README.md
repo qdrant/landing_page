@@ -56,7 +56,7 @@ curl -s https://raw.githubusercontent.com/Intervox/node-webp/latest/bin/install_
 
 ### Prepare preview image
 
-For the preview use image with the aspect ratio 3 to 1 in jpg or png format. With resolution not smaller than 898x300px. The image should illustrate in some way the article's core idea. Fill free got creative. Check out that most important part of the image is in the center.
+For the preview use image with the aspect ratio 3 to 1 in jpg or png format. With resolution not smaller than 1200x630px. The image should illustrate in some way the article's core idea. Fill free got creative. Check out that most important part of the image is in the center.
 
 ### Generating preview images
 
@@ -82,3 +82,4 @@ Preview images set consists of the following images:
 `preview.webp` - 530x145px (used on the article preview card **for browsers, supporting webp**)
 `title.jpg` - 898x300px (used on the article's page as the main image before the article title **for browsers, not supporting webp**)
 `title.webp` - 898x300px (used on the article's page as the main image before the article title **for browsers, supporting webp**)
+`social_preview.jpg` - 1200x630px (used in social media previews)
