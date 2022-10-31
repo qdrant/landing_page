@@ -70,9 +70,10 @@
 {{ $url := urls.Parse .Site.BaseURL }}
 {{ $domain := index (split $url.Host ".") 0 }}
 
-{{ $title := printf "%s" "Qdrant" | printf "%s%s" " - " | printf "%s%s" .Title | printf "%s" }}
-{{ if or ( and (.IsPage) (eq $.Section "blog") ) ( and ($.IsNode) (eq $.Section "") ) }}
-    {{ $title := .Title }}
+{{ $title := .Title }}
+{{ if and ($.IsNode) (eq $.Section "") }}
+{{ else }}
+    {{ $title = printf "%s - Qdrant" $title }}
 {{ end }}
 
 <!-- Facebook Meta Tags -->
