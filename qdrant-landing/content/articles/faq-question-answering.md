@@ -2,7 +2,7 @@
 title: Q&A with Similarity Learning
 short_description: A complete guide to building a Q&A system with similarity learning.
 description: A complete guide to building a Q&A system using Quaterion and SentenceTransformers.
-social_preview_image: /articles_data/faq-question-answering/social_preview.jpg
+social_preview_image: /articles_data/faq-question-answering/preview/social_preview.jpg
 preview_dir: /articles_data/faq-question-answering/preview
 small_preview_image: /articles_data/faq-question-answering/icon.svg
 weight: 9
