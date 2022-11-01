@@ -222,10 +222,10 @@ article aside[role="status"]:before {
   }
 
   &_benchmarks {
-    margin-right: 9rem;
+    margin-right: 0;
     margin-left: 0;
     @include media-breakpoint-up(lg) {
-      margin-right: 0;
+      margin-right: 9rem;
     }
   }
 }
