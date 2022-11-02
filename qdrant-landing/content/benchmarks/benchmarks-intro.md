@@ -20,7 +20,7 @@ The list will be updated:
 
 * Upload & Search speed on single node - [Benchmark](/benchmarks/single-node-speed-benchmark/)
 * Memory consumption benchmark - TBD
-* Filtered search benchmark - TBD
+* Filtered search benchmark - [Benchmark](/benchmarks/single-node-filtering-benchmark/)
 * Cluster mode benchmark - TBD
 
 Some of our experiment design decisions are described at [F.A.Q Section](/benchmarks/#benchmarks-faq).
