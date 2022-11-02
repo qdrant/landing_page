@@ -1,5 +1,5 @@
 ---
 title: Demos
-section_title: Interactive Live Examples
-img: /demo/demos-title.svg
+section_title: Interactive <br>Live Examples
+img: /demo/demos-title.png
 ---

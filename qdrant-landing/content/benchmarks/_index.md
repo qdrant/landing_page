@@ -1,5 +1,6 @@
 ---
 title: Benchmarks
+section_title: Compare vector <br/>search performance
 description: The first comparative benchmark and benchmarking framework for vector search engines
 keywords:
   - vector databases comparative benchmark
