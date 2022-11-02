@@ -1703,6 +1703,24 @@
         "dataset_name": "random-match-keyword-100-angular-filters",
         "upload_time": 38.04891150898766,
         "total_upload_time": 260.69056767295115,
+        "p95_time": 0.38321454403339883,
+        "rps": 5.24679938771757,
+        "parallel": 1,
+        "p99_time": 0.44768703026929885,
+        "mean_time": 0.19018837032461305,
+        "mean_precisions": 0.8741416666666666,
+        "engine_params": {
+            "params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 38.04891150898766,
+        "total_upload_time": 260.69056767295115,
         "p95_time": 0.379725646879524,
         "rps": 4.196357353290667,
         "parallel": 1,
@@ -1937,6 +1955,294 @@
         "dataset_name": "random-match-keyword-100-angular-filters",
         "upload_time": 38.04891150898766,
         "total_upload_time": 260.69056767295115,
+        "p95_time": 8.407299506815615,
+        "rps": 12.612467616308843,
+        "parallel": 100,
+        "p99_time": 8.728458896882367,
+        "mean_time": 7.6517441897648855,
+        "mean_precisions": 0.8779926666666666,
+        "engine_params": {
+            "params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.3834956617560238,
+        "rps": 5.077100350579174,
+        "parallel": 1,
+        "p99_time": 0.44061488213250416,
+        "mean_time": 0.1965838235736941,
+        "mean_precisions": 0.8741606666666667,
+        "engine_params": {
+            "params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.38321454403339883,
+        "rps": 5.24679938771757,
+        "parallel": 1,
+        "p99_time": 0.44768703026929885,
+        "mean_time": 0.19018837032461305,
+        "mean_precisions": 0.8741416666666666,
+        "engine_params": {
+            "params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.379725646879524,
+        "rps": 4.196357353290667,
+        "parallel": 1,
+        "p99_time": 0.43009335351060146,
+        "mean_time": 0.23791736828231952,
+        "mean_precisions": 0.8773646666666668,
+        "engine_params": {
+            "params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.398617030744208,
+        "rps": 3.3653055626215673,
+        "parallel": 1,
+        "p99_time": 0.4513347140664701,
+        "mean_time": 0.2967669544994831,
+        "mean_precisions": 0.8779926666666666,
+        "engine_params": {
+            "params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.403492356208153,
+        "rps": 9.892266180297407,
+        "parallel": 2,
+        "p99_time": 0.44602970482548715,
+        "mean_time": 0.2017642165984027,
+        "mean_precisions": 0.8741606666666667,
+        "engine_params": {
+            "params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.39942447655485,
+        "rps": 8.108116528220492,
+        "parallel": 2,
+        "p99_time": 0.4404398557276,
+        "mean_time": 0.24622703004814683,
+        "mean_precisions": 0.8773646666666668,
+        "engine_params": {
+            "params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.409388684912119,
+        "rps": 6.510968202195208,
+        "parallel": 2,
+        "p99_time": 0.4527222324057948,
+        "mean_time": 0.3067520338634378,
+        "mean_precisions": 0.8779926666666666,
+        "engine_params": {
+            "params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.43372885629651126,
+        "rps": 18.60688792583229,
+        "parallel": 4,
+        "p99_time": 0.4939709947269876,
+        "mean_time": 0.2142918951960979,
+        "mean_precisions": 0.8741606666666667,
+        "engine_params": {
+            "params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.4288587265997193,
+        "rps": 15.280885936054473,
+        "parallel": 4,
+        "p99_time": 0.47674762990442104,
+        "mean_time": 0.26110328650757436,
+        "mean_precisions": 0.8773646666666668,
+        "engine_params": {
+            "params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.45704266064567484,
+        "rps": 11.990531028979428,
+        "parallel": 4,
+        "p99_time": 0.5080035414302256,
+        "mean_time": 0.33293930630525576,
+        "mean_precisions": 0.8779926666666666,
+        "engine_params": {
+            "params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.5828506063029636,
+        "rps": 23.809000736379208,
+        "parallel": 8,
+        "p99_time": 0.636906937385211,
+        "mean_time": 0.3341597001523944,
+        "mean_precisions": 0.8741606666666667,
+        "engine_params": {
+            "params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.6455911935248876,
+        "rps": 18.45764873460482,
+        "parallel": 8,
+        "p99_time": 0.6991795356420335,
+        "mean_time": 0.4314921199925244,
+        "mean_precisions": 0.8773646666666668,
+        "engine_params": {
+            "params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 0.7676750920363702,
+        "rps": 13.70854198694736,
+        "parallel": 8,
+        "p99_time": 0.8327447075780947,
+        "mean_time": 0.5816572870761273,
+        "mean_precisions": 0.8779926666666666,
+        "engine_params": {
+            "params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 4.844918798643629,
+        "rps": 22.14088323831539,
+        "parallel": 100,
+        "p99_time": 5.235147032375681,
+        "mean_time": 4.256621721140423,
+        "mean_precisions": 0.8741606666666667,
+        "engine_params": {
+            "params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
+        "p95_time": 6.163646289607277,
+        "rps": 17.0239100282395,
+        "parallel": 100,
+        "p99_time": 6.775974167241949,
+        "mean_time": 5.604383347803715,
+        "mean_precisions": 0.8773646666666668,
+        "engine_params": {
+            "params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "milvus-default",
+        "engine_name": "milvus",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 39.09822730906308,
+        "total_upload_time": 272.01470213604625,
         "p95_time": 8.407299506815615,
         "rps": 12.612467616308843,
         "parallel": 100,
@@ -4664,6 +4970,2526 @@
         "engine_params": {
             "search_params": {
                 "hnsw_ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0009470795164816081,
+        "rps": 1231.4930004933271,
+        "parallel": 1,
+        "p99_time": 0.0011626900837291032,
+        "mean_time": 0.0007110612469376065,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010741686273831874,
+        "rps": 1059.1842849530015,
+        "parallel": 1,
+        "p99_time": 0.0012982844933867455,
+        "mean_time": 0.0008253982086665929,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0009785245463717728,
+        "rps": 1171.8580880774675,
+        "parallel": 1,
+        "p99_time": 0.0011483795905951417,
+        "mean_time": 0.0007454988976242021,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0009832376323174682,
+        "rps": 1172.3159133170661,
+        "parallel": 1,
+        "p99_time": 0.0011623451428022238,
+        "mean_time": 0.0007447283435729332,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010422635008580984,
+        "rps": 2296.0114704823077,
+        "parallel": 2,
+        "p99_time": 0.0012398077722173193,
+        "mean_time": 0.0007709477728232741,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010842555435374374,
+        "rps": 2253.732452963822,
+        "parallel": 2,
+        "p99_time": 0.0013149171788245442,
+        "mean_time": 0.0007902541316347196,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010799291252624238,
+        "rps": 2300.3754560466705,
+        "parallel": 2,
+        "p99_time": 0.0014042003836948428,
+        "mean_time": 0.0007737037143087946,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010663870198186485,
+        "rps": 2295.678637144571,
+        "parallel": 2,
+        "p99_time": 0.0013523023447487511,
+        "mean_time": 0.0007694791537011042,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010514010617043823,
+        "rps": 4780.766141103556,
+        "parallel": 4,
+        "p99_time": 0.0013849505723919722,
+        "mean_time": 0.0007032605122076347,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010868760582525274,
+        "rps": 4688.998184009503,
+        "parallel": 4,
+        "p99_time": 0.0014564219187013813,
+        "mean_time": 0.0007356886051944457,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.001004831085447222,
+        "rps": 4855.665694345766,
+        "parallel": 4,
+        "p99_time": 0.0013102102582342925,
+        "mean_time": 0.0006843934404663741,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0010158999997656791,
+        "rps": 4631.010693553501,
+        "parallel": 4,
+        "p99_time": 0.0014062182093039157,
+        "mean_time": 0.000700795436790213,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0015579850296489894,
+        "rps": 4471.362002042685,
+        "parallel": 8,
+        "p99_time": 0.0023715164850000303,
+        "mean_time": 0.000931045291130431,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0013826385140419005,
+        "rps": 4709.971510450088,
+        "parallel": 8,
+        "p99_time": 0.0021454471512697645,
+        "mean_time": 0.0008632773287245072,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0013711234845686703,
+        "rps": 4935.292177679886,
+        "parallel": 8,
+        "p99_time": 0.002131872394820681,
+        "mean_time": 0.000844477302103769,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.001343871303834019,
+        "rps": 4805.292059683605,
+        "parallel": 8,
+        "p99_time": 0.00203582847956568,
+        "mean_time": 0.0008232080209651031,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.005457475705770766,
+        "rps": 4144.939847187891,
+        "parallel": 100,
+        "p99_time": 0.01306403833907101,
+        "mean_time": 0.0017966573411482387,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.005124463699758051,
+        "rps": 4009.3273166963477,
+        "parallel": 100,
+        "p99_time": 0.00825630416162314,
+        "mean_time": 0.0016517405115882866,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.0055541887297295015,
+        "rps": 3956.9295327383074,
+        "parallel": 100,
+        "p99_time": 0.010842664041556425,
+        "mean_time": 0.0018109737841296009,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-default",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1336.6080336319283,
+        "total_upload_time": 1336.6080867010169,
+        "p95_time": 0.004824211494997141,
+        "rps": 4144.906900189551,
+        "parallel": 100,
+        "p99_time": 0.008002899962011728,
+        "mean_time": 0.00160306168718962,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010812874941620975,
+        "rps": 1050.7934632140652,
+        "parallel": 1,
+        "p99_time": 0.0012489491305314006,
+        "mean_time": 0.0008335778819513508,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010003120056353509,
+        "rps": 1136.0959165296265,
+        "parallel": 1,
+        "p99_time": 0.0011838965537026526,
+        "mean_time": 0.0007714007879258133,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0009824534703511743,
+        "rps": 1161.2679054519951,
+        "parallel": 1,
+        "p99_time": 0.001186172568704933,
+        "mean_time": 0.0007554605956422165,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010234490095172076,
+        "rps": 1112.6554108052196,
+        "parallel": 1,
+        "p99_time": 0.0012157693214248867,
+        "mean_time": 0.0007883348540985026,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010976674675475804,
+        "rps": 2227.9818285605284,
+        "parallel": 2,
+        "p99_time": 0.0013535780855454505,
+        "mean_time": 0.0007957493842230179,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010535860317759209,
+        "rps": 2350.467984183956,
+        "parallel": 2,
+        "p99_time": 0.0012790494272485382,
+        "mean_time": 0.0007529527902253903,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.001100623613456264,
+        "rps": 2223.7620439895272,
+        "parallel": 2,
+        "p99_time": 0.0013319816044531764,
+        "mean_time": 0.0007978909076889976,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0011359865136910227,
+        "rps": 2164.8911509327236,
+        "parallel": 2,
+        "p99_time": 0.0013712212105747314,
+        "mean_time": 0.0008205974929151125,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010535251291003073,
+        "rps": 4650.962909659623,
+        "parallel": 4,
+        "p99_time": 0.0014116671297233557,
+        "mean_time": 0.0007137684079818428,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010296676016878334,
+        "rps": 4903.044015845831,
+        "parallel": 4,
+        "p99_time": 0.0013634709897451106,
+        "mean_time": 0.0006925280918134377,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010294625477399674,
+        "rps": 4831.030054391096,
+        "parallel": 4,
+        "p99_time": 0.0013889808789826937,
+        "mean_time": 0.000702148814604152,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0010422090592328453,
+        "rps": 4728.962934394814,
+        "parallel": 4,
+        "p99_time": 0.0013570973230525858,
+        "mean_time": 0.0007132352008135058,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0013942257268354289,
+        "rps": 4956.745395081484,
+        "parallel": 8,
+        "p99_time": 0.0021063436253462,
+        "mean_time": 0.0008204749956727028,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.00148809709935449,
+        "rps": 4881.027395316699,
+        "parallel": 8,
+        "p99_time": 0.0021776016964577143,
+        "mean_time": 0.0008615061240503564,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0014660227403510348,
+        "rps": 5194.867438686496,
+        "parallel": 8,
+        "p99_time": 0.0023460743867326534,
+        "mean_time": 0.0008534349648165517,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.0015480752044823008,
+        "rps": 5012.998650411353,
+        "parallel": 8,
+        "p99_time": 0.0025605299649760225,
+        "mean_time": 0.0009178483777563087,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.005919719353551041,
+        "rps": 3737.452647808537,
+        "parallel": 100,
+        "p99_time": 0.009347168034873905,
+        "mean_time": 0.0018853305446216836,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.00592200743849389,
+        "rps": 3809.1347988551456,
+        "parallel": 100,
+        "p99_time": 0.009883880544221036,
+        "mean_time": 0.001913754389330279,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.005305488180601968,
+        "rps": 3907.6541422062664,
+        "parallel": 100,
+        "p99_time": 0.008465202163206424,
+        "mean_time": 0.0017395585902268067,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-16-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1048.7474000490038,
+        "total_upload_time": 1048.7474868319696,
+        "p95_time": 0.005154612322803585,
+        "rps": 3806.917998102751,
+        "parallel": 100,
+        "p99_time": 0.009102403441211212,
+        "mean_time": 0.001727913473523222,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0009873290196992456,
+        "rps": 1182.1558640880442,
+        "parallel": 1,
+        "p99_time": 0.001193453595042229,
+        "mean_time": 0.0007446488716872409,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0010275201988406478,
+        "rps": 1136.4763165752279,
+        "parallel": 1,
+        "p99_time": 0.0012670318013988436,
+        "mean_time": 0.0007769169453764334,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0010177104268223045,
+        "rps": 1136.8773859740359,
+        "parallel": 1,
+        "p99_time": 0.0012405443377792838,
+        "mean_time": 0.000774987214920111,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.001016907999292016,
+        "rps": 1129.4268673570073,
+        "parallel": 1,
+        "p99_time": 0.0012025521020405012,
+        "mean_time": 0.0007766296163434162,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.001082520256750285,
+        "rps": 2275.379211197743,
+        "parallel": 2,
+        "p99_time": 0.0012817294336855418,
+        "mean_time": 0.0007780590609647334,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0010376083315350114,
+        "rps": 2349.503207119848,
+        "parallel": 2,
+        "p99_time": 0.0012371016968972981,
+        "mean_time": 0.0007459222143981606,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0011048120679333804,
+        "rps": 2234.531306714435,
+        "parallel": 2,
+        "p99_time": 0.001308709264267236,
+        "mean_time": 0.0007927799016004428,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0010874840081669388,
+        "rps": 2208.504140474851,
+        "parallel": 2,
+        "p99_time": 0.0013345274771563711,
+        "mean_time": 0.0007990852701244876,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0010852940031327307,
+        "rps": 4751.649245318994,
+        "parallel": 4,
+        "p99_time": 0.0014894169475883248,
+        "mean_time": 0.0007161214328138157,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0010888421093113718,
+        "rps": 4704.766745310248,
+        "parallel": 4,
+        "p99_time": 0.0015222596633248035,
+        "mean_time": 0.0007300124345347286,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0009918269584886729,
+        "rps": 5046.622561754241,
+        "parallel": 4,
+        "p99_time": 0.0013156031048856677,
+        "mean_time": 0.0006716300804400817,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0009881326230242846,
+        "rps": 4894.304189799432,
+        "parallel": 4,
+        "p99_time": 0.0013063907390460374,
+        "mean_time": 0.0006775773908011616,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0013317021890543385,
+        "rps": 5163.499092926798,
+        "parallel": 8,
+        "p99_time": 0.0019003546447493142,
+        "mean_time": 0.000831773595069535,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0014107177383266382,
+        "rps": 4827.394194168698,
+        "parallel": 8,
+        "p99_time": 0.0020749222417362034,
+        "mean_time": 0.0008552141695749015,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0013798625557683403,
+        "rps": 5323.283978092729,
+        "parallel": 8,
+        "p99_time": 0.0019991180859506136,
+        "mean_time": 0.0008243421416962519,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0014355135383084415,
+        "rps": 4779.690973267279,
+        "parallel": 8,
+        "p99_time": 0.0023811027989722802,
+        "mean_time": 0.0008779247986385599,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.005493707570713011,
+        "rps": 3975.8358159953373,
+        "parallel": 100,
+        "p99_time": 0.008622782405000182,
+        "mean_time": 0.0017644466593628749,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.0051028921967372284,
+        "rps": 3928.000509502951,
+        "parallel": 100,
+        "p99_time": 0.009622117283288392,
+        "mean_time": 0.0017111841290257872,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.005704734532628205,
+        "rps": 3831.639060918023,
+        "parallel": 100,
+        "p99_time": 0.00991588111268357,
+        "mean_time": 0.001824303745990619,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-128",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 1919.6105769420974,
+        "total_upload_time": 1919.6106482860632,
+        "p95_time": 0.005562082596588867,
+        "rps": 3824.985228729667,
+        "parallel": 100,
+        "p99_time": 0.009816557196900253,
+        "mean_time": 0.0017432412914466112,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0010095825418829914,
+        "rps": 1137.919351079679,
+        "parallel": 1,
+        "p99_time": 0.0011952984542585913,
+        "mean_time": 0.0007728590591577813,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0009484615526162087,
+        "rps": 1213.438361081541,
+        "parallel": 1,
+        "p99_time": 0.0011171891470439733,
+        "mean_time": 0.0007199360828846693,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0009631870314478874,
+        "rps": 1203.919543218078,
+        "parallel": 1,
+        "p99_time": 0.001146721905097366,
+        "mean_time": 0.0007330071672331542,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0009996495558880268,
+        "rps": 1149.6186964401843,
+        "parallel": 1,
+        "p99_time": 0.0012155043752864005,
+        "mean_time": 0.0007625244166469202,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.001060658448841422,
+        "rps": 2278.1700327656713,
+        "parallel": 2,
+        "p99_time": 0.0012828777381218971,
+        "mean_time": 0.0007811557882232592,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0011094009038060903,
+        "rps": 2241.784130667802,
+        "parallel": 2,
+        "p99_time": 0.0014016299927607188,
+        "mean_time": 0.00079212270390708,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0011102630989626046,
+        "rps": 2199.8366192718972,
+        "parallel": 2,
+        "p99_time": 0.001402619609143585,
+        "mean_time": 0.0008089102776022628,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0010934819350950419,
+        "rps": 2192.3030075990714,
+        "parallel": 2,
+        "p99_time": 0.0014351185481064038,
+        "mean_time": 0.0008035497775301337,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0010277426103129975,
+        "rps": 4856.734227297646,
+        "parallel": 4,
+        "p99_time": 0.0013811912504024806,
+        "mean_time": 0.0006924946491839364,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0010780745302326976,
+        "rps": 4934.896791227289,
+        "parallel": 4,
+        "p99_time": 0.0014774473663419488,
+        "mean_time": 0.0007133432330330834,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0011251699994318186,
+        "rps": 4641.586470015516,
+        "parallel": 4,
+        "p99_time": 0.001503972879145295,
+        "mean_time": 0.0007452455086866393,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0010881010675802825,
+        "rps": 4770.3905622675065,
+        "parallel": 4,
+        "p99_time": 0.001356850846204907,
+        "mean_time": 0.0007301358096534386,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0013877895311452445,
+        "rps": 4742.831951019945,
+        "parallel": 8,
+        "p99_time": 0.0021358614787459385,
+        "mean_time": 0.0008617870190180838,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0012931552133522918,
+        "rps": 4986.529461473937,
+        "parallel": 8,
+        "p99_time": 0.0017856452940031894,
+        "mean_time": 0.0008146830772748217,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.001600452302955089,
+        "rps": 4819.742086825468,
+        "parallel": 8,
+        "p99_time": 0.002477691115345806,
+        "mean_time": 0.0009154710271162913,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0014969024457968754,
+        "rps": 4950.182463074937,
+        "parallel": 8,
+        "p99_time": 0.002347394737880678,
+        "mean_time": 0.0008710181950358674,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0052115140017121985,
+        "rps": 4171.573645170787,
+        "parallel": 100,
+        "p99_time": 0.00861473149387167,
+        "mean_time": 0.0017494716871064157,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0049778230255469605,
+        "rps": 4124.15422489044,
+        "parallel": 100,
+        "p99_time": 0.008467453494668008,
+        "mean_time": 0.0017210528044030071,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.004658441094215958,
+        "rps": 3864.403162946785,
+        "parallel": 100,
+        "p99_time": 0.007614205812569709,
+        "mean_time": 0.0016180140427080915,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 2846.819859826006,
+        "total_upload_time": 2846.8199168930296,
+        "p95_time": 0.0050092025892809035,
+        "rps": 3987.203385198918,
+        "parallel": 100,
+        "p99_time": 0.00774401635164395,
+        "mean_time": 0.0016811190246837214,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.000949899957049638,
+        "rps": 1204.6824160469632,
+        "parallel": 1,
+        "p99_time": 0.0011596292629837991,
+        "mean_time": 0.0007272019350202754,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010035715880803765,
+        "rps": 1135.7106965346095,
+        "parallel": 1,
+        "p99_time": 0.0012034969683736565,
+        "mean_time": 0.0007700699079781771,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010107313049957153,
+        "rps": 1140.030050747291,
+        "parallel": 1,
+        "p99_time": 0.001215773993171752,
+        "mean_time": 0.0007690408321330324,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.001013704086653888,
+        "rps": 1123.1154980329297,
+        "parallel": 1,
+        "p99_time": 0.001198383083101362,
+        "mean_time": 0.000775610241247341,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010812634718604384,
+        "rps": 2221.51116737534,
+        "parallel": 2,
+        "p99_time": 0.0013074502418749037,
+        "mean_time": 0.0007959709454793483,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010434640804305672,
+        "rps": 2316.460415350425,
+        "parallel": 2,
+        "p99_time": 0.001266083880327642,
+        "mean_time": 0.0007660412472439929,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010576350265182554,
+        "rps": 2279.619463871658,
+        "parallel": 2,
+        "p99_time": 0.0012519266596063973,
+        "mean_time": 0.0007769970305031165,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010790672618895768,
+        "rps": 2253.678019803813,
+        "parallel": 2,
+        "p99_time": 0.0012978523178026082,
+        "mean_time": 0.0007871383426478133,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.001005878543946892,
+        "rps": 4816.00445347116,
+        "parallel": 4,
+        "p99_time": 0.0013068403536453843,
+        "mean_time": 0.0006914937501074747,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010152266710065302,
+        "rps": 4879.292090935852,
+        "parallel": 4,
+        "p99_time": 0.0013334946217946713,
+        "mean_time": 0.0006855823970632628,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0010194231290370224,
+        "rps": 4736.281526135328,
+        "parallel": 4,
+        "p99_time": 0.0014231612929143011,
+        "mean_time": 0.0006978389718104153,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.001003223471343517,
+        "rps": 4902.666818833819,
+        "parallel": 4,
+        "p99_time": 0.0013241747044958198,
+        "mean_time": 0.0006922909716609865,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0013787204050458963,
+        "rps": 4910.158625970935,
+        "parallel": 8,
+        "p99_time": 0.002119283638894558,
+        "mean_time": 0.0008541942625539378,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.001303653453942388,
+        "rps": 5344.260947223371,
+        "parallel": 8,
+        "p99_time": 0.0021462448476813737,
+        "mean_time": 0.0007990002761827782,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.001333913102280348,
+        "rps": 5061.954201232058,
+        "parallel": 8,
+        "p99_time": 0.0019217439298518004,
+        "mean_time": 0.000799086882127449,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.0014445934328250582,
+        "rps": 5021.570117000617,
+        "parallel": 8,
+        "p99_time": 0.0023117292020469926,
+        "mean_time": 0.000844086241046898,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.005619506980292499,
+        "rps": 3950.931444759666,
+        "parallel": 100,
+        "p99_time": 0.00951194732449949,
+        "mean_time": 0.0018010529127670451,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.004852077772375194,
+        "rps": 3717.312590831245,
+        "parallel": 100,
+        "p99_time": 0.007735865819267929,
+        "mean_time": 0.0016210545834619552,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.005237044137902553,
+        "rps": 3896.671798052135,
+        "parallel": 100,
+        "p99_time": 0.009530118824914103,
+        "mean_time": 0.0017049631097353995,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-32-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 4309.806554864859,
+        "total_upload_time": 4309.806632109918,
+        "p95_time": 0.004731051402632144,
+        "rps": 3875.545567782999,
+        "parallel": 100,
+        "p99_time": 0.007934375028125946,
+        "mean_time": 0.0016282981491182,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0009983326657675205,
+        "rps": 1146.5962001416217,
+        "parallel": 1,
+        "p99_time": 0.0012072037393227222,
+        "mean_time": 0.0007644055304583162,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0009899274911731482,
+        "rps": 1143.703439480111,
+        "parallel": 1,
+        "p99_time": 0.0011721411813050509,
+        "mean_time": 0.0007664103146642447,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0009805320762097836,
+        "rps": 1154.5941905653463,
+        "parallel": 1,
+        "p99_time": 0.0011405048985034228,
+        "mean_time": 0.0007569707913091406,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0009521484607830641,
+        "rps": 1193.9230684312288,
+        "parallel": 1,
+        "p99_time": 0.0011425926117226487,
+        "mean_time": 0.0007350810037227347,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0010324855451472102,
+        "rps": 2317.709407966213,
+        "parallel": 2,
+        "p99_time": 0.0012499846750870349,
+        "mean_time": 0.0007615869098342955,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0010741099831648169,
+        "rps": 2255.159364499922,
+        "parallel": 2,
+        "p99_time": 0.0012878154008649297,
+        "mean_time": 0.0007859108796576038,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0010415213881060478,
+        "rps": 2338.9993135557106,
+        "parallel": 2,
+        "p99_time": 0.0012679653125815095,
+        "mean_time": 0.0007548660810338334,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0010407170047983525,
+        "rps": 2318.480782236908,
+        "parallel": 2,
+        "p99_time": 0.0012577771581709402,
+        "mean_time": 0.0007631205726647749,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.001004289695993065,
+        "rps": 4639.947721852186,
+        "parallel": 4,
+        "p99_time": 0.0013272225577384235,
+        "mean_time": 0.0006992869556648656,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.000991098559461534,
+        "rps": 4680.675578281803,
+        "parallel": 4,
+        "p99_time": 0.001340129433665426,
+        "mean_time": 0.0006994964863406495,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.000997069338336587,
+        "rps": 4902.184785416333,
+        "parallel": 4,
+        "p99_time": 0.001345611761789769,
+        "mean_time": 0.0006789900709874928,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0009931289823725815,
+        "rps": 4916.098265880485,
+        "parallel": 4,
+        "p99_time": 0.001408022928517312,
+        "mean_time": 0.0006891841319855303,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0013164085801690808,
+        "rps": 5164.007064688147,
+        "parallel": 8,
+        "p99_time": 0.0018374199839308865,
+        "mean_time": 0.0008062122004572302,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.001347248046658933,
+        "rps": 5425.744144331234,
+        "parallel": 8,
+        "p99_time": 0.0019136622431688015,
+        "mean_time": 0.0008017366744345054,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0013785405317321413,
+        "rps": 5323.882388981353,
+        "parallel": 8,
+        "p99_time": 0.001935662787873299,
+        "mean_time": 0.0008275752978632227,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.0013689593877643344,
+        "rps": 4825.915004311667,
+        "parallel": 8,
+        "p99_time": 0.002014126831199975,
+        "mean_time": 0.0008362365613225847,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.004732710926327851,
+        "rps": 3752.790254658672,
+        "parallel": 100,
+        "p99_time": 0.007632839260622863,
+        "mean_time": 0.0016182859480846673,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.005237644282169638,
+        "rps": 3849.38696719758,
+        "parallel": 100,
+        "p99_time": 0.0084020807594061,
+        "mean_time": 0.0016992328129243105,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.004971993633080274,
+        "rps": 3755.6799934351857,
+        "parallel": 100,
+        "p99_time": 0.007743830501567576,
+        "mean_time": 0.001620842682244256,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-256",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 5349.000193400076,
+        "total_upload_time": 5349.000619719038,
+        "p95_time": 0.005410534830298273,
+        "rps": 3761.806601373733,
+        "parallel": 100,
+        "p99_time": 0.00860167171806097,
+        "mean_time": 0.0016637598287314176,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0009591105394065377,
+        "rps": 1205.0191849804526,
+        "parallel": 1,
+        "p99_time": 0.0011456235824152828,
+        "mean_time": 0.00072488509635441,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0009945631842128932,
+        "rps": 1150.4048643864046,
+        "parallel": 1,
+        "p99_time": 0.001180000335443765,
+        "mean_time": 0.0007650861815083772,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0009833670570515093,
+        "rps": 1164.843156335504,
+        "parallel": 1,
+        "p99_time": 0.001182826610747725,
+        "mean_time": 0.0007521996448747813,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0009894203860312699,
+        "rps": 1146.9931777132545,
+        "parallel": 1,
+        "p99_time": 0.001162509557325393,
+        "mean_time": 0.0007643054944230244,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.001091276400256902,
+        "rps": 2274.984226597217,
+        "parallel": 2,
+        "p99_time": 0.001369610764086248,
+        "mean_time": 0.000778662089840509,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.001093408546876162,
+        "rps": 2233.9168578726812,
+        "parallel": 2,
+        "p99_time": 0.0013536443933844576,
+        "mean_time": 0.000794064177852124,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0010858341469429432,
+        "rps": 2227.999390994476,
+        "parallel": 2,
+        "p99_time": 0.0012958419136703024,
+        "mean_time": 0.0007875227991258726,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0010918403510004281,
+        "rps": 2217.7270530199644,
+        "parallel": 2,
+        "p99_time": 0.0013048566435463732,
+        "mean_time": 0.0007960358557524159,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0010169405257329344,
+        "rps": 5032.236031254043,
+        "parallel": 4,
+        "p99_time": 0.0014055608236230937,
+        "mean_time": 0.0006857315191300586,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0009745241375640032,
+        "rps": 5073.829850882143,
+        "parallel": 4,
+        "p99_time": 0.0013225406035780908,
+        "mean_time": 0.0006640322296181694,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0009923950303345917,
+        "rps": 4942.3167924515255,
+        "parallel": 4,
+        "p99_time": 0.0013298475812189283,
+        "mean_time": 0.0006694293110631407,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0009662121417932212,
+        "rps": 4964.005198927874,
+        "parallel": 4,
+        "p99_time": 0.0012563925096765174,
+        "mean_time": 0.0006746387421153485,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0013503126683644946,
+        "rps": 5078.668462246037,
+        "parallel": 8,
+        "p99_time": 0.0019380180677399047,
+        "mean_time": 0.0008287111390149221,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0013623835635371499,
+        "rps": 4699.325992357855,
+        "parallel": 8,
+        "p99_time": 0.002032797764986754,
+        "mean_time": 0.000832191854226403,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0014523970196023582,
+        "rps": 4763.745509262911,
+        "parallel": 8,
+        "p99_time": 0.002093535740859807,
+        "mean_time": 0.0008726785671664402,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.0013673416338860983,
+        "rps": 4753.458642234989,
+        "parallel": 8,
+        "p99_time": 0.0021538436762057276,
+        "mean_time": 0.0008367643941659481,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.005906902812421319,
+        "rps": 4042.276468569774,
+        "parallel": 100,
+        "p99_time": 0.01051226971438155,
+        "mean_time": 0.0018387250951491297,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.005081904050894081,
+        "rps": 3834.662802538992,
+        "parallel": 100,
+        "p99_time": 0.008191593911033126,
+        "mean_time": 0.0016790301379282027,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.005052758136298487,
+        "rps": 3704.5059557565887,
+        "parallel": 100,
+        "p99_time": 0.00873451260151342,
+        "mean_time": 0.0016259414746891707,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "redis-m-64-ef-512",
+        "engine_name": "redis",
+        "dataset_name": "random-match-keyword-100-angular-filters",
+        "upload_time": 8082.3835404091515,
+        "total_upload_time": 8082.3835948111955,
+        "p95_time": 0.004920449084602292,
+        "rps": 3890.954889130223,
+        "parallel": 100,
+        "p99_time": 0.007871299844700853,
+        "mean_time": 0.00167792614873033,
+        "mean_precisions": 0.0,
+        "engine_params": {
+            "search_params": {
+                "ef": 512
             }
         }
     },
