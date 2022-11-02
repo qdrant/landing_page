@@ -14,4 +14,5 @@ keywords:
   - vector search
   - embedding
 preview_image: /benchmarks/benchmark-1.png
+img: /benchmarks/benchmarks-title.svg
 ---

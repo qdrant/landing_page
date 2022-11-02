@@ -2,6 +2,7 @@
 title: Documentation
 section_title: Everything you need to start working with Qdrant
 subtitle: 
+img: /docs/docs-title.svg
 ---
 
 
