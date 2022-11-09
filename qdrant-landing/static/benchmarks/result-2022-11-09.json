@@ -1875,269 +1875,17 @@
         "setup_name": "milvus-default",
         "engine_name": "milvus",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.38321454403339883,
-        "rps": 5.24679938771757,
+        "upload_time": 45.629114157985896,
+        "total_upload_time": 272.8573644940043,
+        "p95_time": 0.3361742168868659,
+        "rps": 5.784691733623187,
         "parallel": 1,
-        "p99_time": 0.44768703026929885,
-        "mean_time": 0.19018837032461305,
-        "mean_precisions": 0.8741416666666666,
+        "p99_time": 0.3701931508170674,
+        "mean_time": 0.17228201579416635,
+        "mean_precisions": 0.9956773333333334,
         "engine_params": {
             "params": {
                 "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.379725646879524,
-        "rps": 4.196357353290667,
-        "parallel": 1,
-        "p99_time": 0.43009335351060146,
-        "mean_time": 0.23791736828231952,
-        "mean_precisions": 0.8773646666666668,
-        "engine_params": {
-            "params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.398617030744208,
-        "rps": 3.3653055626215673,
-        "parallel": 1,
-        "p99_time": 0.4513347140664701,
-        "mean_time": 0.2967669544994831,
-        "mean_precisions": 0.8779926666666666,
-        "engine_params": {
-            "params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.403492356208153,
-        "rps": 9.892266180297407,
-        "parallel": 2,
-        "p99_time": 0.44602970482548715,
-        "mean_time": 0.2017642165984027,
-        "mean_precisions": 0.8741606666666667,
-        "engine_params": {
-            "params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.39942447655485,
-        "rps": 8.108116528220492,
-        "parallel": 2,
-        "p99_time": 0.4404398557276,
-        "mean_time": 0.24622703004814683,
-        "mean_precisions": 0.8773646666666668,
-        "engine_params": {
-            "params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.409388684912119,
-        "rps": 6.510968202195208,
-        "parallel": 2,
-        "p99_time": 0.4527222324057948,
-        "mean_time": 0.3067520338634378,
-        "mean_precisions": 0.8779926666666666,
-        "engine_params": {
-            "params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.43372885629651126,
-        "rps": 18.60688792583229,
-        "parallel": 4,
-        "p99_time": 0.4939709947269876,
-        "mean_time": 0.2142918951960979,
-        "mean_precisions": 0.8741606666666667,
-        "engine_params": {
-            "params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.4288587265997193,
-        "rps": 15.280885936054473,
-        "parallel": 4,
-        "p99_time": 0.47674762990442104,
-        "mean_time": 0.26110328650757436,
-        "mean_precisions": 0.8773646666666668,
-        "engine_params": {
-            "params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.45704266064567484,
-        "rps": 11.990531028979428,
-        "parallel": 4,
-        "p99_time": 0.5080035414302256,
-        "mean_time": 0.33293930630525576,
-        "mean_precisions": 0.8779926666666666,
-        "engine_params": {
-            "params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.5828506063029636,
-        "rps": 23.809000736379208,
-        "parallel": 8,
-        "p99_time": 0.636906937385211,
-        "mean_time": 0.3341597001523944,
-        "mean_precisions": 0.8741606666666667,
-        "engine_params": {
-            "params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.6455911935248876,
-        "rps": 18.45764873460482,
-        "parallel": 8,
-        "p99_time": 0.6991795356420335,
-        "mean_time": 0.4314921199925244,
-        "mean_precisions": 0.8773646666666668,
-        "engine_params": {
-            "params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 0.7676750920363702,
-        "rps": 13.70854198694736,
-        "parallel": 8,
-        "p99_time": 0.8327447075780947,
-        "mean_time": 0.5816572870761273,
-        "mean_precisions": 0.8779926666666666,
-        "engine_params": {
-            "params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 4.844918798643629,
-        "rps": 22.14088323831539,
-        "parallel": 100,
-        "p99_time": 5.235147032375681,
-        "mean_time": 4.256621721140423,
-        "mean_precisions": 0.8741606666666667,
-        "engine_params": {
-            "params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 6.163646289607277,
-        "rps": 17.0239100282395,
-        "parallel": 100,
-        "p99_time": 6.775974167241949,
-        "mean_time": 5.604383347803715,
-        "mean_precisions": 0.8773646666666668,
-        "engine_params": {
-            "params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "milvus-default",
-        "engine_name": "milvus",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 39.09822730906308,
-        "total_upload_time": 272.01470213604625,
-        "p95_time": 8.407299506815615,
-        "rps": 12.612467616308843,
-        "parallel": 100,
-        "p99_time": 8.728458896882367,
-        "mean_time": 7.6517441897648855,
-        "mean_precisions": 0.8779926666666666,
-        "engine_params": {
-            "params": {
-                "ef": 512
             }
         }
     },
@@ -18165,14 +17913,14 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.02251884512370452,
-        "rps": 48.61335444537978,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.022784220048924907,
+        "rps": 48.415418178242355,
         "parallel": 1,
-        "p99_time": 0.024765638054232115,
-        "mean_time": 0.01931606190423481,
-        "mean_precisions": 0.999984,
+        "p99_time": 0.02555442676588428,
+        "mean_time": 0.019352109401841882,
+        "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
                 "hnsw_ef": 64
@@ -18183,14 +17931,14 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.02306384750845609,
-        "rps": 47.79316595774975,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.022972322348505256,
+        "rps": 47.94799424908097,
         "parallel": 1,
-        "p99_time": 0.02525849097815809,
-        "mean_time": 0.01956974436470191,
-        "mean_precisions": 0.999984,
+        "p99_time": 0.025663248240598478,
+        "mean_time": 0.019455794576741754,
+        "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
                 "hnsw_ef": 128
@@ -18201,14 +17949,14 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.022708801699627655,
-        "rps": 48.30319957510098,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.023000322998268524,
+        "rps": 47.945303100694076,
         "parallel": 1,
-        "p99_time": 0.025087002310319805,
-        "mean_time": 0.01938987797978334,
-        "mean_precisions": 0.999984,
+        "p99_time": 0.025482458807528023,
+        "mean_time": 0.019487978886940982,
+        "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
                 "hnsw_ef": 256
@@ -18219,85 +17967,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.022649582604935853,
-        "rps": 48.583584507438104,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.022409669516491704,
+        "rps": 48.6679954246144,
         "parallel": 1,
-        "p99_time": 0.024907818225910885,
-        "mean_time": 0.01928221716317057,
-        "mean_precisions": 0.999984,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-16-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.024019838660024107,
-        "rps": 98.894646602594,
-        "parallel": 2,
-        "p99_time": 0.026464690217399042,
-        "mean_time": 0.01990814894173527,
-        "mean_precisions": 0.999984,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-16-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.024291415700281503,
-        "rps": 97.38255790726453,
-        "parallel": 2,
-        "p99_time": 0.026833954702597113,
-        "mean_time": 0.020191856767178978,
-        "mean_precisions": 0.999984,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-16-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.02387760676210746,
-        "rps": 99.12757862657568,
-        "parallel": 2,
-        "p99_time": 0.026522217800375076,
-        "mean_time": 0.0198572710435139,
-        "mean_precisions": 0.999984,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-16-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.02435311378649203,
-        "rps": 98.2415542862172,
-        "parallel": 2,
-        "p99_time": 0.027196142298344057,
-        "mean_time": 0.020004938476375536,
+        "p99_time": 0.024672018935089,
+        "mean_time": 0.019198024063993943,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18309,13 +17985,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.026368945089052426,
-        "rps": 189.62933778721393,
-        "parallel": 4,
-        "p99_time": 0.03095173752633855,
-        "mean_time": 0.019736381568500657,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.023539395711850375,
+        "rps": 100.79133711062323,
+        "parallel": 2,
+        "p99_time": 0.02630352788779419,
+        "mean_time": 0.019543597065209178,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18327,13 +18003,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.02603957883984547,
-        "rps": 190.80285298514312,
-        "parallel": 4,
-        "p99_time": 0.030125519227585756,
-        "mean_time": 0.019624571039856528,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.024140520076616667,
+        "rps": 98.87747253006317,
+        "parallel": 2,
+        "p99_time": 0.02695248470583465,
+        "mean_time": 0.019882304319401738,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18345,13 +18021,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.02645730417716549,
-        "rps": 188.4235207522898,
-        "parallel": 4,
-        "p99_time": 0.031202354426495743,
-        "mean_time": 0.01985295430913393,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.023850548922200683,
+        "rps": 99.39254627039905,
+        "parallel": 2,
+        "p99_time": 0.026399965112796055,
+        "mean_time": 0.01979814241974964,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18363,13 +18039,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.026622579706599928,
-        "rps": 186.8178368265509,
-        "parallel": 4,
-        "p99_time": 0.030748397114803084,
-        "mean_time": 0.01998133757132746,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.024405387416481968,
+        "rps": 97.58615165823956,
+        "parallel": 2,
+        "p99_time": 0.02744512928940822,
+        "mean_time": 0.020147106513718607,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18381,13 +18057,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.0466290856100386,
-        "rps": 225.9733220463682,
-        "parallel": 8,
-        "p99_time": 0.05600364211422858,
-        "mean_time": 0.030814810249058064,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.02682050395815167,
+        "rps": 187.1298596977304,
+        "parallel": 4,
+        "p99_time": 0.03108064679137897,
+        "mean_time": 0.020008010614832164,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18399,13 +18075,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.04759552610048558,
-        "rps": 224.95372478001053,
-        "parallel": 8,
-        "p99_time": 0.05603731786686695,
-        "mean_time": 0.030846439278751494,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.02696910484519321,
+        "rps": 188.1689516286347,
+        "parallel": 4,
+        "p99_time": 0.03250328472349795,
+        "mean_time": 0.01984238050848362,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18417,13 +18093,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.04673980703955748,
-        "rps": 227.33093569978791,
-        "parallel": 8,
-        "p99_time": 0.05649007664935198,
-        "mean_time": 0.030975173487133,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.026204962827614503,
+        "rps": 192.30612807111436,
+        "parallel": 4,
+        "p99_time": 0.030428555270773372,
+        "mean_time": 0.01947630313950358,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18435,13 +18111,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.04730379974789684,
-        "rps": 222.89168652638793,
-        "parallel": 8,
-        "p99_time": 0.05564411370840389,
-        "mean_time": 0.03095498550866032,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.02664623079472221,
+        "rps": 187.46192982581294,
+        "parallel": 4,
+        "p99_time": 0.03135953353776131,
+        "mean_time": 0.019969504313368816,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18453,13 +18129,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.10158658660366199,
-        "rps": 214.85297797777577,
-        "parallel": 100,
-        "p99_time": 0.13902335786173353,
-        "mean_time": 0.046673866177970195,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.046353656242717985,
+        "rps": 228.70843065087968,
+        "parallel": 8,
+        "p99_time": 0.055272797474172033,
+        "mean_time": 0.03052695728088147,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18471,13 +18147,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.10196591082349184,
-        "rps": 217.44264147778873,
-        "parallel": 100,
-        "p99_time": 0.14488535201031488,
-        "mean_time": 0.04736989545451652,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.04742469732300378,
+        "rps": 222.32118956189987,
+        "parallel": 8,
+        "p99_time": 0.055890425346442514,
+        "mean_time": 0.030696161871467485,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18489,13 +18165,13 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.09589290801959575,
-        "rps": 220.37363271533178,
-        "parallel": 100,
-        "p99_time": 0.1275307494145818,
-        "mean_time": 0.044950506212131584,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.047640553221572186,
+        "rps": 222.61883496664825,
+        "parallel": 8,
+        "p99_time": 0.055249825799837726,
+        "mean_time": 0.031091881101060426,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -18507,13 +18183,85 @@
         "setup_name": "qdrant-rps-m-16-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 139.09895574799157,
-        "total_upload_time": 319.39123708498664,
-        "p95_time": 0.10048901065310926,
-        "rps": 218.70922559210442,
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.046986555441981166,
+        "rps": 224.77640517598047,
+        "parallel": 8,
+        "p99_time": 0.055594231284339914,
+        "mean_time": 0.030800668063567717,
+        "mean_precisions": 0.9999880000000001,
+        "engine_params": {
+            "search_params": {
+                "hnsw_ef": 512
+            }
+        }
+    },
+    {
+        "setup_name": "qdrant-rps-m-16-ef-128",
+        "engine_name": "qdrant",
+        "dataset_name": "random-match-keyword-2048-angular-filters",
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.10134496396058237,
+        "rps": 214.84711380719676,
         "parallel": 100,
-        "p99_time": 0.13547664140060078,
-        "mean_time": 0.04586246851565957,
+        "p99_time": 0.14084055912506305,
+        "mean_time": 0.046885051401745294,
+        "mean_precisions": 0.9999880000000001,
+        "engine_params": {
+            "search_params": {
+                "hnsw_ef": 64
+            }
+        }
+    },
+    {
+        "setup_name": "qdrant-rps-m-16-ef-128",
+        "engine_name": "qdrant",
+        "dataset_name": "random-match-keyword-2048-angular-filters",
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.09989021865476383,
+        "rps": 214.00538615098316,
+        "parallel": 100,
+        "p99_time": 0.13295394312764983,
+        "mean_time": 0.04706135284901247,
+        "mean_precisions": 0.9999880000000001,
+        "engine_params": {
+            "search_params": {
+                "hnsw_ef": 128
+            }
+        }
+    },
+    {
+        "setup_name": "qdrant-rps-m-16-ef-128",
+        "engine_name": "qdrant",
+        "dataset_name": "random-match-keyword-2048-angular-filters",
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.09667093061725607,
+        "rps": 228.62735707291773,
+        "parallel": 100,
+        "p99_time": 0.12961202825594229,
+        "mean_time": 0.04440599235676346,
+        "mean_precisions": 0.9999880000000001,
+        "engine_params": {
+            "search_params": {
+                "hnsw_ef": 256
+            }
+        }
+    },
+    {
+        "setup_name": "qdrant-rps-m-16-ef-128",
+        "engine_name": "qdrant",
+        "dataset_name": "random-match-keyword-2048-angular-filters",
+        "upload_time": 137.1418163960334,
+        "total_upload_time": 277.3700751410215,
+        "p95_time": 0.0954810388764599,
+        "rps": 229.70616026478632,
+        "parallel": 100,
+        "p99_time": 0.1284175264136866,
+        "mean_time": 0.04369718763471465,
         "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
@@ -19605,359 +19353,17 @@
         "setup_name": "qdrant-rps-m-32-ef-128",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.023452125297626476,
-        "rps": 47.34261768145983,
+        "upload_time": 144.23389262403361,
+        "total_upload_time": 464.7761005440261,
+        "p95_time": 0.023453505226643755,
+        "rps": 47.396360287243205,
         "parallel": 1,
-        "p99_time": 0.026290808343619573,
-        "mean_time": 0.01973644486985577,
-        "mean_precisions": 0.999992,
+        "p99_time": 0.02650599659071304,
+        "mean_time": 0.019687041824188782,
+        "mean_precisions": 0.9999880000000001,
         "engine_params": {
             "search_params": {
                 "hnsw_ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.023801175371045244,
-        "rps": 46.60629621867842,
-        "parallel": 1,
-        "p99_time": 0.026838104948983532,
-        "mean_time": 0.019920386692378087,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.023516980251588385,
-        "rps": 47.490128264653116,
-        "parallel": 1,
-        "p99_time": 0.026339363009028605,
-        "mean_time": 0.01962672926254454,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.023541626139194697,
-        "rps": 47.466870106952214,
-        "parallel": 1,
-        "p99_time": 0.02619381312659243,
-        "mean_time": 0.01960410673012084,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.0241608655123855,
-        "rps": 98.3588835931026,
-        "parallel": 2,
-        "p99_time": 0.027254471872875004,
-        "mean_time": 0.019969925427628914,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.02428795760206412,
-        "rps": 98.67040770248435,
-        "parallel": 2,
-        "p99_time": 0.027308616159716623,
-        "mean_time": 0.01993798067366588,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.024330919155909212,
-        "rps": 98.3546354914291,
-        "parallel": 2,
-        "p99_time": 0.027408892922394453,
-        "mean_time": 0.019993771715051845,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.024486066725512498,
-        "rps": 98.15439418836462,
-        "parallel": 2,
-        "p99_time": 0.027365792500204406,
-        "mean_time": 0.020035262826355756,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.026217424050264525,
-        "rps": 189.17216627109474,
-        "parallel": 4,
-        "p99_time": 0.030447155551228223,
-        "mean_time": 0.01978001710738754,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.026388329507608433,
-        "rps": 189.71536625213614,
-        "parallel": 4,
-        "p99_time": 0.03054270340857329,
-        "mean_time": 0.01970609892826178,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.02588729089766275,
-        "rps": 193.20624666072905,
-        "parallel": 4,
-        "p99_time": 0.03035975187725855,
-        "mean_time": 0.019363862596769466,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.025882282057136764,
-        "rps": 192.43196089728247,
-        "parallel": 4,
-        "p99_time": 0.029857079366047423,
-        "mean_time": 0.01945302907883888,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.04649762311310041,
-        "rps": 226.39704484112715,
-        "parallel": 8,
-        "p99_time": 0.05526716599561042,
-        "mean_time": 0.030112068832223303,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.04658250535576371,
-        "rps": 229.39754005782345,
-        "parallel": 8,
-        "p99_time": 0.055267960370983964,
-        "mean_time": 0.0302312563256477,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.045159796297957654,
-        "rps": 234.74168783211496,
-        "parallel": 8,
-        "p99_time": 0.05394583640998463,
-        "mean_time": 0.02947944433253724,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.04618648200266762,
-        "rps": 229.08904172532712,
-        "parallel": 8,
-        "p99_time": 0.05494603865867249,
-        "mean_time": 0.030050061917843412,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.10048238917952403,
-        "rps": 219.8439305754669,
-        "parallel": 100,
-        "p99_time": 0.13148429674154616,
-        "mean_time": 0.04589967424880888,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.09320882008614713,
-        "rps": 222.75795313428125,
-        "parallel": 100,
-        "p99_time": 0.12658703820168757,
-        "mean_time": 0.043751638607122,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.09308380201400718,
-        "rps": 221.83056499917282,
-        "parallel": 100,
-        "p99_time": 0.1250435196963372,
-        "mean_time": 0.04335017987957981,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "qdrant-rps-m-32-ef-128",
-        "engine_name": "qdrant",
-        "dataset_name": "random-match-keyword-2048-angular-filters",
-        "upload_time": 148.64725559100043,
-        "total_upload_time": 414.0853404199879,
-        "p95_time": 0.09594296820432642,
-        "rps": 224.6322668958529,
-        "parallel": 100,
-        "p99_time": 0.13252069821901394,
-        "mean_time": 0.043877099651654136,
-        "mean_precisions": 0.999992,
-        "engine_params": {
-            "search_params": {
-                "hnsw_ef": 512
             }
         }
     },
@@ -20325,13 +19731,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008347203003359028,
-        "rps": 150.2018082348979,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.008980412106029689,
+        "rps": 143.32203886629782,
         "parallel": 1,
-        "p99_time": 0.009856185898242987,
-        "mean_time": 0.006504951322718989,
+        "p99_time": 0.010349466797197242,
+        "mean_time": 0.006805594641104108,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20343,13 +19749,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008826451627828646,
-        "rps": 147.40923829117227,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.008985902517451905,
+        "rps": 144.19867631306528,
         "parallel": 1,
-        "p99_time": 0.010440866136632395,
-        "mean_time": 0.006623658284300472,
+        "p99_time": 0.010574212549836376,
+        "mean_time": 0.006761130816058721,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20361,13 +19767,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008472892045392654,
-        "rps": 149.88347374458593,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.008685039167176,
+        "rps": 147.20553852496582,
         "parallel": 1,
-        "p99_time": 0.010049687931023076,
-        "mean_time": 0.006514517745704507,
+        "p99_time": 0.010301053787115964,
+        "mean_time": 0.0066279655300255395,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20379,13 +19785,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.00876245360559551,
-        "rps": 146.51493365402706,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.009041350966435857,
+        "rps": 139.70655544158632,
         "parallel": 1,
-        "p99_time": 0.010491578032379042,
-        "mean_time": 0.0066598806381050965,
+        "p99_time": 0.01069258316536434,
+        "mean_time": 0.006985417529335246,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20397,13 +19803,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008549485055846162,
-        "rps": 298.25483420924553,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.009042986179701984,
+        "rps": 284.09766493348474,
         "parallel": 2,
-        "p99_time": 0.010331849122885615,
-        "mean_time": 0.006498071317875292,
+        "p99_time": 0.011052728148060869,
+        "mean_time": 0.0068103643812588415,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20415,13 +19821,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008537431886361442,
-        "rps": 302.88192244299654,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.008862415177281945,
+        "rps": 290.3628081080602,
         "parallel": 2,
-        "p99_time": 0.010039669120451438,
-        "mean_time": 0.0064065131247974935,
+        "p99_time": 0.01042196942435112,
+        "mean_time": 0.0066791153078025675,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20433,13 +19839,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008402998145902528,
-        "rps": 307.342531956196,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.008662664808798579,
+        "rps": 295.7748056144931,
         "parallel": 2,
-        "p99_time": 0.009967892016866247,
-        "mean_time": 0.006308177735510981,
+        "p99_time": 0.010330826455610806,
+        "mean_time": 0.006561742187687196,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20451,13 +19857,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008709569499478676,
-        "rps": 297.3003269362761,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.00898740521224681,
+        "rps": 287.53837002382505,
         "parallel": 2,
-        "p99_time": 0.0101489778343239,
-        "mean_time": 0.0065088418010185705,
+        "p99_time": 0.010535024800919928,
+        "mean_time": 0.006747939525556285,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20469,13 +19875,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.0086941612069495,
-        "rps": 592.7809717105653,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.008754251172649673,
+        "rps": 586.6183941467954,
         "parallel": 4,
-        "p99_time": 0.010449995601666161,
-        "mean_time": 0.006412002233107342,
+        "p99_time": 0.010532371440785938,
+        "mean_time": 0.006498753868049243,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20487,13 +19893,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008327635400928554,
-        "rps": 614.2309665179541,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.00891096508421469,
+        "rps": 572.2113045679275,
         "parallel": 4,
-        "p99_time": 0.009936359157436533,
-        "mean_time": 0.006193515019011102,
+        "p99_time": 0.010716965014580639,
+        "mean_time": 0.006644643292750697,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20505,13 +19911,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008737478002149145,
-        "rps": 592.262148008249,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.009121482659247702,
+        "rps": 563.2636407686712,
         "parallel": 4,
-        "p99_time": 0.010519197610265117,
-        "mean_time": 0.006424105672904989,
+        "p99_time": 0.011348843211890206,
+        "mean_time": 0.006743157135078218,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20523,13 +19929,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.008656406725640407,
-        "rps": 594.2894548236164,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.008881049547926522,
+        "rps": 575.8451225714712,
         "parallel": 4,
-        "p99_time": 0.010315093550307223,
-        "mean_time": 0.0064132654294080564,
+        "p99_time": 0.010937062940793116,
+        "mean_time": 0.0066187088684819175,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20541,13 +19947,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.010920179545064456,
-        "rps": 972.9101059604594,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.010994695406407115,
+        "rps": 971.4378286734366,
         "parallel": 8,
-        "p99_time": 0.014529810151434508,
-        "mean_time": 0.006842130309646018,
+        "p99_time": 0.014171872046426875,
+        "mean_time": 0.0069580841529357715,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20559,13 +19965,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.010532019005040638,
-        "rps": 1011.5610248380226,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.010734475631034001,
+        "rps": 985.7792290840661,
         "parallel": 8,
-        "p99_time": 0.013953992749156896,
-        "mean_time": 0.006713919569374411,
+        "p99_time": 0.014275453698937783,
+        "mean_time": 0.006867241943441332,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20577,13 +19983,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.010462341093807481,
-        "rps": 1016.1331186975276,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.011213982489425681,
+        "rps": 956.9274543381752,
         "parallel": 8,
-        "p99_time": 0.01370856541645482,
-        "mean_time": 0.006640392513049301,
+        "p99_time": 0.01461670924443752,
+        "mean_time": 0.007074106948182453,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20595,13 +20001,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.011311978744924999,
-        "rps": 929.0767979248643,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.011951590399257831,
+        "rps": 899.7644666039255,
         "parallel": 8,
-        "p99_time": 0.01471811940544286,
-        "mean_time": 0.00714198128869175,
+        "p99_time": 0.015836586081422875,
+        "mean_time": 0.0074810334028385115,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20613,13 +20019,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.03413256977073615,
-        "rps": 1136.441689247105,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.03404076942824758,
+        "rps": 1138.7177786686013,
         "parallel": 100,
-        "p99_time": 0.05941410715371605,
-        "mean_time": 0.013877565003960627,
+        "p99_time": 0.05758679988677619,
+        "mean_time": 0.013583192139264429,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20631,13 +20037,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.031766804047219904,
-        "rps": 1147.0052228816007,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.035473691581864836,
+        "rps": 1108.7659213782074,
         "parallel": 100,
-        "p99_time": 0.055489021021639946,
-        "mean_time": 0.012920080704271095,
+        "p99_time": 0.058204928196501,
+        "mean_time": 0.013983958644443191,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20649,13 +20055,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.03253711021970957,
-        "rps": 1137.5206114228877,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.03520428626216012,
+        "rps": 1101.4753864400218,
         "parallel": 100,
-        "p99_time": 0.05372345405281522,
-        "mean_time": 0.012977636534915654,
+        "p99_time": 0.06462085355946333,
+        "mean_time": 0.014357950345473365,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -20667,13 +20073,13 @@
         "setup_name": "qdrant-rps-m-32-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 91.8004324939975,
-        "total_upload_time": 1188.5878354590095,
-        "p95_time": 0.03331827856309245,
-        "rps": 1133.307242854141,
+        "upload_time": 94.56578580103815,
+        "total_upload_time": 1236.3967858470278,
+        "p95_time": 0.03620583256706595,
+        "rps": 1113.9979875074462,
         "parallel": 100,
-        "p99_time": 0.05691668354877039,
-        "mean_time": 0.01329149736968102,
+        "p99_time": 0.06423100374115166,
+        "mean_time": 0.014115211394772632,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21405,13 +20811,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.0084966133479611,
-        "rps": 149.38138990772214,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008269657703931442,
+        "rps": 153.76611416007273,
         "parallel": 1,
-        "p99_time": 0.010271462044329382,
-        "mean_time": 0.006534445711917942,
+        "p99_time": 0.009939744976582007,
+        "mean_time": 0.006350547561194981,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21423,13 +20829,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.00881289062235737,
-        "rps": 144.40163636308267,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008354582166066393,
+        "rps": 151.94466298604772,
         "parallel": 1,
-        "p99_time": 0.010372793817368803,
-        "mean_time": 0.006763655912081595,
+        "p99_time": 0.009739595583523627,
+        "mean_time": 0.0064226457148324695,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21441,13 +20847,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.00856683751771925,
-        "rps": 148.22803527886282,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008282169318408705,
+        "rps": 153.09728319849268,
         "parallel": 1,
-        "p99_time": 0.009830199450952934,
-        "mean_time": 0.006587708766621654,
+        "p99_time": 0.00973049606604036,
+        "mean_time": 0.006372123529715464,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21459,13 +20865,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008488332148408516,
-        "rps": 149.9664653351211,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.00846275362127926,
+        "rps": 151.4102393304881,
         "parallel": 1,
-        "p99_time": 0.010042565926560203,
-        "mean_time": 0.006509968558177934,
+        "p99_time": 0.009902286579599606,
+        "mean_time": 0.0064482688698568385,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21477,13 +20883,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008518973067111798,
-        "rps": 302.6330171259494,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008404761549900285,
+        "rps": 305.16925225064654,
         "parallel": 2,
-        "p99_time": 0.01045776876359014,
-        "mean_time": 0.006394030613565701,
+        "p99_time": 0.010142806469229982,
+        "mean_time": 0.0063665442041005,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21495,13 +20901,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008532060038123745,
-        "rps": 304.14551491066163,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008277289589750578,
+        "rps": 305.88102737215945,
         "parallel": 2,
-        "p99_time": 0.010077226633438845,
-        "mean_time": 0.006372853864170611,
+        "p99_time": 0.009653935686219485,
+        "mean_time": 0.006346647921047406,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21513,13 +20919,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008681761650950647,
-        "rps": 299.1128437425852,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008571383488015272,
+        "rps": 299.5882078205915,
         "parallel": 2,
-        "p99_time": 0.010225323384802327,
-        "mean_time": 0.006471848380120355,
+        "p99_time": 0.010331612188601867,
+        "mean_time": 0.006455525358719751,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21531,13 +20937,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008468775637447834,
-        "rps": 304.4841789451263,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008788705521146767,
+        "rps": 294.81272246225564,
         "parallel": 2,
-        "p99_time": 0.010937910992070149,
-        "mean_time": 0.006364084236280178,
+        "p99_time": 0.01074827682517935,
+        "mean_time": 0.006576268004422309,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21549,13 +20955,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008595050568692385,
-        "rps": 593.2161742989645,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008486047215410507,
+        "rps": 607.3612851231683,
         "parallel": 4,
-        "p99_time": 0.01026541715546046,
-        "mean_time": 0.006406822787714191,
+        "p99_time": 0.01047944642719813,
+        "mean_time": 0.006279305295227095,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21567,13 +20973,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008448527165455744,
-        "rps": 611.3899224175809,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.008597068610833957,
+        "rps": 600.3728579738753,
         "parallel": 4,
-        "p99_time": 0.010062503478256985,
-        "mean_time": 0.0062041351401101565,
+        "p99_time": 0.010050851398846134,
+        "mean_time": 0.006341228006029269,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21585,13 +20991,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.008433000830700619,
-        "rps": 609.7764882258668,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.009109552062000148,
+        "rps": 570.5689485347629,
         "parallel": 4,
-        "p99_time": 0.010249957218475174,
-        "mean_time": 0.0062493651463941206,
+        "p99_time": 0.011533068541903052,
+        "mean_time": 0.0066457509651430885,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21603,13 +21009,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.00868107980058994,
-        "rps": 588.8575028469315,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.00916736809303984,
+        "rps": 567.4518585245636,
         "parallel": 4,
-        "p99_time": 0.01054459274804686,
-        "mean_time": 0.00648159486555378,
+        "p99_time": 0.010931427062605512,
+        "mean_time": 0.006691824706899933,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21621,13 +21027,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.010778591819689607,
-        "rps": 987.0182549375382,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.010588156004087067,
+        "rps": 995.9675462199331,
         "parallel": 8,
-        "p99_time": 0.01348633066634648,
-        "mean_time": 0.006834002154241898,
+        "p99_time": 0.01408424535533415,
+        "mean_time": 0.006678835837286897,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21639,13 +21045,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.010842543290345926,
-        "rps": 978.9413831979789,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.010996949946274977,
+        "rps": 963.4844110032266,
         "parallel": 8,
-        "p99_time": 0.014425622543494684,
-        "mean_time": 0.006798974723831634,
+        "p99_time": 0.014463729563867683,
+        "mean_time": 0.006949504144059028,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21657,13 +21063,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.010644778089772444,
-        "rps": 1008.0184203198337,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.010986109924851913,
+        "rps": 975.6959448893458,
         "parallel": 8,
-        "p99_time": 0.01427523027028656,
-        "mean_time": 0.006673005956670385,
+        "p99_time": 0.014324649762129413,
+        "mean_time": 0.00683980791324284,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21675,13 +21081,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.010513482148235196,
-        "rps": 1011.4727089052064,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.010980001877760511,
+        "rps": 978.0164068676604,
         "parallel": 8,
-        "p99_time": 0.013777989118534608,
-        "mean_time": 0.006662346911980421,
+        "p99_time": 0.014734062450588684,
+        "mean_time": 0.0068753343073825815,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21693,13 +21099,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.03527129549911478,
-        "rps": 1158.8484819045207,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.03523983985360245,
+        "rps": 1077.8098849681865,
         "parallel": 100,
-        "p99_time": 0.0591564267303329,
-        "mean_time": 0.013791205983914551,
+        "p99_time": 0.06238248728099285,
+        "mean_time": 0.014167217009939486,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21711,13 +21117,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.03297668277082264,
-        "rps": 1174.7876678635844,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.03685436069499699,
+        "rps": 1085.6403801969184,
         "parallel": 100,
-        "p99_time": 0.05615099754097182,
-        "mean_time": 0.013099362893920625,
+        "p99_time": 0.06235582805471501,
+        "mean_time": 0.01411918342379504,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21729,13 +21135,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.03335132044303457,
-        "rps": 1153.3189327694079,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.03824338883568997,
+        "rps": 993.454366514281,
         "parallel": 100,
-        "p99_time": 0.05533472339157017,
-        "mean_time": 0.013166694323474075,
+        "p99_time": 0.07439975500106816,
+        "mean_time": 0.016466507331386673,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -21747,13 +21153,13 @@
         "setup_name": "qdrant-rps-m-32-ef-512",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 95.14141178599675,
-        "total_upload_time": 2083.3768105870113,
-        "p95_time": 0.033971312557696365,
-        "rps": 1177.4809505645158,
+        "upload_time": 95.16753863496706,
+        "total_upload_time": 2133.4154126619687,
+        "p95_time": 0.03559318683401214,
+        "rps": 1095.4717161504104,
         "parallel": 100,
-        "p99_time": 0.06240972209052416,
-        "mean_time": 0.013209527062435517,
+        "p99_time": 0.06025854798615911,
+        "mean_time": 0.01384602396816481,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22485,13 +21891,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008392448596714529,
-        "rps": 153.01330490398607,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.008575285883853211,
+        "rps": 148.41490766967448,
         "parallel": 1,
-        "p99_time": 0.01026600072567817,
-        "mean_time": 0.006381042312600766,
+        "p99_time": 0.010274631646461791,
+        "mean_time": 0.006569421908346703,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22503,13 +21909,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008314115632674656,
-        "rps": 151.9600534434335,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.008905035484349354,
+        "rps": 146.25021342047006,
         "parallel": 1,
-        "p99_time": 0.00969823782448657,
-        "mean_time": 0.006427150354482001,
+        "p99_time": 0.010991017582709903,
+        "mean_time": 0.006676894374930999,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22521,13 +21927,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.00822336675628321,
-        "rps": 153.17533874324616,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.00892871039104648,
+        "rps": 145.47544844829324,
         "parallel": 1,
-        "p99_time": 0.00945094014517963,
-        "mean_time": 0.00637520922946278,
+        "p99_time": 0.011025574268423955,
+        "mean_time": 0.006711156598094385,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22539,13 +21945,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008384409040445462,
-        "rps": 150.81355585084845,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.008975676735281012,
+        "rps": 143.307175410185,
         "parallel": 1,
-        "p99_time": 0.0098664487831411,
-        "mean_time": 0.006475998047672329,
+        "p99_time": 0.010400496367947201,
+        "mean_time": 0.006801459800236625,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22557,13 +21963,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008231179913855158,
-        "rps": 310.67982790779354,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.009001112543046474,
+        "rps": 288.96449802738186,
         "parallel": 2,
-        "p99_time": 0.009763229177915502,
-        "mean_time": 0.0062445053709612695,
+        "p99_time": 0.01117065033002291,
+        "mean_time": 0.006701226834178669,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22575,13 +21981,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008276154492341448,
-        "rps": 307.7222044950607,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.009086045649019069,
+        "rps": 291.99208326866244,
         "parallel": 2,
-        "p99_time": 0.009901911688793917,
-        "mean_time": 0.006290823302188073,
+        "p99_time": 0.011604081418481661,
+        "mean_time": 0.006636981769831619,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22593,13 +21999,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008288422544137572,
-        "rps": 309.4632084363507,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.009395439512445591,
+        "rps": 287.7753854574256,
         "parallel": 2,
-        "p99_time": 0.009884305265150035,
-        "mean_time": 0.006270685449763551,
+        "p99_time": 0.01177512554510031,
+        "mean_time": 0.006735893478163052,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22611,13 +22017,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008545260486425831,
-        "rps": 301.3069727958216,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.009027291071834042,
+        "rps": 287.54369743391413,
         "parallel": 2,
-        "p99_time": 0.010165239323396236,
-        "mean_time": 0.006428786477583344,
+        "p99_time": 0.010986712860176343,
+        "mean_time": 0.006732323544949759,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22629,13 +22035,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008814584193169137,
-        "rps": 584.5941666132558,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.008712925697909667,
+        "rps": 597.1867835011169,
         "parallel": 4,
-        "p99_time": 0.010618111470830627,
-        "mean_time": 0.006516663003165741,
+        "p99_time": 0.011059032453922561,
+        "mean_time": 0.006383218758017756,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22647,13 +22053,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008690298729925414,
-        "rps": 592.1021437375647,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.008527363245957528,
+        "rps": 604.7040134069446,
         "parallel": 4,
-        "p99_time": 0.010455843402596659,
-        "mean_time": 0.0064182429839973335,
+        "p99_time": 0.010433423542999663,
+        "mean_time": 0.006277893184614368,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22665,13 +22071,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008874922651739324,
-        "rps": 583.7562283817629,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.009282669069943949,
+        "rps": 567.713403176753,
         "parallel": 4,
-        "p99_time": 0.010493110387469647,
-        "mean_time": 0.006514111428390606,
+        "p99_time": 0.01122232216701378,
+        "mean_time": 0.006691088188270806,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22683,13 +22089,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.008614830135775263,
-        "rps": 598.31769925958,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.009366560337366533,
+        "rps": 563.2175414255244,
         "parallel": 4,
-        "p99_time": 0.010329868061526245,
-        "mean_time": 0.0063390420012758115,
+        "p99_time": 0.011516610076068901,
+        "mean_time": 0.006741354373883223,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22701,13 +22107,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.010339772787119726,
-        "rps": 1030.700320388859,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.011069972583209164,
+        "rps": 973.0199922837479,
         "parallel": 8,
-        "p99_time": 0.013423268684709912,
-        "mean_time": 0.006601396192196989,
+        "p99_time": 0.014818036582437345,
+        "mean_time": 0.006899305123626255,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22719,13 +22125,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.010435504587076134,
-        "rps": 996.8675805837768,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.01101346818031743,
+        "rps": 971.3757303899702,
         "parallel": 8,
-        "p99_time": 0.013639710669813213,
-        "mean_time": 0.00671368087635783,
+        "p99_time": 0.014182397865224631,
+        "mean_time": 0.006938691220845794,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22737,13 +22143,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.010475457402935711,
-        "rps": 1026.4686015813393,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.010637036713887936,
+        "rps": 991.9117905737131,
         "parallel": 8,
-        "p99_time": 0.013867297910910566,
-        "mean_time": 0.006599003330722917,
+        "p99_time": 0.014002978779026308,
+        "mean_time": 0.006774733342905528,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22755,13 +22161,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.011137635556224264,
-        "rps": 955.2597096674451,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.010589429354877205,
+        "rps": 996.9049456018598,
         "parallel": 8,
-        "p99_time": 0.014628453960758637,
-        "mean_time": 0.006952554558130214,
+        "p99_time": 0.013543998223030948,
+        "mean_time": 0.006739014674787176,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22773,13 +22179,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.03263334585790289,
-        "rps": 1150.6600073093357,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.034798948190291404,
+        "rps": 1101.4161176052519,
         "parallel": 100,
-        "p99_time": 0.054538141592347544,
-        "mean_time": 0.013099558842138504,
+        "p99_time": 0.056389301331946626,
+        "mean_time": 0.013766245357767912,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22791,13 +22197,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.033088055998086924,
-        "rps": 1142.2264237034817,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.034675478003919125,
+        "rps": 1130.2495742795638,
         "parallel": 100,
-        "p99_time": 0.05730757332930808,
-        "mean_time": 0.013219983373078868,
+        "p99_time": 0.05757353937893642,
+        "mean_time": 0.013713374895940069,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22809,13 +22215,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.03482285541249433,
-        "rps": 1103.3072401402044,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.03306799917481839,
+        "rps": 1135.6806665298193,
         "parallel": 100,
-        "p99_time": 0.06013072717469186,
-        "mean_time": 0.013746635890321341,
+        "p99_time": 0.055428790512960416,
+        "mean_time": 0.013382414230285213,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -22827,13 +22233,13 @@
         "setup_name": "qdrant-rps-m-64-ef-256",
         "engine_name": "qdrant",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 93.80543119899812,
-        "total_upload_time": 1946.8132085310062,
-        "p95_time": 0.033469233219511785,
-        "rps": 1132.2282973104395,
+        "upload_time": 97.69730436295504,
+        "total_upload_time": 1965.7282870889758,
+        "p95_time": 0.03491044512484221,
+        "rps": 1113.4526457323923,
         "parallel": 100,
-        "p99_time": 0.057126682077359894,
-        "mean_time": 0.01348238598164171,
+        "p99_time": 0.061412369646132,
+        "mean_time": 0.013727700010861736,
         "mean_precisions": 1.0,
         "engine_params": {
             "search_params": {
@@ -24285,14 +23691,14 @@
         "setup_name": "redis-default",
         "engine_name": "redis",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5013538588653319,
-        "rps": 9.735087755283846,
+        "upload_time": 1337.9218445420265,
+        "total_upload_time": 1337.9219645270496,
+        "p95_time": 0.5019547031464754,
+        "rps": 9.580935678933194,
         "parallel": 1,
-        "p99_time": 0.513988582554739,
-        "mean_time": 0.10254990901101846,
-        "mean_precisions": 0.8274,
+        "p99_time": 0.5295336791058071,
+        "mean_time": 0.10410157149646547,
+        "mean_precisions": 0.8263,
         "engine_params": {
             "search_params": {
                 "ef": 64
@@ -24303,14 +23709,14 @@
         "setup_name": "redis-default",
         "engine_name": "redis",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5013861658633687,
-        "rps": 9.736809447318842,
+        "upload_time": 1337.9218445420265,
+        "total_upload_time": 1337.9219645270496,
+        "p95_time": 0.5018904967961134,
+        "rps": 9.61008624836112,
         "parallel": 1,
-        "p99_time": 0.5180218312051147,
-        "mean_time": 0.10251965825648512,
-        "mean_precisions": 0.828,
+        "p99_time": 0.5254143183236011,
+        "mean_time": 0.10379241335723782,
+        "mean_precisions": 0.8262,
         "engine_params": {
             "search_params": {
                 "ef": 128
@@ -24321,323 +23727,17 @@
         "setup_name": "redis-default",
         "engine_name": "redis",
         "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5013808949617669,
-        "rps": 9.736306454057747,
+        "upload_time": 1337.9218445420265,
+        "total_upload_time": 1337.9219645270496,
+        "p95_time": 0.5018468619673513,
+        "rps": 9.613597854688122,
         "parallel": 1,
-        "p99_time": 0.5187124799937011,
-        "mean_time": 0.10253135734088718,
-        "mean_precisions": 0.828,
+        "p99_time": 0.5244050824496662,
+        "mean_time": 0.10375755182454013,
+        "mean_precisions": 0.8262,
         "engine_params": {
             "search_params": {
                 "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5014066376374103,
-        "rps": 9.729491746116611,
-        "parallel": 1,
-        "p99_time": 0.5238943447312341,
-        "mean_time": 0.10260259114780929,
-        "mean_precisions": 0.8279,
-        "engine_params": {
-            "search_params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5035101031651721,
-        "rps": 9.866881097824606,
-        "parallel": 2,
-        "p99_time": 0.5528963545290754,
-        "mean_time": 0.20252279443258886,
-        "mean_precisions": 0.8281,
-        "engine_params": {
-            "search_params": {
-                "ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5035546600469388,
-        "rps": 9.8550448980754,
-        "parallel": 2,
-        "p99_time": 0.5596544498670848,
-        "mean_time": 0.20276835560195614,
-        "mean_precisions": 0.828,
-        "engine_params": {
-            "search_params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5035094308201223,
-        "rps": 9.85798391253256,
-        "parallel": 2,
-        "p99_time": 0.5534928733762358,
-        "mean_time": 0.20269815645136405,
-        "mean_precisions": 0.8281,
-        "engine_params": {
-            "search_params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 0.5034923976170831,
-        "rps": 9.8648569842184,
-        "parallel": 2,
-        "p99_time": 0.5507237332733349,
-        "mean_time": 0.20256095541783142,
-        "mean_precisions": 0.8282,
-        "engine_params": {
-            "search_params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.0044139395817182,
-        "rps": 9.900187029783059,
-        "parallel": 4,
-        "p99_time": 1.0413165061851033,
-        "mean_time": 0.40383855216638187,
-        "mean_precisions": 0.8287,
-        "engine_params": {
-            "search_params": {
-                "ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.0041608337080106,
-        "rps": 9.899830472956177,
-        "parallel": 4,
-        "p99_time": 1.0250809269049206,
-        "mean_time": 0.4038536763488082,
-        "mean_precisions": 0.8281,
-        "engine_params": {
-            "search_params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.0044171166839078,
-        "rps": 9.901340786128527,
-        "parallel": 4,
-        "p99_time": 1.0389876060257666,
-        "mean_time": 0.40379240512428805,
-        "mean_precisions": 0.8288,
-        "engine_params": {
-            "search_params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.0044358466286212,
-        "rps": 9.895750498406391,
-        "parallel": 4,
-        "p99_time": 1.0475618989905342,
-        "mean_time": 0.40402402450360825,
-        "mean_precisions": 0.8282,
-        "engine_params": {
-            "search_params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.5086366349481977,
-        "rps": 9.897309694735844,
-        "parallel": 8,
-        "p99_time": 1.5671128217852675,
-        "mean_time": 0.8078754605373135,
-        "mean_precisions": 0.8283,
-        "engine_params": {
-            "search_params": {
-                "ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.5083958403556608,
-        "rps": 9.903626777721922,
-        "parallel": 8,
-        "p99_time": 1.5652472740178929,
-        "mean_time": 0.8074514509148896,
-        "mean_precisions": 0.8284,
-        "engine_params": {
-            "search_params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.508323906676378,
-        "rps": 9.912130160599087,
-        "parallel": 8,
-        "p99_time": 1.5618554124236113,
-        "mean_time": 0.8066153679097304,
-        "mean_precisions": 0.8281,
-        "engine_params": {
-            "search_params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 1.5081125137745404,
-        "rps": 9.903073415123588,
-        "parallel": 8,
-        "p99_time": 1.5523983253212648,
-        "mean_time": 0.8074563157150755,
-        "mean_precisions": 0.8286,
-        "engine_params": {
-            "search_params": {
-                "ef": 512
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 12.46987842960516,
-        "rps": 9.895293985176561,
-        "parallel": 100,
-        "p99_time": 13.800581728233992,
-        "mean_time": 10.067807433686848,
-        "mean_precisions": 0.8283,
-        "engine_params": {
-            "search_params": {
-                "ef": 64
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 12.63462635439355,
-        "rps": 9.895699644330138,
-        "parallel": 100,
-        "p99_time": 13.822006618170999,
-        "mean_time": 10.066035209808708,
-        "mean_precisions": 0.8285,
-        "engine_params": {
-            "search_params": {
-                "ef": 128
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 12.554759563924737,
-        "rps": 9.901528311011898,
-        "parallel": 100,
-        "p99_time": 13.315562924917344,
-        "mean_time": 10.073036452630022,
-        "mean_precisions": 0.828,
-        "engine_params": {
-            "search_params": {
-                "ef": 256
-            }
-        }
-    },
-    {
-        "setup_name": "redis-default",
-        "engine_name": "redis",
-        "dataset_name": "random-match-keyword-100-angular-filters",
-        "upload_time": 1310.2851547929458,
-        "total_upload_time": 1310.2851995970123,
-        "p95_time": 12.781241914548445,
-        "rps": 9.90924365768198,
-        "parallel": 100,
-        "p99_time": 13.786204946911894,
-        "mean_time": 10.06065313916055,
-        "mean_precisions": 0.8281,
-        "engine_params": {
-            "search_params": {
-                "ef": 512
             }
         }
     },
