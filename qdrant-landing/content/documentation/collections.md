@@ -41,7 +41,7 @@ from qdrant_client.http import models
 client = QdrantClient(host="localhost", port=6333)
 
 client.recreate_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=100, distance=models.Distance.COSINE),
 )
 ```
@@ -92,7 +92,7 @@ from qdrant_client.http import models
 client = QdrantClient(host="localhost", port=6333)
 
 client.recreate_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config={
         "image": models.VectorParams(size=4, distance=models.Distance.DOT),
         "text": models.VectorParams(size=8, distance=models.Distance.COSINE),
