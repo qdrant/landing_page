@@ -69,6 +69,11 @@ Only available through the REST API for the time being.
 
 ## Restore snapshot
 
+There is a difference in recovering snapshots in single-deployment node and distributed deployment mode.
+
+### Recover in single deployment mode
+
+Single deployment is simpler, you can recover any collection on the start-up and it will be immediately available in the service.
 Restoring snapshots is done through the Qdrant CLI at startup time.
 
 The main entry point is the `--snapshot` argument which accepts a list of pairs `<snapshot_file_path>:<target_collection_name>`
@@ -82,6 +87,35 @@ For example:
 The target collection **must** be absent otherwise the program will exit with an error.
 
 If you wish instead to overwrite an existing collection, use the `--force_snapshot` flag with caution.
+
+### Recover in cluster deployment
+
+*Available since v0.11.3*
+
+Recovering in cluster mode is more sophisticated, as Qdrant should maintain consistency across peers even during the recovery process.
+As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
+Recovering non-existing collections with snapshots won't make this collection known to the consensus.
+
+To recover snpshot in this case one can use snapshot recovery API:
+
+```http
+PUT /collections/<collection_name>/snapshots/recover
+
+{
+  "location": "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot"
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="qdrant-node-2", port=6333)
+
+client.recover_snapshot("collection_name", "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot")
+```
+
+Qdrant will extract shard data from the snapshot and properly register shards in the cluster.
+If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node to maintain data consistency.
 
 ## Snapshots for the whole storage
 
