@@ -25,7 +25,7 @@ The choice has to be made between the search speed and the size of the RAM used.
 **In-memory storage** - Stores all vectors in RAM, has the highest speed since disk access is required only for persistence.
 
 **Memmap storage** -  creates a virtual address space associated with the file on disk. [Wiki](https://en.wikipedia.org/wiki/Memory-mapped_file).
-Mmaped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
+Mmapped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
 This scheme allows flexible use of available memory. With sufficient RAM, it is almost as fast as in-memory storage.
 However, dynamically adding vectors to the mmap file is fairly complicated and is not implemented in Qdrant.
 Thus, segments using mmap storage are `non-appendable` and can only be construed by the optimizer.
