@@ -10,6 +10,7 @@
 <meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }}, {{ end }} qdrant">
 {{ end }}
 
+{{ if .IsHome }}
 <script type="application/ld+json">
   {
       "@context": "https://schema.org",
@@ -66,6 +67,34 @@
       }
   }
 </script>
+{{ else if .Params.seo_schema }}
+<!--    todo: use as default option -->
+<script type="application/ld+json">
+    {{ .Params.seo_schema }}
+</script>
+{{ else if and (eq .Section "articles") .IsPage }}
+<script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "headline": "{{ .Params.title }}",
+        "image": [
+            {{ .Params.social_preview_image  | absURL }},
+        ],
+        "abstract": {{ .Params.description }},
+        "datePublished": {{ .Params.date }},
+        "dateModified": {{ .Params.date }},
+        "author": [{
+            "@type": "Person",
+            "name": {{ .Params.author }},
+            "url": {{ .Params.author_link }}
+        }]
+    }
+</script>
+{{ end }}
+
+{{ if .IsHome }}
+{{ end }}
 
 {{ $url := urls.Parse .Site.BaseURL }}
 {{ $domain := index (split $url.Host ".") 0 }}
