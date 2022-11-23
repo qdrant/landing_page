@@ -93,9 +93,6 @@
 </script>
 {{ end }}
 
-{{ if .IsHome }}
-{{ end }}
-
 {{ $url := urls.Parse .Site.BaseURL }}
 {{ $domain := index (split $url.Host ".") 0 }}
 
