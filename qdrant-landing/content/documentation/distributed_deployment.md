@@ -282,6 +282,58 @@ A dead replica will not receive traffic from other peers and might require a man
 
 This mechanism ensures data consistency and availability if a subset of the replicas fail during an update operation.
 
+### Node Failure Recovery
+
+Sometimes hardware malfunctions might render some nodes of the qdrant cluster unrecoverable.
+No system is immune to this.
+
+But several recovery scenarios allow qdrant to stay available for requests and even avoid performance degradation.
+Let's walk throw them from best to worst.
+
+**Recover with replicated collection**
+
+If the number of failed nodes is less than the replication factor of the collection, you are service, then no data is lost. 
+Your cluster should still be able to perform read, search and update queries.
+
+Now, if the failed node restarts, consensus will trigger the replication process to update the recovering node with the newest updates it has missed.
+
+**Recreate node with replicated collections**
+
+If it is impossible to recover, you should exclude the dead node from the consensus and create an empty node.
+
+To exclude failed nodes from the consensus, use [remove peer](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer) API.
+Apply the `force` flag if necessary.
+
+When you create a new node, make sure to attach it to the existing cluster by specifying `--bootstrap` CLI parameter with the URL of any of the running cluster nodes. 
+
+Once the new node is ready and synchronized with the cluster, you might want to ensure that the collection shards are replicated enough. 
+Use [Replicate Shard Operation](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/update_collection_cluster) to create another copy of the shard on the newly connected node.
+
+Worth mentioning that Qdrant only provides the necessary building blocks to create an automated failure recovery.
+Building a completely automatic process of collection scaling would require control over the cluster machines themself.
+Check out our [cloud solution](https://qdrant.tech/surveys/cloud-request/), where we made exactly that.
+
+
+**Recover from snapshot**
+
+
+If there are no copies of data in the cluster, it is still possible to recover from a snapshot.
+
+Follow the same steps to detach failed node and create a new one in the cluster:
+
+
+* To exclude failed nodes from the consensus, use [remove peer](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer) API. Apply the `force` flag if necessary.
+* Create a new node, making sure to attach it to the existing cluster by specifying `--bootstrap` CLI parameter with the URL of any of the running cluster nodes. 
+
+Snapshot recovery, used in single-node deployment, is different from cluster one.
+Consensus manages all metadata about all collections and does not require snapshots to recover it.
+But you can use snapshots to recover missing shards of the collections.
+
+Use [Collection Snapshot Recovery API](../snapshots/#recover-in-cluster-deployment) to do it.
+The service will download specified snapshot of the collection and recover shards with data from it.
+
+Once all shards of the collection are recovered, the collection will become operational again.
+
 ### Consistency guarantees
 
 During the normal state of operation, it is possible to search and modify data from any peers in the cluster.
