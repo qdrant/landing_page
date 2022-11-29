@@ -201,6 +201,8 @@ for embedding, pubid in tqdm(zip(question_response.embeddings, ids)):
         answer_positions.append(-1)
 ```
 
+Saved answer positions allow us to calculate the metric for different *k* values.
+
 ```python
 # Prepared answer positions are being used to calculate different values of accuracy@k
 for k in range(1, k_max + 1):
