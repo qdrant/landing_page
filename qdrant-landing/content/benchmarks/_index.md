@@ -1,6 +1,6 @@
 ---
 title: Benchmarks
-description: The first comparative benchmark and benchmarking framework for vector search engines
+description: The first comparative benchmark and benchmarking framework for vector search engines and vector databases.
 keywords:
   - vector databases comparative benchmark
   - Qdrant vs Milvus

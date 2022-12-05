@@ -1,6 +1,7 @@
 ---
+page_title: Vector Search Solutions
 title: Solutions
-section_title: Tasks and Problems solved with Qdrant
+section_title: Challenges and tasks solved with Qdrant
 subtitle: Here are just a few examples of how Qdrant can help your Business 
-description: Elevate Your Business with Qdrant. Tasks and Problems solved with Qdrant
+description: Elevate your business with vector search and vector databse. Tasks and challenges solved with Qdrant vector search engine.
 ---

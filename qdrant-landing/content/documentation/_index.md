@@ -1,6 +1,7 @@
 ---
 title: Documentation
 section_title: Everything you need to start working with Qdrant
+description: Documentation of Qdrant, an open-source vector search engine and vector database.
 subtitle: 
 ---
 
