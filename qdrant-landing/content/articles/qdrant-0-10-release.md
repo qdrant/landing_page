@@ -12,8 +12,8 @@ date: 2022-09-19T13:30:00+02:00
 draft: false
 ---
 
-Qdrant 0.10 is a new version that brings a lot of performance improvements, but also some new features which
-were heavily requested by our users. Here is an overview of what has changed.
+[Qdrant 0.10 is a new version](https://github.com/qdrant/qdrant/releases/tag/v0.10.0) that brings a lot of performance 
+improvements, but also some new features which were heavily requested by our users. Here is an overview of what has changed.
 
 ## Storing multiple vectors per object
 
