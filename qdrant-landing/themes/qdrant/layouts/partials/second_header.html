@@ -1,18 +1,34 @@
-<!--End Page Title-->
+<!-- Page Title-->
+<!--name of image should be .Section + "-title.ext", for example "demo-title.png"-->
+{{ $img := (printf "/%s/%s%s" "title-images"  .Section "-title") }}
+{{ $staticImgPath := (printf "/%s%s" "static" $img) }}
 <section class="page-title">
     <div class="auto-container">
         <div class="row">
-            <div class="col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0 pb-5">
+            <div class="col-12{{ if $staticImgPath }} col-md-7 col-lg-8{{ end }} order-1 order-md-0 pb-5">
                 {{ partial "breadcrumbs" . }}
 
                 <h1 class="page-title__title{{ if not .Params.section_title }} page-title__title_dark{{ end }}"> {{ .Params.title | safeHTML }}</h1>
                 <h2 class="page-title__subtitle">{{ .Params.section_title | safeHTML }}</h2>
             </div>
-            {{ if .Params.img }}
-            <div class="page-title__image col-12 col-md-4 order-0 order-md-1 mb-5 mb-md-0">
-                <img src="{{ .Params.img }}" alt="">
+            <!-- todo: remove usage of svg, when all images will be agreed -->
+            {{ if or (os.FileExists (printf "%s.%s" $staticImgPath "png")) (or (os.FileExists (printf "%s.%s" $staticImgPath "webp")) (os.FileExists (printf "%s.%s" $staticImgPath "svg"))) }}
+            <div class="page-title__image col-12 col-md-5 col-lg-4 order-0 order-md-1 mb-5 mb-md-0">
+                <picture>
+                    {{ if (os.FileExists (printf "%s.%s" $staticImgPath "svg")) }}
+                    <source srcset="{{ $img }}.svg" type="image/svg">
+                    {{ end }}
+                    {{ if (os.FileExists (printf "%s.%s" $staticImgPath "webp")) }}
+                    <source srcset="{{ $img }}.webp" type="image/webp">
+                    {{ end }}
+                    {{ if (os.FileExists (printf "%s.%s" $staticImgPath "png")) }}
+                    <img src="{{ $img }}.png" alt="{{ .Params.title }}">
+                    {{ else if (os.FileExists (printf "%s.%s" $staticImgPath "svg")) }}
+                    <img src="{{ $img }}.svg" alt="{{ .Params.title }}">
+                    {{ end }}
+                </picture>
             </div>
-            {{end}}
+            {{ end }}
         </div>
     </div>
 </section>

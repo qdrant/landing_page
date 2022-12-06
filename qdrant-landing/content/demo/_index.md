@@ -1,4 +1,4 @@
 ---
 title: Demos
-section_title: Interactive Live Examples
+section_title: Interactive <br>Live Examples
 ---

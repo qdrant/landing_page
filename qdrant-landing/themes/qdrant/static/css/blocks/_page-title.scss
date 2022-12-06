@@ -38,9 +38,15 @@
   }
 
   &__image {
-    @include media-breakpoint-up(md) {
+    display: flex;
+    align-items: center;
+    @include media-breakpoint-up(lg) {
       padding-left: lib.rem(60);
       margin-top: lib.rem(-22);
+    }
+    @include media-breakpoint-down(sm) {
+      padding-left: lib.rem(100);
+      padding-right: lib.rem(100);
     }
   }
 }
