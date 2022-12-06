@@ -1,15 +1,22 @@
 {{$currentNode := .}}
-<nav class="col-lg-3 col-md-3 col-12 mt-0 mt-md-4 mr-3 mb-4 position-relative">
+<nav class="col-lg-3 col-md-3 col-12 mt-0 mt-md-4 pr-4 mr-3 mb-4 position-relative">
 
     {{ $sectionLink := cond .IsSection .RelPermalink .Parent.RelPermalink }}
     {{ $subject := site.GetPage $sectionLink }}
     <div id="accordion" class="sticky-top documentation__sidebar">
-        <!-- Button trigger modal -->
-        <button type="button" class="qdr-search-input-btn w-100 mb-2" data-target="#searchModal">
+
+        <!-- buttons for Qdrant/Cloud doc switching-->
+        {{ $isCloud := cond (in $sectionLink "cloud") true false }}
+        <div class="btn-group btn-group-sm w-100 mb-3" role="group" aria-label="...">
+            <a class="btn {{if $isCloud}}btn--light{{else}}btn--mid-grey{{end}}" href="/documentation/">Qdrant</a>
+            <a class="btn {{if $isCloud}}btn--mid-grey{{else}}btn--light{{end}}" href="/documentation/cloud/">Cloud</a>
+        </div>
+        <!-- Button triggers search modal -->
+        <button type="button" class="qdr-search-input-btn w-100 mb-2 w-100" data-target="#searchModal">
             <i class="fa fa-search mr-2"></i>Search...
         </button>
 
-        <div class="documentation__sidebar-list">
+<div class="documentation__sidebar-list">
             {{ range $subject.RegularPages }}
             <div class="link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}">
                 <div class="link-group-heading" id="headingOne">
