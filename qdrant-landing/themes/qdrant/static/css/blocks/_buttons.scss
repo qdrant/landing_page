@@ -95,15 +95,19 @@
   // backgrounds
   &.btn--primary {
     background-color: var(--brand-primary);
+    color: var(--white);
   }
   &.btn--secondary {
     background-color: var(--brand-secondary);
+    color: var(--white);
   }
   &.btn--light {
     background-color: var(--brand-light);
+    color: var(--brand-secondary);
   }
   &.btn--mid-grey {
     background-color: var(--brand-mid-grey);
+    color: var(--brand-secondary);
   }
 }
 
