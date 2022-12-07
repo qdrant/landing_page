@@ -87,8 +87,24 @@ article aside[role="status"]:before {
   }
 
   h2 {
+    font-size: lib.rem(34);
+    line-height: lib.rem(38);
+  }
+
+  h3 {
     font-size: lib.rem(28);
     line-height: lib.rem(33);
+  }
+
+  h4 {
+    font-size: lib.rem(22);
+    line-height: lib.rem(28);
+  }
+
+  h5 {
+    font-size: lib.rem(20);
+    line-height: lib.rem(24);
+    color: var(--brand-dark-gray);
   }
 
   ul, ol {
