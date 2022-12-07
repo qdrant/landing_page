@@ -139,6 +139,84 @@ client.update_collection(
 
 This command enables indexing for segments that have more than 10000 vectors stored.
 
+## Collection info
+
+Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
+distributed and indexed. 
+
+```http
+GET /collections/{collection_name}
+
+{
+    "result": {
+        "status": "green",
+        "optimizer_status": "ok",
+        "vectors_count": 1068786,
+        "indexed_vectors_count": 1024232,
+        "points_count": 1068786,
+        "segments_count": 31,
+        "config": {
+            "params": {
+                "vectors": {
+                    "size": 384,
+                    "distance": "Cosine"
+                },
+                "shard_number": 1,
+                "replication_factor": 1,
+                "write_consistency_factor": 1,
+                "on_disk_payload": false
+            },
+            "hnsw_config": {
+                "m": 16,
+                "ef_construct": 100,
+                "full_scan_threshold": 10000,
+                "max_indexing_threads": 0
+            },
+            "optimizer_config": {
+                "deleted_threshold": 0.2,
+                "vacuum_min_vector_number": 1000,
+                "default_segment_number": 0,
+                "max_segment_size": null,
+                "memmap_threshold": null,
+                "indexing_threshold": 20000,
+                "flush_interval_sec": 5,
+                "max_optimization_threads": 1
+            },
+            "wal_config": {
+                "wal_capacity_mb": 32,
+                "wal_segments_ahead": 0
+            }
+        },
+        "payload_schema": {}
+    },
+    "status": "ok",
+    "time": 0.00010143
+}
+```
+
+```python
+client.get_collection(collection_name="{collection_name}")
+```
+
+If you insert the vectors into the collection, the `status` field will become `green` once all the points are already processed. 
+In case the optimization is still running, it will be `yellow`, and might be set to `red` if there were some errors the engine 
+could not recover from.
+
+There are, however, some other attributes you might be interested in:
+
+- `points_count` - total number of objects (vectors and their payloads) stored in the collection
+- `vectors_count` - total number of vectors in a collection. If there are multiple vectors per object, it won't be equal to `points_count`.
+- `indexed_vectors_count` - total number of vectors stored in the HNSW index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+
+### Indexing vectors in HNSW
+
+In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
+depends on the [optimizer configuration](../optimizer). A new index segment is built if the size of non-indexed vectors is higher than the
+value of `indexing_threshold`(in KB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
+created and `indexed_vectors_count` might be equal to `0`.
+
+It is possible to reduce the `indexing_threshold` for an existing collection by [updating collection parameters](#update-collection-parameters).
+
 ## Collection aliases
 
 In a production environment, it is sometimes necessary to switch different versions of vectors seamlessly.
