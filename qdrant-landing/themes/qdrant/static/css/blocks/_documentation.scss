@@ -1,4 +1,5 @@
 @use "../helpers/mixins" as mixins;
+@use "../helpers/functions" as lib;
 
 .documentation {
   @include mixins.content-reset;
@@ -29,5 +30,18 @@
 
   p {
     margin-bottom: 0.7rem;
+  }
+
+  &__sidebar {
+    top: lib.rem(30);
+  }
+  &__sidebar-list {
+    max-height: calc(100vh - 90px);
+    overflow-y: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 }

@@ -1,29 +1,31 @@
 {{$currentNode := .}}
 <nav class="col-lg-3 col-md-3 col-12 mt-0 mt-md-4 position-relative">
-    <div id="accordion" class="sticky-top">
+    <div id="accordion" class="sticky-top documentation__sidebar">
         <!-- Button trigger modal -->
         <button type="button" class="qdr-search-input-btn mb-2" data-target="#searchModal">
             <i class="fa fa-search mr-2"></i>Search...
         </button>
-        {{ range where .Site.RegularPages "Section" .Section }}
 
-        <div class="link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}">
-            <div class="link-group-heading" id="headingOne">
+        <div class="documentation__sidebar-list">
+            {{ range where .Site.RegularPages "Section" .Section }}
+            <div class="link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}">
+                <div class="link-group-heading" id="headingOne">
                 <span class="mb-0">
                     <a class="btn btn-link collapsed pl-0" href="{{ .Permalink }}">
                         {{ .Title }}
                     </a>
                 </span>
-            </div>
-            {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
-            <div class="pl-4">
-                {{ .TableOfContents }}
+                </div>
+                {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                <div class="pl-4">
+                    {{ .TableOfContents }}
+                </div>
+                {{ end }}
             </div>
             {{ end }}
+
+            <br/>
+            <span class="d-inline-block mb-4">Docs version: {{ .Site.Params.docVersion }}</span>
         </div>
-        {{ end }}
-        
-        <br/>
-        <span class="d-inline-block mb-4">Docs version: {{ .Site.Params.docVersion }}</span>
     </div>
 </nav>
