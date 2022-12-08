@@ -100,7 +100,7 @@ With the first run we will use the default configuration of Qdrant with all data
 python run.py --engines qdrant-all-in-ram --datasets glove-100-angular
 ```
 
-After uploading vectors, we will repeat the same experiment with different allowed RAM usage to see how they affect the memory consumption and search speed.
+After uploading vectors, we will repeat the same experiment with different RAM limits to see how they affect the memory consumption and search speed.
 
 ```bash
 # Search vectors
@@ -184,7 +184,7 @@ PUT /collections/benchmark
 ```
 This configuration tells Qdrant to use mmap for vectors if the segment size is greater than 20000Kb (which is approximately 40K 128d-vectors).
 
-Now the out-of-memory happens when we use allow only **600mb** RAM.
+Now the out-of-memory happens when we allow using **600mb** RAM only
 
 <details>
   <summary>Experiments details</summary>
@@ -343,7 +343,7 @@ Let's see how these results translate into search speed:
 |--------|---------------------|--------------------|
 | 600mb  | 5                   | 50                 |
 | 300mb  | 0.9                 | 13                 |
-| 200md  | 0.5                 | 8                  |
+| 200mb  | 0.5                 | 8                  |
 | 150mb  | 0.4                 | 7                  |
 
 
