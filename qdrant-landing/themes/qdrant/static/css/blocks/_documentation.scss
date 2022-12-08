@@ -38,10 +38,25 @@
   &__sidebar-list {
     max-height: calc(100vh - 90px);
     overflow-y: scroll;
-    -ms-overflow-style: none;  /* IE and Edge */
-    scrollbar-width: none;  /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: thin; /* Firefox */
+    scroll-behavior: smooth;
+    scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
+
     &::-webkit-scrollbar {
       display: none;
+    }
+    &::-webkit-scrollbar {
+      width: 1px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--brand-gray);
+    }
+    &:hover {
+      &::-webkit-scrollbar {
+        display: block;
+      }
     }
   }
 }
