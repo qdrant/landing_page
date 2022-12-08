@@ -37,7 +37,7 @@ When it comes to measuring the memory consumption of our processes, we often rel
 
 There are many different ways in which `htop` may not be a reliable indicator of memory usage. 
 For instance, a process may allocate memory in advance but not use it, or it may not free deallocated memory, leading to overstated memory consumption. 
-Process may be forked, which means that it will have a separate memory space, but it will share the same code and data with the parent process.
+A process may be forked, which means that it will have a separate memory space, but it will share the same code and data with the parent process.
 This means that the memory consumption of the child process will be counted twice.
 Additionally, a process may utilize disk cache, which is also accounted as resident memory in the `htop` measurements.
 
