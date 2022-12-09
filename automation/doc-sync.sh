@@ -22,23 +22,8 @@ QDRANT_DOC_SOURCE=./docs/qdrant/$QDRANT_DOC_VERSION
 CLOUD_DOC_DESTINATION=$QDRANT_DOC_DESTINATION/cloud
 CLOUD_DOC_SOURCE=./docs/cloud/$CLOUD_DOC_VERSION
 
-DIFFER_QDRANT=$(diff --exclude=cloud -qr qdrant-landing/content/documentation docs/qdrant/"$QDRANT_DOC_VERSION" | cat);
-
 if [ ! -d "$CLOUD_DOC_DESTINATION" ]; then
-  mkdir "$CLOUD_DOC_DESTINATION"
-fi;
-
-#if there is no changes, script just exits with code 0
-if [ -z "$DIFFER_QDRANT" ]; then
-  echo "Sync for Qdrant documentation is not needed, files are identical"
-  DIFFER_CLOUD=$(diff -qr qdrant-landing/content/documentation/cloud docs/cloud/"$CLOUD_DOC_VERSION" | cat);
-
-  if [ -z "$DIFFER_CLOUD" ]; then
-    echo "Sync for Cloud documentation is not needed, files are identical"
-    rm -rf ./$DOC_REP
-    exit 0;
-  fi;
-
+  mkdir -p "$CLOUD_DOC_DESTINATION"
 fi;
 
 #updates docs

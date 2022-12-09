@@ -16,6 +16,14 @@ jobs:
       - name: Run a one-line script
         run: |
           bash -x automation/doc-sync.sh
+          if [[ `git status --porcelain` ]]; then
+            # Changes
+            echo "Changes detected"
+          else
+            # No changes
+            echo "No changes detected"
+            exit 0
+          fi
           git config --global user.name 'qdrant'
           git config --global user.email 'qdrant@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
