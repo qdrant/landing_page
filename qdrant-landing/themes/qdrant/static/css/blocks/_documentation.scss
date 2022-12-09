@@ -39,9 +39,8 @@
     max-height: calc(100vh - 90px);
     overflow-y: scroll;
     -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: thin; /* Firefox */
+    scrollbar-width: none; /* Firefox */
     scroll-behavior: smooth;
-    scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
 
     &::-webkit-scrollbar {
       display: none;
@@ -54,6 +53,17 @@
       background: var(--brand-gray);
     }
     &:hover {
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
+
+      &::-webkit-scrollbar {
+        display: block;
+      }
+    }
+    @media (hover: none) {
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
+
       &::-webkit-scrollbar {
         display: block;
       }
