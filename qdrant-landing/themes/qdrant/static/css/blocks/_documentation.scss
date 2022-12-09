@@ -1,4 +1,5 @@
 @use "../helpers/mixins" as mixins;
+@use "../helpers/functions" as lib;
 
 .documentation {
   @include mixins.content-reset;
@@ -29,5 +30,43 @@
 
   p {
     margin-bottom: 0.7rem;
+  }
+
+  &__sidebar {
+    top: lib.rem(30);
+  }
+  &__sidebar-list {
+    max-height: calc(100vh - 90px);
+    overflow-y: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    scroll-behavior: smooth;
+
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    &::-webkit-scrollbar {
+      width: 1px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: var(--brand-gray);
+    }
+    &:hover {
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
+
+      &::-webkit-scrollbar {
+        display: block;
+      }
+    }
+    @media (hover: none) {
+      scrollbar-width: thin; /* Firefox */
+      scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
+
+      &::-webkit-scrollbar {
+        display: block;
+      }
+    }
   }
 }
