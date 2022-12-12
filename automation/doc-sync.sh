@@ -5,23 +5,33 @@ set -e
 DOC_REP=docs
 git clone https://github.com/qdrant/$DOC_REP.git
 
+
+# ToDo: remove before merge
+echo $(cd $DOC_REP && git pull && git checkout cloud-docs)
+
 if [ -d $DOC_REP ]; then
-  DOC_VERSION=$(grep -o 'docVersion = .*' ./qdrant-landing/config.toml | awk -F'"' '/(docVersion = )"([^"]+)"/{ print $2 }')
+  QDRANT_DOC_VERSION=$(grep -o 'docVersion = .*' ./qdrant-landing/config.toml | awk -F'"' '/(docVersion = )"([^"]+)"/{ print $2 }')
+  echo "Qdrant doc version: $QDRANT_DOC_VERSION"
+  CLOUD_DOC_VERSION=$(grep -o 'cloudDocVersion = .*' ./qdrant-landing/config.toml | awk -F'"' '/(cloudDocVersion = )"([^"]+)"/{ print $2 }')
+  echo "Cloud doc version: $CLOUD_DOC_VERSION"
 fi;
 
-DOC_DESTINATION=./qdrant-landing/content/documentation
-DOC_SOURCE=./docs/qdrant/$DOC_VERSION
+QDRANT_DOC_DESTINATION=./qdrant-landing/content/documentation
+QDRANT_DOC_SOURCE=./docs/qdrant/$QDRANT_DOC_VERSION
 
-DIFFER=$(diff -qr qdrant-landing/content/documentation docs/qdrant/"$DOC_VERSION" | cat);
+CLOUD_DOC_DESTINATION=$QDRANT_DOC_DESTINATION/cloud
+CLOUD_DOC_SOURCE=./docs/cloud/$CLOUD_DOC_VERSION
 
-#if there is no changes, script just exits with code 0
-if [ -z "$DIFFER" ]; then
-  echo "Sync is not needed, files are identical"
-  rm -rf ./$DOC_REP
-  exit 0;
+if [ ! -d "$CLOUD_DOC_DESTINATION" ]; then
+  mkdir -p "$CLOUD_DOC_DESTINATION"
 fi;
 
 #updates docs
-rm -rf $DOC_DESTINATION
-mv "$DOC_SOURCE" "$DOC_DESTINATION"
+rm -rf $QDRANT_DOC_DESTINATION
+mv "$QDRANT_DOC_SOURCE" "$QDRANT_DOC_DESTINATION"
+
+#updates cloud docs
+rm -rf $CLOUD_DOC_DESTINATION
+mv "$CLOUD_DOC_SOURCE" "$CLOUD_DOC_DESTINATION"
+
 rm -rf ./$DOC_REP
