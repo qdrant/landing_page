@@ -5,10 +5,6 @@ set -e
 DOC_REP=docs
 git clone https://github.com/qdrant/$DOC_REP.git
 
-
-# ToDo: remove before merge
-echo $(cd $DOC_REP && git pull && git checkout cloud-docs)
-
 if [ -d $DOC_REP ]; then
   QDRANT_DOC_VERSION=$(grep -o 'docVersion = .*' ./qdrant-landing/config.toml | awk -F'"' '/(docVersion = )"([^"]+)"/{ print $2 }')
   echo "Qdrant doc version: $QDRANT_DOC_VERSION"
