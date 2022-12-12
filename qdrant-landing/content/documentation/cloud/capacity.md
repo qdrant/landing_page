@@ -8,18 +8,43 @@ We have been asked a lot about the optimal cluster configuration to serve a numb
 The only right answer is “It depends”.
 
 It depends on a number of factors and options you can choose for your collections.
-The very rough formula for estimating the needed memory size looks like this.
+
+## Basic configuration
+
+If you need to keep all vectors in memory for maximum performance, there is a very rough formula for estimating the needed memory size looks like this:
+
+```
+memory_size = number_of_vectors * vector_dimension * 4 bytes * 1.5
+```
+
+Extra 50% is needed for metadata (indexes, point versions, etc.) as well as for temporary segments constructed during the optimization process.
+
+If you need to have payloads along with the vectors, it is recommended to store it on the disc, and only keep [indexed fields](../../indexing/#payload-index) in RAM.
+Read more about the payload storage in the [Storage](../../storage/#payload-storage) section.
 
 
-<!---
-ToDo: add a formula
--->
+## Storage focused configuration
 
-However, this also heavily influenced by the configuration of each collection you create on the cluster.
+If your priority is to serve large amount of vectors with an average search latency, it is recommended to configure [mmap storage](../../storage/#configuring-memmap-storage).
+In this case vectors will be stored on the disc in memory-mapped files, and only the most frequently used vectors will be kept in RAM.
 
-Furthermore, you can decide to put the metadata indexes on the disc storage, to put the vectors on the disc storage, or even put the whole HNSW index on the disc. This of course will significantly affect the memory footprint. 
-Also, please note that some memory, around 10%, is reserved for the needs of the underlying system.  
+The amount of available RAM will significantly affect the performance of the search.
+As a rule of thumb, if you keep 2 times less vectors in RAM, the search latency will be 2 times higher.
 
-<!--
-@todo Andrey Vasnetsov please add more details here.
--->
+The speed of disks is also important. [Let us know](mailto:cloud@qdrant.io) if you have special requirements for a high-volume search.
+
+## Sub-groups oriented configuration
+
+
+If your use case assumes that the vectors are split into multiple collections or sub-groups based on payload values,
+it is recommended to configure memory-map storage.
+For example, if you serve search for multiple users, but each of them has an subset of vectors which they use independently.
+
+In this scenatio only the active subset of vectors will be kept in RAM, which allows
+the fast search for the most active and recent users.
+
+In this case you can estimate required memory size as follows:
+
+```
+memory_size = number_of_active_vectors * vector_dimension * 4 bytes * 1.5
+```

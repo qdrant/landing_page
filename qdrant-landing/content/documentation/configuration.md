@@ -77,7 +77,7 @@ storage:
     # Segments larger than this threshold will be stored as read-only memmaped file.
     # To enable memmap storage, lower the threshold
     # Note: 1Kb = 1 vector of size 256
-    memmap_threshold_kb: 200000
+    memmap_threshold_kb: null
 
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
     # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md

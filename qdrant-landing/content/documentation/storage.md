@@ -30,6 +30,19 @@ This scheme allows flexible use of available memory. With sufficient RAM, it is 
 However, dynamically adding vectors to the mmap file is fairly complicated and is not implemented in Qdrant.
 Thus, segments using mmap storage are `non-appendable` and can only be construed by the optimizer.
 
+### Configuring Memmap storage
+
+To configure usage of mmap storage, you need to specify the threshold after which the segment will be converted to mmap storage.
+There are two ways to do this:
+
+1. You can set the threshold globally in the [configuration file](../configuration/). The parameter is called `memmap_threshold_kb`.
+2. You can set the threshold for each collection separately during [creation](../collections/#create-collection) or [update](../collections/#update-collection-parameters).
+
+
+In addition, you can use mmap storage not only for vectors, but also for HNSW index.
+To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during [creation](../collections/#create-collection) of the collection.
+
+
 ## Payload storage
 
 Qdrant supports two types of payload storages: InMemory and OnDisk.
