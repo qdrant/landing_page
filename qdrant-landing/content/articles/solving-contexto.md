@@ -128,7 +128,7 @@ Benefits of this approach:
 - The algorithm is invariant to the order of the input data.
 - Algorithm only relies on the relative similarity of the words and can be easily adapted to other types of input.
 
-We even made a simple sctipt you that you can run youself, check it out on [GitHub](https://github.com/qdrant/contexto).
+We even made a simple script you that you can run yourself, check it out on [GitHub](https://github.com/qdrant/contexto).
 
 The script uses [Gensim](https://radimrehurek.com/gensim/) and `word2vec-google-news-300` embeddings.
 On average, it takes 20-30 guesses to solve the game.
