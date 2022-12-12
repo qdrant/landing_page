@@ -117,7 +117,7 @@ Let's see how scores change after we make a third guess:
 {{< figure src=/articles_data/solving-contexto/scoring-2.png caption="Ranking words based on next 2 guesses">}}
 
 We can generalize this approach to any number of guesses.
-The simpliest way to do this is to sample pairs of guesses and update the score iteratively.
+The simplest way to do this is to sample pairs of guesses and update the score iteratively.
 
 That's it! We can use this approach to suggest words one by one and extend guess list accordingly.
 
