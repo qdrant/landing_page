@@ -64,7 +64,7 @@ There are naive approaches we tried:
     - Second, because we don't know the exact distance to the secret word.
     - We can only compare distances between words.
 
-The solution should not only account for the most sililar word we found so far, but also consider the distance to the words it found to be unsimilar.
+The solution should not only account for the most similar word we found so far, but also consider the distance to the words it found to be dissimilar.
 -->
 
 It's clear that the game is using some kind of Word2Vec model to sort words by their similarity to the secret word.
