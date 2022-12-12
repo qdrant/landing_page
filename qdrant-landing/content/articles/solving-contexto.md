@@ -123,7 +123,7 @@ That's it! We can use this approach to suggest words one by one and extend guess
 
 Benefits of this approach:
 
-- It is stochastic. if there are inconsistencies in the input data, the algorithm can tolerate them.
+- It is stochastic. If there are inconsistencies in the input data, the algorithm can tolerate them.
 - The algorithm does not require using exactly the same model as used in the game. It can work with any distance metric and any dimensionality of the vector space.
 - The algorithm is invariant to the order of the input data.
 - Algorithm only relies on the relative similarity of the words and can be easily adapted to other types of input.
