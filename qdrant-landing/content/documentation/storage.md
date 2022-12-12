@@ -27,26 +27,8 @@ The choice has to be made between the search speed and the size of the RAM used.
 **Memmap storage** -  creates a virtual address space associated with the file on disk. [Wiki](https://en.wikipedia.org/wiki/Memory-mapped_file).
 Mmapped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
 This scheme allows flexible use of available memory. With sufficient RAM, it is almost as fast as in-memory storage.
-
-<!--
 However, dynamically adding vectors to the mmap file is fairly complicated and is not implemented in Qdrant.
 Thus, segments using mmap storage are `non-appendable` and can only be construed by the optimizer.
-But it only matters for internal operations, so you can safely ignore this fact.
-If you update a vector in a segment with mmap storage, the vector will be moved to appendable segment first, and then the old vector will be deleted from the mmap segment. 
--->
-
-### Configuring Memmap storage
-
-To configure usage of mmap storage, you need to specify the threshold after which the segment will be converted to mmap storage.
-There are two ways to do this:
-
-1. You can set the threshold globally in the [configuration file](../configuration/). The parameter is called `memmap_threshold_kb`.
-2. You can set the threshold for each collection separately during [creation](../collections/#create-collection) or [update](../collections/#update-collection-parameters).
-
-
-In addition, you can use mmap storage not only for vectors, but also for HNSW index.
-To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during [creation](../collections/#create-collection) of the collection.
-
 
 ### Configuring Memmap storage
 
