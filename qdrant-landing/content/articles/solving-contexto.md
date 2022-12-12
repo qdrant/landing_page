@@ -57,7 +57,7 @@ There are naive approaches we tried:
 - Explain what Word2Vec is.
 
 - We can start with random word and just look into the list of words similar to it. If we see a word that is close to the secret word, we use it as a reference. Then we look into the list of words similar to the reference word and so on. If we see the secret word, we stop.
-- This approach works, but it is very slow. It tends to stuck in clusters of words that are similar to each other, which forces us to retrive a lot of words from the model.
+- This approach works, but it is very slow. It tends to stuck in clusters of words that are similar to each other, which forces us to retrieve a lot of words from the model.
 
 - We also can't use tricks from linear algebra to evaluate exact vector based on distances to given points.
     - First, because we don't know exact word2vec model which was used to sort words.
