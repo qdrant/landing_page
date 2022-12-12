@@ -12,7 +12,7 @@ You will need to choose the initial configuration for your cluster as the next s
 * Define the name of your cluster. 
 * Choose the cloud platform provider. During the beta phase, only the AWS platform will be available for cluster deployment. GCP and Azure cloud providers will be added soon. If you have special requirements, [let us know](mailto:cloud@qdrant.io).
 * Choose the data center region. During the beta phase, only the us-east data center location will be choosable in the selection. Other cloud regions can be activated on demand. [Let us know](mailto:cloud@qdrant.io) if you have latency concerns or other topology-related requirements.
-* Choose the memory size for a node. 2GB to 64GB options are available. Please refer to the [Capacity](...........) section to make the right choice here. If you need an even higher capacity per node, [let us know](mailto:cloud@qdrant.io), we can provide machines of any size.
+* Choose the memory size for a node. 2GB to 64GB options are available. Please refer to the [Capacity and Sizing](https://qdrant.tech/documentation/cloud/capacity/) section to make the right choice here. If you need an even higher capacity per node, [let us know](mailto:cloud@qdrant.io), we can provide machines of any size.
 * Choose the number CPU’s per node. 0.5 to 16 CPU options are available, whereas the maximal and minimal number of CPU’s is coupled to the chosen memory size. 
 * And finally, choose the number of nodes you want the cluster to be deployed on. Each node is automatically attached with a disc space offering enough space for your data if you decide to put the metadata or even the index on the disc storage.
 
@@ -21,7 +21,7 @@ You will need to choose the initial configuration for your cluster as the next s
 
 Every account is eligible for one free tier cluster.
 Just choose the name, use the default configuration with 1GB memory and 0.5 CPU, and you are good to go.
-You can use this cluster for testing purposes. The capacity should be enough to serve up to 1M vectors of 768dim, but [it depends…](...........). 
+You can use this cluster for testing purposes. The capacity should be enough to serve up to 1M vectors of 768dim, but [it depends…](https://qdrant.tech/documentation/cloud/capacity/). 
 
 ## Authentication
 
