@@ -102,7 +102,7 @@ The more efficient solution must also consider the words deemed dissimilar.
 Let's consider the simplest case: we have guessed 2 words `house` and `blue` and received feedback on their similarity to the secret word.
 
 One of the words is closer to the secret word than the other, so we can make some assumptions about the secret word.
-We understand that the secret word is more likely to be similar to `house` than `blue`, but we only have the informaion about its relative similarity to these two words.
+We understand that the secret word is more likely to be similar to `house` than `blue`, but we only have the information about its relative similarity to these two words.
 
 Let's assign a score to each word in the vocabulary based on this observation:
 
