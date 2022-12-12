@@ -14,4 +14,4 @@ The transition is even easier if you use the official client libraries.
 
 For example, the Python Qdrant client has the support of the API key already built-in, so you only need to provide it once, when the QdrantClient instance is created.
 
-Please see Authentication section for details.
+Please see [**Quick Start**](https://qdrant.tech/documentation/cloud/cloud-quick-start/) section for details.
