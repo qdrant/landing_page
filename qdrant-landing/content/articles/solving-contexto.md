@@ -17,7 +17,7 @@ date: 2022-06-28T08:57:07.604Z
 Plan:
 
 - What is Contexto.me, how it works
-- Naive aproaches and why they don't work
+- Naive approaches and why they don't work
 - How we solved it
 - Why it can be useful in real life
 
