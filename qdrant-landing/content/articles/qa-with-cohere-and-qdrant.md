@@ -87,7 +87,7 @@ be able to find the nearest neighbours with sublinear complexity.](/articles_dat
 
 We don’t want to maintain our own service for the neural encoder, nor even set up a Qdrant instance. There are SaaS 
 solutions for both — Cohere’s [co.embed API](https://docs.cohere.ai/reference/embed) 
-and [Qdrant Cloud](https://qdrant.tech/surveys/cloud-request/), so we’ll use them instead of on-premise tools.
+and [Qdrant Cloud](https://qdrant.to/cloud), so we’ll use them instead of on-premise tools.
 
 ### Question Answering on biomedical data
 

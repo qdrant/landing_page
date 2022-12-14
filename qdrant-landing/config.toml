@@ -33,6 +33,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   tutorial = "/articles/neural-search-tutorial/"
   benchmarks = "/benchmarks/"
   demos = "/demo"
+  cloud = "https://qdrant.to/cloud"
 
   linkedin = "https://qdrant.to/linkedin"
   twitter = "https://qdrant.to/twitter"

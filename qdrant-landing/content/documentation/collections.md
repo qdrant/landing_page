@@ -17,6 +17,8 @@ Qdrant supports these most popular types of metrics:
 * Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
 * Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
 
+<aside role="status">For search efficiency, Cosine similarity is implemented as dot-product over normalized vectors. Vectors are automatically normalized during upload</aside>
+
 In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
 These settings can be changed at any time by a corresponding request.
 
