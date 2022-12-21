@@ -8,7 +8,7 @@ small_preview_image: /articles_data/hybrid-search-with-meilisearch/icon.svg
 weight: 5
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2022-12-21T10:18:00.000Z
+date: 2022-12-21T17:25:00.000Z
 ---
 
 If you're still sceptical about all the buzz around vector search, there is a chance to combine it with 
@@ -37,8 +37,8 @@ but that won't impact the order of the results.
 # A hybrid: semantic and keyword-based search
 
 If we want to combine both worlds, we need a separate tool designed to make that efficient and a way to connect 
-it with a vector database. Meilisearch is one of the options worth considering. It is written in Rust, as Qdrant, 
-which makes it really fast.
+it with a vector database. [Meilisearch](https://www.meilisearch.com/) is one of the options worth considering. 
+It is written in Rust, as Qdrant, which makes it really fast.
 
 Designing a proper search pipeline shouldn't be biased by some personal preferences. That's why it's worth 
 benchmarking different options and choosing the right based on their search accuracy, no matter how we define it.
@@ -50,16 +50,16 @@ the results. So it goes like this:
 
 ```final_score = 0.7 * vector_score + 0.3 * full_text_score```
 
-However, we didn't even consider such a setup. Why? First of all, Meilisearch does not provide a relevancy score. 
-But more importantly, those scores don't make the problem linearly separable. We used BM25 along with cosine vector 
-similarity to used both of them as points coordinates in 2-dimensional space. The chart shows how those points 
-are distributed:
+However, we didn't even consider such a setup. Why? First of all, [Meilisearch does not provide a relevancy score
+](https://github.com/meilisearch/meilisearch/discussions/773). But more importantly, those scores don't make the 
+problem linearly separable. We used BM25 score along with cosine vector similarity to use both of them as points 
+coordinates in 2-dimensional space. The chart shows how those points are distributed:
 
 ![A distribution of both Qdrant and BM25 scores mapped into 2D space.](/articles_data/hybrid-search-with-meilisearch/linear-combination.png)
 
 *A distribution of both Qdrant and BM25 scores mapped into 2D space. It clearly shows relevant and non-relevant 
 objects are not linearly separable in that space, so using a linear combination of both scores won't give us 
-a proper hybrid search*
+a proper hybrid search.*
 
 Both relevant and non-relevant items are mixed. **None of the linear formulas would be able to distinguish 
 between them.** Thus, that's not the way to solve it.
@@ -88,10 +88,10 @@ For that benchmark, there have been 3 experiments conducted:
 
 In each case we want to receive the top 10 results for given query.
 
-WANDS dataset
+## WANDS dataset
 
-I selected a relatively new search relevance dataset. WANDS, which stands for Wayfair ANnotation Dataset, is designed 
-to evaluate search engines for e-commerce.
+I selected a relatively new search relevance dataset. [WANDS](https://github.com/wayfair/WANDS), which stands for Wayfair 
+ANnotation Dataset, is designed to evaluate search engines for e-commerce.
 
     WANDS: Dataset for Product Search Relevance Assessment
     Yan Chen, Shujian Liu, Zheng Liu, Weiyi Sun, Linas Baltrunas and Benjamin Schroeder
@@ -100,55 +100,62 @@ In a nutshell, the dataset consists of products, queries and human annotated rel
 textual attributes, as well as facets. The relevancy is provided as textual labels: “Exact”, “Partial” and “Irrelevant” 
 and authors suggest to convert those to 1, 0.5 and 0.0 respectively. There are 488 queries with a varying number of 
 relevant items each.
-Search results
+
+## Search results
 
 It is quite interesting to check out those results which were properly returned by one of the methods and not by the other. 
 At the first glance at the search results, it is obvious there are some cases that won’t be found with full-text search 
 without lots of human effort. These are, in turn, easily captured by vector embeddings. Just to mention a few, which were 
 also marked as relevant in the dataset:
 
-    Query: nautical platters
-    Item: sandy shore sea shells design serving platter
+- Query: **nautical platters**
 
-    Query: outdoor privacy wall
-    Item: 2 ft. h x 4 ft. w metal privacy screen
+  Item: **sandy shore sea shells design serving platter**
 
-    Query: closet storage with zipper
-    Item: 60 ‘’ w portable wardrobe
+- Query: **outdoor privacy wall**
 
-    Query: outdoor light fixtures
-    Item: cerridale outdoor armed sconce
+  Item: **2 ft. h x 4 ft. w metal privacy screen**
 
-    Query: beach blue headboard
-    Item: seaside upholstered panel headboard
+- Query: **closet storage with zipper**
+
+  Item: **60 ‘’ w portable wardrobe**
+
+- Query: **outdoor light fixtures**
+
+  Item: **cerridale outdoor armed sconce**
+
+- Query: **beach blue headboard**
+
+  Item: **seaside upholstered panel headboard**
 
 There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of 
-Meilisearch did that properly. The good thing about vector search is that the neural model might be easily fine-tuned 
-with those unsuccessful items. If we wanted to do the same with the full-text search, then we would need to provide a 
+Meilisearch did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned 
+with those unsuccessful items.** If we wanted to do the same with the full-text search, then we would need to provide a 
 list of synonyms. Unfortunately, we cannot predict all the possible queries our users may think of.
-Quality metrics
+
+## Quality metrics
 
 There are various ways of how to measure the performance of search engines, and https://neptune.ai/blog/recommender-systems-metrics 
 is a great introduction to that topic. I selected the following ones:
 
-    NDCG@5, NDCG@10
-    DCG@5, DCG@10
-    MRR@5, MRR@10
-    Precision@5, Precision@10
-    Recall@5, Recall@10
+- NDCG@5, NDCG@10
+- DCG@5, DCG@10
+- MRR@5, MRR@10
+- Precision@5, Precision@10
+- Recall@5, Recall@10
 
-Unfortunately, Meilisearch does not provide any relevancy score, so for the purposes of NDCG@N and DCG@N it was derived 
-from the ranking. We assumed two scenarios:
+Unfortunately, [Meilisearch does not provide any relevancy score](https://github.com/meilisearch/meilisearch/discussions/773), 
+so for the purposes of NDCG@N and DCG@N it was derived from the ranking. We assumed two scenarios:
 
-    Relevancy is equal to 1.0 for all the results returned by the engine.
-    Relevancy is dependent on rank (decreases from 1 to 1/N for N results).
+1. Relevancy is equal to 1.0 for all the results returned by the engine.
+2. Relevancy is dependent on rank (decreases from 1 to 1/N for N results).
 
 # The results
 
 ![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search-with-meilisearch/experiment-results.png)
 
 All the relevancy-dependent metric values are skewed just because there is no native score returned by Meilisearch, 
-which had to be faked. Still, metrics like Precision@N, Recall@N or MRR show which setup to use if we care more about 
+which had to be faked. Still, metrics like *Precision@N*, *Recall@N* or *MRR* show which setup to use if we care more about 
 the overall quality or rank the first relevant item will get. Overall, combining both full-text and semantic search 
 with an additional reranking step seems to be a good idea, as we are able to benefit the advantages of both methods.
 
