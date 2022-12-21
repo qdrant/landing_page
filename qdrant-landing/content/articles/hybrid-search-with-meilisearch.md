@@ -3,7 +3,7 @@ title: Hybrid keyword and vector based search with Meilisearch
 short_description: Keyword and vector search may coexist. Here is how to take best from both worlds!
 description: Qdrant and Meilisearch might be used together to bring both vector and keyword based search experience.
 preview_dir: /articles_data/hybrid-search-with-meilisearch/preview
-social_preview_image: /articles_data/hybrid-search-with-meilisearch/social_preview.jpg
+social_preview_image: /articles_data/hybrid-search-with-meilisearch/social_preview.png
 small_preview_image: /articles_data/hybrid-search-with-meilisearch/icon.svg
 weight: 5
 author: Kacper Łukawski
