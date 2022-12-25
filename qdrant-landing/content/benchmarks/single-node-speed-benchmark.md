@@ -21,7 +21,7 @@ We tried our best, kept scrolling the docs up and down, and experimented with di
 
 ### Tested datasets
 
-Our benchmark, inspired by [github.com/erikbern/ann-benchmarks/](https://github.com/erikbern/ann-benchmarks/), used the following datasets to test the performance of the engines:
+Our benchmark, inspired by [github.com/erikbern/ann-benchmarks/](https://github.com/erikbern/ann-benchmarks/), used the following datasets to test the performance of the engines on ANN Search tasks:
 
 <div class="table-responsive">
 
