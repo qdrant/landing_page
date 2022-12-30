@@ -144,8 +144,7 @@ is a great introduction to that topic. I selected the following ones:
 - Precision@5, Precision@10
 - Recall@5, Recall@10
 
-Unfortunately, [Meilisearch does not provide any relevancy score](https://github.com/meilisearch/meilisearch/discussions/773), 
-so for the purposes of NDCG@N and DCG@N it was derived from the ranking. We assumed two scenarios:
+For the purposes of NDCG@N and DCG@N the relevancy score was derived from the ranking. We assumed two scenarios:
 
 1. Relevancy is equal to 1.0 for all the results returned by the engine.
 2. Relevancy is dependent on rank (decreases from 1 to 1/N for N results).
@@ -154,10 +153,8 @@ so for the purposes of NDCG@N and DCG@N it was derived from the ranking. We assu
 
 ![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search-with-meilisearch/experiment-results.png)
 
-All the relevancy-dependent metric values are skewed just because there is no native score returned by Meilisearch, 
-which had to be faked. Still, metrics like *Precision@N*, *Recall@N* or *MRR* show which setup to use if we care more about 
-the overall quality or rank the first relevant item will get. Overall, combining both full-text and semantic search 
-with an additional reranking step seems to be a good idea, as we are able to benefit the advantages of both methods.
+Overall, combining both full-text and semantic search with an additional reranking step seems to be a good idea, as we 
+are able to benefit the advantages of both methods.
 
 It's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant retrieved about 59.19% of the 
 relevant items on average, while Meilisearch fetched 53.08%. Those numbers don't sum up to 100%, because some items 
