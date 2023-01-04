@@ -10,7 +10,7 @@ default_link: https://qdrant.to/semantic-search-demo
 default_link_name: Demo
 weight: 20
 short_description: |
-    The neural search uses **semantic embeddings** instead of keywords and works best with short texts.
+    The vector search uses **semantic embeddings** instead of keywords and works best with short texts.
     With Qdrant, you can build and deploy semantic neural search on your data in minutes.
     Check out our [demo](https://qdrant.to/semantic-search-demo)!
 sitemapExclude: True
@@ -22,5 +22,5 @@ Documents may have too few keywords, or queries might be too large.
 One way to overcome these problems is a neural network-based semantic search, which can be used in conjunction with traditional search.
 The neural search uses **semantic embeddings** to find texts with similar meaning.
 
-With Qdrant, you can build and deploy semantic neural search on your data in minutes!
+With Qdrant vector search engine, you can build and deploy semantic neural search on your data in minutes!
 Compare the results of a semantic and full-text search in our demo.
