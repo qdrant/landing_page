@@ -11,7 +11,7 @@ default_link_name:
 weight: 30
 short_description: |
     User behavior can be represented as a semantic vector is similar way as text or images.
-    Qdrant allows you to create a real-time recommendation engine.
+    Vector database allows you to create a real-time recommendation engine.
     No MapReduce cluster required.
 sitemapExclude: True
 ---
@@ -21,5 +21,5 @@ This vector can represent user preferences, behavior patterns, or interest in th
 
 
 
-With Qdrant, user vectors can be updated in real-time, no need to deploy a MapReduce cluster.
+With Qdrant vector database, user vectors can be updated in real-time, no need to deploy a MapReduce cluster.
 Understand user behavior in real time.
