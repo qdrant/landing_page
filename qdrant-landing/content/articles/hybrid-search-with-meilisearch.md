@@ -92,7 +92,17 @@ In each case we want to receive the top 10 results for given query.
 At first glance, the last approach might look like there was some overhead due to calling two different services. 
 In reality, those are typically launched separately, and retrieving the results from both of them and combining them
 is not a big deal if done correctly. If you use Python, calling the services asynchronously allows running everything
-in parallel. Libraries, such as [AIOHTTP](https://docs.aiohttp.org/en/stable/), may help do that seamlessly.
+in parallel. Libraries, such as [asyncio](https://docs.python.org/3/library/asyncio.html) or 
+[AIOHTTP](https://docs.aiohttp.org/en/stable/), may help do that seamlessly.
+
+```python
+async def search(text: str):
+    keyword_search = search_meili(text)
+    vector_search = search_qdrant(text) 
+    all_results = await asyncio.gather(keyword_search, vector_search)  # parallel calls
+    rescored = cross_encoder_rescore(all_results)
+    return rescored
+```
 
 ## Quality metrics
 
@@ -174,15 +184,16 @@ the relevant items and Meilisearch around 53.08%.
 It is quite interesting to check out those results which were properly returned by one of the methods and not by the other. 
 At the first glance at the search results, it is obvious there are some cases that won’t be found with full-text search 
 without lots of human effort. These are, in turn, easily captured by vector embeddings. Just to mention a few, which were 
-also marked as relevant in the WANDS dataset:
+also marked as relevant in the WANDS dataset, here is an extract of the items which could have been extracted by one method
+but not but the other:
 
-| **Query**                      | **Item**                                      |
-|--------------------------------|-----------------------------------------------|
-| **nautical platters**          | sandy shore sea shells design serving platter |
-| **outdoor privacy wall**       | 2 ft. h x 4 ft. w metal privacy screen        |
-| **closet storage with zipper** | 60 ‘’ w portable wardrobe                     |
-| **outdoor light fixtures**     | cerridale outdoor armed sconce                |
-| **beach blue headboard**       | seaside upholstered panel headboard           |
+| **Query**                      | **Vector search item**                        | **Full-text item**                                         |
+|--------------------------------|-----------------------------------------------|------------------------------------------------------------|
+| **nautical platters**          | sandy shore sea shells design serving platter | depalma platter                                            |
+| **outdoor privacy wall**       | 2 ft. h x 4 ft. w metal privacy screen        | 1.5 ft. h x 1.5 ft. w artificial wall hedge privacy screen |
+| **closet storage with zipper** | 60 ‘’ w portable wardrobe                     | henrik 36 '' w wardrobe clothes storage organizer closet   |
+| **outdoor light fixtures**     | cerridale outdoor armed sconce                | krystn 1 - bulb outdoor bulkhead light                     | 
+| **beach blue headboard**       | seaside upholstered panel headboard           | *N/A*                                                      |
 
 There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of 
 Meilisearch did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned 
