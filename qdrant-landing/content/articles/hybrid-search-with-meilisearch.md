@@ -176,25 +176,13 @@ At the first glance at the search results, it is obvious there are some cases th
 without lots of human effort. These are, in turn, easily captured by vector embeddings. Just to mention a few, which were 
 also marked as relevant in the WANDS dataset:
 
-- Query: **nautical platters**
-
-  Item: **sandy shore sea shells design serving platter**
-
-- Query: **outdoor privacy wall**
-
-  Item: **2 ft. h x 4 ft. w metal privacy screen**
-
-- Query: **closet storage with zipper**
-
-  Item: **60 ‘’ w portable wardrobe**
-
-- Query: **outdoor light fixtures**
-
-  Item: **cerridale outdoor armed sconce**
-
-- Query: **beach blue headboard**
-
-  Item: **seaside upholstered panel headboard**
+| **Query**                      | **Item**                                      |
+|--------------------------------|-----------------------------------------------|
+| **nautical platters**          | sandy shore sea shells design serving platter |
+| **outdoor privacy wall**       | 2 ft. h x 4 ft. w metal privacy screen        |
+| **closet storage with zipper** | 60 ‘’ w portable wardrobe                     |
+| **outdoor light fixtures**     | cerridale outdoor armed sconce                |
+| **beach blue headboard**       | seaside upholstered panel headboard           |
 
 There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of 
 Meilisearch did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned 
