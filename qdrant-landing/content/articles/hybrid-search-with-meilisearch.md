@@ -88,10 +88,42 @@ For that benchmark, there have been 3 experiments conducted:
 
 In each case we want to receive the top 10 results for given query.
 
-## WANDS dataset
+## Quality metrics
 
-I selected a relatively new search relevance dataset. [WANDS](https://github.com/wayfair/WANDS), which stands for Wayfair 
-ANnotation Dataset, is designed to evaluate search engines for e-commerce.
+There are various ways of how to measure the performance of search engines, and https://neptune.ai/blog/recommender-systems-metrics 
+is a great introduction to that topic. I selected the following ones:
+
+- NDCG@5, NDCG@10
+- DCG@5, DCG@10
+- MRR@5, MRR@10
+- Precision@5, Precision@10
+- Recall@5, Recall@10
+
+For the purposes of NDCG@N and DCG@N the relevancy score was derived from the ranking. We assumed two scenarios:
+
+1. Relevancy is equal to 1.0 for all the results returned by the engine.
+2. Relevancy is dependent on rank (decreases from 1 to 1/N for N results).
+
+## Datasets
+
+There are various benchmarks for search relevance available. Full-text search have been a strong baseline for
+most of them, however there are also cases in which semantic search works better by default. 
+
+### Home Depot
+
+[Home Depot dataset](https://www.kaggle.com/competitions/home-depot-product-search-relevance/) consists of real 
+inventory and search queries from Home Depot's website with a relevancy score from 1 (not relevant) to 3 (highly relevant).
+
+    Anna Montoya, RG, Will Cukierski. (2016). Home Depot Product Search Relevance. Kaggle. 
+    https://kaggle.com/competitions/home-depot-product-search-relevance
+
+There are over 124k products with textual descriptions in the dataset and around 74k search queries with the relevancy
+score assigned.
+
+### WANDS
+
+I also selected a relatively new search relevance dataset. [WANDS](https://github.com/wayfair/WANDS), which stands for 
+Wayfair ANnotation Dataset, is designed to evaluate search engines for e-commerce.
 
     WANDS: Dataset for Product Search Relevance Assessment
     Yan Chen, Shujian Liu, Zheng Liu, Weiyi Sun, Linas Baltrunas and Benjamin Schroeder
@@ -101,12 +133,40 @@ textual attributes, as well as facets. The relevancy is provided as textual labe
 and authors suggest to convert those to 1, 0.5 and 0.0 respectively. There are 488 queries with a varying number of 
 relevant items each.
 
-## Search results
+# The results
+
+Both datasets have been evaluated with the same experiments. The achieved performance is shown in the tables.
+
+## Home Depot
+
+![The results of all the experiments conducted on Home Depot dataset](/articles_data/hybrid-search-with-meilisearch/experiment-results-home-depot.png)
+
+The results achieved with Meilisearch alone are better than with Qdrant only. However, if we combine both
+methods into hybrid search with an additional cross encoder as a last step, then that gives great improvement
+over any baseline method.
+
+With the cross-encoder approach, Qdrant retrieved about 58.55% of the relevant items on average, while Meilisearch 
+fetched 53.49%. Those numbers don't sum up to 100%, because some items were returned by both systems.
+
+## WANDS
+
+![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search-with-meilisearch/experiment-results-wands.png)
+
+The dataset seems to be more suited for semantic search, but the results might be also improved if we decide to use
+a hybrid search approach with cross encoder model as a final step.
+
+Overall, combining both full-text and semantic search with an additional reranking step seems to be a good idea, as we 
+are able to benefit the advantages of both methods.
+
+Again, it's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant returned more than 59.19% of 
+the relevant items and Meilisearch around 53.08%.
+
+### Search results
 
 It is quite interesting to check out those results which were properly returned by one of the methods and not by the other. 
 At the first glance at the search results, it is obvious there are some cases that won’t be found with full-text search 
 without lots of human effort. These are, in turn, easily captured by vector embeddings. Just to mention a few, which were 
-also marked as relevant in the dataset:
+also marked as relevant in the WANDS dataset:
 
 - Query: **nautical platters**
 
@@ -132,33 +192,6 @@ There are of course some cases in which vector search could not find the relevan
 Meilisearch did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned 
 with those unsuccessful items.** If we wanted to do the same with the full-text search, then we would need to provide a 
 list of synonyms. Unfortunately, we cannot predict all the possible queries our users may think of.
-
-## Quality metrics
-
-There are various ways of how to measure the performance of search engines, and https://neptune.ai/blog/recommender-systems-metrics 
-is a great introduction to that topic. I selected the following ones:
-
-- NDCG@5, NDCG@10
-- DCG@5, DCG@10
-- MRR@5, MRR@10
-- Precision@5, Precision@10
-- Recall@5, Recall@10
-
-For the purposes of NDCG@N and DCG@N the relevancy score was derived from the ranking. We assumed two scenarios:
-
-1. Relevancy is equal to 1.0 for all the results returned by the engine.
-2. Relevancy is dependent on rank (decreases from 1 to 1/N for N results).
-
-# The results
-
-![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search-with-meilisearch/experiment-results.png)
-
-Overall, combining both full-text and semantic search with an additional reranking step seems to be a good idea, as we 
-are able to benefit the advantages of both methods.
-
-It's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant retrieved about 59.19% of the 
-relevant items on average, while Meilisearch fetched 53.08%. Those numbers don't sum up to 100%, because some items 
-were returned by both systems.
 
 # A wrap up
 
