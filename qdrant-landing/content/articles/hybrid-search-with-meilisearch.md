@@ -50,10 +50,11 @@ the results. So it goes like this:
 
 ```final_score = 0.7 * vector_score + 0.3 * full_text_score```
 
-However, we didn't even consider such a setup. Why? First of all, [Meilisearch does not provide a relevancy score
-](https://github.com/meilisearch/meilisearch/discussions/773). But more importantly, those scores don't make the 
-problem linearly separable. We used BM25 score along with cosine vector similarity to use both of them as points 
-coordinates in 2-dimensional space. The chart shows how those points are distributed:
+However, we didn't even consider such a setup. Why? First of all, 
+[Meilisearch does not provide a relevancy score](https://github.com/meilisearch/meilisearch/discussions/773). 
+But more importantly, those scores don't make the problem linearly separable. We used BM25 score along with cosine 
+vector similarity to use both of them as points coordinates in 2-dimensional space. The chart shows how those 
+points are distributed:
 
 ![A distribution of both Qdrant and BM25 scores mapped into 2D space.](/articles_data/hybrid-search-with-meilisearch/linear-combination.png)
 
@@ -88,6 +89,11 @@ For that benchmark, there have been 3 experiments conducted:
 
 In each case we want to receive the top 10 results for given query.
 
+At first glance, the last approach might look like there was some overhead due to calling two different services. 
+In reality, those are typically launched separately, and retrieving the results from both of them and combining them
+is not a big deal if done correctly. If you use Python, calling the services asynchronously allows running everything
+in parallel. Libraries, such as [AIOHTTP](https://docs.aiohttp.org/en/stable/), may help do that seamlessly.
+
 ## Quality metrics
 
 There are various ways of how to measure the performance of search engines, and https://neptune.ai/blog/recommender-systems-metrics 
@@ -106,8 +112,10 @@ For the purposes of NDCG@N and DCG@N the relevancy score was derived from the ra
 
 ## Datasets
 
-There are various benchmarks for search relevance available. Full-text search have been a strong baseline for
-most of them, however there are also cases in which semantic search works better by default. 
+There are various benchmarks for search relevance available. Full-text search has been a strong baseline for
+most of them. However, there are also cases in which semantic search works better by default. For that article, 
+I'm performing **zero shot search**, meaning our models didn't have any prior exposure to the benchmark datasets, 
+so this is effectively an out-of-domain search.
 
 ### Home Depot
 
