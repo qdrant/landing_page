@@ -8,7 +8,7 @@ small_preview_image: /articles_data/hybrid-search-with-meilisearch/icon.svg
 weight: 5
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2022-12-21T17:25:00.000Z
+date: 2023-01-10T12:25:00.000Z
 ---
 
 If you're still sceptical about all the buzz around vector search, there is a chance to combine it with 
