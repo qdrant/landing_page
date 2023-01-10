@@ -96,18 +96,19 @@ in parallel. Libraries, such as [asyncio](https://docs.python.org/3/library/asyn
 [AIOHTTP](https://docs.aiohttp.org/en/stable/), may help do that seamlessly.
 
 ```python
-async def search(text: str):
-    keyword_search = search_meili(text)
-    vector_search = search_qdrant(text) 
+async def search(query: str):
+    keyword_search = search_meili(query)
+    vector_search = search_qdrant(query) 
     all_results = await asyncio.gather(keyword_search, vector_search)  # parallel calls
-    rescored = cross_encoder_rescore(all_results)
+    rescored = cross_encoder_rescore(query, all_results)
     return rescored
 ```
 
 ## Quality metrics
 
-There are various ways of how to measure the performance of search engines, and https://neptune.ai/blog/recommender-systems-metrics 
-is a great introduction to that topic. I selected the following ones:
+There are various ways of how to measure the performance of search engines, and *[Recommender Systems: Machine Learning 
+Metrics and Business Metrics](https://neptune.ai/blog/recommender-systems-metrics)* is a great introduction to that topic. 
+I selected the following ones:
 
 - NDCG@5, NDCG@10
 - DCG@5, DCG@10
@@ -183,23 +184,17 @@ the relevant items and Meilisearch around 53.08%.
 
 It is quite interesting to check out those results which were properly returned by one of the methods and not by the other. 
 At the first glance at the search results, it is obvious there are some cases that won’t be found with full-text search 
-without lots of human effort. These are, in turn, easily captured by vector embeddings. Just to mention a few, which were 
-also marked as relevant in the WANDS dataset, here is an extract of the **items which could have been extracted by one method
-but not but the other**:
+without lots of human effort. These are, in turn, easily captured by vector embeddings. In some cases Qdrant could even find 
+the items with no overlap between terms used in query and the document at all. For example, full-text search couldn't find 
+a *60 ‘’ w portable wardrobe* for a query *closet storage with zipper*, but Qdrant managed to do so. But there are also some
+other examples in WANDS dataset which are worth having a look, like querying for *nautical platters* for which vector search
+returned a *sandy shore sea shells design serving platter*, already finding a semantic relationship between different words
+describing similar concepts.
 
-| **Query**                      | **Vector search item**                        | **Full-text item**                                         |
-|--------------------------------|-----------------------------------------------|------------------------------------------------------------|
-| **nautical platters**          | sandy shore sea shells design serving platter | depalma platter                                            |
-| **outdoor privacy wall**       | 2 ft. h x 4 ft. w metal privacy screen        | 1.5 ft. h x 1.5 ft. w artificial wall hedge privacy screen |
-| **closet storage with zipper** | 60 ‘’ w portable wardrobe                     | henrik 36 '' w wardrobe clothes storage organizer closet   |
-| **outdoor light fixtures**     | cerridale outdoor armed sconce                | krystn 1 - bulb outdoor bulkhead light                     | 
-| **beach blue headboard**       | seaside upholstered panel headboard           | *N/A*                                                      |
-
-In some cases Qdrant could even find the items with no overlap at all. There are of course some cases in which vector 
-search could not find the relevant items, but full-text mechanism of Meilisearch did that properly. **The good thing 
-about vector search is that the neural model might be easily fine-tuned with those unsuccessful items.** If we wanted 
-to do the same with the full-text search, then we would need to provide a list of synonyms. Unfortunately, we cannot 
-predict all the possible queries our users may think of.
+There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of Meilisearch 
+did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned with those 
+unsuccessful items.** If we wanted to do the same with the full-text search, then we would need to provide a list of synonyms. 
+Unfortunately, we cannot predict all the possible queries our users may think of.
 
 # A wrap up
 
