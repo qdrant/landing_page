@@ -191,9 +191,9 @@ querying for *nautical platters* for which vector search returned a *sandy shore
 a semantic relationship between different words describing similar concepts.
 
 There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of Meilisearch 
-did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned with those 
-unsuccessful items.** If we wanted to do the same with the full-text search, then we would need to provide a list of synonyms. 
-Unfortunately, we cannot predict all the possible queries our users may think of.
+did that properly. **The good thing about vector search is that the [neural model might be easily fine-tuned](https://quaterion.qdrant.tech/) 
+with those unsuccessful items.** If we wanted to do the same with the full-text search, then we would need to provide a list 
+of synonyms. Unfortunately, we cannot predict all the possible queries our users may think of.
 
 # A wrap up
 
