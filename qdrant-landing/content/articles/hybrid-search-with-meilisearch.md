@@ -184,8 +184,8 @@ the relevant items and Meilisearch around 53.08%.
 It is quite interesting to check out those results which were properly returned by one of the methods and not by the other. 
 At the first glance at the search results, it is obvious there are some cases that won’t be found with full-text search 
 without lots of human effort. These are, in turn, easily captured by vector embeddings. Just to mention a few, which were 
-also marked as relevant in the WANDS dataset, here is an extract of the items which could have been extracted by one method
-but not but the other:
+also marked as relevant in the WANDS dataset, here is an extract of the **items which could have been extracted by one method
+but not but the other**:
 
 | **Query**                      | **Vector search item**                        | **Full-text item**                                         |
 |--------------------------------|-----------------------------------------------|------------------------------------------------------------|
@@ -195,10 +195,11 @@ but not but the other:
 | **outdoor light fixtures**     | cerridale outdoor armed sconce                | krystn 1 - bulb outdoor bulkhead light                     | 
 | **beach blue headboard**       | seaside upholstered panel headboard           | *N/A*                                                      |
 
-There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of 
-Meilisearch did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned 
-with those unsuccessful items.** If we wanted to do the same with the full-text search, then we would need to provide a 
-list of synonyms. Unfortunately, we cannot predict all the possible queries our users may think of.
+In some cases Qdrant could even find the items with no overlap at all. There are of course some cases in which vector 
+search could not find the relevant items, but full-text mechanism of Meilisearch did that properly. **The good thing 
+about vector search is that the neural model might be easily fine-tuned with those unsuccessful items.** If we wanted 
+to do the same with the full-text search, then we would need to provide a list of synonyms. Unfortunately, we cannot 
+predict all the possible queries our users may think of.
 
 # A wrap up
 
