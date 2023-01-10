@@ -182,14 +182,13 @@ the relevant items and Meilisearch around 53.08%.
 
 ### Search results
 
-It is quite interesting to check out those results which were properly returned by one of the methods and not by the other. 
-At the first glance at the search results, it is obvious there are some cases that won’t be found with full-text search 
-without lots of human effort. These are, in turn, easily captured by vector embeddings. In some cases Qdrant could even find 
-the items with no overlap between terms used in query and the document at all. For example, full-text search couldn't find 
-a *60 ‘’ w portable wardrobe* for a query *closet storage with zipper*, but Qdrant managed to do so. But there are also some
-other examples in WANDS dataset which are worth having a look, like querying for *nautical platters* for which vector search
-returned a *sandy shore sea shells design serving platter*, already finding a semantic relationship between different words
-describing similar concepts.
+It is interesting to check out those results which were returned correctly by one of the methods and not by the other. At first 
+glance at the search results, it is obvious some cases won’t be found with a full-text search without lots of human effort. These are, 
+in turn, easily captured by vector embeddings. In some cases, Qdrant could even find the items with no overlap between terms used in 
+a query and the document. For example, a full-text search couldn’t find a *60 ‘’ w portable wardrobe* for a query *closet storage with 
+zipper*, but Qdrant managed to do so. But there are also some other examples in the WANDS dataset which are worth looking at, like 
+querying for *nautical platters* for which vector search returned a *sandy shore sea shells design serving platter*, already finding 
+a semantic relationship between different words describing similar concepts.
 
 There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of Meilisearch 
 did that properly. **The good thing about vector search is that the neural model might be easily fine-tuned with those 
