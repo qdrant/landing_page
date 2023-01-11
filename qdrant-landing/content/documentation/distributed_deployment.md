@@ -165,9 +165,9 @@ If you want to extend your cluster with new nodes or some nodes become slower th
 
 This functionality unlocks the ability to dynamically scale the cluster size without downtime.
 
-Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.9.0#tag/cluster/operation/collection_cluster_info).
+Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/collection_cluster_info).
 
-Use the [Update collection cluster setup API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.9.0#tag/cluster/operation/update_collection_cluster) to initiate the shard transfer:
+Use the [Update collection cluster setup API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/update_collection_cluster) to initiate the shard transfer:
 
 ```http
 POST /collections/{collection_name}/cluster
@@ -184,7 +184,7 @@ POST /collections/{collection_name}/cluster
 After the transfer is initiated, the service will keep both copies of the shard updated until the transfer is complete.
 It will also make sure the transferred shard indexing process is keeping up before performing a final switch. This way, Qdrant ensures that there will be no degradation in performance at the end of the transfer.
 
-In case you want to downscale the cluster, you can move all shards away from a peer and then remove the peer using [Remove peer from the cluster API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.9.0#tag/cluster/operation/remove_peer).
+In case you want to downscale the cluster, you can move all shards away from a peer and then remove the peer using [Remove peer from the cluster API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer).
 
 ```http
 DELETE /cluster/peer/{peer_id}
@@ -311,7 +311,7 @@ Use [Replicate Shard Operation](https://qdrant.github.io/qdrant/redoc/index.html
 
 Worth mentioning that Qdrant only provides the necessary building blocks to create an automated failure recovery.
 Building a completely automatic process of collection scaling would require control over the cluster machines themself.
-Check out our [cloud solution](https://qdrant.tech/surveys/cloud-request/), where we made exactly that.
+Check out our [cloud solution](https://qdrant.to/cloud), where we made exactly that.
 
 
 **Recover from snapshot**
