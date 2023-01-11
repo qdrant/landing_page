@@ -12,6 +12,7 @@ categories:
 tags:
 - gRPC
 - release
+sitemapExclude: True
 ---
 We’ve released a new engine, version 0.6.0.
 

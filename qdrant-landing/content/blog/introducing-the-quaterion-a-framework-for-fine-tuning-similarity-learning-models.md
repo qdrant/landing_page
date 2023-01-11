@@ -23,6 +23,7 @@ tags:
   - Release
   - Quaterion
   - PyTorch
+sitemapExclude: True
 ---
 We're happy to share the result of the work we've been into during the last months - [Quaterion](https://quaterion.qdrant.tech/). It is a framework for fine-tuning similarity learning models that streamlines the training process to make it significantly faster and cost-efficient.
 
