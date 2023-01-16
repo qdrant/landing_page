@@ -1,14 +1,14 @@
 ---
-title: Hybrid keyword and vector based search with Meilisearch
+title: Hybrid keyword and vector based search with Tantivy
 short_description: Keyword and vector search may coexist. Here is how to take best from both worlds!
-description: Qdrant and Meilisearch might be used together to bring both vector and keyword based search experience.
-preview_dir: /articles_data/hybrid-search-with-meilisearch/preview
-social_preview_image: /articles_data/hybrid-search-with-meilisearch/social_preview.png
-small_preview_image: /articles_data/hybrid-search-with-meilisearch/icon.svg
+description: Qdrant and Tantivy might be used together to bring both vector and keyword based search experience.
+preview_dir: /articles_data/hybrid-search-with-tantivy/preview
+social_preview_image: /articles_data/hybrid-search-with-tantivy/social_preview.png
+small_preview_image: /articles_data/hybrid-search-with-tantivy/icon.svg
 weight: 5
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2023-01-10T12:25:00.000Z
+date: 2023-01-16T12:25:00.000Z
 ---
 
 If you're still sceptical about all the buzz around vector search, there is a chance to combine it with 
@@ -37,7 +37,7 @@ but that won't impact the order of the results.
 # A hybrid: semantic and keyword-based search
 
 If we want to combine both worlds, we need a separate tool designed to make that efficient and a way to connect 
-it with a vector database. [Meilisearch](https://www.meilisearch.com/) is one of the options worth considering. 
+it with a vector database. [Tantivy](https://github.com/quickwit-oss/tantivy) is one of the options worth considering. 
 It is written in Rust, as Qdrant, which makes it really fast.
 
 Designing a proper search pipeline shouldn't be biased by some personal preferences. That's why it's worth 
@@ -50,13 +50,11 @@ the results. So it goes like this:
 
 ```final_score = 0.7 * vector_score + 0.3 * full_text_score```
 
-However, we didn't even consider such a setup. Why? First of all, 
-[Meilisearch does not provide a relevancy score](https://github.com/meilisearch/meilisearch/discussions/773). 
-But more importantly, those scores don't make the problem linearly separable. We used BM25 score along with cosine 
-vector similarity to use both of them as points coordinates in 2-dimensional space. The chart shows how those 
-points are distributed:
+However, we didn't even consider such a setup. Why? Those scores don't make the problem linearly separable. We used 
+BM25 score along with cosine vector similarity to use both of them as points coordinates in 2-dimensional space. The 
+chart shows how those points are distributed:
 
-![A distribution of both Qdrant and BM25 scores mapped into 2D space.](/articles_data/hybrid-search-with-meilisearch/linear-combination.png)
+![A distribution of both Qdrant and BM25 scores mapped into 2D space.](/articles_data/hybrid-search-with-tantivy/linear-combination.png)
 
 *A distribution of both Qdrant and BM25 scores mapped into 2D space. It clearly shows relevant and non-relevant 
 objects are not linearly separable in that space, so using a linear combination of both scores won't give us 
@@ -74,18 +72,18 @@ For that benchmark, there have been 3 experiments conducted:
    All the documents and queries are vectorized with [all-MiniLM-L6-v2](https://www.sbert.net/docs/pretrained_models.html) 
    model, and compared with cosine similarity.
 
-2. **Keyword-based search with Meilisearch**
+2. **Keyword-based search with Tantivy**
 
-   All the documents are indexed by Meilisearch and queried with its default configuration.
+   All the documents are indexed by Tantivy and queried with its default configuration.
 
 3. **Vector and keyword-based candidates generation and cross-encoder reranking**
 
-   Both Qdrant and Meilisearch provides N candidates each and 
+   Both Qdrant and Tantivy provides N candidates each and 
    [ms-marco-MiniLM-L-6-v2](https://www.sbert.net/docs/pretrained-models/ce-msmarco.html) cross encoder performs reranking 
    on those candidates only. This is an approach that makes it possible to use the power of semantic and keyword based 
    search together.
 
-![The design of all the three experiments](/articles_data/hybrid-search-with-meilisearch/experiments-design.png)
+![The design of all the three experiments](/articles_data/hybrid-search-with-tantivy/experiments-design.png)
 
 In each case we want to receive the top 10 results for given query.
 
@@ -97,7 +95,7 @@ in parallel. Libraries, such as [asyncio](https://docs.python.org/3/library/asyn
 
 ```python
 async def search(query: str):
-    keyword_search = search_meili(query)
+    keyword_search = search_tantivy(query)
     vector_search = search_qdrant(query) 
     all_results = await asyncio.gather(keyword_search, vector_search)  # parallel calls
     rescored = cross_encoder_rescore(query, all_results)
@@ -116,10 +114,9 @@ I selected the following ones:
 - Precision@5, Precision@10
 - Recall@5, Recall@10
 
-For the purposes of NDCG@N and DCG@N the relevancy score was derived from the ranking. We assumed two scenarios:
-
-1. Relevancy is equal to 1.0 for all the results returned by the engine.
-2. Relevancy is dependent on rank (decreases from 1 to 1/N for N results).
+Since both systems return a score for each result, we could use DCG and NDCG metrics. However, BM25 scores are not
+normalized be default. We performed the normalization to a range `[0, 1]` by dividing each score by the maximum
+score returned for that query. 
 
 ## Datasets
 
@@ -137,7 +134,7 @@ inventory and search queries from Home Depot's website with a relevancy score fr
     https://kaggle.com/competitions/home-depot-product-search-relevance
 
 There are over 124k products with textual descriptions in the dataset and around 74k search queries with the relevancy
-score assigned.
+score assigned. For the purposes of our benchmark, relevancy scores were also normalized.
 
 ### WANDS
 
@@ -158,18 +155,18 @@ Both datasets have been evaluated with the same experiments. The achieved perfor
 
 ## Home Depot
 
-![The results of all the experiments conducted on Home Depot dataset](/articles_data/hybrid-search-with-meilisearch/experiment-results-home-depot.png)
+![The results of all the experiments conducted on Home Depot dataset](/articles_data/hybrid-search-with-tantivy/experiment-results-home-depot.png)
 
-The results achieved with Meilisearch alone are better than with Qdrant only. However, if we combine both
+The results achieved with Tantivy alone are better than with Qdrant only. However, if we combine both
 methods into hybrid search with an additional cross encoder as a last step, then that gives great improvement
 over any baseline method.
 
-With the cross-encoder approach, Qdrant retrieved about 58.55% of the relevant items on average, while Meilisearch 
-fetched 53.49%. Those numbers don't sum up to 100%, because some items were returned by both systems.
+With the cross-encoder approach, Qdrant retrieved about 56.05% of the relevant items on average, while Tantivy 
+fetched 59.16%. Those numbers don't sum up to 100%, because some items were returned by both systems.
 
 ## WANDS
 
-![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search-with-meilisearch/experiment-results-wands.png)
+![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search-with-tantivy/experiment-results-wands.png)
 
 The dataset seems to be more suited for semantic search, but the results might be also improved if we decide to use
 a hybrid search approach with cross encoder model as a final step.
@@ -177,23 +174,19 @@ a hybrid search approach with cross encoder model as a final step.
 Overall, combining both full-text and semantic search with an additional reranking step seems to be a good idea, as we 
 are able to benefit the advantages of both methods.
 
-Again, it's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant returned more than 59.19% of 
-the relevant items and Meilisearch around 53.08%.
+Again, it's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant returned more than 48.12% of 
+the relevant items and Tantivy around 66.66%.
 
 ### Search results
 
 It is interesting to check out those results which were returned correctly by one of the methods and not by the other. At first 
 glance at the search results, it is obvious some cases won’t be found with a full-text search without lots of human effort. These are, 
 in turn, easily captured by vector embeddings. In some cases, Qdrant could even find the items with no overlap between terms used in 
-a query and the document. For example, a full-text search couldn’t find a *60 ‘’ w portable wardrobe* for a query *closet storage with 
-zipper*, but Qdrant managed to do so. But there are also some other examples in the WANDS dataset which are worth looking at, like 
-querying for *nautical platters* for which vector search returned a *sandy shore sea shells design serving platter*, already finding 
-a semantic relationship between different words describing similar concepts.
-
-There are of course some cases in which vector search could not find the relevant items, but full-text mechanism of Meilisearch 
-did that properly. **The good thing about vector search is that the [neural model might be easily fine-tuned](https://quaterion.qdrant.tech/) 
-with those unsuccessful items.** If we wanted to do the same with the full-text search, then we would need to provide a list 
-of synonyms. Unfortunately, we cannot predict all the possible queries our users may think of.
+a query and the document. There are of course some cases in which vector search could not find the relevant items, but full-text 
+mechanism of Tantivy did that properly. **The good thing about vector search is that the [neural model might be easily 
+fine-tuned](https://quaterion.qdrant.tech/) with those unsuccessful items.** If we wanted to do the same with the full-text search, 
+then we would need to provide a list of synonyms or configure a different heuristics. Unfortunately, we cannot predict all the 
+possible queries our users may think of.
 
 # A wrap up
 
