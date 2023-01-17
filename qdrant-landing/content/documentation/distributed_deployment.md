@@ -311,7 +311,7 @@ Use [Replicate Shard Operation](https://qdrant.github.io/qdrant/redoc/index.html
 
 Worth mentioning that Qdrant only provides the necessary building blocks to create an automated failure recovery.
 Building a completely automatic process of collection scaling would require control over the cluster machines themself.
-Check out our [cloud solution](https://qdrant.tech/surveys/cloud-request/), where we made exactly that.
+Check out our [cloud solution](https://qdrant.to/cloud), where we made exactly that.
 
 
 **Recover from snapshot**
