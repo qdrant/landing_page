@@ -1,5 +1,5 @@
 ---
-title: Hybrid keyword and vector based search with Tantivy
+title: Hybrid keyword and vector based search with Qdrant and Tantivy
 short_description: Keyword and vector search may coexist. Here is how to take best from both worlds!
 description: Qdrant and Tantivy might be used together to bring both vector and keyword based search experience.
 preview_dir: /articles_data/hybrid-search-with-tantivy/preview
