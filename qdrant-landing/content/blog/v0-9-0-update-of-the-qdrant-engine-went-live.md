@@ -16,6 +16,7 @@ categories:
 tags:
   - corporate news
   - release
+sitemapExclude: true
 ---
 ![Release update v.0.9.0.](/blog_data/from_cms/qdrant-v.0.9.0-release-update.png)
 

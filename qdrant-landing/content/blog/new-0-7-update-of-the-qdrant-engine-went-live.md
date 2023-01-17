@@ -15,6 +15,7 @@ categories:
 tags:
   - Corporate news
   - Release
+sitemapExclude: True
 ---
 ![Release notes 0.7.0](/blog_data/from_cms/v0.7.0.png)
 

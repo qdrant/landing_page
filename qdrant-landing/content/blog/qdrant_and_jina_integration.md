@@ -12,6 +12,7 @@ categories:
 tags:
 - jina integration
 - docarray
+sitemapExclude: True
 ---
 ![preview](/blog_data/qdrant_and_jina_intergationpreview.jpg)
 We are happy to announce that [Jina.AI](https://jina.ai/) integrates Qdrant engine as a storage backend to their [DocArray](https://docarray.jina.ai/) solution.

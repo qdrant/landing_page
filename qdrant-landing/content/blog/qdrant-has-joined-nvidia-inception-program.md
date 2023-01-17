@@ -16,6 +16,7 @@ categories:
 tags:
   - Corporate news
   - NVIDIA
+sitemapExclude: True
 ---
 ![NVIDIA Inception Program](/blog_data/from_cms/nvidia-inception-program.jpg "NVIDIA Inception Program")
 
