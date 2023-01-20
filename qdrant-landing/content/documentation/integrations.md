@@ -108,9 +108,9 @@ qdrant_client.upsert(
 ```
 
 ## Aleph Alpha
-Aleph Alpha is a multimodal embeddings' provider. Their API allows creating the embeddings for text and images, both in the same
-latent space. They maintain an [official Python client](https://github.com/Aleph-Alpha/aleph-alpha-client) that might be installed
-with pip:
+Aleph Alpha is a multimodal and multilingual embeddings' provider. Their API allows creating the embeddings for text and images, both 
+in the same latent space. They maintain an [official Python client](https://github.com/Aleph-Alpha/aleph-alpha-client) that might be 
+installed with pip:
 
 ```bash
 pip install aleph-alpha-client
@@ -137,7 +137,7 @@ model = "luminous-base"
 qdrant_client = qdrant_client.QdrantClient()
 async with AsyncClient(token=aa_token) as client:
     prompt = ImagePrompt.from_file("./path/to/the/image.jpg")
-    prompt = Prompt.from_text(prompt)
+    prompt = Prompt.from_image(prompt)
 
     query_params = {
         "prompt": prompt,
