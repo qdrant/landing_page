@@ -9,9 +9,9 @@ You can impose conditions both on the [payload](../payload) and on, for example,
 The use of additional conditions is important when, for example, it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
 
-## Filtering causes
+## Filtering clauses
 
-Qdrant allows you to combine conditions in causes.
+Qdrant allows you to combine conditions in clauses.
 Clauses are different logical operations, such as `OR`, `AND`, and `NOT`.
 Clauses can be recursively nested into each other so that you can reproduce an arbitrary boolean expression.
 
