@@ -1,5 +1,5 @@
 ---
-title: Exploring visual data with textual queries\: a multimodal semantic search with Aleph Alpha and Qdrant
+title: "Exploring visual data with textual queries: a multimodal semantic search with Aleph Alpha and Qdrant"
 short_description: "Using multimodal and multilingual embeddings to explore images with text queries"
 description: "End-to-end multimodal search system on the COCO dataset with Aleph Alpha and Qdrant"
 social_preview_image: /articles_data/multimodal-search-with-aleph-alpha/social_preview.png
