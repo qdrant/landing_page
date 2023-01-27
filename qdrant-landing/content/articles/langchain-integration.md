@@ -45,7 +45,7 @@ of them into a single text. Then, we build a prompt to the LLM (in our case Open
 question asked. So the input to the LLM looks like the following:
 
 ```text
-Use the following pieces of context...
+Use the following pieces of context to answer the question at the end. If you don't know the answer, just say that you don't know, don't try to make up an answer.
 It's as certain as 2 + 2 = 4
 ...
 
