@@ -8,7 +8,7 @@ preview_dir: /articles_data/langchain-integration/preview
 weight: 6
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2023-01-31T10:33:20+01:00
+date: 2023-01-31T10:53:20+01:00
 draft: false
 keywords:
   - vector search
