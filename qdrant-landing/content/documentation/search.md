@@ -179,7 +179,7 @@ It will exclude all results with a score worse than the given.
 ### Payload and vector in the result
 
 By default, retrieval methods do not return any stored information.
-Additional parameters `with_vector` and `with_payload` could alter this behavior.
+Additional parameters `with_vectors` and `with_payload` could alter this behavior.
 
 Example:
 
@@ -188,7 +188,7 @@ POST /collections/{collection_name}/points/search
 
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
-    "with_vector": true,
+    "with_vectors": true,
     "with_payload": true
 }
 ```
@@ -197,7 +197,7 @@ POST /collections/{collection_name}/points/search
 client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
-    with_vector=True,
+    with_vectors=True,
     with_payload=True,
 )
 ```
@@ -560,7 +560,7 @@ POST /collections/{collection_name}/points/search
 
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
-    "with_vector": true,
+    "with_vectors": true,
     "with_payload": true,
     "limit": 10,
     "offset": 100
@@ -575,7 +575,7 @@ client = QdrantClient(host="localhost", port=6333)
 client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
-    with_vector=True,
+    with_vectors=True,
     with_payload=True,
     limit=10,
     offset=100

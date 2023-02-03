@@ -20,13 +20,12 @@ docker run -p 6333:6333 \
 Example of the configuration file:
 
 ```yaml
-debug: false
-log_level: INFO
-
-
 storage:
   # Where to store all the data
   storage_path: ./storage
+
+  # Where to store snapshots
+  snapshots_path: ./snapshots
 
   # If true - point's payload will not be stored in memory.
   # It will be read from the disk every time it is requested.
@@ -71,12 +70,14 @@ storage:
     # If indexation speed have more priority for your - make this parameter lower.
     # If search speed is more important - make this parameter higher.
     # Note: 1Kb = 1 vector of size 256
-    max_segment_size_kb: 200000
+    # If not set, will be automatically selected considering the number of available CPUs.
+    max_segment_size_kb: null
 
     # Maximum size (in KiloBytes) of vectors to store in-memory per segment.
     # Segments larger than this threshold will be stored as read-only memmaped file.
     # To enable memmap storage, lower the threshold
     # Note: 1Kb = 1 vector of size 256
+    # If not set, mmap will not be used.
     memmap_threshold_kb: null
 
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
@@ -85,12 +86,15 @@ storage:
     indexing_threshold_kb: 20000
 
     # Interval between forced flushes.
-    flush_interval_sec: 1
+    flush_interval_sec: 5
     
-    # Max number of threads, which can be used for optimization. If 0 - `NUM_CPU - 1` will be used
-    max_optimization_threads: 0
+    # Max number of threads, which can be used for optimization per collection.
+    # Note: Each optimization thread will also use `max_indexing_threads` for index building.
+    # So total number of threads used for optimization will be `max_optimization_threads * max_indexing_threads`
+    # If `max_optimization_threads = 0`, optimization will be disabled.
+    max_optimization_threads: 1
 
-  # Default parameters of HNSW Index. Could be override for each collection individually
+  # Default parameters of HNSW Index. Could be overridden for each collection individually
   hnsw_index:
     # Number of edges per node in the index graph. Larger the value - more accurate the search, more space required.
     m: 16
@@ -101,6 +105,8 @@ storage:
     # in this case full-scan search should be preferred by query planner and additional indexing is not required.
     # Note: 1Kb = 1 vector of size 256
     full_scan_threshold_kb: 10000
+    # Number of parallel threads used for background index building. If 0 - auto selection.
+    max_indexing_threads: 0
 
 service:
 
@@ -119,7 +125,7 @@ service:
 
   # gRPC port to bind the service on.
   # If `null` - gRPC is disabled. Default: null
-  grpc_port: null
+  grpc_port: 6334
   # Uncomment to enable gRPC:
   # grpc_port: 6334
 
@@ -131,7 +137,7 @@ service:
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
-  enabled: true
+  enabled: false
 
   # Configuration of the inter-cluster communication
   p2p:
@@ -146,4 +152,6 @@ cluster:
     # tick period may create significant network and CPU overhead.
     # We encourage you NOT to change this parameter unless you know what you are doing.
     tick_period_ms: 100
+
+
 ```
