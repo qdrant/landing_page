@@ -39,6 +39,25 @@ client.create_snapshot(
 
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
 
+### Delete snapshot
+
+*Available since v1.0.0*
+
+```http
+DELETE /collections/{collection_name}/snapshots/{snapshot_name}
+```
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.delete_snapshot(
+  collection_name="{collection_name}",
+  snapshot_name="{snapshot_name}"
+)
+```
+
 ## List snapshot
 
 List of snapshots for a collection:
@@ -136,6 +155,24 @@ from qdrant_client import QdrantClient
 client = QdrantClient(host="localhost", port=6333)
 
 client.create_full_snapshot()
+```
+
+### Delete full storage snapshot
+
+*Available since v1.0.0*
+
+```http
+DELETE /snapshots/{snapshot_name}
+```
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.delete_full_snapshot(
+  snapshot_name="{snapshot_name}"
+)
 ```
 
 ### List full storage snapshots

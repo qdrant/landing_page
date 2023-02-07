@@ -575,7 +575,7 @@ client = QdrantClient(host="localhost", port=6333)
 client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
-    with_vectors=True,
+    with_vector=True,
     with_payload=True,
     limit=10,
     offset=100
