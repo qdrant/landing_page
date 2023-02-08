@@ -334,7 +334,10 @@ The service will download specified snapshot of the collection and recover shard
 
 Once all shards of the collection are recovered, the collection will become operational again.
 
-### Consistency guarantees
+## Consistency guarantees
+
+By default, qdrant focuses on availability and maximum throughput of search operations.
+For the majority of use cases, this is a preferable trade-off.
 
 During the normal state of operation, it is possible to search and modify data from any peers in the cluster.
 
@@ -343,10 +346,20 @@ Before responding to the client, the peer handling the request dispatches all op
 - reads are using a partial fan-out strategy to optimize latency and availability
 - writes are executed in parallel on all active sharded replicas
 
-In case of write operations, it is possible to control when the server replies to the client using the write concern factor configuration.
+![Embeddings](/docs/concurrent-operations-replicas.png)
+
+However, in some cases, it is necessary to ensure additional guarantees during possible hardware instabilities, mass concurrent updates of same documents, etc.
+
+Qdrant provides a few options to control consistency guarantees:
+
+- `write_concern_factor` - defines the number of replicas that must acknowledge a write operation before responding to the client. Increasing this value will make write operations tolerant to network partitions in the cluster, but will require a higher number of replicas to be active to perform write operations.
+- Read `consistency` param, can be used with search and retrieve operations to ensure that the results obtained from all replicas are the same. If this option is used, qdrant will perform the read operation on multiple replicas and resolve the result according to the selected strategy. This option is useful to avoid data inconsistency in case of concurrent updates of the same documents. This options is preferred if the update operations are frequent and the number of replicas is low.
+- Write `ordering` param, can be used with update and delete operations to ensure that the operations are executed in the same order on all replicas. If this option is used, qdrant will route the operation to the leader replica of the shard and wait for the response before responding to the client. This option is useful to avoid data inconsistency in case of concurrent updates of the same documents. This options is preferred if read operations are more frequent than update and if search performance is critical.
+
+
+### Write concern factor
 
 The `write_concern_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to one by default.
-
 It can be configured at the collection's creation time.
 
 ```http
@@ -379,14 +392,112 @@ client.recreate_collection(
 )
 ```
 
-Setting `write_concern_factor` equal to `replication_factor` ensures that all replicas are updated synchonously, provididing a read after write consistency for sequential operations.
+Write operations will fail if the number of active replicas is less than the `write_concern_factor`.
 
-However, it gets more complicated for concurrent operations, especially when they are issued against different peers.
+### Read consistency
 
-Given that, Qdrant does not provide transactional operations at the level of a collection, it is not possible to enforce that all peers have observed the same operations in the same order.
+Read `consistency` can be specified for most read requests and will ensure that the returned result
+is consistent across cluster nodes.
 
-![Embeddings](/docs/concurrent-operations-replicas.png)
+- `all` will query all nodes and return points, which present on all of them
+- `majority` will query all nodes and return points, which present on the majority of them
+- `quorum` will query randomly selected majority of nodes and return points, which present on all of them
+- `1`/`2`/`3`/etc - will query specified number of randomly selected nodes and return points which present on all of them
+- default `consistency` is `1`
 
-For this reason, it is recommended to perform write operation targeting a specific collection with overlapping keys in a sequential fashion by, for instance, using a distributed queueing mechanism as a proxy.
+```http
+POST /collections/{collection_name}/points/search?consistency=majority
 
-Search queries can be safely performed concurrently without risks.
+{
+    "filter": {
+        "must": [
+            {
+                "key": "city",
+                "match": {
+                    "value": "London"
+                }
+            }
+        ]
+    },
+    "params": {
+        "hnsw_ef": 128,
+        "exact": false
+    },
+    "vector": [0.2, 0.1, 0.9, 0.7],
+    "limit": 3
+}
+```
+
+```python
+client.search(
+    collection_name="{collection_name}",
+    query_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="city",
+                match=models.MatchValue(
+                    value="London",
+                ),
+            )
+        ]
+    ),
+    search_params=models.SearchParams(
+        hnsw_ef=128,
+        exact=False
+    ),
+    query_vector=[0.2, 0.1, 0.9, 0.7],
+    limit=3,
+    consistency="majority",
+)
+```
+
+### Write ordering
+
+Write `ordering` can be specified for any write request to serialize it through a single "leader" node,
+which ensures that all write operations (issued with the same `ordering`) are performed and observed
+sequentially.
+
+- `weak` ordering does not provide any additional guarantees, so write operations can be freely reordered
+- `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change
+- `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down
+- default ordering is `weak`
+
+```http
+PUT /collections/{collection_name}/points?ordering=strong
+
+{
+    "batch": {
+        "ids": [1, 2, 3],
+        "payloads": [
+            {"color": "red"},
+            {"color": "green"},
+            {"color": "blue"}
+        ],
+        "vectors": [
+            [0.9, 0.1, 0.1],
+            [0.1, 0.9, 0.1],
+            [0.1, 0.1, 0.9]
+        ]
+    }
+}
+```
+
+```python
+client.upsert(
+    collection_name="{collection_name}",
+    points=models.Batch(
+        ids=[1, 2, 3],
+        payloads=[
+            {"color": "red"},
+            {"color": "green"},
+            {"color": "blue"},
+        ],
+        vectors=[
+            [0.9, 0.1, 0.1],
+            [0.1, 0.9, 0.1],
+            [0.1, 0.1, 0.9],
+        ]
+    ),
+    ordering="strong"
+)
+```

@@ -20,6 +20,10 @@ docker run -p 6333:6333 \
 Example of the configuration file:
 
 ```yaml
+debug: false
+log_level: INFO
+
+
 storage:
   # Where to store all the data
   storage_path: ./storage
@@ -31,7 +35,7 @@ storage:
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
   # Note: those payload values that are involved in filtering and are indexed - remain in RAM.
-  on_disk_payload: false
+  on_disk_payload: true
 
   # Write-ahead-log related configuration
   wal:
@@ -45,6 +49,10 @@ storage:
   performance:
     # Number of parallel threads used for search operations. If 0 - auto selection.
     max_search_threads: 0
+    # Max total number of threads, which can be used for running optimization processes across all collections.
+    # Note: Each optimization thread will also use `max_indexing_threads` for index building.
+    # So total number of threads used for optimization will be `max_optimization_threads * max_indexing_threads`
+    max_optimization_threads: 1
 
   optimizers:
     # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
@@ -107,6 +115,10 @@ storage:
     full_scan_threshold_kb: 10000
     # Number of parallel threads used for background index building. If 0 - auto selection.
     max_indexing_threads: 0
+    # Store HNSW index on disk. If set to false, index will be stored in RAM. Default: false
+    on_disk: false
+    # Custom M param for hnsw graph built for payload index. If not set, default M will be used.
+    payload_m: null
 
 service:
 
@@ -137,7 +149,7 @@ service:
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
-  enabled: false
+  enabled: true
 
   # Configuration of the inter-cluster communication
   p2p:
@@ -153,5 +165,9 @@ cluster:
     # We encourage you NOT to change this parameter unless you know what you are doing.
     tick_period_ms: 100
 
+
+# Set to true to prevent service from sending usage statistics to the developers.
+# Read more: https://qdrant.tech/documentation/telemetry
+telemetry_disabled: false
 
 ```

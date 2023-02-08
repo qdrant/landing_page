@@ -60,6 +60,46 @@ Default parameters for the optional collection parameters are defined in [config
 
 See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters.
 
+### Create collection from another collection
+
+*Available since v1.0.0*
+
+It is possible to initialize a collection from another existing collection.
+
+This might be useful for experimenting quickly with different configurations for the same data set.
+
+Make sure the vectors have the same size and distance function when setting up the vectors configuration in the new collection.
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "name": "example_collection",
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    },
+    "init_from": {
+       "collection": {from_collection_name}
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.recreate_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=100, distance=models.Distance.COSINE),
+    init_from=models.InitFrom(
+        collection={from_collection_name}
+    )
+)
+```
+
 ### Collection with multiple vectors
 
 *Available since v0.10.0*
@@ -308,4 +348,34 @@ POST /collections/aliases
         }
     ]
 }
+```
+
+### List collection aliases
+
+```http
+GET /collections/{collection_name}/aliases
+```
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.list_collection_aliases(
+  collection_name="{collection_name}"
+)
+```
+
+### List all aliases
+
+```http
+GET /aliases
+```
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.list_aliases()
 ```
