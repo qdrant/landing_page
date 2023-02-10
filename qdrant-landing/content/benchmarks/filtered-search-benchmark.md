@@ -1,28 +1,27 @@
 ---
 draft: true
 id: 4
-title: Filtered search benchmark
-description: We proceeded our benchmarks and this time measures how most popular open-source search engines perform filtered search. We chose the same configuration for each engine and tested them on different datasets. These datasets include both synthetic and real-world data with various filters from exact match to presence in geo area or float range.
+title: Single node filtered search benchmark
+description: We proceeded our benchmarks and this time measured how most popular open-source search engines perform filtered search. We chose the same configuration for each engine and tested them on different datasets. These datasets include both synthetic and real-world data with various filters from exact match to presence in geo area or float range.
 
-preview_image: /benchmarks/benchmark-1.png
 date: 2023-02-13
-weight: 2
+weight: 3
 ---
 
-### Setup
-Setup is exactly the same as it was with Single node speed benchmark.
-Only client's machine RAM was increased to 32GB due to cloud provider offers.
+### Setup and hardware
+Setup is exactly the [same](/benchmarks/single-node-speed-benchmark/#hardware) as it was with Single node speed benchmark.
+The only difference is that client's machine RAM was increased to 32GB due to cloud provider offers.
 
 ### Configuration
-We chose the following params for HNSW algorithm:
+We chose the following params for the engines:
 m = 16, ef = 128, ef_construct = 128
 We parallelized uploading with 16 processes and made search in 8 parallel processes. 
 
 ### Datasets
 
 We've generated synthetic datasets to reproduce an isolated environment to check engines under specific conditions.
-Their names include type of filter and vector's dimensionality, e.g. `keyword-100`, means that filter is `keyword match` and dimensionality is `100`.
-Datasets with `100` contains 1,000,000 records.
+Their names include type of filter and vector's dimensionality.
+E.g. `keyword-100`, means that filter is `keyword match` and dimensionality is `100`, such datasets contains 1,000,000 records.
 Not to be cut off from the real world, we also measured performance on datasets from the wild.
 They are `arxiv-384` and `h-n-m-2048`.
 
@@ -34,7 +33,7 @@ They are `arxiv-384` and `h-n-m-2048`.
 
 Matching exact value is considered to be a simple filter. 
 Nevertheless, not every engine handles it properly.
-Looking at `keyword-100` and `int-100` results, we can notice, that Redis and Milvus RPS ratio for filtered search and regular search is extremely low and fluctuate around 0.01.
+Looking at `keyword-100` and `int-100` results, we can notice, that Redis and Milvus RPS ratio (filtered search/regular search) is extremely low and fluctuate around 0.01.
 
 <div class="table-responsive">
 <h5>keyword-100</h5>
@@ -80,9 +79,9 @@ This dataset differs from `keyword-100` by a number of unique payload values.
 
 </div>
 
-We can notice, that overall precision is lower for this dataset, than it is for `keyword-100`.
-However, it's worth to mention, that even "no filters precision" is lower, and it caused by random nature of the data.
-Still, speed ratio degradation for Qdrant and Weaviate is more severe.
+Overall filtered search precision is lower for this dataset, than it is for `keyword-100`.
+It is also fair regular search, thus it is caused by the randomness of the data.
+Still, speed ratio degradation for Qdrant and Weaviate is more severe, than it was.
 It reflects the need to estimate filter separation ability to make your search app fast and accurate.    
 
 > It might seem that filtered search is more precise than regular one, but we’d like to avoid such conclusion.<br>
@@ -109,7 +108,7 @@ It is tricky to properly implement float filters and in Qdrant we made **TRICK**
 </div>
 
 What a complex filter it is!
-To begin with, we decided to interrupt Weaviate search, because after 1 hour of waiting, ETA was ~9hrs.
+Firstly, we decided to interrupt Weaviate search, because after 1 hour of waiting, ETA was ~9hrs.
 In addition, Redis decreased its RPS to 0.4% of its no-filter search RPS!
 And no wonder why, but ElasticSearch, which usually is more precise with filtered search, lost 0.6 of precision points!
 These results demonstrate that despite the importance of float filters, they haven't been properly implemented in most engines.
@@ -191,7 +190,5 @@ Nevertheless, Qdrant experienced approximately the same speed decrease ~30%, but
 ### Conclusion
 
 Ability of vector search engines to perform filtered search is crucial in modern applications.
-According to benchmarking results, there are still lots of gaps in filter search implementations.
-And to stand against its competitors, every engine should as soon as possible provide filtered search features.
-At the moment, we can say, that the most viable engine nowadays is Qdrant.
-
+According to benchmarking results, there are still lots of gaps in filtered search implementations.
+We can say, that at the moment the most viable option is `Qdrant`.
