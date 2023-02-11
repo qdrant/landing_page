@@ -14,14 +14,17 @@ The only difference is that client's machine RAM was increased to 32GB due to cl
 
 ### Configuration
 We chose the following params for the engines:
-m = 16, ef = 128, ef_construct = 128
+m = 16, ef = 128, ef_construct = 128.
+
 We parallelized uploading with 16 processes and made search in 8 parallel processes. 
 
 ### Datasets
 
 We've generated synthetic datasets to reproduce an isolated environment to check engines under specific conditions.
+
 Their names include type of filter and vector's dimensionality.
 E.g. `keyword-100`, means that filter is `keyword match` and dimensionality is `100`, such datasets contains 1,000,000 records.
+
 Not to be cut off from the real world, we also measured performance on datasets from the wild.
 They are `arxiv-384` and `h-n-m-2048`.
 
@@ -33,6 +36,7 @@ They are `arxiv-384` and `h-n-m-2048`.
 
 Matching exact value is considered to be a simple filter. 
 Nevertheless, not every engine handles it properly.
+
 Looking at `keyword-100` and `int-100` results, we can notice, that Redis and Milvus RPS ratio (filtered search/regular search) is extremely low and fluctuate around 0.01.
 
 <div class="table-responsive">
@@ -63,7 +67,9 @@ Looking at `keyword-100` and `int-100` results, we can notice, that Redis and Mi
 
 Another interesting dataset is `keyword-100-small-vocab`.
 This dataset differs from `keyword-100` by a number of unique payload values.
+
 `keyword-100` contains 10,000 keyword values, thus every filter splits the data into chunks of ~1,000 values.
+
 `keyword-100-small-vocab` contains only `10` unique values, and after filtering, engine need to deal with ~100,000 records.
 
 <div class="table-responsive">
@@ -80,7 +86,8 @@ This dataset differs from `keyword-100` by a number of unique payload values.
 </div>
 
 Overall filtered search precision is lower for this dataset, than it is for `keyword-100`.
-It is also fair regular search, thus it is caused by the randomness of the data.
+It is also fair regular search, thus it is caused by the random nature of the data.
+
 Still, speed ratio degradation for Qdrant and Weaviate is more severe, than it was.
 It reflects the need to estimate filter separation ability to make your search app fast and accurate.    
 
@@ -92,6 +99,7 @@ It reflects the need to estimate filter separation ability to make your search a
 Let's now move to more complex filters.
 One of such filters is a float range filter.
 These filters allow you to find values which belong to some interval, e.g. (-42.0;42.0).
+
 It is tricky to properly implement float filters and in Qdrant we made **TRICK**. 
 
 <div class="table-responsive">
@@ -108,9 +116,13 @@ It is tricky to properly implement float filters and in Qdrant we made **TRICK**
 </div>
 
 What a complex filter it is!
+
 Firstly, we decided to interrupt Weaviate search, because after 1 hour of waiting, ETA was ~9hrs.
+
 In addition, Redis decreased its RPS to 0.4% of its no-filter search RPS!
+
 And no wonder why, but ElasticSearch, which usually is more precise with filtered search, lost 0.6 of precision points!
+
 These results demonstrate that despite the importance of float filters, they haven't been properly implemented in most engines.
 Among the others, only Qdrant and Milvus showed tolerable results.
 
@@ -118,6 +130,7 @@ Among the others, only Qdrant and Milvus showed tolerable results.
 
 Another complex filter, which might be not that popular, as float range, is geo radius filter.
 This kind of filters allows finding records in your data which are in a vicinity of some geo point.
+
 To add geo filtering support developers encounter similar problems which they have with float range filters.
 In Qdrant we made a **TRICK**
 
@@ -136,6 +149,7 @@ In Qdrant we made a **TRICK**
 
 As we can see, results worsened with the same trend as with float range.
 Only Qdrant and ElasticSearch were able to achieve max precision, however RPS for most engines leaves much to be desired.
+
 And Milvus, in its turn, does not support geo filters at all.
 
 ### Real world datasets
@@ -159,6 +173,7 @@ The dataset contains ~100k records, and all the filters are simple exact keyword
 </div>
 
 Unfortunately, we can't measure ElasticSearch on this dataset, since it does not support indexing vectors with dimensionality higher than 1024.
+
 Redis unexpectedly halved its precision with filtered search, the others kept high precision values.
 In contrast with good precision, all engines lost RPS with filtered search, Qdrant and Weaviate by ~30%, Milvus and Redis by ~75%.
 
@@ -166,6 +181,7 @@ In contrast with good precision, all engines lost RPS with filtered search, Qdra
 
 Another real world dataset was also downloaded from [Kaggle](https://www.kaggle.com/datasets/Cornell-University/arxiv).
 It contains information about all the articles published on [arXiv](https://arxiv.org/).
+
 We applied [all-miniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) model to the titles and obtained ~2 millions records.
 We provided queries with two types of filters: exact match keyword category of the paper, and float range filter to find an article which was published before or after some point of time.
 
@@ -184,11 +200,13 @@ We provided queries with two types of filters: exact match keyword category of t
 
 Situation is similar to the previous dataset in terms of precision: Qdrant, Weaviate and Milvus kept their high precision values, and Redis again halved its precision on real data for some unknown reasons.
 ElasticSearch also achieved lower precision level. 
-Nevertheless, Qdrant experienced approximately the same speed decrease ~30%, but other competitors, such as Weaviate, Milvus and Redis fell to the bottom of their speed, probably due to float range filters.
+
+Qdrant experienced approximately the same speed decrease ~30%, but other competitors, such as Weaviate, Milvus and Redis fell to the bottom of their speed, probably due to float range filters.
 
 
 ### Conclusion
 
 Ability of vector search engines to perform filtered search is crucial in modern applications.
 According to benchmarking results, there are still lots of gaps in filtered search implementations.
+
 We can say, that at the moment the most viable option is `Qdrant`.
