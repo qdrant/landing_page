@@ -1,10 +1,10 @@
 ---
-title: Hybrid keyword and vector based search with Qdrant and Tantivy
-short_description: Keyword and vector search may coexist. Here is how to take best from both worlds!
-description: Qdrant and Tantivy might be used together to bring both vector and keyword based search experience.
-preview_dir: /articles_data/hybrid-search-with-tantivy/preview
-social_preview_image: /articles_data/hybrid-search-with-tantivy/social_preview.png
-small_preview_image: /articles_data/hybrid-search-with-tantivy/icon.svg
+title: 50 Shades of Hybrid Search
+short_description: What Hybrid Search is and how to get the best of both worlds.
+description: What Hybrid Search is and how to get the best of both worlds.
+preview_dir: /articles_data/hybrid-search/preview
+social_preview_image: /articles_data/hybrid-search/social_preview.png
+small_preview_image: /articles_data/hybrid-search/icon.svg
 weight: 5
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
@@ -54,7 +54,7 @@ However, we didn't even consider such a setup. Why? Those scores don't make the 
 BM25 score along with cosine vector similarity to use both of them as points coordinates in 2-dimensional space. The 
 chart shows how those points are distributed:
 
-![A distribution of both Qdrant and BM25 scores mapped into 2D space.](/articles_data/hybrid-search-with-tantivy/linear-combination.png)
+![A distribution of both Qdrant and BM25 scores mapped into 2D space.](/articles_data/hybrid-search/linear-combination.png)
 
 *A distribution of both Qdrant and BM25 scores mapped into 2D space. It clearly shows relevant and non-relevant 
 objects are not linearly separable in that space, so using a linear combination of both scores won't give us 
@@ -83,7 +83,7 @@ For that benchmark, there have been 3 experiments conducted:
    on those candidates only. This is an approach that makes it possible to use the power of semantic and keyword based 
    search together.
 
-![The design of all the three experiments](/articles_data/hybrid-search-with-tantivy/experiments-design.png)
+![The design of all the three experiments](/articles_data/hybrid-search/experiments-design.png)
 
 In each case we want to receive the top 10 results for given query.
 
@@ -155,7 +155,7 @@ Both datasets have been evaluated with the same experiments. The achieved perfor
 
 ## Home Depot
 
-![The results of all the experiments conducted on Home Depot dataset](/articles_data/hybrid-search-with-tantivy/experiment-results-home-depot.png)
+![The results of all the experiments conducted on Home Depot dataset](/articles_data/hybrid-search/experiment-results-home-depot.png)
 
 The results achieved with Tantivy alone are better than with Qdrant only. However, if we combine both
 methods into hybrid search with an additional cross encoder as a last step, then that gives great improvement
@@ -166,7 +166,7 @@ fetched 59.16%. Those numbers don't sum up to 100%, because some items were retu
 
 ## WANDS
 
-![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search-with-tantivy/experiment-results-wands.png)
+![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search/experiment-results-wands.png)
 
 The dataset seems to be more suited for semantic search, but the results might be also improved if we decide to use
 a hybrid search approach with cross encoder model as a final step.
