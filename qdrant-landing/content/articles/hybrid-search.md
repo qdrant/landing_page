@@ -49,24 +49,24 @@ At the same time keyword-based search might be useful in following scenarios:
 
 -->
 
-Keyword-based search was the obvious choice for search engines in the past. It struggled with some
+A keyword-based search was the obvious choice for search engines in the past. It struggled with some
 common issues, but since we didn't have any alternatives, we had to overcome them with additional
 preprocessing of the documents and queries. Vector search turned out to be a breakthrough, as it has
 some clear advantages in the following scenarios:
 
 - Multi-lingual & multi-modal search
 - For short texts with typos and ambiguous content-dependent meanings
-- Specialized domains, with tuned encoder models
+- Specialized domains with tuned encoder models
 - Document-as-a-Query similarity search
 
-It doesn't mean we do not keyword search anymore. There are also some cases in which this kind of methods
+It doesn't mean we do not keyword search anymore. There are also some cases in which this kind of method
 might be useful:
 
-- Out-of-domain search. Words are just words, no matter what they mean. BM25 ranking represents the most
+- Out-of-domain search. Words are just words, no matter what they mean. BM25 ranking represents the
   universal property of the natural language - less frequent words are more important, as they carry
   most of the meaning.
-- Search-as-you-type, when there is only a few characters types in, and we cannot use vector search yet.
-- Exact phrase matching, when we want to find the occurrences of a specific term in the documents. That's
+- Search-as-you-type, when there are only a few characters types in, and we cannot use vector search yet.
+- Exact phrase matching when we want to find the occurrences of a specific term in the documents. That's
   especially useful for names of the products, people, part numbers, etc.
 
 ## Matching the tool to the task
@@ -84,7 +84,7 @@ And we can combine those tools with vector search to get the best of both worlds
 
 -->
 
-There are various cases in which we need the search capabilities and each of those cases will have 
+There are various cases in which we need search capabilities and each of those cases will have some
 different requirements. Therefore, there is not just one strategy to rule them all, and some different 
 tools may fit us better. Text search itself might be roughly divided into multiple specializations like:
 
@@ -131,14 +131,14 @@ async def search(query: str):
 
 The easiest way to incorporate vector search into the existing stack is to treat it as some sort of
 fallback strategy. So whenever your keyword search struggle with finding proper results, you can
-run semantic search to extend the results. That is especially important in cases like search-as-you-type
+run a semantic search to extend the results. That is especially important in cases like search-as-you-type
 in which a new query is fired every single time your user types the next character in. For such cases
 the speed of the search is crucial. Therefore, we can't use vector search on every query. At the same 
-time the simple prefix search might have a bad recall.
+time, the simple prefix search might have a bad recall.
 
-In this case a good strategy is to use vector search only when the keyword/prefix search returns none 
+In this case, a good strategy is to use vector search only when the keyword/prefix search returns none 
 or just a small number of results. A good candidate for this is [MeiliSearch](https://www.meilisearch.com/). 
-It uses custom ranking rules to provide results as fast as user can type.
+It uses custom ranking rules to provide results as fast as the user can type.
 
 The pseudocode of such strategy may go as following:
 
@@ -180,7 +180,7 @@ But before that, we need to understand how to combine the results from different
 
 -->
 
-In case of documents retrieval, we care more about the search results quality and time is not a huge constraint.
+In the case of document retrieval, we care more about the search result quality and time is not a huge constraint. 
 There is a bunch of search engines that specialize in the full-text search we found interesting:
 
 - https://github.com/quickwit-oss/tantivy - a full-text indexing library, written in Rust. Have a great 
@@ -191,9 +191,10 @@ There is a bunch of search engines that specialize in the full-text search we fo
 - https://github.com/valeriansaliou/sonic - a project written in Rust, uses custom network communication 
   protocol for fast communication between the client and the server.
 
-All of those engines might be easily used in combination with vector search offered by Qdrant. But the exact
-way of how to combine the results of both algorithms to achieve the best search precision might be still unclear. 
-So we need to understand how to do it effectively. We will be using reference datasets to benchmark the search quality.
+All of those engines might be easily used in combination with the vector search offered by Qdrant. But the 
+exact way how to combine the results of both algorithms to achieve the best search precision might be still 
+unclear. So we need to understand how to do it effectively. We will be using reference datasets to benchmark 
+the search quality.
 
 ## Why not linear combination?
 
