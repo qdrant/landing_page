@@ -352,7 +352,7 @@ The results achieved with BM25 alone are better than with Qdrant only. However, 
 methods into hybrid search with an additional cross encoder as a last step, then that gives great improvement
 over any baseline method.
 
-With the cross-encoder approach, Qdrant retrieved about 56.05% of the relevant items on average, while Tantivy 
+With the cross-encoder approach, Qdrant retrieved about 56.05% of the relevant items on average, while BM25 
 fetched 59.16%. Those numbers don't sum up to 100%, because some items were returned by both systems.
 
 ### WANDS
@@ -366,7 +366,7 @@ Overall, combining both full-text and semantic search with an additional reranki
 are able to benefit the advantages of both methods.
 
 Again, it's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant returned more than 48.12% of 
-the relevant items and Tantivy around 66.66%.
+the relevant items and BM25 around 66.66%.
 
 ## Some anecdotal observations
 
