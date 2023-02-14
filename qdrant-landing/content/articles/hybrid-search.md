@@ -11,7 +11,6 @@ author_link: https://medium.com/@lukawskikacper
 date: 2023-01-16T12:25:00.000Z
 ---
 
-
 <!-- 
 What Hybrid search even is?
 
@@ -22,6 +21,13 @@ We know at least 3 definitions of hybrid search:
 
 -->
 
+There is not a single definition of hybrid search. Actually, if we use more than one search algorithm, it 
+might be described as some sort of hybrid. Some of the most popular definitions are:
+
+1. A combination of vector search with [attribute filtering](https://qdrant.tech/documentation/filtering/). 
+   We won't dive much into details, as we like to call it filtered vector search.
+2. Vector search with keyword-based search. This one is covered in this article.
+3. A mix of dense and sparse vectors. That strategy will be covered in the upcoming article.
 
 ## Why do we still need keyword search?
 
@@ -43,12 +49,31 @@ At the same time keyword-based search might be useful in following scenarios:
 
 -->
 
+Keyword-based search was the obvious choice for search engines in the past. It struggled with some
+common issues, but since we didn't have any alternatives, we had to overcome them with additional
+preprocessing of the documents and queries. Vector search turned out to be a breakthrough, as it has
+some clear advantages in the following scenarios:
+
+- Multi-lingual & multi-modal search
+- For short texts with typos and ambiguous content-dependent meanings
+- Specialized domains, with tuned encoder models
+- Document-as-a-Query similarity search
+
+It doesn't mean we do not keyword search anymore. There are also some cases in which this kind of methods
+might be useful:
+
+- Out-of-domain search. Words are just words, no matter what they mean. BM25 ranking represents the most
+  universal property of the natural language - less frequent words are more important, as they carry
+  most of the meaning.
+- Search-as-you-type, when there is only a few characters types in, and we cannot use vector search yet.
+- Exact phrase matching, when we want to find the occurrences of a specific term in the documents. That's
+  especially useful for names of the products, people, part numbers, etc.
 
 ## Matching the tool to the task
 
 <!---
 
-Text search itself is devided into multiple specializations:
+Text search itself is divided into multiple specializations:
 
 - Web-scale search, documents retrieval
 - Fast search-as-you-type
@@ -59,8 +84,19 @@ And we can combine those tools with vector search to get the best of both worlds
 
 -->
 
-# The fast search: A Fallback strategy
+There are various cases in which we need the search capabilities and each of those cases will have 
+different requirements. Therefore, there is not just one strategy to rule them all, and some different 
+tools may fit us better. Text search itself might be roughly divided into multiple specializations like:
 
+- Web-scale search - documents retrieval
+- Fast search-as-you-type
+- Search over less-than-natural texts (logs, transactions, code, etc.)
+
+Each of those scenarios has a specific tool, which performs better for that specific use case. If you 
+already expose search capabilities, then you probably have one of them in your tech stack. And we can 
+easily combine those tools with vector search to get the best of both worlds. 
+
+# The fast search: A Fallback strategy
 
 <!---
 
@@ -93,6 +129,36 @@ async def search(query: str):
 
 -->
 
+The easiest way to incorporate vector search into the existing stack is to treat it as some sort of
+fallback strategy. So whenever your keyword search struggle with finding proper results, you can
+run semantic search to extend the results. That is especially important in cases like search-as-you-type
+in which a new query is fired every single time your user types the next character in. For such cases
+the speed of the search is crucial. Therefore, we can't use vector search on every query. At the same 
+time the simple prefix search might have a bad recall.
+
+In this case a good strategy is to use vector search only when the keyword/prefix search returns none 
+or just a small number of results. A good candidate for this is [MeiliSearch](https://www.meilisearch.com/). 
+It uses custom ranking rules to provide results as fast as user can type.
+
+The pseudocode of such strategy may go as following:
+
+```python
+async def search(query: str):
+    # Get fast results from MeiliSearch
+    keyword_search_result = search_meili(query)
+
+    # Check if there are enough results
+    # or if the results are good enough for given query
+    if are_results_enough(keyword_search_result, query):
+        return keyword_search
+
+    # Encoding takes time, but we get more results
+    vector_query = encode(query)
+
+    vector_result = search_qdrant(vector_query)
+    return vector_result
+```
+
 # The precise search: The re-ranking strategy
 
 <!---
@@ -113,6 +179,21 @@ You can use any of those engines, all of them will work fine in combination with
 But before that, we need to understand how to combine the results from different sources.
 
 -->
+
+In case of documents retrieval, we care more about the search results quality and time is not a huge constraint.
+There is a bunch of search engines that specialize in the full-text search we found interesting:
+
+- https://github.com/quickwit-oss/tantivy - a full-text indexing library, written in Rust. Have a great 
+  performance and featureset. 
+- https://github.com/lnx-search/lnx - a young but promising project, utilizes Tanitvy as a backend.
+- https://github.com/zinclabs/zinc - a project written in Go, focused on minimal resource usage and high 
+  performance.
+- https://github.com/valeriansaliou/sonic - a project written in Rust, uses custom network communication 
+  protocol for fast communication between the client and the server.
+
+All of those engines might be easily used in combination with vector search offered by Qdrant. But the exact
+way of how to combine the results of both algorithms to achieve the best search precision might be still unclear. 
+So we need to understand how to do it effectively. We will be using reference datasets to benchmark the search quality.
 
 ## Why not linear combination?
 
@@ -165,6 +246,29 @@ Cross-encoder can start scoring results as soon as the fastest search engine ret
 
 -->
 
+There is a common approach to re-rank the search results with a model that takes some additional factors
+into account. Those models are usually trained on clickstream data of a real application and tend to be
+very business-specific. Thus, we'll not cover them right now, as there is a more general approach. We will
+use so-called **cross-encoder models**.
+
+Cross-encoder takes a pair of texts and predicts the similarity of them. Unlike embedding models, 
+cross-encoders do not compress text into vector, but uses interactions between individual tokens of both
+texts. In general, they are more powerful than both BM25 and vector search, but they are also way slower.
+That makes it feasible to use cross-encoders only for re-ranking of some preselected candidates.
+
+This is how a pseudocode for that strategy look like: 
+
+```python
+async def search(query: str):
+    keyword_search = search_keyword(query)
+    vector_search = search_qdrant(query) 
+    all_results = await asyncio.gather(keyword_search, vector_search)  # parallel calls
+    rescored = cross_encoder_rescore(query, all_results)
+    return rescored
+```
+
+It is worth mentioning that queries to keyword search and vector search and re-scoring can be done in parallel.
+Cross-encoder can start scoring results as soon as the fastest search engine returns the results.
 
 ## Experiments
 
@@ -263,21 +367,105 @@ are able to benefit the advantages of both methods.
 Again, it's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant returned more than 48.12% of 
 the relevant items and Tantivy around 66.66%.
 
-### Some anecdotal observations
+## Some anecdotal observations
 
 <!--
 Table with search examples: Examples where vector search did better and vice versa.
 -->
 
+None of the algorithms works better in all the cases. There might be some specific queries in which keyword-based search
+will be a winner and the other way around. The table shows some interesting examples we could find in WANDS dataset 
+during the experiments:
 
+<table>
+   <thead>
+      <th>Query</th>
+      <th>Keyword-based search results</th>
+      <th>Vector search results</th>
+   </thead>
+   <tbody>
+      <tr>
+         <th rowspan="5">cybersport desk</th>
+         <td>desk</td>
+         <td>gaming desk</td>
+      </tr>
+      <tr>
+         <td>desk</td>
+         <td>computer desk</td>
+      </tr>
+      <tr>
+         <td>desk</td>
+         <td>abbie gaming desk</td>
+      </tr>
+      <tr>
+         <td>desk reversible l-shape desk</td>
+         <td>desk</td>
+      </tr>
+      <tr>
+         <td>antica reversible desk l-shape desk</td>
+         <td>desk</td>
+      </tr>
+      <tr>
+         <th>plates for icecream</th>
+         <td>`` eat '' plates on wood wall décor</td>
+         <td>alicyn 8.5 '' melamine dessert plate</td>
+      </tr>
+      <tr>
+         <th rowspan="5">kitchen table with a thick board</th>
+         <td>house of doolittle all-purpose/vacation plan-a-board wall mounted calendar board</td>
+         <td>rustic dining table</td>
+      </tr>
+      <tr>
+         <td>craft kitchen acacia wood cutting board</td>
+         <td>industrial solid wood dining table</td>
+      </tr>
+      <tr>
+         <td>kitchen spork ( neither a spoon nor a fork ) canvas art</td>
+         <td>blough solid wood end table</td>
+      </tr>
+      <tr>
+         <td>little bird with a giant flower on a dotted background retro inspired print multicolor kitchen mat</td>
+         <td>saleh solid wood dining table</td>
+      </tr>
+      <tr>
+         <td>need a cocktail coffee table</td>
+         <td>lowery solid wood side table</td>
+      </tr>
+      <tr>
+         <th rowspan="5">wooden bedside table</th>
+         <td>30 '' bedside table lamp</td>
+         <td>portable bedside end table</td>
+      </tr>
+      <tr>
+         <td>34 '' bedside table lamp</td>
+         <td>wooden end table</td>
+      </tr>
+      <tr>
+         <td>portable bedside end table</td>
+         <td>wooden coffee table</td>
+      </tr>
+      <tr>
+         <td>haytham 8 '' bedside table lamp</td>
+         <td>rustic dining table</td>
+      </tr>
+      <tr>
+         <td>mailiah 28 '' bedside table lamp</td>
+         <td>wooden puzzle table</td>
+      </tr>
+   </tbody>
+</table>
 
 # A wrap up
 
 <!---
 
-Each scenario requires it's own specialized tool. But it is possible to combine multiple tools with minimal overhead to achieve best results.
+Each scenario requires its own specialized tool. But it is possible to combine multiple tools with minimal overhead to achieve best results.
 
 -->
+
+Each search scenario requires a specialized tool to achieve the best results possible. Still, combining multiple tools with 
+minimal overhead is possible to improve the search precision even further. Introducing vector search into an existing search 
+stack doesn't need to be a revolution but just one small step at a time. 
 
 You'll never cover all the possible queries with a list of synonyms, so a full-text search may not find all the relevant 
 documents. There are also some cases in which your users use different terminology than the one you have in your database. 
