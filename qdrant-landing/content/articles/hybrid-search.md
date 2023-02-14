@@ -1,5 +1,5 @@
 ---
-title: 50 Shades of Hybrid Search
+title: On Hybrid Search
 short_description: What Hybrid Search is and how to get the best of both worlds.
 description: What Hybrid Search is and how to get the best of both worlds.
 preview_dir: /articles_data/hybrid-search/preview
@@ -25,7 +25,7 @@ There is not a single definition of hybrid search. Actually, if we use more than
 might be described as some sort of hybrid. Some of the most popular definitions are:
 
 1. A combination of vector search with [attribute filtering](https://qdrant.tech/documentation/filtering/). 
-   We won't dive much into details, as we like to call it filtered vector search.
+   We won't dive much into details, as we like to call it just filtered vector search.
 2. Vector search with keyword-based search. This one is covered in this article.
 3. A mix of dense and sparse vectors. That strategy will be covered in the upcoming article.
 
@@ -54,19 +54,19 @@ common issues, but since we didn't have any alternatives, we had to overcome the
 preprocessing of the documents and queries. Vector search turned out to be a breakthrough, as it has
 some clear advantages in the following scenarios:
 
-- Multi-lingual & multi-modal search
-- For short texts with typos and ambiguous content-dependent meanings
-- Specialized domains with tuned encoder models
-- Document-as-a-Query similarity search
+- 🌍 Multi-lingual & multi-modal search
+- 🤔 For short texts with typos and ambiguous content-dependent meanings
+- 👨‍🔬 Specialized domains with tuned encoder models
+- 📄 Document-as-a-Query similarity search
 
 It doesn't mean we do not keyword search anymore. There are also some cases in which this kind of method
 might be useful:
 
-- Out-of-domain search. Words are just words, no matter what they mean. BM25 ranking represents the
+- 🌐💭 Out-of-domain search. Words are just words, no matter what they mean. BM25 ranking represents the
   universal property of the natural language - less frequent words are more important, as they carry
   most of the meaning.
-- Search-as-you-type, when there are only a few characters types in, and we cannot use vector search yet.
-- Exact phrase matching when we want to find the occurrences of a specific term in the documents. That's
+- ⌨️💨 Search-as-you-type, when there are only a few characters types in, and we cannot use vector search yet.
+- 🎯🔍 Exact phrase matching when we want to find the occurrences of a specific term in the documents. That's
   especially useful for names of the products, people, part numbers, etc.
 
 ## Matching the tool to the task
@@ -381,80 +381,56 @@ during the experiments:
 <table>
    <thead>
       <th>Query</th>
-      <th>Keyword-based search results</th>
-      <th>Vector search results</th>
+      <th>BM25 Search</th>
+      <th>Vector Search</th>
    </thead>
    <tbody>
       <tr>
-         <th rowspan="5">cybersport desk</th>
-         <td>desk</td>
-         <td>gaming desk</td>
-      </tr>
-      <tr>
-         <td>desk</td>
-         <td>computer desk</td>
-      </tr>
-      <tr>
-         <td>desk</td>
-         <td>abbie gaming desk</td>
-      </tr>
-      <tr>
-         <td>desk reversible l-shape desk</td>
-         <td>desk</td>
-      </tr>
-      <tr>
-         <td>antica reversible desk l-shape desk</td>
-         <td>desk</td>
+         <th>cybersport desk</th>
+         <td>desk ❌</td>
+         <td>gaming desk ✅</td>
       </tr>
       <tr>
          <th>plates for icecream</th>
-         <td>`` eat '' plates on wood wall décor</td>
-         <td>alicyn 8.5 '' melamine dessert plate</td>
+         <td>"eat" plates on wood wall décor ❌</td>
+         <td>alicyn 8.5 '' melamine dessert plate ✅</td>
       </tr>
       <tr>
-         <th rowspan="5">kitchen table with a thick board</th>
-         <td>house of doolittle all-purpose/vacation plan-a-board wall mounted calendar board</td>
-         <td>rustic dining table</td>
+         <th>kitchen table with a thick board</th>
+         <td>craft kitchen acacia wood cutting board ❌</td>
+         <td>industrial solid wood dining table ✅</td>
       </tr>
       <tr>
-         <td>craft kitchen acacia wood cutting board</td>
-         <td>industrial solid wood dining table</td>
+         <th>wooden bedside table</th>
+         <td>30 '' bedside table lamp ❌</td>
+         <td>portable bedside end table ✅</td>
+      </tr>
+
+   </tbody>
+</table>
+
+Also examples where keyword-based search did better:
+
+<table>
+   <thead>
+      <th>Query</th>
+      <th>BM25 Search</th>
+      <th>Vector Search</th>
+   </thead>
+   <tbody>
+      <tr>
+         <th>computer chair</th>
+         <td>vibrant computer task chair ✅</td>
+         <td>office chair ❌</td>
       </tr>
       <tr>
-         <td>kitchen spork ( neither a spoon nor a fork ) canvas art</td>
-         <td>blough solid wood end table</td>
-      </tr>
-      <tr>
-         <td>little bird with a giant flower on a dotted background retro inspired print multicolor kitchen mat</td>
-         <td>saleh solid wood dining table</td>
-      </tr>
-      <tr>
-         <td>need a cocktail coffee table</td>
-         <td>lowery solid wood side table</td>
-      </tr>
-      <tr>
-         <th rowspan="5">wooden bedside table</th>
-         <td>30 '' bedside table lamp</td>
-         <td>portable bedside end table</td>
-      </tr>
-      <tr>
-         <td>34 '' bedside table lamp</td>
-         <td>wooden end table</td>
-      </tr>
-      <tr>
-         <td>portable bedside end table</td>
-         <td>wooden coffee table</td>
-      </tr>
-      <tr>
-         <td>haytham 8 '' bedside table lamp</td>
-         <td>rustic dining table</td>
-      </tr>
-      <tr>
-         <td>mailiah 28 '' bedside table lamp</td>
-         <td>wooden puzzle table</td>
+         <th>64.2 inch console table</th>
+         <td>cervantez 64.2 '' console table ✅</td>
+         <td>69.5 '' console table ❌</td>
       </tr>
    </tbody>
 </table>
+
 
 # A wrap up
 
