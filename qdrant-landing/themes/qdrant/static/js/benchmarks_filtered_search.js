@@ -76,7 +76,7 @@ function renderFilterSelected(chartId) {
     }
 
     let fullRawPlotData = addMissedEngines(rawPlotData);
-    chart.data.labels = Object.keys(Object.values(fullRawPlotData)[0]);
+    chart.data.labels = Object.keys(Object.values(fullRawPlotData)[0]).sort();
     chart.options.scales.y.title.text = selectedPlotValue;
 
     let convertedPlotData = convertPlotData(fullRawPlotData);
