@@ -20,8 +20,6 @@
 
   <canvas id="chart-{{ .Params.id }}"></canvas>
 
-  <div id="table-{{ .Params.id }}"></div>
-
   <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
 
 </div>
@@ -51,7 +49,7 @@
   };
 
   const chart = new Chart(
-    document.getElementById('chart-1'),
+    document.getElementById('chart-{{ .Params.id }}'),
     config
   );
 
