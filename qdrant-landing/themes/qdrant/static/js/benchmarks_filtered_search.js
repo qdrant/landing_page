@@ -1,63 +1,63 @@
-function extractUniqueVals(data, key) {
-    let vals = {};
+// function extractUniqueVals(data, key) {
+//     let vals = {};
+//
+//     for (const row of data) {
+//         vals[row[key]] = 1;
+//     }
+//
+//     return [...Object.keys(vals)]
+// }
+//
+// function getDatasetsList(data) {
+//     return extractUniqueVals(data, 'dataset_name');
+// }
 
-    for (const row of data) {
-        vals[row[key]] = 1;
-    }
+// function filterData(data, conditions) {
+//     let filtered = [];
+//
+//     for (const row of data) {
+//         let match = true;
+//
+//         for (const key in conditions) {
+//             if (row[key] !== conditions[key]) {
+//                 match = false;
+//                 break;
+//             }
+//         }
+//
+//         if (match) {
+//             filtered.push(row);
+//         }
+//     }
+//
+//     return filtered;
+// }
 
-    return [...Object.keys(vals)]
-}
+// function updateDropdown(selector, options) {
+//     while (selector.firstChild) {
+//         selector.removeChild(selector.firstChild);
+//     }
+//     for (let i = 0; i < options.length; i++) {
+//         let option = document.createElement("option");
+//         option.value = options[i];
+//         option.text = options[i];
+//         selector.appendChild(option);
+//     }
+// }
+//
+// function getSelectedValue(selector) {
+//     return selector.options[selector.selectedIndex].value;
+// }
+//
+// function getRadioButtonValue(elements) {
+//     for (let i = 0; i < elements.length; i++) {
+//         if (elements[i].checked) {
+//             return elements[i].value;
+//         }
+//     }
+// }
 
-function getDatasetsList(data) {
-    return extractUniqueVals(data, 'dataset_name');
-}
-
-function filterData(data, conditions) {
-    let filtered = [];
-
-    for (const row of data) {
-        let match = true;
-
-        for (const key in conditions) {
-            if (row[key] !== conditions[key]) {
-                match = false;
-                break;
-            }
-        }
-
-        if (match) {
-            filtered.push(row);
-        }
-    }
-
-    return filtered;
-}
-
-function updateDropdown(selector, options) {
-    while (selector.firstChild) {
-        selector.removeChild(selector.firstChild);
-    }
-    for (let i = 0; i < options.length; i++) {
-        let option = document.createElement("option");
-        option.value = options[i];
-        option.text = options[i];
-        selector.appendChild(option);
-    }
-}
-
-function getSelectedValue(selector) {
-    return selector.options[selector.selectedIndex].value;
-}
-
-function getRadioButtonValue(elements) {
-    for (let i = 0; i < elements.length; i++) {
-        if (elements[i].checked) {
-            return elements[i].value;
-        }
-    }
-}
-
-function getSelectedData(chartId) {
+function getFilterSelectedData(chartId) {
     let data = window.datasets[chartId];
     let datasetSelector = document.getElementById("datasets-selector-" + chartId);
     let selectedDataset = getSelectedValue(datasetSelector) + '-filters';
@@ -77,7 +77,7 @@ function getSelectedData(chartId) {
     return {...filterDatasetData, ...noFilterDatasetData};
 }
 
-function getPlotData(data, key) {
+function getFilterPlotData(data, key) {
     let engines = extractUniqueVals(data, "engine_name");
     let plotData = {};
 
@@ -126,12 +126,12 @@ function renderFilterSelected(chartId) {
     let chart = window.charts[chartId];
 
     let plotValueSelector = document.getElementsByName("plot-value-" + chartId);
-    let selectedData = getSelectedData(chartId);
+    let selectedData = getFilterSelectedData(chartId);
     let selectedPlotValue = getRadioButtonValue(plotValueSelector);
 
     let rawPlotData = {};
     for (const [key, value] of Object.entries(selectedData)) {
-        rawPlotData[[key]] = getPlotData(value, selectedPlotValue);
+        rawPlotData[[key]] = getFilterPlotData(value, selectedPlotValue);
     }
 
     let fullRawPlotData = addMissedEngines(rawPlotData);
@@ -142,11 +142,11 @@ function renderFilterSelected(chartId) {
     renderPlot(chart, convertedPlotData);
 }
 
-
-function renderPlot(chart, data) {
-    chart.data.datasets = data
-    chart.update();
-}
+//
+// function renderPlot(chart, data) {
+//     chart.data.datasets = data
+//     chart.update();
+// }
 
 function setPlotValueSelector(name, chartId) {
     let plotValueSelector = document.getElementsByName("plot-value-" + chartId);

@@ -68,7 +68,7 @@
       }
 
       let cleanedDatasets = [...cleanedDatasetsSet];
-      updateDropdown(datasetSelector, cleanedDatasets);
+      updataDropdown(datasetSelector, cleanedDatasets);
 
       window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
       window.charts = { "{{ .Params.id }}": chart, ...window.charts }
