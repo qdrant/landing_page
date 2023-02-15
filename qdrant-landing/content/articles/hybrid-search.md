@@ -92,12 +92,12 @@ async def search(query: str):
 In the case of document retrieval, we care more about the search result quality and time is not a huge constraint. 
 There is a bunch of search engines that specialize in the full-text search we found interesting:
 
-- [https://github.com/quickwit-oss/tantivy](Tantivy) - a full-text indexing library written in Rust. Has a great 
+- [Tantivy](https://github.com/quickwit-oss/tantivy) - a full-text indexing library written in Rust. Has a great 
   performance and featureset. 
-- [https://github.com/lnx-search/lnx](lnx) - a young but promising project, utilizes Tanitvy as a backend.
-- [https://github.com/zinclabs/zinc](ZincSearch) - a project written in Go, focused on minimal resource usage 
+- [lnx](https://github.com/lnx-search/lnx) - a young but promising project, utilizes Tanitvy as a backend.
+- [ZincSearch](https://github.com/zinclabs/zinc) - a project written in Go, focused on minimal resource usage 
   and high performance.
-- [https://github.com/valeriansaliou/sonic](Sonic) - a project written in Rust, uses custom network communication 
+- [Sonic](https://github.com/valeriansaliou/sonic) - a project written in Rust, uses custom network communication 
   protocol for fast communication between the client and the server.
 
 All of those engines might be easily used in combination with the vector search offered by Qdrant. But the 
