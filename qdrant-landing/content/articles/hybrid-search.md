@@ -8,18 +8,8 @@ small_preview_image: /articles_data/hybrid-search/icon.svg
 weight: 5
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2023-01-16T12:25:00.000Z
+date: 2023-02-15T10:48:00.000Z
 ---
-
-<!-- 
-What Hybrid search even is?
-
-We know at least 3 definitions of hybrid search:
-- a combination of vector search with filtering - we won't use it, we call it just filtered vector search
-- a combination of vector seach with keyword-based search - this one we will cover in this article
-- a combination of dense and sparse vectors - we will cover it in the next article
-
--->
 
 There is not a single definition of hybrid search. Actually, if we use more than one search algorithm, it 
 might be described as some sort of hybrid. Some of the most popular definitions are:
@@ -30,24 +20,6 @@ might be described as some sort of hybrid. Some of the most popular definitions 
 3. A mix of dense and sparse vectors. That strategy will be covered in the upcoming article.
 
 ## Why do we still need keyword search?
-
-<!---
-Why do we still need keyword search?
-
-There are multiple scenarios where vector search have clear advantage:
-
-- When it is not enough keywords, short texts with typos and ambiguous content-dependent meanings
-- Multi-lingual & multi-modal search
-- Specialized domains, with tuned encoder models
-- Document-as-a-Query similarity search
-
-At the same time keyword-based search might be useful in following scenarios:
-
-- Out-of-domain search, words are words, no matter what they mean. BM25 ranking represents the most universal property of natural language - less frequent words are more important.
-- Search-as-you-type, when there is only a few characters typed, and we can't use vector search yet.
-- Exact phrase matching, when we want to find the exact phrase in the document. Useful for names of the products, people, etc.
-
--->
 
 A keyword-based search was the obvious choice for search engines in the past. It struggled with some
 common issues, but since we didn't have any alternatives, we had to overcome them with additional
@@ -71,19 +43,6 @@ might be useful:
 
 ## Matching the tool to the task
 
-<!---
-
-Text search itself is divided into multiple specializations:
-
-- Web-scale search, documents retrieval
-- Fast search-as-you-type
-- Logs search, and search over less-than-natural texts (transactions, code, etc.)
-
-Each of those scenarios have a specialized tool, which performs the search best in that scenario.
-And we can combine those tools with vector search to get the best of both worlds.
-
--->
-
 There are various cases in which we need search capabilities and each of those cases will have some
 different requirements. Therefore, there is not just one strategy to rule them all, and some different 
 tools may fit us better. Text search itself might be roughly divided into multiple specializations like:
@@ -97,37 +56,6 @@ already expose search capabilities, then you probably have one of them in your t
 easily combine those tools with vector search to get the best of both worlds. 
 
 # The fast search: A Fallback strategy
-
-<!---
-
-In scenarios like search-as-you-type, the speed of the search is crucial.
-That is why we can't use vector search on every query. At the same time the simple prefix search might have a bad recall.
-
-In this case a good strategy is to use vector search only when the keyword/prefix search returns a none or small number of results.
-
-A good candidate for this is a MeiliSearch. It uses custom ranking rules to precise result as fast as user can type.
-
-
-here is a pseudo-code of such a strategy:
-
-```python
-async def search(query: str):
-    # Get fast results from MeiliSearch
-    keyword_search_result = search_meili(query)
-
-    # Check if there are enough results
-    # or if the results are good enough for given query
-    if is_results_enough(keyword_search_result, query):
-        return keyword_search
-
-    # Encoding takes time, but we fill get more results
-    vector_query = encode(query)
-
-    vector_result = search_qdrant(vector_query)
-    return vector_result
-```
-
--->
 
 The easiest way to incorporate vector search into the existing stack is to treat it as some sort of
 fallback strategy. So whenever your keyword search struggle with finding proper results, you can
@@ -161,34 +89,15 @@ async def search(query: str):
 
 # The precise search: The re-ranking strategy
 
-<!---
-
-Another scenario is where we care most about the precision of the search.
-We will be using reference datasets to benchmark the search quality.
-
-There a bunch of search engines, that specialize in full-text search we found interesting:
-
-- https://github.com/quickwit-oss/tantivy - a full-text indexing library, written in Rust. Have a great performance and featureset. 
-- https://github.com/lnx-search/lnx - a young but promising project, utilizes Tanitvy as a backend
-- https://github.com/zinclabs/zinc - a project written in Go, focused on minimal resource usage and high performance.
-- https://github.com/valeriansaliou/sonic - a project written in Rust, uses custom network communication protocol for fast communication between the client and the server.
-
-
-You can use any of those engines, all of them will work fine in combination with vector search and Qdrant.
-
-But before that, we need to understand how to combine the results from different sources.
-
--->
-
 In the case of document retrieval, we care more about the search result quality and time is not a huge constraint. 
 There is a bunch of search engines that specialize in the full-text search we found interesting:
 
-- https://github.com/quickwit-oss/tantivy - a full-text indexing library, written in Rust. Have a great 
+- [https://github.com/quickwit-oss/tantivy](Tantivy) - a full-text indexing library written in Rust. Has a great 
   performance and featureset. 
-- https://github.com/lnx-search/lnx - a young but promising project, utilizes Tanitvy as a backend.
-- https://github.com/zinclabs/zinc - a project written in Go, focused on minimal resource usage and high 
-  performance.
-- https://github.com/valeriansaliou/sonic - a project written in Rust, uses custom network communication 
+- [https://github.com/lnx-search/lnx](lnx) - a young but promising project, utilizes Tanitvy as a backend.
+- [https://github.com/zinclabs/zinc](ZincSearch) - a project written in Go, focused on minimal resource usage 
+  and high performance.
+- [https://github.com/valeriansaliou/sonic](Sonic) - a project written in Rust, uses custom network communication 
   protocol for fast communication between the client and the server.
 
 All of those engines might be easily used in combination with the vector search offered by Qdrant. But the 
@@ -217,35 +126,6 @@ Both relevant and non-relevant items are mixed. **None of the linear formulas wo
 between them.** Thus, that's not the way to solve it.
 
 ## How to approach re-ranking?
-
-<!---
-
-The other common approach to re-rank search results is to use model that takes additional factors into account.
-Those models are usually trained on a clickstream data of real application and might be very business-specific.
-So we will not cover them in this article. Instead, we will focus on the more general approach.
-
-We will use so-called cross-encoder models. 
-Cross-encoder takes a pair of text and predicts the similarity between them.
-Unlike embedding models, cross-encoders are not compressing text into a vector but uses interaction between individual tokens of both texts.
-Those models are generally more powerful than both bm25 and vector search, but they are also slower.
-
-It is only feasible to use cross-encoder models for re-ranking of pre-selected candidates.
-
-Here is a pseudo-code of such a strategy:
-
-```python
-async def search(query: str):
-    keyword_search = search_keyword(query)
-    vector_search = search_qdrant(query) 
-    all_results = await asyncio.gather(keyword_search, vector_search)  # parallel calls
-    rescored = cross_encoder_rescore(query, all_results)
-    return rescored
-```
-
-Worth mentioning that queries to keyword search and vector search and re-scring can be done in parallel.
-Cross-encoder can start scoring results as soon as the fastest search engine returns the results.
-
--->
 
 There is a common approach to re-rank the search results with a model that takes some additional factors
 into account. Those models are usually trained on clickstream data of a real application and tend to be
@@ -370,10 +250,6 @@ the relevant items and BM25 around 66.66%.
 
 ## Some anecdotal observations
 
-<!--
-Table with search examples: Examples where vector search did better and vice versa.
--->
-
 None of the algorithms works better in all the cases. There might be some specific queries in which keyword-based search
 will be a winner and the other way around. The table shows some interesting examples we could find in WANDS dataset 
 during the experiments:
@@ -433,12 +309,6 @@ Also examples where keyword-based search did better:
 
 
 # A wrap up
-
-<!---
-
-Each scenario requires its own specialized tool. But it is possible to combine multiple tools with minimal overhead to achieve best results.
-
--->
 
 Each search scenario requires a specialized tool to achieve the best results possible. Still, combining multiple tools with 
 minimal overhead is possible to improve the search precision even further. Introducing vector search into an existing search 
