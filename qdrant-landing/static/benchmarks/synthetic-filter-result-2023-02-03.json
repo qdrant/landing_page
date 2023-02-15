@@ -1012,6 +1012,25 @@
     "total_upload_time": 217.20962560399857
   },
   {
+    "engine_name": "qdrant",
+    "upload_time": 52.32986951500061,
+    "total_upload_time": 558.1255640999952,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "100-kw-small-vocab-filters",
+    "parallel": 8,
+    "p95_time": 0.02944726935093058,
+    "rps": 627.5556775093376,
+    "p99_time": 0.031606826155111775,
+    "mean_time": 0.012589726932167832,
+    "mean_precisions": 0.597504,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
     "engine_name": "milvus",
     "p95_time": 0.01247046595253778,
     "rps": 785.4013887573171,
