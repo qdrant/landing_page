@@ -67,7 +67,7 @@
         cleanedDatasetsSet.add(dataset.replace('-no-filters', '').replace('-filters', ''));
       }
 
-      let cleanedDatasets = [...cleanedDatasetsSet];
+      let cleanedDatasets = [...cleanedDatasetsSet].sort();
       updataDropdown(datasetSelector, cleanedDatasets);
 
       window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
