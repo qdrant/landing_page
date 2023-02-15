@@ -1,0 +1,81 @@
+<div class="benchmark-wrapper">
+
+  <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
+  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+
+  </select>
+
+  Plot values:
+
+  <!-- Radio button group to select values to render -->
+  <label>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    RPS
+  </label> |
+
+  <label>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="precision"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    Precision
+  </label> |
+
+  <canvas id="chart-{{ .Params.id }}"></canvas>
+
+  <div id="table-{{ .Params.id }}"></div>
+
+  <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
+
+</div>
+
+
+<script type="module">
+  let defaultPlotValue = "{{ .Params.filter_data}}" || "rps";
+  let url = "{{ .Params.filter_data }}";
+
+  const config = {
+    type: 'bar',
+    data: {
+      datasets: []
+    },
+    options: {
+      responsive: true,
+      scales: {
+        y: {
+          type: 'linear',
+          title: {
+            display: true,
+            text: defaultPlotValue
+          },
+        }
+      }
+    }
+  };
+
+  const chart = new Chart(
+    document.getElementById('chart-1'),
+    config
+  );
+
+  let datasetSelector = document.getElementById("datasets-selector-{{ .Params.id }}");
+  let plotValueSelector = document.getElementsByName("plot-value-{{ .Params.id }}");
+  setPlotValueSelector(defaultPlotValue, "{{ .Params.id }}");
+
+  fetch(url)
+    .then(res => res.json())
+    .then(data => {
+      const datasets = getDatasetsList(data);
+      let cleanedDatasetsSet = new Set();
+
+      for (let dataset of datasets) {
+        cleanedDatasetsSet.add(dataset.replace('-no-filters', '').replace('-filters', ''));
+      }
+
+      let cleanedDatasets = [...cleanedDatasetsSet];
+      updateDropdown(datasetSelector, cleanedDatasets);
+
+      window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
+      window.charts = { "{{ .Params.id }}": chart, ...window.charts }
+
+      renderFilterSelected("{{ .Params.id }}");
+
+    });
+</script>

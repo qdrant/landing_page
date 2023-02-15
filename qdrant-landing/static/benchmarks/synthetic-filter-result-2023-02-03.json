@@ -1,0 +1,1210 @@
+[
+  {
+    "engine_name": "qdrant",
+    "upload_time": 80.98482956999214,
+    "total_upload_time": 286.31065892698825,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "geo-radius-100-filters",
+    "parallel": 8,
+    "p95_time": 0.09287647468445356,
+    "rps": 146.34298384968002,
+    "p99_time": 0.1128362700060825,
+    "mean_time": 0.05313227496720501,
+    "mean_precisions": 0.9999316666666668,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.12982259434756996,
+    "rps": 120.77926866562062,
+    "p99_time": 0.33030459305686277,
+    "mean_time": 0.06471361731390061,
+    "mean_precisions": 0.604392,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "range-100-filters",
+    "parallel": 8,
+    "upload_time": 59.75058772099874,
+    "total_upload_time": 265.2509193040023
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.03542832965322304,
+    "rps": 218.04361739881665,
+    "p99_time": 0.03702844399856986,
+    "mean_time": 0.03256558994741645,
+    "mean_precisions": 0.72915,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "keyword-2048-no-filters",
+    "parallel": 8,
+    "upload_time": 95.65011279800092,
+    "total_upload_time": 160.76133973999822
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 143.62152541299292,
+    "total_upload_time": 143.62156651400437,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "keyword-2048-no-filters",
+    "parallel": 8,
+    "p95_time": 0.050718566452997035,
+    "rps": 221.70151365075372,
+    "p99_time": 0.060055405105522375,
+    "mean_time": 0.035850639687350486,
+    "mean_precisions": 0.3832,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "upload_time": 54.541048525003134,
+    "total_upload_time": 261.07416708700475,
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "keyword-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.012880113955179694,
+    "rps": 774.6808321866039,
+    "p99_time": 0.015853171006310736,
+    "mean_time": 0.008910100677330047,
+    "mean_precisions": 0.43728999999999996,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.034163255956082134,
+    "rps": 341.55152701399464,
+    "p99_time": 0.04289429401454982,
+    "mean_time": 0.021676896500054863,
+    "mean_precisions": 0.662924,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "range-100-filters",
+    "parallel": 8,
+    "upload_time": 58.556404668983305,
+    "total_upload_time": 644.5003576010058
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 495.76699126700987,
+    "total_upload_time": 495.7670325680083,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "int-2048-filters",
+    "parallel": 8,
+    "p95_time": 0.022843891149932457,
+    "rps": 448.9892266818918,
+    "p99_time": 0.02490340400010382,
+    "mean_time": 0.017448292600000106,
+    "mean_precisions": 0.99998,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elastic",
+    "p95_time": 0.157336204846797,
+    "rps": 140.35900315185233,
+    "p99_time": 0.2360867739326205,
+    "mean_time": 0.0555332157576835,
+    "mean_precisions": 1.0,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    },
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "geo-radius-100-filters",
+    "parallel": 8,
+    "upload_time": 475.7346445269941,
+    "total_upload_time": 477.12151631200686
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.004290378086443525,
+    "rps": 339.7098074581701,
+    "p99_time": 0.004724962270411203,
+    "mean_time": 0.0032393433585151798,
+    "mean_precisions": 0.999992,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "keyword-2048-filters",
+    "parallel": 8,
+    "upload_time": 98.66100807799376,
+    "total_upload_time": 133.72288295900216
+  },
+  {
+    "engine_name": "redis",
+    "p95_time": 0.005800681004620855,
+    "rps": 1510.4876239399598,
+    "p99_time": 0.0064380440185777855,
+    "mean_time": 0.005160128694916785,
+    "mean_precisions": 0.35083000000000003,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "keyword-100-no-filters",
+    "parallel": 8,
+    "upload_time": 966.5737362880027,
+    "total_upload_time": 966.5737733889982
+  },
+  {
+    "engine_name": "redis",
+    "p95_time": 1.5075310595915652,
+    "rps": 10.113829593370602,
+    "p99_time": 1.518353780086909,
+    "mean_time": 0.7906458924697246,
+    "mean_precisions": 0.8291,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "keyword-100-filters",
+    "parallel": 8,
+    "upload_time": 838.4703913549893,
+    "total_upload_time": 838.4704293549876
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.8063753138980245,
+    "rps": 20.109630573645852,
+    "p99_time": 1.0353704040343301,
+    "mean_time": 0.3962033908148063,
+    "mean_precisions": 0.9971646666666667,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "keyword-100-filters",
+    "parallel": 8,
+    "upload_time": 57.57094088598387,
+    "total_upload_time": 160.5499015499954
+  },
+  {
+    "engine_name": "qdrant",
+    "upload_time": 53.11242747599863,
+    "total_upload_time": 273.47445516100015,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "int-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.005665469400628352,
+    "rps": 1245.5036462087494,
+    "p99_time": 0.006501470140610765,
+    "mean_time": 0.005015920545495828,
+    "mean_precisions": 0.5929399999999999,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "redis",
+    "p95_time": 0.006258136701580952,
+    "rps": 1386.2124272850974,
+    "p99_time": 0.006548661968990928,
+    "mean_time": 0.005615831368296495,
+    "mean_precisions": 0.34798,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "range-100-no-filters",
+    "parallel": 8,
+    "upload_time": 1061.5719955159984,
+    "total_upload_time": 1061.572033217999
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 1481.3664408480108,
+    "total_upload_time": 1481.366480947996,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "geo-radius-100-filters",
+    "parallel": 8,
+    "p95_time": 0.11494665406207782,
+    "rps": 172.6765259126334,
+    "p99_time": 0.14929579722404018,
+    "mean_time": 0.04616029768351291,
+    "mean_precisions": 0.2183205576601462,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 485.82856437400187,
+    "total_upload_time": 485.8286052750045,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "range-2048-filters",
+    "parallel": 8,
+    "p95_time": 0.6128989070057286,
+    "rps": 16.118820859479097,
+    "p99_time": 0.6613555148498563,
+    "mean_time": 0.4947511775325373,
+    "mean_precisions": 0.9999400000000002,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "qdrant",
+    "upload_time": 96.53374021299533,
+    "total_upload_time": 136.602326385997,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "geo-radius-2048-no-filters",
+    "parallel": 8,
+    "p95_time": 0.042696896655252205,
+    "rps": 186.7639260345508,
+    "p99_time": 0.044617195008613636,
+    "mean_time": 0.03995107510641101,
+    "mean_precisions": 0.78324,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "weaviate",
+    "p95_time": 0.05034726958620012,
+    "rps": 224.37531701422375,
+    "p99_time": 0.05999243365149596,
+    "mean_time": 0.035427111853228416,
+    "mean_precisions": 0.3856,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    },
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "range-2048-no-filters",
+    "parallel": 8,
+    "upload_time": 140.2616124220076,
+    "total_upload_time": 140.26164922199678
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.005450391001068055,
+    "rps": 325.293669687752,
+    "p99_time": 0.005909354098257609,
+    "mean_time": 0.004112647396317334,
+    "mean_precisions": 0.999984,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "int-2048-filters",
+    "parallel": 8,
+    "upload_time": 96.36142915100208,
+    "total_upload_time": 196.52495477200137
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.007433869986562059,
+    "rps": 1098.5030038274533,
+    "p99_time": 0.00880100099544507,
+    "mean_time": 0.005854366548595135,
+    "mean_precisions": 0.9999959999999999,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "int-100-filters",
+    "parallel": 8,
+    "upload_time": 60.203360444982536,
+    "total_upload_time": 646.1406889139907
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 915.1605211479764,
+    "total_upload_time": 915.1605836489762,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "geo-radius-100-filters",
+    "parallel": 8,
+    "p95_time": 1.791391758150712,
+    "rps": 8.656094524614728,
+    "p99_time": 2.2478878810125753,
+    "mean_time": 0.9236492921782454,
+    "mean_precisions": 0.8333458160256981,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 445.8485472709872,
+    "total_upload_time": 445.8485969720059,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "geo-radius-2048-filters",
+    "parallel": 8,
+    "p95_time": 0.08984521183592732,
+    "rps": 134.2993842755739,
+    "p99_time": 0.10501881881238662,
+    "mean_time": 0.05922382188074116,
+    "mean_precisions": 0.9480563947397969,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elastic",
+    "p95_time": 0.18496641659585267,
+    "rps": 66.04649323896643,
+    "p99_time": 0.29601926347619156,
+    "mean_time": 0.11973613396540023,
+    "mean_precisions": 0.323644,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    },
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "range-100-filters",
+    "parallel": 8,
+    "upload_time": 475.46510337200016,
+    "total_upload_time": 476.54928892799944
+  },
+  {
+    "engine_name": "qdrant",
+    "upload_time": 54.72026616099902,
+    "total_upload_time": 265.06307304999973,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "range-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.00556473075012036,
+    "rps": 1261.6409535385626,
+    "p99_time": 0.006487983011520565,
+    "mean_time": 0.004934386377003648,
+    "mean_precisions": 0.5949,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 520.9735126099986,
+    "total_upload_time": 520.9735491110041,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "keyword-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.009588372007419818,
+    "rps": 1059.7365501858592,
+    "p99_time": 0.015072612006333658,
+    "mean_time": 0.007428906473929237,
+    "mean_precisions": 0.34578000000000003,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "qdrant",
+    "upload_time": 53.68676050500653,
+    "total_upload_time": 274.0400808980048,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "keyword-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.005533473043033154,
+    "rps": 1246.5343596211628,
+    "p99_time": 0.00612297001236584,
+    "mean_time": 0.004971863252442563,
+    "mean_precisions": 0.5970099999999998,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "upload_time": 31.520363493997138,
+    "total_upload_time": 151.47572511900216,
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "int-2048-filters",
+    "parallel": 8,
+    "p95_time": 0.3061125044012442,
+    "rps": 40.34555457786577,
+    "p99_time": 0.34665395367715984,
+    "mean_time": 0.19660283766532374,
+    "mean_precisions": 0.9879893366899698,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.36310681910399567,
+    "rps": 46.71067856047857,
+    "p99_time": 0.41489248535042866,
+    "mean_time": 0.1696174883954547,
+    "mean_precisions": 0.99898,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "keyword-2048-filters",
+    "parallel": 8,
+    "upload_time": 32.16871961101424,
+    "total_upload_time": 152.43981072001043
+  },
+  {
+    "engine_name": "elastic",
+    "p95_time": 0.07729883655847511,
+    "rps": 222.5373744842224,
+    "p99_time": 0.11192101585649655,
+    "mean_time": 0.034516317807961605,
+    "mean_precisions": 0.999992,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    },
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "int-100-filters",
+    "parallel": 8,
+    "upload_time": 459.4876422609959,
+    "total_upload_time": 462.42494055099087
+  },
+  {
+    "engine_name": "weaviate",
+    "p95_time": 0.009620531499240312,
+    "rps": 1062.2042728705608,
+    "p99_time": 0.013875493130908585,
+    "mean_time": 0.007407869619761914,
+    "mean_precisions": 0.34663,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    },
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "geo-radius-100-no-filters",
+    "parallel": 8,
+    "upload_time": 519.872436575999,
+    "total_upload_time": 519.8724719769998
+  },
+  {
+    "engine_name": "weaviate",
+    "p95_time": 0.046353282072232084,
+    "rps": 253.69823600613068,
+    "p99_time": 0.053960035070485905,
+    "mean_time": 0.03127259453528386,
+    "mean_precisions": 0.9999720000000001,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    },
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "keyword-2048-filters",
+    "parallel": 8,
+    "upload_time": 122.54789987299591,
+    "total_upload_time": 122.54794927401235
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.1421076064452791,
+    "rps": 88.12338820766736,
+    "p99_time": 0.165830006032993,
+    "mean_time": 0.08906599569499303,
+    "mean_precisions": 0.7929414035087718,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "range-2048-filters",
+    "parallel": 8,
+    "upload_time": 30.720292894999147,
+    "total_upload_time": 194.89683629100182
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 443.29204641900003,
+    "total_upload_time": 443.29208861899997,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "keyword-2048-filters",
+    "parallel": 8,
+    "p95_time": 0.0026592479844111945,
+    "rps": 829.8828332820522,
+    "p99_time": 0.002880225987173617,
+    "mean_time": 0.002121267299880856,
+    "mean_precisions": 0.999984,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 536.4639212910006,
+    "total_upload_time": 536.4639586920002,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "int-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.009744642949135594,
+    "rps": 1014.3358031658341,
+    "p99_time": 0.013857250001638025,
+    "mean_time": 0.0077658940107003215,
+    "mean_precisions": 0.34757000000000005,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elastic",
+    "p95_time": 0.024528585844382174,
+    "rps": 559.7157977967821,
+    "p99_time": 0.04912558073236155,
+    "mean_time": 0.012910699559454224,
+    "mean_precisions": 0.999992,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    },
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "keyword-100-filters",
+    "parallel": 8,
+    "upload_time": 487.35247248600353,
+    "total_upload_time": 488.02600539900595
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 143.9998227670003,
+    "total_upload_time": 143.99986326800718,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "geo-radius-2048-no-filters",
+    "parallel": 8,
+    "p95_time": 0.05146398955839686,
+    "rps": 219.20944365209706,
+    "p99_time": 0.06115044676029358,
+    "mean_time": 0.03626423271731328,
+    "mean_precisions": 0.39608000000000004,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.042823621958086734,
+    "rps": 186.5534826147123,
+    "p99_time": 0.044928308999224106,
+    "mean_time": 0.040003929606288145,
+    "mean_precisions": 0.78359,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "range-2048-no-filters",
+    "parallel": 8,
+    "upload_time": 96.3880508299917,
+    "total_upload_time": 131.45577253599185
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.6134412180981599,
+    "rps": 25.186735037014266,
+    "p99_time": 0.6538540944538546,
+    "mean_time": 0.31596671214540545,
+    "mean_precisions": 0.9492480000000001,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "int-100-filters",
+    "parallel": 8,
+    "upload_time": 51.12789311699453,
+    "total_upload_time": 215.94835573100136
+  },
+  {
+    "engine_name": "elastic",
+    "upload_time": 515.2994288530026,
+    "total_upload_time": 520.4804114120016,
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "geo-radius-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.13859120500110292,
+    "rps": 79.40998576370718,
+    "p99_time": 0.17275558919009204,
+    "mean_time": 0.09933309715480391,
+    "mean_precisions": 0.92376,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "upload_time": 52.60636030999922,
+    "total_upload_time": 242.23675853200075,
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "range-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.012965567998617188,
+    "rps": 772.6885397474952,
+    "p99_time": 0.016011852002993696,
+    "mean_time": 0.008927152314485284,
+    "mean_precisions": 0.43555,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.04473149395053042,
+    "rps": 207.38275538239247,
+    "p99_time": 0.047830665018191214,
+    "mean_time": 0.035728748918605564,
+    "mean_precisions": 0.80446,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "range-2048-filters",
+    "parallel": 8,
+    "upload_time": 101.4411986549967,
+    "total_upload_time": 196.60270632899483
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 467.7271795439883,
+    "total_upload_time": 467.7272294439899,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "int-100-filters",
+    "parallel": 8,
+    "p95_time": 0.03325140103843296,
+    "rps": 403.46968528090326,
+    "p99_time": 0.044790432089648724,
+    "mean_time": 0.019682756938808596,
+    "mean_precisions": 0.9999959999999999,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.061686919705971364,
+    "rps": 165.41471677295505,
+    "p99_time": 0.08122702943190238,
+    "mean_time": 0.046341301721840866,
+    "mean_precisions": 0.73603,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "geo-radius-2048-no-filters",
+    "parallel": 8,
+    "upload_time": 33.09639864799101,
+    "total_upload_time": 125.20629906299291
+  },
+  {
+    "engine_name": "weaviate",
+    "p95_time": 0.01175759505276801,
+    "rps": 1135.1996266598774,
+    "p99_time": 0.0182420709944563,
+    "mean_time": 0.006922761877891026,
+    "mean_precisions": 0.9999959999999999,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    },
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "keyword-100-filters",
+    "parallel": 8,
+    "upload_time": 468.52291718201013,
+    "total_upload_time": 468.522957683017
+  },
+  {
+    "engine_name": "elastic",
+    "p95_time": 0.13323969915800263,
+    "rps": 81.09959186171024,
+    "p99_time": 0.16343618290382442,
+    "mean_time": 0.09723987749682128,
+    "mean_precisions": 0.9246500000000002,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    },
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "keyword-100-no-filters",
+    "parallel": 8,
+    "upload_time": 490.7401573880052,
+    "total_upload_time": 494.65733043699584
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.012889911579259204,
+    "rps": 321.50556981133155,
+    "p99_time": 0.01557290255848784,
+    "mean_time": 0.007393161642525229,
+    "mean_precisions": 0.999948,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "geo-radius-2048-filters",
+    "parallel": 8,
+    "upload_time": 98.60833971199463,
+    "total_upload_time": 133.67065667698625
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.01574475729985352,
+    "rps": 648.6680026858247,
+    "p99_time": 0.019000872839897057,
+    "mean_time": 0.01091605143629513,
+    "mean_precisions": 0.4975,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "int-100-no-filters",
+    "parallel": 8,
+    "upload_time": 78.72983046599984,
+    "total_upload_time": 232.64855881899894
+  },
+  {
+    "engine_name": "qdrant",
+    "upload_time": 53.60242602699873,
+    "total_upload_time": 258.9277013550018,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "geo-radius-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.005581534999873838,
+    "rps": 1221.673540170276,
+    "p99_time": 0.0062766339982408695,
+    "mean_time": 0.005152617892094713,
+    "mean_precisions": 0.59473,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 551.2097420500013,
+    "total_upload_time": 551.2097758510008,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "range-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.009521953899457002,
+    "rps": 1051.486377241868,
+    "p99_time": 0.012963787011049142,
+    "mean_time": 0.007487369815821694,
+    "mean_precisions": 0.34736999999999996,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "qdrant",
+    "upload_time": 58.739708257024176,
+    "total_upload_time": 234.01953681799932,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "keyword-100-filters",
+    "parallel": 8,
+    "p95_time": 0.004679066305106971,
+    "rps": 1402.5305483059446,
+    "p99_time": 0.005322546014213003,
+    "mean_time": 0.0034666916146845325,
+    "mean_precisions": 1.0,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.01247046595253778,
+    "rps": 785.4013887573171,
+    "p99_time": 0.015332535010056747,
+    "mean_time": 0.008697940867688521,
+    "mean_precisions": 0.43773999999999996,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "geo-radius-100-no-filters",
+    "parallel": 8,
+    "upload_time": 54.98801104199811,
+    "total_upload_time": 243.56601131099887
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 539.4447898340004,
+    "total_upload_time": 539.444833933987,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "range-100-filters",
+    "parallel": 8
+  },
+  {
+    "engine_name": "redis",
+    "p95_time": 2.190688422401581,
+    "rps": 5.290801100125922,
+    "p99_time": 2.437438242052887,
+    "mean_time": 1.5112793747136777,
+    "mean_precisions": 0.318576,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "range-100-filters",
+    "parallel": 8,
+    "upload_time": 1054.5999018970033,
+    "total_upload_time": 1054.5999398980057
+  },
+  {
+    "engine_name": "redis",
+    "p95_time": 0.005750621049628535,
+    "rps": 1557.7678253131942,
+    "p99_time": 0.007125831007033418,
+    "mean_time": 0.00500020346040219,
+    "mean_precisions": 0.34591,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "geo-radius-100-no-filters",
+    "parallel": 8,
+    "upload_time": 958.1770300280004,
+    "total_upload_time": 958.1770738289997
+  },
+  {
+    "engine_name": "weaviate",
+    "p95_time": 0.04945034404590842,
+    "rps": 236.09960749509247,
+    "p99_time": 0.05876281259275859,
+    "mean_time": 0.03362093428637308,
+    "mean_precisions": 0.9999520000000001,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    },
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "int-2048-filters",
+    "parallel": 8,
+    "upload_time": 122.63801413701731,
+    "total_upload_time": 122.63805843700538
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.09291366845573065,
+    "rps": 114.3922204123433,
+    "p99_time": 0.11355346848882618,
+    "mean_time": 0.06784756681115105,
+    "mean_precisions": 0.74428,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "range-2048-no-filters",
+    "parallel": 8,
+    "upload_time": 30.47325847799948,
+    "total_upload_time": 120.33686070599651
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 840.132846353983,
+    "total_upload_time": 840.1328861539951,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "int-100-filters",
+    "parallel": 8,
+    "p95_time": 0.05375603697320912,
+    "rps": 171.46616001971617,
+    "p99_time": 0.055994554973731285,
+    "mean_time": 0.046456831378120116,
+    "mean_precisions": 0.9999959999999999,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "redis",
+    "p95_time": 0.030877801495807943,
+    "rps": 270.3147111630208,
+    "p99_time": 0.031656928005832016,
+    "mean_time": 0.02931836484870146,
+    "mean_precisions": 0.3836,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "range-2048-no-filters",
+    "parallel": 8,
+    "upload_time": 506.6514792860107,
+    "total_upload_time": 506.65152058700914
+  },
+  {
+    "engine_name": "weaviate",
+    "upload_time": 174.91833851399133,
+    "total_upload_time": 174.9183873150032,
+    "setup_name": "weaviate-m-16-ef-128",
+    "dataset_name": "geo-radius-2048-filters",
+    "parallel": 8,
+    "p95_time": 0.11534301460051208,
+    "rps": 137.67474193859243,
+    "p99_time": 0.14974161304096928,
+    "mean_time": 0.05782824723286612,
+    "mean_precisions": 0.6744883101102057,
+    "engine_params": {
+      "parallel": 8,
+      "vectorIndexConfig": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "milvus",
+    "p95_time": 0.08406510010463533,
+    "rps": 130.1308300203729,
+    "p99_time": 0.09882820938204534,
+    "mean_time": 0.05867269104287552,
+    "mean_precisions": 0.74911,
+    "engine_params": {
+      "parallel": 8,
+      "params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "milvus-m-16-ef-128",
+    "dataset_name": "keyword-2048-no-filters",
+    "parallel": 8,
+    "upload_time": 47.417717465999885,
+    "total_upload_time": 138.1754566890013
+  },
+  {
+    "engine_name": "elastic",
+    "upload_time": 548.7518933770007,
+    "total_upload_time": 553.2957439420006,
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "int-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.1446563163499377,
+    "rps": 78.77330737337881,
+    "p99_time": 0.17692758742143294,
+    "mean_time": 0.10010966221569943,
+    "mean_precisions": 0.9227900000000001,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    }
+  },
+  {
+    "engine_name": "elastic",
+    "upload_time": 519.3798396700004,
+    "total_upload_time": 523.8665533050007,
+    "setup_name": "elastic-m-16-ef-128",
+    "dataset_name": "range-100-no-filters",
+    "parallel": 8,
+    "p95_time": 0.14603285754910755,
+    "rps": 77.22252931266763,
+    "p99_time": 0.1757026299299834,
+    "mean_time": 0.10216345878650136,
+    "mean_precisions": 0.9212400000000002,
+    "engine_params": {
+      "parallel": 8,
+      "num_candidates": 128
+    }
+  },
+  {
+    "engine_name": "redis",
+    "p95_time": 0.0060386829498384025,
+    "rps": 1443.014195665719,
+    "p99_time": 0.006477670540261897,
+    "mean_time": 0.0053930150420992504,
+    "mean_precisions": 0.34624,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    },
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "int-100-no-filters",
+    "parallel": 8,
+    "upload_time": 994.8033701059994,
+    "total_upload_time": 994.8034092070011
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 502.58679859699623,
+    "total_upload_time": 502.5868418979953,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "geo-radius-2048-no-filters",
+    "parallel": 8,
+    "p95_time": 0.029857884999364613,
+    "rps": 279.5674379732322,
+    "p99_time": 0.03067927898999187,
+    "mean_time": 0.02816103406593029,
+    "mean_precisions": 0.39413000000000004,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  },
+  {
+    "engine_name": "redis",
+    "upload_time": 515.9993545390025,
+    "total_upload_time": 515.9994124410005,
+    "setup_name": "redis-m-16-ef-128",
+    "dataset_name": "keyword-2048-no-filters",
+    "parallel": 8,
+    "p95_time": 0.030991847954283003,
+    "rps": 268.75913681611553,
+    "p99_time": 0.031979337995580864,
+    "mean_time": 0.028975626277393893,
+    "mean_precisions": 0.37781,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "ef": 128
+      }
+    }
+  }
+]
