@@ -1157,7 +1157,7 @@
     "upload_time": 47.00560034299997,
     "total_upload_time": 517.7406371430006,
     "setup_name": "qdrant-m-16-ef-128",
-    "dataset_name": "100-kw-small-vocab",
+    "dataset_name": "100-kw-small-vocab-filters",
     "parallel": 8,
     "p95_time": 0.026652832399122417,
     "rps": 346.40205918902967,
