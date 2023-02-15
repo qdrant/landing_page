@@ -74,6 +74,25 @@
     }
   },
   {
+    "engine_name": "qdrant",
+    "upload_time": 183.96301186599885,
+    "total_upload_time": 960.1803249129989,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "arxiv-titles-384-filters",
+    "parallel": 8,
+    "p95_time": 0.008454260001417423,
+    "rps": 1199.5911677177578,
+    "p99_time": 0.00965474700820778,
+    "mean_time": 0.0065190274561959085,
+    "mean_precisions": 0.91241,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    }
+  },
+  {
     "engine_name": "elastic",
     "upload_time": 958.4382368149963,
     "total_upload_time": 958.450433222999,
@@ -88,6 +107,25 @@
     "engine_params": {
       "parallel": 8,
       "num_candidates": 128
+    }
+  },
+  {
+    "engine_name": "qdrant",
+    "upload_time": 65.91457536999951,
+    "total_upload_time": 110.98573015500006,
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "h-and-m-2048-no-filters",
+    "parallel": 8,
+    "p95_time": 0.0036513524491965654,
+    "rps": 758.2523352203556,
+    "p99_time": 0.003995483000217065,
+    "mean_time": 0.003233249979300308,
+    "mean_precisions": 0.99816,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
     }
   },
   {
@@ -149,30 +187,11 @@
   },
   {
     "engine_name": "qdrant",
-    "upload_time": 22.149778124001386,
-    "total_upload_time": 292.6086587910013,
-    "setup_name": "qdrant-m-16-ef-128",
-    "dataset_name": "h-and-m-2048-filters",
-    "parallel": 8,
-    "p95_time": 0.022229630999845533,
-    "rps": 501.224439780529,
-    "p99_time": 0.025263596000004333,
-    "mean_time": 0.015480512574198656,
-    "mean_precisions": 0.9532120000000001,
-    "engine_params": {
-      "parallel": 8,
-      "search_params": {
-        "hnsw_ef": 128
-      }
-    }
-  },
-  {
-    "engine_name": "qdrant",
-    "p95_time": 0.014633356001831998,
-    "rps": 689.5823787187976,
-    "p99_time": 0.015984283101570327,
-    "mean_time": 0.011432818359203884,
-    "mean_precisions": 0.9351100000000002,
+    "p95_time": 0.01563864300151181,
+    "rps": 573.2371784236358,
+    "p99_time": 0.017692109489617,
+    "mean_time": 0.011756236765598078,
+    "mean_precisions": 0.8986480000000001,
     "engine_params": {
       "parallel": 8,
       "search_params": {
@@ -180,10 +199,29 @@
       }
     },
     "setup_name": "qdrant-m-16-ef-128",
-    "dataset_name": "arxiv-titles-384-filters",
+    "dataset_name": "h-and-m-2048-filters",
     "parallel": 8,
-    "upload_time": 235.79322872900048,
-    "total_upload_time": 1012.0060805049998
+    "upload_time": 24.30409269899974,
+    "total_upload_time": 369.89128604000143
+  },
+  {
+    "engine_name": "qdrant",
+    "p95_time": 0.004403223001281731,
+    "rps": 2032.514361921886,
+    "p99_time": 0.005016113001183841,
+    "mean_time": 0.0038032377953910327,
+    "mean_precisions": 0.9899700000000001,
+    "engine_params": {
+      "parallel": 8,
+      "search_params": {
+        "hnsw_ef": 128
+      }
+    },
+    "setup_name": "qdrant-m-16-ef-128",
+    "dataset_name": "arxiv-titles-384-no-filters",
+    "parallel": 8,
+    "upload_time": 135.61498762100018,
+    "total_upload_time": 491.16749738
   },
   {
     "engine_name": "milvus",
@@ -281,25 +319,6 @@
     }
   },
   {
-    "engine_name": "qdrant",
-    "upload_time": 151.1148068850016,
-    "total_upload_time": 486.6369653699985,
-    "setup_name": "qdrant-m-16-ef-128",
-    "dataset_name": "arxiv-titles-384-no-filters",
-    "parallel": 8,
-    "p95_time": 0.00717584399953921,
-    "rps": 1195.0968074904483,
-    "p99_time": 0.008003064991207799,
-    "mean_time": 0.00654930014379097,
-    "mean_precisions": 0.9925299999999999,
-    "engine_params": {
-      "parallel": 8,
-      "search_params": {
-        "hnsw_ef": 128
-      }
-    }
-  },
-  {
     "engine_name": "weaviate",
     "p95_time": 0.04614587849971482,
     "rps": 249.52705714555242,
@@ -317,24 +336,5 @@
     "parallel": 8,
     "upload_time": 73.00220887399973,
     "total_upload_time": 73.00225017399998
-  },
-  {
-    "engine_name": "qdrant",
-    "upload_time": 33.91385939400061,
-    "total_upload_time": 68.97258398600025,
-    "setup_name": "qdrant-m-16-ef-128",
-    "dataset_name": "h-and-m-2048-no-filters",
-    "parallel": 8,
-    "p95_time": 0.004749974598780682,
-    "rps": 772.5469130085074,
-    "p99_time": 0.005606518659933502,
-    "mean_time": 0.003973799592305113,
-    "mean_precisions": 0.99645,
-    "engine_params": {
-      "parallel": 8,
-      "search_params": {
-        "hnsw_ef": 128
-      }
-    }
   }
 ]
