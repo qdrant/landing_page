@@ -1,7 +1,7 @@
 <div class="benchmark-wrapper">
 
   <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
-  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderFilterSelected('{{ .Params.id }}')">
 
   </select>
 
@@ -9,12 +9,12 @@
 
   <!-- Radio button group to select values to render -->
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
     RPS
   </label> |
 
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="precision"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="precision"  onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
     Precision
   </label> |
 
