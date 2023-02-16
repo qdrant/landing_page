@@ -1,79 +1,101 @@
 <div class="benchmark-wrapper">
 
-  <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
-  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderFilterSelected('{{ .Params.id }}')">
+    <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
+    <select name="datasets" id="datasets-selector-{{ .Params.id }}"
+            onchange="renderFilterSelected('{{ .Params.id }}')">
 
-  </select>
+    </select>
 
-  Plot values:
+    Plot values:
 
-  <!-- Radio button group to select values to render -->
-  <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
-    RPS
-  </label> |
+    <!-- Radio button group to select values to render -->
+    <label>
+        <input checked type="radio" name="plot-value-1" value="filter_search"
+               onclick="renderFilterSelected('1', this.value)"/>
+        Filter search
+    </label> |
 
-  <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="precision"  onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
-    Precision
-  </label> |
+    <label>
+        <input type="radio" name="plot-value-1" value="regular_search"
+               onclick="renderFilterSelected('1', this.value)"/>
+        Regular search
+    </label> |
 
-  <canvas id="chart-{{ .Params.id }}"></canvas>
+    <canvas id="chart-{{ .Params.id }}"></canvas>
 
-  <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
+    <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
 
 </div>
 
 
 <script type="module">
-  let defaultPlotValue = "{{ .Params.default_plot}}" || "rps";
-  let url = "{{ .Params.filter_data }}";
+    let url = "{{ .Params.filter_data }}";
 
-  const config = {
-    type: 'bar',
-    data: {
-      datasets: []
-    },
-    options: {
-      responsive: true,
-      scales: {
-        y: {
-          type: 'linear',
-          title: {
-            display: true,
-            text: defaultPlotValue
-          },
+    const config = {
+        type: 'scatter',
+        data: {
+            datasets: []
+        },
+        options: {
+            responsive: true,
+            scales: {
+                x: {
+                    type: 'linear',
+                    title: {
+                        display: true,
+                        text: 'Precision'
+                    },
+                },
+                y: {
+                    type: 'linear',
+                    title: {
+                        display: true,
+                        text: 'RPS'
+                    },
+                }
+            },
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        label: function (tooltipItem) {
+                            return [
+                                tooltipItem.dataset.label
+                            ];
+                        },
+                        title: function (tooltipItem) {
+                            return "Precision: " + parseFloat(tooltipItem[0].parsed.x).toFixed(2) + ", RPS: " + parseFloat(tooltipItem[0].parsed.y).toFixed(2);
+                        }
+                    }
+                },
+            }
         }
-      }
-    }
-  };
 
-  const chart = new Chart(
-    document.getElementById('chart-{{ .Params.id }}'),
-    config
-  );
+    };
 
-  let datasetSelector = document.getElementById("datasets-selector-{{ .Params.id }}");
-  let plotValueSelector = document.getElementsByName("plot-value-{{ .Params.id }}");
-  setPlotValueSelector(defaultPlotValue, "{{ .Params.id }}");
+    const chart = new Chart(
+        document.getElementById('chart-{{ .Params.id }}'),
+        config
+    );
 
-  fetch(url)
-    .then(res => res.json())
-    .then(data => {
-      const datasets = getDatasetsList(data);
-      let cleanedDatasetsSet = new Set();
+    let datasetSelector = document.getElementById("datasets-selector-{{ .Params.id }}");
 
-      for (let dataset of datasets) {
-        cleanedDatasetsSet.add(dataset.replace('-no-filters', '').replace('-filters', ''));
-      }
+    fetch(url)
+        .then(res => res.json())
+        .then(data => {
+            const datasets = getDatasetsList(data);
+            let cleanedDatasetsSet = new Set();
 
-      let cleanedDatasets = [...cleanedDatasetsSet].sort();
-      updataDropdown(datasetSelector, cleanedDatasets);
+            for (let dataset of datasets) {
+                cleanedDatasetsSet.add(dataset.replace('-no-filters', '').replace('-filters', ''));
+            }
 
-      window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
-      window.charts = { "{{ .Params.id }}": chart, ...window.charts }
+            let cleanedDatasets = [...cleanedDatasetsSet];
+            updataDropdown(datasetSelector, cleanedDatasets);
 
-      renderFilterSelected("{{ .Params.id }}");
+            window.datasets = {"{{ .Params.id }}": data, ...window.datasets}
+            window.charts = {"{{ .Params.id }}": chart, ...window.charts}
 
-    });
+            renderFilterSelected("{{ .Params.id }}");
+
+        });
 </script>
