@@ -10,16 +10,19 @@
 
     <!-- Radio button group to select values to render -->
     <label>
-        <input checked type="radio" name="plot-value-{{ .Params.id }}" value="filter_search"
-               onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
+        <input checked type="radio" name="plot-value-{{ .Params.id }}" value="regular_search"
+               onclick="updateFilterSelected('{{ .Params.id }}', this.value)"/>
+        Regular search
+    </label> |
+
+
+    <label>
+        <input type="radio" name="plot-value-{{ .Params.id }}" value="filter_search"
+               onclick="updateFilterSelected('{{ .Params.id }}', this.value)"/>
         Filter search
     </label> |
 
-    <label>
-        <input type="radio" name="plot-value-{{ .Params.id }}" value="regular_search"
-               onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
-        Regular search
-    </label> |
+
 
     <canvas id="chart-{{ .Params.id }}"></canvas>
 
@@ -45,6 +48,19 @@
                         display: true,
                         text: 'Precision'
                     },
+                    min: -0.1,
+                    max: 1.1,
+                    ticks: {
+                        callback: function (value) {
+                            if (value > 1.0) {
+                                return "";
+                            }
+                            if (value < 0.0) {
+                                return "";
+                            }
+                            return value
+                        }
+                    }
                 },
                 y: {
                     type: 'linear',
@@ -52,6 +68,12 @@
                         display: true,
                         text: 'RPS'
                     },
+                    min: -30,
+                    ticks: {
+                        callback: function (value) {
+                            return value > 0 ? value.toFixed(0) : "";
+                        }
+                    }
                 }
             },
             plugins: {
@@ -82,16 +104,21 @@
     fetch(url)
         .then(res => res.json())
         .then(data => {
+            // data - raw data from json file, contains _all_ results
             const datasets = getDatasetsList(data);
+            // datasets - names of the datasets, e.g. "range-100", "range-100-no-filters"
             let cleanedDatasetsSet = new Set();
 
             for (let dataset of datasets) {
                 cleanedDatasetsSet.add(dataset.replace('-no-filters', '').replace('-filters', ''));
             }
 
-            let cleanedDatasets = [...cleanedDatasetsSet];
-            updataDropdown(datasetSelector, cleanedDatasets);
+            // remove "keyword-100" from the list of datasets, as we want to reorder it manually
+            cleanedDatasetsSet.delete("keyword-100");
 
+            let cleanedDatasets = ["keyword-100", ...cleanedDatasetsSet];
+            updataDropdown(datasetSelector, cleanedDatasets);
+            
             window.datasets = {"{{ .Params.id }}": data, ...window.datasets}
             window.charts = {"{{ .Params.id }}": chart, ...window.charts}
 
