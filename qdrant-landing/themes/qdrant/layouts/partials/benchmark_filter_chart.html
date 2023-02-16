@@ -10,14 +10,14 @@
 
     <!-- Radio button group to select values to render -->
     <label>
-        <input checked type="radio" name="plot-value-1" value="filter_search"
-               onclick="renderFilterSelected('1', this.value)"/>
+        <input checked type="radio" name="plot-value-{{ .Params.id }}" value="filter_search"
+               onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
         Filter search
     </label> |
 
     <label>
-        <input type="radio" name="plot-value-1" value="regular_search"
-               onclick="renderFilterSelected('1', this.value)"/>
+        <input type="radio" name="plot-value-{{ .Params.id }}" value="regular_search"
+               onclick="renderFilterSelected('{{ .Params.id }}', this.value)"/>
         Regular search
     </label> |
 
