@@ -48,8 +48,8 @@ function getFilterPlotData(data) {
 
 function renderFilterSelected(chartId) {
     let chart = window.charts[chartId];
-    let selectedData = getSelectedData(chartId);
-    let plotData = getPlotData(selectedData);
+    let selectedData = getFilterSelectedData(chartId);
+    let plotData = getFilterPlotData(selectedData);
 
     renderPlot(chart, plotData);
 }
