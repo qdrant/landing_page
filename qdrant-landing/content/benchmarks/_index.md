@@ -6,6 +6,7 @@ keywords:
   - ANN Benchmark
   - Qdrant vs Milvus
   - Qdrant vs Weaviate
+  - Qdrant vs Redis
   - Qdrant vs ElasticSearch
   - benchmark
   - performance

@@ -12,6 +12,16 @@
 {{ end }}
 
 
+{{ if .Params.filter_data }}
+    <div class="auto-container pt-3 pt-md-5 single-page">
+        <div class="row clearfix">
+            <section class="content-side col-lg-12 col-md-12 col-sm-12">
+                {{ partial "benchmark_filter_chart" . }}
+            </section>
+        </div>
+    </div>
+{{ end }}
+
 
 <div class="auto-container pt-3 pt-md-2 mb-5 single-page">
     <div class="row clearfix">

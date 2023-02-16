@@ -19,8 +19,8 @@ So in our benchmarks, we **focus on the relative numbers**, so it is possible to
 The list will be updated:
 
 * Upload & Search speed on single node - [Benchmark](/benchmarks/single-node-speed-benchmark/)
+* Filtered search benchmark - [Benchmark](/benchmarks/#filtered-search-benchmark)
 * Memory consumption benchmark - TBD
-* Filtered search benchmark - TBD
 * Cluster mode benchmark - TBD
 
 Some of our experiment design decisions are described at [F.A.Q Section](/benchmarks/#benchmarks-faq).
