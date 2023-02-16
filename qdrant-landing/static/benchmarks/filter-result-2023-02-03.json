@@ -824,25 +824,6 @@
     }
   },
   {
-    "engine_name": "milvus",
-    "p95_time": 0.061686919705971364,
-    "rps": 165.41471677295505,
-    "p99_time": 0.08122702943190238,
-    "mean_time": 0.046341301721840866,
-    "mean_precisions": 0.73603,
-    "engine_params": {
-      "parallel": 8,
-      "params": {
-        "ef": 128
-      }
-    },
-    "setup_name": "milvus-m-16-ef-128",
-    "dataset_name": "geo-radius-2048-no-filters",
-    "parallel": 8,
-    "upload_time": 33.09639864799101,
-    "total_upload_time": 125.20629906299291
-  },
-  {
     "engine_name": "qdrant",
     "p95_time": 0.010619221997512793,
     "rps": 1118.8951442866735,
@@ -1029,25 +1010,6 @@
         "hnsw_ef": 128
       }
     }
-  },
-  {
-    "engine_name": "milvus",
-    "p95_time": 0.01247046595253778,
-    "rps": 785.4013887573171,
-    "p99_time": 0.015332535010056747,
-    "mean_time": 0.008697940867688521,
-    "mean_precisions": 0.43773999999999996,
-    "engine_params": {
-      "parallel": 8,
-      "params": {
-        "ef": 128
-      }
-    },
-    "setup_name": "milvus-m-16-ef-128",
-    "dataset_name": "geo-radius-100-no-filters",
-    "parallel": 8,
-    "upload_time": 54.98801104199811,
-    "total_upload_time": 243.56601131099887
   },
   {
     "engine_name": "weaviate",
