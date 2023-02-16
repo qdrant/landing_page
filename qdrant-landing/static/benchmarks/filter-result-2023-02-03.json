@@ -470,25 +470,6 @@
   },
   {
     "engine_name": "milvus",
-    "upload_time": 34.224856840010034,
-    "total_upload_time": 137.2780109590094,
-    "setup_name": "milvus-m-16-ef-128",
-    "dataset_name": "int-2048-filters",
-    "parallel": 8,
-    "p95_time": 0.4181936623906949,
-    "rps": 27.776403998269846,
-    "p99_time": 0.4833145373084699,
-    "mean_time": 0.2863401314816831,
-    "mean_precisions": 0.9886465755213998,
-    "engine_params": {
-      "parallel": 8,
-      "params": {
-        "ef": 128
-      }
-    }
-  },
-  {
-    "engine_name": "milvus",
     "p95_time": 0.36310681910399567,
     "rps": 46.71067856047857,
     "p99_time": 0.41489248535042866,
