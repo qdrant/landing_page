@@ -13,9 +13,9 @@ weight: 4
 
 ## Filtered Results
 
-As you can see from the charts, there are three main scenario of the filtered search:
+As you can see from the charts, there are three main patterns:
 
-- **Speed boost** - if the number of data points that match the filter is small, it is better to use payload index first and then re-score all the results. That is an option of query planning, boosts the speed of search in some engines, if this feature is implemented.
+- **Speed boost** - for some engines/queries, the filtered search is faster than the unfiltered one. In might happen if the filter is restrictive enough, to completely avoid the usage of the vector index.
 
 - **Speed downturn** - some engines struggle to keep high RPS, it might be related to the requirement of building a filtering mask for the dataset, as described above.
 

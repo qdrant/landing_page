@@ -22,12 +22,10 @@ It is similar to the ones used in the [ann-benchmarks project](https://github.co
 ### Why filtering is not trivial?
 
 Not many ANN algorithms are compatible with filtering.
-HNSW is one of the few compatible, but different engines approach this problem differently.
+HNSW is one of the few of them, but search engines approach its integration in different ways:
 
-Post-filtering applies filters after ANN search
-
-- Some use **post-filtering**, which applies filters after ANN search. It doesn't scale well as it either looses results, or requires a large number of candidates on the first stage.
-- Others use **pre-filtering**, which requires a binary mask of the whole dataset to be passed into ANN algorithm. It is also not scalable, as the mask size grows linearly with the dataset size.
+- Some use **post-filtering**, which applies filters after ANN search. It doesn't scale well as it either loses results or requires many candidates on the first stage.
+- Others use **pre-filtering**, which requires a binary mask of the whole dataset to be passed into the ANN algorithm. It is also not scalable, as the mask size grows linearly with the dataset size.
 
 On top of it, there is also a problem with search accuracy. 
 It appears if too many vectors are filtered out, so the HNSW graph becomes disconnected.
