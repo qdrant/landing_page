@@ -8,7 +8,7 @@ function getFilterSelectedData(chartId) {
     let searchTypeSelector = document.getElementsByName("plot-value-" + chartId);
     let searchType = getRadioButtonValue(searchTypeSelector);
 
-    let selectedDataset;
+    let selectedDataset = "";
     if (searchType === "filter_search") {
         selectedDataset = getSelectedValue(datasetSelector) + '-filters';
     } else {
