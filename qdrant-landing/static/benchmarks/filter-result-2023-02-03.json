@@ -376,25 +376,6 @@
     "total_upload_time": 406.9212192809996
   },
   {
-    "engine_name": "weaviate",
-    "p95_time": 0.05034726958620012,
-    "rps": 224.37531701422375,
-    "p99_time": 0.05999243365149596,
-    "mean_time": 0.035427111853228416,
-    "mean_precisions": 0.3856,
-    "engine_params": {
-      "parallel": 8,
-      "vectorIndexConfig": {
-        "ef": 128
-      }
-    },
-    "setup_name": "weaviate-m-16-ef-128",
-    "dataset_name": "range-2048-no-filters",
-    "parallel": 8,
-    "upload_time": 140.2616124220076,
-    "total_upload_time": 140.26164922199678
-  },
-  {
     "engine_name": "redis",
     "upload_time": 915.1605211479764,
     "total_upload_time": 915.1605836489762,
@@ -955,25 +936,6 @@
     "total_upload_time": 166.392119473996
   },
   {
-    "engine_name": "weaviate",
-    "upload_time": 551.2097420500013,
-    "total_upload_time": 551.2097758510008,
-    "setup_name": "weaviate-m-16-ef-128",
-    "dataset_name": "range-100-no-filters",
-    "parallel": 8,
-    "p95_time": 0.009521953899457002,
-    "rps": 1051.486377241868,
-    "p99_time": 0.012963787011049142,
-    "mean_time": 0.007487369815821694,
-    "mean_precisions": 0.34736999999999996,
-    "engine_params": {
-      "parallel": 8,
-      "vectorIndexConfig": {
-        "ef": 128
-      }
-    }
-  },
-  {
     "engine_name": "qdrant",
     "p95_time": 0.003291835002710286,
     "rps": 2804.838598794213,
@@ -1010,14 +972,6 @@
         "hnsw_ef": 128
       }
     }
-  },
-  {
-    "engine_name": "weaviate",
-    "upload_time": 539.4447898340004,
-    "total_upload_time": 539.444833933987,
-    "setup_name": "weaviate-m-16-ef-128",
-    "dataset_name": "range-100-filters",
-    "parallel": 8
   },
   {
     "engine_name": "redis",
