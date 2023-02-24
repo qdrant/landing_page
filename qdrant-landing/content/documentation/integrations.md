@@ -68,3 +68,95 @@ qdrant_client.upsert(
 
 If you are interested in seeing an end-to-end project created with co.embed API and Qdrant, please check out the
 "[Question Answering as a Service with Cohere and Qdrant](https://qdrant.tech/articles/qa-with-cohere-and-qdrant/)" article.
+
+## OpenAI
+Qdrant can also easily work with [OpenAI embeddings](https://beta.openai.com/docs/guides/embeddings/embeddings). There is an 
+official OpenAI Python package that simplifies obtaining them, and it might be installed with pip:
+
+```bash
+pip install openai
+```
+
+Once installed, the package exposes the method allowing to retrieve the embedding for given text. OpenAI requires an API key
+that has to be provided either as an environmental variable `OPENAI_API_KEY` or set in the source code directly, as 
+presented below:
+
+```python
+import openai
+import qdrant_client
+
+from qdrant_client.http.models import Batch
+
+# Provide OpenAI API key and choose one of the available models:
+# https://beta.openai.com/docs/models/overview
+openai.api_key = "<< your_api_key >>"
+embedding_model = "text-embedding-ada-002"
+
+response = openai.Embedding.create(
+    input="The best vector database",
+    model=embedding_model,
+)
+
+qdrant_client = qdrant_client.QdrantClient()
+qdrant_client.upsert(
+    collection_name="MyCollection",
+    points=Batch(
+        ids=[1],
+        vectors=[response["data"]["embedding"]],
+    )
+)
+```
+
+## Aleph Alpha
+Aleph Alpha is a multimodal and multilingual embeddings' provider. Their API allows creating the embeddings for text and images, both 
+in the same latent space. They maintain an [official Python client](https://github.com/Aleph-Alpha/aleph-alpha-client) that might be 
+installed with pip:
+
+```bash
+pip install aleph-alpha-client
+```
+
+There is both synchronous and asynchronous client available. Obtaining the embeddings for an image and storing it into Qdrant might 
+be done in the following way:
+
+```python
+import qdrant_client
+
+from aleph_alpha_client import (
+    Prompt,
+    AsyncClient,
+    SemanticEmbeddingRequest,
+    SemanticRepresentation,
+    ImagePrompt
+)
+from qdrant_client.http.models import Batch
+
+aa_token = "<< your_token >>"
+model = "luminous-base"
+
+qdrant_client = qdrant_client.QdrantClient()
+async with AsyncClient(token=aa_token) as client:
+    prompt = ImagePrompt.from_file("./path/to/the/image.jpg")
+    prompt = Prompt.from_image(prompt)
+
+    query_params = {
+        "prompt": prompt,
+        "representation": SemanticRepresentation.Symmetric,
+        "compress_to_size": 128,
+    }
+    query_request = SemanticEmbeddingRequest(**query_params)
+    query_response = await client.semantic_embed(
+        request=query_request, model=model
+    )
+    
+    qdrant_client.upsert(
+        collection_name="MyCollection",
+        points=Batch(
+            ids=[1],
+            vectors=[query_response.embedding],
+        )
+    )
+```
+
+If we wanted to create text embeddings with the same model, we wouldn't use `ImagePrompt.from_file`, but simply provide the input 
+text into the `Prompt.from_text` method.
