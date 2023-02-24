@@ -45,7 +45,7 @@ Examples with clients
 from qdrant_client import QdrantClient
 
 qdrant_client = QdrantClient(
-    host="xyz-example.eu-central.aws.staging-cloud.qdrant.io", 
+    "xyz-example.eu-central.aws.staging-cloud.qdrant.io", 
     prefer_grpc=True,
     api_key="<<-provide-your-own-key->>",
 )

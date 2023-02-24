@@ -40,7 +40,7 @@ PUT /collections/{collection_name}
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.recreate_collection(
     collection_name="{collection_name}",
@@ -89,7 +89,7 @@ PUT /collections/{collection_name}
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.recreate_collection(
     collection_name="{collection_name}",
@@ -131,7 +131,7 @@ PUT /collections/{collection_name}
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.recreate_collection(
     collection_name="{collection_name}",
@@ -174,7 +174,7 @@ PATCH /collections/{collection_name}
 client.update_collection(
     collection_name="{collection_name}",
     optimizer_config=models.OptimizersConfigDiff(
-        max_segment_size=10000
+        indexing_threshold=10000
     )
 )
 ```
@@ -359,7 +359,7 @@ GET /collections/{collection_name}/aliases
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.list_collection_aliases(
   collection_name="{collection_name}"
@@ -375,7 +375,7 @@ GET /aliases
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.list_aliases()
 ```

@@ -79,7 +79,7 @@ PUT /collections/{collection_name}/points
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.upsert(
     collection_name="{collection_name}",

@@ -30,7 +30,7 @@ POST /collections/{collection_name}/snapshots
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.create_snapshot(
     collection_name="{collection_name}"
@@ -50,7 +50,7 @@ DELETE /collections/{collection_name}/snapshots/{snapshot_name}
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.delete_snapshot(
   collection_name="{collection_name}",
@@ -69,7 +69,7 @@ GET /collections/{collection_name}/snapshots
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.list_snapshots(
     collection_name="{collection_name}"
@@ -128,7 +128,7 @@ PUT /collections/<collection_name>/snapshots/recover
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="qdrant-node-2", port=6333)
+client = QdrantClient("qdrant-node-2", port=6333)
 
 client.recover_snapshot("collection_name", "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot")
 ```
@@ -152,7 +152,7 @@ POST /snapshots
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.create_full_snapshot()
 ```
@@ -168,7 +168,7 @@ DELETE /snapshots/{snapshot_name}
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.delete_full_snapshot(
   snapshot_name="{snapshot_name}"
@@ -184,7 +184,7 @@ GET /snapshots
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.list_full_snapshots()
 ```

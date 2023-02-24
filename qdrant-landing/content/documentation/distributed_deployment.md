@@ -145,7 +145,7 @@ PUT /collections/{collection_name}
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.recreate_collection(
     name="{collection_name}",
@@ -221,7 +221,7 @@ PUT /collections/{collection_name}
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.recreate_collection(
     name="{collection_name}",
@@ -381,7 +381,7 @@ PUT /collections/{collection_name}
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.recreate_collection(
     name="{collection_name}",

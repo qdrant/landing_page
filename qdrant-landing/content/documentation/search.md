@@ -85,7 +85,7 @@ POST /collections/{collection_name}/points/search
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.search(
     collection_name="{collection_name}",
@@ -156,7 +156,7 @@ POST /collections/{collection_name}/points/search
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.search(
     collection_name="{collection_name}",
@@ -219,7 +219,7 @@ POST /collections/{collection_name}/points/search
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.search(
     collection_name="{collection_name}",
@@ -287,7 +287,7 @@ POST /collections/{collection_name}/points/search/batch
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 filter = models.Filter(
     must=[
@@ -382,7 +382,7 @@ POST /collections/{collection_name}/points/recommend
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.recommend(
     collection_name="{collection_name}",
@@ -492,7 +492,7 @@ POST /collections/{collection_name}/points/recommend/batch
 from qdrant_client import QdrantClient
 from qdrant_client.http import models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 filter = models.Filter(
     must=[
@@ -570,7 +570,7 @@ POST /collections/{collection_name}/points/search
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient("localhost", port=6333)
 
 client.search(
     collection_name="{collection_name}",
