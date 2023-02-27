@@ -170,6 +170,7 @@ This suggests that about 1.2Gb of memory is needed to serve around 1 million vec
 
 Let's go a bit further!
 In the second experiment, we tested how well our system performs when **vectors are stored using the memory-mapped file** (mmap).
+Create collection with:
 
 ```http
 PUT /collections/benchmark 
@@ -217,7 +218,7 @@ But let's first see how much RAM we need to serve 1 million vectors and then we 
 ### Vectors and HNSW graph stored using MMAP
 
 In the third experiment, we tested how well our system performs when vectors and HNSW graph are stored using the memory-mapped files.
-
+Create collection with:
 
 ```http
 PUT /collections/benchmark 
