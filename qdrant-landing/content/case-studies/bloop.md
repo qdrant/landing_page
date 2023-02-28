@@ -1,5 +1,7 @@
 ---
 title: "Qdrant case study: bloop semantic code search"
+social_preview_image: /case_studies_data/bloop/preview/social_preview.jpg
+preview_dir: /case_studies_data/bloop/preview
 ---
 
 Founded in early 2021, [bloop](https://bloop.ai/) was one of the first companies to tackle semantic 
