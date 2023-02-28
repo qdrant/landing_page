@@ -279,7 +279,7 @@ client.clear_payload(
 ## Payload indexing
 
 To search more efficiently with filters, Qdrant allows you to specify payload fields as indexed.
-For marked fields will Qdrant will build an index for the corresponding types of queries.
+For marked fields Qdrant will build an index for the corresponding types of queries.
 
 The indexed fields also affect the vector index. See [Indexing](../indexing) for details.
 
