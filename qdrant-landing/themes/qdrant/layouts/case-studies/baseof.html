@@ -1,0 +1,10 @@
+{{- partial "header.html" . -}}
+
+{{- partial "second_header.html" . -}}
+
+<div id="content">
+    {{ block "main" . }}{{ end }}
+</div>
+
+{{ partial "contact-section" . }}
+{{- partial "footer.html" . -}}
