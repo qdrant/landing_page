@@ -4,7 +4,7 @@ short_description: bloop is a fast code-search engine that combines semantic sea
 description: bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
 social_preview_image: /case_studies_data/bloop/social_preview.png
 preview_dir: /case_studies_data/bloop/preview
-date: 2023-02-28T11:48:00.000Z
+date: 2023-02-28T09:48:00.000Z
 ---
 
 Founded in early 2021, [bloop](https://bloop.ai/) was one of the first companies to tackle semantic 
