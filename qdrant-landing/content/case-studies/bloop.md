@@ -2,10 +2,10 @@
 title: "Qdrant case study: bloop semantic code search"
 ---
 
-Founded in early 2021, bloop was one of the first companies to tackle semantic search for codebases. 
-A fast, reliable Vector Search Database is a core component of a semantic search engine, and bloop 
-surveyed the field of available solutions and even considered building their own. They found Qdrant 
-to be the top contender and now use it in production.
+Founded in early 2021, [bloop](https://bloop.ai/) was one of the first companies to tackle semantic 
+search for codebases. A fast, reliable Vector Search Database is a core component of a semantic 
+search engine, and bloop surveyed the field of available solutions and even considered building 
+their own. They found Qdrant to be the top contender and now use it in production.
 
 This document is intended as a guide for people who intend to introduce semantic search to a novel 
 field and want to find out if Qdrant is a good solution for their use case.
@@ -14,12 +14,12 @@ field and want to find out if Qdrant is a good solution for their use case.
 
 ![](/case_studies_data/bloop/screenshot.png)
 
-bloop is a fast code-search engine that combines semantic search, regex search and precise code 
-navigation into a single lightweight desktop application that can be run locally. It helps developers 
-understand and navigate large codebases, enabling them to discover internal libraries, reuse code and 
-avoid dependency bloat. bloop’s chat interface explains complex concepts in simple language so that 
-engineers can spend less time crawling through code to understand what it does, and more time shipping 
-features and fixing bugs.
+[bloop](https://bloop.ai/) is a fast code-search engine that combines semantic search, regex search 
+and precise code navigation into a single lightweight desktop application that can be run locally. It 
+helps developers understand and navigate large codebases, enabling them to discover internal libraries, 
+reuse code and avoid dependency bloat. bloop’s chat interface explains complex concepts in simple 
+language so that engineers can spend less time crawling through code to understand what it does, and 
+more time shipping features and fixing bugs.
 
 ![](/case_studies_data/bloop/bloop-logo.png)
 
@@ -79,9 +79,9 @@ requests.
 
 ## The Upshot
 
-bloop are really happy with how Qdrant has slotted into their semantic code search engine: it’s performant and 
-reliable, even for large codebases. And it’s written in Rust(!) with an easy to integrate qdrant-client crate. 
-In short, Qdrant has helped keep bloop’s code search fast, accurate and reliable.
+[bloop](https://bloop.ai/) are really happy with how Qdrant has slotted into their semantic code search engine: 
+it’s performant and reliable, even for large codebases. And it’s written in Rust(!) with an easy to integrate 
+qdrant-client crate. In short, Qdrant has helped keep bloop’s code search fast, accurate and reliable.
 
 #### Footnotes:
 
