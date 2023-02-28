@@ -1,5 +1,6 @@
 ---
 title: Qdrant case study: bloop semantic code search
+draft: false
 ---
 
 Founded in early 2021, bloop was one of the first companies to tackle semantic search for codebases. 
