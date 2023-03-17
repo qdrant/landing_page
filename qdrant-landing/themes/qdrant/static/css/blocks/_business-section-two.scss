@@ -96,7 +96,6 @@
         }
 
         .inner-column {
-          padding-bottom: lib.rem(450);
           position: relative;
 
           @include media-breakpoint-up(lg) {
@@ -147,6 +146,7 @@
       }
 
       .image-column {
+        display: none;
         width: 100%;
         position: absolute;
         right: 0;
@@ -154,11 +154,13 @@
         left: 0;
 
         @include media-breakpoint-up(lg) {
+          display: block;
           width: lib.rem(360);
           margin-top: lib.rem(38);
           padding-left: lib.rem(40);
           top: 0;
           left: unset;
+          bottom: lib.rem(150);
         }
 
         @include media-breakpoint-up(xl) {
@@ -166,12 +168,7 @@
         }
 
         .image {
-          @include media-breakpoint-up(md) {
-            max-width: lib.rem(300);
-          }
-          @include media-breakpoint-up(lg) {
-            max-width: 100%;
-          }
+          max-width: lib.rem(300);
         }
       }
     }
