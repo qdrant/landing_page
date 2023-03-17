@@ -15,6 +15,7 @@ You will need to choose the initial configuration for your cluster as the next s
 * Choose the memory size for a node. 2GB to 64GB options are available. Please refer to the [Capacity and Sizing](https://qdrant.tech/documentation/cloud/capacity/) section to make the right choice here. If you need an even higher capacity per node, [let us know](mailto:cloud@qdrant.io), we can provide machines of any size.
 * Choose the number CPU’s per node. 0.5 to 16 CPU options are available, whereas the maximal and minimal number of CPU’s is coupled to the chosen memory size. 
 * And finally, choose the number of nodes you want the cluster to be deployed on. Each node is automatically attached with a disc space offering enough space for your data if you decide to put the metadata or even the index on the disc storage.
+* Your cluster will be reachable on port 443 and 6333 (Rest endpoint) and 6334 (Grpc)
 
 
 ### Free tier

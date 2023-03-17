@@ -330,6 +330,197 @@ The simplest kind of condition is one that checks if the stored value equals the
 If several values are stored, at least one of them should match the condition.
 You can apply it to [keyword](../payload/#keyword), [integer](../payload/#integer) and [bool](../payload/#bool) payloads.
 
+### Match Any
+
+*Available since version 1.1.0*
+
+In case you want to check if the stored value is one of multiple values, you can use the Match Any condition.
+Match Any works as a logical OR for the given values. It can also be described as a `IN` operator.
+
+You can apply it to [keyword](../payload/#keyword) and [integer](../payload/#integer) payloads.
+
+Example:
+
+```json
+{ 
+    "key": "color",
+    "match": {
+        "any": ["black", "yellow"] 
+    }
+}
+```
+
+```python
+FieldCondition(
+    key="color",
+    match=models.MatchAny(any=["black", "yellow"]),
+)
+```
+
+In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
+
+
+### Nested key
+
+*Available since version 1.1.0*
+
+Payloads being arbitrary JSON object, it is likely that you will need to filter on a nested field.
+
+For convenience, we use a syntax similar to what can be found in the [Jq](https://stedolan.github.io/jq/manual/#Basicfilters) project.
+
+Suppose we have a set of points with the following payload:
+
+```json
+[
+    {
+        "id": 1,
+        "country": {
+            "name": "Germany",
+            "cities": [
+                {
+                    "name": "Berlin",
+                    "population": 3.7,
+                    "sightseeing": ["Brandenburg Gate", "Reichstag"]
+                },
+                {
+                    "name": "Munich",
+                    "population": 1.5,
+                    "sightseeing": ["Marienplatz", "Olympiapark"]
+                }
+            ]
+        }
+    },
+    {
+        "id": 2,
+        "country": {
+            "name": "Japan",
+            "cities": [
+                {
+                    "name": "Tokyo",
+                    "population": 9.3,
+                    "sightseeing": ["Tokyo Tower", "Tokyo Skytree"]
+                },
+                {
+                    "name": "Osaka",
+                    "population": 2.7,
+                    "sightseeing": ["Osaka Castle", "Universal Studios Japan"]
+                }
+            ]
+        }
+    }
+]
+```
+
+You can search on a nested field using a dot notation.
+
+```http
+POST /collections/{collection_name}/points/scroll
+
+{
+    "filter": {
+        "should": [
+            {
+                "key": "country.name",
+                "match": {
+                    "value": "Germany"
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        should=[
+            models.FieldCondition(
+                key="country.name",
+                match=models.MatchValue(value="Germany")
+            ),
+        ],
+    ),
+)
+```
+
+You can also search through arrays by projecting inner values using the `[]` syntax.
+
+```http
+POST /collections/{collection_name}/points/scroll
+
+{
+    "filter": {
+        "should": [
+            {
+                "key": "country.cities[].population",
+                "range": {
+                    "gte": 9.0,
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        should=[
+            models.FieldCondition(
+                key="country.cities[].population",
+                range=models.Range(
+                    gt=None,
+                    gte=9.0,
+                    lt=None,
+                    lte=None,
+                ),
+            ),
+        ],
+    ),
+)
+```
+
+This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
+
+And the leaf nested field can also be an array.
+
+```http
+POST /collections/{collection_name}/points/scroll
+
+{
+    "filter": {
+        "should": [
+            {
+                "key": "country.cities[].sightseeing",
+                "match": {
+                    "value": "Osaka Castle"
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        should=[
+            models.FieldCondition(
+                key="country.cities[].sightseeing",
+                match=models.MatchValue(value="Osaka Castle")
+            ),
+        ],
+    ),
+)
+```
+
+This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
+
+
+
 ### Full Text Match
 
 *Available since version 0.10.0*
@@ -358,7 +549,7 @@ models.FieldCondition(
 )
 ```
 
-If the query has several words, the condition will be satisfied if all of them are present in the text.
+If the query has several words, then the condition will be satisfied only if all of them are present in the text.
 
 ### Range
 

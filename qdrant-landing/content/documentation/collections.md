@@ -113,7 +113,6 @@ Each named vector in this mode has its distance and size:
 PUT /collections/{collection_name}
 
 {
-    "name": "example_collection",
     "vectors": {
         "image": {
             "size": 4,

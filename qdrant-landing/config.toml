@@ -51,10 +51,10 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 
   gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
-  githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v1.0.x/"
+  githubDocPrefix = "https://github.com/qdrant/docs/tree/master/qdrant/v1.1.x/"
   githubCloudDocPrefix = "https://github.com/qdrant/docs/tree/master/cloud/v0.1.x/"
 
-  docVersion = "v1.0.x"
+  docVersion = "v1.1.x"
   cloudDocVersion = "v0.1.x"
 
   googleTagManager = "GTM-KRLCXD5"
