@@ -45,7 +45,7 @@ needs 75% less memory. It's not a simple rounding though! It's a process that ma
 transformation partially reversible, so we can also revert integers back to floats with 
 a small loss of precision. 
 
-### Implementation details
+### Theoretical background
 
 Assume we have a collection of `float32` vectors and denote a single value as `f32`. 
 In reality neural embeddings do not cover a whole range represented by the floating
@@ -127,9 +127,126 @@ the majority of the terms, things are getting simpler. And in turns out the scal
 quantization has a positive impact not only on the memory usage, but also on the 
 performance. But we did some benchmarks to back this statement!
 
+### Qdrant implementation
+
+Scalar Quantization is performed during the indexing and is disabled in plain segments, 
+but we decided to keep the original vectors along with the quantized ones. 8-bit integer 
+allows using the range `[-128, 127]`, but we use shorted `[0, 127]`. It is required for 
+SIMD optimizations.
+
 ## Benchmarks
 
-TBD
+We simply used the same approach as we use in all [the other benchmarks we publish](/benchmarks).
+Both [Arxiv-titles-384-angular-no-filters](https://github.com/qdrant/ann-filtering-benchmark-datasets) 
+and [Gist-960](https://github.com/erikbern/ann-benchmarks/) datasets were chosen to make 
+the comparison between non-quantized and quantized vectors. The results are summarized
+in the tables:
+
+### Arxiv-titles-384-angular-no-filters	
+
+<table>
+   <thead>
+      <th></th>
+      <th>Upload time</th>
+      <th>Upload and indexing time</th>
+      <th>Mean search precision (ef = 128)</th>
+      <th>Mean search time (ef = 128)</th>
+      <th>Mean search precision (ef = 256)</th>
+      <th>Mean search time (ef = 256)</th>
+      <th>Mean search precision (ef = 512)</th>
+      <th>Mean search time (ef = 512)</th>
+   </thead>
+   <tbody>
+      <tr>
+         <th>Non-quantized vectors</th>
+         <td>418 s</td>
+         <td>649 s</td>
+         <td>0.989</td>
+         <td>0.0094</td>
+         <td>0.994</td>
+         <td>0.0932</td>
+         <td>0.996</td>
+         <td>0.161</td>
+      </tr>
+      <tr>
+         <th>Scalar Quantization</th>
+         <td>411 s</td>
+         <td>496 s</td>
+         <td>0.986</td>
+         <td>0.0037</td>
+         <td>0.993</td>
+         <td>0.060</td>
+         <td>0.996</td>
+         <td>0.115</td>
+      </tr>
+      <tr>
+         <td>Difference</td>
+         <td><span style="color: green;">-1.67%</span></td>
+         <td><span style="color: green;">-23.57%</span></td>
+         <td><span style="color: red;">-0.3%</span></td>
+         <td><span style="color: green;">-60.64%</span></td>
+         <td><span style="color: red;">-0.1%</span></td>
+         <td><span style="color: green;">-35.62%</span></td>
+         <td>0%</td>
+         <td><span style="color: green;">-28.57%</span></td>
+      </tr>
+   </tbody>
+</table>
+
+### Gist-960
+
+<table>
+   <thead>
+      <th></th>
+      <th>Upload time</th>
+      <th>Upload and indexing time</th>
+      <th>Mean search precision (ef = 128)</th>
+      <th>Mean search time (ef = 128)</th>
+      <th>Mean search precision (ef = 256)</th>
+      <th>Mean search time (ef = 256)</th>
+      <th>Mean search precision (ef = 512)</th>
+      <th>Mean search time (ef = 512)</th>
+   </thead>
+   <tbody>
+      <tr>
+         <th>Non-quantized vectors</th>
+         <td>272</td>
+         <td>452</td>
+         <td>0.802</td>
+         <td>0.077</td>
+         <td>0.887</td>
+         <td>0.135</td>
+         <td>0.941</td>
+         <td>0.231</td>
+      </tr>
+      <tr>
+         <th>Scalar Quantization</th>
+         <td>247</td>
+         <td>312</td>
+         <td>0.802</td>
+         <td>0.043</td>
+         <td>0.888</td>
+         <td>0.077</td>
+         <td>0.941</td>
+         <td>0.135</td>
+      </tr>
+      <tr>
+         <td>Difference</td>
+         <td><span style="color: green;">-9.19%</span></td>
+         <td><span style="color: green;">-30.79%</span></td>
+         <td>0%</td>
+         <td><span style="color: green;">-44,16%</span></td>
+         <td><span style="color: green;">+0.11%</span></td>
+         <td><span style="color: green;">-42.96%</span></td>
+         <td>0%</td>
+         <td><span style="color: green;">-41,56%</span></td>
+      </tr>
+   </tbody>
+</table>
+
+In all the cases, the decrease in search precision is negligible, but we keep a latency 
+reduction of at least 28.57%, even up to 60,64%, while searching. As a rule of thumb,
+the higher the dimensionality of the vectors, the lower the precision loss.
 
 ## Good practices
 
