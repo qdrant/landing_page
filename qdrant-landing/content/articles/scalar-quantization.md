@@ -87,13 +87,12 @@ both `f32` and `i8`.
 
 For the unsigned `int8` it will go as following:
 
-$$ \begin{cases} -2 = \alpha * 0 + offset \\ 
-
+$$ \begin{cases} -2 = \alpha * 0 + offset \
 5 = \alpha * 255 + offset \end{cases} $$
 
 In case of signed `int8`, we'll just change the represented range boundaries:
 
-$$ \begin{cases} -2 = \alpha * (-128) + offset \\
+$$ \begin{cases} -2 = \alpha * (-128) + offset \
 5 = \alpha * 127 + offset \end{cases} $$
 
 For any set of vector values we can simply calculate the $ \alpha $ and $ offset $ and 
@@ -109,13 +108,13 @@ multiplying the corresponding coordinates of two vectors, so that's the operatio
 perform quite often on `float32`. Here is how it would look like if we perform the 
 conversion to `int8`:
 
-$$ f32 * f32\prime = \\
-(\alpha * i8 + offset) * (\alpha * i8\prime + offset) = \\
-= \alpha^{2} i8 i8\prime + offset \alpha i8\prime + offset \alpha i8 + offset^{2} $$
+$$ f32 * f32' = \\
+(\alpha * i8 + offset) * (\alpha * i8' + offset) = \\
+= \alpha^{2} * i8 * i8' + offset * \alpha * i8' + offset * \alpha * i8 + offset^{2} $$
 
-The first term, $ \alpha^{2} i8 i8\prime $ has to be calculated when we measure the
+The first term, $ \alpha^{2} i8 i8' $ has to be calculated when we measure the
 distance as it depends on both vectors. However, both the second and the third term 
-($ offset \alpha i8\prime $ and $ offset \alpha i8 $ respectively), depend only on a 
+($ offset \alpha i8' $ and $ offset \alpha i8 $ respectively), depend only on a 
 single vector and those might be precomputed and kept for each vector. The last term,
 $ offset^{2} $ does not depend on any of the values, so it might be even computed once
 and reused.
