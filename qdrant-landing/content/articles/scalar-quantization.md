@@ -93,8 +93,7 @@ $$ \begin{cases} -2 = \alpha * 0 + offset \\
 
 In case of signed `int8`, we'll just change the represented range boundaries:
 
-$$ \begin{cases} -2 = \alpha * (-128) + offset \\ 
-
+$$ \begin{cases} -2 = \alpha * (-128) + offset \\
 5 = \alpha * 127 + offset \end{cases} $$
 
 For any set of vector values we can simply calculate the $ \alpha $ and $ offset $ and 
@@ -111,9 +110,7 @@ perform quite often on `float32`. Here is how it would look like if we perform t
 conversion to `int8`:
 
 $$ f32 * f32\prime = \\
-
 (\alpha * i8 + offset) * (\alpha * i8\prime + offset) = \\
-
 = \alpha^{2} i8 i8\prime + offset \alpha i8\prime + offset \alpha i8 + offset^{2} $$
 
 The first term, $ \alpha^{2} i8 i8\prime $ has to be calculated when we measure the
