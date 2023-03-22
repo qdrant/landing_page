@@ -141,14 +141,13 @@ in the tables:
 <table>
    <thead>
       <tr>
-         <th colspan="3"></th>
+         <th colspan="2"></th>
          <th colspan="2">ef = 128</th>
          <th colspan="2">ef = 256</th>
          <th colspan="2">ef = 512</th>
       </tr>
       <tr>
          <th></th>
-         <th><small>Upload time</small></th>
          <th><small>Upload and indexing time</small></th>
          <th><small>Mean search precision</small></th>
          <th><small>Mean search time</small></th>
@@ -161,7 +160,6 @@ in the tables:
    <tbody>
       <tr>
          <th>Non-quantized vectors</th>
-         <td>418 s</td>
          <td>649 s</td>
          <td>0.989</td>
          <td>0.0094</td>
@@ -172,7 +170,6 @@ in the tables:
       </tr>
       <tr>
          <th>Scalar Quantization</th>
-         <td>411 s</td>
          <td>496 s</td>
          <td>0.986</td>
          <td>0.0037</td>
@@ -183,7 +180,6 @@ in the tables:
       </tr>
       <tr>
          <td>Difference</td>
-         <td><span style="color: green;">-1.67%</span></td>
          <td><span style="color: green;">-23.57%</span></td>
          <td><span style="color: red;">-0.3%</span></td>
          <td><span style="color: green;">-60.64%</span></td>
@@ -204,14 +200,13 @@ difference in your search quality.
 <table>
    <thead>
       <tr>
-         <th colspan="3"></th>
+         <th colspan="2"></th>
          <th colspan="2">ef = 128</th>
          <th colspan="2">ef = 256</th>
          <th colspan="2">ef = 512</th>
       </tr>
       <tr>
          <th></th>
-         <th><small>Upload time</small></th>
          <th><small>Upload and indexing time</small></th>
          <th><small>Mean search precision</small></th>
          <th><small>Mean search time</small></th>
@@ -224,7 +219,6 @@ difference in your search quality.
    <tbody>
       <tr>
          <th>Non-quantized vectors</th>
-         <td>272</td>
          <td>452</td>
          <td>0.802</td>
          <td>0.077</td>
@@ -235,7 +229,6 @@ difference in your search quality.
       </tr>
       <tr>
          <th>Scalar Quantization</th>
-         <td>247</td>
          <td>312</td>
          <td>0.802</td>
          <td>0.043</td>
@@ -246,7 +239,6 @@ difference in your search quality.
       </tr>
       <tr>
          <td>Difference</td>
-         <td><span style="color: green;">-9.19%</span></td>
          <td><span style="color: green;">-30.79%</span></td>
          <td>0%</td>
          <td><span style="color: green;">-44,16%</span></td>
