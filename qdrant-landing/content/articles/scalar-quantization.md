@@ -114,7 +114,7 @@ $$ f32 * f32' = $$
 $$ = (\alpha * i8 + offset) * (\alpha * i8' + offset) = $$
 $$ = \alpha^{2} * i8 * i8' + offset * \alpha * i8' + offset * \alpha * i8 + offset^{2} $$
 
-The first term, $ \alpha^{2} i8 i8' $ has to be calculated when we measure the
+The first term, $ \alpha^{2} * i8 * i8' $ has to be calculated when we measure the
 distance as it depends on both vectors. However, both the second and the third term 
 ($ offset * \alpha * i8' $ and $ offset * \alpha * i8 $ respectively), depend only on a 
 single vector and those might be precomputed and kept for each vector. The last term,
