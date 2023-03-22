@@ -110,9 +110,9 @@ multiplying the corresponding coordinates of two vectors, so that's the operatio
 perform quite often on `float32`. Here is how it would look like if we perform the 
 conversion to `int8`:
 
-$$ f32 * f32' = \\\\
-= (\alpha * i8 + offset) * (\alpha * i8' + offset) = \\\\
-= \alpha^{2} * i8 * i8' + offset * \alpha * i8' + offset * \alpha * i8 + offset^{2} $$
+$$ f32 * f32' = $$
+$$ = (\alpha * i8 + offset) * (\alpha * i8' + offset) = $$
+$$ = \alpha^{2} * i8 * i8' + offset * \alpha * i8' + offset * \alpha * i8 + offset^{2} $$
 
 The first term, $ \alpha^{2} i8 i8' $ has to be calculated when we measure the
 distance as it depends on both vectors. However, both the second and the third term 
