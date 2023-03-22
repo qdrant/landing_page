@@ -279,7 +279,7 @@ And another group with more strict memory limits:
 | 2Gb memory + SQ + no rescore | 1200 | 0.974     |
 
 In those experiments, throughput was mainly defined by the number of disk reads, and quantization efficiently reduces it by allowing more vectors in RAM.
-Read more about on-disk storage in Qdrant and how we measure it's performance in our article: [Minimal RAM you need to serve a million vectors
+Read more about on-disk storage in Qdrant and how we measure its performance in our article: [Minimal RAM you need to serve a million vectors
 ](https://qdrant.tech/articles/memory-consumption/).
 
 The mechanism of Scalar Quantization with rescoring disabled pushes the limits of low-end 
