@@ -2,7 +2,7 @@
 title: "Qdrant under the hood: Scalar Quantization"
 short_description: "Scalar Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
 description: "Scalar Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
-social_preview_image: /articles_data/scalar-quantization/social_preview.jpg
+social_preview_image: /articles_data/scalar-quantization/social_preview.png
 small_preview_image: /articles_data/scalar-quantization/scalar-quantization-icon.svg
 preview_dir: /articles_data/scalar-quantization/preview
 weight: 3
