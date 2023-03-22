@@ -146,15 +146,23 @@ in the tables:
 
 <table>
    <thead>
-      <th></th>
-      <th>Upload time</th>
-      <th>Upload and indexing time</th>
-      <th>Mean search precision (ef = 128)</th>
-      <th>Mean search time (ef = 128)</th>
-      <th>Mean search precision (ef = 256)</th>
-      <th>Mean search time (ef = 256)</th>
-      <th>Mean search precision (ef = 512)</th>
-      <th>Mean search time (ef = 512)</th>
+      <tr>
+         <th colspan="3"></th>
+         <th colspan="2">ef = 128</th>
+         <th colspan="2">ef = 256</th>
+         <th colspan="2">ef = 512</th>
+      </tr>
+      <tr>
+         <th></th>
+         <th>Upload time</th>
+         <th>Upload and indexing time</th>
+         <th>Mean search precision</th>
+         <th>Mean search time</th>
+         <th>Mean search precision</th>
+         <th>Mean search time</th>
+         <th>Mean search precision</th>
+         <th>Mean search time</th>
+      </tr>
    </thead>
    <tbody>
       <tr>
@@ -197,15 +205,23 @@ in the tables:
 
 <table>
    <thead>
-      <th></th>
-      <th>Upload time</th>
-      <th>Upload and indexing time</th>
-      <th>Mean search precision (ef = 128)</th>
-      <th>Mean search time (ef = 128)</th>
-      <th>Mean search precision (ef = 256)</th>
-      <th>Mean search time (ef = 256)</th>
-      <th>Mean search precision (ef = 512)</th>
-      <th>Mean search time (ef = 512)</th>
+      <tr>
+         <th colspan="3"></th>
+         <th colspan="2">ef = 128</th>
+         <th colspan="2">ef = 256</th>
+         <th colspan="2">ef = 512</th>
+      </tr>
+      <tr>
+         <th></th>
+         <th>Upload time</th>
+         <th>Upload and indexing time</th>
+         <th>Mean search precision</th>
+         <th>Mean search time</th>
+         <th>Mean search precision</th>
+         <th>Mean search time</th>
+         <th>Mean search precision</th>
+         <th>Mean search time</th>
+      </tr>
    </thead>
    <tbody>
       <tr>
