@@ -18,7 +18,7 @@ keywords:
 
 High-dimensional vector embeddings can be memory-intensive, especially when working with 
 large datasets consisting of millions of vectors. Memory footprint really starts being 
-a concern when we scale things up. A small choice of the data type used to store a single
+a concern when we scale things up. A simple choice of the data type used to store a single
 number impacts even billions of numbers and can drive the memory requirements crazy. The
 higher the precision of your type, the more accurately you can represent the numbers. 
 The more accurate your vectors, the more precise is the distance calculation. But the 
@@ -33,9 +33,10 @@ HNSW graph, so as a rule of thumb we estimate the memory size with the following
 memory_size = 1.5 * number_of_vectors * vector_dimension * 4 bytes
 ```
 
-While Qdrant offers various options to store some parts of the data on disk, starting
-from the version 1.1.0, you can also optimize your memory by changing the data type used
-by the embeddings. We've implemented the mechanism of **Scalar Quantization**!
+While Qdrant offers various options to store some parts of the data on disk, starting 
+from version 1.1.0, you can also optimize your memory by compressing the embeddings. 
+We've implemented the mechanism of **Scalar Quantization**! It turns out to have not 
+only a positive impact on memory but also performance. 
 
 ## Scalar Quantization
 
@@ -75,7 +76,7 @@ Since we put some boundaries on the numbers that might be represented by the `f3
 `i8` has some natural boundaries, the process of converting the values between those
 two ranges is quite natural:
 
-$$ f32 = \alpha * i8 + offset $$
+$$ f32 = \alpha \times i8 + offset $$
 
 $$ i8 = \frac{f32 - offset}{\alpha} $$
 
@@ -88,13 +89,13 @@ both `f32` and `i8`.
 For the unsigned `int8` it will go as following:
 
 $$ \begin{equation}
-\begin{cases} -2 = \alpha * 0 + offset \\\\ 5 = \alpha * 255 + offset \end{cases} 
+\begin{cases} -2 = \alpha \times 0 + offset \\\\ 5 = \alpha \times 255 + offset \end{cases} 
 \end{equation} $$
 
 In case of signed `int8`, we'll just change the represented range boundaries:
 
 $$ \begin{equation}
-\begin{cases} -2 = \alpha * (-128) + offset \\\\ 5 = \alpha * 127 + offset \end{cases} 
+\begin{cases} -2 = \alpha \times (-128) + offset \\\\ 5 = \alpha \times 127 + offset \end{cases} 
 \end{equation} $$
 
 For any set of vector values we can simply calculate the $ \alpha $ and $ offset $ and 
@@ -110,16 +111,16 @@ multiplying the corresponding coordinates of two vectors, so that's the operatio
 perform quite often on `float32`. Here is how it would look like if we perform the 
 conversion to `int8`:
 
-$$ f32 * f32' = $$
-$$ = (\alpha * i8 + offset) * (\alpha * i8' + offset) = $$
-$$ = \alpha^{2} * i8 * i8' + offset * \alpha * i8' + offset * \alpha * i8 + offset^{2} $$
+$$ f32 \times f32' = $$
+$$ = (\alpha \times i8 + offset) \times (\alpha \times i8' + offset) = $$
+$$ = \alpha^{2} \times i8 \times i8' + offset \times \alpha \times i8' + offset \times \alpha \times i8 + offset^{2} $$
 
-The first term, $ \alpha^{2} * i8 * i8' $ has to be calculated when we measure the
+The first term, $ \alpha^{2} \times i8 \times i8' $ has to be calculated when we measure the
 distance as it depends on both vectors. However, both the second and the third term 
-($ offset * \alpha * i8' $ and $ offset * \alpha * i8 $ respectively), depend only on a 
-single vector and those might be precomputed and kept for each vector. The last term,
-$ offset^{2} $ does not depend on any of the values, so it might be even computed once
-and reused.
+($ offset \times \alpha \times i8' $ and $ offset \times \alpha \times i8 $ respectively), 
+depend only on a single vector and those might be precomputed and kept for each vector. 
+The last term, $ offset^{2} $ does not depend on any of the values, so it might be even 
+computed once and reused.
 
 If we had to calculate all the terms to measure the distance, the performance could have 
 been even worse than without the conversion. But thanks for the fact we can precompute
