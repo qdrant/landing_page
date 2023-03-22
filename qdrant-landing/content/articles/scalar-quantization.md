@@ -88,13 +88,13 @@ both `f32` and `i8`.
 For the unsigned `int8` it will go as following:
 
 $$ \begin{equation}
-\begin{cases} -2 = \alpha * 0 + offset \\ 5 = \alpha * 255 + offset \end{cases} 
+\begin{cases} -2 = \alpha * 0 + offset \\\\ 5 = \alpha * 255 + offset \end{cases} 
 \end{equation} $$
 
 In case of signed `int8`, we'll just change the represented range boundaries:
 
 $$ \begin{equation}
-\begin{cases} -2 = \alpha * (-128) + offset \\ 5 = \alpha * 127 + offset \end{cases} 
+\begin{cases} -2 = \alpha * (-128) + offset \\\\ 5 = \alpha * 127 + offset \end{cases} 
 \end{equation} $$
 
 For any set of vector values we can simply calculate the $ \alpha $ and $ offset $ and 
@@ -111,8 +111,8 @@ perform quite often on `float32`. Here is how it would look like if we perform t
 conversion to `int8`:
 
 $$ \begin{equation}
-f32 * f32' = \\
-(\alpha * i8 + offset) * (\alpha * i8' + offset) = \\
+f32 * f32' = \\\\
+(\alpha * i8 + offset) * (\alpha * i8' + offset) = \\\\
 = \alpha^{2} * i8 * i8' + offset * \alpha * i8' + offset * \alpha * i8 + offset^{2} 
 \end{equation} $$
 
