@@ -1,19 +1,19 @@
 ---
-title: Quantized Qdrant Queries Quality
-short_description: "TBD"
-description: "TBD"
-social_preview_image: /articles_data/scalar-quantization/social_preview.png
-small_preview_image: /articles_data/scalar-quantization/quantization-icon.svg
+title: Qdrant under the hood: Scalar Quantization
+short_description: "Scalar Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
+description: "Scalar Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
+social_preview_image: /articles_data/scalar-quantization/social_preview.jpg
+small_preview_image: /articles_data/scalar-quantization/scalar-quantization-icon.svg
 preview_dir: /articles_data/scalar-quantization/preview
 weight: 3
-author: XXX
-author_link: XXX
-date: 2023-03-21T10:45:00+01:00
+author: Kacper Łukawski
+author_link: https://medium.com/@lukawskikacper
+date: 2023-03-22T15:45:00+01:00
 draft: false
 keywords:
   - vector search
   - scalar quantization
-  - TBD
+  - memory optimization
 ---
 
 High-dimensional vector embeddings can be memory-intensive, especially when working with 
@@ -30,7 +30,7 @@ So a single number needs 4 bytes of the memory and a 512-dimensional vector occu
 HNSW graph, so as a rule of thumb we estimate the memory size with the following formula:
 
 ```
-memory_size = number_of_vectors * vector_dimension * 4 bytes * 1.5
+memory_size = 1.5 * number_of_vectors * vector_dimension * 4 bytes
 ```
 
 While Qdrant offers various options to store some parts of the data on disk, starting
@@ -127,13 +127,6 @@ the majority of the terms, things are getting simpler. And in turns out the scal
 quantization has a positive impact not only on the memory usage, but also on the 
 performance. But we did some benchmarks to back this statement!
 
-### Qdrant implementation
-
-Scalar Quantization is performed during the indexing and is disabled in plain segments, 
-but we decided to keep the original vectors along with the quantized ones. 8-bit integer 
-allows using the range `[-128, 127]`, but we use shorted `[0, 127]`. It is required for 
-SIMD optimizations.
-
 ## Benchmarks
 
 We simply used the same approach as we use in all [the other benchmarks we publish](/benchmarks).
@@ -142,7 +135,7 @@ and [Gist-960](https://github.com/erikbern/ann-benchmarks/) datasets were chosen
 the comparison between non-quantized and quantized vectors. The results are summarized
 in the tables:
 
-### Arxiv-titles-384-angular-no-filters	
+#### Arxiv-titles-384-angular-no-filters	
 
 <table>
    <thead>
@@ -154,14 +147,14 @@ in the tables:
       </tr>
       <tr>
          <th></th>
-         <th>Upload time</th>
-         <th>Upload and indexing time</th>
-         <th>Mean search precision</th>
-         <th>Mean search time</th>
-         <th>Mean search precision</th>
-         <th>Mean search time</th>
-         <th>Mean search precision</th>
-         <th>Mean search time</th>
+         <th><small>Upload time</small></th>
+         <th><small>Upload and indexing time</small></th>
+         <th><small>Mean search precision</small></th>
+         <th><small>Mean search time</small></th>
+         <th><small>Mean search precision</small></th>
+         <th><small>Mean search time</small></th>
+         <th><small>Mean search precision</small></th>
+         <th><small>Mean search time</small></th>
       </tr>
    </thead>
    <tbody>
@@ -201,7 +194,11 @@ in the tables:
    </tbody>
 </table>
 
-### Gist-960
+A slight decrease in search precision results in a considerable improvement in the 
+latency. Unless you aim for the highest precision possible, you should not notice the 
+difference in your search quality.
+
+#### Gist-960
 
 <table>
    <thead>
@@ -213,14 +210,14 @@ in the tables:
       </tr>
       <tr>
          <th></th>
-         <th>Upload time</th>
-         <th>Upload and indexing time</th>
-         <th>Mean search precision</th>
-         <th>Mean search time</th>
-         <th>Mean search precision</th>
-         <th>Mean search time</th>
-         <th>Mean search precision</th>
-         <th>Mean search time</th>
+         <th><small>Upload time</small></th>
+         <th><small>Upload and indexing time</small></th>
+         <th><small>Mean search precision</small></th>
+         <th><small>Mean search time</small></th>
+         <th><small>Mean search precision</small></th>
+         <th><small>Mean search time</small></th>
+         <th><small>Mean search precision</small></th>
+         <th><small>Mean search time</small></th>
       </tr>
    </thead>
    <tbody>
@@ -264,6 +261,38 @@ In all the cases, the decrease in search precision is negligible, but we keep a 
 reduction of at least 28.57%, even up to 60,64%, while searching. As a rule of thumb,
 the higher the dimensionality of the vectors, the lower the precision loss.
 
-## Good practices
+### RPS
 
-TBD
+Except for the precision vs latency benchmarks, we also compared how scalar quantization
+may help you handle more requests using the same hardware. Since there is no standard
+hard drive, we just used the same, rather slow disk, to have a relative comparison. 
+
+Qdrant stores the original vectors, so it is possible to rescore the top-k results with
+the original vectors after doing the neighbours search in quantized space. That obviously
+has some impact on the performance, but in order to measure how big it is, we made the 
+comparison in different scenarios:
+
+| Setup                       | RPS  | Precision |
+|-----------------------------|------|-----------|
+| 4.5Gb memory                | 600  | 0.99      |
+| 4.5Gb memory + SQ + rescore | 1000 | 0.989     |
+
+If you are really on a budget, then by default you'd be probably storing the vectors on
+disk, so you can fit some bigger collections, without increasing the amount of RAM. We
+tested such a scenario as well:
+
+| Setup                        | RPS  | Precision |
+|------------------------------|------|-----------|
+| 2Gb memory, on disk          | 2    | 0.99      |
+| 2Gb memory + SQ + rescore    | 30   | 0.989     |
+| 2Gb memory + SQ + no rescore | 1200 | 0.974     |
+
+The mechanism of Scalar Quantization with rescoring disabled pushes the limits of low-end 
+machines even further. It seems like handling lots of requests does not require an 
+expensive setup if you can agree to a small decrease in the search precision.
+
+### Good practices
+
+Qdrant documentation on [Scalar Quantization](https://qdrant.tech/documentation/quantization/#setting-up-quantization-in-qdrant)
+is a great resource describing different scenarios and strategies to achieve up to 4x 
+lower memory footprint and even up to 2x performance increase. 
