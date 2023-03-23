@@ -61,7 +61,7 @@ app on HF Spaces for semantic image search,
 backed by Qdrant Cloud. If you would like to prefer
 the source code directly instead, go to the [project repository](https://github.com/qdrant/hf-spaces-demo).
 
-## Setting up
+## Step 1: Setting up
 
 Before starting, make sure that you signed up at Qdrant Cloud,
 created a cluster and obtained the host URL and API key.
@@ -94,7 +94,7 @@ Take the URL of the space repository, and set it as a new remote:
 git remote add hf <YOUR_SPACE_URL>
 ```
 
-## Indexing embeddings
+## Step 2: Indexing embeddings
 
 We are ready for indexing embeddings in our instance at Qdrant Cloud. It's a single command after downloading the embeddings file:
 
@@ -107,3 +107,27 @@ python create_index.py --embeddings_folder ./mscoco_embeddings
 ```
 
 We are almost there! Let's create our HF Spaces app.
+
+## Step 3: Creating app
+
+Before pushing our code to Huggingface Spaces repository, we need to set credentials as secrets in the space settings.
+Think of secrets like environment variables for the space app,
+and in fact, they are accessible inside the app exactly as environment variables without exposing them publically.
+
+Go to the repository you created in step 1, click `Settings`, and click `New Secret`.
+Enter `QDRANT_API_KEY` and `QDRANT_HOST_URL` as secret names and respected values in the form.
+
+Now we are ready for deploying the app.
+HF Spaces deploys from the branch named `main` so we will first checkout that branch. Ten, we will push to the remote named `hf`,
+which we added in step 1, instead of `origin`.
+
+```shell
+git checkout main
+
+git push hf main
+```
+
+Go to your HF Spaces repository,
+and you'll see that your app is building.
+Once it's finished in a few seconds,
+you can enjoy your semantic image search app and share it with everyone on the internet.
