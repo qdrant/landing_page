@@ -283,7 +283,10 @@ to generate the response.
 ![](/articles_data/chatgpt-plugin/step-13.png)
 
 We have a powerful language model, that can interact with our knowledge base, to return 
-not only grammatically correct but also factual information.
+not only grammatically correct but also factual information. And this is how your 
+interactions with the model may start to look like:
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fQUGuHEYeog" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 However, a single document is not enough to enable the full power of the plugin. If you 
 want to put more documents that you have collected, there are already some scripts 
