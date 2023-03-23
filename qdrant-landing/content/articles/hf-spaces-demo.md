@@ -126,7 +126,7 @@ Go to the repository you created in step 1, click `Settings`, and click `New Sec
 Enter `QDRANT_API_KEY` and `QDRANT_HOST_URL` as secret names and respected values in the form.
 
 Now we are ready for deploying the app.
-HF Spaces deploys from the branch named `main` so we will first checkout that branch. Ten, we will push to the remote named `hf`,
+HF Spaces deploys from the branch named `main` so we will first checkout that branch. Then, we will push to the remote named `hf`,
 which we added in step 1, instead of `origin`.
 
 ```shell
