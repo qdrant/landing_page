@@ -115,8 +115,8 @@ is that HF Spaces allows requests to external sources only on ports 80, 443 and 
 but Qdrant listens on ports 6333 and 6334 by default.
 Therefore, you need to connect Qdrant Cloud on port 443,
 which is configured as an additional port to the defaults in the cloud offering
-to overcome limitations of various services.
-You can see the example in []`app.py`](https://github.com/qdrant/hf-spaces-demo/blob/master/app.py#L9).
+to overcome such limitations of various services.
+You can see the example in [`app.py`](https://github.com/qdrant/hf-spaces-demo/blob/master/app.py#L9).
 
 Before pushing our code to Huggingface Spaces repository, we need to set credentials as secrets in the space settings.
 Think of secrets like environment variables for the space app,
