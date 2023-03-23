@@ -9,7 +9,7 @@ weight: 10
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2023-03-23T13:00:00+03:00
-draft: true
+draft: false
 keywords:
   - qdrant cloud
   - semantic image search
