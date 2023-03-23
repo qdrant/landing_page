@@ -60,3 +60,50 @@ step-by-step instructions on how to host a [Gradio](https://gradio.app/)
 app on HF Spaces for semantic image search,
 backed by Qdrant Cloud. If you would like to prefer
 the source code directly instead, go to the [project repository](https://github.com/qdrant/hf-spaces-demo).
+
+## Setting up
+
+Before starting, make sure that you signed up at Qdrant Cloud,
+created a cluster and obtained the host URL and API key.
+We will use them for accessing our instance, so let's set them as environment variables.
+Do not include the protocol prefix `https://` in the host value, e.g., `{cluster_id}.us-east-1-0.aws.cloud.qdrant.io`.
+
+```shell
+export QDRANT_API_KEY=<YOUR_API_KEY>
+
+export QDRANT_HOST_URL=<YOUR_HOST_URL>
+```
+
+
+Clone the repository to your development machine and install the dependencies.
+Please note that indexing embeddings and web app have different sets of dependencies,
+so I suggest holding dependencies in two different requirements files.
+
+```shell
+git clone https://github.com/qdrant/hf-spaces-demo.git
+
+cd hf-spaces-demo
+
+pip install -r requirements-indexing.txt
+```
+
+Sign up at Huggingface and create a [new space](https://huggingface.co/new-space).
+Take the URL of the space repository, and set it as a new remote:
+
+```shell
+git remote add hf <YOUR_SPACE_URL>
+```
+
+## Indexing embeddings
+
+We are ready for indexing embeddings in our instance at Qdrant Cloud. It's a single command after downloading the embeddings file:
+
+```shell
+wget https://storage.googleapis.com/qdrant-datasets-index/mscoco_embeddings.zip
+
+unzip mscoco_embeddings.zip
+
+python create_index.py --embeddings_folder ./mscoco_embeddings
+```
+
+We are almost there! Let's create our HF Spaces app.
