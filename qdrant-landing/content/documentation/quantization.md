@@ -99,7 +99,7 @@ client.recreate_collection(
 
 There are 3 parameters that you can specify in the `quantization_config` section:
 
-`type` - the type of the quantized vector components. Currently, Qdrant supports only supports `int8`.
+`type` - the type of the quantized vector components. Currently, Qdrant supports only `int8`.
 
 `quantile` - the quantile of the quantized vector components.
 The quantile is used to calculate the quantization bounds.
@@ -158,7 +158,7 @@ client.search(
 
 `rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. 
 This can improve the search quality, but may slightly decrease the search speed, compared to the search without rescore.
-If is recommended to disable rescore only if the original vectors are stored on a slow storage (e.g. HDD or network storage).
+It is recommended to disable rescore only if the original vectors are stored on a slow storage (e.g. HDD or network storage).
 By default, rescore is enabled.
 
 
@@ -207,7 +207,7 @@ By setting it to a value lower than 1.0, you can exclude extreme values (outlier
 For example, if you set the quantile to 0.99, 1% of the extreme values will be excluded.
 By adjusting the quantile, you find an optimal value that will provide the best search quality for your collection. 
 
-- **enable rescore**: Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. On large collections, this can improve the search quality, with just minor performance impact.
+- **Enable rescore**: Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. On large collections, this can improve the search quality, with just minor performance impact.
 
 
 #### Memory and speed tuning
@@ -220,7 +220,7 @@ There are 3 possible modes to place storage of vectors within the qdrant collect
 
 - **Original on Disk, quantized in RAM** - this is a hybrid mode, allows to obtain a good balance between speed and memory usage. Recommended scenario if you are aiming to shrink the memory footprint while keeping the search speed.
 
-This mode is enabled by setting `always_ram` to `false` in the quantization config while using mmap storage:
+This mode is enabled by setting `always_ram` to `true` in the quantization config while using mmap storage:
 
 ```http
 PUT /collections/{collection_name}
