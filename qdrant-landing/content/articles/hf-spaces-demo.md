@@ -147,5 +147,5 @@ to build a demo for your vector search solution quickly.
 When combined together, it considerably reduces the burden in converting a vector search solution
 into something concrete that users may try easily.
 
-Fun fact: I found the preview image for this post by searching on the app described in this post,
+Fun fact: I found the preview image for this post by running a search query on the app described in this post,
 and you can also [give it a try](https://huggingface.co/spaces/mys/qdrant-cloud-demo).
