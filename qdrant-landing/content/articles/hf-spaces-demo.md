@@ -2,7 +2,7 @@
 title: Faster Web Demos with Qdrant Cloud and HF Spaces
 short_description: "Building a web demo for your similarity search models in no time"
 description: Learn how to build a public web application for your vector search solution by using Qdrant Cloud and Huggingface Spaces quickly and easily.
-social_preview_image: /articles_data/hf-spaces-demo/preview/social_preview.jpg
+social_preview_image: /articles_data/hf-spaces-demo/social_preview.jpg
 small_preview_image: /articles_data/hf-spaces-demo/icon.svg
 preview_dir: /articles_data/hf-spaces-demo/preview
 weight: 10
@@ -110,6 +110,14 @@ We are almost there! Let's create our HF Spaces app.
 
 ## Step 3: Creating app
 
+One important point that you need to remember when using Qdrant Cloud on Huggingface Spaces
+is that HF Spaces allows requests to external sources only on ports 80, 443 and 8080,
+but Qdrant listens on ports 6333 and 6334 by default.
+Therefore, you need to connect Qdrant Cloud on port 443,
+which is configured as an additional port to the defaults in the cloud offering
+to overcome limitations of various services.
+You can see the example in []`app.py`](https://github.com/qdrant/hf-spaces-demo/blob/master/app.py#L9).
+
 Before pushing our code to Huggingface Spaces repository, we need to set credentials as secrets in the space settings.
 Think of secrets like environment variables for the space app,
 and in fact, they are accessible inside the app exactly as environment variables without exposing them publically.
@@ -131,3 +139,13 @@ Go to your HF Spaces repository,
 and you'll see that your app is building.
 Once it's finished in a few seconds,
 you can enjoy your semantic image search app and share it with everyone on the internet.
+
+## Conclusion
+
+In this post, I demonstrated how to use Qdrant Cloud in a HF Spaces app
+to build a demo for your vector search solution quickly.
+When combined together, it considerably reduces the burden in converting a vector search solution
+into something concrete that users may try easily.
+
+Fun fact: I found the preview image for this post by searching on the app described in this post,
+and you can also [give it a try](https://huggingface.co/spaces/mys/qdrant-cloud-demo).
