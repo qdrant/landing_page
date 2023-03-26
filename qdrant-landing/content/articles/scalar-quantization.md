@@ -126,7 +126,7 @@ If we had to calculate all the terms to measure the distance, the performance co
 been even worse than without the conversion. But thanks for the fact we can precompute
 the majority of the terms, things are getting simpler. And in turns out the scalar 
 quantization has a positive impact not only on the memory usage, but also on the 
-performance. But we did some benchmarks to back this statement!
+performance. As usual, we performed some benchmarks to support this statement!
 
 ## Benchmarks
 
