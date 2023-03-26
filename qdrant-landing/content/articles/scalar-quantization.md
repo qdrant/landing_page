@@ -36,7 +36,7 @@ memory_size = 1.5 * number_of_vectors * vector_dimension * 4 bytes
 While Qdrant offers various options to store some parts of the data on disk, starting 
 from version 1.1.0, you can also optimize your memory by compressing the embeddings. 
 We've implemented the mechanism of **Scalar Quantization**! It turns out to have not 
-only a positive impact on memory but also performance. 
+only a positive impact on memory but also on the performance. 
 
 ## Scalar Quantization
 
