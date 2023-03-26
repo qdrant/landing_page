@@ -66,7 +66,7 @@ of `0.95` or `0.99` is typically a reasonable choice, but in general `quantile â
 
 #### Conversion to integers
 
-Let's talk about conversion to `int8`. Integers also have a finite set of values that
+Let's talk about the conversion to `int8`. Integers also have a finite set of values that
 might be represented. Within a single byte they may represent up to 256 different values,
 either from `[-128, 127]` or `[0, 255]`.
 
