@@ -2,7 +2,7 @@
 draft: false
 title: E-commerce products categorization
 short_description: E-commerce products categorization demo from Qdrant vector database
-description: This demo shows how you can use vector databse in e-commerce. Enter the name of the product and the application will understand which category it belongs to, based on the multi-language model. The dots represent clusters of products.
+description: This demo shows how you can use vector database in e-commerce. Enter the name of the product and the application will understand which category it belongs to, based on the multi-language model. The dots represent clusters of products.
 preview_image: /demo/products_categorization_demo.jpg
 link: https://qdrant.to/extreme-classification-demo
 weight: 3
