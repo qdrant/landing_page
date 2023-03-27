@@ -36,7 +36,7 @@ memory_size = 1.5 * number_of_vectors * vector_dimension * 4 bytes
 While Qdrant offers various options to store some parts of the data on disk, starting 
 from version 1.1.0, you can also optimize your memory by compressing the embeddings. 
 We've implemented the mechanism of **Scalar Quantization**! It turns out to have not 
-only a positive impact on memory but also performance. 
+only a positive impact on memory but also on the performance. 
 
 ## Scalar Quantization
 
@@ -66,7 +66,7 @@ of `0.95` or `0.99` is typically a reasonable choice, but in general `quantile â
 
 #### Conversion to integers
 
-Let's talk about conversion to `int8`. Integers also have a finite set of values that
+Let's talk about the conversion to `int8`. Integers also have a finite set of values that
 might be represented. Within a single byte they may represent up to 256 different values,
 either from `[-128, 127]` or `[0, 255]`.
 
@@ -113,7 +113,7 @@ conversion to `int8`:
 
 $$ f32 \times f32' = $$
 $$ = (\alpha \times i8 + offset) \times (\alpha \times i8' + offset) = $$
-$$ = \alpha^{2} \times i8 \times i8' + offset \times \alpha \times i8' + offset \times \alpha \times i8 + offset^{2} $$
+$$ = \alpha^{2} \times i8 \times i8' + \underbrace{offset \times \alpha \times i8' + offset \times \alpha \times i8 + offset^{2}}_\text{pre-compute} $$
 
 The first term, $ \alpha^{2} \times i8 \times i8' $ has to be calculated when we measure the
 distance as it depends on both vectors. However, both the second and the third term 
@@ -126,7 +126,7 @@ If we had to calculate all the terms to measure the distance, the performance co
 been even worse than without the conversion. But thanks for the fact we can precompute
 the majority of the terms, things are getting simpler. And in turns out the scalar 
 quantization has a positive impact not only on the memory usage, but also on the 
-performance. But we did some benchmarks to back this statement!
+performance. As usual, we performed some benchmarks to support this statement!
 
 ## Benchmarks
 
@@ -254,31 +254,33 @@ In all the cases, the decrease in search precision is negligible, but we keep a 
 reduction of at least 28.57%, even up to 60,64%, while searching. As a rule of thumb,
 the higher the dimensionality of the vectors, the lower the precision loss.
 
-### RPS
+### Oversampling and Rescoring
 
-Except for the precision vs latency benchmarks, we also compared how scalar quantization
-may help you handle more requests using the same hardware. Since there is no standard
-hard drive, we just used the same, rather slow disk, to have a relative comparison. 
+A distinctive feature of the Qdrant architecture is the ability to combine the search for quantized and original vectors in a single query.
+This enables the best combination of speed, accuracy, and RAM usage.
 
 Qdrant stores the original vectors, so it is possible to rescore the top-k results with
 the original vectors after doing the neighbours search in quantized space. That obviously
 has some impact on the performance, but in order to measure how big it is, we made the 
-comparison in different scenarios:
+comparison in different search scenarios.
+We used a machine with a very slow network-mounted disk and tested the following scenarios with different amounts of allowed RAM:
 
 | Setup                       | RPS  | Precision |
 |-----------------------------|------|-----------|
 | 4.5Gb memory                | 600  | 0.99      |
 | 4.5Gb memory + SQ + rescore | 1000 | 0.989     |
 
-If you are really on a budget, then by default you'd be probably storing the vectors on
-disk, so you can fit some bigger collections, without increasing the amount of RAM. We
-tested such a scenario as well:
+And another group with more strict memory limits:
 
 | Setup                        | RPS  | Precision |
 |------------------------------|------|-----------|
-| 2Gb memory, on disk          | 2    | 0.99      |
+| 2Gb memory                   | 2    | 0.99      |
 | 2Gb memory + SQ + rescore    | 30   | 0.989     |
 | 2Gb memory + SQ + no rescore | 1200 | 0.974     |
+
+In those experiments, throughput was mainly defined by the number of disk reads, and quantization efficiently reduces it by allowing more vectors in RAM.
+Read more about on-disk storage in Qdrant and how we measure its performance in our article: [Minimal RAM you need to serve a million vectors
+](https://qdrant.tech/articles/memory-consumption/).
 
 The mechanism of Scalar Quantization with rescoring disabled pushes the limits of low-end 
 machines even further. It seems like handling lots of requests does not require an 
@@ -288,4 +290,4 @@ expensive setup if you can agree to a small decrease in the search precision.
 
 Qdrant documentation on [Scalar Quantization](https://qdrant.tech/documentation/quantization/#setting-up-quantization-in-qdrant)
 is a great resource describing different scenarios and strategies to achieve up to 4x 
-lower memory footprint and even up to 2x performance increase. 
+lower memory footprint and even up to 2x performance increase.
