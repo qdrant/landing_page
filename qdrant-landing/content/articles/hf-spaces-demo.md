@@ -5,7 +5,7 @@ description: Learn how to build a public web application for your vector search 
 social_preview_image: /articles_data/hf-spaces-demo/social_preview.jpg
 small_preview_image: /articles_data/hf-spaces-demo/icon.svg
 preview_dir: /articles_data/hf-spaces-demo/preview
-weight: 10
+weight: 1
 author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2023-03-23T13:00:00+03:00
@@ -64,14 +64,13 @@ the source code directly instead, go to the [project repository](https://github.
 ## Step 1: Setting up
 
 Before starting, make sure that you signed up at Qdrant Cloud,
-created a cluster and obtained the host URL and API key.
-We will use them for accessing our instance, so let's set them as environment variables.
-Do not include the protocol prefix `https://` in the host value, e.g., `{cluster_id}.us-east-1-0.aws.cloud.qdrant.io`.
+created a cluster and obtained the URL and API key.
+We will use them for accessing our instance, so let's set them as environment variables:
 
 ```shell
 export QDRANT_API_KEY=<YOUR_API_KEY>
 
-export QDRANT_HOST_URL=<YOUR_HOST_URL>
+export QDRANT_URL=<YOUR_CLUSTER_URL>
 ```
 
 
