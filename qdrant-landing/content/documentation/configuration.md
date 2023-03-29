@@ -1,6 +1,6 @@
 ---
 title: Configuration
-weight: 45
+weight: 160
 ---
 
 To change or correct Qdrant's behavior, default collection settings, and network interface parameters, you can use the configuration file.

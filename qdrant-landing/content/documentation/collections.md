@@ -1,6 +1,6 @@
 ---
 title: Collections
-weight: 21
+weight: 30
 ---
 
 ## Collections

@@ -1,6 +1,6 @@
 ---
 title: Indexing
-weight: 30
+weight: 90
 ---
 
 A key feature of Qdrant is the effective combination of vector and traditional indices. It is essential to have this because for vector search to work effectively with filters, having vector index only is not enough.

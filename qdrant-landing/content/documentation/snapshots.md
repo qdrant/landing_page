@@ -1,6 +1,6 @@
 ---
 title: Snapshots
-weight: 51
+weight: 110
 ---
 
 *Available since v0.8.4*

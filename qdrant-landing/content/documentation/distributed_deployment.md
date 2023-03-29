@@ -1,6 +1,6 @@
 ---
 title: Distributed deployment
-weight: 50
+weight: 100
 ---
 
 Since version v0.8.0 Qdrant supports a distributed deployment mode.

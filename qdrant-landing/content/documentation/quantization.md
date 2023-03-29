@@ -1,6 +1,6 @@
 ---
 title: Quantization
-weight: 55
+weight: 120
 ---
 
 <!---What is quantization and what it used for.

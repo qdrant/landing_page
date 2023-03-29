@@ -1,6 +1,6 @@
 ---
 title: Points
-weight: 24
+weight: 40
 ---
 
 The points are the central entity that Qdrant operates with.

@@ -1,6 +1,6 @@
 ---
 title: Install
-weight: 11
+weight: 20
 ---
 
 ## With Docker
