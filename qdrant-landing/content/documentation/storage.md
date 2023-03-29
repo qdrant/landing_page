@@ -37,15 +37,77 @@ If you update a vector in a segment with mmap storage, the vector will be moved 
 
 ### Configuring Memmap storage
 
-To configure usage of mmap storage, you need to specify the threshold after which the segment will be converted to mmap storage.
+To configure usage of mmap (also known as on-disk) storage, you need to specify the threshold after which the segment will be converted to mmap storage.
 There are two ways to do this:
 
 1. You can set the threshold globally in the [configuration file](../configuration/). The parameter is called `memmap_threshold_kb`.
 2. You can set the threshold for each collection separately during [creation](../collections/#create-collection) or [update](../collections/#update-collection-parameters).
 
 
+```http
+PUT /collections/{collection_name}
+
+{
+    "vectors": {
+      "size": 768,
+      "distance": "Cosine"
+    },
+    "optimizers_config": {
+        "memmap_threshold": 20000
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("localhost", port=6333)
+
+client.recreate_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000)
+)
+```
+
+The rule of thumb is to set the mmap threshold parameter is simple: 
+- if you have balanced use scenario - set mmap threshold same as `indexing_threshold` (default is 20000). In this case optimizer will not make extra runs and optimize all thresholds at once.
+- if you have a high write load and low RAM - set mmap threshold lower than `indexing_threshold` to e.g. 10000. In this case optimizer will convert segments to mmap storage first and will only apply indexing after that.
+
+
 In addition, you can use mmap storage not only for vectors, but also for HNSW index.
 To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during [creation](../collections/#create-collection) of the collection.
+
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "vectors": {
+      "size": 768,
+      "distance": "Cosine"
+    },
+    "optimizers_config": {
+        "memmap_threshold": 20000
+    },
+    "hnsw_config": {
+        "on_disk": true
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("localhost", port=6333)
+
+client.recreate_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
+    hnsw_config=models.HnswConfigDiff(on_disk=True)
+)
+```
 
 
 ## Payload storage

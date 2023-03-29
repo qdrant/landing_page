@@ -132,7 +132,6 @@ You can define number of shards in your create-collection request:
 PUT /collections/{collection_name}
 
 {
-    "name": "example_collection",
     "vectors": {
       "size": 300,
       "distance": "Cosine"
@@ -207,7 +206,6 @@ The replication factor of a collection can be configured at creation time.
 PUT /collections/{collection_name}
 
 {
-    "name": "example_collection",
     "vectors": {
       "size": 300,
       "distance": "Cosine"
@@ -366,7 +364,6 @@ It can be configured at the collection's creation time.
 PUT /collections/{collection_name}
 
 {
-    "name": "example_collection",
     "vectors": {
       "size": 300,
       "distance": "Cosine"
