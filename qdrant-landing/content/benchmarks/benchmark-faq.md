@@ -10,9 +10,7 @@ weight: 10
 ## What are you measuring in this study?
 
 The assessment of each engine was based on three criteria: **search precision**, **engine speed**, and **resource requirements**.
-
 This benchmark depends on each engine meeting a specific search precision threshold. It is important to understand that comparing engine speeds only makes sense if they produce the same quality of results. Exclusively maximizing speed factors might provide inaccurate results and serves no practical use.
-
 Future additions to this benchmark will account for different scenarios, ranging from a basic single node deployment to a distributed cluster.
 
 ## Which hardware did you use to run each engine?
