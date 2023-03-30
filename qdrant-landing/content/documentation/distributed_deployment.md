@@ -350,14 +350,14 @@ However, in some cases, it is necessary to ensure additional guarantees during p
 
 Qdrant provides a few options to control consistency guarantees:
 
-- `write_concern_factor` - defines the number of replicas that must acknowledge a write operation before responding to the client. Increasing this value will make write operations tolerant to network partitions in the cluster, but will require a higher number of replicas to be active to perform write operations.
+- `write_consistency_factor` - defines the number of replicas that must acknowledge a write operation before responding to the client. Increasing this value will make write operations tolerant to network partitions in the cluster, but will require a higher number of replicas to be active to perform write operations.
 - Read `consistency` param, can be used with search and retrieve operations to ensure that the results obtained from all replicas are the same. If this option is used, qdrant will perform the read operation on multiple replicas and resolve the result according to the selected strategy. This option is useful to avoid data inconsistency in case of concurrent updates of the same documents. This options is preferred if the update operations are frequent and the number of replicas is low.
 - Write `ordering` param, can be used with update and delete operations to ensure that the operations are executed in the same order on all replicas. If this option is used, qdrant will route the operation to the leader replica of the shard and wait for the response before responding to the client. This option is useful to avoid data inconsistency in case of concurrent updates of the same documents. This options is preferred if read operations are more frequent than update and if search performance is critical.
 
 
 ### Write concern factor
 
-The `write_concern_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to one by default.
+The `write_consistency_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to one by default.
 It can be configured at the collection's creation time.
 
 ```http
@@ -370,7 +370,7 @@ PUT /collections/{collection_name}
     },
     "shard_number": 6,
     "replication_factor": 2,
-    "write_concern_factor": 2,
+    "write_consistency_factor": 2,
 }
 ```
 
@@ -385,11 +385,11 @@ client.recreate_collection(
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
     replication_factor=2,
-    write_concern_factor=2,
+    write_consistency_factor=2,
 )
 ```
 
-Write operations will fail if the number of active replicas is less than the `write_concern_factor`.
+Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
 
 ### Read consistency
 
