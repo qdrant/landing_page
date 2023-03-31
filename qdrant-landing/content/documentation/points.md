@@ -565,7 +565,7 @@ Among others, for example, we can highlight the following scenarios:
 * Determining the number of pages for pagination
 * Debugging the query execution speed
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/count_points)):
 
 ```http
 POST /collections/{collection_name}/points/count
@@ -586,9 +586,9 @@ POST /collections/{collection_name}/points/count
 ```
 
 ```python
-client.scroll(
+client.count(
     collection_name="{collection_name}", 
-    scroll_filter=models.Filter(
+    count_filter=models.Filter(
         must=[
             models.FieldCondition(
                 key="color", 
