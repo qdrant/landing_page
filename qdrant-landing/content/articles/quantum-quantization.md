@@ -5,9 +5,9 @@ description: Quantum Quantization enables vector search in constant time. This a
 preview_dir: /articles_data/quantum-quantization/preview
 social_preview_image: /articles_data/quantum-quantization/social_preview.png
 small_preview_image: /articles_data/quantum-quantization/icon.svg
-weight: 1
+weight: 1000
 author: Prankstorm Team
-draft: true
+draft: false
 author_link: https://www.youtube.com/watch?v=dQw4w9WgXcQ
 date: 2023-04-01T00:48:00.000Z
 ---
