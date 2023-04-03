@@ -6,42 +6,12 @@ Qdrant is a vector database performing an approximate nearest neighbours search 
 as a standalone system, yet, in some cases, you may find it easier to implement your semantic search application using some
 higher-level libraries. Some of such projects provide ready-to-go integrations and here is a curated list of them.
 
-## LangChain
-
-LangChain is a library that makes developing Large Language Models based applications much easier. It unifies the interfaces 
-to different libraries, including major embedding providers and Qdrant. Using LangChain, you can focus on the business value 
-instead of writing the boilerplate.
-
-Langchain comes with the Qdrant integration by default. It might be installed with pip:
-
-```bash
-pip install langchain
-```
-
-Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways 
-how to us it, but calling `Qdrant.from_texts` is probably the most straightforward way how to get started:
-
-```python
-from langchain.vectorstores import Qdrant
-from langchain.embeddings import HuggingFaceEmbeddings
-
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-mpnet-base-v2"
-)
-doc_store = Qdrant.from_texts(
-    texts, embeddings, host=QDRANT_HOST, api_key=QDRANT_API_KEY, collection_name="texts"
-)
-```
-
-If you'd like to know more about running Qdrant in a LangChain-based application, please read our article 
-[Question Answering with LangChain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
-might also be found in the [LangChain documentation](https://python.langchain.com/en/latest/modules/indexes/vectorstores/examples/qdrant.html).
-
 ## DocArray
 You can use Qdrant natively in DocArray, where Qdrant serves as a high-performance document store to enable scalable vector search.
 
 DocArray is a library from Jina AI for nested, unstructured data in transit, including text, image, audio, video, 3D mesh, etc.
 It allows deep-learning engineers to efficiently process, embed, search, recommend, store, and transfer the data with a Pythonic API.
+
 
 To install DocArray with Qdrant support, please do
 
