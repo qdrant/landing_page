@@ -508,6 +508,36 @@ client.recreate_collection(
 )
 ```
 
+After upload is done, you can enable indexing by setting `indexing_threshold` to default value(20000):
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "vectors": {
+      "size": 768,
+      "distance": "Cosine"
+    },
+    "hnsw_config": {
+        "indexing_threshold": 20000
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("localhost", port=6333)
+
+client.recreate_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
+    hnsw_config=models.HNSWConfigDiff(
+        indexing_threshold=20000,
+    ),
+)
+```
+
 ### Parallel upload into multiple shards
 
 In Qdrant, each collection is split into shards. Each shard has a separate Write-Ahead-Log (WAL), which is responsible for ordering operations.

@@ -44,8 +44,7 @@ During the filtering, Qdrant will check the conditions over those values that ma
 
 For example, you will get an empty output if you apply the [range condition](../filtering/#range) on the string data.
 
-Qdrant also allows multiple values of the same type to be stored and applied to the filter at once.
-The condition will be considered satisfied if at least one value meets the condition.
+However, arrays (multiple values of the same type) are treated a little bit different. When we apply a filter to an array, it will succeed if at least one of the values inside the array meets the condition.
 
 The filtering process is discussed in detail in the section [Filtering](../filtering).
 
@@ -79,7 +78,7 @@ Example of single and multiple `float` values:
 
 ### Bool
 
-Bool - is binary value equals to `true` or `false`.
+Bool - binary value. Equals to `true` or `false`.
 
 Example of single and multiple `bool` values:
 
@@ -135,7 +134,7 @@ Example of single and multiple `geo` values:
 Coordinate should be described as an object containing two fields: `lon` - for longitude, and `lat` - for latitude.
 
 ## Create point with payload
-
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/upsert_points))
 ```http
 PUT /collections/{collection_name}/points
 
@@ -278,19 +277,18 @@ client.clear_payload(
 
 ## Payload indexing
 
-To search more efficiently with filters, Qdrant allows you to specify payload fields as indexed.
-For marked fields Qdrant will build an index for the corresponding types of queries.
+To search more efficiently with filters, Qdrant allows you to create indexes for payload fields by specifying the name and type of field it is intended to be.
 
 The indexed fields also affect the vector index. See [Indexing](../indexing) for details.
 
 In practice, we recommend creating an index on those fields that could potentially constrain the results the most.
-For example, building an index for the object ID (if it is used in the filter) will be much more efficient than an index by its color, which has only a few possible values.
+For example, using an index for the object ID will be much more efficient, being unique for each record, than an index by its color, which has only a few possible values.
 
 In compound queries involving multiple fields, Qdrant will attempt to use the most restrictive index first.
 
 To create index for the field, you can use the following:
 
-REST API
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/create_field_index))
 
 ```http
 PUT /collections/{collection_name}/index
