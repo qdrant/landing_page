@@ -301,12 +301,12 @@ filter = models.Filter(
 )
 
 search_queries = [
-    SearchRequest(
+    models.SearchRequest(
         vector=[0.2, 0.1, 0.9, 0.7],
         filter=filter,
         limit=3
     ),
-    SearchRequest(
+    models.SearchRequest(
         vector=[0.5, 0.3, 0.2, 0.3],
         filter=filter,
         limit=3

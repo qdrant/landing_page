@@ -378,3 +378,17 @@ client = QdrantClient("localhost", port=6333)
 
 client.list_aliases()
 ```
+
+### List all collections
+
+```http
+GET /collections
+```
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient("localhost", port=6333)
+
+client.get_collections()
+```

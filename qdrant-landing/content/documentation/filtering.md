@@ -9,9 +9,9 @@ You can impose conditions both on the [payload](../payload) and on, for example,
 The use of additional conditions is important when, for example, it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
 
-## Filtering causes
+## Filtering clauses
 
-Qdrant allows you to combine conditions in causes.
+Qdrant allows you to combine conditions in clauses.
 Clauses are different logical operations, such as `OR`, `AND`, and `NOT`.
 Clauses can be recursively nested into each other so that you can reproduce an arbitrary boolean expression.
 
@@ -21,12 +21,12 @@ Suppose we have a set of points with the following payload:
 
 ```json
 [
-    {"id": 1, "city": "London", "color": "green"},
-    {"id": 2, "city": "London", "color": "red"},
-    {"id": 3, "city": "London", "color": "blue"},
-    {"id": 4, "city": "Berlin", "color": "red"},
-    {"id": 5, "city": "Moscow", "color": "green"},
-    {"id": 6, "city": "Moscow", "color": "blue"}
+  { "id": 1, "city": "London", "color": "green" },
+  { "id": 2, "city": "London", "color": "red" },
+  { "id": 3, "city": "London", "color": "blue" },
+  { "id": 4, "city": "Berlin", "color": "red" },
+  { "id": 5, "city": "Moscow", "color": "green" },
+  { "id": 6, "city": "Moscow", "color": "blue" }
 ]
 ```
 
@@ -55,11 +55,11 @@ from qdrant_client.http import models
 client = QdrantClient(host="localhost", port=6333)
 
 client.scroll(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must=[
             models.FieldCondition(
-                key="city", 
+                key="city",
                 match=models.MatchValue(value="London"),
             ),
             models.FieldCondition(
@@ -74,9 +74,7 @@ client.scroll(
 Filtered points would be:
 
 ```json
-[
-    {"id": 2, "city": "London", "color": "red"}
-]
+[{ "id": 2, "city": "London", "color": "red" }]
 ```
 
 When using `must`, the clause becomes `true` only if every condition listed inside `must` is satisfied.
@@ -102,15 +100,15 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     scroll_filter=models.Filter(
         should=[
             models.FieldCondition(
-                key="city", 
+                key="city",
                 match=models.MatchValue(value="London"),
             ),
             models.FieldCondition(
-                key="color", 
+                key="color",
                 match=models.MatchValue(value="red"),
             ),
         ]
@@ -122,10 +120,10 @@ Filtered points would be:
 
 ```json
 [
-    {"id": 1, "city": "London", "color": "green"},
-    {"id": 2, "city": "London", "color": "red"},
-    {"id": 3, "city": "London", "color": "blue"},
-    {"id": 4, "city": "Berlin", "color": "red"}
+  { "id": 1, "city": "London", "color": "green" },
+  { "id": 2, "city": "London", "color": "red" },
+  { "id": 3, "city": "London", "color": "blue" },
+  { "id": 4, "city": "Berlin", "color": "red" }
 ]
 ```
 
@@ -152,15 +150,15 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must_not=[
             models.FieldCondition(
-                key="city", 
+                key="city",
                 match=models.MatchValue(value="London")
             ),
             models.FieldCondition(
-                key="color", 
+                key="color",
                 match=models.MatchValue(value="red")
             ),
         ]
@@ -172,8 +170,8 @@ Filtered points would be:
 
 ```json
 [
-    {"id": 5, "city": "Moscow", "color": "green"},
-    {"id": 6, "city": "Moscow", "color": "blue"}
+  { "id": 5, "city": "Moscow", "color": "green" },
+  { "id": 6, "city": "Moscow", "color": "blue" }
 ]
 ```
 
@@ -202,17 +200,17 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must=[
             models.FieldCondition(
-                key="city", 
+                key="city",
                 match=models.MatchValue(value="London")
             ),
         ],
         must_not=[
             models.FieldCondition(
-                key="color", 
+                key="color",
                 match=models.MatchValue(value="red")
             ),
         ],
@@ -224,8 +222,8 @@ Filtered points would be:
 
 ```json
 [
-    {"id": 1, "city": "London", "color": "green"},
-    {"id": 3, "city": "London", "color": "blue"},
+  { "id": 1, "city": "London", "color": "green" },
+  { "id": 3, "city": "London", "color": "blue" }
 ]
 ```
 
@@ -253,17 +251,17 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must_not=[
             models.Filter(
                 must=[
                     models.FieldCondition(
-                        key="city", 
+                        key="city",
                         match=models.MatchValue(value="London")
                     ),
                     models.FieldCondition(
-                        key="color", 
+                        key="color",
                         match=models.MatchValue(value="red")
                     ),
                 ],
@@ -277,11 +275,11 @@ Filtered points would be:
 
 ```json
 [
-    {"id": 1, "city": "London", "color": "green"},
-    {"id": 3, "city": "London", "color": "blue"},
-    {"id": 4, "city": "Berlin", "color": "red"},
-    {"id": 5, "city": "Moscow", "color": "green"},
-    {"id": 6, "city": "Moscow", "color": "blue"}
+  { "id": 1, "city": "London", "color": "green" },
+  { "id": 3, "city": "London", "color": "blue" },
+  { "id": 4, "city": "Berlin", "color": "red" },
+  { "id": 5, "city": "Moscow", "color": "green" },
+  { "id": 6, "city": "Moscow", "color": "blue" }
 ]
 ```
 
@@ -293,11 +291,11 @@ Let's look at the existing condition variants and what types of data they apply 
 ### Match
 
 ```json
-{ 
-    "key": "color",
-    "match": {
-        "value": "red" 
-    }
+{
+  "key": "color",
+  "match": {
+    "value": "red"
+  }
 }
 ```
 
@@ -311,11 +309,11 @@ models.FieldCondition(
 For the other types, the match condition will look exactly the same, except for the type used:
 
 ```json
-{ 
-    "key": "count",
-    "match": {
-        "value": 0 
-    }
+{
+  "key": "count",
+  "match": {
+    "value": 0
+  }
 }
 ```
 
@@ -332,7 +330,7 @@ You can apply it to [keyword](../payload/#keyword), [integer](../payload/#intege
 
 ### Match Any
 
-*Available since version 1.1.0*
+_Available since version 1.1.0_
 
 In case you want to check if the stored value is one of multiple values, you can use the Match Any condition.
 Match Any works as a logical OR for the given values. It can also be described as a `IN` operator.
@@ -342,11 +340,11 @@ You can apply it to [keyword](../payload/#keyword) and [integer](../payload/#int
 Example:
 
 ```json
-{ 
-    "key": "color",
-    "match": {
-        "any": ["black", "yellow"] 
-    }
+{
+  "key": "color",
+  "match": {
+    "any": ["black", "yellow"]
+  }
 }
 ```
 
@@ -359,10 +357,9 @@ FieldCondition(
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
-
 ### Nested key
 
-*Available since version 1.1.0*
+_Available since version 1.1.0_
 
 Payloads being arbitrary JSON object, it is likely that you will need to filter on a nested field.
 
@@ -372,42 +369,42 @@ Suppose we have a set of points with the following payload:
 
 ```json
 [
-    {
-        "id": 1,
-        "country": {
-            "name": "Germany",
-            "cities": [
-                {
-                    "name": "Berlin",
-                    "population": 3.7,
-                    "sightseeing": ["Brandenburg Gate", "Reichstag"]
-                },
-                {
-                    "name": "Munich",
-                    "population": 1.5,
-                    "sightseeing": ["Marienplatz", "Olympiapark"]
-                }
-            ]
+  {
+    "id": 1,
+    "country": {
+      "name": "Germany",
+      "cities": [
+        {
+          "name": "Berlin",
+          "population": 3.7,
+          "sightseeing": ["Brandenburg Gate", "Reichstag"]
+        },
+        {
+          "name": "Munich",
+          "population": 1.5,
+          "sightseeing": ["Marienplatz", "Olympiapark"]
         }
-    },
-    {
-        "id": 2,
-        "country": {
-            "name": "Japan",
-            "cities": [
-                {
-                    "name": "Tokyo",
-                    "population": 9.3,
-                    "sightseeing": ["Tokyo Tower", "Tokyo Skytree"]
-                },
-                {
-                    "name": "Osaka",
-                    "population": 2.7,
-                    "sightseeing": ["Osaka Castle", "Universal Studios Japan"]
-                }
-            ]
-        }
+      ]
     }
+  },
+  {
+    "id": 2,
+    "country": {
+      "name": "Japan",
+      "cities": [
+        {
+          "name": "Tokyo",
+          "population": 9.3,
+          "sightseeing": ["Tokyo Tower", "Tokyo Skytree"]
+        },
+        {
+          "name": "Osaka",
+          "population": 2.7,
+          "sightseeing": ["Osaka Castle", "Universal Studios Japan"]
+        }
+      ]
+    }
+  }
 ]
 ```
 
@@ -519,11 +516,9 @@ client.scroll(
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
 
-
-
 ### Full Text Match
 
-*Available since version 0.10.0*
+_Available since version 0.10.0_
 
 A special case of the `match` condition is the `text` match condition.
 It allows you to search for a specific substring, token or phrase within the text field.
@@ -534,11 +529,11 @@ Configuration is defined during the index creation and describe at [full-text in
 If there is no full-text index for the field, the condition will work as exact substring match.
 
 ```json
-{ 
-    "key": "description",
-    "match": {
-        "text": "good cheap" 
-    }
+{
+  "key": "description",
+  "match": {
+    "text": "good cheap"
+  }
 }
 ```
 
@@ -555,13 +550,13 @@ If the query has several words, then the condition will be satisfied only if all
 
 ```json
 {
-    "key": "price",
-    "range": {
-        "gt": null,
-        "gte": 100.0,
-        "lt": null,
-        "lte": 450.0
-    }
+  "key": "price",
+  "range": {
+    "gt": null,
+    "gte": 100.0,
+    "lt": null,
+    "lte": 450.0
+  }
 }
 ```
 
@@ -569,9 +564,9 @@ If the query has several words, then the condition will be satisfied only if all
 models.FieldCondition(
     key="price",
     range=models.Range(
-        gt=None, 
-        gte=100.0, 
-        lt=None, 
+        gt=None,
+        gte=100.0,
+        lt=None,
         lte=450.0,
     ),
 )
@@ -595,17 +590,17 @@ Can be applied to [float](../payload/#float) and [integer](../payload/#integer) 
 
 ```json
 {
-    "key": "location",
-    "geo_bounding_box": {
-        "bottom_right": {
-            "lat": 52.495862,
-            "lon": 13.455868
-        },
-        "top_left": {
-            "lat": 52.520711,
-            "lon": 13.403683
-        }
+  "key": "location",
+  "geo_bounding_box": {
+    "bottom_right": {
+      "lat": 52.495862,
+      "lon": 13.455868
+    },
+    "top_left": {
+      "lat": 52.520711,
+      "lon": 13.403683
     }
+  }
 }
 ```
 
@@ -631,14 +626,14 @@ It matches with `location`s inside a rectangle with the coordinates of the upper
 
 ```json
 {
-    "key": "location",
-    "geo_radius": {
-        "center": {
-            "lat": 52.520711,
-            "lon": 13.403683
-        },
-        "radius": 1000.0
-    }
+  "key": "location",
+  "geo_radius": {
+    "center": {
+      "lat": 52.520711,
+      "lon": 13.403683
+    },
+    "radius": 1000.0
+  }
 }
 ```
 
@@ -668,8 +663,8 @@ For example, given the data:
 
 ```json
 [
-    {"id": 1, "name": "product A", "comments": ["Very good!", "Excellent"]},
-    {"id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"]},
+  { "id": 1, "name": "product A", "comments": ["Very good!", "Excellent"] },
+  { "id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"] }
 ]
 ```
 
@@ -677,10 +672,10 @@ We can perform the search only among the items with more than two comments:
 
 ```json
 {
-    "key": "comments",
-    "values_count": {
-        "gt": 2
-    }
+  "key": "comments",
+  "values_count": {
+    "gt": 2
+  }
 }
 ```
 
@@ -694,9 +689,7 @@ models.FieldCondition(
 The result would be:
 
 ```json
-[
-    {"id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"]},
-]
+[{ "id": 2, "name": "product B", "comments": ["meh", "expected more", "ok"] }]
 ```
 
 If stored value is not an array - it is assumed that the amount of values is equals to 1.
@@ -708,9 +701,9 @@ The `IsEmpty` condition may help you with that:
 
 ```json
 {
-    "is_empty": {
-        "key": "reports"
-    }
+  "is_empty": {
+    "key": "reports"
+  }
 }
 ```
 
@@ -744,7 +737,7 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must=[
             models.HasIdCondition(has_id=[1, 3, 5, 7, 9, 11]),
@@ -757,8 +750,8 @@ Filtered points would be:
 
 ```json
 [
-    {"id": 1, "city": "London", "color": "green"},
-    {"id": 3, "city": "London", "color": "blue"},
-    {"id": 5, "city": "Moscow", "color": "green"},
+  { "id": 1, "city": "London", "color": "green" },
+  { "id": 3, "city": "London", "color": "blue" },
+  { "id": 5, "city": "Moscow", "color": "green" }
 ]
 ```
