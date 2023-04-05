@@ -488,7 +488,7 @@ PUT /collections/{collection_name}
       "size": 768,
       "distance": "Cosine"
     },
-    "hnsw_config": {
+    "optimizers_config": {
         "indexing_threshold": 1000000000
     }
 }
@@ -502,7 +502,7 @@ client = QdrantClient("localhost", port=6333)
 client.recreate_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    hnsw_config=models.HNSWConfigDiff(
+    optimizers_config=models.OptimizersConfigDiff(
         indexing_threshold=1000000000,
     ),
 )
@@ -518,7 +518,7 @@ PUT /collections/{collection_name}
       "size": 768,
       "distance": "Cosine"
     },
-    "hnsw_config": {
+    "optimizers_config": {
         "indexing_threshold": 20000
     }
 }
@@ -532,7 +532,7 @@ client = QdrantClient("localhost", port=6333)
 client.recreate_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    hnsw_config=models.HNSWConfigDiff(
+    optimizers_config=models.OptimizersConfigDiff(
         indexing_threshold=20000,
     ),
 )
