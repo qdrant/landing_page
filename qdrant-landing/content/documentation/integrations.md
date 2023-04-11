@@ -19,7 +19,7 @@ pip install langchain
 ```
 
 Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways 
-how to us it, but calling `Qdrant.from_texts` is probably the most straightforward way how to get started:
+how to use it, but calling `Qdrant.from_texts` is probably the most straightforward way how to get started:
 
 ```python
 from langchain.vectorstores import Qdrant

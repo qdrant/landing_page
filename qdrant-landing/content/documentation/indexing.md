@@ -3,7 +3,7 @@ title: Indexing
 weight: 90
 ---
 
-A key feature of Qdrant is the effective combination of vector and traditional indices. It is essential to have this because for vector search to work effectively with filters, having vector index only is not enough.
+A key feature of Qdrant is the effective combination of vector and traditional indexes. It is essential to have this because for vector search to work effectively with filters, having vector index only is not enough. In simpler terms, a vector index speeds up vector search, and payload indexes speed up filtering.
 
 The indexes in the segments exist independently, but the parameters of the indexes themselves are configured for the whole collection.
 
@@ -13,9 +13,9 @@ Their necessity is determined by the [optimizer](../optimizer) settings and depe
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
-This index is built for a specific field and type and is used for quick point requests by the corresponding filtering condition.
+This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
 
-The index is also used to accurately estimate the filter cardinality, which helps the [query planned](../search) choose a search strategy.
+The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
@@ -121,7 +121,7 @@ The corresponding parameters could be configured in the configuration file:
 
 ```yaml
 storage:
-  # Default parameters of HNSW Index. Could be override for each collection individually
+  # Default parameters of HNSW Index. Could be overridden for each collection or named vector individually
   hnsw_index:
     # Number of edges per node in the index graph.
     # Larger the value - more accurate the search, more space required.
@@ -142,6 +142,12 @@ And so in the process of creating a [collection](../collections). The `ef` param
 HNSW is chosen for several reasons.
 First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
 Second, it is one of the most accurate and fastest algorithms, according to [public benchmarks](https://github.com/erikbern/ann-benchmarks).
+
+*Available since v1.1.1*
+
+The HNSW parameters can also be configured on a collection and named vector
+level by setting [`hnsw_config`](../indexing/#vector-index) to fine-tune search
+performance.
 
 ## Filtrable Index
 

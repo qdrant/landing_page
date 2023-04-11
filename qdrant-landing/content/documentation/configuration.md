@@ -17,12 +17,11 @@ docker run -p 6333:6333 \
     qdrant/qdrant
 ```
 
-Example of the configuration file:
+## Configuration file example
 
 ```yaml
 debug: false
 log_level: INFO
-
 
 storage:
   # Where to store all the data
@@ -45,6 +44,12 @@ storage:
     # Number of WAL segments to create ahead of actual data requirement
     wal_segments_ahead: 0
 
+  # Normal node - receives all updates and answers all queries
+  node_type: "Normal"
+
+  # Listener node - receives all updates, but does not answer search/read queries
+  # Useful for setting up a dedicated backup node
+  # node_type: "Listener"
 
   performance:
     # Number of parallel threads used for search operations. If 0 - auto selection.
@@ -95,14 +100,14 @@ storage:
 
     # Interval between forced flushes.
     flush_interval_sec: 5
-    
+
     # Max number of threads, which can be used for optimization per collection.
     # Note: Each optimization thread will also use `max_indexing_threads` for index building.
     # So total number of threads used for optimization will be `max_optimization_threads * max_indexing_threads`
     # If `max_optimization_threads = 0`, optimization will be disabled.
     max_optimization_threads: 1
 
-  # Default parameters of HNSW Index. Could be overridden for each collection individually
+  # Default parameters of HNSW Index. Could be overridden for each collection or named vector individually
   hnsw_index:
     # Number of edges per node in the index graph. Larger the value - more accurate the search, more space required.
     m: 16
@@ -132,7 +137,7 @@ service:
   # Host to bind the service on
   host: 0.0.0.0
 
-  # HTTP port to bind the service on
+  # HTTP(S) port to bind the service on
   http_port: 6333
 
   # gRPC port to bind the service on.
@@ -147,14 +152,23 @@ service:
   # Default: true
   enable_cors: true
 
+  # Use HTTPS for the REST API
+  enable_tls: false
+
+  # Check user HTTPS client certificate against CA file specified in tls config
+  verify_https_client_certificate: false
+
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
-  enabled: true
+  enabled: false
 
   # Configuration of the inter-cluster communication
   p2p:
     # Port for internal communication between peers
     port: 6335
+
+    # Use TLS for communication between peers
+    enable_tls: false
 
   # Configuration related to distributed consensus algorithm
   consensus:
@@ -169,5 +183,39 @@ cluster:
 # Set to true to prevent service from sending usage statistics to the developers.
 # Read more: https://qdrant.tech/documentation/telemetry
 telemetry_disabled: false
-
 ```
+
+## Validation
+
+*Available since v1.1.1*
+
+The configuration is validated on startup. If a configuration is loaded but
+validation fails, a warning is logged. E.g.:
+
+
+# TLS configuration.
+# Required if either service.enable_tls or cluster.p2p.enable_tls is true.
+tls:
+  # Server certificate chain file
+  cert: ./tls/cert.pem
+
+  # Server private key file
+  key: ./tls/key.pem
+
+  # Certificate authority certificate file.
+  # This certificate will be used to validate the certificates
+  # presented by other nodes during inter-cluster communication.
+  #
+  # If verify_https_client_certificate is true, it will verify
+  # HTTPS client certificate
+  #
+  # Required if cluster.p2p.enable_tls is true.
+  ca_cert: ./tls/cacert.pem
+```
+WARN Settings configuration file has validation errors:
+WARN - storage.optimizers.memmap_threshold: value 123 invalid, must be 1000 or larger
+WARN - storage.hnsw_index.m: value 1 invalid, must be from 4 to 10000
+```
+
+The server will continue to operate. Any validation errors should be fixed as
+soon as possible though to prevent problematic behavior.

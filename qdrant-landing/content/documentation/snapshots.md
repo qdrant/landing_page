@@ -115,7 +115,7 @@ Recovering in cluster mode is more sophisticated, as Qdrant should maintain cons
 As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
 Recovering non-existing collections with snapshots won't make this collection known to the consensus.
 
-To recover snpshot in this case one can use snapshot recovery API:
+To recover snapshot in this case one can use snapshot recovery API:
 
 ```http
 PUT /collections/<collection_name>/snapshots/recover
@@ -131,6 +131,14 @@ from qdrant_client import QdrantClient
 client = QdrantClient("qdrant-node-2", port=6333)
 
 client.recover_snapshot("collection_name", "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot")
+```
+
+The recovery snapshot can also be uploaded as a file to the cluster:
+```bash
+curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
+
 ```
 
 Qdrant will extract shard data from the snapshot and properly register shards in the cluster.

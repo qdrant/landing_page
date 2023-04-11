@@ -51,10 +51,14 @@ Currently, Work-in-progress.
 
 ## Setting up Quantization in Qdrant
 
-You can configure quantization for a collection by specifying the quantization parameters in the `quantization` section of the collection configuration.
+You can configure quantization for a collection by specifying the quantization parameters in the `quantization_config` section of the collection configuration.
 
 Quantization will be automatically applied to all vectors during the indexation process.
 Quantized vectors are stored alongside the original vectors in the collection, so you will still have access to the original vectors if you need them.
+
+*Available since v1.1.1*
+
+The `quantization_config` can also be set on a per vector basis by specifying it in a named vector.
 
 ### Setting up Scalar Quantization
 

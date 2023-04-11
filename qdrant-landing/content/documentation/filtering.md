@@ -713,9 +713,31 @@ models.IsEmptyCondition(
 )
 ```
 
-This condition will match all records where the field `reports` either does not exist, or have `NULL` or `[]` value.
+This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
+
+### Is Null
+
+It is not possible to test for `NULL` values with the <b>match</b> condition. 
+We have to use `IsNull` condition instead:
+
+```json
+{
+    "is_null": {
+        "key": "reports"
+    }
+}
+```
+
+```python
+models.IsNullCondition(
+    is_null=models.PayloadField(key="reports"),
+)
+```
+
+This condition will match all records where the field `reports` exists and has `NULL` value.
+
 
 ### Has id
 
