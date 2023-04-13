@@ -183,14 +183,6 @@ cluster:
 # Set to true to prevent service from sending usage statistics to the developers.
 # Read more: https://qdrant.tech/documentation/telemetry
 telemetry_disabled: false
-```
-
-## Validation
-
-*Available since v1.1.1*
-
-The configuration is validated on startup. If a configuration is loaded but
-validation fails, a warning is logged. E.g.:
 
 
 # TLS configuration.
@@ -211,6 +203,15 @@ tls:
   #
   # Required if cluster.p2p.enable_tls is true.
   ca_cert: ./tls/cacert.pem
+```
+
+## Validation
+
+*Available since v1.1.1*
+
+The configuration is validated on startup. If a configuration is loaded but
+validation fails, a warning is logged. E.g.:
+
 ```
 WARN Settings configuration file has validation errors:
 WARN - storage.optimizers.memmap_threshold: value 123 invalid, must be 1000 or larger
