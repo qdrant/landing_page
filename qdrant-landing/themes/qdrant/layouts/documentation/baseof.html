@@ -1,10 +1,19 @@
 {{- partial "header.html" . -}}
-
+<script src="/js/mendable_search.js"></script>
+<div id="my-component-root"></div>
+<style>
+#my-component-root *, #headlessui-portal-root * {
+  z-index: 1000000000000;
+}
+</style>
 {{- partial "second_header.html" . -}}
 
 
 <section>
+    
+    
     <div class="auto-container pt-4 pt-md-5">
+        
         <div class="row clearfix">
             {{- partial "docs_sidebar.html" . -}}
             {{ block "main" . }}{{ end }}
