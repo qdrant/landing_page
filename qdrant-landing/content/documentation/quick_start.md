@@ -25,6 +25,37 @@ In this case Qdrant will use default configuration and store all data under `./q
 
 Now Qdrant should be accessible at [localhost:6333](http://localhost:6333)
 
+
+### Local mode
+
+![Local mode workflow](https://raw.githubusercontent.com/qdrant/qdrant-client/master/docs/images/try-develop-deploy.png)
+
+
+With python client it is possible to try Qdrant without running docker container at all.
+
+Simply install it
+
+```
+pip install qdrant-client
+```
+
+and initialize client like this:
+
+```
+from qdrant_client import QdrantClient
+
+client = QdrantClient(":memory:")
+# or
+client = QdrantClient(path="path/to/db")  # Persists changes to disk
+```
+
+Local mode is useful for development, prototyping and testing.
+
+* You can use it to run tests in your CI/CD pipeline.
+* Run it in Colab or Jupyter Notebook, no extra dependencies required. See a [Colab Example](https://colab.research.google.com/drive/1Bz8RSVHwnNDaNtDwotfPj0w7AYzsdXZ-?usp=sharing)
+* When you need to scale, simply switch to server mode.
+
+
 ## API
 
 All interaction with Qdrant takes place via the REST API.

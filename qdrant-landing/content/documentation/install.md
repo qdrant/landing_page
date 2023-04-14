@@ -44,21 +44,6 @@ This installation method can be helpful if you want to compile Qdrant for a spec
 Before compiling, make sure that the necessary libraries and the [rust toolchain](https://www.rust-lang.org/tools/install) are installed.
 The current list of required libraries can be found in the [Dockerfile](https://github.com/qdrant/qdrant/blob/master/Dockerfile).
 
-Select the minimum set of processor instructions that will be available when using the service.
-The instruction set depends on the hardware at your disposal.
-
-You can enable runtime selection of the architecture at the cost of a slightly bigger binary file size: 
-
-```bash
-export OPENBLAS_DYNAMIC_ARCH=1
-```
-
-Or select specific architecture:
-
-```bash
-export OPENBLAS_TARGET=CORE2
-```
-
 Build Qdrant with Cargo:
 
 ```bash
@@ -116,6 +101,7 @@ To install this client, just run the following command:
 ```bash
 pip install qdrant-client
 ```
+
 
 ### Integrations
 
