@@ -23,20 +23,19 @@ We are thrilled to announce that we just raised our seed round from the best pos
 
 Unstructured data is growing exponentially, and we are all part of a huge unstructured data workforce. This blog post is unstructured data; your visit here produces unstructured and semi-structured data with every web interaction, as does every photo you take or email you send. The global datasphere will grow to [165 zettabytes by 2025](https://github.com/qdrant/qdrant/pull/1639), and about 80% of that will be unstructured. At the same time, the rising demand for AI is vastly outpacing existing infrastructure. Around 90% of machine learning research results fail to reach production because of a lack of tools. 
 
-**Demand for AI tools**
-![Value ranges represented by int8](/articles_data/seed-round/demand.png "Vector Databases Demand")
+
+{{< figure src=/articles_data/seed-round/demand.png caption="Demand for AI tools" alt="Vector Databases Demand" >}}
 
 Thankfully there’s a new generation of tools that let developers work with unstructured data in the form of vector embeddings, which are deep representations of objects obtained from a neural network model. A vector database, also known as a vector similarity search engine or approximate nearest neighbour (ANN) search database, is a database designed to store, manage, and search high-dimensional data with an additional payload. Vector Databases turn research prototypes into commercial AI products. Vector search solutions are industry agnostic and bring solutions for a number of use cases, including classic ones like semantic search, matching engines, and recommender systems to more novel applications like anomaly detection, working with time series, or biomedical data. The biggest limitation is to have a neural network encoder in place for the data type you are working with. 
 
-**Vector Search Use Cases**
-![Value ranges represented by int8](/articles_data/seed-round/use-cases.png  "Vector Database Use Cases")
+
+{{< figure src=/articles_data/seed-round/use-cases.png caption="Vector Search Use Cases" alt="Vector Search Use Cases" >}}
 
 With the rise of large language models (LLMs), Vector Databases have become the fundamental building block of the new AI Stack. They let developers build even more advanced applications by extending the “knowledge base” of LLMs-based applications like ChatGPT with real-time and real-world data. 
 
 A new AI product category, “Co-Pilot for X,” was born and is already affecting how we work. Starting from producing content to developing software. And this is just the beginning, there are even more types of novel applications being developed on top of this stack.
 
-**New AI Age Stack**
-![Value ranges represented by int8](/articles_data/seed-round/ai-stack.png  "Vector Databases AI stack")
+{{< figure src=/articles_data/seed-round/ai-stack.png caption="New AI Stack" alt="New AI Stack" >}}
 
 ## Enter Qdrant. ##
 
@@ -44,8 +43,8 @@ At the same time, adoption has only begun. Vector Search Databases are replacing
 
 The current Qdrant ecosystem consists of excellent products to work with vector embeddings. We launched our managed vector database solution, Qdrant Cloud, early this year, and it is already serving more than 1,000 Qdrant clusters. We are extending our offering now with managed on-premise solutions for enterprise customers. 
 
-**Qdrant Ecosystem**
-![Value ranges represented by int8](/articles_data/seed-round/ecosystem.png  "Qdrant Vector Database Ecosystem")
+{{< figure src=/articles_data/seed-round/ecosystem.png caption="Qdrant Ecosystem" alt="Qdrant Vector Database Ecosystem" >}}
+
 
 Our plan for the current [open-source roadmap](https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md) is to make billion-scale vector search affordable. Our recent release of the [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/) improves both memory usage (x4) as well as speed (x2). Upcoming [Product Quantization](https://lear.inrialpes.fr/pubs/2011/JDS11/jegou_searching_with_quantization.pdf) will introduce even another option with more memory saving. Stay tuned. 
 
