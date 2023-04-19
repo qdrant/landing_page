@@ -14,7 +14,7 @@ date: 2023-04-19T00:42:00.000Z
 
 
 > Vector databases are here to stay. The New Age of AI is powered by vector embeddings, and vector databases are a foundational part of the stack. At Qdrant, we are working on cutting-edge open-source vector similarity search solutions to power fantastic AI applications with the best possible performance and excellent developer experience. 
-
+> 
 > Our 7.5M seed funding – led by [Unusual Ventures](https://www.unusual.vc/), awesome angels, and existing investors – will help us bring these innovations to engineers and empower them to make the most of their unstructured data and the awesome power of LLMs at any scale.
 
 We are thrilled to announce that we just raised our seed round from the best possible investor we could imagine for this stage. Let’s talk about fundraising later – it is a story itself that I could probably write a bestselling book about. First, let's dive into a bit of background about our project, our progress, and future plans. 

@@ -1,6 +1,6 @@
 baseURL = "https://qdrant.tech"
 languageCode = "en-us"
-title = "Qdrant - Vector Search Engine"
+title = "Qdrant - Vector Database"
 theme = "qdrant"
 
 googleAnalytics = "G-NZYW2651NE"
