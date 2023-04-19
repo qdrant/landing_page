@@ -20,7 +20,7 @@ You certify that you hold all the rights and authority necessary to agree to the
 
 ### 2. Description of the Solution
 
-Qdrant is a vector similarity engine. It deploys as an API service providing a search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!
+Qdrant is a vector database. It deploys as an API service providing a search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders can be turned into full-fledged applications for matching, searching, recommending, and much more!
 
 Qdrant’s guidelines and description of the Solution are detailed in its documentation (the “Documentation”) made available to you and updated regularly.
 
