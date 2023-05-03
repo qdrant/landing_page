@@ -511,13 +511,9 @@ client.recreate_collection(
 After upload is done, you can enable indexing by setting `indexing_threshold` to default value(20000):
 
 ```http
-PUT /collections/{collection_name}
+PATCH /collections/{collection_name}
 
 {
-    "vectors": {
-      "size": 768,
-      "distance": "Cosine"
-    },
     "optimizers_config": {
         "indexing_threshold": 20000
     }
@@ -529,12 +525,11 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.update_collection(
     collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    optimizers_config=models.OptimizersConfigDiff(
-        indexing_threshold=20000,
-    ),
+    optimizer_config=models.OptimizersConfigDiff(
+        indexing_threshold=20000
+    )
 )
 ```
 
