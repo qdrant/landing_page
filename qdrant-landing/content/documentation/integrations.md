@@ -99,6 +99,44 @@ pip install "docarray[qdrant]"
 
 More information can be found in [DocArray's documentations](https://docarray.jina.ai/advanced/document-store/qdrant/).
 
+## Haystack
+
+[Haystack](https://haystack.deepset.ai/) serves as a comprehensive NLP framework, offering a modular methodology for constructing 
+cutting-edge generative AI, QA, and semantic knowledge base search systems. A critical element in contemporary NLP systems is an 
+efficient database for storing and retrieving extensive text data. Vector databases excel in this role, as they house vector 
+representations of text and implement effective methods for swift retrieval. Thus, we are happy to announce the integration 
+with Haystack - `QdrantDocumentStore`. This document store is unique, as it is maintained externally by the Qdrant team.
+
+The new document store comes as a separate package and can be updated independently of Haystack:
+
+```bash
+pip install qdrant-haystack
+```
+
+`QdrantDocumentStore` supports [all the configuration properties](/documentation/collections/#create-collection) available in 
+the Qdrant Python client. If you want to customize the default configuration of the collection used under the hood, you can
+provide that settings when you create an instance of the `QdrantDocumentStore`. For example, if you'd like to enable the
+Scalar Quantization, you'd make that in the following way:
+
+```python
+from qdrant_haystack.document_stores import QdrantDocumentStore
+from qdrant_client.http import models
+
+document_store = QdrantDocumentStore(
+    ":memory:",
+    index="Document",
+    embedding_dim=512,
+    recreate_index=True,
+    quantization_config=models.ScalarQuantization(
+        scalar=models.ScalarQuantizationConfig(
+            type=models.ScalarType.INT8,
+            quantile=0.99,
+            always_ram=True,
+        ),
+    ),
+)
+```
+
 ## txtai
 Qdrant might be also used as an embedding backend in [txtai](https://neuml.github.io/txtai/) semantic applications.
 
@@ -113,6 +151,23 @@ pip install qdrant-txtai
 ```
 
 The examples and some more information might be found in [qdrant-txtai repository](https://github.com/qdrant/qdrant-txtai).
+
+## FiftyOne
+
+[FiftyOne](https://voxel51.com/) is an open-source toolkit designed to enhance computer vision workflows by optimizing dataset quality 
+and providing valuable insights about your models. FiftyOne 0.20, which includes a native integration with Qdrant, supporting workflows 
+like [image similarity search](https://docs.voxel51.com/user_guide/brain.html#image-similarity) and 
+[text search](https://docs.voxel51.com/user_guide/brain.html#text-similarity). 
+
+Qdrant helps FiftyOne to find the most similar images in the dataset using vector embeddings.
+
+FiftyOne is available as a Python package that might be installed in the following way:
+
+```bash
+pip install fiftyone
+```
+
+Please check out the documentation of FiftyOne on [Qdrant integration](https://docs.voxel51.com/integrations/qdrant.html).
 
 ## Cohere
 Qdrant is compatible with Cohere [co.embed API](https://docs.cohere.ai/reference/embed) and it's official Python SDK that
