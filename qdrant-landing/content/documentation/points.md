@@ -335,6 +335,48 @@ client.set_payload(
 )
 ```
 
+You don't need to know the ids of the points you want to modify. The alternative
+is to use filters.
+
+```http
+POST /collections/{collection_name}/points/payload
+
+{
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "value": "red"
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.set_payload(
+    collection_name="{collection_name}",
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color",
+                match=models.MatchValue(value="red"),
+            ),
+        ],
+    ),
+)
+```
+
 ### Delete payload keys
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
@@ -353,6 +395,41 @@ client.delete_payload(
     collection_name="{collection_name}",
     keys=["color", "price"],
     points=[0, 3, 100],
+)
+```
+
+Alternatively, you can use filters to delete payload keys from the points.
+
+```http
+POST /collections/{collection_name}/points/payload/delete
+
+{
+    "keys": ["color", "price"],
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "value": "red"
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.delete_payload(
+    collection_name="{collection_name}",
+    keys=["color", "price"],
+    points=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color",
+                match=models.MatchValue(value="red"),
+            ),
+        ],
+    ),
 )
 ```
 
@@ -409,7 +486,7 @@ POST /collections/{collection_name}/points/delete
     "filter": {
         "must": [
             {
-                "key": "color"
+                "key": "color",
                 "match": {
                     "value": "red"
                 }
@@ -600,7 +677,7 @@ client.count(
 )
 ```
 
-Returns number of counts mathcing given filtering conditions:
+Returns number of counts matching given filtering conditions:
 
 ```json
 {
