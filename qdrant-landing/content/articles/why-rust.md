@@ -43,4 +43,4 @@ The job market for Rust programmers is certainly not as big as that for Java or 
 
 Finally, the Rust community is a very friendly bunch, and we are delighted to be part of that. And we don’t seem to be alone. Most large IT companies (notably Amazon, Google, Huawei, Meta and Microsoft) have already started investing in Rust. It’s in the Windows font system already and in the process of coming to the Linux kernel (build support has already been included). In machine learning applications, Rust has been tried and proven by the likes of Aleph Alpha and Huggingface, among many others.
 
-To sum up, choosing Rust was a lucky guess that has brough huge benefits to Qdrant. Rust continues to be our not-so-secret weapon.
+To sum up, choosing Rust was a lucky guess that has brought huge benefits to Qdrant. Rust continues to be our not-so-secret weapon.
