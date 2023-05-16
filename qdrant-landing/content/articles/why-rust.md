@@ -10,7 +10,7 @@ author_link: https://llogiq.github.io
 date: 2023-05-11T10:00:00+01:00
 draft: false
 keywords: rust, programming, development
-# aliases: [ /articles/why_rust/ ]
+aliases: [ /articles/why_rust/ ]
 ---
 
 Looking at the [github repository](https://github.com/qdrant/qdrant), you can see that Qdrant is built in [Rust](https://rust-lang.org). Other offerings may be written in C++, Go, Java or even Python. So why does Qdrant chose Rust? Our founder Andrey had built the first prototype in C++, but didn’t trust his command of the language to scale to a production system (to be frank, he likened it to cutting his leg off). He was well versed in Java and Scala and also knew some Python. However, he considered neither a good fit:
