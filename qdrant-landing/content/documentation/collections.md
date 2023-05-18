@@ -187,7 +187,7 @@ client.update_collection(
 )
 ```
 
-This command enables indexing for segments that have more than 10000 vectors stored.
+This command enables indexing for segments that have more than 10000 KB of vectors stored.
 
 ## Collection info
 
