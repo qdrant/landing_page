@@ -60,8 +60,8 @@ a unique id. **The clustering is done separately for each group of chunks.**
 Each chunk of a vector might now be mapped to the closest centroid. That’s where we lose the precision, 
 as a single point will only represent a whole subspace. Instead of using a subvector, we can store 
 the id of the closest centroid. If we repeat that for each chunk, we can approximate the original 
-embedding as a vector of subsequent ids. The dimensionality of the created vector is equal to 
-the number of chunks.
+embedding as a vector of subsequent ids of the centroids. The dimensionality of the created vector 
+is equal to the number of chunks, in our case 2.
 
 ![A new vector built from the ids of the centroids](/articles_data/product-quantization/vector-of-ids.png)
 
@@ -76,9 +76,9 @@ All those steps build the following pipeline of Product Quantization:
 Vector search relies on the distances between the points. Enabling Product Quantization slightly changes 
 the way it has to be calculated. The query vector is divided into chunks, and then we figure the overall 
 distance as a sum of distances between the subvectors and the centroids assigned to the specific id of 
-the vector we compare to.
+the vector we compare to. We know the coordinates of the centroids, so that's easy.
 
-TODO: image - calculating the distance
+![Calculating the distance of between the query and the stored vector](/articles_data/product-quantization/distance-calculation.png)
 
 #### Qdrant implementation
 
@@ -203,3 +203,7 @@ the lower the search precision. The main benefit is undoubtedly the reduced usag
 
 It turns out that in some cases, Product Quantization may not only reduce the memory usage, 
 but also the search time.
+
+## Good practices
+
+TBD: refer to the docs
