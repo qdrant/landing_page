@@ -84,7 +84,8 @@ TODO: image - calculating the distance
 
 Search operation requires calculating the distance to multiple points. Since we calculate the 
 distance to a finite set of centroids, those might be precomputed and reused. Qdrant creates
-a lookup table for each query, so it can then simply sum up several terms.
+a lookup table for each query, so it can then simply sum up several terms to measure the
+distance between a query and all the centroids.
 
 |             | Centroid 0 | Centroid 1 | ... |
 |-------------|------------|------------|-----|
