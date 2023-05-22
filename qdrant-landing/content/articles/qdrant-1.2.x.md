@@ -194,7 +194,7 @@ operations in a partial state. This state allows for removing collections but do
 or update functions. If Qdrant enters this locked state, a reboot that either increases available or 
 reduces required resources resolves it.
 
-## Appendable mmap
+### Appendable mmap
 
 For a long time, segments using mmap storage were `non-appendable` and could only be constructed by 
 the optimizer. Dynamically adding vectors to the mmap file is fairly complicated and thus not 
