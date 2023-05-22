@@ -639,7 +639,7 @@ Error: Too many files open (OS error 24)
 In such a case you may need to increase the limit of the open files. It might be done, for example, while you launch the Docker container:
 
 ```bash
-docker run -d -dlimit nofile=10000:10000 qdrant/qdrant:latest
+docker run --ulimit nofile=10000:10000 qdrant/qdrant:latest
 ```
 
 The command above will set both soft and hard limits to `10000`.
