@@ -1,7 +1,7 @@
 ---
 title: "Qdrant under the hood: Product Quantization"
-short_description: "TBD"
-description: "TBD"
+short_description: "Vector search with low memory? Try out our brand-new Product Quantization!"
+description: "Vector search with low memory? Try out our brand-new Product Quantization!"
 social_preview_image: /articles_data/product-quantization/social_preview.png
 small_preview_image: /articles_data/product-quantization/product-quantization-icon.svg
 preview_dir: /articles_data/product-quantization/preview
@@ -206,4 +206,6 @@ but also the search time.
 
 ## Good practices
 
-TBD: refer to the docs
+Qdrant documentation on [Product Quantization](/documentation/quantization/#setting-up-product-quantization) 
+will help you to set and configure the new quantization for your data and achieve even 
+up to 64x memory reduction.
