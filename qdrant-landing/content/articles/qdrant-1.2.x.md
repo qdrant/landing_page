@@ -79,7 +79,7 @@ database. This mechanism is similar to the SQL `GROUP BY` clause.
 
 Unlike some other vector databases out there, Qdrant accepts any arbitrary JSON payload, including
 arrays, objects, and arrays of objects. You can also [filter the search results using nested 
-keys](documentation/filtering/#nested-key), even though arrays (using the `[]` syntax). 
+keys](/documentation/filtering/#nested-key), even though arrays (using the `[]` syntax). 
 
 Before Qdrant 1.2 it was actually impossible to express some more complex conditions for the
 nested structures. For example, let's assume we have the following payload:
