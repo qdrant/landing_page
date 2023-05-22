@@ -1,7 +1,7 @@
 ---
 title: "Introducing Qdrant 1.2.x"
-short_description: "TODO"
-description: "TODO"
+short_description: "Check out what Qdrant 1.2 brings to vector search"
+description: "Check out what Qdrant 1.2 brings to vector search"
 social_preview_image: /articles_data/qdrant-1.2.x/preview/social_preview.jpg
 small_preview_image: /articles_data/qdrant-1.2.x/icon.svg
 preview_dir: /articles_data/qdrant-1.2.x/preview
