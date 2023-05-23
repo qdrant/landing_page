@@ -68,12 +68,16 @@ keep the document id as a payload attribute.
 ![Query without grouping request](/articles_data/qdrant-1.2.x/without-grouping-request.png)
 
 There are, however, some cases, in which we want to find the relevant parts, but no more than just 
-a single result per document. Up till now, we had to implement such a mechanism on the client side 
-and send several calls to the Qdrant engine. But that's no longer the case. Qdrant 1.2 provides 
-a mechanism for grouping requests, which can handle that server-side, within a single call to the 
-database. This mechanism is similar to the SQL `GROUP BY` clause.
+a certain number of results per document, for example a single one only. Up till now, we had to 
+implement such a mechanism on the client side and send several calls to the Qdrant engine. But 
+that's no longer the case. Qdrant 1.2 provides a mechanism for grouping requests, which can handle 
+that server-side, within a single call to the database. This mechanism is similar to the SQL 
+`GROUP BY` clause.
 
 ![Query with grouping request](/articles_data/qdrant-1.2.x/with-grouping-request.png)
+
+You are not limited to a single result per document - you can select how many entries will be
+returned
 
 ### Nested filters
 
