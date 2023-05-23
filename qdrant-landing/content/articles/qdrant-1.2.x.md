@@ -203,3 +203,11 @@ For a long time, segments using mmap storage were `non-appendable` and could onl
 the optimizer. Dynamically adding vectors to the mmap file is fairly complicated and thus not 
 implemented in Qdrant, but we did our best to implement it in the recent release. If you want 
 to read more about segments, check out our docs on [vector storage](/documentation/storage/#vector-storage).
+
+## Security
+
+There are two major changes in terms of security:
+
+1. **API-key support** - basic authentication with a static API key to prevent unwanted access. Previously 
+   API keys were only supported in [Qdrant Cloud](https://cloud.qdrant.io/).
+2. **TLS support** -  to use encrypted connections and prevent sniffing/MitM attacks.
