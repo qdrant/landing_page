@@ -192,7 +192,7 @@ situation was causing Qdrant to attempt a restart and reapplication of WAL, fail
 to the same memory constraints and pushing the service into a frustrating crash loop with many 
 Out-of-Memory errors.
 
-Qdrant 1.2 enters the recovery mode, if enabled, when it detects the repeated failures on startup. 
+Qdrant 1.2 enters recovery mode, if enabled, when it detects a failure on startup. 
 That makes the service halt the loading of collection data and commence operations in a partial state. 
 This state allows for removing collections but doesn't support search or update functions. 
 **Recovery mode [has to be enabled by user](/documentation/administration/#recovery-mode).**
