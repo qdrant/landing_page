@@ -116,13 +116,13 @@ Japan, looking at our data, but if we wrote the following filter, it would be re
   "filter": {
     "must": [
       {
-        "key": "country.cities.population",
+        "key": "country.cities[].population",
         "range": {
           "gte": 2
         }
       },
       {
-        "key": "country.cities.area",
+        "key": "country.cities[].area",
         "range": {
           "gt": 500,
           "lte": 1000
