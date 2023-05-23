@@ -27,8 +27,8 @@ how you use it!
 
 ## New features
 
-As usual, a minor version update of Qdrant brings some interesting new features. We love your 
-feedback and tried to include the most requested features, as reported by our community.
+As usual, a minor version update of Qdrant brings some interesting new features. We love to see your 
+feedback, and we tried to include the features most requested by our community.
 
 ### Product Quantization
 
@@ -52,7 +52,7 @@ don't want to make your payloads redundant by keeping them in separate collectio
 
 ![Optional vectors](/articles_data/qdrant-1.2.x/optional-vectors.png)
 
-However, up to the previous version, we requested you provide all the vectors for each point. There 
+However, up to the previous version, we requested that you provide all the vectors for each point. There 
 have been many requests to allow nullable vectors, as sometimes you cannot generate an embedding or 
 simply don't want to for reasons we don't need to know.
 
@@ -67,25 +67,25 @@ keep the document id as a payload attribute.
 
 ![Query without grouping request](/articles_data/qdrant-1.2.x/without-grouping-request.png)
 
-There are, however, some cases, in which we want to find the relevant parts, but no more than just 
-a certain number of results per document, for example a single one only. Up till now, we had to 
-implement such a mechanism on the client side and send several calls to the Qdrant engine. But 
-that's no longer the case. Qdrant 1.2 provides a mechanism for grouping requests, which can handle 
+There are cases where we want to find relevant parts, but only up to a specific number of results
+per document (for example, only a single one). Up till now, we had to implement such a mechanism 
+on the client side and send several calls to the Qdrant engine. But that's no longer the case. 
+Qdrant 1.2 provides a mechanism for grouping requests, which can handle 
 that server-side, within a single call to the database. This mechanism is similar to the SQL 
 `GROUP BY` clause.
 
 ![Query with grouping request](/articles_data/qdrant-1.2.x/with-grouping-request.png)
 
-You are not limited to a single result per document - you can select how many entries will be
-returned
+You are not limited to a single result per document and you can select how many entries will be
+returned.
 
 ### Nested filters
 
-Unlike some other vector databases out there, Qdrant accepts any arbitrary JSON payload, including
+Unlike some other vector databases, Qdrant accepts any arbitrary JSON payload, including
 arrays, objects, and arrays of objects. You can also [filter the search results using nested 
 keys](/documentation/filtering/#nested-key), even though arrays (using the `[]` syntax). 
 
-Before Qdrant 1.2 it was actually impossible to express some more complex conditions for the
+Before Qdrant 1.2 it was impossible to express some more complex conditions for the
 nested structures. For example, let's assume we have the following payload:
 
 ```json
