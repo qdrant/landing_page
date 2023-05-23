@@ -183,7 +183,7 @@ list empty but correct.
 The latest release focuses not only on the new features but also introduces some changes making 
 Qdrant even more reliable.
 
-### Fixed memory errors on startup
+### Recovery mode
 
 There has been an issue in memory-constrained environments, such as cloud, happening when users were 
 pushing massive amounts of data into the service using `wait=false`. This data influx resulted in an 
@@ -192,11 +192,10 @@ situation was causing Qdrant to attempt a restart and reapplication of WAL, fail
 to the same memory constraints and pushing the service into a frustrating crash loop with many 
 Out-of-Memory errors.
 
-Qdrant 1.2 automatically detects if memory usage exceeds a specific threshold, informs a user with an 
-error message in the logs, and makes the service halt the loading of collection data and commence 
-operations in a partial state. This state allows for removing collections but doesn't support search 
-or update functions. If Qdrant enters this locked state, a reboot that either increases available or 
-reduces required resources resolves it.
+Qdrant 1.2 enters the recovery mode, if enabled, when it detects the repeated failures on startup. 
+That makes the service halt the loading of collection data and commence operations in a partial state. 
+This state allows for removing collections but doesn't support search or update functions. 
+**Recovery mode [has to be enabled by user](/documentation/administration/#recovery-mode).**
 
 ### Appendable mmap
 
