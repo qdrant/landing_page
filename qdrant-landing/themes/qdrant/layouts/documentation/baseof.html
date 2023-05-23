@@ -1,10 +1,7 @@
 {{- partial "header.html" . -}}
 
-{{- partial "second_header.html" . -}}
-
-
-<section>
-    <div class="container-fluid px-5 pt-4 pt-md-5">
+<section class="documentation">
+    <div class="container-xxl pt-4 pt-md-5">
         <div class="row clearfix">
             {{- partial "docs_sidebar.html" . -}}
             {{ block "main" . }}{{ end }}

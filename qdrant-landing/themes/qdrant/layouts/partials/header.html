@@ -85,13 +85,14 @@
             <!-- Main Header-->
 
             {{ if (eq $.Section "documentation") }}
-            <header class="main-header">
+            <header class="main-header position-static">
             {{ else }}
             <header class="main-header main-sticky-header{{ if .IsHome }} main-header__home{{ end }}">
             {{ end }}
 
               <!--Header-Upper-->
-                <div class="auto-container d-flex justify-content-between">
+                <div class="{{ if (eq $.Section "documentation") }}container-xxl
+                    {{ else }}auto-container{{ end }} d-flex justify-content-between">
 
                     <div class="logo-box">
                       <div class="logo logo_with-text {{ if .IsHome }}logo_home{{ end }}">
