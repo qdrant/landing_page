@@ -1,5 +1,5 @@
 {{$currentNode := .}}
-<nav class="documentation__sidebar-inner col-lg-2 col-md-2 col-12 pr-4 mb-4 position-relative">
+<nav class="documentation__sidebar-inner col-lg-2 col-md-3 col-12 pr-4 mb-4 position-relative">
 
     {{ $sectionLink := cond .IsSection .RelPermalink .Parent.RelPermalink }}
     {{ $subject := site.GetPage $sectionLink }}
@@ -21,7 +21,7 @@
             <div class="link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}">
                 <div class="link-group-heading" id="headingOne">
                     <span class="mb-0">
-                        <a class="btn btn-link collapsed pl-0" href="{{ .Permalink }}">
+                        <a class="btn btn-link text-left collapsed pl-0" href="{{ .Permalink }}">
                             {{ .Title }}
                         </a>
                     </span>

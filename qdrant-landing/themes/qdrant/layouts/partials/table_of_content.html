@@ -1,5 +1,5 @@
 {{$currentNode := .}}
-<nav class="tableOfContent col-lg-3 col-md-3 col-12 mt-0 pr-4 mb-4">
+<nav class="tableOfContent col-lg-2 col-12 d-lg-block d-none mt-0 pr-4 mb-4">
 
     {{ $sectionLink := cond .IsSection .RelPermalink .Parent.RelPermalink }}
     {{ $subject := site.GetPage $sectionLink }}
