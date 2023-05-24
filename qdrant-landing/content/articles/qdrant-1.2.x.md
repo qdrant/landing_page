@@ -211,3 +211,8 @@ There are two major changes in terms of [security](/documentation/security/):
 1. **API-key support** - basic authentication with a static API key to prevent unwanted access. Previously 
    API keys were only supported in [Qdrant Cloud](https://cloud.qdrant.io/).
 2. **TLS support** -  to use encrypted connections and prevent sniffing/MitM attacks.
+
+## Release notes
+
+As usual, [our release notes](https://github.com/qdrant/qdrant/releases/tag/v1.2.0) describe all the changes 
+introduced in the latest version.
