@@ -37,7 +37,46 @@ If you update a vector in a segment with mmap storage, the vector will be moved 
 
 ### Configuring Memmap storage
 
-To configure usage of mmap (also known as on-disk) storage, you need to specify the threshold after which the segment will be converted to mmap storage.
+There are two ways to configure the usage of mmap(also known as on-disk) storage:
+
+- Set up `on_disk` option for the vectors in the collection create API:
+
+**Available since v1.2.0**
+
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "vectors": {
+      "size": 768,
+      "distance": "Cosine",
+      "on_disk": true
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("localhost", port=6333)
+
+client.recreate_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(
+        size=768,
+        distance=models.Distance.COSINE
+        on_disk=True
+    ),
+)
+```
+
+This will create a collection with all vectors immediately stored in mmap storage.
+This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
+
+
+- Set up `memmap_threshold_kb` option. This option will set the threshold after which the segment will be converted to mmap storage.
+
 There are two ways to do this:
 
 1. You can set the threshold globally in the [configuration file](../configuration/). The parameter is called `memmap_threshold_kb`.

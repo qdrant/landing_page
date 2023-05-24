@@ -198,7 +198,7 @@ PUT /collections/{collection_name}/points
             "id": 3,
             "payload": {"color": "blue"},
             "vector": [0.1, 0.1, 0.9]
-        },
+        }
     ]
 }
 ```
@@ -252,7 +252,7 @@ Even with such a system, Qdrant ensures data consistency.
 
 *Available since v0.10.0*
 
-If the collection was created with multiple vectors, each vector data should be provided using the vectors name:
+If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
 ```http
 PUT /collections/{collection_name}/points
@@ -299,12 +299,104 @@ client.upsert(
 )
 ```
 
+*Available since v1.2.0*
+
+Named vectors are optional. When uploading points, some vectors may be omitted.
+For example, you can upload one point with only the `image` vector and a second
+one with only the `text` vector.
+
+When uploading a point with an existing ID, the existing point is deleted first, 
+then it is inserted with just the specified vectors. In other words, the entire 
+point is replaced, and any unspecified vectors are set to null. To keep existing 
+vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
+
 ## Modify points
 
-You can modify a point in two ways. The first is to modify the vector.
-Currently, you would need to re-upload the point to modify the vector.
+To change a point, you can modify its vectors or its payload. There are several
+ways to do this.
 
-The second is to modify the payload, for which there are several methods.
+### Update vectors
+
+*Available since v1.2.0*
+
+This method updates the specified vectors on the given points. Unspecified
+vectors are kept unchanged. All given points must exist.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_vectors)):
+
+```http
+PUT /collections/{collection_name}/points/vectors
+
+{
+    "points": [
+        {
+            "id": 1,
+            "vector": {
+                "image": [0.1, 0.2, 0.3, 0.4]
+            }
+        },
+        {
+            "id": 2,
+            "vector": {
+                "text": [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2]
+            }
+        }
+    ]
+}
+```
+
+```python
+client.update_vectors(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1,
+            vector={
+                "image": [0.1, 0.2, 0.3, 0.4],
+            },
+        ),
+        models.PointStruct(
+            id=2,
+            vector={
+                "text": [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2],
+            },
+        ),
+    ]
+)
+```
+
+To update points and replace all of its vectors, see [uploading
+points](#upload-points).
+
+### Delete vectors
+
+*Available since v1.2.0*
+
+This method deletes just the specified vectors from the given points. Other
+vectors are kept unchanged. Points are never deleted.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/deleted_vectors)):
+
+```http
+POST /collections/{collection_name}/points/vectors/delete
+
+{
+    "points": [0, 3, 100],
+    "vectors": ["text", "image"]
+}
+```
+
+```python
+client.delete_vectors(
+    collection_name="{collection_name}",
+    points_selector=models.PointIdsList(
+        points=[0, 3, 100],
+    ),
+    vectors=["text", "image"]
+)
+```
+
+To delete entire points, see [deleting points](#delete-points).
 
 ### Set payload
 

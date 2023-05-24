@@ -72,15 +72,3 @@ To do so, send an email to privacy@qdrant.com containing the unique identifier g
 You can find this identifier in the telemetry API response (`"id"` field), or in the logs of your Qdrant instance.
 
 Any questions regarding the management of the data we collect can also be sent to this email address.
-
-## Metrics
-
-To incorporate Qdrant into your own monitoring system you can use the metrics
-endpoint. It reports metrics data similar to telemetry, but in Prometheus
-format.
-
-Metrics endpoint: <http://localhost:6333/metrics>
-
-Integrating with Prometheus and Grafana is easy. Simply
-[configure](https://prometheus.io/docs/prometheus/latest/getting_started/#configure-prometheus-to-monitor-the-sample-targets)
-your Qdrant host as scrape target.

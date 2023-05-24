@@ -165,7 +165,7 @@ client.delete_collection(collection_name="{collection_name}")
 ### Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
-With these settings, you can disable indexing during the upload process.  And enable it immediately after the upload is finished.
+For example, you can disable indexing during the upload process, and enable it immediately after the upload is finished.
 As a result, you will not waste extra computation resources on rebuilding the index.
 
 ```http
@@ -187,7 +187,7 @@ client.update_collection(
 )
 ```
 
-This command enables indexing for segments that have more than 10000 KB of vectors stored.
+This command enables indexing for segments that have more than 10000 kB of vectors stored.
 
 ## Collection info
 
@@ -262,7 +262,7 @@ There are, however, some other attributes you might be interested in:
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
 depends on the [optimizer configuration](../optimizer). A new index segment is built if the size of non-indexed vectors is higher than the
-value of `indexing_threshold`(in KB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
+value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.
 
 It is possible to reduce the `indexing_threshold` for an existing collection by [updating collection parameters](#update-collection-parameters).

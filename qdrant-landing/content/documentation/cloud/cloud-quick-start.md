@@ -34,13 +34,12 @@ Create a new one for your newly created cluster by choosing the name from the cl
 You can also create a key that provides access to several clusters.
 The secret key is only shown once after creation and if you lose it, you will need to create a new one. We recommend rotating the keys from time to time anyway.
 
-The API key needs to be present in the request header each time you make a request to the Qdrant cloud cluster via Rest or gRPC interface.
-All official Qdrant clients for Python, Go, and Rust are supporting the API key parameter. 
+The API key needs to be present in all REST or gRPC requests to the Qdrant cloud cluster.
+All official Qdrant clients for Python, Go, and Rust support the API key parameter.
 
 <!---
 Examples with clients
 -->
-
 
 ```python
 from qdrant_client import QdrantClient
