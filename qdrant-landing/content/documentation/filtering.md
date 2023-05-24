@@ -3,10 +3,10 @@ title: Filtering
 weight: 60
 ---
 
-Qdrant allows you to set the conditions to be used when searching or retrieving points.
-You can impose conditions both on the [payload](../payload) and on, for example, the `id` of the point.
+With Qdrant, you can set conditions when searching or retrieving points.
+For example, you can impose conditions on both the [payload](../payload) and the `id` of the point.
 
-The use of additional conditions is important when, for example, it is impossible to express all the features of the object in the embedding.
+Setting additional conditions is important when it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
 
 ## Filtering clauses
@@ -357,6 +357,41 @@ FieldCondition(
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
+If the stored value is an array, it should have at least one value matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
+
+
+### Match Except
+
+_Available since version 1.2.0_
+
+In case you want to check if the stored value is not one of multiple values, you can use the Match Except condition.
+Match Except works as a logical NOR for the given values.
+It can also be described as a `NOT IN` operator.
+
+You can apply it to [keyword](../payload/#keyword) and [integer](../payload/#integer) payloads.
+
+Example:
+
+```json
+{
+  "key": "color",
+  "match": {
+    "except": ["black", "yellow"]
+  }
+}
+```
+
+```python
+FieldCondition(
+    key="color",
+    match=models.MatchExcept(**{"except": ["black", "yellow"]}),
+)
+```
+
+In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
+
+If the stored value is an array, it should have at least one value not matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"green"` does not match `"black"` nor `"yellow"`.
+
 ### Nested key
 
 _Available since version 1.1.0_
@@ -515,6 +550,220 @@ client.scroll(
 ```
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
+
+### Nested object filter
+
+_Available since version 1.2.0_
+
+By default, the conditions are taking into account the entire payload of a point.
+
+For instance, given two points with the following payload:
+
+```json
+[
+  {
+    "id": 1,
+    "dinosaur": "t-rex",
+    "diet": [
+      { "food": "leaves", "likes": false},
+      { "food": "meat", "likes": true}
+    ]
+  },
+  {
+    "id": 2,
+    "dinosaur": "diplodocus",
+    "diet": [
+      { "food": "leaves", "likes": true},
+      { "food": "meat", "likes": false}
+    ]
+  }
+]
+```
+
+The following query would match both points:
+
+```http
+POST /collections/{collection_name}/points/scroll
+
+{
+    "filter": {
+        "must": [
+            {
+                "key": "diet[].food",
+                  "match": {
+                    "value": "meat"
+                }
+            },
+            {
+                "key": "diet[].likes",
+                  "match": {
+                    "value": true
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="diet[].food",
+                match=models.MatchValue(value="meat")
+            ),
+            models.FieldCondition(
+                key="diet[].likes",
+                match=models.MatchValue(value=True)
+            ),
+        ],
+    ),
+)
+```
+
+This happens because both points are matching the two conditions:
+
+- the "t-rex" matches food=meat on `diet[1].food` and likes=true on `diet[1].likes`
+- the "diplodocus" matches food=meat on `diet[1].food` and likes=true on `diet[0].likes`
+
+To retrieve only the points which are matching the conditions on an array element basis, that is the point with id 1 in this example, you would need to use a nested object filter.
+
+Nested object filters allow arrays of objects to be queried independently of each other.
+
+It is achieved by using the `nested` condition type formed by a payload key to focus on and a filter to apply.
+
+The key should point to an array of objects and can be used with or without the bracket notation ("data" or "data[]").
+
+```http
+POST /collections/{collection_name}/points/scroll
+
+{
+    "filter": {
+        "must": [
+            "nested": {
+                {
+                    "key": "diet",
+                    "filter":{
+                        "must": [
+                            {
+                                "key": "food",
+                                "match": {
+                                    "value": "meat"
+                                }
+                            },
+                            {
+                                "key": "likes",
+                                "match": {
+                                    "value": true
+                                }
+                            }
+                        ]
+                    }
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        must=[
+            models.NestedContainer(
+                nested=models.NestedCondition(
+                    key="diet",
+                    filter=(
+                        must=[
+                            models.FieldCondition(
+                                key="food",
+                                match=models.MatchValue(value="meat")
+                            ),
+                            models.FieldCondition(
+                                key="likes",
+                                match=models.MatchValue(value=True)
+                            ),
+                        ]
+                    )
+                )
+            )
+        ],
+    ),
+)
+```
+
+The matching logic is modified to be applied at the level of an array element within the payload.
+
+Nested filters work in the same way as if the nested filter was applied to a single element of the array at a time.
+Parent document is considered to match the condition if at least one element of the array matches the nested filter.
+
+**Limitations**
+
+The `has_id` condition is not supported within the nested object filter. If you need it, place it in an adjacent `must` clause.
+
+```http
+POST /collections/{collection_name}/points/scroll
+
+{
+    "filter": {
+        "must": [
+            "nested": {
+                {
+                    "key": "diet",
+                    "filter":{
+                        "must": [
+                            {
+                                "key": "food",
+                                "match": {
+                                    "value": "meat"
+                                }
+                            },
+                            {
+                                "key": "likes",
+                                "match": {
+                                    "value": true
+                                }
+                            }
+                        ]
+                    }
+                }
+            },
+            { "has_id": [1] }
+        ]
+    }
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        must=[
+            models.NestedContainer(
+                nested=models.NestedCondition(
+                    key="diet",
+                    filter=(
+                        must=[
+                            models.FieldCondition(
+                                key="food",
+                                match=models.MatchValue(value="meat")
+                            ),
+                            models.FieldCondition(
+                                key="likes",
+                                match=models.MatchValue(value=True)
+                            ),
+                        ]
+                    )
+                )
+            )
+            models.HasIdCondition(has_id=[1]),
+        ],
+    ),
+)
+```
 
 ### Full Text Match
 

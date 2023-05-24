@@ -86,16 +86,17 @@ storage:
     # If not set, will be automatically selected considering the number of available CPUs.
     max_segment_size_kb: null
 
-    # Maximum size (in KiloBytes) of vectors to store in-memory per segment.
+    # Maximum size (in kilobytes) of vectors to store in-memory per segment.
     # Segments larger than this threshold will be stored as read-only memmaped file.
-    # To enable memmap storage, lower the threshold
+    # Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.
+    # To explicitly disable mmap optimization, set to `0`.
     # Note: 1Kb = 1 vector of size 256
-    # If not set, mmap will not be used.
     memmap_threshold_kb: null
 
-    # Maximum size (in KiloBytes) of vectors allowed for plain index.
-    # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
-    # Note: 1Kb = 1 vector of size 256
+    # Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing
+    # Default value is 20,000, based on <https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md>.
+    # To explicitly disable vector indexing, set to `0`.
+    # Note: 1kB = 1 vector of size 256.
     indexing_threshold_kb: 20000
 
     # Interval between forced flushes.
@@ -152,11 +153,22 @@ service:
   # Default: true
   enable_cors: true
 
-  # Use HTTPS for the REST API
+  # Enable HTTPS for the REST and gRPC API
   enable_tls: false
 
   # Check user HTTPS client certificate against CA file specified in tls config
   verify_https_client_certificate: false
+
+  # Set an api-key.
+  # If set, all requests must include a header with the api-key.
+  # example header: `api-key: <API-KEY>`
+  #
+  # If you enable this you should also enable TLS.
+  # (Either above or via an external service like nginx.)
+  # Sending an api-key over an unencrypted channel is insecure.
+  #
+  # Uncomment to enable.
+  # api_key: your_secret_api_key_here
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
@@ -203,6 +215,10 @@ tls:
   #
   # Required if cluster.p2p.enable_tls is true.
   ca_cert: ./tls/cacert.pem
+
+  # TTL in seconds to reload certificate from disk, useful for certificate rotations.
+  # Only works for HTTPS endpoints. Does not support gRPC (and intra-cluster communication).
+  cert_ttl: 3600
 ```
 
 ## Validation
@@ -212,7 +228,7 @@ tls:
 The configuration is validated on startup. If a configuration is loaded but
 validation fails, a warning is logged. E.g.:
 
-```
+```text
 WARN Settings configuration file has validation errors:
 WARN - storage.optimizers.memmap_threshold: value 123 invalid, must be 1000 or larger
 WARN - storage.hnsw_index.m: value 1 invalid, must be from 4 to 10000
