@@ -38,9 +38,9 @@ support for disk-stored collections, as storage space is way cheaper than memory
 why we have introduced the [Scalar Quantization](/articles/scalar-quantization) mechanism recently, 
 which makes it possible to reduce the memory requirements by up to four times.
 
-Today, we are bringing a new quantization mechanism to life. A separate article on 
-[Product Quantization](/articles/product-quantization) describes that feature in more detail. 
-In a nutshell, you can **reduce the memory requirements by up to 64 times**!
+Today, we are bringing a new quantization mechanism to life. A separate article on [Product 
+Quantization](/documentation/quantization/#product-quantization) will describe that feature in more 
+detail. In a nutshell, you can **reduce the memory requirements by up to 64 times**!
 
 ### Optional named vectors
 
@@ -70,13 +70,13 @@ keep the document id as a payload attribute.
 There are cases where we want to find relevant parts, but only up to a specific number of results
 per document (for example, only a single one). Up till now, we had to implement such a mechanism 
 on the client side and send several calls to the Qdrant engine. But that's no longer the case. 
-Qdrant 1.2 provides a mechanism for grouping requests, which can handle 
-that server-side, within a single call to the database. This mechanism is similar to the SQL 
-`GROUP BY` clause.
+Qdrant 1.2 provides a mechanism for [grouping requests](/documentation/search/#grouping-api), which 
+can handle that server-side, within a single call to the database. This mechanism is similar to the 
+SQL `GROUP BY` clause.
 
 ![Query with grouping request](/articles_data/qdrant-1.2.x/with-grouping-request.png)
 
-You are not limited to a single result per document and you can select how many entries will be
+You are not limited to a single result per document, and you can select how many entries will be
 returned.
 
 ### Nested filters
@@ -206,7 +206,7 @@ to read more about segments, check out our docs on [vector storage](/documentati
 
 ## Security
 
-There are two major changes in terms of security:
+There are two major changes in terms of [security](/documentation/security/):
 
 1. **API-key support** - basic authentication with a static API key to prevent unwanted access. Previously 
    API keys were only supported in [Qdrant Cloud](https://cloud.qdrant.io/).
