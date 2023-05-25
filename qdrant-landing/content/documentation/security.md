@@ -5,10 +5,6 @@ weight: 165
 
 There are various ways to secure your own Qdrant instance.
 
-For authentication on Qdrant cloud refer to its
-[Authentication](https://qdrant.tech/documentation/cloud/cloud-quick-start/#authentication)
-section.
-
 ## Authentication
 
 *Available as of v1.2.0*

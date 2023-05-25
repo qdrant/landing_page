@@ -8,7 +8,7 @@ weight: 30
 A collection is a named set of points (vectors with a payload) among which you can search.
 Vectors within the same collection must have the same dimensionality and be compared by a single metric.
 
-Distance metrics used to measure similarities among vectors.
+Distance metrics are used to measure similarities among vectors.
 The choice of metric depends on the way vectors obtaining and, in particular, on the method of neural network encoder training.
 
 Qdrant supports these most popular types of metrics:
@@ -385,7 +385,7 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient("localhost", port=6333)
 
-client.list_aliases()
+client.get_aliases()
 ```
 
 ### List all collections

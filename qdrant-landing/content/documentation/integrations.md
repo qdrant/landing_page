@@ -81,7 +81,7 @@ client = qdrant_client.QdrantClient(
 index = GPTQdrantIndex.from_documents(documents, client=client, collection_name="documents")
 ```
 
-The library [comes with a notebook](https://github.com/jerryjliu/llama_index/blob/main/examples/vector_indices/QdrantIndexDemo.ipynb) 
+The library [comes with a notebook](https://github.com/jerryjliu/llama_index/blob/main/docs/examples/vector_stores/QdrantIndexDemo.ipynb) 
 that shows an end-to-end example of how to use Qdrant within LlamaIndex.
 
 ## DocArray
