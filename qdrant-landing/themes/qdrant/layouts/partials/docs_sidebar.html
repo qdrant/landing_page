@@ -27,6 +27,9 @@
                                    {{ if (eq .Params.type "external-link") }}target="_blank"{{ end }}
                                 >
                                     {{ .Title }}
+                                    {{ if (eq .Params.type "external-link") }}
+                                        <sup><i class="fas fa-external-link-alt"></i></sup>
+                                    {{ end }}
                                 </a>
                             </span>
                         </div>
