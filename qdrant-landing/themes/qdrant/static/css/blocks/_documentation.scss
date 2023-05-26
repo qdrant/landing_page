@@ -2,42 +2,46 @@
 @use "../helpers/functions" as lib;
 
 .documentation {
-  @include mixins.content-reset;
   padding-top: 2rem;
   margin-top: 0.5rem;
   border-top: 1px solid var(--brand-light-grey);
 
-  h1 {
-    font-size: 2.25rem;
-  }
+  &__article {
+    @include mixins.content-reset;
 
-  h2 {
-    font-size: 1.75rem;
-  }
+    h1 {
+      font-size: 2.25rem;
+    }
 
-  h3 {
-    font-size: 1.25rem;
-  }
+    h2 {
+      font-size: 1.75rem;
+    }
 
-  h4 {
-    font-size: 1.25rem;
-  }
+    h3 {
+      font-size: 1.25rem;
+    }
 
-  h5 {
-    font-size: 1.25rem;
-  }
+    h4 {
+      font-size: 1.25rem;
+    }
 
-  h6 {
-    font-size: 1.25rem;
-  }
+    h5 {
+      font-size: 1.25rem;
+    }
 
-  p {
-    margin-bottom: 0.7rem;
+    h6 {
+      font-size: 1.25rem;
+    }
+
+    p {
+      margin-bottom: 0.7rem;
+    }
   }
 
   &__sidebar-inner {
     top: lib.rem(8);
   }
+
   &__sidebar-list {
     max-height: calc(100vh - 90px);
     overflow-y: scroll;
@@ -48,6 +52,7 @@
     &::-webkit-scrollbar {
       display: none;
     }
+
     &::-webkit-scrollbar {
       width: 1px;
     }
@@ -55,6 +60,7 @@
     &::-webkit-scrollbar-thumb {
       background: var(--brand-gray);
     }
+
     &:hover {
       scrollbar-width: thin; /* Firefox */
       scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
@@ -63,6 +69,7 @@
         display: block;
       }
     }
+
     @media (hover: none) {
       scrollbar-width: thin; /* Firefox */
       scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
@@ -71,5 +78,41 @@
         display: block;
       }
     }
+  }
+
+  &__sidebar-link-group {
+    & > summary {
+      list-style: none;
+      margin-right: 10px;
+      position: relative;
+
+      &:after {
+        display: block;
+        width: lib.rem(10);
+        height: lib.rem(20);
+        position: absolute;
+        top: 6px;
+        right: 0;
+        content: "\f0da";
+        text-align: center;
+        color: #272727;
+        font-family: 'Font Awesome 5 Free';
+        font-size: lib.rem(14);
+        font-weight: 600;
+      }
+    }
+
+    &[open] > summary {
+      &:after {
+        content: "\f0d7";
+      }
+    }
+  }
+
+  &__sidebar-delimiter {
+    font-size: 1rem;
+    font-weight: 600;
+    padding-top: 1rem;
+    padding-bottom: 0.3rem;
   }
 }
