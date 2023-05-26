@@ -96,12 +96,28 @@ code {
 
 .link-group .btn,
 .link-group a {
+  display: flex;
+  align-items: center;
   font-family: $font-family-non-content;
   color: var(--brand-secondary);
 }
 
 .link-group a:hover {
   color: var(--brand-primary);
+}
+
+.link-group.active nav li.active > a {
+  color: var(--brand-primary);
+  &:hover {
+    color: var(--brand-secondary);
+  }
+}
+
+.link-group__icon {
+  font-size: 10px;
+  color: var(--brand-dark-gray);
+  margin-left: 6px;
+  margin-bottom: 2px;
 }
 
 .installation-section p {

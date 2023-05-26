@@ -28,7 +28,7 @@
                                 >
                                     {{ .Title }}
                                     {{ if (eq .Params.type "external-link") }}
-                                        <sup><i class="fas fa-external-link-alt"></i></sup>
+                                        <i class="link-group__icon fas fa-external-link-alt"></i>
                                     {{ end }}
                                 </a>
                             </span>
@@ -39,8 +39,20 @@
 
                 {{ if .IsSection }}
 
-                    <details class="documentation__sidebar-link-group link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}"
-                        {{ if eq .File.UniqueID $currentNode.File.UniqueID }}open{{ end }}>
+                    <!-- current page is active or any sub-page is active -->
+                    {{ $isActive := false }}
+                    {{ range .RegularPages }}
+                        {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                            {{ $isActive = true }}
+                        {{ end }}
+                    {{ end }}
+
+                    {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                        {{ $isActive = true }}
+                    {{ end }}
+
+                    <details class="documentation__sidebar-link-group link-group {{ if $isActive }}active {{ end }}"
+                        {{ if $isActive }}open{{ end }}>
                         <summary class="link-group-heading">
                             <span class="mb-0">
                                 <a class="btn btn-link text-left collapsed pl-0" href="{{ .Permalink }}">
@@ -53,7 +65,16 @@
                             <nav id="TableOfContents">
                                 <ul>
                                     {{ range .RegularPages }}
-                                        <li><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+                                        {{ if (eq .Params.type "external-link") }}
+                                            <li>
+                                                <a href="{{ .Params.external_url }}" target="_blank">
+                                                    {{ .Title }}
+                                                    <i class="link-group__icon fas fa-external-link-alt"></i>
+                                                </a>
+                                            </li>
+                                        {{ else }}
+                                            <li class="{{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}"><a href="{{ .Permalink }}">{{ .Title }}</a></li>
+                                        {{ end }}
                                     {{ end }}
                                 </ul>
                             </nav>

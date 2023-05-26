@@ -91,6 +91,7 @@ Preview images set consists of the following images:
 To create a delimiter in the sidebar, use the following command:
 
 ``` bash
+cd qdrant-landing
 hugo new --kind delimiter documentation/<delimiter-title>.md
 ```
 
@@ -103,6 +104,7 @@ To put a delimiter to desired place in the sidebar, set the `weight` parameter t
 To create an external link in the sidebar, use the following command:
 
 ``` bash
+cd qdrant-landing
 hugo new --kind external-link documentation/<link-title>.md
 ```
 
