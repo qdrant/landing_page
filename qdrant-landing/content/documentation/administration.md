@@ -31,7 +31,7 @@ You can optionally provide the error message that should be used for error respo
 
 ## Recovery mode
 
-*Available since v1.2.0*
+*Available as of v1.2.0*
 
 Recovery mode can help in situations where Qdrant fails to start repeatedly.
 When starting in recovery mode, Qdrant only loads collection metadata to prevent

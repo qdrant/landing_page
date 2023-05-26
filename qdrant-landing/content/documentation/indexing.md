@@ -54,7 +54,7 @@ You should not create an index for Boolean fields and fields with only a few pos
 
 ### Full-text index
 
-*Available since Qdrant v0.10.0*
+*Available as of v0.10.0*
 
 Qdrant supports full-text search for string payload.
 Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
@@ -143,7 +143,7 @@ HNSW is chosen for several reasons.
 First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
 Second, it is one of the most accurate and fastest algorithms, according to [public benchmarks](https://github.com/erikbern/ann-benchmarks).
 
-*Available since v1.1.1*
+*Available as of v1.1.1*
 
 The HNSW parameters can also be configured on a collection and named vector
 level by setting [`hnsw_config`](../indexing/#vector-index) to fine-tune search

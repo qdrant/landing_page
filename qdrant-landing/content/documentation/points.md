@@ -250,7 +250,7 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
-*Available since v0.10.0*
+*Available as of v0.10.0*
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
@@ -299,7 +299,7 @@ client.upsert(
 )
 ```
 
-*Available since v1.2.0*
+*Available as of v1.2.0*
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
 For example, you can upload one point with only the `image` vector and a second
@@ -317,7 +317,7 @@ ways to do this.
 
 ### Update vectors
 
-*Available since v1.2.0*
+*Available as of v1.2.0*
 
 This method updates the specified vectors on the given points. Unspecified
 vectors are kept unchanged. All given points must exist.
@@ -370,7 +370,7 @@ points](#upload-points).
 
 ### Delete vectors
 
-*Available since v1.2.0*
+*Available as of v1.2.0*
 
 This method deletes just the specified vectors from the given points. Other
 vectors are kept unchanged. Points are never deleted.
@@ -724,7 +724,7 @@ Python client:
 
 ## Counting points
 
-*Available since v0.8.4*
+*Available as of v0.8.4*
 
 Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
 

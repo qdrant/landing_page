@@ -330,7 +330,7 @@ You can apply it to [keyword](../payload/#keyword), [integer](../payload/#intege
 
 ### Match Any
 
-_Available since version 1.1.0_
+*Available as of v1.1.0*
 
 In case you want to check if the stored value is one of multiple values, you can use the Match Any condition.
 Match Any works as a logical OR for the given values. It can also be described as a `IN` operator.
@@ -362,7 +362,7 @@ If the stored value is an array, it should have at least one value matching any 
 
 ### Match Except
 
-_Available since version 1.2.0_
+*Available as of v1.2.0*
 
 In case you want to check if the stored value is not one of multiple values, you can use the Match Except condition.
 Match Except works as a logical NOR for the given values.
@@ -394,7 +394,7 @@ If the stored value is an array, it should have at least one value not matching 
 
 ### Nested key
 
-_Available since version 1.1.0_
+*Available as of v1.1.0*
 
 Payloads being arbitrary JSON object, it is likely that you will need to filter on a nested field.
 
@@ -553,7 +553,7 @@ This query would only output the point with id 2 as only Japan has a city with t
 
 ### Nested object filter
 
-_Available since version 1.2.0_
+*Available as of v1.2.0*
 
 By default, the conditions are taking into account the entire payload of a point.
 
@@ -767,7 +767,7 @@ client.scroll(
 
 ### Full Text Match
 
-_Available since version 0.10.0_
+*Available as of v0.10.0*
 
 A special case of the `match` condition is the `text` match condition.
 It allows you to search for a specific substring, token or phrase within the text field.

@@ -3,7 +3,7 @@ title: Snapshots
 weight: 110
 ---
 
-*Available since v0.8.4*
+*Available as of v0.8.4*
 
 Snapshots are performed on a per collection basis and consist in a `tar` archive file containing the necessary data to restore the collection at the time of the snapshot.
 
@@ -41,7 +41,7 @@ This is a synchronous operation for which a `tar` archive file will be generated
 
 ### Delete snapshot
 
-*Available since v1.0.0*
+*Available as of v1.0.0*
 
 ```http
 DELETE /collections/{collection_name}/snapshots/{snapshot_name}
@@ -109,7 +109,7 @@ If you wish instead to overwrite an existing collection, use the `--force_snapsh
 
 ### Recover in cluster deployment
 
-*Available since v0.11.3*
+*Available as of v0.11.3*
 
 Recovering in cluster mode is more sophisticated, as Qdrant should maintain consistency across peers even during the recovery process.
 As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
@@ -146,7 +146,7 @@ If there are other active replicas of the recovered shards in the cluster, Qdran
 
 ## Snapshots for the whole storage
 
-*Available since v0.8.5*
+*Available as of v0.8.5*
 
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
 Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collecton_name`:
@@ -167,7 +167,7 @@ client.create_full_snapshot()
 
 ### Delete full storage snapshot
 
-*Available since v1.0.0*
+*Available as of v1.0.0*
 
 ```http
 DELETE /snapshots/{snapshot_name}

@@ -223,7 +223,7 @@ tls:
 
 ## Validation
 
-*Available since v1.1.1*
+*Available as of v1.1.1*
 
 The configuration is validated on startup. If a configuration is loaded but
 validation fails, a warning is logged. E.g.:
