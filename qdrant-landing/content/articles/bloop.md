@@ -2,8 +2,11 @@
 title: "Qdrant case study: bloop semantic code search"
 short_description: bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
 description: bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
-social_preview_image: /case_studies_data/bloop/social_preview.png
-preview_dir: /case_studies_data/bloop/preview
+social_preview_image: /articles_data/bloop/social_preview.png
+preview_dir: /articles_data/bloop/preview
+weight: 11 
+author: Kacper Łukawski
+author_link: https://medium.com/@lukawskikacper
 date: 2023-02-28T09:48:00.000Z
 ---
 
@@ -17,7 +20,7 @@ field and want to find out if Qdrant is a good solution for their use case.
 
 ## About bloop
 
-![](/case_studies_data/bloop/screenshot.png)
+![](/articles_data/bloop/screenshot.png)
 
 [bloop](https://bloop.ai/) is a fast code-search engine that combines semantic search, regex search 
 and precise code navigation into a single lightweight desktop application that can be run locally. It 
@@ -26,7 +29,7 @@ reuse code and avoid dependency bloat. bloop’s chat interface explains complex
 language so that engineers can spend less time crawling through code to understand what it does, and 
 more time shipping features and fixing bugs.
 
-![](/case_studies_data/bloop/bloop-logo.png)
+![](/articles_data/bloop/bloop-logo.png)
 
 bloop’s mission is to make software engineers autonomous and semantic code search is the cornerstone 
 of that vision. The project is maintained by a group of Rust and Typescript engineers and ML researchers. 
@@ -35,7 +38,7 @@ It leverages many prominent nascent technologies, such as [Tauri](http://tauri.a
 
 ## About Qdrant
 
-![](/case_studies_data/bloop/qdrant-logo.png)
+![](/articles_data/bloop/qdrant-logo.png)
 
 Qdrant is an open-source Vector Search Database written in Rust . It deploys as an API service providing 
 a search for the nearest high-dimensional vectors. With Qdrant, embeddings or neural network encoders 
@@ -56,7 +59,7 @@ simply measuring the textual overlap between queries and documents. We compare m
 embedding denotes a position in a *latent* space, so to search you embed the query and find its nearest document 
 vectors in that space.
 
-![](/case_studies_data/bloop/vector-space.png)
+![](/articles_data/bloop/vector-space.png)
 
 Why is semantic search so useful for code? As engineers, we often don’t know - or forget - the precise terms 
 needed to find what we’re looking for. Semantic search enables us to find things without knowing the exact 
