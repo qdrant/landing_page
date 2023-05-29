@@ -1,6 +1,6 @@
 ---
 title: Contribution Guidelines
-weight: 70
+weight: 35
 ---
 
 # How to contribute

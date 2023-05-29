@@ -1,6 +1,6 @@
 ---
 title: Quickstart
-weight: 10
+weight: 12
 ---
 
 # Getting started with Qdrant

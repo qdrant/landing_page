@@ -1,6 +1,6 @@
 ---
 title: Roadmap
-weight: 90
+weight: 32
 ---
 
 # Qdrant 2023 Roadmap
