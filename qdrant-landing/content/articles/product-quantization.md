@@ -8,7 +8,7 @@ preview_dir: /articles_data/product-quantization/preview
 weight: 1
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2023-05-23T10:45:00+01:00
+date: 2023-05-30T09:45:00+02:00
 draft: false
 keywords:
   - vector search
