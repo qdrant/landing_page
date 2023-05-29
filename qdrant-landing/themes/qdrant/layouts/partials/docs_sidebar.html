@@ -51,11 +51,17 @@
                         {{ $isActive = true }}
                     {{ end }}
 
+                    {{ $sectionLink := .Permalink }}
+
+                    {{ if .Params.is_empty }}
+                        {{ $sectionLink = (index (.RegularPages) 0).Permalink }}
+                    {{ end }}
+
                     <details class="documentation__sidebar-link-group link-group {{ if $isActive }}active {{ end }}"
                         {{ if $isActive }}open{{ end }}>
                         <summary class="link-group-heading">
                             <span class="mb-0">
-                                <a class="btn btn-link text-left collapsed pl-0" href="{{ .Permalink }}">
+                                <a class="btn btn-link text-left collapsed pl-0" href="{{ $sectionLink }}">
                                     {{ .Title }}
                                 </a>
                             </span>
