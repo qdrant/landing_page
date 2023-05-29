@@ -3,6 +3,7 @@ title: Telemetry
 weight: 150
 ---
 
+# Telemetry
 
 Qdrant collects anonymized usage statistics from users in order to improve the engine.
 You can [deactivate](#deactivate-telemetry) at any time, and any data that has already been collected can be [deleted on request](#request-information-deletion).

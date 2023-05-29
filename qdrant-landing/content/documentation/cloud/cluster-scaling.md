@@ -3,6 +3,7 @@ title: Cluster scaling
 weight: 30
 ---
 
+# Cluster scaling
 
 The amount of data is always growing and at some point you might need to upgrade the capacity of your cluster.
 There are different options for how it can be done.

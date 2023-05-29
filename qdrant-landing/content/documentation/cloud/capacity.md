@@ -3,6 +3,7 @@ title: Capacity and sizing
 weight: 20
 ---
 
+# Capacity and sizing
 
 We have been asked a lot about the optimal cluster configuration to serve a number of vectors.
 The only right answer is “It depends”.

@@ -1,9 +1,9 @@
 ---
 title: Qdrant Cloud
-section_title: How Qdrant Cloud operates
-subtitle: 
+weight: 20
 ---
 
+# Getting started with Qdrant Cloud
 
 Qdrant Cloud is an official cloud-based managed solution by the creators of the [Qdrant](https://github.com/qdrant/qdrant) Vector Search Engine.
 It provides the same fast and reliable similarity search engine, but without a need to maintain your own infrastructure.

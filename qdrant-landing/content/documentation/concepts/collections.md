@@ -3,7 +3,7 @@ title: Collections
 weight: 30
 ---
 
-## Collections
+# Collections
 
 A collection is a named set of points (vectors with a payload) among which you can search.
 Vectors within the same collection must have the same dimensionality and be compared by a single metric.

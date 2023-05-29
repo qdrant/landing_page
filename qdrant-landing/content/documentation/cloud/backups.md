@@ -3,6 +3,8 @@ title: Backups
 weight: 20
 ---
 
+# Backups
+
 There are situations where you need to restore your cluster because of application or system failure.
 In most cases you will have a source of truth for your data in a regular database and would be able to reindex the data into your Qdrant vector search cluster.
 However, encoding and uploading a big amount of data might require a long time.

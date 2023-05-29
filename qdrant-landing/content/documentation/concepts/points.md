@@ -3,6 +3,8 @@ title: Points
 weight: 40
 ---
 
+# Points
+
 The points are the central entity that Qdrant operates with.
 A point is a record consisting of a vector and an optional [payload](../payload).
 
