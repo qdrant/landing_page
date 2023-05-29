@@ -206,6 +206,16 @@ but also the search time.
 
 ## Good practices
 
+Compared to Scalar Quantization, Product Quantization offers a higher compression rate. However, this comes with considerable trade-offs in accuracy, and at times, in-RAM search speed.
+
+Product Quantization tends to be favored in certain specific scenarios:
+
+- Deployment in a low-RAM environment where the limiting factor is the number of disk reads rather than the vector comparison itself
+- Situations where the dimensionality of the original vectors is sufficiently high
+- Cases where indexing speed is not a critical factor
+
+In circumstances that do not align with the above, Scalar Quantization should be the preferred choice.
+
 Qdrant documentation on [Product Quantization](/documentation/quantization/#setting-up-product-quantization) 
 will help you to set and configure the new quantization for your data and achieve even 
 up to 64x memory reduction.
