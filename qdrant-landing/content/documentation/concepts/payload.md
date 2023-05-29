@@ -3,6 +3,8 @@ title: Payload
 weight: 40
 ---
 
+# Payload
+
 One of the significant features of Qdrant is the ability to store additional information along with vectors.
 This information is called `payload` in Qdrant terminology.
 

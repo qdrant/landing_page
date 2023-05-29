@@ -1,9 +1,11 @@
 ---
-title: Install
+title: Installation
 weight: 20
 ---
 
-## With Docker
+# Installation
+
+## Docker
 
 The easiest way to start using Qdrant is to run it from a ready-made Docker image.
 The latest versions are always available on [DockerHub](https://hub.docker.com/r/qdrant/qdrant/tags?page=1&ordering=last_updated).

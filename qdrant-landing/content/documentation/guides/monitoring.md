@@ -3,6 +3,8 @@ title: Monitoring
 weight: 155
 ---
 
+# Monitoring
+
 Qdrant exposes its metrics in a Prometheus format, so you can integrate them easily
 with the compatible tools and monitor Qdrant with your own monitoring system. You can 
 use the `/metrics` endpoint and configure it as a scrape target.

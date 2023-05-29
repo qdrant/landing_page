@@ -3,6 +3,8 @@ title: Configuration
 weight: 160
 ---
 
+# Configuration
+
 To change or correct Qdrant's behavior, default collection settings, and network interface parameters, you can use the configuration file.
 
 Default configuration file is located in [config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).

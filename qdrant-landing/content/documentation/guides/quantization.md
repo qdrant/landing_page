@@ -3,6 +3,8 @@ title: Quantization
 weight: 120
 ---
 
+# Quantization
+
 Quantization is an optional feature in Qdrant that enables efficient storage and search of high-dimensional vectors.
 By transforming original vectors into a new representations, quantization compresses data while preserving close to original relative distances between vectors.
 Different quantization methods have different mechanics and tradeoffs. We will cover them in this section. 

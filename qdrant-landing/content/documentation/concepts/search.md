@@ -3,8 +3,7 @@ title: Search
 weight: 50
 ---
 
-
-## Similarity search
+# Similarity search
 
 Searching for the nearest vectors is at the core of many representational learning applications.
 Modern neural networks are trained to transform objects into vectors so that objects close in the real world appear close in vector space.

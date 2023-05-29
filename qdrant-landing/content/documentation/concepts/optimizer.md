@@ -3,6 +3,8 @@ title: Optimizer
 weight: 70
 ---
 
+# Optimizer
+
 It is much more efficient to apply changes in batches than perform each change individually, as many other databases do. Qdrant here is no exception. Since Qdrant operates with data structures that are not always easy to change, it is sometimes necessary to rebuild those structures completely.
 
 Storage optimization in Qdrant occurs at the segment level (see [storage](../storage)).

@@ -3,6 +3,8 @@ title: Backups
 weight: 20
 ---
 
+# Backups
+
 There are situations where you need to restore your cluster because of application or system failure.
 In most cases you will have a source of truth for your data in a regular database and would be able to reindex the data into your Qdrant vector search cluster.
 However, encoding and uploading a big amount of data might require a long time.
@@ -12,17 +14,17 @@ For less critical use-cases you can make use of one of the available options.
 ## Self-service backups
 
 Qdrant engine offers a snapshot API that allows to create a snapshot of a particular collection or even the whole storage.
-Please refer to the [snapshot documentation](../../snapshots/) for details.
+Please refer to the [snapshot documentation](../../concepts/snapshots/) for details.
 
 A quick recipe for successfully snapshotting and recovering a collection:
 
 1. Take a snapshot
    - In case of a single node cluster, simply call the snapshot endpoint on the exposed url. 
-   - In case of a multi node cluster you’d need to take a snapshot on each node that the collection resides upon. To achieve this, you simply prepend `node-{num}-` to your cluster url and call the [snapshot endpoint](../..//snapshots/#create-snapshot) on the individual hosts, starting with node 0 up to the number of nodes minus one.
+   - In case of a multi node cluster you’d need to take a snapshot on each node that the collection resides upon. To achieve this, you simply prepend `node-{num}-` to your cluster url and call the [snapshot endpoint](../../concepts/snapshots/#create-snapshot) on the individual hosts, starting with node 0 up to the number of nodes minus one.
    - In the response you'll get the name of the snapshot taken.
 2. Delete and recreate the collection.
 3. Recover the snapshot
-   - Call the [recover endpoint](../../snapshots/#recover-in-cluster-deployment) with location pointing to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) you got for each host.
+   - Call the [recover endpoint](../../concepts/snapshots/#recover-in-cluster-deployment) with location pointing to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) you got for each host.
 
 
 ## Automatic backups

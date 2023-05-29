@@ -3,6 +3,8 @@ title: Quick Start in Cloud
 weight: 10
 ---
 
+# Quickstart
+
 ## Create cluster
 
 To start working with the Qdrant cloud platform, you have to create at least one cluster. You can do so on the clusters overview section by clicking the “Create” button.

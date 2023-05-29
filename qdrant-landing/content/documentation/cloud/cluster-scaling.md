@@ -3,6 +3,7 @@ title: Cluster scaling
 weight: 30
 ---
 
+# Cluster scaling
 
 The amount of data is always growing and at some point you might need to upgrade the capacity of your cluster.
 There are different options for how it can be done.
@@ -26,11 +27,11 @@ In such cases, horizontal scaling may be a more effective solution.
 Horizontal scaling, also known as horizontal expansion, is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. 
 The horizontal scaling at Qdrant starts on the collection level.
 You have to choose the number of shards you want to distribute your collection around while creating the collection.
-Please refer to the [sharding documentation](../../distributed_deployment/#sharding) section for details.
+Please refer to the [sharding documentation](../../guides/distributed_deployment/#sharding) section for details.
 
 
 Important: The number of shards means the maximum amount of nodes you can add to your cluster. In the beginning, all the shards can reside on one node.
-With the growing amount of data you can add nodes to your cluster and move shards to the dedicated nodes using the [cluster setup API](../../distributed_deployment/#cluster-scaling). 
+With the growing amount of data you can add nodes to your cluster and move shards to the dedicated nodes using the [cluster setup API](../../guides/distributed_deployment/#cluster-scaling). 
 
 We, the Qdrant team, will be glad to consult you on an optimal strategy for scaling.
 [Let us know](mailto:cloud@qdrant.io) your needs and decide together on a proper solution. We plan to introduce an auto-scaling functionality. Since it is one of most desired features, it has a high priority on our Cloud roadmap.
