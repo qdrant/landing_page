@@ -1,5 +1,6 @@
 ---
-title: API Clients
-weight: 40
-draft: true
+title: Client Libraries
+weight: 30
 ---
+
+# Client Libraries

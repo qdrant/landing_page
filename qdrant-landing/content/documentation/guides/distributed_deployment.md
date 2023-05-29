@@ -3,6 +3,8 @@ title: Distributed deployment
 weight: 100
 ---
 
+# Distributed Deployment
+
 Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
