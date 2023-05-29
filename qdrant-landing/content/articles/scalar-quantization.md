@@ -5,7 +5,7 @@ description: "Scalar Quantization is a newly introduced mechanism of reducing th
 social_preview_image: /articles_data/scalar-quantization/social_preview.png
 small_preview_image: /articles_data/scalar-quantization/scalar-quantization-icon.svg
 preview_dir: /articles_data/scalar-quantization/preview
-weight: 2
+weight: 3
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-03-27T10:45:00+01:00
