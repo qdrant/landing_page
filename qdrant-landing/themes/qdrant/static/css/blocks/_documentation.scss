@@ -86,6 +86,10 @@
       margin-right: 10px;
       position: relative;
 
+      &::-webkit-details-marker {
+        display: none;
+      }
+
       &:after {
         display: block;
         width: lib.rem(10);
