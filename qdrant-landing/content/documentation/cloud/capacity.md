@@ -20,13 +20,13 @@ memory_size = number_of_vectors * vector_dimension * 4 bytes * 1.5
 
 Extra 50% is needed for metadata (indexes, point versions, etc.) as well as for temporary segments constructed during the optimization process.
 
-If you need to have payloads along with the vectors, it is recommended to store it on the disc, and only keep [indexed fields](../concepts/indexing/#payload-index) in RAM.
-Read more about the payload storage in the [Storage](../concepts/storage/#payload-storage) section.
+If you need to have payloads along with the vectors, it is recommended to store it on the disc, and only keep [indexed fields](../../indexing/#payload-index) in RAM.
+Read more about the payload storage in the [Storage](../../storage/#payload-storage) section.
 
 
 ## Storage focused configuration
 
-If your priority is to serve large amount of vectors with an average search latency, it is recommended to configure [mmap storage](../concepts/storage/#configuring-memmap-storage).
+If your priority is to serve large amount of vectors with an average search latency, it is recommended to configure [mmap storage](../../storage/#configuring-memmap-storage).
 In this case vectors will be stored on the disc in memory-mapped files, and only the most frequently used vectors will be kept in RAM.
 
 The amount of available RAM will significantly affect the performance of the search.
