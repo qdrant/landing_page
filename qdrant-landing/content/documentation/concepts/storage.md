@@ -11,7 +11,7 @@ Each segment has its independent vector and payload storage as well as indexes.
 Data stored in segments usually do not overlap.
 However, storing the same point in different segments will not cause problems since the search contains a deduplication mechanism.
 
-The segments consist of vector and payload storages, vector and payload [indexes](../indexing), and id mapper, which stores the relationship between internal and external ids.
+The segments consist of vector and payload storages, vector and payload [indexes](../concepts/indexing), and id mapper, which stores the relationship between internal and external ids.
 
 A segment can be `appendable` or `non-appendable` depending on the type of storage and index used.
 You can freely add, delete and query data in the `appendable` segment.
@@ -81,8 +81,8 @@ This is the recommended way, in case your Qdrant instance operates with fast dis
 
 There are two ways to do this:
 
-1. You can set the threshold globally in the [configuration file](../configuration/). The parameter is called `memmap_threshold_kb`.
-2. You can set the threshold for each collection separately during [creation](../collections/#create-collection) or [update](../collections/#update-collection-parameters).
+1. You can set the threshold globally in the [configuration file](../guides/configuration/). The parameter is called `memmap_threshold_kb`.
+2. You can set the threshold for each collection separately during [creation](../collections/#create-collection) or [update](../concepts/collections/#update-collection-parameters).
 
 ```http
 PUT /collections/{collection_name}
@@ -116,7 +116,7 @@ The rule of thumb to set the mmap threshold parameter is simple:
 - if you have a high write load and low RAM - set mmap threshold lower than `indexing_threshold` to e.g. 10000. In this case the optimizer will convert the segments to mmap storage first and will only apply indexing after that.
 
 In addition, you can use mmap storage not only for vectors, but also for HNSW index.
-To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during [creation](../collections/#create-collection) of the collection.
+To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during [creation](../concepts/collections/#create-collection) of the collection.
 
 ```http
 PUT /collections/{collection_name}
@@ -163,7 +163,7 @@ If you need to query vectors with some payload-based conditions - checking value
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
 Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
 
-You can specify the desired type of payload storage with [configuration file](../configuration/) or with collection parameter `on_disk_payload` during [creation](../collections/#create-collection) of the collection.
+You can specify the desired type of payload storage with [configuration file](../guides/configuration/) or with collection parameter `on_disk_payload` during [creation](../concepts/collections/#create-collection) of the collection.
 
 ## Versioning
 
