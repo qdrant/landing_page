@@ -163,7 +163,7 @@ If you need to query vectors with some payload-based conditions - checking value
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
 Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
 
-You can specify the desired type of payload storage with [configuration file](../guides/configuration/) or with collection parameter `on_disk_payload` during [creation](../concepts/collections/#create-collection) of the collection.
+You can specify the desired type of payload storage with [configuration file](../guides/configuration/) or with collection parameter `on_disk_payload` during [creation](../collections/#create-collection) of the collection.
 
 ## Versioning
 
