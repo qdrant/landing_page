@@ -42,7 +42,7 @@ example, by deleting a collection. After resolving Qdrant can be restarted
 normally to continue operation.
 
 In recovery mode, collection operations are limited to
-[deleting](https://qdrant.tech/documentation/collections/#delete-collection) a
+[deleting](../../concepts/collections/#delete-collection) a
 collection. That is because only collection metadata is loaded during recovery.
 
 To enable recovery mode with the Qdrant Docker image you must set the

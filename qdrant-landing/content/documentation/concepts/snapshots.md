@@ -11,7 +11,7 @@ Snapshots are performed on a per collection basis and consist in a `tar` archive
 
 This feature can be used to archive data or easily replicate an existing deployment.
 
-The target directory used to store generated snapshots is controlled through the [configuration](../configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOT_PATH=./snapshots`.
+The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOT_PATH=./snapshots`.
 
 ```yaml
 storage:

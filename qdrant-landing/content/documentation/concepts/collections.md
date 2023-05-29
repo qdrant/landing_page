@@ -53,9 +53,9 @@ In addition to the required options, you can also specify custom values for the 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
 * `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
 * `optimizers_config` - see [optimizer](../optimizer) for details.
-* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../distributed_deployment#sharding) section for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../../guides/distributed_deployment#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
-* `quantization_config` - see [quantization](../quantization/#setting-up-quantization-in-qdrant) for details.
+* `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
@@ -148,7 +148,7 @@ For rare use cases, it is possible to create a collection without any vector sto
 
 For each named vector you can optionally specify
 [`hnsw_config`](../indexing/#vector-index) or
-[`quantization_config`](../quantization/#setting-up-quantization-in-qdrant) to
+[`quantization_config`](../../guides/quantization/#setting-up-quantization-in-qdrant) to
 deviate from the collection configuration. This can be useful to fine-tune
 search performance on a vector level.
 
@@ -273,7 +273,6 @@ In a production environment, it is sometimes necessary to switch different versi
 For example, when upgrading to a new version of the neural network.
 
 There is no way to stop the service and rebuild the collection with new vectors in these situations.
-To avoid this, you can use aliases.
 Aliases are additional names for existing collections.
 All queries to the collection can also be done identically, using an alias instead of the collection name.
 
