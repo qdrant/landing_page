@@ -3,7 +3,7 @@ title: Collections
 weight: 30
 ---
 
-# Collections
+## Collections
 
 A collection is a named set of points (vectors with a payload) among which you can search.
 Vectors within the same collection must have the same dimensionality and be compared by a single metric.
@@ -22,7 +22,7 @@ Qdrant supports these most popular types of metrics:
 In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
 These settings can be changed at any time by a corresponding request.
 
-## Create a collection
+### Create collection
 
 ```http
 PUT /collections/{collection_name}
@@ -61,7 +61,7 @@ Default parameters for the optional collection parameters are defined in [config
 
 See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters.
 
-### Create a collection from another collection
+### Create collection from another collection
 
 *Available since v1.0.0*
 
@@ -101,7 +101,7 @@ client.recreate_collection(
 )
 ```
 
-### Collections with multiple vectors
+### Collection with multiple vectors
 
 *Available since v0.10.0*
 
@@ -152,7 +152,7 @@ For each named vector you can optionally specify
 deviate from the collection configuration. This can be useful to fine-tune
 search performance on a vector level.
 
-## Delete a collection
+### Delete collection
 
 ```http
 DELETE /collections/{collection_name}
@@ -162,7 +162,7 @@ DELETE /collections/{collection_name}
 client.delete_collection(collection_name="{collection_name}")
 ```
 
-## Update collection parameters
+### Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
 With these settings, you can disable indexing during the upload process.  And enable it immediately after the upload is finished.
@@ -258,7 +258,7 @@ There are, however, some other attributes you might be interested in:
 - `vectors_count` - total number of vectors in a collection. If there are multiple vectors per object, it won't be equal to `points_count`.
 - `indexed_vectors_count` - total number of vectors stored in the HNSW index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
 
-## Indexing vectors in HNSW
+### Indexing vectors in HNSW
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
 depends on the [optimizer configuration](../optimizer). A new index segment is built if the size of non-indexed vectors is higher than the

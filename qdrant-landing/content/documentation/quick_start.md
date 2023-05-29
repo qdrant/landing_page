@@ -3,8 +3,6 @@ title: Quick Start
 weight: 10
 ---
 
-# Getting started with Qdrant
-
 ## Installation
 
 The easiest way to use Qdrant is to run a pre-built image. To do this, make sure Docker is installed on your system.

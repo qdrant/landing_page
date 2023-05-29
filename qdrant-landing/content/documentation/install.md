@@ -2,7 +2,6 @@
 title: Install
 weight: 20
 ---
-# Installation options
 
 ## With Docker
 

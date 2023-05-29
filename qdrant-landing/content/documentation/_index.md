@@ -1,14 +1,17 @@
 ---
-title: Overview
+title: Documentation
+section_title: Everything you need to start working with Qdrant
+subtitle: 
 ---
 
-# Overview
 
-Qdrant (read: quadrant) is a vector similarity search engine. It provides a production-ready service with a convenient API to store, search, and manage points - vectors with an additional payload. Qdrant is tailored to extended filtering support. It makes it useful for all sorts of neural network or semantic-based matching, faceted search, and other applications.
+# Qdrant Documentation
+
+Qdrant (read: quadrant ) is a vector similarity search engine. It provides a production-ready service with a convenient API to store, search, and manage points - vectors with an additional payload. Qdrant is tailored to extended filtering support. It makes it useful for all sorts of neural network or semantic-based matching, faceted search, and other applications.
 
 Qdrant is released under the open-source Apache License 2.0. Its source code is available on [GitHub](https://github.com/qdrant/qdrant).
 
-## Common uses
+## Overview
 
 Qdrant is ideal for deploying applications based on the matching of embeddings produced by neural network encoders.
 

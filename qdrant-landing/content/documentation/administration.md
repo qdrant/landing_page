@@ -2,7 +2,6 @@
 title: Administration
 weight: 170
 ---
-# Administration
 
 Qdrant exposes administration tools which enable to modify at runtime the behavior of a qdrant instance without changing its configuration manually.
 
