@@ -1,6 +1,6 @@
 ---
 title: Optimal configuration
-weight: 10
+weight: 11
 ---
 
 # Optimize Qdrant

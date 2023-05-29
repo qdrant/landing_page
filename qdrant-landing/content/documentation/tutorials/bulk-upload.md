@@ -1,6 +1,6 @@
 ---
 title: Bulk upload
-weight: 30
+weight: 13
 ---
 
 # Bulk upload a large number of vectors

@@ -1,6 +1,6 @@
 ---
 title: Separate partitions
-weight: 20
+weight: 12
 ---
 
 # Serve vectors for many independent users

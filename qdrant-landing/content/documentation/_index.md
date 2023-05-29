@@ -1,6 +1,6 @@
 ---
 title: Qdrant Documentation
-weight: 11
+weight: 10
 ---
 
 # Overview
