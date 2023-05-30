@@ -14,6 +14,7 @@ keywords:
   - vector search
   - product quantization
   - memory optimization
+aliases: [ /articles/product_quantization/ ]
 ---
 
 Qdrant 1.1.0 brought the support of [Scalar Quantization](/articles/scalar-quantization/),
