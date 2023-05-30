@@ -217,6 +217,6 @@ Product Quantization tends to be favored in certain specific scenarios:
 
 In circumstances that do not align with the above, Scalar Quantization should be the preferred choice.
 
-Qdrant documentation on [Product Quantization](/documentation/quantization/#setting-up-product-quantization) 
+Qdrant documentation on [Product Quantization](/documentation/guides/quantization/#setting-up-product-quantization) 
 will help you to set and configure the new quantization for your data and achieve even 
 up to 64x memory reduction.
