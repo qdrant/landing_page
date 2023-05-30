@@ -5,7 +5,7 @@ description: We announce Qdrant seed round investment and share our thoughts on 
 preview_dir: /articles_data/seed-round/preview
 social_preview_image: /articles_data/seed-round/seed-social.png
 small_preview_image: /articles_data/quantum-quantization/icon.svg
-weight: 3
+weight: 4
 author: Andre Zayarni
 draft: false
 author_link: https://www.linkedin.com/in/zayarni

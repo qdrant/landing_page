@@ -5,7 +5,7 @@ description: "Check out what Qdrant 1.2 brings to vector search"
 social_preview_image: /articles_data/qdrant-1.2.x/social_preview.png
 small_preview_image: /articles_data/qdrant-1.2.x/icon.svg
 preview_dir: /articles_data/qdrant-1.2.x/preview
-weight: 1
+weight: 2
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-05-24T10:45:00+02:00
