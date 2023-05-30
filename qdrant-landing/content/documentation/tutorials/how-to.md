@@ -1,10 +1,8 @@
 ---
-title: How To
-weight: 130
+title: How to
+weight: 100
 ---
 
-
-This section contains a collection of how-to guides and tutorials for different use cases of Qdrant.
 
 ## Optimize qdrant
 

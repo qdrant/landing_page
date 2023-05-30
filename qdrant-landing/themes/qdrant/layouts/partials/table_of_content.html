@@ -1,0 +1,15 @@
+{{$currentNode := .}}
+<nav class="tableOfContent col-lg-2 col-12 d-lg-block d-none mt-0 pr-4 mb-4">
+
+    {{ $sectionLink := cond .IsSection .RelPermalink .Parent.RelPermalink }}
+    {{ $subject := site.GetPage $sectionLink }}
+    <div class="sticky-top">
+        {{ range $subject.RegularPages }}
+            {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
+                <h5 class="tableOfContent__header">Table of contents</h5>
+                {{ .TableOfContents }}
+            {{ end }}
+        {{ end }}
+        <br/>
+    </div>
+</nav>

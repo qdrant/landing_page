@@ -3,7 +3,9 @@ title: Distributed deployment
 weight: 100
 ---
 
-As of v0.8.0 Qdrant supports a distributed deployment mode.
+# Distributed deployment
+
+Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
 To enable distributed deployment - enable the cluster mode in the [configuration](../configuration) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
@@ -108,7 +110,7 @@ Qdrant is using the [Raft](https://raft.github.io/) consensus protocol to mainta
 
 Operation with points, on the other hand, are not going through the consensus infrastructure.
 Qdrant is not intended to have strong transaction guarantees, which allows it to perform point operations with low overhead.
-In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](../points/#awaiting-result) to see the results of your writes.
+In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](../../concepts/points/#awaiting-result) to see the results of your writes.
 
 Collection operations, on the contrary, are part of the consensus which guarantees that all operations are durable and eventually executed by all nodes.
 In practice it means that a majority of node agree on what operations should be applied before the service will perform them.

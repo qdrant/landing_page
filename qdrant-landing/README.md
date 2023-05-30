@@ -83,3 +83,29 @@ Preview images set consists of the following images:
 `title.jpg` - 898x300px (used on the article's page as the main image before the article title **for browsers, not supporting webp**)
 `title.webp` - 898x300px (used on the article's page as the main image before the article title **for browsers, supporting webp**)
 `social_preview.jpg` - 1200x630px (used in social media previews)
+
+## Documentation sidebar
+
+### Delimiter
+
+To create a delimiter in the sidebar, use the following command:
+
+``` bash
+cd qdrant-landing
+hugo new --kind delimiter documentation/<delimiter-title>.md
+```
+
+It will create a file `content/documentation/<delimiter-title>.md`.
+
+To put a delimiter to desired place in the sidebar, set the `weight` parameter to the desired value. The lower the value, the higher the delimiter will be in the sidebar.
+
+### External link
+
+To create an external link in the sidebar, use the following command:
+
+``` bash
+cd qdrant-landing
+hugo new --kind external-link documentation/<link-title>.md
+```
+
+It will create a file `content/documentation/<link-title>.md`. Open it and set the `external_link` parameter to the desired value.

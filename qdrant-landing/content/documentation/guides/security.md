@@ -3,6 +3,8 @@ title: Security
 weight: 165
 ---
 
+# Security
+
 There are various ways to secure your own Qdrant instance.
 
 ## Authentication

@@ -3,6 +3,8 @@ title: Filtering
 weight: 60
 ---
 
+# Filtering
+
 With Qdrant, you can set conditions when searching or retrieving points.
 For example, you can impose conditions on both the [payload](../payload) and the `id` of the point.
 

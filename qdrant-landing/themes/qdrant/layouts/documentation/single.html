@@ -1,15 +1,16 @@
 {{ define "main" }}
 {{ $isCloud := cond (in .Parent.RelPermalink "cloud") true false }}
 
-<div class="col-12 col-md-8 col-11 pb-5">
+<div class="col-12 col-md-9 col-lg-8 pb-5">
+
+    <article class="documentation__article">
+        {{ .Content }}
+    </article>
+
     <div style="overflow: auto">
         <span style="float: right">
             <a href="{{if $isCloud}}{{ .Site.Params.githubCloudDocPrefix }}{{else}}{{ .Site.Params.githubDocPrefix }}{{end}}{{ .File.LogicalName }}" target="_blank">Edit on GitHub <i class="flaticon-github"></i></a>
         </span>
     </div>
-
-    <article class="documentation">
-        {{ .Content }}
-    </article>
 </div>
 {{ end }}

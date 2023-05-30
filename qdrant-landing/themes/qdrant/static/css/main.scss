@@ -1,4 +1,5 @@
 @use "helpers/functions";
+@use "helpers/utils";
 
 @import "colors";
 @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
@@ -95,12 +96,31 @@ code {
 
 .link-group .btn,
 .link-group a {
+  display: flex;
+  align-items: center;
   font-family: $font-family-non-content;
+  text-decoration: none;
   color: var(--brand-secondary);
+  .link-group__icon {
+    color: var(--brand-dark-gray);
+    font-size: 10px;
+    margin-left: 6px;
+    margin-bottom: 1px;
+  }
 }
 
 .link-group a:hover {
   color: var(--brand-primary);
+  .link-group__icon {
+    color: var(--brand-primary);
+  }
+}
+
+.link-group.active nav li.active > a {
+  color: var(--brand-primary);
+  &:hover {
+    color: var(--brand-secondary);
+  }
 }
 
 .installation-section p {
@@ -147,6 +167,7 @@ blockquote {
 @import "blocks/article-card";
 @import "blocks/breadcrumbs";
 @import "blocks/share-post";
+@import "blocks/table_of_content";
 @import "blocks/footer";
 @import "responsive";
 

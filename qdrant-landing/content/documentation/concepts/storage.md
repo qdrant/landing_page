@@ -3,6 +3,8 @@ title: Storage
 weight: 80
 ---
 
+# Storage
+
 All data within one collection is divided into segments.
 Each segment has its independent vector and payload storage as well as indexes.
 
@@ -79,7 +81,7 @@ This is the recommended way, in case your Qdrant instance operates with fast dis
 
 There are two ways to do this:
 
-1. You can set the threshold globally in the [configuration file](../configuration/). The parameter is called `memmap_threshold_kb`.
+1. You can set the threshold globally in the [configuration file](../../guides/configuration/). The parameter is called `memmap_threshold_kb`.
 2. You can set the threshold for each collection separately during [creation](../collections/#create-collection) or [update](../collections/#update-collection-parameters).
 
 ```http
@@ -161,7 +163,7 @@ If you need to query vectors with some payload-based conditions - checking value
 In this scenario, we recommend creating a payload index for each field used in filtering conditions to avoid disk access.
 Once you create the field index, Qdrant will preserve all values of the indexed field in RAM regardless of the payload storage type.
 
-You can specify the desired type of payload storage with [configuration file](../configuration/) or with collection parameter `on_disk_payload` during [creation](../collections/#create-collection) of the collection.
+You can specify the desired type of payload storage with [configuration file](../../guides/configuration/) or with collection parameter `on_disk_payload` during [creation](../collections/#create-collection) of the collection.
 
 ## Versioning
 
