@@ -2,7 +2,7 @@
 title: "Qdrant under the hood: Product Quantization"
 short_description: "Vector search with low memory? Try out our brand-new Product Quantization!"
 description: "Vector search with low memory? Try out our brand-new Product Quantization!"
-social_preview_image: /articles_data/product-quantization/preview/social_preview.jpg
+social_preview_image: /articles_data/product-quantization/social_preview.png
 small_preview_image: /articles_data/product-quantization/product-quantization-icon.svg
 preview_dir: /articles_data/product-quantization/preview
 weight: 1
