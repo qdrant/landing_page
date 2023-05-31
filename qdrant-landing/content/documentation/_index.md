@@ -9,7 +9,7 @@ Qdrant (read: quadrant ) is a vector similarity search engine. It provides a pro
 
 Qdrant is released under the open-source Apache License 2.0. Its source code is available on [GitHub](https://github.com/qdrant/qdrant).
 
-## User manual
+## User Manual
 
 Read more about our [key concepts](../documentation/concepts/points/) and visit our [guides](../documentation/guides/installation/) to set up and further configure Qdrant for your own use.
 
