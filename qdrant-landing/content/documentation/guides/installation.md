@@ -1,9 +1,9 @@
 ---
 title: Installation
-weight: 20
+weight: 10
 ---
 
-# Installation
+# Installation options
 
 ## Docker
 
@@ -54,49 +54,6 @@ cargo build --release --bin qdrant
 
 After a successful build, the binary is available at `./target/release/qdrant`.
 
-## With Kubernetes
-
-You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubeternetes cluster.
-
-```bash
-helm repo add qdrant https://qdrant.to/helm
-helm install qdrant-release qdrant/qdrant
-```
-
-Read further instructions in [qdrant-helm](https://github.com/qdrant/qdrant-helm) repository.
-
-## Configuration
-
-Qdrant gets its operating parameters from the configuration file.
-The configuration file is read when you start the service from the directory `./config/`.
-
-The default values are stored in the file [./config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
-
-You can overwrite values by adding new records to the file `./config/production.yaml`. See an example [here](https://github.com/qdrant/qdrant/blob/master/config/production.yaml).
-
-If you are using Docker, then running the service with a custom configuration will be as follows:
-
-```bash
-docker run -p 6333:6333 \
-    -v $(pwd)/path/to/data:/qdrant/storage \
-    -v $(pwd)/path/to/custom_config.yaml:/qdrant/config/production.yaml \
-    qdrant/qdrant
-```
-
-Where `./path/to/custom_config.yaml` is your custom configuration file with values to override.
-
-Among other things, the configuration file allows you to specify the following settings:
-
-- Optimizer parameters
-- Network settings
-- Default vector index parameters
-- Storage settings
-- Security settings
-
-See the comments in the [configuration file itself](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for details.
-
-<aside role="status">Qdrant has no encryption or authentication by default and new instances are open to everyone. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
-
 ## Python client
 
 In addition to the service itself, Qdrant has a distinct python client, which has some additional features compared to [clients](https://qdrant.tech/documentation/quick_start/#clients) generated from OpenAPI directly.
@@ -107,8 +64,13 @@ To install this client, just run the following command:
 pip install qdrant-client
 ```
 
+## Kubernetes
 
-### Integrations
+You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubeternetes cluster.
 
-Qdrant may be also used as an efficient vector search backend in some other tools. Please check out the [Integrations](../integrations/) section
-for some more details.
+```bash
+helm repo add qdrant https://qdrant.to/helm
+helm install qdrant-release qdrant/qdrant
+```
+
+Read further instructions in [qdrant-helm](https://github.com/qdrant/qdrant-helm) repository.

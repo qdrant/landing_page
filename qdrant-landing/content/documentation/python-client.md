@@ -1,5 +1,7 @@
 ---
 title: Python Client
-weight: 40
-draft: true
+weight: 14
+type: external-link
+external_url: https://github.com/qdrant/qdrant-client
+sitemapExclude: True
 ---

@@ -1,9 +1,9 @@
 ---
 title: Quickstart
-weight: 10
+weight: 11
 ---
 
-# Getting started with Qdrant
+# Quickstart
 
 ## Installation
 

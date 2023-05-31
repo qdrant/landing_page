@@ -7,17 +7,35 @@ weight: 160
 
 To change or correct Qdrant's behavior, default collection settings, and network interface parameters, you can use the configuration file.
 
-Default configuration file is located in [config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
+The configuration file is read when you start the service from the directory `./config/`.
 
-In the production environment, you can override any value of this file by providing new values in `/qdrant/config/production.yaml` inside the docker.
+The default values are stored in the file [./config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
-Here is an example of how you can pass custom configuration inside the docker container:
+You can overwrite values by adding new records to the file `./config/production.yaml`. See an example [here](https://github.com/qdrant/qdrant/blob/master/config/production.yaml).
+
+If you are using Docker, then running the service with a custom configuration will be as follows:
 
 ```bash
 docker run -p 6333:6333 \
+    -v $(pwd)/path/to/data:/qdrant/storage \
     -v $(pwd)/path/to/custom_config.yaml:/qdrant/config/production.yaml \
     qdrant/qdrant
 ```
+
+Where `./path/to/custom_config.yaml` is your custom configuration file with values to override.
+
+Among other things, the configuration file allows you to specify the following settings:
+
+- Optimizer parameters
+- Network settings
+- Default vector index parameters
+- Storage settings
+- Security settings
+
+See the comments in the [configuration file itself](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for details.
+
+<aside role="status">Qdrant has no encryption or authentication by default and new instances are open to everyone. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
+
 
 ## Configuration file example
 
