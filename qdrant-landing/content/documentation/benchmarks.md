@@ -1,6 +1,5 @@
 ---
 title: Benchmarks
 weight: 33
+draft: true
 ---
-
-https://github.com/qdrant/ann-benchmarks

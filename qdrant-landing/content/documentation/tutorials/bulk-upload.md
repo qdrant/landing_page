@@ -1,5 +1,5 @@
 ---
-title: Bulk upload
+title: Bulk upload vectors
 weight: 13
 ---
 

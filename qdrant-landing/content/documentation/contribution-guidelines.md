@@ -1,6 +1,7 @@
 ---
 title: Contribution Guidelines
 weight: 35
+draft: true
 ---
 
 # How to contribute

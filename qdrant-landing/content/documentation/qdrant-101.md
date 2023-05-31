@@ -1,28 +1,14 @@
 ---
-title: Complete Setup
-weight: 10
+title: Qdrant 101
+weight: 12
 ---
 
-# Getting Started with Qdrant
+# Tutorial: Introduction to Qdrant
 
 Vector databases shine in many applications like [semantic search](https://en.wikipedia.org/wiki/Semantic_search) and 
-[recommendation systems](https://en.wikipedia.org/wiki/Recommender_system), and in this tutorial, we'll learn about 
+[recommendation systems](https://en.wikipedia.org/wiki/Recommender_system). In this tutorial, we'll learn about 
 how to get started building these systems with one of the most popular and fastest growing vector databases in the 
 market, [Qdrant](qdrant.tech).
-
-## Table of Contents
-
-1. [Learning Outcomes](##-1.-Learning-Outcomes)
-2. [Installation](##-2.-Installation)
-3. [Getting Started](##-3.-Getting-Started)
-    - [Adding Points](###-3.1-Adding-Points)
-    - [Payload](###-3.2-Payloads)
-    - [Search](###-3.3-Search)
-4. [Recommendations](##-4.-Recommendations)
-5. [Conclusion](##-5.-Conclusion)
-6. [Resources](##-6.-Resources)
-
-## 1. Learning Outcomes
 
 By the end of this tutorial, you will be able to
 - Create, update, and query collections of vectors using Qdrant.
@@ -30,7 +16,7 @@ By the end of this tutorial, you will be able to
 - Develop an intuition for the mechanics behind the recommendation API of Qdrant.
 - Understand, and get creative with, the kind of data you can add to your payload.
 
-## 2. Installation
+## Installation
 
 The open source version of Qdrant is available as a docker image and it can be pulled and run from any machine 
 with docker in it. If you don't have Docker installed in your PC you can follow the instructions in the 
@@ -78,7 +64,7 @@ After your have your environment ready, let's get started using Qdrant.
 **Note:** At the time of writing, Qdrant supports Rust, GO, Python and TypeScript. We expect other 
 programming languages to be added in the future.
 
-## 3. Getting Started
+## Getting Started
 
 The two modules we'll use the most are the `QdrantClient` and the `models` one. The former allows us 
 to connect to Qdrant or it allows us to run an in-memory database by switching the parameter `location=` 
@@ -184,7 +170,7 @@ be recreated again, we would use `client.create_collection()` method instead.
 
 Now that we know how to create collections, let's create a bit of fake data and add some vectors to it.
 
-### 3.1 Adding Points
+### Adding Points
 
 The [points](https://qdrant.tech/documentation/points/) are the central entity Qdrant operates with, and 
 these contain records consisting of a vector, an optional `id` and an optional `payload` (which we'll talk 
@@ -330,7 +316,7 @@ client.count(
 
 
 
-### 3.2 Payloads
+### Payloads
 
 Qdrant has incredible features on top of speed and reliability, and one of its most useful ones is without 
 a doubt the ability to store additional information alongside the vectors. In Qdrant's terminology, this 
@@ -459,7 +445,7 @@ resutls[0].id
 
 Next, we'll use our payload it to search.
 
-### 3.3 Search
+### Search
 
 Now that we have our vectors with an ID and a payload, we can explore a few of ways in which we can search 
 for content when, in our use case, new music gets selected. Let's check it out.
@@ -550,7 +536,7 @@ client.clear_payload(
 )
 ```
 
-## 4. Recommendations
+## Recommendations
 
 A recommendation system is a technology that suggests items or content to users based on their preferences, 
 interests, or past behavior. It's like having a knowledgeable friend who can recommend movies, books, music, 
@@ -674,7 +660,7 @@ client.recommend(
 
 That's it! You have now gone over a whirlwind tour of vector databases and are ready to tackle new challenges. 😎
 
-## 5. Conclusion
+## Conclusion
 
 To wrap up, we have explored a bit of the fascinating world of vector databases, and we learned that these 
 databases provide efficient storage and retrieval of high-dimensional vectors, making them ideal for 
@@ -688,7 +674,7 @@ We can't wait to see what cool applications you build with Qdrant.
 
 If you liked this introductory tutorial, make sure you keep an eye out for new ones on our website.
 
-## 6. Resources
+## Resources
 
 Here is a list with some resources that we found useful, and that helped with the development of this tutorial.
 

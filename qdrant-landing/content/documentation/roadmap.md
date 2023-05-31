@@ -1,15 +1,10 @@
 ---
 title: Roadmap
 weight: 32
+draft: true
 ---
 
 # Qdrant 2023 Roadmap
-
-Hi!
-This document is our plan for Qdrant development in 2023.
-Previous year roadmap is available here:
-
-* [Roadmap 2022](roadmap-2022.md)
 
 Goals of the release:
 

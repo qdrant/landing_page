@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting
-weight: 14
+weight: 100
 ---
 
 # Solving common errors
