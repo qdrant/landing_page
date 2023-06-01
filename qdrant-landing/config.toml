@@ -29,7 +29,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   preview_image = "/images/social_preview.png"
 
   github = "https://github.com/qdrant/qdrant"
-  quick_start = "/documentation/quick_start/"
+  quick_start = "/documentation/quick-start/"
   tutorial = "/articles/neural-search-tutorial/"
   benchmarks = "/benchmarks/"
   demos = "/demo"
