@@ -219,7 +219,7 @@ index[-10:]
 
 
 Once a collection has been created, we can fill it in with the command `client.upsert()`. We'll need the 
-collection's name and the appropriate uploading process from our `models` module, in this case, [`Batch`](https://qdrant.tech/documentation/points/#upload-points).
+collection's name and the appropriate uploading process from our `models` module, in this case, [`Batch`](../documentation/concepts/points/#upload-points).
 
 One thing to note is that Qdrant can only take in native Python iterables like lists and tuples. This is 
 why you'll notice the `.tolist()` method attached to our numpy matrix,`data`, below.

@@ -15,11 +15,11 @@ speech recognition, object detection, and many others.
 
 These new databases shine in many applications like [semantic search](https://en.wikipedia.org/wiki/Semantic_search) 
 and [recommendation systems](https://en.wikipedia.org/wiki/Recommender_system), and here, we'll 
-learn about one of the most popular and fastest growing vector databases in the market, [Qdrant](qdrant.tech).
+learn about one of the most popular and fastest growing vector databases in the market, [Qdrant](https://qdrant.tech).
 
 ## What is Qdrant?
 
-[Qdrant](qdrant.tech) "is a vector similarity search engine that provides a production-ready 
+[Qdrant](http://qdrant.tech) "is a vector similarity search engine that provides a production-ready 
 service with a convenient API to store, search, and manage points (i.e. vectors) with an additional 
 payload." You can think of the payloads as additional pieces of information that can help you 
 hone in on your search and also receive useful information that you can give to your users.
@@ -110,19 +110,19 @@ Let's now evaluate, at a high-level, the way Qdrant is architected.
 The diagram above represents a high-level overview of some of the main components of Qdrant. Here 
 are the terminologies you should get familiar with.
 
-- [Collections](https://qdrant.tech/documentation/collections/): A collection is a named set of 
+- [Collections](../concepts/collections/): A collection is a named set of 
 points (vectors with a payload) among which you can search. Vectors within the same collection 
 can have different dimensionalities and be compared by a single metric.
 - [Distance Metrics](https://en.wikipedia.org/wiki/Metric_space): These are used to measure 
 similarities among vectors and they must be selected at the same time you are creating a 
 collection. The choice of metric depends on the way the vectors were obtained and, in particular, 
 on the neural network that will be used to encode new queries.
-- [Points](https://qdrant.tech/documentation/points/): The points are the central entity that 
+- [Points](../concepts/points/): The points are the central entity that 
 Qdrant operates with and they consist of a vector and an optional id and payload.
     - id: a unique identifier for your vectors.
     - Vector: a high-dimensional representation of data, for example, an image, a sound, a document, a video, etc.
-    - [Payload](https://qdrant.tech/documentation/payload/): A payload is a JSON object with additional data you can add to a vector.
-- [Storage](https://qdrant.tech/documentation/storage/): Qdrant can use one of two options for 
+    - [Payload](../concepts/payload/): A payload is a JSON object with additional data you can add to a vector.
+- [Storage](../concepts/storage/): Qdrant can use one of two options for 
 storage, **In-memory** storage (Stores all vectors in RAM, has the highest speed since disk 
 access is required only for persistence), or **Memmap** storage, (creates a virtual address 
 space associated with the file on disk).
