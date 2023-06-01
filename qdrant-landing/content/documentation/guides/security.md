@@ -119,7 +119,8 @@ Certificate rotation is enabled with a default refresh time of one hour. This
 reloads certificate files every hour while Qdrant is running. This way changed
 certificates are picked up when they get updated externally. The refresh time
 can be tuned by changing the `tls.cert_ttl` setting. You can leave this on, even
-if you don't plan to update your certificates.
+if you don't plan to update your certificates. Currently this is only supported
+for the REST API.
 
 Optionally, you can enable client certificate validation on the server against a
 local certificate authority. Set the following properties and restart:
