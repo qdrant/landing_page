@@ -74,6 +74,27 @@ client.update_collection(
 )
 ```
 
+## Upload directly to disk
+
+When the vectors you upload do not all fit in RAM, you likely want to use
+[memmap](../../concepts/storage/#configuring-memmap-storage)
+support.
+
+During collection
+[creation](../../concepts/collections/#create-collection),
+memmaps may be enabled on a per-vector basis using the `on_disk` parameter. This
+will store vector data directly on disk at all times. It is suitable for
+ingesting a large amount of data, essential for the billion scale benchmark.
+
+Using `memmap_threshold_kb` is not recommended in this case. It would require
+the [optimizer](../../concepts/optimizer/) to constantly
+transform in-memory segments into memmap segments on disk. This process is
+slower, and the optimizer can be a bottleneck when ingesting a large amount of
+data.
+
+Read more about this in
+[Configuring Memmap Storage](../../concepts/storage/#configuring-memmap-storage).
+
 ## Parallel upload into multiple shards
 
 In Qdrant, each collection is split into shards. Each shard has a separate Write-Ahead-Log (WAL), which is responsible for ordering operations.

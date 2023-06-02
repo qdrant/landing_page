@@ -26,20 +26,14 @@ The choice has to be made between the search speed and the size of the RAM used.
 
 **In-memory storage** - Stores all vectors in RAM, has the highest speed since disk access is required only for persistence.
 
-**Memmap storage** -  creates a virtual address space associated with the file on disk. [Wiki](https://en.wikipedia.org/wiki/Memory-mapped_file).
+**Memmap storage** - Creates a virtual address space associated with the file on disk. [Wiki](https://en.wikipedia.org/wiki/Memory-mapped_file).
 Mmapped files are not directly loaded into RAM. Instead, they use page cache to access the contents of the file.
 This scheme allows flexible use of available memory. With sufficient RAM, it is almost as fast as in-memory storage.
 
-<!--
-However, dynamically adding vectors to the mmap file is fairly complicated and is not implemented in Qdrant.
-Thus, segments using mmap storage are `non-appendable` and can only be construed by the optimizer.
-But it only matters for internal operations, so you can safely ignore this fact.
-If you update a vector in a segment with mmap storage, the vector will be moved to appendable segment first, and then the old vector will be deleted from the mmap segment. 
--->
 
 ### Configuring Memmap storage
 
-There are two ways to configure the usage of mmap(also known as on-disk) storage:
+There are two ways to configure the usage of memmap(also known as on-disk) storage:
 
 - Set up `on_disk` option for the vectors in the collection create API:
 
@@ -73,11 +67,11 @@ client.recreate_collection(
 )
 ```
 
-This will create a collection with all vectors immediately stored in mmap storage.
+This will create a collection with all vectors immediately stored in memmap storage.
 This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
 
 
-- Set up `memmap_threshold_kb` option. This option will set the threshold after which the segment will be converted to mmap storage.
+- Set up `memmap_threshold_kb` option. This option will set the threshold after which the segment will be converted to memmap storage.
 
 There are two ways to do this:
 
@@ -110,12 +104,12 @@ client.recreate_collection(
 )
 ```
 
-The rule of thumb to set the mmap threshold parameter is simple:
+The rule of thumb to set the memmap threshold parameter is simple:
 
-- if you have a balanced use scenario - set mmap threshold the same as `indexing_threshold` (default is 20000). In this case the optimizer will not make any extra runs and will optimize all thresholds at once.
-- if you have a high write load and low RAM - set mmap threshold lower than `indexing_threshold` to e.g. 10000. In this case the optimizer will convert the segments to mmap storage first and will only apply indexing after that.
+- if you have a balanced use scenario - set memmap threshold the same as `indexing_threshold` (default is 20000). In this case the optimizer will not make any extra runs and will optimize all thresholds at once.
+- if you have a high write load and low RAM - set memmap threshold lower than `indexing_threshold` to e.g. 10000. In this case the optimizer will convert the segments to memmap storage first and will only apply indexing after that.
 
-In addition, you can use mmap storage not only for vectors, but also for HNSW index.
+In addition, you can use memmap storage not only for vectors, but also for HNSW index.
 To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during [creation](../collections/#create-collection) of the collection.
 
 ```http

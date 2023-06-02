@@ -280,7 +280,7 @@ There are 3 possible modes to place storage of vectors within the qdrant collect
 
 - **Original on Disk, quantized in RAM** - this is a hybrid mode, allows to obtain a good balance between speed and memory usage. Recommended scenario if you are aiming to shrink the memory footprint while keeping the search speed.
 
-This mode is enabled by setting `always_ram` to `true` in the quantization config while using mmap storage:
+This mode is enabled by setting `always_ram` to `true` in the quantization config while using memmap storage:
 
 ```http
 PUT /collections/{collection_name}
