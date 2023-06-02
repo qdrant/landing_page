@@ -1,6 +1,8 @@
 ---
 title: Storage
 weight: 80
+aliases:
+  - ../storage
 ---
 
 # Storage

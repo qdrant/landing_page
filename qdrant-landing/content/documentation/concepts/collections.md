@@ -1,6 +1,8 @@
 ---
 title: Collections
 weight: 30
+aliases:
+  - ../collections
 ---
 
 # Collections

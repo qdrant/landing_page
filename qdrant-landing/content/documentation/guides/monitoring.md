@@ -1,6 +1,8 @@
 ---
 title: Monitoring
 weight: 155
+aliases:
+  - ../monitoring
 ---
 
 # Monitoring

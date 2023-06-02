@@ -1,6 +1,8 @@
 ---
 title: Administration
 weight: 10
+aliases:
+  - ../administration
 ---
 
 # Administration

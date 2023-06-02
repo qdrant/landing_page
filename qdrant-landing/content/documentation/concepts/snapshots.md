@@ -1,6 +1,8 @@
 ---
 title: Snapshots
 weight: 110
+aliases:
+  - ../snapshots
 ---
 
 # Snapshots

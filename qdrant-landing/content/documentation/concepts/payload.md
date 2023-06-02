@@ -1,6 +1,8 @@
 ---
 title: Payload
 weight: 40
+aliases:
+  - ../payload
 ---
 
 # Payload

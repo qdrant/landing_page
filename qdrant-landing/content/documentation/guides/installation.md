@@ -1,6 +1,9 @@
 ---
 title: Installation
 weight: 10
+aliases:
+  - ../install
+  - ../installation
 ---
 
 # Installation options

@@ -1,6 +1,8 @@
 ---
 title: Filtering
 weight: 60
+aliases:
+  - ../filtering
 ---
 
 # Filtering

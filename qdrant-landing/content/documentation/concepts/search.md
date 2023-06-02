@@ -1,6 +1,8 @@
 ---
 title: Search
 weight: 50
+aliases:
+  - ../search
 ---
 
 # Similarity search

@@ -1,6 +1,8 @@
 ---
 title: Points
 weight: 40
+aliases:
+  - ../points
 ---
 
 # Points
