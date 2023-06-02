@@ -66,7 +66,7 @@ See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operat
 Vectors all live in RAM for very quick access. The `on_disk` parameter can be
 set in the vector configuration. If true, all vectors will live on disk. This
 will enable the use of
-[memmaps](https://qdrant.tech/documentation/storage/#configuring-memmap-storage),
+[memmaps](../../concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
 ### Create collection from another collection
