@@ -66,7 +66,7 @@ storage:
 Qdrant allows you to choose the type of indexes and data storage methods used depending on the number of records.
 So, for example, if the number of points is less than 10000, using any index would be less efficient than a brute force scan.
 
-The Indexing Optimizer is used to implement the enabling of indexes and mmap storage when the minimal amount of records is reached.
+The Indexing Optimizer is used to implement the enabling of indexes and memmap storage when the minimal amount of records is reached.
 
 The criteria for starting the optimizer are defined in the configuration file.
 

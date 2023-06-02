@@ -59,7 +59,15 @@ In addition to the required options, you can also specify custom values for the 
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
-See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection parameters.
+See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection and vector parameters.
+
+*Available as of v1.2.0*
+
+Vectors all live in RAM for very quick access. The `on_disk` parameter can be
+set in the vector configuration. If true, all vectors will live on disk. This
+will enable the use of
+[memmaps](../../concepts/storage/#configuring-memmap-storage),
+which is suitable for ingesting a large amount of data.
 
 ### Create collection from another collection
 
@@ -151,6 +159,14 @@ For each named vector you can optionally specify
 [`quantization_config`](../../guides/quantization/#setting-up-quantization-in-qdrant) to
 deviate from the collection configuration. This can be useful to fine-tune
 search performance on a vector level.
+
+*Available as of v1.2.0*
+
+Vectors all live in RAM for very quick access. On a per-vector basis you can set
+`on_disk` to true to store all vectors on disk at all times. This will enable
+the use of
+[memmaps](../../concepts/storage/#configuring-memmap-storage),
+which is suitable for ingesting a large amount of data.
 
 ### Delete collection
 
