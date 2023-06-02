@@ -1,6 +1,8 @@
 ---
 title: Optimizer
 weight: 70
+aliases:
+  - ../optimizer
 ---
 
 # Optimizer

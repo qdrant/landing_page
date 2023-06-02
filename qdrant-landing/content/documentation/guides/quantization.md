@@ -1,6 +1,8 @@
 ---
 title: Quantization
 weight: 120
+aliases:
+  - ../quantization
 ---
 
 # Quantization

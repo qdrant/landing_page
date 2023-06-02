@@ -1,6 +1,8 @@
 ---
 title: Security
 weight: 165
+aliases:
+  - ../security
 ---
 
 # Security

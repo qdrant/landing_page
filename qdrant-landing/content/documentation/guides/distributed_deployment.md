@@ -1,6 +1,8 @@
 ---
 title: Distributed deployment
 weight: 100
+aliases:
+  - ../distributed_deployment
 ---
 
 # Distributed deployment
