@@ -1,7 +1,7 @@
 ---
 title: Indexing
 weight: 90
-xaliases:
+aliases:
   - ../indexing
 ---
 
