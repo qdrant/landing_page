@@ -776,3 +776,119 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 
 * Only string and integer (signed and unsigned) fields are supported for the `group_by` parameter. Payload fields with other types will be ignored.
 * At the moment, pagination is not enabled when using **groups**, so the `offset` parameter is not allowed.
+
+### Lookup in groups
+
+*Available since v1.3.0*
+
+One way of optimizing storage when using groups is to store the information shared by the points with the same group id in a single point in another collection. Then, when using the **groups** API, add the `with_lookup` parameter to bring the information from those points into each group.
+
+![Alt. text](/qdrant-landing/static/content/images/lookup_id_linking.png)
+
+This has the extra benefit of having a single point to update when the information shared by the points in a group changes.
+
+For example, if you have a collection of documents, you may want to chunk them and store the points for the chunks in a separate collection, making sure that you store the point id from the document it belongs in the payload of the chunk point.
+
+In this case, to bring the information from the documents into the chunks grouped by the document id, you can use the `with_lookup` parameter:
+
+```http
+POST /collections/chunks/points/search/groups
+
+{
+    // Same as in the regular search API
+    "vector": [1.1],
+    ...,
+
+    // Grouping parameters
+    "group_by": "document_id",  
+    "limit": 2,                 
+    "group_size": 2,            
+
+    // Lookup parameters
+    "with_lookup": {
+        // Name of the collection to look up points in
+        "collection_name": "documents",
+
+        // Options for specifying what to bring from the payload 
+        // of the looked up point, true by default
+        "with_payload": ["title", "text"],
+
+        // Options for specifying what to bring from the vector(s) 
+        // of the looked up point, true by default
+        "with_vector: false,
+    }
+}
+```
+
+```python
+client.search_groups(
+    collection_name="chunks",
+
+    # Same as in the regular search() API
+    vector=[1.1],
+    ...,
+    
+    # Grouping parameters
+    group_by="document_id", # Path of the field to group by
+    limit=2,                # Max amount of groups
+    group_size=2,           # Max amount of points per group
+
+    # Lookup parameters
+    with_lookup=models.WithLookup(
+        # Name of the collection to look up points in
+        collection_name="documents",
+
+        # Options for specifying what to bring from the payload 
+        # of the looked up point, True by default
+        with_payload=["title", "text"]
+        
+        # Options for specifying what to bring from the vector(s) 
+        # of the looked up point, True by default
+        with_vector=False, 
+    )
+)
+```
+
+For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.
+
+The looked up result will show up under `lookup` in each group.
+
+```json
+{
+    "result": {
+        "groups": [
+            {
+                "id": 1,
+                "hits": [
+                    { "id": 0, "score": 0.91 },
+                    { "id": 1, "score": 0.85 },
+                ],
+                "lookup": {
+                    "id": 1,
+                    "payload": {
+                        "title": "Document A",
+                        "text": "This is document A",
+                    }
+                }
+            },
+            {
+                "id": 2,
+                "hits": [
+                    { "id": 1, "score": 0.85 },
+                ],
+                "lookup": {
+                    "id": 2,
+                    "payload": {
+                        "title": "Document B",
+                        "text": "This is document B",
+                    }
+                }
+            },
+        ]
+    },
+    "status": "ok",
+    "time": 0.001
+}
+```
+
+Since the lookup is done by matching directly with the point id, any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
