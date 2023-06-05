@@ -1,4 +1,4 @@
-name: Links
+name: External Links
 
 on:
   repository_dispatch:
