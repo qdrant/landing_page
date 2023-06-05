@@ -1,0 +1,33 @@
+{{ define "main" }}
+
+{{ range $i,$p := where .Data.Pages "Section" "datasets" }}
+
+
+<div class="auto-container pt-3 pt-md-5 single-page">
+    <div class="row clearfix">
+        <!-- Content Side -->
+        <section class="content-side col-lg-12 col-md-12 col-sm-12">
+            {{ .Scratch.Set "scope" "single" }}
+            {{ $link := .Permalink }}
+            {{ if .Params.external_link }}
+            {{ $link = .Params.external_link }}
+            {{ end }}
+
+
+            {{ if .Description }}
+            <article class="article article_benchmarks article_narrow">
+                <h1>{{ .Title }}</h1>
+                <p>{{ .Description }}</p>
+            </article>
+            {{ end }}
+
+            <article class="article article_benchmarks article_narrow">
+                {{ .Content }}
+            </article>
+        </section>
+    </div>
+</div>
+
+
+{{ end }}
+{{ end }}

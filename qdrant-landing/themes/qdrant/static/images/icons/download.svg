@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?><!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+<svg fill="#000000" viewBox="0 0 24 24" id="download-alt-3"
+     data-name="Flat Line" xmlns="http://www.w3.org/2000/svg" class="icon flat-line">
+    <path id="secondary" d="M21,13v7a1,1,0,0,1-1,1H4a1,1,0,0,1-1-1V13H8a4,4,0,0,0,8,0Z"
+          style="fill: #d52048; stroke-width: 2;"></path>
+    <polyline id="primary" points="9 8 12 11 15 8"
+              style="fill: none; stroke: rgb(16, 27, 49); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></polyline>
+    <path id="primary-2" data-name="primary" d="M21,13,18.23,4.68A1,1,0,0,0,17.28,4H16"
+          style="fill: none; stroke: rgb(16, 27, 49); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+    <path id="primary-3" data-name="primary" d="M8,4H6.72a1,1,0,0,0-1,.68L3,13"
+          style="fill: none; stroke: rgb(16, 27, 49); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+    <path id="primary-4" data-name="primary"
+          d="M12,3v8m4,2a4,4,0,0,1-8,0H3v7a1,1,0,0,0,1,1H20a1,1,0,0,0,1-1V13Z"
+          style="fill: none; stroke: rgb(16, 27, 49); stroke-linecap: round; stroke-linejoin: round; stroke-width: 2;"></path>
+</svg>
