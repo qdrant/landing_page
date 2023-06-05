@@ -779,11 +779,11 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 
 ### Lookup in groups
 
-*Available since v1.3.0*
+*Available as of v1.3.0*
 
 One way of optimizing storage when using groups is to store the information shared by the points with the same group id in a single point in another collection. Then, when using the **groups** API, add the `with_lookup` parameter to bring the information from those points into each group.
 
-![Alt. text](/content/images/lookup_id_linking.png)
+![Group id matches point id](/docs/lookup_id_linking.png)
 
 This has the extra benefit of having a single point to update when the information shared by the points in a group changes.
 
