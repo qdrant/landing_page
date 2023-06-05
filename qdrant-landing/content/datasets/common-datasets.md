@@ -17,7 +17,7 @@ snapshot import.
    <thead>
       <tr>
          <th>Dataset</th>
-         <th></th>
+         <th>Description</th>
          <th>Model</th>
          <th>Dimensionality</th>
          <th>Link</th>
@@ -25,18 +25,25 @@ snapshot import.
    </thead>
    <tbody>
       <tr>
-         <th>Arxiv.org</th>
+         <th rowspan="2">Arxiv.org</th>
          <th>Only titles</th>
-         <td>InstructorXL</td>
+         <td><a href="https://huggingface.co/hkunlp/instructor-xl">InstructorXL</a></td>
          <td>768</td>
-         <td>https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot</td>
+         <td>
+            <a href="https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot">
+                <img src="/images/icons/download.svg" alt="download" />
+            </a>
+         </td>
       </tr>
       <tr>
-         <th>Arxiv.org</th>
          <th>Only abstracts</th>
-         <td>InstructorXL</td>
+         <td><a href="https://huggingface.co/hkunlp/instructor-xl">InstructorXL</a></td>
          <td>768</td>
-         <td>https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot</td>
+         <td>
+            <a href="https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot">
+                <img src="/images/icons/download.svg" alt="download" />
+            </a>
+         </td>
       </tr>
    </tbody>
 </table>
