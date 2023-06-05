@@ -21,7 +21,7 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v1.8.0
         with:
-          args: qdrant-landing/public --exclude='https://qdrant.to/twitter' --exclude='https://fonts.gstatic.com/' --exclude="https://twitter.com/intent.*" --exclude="http://localhost.*" --exclude="https://www.linkedin.com/sharing.*" --exlucde="file://.*"
+          args: qdrant-landing/public
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
