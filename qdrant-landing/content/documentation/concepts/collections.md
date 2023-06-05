@@ -26,6 +26,8 @@ These settings can be changed at any time by a corresponding request.
 
 this is broken link for test, do not [merge](../do-not-merge#this) !
 
+This is some external link which doesn't extis: [external link](https://qdrant.lala/)
+
 ### Create collection
 
 ```http

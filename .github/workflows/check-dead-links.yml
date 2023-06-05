@@ -11,12 +11,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "latest"
+      - name: Run hugo
+        run: cd qdrant-landing && hugo -b 'https://qdrant.tech/'
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v1.8.0
         with:
-          args: https://qdrant.tech --exclude https://qdrant.to/twitter --exclude=https://fonts.gstatic.com/
+          args: qdrant-landing/public --exclude 'https://qdrant.to/twitter' --exclude='https://fonts.gstatic.com/' --exclude="https://twitter.com/intent.*" --exclude="http://localhost.*" --exclude="https://www.linkedin.com/sharing.*" --exlucde="file://.*"
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
