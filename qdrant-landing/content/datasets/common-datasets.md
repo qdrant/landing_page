@@ -7,11 +7,11 @@ weight: 1
 
 Understanding that creating embeddings every time can be a resource-intensive task, we have 
 devised a more efficient solution for you. In this section, we will regularly publish 
-snapshots of common public datasets often used for demonstration purposes. These snapshots 
-contain pre-computed vectors, critical for semantic search, that you can easily import 
-into your Qdrant instance. Our objective is to streamline your process and accelerate your 
-progress. Say goodbye to redundant operations and harness the power of Qdrant with a simple 
-[snapshot import](/documentation/concepts/snapshots/).
+snapshots of common public datasets often used for general or educational purposes. These 
+snapshots contain pre-computed vectors, critical for semantic search, that you can easily 
+import into your Qdrant instance. Our objective is to streamline your process and accelerate 
+your progress. Say goodbye to redundant operations and harness the power of Qdrant with 
+a simple [snapshot import](/documentation/concepts/snapshots/).
 
 <table>
    <thead>
