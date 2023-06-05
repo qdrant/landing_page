@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="472" height="224" class="svgbob"><style>.svgbob line, .svgbob path, .svgbob circle, .svgbob rect, .svgbob polygon {
+    stroke: black;
+    stroke-width: 2;
+    stroke-opacity: 1;
+    fill-opacity: 1;
+    stroke-linecap: round;
+    stroke-linejoin: miter;
+}
+.svgbob text {
+    white-space: pre;
+    fill: black;
+    font-family: Iosevka Fixed, monospace;
+    font-size: 14px;
+}
+.svgbob rect.backdrop {
+    stroke: none;
+    fill: white;
+}
+.svgbob .broken {
+    stroke-dasharray: 8;
+}
+.svgbob .filled {
+    fill: black;
+}
+.svgbob .bg_filled {
+    fill: white;
+    stroke-width: 1;
+}
+.svgbob .nofill {
+    fill: white;
+}
+.svgbob .end_marked_arrow {
+    marker-end: url(#arrow);
+}
+.svgbob .start_marked_arrow {
+    marker-start: url(#arrow);
+}
+.svgbob .end_marked_diamond {
+    marker-end: url(#diamond);
+}
+.svgbob .start_marked_diamond {
+    marker-start: url(#diamond);
+}
+.svgbob .end_marked_circle {
+    marker-end: url(#circle);
+}
+.svgbob .start_marked_circle {
+    marker-start: url(#circle);
+}
+.svgbob .end_marked_open_circle {
+    marker-end: url(#open_circle);
+}
+.svgbob .start_marked_open_circle {
+    marker-start: url(#open_circle);
+}
+.svgbob .end_marked_big_open_circle {
+    marker-end: url(#big_open_circle);
+}
+.svgbob .start_marked_big_open_circle {
+    marker-start: url(#big_open_circle);
+}<!--separator--></style><defs><marker id="arrow" viewBox="-2 -2 8 8" refX="4" refY="2" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,0 0,4 4,2 0,0"></polygon></marker><marker id="diamond" viewBox="-2 -2 8 8" refX="4" refY="2" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><polygon points="0,2 2,0 4,2 2,4 0,2"></polygon></marker><marker id="circle" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><circle cx="4" cy="4" r="2" class="filled"></circle></marker><marker id="open_circle" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><circle cx="4" cy="4" r="2" class="bg_filled"></circle></marker><marker id="big_open_circle" viewBox="0 0 8 8" refX="4" refY="4" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><circle cx="4" cy="4" r="3" class="bg_filled"></circle></marker></defs><rect class="backdrop" x="0" y="0" width="472" height="224"></rect><text x="2" y="12" >My</text><text x="26" y="12" >Home</text><text x="66" y="12" >Office</text><text x="178" y="12" >EU</text><text x="202" y="12" >1</text><line x1="348" y1="8" x2="360" y2="8" class="solid"></line><text x="170" y="28" >Mighty</text><text x="346" y="28" >λ</text><line x1="52" y1="44" x2="52" y2="40" class="solid end_marked_open_circle"></line><line x1="56" y1="40" x2="328" y2="40" class="solid"></line><polygon points="328,36 336,40 328,44" class="filled"></polygon><line x1="348" y1="44" x2="348" y2="40" class="solid end_marked_open_circle"></line><line x1="52" y1="48" x2="52" y2="200" class="broken end_marked_open_circle"></line><text x="186" y="60" >:</text><line x1="188" y1="64" x2="188" y2="72" class="solid end_marked_open_circle"></line><polygon points="208,68 200,72 208,76" class="filled"></polygon><text x="346" y="92" >.</text><polygon points="328,100 336,104 328,108" class="filled"></polygon><line x1="348" y1="108" x2="348" y2="104" class="solid end_marked_open_circle"></line><line x1="188" y1="124" x2="188" y2="180" class="broken"></line><polygon points="416,132 424,136 416,140" class="filled"></polygon><text x="346" y="156" >.</text><line x1="348" y1="172" x2="348" y2="168" class="solid end_marked_open_circle"></line><polygon points="72,196 64,200 72,204" class="filled"></polygon><text x="370" y="12" >US</text><text x="394" y="12" >East</text><text x="434" y="12" >1</text><line x1="448" y1="8" x2="460" y2="8" class="solid"></line><text x="418" y="28" >Qdrant</text><line x1="436" y1="32" x2="436" y2="116" class="broken"></line><line x1="436" y1="140" x2="436" y2="136" class="solid end_marked_open_circle"></line><polygon points="368,164 360,168 368,172" class="filled"></polygon><text x="434" y="188" >.</text><text x="434" y="204" >'</text><g><line x1="348" y1="48" x2="348" y2="72" class="solid"></line><line x1="208" y1="72" x2="348" y2="72" class="solid"></line></g><g><line x1="188" y1="76" x2="188" y2="104" class="solid"></line><line x1="188" y1="104" x2="328" y2="104" class="solid"></line></g><g><line x1="348" y1="112" x2="348" y2="136" class="solid"></line><line x1="348" y1="136" x2="416" y2="136" class="solid"></line></g><g><line x1="348" y1="176" x2="348" y2="200" class="solid"></line><line x1="72" y1="200" x2="348" y2="200" class="solid"></line></g><g><line x1="436" y1="144" x2="436" y2="168" class="solid"></line><line x1="368" y1="168" x2="436" y2="168" class="solid"></line></g></svg>
