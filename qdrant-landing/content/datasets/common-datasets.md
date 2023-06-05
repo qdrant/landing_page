@@ -11,7 +11,7 @@ snapshots of common public datasets often used for demonstration purposes. These
 contain pre-computed vectors, critical for semantic search, that you can easily import 
 into your Qdrant instance. Our objective is to streamline your process and accelerate your 
 progress. Say goodbye to redundant operations and harness the power of Qdrant with a simple 
-snapshot import.
+[snapshot import](/documentation/concepts/snapshots/).
 
 <table>
    <thead>
@@ -20,6 +20,7 @@ snapshot import.
          <th>Description</th>
          <th>Model</th>
          <th>Dimensionality</th>
+         <th>Size</th>
          <th>Link</th>
       </tr>
    </thead>
@@ -29,6 +30,7 @@ snapshot import.
          <th>Only titles</th>
          <td><a href="https://huggingface.co/hkunlp/instructor-xl">InstructorXL</a></td>
          <td>768</td>
+         <td>7.1 GB</td>
          <td>
             <a href="https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot">
                 <img src="/images/icons/download.svg" alt="download" />
@@ -39,6 +41,7 @@ snapshot import.
          <th>Only abstracts</th>
          <td><a href="https://huggingface.co/hkunlp/instructor-xl">InstructorXL</a></td>
          <td>768</td>
+         <td>8.4 GB</td>
          <td>
             <a href="https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot">
                 <img src="/images/icons/download.svg" alt="download" />
