@@ -24,7 +24,27 @@ We're always on the lookout for interesting services to combine with Qdrant to c
 
 ![max.io logo](/articles_data/mighty-integration/maxio-logo.svg)
 
-For mighty, we start up a [docker container](https://hub.docker.com/layers/maxdotio/mighty-sentence-transformers/0.9.9/images/sha256-0d92a89fbdc2c211d927f193c2d0d34470ecd963e8179798d8d391a4053f6caf?context=explore) with an open port 5050. We can check that it works by calling `curl https://<address>:5050/sentence-transformer?q=hello+mighty`. This will give us a result like (formatted via `jq`):
+For mighty, we start up a [docker container](https://hub.docker.com/layers/maxdotio/mighty-sentence-transformers/0.9.9/images/sha256-0d92a89fbdc2c211d927f193c2d0d34470ecd963e8179798d8d391a4053f6caf?context=explore) with an open port 5050. Just loading the port in a window shows the following:
+
+```
+{
+      "name": "sentence-transformers/all-MiniLM-L6-v2",
+      "architectures": [
+        "BertModel"
+      ],
+      "model_type": "bert",
+      "max_position_embeddings": 512,
+      "labels": null,
+      "named_entities": null,
+      "image_size": null,
+      "source": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
+    }
+}
+```
+
+We note that this uses huggingface's MiniLM-L6 v2 model. If we look at huggingface's site, we find that the model "maps sentences & paragraphs to a 384 dimensional dense vector space and can be used for tasks like clustering or semantic search". Below, it tells us that the distance measure to use is cosine similarity.
+
+We can check that it works by calling `curl https://<address>:5050/sentence-transformer?q=hello+mighty`. This will give us a result like (formatted via `jq`):
 
 ```json
 {
@@ -33,7 +53,7 @@ For mighty, we start up a [docker container](https://hub.docker.com/layers/maxdo
             -0.05019686743617058,
             0.051746174693107605,
             0.048117730766534805,
-            ...
+            ... (381 values skipped)
         ]
     ],
     "shape": [
@@ -79,8 +99,7 @@ pub async fn get_mighty_embedding(
     }
 
     let embeddings: Result<EmbeddingsResponse, _> = response.json().await?;
-
-    Ok(embeddings[0])
+    Ok(embeddings[0]) // we ignore multiple embeddings at the moment
 }
 ```
 
