@@ -24,10 +24,6 @@ Qdrant supports these most popular types of metrics:
 In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
 These settings can be changed at any time by a corresponding request.
 
-this is broken link for test, do not [merge](../do-not-merge#this) !
-
-This is some external link which doesn't extis: [external link](https://qdrant.lala/)
-
 ### Create collection
 
 ```http

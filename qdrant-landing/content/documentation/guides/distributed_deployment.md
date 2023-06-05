@@ -331,7 +331,7 @@ Snapshot recovery, used in single-node deployment, is different from cluster one
 Consensus manages all metadata about all collections and does not require snapshots to recover it.
 But you can use snapshots to recover missing shards of the collections.
 
-Use [Collection Snapshot Recovery API](../snapshots/#recover-in-cluster-deployment) to do it.
+Use [Collection Snapshot Recovery API](../../concepts/snapshots/#recover-in-cluster-deployment) to do it.
 The service will download specified snapshot of the collection and recover shards with data from it.
 
 Once all shards of the collection are recovered, the collection will become operational again.
