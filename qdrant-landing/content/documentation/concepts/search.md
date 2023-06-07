@@ -772,7 +772,9 @@ The groups are ordered by the score of the top point in the group. Inside each g
 
 If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`), the point can be included in multiple groups (e.g. `"document_id": "a"` and `document_id: "b"`).
 
+<aside role="status">This feature relies heavily on the `group_by` key provided. To improve performance, make sure to create a dedicated index for it.</aside>
+
 **Limitations**:
 
-* Only string and integer (signed and unsigned) fields are supported for the `group_by` parameter. Payload fields with other types will be ignored.
+* Only [keyword](../payload/#keyword) and [integer](../payload/#integer) payload values are supported for the `group_by` parameter. Payload values with other types will be ignored.
 * At the moment, pagination is not enabled when using **groups**, so the `offset` parameter is not allowed.
