@@ -49,7 +49,7 @@ from tqdm.notebook import tqdm
 ```
 
 You will be using a pre-trained model called `all-MiniLM-L6-v2`.
-This is a performance-optimized sentence embedding model. You can read more about it and other awailable models [here](https://www.sbert.net/docs/pretrained_models.html).
+This is a performance-optimized sentence embedding model and you can read more about it and other available models [here](https://www.sbert.net/docs/pretrained_models.html).
 
 
 4. Download and create a pre-trained sentence encoder.
