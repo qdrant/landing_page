@@ -91,10 +91,9 @@ One of the easiest libraries to work with pre-trained language models, in my opi
 It provides a way to conveniently download and use many pre-trained models, mostly based on transformer architecture.
 Transformers is not the only architecture suitable for neural search, but for our task, it is quite enough.
 
-We will use a model called `distilbert-base-nli-stsb-mean-tokens`.
-DistilBERT means that the size of this model has been reduced by a special technique compared to the original BERT.
-This is important for the speed of our service and its demand for resources.
-The word `stsb` in the name means that the model was trained for the Semantic Textual Similarity task. 
+We will use a model called `all-MiniLM-L6-v2`.
+This model is an all-round model tuned for many use-cases. Trained on a large and diverse dataset of over 1 billion training pairs.
+It is optimized for low memory consumption and fast inference.
 
 The complete code for data preparation with detailed comments can be found and run in [Colab Notebook](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing).
 
@@ -175,7 +174,7 @@ Let's create a new collection for our startup vectors.
 ```python
 qdrant_client.recreate_collection(
     collection_name='startups', 
-    vectors_config=VectorParams(size=768, distance=Distance.COSINE),
+    vectors_config=VectorParams(size=384, distance=Distance.COSINE),
 )
 ```
 
@@ -185,7 +184,7 @@ This is useful if you are experimenting and running the script several times.
 The `vector_size` parameter is very important.
 It tells the service the size of the vectors in that collection.
 All vectors in a collection must have the same size, otherwise, it is impossible to calculate the distance between them.
-`768` is the output dimensionality of the encoder we are using.
+`384` is the output dimensionality of the encoder we are using.
 
 The `distance` parameter allows specifying the function used to measure the distance between two points.
 
@@ -249,7 +248,7 @@ class NeuralSearcher:
     def __init__(self, collection_name):
         self.collection_name = collection_name
         # Initialize encoder model
-        self.model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cpu')
+        self.model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
         # initialize Qdrant client
         self.qdrant_client = QdrantClient(host='localhost', port=6333)
 ```
