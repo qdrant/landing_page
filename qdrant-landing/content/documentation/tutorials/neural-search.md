@@ -10,7 +10,7 @@ weight: 14
 
 This tutorial shows you how to build and deploy your own neural search service. The created service will be searching through descriptions of companies from [startups-list.com](https://www.startups-list.com/). The website contains the company names, descriptions, their locations and a picture for each entry. 
 
-To create a neural search service, you will need to process your raw data and then create a search function to manipulate it. First, you will download and prepare a sample dataset using a modified version of the BERT ML model. Then, you will load the data into Qdrant, create a Neural Search API and serve it using FastAPI. 
+To create a neural search service, you will need to process your raw data and then create a search function to manipulate it. First, you will download and prepare a sample dataset using a modified version of the BERT ML model. Then, you will load the data into Qdrant, create a neural search API and serve it using FastAPI. 
 
 ## Prerequisites
 
@@ -48,8 +48,8 @@ import pandas as pd
 from tqdm.notebook import tqdm
 ```
 
-We will use a Machine Learning model called `distilbert-base-nli-stsb-mean-tokens`.
-DistilBERT is a lightweight version of BERT, which speeds up our service and reduces resource loads.
+You will use a Machine Learning model called `distilbert-base-nli-stsb-mean-tokens`.
+DistilBERT is a lightweight version of BERT, which speeds up your service and reduces resource loads.
 
 4. Download and create a pre-trained sentence encoder.
 
@@ -80,7 +80,7 @@ if len(batch) > 0:
 
 vectors = np.concatenate(vectors)
 ```
-All of our descriptions are converted into vectors. We have 40474 vectors of 768 dimentions. The output layer of the model has this dimension
+All of the descriptions are now converted into vectors. There are 40474 vectors of 768 dimensions. The output layer of the model has this dimension
 
 ```python
 vectors.shape
@@ -96,7 +96,7 @@ np.save('startup_vectors.npy', vectors, allow_pickle=False)
 
 Next, you need to manage all of your data using a vector engine. Qdrant lets you store, update or delete created vectors. Most importantly, it lets you search for the nearest vectors via a convenient API. 
 
-> **Note:** Before you begin, create a project directory and a virtual python environment around it.
+> **Note:** Before you begin, create a project directory and a virtual python environment in it.
 
 1. Download the Qdrant image from DockerHub.
 
@@ -144,7 +144,7 @@ from qdrant_client.models import VectorParams, Distance
 qdrant_client = QdrantClient(host='localhost', port=6333)
 ```
 
-3. Related vectors need to be added to a collection. Create a new collection for our startup vectors.
+3. Related vectors need to be added to a collection. Create a new collection for your startup vectors.
 
 ```python
 qdrant_client.recreate_collection(
@@ -176,8 +176,8 @@ fd = open('./startups.json')
 # payload is now an iterator over startup data
 payload = map(json.loads, fd)
 
-# Here we load all vectors into memory, numpy array works as iterable for itself.
-# Other option would be to use Mmap, if we don't want to load all data into RAM
+# Load all vectors into memory, numpy array works as iterable for itself.
+# Other option would be to use Mmap, if you don't want to load all data into RAM
 vectors = np.load('./startup_vectors.npy')
 ```
 
@@ -205,7 +205,7 @@ First, install all the requirements:
 pip install sentence-transformers numpy
 ```
 
-In order to process incoming requests neural search will need 2 things: 1) a model to convert the query into a vector and 2) the Qdrant client to perform search queries.
+In order to process incoming requests, neural search will need 2 things: 1) a model to convert the query into a vector and 2) the Qdrant client to perform search queries.
 
 1. Create a file named `neural_searcher.py` and specify the following.
 
@@ -236,11 +236,11 @@ class NeuralSearcher:
         search_result = self.qdrant_client.search(
             collection_name=self.collection_name,
             query_vector=vector,
-            query_filter=None,  # We don't want any filters for now
+            query_filter=None,  # If you don't want any filters for now
             top=5  # 5 the most closest results is enough
         )
         # `search_result` contains found vector ids with similarity scores along with the stored payload
-        # In this function we are interested in payload only
+        # In this function you are interested in payload only
         payloads = [hit.payload for hit in search_result]
         return payloads
 ```
@@ -248,7 +248,7 @@ class NeuralSearcher:
 3. Add search filters.
 
 With Qdrant it is also feasible to add some conditions to the search.
-For example, if we wanted to search for startups in a certain city, the search query could look like this:
+For example, if you wanted to search for startups in a certain city, the search query could look like this:
 
 ```python
 from qdrant_client.models import Filter
@@ -260,8 +260,8 @@ from qdrant_client.models import Filter
     # Define a filter for cities
     city_filter = Filter(**{
         "must": [{
-            "key": "city", # We store city information in a field of the same name 
-            "match": { # This condition checks if payload field have requested value
+            "key": "city", # Store city information in a field of the same name 
+            "match": { # This condition checks if payload field has the requested value
                 "keyword": city_of_interest
             }
         }]
@@ -295,7 +295,7 @@ pip install fastapi uvicorn
 
 Create a file named `service.py` and specify the following.
 
-Our service will have only one API endpoint and will look like this: 
+The service will have only one API endpoint and will look like this: 
 
 ```python
  from fastapi import FastAPI
