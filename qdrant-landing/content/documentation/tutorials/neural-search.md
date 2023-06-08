@@ -1,0 +1,347 @@
+---
+title: Create a Simple Neural Search Service
+weight: 14
+---
+
+# Create a Simple Neural Search Service
+
+| Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
+| --- | ----------- | ----------- |----------- |
+
+This tutorial shows you how to build and deploy your own neural search service. The created service will be searching through descriptions of companies from [startups-list.com](https://www.startups-list.com/). The website contains the company names, descriptions, their locations and a picture for each entry. 
+
+To create a neural search service, you will need to process your raw data and then create a search function to manipulate it. First, you will download and prepare a sample dataset using a modified version of the BERT ML model. Then, you will load the data into Qdrant, create a Neural Search API and serve it using FastAPI. 
+
+## Prerequisites
+
+To complete this tutorial, you will need:
+
+- Docker - The easiest way to use Qdrant is to run a pre-built Docker image.  
+- [Raw parsed data](https://storage.googleapis.com/generall-shared-data/startups_demo.json) from startups-list.com.
+- Python version 3.8
+
+> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
+
+## Prepare sample dataset 
+
+To conduct a neural search on startup descriptions, you must first encode the description data into vectors. To process text, you need to use a pre-trained language model - DistilBert. The [sentence-transformers](https://github.com/UKPLab/sentence-transformers) library lets you conveniently download and use many pre-trained models, such as DistilBERT.
+
+1. First you need to download the dataset.
+
+```
+wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
+```
+
+2. Use the SentenceTransformer pre-trained model to convert the text into vectors. 
+
+```python
+pip install sentence-transformers
+```
+
+3. Import all relevant models.
+
+```python
+from sentence_transformers import SentenceTransformer
+import numpy as np
+import json
+import pandas as pd
+from tqdm.notebook import tqdm
+```
+
+We will use a Machine Learning model called `distilbert-base-nli-stsb-mean-tokens`.
+DistilBERT is a lightweight version of BERT, which speeds up our service and reduces resource loads.
+
+4. Download and create a pre-trained sentence encoder.
+
+```python
+model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device="cuda")
+```
+5. Read the raw data file.
+
+```python
+df = pd.read_json('./startups_demo.json', lines=True)
+```
+6. Encode all startup descriptions in batches, as this reduces overhead costs and significantly speeds up the process.
+
+```python
+vectors = []
+batch_size = 64
+batch = []
+for row in tqdm(df.itertuples()):
+  description = row.alt + ". " + row.description
+  batch.append(description)
+  if len(batch) >= batch_size:
+    vectors.append(model.encode(batch))  # Text -> vector encoding happens here
+    batch = []
+
+if len(batch) > 0:
+  vectors.append(model.encode(batch))
+  batch = []
+
+vectors = np.concatenate(vectors)
+```
+All of our descriptions are converted into vectors. We have 40474 vectors of 768 dimentions. The output layer of the model has this dimension
+
+```python
+vectors.shape
+```
+
+7. Download the saved vectors into a new file names `startup_vectors.npy`
+
+```python
+np.save('startup_vectors.npy', vectors, allow_pickle=False)
+```
+
+## Run Qdrant in Docker
+
+Next, you need to manage all of your data using a vector engine. Qdrant lets you store, update or delete created vectors. Most importantly, it lets you search for the nearest vectors via a convenient API. 
+
+> **Note:** Before you begin, create a project directory and a virtual python environment around it.
+
+1. Download the Qdrant image from DockerHub.
+
+```
+docker pull qdrant/qdrant
+```
+2. Start Qdrant inside of Docker.
+
+```
+docker run -p 6333:6333 \
+    -v $(pwd)/qdrant_storage:/qdrant/storage \
+    qdrant/qdrant
+```
+You should see output like this
+
+```
+...
+[2021-02-05T00:08:51Z INFO  actix_server::builder] Starting 12 workers
+[2021-02-05T00:08:51Z INFO  actix_server::builder] Starting "actix-web-service-0.0.0.0:6333" service on 0.0.0.0:6333
+```
+
+Test the service by going to [http://localhost:6333/](http://localhost:6333/). You should see the Qdrant version info in your browser.
+
+All uploaded to Qdrant data is saved into the `./qdrant_storage` directory and will be persisted even if you recreate the container.
+
+## Upload data to Qdrant
+
+1. Install the official Python client to best interact with Qdrant.
+
+```
+pip install qdrant-client
+```
+
+At this point, you should have startup records in the `startups.json` file, encoded vectors in `startup_vectors.npy` and Qdrant running on a local machine.
+
+Now you need to write a script to upload all startup data and vectors into the search engine.
+
+2. Create a client object for Qdrant.
+
+```python
+# Import client library
+from qdrant_client import QdrantClient
+from qdrant_client.models import VectorParams, Distance
+
+qdrant_client = QdrantClient(host='localhost', port=6333)
+```
+
+3. Related vectors need to be added to a collection. Create a new collection for our startup vectors.
+
+```python
+qdrant_client.recreate_collection(
+    collection_name='startups', 
+    vectors_config=VectorParams(size=768, distance=Distance.COSINE),
+)
+```
+<aside role="status">
+
+- Use `recreate_collection` if you are experimenting and running the script several times. This function will first try to remove an existing collection with the same name. 
+
+- The `vector_size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. `768` is the encoder output dimensionality.
+
+- The `distance` parameter lets you specify the function used to measure the distance between two points.
+
+</aside>
+
+4. Create an iterator over the startup data and vectors.
+
+The Qdrant client library defines a special function that allows you to load datasets into the service.
+However, since there may be too much data to fit a single computer memory, the function takes an iterator over the data as input.
+
+```python
+import numpy as np
+import json
+
+fd = open('./startups.json')
+
+# payload is now an iterator over startup data
+payload = map(json.loads, fd)
+
+# Here we load all vectors into memory, numpy array works as iterable for itself.
+# Other option would be to use Mmap, if we don't want to load all data into RAM
+vectors = np.load('./startup_vectors.npy')
+```
+
+5. Upload the data
+
+```python
+qdrant_client.upload_collection(
+    collection_name='startups',
+    vectors=vectors,
+    payload=payload,
+    ids=None,  # Vector ids will be assigned automatically
+    batch_size=256  # How many vectors will be uploaded in a single request?
+)
+```
+
+Vectors are now uploaded to Qdrant. 
+
+## Build the search API
+
+Now that all the preparations are complete, let's start building a neural search class.
+
+First, install all the requirements:
+
+```
+pip install sentence-transformers numpy
+```
+
+In order to process incoming requests neural search will need 2 things: 1) a model to convert the query into a vector and 2) the Qdrant client to perform search queries.
+
+Create a file named `neural_searcher.py` and specify the following.
+
+```python
+
+from qdrant_client import QdrantClient
+from sentence_transformers import SentenceTransformer
+
+
+class NeuralSearcher:
+
+    def __init__(self, collection_name):
+        self.collection_name = collection_name
+        # Initialize encoder model
+        self.model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cpu')
+        # initialize Qdrant client
+        self.qdrant_client = QdrantClient(host='localhost', port=6333)
+```
+
+1. Write the search function.
+
+```python
+    def search(self, text: str):
+        # Convert text query into vector
+        vector = self.model.encode(text).tolist()
+
+        # Use `vector` for search for closest vectors in the collection
+        search_result = self.qdrant_client.search(
+            collection_name=self.collection_name,
+            query_vector=vector,
+            query_filter=None,  # We don't want any filters for now
+            top=5  # 5 the most closest results is enough
+        )
+        # `search_result` contains found vector ids with similarity scores along with the stored payload
+        # In this function we are interested in payload only
+        payloads = [hit.payload for hit in search_result]
+        return payloads
+```
+
+2. Add search filters.
+
+With Qdrant it is also feasible to add some conditions to the search.
+For example, if we wanted to search for startups in a certain city, the search query could look like this:
+
+```python
+from qdrant_client.models import Filter
+
+    ...
+
+    city_of_interest = "Berlin"
+
+    # Define a filter for cities
+    city_filter = Filter(**{
+        "must": [{
+            "key": "city", # We store city information in a field of the same name 
+            "match": { # This condition checks if payload field have requested value
+                "keyword": city_of_interest
+            }
+        }]
+    })
+
+    search_result = self.qdrant_client.search(
+        collection_name=self.collection_name,
+        query_vector=vector,
+        query_filter=city_filter,
+        top=5
+    )
+    ...
+
+```
+
+You have now created a class for neural search queries. Now wrap it up into a service.
+
+## Deploy the search with FastAPI
+
+To build the service you will use the FastAPI framework. 
+
+1. Install FastAPI.
+
+To install it, use the command
+
+```
+pip install fastapi uvicorn
+```
+
+2. Implement the service.
+
+Create a file named `service.py` and specify the following.
+
+Our service will have only one API endpoint and will look like this: 
+
+```python
+ from fastapi import FastAPI
+
+# The file where NeuralSearcher is stored
+from neural_searcher import NeuralSearcher
+
+app = FastAPI()
+
+# Create a neural searcher instance
+neural_searcher = NeuralSearcher(collection_name='startups')
+
+@app.get("/api/search")
+def search_startup(q: str):
+    return {
+        "result": neural_searcher.search(text=q)
+    }
+
+
+if __name__ == "__main__":
+    import uvicorn
+    uvicorn.run(app, host="0.0.0.0", port=8000)
+
+```
+
+3. Run the service.
+
+```
+python service.py
+```
+
+4. Open your browser at [http://localhost:8000/docs](http://localhost:8000/docs). 
+
+You should be able to see a debug interface for your service.
+
+![FastAPI Swagger interface](/docs/fastapi_neural_search.png)
+
+Feel free to play around with it, make queries and check out the results.
+
+## Next steps
+
+The code from this tutorial has been used to develop a [live online demo](https://qdrant.to/semantic-search-demo).
+You can try it to get an intuition for cases when the neural search is useful.
+The demo contains a switch that selects between neural and full-text searches.
+You can turn the neural search on and off to compare your result with a regular full-text search.
+
+> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
+
+Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, publish other examples of neural networks and neural search applications.
