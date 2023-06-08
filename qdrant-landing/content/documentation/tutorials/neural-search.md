@@ -77,7 +77,7 @@ vectors.shape
 # > (40474, 384)
 ```
 
-7. Download the saved vectors into a new file names `startup_vectors.npy`
+7. Download the saved vectors into a new file named `startup_vectors.npy`
 
 ```python
 np.save('startup_vectors.npy', vectors, allow_pickle=False)
