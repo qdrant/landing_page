@@ -24,7 +24,7 @@ To complete this tutorial, you will need:
 
 ## Prepare sample dataset 
 
-To conduct a neural search on startup descriptions, you must first encode the description data into vectors. To process text, you need to use a pre-trained sentence encoder model. The [sentence-transformers](https://github.com/UKPLab/sentence-transformers) library lets you conveniently download and use many pre-trained models, such as DistilBERT, MPNet, e.t.c..
+To conduct a neural search on startup descriptions, you must first encode the description data into vectors. To process text, you can use a pre-trained models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model) or sentence transformers. The [sentence-transformers](https://github.com/UKPLab/sentence-transformers) library lets you conveniently download and use many pre-trained models, such as DistilBERT, MPNet, etc.
 
 1. First you need to download the dataset.
 
