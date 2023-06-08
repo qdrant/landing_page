@@ -62,7 +62,7 @@ model = SentenceTransformer('all-MiniLM-L6-v2', device="cuda") # or device="cpu"
 ```python
 df = pd.read_json('./startups_demo.json', lines=True)
 ```
-6. Encode all startup descriptions. Internally, the `encode` function will split the input into batches, that will significantly speed up the process.
+6. Encode all startup descriptions to create an embedding vector for each. Internally, the `encode` function will split the input into batches, which will significantly speed up the process.
 
 ```python
 vectors = model.encode([
