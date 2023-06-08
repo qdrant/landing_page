@@ -95,7 +95,7 @@ Qdrant provides a set of clients for different programming languages. You can fi
 * [Python](https://github.com/qdrant/qdrant-client) - `pip install qdrant-client`
 * [Rust](https://github.com/qdrant/rust-client) - `cargo add qdrant-client`
 * [Go](https://github.com/qdrant/go-client) - `go get github.com/qdrant/go-client`
-* [Javascript](https://github.com/qdrant/qdrant-js) - `pnpm i @qdrant/js-client-rest`
+* [Javascript](https://github.com/qdrant/qdrant-js) - `npm install @qdrant/js-client-rest`
 
 If you are using a language that is not listed here, you can use the REST API directly or generate a client for your language 
 using [OpenAPI](https://github.com/qdrant/qdrant/blob/master/docs/redoc/master/openapi.json)
