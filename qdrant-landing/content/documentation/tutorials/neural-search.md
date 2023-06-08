@@ -35,7 +35,7 @@ wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
 2. Use the SentenceTransformer pre-trained model to convert the text into vectors. 
 
 ```bash
-pip install sentence-transformers
+pip install sentence-transformers numpy pandas tqdm
 ```
 
 3. Import all relevant models.
