@@ -8,7 +8,7 @@ weight: 14
 | Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
 | --- | ----------- | ----------- |----------- |
 
-This tutorial shows you how to build and deploy your own neural search service. The created service will be searching through descriptions of companies from [startups-list.com](https://www.startups-list.com/). The website contains the company names, descriptions, their locations and a picture for each entry. 
+This tutorial shows you how to build and deploy your own neural search service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query. The website contains the company names, descriptions, locations, and a picture for each entry. 
 
 To create a neural search service, you will need to process your raw data and then create a search function to manipulate it. First, you will download and prepare a sample dataset using a modified version of the BERT ML model. Then, you will load the data into Qdrant, create a neural search API and serve it using FastAPI. 
 
