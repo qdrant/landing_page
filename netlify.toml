@@ -12,3 +12,10 @@ command = "cd qdrant-landing ; hugo --gc --minify --buildFuture -b $DEPLOY_PRIME
 
 [context.deploy-preview.environment]
 HUGO_VERSION = "0.93.3"
+
+
+[[headers]]
+    for = "/*"
+    [headers.values]
+        X-Content-Type-Options = "nosniff"
+        X-Frame-Options = "DENY"
