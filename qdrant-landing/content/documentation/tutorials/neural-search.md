@@ -111,7 +111,7 @@ You should see output like this
 
 Test the service by going to [http://localhost:6333/](http://localhost:6333/). You should see the Qdrant version info in your browser.
 
-All uploaded to Qdrant data is saved into the `./qdrant_storage` directory and will be persisted even if you recreate the container.
+All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and will be persisted even if you recreate the container.
 
 ## Upload data to Qdrant
 
