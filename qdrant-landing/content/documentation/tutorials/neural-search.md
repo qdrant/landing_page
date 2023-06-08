@@ -207,7 +207,7 @@ pip install sentence-transformers numpy
 
 In order to process incoming requests neural search will need 2 things: 1) a model to convert the query into a vector and 2) the Qdrant client to perform search queries.
 
-Create a file named `neural_searcher.py` and specify the following.
+1. Create a file named `neural_searcher.py` and specify the following.
 
 ```python
 
@@ -225,7 +225,7 @@ class NeuralSearcher:
         self.qdrant_client = QdrantClient(host='localhost', port=6333)
 ```
 
-1. Write the search function.
+2. Write the search function.
 
 ```python
     def search(self, text: str):
@@ -245,7 +245,7 @@ class NeuralSearcher:
         return payloads
 ```
 
-2. Add search filters.
+3. Add search filters.
 
 With Qdrant it is also feasible to add some conditions to the search.
 For example, if we wanted to search for startups in a certain city, the search query could look like this:
