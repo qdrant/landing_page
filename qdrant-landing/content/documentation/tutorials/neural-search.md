@@ -24,17 +24,17 @@ To complete this tutorial, you will need:
 
 ## Prepare sample dataset 
 
-To conduct a neural search on startup descriptions, you must first encode the description data into vectors. To process text, you need to use a pre-trained language model - DistilBert. The [sentence-transformers](https://github.com/UKPLab/sentence-transformers) library lets you conveniently download and use many pre-trained models, such as DistilBERT.
+To conduct a neural search on startup descriptions, you must first encode the description data into vectors. To process text, you need to use a pre-trained sentence encoder model. The [sentence-transformers](https://github.com/UKPLab/sentence-transformers) library lets you conveniently download and use many pre-trained models, such as DistilBERT, MPNet, e.t.c..
 
 1. First you need to download the dataset.
 
-```
+```bash
 wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
 ```
 
 2. Use the SentenceTransformer pre-trained model to convert the text into vectors. 
 
-```python
+```bash
 pip install sentence-transformers
 ```
 
@@ -48,42 +48,33 @@ import pandas as pd
 from tqdm.notebook import tqdm
 ```
 
-You will use a Machine Learning model called `distilbert-base-nli-stsb-mean-tokens`.
-DistilBERT is a lightweight version of BERT, which speeds up your service and reduces resource loads.
+You will use a Machine Learning model called `all-MiniLM-L6-v2`.
+This is a performance-optimized sentence embedding model. You can read more about it and other awailable models [here](https://www.sbert.net/docs/pretrained_models.html).
+
 
 4. Download and create a pre-trained sentence encoder.
 
 ```python
-model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device="cuda")
+model = SentenceTransformer('all-MiniLM-L6-v2', device="cuda") # or device="cpu" if you don't have a GPU
 ```
 5. Read the raw data file.
 
 ```python
 df = pd.read_json('./startups_demo.json', lines=True)
 ```
-6. Encode all startup descriptions in batches, as this reduces overhead costs and significantly speeds up the process.
+6. Encode all startup descriptions. Internally, the `encode` function will split the input into batches, that will significantly speed up the process.
 
 ```python
-vectors = []
-batch_size = 64
-batch = []
-for row in tqdm(df.itertuples()):
-  description = row.alt + ". " + row.description
-  batch.append(description)
-  if len(batch) >= batch_size:
-    vectors.append(model.encode(batch))  # Text -> vector encoding happens here
-    batch = []
-
-if len(batch) > 0:
-  vectors.append(model.encode(batch))
-  batch = []
-
-vectors = np.concatenate(vectors)
+vectors = model.encode([
+    row.alt + ". " + row.description
+    for row in df.itertuples()
+], show_progress_bar=True)
 ```
-All of the descriptions are now converted into vectors. There are 40474 vectors of 768 dimensions. The output layer of the model has this dimension
+All of the descriptions are now converted into vectors. There are 40474 vectors of 384 dimensions. The output layer of the model has this dimension
 
 ```python
 vectors.shape
+# > (40474, 384)
 ```
 
 7. Download the saved vectors into a new file names `startup_vectors.npy`
@@ -100,12 +91,12 @@ Next, you need to manage all of your data using a vector engine. Qdrant lets you
 
 1. Download the Qdrant image from DockerHub.
 
-```
+```bash
 docker pull qdrant/qdrant
 ```
 2. Start Qdrant inside of Docker.
 
-```
+```bash
 docker run -p 6333:6333 \
     -v $(pwd)/qdrant_storage:/qdrant/storage \
     qdrant/qdrant
@@ -126,7 +117,7 @@ All uploaded to Qdrant data is saved into the `./qdrant_storage` directory and w
 
 1. Install the official Python client to best interact with Qdrant.
 
-```
+```bash
 pip install qdrant-client
 ```
 
@@ -141,7 +132,7 @@ Now you need to write a script to upload all startup data and vectors into the s
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
 
-qdrant_client = QdrantClient(host='localhost', port=6333)
+qdrant_client = QdrantClient('http://localhost:6333')
 ```
 
 3. Related vectors need to be added to a collection. Create a new collection for your startup vectors.
@@ -149,14 +140,14 @@ qdrant_client = QdrantClient(host='localhost', port=6333)
 ```python
 qdrant_client.recreate_collection(
     collection_name='startups', 
-    vectors_config=VectorParams(size=768, distance=Distance.COSINE),
+    vectors_config=VectorParams(size=384, distance=Distance.COSINE),
 )
 ```
 <aside role="status">
 
 - Use `recreate_collection` if you are experimenting and running the script several times. This function will first try to remove an existing collection with the same name. 
 
-- The `vector_size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. `768` is the encoder output dimensionality.
+- The `vector_size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. `384` is the encoder output dimensionality. You can also use `model.get_sentence_embedding_dimension()` to get the dimensionality of the model you are using.
 
 - The `distance` parameter lets you specify the function used to measure the distance between two points.
 
@@ -201,7 +192,7 @@ Now that all the preparations are complete, let's start building a neural search
 
 First, install all the requirements:
 
-```
+```bash
 pip install sentence-transformers numpy
 ```
 
@@ -220,9 +211,9 @@ class NeuralSearcher:
     def __init__(self, collection_name):
         self.collection_name = collection_name
         # Initialize encoder model
-        self.model = SentenceTransformer('distilbert-base-nli-stsb-mean-tokens', device='cpu')
+        self.model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
         # initialize Qdrant client
-        self.qdrant_client = QdrantClient(host='localhost', port=6333)
+        self.qdrant_client = QdrantClient('http://localhost:6333')
 ```
 
 2. Write the search function.
@@ -287,7 +278,7 @@ To build the service you will use the FastAPI framework.
 
 To install it, use the command
 
-```
+```bash
 pip install fastapi uvicorn
 ```
 
