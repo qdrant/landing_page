@@ -324,7 +324,7 @@ You should be able to see a debug interface for your service.
 
 ![FastAPI Swagger interface](/docs/fastapi_neural_search.png)
 
-Feel free to play around with it, make queries and check out the results.
+Feel free to play around with it, make queries regarding the companies in our corpus, and check out the results.
 
 ## Next steps
 
