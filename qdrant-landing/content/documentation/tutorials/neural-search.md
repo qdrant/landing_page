@@ -48,7 +48,7 @@ import pandas as pd
 from tqdm.notebook import tqdm
 ```
 
-You will use a Machine Learning model called `all-MiniLM-L6-v2`.
+You will be using a pre-trained model called `all-MiniLM-L6-v2`.
 This is a performance-optimized sentence embedding model. You can read more about it and other awailable models [here](https://www.sbert.net/docs/pretrained_models.html).
 
 
