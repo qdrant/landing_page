@@ -30,7 +30,7 @@ If your priority is to serve large amount of vectors with an average search late
 In this case vectors will be stored on the disc in memory-mapped files, and only the most frequently used vectors will be kept in RAM.
 
 The amount of available RAM will significantly affect the performance of the search.
-As a rule of thumb, if you keep 2 times less vectors in RAM, the search latency will be 2 times higher.
+As a rule of thumb, if you keep 2 times less vectors in RAM, the search latency will be 2 times lower.
 
 The speed of disks is also important. [Let us know](mailto:cloud@qdrant.io) if you have special requirements for a high-volume search.
 
