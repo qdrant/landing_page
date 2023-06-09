@@ -1,6 +1,6 @@
 ---
 title: What is Qdrant?
-weight: 10
+weight: 9
 ---
 
 # Introduction
