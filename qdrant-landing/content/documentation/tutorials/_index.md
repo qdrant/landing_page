@@ -17,6 +17,7 @@ These tutorials demonstrate different ways you can build vector search into your
 | [Optimize Qdrant](../tutorials/optimize/)       | Configure Qdrant for best resource use.       | Qdrant |  
 | [Separate Partitions](../tutorials/multiple-partitions/)   | Serve vectors for many independent users.     | Qdrant |   
 | [Bulk Upload](../tutorials/bulk-upload/)           | Upload a large scale dataset.                 | Qdrant | 
+| [Create a Simple Neural Search Service](../tutorials/neural-search/)           | Build and deploy a neural search that browses startup data.                  | Qdrant, BERT, FastAPI | 
 | [Troubleshooting](../tutorials/common-errors/)       | Solutions to common errors and fixes                      | Qdrant |  
 
 
