@@ -15,8 +15,8 @@ Vertical scaling, also known as vertical expansion, is the process of increasing
 You can start with a minimal cluster configuration of 2GB of RAM and resize it up to 64GB of RAM (or even more if desired) over the time step by step with the growing amount of data in your application.
 If your cluster consists of several nodes each node will need to be scaled to the same size.
 Please note that vertical cluster scaling will require a short downtime period to restart your cluster.
-In order to avoid downtime you can make use of the data replication option.
-During the beta phase, vertical scaling is available on demand and will be added as self service on the Cloud dashboard after the testing phase. 
+In order to avoid a downtime you can make use of data replication, which can be configured on the collection level.
+Vertical scaling can be initiated on the cluster detail page via the button "scale up".
 
 ## Horizontal scaling
 
