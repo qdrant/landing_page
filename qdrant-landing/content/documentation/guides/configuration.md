@@ -7,37 +7,100 @@ aliases:
 
 # Configuration
 
-To change or correct Qdrant's behavior, default collection settings, and network interface parameters, you can use the configuration file.
+To change or correct Qdrant's behavior, default collection settings, and network interface parameters, you can use configuration files.
 
-The configuration file is read when you start the service from the directory `./config/`.
+The default configuration file is located at [config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
-The default values are stored in the file [./config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
+To change the default configuration, add a new configuration file and specify
+the path with `--config-path path/to/custom_config.yaml`. If running in
+production mode, you could also choose to overwrite `config/production.yaml`.
+See [ordering](#order-and-priority) for details on how configurations are
+loaded.
 
-You can overwrite values by adding new records to the file `./config/production.yaml`. See an example [here](https://github.com/qdrant/qdrant/blob/master/config/production.yaml).
-
-If you are using Docker, then running the service with a custom configuration will be as follows:
+To use Qdrant in Docker and overwrite the production configuration use:
 
 ```bash
 docker run -p 6333:6333 \
-    -v $(pwd)/path/to/data:/qdrant/storage \
     -v $(pwd)/path/to/custom_config.yaml:/qdrant/config/production.yaml \
     qdrant/qdrant
 ```
 
-Where `./path/to/custom_config.yaml` is your custom configuration file with values to override.
+Or use your own configuration file and specify it:
 
-Among other things, the configuration file allows you to specify the following settings:
+```bash
+docker run -p 6333:6333 \
+    -v $(pwd)/path/to/custom_config.yaml:/qdrant/config/custom_config.yaml \
+    qdrant/qdrant \
+    ./qdrant --config-path config/custom_config.yaml
+```
 
-- Optimizer parameters
-- Network settings
-- Default vector index parameters
-- Storage settings
-- Security settings
+## Order and priority
 
-See the comments in the [configuration file itself](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for details.
+*Effective as of v1.2.1*
 
-<aside role="status">Qdrant has no encryption or authentication by default and new instances are open to everyone. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
+Multiple configurations may be loaded on startup. All of them are merged into a
+single effective configuration that is used by Qdrant.
 
+Configurations are loaded in the following order, if present:
+
+1. Embedded base configuration ([source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml))
+2. File `config/config.yaml`
+3. File `config/{RUN_MODE}.yaml` (such as `config/production.yaml`)
+4. File `config/local.yaml`
+5. Config provided with `--config-path PATH` (if set)
+6. [Environment variables](#environment-variables)
+
+This list is from least to most significant. Properties in later configurations
+will overwrite those loaded before it. For example, a property set with
+`--config-path` will overwrite those in other files.
+
+Most of these files are included by default in the Docker container. But it is
+likely that they are absent on your local machine if you run the `qdrant` binary
+manually.
+
+If file 2 or 3 are not found, a warning is shown on startup.
+If file 5 is provided but not found, an error is shown on startup.
+
+Other supported configuration file formats and extensions include: `.toml`, `.json`, `.ini`.
+
+## Environment variables
+
+It is possible to set configuration properties using environment variables.
+Environment variables are always the most significant and cannot be overwritten
+(see [ordering](#order-and-priority)).
+
+All environment variables are prefixed with `QDRANT__` and are separated with
+`__`.
+
+These variables:
+
+```bash
+QDRANT__DEBUG=1
+QDRANT__LOG_LEVEL=INFO
+QDRANT__SERVICE__HTTP_PORT=6333
+QDRANT__SERVICE__ENABLE_TLS=1
+QDRANT__TLS__CERT=./tls/cert.pem
+QDRANT__TLS__CERT_TTL=3600
+```
+
+result in this configuration:
+
+```yaml
+debug: true
+log_level: INFO
+service:
+  http_port: 6333
+  enable_tls: true
+tls:
+  cert: ./tls/cert.pem
+  cert_ttl: 3600
+```
+
+To run Qdrant locally with a different HTTP port you could use:
+
+```bash
+QDRANT__SERVICE__HTTP_PORT=1234 ./qdrant
+```
 
 ## Configuration file example
 
@@ -108,17 +171,19 @@ storage:
     # If not set, will be automatically selected considering the number of available CPUs.
     max_segment_size_kb: null
 
-    # Maximum size (in kilobytes) of vectors to store in-memory per segment.
+    # Maximum size (in KiloBytes) of vectors to store in-memory per segment.
     # Segments larger than this threshold will be stored as read-only memmaped file.
-    # Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.
-    # To explicitly disable mmap optimization, set to `0`.
+    # To enable memmap storage, lower the threshold
     # Note: 1Kb = 1 vector of size 256
+    # To explicitly disable mmap optimization, set to `0`.
+    # If not set, will be disabled by default.
     memmap_threshold_kb: null
 
-    # Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing
-    # Default value is 20,000, based on <https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md>.
+    # Maximum size (in KiloBytes) of vectors allowed for plain index.
+    # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
+    # Note: 1Kb = 1 vector of size 256
     # To explicitly disable vector indexing, set to `0`.
-    # Note: 1kB = 1 vector of size 256.
+    # If not set, the default value will be used.
     indexing_threshold_kb: 20000
 
     # Interval between forced flushes.
@@ -175,7 +240,7 @@ service:
   # Default: true
   enable_cors: true
 
-  # Enable HTTPS for the REST and gRPC API
+  # Use HTTPS for the REST API
   enable_tls: false
 
   # Check user HTTPS client certificate against CA file specified in tls config
@@ -238,14 +303,15 @@ tls:
   # Required if cluster.p2p.enable_tls is true.
   ca_cert: ./tls/cacert.pem
 
-  # TTL in seconds to reload certificate from disk, useful for certificate rotations.
-  # Only works for HTTPS endpoints. Does not support gRPC (and intra-cluster communication).
+  # TTL, in seconds, to re-load certificate from disk. Useful for certificate rotations,
+  # Only works for HTTPS endpoints, gRPC endpoints (including intra-cluster communication)
+  # doesn't support certificate re-load
   cert_ttl: 3600
 ```
 
 ## Validation
 
-*Available as of v1.1.1*
+*Available since v1.1.1*
 
 The configuration is validated on startup. If a configuration is loaded but
 validation fails, a warning is logged. E.g.:
