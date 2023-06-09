@@ -158,14 +158,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     [menu.main.params]
         external = true
 
-  [[menu.main]]
-    identifier = "datasets"
-    name = "Datasets"
-    weight = 8
-    parent = "resources"
-    url = "/datasets/"
-    [menu.main.params]
-        external = false
+
 
 [[menu.main]]
   identifier = "community"
