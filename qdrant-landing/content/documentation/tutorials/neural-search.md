@@ -10,7 +10,15 @@ weight: 14
 
 This tutorial shows you how to build and deploy your own neural search service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query. The website contains the company names, descriptions, locations, and a picture for each entry. 
 
-To create a neural search service, you will need to process your raw data and then create a search function to manipulate it. First, you will download and prepare a sample dataset using a modified version of the BERT ML model. Then, you will load the data into Qdrant, create a neural search API and serve it using FastAPI. 
+A neural search service uses artificial neural networks to improve the accuracy and relevance of search results. Besides offering simple keyword results, this system can retrieve results by meaning. It can understand and interpret complex search queries and provide more contextually relevant output, effectively enhancing the user's search experience.
+
+## Workflow
+
+To create a neural search service, you will need to transform your raw data and then create a search function to manipulate it. First, you will 1) download and prepare a sample dataset using a modified version of the BERT ML model. Then, you will 2) load the data into Qdrant, 3) create a neural search API and 4) serve it using FastAPI. 
+
+![Neural Search Workflow](/docs/workflow-neural-search.png)
+
+> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
 
 ## Prerequisites
 
@@ -20,11 +28,9 @@ To complete this tutorial, you will need:
 - [Raw parsed data](https://storage.googleapis.com/generall-shared-data/startups_demo.json) from startups-list.com.
 - Python version >=3.8
 
-> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
-
 ## Prepare sample dataset 
 
-To conduct a neural search on startup descriptions, you must first encode the description data into vectors. To process text, you can use a pre-trained models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model) or sentence transformers. The [sentence-transformers](https://github.com/UKPLab/sentence-transformers) library lets you conveniently download and use many pre-trained models, such as DistilBERT, MPNet, etc.
+To conduct a neural search on startup descriptions, you must first encode the description data into vectors. To process text, you can use a pre-trained models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) or sentence transformers. The [sentence-transformers](https://github.com/UKPLab/sentence-transformers) library lets you conveniently download and use many pre-trained models, such as DistilBERT, MPNet, etc.
 
 1. First you need to download the dataset.
 
@@ -32,7 +38,7 @@ To conduct a neural search on startup descriptions, you must first encode the de
 wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
 ```
 
-2. Use the SentenceTransformer pre-trained model to convert the text into vectors. 
+2. Install the SentenceTransformer library as well as other relevant packages. 
 
 ```bash
 pip install sentence-transformers numpy pandas tqdm
@@ -121,7 +127,7 @@ All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and
 pip install qdrant-client
 ```
 
-At this point, you should have startup records in the `startups.json` file, encoded vectors in `startup_vectors.npy` and Qdrant running on a local machine.
+At this point, you should have startup records in the `startups_demo.json` file, encoded vectors in `startup_vectors.npy` and Qdrant running on a local machine.
 
 Now you need to write a script to upload all startup data and vectors into the search engine.
 
@@ -159,10 +165,7 @@ The Qdrant client library defines a special function that allows you to load dat
 However, since there may be too much data to fit a single computer memory, the function takes an iterator over the data as input.
 
 ```python
-import numpy as np
-import json
-
-fd = open('./startups.json')
+fd = open('./startups_demo.json')
 
 # payload is now an iterator over startup data
 payload = map(json.loads, fd)
@@ -190,18 +193,11 @@ Vectors are now uploaded to Qdrant.
 
 Now that all the preparations are complete, let's start building a neural search class.
 
-First, install all the requirements:
-
-```bash
-pip install sentence-transformers numpy
-```
-
 In order to process incoming requests, neural search will need 2 things: 1) a model to convert the query into a vector and 2) the Qdrant client to perform search queries.
 
 1. Create a file named `neural_searcher.py` and specify the following.
 
 ```python
-
 from qdrant_client import QdrantClient
 from sentence_transformers import SentenceTransformer
 
