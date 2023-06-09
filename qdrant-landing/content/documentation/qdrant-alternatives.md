@@ -1,5 +1,5 @@
 ---
-title: Qdrant vs. Pinecone
+title: Qdrant vs. Alternatives
 weight: 10
 ---
 
@@ -67,7 +67,7 @@ There are also various community-driven projects aimed to provide the support fo
 maintained, thus not mentioned here. However, it is still possible to interact with both engines through the HTTP REST or gRPC API. 
 That makes it easy to integrate with any technology of your choice.
 
-If you are a Python user, then both tools are well-integrated with the most popular libraries like LangChain, LlamaIndex, Haystack, and more. 
+If you are a Python user, then both tools are well-integrated with the most popular libraries like [LangChain](../integrations/langchain/), [LlamaIndex](../integrations/llama-index/), [Haystack](../integrations/haystack/), and more. 
 Using any of those libraries makes it easier to experiment with different vector databases, as the transition should be seamless.
 
 ## Comparison to Qdrant Cloud
