@@ -37,6 +37,10 @@ If you prefer reusing an existing collection, you can create an instance of Qdra
 ```
 import qdrant_client
 
+embeddings = HuggingFaceEmbeddings(
+    model_name="sentence-transformers/all-mpnet-base-v2"
+)
+
 client = qdrant_client.QdrantClient(
     "<qdrant-url>",
     api_key="<qdrant-api-key>", # For Qdrant Cloud, None for local instance
@@ -44,7 +48,7 @@ client = qdrant_client.QdrantClient(
 
 doc_store = Qdrant(
     client=client, collection_name="texts", 
-    embedding_function=embeddings.embed_query,
+    embeddings=embeddings,
 )
 ```
  
