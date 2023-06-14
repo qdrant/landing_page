@@ -1,15 +1,11 @@
 ---
-title: "Semantic Search with Mighty and Qdrant"
+title: "Mighty Semantic Search"
 short_description: "Mighty offers a speedy scalable embedding, a perfect fit for the speedy scalable Qdrant search. Let's combine them!"
 description: "We combine Mighty and Qdrant to create a semantic search service in Rust with just a few lines of code."
-social_preview_image: /articles_data/mighty-integration/social_preview.png
-small_preview_image: /articles_data/mighty-integration/preview/preview.jpg
-preview_dir: /articles_data/mighty-integration/preview
-weight: 6
+weight: 1000
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-06-01T11:24:20+01:00
-draft: false
 keywords:
   - vector search
   - embeddings
@@ -18,13 +14,13 @@ keywords:
   - semantic search
 ---
 
-We're always on the lookout for interesting services to combine with Qdrant to create something bigger than the sum of its parts. So when we found [mighty](https://max.io/) inference server, much like Qdrant written in Rust and promising to offer low latency and high scalability, we saw an opportunity to combine the two for a small demo. For me, it was also a chance to check out AWS lambda, because our simple demo should run within that service to make it a) very cheap, b) I wanted to test the Rust API for some time and c) see how the combined latency fares.
+# Semantic Search with Mighty and Qdrant
 
-## Setting up Mighty & Qdrant
+Much like Qdrant, the [Mighty](https://max.io/) inference server is written in Rust and promises to offer low latency and high scalability. This brief demo combines Mighty, Qdrant and AWS Lambda into a simple semantic search service that is efficient, affordable and easy to setup. 
 
-![max.io logo](/articles_data/mighty-integration/maxio-logo.svg)
+## Initial Setup 
 
-For mighty, we start up a [docker container](https://hub.docker.com/layers/maxdotio/mighty-sentence-transformers/0.9.9/images/sha256-0d92a89fbdc2c211d927f193c2d0d34470ecd963e8179798d8d391a4053f6caf?context=explore) with an open port 5050. Just loading the port in a window shows the following:
+For Mighty, start up a [docker container](https://hub.docker.com/layers/maxdotio/mighty-sentence-transformers/0.9.9/images/sha256-0d92a89fbdc2c211d927f193c2d0d34470ecd963e8179798d8d391a4053f6caf?context=explore) with an open port 5050. Just loading the port in a window shows the following:
 
 ```
 {
@@ -42,9 +38,9 @@ For mighty, we start up a [docker container](https://hub.docker.com/layers/maxdo
 }
 ```
 
-We note that this uses huggingface's MiniLM-L6 v2 model. If we look at huggingface's site, we find that the model "maps sentences & paragraphs to a 384 dimensional dense vector space and can be used for tasks like clustering or semantic search". Below, it tells us that the distance measure to use is cosine similarity.
+Note that this uses the `MiniLM-L6-v2` model from Hugging Face. As per their website, the model "maps sentences & paragraphs to a 384 dimensional dense vector space and can be used for tasks like clustering or semantic search". The distance measure to use is cosine similarity.
 
-We can check that it works by calling `curl https://<address>:5050/sentence-transformer?q=hello+mighty`. This will give us a result like (formatted via `jq`):
+Verify that mighty works by calling `curl https://<address>:5050/sentence-transformer?q=hello+mighty`. This will give you a result like (formatted via `jq`):
 
 ```json
 {
@@ -67,9 +63,9 @@ We can check that it works by calling `curl https://<address>:5050/sentence-tran
 }
 ```
 
-For qdrant, we simply spin up a [free tier](https://cloud.qdrant.io/) (click on the "start free" button, log in with google or github and follow the instructions). Note the qdrant address and API key.
+For qdrant, use our cloud documentation to spin up a [free tier](https://cloud.qdrant.io/). Make sure to retrieve an APi key.
 
-## The Pen is Mightier than the Sword
+## Implement model API
 
 Mighty offers a variety of model APIs which will download and cache the model on first use. Here we'll use the `sentence-transformer` API. Basically the
 Rust code to make the call is:
@@ -99,11 +95,12 @@ pub async fn get_mighty_embedding(
     }
 
     let embeddings: Result<EmbeddingsResponse, _> = response.json().await?;
-    Ok(embeddings[0]) // we ignore multiple embeddings at the moment
+    Ok(embeddings[0]) // ignore multiple embeddings at the moment
 }
 ```
+## Create embeddings and run a query
 
-We can use this code to create embeddings both for insertion and search. On the Qdrant side, we can take the embedding and run a query:
+Use this code to create embeddings both for insertion and search. On the Qdrant side, take the embedding and run a query:
 
 ```rust
 use anyhow::anyhow;
@@ -174,27 +171,17 @@ pub async fn qdrant_search_embeddings(
 }
 ```
 
-I have omitted some functions for brevity (e.g. `qdrant_value_to_json`, which I
-am in the process of rolling into the client (via a `From<Value>` implementation
-for `serde_json::Value`)) besides some other simplifications.
-
-### A Small Diversion
-
-So instead of that `match`ing on `highlight`, we soon can simply write:
-
+**Note:** instead of that `match`ing on `highlight`, you can write:
 ```rust
 let highlight = point.get("text").as_string().unwrap_or_default();
 ```
+and as our `Value` now displays as compact JSON, avoid `serde_json::Value`
+completely. 
+Should you still need a `serde_json::Value`, you can use `into()`.
 
-and as our `Value` now displays as compact JSON, we can simply avoid `serde_json::Value`
-completely. Should we need a `serde_json::Value` anyway, we can still use `into()`.
+## Combine with Lambda
 
-I think we should go further and provide streamlined builders for common
-requests, but that's beside the point of this article. Stay tuned!
-
-## Putting It All Together
-
-Anyway, putting those together into a lambda service just requires running both
+Now you can combine these together into a Lambda service. Run both
 functions in sequence:
 
 ```rust
@@ -253,9 +240,9 @@ async fn function_handler(
 }
 ```
 
-## Setting It Up
+## Build and deploy
 
-We can build the whole project with
+You can build the whole project with
 [`cargo-lambda`](https://www.cargo-lambda.info/), as in:
 
 ```sh
@@ -263,7 +250,7 @@ cargo install cargo-lambda
 cargo lambda build --release --arm64 --output-format zip
 ```
 
-Now we can either use the web interface to upload our function or call the AWS
+Now you can either use the web interface to upload our function or call the AWS
 cli to do it:
 
 ```sh
@@ -296,26 +283,10 @@ aws lambda create-function-url-config \
   --cors "AllowOrigins=*,AllowMethods=*,AllowHeaders=*" \
   --auth-type NONE
 ```
+## Performance considerations
 
-## Networking Troubles
-
-Ok, here is the point where I'm going to admit that I messed up the setup. When
-I deployed the mighty docker container, I chose the Europe zone, thinking that
-I'd get the lowest latency, and only later I understood that the demo should be
-otherwise free-tier only, which in Qdrant's case means US-East-1. So to let you
-have a laugh at my expense, here's a small diagram to show the network traffic:
-
-![sequence diagram](/articles_data/mighty-integration/network-sequence.svg)
-
-## Results
-
-In my tests, the first request always has some 2+ seconds latency due to lambda
-startup. Subsequent requests run in a matter of 200-300ms factoring in two
-roundtrips from Europe to US-East and back. Shaving off another
-transcontinental round trip will probably easily win some 50-100ms.
-
-So given that I'm on the free tier for both Lambda and Qdrant *and* screwed up
-the config, that isn't half bad. If you find that your traffic is high enough
-to matter, you'll be able to get Qdrant and mighty hosted for a fair price; if
-you're interested, feel free to
-[ask us](https://discord.com/channels/907569970500743200/1047555268499755152)!
+After testing the service, the first request always has some 2+ seconds latency due to lambda
+startup. Subsequent requests run in a matter of 200-300ms, but may be reduced by 50-100ms.
+Considering the free tier of Lambda and our configuration, this arrangement can be improved. 
+If you find that your traffic is high enough, we can help you host Qdrant and combine with Mighty. 
+For inquiries [ask us on Discord](https://discord.com/channels/907569970500743200/1047555268499755152).
