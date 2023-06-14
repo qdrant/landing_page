@@ -47,7 +47,7 @@ curl \
 > Please read [Capacity and Sizing](https://qdrant.tech/documentation/cloud/capacity/) to make the right choice. If you need more capacity per node, [let us know](mailto:cloud@qdrant.io).
 7. Choose the number of CPUs per node (0.5 core to 16 cores). The max/min number of CPUs is coupled to the chosen RAM size. 
 8. Select the number of nodes you want the cluster to be deployed on. 
-> Each node is automatically attached with a disk space offering enough space for your data if you decide to put the metadata or even the index on the disc storage.
+> Each node is automatically attached with a disk space offering enough space for your data if you decide to put the metadata or even the index on the disk storage.
 9. Click **Create** and wait for your cluster to be provisioned.
 
 Your cluster will be reachable on port 443 and 6333 (Rest) and 6334 (Grpc).
