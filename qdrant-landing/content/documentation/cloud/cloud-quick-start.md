@@ -3,7 +3,7 @@ title: Quick Start in Cloud
 weight: 10
 ---
 
-# Getting started with Qdrant Cloud
+# Getting stared with Qdrant Cloud
 
 To use Qdrant Cloud, you will need to create at least one cluster. There are two ways to start:
 1. Create a Free Tier cluster with 1 node and a default configuration (1GB RAM, 0.5 CPU and 20GB Disk).
@@ -18,6 +18,7 @@ We recommend that you use the Free Tier cluster for testing purposes. The capaci
 3. Click **Create Free Tier** and then **Continue**.
 4. Under **Get an API Key**, select the cluster and click **Get API Key**.
 5. Save the API key, as you won't be able to request it again. Click **Continue**. 
+6. Save the code snippet provided to access your cluster. Click **Complete** to finish setup.
 
 Now you can test cluster access. Your generated request should be similar to this one:
 
