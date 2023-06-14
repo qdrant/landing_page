@@ -17,7 +17,7 @@
                     <h5 class="documentation__sidebar-delimiter">{{ .Title }}</h5>
                 {{ else }}
 
-                {{ if .IsPage }}
+                {{ if and (.IsPage) (not .Params.hideInSidebar) }}
 
                     <div class="link-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}">
                         <div class="link-group-heading">
@@ -37,7 +37,7 @@
 
                 {{ end }}
 
-                {{ if .IsSection }}
+                {{ if and (.IsSection) (not .Params.hideInSidebar) }}
 
                     <!-- current page is active or any sub-page is active -->
                     {{ $isActive := false }}
@@ -78,7 +78,7 @@
                                                     <i class="link-group__icon fas fa-external-link-alt"></i>
                                                 </a>
                                             </li>
-                                        {{ else }}
+                                        {{ else if not .Params.hideInSidebar }}
                                             <li class="{{ if eq .File.UniqueID $currentNode.File.UniqueID }}active {{ end }}"><a href="{{ .Permalink }}">{{ .Title }}</a></li>
                                         {{ end }}
                                     {{ end }}
