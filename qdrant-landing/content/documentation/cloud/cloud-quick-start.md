@@ -3,7 +3,7 @@ title: Quick Start in Cloud
 weight: 10
 ---
 
-# Getting stared with Qdrant Cloud
+# Getting started with Qdrant Cloud
 
 To use Qdrant Cloud, you will need to create at least one cluster. There are two ways to start:
 1. Create a Free Tier cluster with 1 node and a default configuration (1GB RAM, 0.5 CPU and 20GB Disk).
