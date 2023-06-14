@@ -34,7 +34,7 @@ Calling `Qdrant.from_documents` or `Qdrant.from_texts` will always recreate the 
 That's fine for some experiments, but you'll prefer not to start from scratch every single time in a real-world scenario. 
 If you prefer reusing an existing collection, you can create an instance of Qdrant on your own:
 
-```
+```python
 import qdrant_client
 
 embeddings = HuggingFaceEmbeddings(
@@ -51,7 +51,57 @@ doc_store = Qdrant(
     embeddings=embeddings,
 )
 ```
- 
+
+## Local mode
+
+Python client allows you to run the same code in local mode without running the Qdrant server. That's great for testing things 
+out and debugging or if you plan to store just a small amount of vectors. The embeddings might be fully kepy in memory or 
+persisted on disk.
+
+### In-memory
+
+For some testing scenarios and quick experiments, you may prefer to keep all the data in memory only, so it gets lost when the 
+client is destroyed - usually at the end of your script/notebook.
+
+```python
+qdrant = Qdrant.from_documents(
+    docs, embeddings, 
+    location=":memory:",  # Local mode with in-memory storage only
+    collection_name="my_documents",
+)
+```
+
+### On-disk storage
+
+Local mode, without using the Qdrant server, may also store your vectors on disk so they’re persisted between runs.
+
+```python
+qdrant = Qdrant.from_documents(
+    docs, embeddings, 
+    path="/tmp/local_qdrant",
+    collection_name="my_documents",
+)
+```
+
+### On-premise server deployment
+
+No matter if you choose to launch Qdrant locally with [a Docker container](/documentation/guides/installation/), or 
+select a Kubernetes deployment with [the official Helm chart](https://github.com/qdrant/qdrant-helm), the way you're 
+going to connect to such an instance will be identical. You'll need to provide a URL pointing to the service.
+
+```python
+url = "<---qdrant url here --->"
+qdrant = Qdrant.from_documents(
+    docs, 
+    embeddings, 
+    url, 
+    prefer_grpc=True, 
+    collection_name="my_documents",
+)
+```
+
+## Next steps
+
 If you'd like to know more about running Qdrant in a LangChain-based application, please read our article 
 [Question Answering with LangChain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
 might also be found in the [LangChain documentation](https://python.langchain.com/en/latest/modules/indexes/vectorstores/examples/qdrant.html).
