@@ -40,7 +40,7 @@ curl \
 1. Start in the **Overview** section of the Dashboard. 
 2. Under **Set a Cluster Up** scroll down and click **Create Custom Tier**.
 3. A window will open. Enter a cluster **Name**.
-4. In the Beta version, you can only deploy to AWS. We are currentl;y developing support GCP and Azure. 
+4. In the Beta version, you can only deploy to AWS. We are currently developing support GCP and Azure. 
 5. Choose from one of five data center regions. If you have latency concerns or other topology-related requirements, [let us know](mailto:cloud@qdrant.io).
 6. Configure RAM size for each node (2GB to 64GB). 
 > Please read [Capacity and Sizing](https://qdrant.tech/documentation/cloud/capacity/) to make the right choice. If you need more capacity per node, [let us know](mailto:cloud@qdrant.io).
