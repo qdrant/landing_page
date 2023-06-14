@@ -18,7 +18,7 @@ keywords:
 
 Much like Qdrant, the [Mighty](https://max.io/) inference server is written in Rust and promises to offer low latency and high scalability. This brief demo combines Mighty, Qdrant and AWS Lambda into a simple semantic search service that is efficient, affordable and easy to setup. 
 
-## Initial Setup 
+## Initial setup
 
 For Mighty, start up a [docker container](https://hub.docker.com/layers/maxdotio/mighty-sentence-transformers/0.9.9/images/sha256-0d92a89fbdc2c211d927f193c2d0d34470ecd963e8179798d8d391a4053f6caf?context=explore) with an open port 5050. Just loading the port in a window shows the following:
 
@@ -63,7 +63,7 @@ Verify that mighty works by calling `curl https://<address>:5050/sentence-transf
 }
 ```
 
-For qdrant, use our cloud documentation to spin up a [free tier](https://cloud.qdrant.io/). Make sure to retrieve an APi key.
+For Qdrant, follow our [cloud documentation](../../cloud/cloud-quick-start/) to spin up a [free tier](https://cloud.qdrant.io/). Make sure to retrieve an API key.
 
 ## Implement model API
 
