@@ -109,3 +109,13 @@ hugo new --kind external-link documentation/<link-title>.md
 ```
 
 It will create a file `content/documentation/<link-title>.md`. Open it and set the `external_link` parameter to the desired value.
+
+### Params
+
+Additionally, to the standard hugo front matter params, we have the following params:
+
+```yaml
+hideInSidebar: true
+```
+
+If `true`, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
