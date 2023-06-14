@@ -49,7 +49,7 @@ curl \
 > Each node is automatically attached with a disc space offering enough space for your data if you decide to put the metadata or even the index on the disc storage.
 9. Click **Create** and wait for your cluster to be provisioned.
 
-Your cluster will be reachable on port 443 and 6333 (Rest endpoint) and 6334 (Grpc).
+Your cluster will be reachable on port 443 and 6333 (Rest) and 6334 (Grpc).
 
 10. Follow **Step 6** from the above **Create a Free Tier cluster** instruction set to verify cluster access
 
