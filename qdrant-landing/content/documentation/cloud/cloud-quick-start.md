@@ -23,7 +23,7 @@ Now you can test cluster access. Your generated request should be similar to thi
 
 ```bash
 curl \
-  -X GET https://xyz-example.eu-central.aws.staging-cloud.qdrant.io:6333 \
+  -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333 \
   --header 'api-key: <provide-your-own-key>'
 ```
 6. Open Terminal and run the request. You should get a response that looks like this:
