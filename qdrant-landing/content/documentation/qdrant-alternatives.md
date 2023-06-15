@@ -1,6 +1,7 @@
 ---
 title: Qdrant vs. Alternatives
 weight: 10
+draft: true
 ---
 
 # Comparing Alternatives: Qdrant vs. Pinecone
