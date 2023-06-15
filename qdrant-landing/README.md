@@ -84,6 +84,21 @@ Preview images set consists of the following images:
 `title.webp` - 898x300px (used on the article's page as the main image before the article title **for browsers, supporting webp**)
 `social_preview.jpg` - 1200x630px (used in social media previews)
 
+# Documentation
+
+## Metadata
+
+Documentation pages are written in markdown and stored in `content/documentation` directory. Each page has a header with metadata:
+
+```yaml
+---
+title: Here goes the title of the page #required
+weight: 10 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
+canonicalUrl: https://qdrant.io/documentation/ # Optional. This is the canonical url of the page.
+hideInSidebar: true # Optional. If true, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
+---
+```
+
 ## Documentation sidebar
 
 ### Delimiter
