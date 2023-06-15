@@ -631,7 +631,7 @@ client.retrieve(
 )
 ```
 
-This method has additional parameters `with_vector` and `with_payload`. 
+This method has additional parameters `with_vectors` and `with_payload`. 
 Using these parameters, you can select parts of the point you want as a result.
 Excluding helps you not to waste traffic transmitting useless data.
 
