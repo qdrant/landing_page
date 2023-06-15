@@ -144,7 +144,7 @@ client = QdrantClient("localhost", port=6333)
 client.recreate_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    hnsw_config=models.HNSWConfigDiff(
+    hnsw_config=models.HnswConfigDiff(
         payload_m=16,
         m=0,
     ),
