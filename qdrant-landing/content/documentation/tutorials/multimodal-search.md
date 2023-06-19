@@ -4,16 +4,16 @@ weight: 15
 hideInSidebar: true
 ---
 
-# Multimodal Semantic Search with Aleph Alpha 
+# Text to Image Multimodal Semantic Search  
 
 | Time: 30 min | Level: Beginner |  |    |
 | --- | ----------- | ----------- |----------- |
 
-## Demo
-
 This tutorial shows you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks. 
 
-In most cases, semantic search is limited to homogenous data types for both documents and queries (text-text, image-image, audio-audio, etc.). With the recent growth of multimodal architectures, it is now possible to encode different data types into the same latent space. That opens up some great possibilities, as you can finally **explore non-textual data, for example visual, with text queries**. In the past, it would require labelling every image with a description of what it presents. Right now, you can rely on vector embeddings, which can represent all 
+In most cases, semantic search is limited to homogenous data types for both documents and queries (text-text, image-image, audio-audio, etc.). With the recent growth of multimodal architectures, it is now possible to encode different data types into the same latent space. That opens up some great possibilities, as you can finally explore non-textual data, for example visual, with text queries. 
+
+In the past, this would require labelling every image with a description of what it presents. Right now, you can rely on vector embeddings, which can represent all 
 the inputs in the same space.
 
 *Figure 1: Two examples of text-image pairs presenting a similar object, encoded by a multimodal network into the same 
@@ -52,7 +52,7 @@ aa_token = "<< your_token >>"
 model = "luminous-base"
 ```
 
-## Vectorize dataset
+## Vectorize the dataset
 
 In this example, images are stored in the `val2017` directory:
 
@@ -152,8 +152,8 @@ Here are the results:
 
 ![Visual search results](/docs/integrations/aleph-alpha/visual_search_results.png)
 
-The great thing about Aleph Alpha models is, they can provide the embeddings for English, French, German, Italian 
-and Spanish. So our search is not only multimodal, but also multilingual, no translations needed!
+**Note:** AlephAlpha models can provide embeddings for English, French, German, Italian 
+and Spanish. Your search is not only multimodal, but also multilingual, without any need for translations.
 
 ```python
 text= "Surfing"
