@@ -40,7 +40,7 @@ similar files for given query. There are two things we need to set up before we 
 2. You need to have a [Aleph Alpha account registered and confirmed](https://app.aleph-alpha.com/). Once it’s done, 
    the API key has to be created (see: [API Tokens](https://app.aleph-alpha.com/profile)).
 
-Once it’s done we can store the Aleph Alpha API key in a variable and choose the model we’re going to use.
+Now we can store the Aleph Alpha API key in a variable and choose the model we’re going to use.
 
 ```python
 aa_token = "<< your_token >>"
