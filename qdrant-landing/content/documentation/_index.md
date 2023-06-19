@@ -35,7 +35,7 @@ Qdrant is ideal for deploying applications based on the matching of embeddings p
 | Use Case              | Description                                  | Stack  |   
 |-----------------------|----------------------------------------------|--------|
 | [Intro to Semantic Search and Recommendations Systems](https://githubtocolab.com/qdrant/examples/blob/master/qdrant_101_getting_started/getting_started.ipynb)    | Learn how to get started building semantic search and recommendation systems. | Qdrant | 
-| [Build a Simple Neural Search](tutorials/neural-search/)           | Build and deploy a neural search that browses startup data.                  | Qdrant, BERT, FastAPI | 
+| [Build a Simple Neural Search](tutorials/neural-search/)           | Build and deploy a neural search. [Check out the live demo app.](https://demo.qdrant.tech/#/) | Qdrant, BERT, FastAPI | 
 | [Build a Search with Aleph Alpha](tutorials/aleph-alpha-search/)           | Build a simple semantic search that combines text and image data.                  | Qdrant, Aleph Alpha | 
 | [Search and Recommend Newspaper Articles](https://githubtocolab.com/qdrant/examples/blob/master/qdrant_101_text_data/qdrant_and_text_data.ipynb)    | Work with text data to develop a semantic search and a recommendation engine for news articles. | Qdrant | 
 | [Recommendation System for Songs](https://githubtocolab.com/qdrant/examples/blob/master/qdrant_101_audio_data/03_qdrant_101_audio.ipynb)    | Use Qdrant to develop a music recommendation engine based on audio embeddings. | Qdrant | 
