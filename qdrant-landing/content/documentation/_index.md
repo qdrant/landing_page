@@ -12,7 +12,7 @@ There are three ways to use Qdrant:
 
 1. [**Run a Docker image**](quick-start/) if you don't have a Python development environment. Setup a local Qdrant server and storage in a few moments. 
 2. [**Get the Python client**](https://github.com/qdrant/qdrant-client) if you're familiar with Python. Just `pip install qdrant-client`. The client uses an in-memory database.
-3. [**Spin up a Qdrant Cloud cluster:**](cloud/) the recommended method to run Qdrant in production. Read Quickstart to setup your first instance.
+3. [**Spin up a Qdrant Cloud cluster:**](cloud/) the recommended method to run Qdrant in production. Read [Quickstart](cloud/cloud-quick-start/) to setup your first instance.
 
 ### Recommended Workflow:
 
@@ -24,7 +24,7 @@ First, try Qdrant locally using the [Qdrant Client](https://github.com/qdrant/qd
 
 | Tutorial                                           | Description                                  | Tutorial| Description      |
 |----------------------------------------------------|----------------------------------------------|---------|------------------|
-| [Installation](guides/installation/) | Different ways to install Qdrant. | [Collections](concepts/collections/) | Learn how to work with data in different ways. |                  
+| [Installation](guides/installation/) | Different ways to install Qdrant. | [Collections](concepts/collections/) | Learn about the central concept behind Qdrant. |                  
 | [Configuration](guides/configuration/)   | Update the default configuration.    | [Bulk Upload](tutorials/bulk-upload/) |   Efficiently upload a large number of vectors. |                  
 | [Optimization](tutorials/optimize/)           | Optimize Qdrant's resource usage. | [Multitenancy](tutorials/multiple-partitions/) | Setup Qdrant for multiple independent users. |                  
 
