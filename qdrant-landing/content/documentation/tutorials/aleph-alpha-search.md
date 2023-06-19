@@ -1,10 +1,9 @@
 ---
-title: Multimodal Semantic Search
+title: Aleph Alpha Search
 weight: 15
-hideInSidebar: true
 ---
 
-# Text to Image Multimodal Semantic Search  
+# Multimodal Semantic Search with Aleph Alpha
 
 | Time: 30 min | Level: Beginner |  |    |
 | --- | ----------- | ----------- |----------- |
