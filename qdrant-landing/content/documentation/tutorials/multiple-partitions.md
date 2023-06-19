@@ -1,23 +1,32 @@
 ---
-title: Separate partitions
+title: Configure Multitenancy
 weight: 12
 ---
+# Configure Multitenancy
 
-# Serve vectors for many independent users
+When an instance is shared between multiple users, you may need to partition vectors by user. 
+This is done so that each user can only access their own vectors and can't see the vectors of other users.
 
-This is a common use case when you want to provide vector search for multiple independent partitions.
-These partitions may be divided by users, organizations, or other criteria.
-However, for simplicity, we will refer to them as users.
+Before you configure multitenancy in Qdrant, you must consider the following: 
+- The number of users in your tenancy structure;
+- Individual user performance needs;
+- Resource overhead and budget allowance.
 
-Each user should have only access to their own vectors and should not be able to view the vectors of other users.
+Qdrant supports multitenancy in two ways:
 
-There are several ways to achieve this in Qdrant:
+## Multiple collections per user
 
-- Use multiple collections, one for each user. This approach is the most flexible, but creating numerous collections may result in resource overhead. It is only recommended to separate users into multiple collections if you have a limited number of users and need to ensure that they do not affect each other in any way, including performance-wise.
+You may always create a collection for each user. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. We recommend you do this only if you have a limited number of users, and you need to ensure that they do not affect each other in any way, including performance-wise. 
 
-- Use a single collection with payload-based partitioning. This approach is more efficient for a large number of users but requires some additional preparations.
+>**Tutorial:** Learn how to [create a collection](../../concepts/collections/).
 
-In a simple case, it is sufficient to add a `group_id` field to each vector in the collection and use a filter along with `group_id` to filter vectors for each user.
+## Partition collection by payload
+
+In most cases, you should use a single collection with payload-based partitioning. 
+This approach is more efficient for a large number of users, but it requires additional configuration.
+
+1. First, add a `group_id` field to each vector in the collection.
+2. Then, use a filter along with `group_id` to filter vectors for each user.
 
 ```http
 PUT /collections/{collection_name}/points
@@ -66,7 +75,7 @@ client.upsert(
 )
 ```
 
-And search with `group_id` filter:
+3. You can search with the `group_id` filter:
 
 ```http
 POST /collections/{collection_name}/points/search
@@ -108,18 +117,17 @@ client.search(
     limit=10,
 )
 ```
+## Calibrate performance
 
-However, the speed of indexation may become a bottleneck in this case, as each user's vector will be indexed into the same collection. To avoid this bottleneck, consider _bypassing the construction of a global vector index_ for the entire collection and building it only for individual groups instead.
+The speed of indexation may become a bottleneck in this case, as each user's vector will be indexed into the same collection. To avoid this bottleneck, consider _bypassing the construction of a global vector index_ for the entire collection and building it only for individual groups instead.
 
 By adopting this strategy, Qdrant will index vectors for each user independently, significantly accelerating the process.
 
-One downside to this approach is that global requests (without the `group_id` filter) will be slower since they will necessitate scanning all groups to identify the nearest neighbors.
-
 To implement this approach, you should:
 
-- Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
-- set `m` in hnsw config to 0. This will disable building global index for the whole collection
-- Create keyword payload index for `group_id` field.
+1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
+2. Set `m` in hnsw config to 0. This will disable building global index for the whole collection.
+3. Create keyword payload index for `group_id` field.
 
 ```http
 PUT /collections/{collection_name}
@@ -169,3 +177,7 @@ client.create_payload_index(
   field_schema=models.PayloadSchemaType.KEYWORD
 )
 ```
+
+## Limitations
+
+One downside to this approach is that global requests (without the `group_id` filter) will be slower since they will necessitate scanning all groups to identify the nearest neighbors.
