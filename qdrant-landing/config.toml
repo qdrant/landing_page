@@ -259,5 +259,9 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     parent = "company"
     url = "/legal/credits/"
 
-[markup.goldmark.renderer]
-unsafe= true
+[markup]
+  [markup.goldmark.renderer]
+    unsafe=true
+  [markup.highlight]
+    style='friendly'
+   codeFences=true

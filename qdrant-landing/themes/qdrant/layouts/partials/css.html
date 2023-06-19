@@ -21,14 +21,6 @@
 <link rel="preload" href="https://fonts.googleapis.com/css2?family={{ .Site.Params.font }}&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{ .Site.Params.font }}&display=swap"></noscript>
 
-<!-- highlight.js -->
-{{ if .Site.Params.highlight | default false }}
-
-<link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/styles/default.min.css"></noscript>
-
-{{ end }}
-
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css"></noscript>
 

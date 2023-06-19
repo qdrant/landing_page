@@ -1,6 +1,9 @@
 .highlight + .highlight {
     display: none;
 }
+.highlight > pre {
+    padding: 10px 12px;
+}
 .lang-tabs {
     display: block;
     min-height: 26px;
