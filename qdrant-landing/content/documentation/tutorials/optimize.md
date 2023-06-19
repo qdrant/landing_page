@@ -1,5 +1,5 @@
 ---
-title: Configure for optimal use
+title: Configure Optimal Use
 weight: 11
 ---
 

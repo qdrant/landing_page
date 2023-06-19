@@ -5,3 +5,15 @@ weight: 24
 is_empty: true
 ---
 
+| Integration Instructions | Examples  |  
+|---|---| 
+|AlephAlpha| Multimodal Search | 
+|Cohere | Adaptive Q&A Engine|  
+|DocArray |   
+|FiftyOne|  
+|Haystack |  
+|LangChain |  
+|LlamaIndex | Adaptive Q&A Engine|  
+|OpenAI |   
+|txtai  |   
+

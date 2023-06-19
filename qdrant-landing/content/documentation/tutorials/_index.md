@@ -14,10 +14,11 @@ These tutorials demonstrate different ways you can build vector search into your
 
 | Tutorial              | Description                                  | Stack  |   
 |-----------------------|----------------------------------------------|--------|
-| [Optimize Qdrant](../tutorials/optimize/)       | Configure Qdrant for best resource use.       | Qdrant |  
+| [Configure Optimal Use](../tutorials/optimize/)       | Configure Qdrant collections for best resource use.       | Qdrant |  
 | [Separate Partitions](../tutorials/multiple-partitions/)   | Serve vectors for many independent users.     | Qdrant |   
-| [Bulk Upload](../tutorials/bulk-upload/)           | Upload a large scale dataset.                 | Qdrant | 
-| [Create a Simple Neural Search Service](../tutorials/neural-search/)           | Build and deploy a neural search that browses startup data.                  | Qdrant, BERT, FastAPI | 
+| [Bulk Upload Vectors](../tutorials/bulk-upload/)           | Upload a large scale dataset.                 | Qdrant | 
+| [Simple Neural Search](../tutorials/neural-search/)           | Build and deploy a neural search that browses startup data.                  | Qdrant, BERT, FastAPI | 
+| [Multimodal Semantic Search](../tutorials/multimodal-search/)           | Build a simple semantic search that combines text and image data.                  | Qdrant, Aleph Alpha | 
 | [Troubleshooting](../tutorials/common-errors/)       | Solutions to common errors and fixes                      | Qdrant |  
 
 
