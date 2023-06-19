@@ -9,16 +9,19 @@ hideInSidebar: true
 | Time: 30 min | Level: Beginner |  |    |
 | --- | ----------- | ----------- |----------- |
 
-In most cases, semantic search is limited to homogenous data types for both documents and queries (text-text, image-image, audio-audio, etc.). With the recent growth of multimodal architectures, it is now possible to encode different data types into the same latent space. That opens up some great possibilities, as you can finally **explore 
-non-textual data, for example visual, with text queries**. In the past, it would require labelling every image 
-with a description of what it presents. Right now, you can rely on vector embeddings, which can represent all 
+## Demo
+
+This tutorial shows you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks. 
+
+In most cases, semantic search is limited to homogenous data types for both documents and queries (text-text, image-image, audio-audio, etc.). With the recent growth of multimodal architectures, it is now possible to encode different data types into the same latent space. That opens up some great possibilities, as you can finally **explore non-textual data, for example visual, with text queries**. In the past, it would require labelling every image with a description of what it presents. Right now, you can rely on vector embeddings, which can represent all 
 the inputs in the same space.
+
+*Figure 1: Two examples of text-image pairs presenting a similar object, encoded by a multimodal network into the same 
+2D latent space. Both texts are examples of English [pangrams](https://en.wikipedia.org/wiki/Pangram). 
+https://deepai.org generated the images with pangrams used as input prompts.*
 
 ![](/docs/integrations/aleph-alpha/2d_text_image_embeddings.png)
 
-*Two examples of text-image pairs presenting a similar object, encoded by a multimodal network into the same 
-2D latent space. Both texts are examples of English [pangrams](https://en.wikipedia.org/wiki/Pangram). 
-https://deepai.org generated the images with pangrams used as input prompts.*
 
 ## Sample dataset
 
@@ -177,7 +180,3 @@ async with AsyncClient(token=aa_token) as client:
 Here are the top 3 results for “Surfing”:
 
 ![Text search results](/docs/integrations/aleph-alpha/text_search_results.png)
-
-## Demo
-
-This tutorial showed you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks. Moreover, due to Aleph Alpha multilinguality, you are also able to query it using multiple languages.
