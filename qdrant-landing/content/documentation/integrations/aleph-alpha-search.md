@@ -29,7 +29,7 @@ categories.
 
 ## Prerequisites
 
-There is no need to curate your datasets and train the models. [Aleph Alpha](https://www.aleph-alpha.com/), already has multimodality and multilinguality already built-in. There is an [official Python client](https://github.com/Aleph-Alpha/aleph-alpha-client) that simplifies the integration. [can be integrated seamlessly](https://qdrant.tech/documentation/integrations/#aleph-alpha).
+There is no need to curate your datasets and train the models. [Aleph Alpha](https://www.aleph-alpha.com/), already has multimodality and multilinguality already built-in. There is an [official Python client](https://github.com/Aleph-Alpha/aleph-alpha-client) that simplifies the integration.
 
 In order to enable the search capabilities, you need to build the search index to query on. For our purposes, 
 we are going to vectorize the images and store their embeddings along with the filenames, we can then return the most 
