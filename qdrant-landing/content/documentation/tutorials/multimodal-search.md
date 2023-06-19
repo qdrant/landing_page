@@ -1,17 +1,17 @@
 ---
-title: Multimodal Search with Aleph Alpha
-weight: 1100
+title: Multimodal Semantic Search
+weight: 15
+hideInSidebar: true
 ---
 
 # Multimodal Semantic Search with Aleph Alpha 
 
-Semantic search goes well beyond textual data. It is surely a great alternative for the full-text search 
-but also allows us to perform a reverse image search and many more. However, in most cases, we were limited 
-to using the same data type for both documents and queries (text-text, image-image, audio-audio, etc.). With 
-the recent growth of multimodal architectures, it became possible to encode different data types into the same 
-latent space — for example, texts and images. That opens up some great possibilities, as we can finally **explore 
+| Time: 30 min | Level: Beginner |  |    |
+| --- | ----------- | ----------- |----------- |
+
+In most cases, semantic search is limited to homogenous data types for both documents and queries (text-text, image-image, audio-audio, etc.). With the recent growth of multimodal architectures, it is now possible to encode different data types into the same latent space. That opens up some great possibilities, as you can finally **explore 
 non-textual data, for example visual, with text queries**. In the past, it would require labelling every image 
-with a description of what it presents. Right now, we can rely on vector embeddings, which can represent all 
+with a description of what it presents. Right now, you can rely on vector embeddings, which can represent all 
 the inputs in the same space.
 
 ![](/docs/integrations/aleph-alpha/2d_text_image_embeddings.png)
@@ -23,24 +23,26 @@ https://deepai.org generated the images with pangrams used as input prompts.*
 ## Sample dataset
 
 You will be using [COCO](https://cocodataset.org/), a large-scale object detection, segmentation, and captioning dataset. It provides 
-various splits, 330K images in total. For the demonstration purposes we can choose a 
-[2017 validation split](http://images.cocodataset.org/zips/train2017.zip) that contains 5K images from different 
+various splits, 330,000 images in total. For demonstration purposes, this tutorials uses the 
+[2017 validation split](http://images.cocodataset.org/zips/train2017.zip) that contains 5000 images from different 
 categories.
 
 ## Prerequisites
 
 There is no need to curate your datasets and train the models. [Aleph Alpha](https://www.aleph-alpha.com/), already has multimodality and multilinguality already built-in. There is an [official Python client](https://github.com/Aleph-Alpha/aleph-alpha-client) that simplifies the integration.
 
-In order to enable the search capabilities, you need to build the search index to query on. For our purposes, 
-we are going to vectorize the images and store their embeddings along with the filenames, we can then return the most 
-similar files for given query. There are two things we need to set up before we start though:
+In order to enable the search capabilities, you need to build the search index to query on. For this example, 
+you are going to vectorize the images and store their embeddings along with the filenames. You can then return the most 
+similar files for given query. 
 
-1. A Qdrant instance has to be running. If you want to launch it locally,
+There are two things you need to set up before you start:
+
+1. You need to have a Qdrant instance running. If you want to launch it locally,
    [Docker is the fastest way to do that](https://qdrant.tech/documentation/quick_start/#installation).
-2. You need to have a [Aleph Alpha account registered and confirmed](https://app.aleph-alpha.com/). Once it’s done, 
-   the API key has to be created (see: [API Tokens](https://app.aleph-alpha.com/profile)).
+2. You need to have a registered [Aleph Alpha account](https://app.aleph-alpha.com/). 
+3. Upon registration, create an API key (see: [API Tokens](https://app.aleph-alpha.com/profile)).
 
-Now we can store the Aleph Alpha API key in a variable and choose the model we’re going to use.
+Now you can store the Aleph Alpha API key in a variable and choose the model your are going to use.
 
 ```python
 aa_token = "<< your_token >>"
@@ -113,13 +115,12 @@ qdrant_client.upsert(
 
 ## Query the database
 
-Since `luminous-base`, a model we selected, can provide us the vectors for both texts and images, we can run both 
-text queries and reverse image search. No matter what we choose, the process won’t be much different. Let’s assume 
-we want to find images similar to the one below:
+The `luminous-base`, model can provide you the vectors for both texts and images, which means you can run both 
+text queries and reverse image search. Assume you want to find images similar to the one below:
 
 ![An image used to query the database](/docs/integrations/aleph-alpha/visual_search_query.png)
 
-With the following code snippet we create its vector embedding and then perform the lookup in Qdrant:
+With the following code snippet create its vector embedding and then perform the lookup in Qdrant:
 
 ```python
 async with AsyncCliet(token=aa_token) as client:
@@ -179,7 +180,4 @@ Here are the top 3 results for “Surfing”:
 
 ## Demo
 
-In some cases, just a few lines of code might be enough to run a proper multimodal semantic search system. We were 
-able to do that, without any need to annotate the data or train our networks. Moreover, we are also able to query 
-it using multiple languages, thanks to Aleph Alpha multilinguality. If you are interested in seeing the full source code, 
-please check out [the repository](https://github.com/tugot17/Qdrant-Aleph-Alpha-Demo).
+This tutorial showed you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks. Moreover, due to Aleph Alpha multilinguality, you are also able to query it using multiple languages.
