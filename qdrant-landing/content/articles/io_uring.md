@@ -55,7 +55,7 @@ entry or setting the value to `false`.
 
 ## Benchmarks
 
-To run the benchmark, use a test instance of qdrant; if necessary spin up a
+To run the benchmark, use a test instance of Qdrant; if necessary spin up a
 docker container and load a snapshot of the collection you want to benchmark
 with. You can copy and edit the following bash script to run the benchmark.
 
