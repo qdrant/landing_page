@@ -38,9 +38,9 @@ I distinctly remember when someone asked the question whether a server could
 serve 10k concurrent connections, which at the time exhausted the memory of
 most systems (because every thread had to have its own stack and some other
 metadata, which quickly filled up available memory). So the synchronous IO
-was replaced by asynchronous IO during the 2.5 kernel update, either via 
-`select` or `epoll` (the latter being a small bit more efficient, so most
-servers of the time used it).
+was replaced by asynchronous IO during the 2.5 kernel update, either via
+`select` or `epoll` (the latter being Linux-only, but a small bit more
+efficient, so most servers of the time used it).
 
 But even this crude form of asynchronous IO carries the overhead of at least
 one system call per operation, which incurs a context switch - an operation
@@ -62,7 +62,7 @@ Thus there is still some overhead, but (especially in asynchronous
 applications) it's far less than with `epoll`. The reason this API is rarely
 used in web servers is that these usually have a large variety of files to
 access (unlike a database, which can map its own backing store into memory
-once). Qdrant has used mmap from the beginning, of course.
+once).
 
 ### Combating the Poll-ution
 
@@ -78,6 +78,8 @@ for operations. User processes can setup a Submission Queue (SQ) and a
 Completion Queue (CQ), both of which are shared between the process and the
 kernel, so there's no copying overhead.
 
+![io_uring diagram](/articles_data/io_uring/io_uring_diagram.svg)
+
 Apart from avoiding copying overhead, the queue-based architecture lends
 itself to multithreading (as item insertion/extraction can be made lockless),
 and once the queues are set up, there is no further syscall that would stop
@@ -89,22 +91,21 @@ other ports (e.g. for printing or recording video).
 
 ## And what about Qdrant?
 
-Qdrant can store everything in memory, but it's often advisable to store data
-to disk, so that it can survive a reboot and memory requirements can be reduced
-(at the cost of some performance and disk requirements). Before io\_uring,
-Qdrant used mmap to do its IO. This leads to some modest overhead (because the
-kernel needs to continuously write back changes from memory to disk), but works
-quite well with the asynchronous nature of Qdrant's core.
+Qdrant can store everything in memory, but not all data sets may fit, which can
+require storing  on disk. Before io\_uring, Qdrant used mmap to do its IO. This
+leads to some modest overhead in case of disk latency, because the kernel may
+stop a user thread trying to access a mapped region, which incurs some context
+switching overhead plus the wait time until the disk IO is finished. All in all,
+this works reasonably well with the asynchronous nature of Qdrant's core.
 
 One of the great optimization tricks Qdrant pulls is quantization (either
 scalar or [product](https://qdrant.tech/articles/product-quantization/)-based).
-However, to apply this optimization after the fact, a *requantization* is
-required. This operation generates a lot of disk IO (unless the collection
-resides fully in memory, of course), so it is a prime candidate for possible
-improvements.
+However, to apply this optimization generates a lot of disk IO (unless the
+collection resides fully in memory, of course), so it is a prime candidate for
+possible improvements.
 
-If you run Qdrant on Linux, you can enable the io\_uring based storage backend
-with the following in your configuration:
+If you run Qdrant on Linux, you can enable io\_uring with the following in your
+configuration:
 
 ```yaml
 # within the storage config
@@ -125,30 +126,62 @@ with. You can copy and edit the following bash script to run the benchmark.
 ```bash
 export QDRANT_URL="<qdrant url>"
 export COLLECTION="<collection name>"
+export CONCURRENCY=4 # or 8
+export OVERSAMPLING=1 # or 4
 
-time seq 1000 | xargs -P 4 -I {} curl -L -X POST \
+time seq 1000 | xargs -P ${CONCURRENCY} -I {} curl -L -X POST \
 	"http://${QDRANT_URL}/collections/${COLLECTION}/points/recommend" \
 	-H 'Content-Type: application/json' --data-raw \
-	'{ "limit": 10, "positive": [{}], "params": { "quantization": { "rescore": true  } } }' \
+	"{ \"limit\": 10, \"positive\": [{}], \"params\": { \"quantization\": \
+	{ \"rescore\": true, \"oversampling\": ${OVERSAMPLING} } } }" \
 	-s | jq .status | wc -l
 
-time seq 1000 2000 | xargs -P 4 -I {} curl -L -X POST \
+time seq 1000 2000 | xargs -P ${CONCURRENCY} -I {} curl -L -X POST \
 	"${QDRANT_URL}/collections/${COLLECTION}/points/recommend" \
 	-H 'Content-Type: application/json' --data-raw \
-	'{ "limit": 10, "positive": [{}], "params": { "quantization": { "rescore": true  } } }' \
+	"{ \"limit\": 10, \"positive\": [{}], \"params\": { \"quantization\": \
+	{ \"rescore\": true, \"oversampling\": ${OVERSAMPLING} } } }" \
 	-s | jq .status | wc -l
 
-time seq 2000 3000 | xargs -P 4 -I {} curl -L -X POST \
+time seq 2000 3000 | xargs -P ${CONCURRENCY} -I {} curl -L -X POST \
 	"${QDRANT_URL}/collections/${COLLECTION}/points/recommend" \
 	-H 'Content-Type: application/json' --data-raw \
-	'{ "limit": 10, "positive": [{}], "params": { "quantization": { "rescore": true  } } }' \
+	"{ \"limit\": 10, \"positive\": [{}], \"params\": { \"quantization\": \
+	{ \"rescore\": true, \"oversampling\": ${OVERSAMPLING} } } }" \
 	-s | jq .status | wc -l
 ```
 
 Run this script with and without enabling `storage.async_scorer` and once. You
 can measure IO usage with `iostat` from another console.
 
-TODO: Insert Andreys benchmark results here.
+For our benchmark, we chose the laion dataset picking 5 million 768d entries.
+We enabled scalar quantization + HNSW with m=16 and ef_construct=512.
+We do the quantization in RAM, HNSW in RAM but keep the original vectors on
+disk (which was a network drive rented from Hetzner for the benchmark).
+
+Running the benchmark, we get the following IOPS, CPU loads and wall clock times:
+
+|          | oversampling | parallel | ~max IOPS | CPU% (of 4 cores) | time (s) (avg of 3) |
+|----------|--------------|----------|-----------|-------------------|---------------------|
+| io_uring |  	1         | 4        |  	4000   |      	200        |  12                 |
+| mmap     |  	1         | 4        |  	2000   |      	 93        |  43                 |
+| io_uring |  	1         | 8        |  	4000   |      	200				 |  12                 |
+| mmap     |  	1         | 8        |  	2000   |      	 90        |  43                 |
+| io_uring |  	4         | 8        |  	7000   |      	100				 |  30                 |
+| mmap     |  	4         | 8        |  	2300   |      	 50        | 145                 |
+
+
+Note that in this case, the IO operations have relatively high latency due to
+using a network disk. Thus, the kernel takes more time to fulfil the mmap
+requests, and application threads need to wait, which is reflected in the CPU
+percentage. On the other hand, with the io\_uring backend, the application
+threads can better use available cores for the rescore operation without any
+IO-induced delays.
+
+Oversampling is a new feature that allows setting a factor, which is multiplied
+with the `limit` while doing the search; then the results are re- scored using
+the original vector and only then the top results up to the limit are selected.
+Oversampling can improve accuracy at the cost of some performance.
 
 ## Discussion
 
@@ -156,28 +189,29 @@ Looking back, disk IO used to be very serialized; re-positioning read-write
 heads on moving platter was a slow and messy business. So the system overhead
 didn't matter as much, but nowadays with SSDs that can often even parallelize
 operations while offering near-perfect random access, the overhead starts to
-become quite visible. While memory-mapped IO gives us a fairly good deal in
-terms of programmer-friendlyness and performance, we can make a killing on the
-latter for some modest complexity increase.
+become quite visible. While memory-mapped IO gives us a fair deal in terms of
+programmer-friendlyness and performance, we can make a killing on the latter for
+some modest complexity increase.
 
-The use of io\_uring is not without drawbacks. Notably, the API is quite young,
-and recently google rolled back its deployment in Android, ChromeOS and their
-servers. [Money quote](https://security.googleblog.com/2023/06/learnings-from-kctf-vrps-42-linux.html):
-io\_uring "[...] is still affected by severe vulnerabilities and also provides
-strong exploitation primitives. For these reasons, we currently consider it
-safe only for use by trusted components."
-
-With that said, the CVEs concerning io\_uring can by and large only be
-triggered by local users, so if you set up your system tightly, there is
-quite probably little reason to worry. Of course, as with performance, the
-right answer is usually "it depends", so please review your personal risk
-profile and act accordingly.
+io\_uring is still quite young, having only been introduced in 2019 with kernel
+5.1, so some administrators will be wary of introducing it. Of course, as with
+performance, the right answer is usually "it depends", so please review your
+personal risk profile and act accordingly.
 
 ## Best Practices
 
-Before you roll out io\_uring, perform a simple benchmark (do a requantization
-of one of your collections with both mmap and io\_uring and measure both wall
-time and IOps). Benchmarks are always highly use-case dependent, so your
-mileage may vary. Still, doing that benchmark once is a small price for the
-possible performance wins. Also please [tell us](https://discord.com/channels/907569970500743200/907569971079569410)
+If your on-disk collection's query performance is of sufficiently high
+priority to you, enable the io\_uring-based async\_scorer to greatly reduce
+operating system overhead from disk IO. On the other hand, if your
+collections are in memory only, activating it will be ineffective. Also note
+that many queries are not IO bound, so the overhead may or may not become
+measurable in your workload. Finally, on-device disks typically carry lower
+latency than network drives, which may also affect mmap overhead.
+
+Therefore before you roll out io\_uring, perform the above or a similar
+benchmark with both mmap and io\_uring and measure both wall time and IOps).
+Benchmarks are always highly use-case dependent, so your mileage may vary.
+Still, doing that benchmark once is a small price for the possible performance
+wins. Also please
+[tell us](https://discord.com/channels/907569970500743200/907569971079569410)
 about your benchmark results!
