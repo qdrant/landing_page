@@ -45,15 +45,6 @@
   anchors.add("article > :is(h1, h2, h3, h4, h5, h6)");
 </script>
 
-<!-- highlight.js -->
-{{ if .Site.Params.highlight }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/highlight.min.js"></script>
-{{ range .Site.Params.highlightLanguages }}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.4.0/languages/{{ . }}.min.js"></script>
-{{ end }}
-<script>hljs.highlightAll();</script>
-
-{{ end }}
 <script src="{{ "js/lang-switcher.js" | absURL }}"></script>
 <script src="{{ "js/copy-code.js" | absURL }}"></script>
 <script>

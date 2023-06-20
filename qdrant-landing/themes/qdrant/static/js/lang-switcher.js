@@ -3,7 +3,7 @@
    * @class LangSwitcher
    * create tabs with buttons to switching
    * between languages variants,
-   * works with highlights.js
+   * works with .highlight class elements
    */
   class LangSwitcher {
     constructor(tabs, index) {
