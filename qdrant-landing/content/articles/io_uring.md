@@ -40,7 +40,7 @@ required. This operation generates a lot of disk IO (unless the collection
 resides fully in memory, of course), so it is a prime candidate for possible
 improvements.
 
-If you run Qdrant on linux, you can enable the io\_uring based storage backend
+If you run Qdrant on Linux, you can enable the io\_uring based storage backend
 with the following in your configuration:
 
 ```yaml
