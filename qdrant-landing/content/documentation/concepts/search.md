@@ -781,7 +781,9 @@ If the `group_by` field of a point is an array (e.g. `"document_id": ["a", "b"]`
 
 *Available as of v1.3.0*
 
-One way of optimizing storage when using groups is to store the information shared by the points with the same group id in a single point in another collection. Then, when using the **groups** API, add the `with_lookup` parameter to bring the information from those points into each group.
+Having multiple points for parts of the same item often introduces redundancy in the stored data. Which may be fine if the information shared by the points is small, but it can become a problem if the payload is large, because it multiplies the storage space needed to store the points by a factor of the amount of points we have per group.
+
+One way of optimizing storage when using groups is to store the information shared by the points with the same group id in a single point in another collection. Then, when using the [**groups** API](#grouping-api), add the `with_lookup` parameter to bring the information from those points into each group.
 
 ![Group id matches point id](/docs/lookup_id_linking.png)
 
