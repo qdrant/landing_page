@@ -1,6 +1,6 @@
 ---
 title: "Qdrant under the hood: io_uring"
-short_description: "The linux io_uring API offers great performance in certain cases. Here's how Qdrant uses it!"
+short_description: "The Linux io_uring API offers great performance in certain cases. Here's how Qdrant uses it!"
 description: "Slow disk decelerating your Qdrant deployment? Get on top of IO overhead with this one trick!"
 social_preview_image: /articles_data/io_uring/social_preview.png
 small_preview_image: /articles_data/io_uring/io_uring-icon.svg
@@ -24,7 +24,70 @@ async throughput wherever the OS syscall overhead gets too high, which will
 often occur in situations where software becomes *IO bound* (that is, mostly
 waiting on disk).
 
-## Storage and IO
+## Input+Output
+
+Around the mid-90s, the internet took off. The first servers used a
+process-per-request setup, which was good for serving hundreds if not thousands
+of concurrent request. POSIX (and thus Linux) IO (Input+Output) was modeled in
+a strictly synchronous way. The overhead of starting a new process for each
+request made this model unsustainable. So servers started forgoing the process
+separation, opting for the thread-per-request model. But even that ran into
+limitations.
+
+I distinctly remember when someone asked the question whether a server could
+serve 10k concurrent connections, which at the time exhausted the memory of
+most systems (because every thread had to have its own stack and some other
+metadata, which quickly filled up available memory). So the synchronous IO
+was replaced by asynchronous IO during the 2.5 kernel update, either via 
+`select` or `epoll` (the latter being a small bit more efficient, so most
+servers of the time used it).
+
+But even this crude form of asynchronous IO carries the overhead of at least
+one system call per operation, which incurs a context switch - an operation
+which is in itself not that slow (basically registers are stored and loaded
+from a known good location), but the memory accesses required led to longer
+and longer wait times for the CPU.
+
+### Memory-mapped IO
+
+Another way of dealing at least with file IO (which unlike network IO doesn't
+usually have a hard time requirement) is to map parts of files into memory -
+basically the system fakes having that chunk of the file in memory, so when
+you read from a location there, the kernel interrupts you to load the needed
+data from disk, and then sends you on your merry way, whereas writing to the
+memory will also notify the kernel. Also the kernel can prefetch stuff while
+the program is running, thus reducing the likelyhood of interrupts.
+
+Thus there is still some overhead, but (especially in asynchronous
+applications) it's far less than with `epoll`. The reason this API is rarely
+used in web servers is that these usually have a large variety of files to
+access (unlike a database, which can map its own backing store into memory
+once). Qdrant has used mmap from the beginning, of course.
+
+### Combating the Poll-ution
+
+There were multiple experiments (open source or proprietary) to improve
+matters, some even going so far as moving a HTTP server into the kernel
+(which of course brought its own share of problems). Others like intel added
+their own APIs that ignored the kernel and worked directly on the hardware
+(on intel hardware, that is).
+
+Finally Jens Axboe took matters into his own hands and proposed a ring buffer
+based interface called *io\_uring*. The buffers are not directly for data, but
+for operations. User processes can setup a Submission Queue (SQ) and a
+Completion Queue (CQ), both of which are shared between the process and the
+kernel, so there's no copying overhead.
+
+Apart from avoiding copying overhead, the queue-based architecture lends
+itself to multithreading (as item insertion/extraction can be made lockless),
+and once the queues are set up, there is no further syscall that would stop
+any user thread.
+
+Servers that use this can easily get to over 100k concurrent requests. Today
+Linux allows asynchronous IO via io\_uring for network, disk and accessing
+other ports (e.g. for printing or recording video).
+
+## And what about Qdrant?
 
 Qdrant can store everything in memory, but it's often advisable to store data
 to disk, so that it can survive a reboot and memory requirements can be reduced
@@ -62,7 +125,7 @@ with. You can copy and edit the following bash script to run the benchmark.
 ```bash
 export QDRANT_URL="<qdrant url>"
 export COLLECTION="<collection name>"
-# disable quantization to prepare for the test
+
 time seq 1000 | xargs -P 4 -I {} curl -L -X POST \
 	"http://${QDRANT_URL}/collections/${COLLECTION}/points/recommend" \
 	-H 'Content-Type: application/json' --data-raw \
@@ -82,12 +145,20 @@ time seq 2000 3000 | xargs -P 4 -I {} curl -L -X POST \
 	-s | jq .status | wc -l
 ```
 
-Run this script twice, once without enabling `storage.async_scorer` and once
-with it enabled. You can measure IO usage with `iostat` from another console.
+Run this script with and without enabling `storage.async_scorer` and once. You
+can measure IO usage with `iostat` from another console.
 
 TODO: Insert Andreys benchmark results here.
 
 ## Discussion
+
+Looking back, disk IO used to be very serialized; re-positioning read-write
+heads on moving platter was a slow and messy business. So the system overhead
+didn't matter as much, but nowadays with SSDs that can often even parallelize
+operations while offering near-perfect random access, the overhead starts to
+become quite visible. While memory-mapped IO gives us a fairly good deal in
+terms of programmer-friendlyness and performance, we can make a killing on the
+latter for some modest complexity increase.
 
 The use of io\_uring is not without drawbacks. Notably, the API is quite young,
 and recently google rolled back its deployment in Android, ChromeOS and their
