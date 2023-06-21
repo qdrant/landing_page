@@ -179,7 +179,7 @@ Try it out now! If you have Docker running, you can [quickstart Qdrant](https://
 
 ### Temporary directory for Snapshots
 
-Currently, temporary snapshot files are created inside the /storage directory. Oftentimes /storage is usually a network-mounted disk. Therefore, we found this method suboptimal because /storage is limited in disk size and also because writing data to it may affect disk performance as it consumes bandwidth. This new feature allows you to specify a different directory on another disk, that is potentially faster. We expect this feature to significantly optimize cloud performance.
+Currently, temporary snapshot files are created inside the `/storage` directory. Oftentimes `/storage` is a network-mounted disk. Therefore, we found this method suboptimal because `/storage` is limited in disk size and also because writing data to it may affect disk performance as it consumes bandwidth. This new feature allows you to specify a different directory on another disk that is faster. We expect this feature to significantly optimize cloud performance.
 
 To change it, access `config.yaml` and set `storage.temp_path` to another directory location.
 
