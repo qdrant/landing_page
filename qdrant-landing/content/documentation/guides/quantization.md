@@ -217,13 +217,55 @@ client.search(
 )
 ```
 
-`ignore` - whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
+`ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
 `rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. 
 This can improve the search quality, but may slightly decrease the search speed, compared to the search without rescore.
 It is recommended to disable rescore only if the original vectors are stored on a slow storage (e.g. HDD or network storage).
 By default, rescore is enabled.
 
+### Oversampling
+
+*Available as of v1.3.0*
+
+Oversampling is another way to tune your query accuracy. Keeping your index the same, you can decide how many points to retrieve using the quantized vectors. This method allows for fast pre-selection and allows for parallel I/O, thus speeding up the retrieval od vectors.
+
+```http
+POST /collections/{collection_name}/points/search
+
+{
+    "params": {
+        "quantization": {
+            "ignore": false,
+            "rescore": true,
+            "oversampling": 2.4
+        }
+    },
+    "vector": [0.2, 0.1, 0.9, 0.7],
+    "limit": 100
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.search(
+    collection_name="{collection_name}",
+    query_vector=[0.2, 0.1, 0.9, 0.7],
+    search_params=models.SearchParams(
+        quantization=models.QuantizationSearchParams(
+            ignore=False,
+            rescore=True,
+            oversampling=2.4
+        )
+    )
+)
+```
+
+`oversampling` - Allows you to retrieve more points using quantized vectors and then re-score them using original ones. Default factor is 1.0. For example, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be pre-selected using quantized index, and then top-100 will be returned after re-scoring. 
 
 ## Quantization tips
 
