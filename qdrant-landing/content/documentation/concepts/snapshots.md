@@ -23,6 +23,19 @@ storage:
 
 It defaults to `./snapshots` if no value is provided.
 
+*Available as of v1.3.0*
+
+While a snapshot is being created, it creates some temporary files. These are
+placed in the configured storage directory by default. It may have a limited
+capacity or be a slow network attached disk. To change this temporary directory
+to something more suited on your system you could set the following:
+
+```yaml
+storage:
+  # Where to store temporary files
+  temp_path: /tmp
+```
+
 ## Create snapshot
 
 To create a new snapshot for an existing collection:
