@@ -104,7 +104,13 @@ Please keep in mind that this feature is experimental and that the interface may
 
 ### Grouping API lookup
 
-In version 1.2.0, we introduced a mechanism for grouping requests. Our new feature extends this functionality by giving you the option to look for points in another collection using group ids. We wanted to add this feature, since having multiple points for parts of the same item optimizes storage use, particularly if the payload is large.
+In version 1.2.0, we introduced a mechanism for requesting groups of points. Our new feature extends this functionality by giving you the option to look for points in another collection using the group ids. We wanted to add this feature, since having a single point for the shared data of the same item optimizes storage use, particularly if the payload is large.
+
+This has the extra benefit of having a single point to update when the information shared by the points in a group changes. 
+
+![Group Lookup](/articles_data/qdrant-1.3.x/group-lookup.png)
+
+For example, if you have a collection of documents, you may want to chunk them and store the points for the chunks in a separate collection, making sure that you store the point id from the document it belongs in the payload of the chunk point.
 
 #### Adding the parameter to grouping API request:
 
@@ -128,7 +134,7 @@ POST /collections/chunks/points/search/groups
         // of the looked up point, true by default
         "with_payload": ["title", "text"],
         // Options for specifying what to bring from the vector(s) 
-        // of the looked up point, true by default
+        // of the looked up point, false by default
         "with_vector: false,
     }
 }
@@ -157,13 +163,11 @@ client.search_groups(
         with_payload=["title", "text"]
 
         # Options for specifying what to bring from the vector(s) 
-        # of the looked up point, True by default
+        # of the looked up point, False by default
         with_vector=False, 
     )
 )
 ```
-
-This has the extra benefit of having a single point to update when the information shared by the points in a group changes. For example, if you have a collection of documents, you may want to chunk them and store the points for the chunks in a separate collection, making sure that you store the point id from the document it belongs in the payload of the chunk point.
 
 ### Qdrant web user interface
 
