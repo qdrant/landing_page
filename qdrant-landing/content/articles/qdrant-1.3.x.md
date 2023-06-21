@@ -51,7 +51,7 @@ POST /collections/{collection_name}/points/search
     "quantization": {
       "ignore": false,
       "rescore": true,
-	    "oversampling": 2.4
+      "oversampling": 2.4
     }
   },
   "vector": [0.2, 0.1, 0.9, 0.7],
