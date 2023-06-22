@@ -39,7 +39,7 @@ Going forward, we will support the `io_uring` asychnronous interface for storage
 
 <aside role="status">This experimental feature works on Linux kernels > 5.4 </aside>
 
-`io_uring` uses a ring buffer data structure to queue and manage I/O operations asynchronously, minimizing the need for context switches and reducing overhead. It supports features like submission and completion queues, event-driven I/O, and batch processing, allowing for efficient handling of I/O events and reducing the CPU overhead associated with traditional I/O.
+`io_uring` uses two ring buffers to queue and manage I/O operations asynchronously, avoiding costly context switches and reducing overhead. Unlike mmap, it frees the user threads to do computations instead of waiting for the kernel to complete.
 
 #### Enable async storage interface from the storage configuration file:
 
