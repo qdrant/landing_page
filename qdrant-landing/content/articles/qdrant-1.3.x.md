@@ -22,8 +22,8 @@ keywords:
 
 A brand-new [Qdrant 1.3.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.3.0) comes packed with a plethora of new features, performance improvements and bux fixes:
 
-1. [Oversampling for Quantization:](#oversampling-for-quantization) Improve the accuracy and performance of your queries while using Scalar or Product Quantization
-2. [Asynchronous I/O interface:](#asychronous-io-interface) Reduce overhead by managing I/O operations asynchronously, and by minimizing the need for context switches.
+1. [Asynchronous I/O interface:](#asychronous-io-interface) Reduce overhead by managing I/O operations asynchronously, and by minimizing the need for context switches.
+2. [Oversampling for Quantization:](#oversampling-for-quantization) Improve the accuracy and performance of your queries while using Scalar or Product Quantization.
 3. [Grouping API lookup:](#grouping-api-lookup) Storage optimization method that lets you look for points in another collection using group ids.
 4. [Qdrant Web UI:](#qdrant-web-user-interface) A convenient dashboard to help you manage data stored in Qdrant.
 5. [Temp directory for Snapshots:](#temporary-directory-for-snapshots) Set a separate storage directory for temporary snapshots on a faster disk.
@@ -32,6 +32,26 @@ A brand-new [Qdrant 1.3.0 release](https://github.com/qdrant/qdrant/releases/tag
 Your feedback is valuable to us, and are always tying to include some of your feature requests into our roadmap. Join [our Discord community](https://qdrant.to/discord) and help us build Qdrant!.
 
 ## New features
+
+### Asychronous I/O interface
+
+Going forward, we will support the `io_uring` asychnronous interface for storage devices on Linux-based systems. Since its introduction, `io_uring` has been proven to speed up slow-disk deployments wherever the OS syscall overhead gets too high and the software becomes IO bound.
+
+<aside role="status">This experimental feature works on Linux kernels > 5.4 </aside>
+
+`io_uring` uses a ring buffer data structure to queue and manage I/O operations asynchronously, minimizing the need for context switches and reducing overhead. It supports features like submission and completion queues, event-driven I/O, and batch processing, allowing for efficient handling of I/O events and reducing the CPU overhead associated with traditional I/O.
+
+#### Enable async storage interface from the storage configuration file:
+
+```python
+storage:
+	# enable the async scorer which uses io_uring
+	async_scorer: true
+```
+You can return to the mmap based backend by either deleting the `async_scorer` entry or setting the value to `false`.
+
+This operation generates a lot of disk IO, so it is a prime candidate for possible improvements.
+Please keep in mind that this feature is experimental and that the interface may change in further versions.
 
 ### Oversampling for quantization
 
@@ -81,26 +101,6 @@ client.search(
 In this case, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be pre-selected using quantized index, and then the top 100 vectors will be returned after re-scoring.
 
 As you can see from the example above, this parameter is set during the query. This is a flexible method that will let you tune query accuracy. While the index is not changed, you can decide how many points you want to retrieve using quantized vectors.
-
-### Asychronous I/O interface
-
-Going forward, we will support the `io_uring` asychnronous interface for storage devices on Linux-based systems. Since its introduction, `io_uring` has been proven to speed up slow-disk deployments wherever the OS syscall overhead gets too high and the software becomes IO bound.
-
-<aside role="status">This experimental feature works on Linux kernels > 5.4 </aside>
-
-`io_uring` uses a ring buffer data structure to queue and manage I/O operations asynchronously, minimizing the need for context switches and reducing overhead. It supports features like submission and completion queues, event-driven I/O, and batch processing, allowing for efficient handling of I/O events and reducing the CPU overhead associated with traditional I/O.
-
-#### Enable async storage interface from the storage configuration file:
-
-```python
-storage:
-	# enable the async scorer which uses io_uring
-	async_scorer: true
-```
-You can return to the mmap based backend by either deleting the `async_scorer` entry or setting the value to `false`.
-
-This operation generates a lot of disk IO, so it is a prime candidate for possible improvements.
-Please keep in mind that this feature is experimental and that the interface may change in further versions.
 
 ### Grouping API lookup
 
@@ -175,7 +175,7 @@ We are excited to announce a more user-friendly way to organize and work with yo
 
 Try it out now! If you have Docker running, you can [quickstart Qdrant](https://qdrant.tech/documentation/quick-start/) and access the Dashboard locally from [http://localhost:6333/dashboard](http://localhost:6333/dashboard). You should see this simple access point to Qdrant:
 
-![Optional vectors](/articles_data/qdrant-1.3.x/web-ui.png)
+![Qdrant Web UI](/articles_data/qdrant-1.3.x/web-ui.png)
 
 ### Temporary directory for Snapshots
 
@@ -194,7 +194,7 @@ Internally, we improved the way grouping API requests are handled. Specifically,
 
 ### Faster read access with mmap
 
-If you used mmap, you most likely found that segments were always created with cold caches. The first request to the database needed to request the disk, which made startup slower despite plenty of RAM being available. We have implemeneted a way to ask the kernel to "heat up" the disk cache and make initialization much master.
+If you used mmap, you most likely found that segments were always created with cold caches. The first request to the database needed to request the disk, which made startup slower despite plenty of RAM being available. We have implemeneted a way to ask the kernel to "heat up" the disk cache and make initialization much faster.
 
 The function is expected to be used on startup and after segment optimization and reloading of newly indexed segment. So far this is only implemented for "immutable" memmaps.
 
