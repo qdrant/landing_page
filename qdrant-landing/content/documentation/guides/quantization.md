@@ -265,7 +265,7 @@ client.search(
 )
 ```
 
-`oversampling` - Allows you to retrieve more points using quantized vectors and then re-score them using original ones. Default factor is 1.0. For example, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be pre-selected using quantized index, and then top-100 will be returned after re-scoring. 
+`oversampling` - The default factor is 1.0. For example, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be pre-selected using quantized index, and then top-100 will be returned after re-scoring. 
 
 ## Quantization tips
 

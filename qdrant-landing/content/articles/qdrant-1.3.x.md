@@ -37,7 +37,7 @@ Your feedback is valuable to us, and are always tying to include some of your fe
 
 We are introducing [oversampling](/documentation/guides/quantization/#oversampling) as a new way to help you improve the accuracy and performance of similarity search algorithms. With this method, you are able to significantly compress high-dimensional vectors in memory and then compensate the accuracy loss by re-scoring additional points with the original vectors. 
 
-You will experience much faster performance due to parallel disk access to read those vectors. Much better IO means that you can keep quantized vectors in RAM, so the pre-selection will be even faster. Finally, once pre-selection is done, you can use parallel IO to retrieve original vectors, which is significantly faster than traversing HNSW on slow disks.
+You will experience much faster performance with quantization due to parallel disk access used to read those vectors. Much better IO means that you can keep quantized vectors in RAM, so the pre-selection will be even faster. Finally, once pre-selection is done, you can use parallel IO to retrieve original vectors, which is significantly faster than traversing HNSW on slow disks.
 
 #### Set the oversampling factor via query:
 
@@ -114,7 +114,7 @@ For example, if you have a collection of documents, you may want to chunk them a
 
 #### Adding the parameter to grouping API request:
 
-When using the [**grouping** API](#grouping-api), add the `with_lookup` parameter to bring the information from those points into each group:
+When using the [grouping API](#grouping-api), add the `with_lookup` parameter to bring the information from those points into each group:
 
 ```http
 POST /collections/chunks/points/search/groups
