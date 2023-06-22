@@ -13,22 +13,21 @@ Snapshots are performed on a per collection basis and consist in a `tar` archive
 
 This feature can be used to archive data or easily replicate an existing deployment.
 
+## Store snapshots
+
 The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOT_PATH=./snapshots`.
 
+You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
 ```yaml
 storage:
-  # Where to store snapshots
+  # Specify where you want to store snapshots.
   snapshots_path: ./snapshots
 ```
 
-It defaults to `./snapshots` if no value is provided.
-
 *Available as of v1.3.0*
 
-While a snapshot is being created, it creates some temporary files. These are
-placed in the configured storage directory by default. It may have a limited
-capacity or be a slow network attached disk. To change this temporary directory
-to something more suited on your system you could set the following:
+While a snapshot is being created, temporary files are by default placed in the configured storage directory. 
+This location may have limited capacity or be on a slow network-attached disk. You may specify a separate location for temporary files:
 
 ```yaml
 storage:
