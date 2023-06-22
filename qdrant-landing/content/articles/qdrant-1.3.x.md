@@ -98,7 +98,7 @@ client.search(
 )
 ```
 
-In this case, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be pre-selected using quantized index, and then the top 100 vectors will be returned after re-scoring.
+In this case, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be pre-selected using quantized index, and then the top 100 points will be returned after re-scoring with the unquantized vectors.
 
 As you can see from the example above, this parameter is set during the query. This is a flexible method that will let you tune query accuracy. While the index is not changed, you can decide how many points you want to retrieve using quantized vectors.
 
