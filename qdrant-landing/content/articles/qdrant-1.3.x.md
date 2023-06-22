@@ -37,11 +37,11 @@ Your feedback is valuable to us, and are always tying to include some of your fe
 
 We are introducing [oversampling](/documentation/guides/quantization/#oversampling) as a new way to help you improve the accuracy and performance of similarity search algorithms. With this method, you are able to significantly compress high-dimensional vectors in memory and then compensate the accuracy loss by re-scoring additional points with the original vectors. 
 
-You will experience much faster performance with quantization due to parallel disk access used to read those vectors. Much better IO means that you can keep quantized vectors in RAM, so the pre-selection will be even faster. Finally, once pre-selection is done, you can use parallel IO to retrieve original vectors, which is significantly faster than traversing HNSW on slow disks.
+You will experience much faster performance with quantization due to parallel disk usage when reading vectors. Much better IO means that you can keep quantized vectors in RAM, so the pre-selection will be even faster. Finally, once pre-selection is done, you can use parallel IO to retrieve original vectors, which is significantly faster than traversing HNSW on slow disks.
 
 #### Set the oversampling factor via query:
 
-Configure the oversampling factor to define how many extra vectors should be pre-selected using the quantized index, and then re-scored using original vectors.  
+Here is how you can configure the oversampling factor - define how many extra vectors should be pre-selected using the quantized index, and then re-scored using original vectors.  
 
 ```http
 POST /collections/{collection_name}/points/search
