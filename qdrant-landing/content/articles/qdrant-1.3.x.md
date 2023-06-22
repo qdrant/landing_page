@@ -35,11 +35,9 @@ Your feedback is valuable to us, and are always tying to include some of your fe
 
 ### Asychronous I/O interface
 
-Going forward, we will support the `io_uring` asychnronous interface for storage devices on Linux-based systems. Since its introduction, `io_uring` has been proven to speed up slow-disk deployments wherever the OS syscall overhead gets too high and the software becomes IO bound.
+Going forward, we will support the `io_uring` asychnronous interface for storage devices on Linux-based systems. Since its introduction, `io_uring` has been proven to speed up slow-disk deployments as it decouples kernel work from the IO process. It uses two ring buffers to queue and manage I/O operations asynchronously, avoiding costly context switches and reducing overhead. Unlike mmap, it frees the user threads to do computations instead of waiting for the kernel to complete.
 
 <aside role="status">This experimental feature works on Linux kernels > 5.4 </aside>
-
-`io_uring` uses two ring buffers to queue and manage I/O operations asynchronously, avoiding costly context switches and reducing overhead. Unlike mmap, it frees the user threads to do computations instead of waiting for the kernel to complete.
 
 #### Enable async storage interface from the storage configuration file:
 
