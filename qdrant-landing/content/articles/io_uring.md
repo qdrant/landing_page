@@ -41,6 +41,9 @@ metadata, which quickly filled up available memory). So the synchronous IO
 was replaced by asynchronous IO during the 2.5 kernel update, either via
 `select` or `epoll` (the latter being Linux-only, but a small bit more
 efficient, so most servers of the time used it).
+was replaced by asynchronous IO during the 2.5 kernel update, either via
+`select` or `epoll` (the latter being Linux-only, but a small bit more
+efficient, so most servers of the time used it).
 
 But even this crude form of asynchronous IO carries the overhead of at least
 one system call per operation, which incurs a context switch - an operation
