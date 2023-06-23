@@ -683,7 +683,7 @@ client.search_groups(
     collection_name="{collection_name}",
 
     # Same as in the regular search() API
-    vector=[1.1],
+    query_vector=[1.1],
     ...,
     
     # Grouping parameters
@@ -817,7 +817,7 @@ POST /collections/chunks/points/search/groups
 
         // Options for specifying what to bring from the vector(s) 
         // of the looked up point, true by default
-        "with_vector: false,
+        "with_vectors: false,
     }
 }
 ```
@@ -827,7 +827,7 @@ client.search_groups(
     collection_name="chunks",
 
     # Same as in the regular search() API
-    vector=[1.1],
+    query_vector=[1.1],
     ...,
     
     # Grouping parameters
@@ -846,7 +846,7 @@ client.search_groups(
         
         # Options for specifying what to bring from the vector(s) 
         # of the looked up point, True by default
-        with_vector=False, 
+        with_vectors=False, 
     )
 )
 ```
