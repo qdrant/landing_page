@@ -115,7 +115,11 @@ storage:
   # Where to store snapshots
   snapshots_path: ./snapshots
 
-  # If true - point's payload will not be stored in memory.
+  # Optional setting. Specify where else to store temp files as default is ./storage.
+  # Route to another location on your system to reduce network disk use. 
+  temp_path: /tmp
+
+  # If true - a point's payload will not be stored in memory.
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
   # Note: those payload values that are involved in filtering and are indexed - remain in RAM.
