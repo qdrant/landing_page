@@ -99,7 +99,8 @@ switching overhead plus the wait time until the disk IO is finished. All in all,
 this works reasonably well with the asynchronous nature of Qdrant's core.
 
 One of the great optimization tricks Qdrant pulls is quantization (either
-scalar or [product](https://qdrant.tech/articles/product-quantization/)-based).
+[scalar](https://qdrant.tech/articles/scalar-quantization/) or 
+[product](https://qdrant.tech/articles/product-quantization/)-based).
 However, to apply this optimization generates a lot of disk IO (unless the
 collection resides fully in memory, of course), so it is a prime candidate for
 possible improvements.
@@ -121,43 +122,21 @@ entry or setting the value to `false`.
 
 To run the benchmark, use a test instance of Qdrant; if necessary spin up a
 docker container and load a snapshot of the collection you want to benchmark
-with. You can copy and edit the following bash script to run the benchmark.
-
-```bash
-export QDRANT_URL="<qdrant url>"
-export COLLECTION="<collection name>"
-export CONCURRENCY=4 # or 8
-export OVERSAMPLING=1 # or 4
-
-time seq 1000 | xargs -P ${CONCURRENCY} -I {} curl -L -X POST \
-	"http://${QDRANT_URL}/collections/${COLLECTION}/points/recommend" \
-	-H 'Content-Type: application/json' --data-raw \
-	"{ \"limit\": 10, \"positive\": [{}], \"params\": { \"quantization\": \
-	{ \"rescore\": true, \"oversampling\": ${OVERSAMPLING} } } }" \
-	-s | jq .status | wc -l
-
-time seq 1000 2000 | xargs -P ${CONCURRENCY} -I {} curl -L -X POST \
-	"${QDRANT_URL}/collections/${COLLECTION}/points/recommend" \
-	-H 'Content-Type: application/json' --data-raw \
-	"{ \"limit\": 10, \"positive\": [{}], \"params\": { \"quantization\": \
-	{ \"rescore\": true, \"oversampling\": ${OVERSAMPLING} } } }" \
-	-s | jq .status | wc -l
-
-time seq 2000 3000 | xargs -P ${CONCURRENCY} -I {} curl -L -X POST \
-	"${QDRANT_URL}/collections/${COLLECTION}/points/recommend" \
-	-H 'Content-Type: application/json' --data-raw \
-	"{ \"limit\": 10, \"positive\": [{}], \"params\": { \"quantization\": \
-	{ \"rescore\": true, \"oversampling\": ${OVERSAMPLING} } } }" \
-	-s | jq .status | wc -l
-```
-
-Run this script with and without enabling `storage.async_scorer` and once. You
-can measure IO usage with `iostat` from another console.
+with. You can copy and edit our [benchmark script](/articles_data/io_uring/rescore-benchmark.sh)
+to run the benchmark. Run the script with and without enabling
+`storage.async_scorer` and once. You can measure IO usage with `iostat` from
+another console.
 
 For our benchmark, we chose the laion dataset picking 5 million 768d entries.
 We enabled scalar quantization + HNSW with m=16 and ef_construct=512.
 We do the quantization in RAM, HNSW in RAM but keep the original vectors on
 disk (which was a network drive rented from Hetzner for the benchmark).
+
+If you want to reproduce the benchmarks, you can get snapshots containing the
+datasets:
+
+* [mmap only](https://storage.googleapis.com/common-datasets-snapshots/laion-768-6m-mmap.snapshot)
+* [with scalar quantization](https://storage.googleapis.com/common-datasets-snapshots/laion-768-6m-sq-m16-mmap.shapshot)
 
 Running the benchmark, we get the following IOPS, CPU loads and wall clock times:
 
@@ -212,6 +191,6 @@ Therefore before you roll out io\_uring, perform the above or a similar
 benchmark with both mmap and io\_uring and measure both wall time and IOps).
 Benchmarks are always highly use-case dependent, so your mileage may vary.
 Still, doing that benchmark once is a small price for the possible performance
-wins. Also please 
-[tell us](https://discord.com/channels/907569970500743200/907569971079569410) 
+wins. Also please
+[tell us](https://discord.com/channels/907569970500743200/907569971079569410)
 about your benchmark results!
