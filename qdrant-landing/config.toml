@@ -53,7 +53,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 
   githubDocPrefix = "https://github.com/qdrant/landing_page/tree/master/qdrant-landing/content/"
 
-  docVersion = "v1.2.x"
+  docVersion = "v1.3.x"
   cloudDocVersion = "v0.1.x"
 
   googleTagManager = "GTM-KRLCXD5"
