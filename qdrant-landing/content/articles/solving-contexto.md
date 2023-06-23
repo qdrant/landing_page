@@ -69,6 +69,17 @@ The solution should not only account for the most similar word we found so far, 
 
 It's clear that the game is using some kind of Word2Vec model to sort words by their similarity to the secret word.
 
+<details>
+<summary>Spoiler</summary>
+
+
+Contexto.me uses GloVe model: [link](https://nlp.stanford.edu/projects/glove/)
+
+</details>
+
+<br/>
+
+
 Word2vec is a method for representing words in a way that captures their meanings and relationships to other words.
 It uses machine learning algorithms to learn the representation of words in a way that captures the meanings of words based on the context in which they appear.
 This means that words with similar meanings will have similar representations, and words that often appear together will also have similar representations.
@@ -83,7 +94,7 @@ But for our purposes word2vec will work just fine.
 
 So, here's the naive approach you've probably already thought of:
 
-We can start with a random word and look into the list of similar words using some Word2Vec model.
+We can start with a random word and look into the list of similar words using some Word2Vec model (not necessarily the same one used in the game).
 If we see a word closer to the secret word, we use it as a reference and repeat the process.
 
 Although this approach works if we are initially close enough to the secret word, it is generally quite slow and inefficient.
@@ -132,6 +143,18 @@ We even made a simple script you that you can run yourself, check it out on [Git
 
 The script uses [Gensim](https://radimrehurek.com/gensim/) and `word2vec-google-news-300` embeddings.
 On average, it takes 20-30 guesses to solve the game.
+If we would use the same model as in the game, it converges much faster, but in real life such information is rarely available, so we decided to test with a more realistic scenario.
+
+
+<details>
+<summary>There is an animation how script selects real words</summary>
+
+
+{{< figure src=/articles_data/solving-contexto/sonving.webp caption="Solving Contexto.me with our script">}}
+
+</details>
+
+<br/>
 
 ## Why it might be useful in real life
 
