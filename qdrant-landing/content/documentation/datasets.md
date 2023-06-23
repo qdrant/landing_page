@@ -44,6 +44,23 @@ payload with the title used to create it, along with the DOI (Digital Object Ide
 |-------------------------------------------------------------|----------------|-----------|--------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 7.1 GB | [DOWNLOAD LINK](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot) |
 
+The embeddings generated with InstructorXL model have been generated using the following
+instruction:
+
+```
+Represent the Research Paper title for retrieval; Input:
+```
+
+The following code snippet shows how to generate embeddings using the InstructorXL model:
+
+```python
+from InstructorEmbedding import INSTRUCTOR
+
+model = INSTRUCTOR('hkunlp/instructor-xl')
+sentence = "3D ActionSLAM: wearable person tracking in multi-floor environments"
+instruction = "Represent the Research Paper title for retrieval; Input:"
+embeddings = model.encode([[instruction, sentence]])
+```
 
 ## Journal Article Abstracts
 
