@@ -212,6 +212,6 @@ Therefore before you roll out io\_uring, perform the above or a similar
 benchmark with both mmap and io\_uring and measure both wall time and IOps).
 Benchmarks are always highly use-case dependent, so your mileage may vary.
 Still, doing that benchmark once is a small price for the possible performance
-wins. Also please
-[tell us](https://discord.com/channels/907569970500743200/907569971079569410)
+wins. Also please 
+[tell us](https://discord.com/channels/907569970500743200/907569971079569410) 
 about your benchmark results!
