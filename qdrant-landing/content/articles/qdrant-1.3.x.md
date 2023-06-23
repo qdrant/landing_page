@@ -22,12 +22,12 @@ keywords:
 
 A brand-new [Qdrant 1.3.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.3.0) comes packed with a plethora of new features, performance improvements and bux fixes:
 
-1. [Asynchronous I/O interface:](#asychronous-io-interface) Reduce overhead by managing I/O operations asynchronously, and by minimizing the need for context switches.
-2. [Oversampling for Quantization:](#oversampling-for-quantization) Improve the accuracy and performance of your queries while using Scalar or Product Quantization.
-3. [Grouping API lookup:](#grouping-api-lookup) Storage optimization method that lets you look for points in another collection using group ids.
-4. [Qdrant Web UI:](#qdrant-web-user-interface) A convenient dashboard to help you manage data stored in Qdrant.
-5. [Temp directory for Snapshots:](#temporary-directory-for-snapshots) Set a separate storage directory for temporary snapshots on a faster disk.
-6. [Other important changes](#important-changes)
+1. Asynchronous I/O interface: Reduce overhead by managing I/O operations asynchronously, and by minimizing the need for context switches.
+2. Oversampling for Quantization: Improve the accuracy and performance of your queries while using Scalar or Product Quantization.
+3. Grouping API lookup: Storage optimization method that lets you look for points in another collection using group ids.
+4. Qdrant Web UI: A convenient dashboard to help you manage data stored in Qdrant.
+5. Temp directory for Snapshots: Set a separate storage directory for temporary snapshots on a faster disk.
+6. Other important changes
 
 Your feedback is valuable to us, and are always tying to include some of your feature requests into our roadmap. Join [our Discord community](https://qdrant.to/discord) and help us build Qdrant!.
 
@@ -35,11 +35,17 @@ Your feedback is valuable to us, and are always tying to include some of your fe
 
 ### Asychronous I/O interface
 
-Going forward, we will support the `io_uring` asychnronous interface for storage devices on Linux-based systems. Since its introduction, `io_uring` has been proven to speed up slow-disk deployments as it decouples kernel work from the IO process. It uses two ring buffers to queue and manage I/O operations asynchronously, avoiding costly context switches and reducing overhead. Unlike mmap, it frees the user threads to do computations instead of waiting for the kernel to complete.
+Going forward, we will support the `io_uring` asychnronous interface for storage devices on Linux-based systems. Since its introduction, `io_uring` has been proven to speed up slow-disk deployments as it decouples kernel work from the IO process. 
 
 <aside role="status">This experimental feature works on Linux kernels > 5.4 </aside>
 
-#### Enable async storage interface from the storage configuration file:
+This interface uses two ring buffers to queue and manage I/O operations asynchronously, avoiding costly context switches and reducing overhead. Unlike mmap, it frees the user threads to do computations instead of waiting for the kernel to complete.
+
+![io_uring](/articles_data/qdrant-1.3.x/io-uring.png)
+
+
+
+#### Enable the interface from your config file:
 
 ```python
 storage:
