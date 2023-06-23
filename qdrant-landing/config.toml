@@ -185,7 +185,6 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     [menu.main.params]
         external = true
 
-
 [[menu.main]]
   identifier = "community"
   name = "Community"
