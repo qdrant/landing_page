@@ -194,7 +194,7 @@ Qdrant even more reliable.
 
 ### Optimizing group requests
 
-Internally, we improved the way grouping API requests are handled. Specifically, `is_empty` was not using the index when it was called, so it had to deserialize the whole payload to see if the key had values or not. Our new update makes sure to check the index first, before confirming with the payload if it is actually `empty`/`null`, so these changes improve performance only when the negated condition is true (e.g. it improves when the field is not empty).
+Internally, `is_empty` was not using the index when it was called, so it had to deserialize the whole payload to see if the key had values or not. Our new update makes sure to check the index first, before confirming with the payload if it is actually `empty`/`null`, so these changes improve performance only when the negated condition is true (e.g. it improves when the field is not empty). Going forward, this will improve the way grouping API requests are handled. 
 
 ### Faster read access with mmap
 
