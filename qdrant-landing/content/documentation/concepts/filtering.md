@@ -677,10 +677,10 @@ client.scroll(
     collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must=[
-            models.NestedContainer(
-                nested=models.NestedCondition(
+            models.NestedCondition(
+                nested=models.Nested(
                     key="diet",
-                    filter=(
+                    filter=models.Filter(
                         must=[
                             models.FieldCondition(
                                 key="food",
@@ -746,10 +746,10 @@ client.scroll(
     collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must=[
-            models.NestedContainer(
-                nested=models.NestedCondition(
+            models.NestedCondition(
+                nested=models.Nested(
                     key="diet",
-                    filter=(
+                    filter=models.Filter(
                         must=[
                             models.FieldCondition(
                                 key="food",
