@@ -7,21 +7,33 @@ aliases:
 
 # Snapshots
 
-*Available since v0.8.4*
+*Available as of v0.8.4*
 
-Snapshots are performed on a per collection basis and consist in a `tar` archive file containing the necessary data to restore the collection at the time of the snapshot.
+Snapshots are performed on a per-collection basis and consist in a `tar` archive file containing the necessary data to restore the collection at the time of the snapshot.
 
 This feature can be used to archive data or easily replicate an existing deployment.
 
+## Store snapshots
+
 The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOT_PATH=./snapshots`.
 
+You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
 ```yaml
 storage:
-  # Where to store snapshots
+  # Specify where you want to store snapshots.
   snapshots_path: ./snapshots
 ```
 
-It defaults to `./snapshots` if no value is provided.
+*Available as of v1.3.0*
+
+While a snapshot is being created, temporary files are by default placed in the configured storage directory. 
+This location may have limited capacity or be on a slow network-attached disk. You may specify a separate location for temporary files:
+
+```yaml
+storage:
+  # Where to store temporary files
+  temp_path: /tmp
+```
 
 ## Create snapshot
 
@@ -94,7 +106,9 @@ Only available through the REST API for the time being.
 
 There is a difference in recovering snapshots in single-deployment node and distributed deployment mode.
 
-### Recover in single deployment mode
+### Recover during start-up
+
+<aside role="status">This method cannot be used in a cluster deployment.</aside>
 
 Single deployment is simpler, you can recover any collection on the start-up and it will be immediately available in the service.
 Restoring snapshots is done through the Qdrant CLI at startup time.
@@ -111,15 +125,17 @@ The target collection **must** be absent otherwise the program will exit with an
 
 If you wish instead to overwrite an existing collection, use the `--force_snapshot` flag with caution.
 
-### Recover in cluster deployment
+### Recover via API
 
 *Available as of v0.11.3*
+
+<aside role="status">You can use this method for both single-node and cluster setups.</aside>
 
 Recovering in cluster mode is more sophisticated, as Qdrant should maintain consistency across peers even during the recovery process.
 As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
 Recovering non-existing collections with snapshots won't make this collection known to the consensus.
 
-To recover snapshot in this case one can use snapshot recovery API:
+To recover snapshot via API one can use snapshot recovery endpoint:
 
 ```http
 PUT /collections/<collection_name>/snapshots/recover
@@ -137,7 +153,7 @@ client = QdrantClient("qdrant-node-2", port=6333)
 client.recover_snapshot("collection_name", "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot")
 ```
 
-The recovery snapshot can also be uploaded as a file to the cluster:
+The recovery snapshot can also be uploaded as a file to the Qdrant server:
 ```bash
 curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload' \
     -H 'Content-Type:multipart/form-data' \

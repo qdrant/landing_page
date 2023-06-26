@@ -191,7 +191,8 @@ POST /collections/{collection_name}/points/search
     "params": {
         "quantization": {
             "ignore": false,
-            "rescore": true
+            "rescore": true,
+            "oversampling": 2.0
         }
     },
     "vector": [0.2, 0.1, 0.9, 0.7],
@@ -212,6 +213,7 @@ client.search(
         quantization=models.QuantizationSearchParams(
             ignore=False,
             rescore=True,
+            oversampling=2.0,
         )
     )
 )
@@ -224,48 +226,11 @@ This can improve the search quality, but may slightly decrease the search speed,
 It is recommended to disable rescore only if the original vectors are stored on a slow storage (e.g. HDD or network storage).
 By default, rescore is enabled.
 
-### Oversampling
+**Available as of v1.3.0**
 
-*Available as of v1.3.0*
-
-Oversampling is another way to tune your query accuracy. Keeping your index the same, you can decide how many points to retrieve using the quantized vectors. This method allows for fast pre-selection and allows for parallel I/O, thus speeding up the retrieval od vectors.
-
-```http
-POST /collections/{collection_name}/points/search
-
-{
-    "params": {
-        "quantization": {
-            "ignore": false,
-            "rescore": true,
-            "oversampling": 2.4
-        }
-    },
-    "vector": [0.2, 0.1, 0.9, 0.7],
-    "limit": 100
-}
-```
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
-
-client = QdrantClient("localhost", port=6333)
-
-client.search(
-    collection_name="{collection_name}",
-    query_vector=[0.2, 0.1, 0.9, 0.7],
-    search_params=models.SearchParams(
-        quantization=models.QuantizationSearchParams(
-            ignore=False,
-            rescore=True,
-            oversampling=2.4
-        )
-    )
-)
-```
-
-`oversampling` - The default factor is 1.0. For example, if `oversampling` is 2.4 and `limit` is 100, then 240 vectors will be pre-selected using quantized index, and then top-100 will be returned after re-scoring. 
+`oversampling` - Defines how many extra vectors should be pre-selected using quantized index, and then re-scored using original vectors.
+For example, if oversampling is 2.4 and limit is 100, then 240 vectors will be pre-selected using quantized index, and then top-100 will be returned after re-scoring.
+Oversampling is useful if you want to tune the tradeoff between search speed and search quality in the query time.
 
 ## Quantization tips
 
