@@ -22,7 +22,7 @@ keywords:
 
 A brand-new [Qdrant 1.3.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.3.0) comes packed with a plethora of new features, performance improvements and bux fixes:
 
-1. Asynchronous I/O interface: Reduce overhead by managing I/O operations asynchronously, and by minimizing the need for context switches.
+1. Asynchronous I/O interface: Reduce overhead by managing I/O operations asynchronously, thus minimizing context switches.
 2. Oversampling for Quantization: Improve the accuracy and performance of your queries while using Scalar or Product Quantization.
 3. Grouping API lookup: Storage optimization method that lets you look for points in another collection using group ids.
 4. Qdrant Web UI: A convenient dashboard to help you manage data stored in Qdrant.
