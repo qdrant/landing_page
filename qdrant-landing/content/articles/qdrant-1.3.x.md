@@ -47,7 +47,7 @@ This interface uses two ring buffers to queue and manage I/O operations asynchro
 
 #### Enable the interface from your config file:
 
-```python
+```yaml
 storage:
 	# enable the async scorer which uses io_uring
 	async_scorer: true
