@@ -16,7 +16,7 @@ keywords:
 
 # Semantic Search with Mighty and Qdrant
 
-Much like Qdrant, the [Mighty](https://max.io/) inference server is written in Rust and promises to offer low latency and high scalability. This brief demo combines Mighty, Qdrant and AWS Lambda into a simple semantic search service that is efficient, affordable and easy to setup. 
+Much like Qdrant, the [Mighty](https://max.io/) inference server is written in Rust and promises to offer low latency and high scalability. This brief demo combines Mighty and Qdrant into a simple semantic search service that is efficient, affordable and easy to setup. We will use [Rust](https://rust-lang.org) and our [qdrant\_client crate](https://docs.rs/qdrant_client) for this integration.
 
 ## Initial setup
 
@@ -24,17 +24,16 @@ For Mighty, start up a [docker container](https://hub.docker.com/layers/maxdotio
 
 ```
 {
-      "name": "sentence-transformers/all-MiniLM-L6-v2",
-      "architectures": [
-        "BertModel"
-      ],
-      "model_type": "bert",
-      "max_position_embeddings": 512,
-      "labels": null,
-      "named_entities": null,
-      "image_size": null,
-      "source": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
-    }
+  "name": "sentence-transformers/all-MiniLM-L6-v2",
+  "architectures": [
+    "BertModel"
+  ],
+  "model_type": "bert",
+  "max_position_embeddings": 512,
+  "labels": null,
+  "named_entities": null,
+  "image_size": null,
+  "source": "https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2"
 }
 ```
 
@@ -67,13 +66,20 @@ For Qdrant, follow our [cloud documentation](../../cloud/cloud-quick-start/) to 
 
 ## Implement model API
 
-Mighty offers a variety of model APIs which will download and cache the model on first use. Here we'll use the `sentence-transformer` API. Basically the
-Rust code to make the call is:
+For mighty, you will need a way to emit HTTP(S) requests. This version uses the [reqwest](https://docs.rs/reqwest) crate, so add the following to your `Cargo.toml`'s dependencies section:
+
+```toml
+[dependencies]
+reqwest =  { version = "0.11.18", default-features = false, features = ["json", "rustls-tls"] }
+```
+
+Mighty offers a variety of model APIs which will download and cache the model on first use. For semantic search, use the `sentence-transformer` API (as in the above `curl` command). The Rust code to make the call is:
 
 ```rust
 use anyhow::anyhow;
 use reqwest::Client;
 use serde::Deserialize;
+use serde_json::Value as JsonValue;
 
 #[derive(Deserialize)]
 struct EmbeddingsResponse {
@@ -94,10 +100,14 @@ pub async fn get_mighty_embedding(
         ));
     }
 
-    let embeddings: Result<EmbeddingsResponse, _> = response.json().await?;
-    Ok(embeddings[0]) // ignore multiple embeddings at the moment
+    let embeddings: EmbeddingsResponse = response.json().await?;
+    // ignore multiple embeddings at the moment
+    embeddings.get(0).ok_or_else(|| anyhow!("mighty returned empty embedding"))
 }
 ```
+
+Note that mighty can return multiple embeddings (if the input is too long to fit the model, it is automatically split).
+
 ## Create embeddings and run a query
 
 Use this code to create embeddings both for insertion and search. On the Qdrant side, take the embedding and run a query:
@@ -105,188 +115,25 @@ Use this code to create embeddings both for insertion and search. On the Qdrant 
 ```rust
 use anyhow::anyhow;
 use qdrant_client::prelude::*;
-use qdrant_client::qdrant::value::Kind;
-use serde::{Deserialize, Serialize};
-use serde_json::Value;
 
-pub const SEARCH_LIMIT: usize = 5;
-pub const TEXT_LIMIT: usize = 80;
-const COLLECTION_NAME: &str = "site-mighty";
-
-#[derive(Deserialize, Serialize, Debug)]
-pub struct SearchResponseHit {
-    pub payload: HashMap<String, Value>,
-    pub score: Option<f32>,
-    pub highlight: String,
-}
+pub const SEARCH_LIMIT: u64 = 5;
+const COLLECTION_NAME: &str = "mighty";
 
 pub async fn qdrant_search_embeddings(
     qdrant_client: &QdrantClient,
     vector: Vec<f32>,
-    section: Option<&str>,
-    tags: &[&str],
-) -> anyhow::Result<Vec<SearchResponseHit>> {
-    let search_request = SearchPoints {
-        collection_name: COLLECTION_NAME.to_string(),
-        vector,
-        filter: Some(get_qdrant_filters(section, tags)),
-        limit: SEARCH_LIMIT as u64,
-        with_payload: Some(true.into()),
-        ..Default::default()
-    };
-
-    let res = qdrant_client
-        .search_points(&search_request)
-        .await
-        .map_err(|err| anyhow!("Failed to search Qdrant: {}", err))?;
-
-    let hits = res
-        .result
-        .into_iter()
-        .map(|point| {
-            let highlight = match point.payload.get("text") {
-                None => "".to_string(),
-                Some(val) => match &val.kind {
-                    Some(Kind::StringValue(s)) => s.to_string(),
-                    _ => "".to_string(),
-                },
-            };
-
-            SearchResponseHit {
-                payload: point
-                    .payload
-                    .into_iter()
-                    .map(|(key, val)| (key, qdrant_value_to_json(val)))
-                    .collect(),
-                score: Some(point.score),
-                highlight: highlight_with_bold(
-                    text,
-                    &limit_text(highlight, TEXT_LIMIT)
-                ),
-            }
+) -> anyhow::Result<Vec<ScoredPoint>> {
+    qdrant_client
+        .search_points(&SearchPoints {
+            collection_name: COLLECTION_NAME.to_string(),
+            vector,
+            limit: SEARCH_LIMIT,
+            with_payload: Some(true.into()),
+            ..Default::default()
         })
-        .collect();
-
-    Ok(hits)
+        .await
+        .map_err(|err| anyhow!("Failed to search Qdrant: {}", err))
 }
 ```
 
-**Note:** instead of that `match`ing on `highlight`, you can write:
-```rust
-let highlight = point.get("text").as_string().unwrap_or_default();
-```
-and as our `Value` now displays as compact JSON, avoid `serde_json::Value`
-completely. 
-Should you still need a `serde_json::Value`, you can use `into()`.
-
-## Combine with Lambda
-
-Now you can combine these together into a Lambda service. Run both
-functions in sequence:
-
-```rust
-async fn function_handler(
-    event: Request,
-    client: &Client,
-    qdrant_client: &QdrantClient,
-) -> Result<Response<Body>, Error> {
-    let query = match event.query_string_parameters().first("q") {
-        None => return Ok(error_response(400, "Missing query string parameter `q`")),
-        Some(q) => q.to_string(),
-    };
-    let params = event.query_string_parameters();
-    let section = params.first("section");
-
-    let prefix_search_future = query_qdrant_text(
-        qdrant_client,
-        &query,
-        section,
-        &["h1", "h2", "h3", "h4", "h5", "h6"],
-    );
-    let full_search_future = if query.chars().nth(3).is_some() {
-        qdrant_search_embeddings(
-            client,
-            qdrant_client,
-            &query,
-            section,
-            &[]
-        )
-    } else {
-        query_qdrant_text(
-            qdrant_client,
-            &query,
-            section,
-            &[]
-        )
-    };
-    let (prefix_results, full_results) = try_join!(
-        prefix_search_future,
-        full_search_future
-    );
-
-    let search_results: Vec<_> = prefix_results
-        .into_iter()
-        .chain(full_results)
-        .take(SEARCH_LIMIT)
-        .collect();
-
-    let response_body = serde_json::to_string(&search_results).unwrap();
-
-    Ok(Response::builder()
-        .status(200)
-        .header("content-type", "application/json")
-        .body(response_body.into())
-        .map_err(Box::new)?)
-}
-```
-
-## Build and deploy
-
-You can build the whole project with
-[`cargo-lambda`](https://www.cargo-lambda.info/), as in:
-
-```sh
-cargo install cargo-lambda
-cargo lambda build --release --arm64 --output-format zip
-```
-
-Now you can either use the web interface to upload our function or call the AWS
-cli to do it:
-
-```sh
-# Deploy to AWS Lambda
-aws lambda create-function --function-name $LAMBDA_FUNCTION_NAME \
-  --handler bootstrap \
-  --architectures arm64 \
-  --zip-file fileb://./target/lambda/page-search/bootstrap.zip \
-  --runtime provided.al2 \
-  --region $LAMBDA_REGION \
-  --role $LAMBDA_ROLE \
-  --environment "Variables={QDRANT_URI=$QDRANT_URI,QDRANT_API_KEY=$QDRANT_API_KEY,MIGHTY_URI=$MIGHTY_URI}" \
-  --tracing-config Mode=Active
-
-# Grant public access to the function
-# https://docs.amazonaws.cn/en_us/lambda/latest/dg/urls-tutorial.html
-aws lambda add-permission \
-    --function-name $LAMBDA_FUNCTION_NAME \
-    --action lambda:InvokeFunctionUrl \
-    --principal "*" \
-    --function-url-auth-type "NONE" \
-    --region $LAMBDA_REGION \
-    --statement-id url
-
-# Assign URL to the function
-# https://docs.aws.amazon.com/de_de/cli/latest/reference/lambda/create-function-url-config.html
-aws lambda create-function-url-config \
-  --function-name $LAMBDA_FUNCTION_NAME \
-  --region $LAMBDA_REGION \
-  --cors "AllowOrigins=*,AllowMethods=*,AllowHeaders=*" \
-  --auth-type NONE
-```
-## Performance considerations
-
-After testing the service, the first request always has some 2+ seconds latency due to lambda
-startup. Subsequent requests run in a matter of 200-300ms, but may be reduced by 50-100ms.
-Considering the free tier of Lambda and our configuration, this arrangement can be improved. 
-If you find that your traffic is high enough, we can help you host Qdrant and combine with Mighty. 
-For inquiries [ask us on Discord](https://discord.com/channels/907569970500743200/1047555268499755152).
+You can convert the [`ScoredPoint`](https://docs.rs/qdrant-client/latest/qdrant_client/qdrant/struct.ScoredPoint.html)s to fit your desired output format.
