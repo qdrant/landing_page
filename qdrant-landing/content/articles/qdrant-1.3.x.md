@@ -54,7 +54,7 @@ storage:
 ```
 You can return to the mmap based backend by either deleting the `async_scorer` entry or setting the value to `false`.
 
-This operation generates a lot of disk IO, so it is a prime candidate for possible improvements.
+This optimization will mainly benefit workloads with lots of disk IO (e.g. querying on-disk collections with rescoring).
 Please keep in mind that this feature is experimental and that the interface may change in further versions.
 
 ### Oversampling for quantization
