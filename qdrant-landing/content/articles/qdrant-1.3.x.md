@@ -122,24 +122,29 @@ When using the grouping API, add the `with_lookup` parameter to bring the inform
 
 ```http
 POST /collections/chunks/points/search/groups
+
 {
     // Same as in the regular search API
     "vector": [1.1],
     ...,
+
     // Grouping parameters
     "group_by": "document_id",  
     "limit": 2,                 
     "group_size": 2,            
+
     // Lookup parameters
     "with_lookup": {
         // Name of the collection to look up points in
         "collection_name": "documents",
+
         // Options for specifying what to bring from the payload 
         // of the looked up point, true by default
         "with_payload": ["title", "text"],
+
         // Options for specifying what to bring from the vector(s) 
-        // of the looked up point, false by default
-        "with_vector: false,
+        // of the looked up point, true by default
+        "with_vectors: false,
     }
 }
 ```
@@ -149,9 +154,9 @@ client.search_groups(
     collection_name="chunks",
 
     # Same as in the regular search() API
-    vector=[1.1],
+    query_vector=[1.1],
     ...,
-
+    
     # Grouping parameters
     group_by="document_id", # Path of the field to group by
     limit=2,                # Max amount of groups
@@ -165,10 +170,10 @@ client.search_groups(
         # Options for specifying what to bring from the payload 
         # of the looked up point, True by default
         with_payload=["title", "text"]
-
+        
         # Options for specifying what to bring from the vector(s) 
-        # of the looked up point, False by default
-        with_vector=False, 
+        # of the looked up point, True by default
+        with_vectors=False, 
     )
 )
 ```
