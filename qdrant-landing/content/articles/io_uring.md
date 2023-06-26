@@ -99,7 +99,8 @@ switching overhead plus the wait time until the disk IO is finished. All in all,
 this works reasonably well with the asynchronous nature of Qdrant's core.
 
 One of the great optimization tricks Qdrant pulls is quantization (either
-scalar or [product](https://qdrant.tech/articles/product-quantization/)-based).
+[scalar](https://qdrant.tech/articles/scalar-quantization/) or 
+[product](https://qdrant.tech/articles/product-quantization/)-based).
 However, to apply this optimization generates a lot of disk IO (unless the
 collection resides fully in memory, of course), so it is a prime candidate for
 possible improvements.
@@ -130,6 +131,12 @@ For our benchmark, we chose the laion dataset picking 5 million 768d entries.
 We enabled scalar quantization + HNSW with m=16 and ef_construct=512.
 We do the quantization in RAM, HNSW in RAM but keep the original vectors on
 disk (which was a network drive rented from Hetzner for the benchmark).
+
+If you want to reproduce the benchmarks, you can get snapshots containing the
+datasets:
+
+* [mmap only](https://storage.googleapis.com/common-datasets-snapshots/laion-768-6m-mmap.snapshot)
+* [with scalar quantization](https://storage.googleapis.com/common-datasets-snapshots/laion-768-6m-sq-m16-mmap.shapshot)
 
 Running the benchmark, we get the following IOPS, CPU loads and wall clock times:
 
