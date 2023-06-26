@@ -1,14 +1,14 @@
 ---
 title: "Introducing Qdrant 1.3.0"
-short_description: "Check out what Qdrant 1.3 brings to vector search"
-description: "Check out what Qdrant 1.3 brings to vector search"
+short_description: "New version is out! Our latest release brings about some exciting performance improvements and much-needed fixes."
+description: "New version is out! Our latest release brings about some exciting performance improvements and much-needed fixes."
 social_preview_image: /articles_data/qdrant-1.3.x/social_preview.png
 small_preview_image: /articles_data/qdrant-1.3.x/icon.svg
 preview_dir: /articles_data/qdrant-1.3.x/preview
 weight: 1
 author: David Sertic
 author_link: 
-date: 
+date: 2023-06-26T00:00:00Z
 draft: false
 keywords:
   - vector search
@@ -16,8 +16,8 @@ keywords:
   - oversampling
   - grouping lookup
   - io_uring
-  - appendable mmap
-  - group requests
+  - oversampling
+  - group lookup
 ---
 
 A brand-new [Qdrant 1.3.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.3.0) comes packed with a plethora of new features, performance improvements and bux fixes:
@@ -118,7 +118,7 @@ For example, if you have a collection of documents, you may want to chunk them a
 
 #### Adding the parameter to grouping API request:
 
-When using the [grouping API](#grouping-api), add the `with_lookup` parameter to bring the information from those points into each group:
+When using the grouping API, add the `with_lookup` parameter to bring the information from those points into each group:
 
 ```http
 POST /collections/chunks/points/search/groups
