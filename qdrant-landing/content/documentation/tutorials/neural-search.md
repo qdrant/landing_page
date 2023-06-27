@@ -249,7 +249,7 @@ from qdrant_client.models import Filter
         "must": [{
             "key": "city", # Store city information in a field of the same name 
             "match": { # This condition checks if payload field has the requested value
-                "keyword": city_of_interest
+                "value": "city_of_interest"
             }
         }]
     })
