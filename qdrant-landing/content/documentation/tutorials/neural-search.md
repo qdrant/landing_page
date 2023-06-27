@@ -258,7 +258,7 @@ from qdrant_client.models import Filter
         collection_name=self.collection_name,
         query_vector=vector,
         query_filter=city_filter,
-        top=5
+        limit=5
     )
     ...
 
