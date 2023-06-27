@@ -689,7 +689,7 @@ client.scroll(
     ),
     limit=1,
     with_payload=True,
-    with_vector=False,
+    with_vectors=False,
 )
 ```
 
