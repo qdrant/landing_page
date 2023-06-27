@@ -77,7 +77,7 @@ for operations. User processes can setup a Submission Queue (SQ) and a
 Completion Queue (CQ), both of which are shared between the process and the
 kernel, so there's no copying overhead.
 
-![io_uring diagram](/articles_data/io_uring/io_uring_diagram.svg)
+![io_uring diagram](/articles_data/io_uring/io-uring.png)
 
 Apart from avoiding copying overhead, the queue-based architecture lends
 itself to multithreading as item insertion/extraction can be made lockless,
