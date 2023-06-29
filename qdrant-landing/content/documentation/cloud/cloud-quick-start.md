@@ -9,7 +9,7 @@ To use Qdrant Cloud, you will need to create at least one cluster. There are two
 1. Create a Free Tier cluster with 1 node and a default configuration (1GB RAM, 0.5 CPU and 20GB Disk).
 2. Configure a custom cluster with additional nodes and more resources. **You will have to provide billing information.**
 
-We recommend that you use the Free Tier cluster for testing purposes. The capacity should be enough to serve up to 1M vectors of 768dim. To calculate your needs, refer to [capacity planning](../cloud/capacity/). 
+We recommend that you use the Free Tier cluster for testing purposes. The capacity should be enough to serve up to 1M vectors of 768dim. To calculate your needs, refer to [capacity planning](../capacity/). 
 
 ## Create a Free Tier cluster
 
