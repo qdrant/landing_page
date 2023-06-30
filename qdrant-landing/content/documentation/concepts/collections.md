@@ -30,7 +30,6 @@ These settings can be changed at any time by a corresponding request.
 PUT /collections/{collection_name}
 
 {
-    "name": "example_collection",
     "vectors": {
       "size": 300,
       "distance": "Cosine"
@@ -85,7 +84,6 @@ Make sure the vectors have the same size and distance function when setting up t
 PUT /collections/{collection_name}
 
 {
-    "name": "example_collection",
     "vectors": {
       "size": 300,
       "distance": "Cosine"
