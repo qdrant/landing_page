@@ -9,6 +9,10 @@ aliases:
 
 There are various ways to secure your own Qdrant instance.
 
+By default no security measures are enabled for your own Qdrant instances and
+they are open to everyone. Read this page carefully on how to secure your
+instance for production use.
+
 ## Authentication
 
 *Available as of v1.2.0*
