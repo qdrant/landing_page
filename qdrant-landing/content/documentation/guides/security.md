@@ -60,6 +60,8 @@ qdrant_client = QdrantClient(
 )
 ```
 
+<aside role="alert">Internal communication channels are **never** protected by an API key. It (internal gRPC) uses port 6335 by default if running in distributed mode. You must make sure this port is not publicly reachable and can only be used for node communication or bad things will happen. In Qdrant Cloud and the Qdrant Helm chart access to this is disabled by default.</aside>
+
 ## TLS
 
 *Available as of v1.2.0*
