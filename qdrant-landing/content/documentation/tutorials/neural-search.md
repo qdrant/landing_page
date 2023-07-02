@@ -1,6 +1,6 @@
 ---
 title: Simple Neural Search
-weight: 14
+weight: 15
 ---
 
 # Create a Simple Neural Search Service

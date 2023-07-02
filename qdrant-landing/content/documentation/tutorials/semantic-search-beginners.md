@@ -1,6 +1,6 @@
 ---
 title: Semantic Search for Beginners
-weight: 1
+weight: 14
 ---
 
 # Semantic Search for Beginners
@@ -114,6 +114,15 @@ for hit in hits:
 	print(hit.payload, "score:", hit.score)
 ```
 
+**Response:**
+
+The search engine shows three of the most likely responses that have to do with the alien invasion. Each of the responses is assigned a score to show how close the response is to the original inquiry.
+
+```python
+{'name': 'The War of the Worlds', 'description': 'A Martian invasion of Earth throws humanity into chaos.', 'author': 'H.G. Wells', 'year': 1898} score: 0.570093257022374
+{'name': "The Hitchhiker's Guide to the Galaxy", 'description': 'A comedic science fiction series following the misadventures of an unwitting human and his alien friend.', 'author': 'Douglas Adams', 'year': 1979} score: 0.5040468703143637
+{'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
+```
 ### Narrow down the query
 
 How about the most recent book from the early 2000s?
@@ -136,4 +145,12 @@ hits = qdrant.search(
 )
 for hit in hits:
 	print(hit.payload, "score:", hit.score)
+```
+
+**Response:**
+
+The query has been narrowed down to one result from 2008. 
+
+```python
+{'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
 ```
