@@ -69,7 +69,7 @@ You need to tell Qdrant where to store embeddings. This is a basic demo, so your
 qdrant = QdrantClient(":memory:") 
 ```
 
-## 5. Create a collection
+## 4. Create a collection
 
 All data in Qdrant is organized by collections. In this case, you are storing books, so we are calling it `my_books`.
 
@@ -83,7 +83,7 @@ qdrant.recreate_collection(
 )
 ```
 
-### Upload data to collection
+## 5. Upload data to collection
 
 Tell the database to upload `documents` to the `my_books` collection. This will give each record an id and a payload. The payload is just the metadata from the dataset.
 
@@ -114,7 +114,7 @@ for hit in hits:
 	print(hit.payload, "score:", hit.score)
 ```
 
-### Query with additional filters
+### Narrow down the query
 
 How about the most recent book from the early 2000s?
 
