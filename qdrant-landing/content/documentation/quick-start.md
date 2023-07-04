@@ -7,6 +7,16 @@ aliases:
 
 # Quickstart
 
+**Recommended Workflow:** 
+
+First, test Qdrant locally using the [Qdrant Client](https://github.com/qdrant/qdrant-client) and with the help of our [Tutorials](tutorials/). Then, develop a sample app from our [Examples](examples/) list and try it using a [Qdrant Docker](guides/installation/) container. Finally, when you are ready for production, deploy to a Free Tier [Qdrant Cloud](cloud/) cluster.
+
+![Local mode workflow](https://raw.githubusercontent.com/qdrant/qdrant-client/master/docs/images/try-develop-deploy.png)
+
+## Local Mode
+
+Local mode is useful for development, prototyping and testing. You can run this Quickstart in Colab or Jupyter Notebook. 
+
 ## 1. Install Qdrant 
 
 ```python
@@ -82,37 +92,4 @@ search_result = client.search(
 ```
 
 ## Next Steps
-
-![Local mode workflow](https://raw.githubusercontent.com/qdrant/qdrant-client/master/docs/images/try-develop-deploy.png)
-
-The easiest way to use Qdrant is to run a pre-built image. To do this, make sure Docker is installed on your system.
-
-Download image from [DockerHub](https://hub.docker.com/r/qdrant/qdrant):
-
-```bash
-docker pull qdrant/qdrant
-```
-
-And run the service inside the docker:
-
-```bash
-docker run -p 6333:6333 \
-    -v $(pwd)/qdrant_storage:/qdrant/storage \
-    qdrant/qdrant
-```
-
-In this case Qdrant will use default configuration and store all data under `./qdrant_storage` directory.
-
-Now Qdrant should be accessible at [localhost:6333](http://localhost:6333)
-
-<aside role="status">Qdrant has no encryption or authentication by default and new instances are open to everyone. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
-
-Local mode is useful for development, prototyping and testing.
-
-* You can use it to run tests in your CI/CD pipeline.
-* Run it in Colab or Jupyter Notebook, no extra dependencies required. See a [Colab Example](https://colab.research.google.com/drive/1Bz8RSVHwnNDaNtDwotfPj0w7AYzsdXZ-?usp=sharing)
-* When you need to scale, simply switch to server mode.
-
-
-
 
