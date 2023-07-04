@@ -20,7 +20,7 @@ docker pull qdrant/qdrant
 And run the service inside the docker:
 
 ```bash
-docker run -p 6333:6333 \
+docker run -p 6333:6333 -p 6334:6334 \
     -v $(pwd)/qdrant_storage:/qdrant/storage \
     qdrant/qdrant
 ```
