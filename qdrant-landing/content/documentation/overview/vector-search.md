@@ -1,13 +1,15 @@
 ---
 title: Vector Search Basics
-weight: 10
+weight: 1
 ---
 
-# Vector Search for Beginners
+# Vector Search Basics
 
-If you’re tech-oriented in any way - down to just being occasionally curious - then you should have heard about vector search. If you haven’t or still feel a bit lost, here is an introduction that will make it all clear.
+If you are still trying to figure out how vector search words, please read ahead. This document describes how vector search is used, covers Qdrant's place in the larger ecosystem, and outlines how you can use Qdrant to augment your existing projects.
 
-## A brief history of search
+For those who want to start writing code right away, visit our [Complete Beginners tutorial](/documentation/tutorials/search-beginners) to build a search engine in 5-15 minutes.
+
+## A Brief History of Search
 
 Human memory is unreliable. Thus, as long as we started to collect ‘knowledge’ in written form, we had to figure out how to search for relevant content without rereading the same books repeatedly. That’s why some brilliant minds introduced the inverted index. In the simplest form, it’s an appendix to a book, typically put at its end, with a list of the essential terms-and links to pages they occur at. Terms are put in alphabetical order. Back in the day, that was a manually crafted list requiring lots of effort to prepare. Once digitalization started, it became a lot easier, but still, we kept the same general principles. That worked, and still, it does.
 
@@ -39,7 +41,7 @@ Every once in a while, when we discover new problems with inverted indexes, we c
 
 > The Tower of Babel, Pieter Bruegel
 
-## The representation revolution
+## The Representation Revolution
 
 The latest research in Machine Learning for NLP is heavily focused on training Deep Language Models. In this process, the neural network takes a large corpus of text as input and creates a mathematical representation of the words in the form of vectors. These vectors are created in such a way that words with similar meanings and occurring in similar contexts are grouped together and represented by similar vectors. And we can also take, for example, an average of all the word vectors to create the vector for a whole text (e.g query, sentence, or paragraph).
 
@@ -53,7 +55,7 @@ Dense vectors can capture the meaning, not the words used in a text. That being 
 
 > Input queries contain different words, but they are still converted into similar vector representations, because the neural encoder can capture the meaning of the sentences. That feature can capture synonyms but also different languages.
 
-Vector search is a process of finding similar objects based on their embeddings similarity. The good thing is, you don’t have to design and train your neural network on your own. Many pre-trained models are available, either on HuggingFace or by using libraries like SentenceTransformers. If you, however, prefer not to get your hands dirty with neural models, you can also create the embeddings with SaaS tools, like co.embed API.
+**Vector search** is a process of finding similar objects based on their embeddings similarity. The good thing is, you don’t have to design and train your neural network on your own. Many pre-trained models are available, either on **HuggingFace** or by using libraries like [SentenceTransformers](https://www.sbert.net/?ref=hackernoon.com). If you, however, prefer not to get your hands dirty with neural models, you can also create the embeddings with SaaS tools, like [co.embed API](https://docs.cohere.com/reference/embed?ref=hackernoon.com).
 
 ## Why Qdrant?
 
@@ -65,15 +67,15 @@ The challenge with vector search arises when we need to find similar documents i
 
 While doing a semantic search at scale, because this is what we sometimes call the vector search done on texts, we need a specialized tool to do it effectively — a tool like Qdrant.
 
-## Wrapping up
+## Next Steps
 
 Vector search is an exciting alternative to sparse methods. It solves the issues we had with the keyword-based search without needing to maintain lots of heuristics manually. It requires an additional component, a neural encoder, to convert text into vectors. 
 
-### Tutorial 1 - Qdrant for Complete Beginners
-Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](/documentation/tutorials/) will show you how.
+[**Tutorial 1 - Qdrant for Complete Beginners**](../../tutorials/search-beginners)
+Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](../../tutorials/search-beginners) will show you how.
 
-### Tutorial 2 - Question and Answer System
-However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer system tutorial](/articles/qa-with-cohere-and-qdrant).
+[**Tutorial 2 - Question and Answer System**](../../../articles/qa-with-cohere-and-qdrant)
+However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer system tutorial](../../../articles/qa-with-cohere-and-qdrant).
 
 There is another exciting thing about vector search. You can search for any kind of data as long as there is a neural network that would vectorize your data type. Do you think about a reverse image search? That’s also possible with vector embeddings.
 

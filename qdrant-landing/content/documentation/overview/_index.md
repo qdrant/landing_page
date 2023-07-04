@@ -1,6 +1,8 @@
 ---
 title: What is Qdrant?
 weight: 9
+aliases:
+  - overview
 ---
 
 # Introduction
