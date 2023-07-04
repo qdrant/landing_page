@@ -5,10 +5,8 @@ weight: 14
 
 # Semantic Search for Beginners
 
-| Time: 5 - 15 min | Level: Beginner | Output: [GitHub]() | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)]()   |
+| Time: 5 - 15 min | Level: Beginner |  |   |
 | --- | ----------- | ----------- |----------- |
-
-<center><iframe src="https://www.youtube.com/embed/hFc7xv1tsos" width="900" height="500" title="Semantic Search for Beginners" frameborder="0" allowfullscreen></iframe></center>
 
 If you are new to vector databases, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
 
@@ -34,14 +32,14 @@ from qdrant_client import models, QdrantClient
 from sentence_transformers import SentenceTransformer
 ```
 
-The [Sentence Transformers] framework contains many Large Language Models. However, [all-MiniLM-L6-v2] is the fastest encoder for this tutorial.
+The [Sentence Transformers](https://www.sbert.net/index.html) framework contains many Large Language Models. However, [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) is the fastest encoder for this tutorial.
 ```python
 encoder = SentenceTransformer('all-MiniLM-L6-v2') 
 ```
 
 ## 2. Add the dataset
 
-[all-MiniLM-L6-v2] will encode the data you provide. Here you will list all the science fiction books in your library. Each book has metadata, a name, author, publication year and a short description. 
+[all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) will encode the data you provide. Here you will list all the science fiction books in your library. Each book has metadata, a name, author, publication year and a short description. 
 
 ```python
 documents = [
