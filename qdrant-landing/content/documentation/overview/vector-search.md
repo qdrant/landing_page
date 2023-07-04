@@ -1,6 +1,7 @@
 ---
 title: Vector Search Basics
 weight: 1
+social_preview_image: /docs/gettingstarted/vector-social.png
 ---
 
 # Vector Search Basics
