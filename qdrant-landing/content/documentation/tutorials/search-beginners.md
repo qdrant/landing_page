@@ -8,6 +8,8 @@ weight: 14
 | Time: 5 - 15 min | Level: Beginner |  |   |
 | --- | ----------- | ----------- |----------- |
 
+## Overview
+
 If you are new to vector databases, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
 
 Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow [this tutorial](https://towardsdatascience.com/creating-and-using-virtual-environment-on-jupyter-notebook-with-python-db3f5afdd56a) first.
@@ -152,3 +154,7 @@ The query has been narrowed down to one result from 2008.
 ```python
 {'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
 ```
+
+## Next Steps
+
+Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial you should try building an actual [Neural Search Service with a complete API and a dataset](../../tutorials/neural-search/).
