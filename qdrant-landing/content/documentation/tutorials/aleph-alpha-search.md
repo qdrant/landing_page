@@ -1,6 +1,6 @@
 ---
 title: Aleph Alpha Search
-weight: 15
+weight: 16
 ---
 
 # Multimodal Semantic Search with Aleph Alpha
