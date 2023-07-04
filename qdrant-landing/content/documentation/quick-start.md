@@ -17,7 +17,7 @@ Download image from [DockerHub](https://hub.docker.com/r/qdrant/qdrant):
 docker pull qdrant/qdrant
 ```
 
-And run the service inside the docker:
+And run the service inside the Docker:
 
 ```bash
 docker run -p 6333:6333 -p 6334:6334 \
@@ -36,7 +36,7 @@ Now Qdrant should be accessible at [localhost:6333](http://localhost:6333)
 ![Local mode workflow](https://raw.githubusercontent.com/qdrant/qdrant-client/master/docs/images/try-develop-deploy.png)
 
 
-With python client it is possible to try Qdrant without running docker container at all.
+With python client it is possible to try Qdrant without running Docker container at all.
 
 Simply install it
 
