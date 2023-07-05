@@ -1,6 +1,6 @@
 ---
 title: Create Dataset Snapshot
-weight: 15
+weight: 14
 ---
 
 # Exporting Qdrant collections into snapshots

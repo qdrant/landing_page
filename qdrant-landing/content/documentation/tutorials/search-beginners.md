@@ -1,6 +1,6 @@
 ---
 title: Semantic Search for Beginners
-weight: 14
+weight: 15
 ---
 
 # Semantic Search for Beginners
