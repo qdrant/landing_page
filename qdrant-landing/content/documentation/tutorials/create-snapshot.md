@@ -43,7 +43,7 @@ metadata_df = pd.read_parquet("data/metadata_0000.parquet")
 print(metadata_df.iloc[0].to_dict())
 ```
 
-A single should look like following:
+A single row should look like following:
 
 ```json
 {
@@ -147,9 +147,12 @@ the snapshot might be downloaded using the following URL:
 http://localhost:6333/collections/LAION-5B/snapshots/LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot
 ```
 
+<aside role="status">Please consider passing the `wait=True` parameter while creating the snapshot. That operation will process the whole collection, 
+so it's expected it needs more time to finish.</aside>
+
 ### Listing existing snapshots
 
-**Creating a snapshot may take a while. If you encounter any timeout, that doesn't mean the process is not running.** You can always
+Creating a snapshot may take a while. If you encounter any timeout, that doesn't mean the process is not running. You can always
 check what are the snapshots available for a particular collection.
 
 ```python
