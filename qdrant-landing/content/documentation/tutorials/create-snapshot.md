@@ -45,7 +45,7 @@ metadata_df = pd.read_parquet("data/metadata_0000.parquet")
 print(metadata_df.iloc[0].to_dict())
 ```
 
-A single entry should look like this:
+A single row should look like this:
 
 ```json
 {
@@ -141,7 +141,14 @@ name='LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot' creation_time='202
 
 ## List all snapshots
 
-You can always check what are the snapshots available for a particular collection.
+```
+http://localhost:6333/collections/LAION-5B/snapshots/LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot
+```
+
+### Listing existing snapshots
+
+**Creating a snapshot may take a while. If you encounter any timeout, that doesn't mean the process is not running.** You can always
+check what are the snapshots available for a particular collection.
 
 ```python
 snapshots = client.list_snapshots(collection_name=dataset_name)
