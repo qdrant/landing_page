@@ -27,7 +27,7 @@ Registernummer: HRB 235335 B
 
 
 #### Umsatzsteuer-ID:
-Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: beantragt.
+Umsatzsteuer-Identifikationsnummer gemäß §27a Umsatzsteuergesetz: DE347779324
 
 
 ### Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:
