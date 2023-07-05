@@ -123,7 +123,7 @@ client.upload_collection(
 
 ## Create a snapshot
 
-Qdrant exposes HTTP endpoint to request creating a snapshot, but we can also call it with the Python SDK.
+Qdrant exposes HTTP endpoint to request creating a snapshot, but we can also call it with the Python SDK. Creating a snapshot may take a while. If you encounter any timeout, that doesn't mean the process is not running.
 
 ```python
 snapshot_info = client.create_snapshot(collection_name=collection_name)
@@ -140,15 +140,7 @@ name='LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot' creation_time='202
 ```
 
 ## List all snapshots
-
-```
-http://localhost:6333/collections/LAION-5B/snapshots/LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot
-```
-
-### Listing existing snapshots
-
-**Creating a snapshot may take a while. If you encounter any timeout, that doesn't mean the process is not running.** You can always
-check what are the snapshots available for a particular collection.
+You can always check what are the snapshots available for a particular collection.
 
 ```python
 snapshots = client.list_snapshots(collection_name=dataset_name)
