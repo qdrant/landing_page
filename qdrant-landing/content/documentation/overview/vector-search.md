@@ -6,7 +6,7 @@ social_preview_image: /docs/gettingstarted/vector-social.png
 
 # Vector Search Basics
 
-If you are still trying to figure out how vector search words, please read ahead. This document describes how vector search is used, covers Qdrant's place in the larger ecosystem, and outlines how you can use Qdrant to augment your existing projects.
+If you are still trying to figure out how vector search works, please read ahead. This document describes how vector search is used, covers Qdrant's place in the larger ecosystem, and outlines how you can use Qdrant to augment your existing projects.
 
 For those who want to start writing code right away, visit our [Complete Beginners tutorial](/documentation/tutorials/search-beginners) to build a search engine in 5-15 minutes.
 
