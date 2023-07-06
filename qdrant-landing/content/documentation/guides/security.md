@@ -7,7 +7,10 @@ aliases:
 
 # Security
 
-There are various ways to secure your own Qdrant instance.
+
+
+Please read this page carefully. Although there are various ways to secure your Qdrant instances, **they are unsecured by default**. 
+You need to enable security measures before production use. Otherwise, they are completely open to anyone
 
 ## Authentication
 
@@ -59,6 +62,8 @@ qdrant_client = QdrantClient(
     api_key="your_secret_api_key_here",
 )
 ```
+
+<aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
 ## TLS
 
