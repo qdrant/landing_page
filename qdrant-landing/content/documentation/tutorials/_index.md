@@ -21,6 +21,7 @@ These tutorials demonstrate different ways you can build vector search into your
 | [Semantic Search for Beginners](../tutorials/search-beginners/)           | Create a simple search engine locally in minutes.                 | Qdrant | 
 | [Simple Neural Search](../tutorials/neural-search/)           | Build and deploy a neural search that browses startup data.                  | Qdrant, BERT, FastAPI | 
 | [Aleph Alpha Search](../tutorials/aleph-alpha-search/)           | Build a multimodal search that combines text and image data.                  | Qdrant, Aleph Alpha | 
+| [Mighty Semantic Search](../tutorials/mighty/)           | Build a simple semantic search with an on-demand NLP service.                  | Qdrant, Mighty | 
 | [Troubleshooting](../tutorials/common-errors/)       | Solutions to common errors and fixes                      | Qdrant |  
 
 

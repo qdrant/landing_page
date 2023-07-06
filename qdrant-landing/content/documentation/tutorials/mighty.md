@@ -2,7 +2,7 @@
 title: "Mighty Semantic Search"
 short_description: "Mighty offers a speedy scalable embedding, a perfect fit for the speedy scalable Qdrant search. Let's combine them!"
 description: "We combine Mighty and Qdrant to create a semantic search service in Rust with just a few lines of code."
-weight: 1000
+weight: 17
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-06-01T11:24:20+01:00
