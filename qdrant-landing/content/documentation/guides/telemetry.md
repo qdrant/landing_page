@@ -28,7 +28,7 @@ There are 3 types of information that we collect:
 
 * System information - general information about the system, such as CPU, RAM, and disk type. As well as the configuration of the Qdrant instance.
 * Performance - information about timings and counters of various pieces of code.
-* Critical error reports - information about critical errors, such as backtraces, that occurred in Qdrant. This information would allow to identify problems nobidy yet reported to us.
+* Critical error reports - information about critical errors, such as backtraces, that occurred in Qdrant. This information would allow to identify problems nobody yet reported to us.
 
 ### We **never** collect the following information:
 
