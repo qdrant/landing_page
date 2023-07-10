@@ -36,7 +36,7 @@ from qdrant_client import models, QdrantClient
 from sentence_transformers import SentenceTransformer
 ```
 
-The [Sentence Transformers](https://www.sbert.net/index.html) framework contains many Large Language Models. However, [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) is the fastest encoder for this tutorial.
+The [Sentence Transformers](https://www.sbert.net/index.html) framework contains many embedding models. However, [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) is the fastest encoder for this tutorial.
 ```python
 encoder = SentenceTransformer('all-MiniLM-L6-v2') 
 ```
@@ -84,6 +84,13 @@ qdrant.recreate_collection(
 	)
 )
 ```
+
+- Use `recreate_collection` if you are experimenting and running the script several times. This function will first try to remove an existing collection with the same name.
+
+- The `vector_size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. 384 is the encoder output dimensionality. You can also use model.get_sentence_embedding_dimension() to get the dimensionality of the model you are using.
+
+- The `distance` parameter lets you specify the function used to measure the distance between two points.
+
 
 ## 5. Upload data to collection
 
