@@ -1,7 +1,7 @@
 ---
-title: "Qdrant case study: bloop semantic code search"
-short_description: bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
-description: bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
+title: "Powering Bloop semantic code search"
+short_description: Bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
+description: Bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
 social_preview_image: /articles_data/bloop/social_preview.png
 preview_dir: /articles_data/bloop/preview
 weight: 2
