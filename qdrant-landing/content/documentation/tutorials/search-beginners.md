@@ -8,6 +8,8 @@ weight: 15
 | Time: 5 - 15 min | Level: Beginner |  |   |
 | --- | ----------- | ----------- |----------- |
 
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/AASiqmtKo54" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
+
 ## Overview
 
 If you are new to vector databases, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
