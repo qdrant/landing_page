@@ -2,7 +2,7 @@
 title: "Powering Bloop semantic code search"
 short_description: Bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
 description: Bloop is a fast code-search engine that combines semantic search, regex search and precise code navigation
-social_preview_image: /case-studies/bloop/social_preview.png
+social_preview_image: /case-studies/bloop/social_preview.jpg
 preview_dir: /case-studies/bloop/preview
 weight: 2
 date: 2023-02-28T09:48:00.000Z
