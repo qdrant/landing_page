@@ -63,7 +63,7 @@ async fn main() {
 }
 ```
 
-We can also use a closure to bind other arguments to our function handler (the `service_fn` call then becomes `service_fn(|req| function_handler(req, ...))`). Also if we want to extract parameters from our request, we can do so using the [Request](https://docs.rs/lambda_http/latest/lambda_http/type.Request.html) methods (e.g. `query_string_parameters` or `query_string_parameters_ref`).
+You can also use a closure to bind other arguments to your function handler (the `service_fn` call then becomes `service_fn(|req| function_handler(req, ...))`). Also if you want to extract parameters from our request, you can do so using the [Request](https://docs.rs/lambda_http/latest/lambda_http/type.Request.html) methods (e.g. `query_string_parameters` or `query_string_parameters_ref`).
 
 On the AWS side, you need to setup a lambda and an IAM role to use with our function.
 
@@ -260,7 +260,7 @@ And that's it. Obviously, you can also filter by adding a `filter: ...` field to
 
 Now that you have all the parts, it's time to join them up. Now copying and wiring up the snippets above is left as an exercise to the reader. Impatient minds can peruse the [example repo](https://github.com/qdrant/examples/tree/master/lambda-search) instead.
 
-You'll want to extend the `main` method a bit to connect with the Client once at the start, also get API keys from the environment so we don't need to compile them into the code. To do that, we can get them with `std::env::var(_)` from the rust code and we can set the environment from the AWS console.
+You'll want to extend the `main` method a bit to connect with the Client once at the start, also get API keys from the environment so you don't need to compile them into the code. To do that, you can get them with `std::env::var(_)` from the rust code and set the environment from the AWS console.
 
 ```bash
 $ aws lambda update-function-configuration \
