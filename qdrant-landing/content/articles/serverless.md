@@ -1,18 +1,18 @@
 ---
 title: Serverless Semantic Search
 short_description: "Need to setup a server to offer semantic search? Think again!"
-description: "A short how-to from zero to semantic search using Qdrant & AWS lambda"
+description: "A short how-to from zero to semantic search using Qdrant & AWS Lambda"
 social_preview_image: /articles_data/serverless/preview/social_preview.jpg
 preview_dir: /articles_data/serverless/preview
 weight: 10
 author: Andre Bogus
 author_link: https://llogiq.github.io
-date: 2023-06-28T10:00:00+01:00
+date: 2023-07-12T10:00:00+01:00
 draft: false
 keywords: rust, serverless, lambda, semantic, search
 ---
 
-You want to allow people to semantically search your site, but don't want to rent a server? Look no further, here's youtr recipe!
+You want to allow people to semantically search your site, but don't want to rent a server? Look no further, here's your recipe that will let you do it all for the very low price of $0! Yes, that is a zero.
 
 ## Ingredients
 
@@ -20,14 +20,12 @@ You want to allow people to semantically search your site, but don't want to ren
 * [cargo lambda](cargo-lambda.info) (install via package manager, [download](https://github.com/cargo-lambda/cargo-lambda/releases) binary or `cargo install cargo-lambda`)
 * The [aws CLI](https://aws.amazon.com/cli)
 * Qdrant instance ([free tier](https://cloud.qdrant.tech) available)
-* An embedding provider service of your choice (see our [integration docs](https://qdrant.tech/documentation/integrations))
-* AWS lambda account (12-month free tier available)
-
-Have all ingredients? You're good to go!
+* An embedding provider service of your choice (see our [integration docs](https://qdrant.tech/documentation/integrations). I don't know any with a free tier, but you can get credits from [AI Grant](https://aigrant.org))
+* AWS Lambda account (12-month free tier available)
 
 ## What you're going to build
 
-You'll combine the embedding provider and the Qdrant instance to a neat semantic search, calling both services from a small lambda function.
+You'll combine the embedding provider and the Qdrant instance to a neat semantic search, calling both services from a small Lambda function.
 
 ![lambda integration diagram](/articles_data/serverless/lambda_integration.svg)
 
@@ -35,9 +33,9 @@ Now lets look at how to work with each ingredient before connecting them.
 
 ## Rust and cargo-lambda
 
-You want our function to be quick, lean and safe, so using Rust is a no-brainer. To compile Rust code for use within Lambda functions, the `cargo-lambda` subcommand has been built. `cargo-lambda` can put your Rust code in a zip file that AWS lambda can then deploy on a no-frills `provided.al2` runtime.
+You want your function to be quick, lean and safe, so using Rust is a no-brainer. To compile Rust code for use within Lambda functions, the `cargo-lambda` subcommand has been built. `cargo-lambda` can put your Rust code in a zip file that AWS Lambda can then deploy on a no-frills `provided.al2` runtime.
 
-To interface with AWS lambda, you will need the following dependencies in your `Cargo.toml`:
+To interface with AWS Lambda, you will need the following dependencies in your `Cargo.toml`:
 
 ```toml
 [dependencies]
@@ -46,30 +44,29 @@ lambda_http = { version = "0.8", default-features = false, features = ["apigw_ht
 lambda_runtime = "0.8"
 ```
 
-This gives us an interface consisting of an entry point to start the lambda runtime and a way to register our handler for HTTP calls:
+This gives you an interface consisting of an entry point to start the Lambda runtime and a way to register your handler for HTTP calls:
 
 ```rust
 use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
 
-/// This is our callback function for responding to requests at our URL
+/// This is your callback function for responding to requests at your URL
 async fn function_handler(_req: Request) -> Result<Response<Body>, Error> {
-    Response::from_text("Hello, lambda!")
+    Response::from_text("Hello, Lambda!")
 }
 
 #[tokio::main]
 async fn main() {
-    run(service_fn(function_handler))
-    .await
+    run(service_fn(function_handler)).await
 }
 ```
 
-You can also use a closure to bind other arguments to your function handler (the `service_fn` call then becomes `service_fn(|req| function_handler(req, ...))`). Also if you want to extract parameters from our request, you can do so using the [Request](https://docs.rs/lambda_http/latest/lambda_http/type.Request.html) methods (e.g. `query_string_parameters` or `query_string_parameters_ref`).
+You can also use a closure to bind other arguments to your function handler (the `service_fn` call then becomes `service_fn(|req| function_handler(req, ...))`). Also if you want to extract parameters from the request, you can do so using the [Request](https://docs.rs/lambda_http/latest/lambda_http/type.Request.html) methods (e.g. `query_string_parameters` or `query_string_parameters_ref`).
 
-On the AWS side, you need to setup a lambda and an IAM role to use with our function.
+On the AWS side, you need to setup a Lambda and IAM role to use with your function.
 
 ![create lambda web page](/articles_data/serverless/create_lambda.png)
 
-Choose your function name, select "Provide your own bootstrap on Amazon Linux 2". As architecture, we will use `arm64`. We will also activate a function URL. Here it is up to you if you want to protect it via IAM or leave it open, but be aware that open end points can be accessed by anyone, potentially costing money if there is too much traffic.
+Choose your function name, select "Provide your own bootstrap on Amazon Linux 2". As architecture, use `arm64`. You will also activate a function URL. Here it is up to you if you want to protect it via IAM or leave it open, but be aware that open end points can be accessed by anyone, potentially costing money if there is too much traffic.
 
 By default, this will also create a basic role. To look up the role, you can go into the Function overview:
 
@@ -81,7 +78,7 @@ You will find the "Role name" directly under *Execution role*. Note it down for 
 
 ![function overview](/articles_data/serverless/lambda_role.png)
 
-To test that our "Hello, lambda" service works, we can compile and upload the function:
+To test that your "Hello, Lambda" service works, you can compile and upload the function:
 
 ```bash
 $ export LAMBDA_FUNCTION_NAME=hello
@@ -119,14 +116,14 @@ $ aws lambda create-function-url-config \
 Now you can go to your *Function Overview* and click on the Function URL. This should show something like the following:
 
 ```text
-Hello, lambda!
+Hello, Lambda!
 ```
 
-Congratulations! You have set up a lambda function in Rust. On to the next ingredient:
+Congratulations! You have set up a Lambda function in Rust. On to the next ingredient:
 
 ## Embedding
 
-Most providers supply a simple https GET or POST interface we can use. Most will have an API key, which you have to supply in an authentication header. Let's use OpenAI as an example, which is one of the more complex APIs. We need to extend our dependencies with `reqwest` and also add `anyhow` for easier error handling:
+Most providers supply a simple https GET or POST interface you can use with an API key, which you have to supply in an authentication header. Let's use OpenAI as an example, one of the more complex APIs. You need to extend your dependencies with `reqwest` and also add `anyhow` for easier error handling:
 
 ```toml
 anyhow = "1.0"
@@ -141,6 +138,8 @@ use anyhow::Result;
 use serde::Deserialize;
 use reqwest::Client;
 
+// This makes use of serde deserialization to unpack the data. Unfortunately,
+// OpenAI has two layers of indirection, so you need to define two types.
 #[derive(Deserialize)]
 struct OpenaiResponse { data: OpenaiData }
 
@@ -155,26 +154,26 @@ pub async fn embed(client: &Client, text: &str, api_key: &str) -> Result<Vec<f32
         .body(format!("{{\"input\":\"{text}\",\"model\":\"text-embedding-ada-002\"}}"))
         .send()
         .await?
-        .json()?;
+        .json()
+		.await?;
     Ok(embedding)
 }
 ```
 
 You should note that OpenAI's ada-002 model emits 1536-dimensioned vectors.
 
-Other providers have similar interfaces. Consult our [integration docs](https://qdrant.tech/documentation/integrations) for further information. See how little code it took to get the embedding? Also with [AI Grant](https://aigrant.org/), you can apply for free credits that allow for a lot of searches before you'll have to spend a dime.
+Other providers have similar interfaces. Consult our [integration docs](https://qdrant.tech/documentation/integrations) for further information. See how little code it took to get the embedding?
 
-While we're at it, it's a good idea to write a small test:
+While you're at it, it's a good idea to write a small test to check if embedding works and the vectors are of the expected size:
 
 ```rust
 #[tokio::test]
 async fn check_embedding() {
     // ignore this test if API_KEY isn't set
-    if let Ok(api_key) = &std::env::var("API_KEY") {
-        let embedding = crate::embed("What is semantic search?", api_key).unwrap();
-        // OpenAI text-embedding-ada-002 has 1536 output dimensions
-        assert_eq!(1536, embedding.len());
-    }
+    let Ok(api_key) = &std::env::var("API_KEY") else { return; }
+	let embedding = crate::embed("What is semantic search?", api_key).unwrap();
+	// OpenAI text-embedding-ada-002 has 1536 output dimensions
+	assert_eq!(1536, embedding.len());
 }
 ```
 
@@ -182,11 +181,13 @@ Run this while setting the `API_KEY` environment variable to check if the embedd
 
 ## Qdrant search
 
-Now that we have embeddings, it's time to put them into our Qdrant. We could of course use `curl` or `python` to set up our collection and upload the points, but as we already have Rust including some code to obtain the embeddings, we can stay in Rust. So let's add `qdrant-client` to the mix.
+Now that you have embeddings, it's time to put them into your Qdrant. You could of course use `curl` or `python` to set up your collection and upload the points, but as you already have Rust including some code to obtain the embeddings, you can stay in Rust, adding `qdrant-client` to the mix.
 
 ```rust
 use anyhow::Result;
 use qdrant_client::prelude::*;
+use qdrant_client::qdrant::{VectorsConfig, VectorParams};
+use qdrant_client::qdrant::vectors_config::Config;
 use std::collections::HashMap;
 
 fn setup<'i>(
@@ -208,7 +209,7 @@ fn setup<'i>(
                 collection_name: collection_name.into(),
                 vectors_config: Some(VectorsConfig {
                     config: Some(Config::Params(VectorParams {
-                        size: 1536, // our output dimensions from above
+                        size: 1536, // output dimensions from above
                         distance: Distance::Cosine as i32,
                         ..Default::default()
                     })),
@@ -228,7 +229,7 @@ fn setup<'i>(
 }
 ```
 
-Depending on whether you want to efficiently filter the data, you can also add some indexes. We leave this out for brevity, but have [example code](https://github.com/qdrant/examples/tree/master/lambda-search) containing this operation. Also this does not implement chunking (splitting the data to upsert in multiple requests).
+Depending on whether you want to efficiently filter the data, you can also add some indexes. I'm leaving this out for brevity, but you can look at the [example code](https://github.com/qdrant/examples/tree/master/lambda-search) containing this operation. Also this does not implement chunking (splitting the data to upsert in multiple requests, which avoids timeout errors).
 
 Add a suitable `main` method and you can run this code to insert the points (or just use the binary from the example).
 
@@ -254,7 +255,7 @@ pub async fn search(
 }
 ```
 
-And that's it. Obviously, you can also filter by adding a `filter: ...` field to the `SearchPoints`, and you will likely want to process the result further, but the example code already does that, so feel free to start from there in case you need this functionality.
+You can also filter by adding a `filter: ...` field to the `SearchPoints`, and you will likely want to process the result further, but the example code already does that, so feel free to start from there in case you need this functionality.
 
 ## Putting it all together
 
@@ -268,7 +269,7 @@ $ aws lambda update-function-configuration \
     --environment "Variables={QDRANT_URI=$QDRANT_URI,QDRANT_API_KEY=$QDRANT_API_KEY,OPENAI_API_KEY=$OPENAI_API_KEY}"`
 ```
 
-In any event, you will arrive at one command line program to insert your data and one lambda function. The former can just be `cargo run` to set up the collection. For the latter, you can again call `cargo lambda` and the AWS console:
+In any event, you will arrive at one command line program to insert your data and one Lambda function. The former can just be `cargo run` to set up the collection. For the latter, you can again call `cargo lambda` and the AWS console:
 
 ```bash
 $ export LAMBDA_FUNCTION_NAME=search
@@ -285,6 +286,6 @@ $ aws lambda update-function-code --function-name $LAMBDA_FUNCTION_NAME \
 
 ## Discussion
 
-Lambda works by spinning up your function once the URL is called, so they don't need to keep the compute on hand unless it is actually used. This means that the first call will be burdened by some 1-2 seconds of latency for loading the function, later calls will resolve faster. Of course, there is also the latency for calling the embeddings provider and Qdrant. On the other hand, the free tier doesn't cost a thing, so you certainly get what you pay for. And for many use cases, a result within a few seconds is acceptable.
+Lambda works by spinning up your function once the URL is called, so they don't need to keep the compute on hand unless it is actually used. This means that the first call will be burdened by some 1-2 seconds of latency for loading the function, later calls will resolve faster. Of course, there is also the latency for calling the embeddings provider and Qdrant. On the other hand, the free tier doesn't cost a thing, so you certainly get what you pay for. And for many use cases, a result within one or two seconds is acceptable.
 
-Rust minimizes the overhead for the function, both in terms of file size and runtime. Using an embedding service means you don't need to care about the details. Knowing the URL, API key and embedding size is sufficient. Finally, with free tiers for both lambda and Qdrant as well as free credits for embedding provider, the only cost is your time to set everything up. Who could argue with free?
+Rust minimizes the overhead for the function, both in terms of file size and runtime. Using an embedding service means you don't need to care about the details. Knowing the URL, API key and embedding size is sufficient. Finally, with free tiers for both Lambda and Qdrant as well as free credits for the embedding provider, the only cost is your time to set everything up. Who could argue with free?
