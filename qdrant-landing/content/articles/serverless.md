@@ -1,10 +1,10 @@
 ---
 title: Serverless Semantic Search
 short_description: "Need to setup a server to offer semantic search? Think again!"
-description: "A short how-to from zero to semantic search using Qdrant vector search & AWS Lambda"
+description: "Create a serverless semantic search engine using nothing but Qdrant and free cloud services."
 social_preview_image: /articles_data/serverless/preview/social_preview.jpg
 preview_dir: /articles_data/serverless/preview
-weight: 10
+weight: 1
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-07-12T10:00:00+01:00
@@ -12,9 +12,9 @@ draft: false
 keywords: rust, serverless, lambda, semantic, search
 ---
 
-You want to allow people to semantically search your site, but don't want to rent a server? Look no further, here's your recipe that will let you do it all for the very low price of $0*! Yes, that is a zero.
+Do you want to insert a semantic search function into your website or online app? Now you can do so - without spending any money! In this example, you will learn how to create a free prototype search engine for your own non-commercial purposes.
 
-(* for non-commercial purposes)
+You may find all of the assets for this tutorial on [GitHub](https://github.com/qdrant/examples/tree/master/lambda-search).
 
 ## Ingredients
 
@@ -29,7 +29,7 @@ You want to allow people to semantically search your site, but don't want to ren
 
 You'll combine the embedding provider and the Qdrant instance to a neat semantic search, calling both services from a small Lambda function.
 
-![lambda integration diagram](/articles_data/serverless/lambda_integration.svg)
+![lambda integration diagram](/articles_data/serverless/lambda_integration.png)
 
 Now lets look at how to work with each ingredient before connecting them.
 
@@ -115,7 +115,7 @@ $ aws lambda create-function-url-config \
     --auth-type NONE
 ```
 
-Now you can go to your *Function Overview* and click on the Function URL. This should show something like the following:
+Now you can go to your *Function Overview* and click on the Function URL. You should see something like this:
 
 ```text
 Hello, Lambda!

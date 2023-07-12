@@ -5,7 +5,7 @@ description: "Slow disk decelerating your Qdrant deployment? Get on top of IO ov
 social_preview_image: /articles_data/io_uring/social_preview.png
 small_preview_image: /articles_data/io_uring/io_uring-icon.svg
 preview_dir: /articles_data/io_uring/preview
-weight: 1
+weight: 3
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-06-21T09:45:00+02:00
