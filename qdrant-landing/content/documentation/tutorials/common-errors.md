@@ -9,7 +9,7 @@ weight: 100
 
 Each collection segment needs some files to be open. At some point you may encounter the following errors in your server log:
 
-```
+```text
 Error: Too many files open (OS error 24)
 ```
 

@@ -14,7 +14,7 @@ It depends on a number of factors and options you can choose for your collection
 
 If you need to keep all vectors in memory for maximum performance, there is a very rough formula for estimating the needed memory size looks like this:
 
-```
+```text
 memory_size = number_of_vectors * vector_dimension * 4 bytes * 1.5
 ```
 
@@ -46,6 +46,6 @@ the fast search for the most active and recent users.
 
 In this case you can estimate required memory size as follows:
 
-```
+```text
 memory_size = number_of_active_vectors * vector_dimension * 4 bytes * 1.5
 ```
