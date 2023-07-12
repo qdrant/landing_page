@@ -212,7 +212,7 @@ This payload allows additional filtering during the search request.
 
 Qdrant has a pre-built docker image and start working with it is just as simple as running
 
-```
+```bash
 docker run -p 6333:6333 qdrant/qdrant
 ```
 

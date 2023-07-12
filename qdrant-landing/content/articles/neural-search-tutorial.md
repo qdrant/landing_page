@@ -118,20 +118,20 @@ To start Qdrant, use the instructions on its [homepage](https://github.com/qdran
 
 Download image from [DockerHub](https://hub.docker.com/r/qdrant/qdrant):
 
-```
+```bash
 docker pull qdrant/qdrant
 ```
 
 And run the service inside the docker:
 
-```
+```bash
 docker run -p 6333:6333 \
     -v $(pwd)/qdrant_storage:/qdrant/storage \
     qdrant/qdrant
 ```
 You should see output like this
 
-```
+```text
 ...
 [2021-02-05T00:08:51Z INFO  actix_server::builder] Starting 12 workers
 [2021-02-05T00:08:51Z INFO  actix_server::builder] Starting "actix-web-service-0.0.0.0:6333" service on 0.0.0.0:6333
@@ -149,7 +149,7 @@ To interact with Qdrant from python, I recommend using an out-of-the-box client 
 
 To install it, use the following command
 
-```
+```bash
 pip install qdrant-client
 ```
 
@@ -229,7 +229,7 @@ The full code for this step could be found [here](https://github.com/qdrant/qdra
 Now that all the preparations are complete, let's start building a neural search class.
 
 First, install all the requirements:
-```
+```bash
 pip install sentence-transformers numpy
 ```
 
@@ -313,7 +313,7 @@ It is super easy to use and requires minimal code writing.
 
 To install it, use the command
 
-```
+```bash
 pip install fastapi uvicorn
 ```
 
@@ -347,7 +347,7 @@ if __name__ == "__main__":
 
 Now, if you run the service with
 
-```
+```bash
 python service.py
 ```
 

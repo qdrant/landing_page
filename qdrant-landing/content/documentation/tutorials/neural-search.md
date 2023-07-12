@@ -109,7 +109,7 @@ docker run -p 6333:6333 \
 ```
 You should see output like this
 
-```
+```text
 ...
 [2021-02-05T00:08:51Z INFO  actix_server::builder] Starting 12 workers
 [2021-02-05T00:08:51Z INFO  actix_server::builder] Starting "actix-web-service-0.0.0.0:6333" service on 0.0.0.0:6333
@@ -310,7 +310,7 @@ if __name__ == "__main__":
 
 3. Run the service.
 
-```
+```bash
 python service.py
 ```
 

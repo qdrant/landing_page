@@ -205,7 +205,7 @@ The command will build the image using the Dockerfile and deploy the service at 
 URL. Once the command is finished, the service should be running on the hostname we got 
 previously:
 
-```
+```text
 https://your-application-name.fly.dev
 ```
 

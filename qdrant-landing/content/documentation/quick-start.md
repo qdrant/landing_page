@@ -40,13 +40,13 @@ With python client it is possible to try Qdrant without running docker container
 
 Simply install it
 
-```
+```bash
 pip install qdrant-client
 ```
 
 and initialize client like this:
 
-```
+```python
 from qdrant_client import QdrantClient
 
 client = QdrantClient(":memory:")
