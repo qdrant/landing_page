@@ -5,7 +5,7 @@ description: "ChatGPT factuality might be improved with semantic search. Here is
 social_preview_image: /articles_data/chatgpt-plugin/social_preview.jpg
 small_preview_image: /articles_data/chatgpt-plugin/chatgpt-plugin-icon.svg
 preview_dir: /articles_data/chatgpt-plugin/preview
-weight: 4
+weight: 7
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-03-23T18:01:00+01:00

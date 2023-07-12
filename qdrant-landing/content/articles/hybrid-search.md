@@ -5,7 +5,7 @@ description: What Hybrid Search is and how to get the best of both worlds.
 preview_dir: /articles_data/hybrid-search/preview
 social_preview_image: /articles_data/hybrid-search/social_preview.png
 small_preview_image: /articles_data/hybrid-search/icon.svg
-weight: 5
+weight: 8
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-02-15T10:48:00.000Z

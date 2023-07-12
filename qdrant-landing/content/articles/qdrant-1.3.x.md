@@ -5,7 +5,7 @@ description: "New version is out! Our latest release brings about some exciting 
 social_preview_image: /articles_data/qdrant-1.3.x/social_preview.png
 small_preview_image: /articles_data/qdrant-1.3.x/icon.svg
 preview_dir: /articles_data/qdrant-1.3.x/preview
-weight: 1
+weight: 2
 author: David Sertic
 author_link: 
 date: 2023-06-26T00:00:00Z
