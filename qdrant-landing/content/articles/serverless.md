@@ -20,8 +20,8 @@ You may find all of the assets for this tutorial on [GitHub](https://github.com/
 
 * A [Rust](https://rust-lang.org) toolchain
 * [cargo lambda](cargo-lambda.info) (install via package manager, [download](https://github.com/cargo-lambda/cargo-lambda/releases) binary or `cargo install cargo-lambda`)
-* The [AWS CLI](https://aws.amazon.com/cli)
-* Qdrant Vector Database instance ([free tier](https://cloud.qdrant.tech) available)
+* The [aws CLI](https://aws.amazon.com/cli)
+* Qdrant instance ([free tier](https://cloud.qdrant.tech) available)
 * An embedding provider service of your choice (see our [integration docs](https://qdrant.tech/documentation/integrations). You may be able to get credits from [AI Grant](https://aigrant.org), also Cohere has a [rate-limited non-commercial free tier](https://cohere.com/pricing))
 * AWS Lambda account (12-month free tier available)
 
@@ -121,13 +121,12 @@ Now you can go to your *Function Overview* and click on the Function URL. You sh
 Hello, Lambda!
 ```
 
-Congratulations! You have set up a Lambda function in Rust. On to the next ingredient:
+Bearer ! You have set up a Lambda function in Rust. On to the next ingredient:
 
 ## Embedding
 
 Most providers supply a simple https GET or POST interface you can use with an API key, which you have to supply in an authentication header. If you are using this for non-commercial purposes, the rate limited trial key from Cohere is just a few clicks away. Go to [their welcome page](https://dashboard.cohere.ai/welcome/register), register and you'll be able to get to the dashboard, which has an "API keys" menu entry which will bring you to the following page:
-
-![cohere dashboard](/articles_data/serverless/cohere-dashboard.png)
+        [cohere dashboard](/articles_data/serverless/cohere-dashboard.png)
 
 From there you can click on the ⎘ symbol next to your API key to copy it to the clipboard. *Don't put your API key in the code!* Instead read it from an env variable you can set in the lambda environment. This avoids accidentally putting your key into a public repo. Now all you need to get embeddings is a bit of code. First you need to extend your dependencies with `reqwest` and also add `anyhow` for easier error handling:
 
@@ -150,14 +149,14 @@ struct CohereResponse { outputs: Vec<Vec<f32>> }
 pub async fn embed(client: &Client, text: &str, api_key: &str) -> Result<Vec<Vec<f32>>> {
     let CohereResponse { outputs } = client
         .post("https://api.cohere.ai/embed")
-        .header("Authorization", &format!("BEARER {api_key}"))
+        .header("Authorization", &format!("Bearer {api_key}"))
         .header("Content-Type", "application/json")
         .header("Cohere-Version", "2021-11-08")
         .body(format!("{{\"text\":[\"{text}\"],\"model\":\"small\"}}"))
         .send()
         .await?
         .json()
-		.await?;
+        .await?;
     Ok(outputs)
 }
 ```
@@ -206,7 +205,7 @@ fn setup<'i>(
     let client = QdrantClient::new(Some(config))?;
 
     // create the collections
-    if !client.has_collection(COLLECTION_NAME).await? {
+    if !client.has_collection(collection_name).await? {
         client
             .create_collection(&CreateCollection {
                 collection_name: collection_name.into(),
@@ -234,7 +233,7 @@ fn setup<'i>(
 
 Depending on whether you want to efficiently filter the data, you can also add some indexes. I'm leaving this out for brevity, but you can look at the [example code](https://github.com/qdrant/examples/tree/master/lambda-search) containing this operation. Also this does not implement chunking (splitting the data to upsert in multiple requests, which avoids timeout errors).
 
-Add a suitable `main` method and you can run this code to insert the points (or just use the binary from the example).
+Add a suitable `main` method and you can run this code to insert the points (or just use the binary from the example). Be sure to include the port in the `qdrant_url`.
 
 Now that you have the points inserted, you can search them by embedding:
 
@@ -267,9 +266,15 @@ Now that you have all the parts, it's time to join them up. Now copying and wiri
 You'll want to extend the `main` method a bit to connect with the Client once at the start, also get API keys from the environment so you don't need to compile them into the code. To do that, you can get them with `std::env::var(_)` from the rust code and set the environment from the AWS console.
 
 ```bash
+$ export QDRANT_URI=<qour Qdrant instance URI including port>
+$ export QDRANT_API_KEY=<your Qdrant API key>
+$ export COHERE_API_KEY=<your Cohere API key>
+$ export COLLECTION_NAME=site-cohere
 $ aws lambda update-function-configuration \
     --function-name $LAMBDA_FUNCTION_NAME \
-    --environment "Variables={QDRANT_URI=$QDRANT_URI,QDRANT_API_KEY=$QDRANT_API_KEY,OPENAI_API_KEY=$OPENAI_API_KEY}"`
+    --environment "Variables={QDRANT_URI=$QDRANT_URI,\
+        QDRANT_API_KEY=$QDRANT_API_KEY,COHERE_API_KEY=${COHERE_API_KEY},\
+        COLLECTION_NAME=${COLLECTION_NAME}"`
 ```
 
 In any event, you will arrive at one command line program to insert your data and one Lambda function. The former can just be `cargo run` to set up the collection. For the latter, you can again call `cargo lambda` and the AWS console:
