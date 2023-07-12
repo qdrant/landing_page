@@ -29,7 +29,7 @@ So a single number needs 4 bytes of the memory and a 512-dimensional vector occu
 2 kB. That's only the memory used to store the vector. There is also an overhead of the
 HNSW graph, so as a rule of thumb we estimate the memory size with the following formula:
 
-```
+```text
 memory_size = 1.5 * number_of_vectors * vector_dimension * 4 bytes
 ```
 

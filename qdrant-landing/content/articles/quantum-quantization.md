@@ -23,7 +23,7 @@ Quantum quantization is a novel approach that leverages the power of quantum com
 
 The conversion of float32 vectors to qbit vectors can be represented by the following formula:
 
-```
+```text
 qbit_vector = Q( float32_vector )
 ```
 
