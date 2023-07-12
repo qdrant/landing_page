@@ -10,7 +10,7 @@ default_link:
 default_link_name: 
 weight: 30
 short_description: |
-    User behavior can be represented as a semantic vector is similar way as text or images.
+    User behavior can be represented as a semantic vector in a similar way as text or images.
     Vector database allows you to create a real-time recommendation engine.
     No MapReduce cluster required.
 sitemapExclude: True

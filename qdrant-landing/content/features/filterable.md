@@ -1,5 +1,5 @@
 ---
-title: Filtrable
+title: Filterable
 icon:
   - url: /features/filter.svg
 weight: 30
