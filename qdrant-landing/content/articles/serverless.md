@@ -20,7 +20,7 @@ You may find all of the assets for this tutorial on [GitHub](https://github.com/
 
 * A [Rust](https://rust-lang.org) toolchain
 * [cargo lambda](cargo-lambda.info) (install via package manager, [download](https://github.com/cargo-lambda/cargo-lambda/releases) binary or `cargo install cargo-lambda`)
-* The [aws CLI](https://aws.amazon.com/cli)
+* The [AWS CLI](https://aws.amazon.com/cli)
 * Qdrant instance ([free tier](https://cloud.qdrant.tech) available)
 * An embedding provider service of your choice (see our [integration docs](https://qdrant.tech/documentation/integrations). You may be able to get credits from [AI Grant](https://aigrant.org), also Cohere has a [rate-limited non-commercial free tier](https://cohere.com/pricing))
 * AWS Lambda account (12-month free tier available)
@@ -37,7 +37,7 @@ Now lets look at how to work with each ingredient before connecting them.
 
 You want your function to be quick, lean and safe, so using Rust is a no-brainer. To compile Rust code for use within Lambda functions, the `cargo-lambda` subcommand has been built. `cargo-lambda` can put your Rust code in a zip file that AWS Lambda can then deploy on a no-frills `provided.al2` runtime.
 
-To interface with AWS Lambda, you will need the following dependencies in your `Cargo.toml`:
+To interface with AWS Lambda, you will need a Rust project with the following dependencies in your `Cargo.toml`:
 
 ```toml
 [dependencies]
@@ -46,7 +46,7 @@ lambda_http = { version = "0.8", default-features = false, features = ["apigw_ht
 lambda_runtime = "0.8"
 ```
 
-This gives you an interface consisting of an entry point to start the Lambda runtime and a way to register your handler for HTTP calls:
+This gives you an interface consisting of an entry point to start the Lambda runtime and a way to register your handler for HTTP calls. Put the following snippet into `src/helloworld.rs`:
 
 ```rust
 use lambda_http::{run, service_fn, Body, Error, Request, RequestExt, Response};
@@ -63,6 +63,14 @@ async fn main() {
 ```
 
 You can also use a closure to bind other arguments to your function handler (the `service_fn` call then becomes `service_fn(|req| function_handler(req, ...))`). Also if you want to extract parameters from the request, you can do so using the [Request](https://docs.rs/lambda_http/latest/lambda_http/type.Request.html) methods (e.g. `query_string_parameters` or `query_string_parameters_ref`).
+
+Add the following to your `Cargo.toml` to define the binary:
+
+```toml
+[[bin]]
+name = "helloworld"
+path = "src/helloworld.rs"
+```
 
 On the AWS side, you need to setup a Lambda and IAM role to use with your function.
 
@@ -86,15 +94,18 @@ To test that your "Hello, Lambda" service works, you can compile and upload the 
 $ export LAMBDA_FUNCTION_NAME=hello
 $ export LAMBDA_ROLE=<role name from lambda web ui>
 $ export LAMBDA_REGION=us-east-1
-$ cargo lambda build --release --arm --output-format zip
+$ cargo lambda build --release --arm --bin helloworld --output-format zip
   Downloaded libc v0.2.137
 # [..] output omitted for brevity
     Finished release [optimized] target(s) in 1m 27s
+$ # Delete the old empty definition
+$ aws lambda delete-function-url-config --region $LAMBDA_REGION --function-name $LAMBDA_FUNCTION_NAME
+$ aws lambda delete-function --region $LAMBDA_REGION --function-name $LAMBDA_FUNCTION_NAME
 $ # Upload the function
 $ aws lambda create-function --function-name $LAMBDA_FUNCTION_NAME \
     --handler bootstrap \
     --architectures arm64 \
-    --zip-file fileb://./target/lambda/page-search/bootstrap.zip \
+    --zip-file fileb://./target/lambda/helloworld/bootstrap.zip \
     --runtime provided.al2 \
     --region $LAMBDA_REGION \
     --role $LAMBDA_ROLE \
