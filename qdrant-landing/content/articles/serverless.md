@@ -1,7 +1,7 @@
 ---
 title: Serverless Semantic Search
 short_description: "Need to setup a server to offer semantic search? Think again!"
-description: "A short how-to from zero to semantic search using Qdrant & AWS Lambda"
+description: "A short how-to from zero to semantic search using Qdrant vector search & AWS Lambda"
 social_preview_image: /articles_data/serverless/preview/social_preview.jpg
 preview_dir: /articles_data/serverless/preview
 weight: 10
@@ -12,15 +12,17 @@ draft: false
 keywords: rust, serverless, lambda, semantic, search
 ---
 
-You want to allow people to semantically search your site, but don't want to rent a server? Look no further, here's your recipe that will let you do it all for the very low price of $0! Yes, that is a zero.
+You want to allow people to semantically search your site, but don't want to rent a server? Look no further, here's your recipe that will let you do it all for the very low price of $0*! Yes, that is a zero.
+
+(* for non-commercial purposes)
 
 ## Ingredients
 
 * A [Rust](https://rust-lang.org) toolchain
 * [cargo lambda](cargo-lambda.info) (install via package manager, [download](https://github.com/cargo-lambda/cargo-lambda/releases) binary or `cargo install cargo-lambda`)
-* The [aws CLI](https://aws.amazon.com/cli)
-* Qdrant instance ([free tier](https://cloud.qdrant.tech) available)
-* An embedding provider service of your choice (see our [integration docs](https://qdrant.tech/documentation/integrations). I don't know any with a free tier, but you can get credits from [AI Grant](https://aigrant.org))
+* The [AWS CLI](https://aws.amazon.com/cli)
+* Qdrant Vector Database instance ([free tier](https://cloud.qdrant.tech) available)
+* An embedding provider service of your choice (see our [integration docs](https://qdrant.tech/documentation/integrations). You may be able to get credits from [AI Grant](https://aigrant.org), also Cohere has a [rate-limited non-commercial free tier](https://cohere.com/pricing))
 * AWS Lambda account (12-month free tier available)
 
 ## What you're going to build
@@ -123,7 +125,11 @@ Congratulations! You have set up a Lambda function in Rust. On to the next ingre
 
 ## Embedding
 
-Most providers supply a simple https GET or POST interface you can use with an API key, which you have to supply in an authentication header. Let's use OpenAI as an example, one of the more complex APIs. You need to extend your dependencies with `reqwest` and also add `anyhow` for easier error handling:
+Most providers supply a simple https GET or POST interface you can use with an API key, which you have to supply in an authentication header. If you are using this for non-commercial purposes, the rate limited trial key from Cohere is just a few clicks away. Go to [their welcome page](https://dashboard.cohere.ai/welcome/register), register and you'll be able to get to the dashboard, which has an "API keys" menu entry which will bring you to the following page:
+
+![cohere dashboard](/articles_data/serverless/cohere-dashboard.png)
+
+From there you can click on the ⎘ symbol next to your API key to copy it to the clipboard. *Don't put your API key in the code!* Instead read it from an env variable you can set in the lambda environment. This avoids accidentally putting your key into a public repo. Now all you need to get embeddings is a bit of code. First you need to extend your dependencies with `reqwest` and also add `anyhow` for easier error handling:
 
 ```toml
 anyhow = "1.0"
@@ -131,36 +137,33 @@ reqwest =  { version = "0.11.18", default-features = false, features = ["json", 
 serde = "1.0"
 ```
 
-Now given an API key, you can make a call to get the embedding vector:
+Now given the API key from above, you can make a call to get the embedding vectors:
 
 ```rust
 use anyhow::Result;
 use serde::Deserialize;
 use reqwest::Client;
 
-// This makes use of serde deserialization to unpack the data. Unfortunately,
-// OpenAI has two layers of indirection, so you need to define two types.
 #[derive(Deserialize)]
-struct OpenaiResponse { data: OpenaiData }
+struct CohereResponse { outputs: Vec<Vec<f32>> }
 
-#[derive(Deserialize)]
-struct OpanaiData { embedding: Vec<f32> }
-
-pub async fn embed(client: &Client, text: &str, api_key: &str) -> Result<Vec<f32>> {
-    let OpenaiResponse { data: OpenaiData { embedding } = client
-        .post("https://api.openai.com/v1/embedding")
-        .header("Authorization", &format!("Bearer {api_key}"))
+pub async fn embed(client: &Client, text: &str, api_key: &str) -> Result<Vec<Vec<f32>>> {
+    let CohereResponse { outputs } = client
+        .post("https://api.cohere.ai/embed")
+        .header("Authorization", &format!("BEARER {api_key}"))
         .header("Content-Type", "application/json")
-        .body(format!("{{\"input\":\"{text}\",\"model\":\"text-embedding-ada-002\"}}"))
+        .header("Cohere-Version", "2021-11-08")
+        .body(format!("{{\"text\":[\"{text}\"],\"model\":\"small\"}}"))
         .send()
         .await?
         .json()
 		.await?;
-    Ok(embedding)
+    Ok(outputs)
 }
 ```
 
-You should note that OpenAI's ada-002 model emits 1536-dimensioned vectors.
+Note that this may return multiple vectors if the text overflows the input dimensions.
+Cohere's `small` model has 1024 output dimensions.
 
 Other providers have similar interfaces. Consult our [integration docs](https://qdrant.tech/documentation/integrations) for further information. See how little code it took to get the embedding?
 
@@ -171,9 +174,9 @@ While you're at it, it's a good idea to write a small test to check if embedding
 async fn check_embedding() {
     // ignore this test if API_KEY isn't set
     let Ok(api_key) = &std::env::var("API_KEY") else { return; }
-	let embedding = crate::embed("What is semantic search?", api_key).unwrap();
-	// OpenAI text-embedding-ada-002 has 1536 output dimensions
-	assert_eq!(1536, embedding.len());
+    let embedding = crate::embed("What is semantic search?", api_key).unwrap()[0];
+    // Cohere's `small` model has 1024 output dimensions.
+    assert_eq!(1024, embedding.len());
 }
 ```
 
@@ -209,7 +212,7 @@ fn setup<'i>(
                 collection_name: collection_name.into(),
                 vectors_config: Some(VectorsConfig {
                     config: Some(Config::Params(VectorParams {
-                        size: 1536, // output dimensions from above
+                        size: 1024, // output dimensions from above
                         distance: Distance::Cosine as i32,
                         ..Default::default()
                     })),
