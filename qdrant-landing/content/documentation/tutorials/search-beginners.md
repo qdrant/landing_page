@@ -19,24 +19,28 @@ Before you begin, you need to have a [recent version of Python](https://www.pyth
 ## 1. Installation
 
 You need to process your data so that the search engine can work with it. The [Sentence Transformers] framework gives you access to common [Large Language Models] that turn raw data into embeddings.
-```python
+
+```bash
 pip install -U sentence-transformers
 ```
 
 Once encoded, this data needs to be kept somewhere. Qdrant lets you store data as embeddings. You can also use Qdrant to run search queries against this data. This means that you can ask the engine to give you relevant answers that go way beyond keyword matching.
-```python
+
+```bash
 pip install qdrant-client
 ```
 
 ### Import the models 
 
 Once the two main frameworks are defined, you need to specify the exact models this engine will use. 
+
 ```python
 from qdrant_client import models, QdrantClient
 from sentence_transformers import SentenceTransformer
 ```
 
 The [Sentence Transformers](https://www.sbert.net/index.html) framework contains many embedding models. However, [all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2) is the fastest encoder for this tutorial.
+
 ```python
 encoder = SentenceTransformer('all-MiniLM-L6-v2') 
 ```
@@ -127,11 +131,12 @@ for hit in hits:
 
 The search engine shows three of the most likely responses that have to do with the alien invasion. Each of the responses is assigned a score to show how close the response is to the original inquiry.
 
-```python
+```text
 {'name': 'The War of the Worlds', 'description': 'A Martian invasion of Earth throws humanity into chaos.', 'author': 'H.G. Wells', 'year': 1898} score: 0.570093257022374
 {'name': "The Hitchhiker's Guide to the Galaxy", 'description': 'A comedic science fiction series following the misadventures of an unwitting human and his alien friend.', 'author': 'Douglas Adams', 'year': 1979} score: 0.5040468703143637
 {'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
 ```
+
 ### Narrow down the query
 
 How about the most recent book from the early 2000s?
@@ -160,7 +165,7 @@ for hit in hits:
 
 The query has been narrowed down to one result from 2008. 
 
-```python
+```text
 {'name': 'The Three-Body Problem', 'description': 'Humans encounter an alien civilization that lives in a dying system.', 'author': 'Liu Cixin', 'year': 2008} score: 0.45902943411768216
 ```
 

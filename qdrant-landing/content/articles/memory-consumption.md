@@ -321,20 +321,20 @@ fio --randrepeat=1 \
 
 Initially, we tested on a network-mounted disk, but its performance was too slow, with a read IOPS of 6366 and a bandwidth of 24.9 MiB/s:
 
-```
+```text
 read: IOPS=6366, BW=24.9MiB/s (26.1MB/s)(8192MiB/329424msec)
 ```
 
 To improve performance, we switched to a local disk, which showed much faster results, with a read IOPS of 63.2k and a bandwidth of 247 MiB/s:
 
-```
+```text
 read: IOPS=63.2k, BW=247MiB/s (259MB/s)(8192MiB/33207msec)
 ```
 
 That gave us a significant speed boost, but we wanted to see if we could improve performance even further.
 To do that, we switched to a machine with a local SSD, which showed even better results, with a read IOPS of 183k and a bandwidth of 716 MiB/s:
 
-```
+```text
 read: IOPS=183k, BW=716MiB/s (751MB/s)(8192MiB/11438msec)
 ```
 

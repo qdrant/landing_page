@@ -49,7 +49,7 @@ And 8 CPUs + 16Gb RAM for client machine. We were trying to make the bottleneck 
 
 ### Experiment setup
 
-```
+```text
  ┌────────┐      ┌──────────┐
  │        ├─────►│          │
  │ Client │      │  Engine  │

@@ -22,7 +22,7 @@ Much like Qdrant, the [Mighty](https://max.io/) inference server is written in R
 
 For Mighty, start up a [docker container](https://hub.docker.com/layers/maxdotio/mighty-sentence-transformers/0.9.9/images/sha256-0d92a89fbdc2c211d927f193c2d0d34470ecd963e8179798d8d391a4053f6caf?context=explore) with an open port 5050. Just loading the port in a window shows the following:
 
-```
+```json
 {
   "name": "sentence-transformers/all-MiniLM-L6-v2",
   "architectures": [
