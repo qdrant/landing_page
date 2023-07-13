@@ -24,11 +24,11 @@ Pienso chose Qdrant for its exceptional LLM interoperability, recognizing the po
 
 Qdrant's distributed deployment mode plays a vital role in empowering large enterprises dealing with massive data volumes. It ensures that increasing data volumes do not hinder performance but rather enrich the model's capabilities, making scalability a seamless process. Moreover, Qdrant is well-suited for Pienso’s enterprise customers as it operates best on bare metal infrastructure, enabling them to maintain complete control over their data sovereignty and autonomous LLM regimes. This ensures that enterprises can maintain their full span of control while leveraging the scalability and performance benefits of Qdrant's solution.
 
-### Efficiency: Maximixing the Customer Value Proposition
+### Efficiency: Maximizing the Customer Value Proposition
 
 Qdrant's storage efficiency delivers cost savings on hardware while ensuring a responsive system even with extensive data sets. In an independent benchmark stress test, Pienso discovered that Qdrant could efficiently store 128 million documents, consuming a mere 20.4GB of storage and only 1.25GB of memory. This storage efficiency not only minimizes hardware expenses for Pienso’s customers, but also ensures optimal performance, making Qdrant an ideal solution for managing large-scale data with ease and efficiency.
 
-### Reliability: Fast Perfomance in a Secure Environment
+### Reliability: Fast Performance in a Secure Environment
 
 Qdrant's utilization of Rust, coupled with its memmap storage and write-ahead logging, offers users a powerful combination of high-performance operations, robust data protection, and enhanced data safety measures. Our memmap storage feature offers Pienso fast performance comparable to in-memory storage. In the context of machine learning, where rapid data access and retrieval are crucial for training and inference tasks, this capability proves invaluable. Furthermore, our write-ahead logging (WAL), is critical to ensuring changes are logged before being applied to the database. This approach adds additional layers of data safety, further safeguarding the integrity of the stored information.
 
@@ -36,7 +36,7 @@ Qdrant's utilization of Rust, coupled with its memmap storage and write-ahead lo
 
 ## What's Next?
 
-Pienso and Qdrant are dedicated to jointly develop the most reliable customer offering for the long term. Our partnership will delivers a combination of no-code/low-code interactive deep learning with efficient vector computation engineered for open source models and libraries. 
+Pienso and Qdrant are dedicated to jointly develop the most reliable customer offering for the long term. Our partnership will deliver a combination of no-code/low-code interactive deep learning with efficient vector computation engineered for open source models and libraries. 
 
 ### To learn more about how we plan on achieving this, join the founders for a [technical fireside chat at 09:30 PST Tue, 20th July on Discord](https://discord.gg/527ss8xr?event=1128331722270969909). 
 
