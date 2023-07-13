@@ -14,7 +14,7 @@ Strengthening LLM Performance
 
 Qdrant enhances the accuracy of large language models (LLMs) by offering an alternative to relying solely on patterns identified during the training phase. By integrating with Qdrant, Pienso will empower customer LLMs with dynamic long-term storage, which will ultimately enable them to generate concrete and factual responses. Qdrant effectively preserves the extensive context windows managed by advanced LLMs, allowing for a broader analysis of the conversation or document at hand. By leveraging this extended context, LLMs can achieve a more comprehensive understanding and produce contextually relevant outputs.
 
-## Joint Dedication to Efficiency, Scalability and Reliability
+## Joint Dedication to Scalability, Efficiency and Reliability
 
 > “Every commercial generative AI use case we encounter benefits from faster training and inference, whether mining customer interactions for next best actions or sifting clinical data to speed a therapeutic through trial and patent processes.” - Birago Jones, CEO, Pienso
 
