@@ -38,6 +38,6 @@ Qdrant's utilization of Rust, coupled with its memmap storage and write-ahead lo
 
 Pienso and Qdrant are dedicated to jointly develop the most reliable customer offering for the long term. Our partnership will deliver a combination of no-code/low-code interactive deep learning with efficient vector computation engineered for open source models and libraries. 
 
-### To learn more about how we plan on achieving this, join the founders for a [technical fireside chat at 09:30 PST Tue, 20th July on Discord](https://discord.gg/527ss8xr?event=1128331722270969909). 
+### To learn more about how we plan on achieving this, join the founders for a [technical fireside chat at 09:30 PST Thursday, 20th July on Discord](https://discord.gg/527ss8xr?event=1128331722270969909). 
 
 ![founders chat](/case-studies/pienso/founderschat.png)
