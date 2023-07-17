@@ -1,2 +1,40 @@
 {{ define "main" }}
+
+<section>
+    <div class="auto-container">
+        <div class="row clearfix mb-5">
+
+            {{ range $i, $e := first 2 .Pages }}
+
+            {{ $link := .Permalink }}
+            {{ if .Params.external_link }}
+            {{ $link = .Params.external_link }}
+            {{ end }}
+
+            {{ end }}
+        </div>
+        <div class="row clearfix pt-4">
+
+            {{ range .Pages }}
+
+            {{ $link := .Permalink }}
+            {{ if .Params.external_link }}
+            {{ $link = .Params.external_link }}
+            {{ end }}
+
+            {{ if .Params.short_description }}
+
+            <!-- News block Two -->
+
+            <div class="d-flex col-md-6 col-sm-12">
+                {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style article-card_small-btn") }}
+            </div>
+
+
+            {{ end }}
+            {{ end }}
+        </div>
+    </div>
+</section>
+
 {{ end }}

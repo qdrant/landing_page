@@ -125,6 +125,13 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     url = "/documentation/"
 
   [[menu.main]]
+    identifier = "case-studies"
+    name = "Case Studies"
+    weight = 2
+    parent = "resources"
+    url = "/case-studies/"
+
+  [[menu.main]]
     identifier = "articles"
     name = "Articles"
     weight = 4
@@ -157,7 +164,6 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     url = "https://github.com/qdrant/qdrant/releases"
     [menu.main.params]
         external = true
-
 
 
 [[menu.main]]
