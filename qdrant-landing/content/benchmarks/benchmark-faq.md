@@ -5,71 +5,42 @@ title: Benchmarks F.A.Q.
 weight: 10
 ---
 
+# Frequently Asked Questions 
 
-# Benchmarks F.A.Q.
+## What are you measuring in this study?
 
-## Are we biased?
+The assessment of each engine was based on three criteria: **search precision**, **engine speed**, and **resource requirements**.
+This benchmark depends on each engine meeting a specific search precision threshold. It is important to understand that comparing engine speeds only makes sense if they produce the same quality of results. Exclusively maximizing speed factors might provide inaccurate results and serves no practical use.
+Future additions to this benchmark will account for different scenarios, ranging from a basic single node deployment to a distributed cluster.
 
-Of course, we are! Even if we try to be objective, we are not experts in using all the existing vector databases.
-We develop Qdrant and try to make it stand out from the crowd.
-Due to that, we could have missed some important tweaks in different engines.
+## Which hardware did you use to run each engine?
 
-We tried our best, kept scrolling the docs up and down, and experimented with different configurations to get the most out of the tools. However, we believe you can do it better than us, so all **benchmarks are fully open-sourced, and contributions are welcome**!
+This study gives a relative comparison of different engines on the same hardware setup. Hence, we ran the tests for each engine on one virtual machine, and we wiped it clean before each test. We intentionally used a basic machine without additional resources or custom configurations.
 
+## Why are you not using libraries like FAISS or Annoy?
 
-## What do we measure?
-
-There are several factors considered while deciding on which database to use.
-Of course, some of them support a different subset of functionalities, and those might be a key factor to make the decision.
-But in general, we all care about the search precision, speed, and resources required to achieve it.
-
-There is one important thing - **the speed of the engines has to be compared only if they achieve the same precision**. Otherwise, they could maximize the speed factors by providing inaccurate results, which everybody would rather avoid. Thus, our benchmark results are compared only at a specific search precision threshold.
-
-We currently have planned measurements in several scenarios, from the most standard - single node deployment to a distributed cluster.
-
-
-## How we select hardware?
-
-In our experiments, we are not focusing on the absolute values of the metrics but rather on a relative comparison of different engines.
-What is important is the fact we used the same machine for all the tests.
-It was just wiped off between launching different engines. 
-
-We selected an average machine, which you can easily rent from almost any cloud provider. No extra quota or custom configuration is required.
-
-
-## Why you are not comparing with FAISS or Annoy?
-
-Libraries like FAISS provide a great tool to do experiments with vector search. But they are far away from real usage in production environments.
-If you are using FAISS in production, in the best case, you never need to update it in real-time. In the worst case, you have to create your custom wrapper around it to support CRUD, high availability, horizontal scalability, concurrent access, and so on.
-
+FAISS or Annoy are useful in experimentation, but they don't reflect real usage in production environments.
+When using FAISS in production, you either never need to update it in real-time (best case), or you have to create a custom wrapper around it to support CRUD, high availability, horizontal scalability, and concurrent access.
 Some vector search engines even use FAISS under the hood, but the search engine is much more than just an indexing algorithm.
 
-We do, however, use the same benchmark datasets as the famous [ann-benchmarks project](https://github.com/erikbern/ann-benchmarks), so you can align your expectations for any practical reasons. 
+We do use the same benchmark datasets as the famous [ann-benchmarks project](https://github.com/erikbern/ann-benchmarks), so you may align your expectations for any practical reasons. 
 
+## Why are you using a Python client?
 
-## Why are you using Python client?
+There is no general consensus on which technology is best when implementing vector databases. We chose to go this way because data shows that Python is the most common language in Deep Learning. In practice, you will likely generate embeddings using Python with PyTorch or Tensorflow. Furthermore, Go, Java or Rust clients are not common in a typical pipeline.
 
-There is no consensus in the world of vector databases when it comes to the best technology to implement such a tool.
-You’re free to choose Go, Java or Rust-based systems. 
-But you’re most likely to generate your embeddings using Python with PyTorch or Tensorflow, as according to stats it is the most commonly used language for Deep Learning.
-Thus, you’re probably going to use Python to put the created vectors in the database of your choice either way.
-For that reason, using Go, Java or Rust clients will rarely happen in the typical pipeline - although, we encourage you to adopt Rust stack if you care about the performance of your application.
-Python clients are also the most popular clients among all the engines, just by looking at the number of GitHub stars.
+If we had a say in the industry standard, we would always recommend a Rust stack for strongest performance.
 
+## Why are you not including closed-source SaaS platforms?
 
-## What about closed-source SaaS platforms?
+This would compromise the study and you would not be able to run the benchmark yourself. A fair comparison means that we need to test each engine under the same circumstances. We can't do this with closed-source SaaS options.
+We will continue to research and add more open-source alternatives to this benchmark. The only options we will leave out are the ones that do not support relevant features.
 
-There are some vector databases available as SaaS only so that we couldn’t test them on the same machine as the rest of the systems.
-That makes the comparison unfair. That’s why we purely focused on testing the Open Source vector databases, so everybody may reproduce the benchmarks easily.
+## How does this benchmark stay objective?
 
-This is not the final list, and we’ll continue benchmarking as many different engines as possible.
-Some applications do not support the full list of features needed for any particular benchmark, in which case we will exclude them from the list.
+It is difficult for any team to carry out a benchmark with complete objectivity, but we did make every attempt to carry out the study in a fair and transparent way.
+Comparing open-source engines allowed us to take full advantage of documentation. We tinkered with different configurations to get the most out of each engine. 
 
+## How can I reproduce the benchmark?
 
-## How to reproduce the benchmark?
-
-The source code is available on [Github](https://github.com/qdrant/vector-db-benchmark) and has a README file describing the process of running the benchmark for a specific engine.
-
-## How to contribute?
-
-We made the benchmark Open Source because we believe that it has to be transparent. We could have misconfigured one of the engines or just done it inefficiently. If you feel like you could help us out, check out the [benchmark repository](https://github.com/qdrant/vector-db-benchmark).
+We are proud to make this study fully transparent on [GitHub](https://github.com/qdrant/vector-db-benchmark). Please try the process as outlined in README and run the benchmark yourself. All feedback is valuable to us. If we missed some important tweaks to one of the engine, please let us know. 
