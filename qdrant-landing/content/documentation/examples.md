@@ -17,3 +17,8 @@ Our Notebooks offer complex instructions that are supported with a throrough exp
 | [Image Comparison System for Skin Conditions](https://colab.research.google.com/github/qdrant/examples/blob/master/qdrant_101_image_data/04_qdrant_101_cv.ipynb)    | Use Qdrant to compare challenging images with labels representing different skin diseases. | Qdrant | 
 | [Question and Answer System with LlamaIndex](https://githubtocolab.com/qdrant/examples/blob/master/llama_index_recency/Qdrant%20and%20LlamaIndex%20%E2%80%94%20A%20new%20way%20to%20keep%20your%20Q%26A%20systems%20up-to-date.ipynb)    | Combine Qdrant and LlamaIndex to create a self-updating Q&A system. | Qdrant, LlamaIndex, Cohere | 
 | [Extractive QA System](https://githubtocolab.com/qdrant/examples/blob/master/extractive_qa/extractive-question-answering.ipynb)    | Extract answers directly from context to generate highly relevant answers. | Qdrant | 
+| [Ecommerce Reverse Image Search](https://githubtocolab.com/qdrant/examples/blob/master/extractive_qa/extractive-question-answering.ipynb)    | Extract answers directly from context to generate highly relevant answers. | Qdrant | 
+| [Ecommerce Reverse Image Search](https://githubtocolab.com/qdrant/examples/blob/master/ecommerce_reverse_image_search/ecommerce-reverse-image-search.ipynb)    | Accept images as search queries to receive semantically appropriate answers. | Qdrant | 
+
+
+
