@@ -112,9 +112,7 @@ Let's now evaluate, at a high-level, the way Qdrant is architected.
 The diagram above represents a high-level overview of some of the main components of Qdrant. Here 
 are the terminologies you should get familiar with.
 
-- [Collections](../concepts/collections/): A collection is a named set of 
-points (vectors with a payload) among which you can search. Vectors within the same collection 
-must have the same dimensionalities and be compared by a single metric.
+- [Collections](../concepts/collections/): A collection is a named set of points (vectors with a payload) among which you can search. The vector of each point within the same collection must have the same dimensionality and be compared by a single metric. [Named vectors](https://qdrant.tech/documentation/concepts/collections/#collection-with-multiple-vectors) can be used to have multiple vectors in a single point, each of which can have their own dimensionality and metric requirements.
 - [Distance Metrics](https://en.wikipedia.org/wiki/Metric_space): These are used to measure 
 similarities among vectors and they must be selected at the same time you are creating a 
 collection. The choice of metric depends on the way the vectors were obtained and, in particular, 
