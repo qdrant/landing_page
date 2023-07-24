@@ -114,7 +114,7 @@ are the terminologies you should get familiar with.
 
 - [Collections](../concepts/collections/): A collection is a named set of 
 points (vectors with a payload) among which you can search. Vectors within the same collection 
-can have different dimensionalities and be compared by a single metric.
+must have the same dimensionalities and be compared by a single metric.
 - [Distance Metrics](https://en.wikipedia.org/wiki/Metric_space): These are used to measure 
 similarities among vectors and they must be selected at the same time you are creating a 
 collection. The choice of metric depends on the way the vectors were obtained and, in particular, 
