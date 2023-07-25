@@ -205,6 +205,54 @@ client.update_collection(
 
 This command enables indexing for segments that have more than 10000 kB of vectors stored.
 
+*Available as of v1.4.0*
+
+Qdrant 1.4 adds support for updating more collection parameters at runtime. HNSW
+index, quantization and disk configurations can now be changed without having to
+recreate a collection. If updated parameters don't match the existing index or
+quantized data, they will be rebuilt automatically in the background.
+
+In the following example the HNSW index and quantization parameters are updated,
+for the whole collection and `my_vector` specifically:
+
+```http
+PATCH /collections/{collection_name}
+
+{
+    "vectors": {
+        "my_vector": {
+            "hnsw_config": {
+                "m": 32,
+                "ef_construct": 123
+            },
+            "quantization_config": {
+                "product": {
+                    "compression": "x32",
+                    "always_ram": true
+                }
+            },
+            "on_disk": true
+        }
+    },
+    "hnsw_config": {
+        "ef_construct": 123
+    },
+    "quantization_config": {
+        "scalar": {
+            "type": "int8",
+            "quantile": 0.8,
+            "always_ram": false
+        }
+    }
+}
+```
+
+<!-- TODO: add Python snippet -->
+
+Calls to this endpoint may be blocking as it waits for existing optimizers to
+finish. It is not recommended to use this in a production database as it may
+introduce huge overhead due to rebuilding the index.
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
