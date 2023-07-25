@@ -811,7 +811,7 @@ POST /collections/chunks/points/search/groups
     // Lookup parameters
     "with_lookup": {
         // Name of the collection to look up points in
-        "collection_name": "documents",
+        "collection": "documents",
 
         // Options for specifying what to bring from the payload 
         // of the looked up point, true by default
@@ -819,7 +819,7 @@ POST /collections/chunks/points/search/groups
 
         // Options for specifying what to bring from the vector(s) 
         // of the looked up point, true by default
-        "with_vectors: false,
+        "with_vectors: false
     }
 }
 ```
@@ -840,15 +840,15 @@ client.search_groups(
     # Lookup parameters
     with_lookup=models.WithLookup(
         # Name of the collection to look up points in
-        collection_name="documents",
+        collection="documents",
 
         # Options for specifying what to bring from the payload 
         # of the looked up point, True by default
-        with_payload=["title", "text"]
+        with_payload=["title", "text"],
         
         # Options for specifying what to bring from the vector(s) 
         # of the looked up point, True by default
-        with_vectors=False, 
+        with_vectors=False,
     )
 )
 ```
@@ -865,29 +865,29 @@ The looked up result will show up under `lookup` in each group.
                 "id": 1,
                 "hits": [
                     { "id": 0, "score": 0.91 },
-                    { "id": 1, "score": 0.85 },
+                    { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
                     "id": 1,
                     "payload": {
                         "title": "Document A",
-                        "text": "This is document A",
+                        "text": "This is document A"
                     }
                 }
             },
             {
                 "id": 2,
                 "hits": [
-                    { "id": 1, "score": 0.85 },
+                    { "id": 1, "score": 0.85 }
                 ],
                 "lookup": {
                     "id": 2,
                     "payload": {
                         "title": "Document B",
-                        "text": "This is document B",
+                        "text": "This is document B"
                     }
                 }
-            },
+            }
         ]
     },
     "status": "ok",
