@@ -107,6 +107,8 @@ If the need arises, one could instead encode the names as UUID, which needs to t
 
 Now we have, in best Rust tradition, a blazingly fast semantic search.
 
-To demo it, I used our [Qdrant website](https://qdrant.tech)'s page search, replacing our previous python implementation.
+To demo it, I used our [Qdrant website](https://qdrant.tech)'s page search, replacing our previous python implementation. So in order to not just spew empty words, here is a network profile of the search before the change, typing "io_uring" in the box:
 
+![search benchmark: before](/articles_data/sayt/search_benchmark_before.png)
 
+todo: Benchmark after
