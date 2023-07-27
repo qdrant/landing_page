@@ -18,7 +18,7 @@ Since Qdrant doesn't embed by itself, I had to decide on an embedding model. The
 
 The workflow looks like this:
 
-![Search Qdrant by Embedding](Qdrant_Search_by_Embedding.svg)
+![Search Qdrant by Embedding](/articles_data/sayt/Qdrant_Search_by_Embedding.png)
 
 Unlike with some other libraries, the ort crate's `Session` type is `Send` and `Sync`, which makes it easy to preload the model and calculate the embeddings directly in the request handler. Wrapping the tokenizeri, session and Qdrant client in an actix `Data`, which works like an `Arc`, is sufficient to have everything in place for the search. Using actix' builtin JSON deserialization makes getting the search parameters a breeze.
 
@@ -60,7 +60,7 @@ async fn query(
 
 Even with avoiding a network roundtrip, the embedding still takes some time. As always in optimization, if you cannot do the work faster, a good solution is to avoid work altogether (please don't tell my employer). The idea here is to pre-compute common prefixes and calculate embeddings for them, then storing them in a `prefix_cache` collection. With the `recommend` API method, we can now find best matches without doing any embedding. For now, I use short (up to 5 letters) prefixes, but we can also parse the logs to get the most common search terms and add them to the cache, too.
 
-![Qdrant Recommendation](Qdrant_Recommendation.svg)
+![Qdrant Recommendation](/articles_data/sayt/Qdrant_Recommendation.png)
 
 The code path for this one is simply:
 
