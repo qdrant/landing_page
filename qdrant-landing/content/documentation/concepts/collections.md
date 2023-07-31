@@ -205,6 +205,17 @@ client.update_collection(
 
 This command enables indexing for segments that have more than 10000 kB of vectors stored.
 
+The following parameters can be updated:
+
+* `optimizers_config` - see [optimizer](./optimizer/) for details.
+* `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
+* `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
+* `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
+* `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
+
+Full API specification is available in [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/update_collection).
+
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
