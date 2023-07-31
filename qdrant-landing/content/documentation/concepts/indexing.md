@@ -53,9 +53,9 @@ Available field types are:
 * `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
 * `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
 
-For indexing, it is recommended to choose the field that limits the search result the most.
+Payload index may occupy some additional memory, so it is recommended to only use index for those fields that are used in filtering conditions.
+If you you need to filter by many fields and the memory limits does not allow to index all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
-You should not create an index for Boolean fields and fields with only a few possible values.
 
 ### Full-text index
 
