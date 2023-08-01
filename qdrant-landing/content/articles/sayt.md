@@ -9,7 +9,7 @@ author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-08-01T10:00:00+01:00
 draft: false
-keywords: search, semantic, vector, llm, integration
+keywords: search, semantic, vector, llm, integration, benchmark, recommend, performance
 ---
 
 Qdrant is one of the fastest vector search engines out there, so while looking for a demo to show off, we came upon the idea to do a search-as-you-type box with a semantic search backend. Now we already have a semantic/keyword hybrid search on our website. But that one is written in Python, which incurs some overhead for the interpreter. Naturally, I wanted to see how fast I could go using Rust.
@@ -28,6 +28,7 @@ The request handler looks roughly like the following:
 #[derive(Deserialize)]
 struct Search {
     q: String,
+    #[serde(default)]
     section: String,
 }
 
