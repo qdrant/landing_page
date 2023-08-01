@@ -260,14 +260,13 @@ PATCH /collections/{collection_name}
 ```python
 client.update_collection(
     collection_name="{collection_name}",
-
-    vectors={
+    vectors_config = {
         "my_vector": models.VectorParamsDiff(
             hnsw_config=models.HnswConfigDiff(
                 m=32,
                 ef_construct=123,
             ),
-            quantization_config=models.QuantizationConfigDiff(
+            quantization_config=models.ProductQuantization(
                 product=models.ProductQuantizationConfig(
                     compression=models.CompressionRatio.X32,
                     always_ram=True,
@@ -275,11 +274,11 @@ client.update_collection(
             ),
             on_disk=True,
         ),
-    }
+    },
     hnsw_config=models.HnswConfigDiff(
         ef_construct=123,
     ),
-    quantization_config=models.QuantizationConfigDiff(
+    quantization_config=models.ScalarQuantization(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
             quantile=0.8,
