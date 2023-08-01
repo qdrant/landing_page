@@ -257,7 +257,37 @@ PATCH /collections/{collection_name}
 }
 ```
 
-<!-- TODO: add Python snippet -->
+```python
+client.update_collection(
+    collection_name="{collection_name}",
+
+    vectors={
+        "my_vector": models.VectorParamsDiff(
+            hnsw_config=models.HnswConfigDiff(
+                m=32,
+                ef_construct=123,
+            ),
+            quantization_config=models.QuantizationConfigDiff(
+                product=models.ProductQuantizationConfig(
+                    compression=models.CompressionRatio.X32,
+                    always_ram=True,
+                ),
+            ),
+            on_disk=True,
+        ),
+    }
+    hnsw_config=models.HnswConfigDiff(
+        ef_construct=123,
+    ),
+    quantization_config=models.QuantizationConfigDiff(
+        scalar=models.ScalarQuantizationConfig(
+            type=models.ScalarType.INT8,
+            quantile=0.8,
+            always_ram=False,
+        ),
+    ),
+)
+```
 
 Calls to this endpoint may be blocking as it waits for existing optimizers to
 finish. It is not recommended to use this in a production database as it may
