@@ -103,7 +103,7 @@ If the need arises, one could instead encode the names as UUID, which needs to t
 
 Now we have, in best Rust tradition, a blazingly fast semantic search.
 
-To demo it, I used our [Qdrant website](https://qdrant.tech)'s page search, replacing our previous python implementation. So in order to not just spew empty words, here is a network profile of the search before the change, typing "io_uring" in the box:
+To demo it, I used our [Qdrant documentation website](https://qdrant.tech/documentation)'s page search, replacing our previous python implementation. So in order to not just spew empty words, here is a network profile of the search before the change, typing "io_uring" in the box:
 
 Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the python and rust services locally. Note that with search terms of up to 3 characters, the python version merely does a text search, not a semantic search, while the Rust version always does a semantic search. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load. Without further ado, here the results:
 
@@ -111,7 +111,8 @@ Since the operations themselves are far faster than the network whose fickle nat
 |-----------|------------|-----------|------------|
 | Python 🐍 | 4½ ± ½ ms* | 16 ± 4 ms | 16 ± 4 ms  |
 | Rust   🦀 | 1½ ± ½ ms  | 1½ ± ½ ms |  5 ± 1 ms  |
+|-----------|------------|-----------|------------|
 
-* full-text search only
+\* full-text search only
 
 The Rust version consistently beats the python version in terms of speed. and offers a semantic search even on few-character queries. If the prefix cache is hit (as in the "ring" measurement), the semantic search can even get more than ten times faster than the python version. The general speedup is due to both the relatively lower overhead of Rust + actix-web compared to Python + fastAPI (even if that already performs admirably), as well as using onnxruntime instead of SentenceTransformers for the embedding. The prefix cache gives the Rust version a real boost by doing a semantic search without doing any embedding work.
