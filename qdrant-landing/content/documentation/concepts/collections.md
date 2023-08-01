@@ -205,6 +205,16 @@ client.update_collection(
 )
 ```
 
+The following parameters can be updated:
+
+* `optimizers_config` - see [optimizer](./optimizer/) for details.
+* `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
+* `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
+* `vectors` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
+* `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
+
+Full API specification is available in [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/update_collection).
+
 *Available as of v1.4.0*
 
 Qdrant 1.4 adds support for updating more collection parameters at runtime. HNSW
