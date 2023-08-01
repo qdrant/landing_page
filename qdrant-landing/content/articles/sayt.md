@@ -20,7 +20,7 @@ The workflow looks like this:
 
 ![Search Qdrant by Embedding](/articles_data/sayt/Qdrant_Search_by_Embedding.png)
 
-Unlike with some other libraries, the ort crate's `Session` type is `Send` and `Sync`, which makes it easy to preload the model and calculate the embeddings directly in the request handler. Wrapping the tokenizeri, session and Qdrant client in an actix `Data`, which works like an `Arc`, is sufficient to have everything in place for the search. Using actix' builtin JSON deserialization makes getting the search parameters a breeze.
+Unlike with some other libraries, the ort crate's `Session` type is `Send` and `Sync`, which makes it easy to preload the model and calculate the embeddings directly in the request handler. Wrapping the tokenizer, session and Qdrant client in an actix `Data`, which works like an `Arc`, is sufficient to have everything in place for the search. Using actix' builtin JSON deserialization makes getting the search parameters a breeze.
 
 The request handler looks roughly like the following:
 
@@ -105,7 +105,7 @@ Now we have, in best Rust tradition, a blazingly fast semantic search.
 
 To demo it, I used our [Qdrant documentation website](https://qdrant.tech/documentation)'s page search, replacing our previous python implementation. So in order to not just spew empty words, here is a benchmark, showing different queries that exercise different code paths.
 
-Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the python and rust services locally. Note that with search terms of up to 3 characters, the python version merely does a text search, not a semantic search, while the Rust version always does ai more complex semantic search. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load. Without further ado, here the results:
+Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the python and rust services locally. Note that with search terms of up to 3 characters, the python version merely does a text search, not a semantic search, while the Rust version always does a more complex semantic search. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load. Without further ado, here the results:
 
 | query     | `io`       | `ring`    | `io_uring` |
 |-----------|------------|-----------|------------|
