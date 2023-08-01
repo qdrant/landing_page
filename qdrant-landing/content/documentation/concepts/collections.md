@@ -208,9 +208,9 @@ client.update_collection(
 *Available as of v1.4.0*
 
 Qdrant 1.4 adds support for updating more collection parameters at runtime. HNSW
-index, quantization and disk configurations can now be changed without having to
-recreate a collection. If updated parameters don't match the existing index or
-quantized data, they will be rebuilt automatically in the background.
+index, quantization and disk configurations can now be changed without
+recreating a collection. Segments (with index and quantized data) will
+automatically be rebuilt in the background to match updated parameters.
 
 In the following example the HNSW index and quantization parameters are updated,
 for the whole collection and `my_vector` specifically:
