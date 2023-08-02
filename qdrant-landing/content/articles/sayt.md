@@ -7,7 +7,7 @@ preview_dir: /articles_data/sayt/preview
 weight: 10
 author: Andre Bogus
 author_link: https://llogiq.github.io
-date: 2023-08-01T10:00:00+01:00
+date: 2023-08-02T10:00:00+01:00
 draft: false
 keywords: search, semantic, vector, llm, integration, benchmark, recommend, performance
 ---
@@ -53,8 +53,8 @@ async fn query(
             ..Default::default,
         }).await
     {
-        Ok(SearchResponse { result, .. }) => Ok(result_json(result)),
-        Err(e) => Err(InternalError::new(e, StatusCode::BAD_GATEWAY)),
+        Ok(SearchResponse { result, .. }) => result_json(result),
+        Err(e) => return HttpResponse::InternalServerError().body(e.to_string()),
     }
 }
 ```
