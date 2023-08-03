@@ -102,11 +102,15 @@ fn prefix_to_id(prefix: &str) -> PointId {
 
 If the need arises, one could instead encode the names as UUID, which needs to time-consumingly hash the input, so I decided against this for now.
 
+The `recommend` endpoint works roughly the same as `search_points`, but instead of searching for a vector, we search for one or more points (we can also give negative example points the search will try to avoid). It was built to help drive recommendation engines, saving the roundtrip of sending the current point's vector back to Qdrant to find more similar ones. The endpoint however goes a bit further by allowing us to select a different collection to lookup the points, which allows us to keep our `prefix_cache` collection separate from the site data. So in our case, Qdrant first looks up the point from the `prefix_cache`, takes its vector and searches for that in the `site` collection, essentially caching the precomputed embeddings.
+
 Now we have, in the best Rust tradition, a blazingly fast semantic search.
 
 To demo it, I used our [Qdrant documentation website](https://qdrant.tech/documentation)'s page search, replacing our previous Python implementation. So in order to not just spew empty words, here is a benchmark, showing different queries that exercise different code paths.
 
 Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the Python and Rust services locally. Note that with search terms of up to 3 characters, the Python version merely does a text search, not a semantic search, while the Rust version always does a more complex semantic search. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load. Without further ado, here are the results:
+
+![Benchmark Results](/articles_data/sayt/benchmark.png)
 
 | query     | `io`       | `ring`    | `io_uring` |
 |-----------|------------|-----------|------------|
