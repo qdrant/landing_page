@@ -184,6 +184,8 @@ Dynamic parameter updates may be helpful, for example, for more efficient initia
 For example, you can disable indexing during the upload process, and enable it immediately after the upload is finished.
 As a result, you will not waste extra computation resources on rebuilding the index.
 
+The following command enables indexing for segments that have more than 10000 kB of vectors stored:
+
 ```http
 PATCH /collections/{collection_name}
 
@@ -203,7 +205,92 @@ client.update_collection(
 )
 ```
 
-This command enables indexing for segments that have more than 10000 kB of vectors stored.
+The following parameters can be updated:
+
+* `optimizers_config` - see [optimizer](./optimizer/) for details.
+* `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
+* `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
+* `vectors` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
+* `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
+
+Full API specification is available in [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/update_collection).
+
+*Available as of v1.4.0*
+
+Qdrant 1.4 adds support for updating more collection parameters at runtime. HNSW
+index, quantization and disk configurations can now be changed without
+recreating a collection. Segments (with index and quantized data) will
+automatically be rebuilt in the background to match updated parameters.
+
+In the following example the HNSW index and quantization parameters are updated,
+for the whole collection and `my_vector` specifically:
+
+```http
+PATCH /collections/{collection_name}
+
+{
+    "vectors": {
+        "my_vector": {
+            "hnsw_config": {
+                "m": 32,
+                "ef_construct": 123
+            },
+            "quantization_config": {
+                "product": {
+                    "compression": "x32",
+                    "always_ram": true
+                }
+            },
+            "on_disk": true
+        }
+    },
+    "hnsw_config": {
+        "ef_construct": 123
+    },
+    "quantization_config": {
+        "scalar": {
+            "type": "int8",
+            "quantile": 0.8,
+            "always_ram": false
+        }
+    }
+}
+```
+
+```python
+client.update_collection(
+    collection_name="{collection_name}",
+    vectors_config = {
+        "my_vector": models.VectorParamsDiff(
+            hnsw_config=models.HnswConfigDiff(
+                m=32,
+                ef_construct=123,
+            ),
+            quantization_config=models.ProductQuantization(
+                product=models.ProductQuantizationConfig(
+                    compression=models.CompressionRatio.X32,
+                    always_ram=True,
+                ),
+            ),
+            on_disk=True,
+        ),
+    },
+    hnsw_config=models.HnswConfigDiff(
+        ef_construct=123,
+    ),
+    quantization_config=models.ScalarQuantization(
+        scalar=models.ScalarQuantizationConfig(
+            type=models.ScalarType.INT8,
+            quantile=0.8,
+            always_ram=False,
+        ),
+    ),
+)
+```
+
+Calls to this endpoint may be blocking as it waits for existing optimizers to
+finish. It is not recommended to use this in a production database as it may
+introduce huge overhead due to rebuilding the index.
 
 ## Collection info
 
