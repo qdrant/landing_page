@@ -1,7 +1,7 @@
 ---
 title: Vector Similarity beyond Search
 short_description: Harnessing the full capabilities of vector embeddings
-description: Vector similarity posesses a lot of potential beyond simple full text search extension. In this article we explore some of the promissing new techniques that can be used to expand use-cases of unstructured data.
+description: We explore some of the promissing new techniques that can be used to expand use-cases of unstructured data and unlock new similarities-based data exploration tools.
 preview_dir: /articles_data/exploration-api/preview
 small_preview_image: /articles_data/exploration-api/icon.svg
 social_preview_image: /articles_data/exploration-api/preview/social_preview.jpg
