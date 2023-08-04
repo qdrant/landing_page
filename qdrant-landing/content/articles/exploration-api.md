@@ -138,19 +138,21 @@ This approach is already implemented in Qdrant, and while it works great when th
 
 ### Relative Distance Recommendations
 
-Another approach is to use the distance between candidates and negative examples to make them create exclusion areas.
+Another approach is to use the distance between negative examples to the candidates to help them create exclusion areas.
 In this technique, we perform searches near the positive examples while excluding the points that are closer to a negative example than to a positive one.
 
 {{< figure width=80% src=/articles_data/exploration-api/relative-distance-recommendations.png caption="Relative Distance Recommendations" >}}
 
+The main use-case of both approaches —of course— is to take some history of user interactions and recommend new items based on it.
+
 ## Discovery
 
 In many exploration scenarios, the desired destination is not known in advance.
-The search process, in this case, can consist of multiple steps. Each step would provide a little more information.
+Search process in this case can consist of multiple steps, where each step would provide a little more information to guide the search in the right direction.
 
-To get more intuition about the possible ways to implement this approach, let’s take a look at how similarity modes are trained in the first place.
+To get more intuition about the possible ways to implement this approach, let’s take a look at how similarity modes are trained in the first place:
 
-The most well-known loss function used to train similarity models is a Triplet-loss.
+The most well-known loss function used to train similarity models is a [triplet-loss](https://en.wikipedia.org/wiki/Triplet_loss).
 In this loss, the model is trained by fitting the information of relative similarity of 3 objects: the Anchor, Positive, and Negative examples.
 
 {{< figure width=80% src=/articles_data/exploration-api/triplet-loss.png caption="Triplet Loss" >}}
@@ -162,35 +164,35 @@ We already have a trained model. The user can provide positive and negative exam
 {{< figure width=60% src=/articles_data/exploration-api/discovery.png caption="Reversed triplet loss" >}}
 
 Multiple positive-negative pairs can be provided to make the discovery process more accurate.
-Worth mentioning that, as well as in NN training, datasets may contain noise and some portion of contradictory information, so the discovery process should be tolerant of this kind of data imperfections.
+Worth mentioning, that as well as in NN training, the dataset may contain noise and some portion of contradictory information, so a discovery process should be tolerant to this kind of data imperfections.
 
 
 <!-- Image with multiple pairs -->
 {{< figure width=80% src=/articles_data/exploration-api/discovery-noise.png caption="Sample pairs" >}}
 
-The important difference between the recommendation method is that positive-negative pairs in the discovery method don’t assume that the final result should be close to positive. It only assumes that it should be closer than the negative one.
+The important difference between this and recommendation method is that the positive-negative pairs in discovery method doesn’t assume that the final result should be close to positive, it only assumes that it should be closer than the negative one.
 
 {{< figure width=80% src=/articles_data/exploration-api/discovery-vs-recommendations.png caption="Discovery vs Recommendation" >}}
 
-In combination with filtering or similarity search, the additional information from the pairs can be used as a re-ranking factor.
+In combination with filtering or similarity search, the additional context information provided by the discovery pairs can be used as a re-ranking factor.
 
-## The New API stack for Vector Databases
+## A New API Stack for Vector Databases
 
-When you introduce vector search capabilities into your text search engine, you extend its functionality.
+When you introduce vector similarity capabilities into your text search engine, you extend its functionality.
 However, it doesn't work the other way around, as the vector similarity as a concept is much broader than some task-specific implementations of full-text search.
 
-Vector Databases, which introduce built-in full-text functionality, must make several compromises: 
+Vector Databases, which introduce built-in full-text functionality, must make several compromises:
 
 - Choose a specific full-text search variant.
 - Either sacrifice API consistency or limit vector similarity functionality to only basic kNN search.
 - Introduce additional complexity to the system.
 
 
-Qdrant, on the contrary, puts vector similarity in the center of its API and architecture, which allows us to move towards the new stack of vector-native operations.
-We believe that this is the future of vector databases, and we are excited to see how this technology will unlock new use cases.
+Qdrant, on the contrary, puts vector similarity in the center of it's API and architecture, such that it allows us to move towards a new stack of vector-native operations.
+We believe that this is the future of vector databases, and we are excited to see what new use-cases will be unlocked by these techniques.
 
 
-## Conclusion
+## Wrapping up
 
 Vector similarity offers a range of powerful functions that go far beyond those available in traditional full-text search engines.
 From dissimilarity search to diversity and recommendation, these methods can expand the cases in which vectors are useful. 
