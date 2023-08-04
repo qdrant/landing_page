@@ -6,10 +6,17 @@ preview_dir: /articles_data/exploration-api/preview
 small_preview_image: /articles_data/exploration-api/icon.svg
 social_preview_image: /articles_data/exploration-api/preview/social_preview.jpg
 weight: -1
-author: Luis Cossio
-author_link: https://github.com/coszio
+author: Luis Cossío
+author_link: https://coszio.github.io/
 date: 2023-07-01T13:00:00+03:00
 draft: false
+keywords: 
+    - vector similarity
+    - exploration
+    - dissimilarity
+    - discovery
+    - diversity
+    - recommendation
 ---
 
 
@@ -28,7 +35,8 @@ While there is an intersection in the functionality of these two approaches, the
 For example, the exact phrase matching and counting of results are native to full-text search, while vector similarity support for this type of operation is limited.
 On the other hand, vector similarity easily allows cross-modal retrieval of images by text or vice-versa, which is impossible with full-text search.
 
-This mismatch in expectations might sometimes lead to confusion. Attempting to use a vector similarity as a full-text search can result in a range of frustrations, from slow response times to poor search results, to limited functionality.
+This mismatch in expectations might sometimes lead to confusion.
+Attempting to use a vector similarity as a full-text search can result in a range of frustrations, from slow response times to poor search results, to limited functionality.
 As an outcome, they are getting only a fraction of the benefits of vector similarity.
 
 Below we will explore why vector similarity stack deserves new interfaces and design patterns that will unlock the full potential of this technology, which can still be used in conjunction with full-text search.
@@ -36,16 +44,16 @@ Below we will explore why vector similarity stack deserves new interfaces and de
 
 ## New Ways to Interact with Similarities
 
-Vector representations unlock new ways to interact with data.
-For example, we can use them to measure semantic similarity between words, cluster words, or documents based on their meaning, perform sentiment analysis, or even generate new text.
+Having a vector representation of unstructured data unlocks new ways of interacting with it.
+For example, it can be used to measure semantic similarity between words, to cluster words or documents based on their meaning, to find related images, or even to generate new text.
 However, these interactions can go beyond finding their nearest neighbors (kNN).
-There are several other techniques that vector representations beyond the traditional kNN search can leverage.
-These include dissimilarity search, diversity search, and recommendation.
+
+There are several other techniques that can be leveraged by vector representations beyond the traditional kNN search. These include dissimilarity search, diversity search, recommendations and discovery functions.
 
 
 ## Dissimilarity Search
 
-The Dissimilarity search is the most straightforward concept after the nearest search, which can’t be reproduced in a traditional full-text search.
+The Dissimilarity —or farthest— search  is the most straightforward concept after the nearest search, which can’t be reproduced in a traditional full-text search.
 It aims to find the most un-similar or distant documents across the collection.
 
 
@@ -55,7 +63,7 @@ Unlike full-text match, Vector similarity can compare any pair of documents (or 
 It doesn’t rely on keywords or other metadata. 
 With vector similarity, we can easily achieve a dissimilarity search by inverting the search objective from maximizing similarity to minimizing it.
 
-The dissimilarity search unlocks vector similarity in the areas where previously no search was used. 
+The dissimilarity search can find items in areas where previously no other search could be used.
 Let’s look at a few examples.
 
 ### Case: Mislabeling Detection
@@ -75,7 +83,7 @@ The output of this search can be further processed with heavier models or human 
 ### Case: Outlier Detection
 
 In some cases, we might not even have labels, but it is still possible to try to detect anomalies in our dataset.
-And the dissimilarity search can be used for this purpose as well.
+Dissimilarity search can be used for this purpose as well.
 
 {{< figure width=80% src=/articles_data/exploration-api/anomaly-detection.png caption="Anomaly Detection" >}}
 
@@ -106,7 +114,7 @@ By maximizing the distance between all points in the response, we can have an al
 
 
 Some forms of diversity sampling are already used in the industry and are known as [Maximum Margin Relevance](https://python.langchain.com/docs/integrations/vectorstores/qdrant#maximum-marginal-relevance-search-mmr) (MMR). Techniques like this were developed to enhance similarity on a universal search API.
-However, there is still room for improvement, particularly regarding diversity retrieval.
+However, there is still room for new ideas, particularly regarding diversity retrieval.
 By utilizing more advanced vector-native engines, it could be possible to take use cases to the next level and achieve even better results.
 
 
@@ -114,8 +122,8 @@ By utilizing more advanced vector-native engines, it could be possible to take u
 
 Vector similarity can go above a single query vector.
 It can combine multiple positive and negative examples for a more accurate retrieval.
-Building a recommendation API in a vector database can take an additional advantage of using already stored vectors as part of the queries, by specifying the point id.
-The benefit of this is that no query-time neural network inference is required.
+Building a recommendation API in a vector database can take advantage of using already stored vectors as part of the queries, by specifying the point id.
+Doing this, we can skip query-time neural network inference, and make the recommendation search faster.
 
 There are multiple ways to implement recommendations with vectors.
 
