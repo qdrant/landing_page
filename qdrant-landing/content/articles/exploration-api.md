@@ -73,7 +73,7 @@ To ensure our catalog is accurate, we can use a dissimilarity search to highligh
 
 To do this, we only need to search for the most dissimilar items using the 
 embedding of the category title itself as a query.
-We can use filters to narrow down the search to a specific category.
+This can be too broad, so, combining it with filters —a [Qdrant superpower](/articles/filtrable-hnsw)—, we can narrow down the search to a specific category.
 
 
 {{< figure src=/articles_data/exploration-api/mislabelling.png caption="Mislabeling Detection" >}}
