@@ -1,0 +1,228 @@
+<?xml version="1.0"?>
+<typemap>
+
+  <type
+     format="ttf"
+     name="RobotoBI"
+     fullname="Roboto Bold Italic"
+     family="Roboto"
+     glyphs="./Roboto-BoldItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoB"
+     fullname="Roboto Bold"
+     family="Roboto"
+     glyphs="./Roboto-Bold.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoThin"
+     fullname="Roboto Thin"
+     family="Roboto Thin"
+     glyphs="./Roboto-Thin.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoLI"
+     fullname="Roboto Light Italic"
+     family="Roboto Light"
+     glyphs="./Roboto-LightItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMono"
+     fullname="Roboto Mono Regular"
+     family="Roboto Mono"
+     glyphs="./RobotoMono-VariableFont_wght.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoThinI"
+     fullname="Roboto Thin Italic"
+     family="Roboto Thin"
+     glyphs="./Roboto-ThinItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMI"
+     fullname="Roboto Medium Italic"
+     family="Roboto Medium"
+     glyphs="./Roboto-MediumItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="Roboto"
+     fullname="Roboto"
+     family="Roboto"
+     glyphs="./Roboto-Regular.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoM"
+     fullname="Roboto Medium"
+     family="Roboto Medium"
+     glyphs="./Roboto-Medium.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoI"
+     fullname="Roboto Italic"
+     family="Roboto"
+     glyphs="./Roboto-Italic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoL"
+     fullname="Roboto Light"
+     family="Roboto Light"
+     glyphs="./Roboto-Light.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoBI"
+     fullname="Roboto Mono Bold Italic"
+     family="Roboto Mono"
+     glyphs="./static/RobotoMono-BoldItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoThin"
+     fullname="Roboto Mono Thin"
+     family="Roboto Mono Thin"
+     glyphs="./static/RobotoMono-Thin.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoM"
+     fullname="Roboto Mono Medium"
+     family="Roboto Mono Medium"
+     glyphs="./static/RobotoMono-Medium.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoMI"
+     fullname="Roboto Mono Medium Italic"
+     family="Roboto Mono Medium"
+     glyphs="./static/RobotoMono-MediumItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoLI"
+     fullname="Roboto Mono Light Italic"
+     family="Roboto Mono Light"
+     glyphs="./static/RobotoMono-LightItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoSemiBold"
+     fullname="Roboto Mono SemiBold"
+     family="Roboto Mono SemiBold"
+     glyphs="./static/RobotoMono-SemiBold.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoExtraLight"
+     fullname="Roboto Mono ExtraLight"
+     family="Roboto Mono ExtraLight"
+     glyphs="./static/RobotoMono-ExtraLight.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoI"
+     fullname="Roboto Mono Italic"
+     family="Roboto Mono"
+     glyphs="./static/RobotoMono-Italic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoExtraLightI"
+     fullname="Roboto Mono ExtraLight Italic"
+     family="Roboto Mono ExtraLight"
+     glyphs="./static/RobotoMono-ExtraLightItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoL"
+     fullname="Roboto Mono Light"
+     family="Roboto Mono Light"
+     glyphs="./static/RobotoMono-Light.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoSemiBoldI"
+     fullname="Roboto Mono SemiBold Italic"
+     family="Roboto Mono SemiBold"
+     glyphs="./static/RobotoMono-SemiBoldItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMono"
+     fullname="Roboto Mono Regular"
+     family="Roboto Mono"
+     glyphs="./static/RobotoMono-Regular.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoThinI"
+     fullname="Roboto Mono Thin Italic"
+     family="Roboto Mono Thin"
+     glyphs="./static/RobotoMono-ThinItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoB"
+     fullname="Roboto Mono Bold"
+     family="Roboto Mono"
+     glyphs="./static/RobotoMono-Bold.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoMonoI"
+     fullname="Roboto Mono Italic"
+     family="Roboto Mono"
+     glyphs="./RobotoMono-Italic-VariableFont_wght.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoBkI"
+     fullname="Roboto Black Italic"
+     family="Roboto Black"
+     glyphs="./Roboto-BlackItalic.ttf"
+     />
+
+  <type
+     format="ttf"
+     name="RobotoBk"
+     fullname="Roboto Black"
+     family="Roboto Black"
+     glyphs="./Roboto-Black.ttf"
+     />
+
+</typemap>
