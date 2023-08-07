@@ -117,7 +117,7 @@ Now I have, in the best Rust tradition, a blazingly fast semantic search.
 
 To demo it, I used our [Qdrant documentation website](https://qdrant.tech/documentation)'s page search, replacing our previous Python implementation. So in order to not just spew empty words, here is a benchmark, showing different queries that exercise different code paths.
 
-Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the Python and Rust services locally. Note that with search terms of up to three characters, the Python version merely does a text search, not a semantic search, while the Rust version always does a more complex semantic search. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load.
+Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the Python and Rust services locally. Note that with search terms of up to three characters, the Python version merely does a text search, not a semantic search, while the Rust version always does a full semantic search. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load.
 
 Inspired by a [recent article I wrote](https://qdrant.tech/articles/io_uring/), I chose the search terms "io", "ring" and "io_uring", which apart from all finding the article in question, trigger different code paths in both versions.
 
@@ -141,11 +141,11 @@ Mission accomplished! But wait, there's more!
 To improve on the quality of the results, Qdrant can do multiple searches in parallel, and then the service puts the results in sequence, taking the first best matches. The extended code searches:
 
 1. Text matches in titles
-2. Text matches outside of titles
-3. Semantic (but not text) matches in titles
-4. Semantic (but not text) matches outside of titles
+2. Text matches in body (paragraphs or lists)
+3. Semantic matches in titles
+4. Any Semantic matches
 
-Those are put together by taking them in the above order.
+Those are put together by taking them in the above order, deduplicating as necessary.
 
 ![merge workflow](/articles_data/sayt/sayt_merge.png)
 
@@ -175,7 +175,7 @@ Similarly, the result has a list of results of the individual searches:
 
 As the queries are done in a batch request, there isn't any additional network overhead and only very modest computation overhead, yet the results will be better in many cases.
 
-The only additional complexity is to flatten the result lists and take the first 5 results. As the additional filters rule out any overlap, the code doesn't even need to deduplicate the points. Now there is one final problem: The query may be short enough to take the recommend code path, but still not be in the prefix cache. In that case, doing the search *sequentially* would mean two round-trips between the service and the Qdrant instance. The solution is to *concurrently* start both requests and take the first successful non-empty result.
+The only additional complexity is to flatten the result lists and take the first 5 results, deduplicating by point ID. Now there is one final problem: The query may be short enough to take the recommend code path, but still not be in the prefix cache. In that case, doing the search *sequentially* would mean two round-trips between the service and the Qdrant instance. The solution is to *concurrently* start both requests and take the first successful non-empty result.
 
 ![sequential vs. concurrent flow](/articles_data/sayt/sayt_concurrency.png)
 
