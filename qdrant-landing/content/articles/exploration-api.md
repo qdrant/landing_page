@@ -158,7 +158,7 @@ In this loss, the model is trained by fitting the information of relative simila
 {{< figure width=80% src=/articles_data/exploration-api/triplet-loss.png caption="Triplet Loss" >}}
 
 Using the same mechanics, we can look at the training process from the other side.
-We already have a trained model. The user can provide positive and negative examples, and the goal of the discovery process - is to find suitable anchors across the stored collection of vectors.
+Given a trained model, the user can provide positive and negative examples, and the goal of the discovery process is then to find suitable anchors across the stored collection of vectors.
 
 <!-- ToDo: image where we know positive and nagative -->
 {{< figure width=60% src=/articles_data/exploration-api/discovery.png caption="Reversed triplet loss" >}}
