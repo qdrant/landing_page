@@ -148,7 +148,7 @@ The main use-case of both approaches —of course— is to take some history of 
 ## Discovery
 
 In many exploration scenarios, the desired destination is not known in advance.
-Search process in this case can consist of multiple steps, where each step would provide a little more information to guide the search in the right direction.
+The search process in this case can consist of multiple steps, where each step would provide a little more information to guide the search in the right direction.
 
 To get more intuition about the possible ways to implement this approach, let’s take a look at how similarity modes are trained in the first place:
 
