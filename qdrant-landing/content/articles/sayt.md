@@ -181,4 +181,6 @@ The only additional complexity is to flatten the result lists and take the first
 
 While this means more load for the Qdrant vector search engine, this is not the limiting factor. The relevant data is already in cache in many cases, so the overhead stays within acceptable bounds, and the maximum latency in case of prefix cache misses is measurably reduced.
 
+The code is available on the [Qdrant github](https://github.com/qdrant/page-search)
+
 To sum up: Rust is fast, recommend lets us use precomputed embeddings, batch requests are awesome and one can do a semantic search in mere milliseconds.
