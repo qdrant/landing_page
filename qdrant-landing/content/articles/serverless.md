@@ -3,6 +3,7 @@ title: Serverless Semantic Search
 short_description: "Need to setup a server to offer semantic search? Think again!"
 description: "Create a serverless semantic search engine using nothing but Qdrant and free cloud services."
 social_preview_image: /articles_data/serverless/social_preview.png
+small_preview_image: /articles_data/serverless/icon.svg
 preview_dir: /articles_data/serverless/preview
 weight: 1
 author: Andre Bogus

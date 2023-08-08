@@ -8,7 +8,7 @@ social_preview_image: /articles_data/exploration-api/preview/social_preview.jpg
 weight: -1
 author: Luis Cossío
 author_link: https://coszio.github.io/
-date: 2023-07-01T13:00:00+03:00
+date: 2023-08-08T08:00:00+03:00
 draft: false
 keywords: 
     - vector similarity
