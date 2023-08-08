@@ -28,7 +28,7 @@ When making use of unstructured data, there are traditional go-to solutions that
 Sometimes people mix those two approaches, so it might look like the vector similarity is just an extension of full-text search. However, in this article, we will explore some promising new techniques that can be used to expand the use-case of unstructured data and demonstrate that vector similarity creates its own stack of data exploration tools.
 
 
-{{< figure width=70% src=/articles_data/exploration-api/venn-diagram.png caption="Full-text search and Vector Similarity Functionality overlap" >}}
+{{< figure width=70% src=/articles_data/vector-similarity-beyond-search/venn-diagram.png caption="Full-text search and Vector Similarity Functionality overlap" >}}
 
 
 While there is an intersection in the functionality of these two approaches, there is also a vast area of functions that is unique to each of them.
@@ -57,7 +57,7 @@ The Dissimilarity —or farthest— search  is the most straightforward concept 
 It aims to find the most un-similar or distant documents across the collection.
 
 
-{{< figure width=80% src=/articles_data/exploration-api/dissimilarity.png caption="Dissimilarity Search" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/dissimilarity.png caption="Dissimilarity Search" >}}
 
 Unlike full-text match, Vector similarity can compare any pair of documents (or points) and assign a similarity score. 
 It doesn’t rely on keywords or other metadata. 
@@ -76,7 +76,7 @@ embedding of the category title itself as a query.
 This can be too broad, so, combining it with filters —a [Qdrant superpower](/articles/filtrable-hnsw)—, we can narrow down the search to a specific category.
 
 
-{{< figure src=/articles_data/exploration-api/mislabelling.png caption="Mislabeling Detection" >}}
+{{< figure src=/articles_data/vector-similarity-beyond-search/mislabelling.png caption="Mislabeling Detection" >}}
 
 The output of this search can be further processed with heavier models or human supervision to detect actual mislabeling.
 
@@ -85,7 +85,7 @@ The output of this search can be further processed with heavier models or human 
 In some cases, we might not even have labels, but it is still possible to try to detect anomalies in our dataset.
 Dissimilarity search can be used for this purpose as well.
 
-{{< figure width=80% src=/articles_data/exploration-api/anomaly-detection.png caption="Anomaly Detection" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/anomaly-detection.png caption="Anomaly Detection" >}}
 
 The only thing we need is a bunch of reference points that we consider "normal".
 Then we can search for the most dissimilar points to this reference set and use them as candidates for further analysis.
@@ -98,19 +98,19 @@ Even with no input provided vector, (dis-)similarity can improve an overall sele
 The naive approach is to do random sampling. 
 However, unless our dataset has a uniform distribution, the results of such sampling might be biased toward more frequent types of items.
 
-{{< figure  width=80% src=/articles_data/exploration-api/diversity-random.png caption="Example of random sampling" >}}
+{{< figure  width=80% src=/articles_data/vector-similarity-beyond-search/diversity-random.png caption="Example of random sampling" >}}
 
 
 The similarity information can increase the diversity of those results and make the first overview more interesting.
 That is especially useful when users do not yet know what they are looking for and want to explore the dataset.
 
-{{< figure width=80% src=/articles_data/exploration-api/diversity-force.png caption="Example of similarity-based sampling" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/diversity-force.png caption="Example of similarity-based sampling" >}}
 
 
 The power of vector similarity, in the context of being able to compare any two points, allows making a diverse selection of the collection possible without any labeling efforts.
 By maximizing the distance between all points in the response, we can have an algorithm that will sequentially output dissimilar results.
 
-{{< figure src=/articles_data/exploration-api/diversity.png caption="Diversity Search" >}}
+{{< figure src=/articles_data/vector-similarity-beyond-search/diversity.png caption="Diversity Search" >}}
 
 
 Some forms of diversity sampling are already used in the industry and are known as [Maximum Margin Relevance](https://python.langchain.com/docs/integrations/vectorstores/qdrant#maximum-marginal-relevance-search-mmr) (MMR). Techniques like this were developed to enhance similarity on a universal search API.
@@ -132,7 +132,7 @@ There are multiple ways to implement recommendations with vectors.
 The first approach is to take all positive and negative examples and average them to create a single query vector.
 In this technique, the more significant components of positive vectors are canceled out by the negative ones, and the resulting vector is a combination of all the features present in the positive examples, but not in the negative ones.
 
-{{< figure width=80% src=/articles_data/exploration-api/feature-based-recommendations.png caption="Vector-Features Based Recommendations" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/feature-based-recommendations.png caption="Vector-Features Based Recommendations" >}}
 
 This approach is already implemented in Qdrant, and while it works great when the vectors are assumed to have each of their dimensions represent some kind of feature of the data, sometimes distances are a better tool to judge negative and positive examples.
 
@@ -141,7 +141,7 @@ This approach is already implemented in Qdrant, and while it works great when th
 Another approach is to use the distance between negative examples to the candidates to help them create exclusion areas.
 In this technique, we perform searches near the positive examples while excluding the points that are closer to a negative example than to a positive one.
 
-{{< figure width=80% src=/articles_data/exploration-api/relative-distance-recommendations.png caption="Relative Distance Recommendations" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/relative-distance-recommendations.png caption="Relative Distance Recommendations" >}}
 
 The main use-case of both approaches —of course— is to take some history of user interactions and recommend new items based on it.
 
@@ -155,24 +155,24 @@ To get more intuition about the possible ways to implement this approach, let’
 The most well-known loss function used to train similarity models is a [triplet-loss](https://en.wikipedia.org/wiki/Triplet_loss).
 In this loss, the model is trained by fitting the information of relative similarity of 3 objects: the Anchor, Positive, and Negative examples.
 
-{{< figure width=80% src=/articles_data/exploration-api/triplet-loss.png caption="Triplet Loss" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/triplet-loss.png caption="Triplet Loss" >}}
 
 Using the same mechanics, we can look at the training process from the other side.
 Given a trained model, the user can provide positive and negative examples, and the goal of the discovery process is then to find suitable anchors across the stored collection of vectors.
 
 <!-- ToDo: image where we know positive and nagative -->
-{{< figure width=60% src=/articles_data/exploration-api/discovery.png caption="Reversed triplet loss" >}}
+{{< figure width=60% src=/articles_data/vector-similarity-beyond-search/discovery.png caption="Reversed triplet loss" >}}
 
 Multiple positive-negative pairs can be provided to make the discovery process more accurate.
 Worth mentioning, that as well as in NN training, the dataset may contain noise and some portion of contradictory information, so a discovery process should be tolerant to this kind of data imperfections.
 
 
 <!-- Image with multiple pairs -->
-{{< figure width=80% src=/articles_data/exploration-api/discovery-noise.png caption="Sample pairs" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/discovery-noise.png caption="Sample pairs" >}}
 
 The important difference between this and recommendation method is that the positive-negative pairs in discovery method doesn’t assume that the final result should be close to positive, it only assumes that it should be closer than the negative one.
 
-{{< figure width=80% src=/articles_data/exploration-api/discovery-vs-recommendations.png caption="Discovery vs Recommendation" >}}
+{{< figure width=80% src=/articles_data/vector-similarity-beyond-search/discovery-vs-recommendations.png caption="Discovery vs Recommendation" >}}
 
 In combination with filtering or similarity search, the additional context information provided by the discovery pairs can be used as a re-ranking factor.
 
