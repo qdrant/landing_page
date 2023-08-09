@@ -14,7 +14,7 @@ keywords: search, semantic, vector, llm, integration, benchmark, recommend, perf
 
 Qdrant is one of the fastest vector search engines out there, so while looking for a demo to show off, we came upon the idea to do a search-as-you-type box with a fully semantic search backend. Now we already have a semantic/keyword hybrid search on our website. But that one is written in Python, which incurs some overhead for the interpreter. Naturally, I wanted to see how fast I could go using Rust.
 
-Since Qdrant doesn't embed by itself, I had to decide on an embedding model. The prior version used the [SentenceTransformers](https://www.sbert.net/) package, which in turn employs Hugging Face's Bert-based [All-MiniLM-L6-V2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/tree/main) model. This model is battle-tested and delivers fair results at speed, so not experimenting on this front I took an [ONNX version](https://huggingface.co/optimum/all-MiniLM-L6-v2/tree/main) and ran that within the service.
+Since Qdrant doesn't embed by itself, I had to decide on an embedding model. The prior version used the [SentenceTransformers](https://www.sbert.net/) package, which in turn employs Bert-based [All-MiniLM-L6-V2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2/tree/main) model. This model is battle-tested and delivers fair results at speed, so not experimenting on this front I took an [ONNX version](https://huggingface.co/optimum/all-MiniLM-L6-v2/tree/main) and ran that within the service.
 
 The workflow looks like this:
 
@@ -23,42 +23,11 @@ The workflow looks like this:
 This will, after tokenizing and embedding send a `/collections/site/points/search` POST request to Qdrant, sending the following JSON:
 
 ```json
+POST collections/site/points/search
 {
   "vector": [-0.06716014,-0.056464013, ...(382 values omitted)],
   "limit": 5,
   "with_payload": true,
-}
-```
-
-This will give back the response:
-
-```json
-{
-  "result": [
-    {
-      "id": 1294,
-      "payload": {
-        "location": "html > body > div:nth-of-type(1) > div > div > div > section > article > p:nth-of-type(8)",
-        "sections": [
-          "benchmarks",
-          "benchmarks/benchmark-faq"
-        ],
-        "tag": "p",
-        "text": "Libraries like FAISS provide a great tool to do experiments with vector search. But they are far away from real usage in production environments.",
-        "titles": [
-          "Benchmarks F.A.Q. - Qdrant",
-          "Why you are not comparing with FAISS or Annoy?"
-        ],
-        "url": "/benchmarks/benchmark-faq/"
-      },
-      "score": 1.0,
-      "vector": null,
-      "version": 1
-    },
-    ... (4 more entries omitted)
-  ],
-  "status": "ok",
-  "time": 0.002377142
 }
 ```
 
@@ -71,45 +40,14 @@ Making that work requires setting up the `prefix_cache` collection with points t
 The `recommend` endpoint works roughly the same as `search_points`, but instead of searching for a vector, Qdrant searches for one or more points (you can also give negative example points the search engine will try to avoid in the results). It was built to help drive recommendation engines, saving the round-trip of sending the current point's vector back to Qdrant to find more similar ones. However Qdrant goes a bit further by allowing us to select a different collection to lookup the points, which allows us to keep our `prefix_cache` collection separate from the site data. So in our case, Qdrant first looks up the point from the `prefix_cache`, takes its vector and searches for that in the `site` collection, using the precomputed embeddings from the cache. The API endpoint expects a POST of the following JSON to `/collections/site/points/recommend`:
 
 ```json
+POST collections/site/points/recommend
 {
-  "positive": 1936024932,
+  "positive": [1936024932],
   "limit": 5,
   "with_payload": true,
   "lookup_from": {
-	"collection": "prefix_cache"
+    "collection": "prefix_cache"
   }
-}
-```
-
-This gets us a very similar result:
-
-```json
-{
-  "result": [
-    {
-      "id": 189,
-      "payload": {
-        "location": "html > body > div:nth-of-type(1) > div:nth-of-type(1) > div > section > article > figure:nth-of-type(2) > figcaption > p",
-        "sections": [
-            "articles",
-            "articles/seed-round"
-        ],
-        "tag": "p",
-        "text": "Vector Search Use Cases",
-        "titles": [
-            "On Unstructured Data, Vector Databases, New AI Age, and Our Seed Round. - Qdrant",
-            "A need for vector databases."
-        ],
-        "url": "/articles/seed-round/"
-      },
-      "score": 0.7441973,
-      "vector": null,
-      "version": 0
-    },
-    ... (4 more entries omitted)
-  ],
-  "status": "ok",
-  "time": 0.000872409
 }
 ```
 
@@ -117,22 +55,17 @@ Now I have, in the best Rust tradition, a blazingly fast semantic search.
 
 To demo it, I used our [Qdrant documentation website](https://qdrant.tech/documentation)'s page search, replacing our previous Python implementation. So in order to not just spew empty words, here is a benchmark, showing different queries that exercise different code paths.
 
-Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the Python and Rust services locally. Note that with search terms of up to three characters, the Python version merely does a text search, not a semantic search, while the Rust version always does a full semantic search. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load.
-
-Inspired by a [recent article I wrote](https://qdrant.tech/articles/io_uring/), I chose the search terms "io", "ring" and "io_uring", which apart from all finding the article in question, trigger different code paths in both versions.
+Since the operations themselves are far faster than the network whose fickle nature would have swamped most measurable differences, I benchmarked both the Python and Rust services locally. I'm measuring both versions on the same AMD Ryzen 9 5900HX with 16GB RAM running Linux. The table shows the average time and error bound in milliseconds. I only measured up to a thousand concurrent requests. None of the services showed any slowdown with more requests in that range. I do not expect our service to become DDOS'd, so I didn't benchmark with more load.
 
 Without further ado, here are the results:
 
-![Benchmark Results](/articles_data/sayt/benchmark.png)
 
-| query     | `io`        | `ring`    | `io_uring` |
-|-----------|-------------|-----------|------------|
-| Python 🐍 | 4½ ± ½ ms\* | 16 ± 4 ms | 16 ± 4 ms  |
-| Rust   🦀 | 1½ ± ½ ms   | 1½ ± ½ ms |  5 ± 1 ms  |
+| query length  | Short     | Long       |
+|---------------|-----------|------------|
+| Python 🐍     | 16 ± 4 ms | 16 ± 4 ms  |
+| Rust   🦀     | 1½ ± ½ ms |  5 ± 1 ms  |
 
-\* full-text search only
-
-The Rust version consistently outperforms the Python version and offers a semantic search even on few-character queries. If the prefix cache is hit (as in the "ring" measurement), the semantic search can even get more than ten times faster than the Python version. The general speed-up is due to both the relatively lower overhead of Rust + Actix Web compared to Python + FastAPI (even if that already performs admirably), as well as using ONNX Runtime instead of SentenceTransformers for the embedding. The prefix cache gives the Rust version a real boost by doing a semantic search without doing any embedding work.
+The Rust version consistently outperforms the Python version and offers a semantic search even on few-character queries. If the prefix cache is hit (as in the "Short" query length), the semantic search can even get more than ten times faster than the Python version. The general speed-up is due to both the relatively lower overhead of Rust + Actix Web compared to Python + FastAPI (even if that already performs admirably), as well as using ONNX Runtime instead of SentenceTransformers for the embedding. The prefix cache gives the Rust version a real boost by doing a semantic search without doing any embedding work.
 
 As an aside, while the millisecond differences shown here may mean relatively little for our users, whose latency will be dominated by the network in between, when typing, every millisecond more or less can make a difference in user perception. Also search-as-you-type generates between three and five times as much load as a plain search, so the service will experience more traffic. Less time per request means being able to handle more of them.
 
@@ -154,24 +87,38 @@ Those are put together by taking them in the above order, deduplicating as neces
 Instead of sending a `search` or `recommend` request, one can also send a `search/batch` or `recommend/batch` request, respectively. Each of those contain a `"searches"` property with any number of search/recommend JSON requests:
 
 ```json
+POST collections/site/points/search/batch
 {
   "searches": [
-    { (see request from above) },
-	... (same with the various filters)
+    {
+      "vector": [-0.06716014,-0.056464013, ...],
+      "filter": {
+        "must": [ 
+          { "key": "text", "match": { "text": <query> }},
+          { "key": "tag", "match": { "any": ["h1", "h2", "h3"] }},
+        ]
+      }
+      ...,
+    },
+    {
+      "vector": [-0.06716014,-0.056464013, ...],
+      "filter": {
+        "must": [ { "key": "body", "match": { "text": <query> }} ]
+      }
+      ...,
+    },
+    {
+      "vector": [-0.06716014,-0.056464013, ...],
+      "filter": {
+        "must": [ { "key": "tag", "match": { "any": ["h1", "h2", "h3"] }} ]
+      }
+      ...,
+    },
+    {
+      "vector": [-0.06716014,-0.056464013, ...],
+      ...,
+    },
   ]
-}
-```
-
-Similarly, the result has a list of results of the individual searches:
-
-```json
-{
-  "result": [
-    { (see result from above) },
-	... (same with the various filters)
-  ],
-  "status": "ok",
-  "time": 0.00113721
 }
 ```
 
