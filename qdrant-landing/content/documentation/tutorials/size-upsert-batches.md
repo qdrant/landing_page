@@ -5,13 +5,15 @@ weight: 13
 
 # Sizing Upsert Batches
 
-Write an introduction here. Explain what is going on. 
+Users trying to upsert points will usually see that you can do a series of points in one request, so the natural way is to just put all points you want to insert or change into one request, but that may lead to timeouts, which is frustrating.
+
+The solution is to split the points into chunks and upsert those chunks. That invites the question of how big those chunks should be? This document aims to give you a guideline for exactly that.
 
 ### Calculate the Upper Bound
 
 The hard upper bound should be given by the following formula:
 
-¾ * quota * timeout * ø(IO MB/s) / (|vector| * 4 + ø(|serialize(payload)|) + (index * 1024))
+¾ × quota × timeout × ø(IO MB/s) / (|vector| × 4 + ø(|serialize(payload)|) + (index × 1024))
 
 * the ¾ factor is our safety distance from the timeout
 * quota is the percentage of resources you intend to allocate to the Qdrant service
@@ -25,7 +27,7 @@ The hard upper bound should be given by the following formula:
 
 ### Estimate Payload Sizes
 
-If you know your schema, you can use the maximum size as a conservative estimate. Otherwise it very much depends on your data! There are cases where payload sizes grow with time, so doing a one-time estimate will be good only for a while. But in the usual case where payload sizes will be mostly random and independent, you can take a sample of payloads, measure their sizes in bytes and add a [standard error](https://en.wikipedia.org/wiki/Sample_size_determination#Estimation_of_a_mean) multiplied by the confidence factor (i.e. *ø(size of N payloads) \* (1 + Zδ / √N)*).
+If you know your schema, you can use the maximum size as a conservative estimate. Otherwise it very much depends on your data! There are cases where payload sizes grow with time, so doing a one-time estimate will be good only for a while. But in the usual case where payload sizes will be mostly random and independent, you can take a sample of payloads, measure their sizes in bytes and add a [standard error](https://en.wikipedia.org/wiki/Sample_size_determination#Estimation_of_a_mean) multiplied by the confidence factor (i.e. *ø(size of N payloads) × (1 + Zδ / √N)*).
 
 For example, say we take 1000 payloads, which are within \[796, 1782\] bytes, with a mean of 1287 bytes and δ of 284,17. Then to estimate with a 95% confidence interval, we'd estimate 1844 bytes, as the following python script shows:
 
@@ -54,7 +56,7 @@ $ dd if=/dev/zero of=output bs=8k count=1024; rm output
 8388608 (8 MB) copied, 0.00294 s, 2721.1 MB/s
 ```
 
-Under *Windows*, you can instead get your disk speed with an administrator console:
+Under *Windows*, you can instead get your disk speed with an administrator console (run `cmd` as administrator):
 
 ```bash
 C:\Windows\System32>winsat disk -seq -write -drive c
@@ -70,15 +72,17 @@ Windows System Assessment Tool
 > Total Run Time 00:00:01.30
 ```
 
+### Putting it all together
+
 Now let us plug those estimates into our formula along with the values we take from the configuration:
 
-* timeout = 5s (as per config)
+* timeout = 5s (as per client configuration)
 * quota = 5%
 * IO = 2720 MB/s
 * |vector| = 1536 (as per collection config, yours may vary)
 * |serialize(payload)| estimate = 1844 bytes
 * I have two indices, so I'll have to add 2048 bytes
 
-(¾ * 5% * 5s * 2720 MB/s) / (1536 * 4 + 1844 + 2048)B = ¾ * 510MB / 10036B = 53285.548027102435
+(¾ × 5% × 5s × 2720 MB/s) / (1536 × 4 + 1844 + 2048)B = ¾ × 510MB / 10036B = 53285.548027102435
 
-As you can see, with those small payloads, the machine in the example is more than capable of getting a lot of vectors into Qdrant. You should still use roughly a thousand entries per request, to mitigate the risk of a failing request losing too much data.
+As you can see, with those small payloads, the machine in the example is more than capable of getting a lot of vectors into Qdrant. You should still limit the chunk size to roughly a thousand entries per request, to mitigate the risk of a failing request losing too much data.
