@@ -44,6 +44,14 @@ keywords: # Keywords for SEO
 ---
 ```
 
+## Preview image mechanism
+
+Preview image for each page is selected based from the following places in the following order:
+
+- If document has param `social_preview_image` - it will be used as preview image
+- If there is a file `static/<path-to-section>/<file-name>-social-preview.png` - it will be used as preview image
+- Global `preview_image = "/images/social_preview.png"` will be used as preview image
+
 ## Article preview
 
 Article preview is a set of images that will be used in the article preview. They can be generated from one image. To generate preview images, you need to have [ImageMagick](https://imagemagick.org/index.php) and [cwebp](https://developers.google.com/speed/webp/download) installed.
@@ -98,6 +106,26 @@ canonicalUrl: https://qdrant.io/documentation/ # Optional. This is the canonical
 hideInSidebar: true # Optional. If true, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
 ---
 ```
+
+## Preview images for documentation pages
+
+Branded individual preview images for documentation pages might be auto-generated using the following command:
+
+(from the root of the project)
+
+```bash
+bash -x automation/generate-all-docs-preview.sh
+```
+
+It will automatically insert documentation Section name and Title of the page into the preview.
+If there is a custom background for the image - it should be placed in the `static/documentation/<section-name>/<page>-bg.png`.
+<!-- (Use midjourney and one of the styles https://www.notion.so/qdrant/Midjourney-styles-a8dbc94761a74bb287a8a8ad05d593d1 to generate the background) -->
+
+If there is no custom background - random default background will be used.
+
+Generated images will be placed in the `static/documentation/<section-name>/<page>-social-preview.png`.
+
+To re-generate preview image, remove the previously generated one and run the command again.
 
 ## Documentation sidebar
 
