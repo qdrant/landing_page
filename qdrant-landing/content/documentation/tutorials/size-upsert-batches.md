@@ -58,16 +58,16 @@ Under *Windows*, you can instead get your disk speed with an administrator conso
 
 ```bash
 C:\Windows\System32>winsat disk -seq -write -drive c
-Windows-Systembewertungstool
-> Wird ausgeführt: Featureaufzählung ''
-> Laufzeit 00:00:00.00
-> Wird ausgeführt: Speicherbewertung '-seq -write -drive c'
-> Laufzeit 00:00:01.08
-> Dshow-Videocodierzeit                        0.00000 s
-> Dshow-Videodecodierzeit                      0.00000 s
-> Media Foundation-Decodierzeit                0.00000 s
+Windows System Assessment Tool
+> Running: Feature Enumeration ''
+> Run Time 00:00:00.00
+> Running: Storage Assessment '-seq -write -drive c'
+> Run Time 00:00:01.45
+> Dshow Video Encode Time                      0.00000 s
+> Dshow Video Decode Time                      0.00000 s
+> Media Foundation Decode Time                 0.00000 s
 > Disk  Sequential 64.0 Write                  2719.26 MB/s          9.2
-> Gesamtausführungszeit 00:00:01.30
+> Total Run Time 00:00:01.30
 ```
 
 Now let us plug those estimates into our formula along with the values we take from the configuration:
