@@ -76,7 +76,7 @@ The `recommend` endpoint works roughly the same as `search_points`, but instead 
   "limit": 5,
   "with_payload": true,
   "lookup_from": {
-	"collection: "prefix_cache"
+	"collection": "prefix_cache"
   }
 }
 ```
