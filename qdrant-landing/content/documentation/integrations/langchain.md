@@ -104,4 +104,4 @@ qdrant = Qdrant.from_documents(
 
 If you'd like to know more about running Qdrant in a LangChain-based application, please read our article 
 [Question Answering with LangChain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
-might also be found in the [LangChain documentation](https://python.langchain.com/docs/modules/data_connection/vectorstores/integrations/qdrant.html).
+might also be found in the [LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant.html).
