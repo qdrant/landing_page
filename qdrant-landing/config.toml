@@ -28,6 +28,26 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   logo_width = "192"
   preview_image = "/images/social_preview.png"
 
+  preview_images = [
+    "/images/previews/social-preview-A.png",
+    "/images/previews/social-preview-B.png",
+    "/images/previews/social-preview-C.png",
+    "/images/previews/social-preview-D.png",
+    "/images/previews/social-preview-E.png",
+    "/images/previews/social-preview-F.png",
+    "/images/previews/social-preview-G.png",
+    "/images/previews/social-preview-H.png",
+    "/images/previews/social-preview-I.png",
+    "/images/previews/social-preview-J.png",
+    "/images/previews/social-preview-K.png",
+    "/images/previews/social-preview-L.png",
+    "/images/previews/social-preview-M.png",
+    "/images/previews/social-preview-N.png",
+    "/images/previews/social-preview-O.png",
+    "/images/previews/social-preview-P.png"
+  ]
+
+
   github = "https://github.com/qdrant/qdrant"
   quick_start = "/documentation/quick-start/"
   tutorial = "/articles/neural-search-tutorial/"
