@@ -136,7 +136,7 @@
 {{ end }}
 
 <!-- Preview Image -->
-{{ $image := .Site.Params.preview_image }}
+{{ $image := index (.Site.Params.preview_images | shuffle ) 0 }}
 
 <!-- Check image exist in `static` path -->
 {{ with .File }}
