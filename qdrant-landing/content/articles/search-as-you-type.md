@@ -2,9 +2,10 @@
 title: Semantic Search As You Type
 short_description: "A demo that does what the title says"
 description: To show off Qdrant's performance, we show how to do a quick search-as-you-type that will come back within a few milliseconds.
-social_preview_image: /articles_data/sayt/preview/social_preview.jpg
-preview_dir: /articles_data/sayt/preview
-weight: 10
+social_preview_image: /articles_data/search-as-you-type/preview/social_preview.jpg
+small_preview_image: /articles_data/search-as-you-type/icon.svg
+preview_dir: /articles_data/search-as-you-type/preview
+weight: -2
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-08-07T10:00:00+01:00
@@ -18,7 +19,7 @@ Since Qdrant doesn't embed by itself, I had to decide on an embedding model. The
 
 The workflow looks like this:
 
-![Search Qdrant by Embedding](/articles_data/sayt/Qdrant_Search_by_Embedding.png)
+![Search Qdrant by Embedding](/articles_data/search-as-you-type/Qdrant_Search_by_Embedding.png)
 
 This will, after tokenizing and embedding send a `/collections/site/points/search` POST request to Qdrant, sending the following JSON:
 
@@ -33,7 +34,7 @@ POST collections/site/points/search
 
 Even with avoiding a network round-trip, the embedding still takes some time. As always in optimization, if you cannot do the work faster, a good solution is to avoid work altogether (please don't tell my employer). This can be done by pre-computing common prefixes and calculating embeddings for them, then storing them in a `prefix_cache` collection. Now the [`recommend`](https://docs.rs/qdrant-client/latest/qdrant_client/client/struct.QdrantClient.html#method.recommend) API method can find the best matches without doing any embedding. For now, I use short (up to and including 5 letters) prefixes, but I can also parse the logs to get the most common search terms and add them to the cache later.
 
-![Qdrant Recommendation](/articles_data/sayt/Qdrant_Recommendation.png)
+![Qdrant Recommendation](/articles_data/search-as-you-type/Qdrant_Recommendation.png)
 
 Making that work requires setting up the `prefix_cache` collection with points that have the prefix as their `point_id` and the embedding as their `vector`, which lets us do the lookup with no search or index. The `prefix_to_id` function currently uses the `u64` variant of `PointId`, which can hold eight bytes, enough for this use. If the need arises, one could instead encode the names as UUID, hashing the input. Since I know all our prefixes are within 8 bytes, I decided against this for now.
 
@@ -82,7 +83,7 @@ To improve on the quality of the results, Qdrant can do multiple searches in par
 
 Those are put together by taking them in the above order, deduplicating as necessary.
 
-![merge workflow](/articles_data/sayt/sayt_merge.png)
+![merge workflow](/articles_data/search-as-you-type/sayt_merge.png)
 
 Instead of sending a `search` or `recommend` request, one can also send a `search/batch` or `recommend/batch` request, respectively. Each of those contain a `"searches"` property with any number of search/recommend JSON requests:
 
@@ -126,7 +127,7 @@ As the queries are done in a batch request, there isn't any additional network o
 
 The only additional complexity is to flatten the result lists and take the first 5 results, deduplicating by point ID. Now there is one final problem: The query may be short enough to take the recommend code path, but still not be in the prefix cache. In that case, doing the search *sequentially* would mean two round-trips between the service and the Qdrant instance. The solution is to *concurrently* start both requests and take the first successful non-empty result.
 
-![sequential vs. concurrent flow](/articles_data/sayt/sayt_concurrency.png)
+![sequential vs. concurrent flow](/articles_data/search-as-you-type/sayt_concurrency.png)
 
 While this means more load for the Qdrant vector search engine, this is not the limiting factor. The relevant data is already in cache in many cases, so the overhead stays within acceptable bounds, and the maximum latency in case of prefix cache misses is measurably reduced.
 
