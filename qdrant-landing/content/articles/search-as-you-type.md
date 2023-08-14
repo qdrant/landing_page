@@ -8,7 +8,7 @@ preview_dir: /articles_data/search-as-you-type/preview
 weight: -2
 author: Andre Bogus
 author_link: https://llogiq.github.io
-date: 2023-08-07T10:00:00+01:00
+date: 2023-08-14T00:00:00+01:00
 draft: false
 keywords: search, semantic, vector, llm, integration, benchmark, recommend, performance, rust
 ---
