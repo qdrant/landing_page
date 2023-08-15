@@ -1,6 +1,8 @@
 ---
 title: Troubleshooting
-weight: 100
+weight: 170
+aliases:
+  - ../tutorials/common-errors
 ---
 
 # Solving common errors
