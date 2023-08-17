@@ -137,6 +137,10 @@ Example result of this API would be
 
 The `result` contains ordered by `score` list of found point ids.
 
+Note that payload and vector data is missing in these results by default.
+See [payload and vector in the result](#payload-and-vector-in-the-result) on how
+to include it.
+
 *Available as of v0.10.0*
 
 If the collection was created with multiple vectors, the name of the vector to use for searching should be provided:
@@ -179,8 +183,9 @@ It will exclude all results with a score worse than the given.
 
 ### Payload and vector in the result
 
-By default, retrieval methods do not return any stored information.
-Additional parameters `with_vectors` and `with_payload` could alter this behavior.
+By default, retrieval methods do not return any stored information such as
+payload and vectors. Additional parameters `with_vectors` and `with_payload`
+alter this behavior.
 
 Example:
 
