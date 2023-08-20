@@ -7,7 +7,7 @@ weight: 1
 
 This document outlines the basic steps required to report any general issue on Discord. We also have dedicated instructions for [**database optimization**](../database-tuning) tips or [**server connection issues**](../server-hanging). 
 
-Before you create a report, first check whether a similar issue has already been brought up by someone else. Go to the GitHub issue search and look through open and closed issues. If the issue has been fixed, try to reproduce it using the latest master branch in the repository.
+Before you create a report, first check whether a similar issue has already been brought up by someone else. Go to the [GitHub issue search](https://github.com/qdrant/qdrant/issues) and look through open and closed issues. If the issue has been fixed, try to reproduce it using the latest master branch in the repository.
 
 When requesting assistance, please provide as much detail as possible. We need to know about your environment, the actions you took and the results you got. In some cases, it is helpful to provide and diagnostics as support. This will ensure we are able to triage the issue quickly and efficiently.
 
@@ -25,7 +25,7 @@ When requesting assistance, please provide as much detail as possible. We need t
 
 1. **We need reproducible code** or a script that demonstrates the problem. Please give us step-by-step instructions to recreate the situation. For errors or problems with queries:
 * Show the exact code of the query or the request.
-* Paste the exact output of the response or the error *message you are getting back. 
+* Paste the exact output of the response or the error message you are getting back. 
 
 2. **Try to recreate the problem in a controlled environment.** This helps you confirm that the issue is consistent. If possible, identify the specific conditions that trigger the problem.
 
