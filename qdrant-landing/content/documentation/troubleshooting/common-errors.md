@@ -1,11 +1,11 @@
 ---
-title: Troubleshooting
-weight: 170
+title: Common Errors
+weight: 4
 aliases:
   - ../tutorials/common-errors
 ---
 
-# Solving common errors
+# Common errors
 
 ## Too many files open (OS error 24)
 
