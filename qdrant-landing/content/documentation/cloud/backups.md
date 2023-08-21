@@ -1,6 +1,6 @@
 ---
 title: Backups
-weight: 20
+weight: 30
 ---
 
 # Backups
@@ -16,7 +16,7 @@ For less critical use-cases you can make use of one of the available options.
 Qdrant engine offers a snapshot API that allows to create a snapshot of a particular collection or even the whole storage.
 Please refer to the [snapshot documentation](../../concepts/snapshots/) for details.
 
-A quick recipe for successfully snapshotting and recovering a collection:
+Here is how you can quickly snapshot and recover a collection:
 
 1. Take a snapshot
    - In case of a single node cluster, simply call the snapshot endpoint on the exposed url. 
@@ -31,10 +31,8 @@ A quick recipe for successfully snapshotting and recovering a collection:
 
 **Note: not available in the beta version.**
 
-Note: not available in the beta version.
-The cloud platform offers an option for automatic system backups.
-It is possible to configure periodical system level snapshots to restore a cluster from a hard copy.
-On the cluster settings section you can choose how often a backup should be done and how many latest copies should be kept on the backup storage. 
+The cloud platform offers an option for automatic system backups. It is possible to configure periodical system level snapshots to restore a cluster from a hard copy. On the cluster settings section you can choose how often a backup should be done and how many latest copies should be kept on the backup storage. 
+
 To restore a Qdrant cluster from backup, you can select a desired backup copy version and start the reporting process.
 Attention: during the restoring process the affected cluster will not be available because the cluster will be deleted  and created from scratch from the backup copy.
 Please also note, that if you changed the cluster topology after the copy was created, the new cluster will reset to the previous configuration.  
