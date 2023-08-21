@@ -285,7 +285,10 @@ print(search_result[2])
 # ScoredPoint(id=3, score=1.208, ...)
 ```
 
-But result is different if we add a filter:
+Note that payload and vector data is missing in these results by default.
+See [payload and vector in the result](../concepts/search#payload-and-vector-in-the-result) on how to enable it.
+
+But the result is different if we add a filter:
 
 ```bash
 curl -L -X POST 'http://localhost:6333/collections/test_collection/points/search' \
