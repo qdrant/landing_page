@@ -20,13 +20,13 @@ Each instance comes pre-configured with the following tools, features and suppor
 - Upgradeable to later versions of Qdrant as they are released.
 - Equipped with monitoring and logging to observe the health of each cluster. 
 - Accessible through the Qdrant Cloud Console.
-- Vertically and horizontally scalable.
+- Vertically scalable.
 - Offered on AWS and GCP, with Azure currently in development. 
 
 ### Getting started with Qdrant Cloud
 
 To use Qdrant Cloud, you will need to create at least one cluster. There are two ways to start:
-1. [**Create a Free Tier cluster**](../cloud/quickstart-cloud/) with 1 node and a default configuration (1GB RAM, 0.5 CPU and 20GB Disk). This option is perfect for prototyping and you don't need a credit card to join.
+1. [**Create a Free Tier cluster**](../cloud/quickstart-cloud/) with 1 node and a default configuration (1GB RAM, 0.5 CPU and 4GB Disk). This option is perfect for prototyping and you don't need a credit card to join.
 2. [**Configure a custom cluster**](../cloud/create-cluster/) with additional nodes and more resources. For this option, you will have to provide billing information.
 
 We recommend that you use the Free Tier cluster for testing purposes. The capacity should be enough to serve up to 1M vectors of 768dim. To calculate your needs, refer to [capacity planning](../capacity/). 

@@ -29,9 +29,9 @@ Here is how you can quickly snapshot and recover a collection:
 
 ## Automatic backups
 
-**Note: not available in the beta version.**
+We are currently offering this service on a request-only basis. Please [**let us know**](mailto:cloud@qdrant.io) if you would like to activate automatic backups.
 
-The cloud platform offers an option for automatic system backups. It is possible to configure periodical system level snapshots to restore a cluster from a hard copy. On the cluster settings section you can choose how often a backup should be done and how many latest copies should be kept on the backup storage. 
+The cloud platform offers an option for automatic system backups. It is possible to configure periodical system level snapshots to restore a cluster from a hard copy. On the cluster settings section you can choose how often a backup should be done and how many latest copies should be kept on the backup storage.  
 
 To restore a Qdrant cluster from backup, you can select a desired backup copy version and start the reporting process.
 Attention: during the restoring process the affected cluster will not be available because the cluster will be deleted  and created from scratch from the backup copy.
