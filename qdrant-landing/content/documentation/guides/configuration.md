@@ -75,7 +75,6 @@ All environment variables are prefixed with `QDRANT__` and are separated with
 These variables:
 
 ```bash
-QDRANT__DEBUG=1
 QDRANT__LOG_LEVEL=INFO
 QDRANT__SERVICE__HTTP_PORT=6333
 QDRANT__SERVICE__ENABLE_TLS=1
@@ -86,7 +85,6 @@ QDRANT__TLS__CERT_TTL=3600
 result in this configuration:
 
 ```yaml
-debug: true
 log_level: INFO
 service:
   http_port: 6333
@@ -105,7 +103,6 @@ QDRANT__SERVICE__HTTP_PORT=1234 ./qdrant
 ## Configuration file example
 
 ```yaml
-debug: false
 log_level: INFO
 
 storage:
