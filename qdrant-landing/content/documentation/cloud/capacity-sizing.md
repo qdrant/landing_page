@@ -1,6 +1,8 @@
 ---
 title: Capacity and sizing
-weight: 20
+weight: 40
+aliases:
+  - ../capacity
 ---
 
 # Capacity and sizing

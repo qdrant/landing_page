@@ -1,6 +1,6 @@
 ---
 title: Cluster scaling
-weight: 30
+weight: 50
 ---
 
 # Cluster scaling
@@ -33,5 +33,5 @@ Please refer to the [sharding documentation](../../guides/distributed_deployment
 Important: The number of shards means the maximum amount of nodes you can add to your cluster. In the beginning, all the shards can reside on one node.
 With the growing amount of data you can add nodes to your cluster and move shards to the dedicated nodes using the [cluster setup API](../../guides/distributed_deployment/#cluster-scaling). 
 
-We, the Qdrant team, will be glad to consult you on an optimal strategy for scaling.
+We will be glad to consult you on an optimal strategy for scaling.
 [Let us know](mailto:cloud@qdrant.io) your needs and decide together on a proper solution. We plan to introduce an auto-scaling functionality. Since it is one of most desired features, it has a high priority on our Cloud roadmap.
