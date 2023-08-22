@@ -83,17 +83,11 @@ An unexpected issue cropped up during the development process: the codelen (run 
 
 Amidst these challenges, I garnered valuable insights that have significantly enriched my engineering prowess:
 
-Vector Reduction Techniques
+**Vector Reduction Techniques** : Navigating the realm of vector reduction techniques provided a deep understanding of how to process and interpret data efficiently. This knowledge opens up new avenues for developing data-driven applications in the future.
 
-Navigating the realm of vector reduction techniques provided a deep understanding of how to process and interpret data efficiently. This knowledge opens up new avenues for developing data-driven applications in the future.
+**Web Workers Efficiency** : Mastering the intricacies of web workers not only resolved performance concerns but also expanded my repertoire of optimization strategies. This newfound proficiency will undoubtedly find relevance in various future projects.
 
-Web Workers Efficiency
-
-Mastering the intricacies of web workers not only resolved performance concerns but also expanded my repertoire of optimization strategies. This newfound proficiency will undoubtedly find relevance in various future projects.
-
-Monaco Editor and UI Frameworks
-
-Working extensively with the Monaco Editor, Material-UI (MUI), and Vite enriched my familiarity with these essential tools. I honed my skills in integrating complex UI components seamlessly into applications.
+**Monaco Editor and UI Frameworks** : Working extensively with the Monaco Editor, Material-UI (MUI), and Vite enriched my familiarity with these essential tools. I honed my skills in integrating complex UI components seamlessly into applications.
 
 ## Areas for Improvement and Future Enhancements
 
