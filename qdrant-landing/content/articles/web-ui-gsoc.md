@@ -36,28 +36,35 @@ The project was divided into six milestones, each focusing on a specific aspect 
 
 **1. Designing a friendly UI on Figma** 
 
-I started by designing the user interface on Figma, ensuring it was easy to use, visually appealing, and responsive on different devices. I focused on usability and accessibility to create a seamless user experience.
+I started by designing the user interface on Figma, ensuring it was easy to use, visually appealing, and responsive on different devices. I focused on usability and accessibility to create a seamless user experience. ( [Figma Design](https://www.figma.com/file/z54cAcOErNjlVBsZ1DrXyD/Qdant?type=design&node-id=0-1&mode=design&t=Pu22zO2AMFuGhklG-0))
     
 **2. Building the layout** 
 
 The layout route served as a landing page with an overview of the application's features and navigation links to other routes.
-    
+
 **3. Creating a view collection route** 
 
 This route enabled users to view a list of collections available in the application. Users could click on a collection to see more details, including the data and vectors associated with it.
-    
+
+{{< figure src=/articles_data/web-ui-gsoc/collections-page.png caption="Collection Page" alt="Collection Page" >}}
+
 **4. Developing a data page with "find similar" functionality** 
 
 I implemented a data page where users could search for data and find similar data using a recommendation API. The recommendation API suggested similar data based on the Data's selected ID, providing valuable insights.
+
+{{< figure src=/articles_data/web-ui-gsoc/points-page.png caption="Points Page" alt="Points Page" >}}
     
 **5. Developing query editor page libraries** 
 
 This milestone involved creating a query editor page that allowed users to write queries in a custom language. The editor provided syntax highlighting, autocomplete, and error-checking features for a seamless query writing experience.
+
+{{< figure src=/articles_data/web-ui-gsoc/console-page.png caption="Query Editor Page" alt="Query Editor Page" >}}
     
 **6. Developing a route for visualizing vector data points**
 
 This is done by the reduction of n-dimensional vector in 2-D points and they are displayed with their respective payloads.
-    
+
+{{< figure src=/articles_data/web-ui-gsoc/visualization-page.png caption="Vector Visuliztion Page" alt="visualization-page" >}}
 
 ## Challenges and Learning
 
