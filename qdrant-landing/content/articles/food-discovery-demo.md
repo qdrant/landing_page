@@ -13,7 +13,7 @@ date: 2023-08-24T11:00:00.000Z
 
 Not every search journey begins with a specific destination in mind. Sometimes, you just want to explore and see what’s out there and what you might like.
 This is especially true when it comes to food. You might be craving something sweet, but you don’t know what. Or you might be looking for a new dish to try,
-and you just want to see the options available. In these cases, you cannot express your needs in a textual query, as the thing you are looking for is not 
+and just want to see the options available. In these cases, it's impossible to express your needs in a textual query, as the thing you are looking for is not 
 yet defined. This is where semantic search comes in. And it shines even brighter when combined with multiple modalities, such as text and images. It’s 
 natural that we often choose our meals based on how they look, not how they are named, so exposing that way of search improves the UX significantly.
 
@@ -113,11 +113,9 @@ and the demo will update the search results accordingly.
 
 TODO: show how it works on a gif
 
-#### Positive and negative feedback
-
 #### Negative feedback only
 
-The [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) needs at least one positive example to work. However, in our demo
+Qdrant [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) needs at least one positive example to work. However, in our demo
 we want to be able to provide only negative examples. This is because we want to be able to say “I don’t like this dish” without having to like anything first.
 To achieve this, we use a trick. We negate the vectors of the disliked dishes and use their mean as a query. This way, the disliked dishes will be pushed away 
 from the search results.
@@ -156,6 +154,15 @@ response = client.search_groups(
     limit=search_query.limit,
 )
 ```
+
+#### Positive and negative feedback
+
+Since the [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) requires at least one positive example, we can use it only when 
+the user has liked at least one dish. We could theoretically use the same trick as above and negate the disliked dishes, but it would be a bit weird, as Qdrant has
+that feature already built-in, and we can call it just once. It's always better to perform the search server-side. Thus, in this case we just call the Qdrant server
+with a list of positive and negative examples, so it can find some points which are close to the positive examples and far from the negative ones.
+
+TODO: code sample
 
 ### Location-based search
 
@@ -198,7 +205,7 @@ cd demo-food-discovery
 docker-compose up -d
 ```
 
-The demo will be available at http://localhost:8000.
+The demo will be available at `http://localhost:8000`.
 
 TODO: add a screenshot of the UI
 
