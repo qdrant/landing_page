@@ -24,7 +24,7 @@ keywords:
 
 ## Introduction
 
-Hello everyone! My name is Kartik Gupta, and I am thrilled to share my coding journey as part of the Google Summer of Code 2023 program. This summer, I had the incredible opportunity to work on an exciting project titled "Web UI for Visualization and Exploration" for Qdrant, a vector search engine. In this blog, I will take you through my experience, challenges, and achievements during this enriching coding journey.
+Hello everyone! My name is Kartik Gupta, and I am thrilled to share my coding journey as part of the Google Summer of Code 2023 program. This summer, I had the incredible opportunity to work on an exciting project titled "Web UI for Visualization and Exploration" for Qdrant, a vector search engine. In this article, I will take you through my experience, challenges, and achievements during this enriching coding journey.
 
 ## Project Overview
 
@@ -34,17 +34,29 @@ Qdrant is a powerful vector search engine widely used for similarity search and 
 
 The project was divided into six milestones, each focusing on a specific aspect of the web UI development. Let's go through each of them and my achievements during the coding period.
 
-1. Making a User-Friendly UI on Figma I started by designing the user interface on Figma, ensuring it was easy to use, visually appealing, and responsive on different devices. I focused on usability and accessibility to create a seamless user experience.
+**1. Designing a friendly UI on Figma** 
+
+I started by designing the user interface on Figma, ensuring it was easy to use, visually appealing, and responsive on different devices. I focused on usability and accessibility to create a seamless user experience.
     
-2. Developing a Layout In this milestone, I built the layout The layout route served as a landing page with an overview of the application's features and navigation links to other routes.
+**2. Building the layout** 
+
+The layout route served as a landing page with an overview of the application's features and navigation links to other routes.
     
-3. Developing a View Collection Route I created a collection view route, enabling users to view a list of collections available in the application. Users could click on a collection to see more details, including the data and vectors associated with it.
+**3. Creating a view collection route** 
+
+This route enabled users to view a list of collections available in the application. Users could click on a collection to see more details, including the data and vectors associated with it.
     
-4. Developing a Data Page with Find Similar Functionality using Recommendation API I implemented a data page where users could search for data and find similar data using a recommendation API. The recommendation API suggested similar data based on the Data's selected ID, providing valuable insights.
+**4. Developing a data page with "find similar" functionality** 
+
+I implemented a data page where users could search for data and find similar data using a recommendation API. The recommendation API suggested similar data based on the Data's selected ID, providing valuable insights.
     
-5. Developing the Query Editor Page Libraries This milestone involved creating a query editor page that allowed users to write queries in a custom language. The editor provided syntax highlighting, autocomplete, and error-checking features for a seamless query writing experience.
+**5. Developing query editor page libraries** 
+
+This milestone involved creating a query editor page that allowed users to write queries in a custom language. The editor provided syntax highlighting, autocomplete, and error-checking features for a seamless query writing experience.
     
-6. Developing a Route for Visualizing Vector Data point This is done by the reduction of n-dimensional vector in 2-D points and they are displayed with their respective payloads.
+**6. Developing a route for visualizing vector data points**
+
+This is done by the reduction of n-dimensional vector in 2-D points and they are displayed with their respective payloads.
     
 
 ## Challenges and Learning
@@ -83,11 +95,11 @@ An unexpected issue cropped up during the development process: the codelen (run 
 
 Amidst these challenges, I garnered valuable insights that have significantly enriched my engineering prowess:
 
-**Vector Reduction Techniques** : Navigating the realm of vector reduction techniques provided a deep understanding of how to process and interpret data efficiently. This knowledge opens up new avenues for developing data-driven applications in the future.
+**Vector Reduction Techniques**: Navigating the realm of vector reduction techniques provided a deep understanding of how to process and interpret data efficiently. This knowledge opens up new avenues for developing data-driven applications in the future.
 
-**Web Workers Efficiency** : Mastering the intricacies of web workers not only resolved performance concerns but also expanded my repertoire of optimization strategies. This newfound proficiency will undoubtedly find relevance in various future projects.
+**Web Workers Efficiency**: Mastering the intricacies of web workers not only resolved performance concerns but also expanded my repertoire of optimization strategies. This newfound proficiency will undoubtedly find relevance in various future projects.
 
-**Monaco Editor and UI Frameworks** : Working extensively with the Monaco Editor, Material-UI (MUI), and Vite enriched my familiarity with these essential tools. I honed my skills in integrating complex UI components seamlessly into applications.
+**Monaco Editor and UI Frameworks**: Working extensively with the Monaco Editor, Material-UI (MUI), and Vite enriched my familiarity with these essential tools. I honed my skills in integrating complex UI components seamlessly into applications.
 
 ## Areas for Improvement and Future Enhancements
 
