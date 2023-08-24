@@ -77,7 +77,9 @@ anything. The same applies to our demo. When you open it, you will see a random 
 the demo [chooses some random points](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L70) in the 
 vector space.
 
-TODO: add a gif that shows how it works in UI
+![Random points selection](/articles_data/food-discovery-demo/random-results.png)
+
+That procedure should result in returning diverse results, so we have a higher chance of showing something interesting to the user.
 
 ### Textual search
 
