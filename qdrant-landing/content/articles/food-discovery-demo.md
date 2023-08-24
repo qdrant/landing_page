@@ -122,7 +122,7 @@ and the demo will update the search results accordingly.
 Qdrant [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) needs at least one positive example to work. However, in our demo
 we want to be able to provide only negative examples. This is because we want to be able to say “I don’t like this dish” without having to like anything first.
 To achieve this, we use a trick. We negate the vectors of the disliked dishes and use their mean as a query. This way, the disliked dishes will be pushed away 
-from the search results. **This works because the cosine distance calculates the angle between two vectors, and the angle between a vector and its negation is 180 degrees.**
+from the search results. **This works because the cosine distance is based on the angle between two vectors, and the angle between a vector and its negation is 180 degrees.**
 
 ![CLIP model](/articles_data/food-discovery-demo/negated-vector.png)
 
