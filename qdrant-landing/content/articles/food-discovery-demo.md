@@ -122,7 +122,7 @@ we want to be able to provide only negative examples. This is because we want to
 To achieve this, we use a trick. We negate the vectors of the disliked dishes and use their mean as a query. This way, the disliked dishes will be pushed away 
 from the search results. **This works because the cosine distance calculates the angle between two vectors, and the angle between a vector and its negation is 180 degrees.**
 
-TODO: a graphic showing how it works with cosine on 2d vectors
+![CLIP model](/articles_data/food-discovery-demo/negated-vector.png)
 
 Food Discovery Demo [implements that trick](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L122)
 by calling Qdrant twice. First of all we use the [Scroll API](https://qdrant.tech/documentation/concepts/points/#scroll-points) to find the disliked items, 
