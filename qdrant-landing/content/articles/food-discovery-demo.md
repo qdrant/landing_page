@@ -35,7 +35,7 @@ you search for “flat bread with toppings”, you will get images of pizza. Or 
 if they were not labeled as “pizza”. This is because CLIP embeddings capture the semantics of the images and texts and can find the similarities between them
 no matter the wording.
 
-TODO: add image describing how CLIP works or link a different article
+![CLIP model](/articles_data/food-discovery-demo/clip-model.png)
 
 CLIP is available in many different ways. We used the pretrained `clip-ViT-B-32` model available in the [Sentence-Transformers](https://www.sbert.net/examples/applications/image-search/README.html) 
 library, as this is the easiest way to get started. 
