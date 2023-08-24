@@ -113,9 +113,9 @@ response = client.search_groups(
 ### Exploring the results
 
 The main feature of the demo is the ability to explore the space of the dishes. You can click on any of them to see more details, but first of all you can like or dislike it,
-and the demo will update the search results accordingly. 
+and the demo will update the search results accordingly.
 
-TODO: show how it works on a gif
+![Recommendation results](/articles_data/food-discovery-demo/recommendation-results.png)
 
 #### Negative feedback only
 
@@ -178,8 +178,6 @@ response = client.recommend_groups(
 ```
 
 From the user perspective nothing changes comparing to the previous case.
-
-![Recommendation results](/articles_data/food-discovery-demo/recommendation-results.png)
 
 ### Location-based search
 
