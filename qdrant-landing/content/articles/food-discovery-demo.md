@@ -22,7 +22,10 @@ We are happy to announce a refreshed version of our Food Discovery Demo. This ti
 and play with it. If you prefer to dive into the source code directly, then feel free to check out the [GitHub repository](https://github.com/qdrant/demo-food-discovery/). 
 Otherwise, read on to learn more about the demo and how it works!
 
-TODO: add graph like in project README
+In general, our application consists of three parts: a [FastAPI](https://fastapi.tiangolo.com/) backend, a [React](https://react.dev/) frontend, and 
+a [Qdrant](https://qdrant.tech/) instance. The architecture diagram below shows how these components interact with each other:
+
+![Archtecture diagram](/articles_data/food-discovery-demo/architecture-diagram.png)
 
 ## Why did we use a CLIP model?
 
