@@ -228,4 +228,5 @@ entries.
 ## Fork and reuse
 
 The full source code of this demonstration is open-sourced and available for you to fork, adapt, and build upon. Whether you’re looking to understand the mechanics 
-of semantic search or to have a foundation to build a larger project, this demo can serve as a starting point.
+of semantic search or to have a foundation to build a larger project, this demo can serve as a starting point. Check out the [Food Discovery Demo repository
+](https://github.com/qdrant/demo-food-discovery/) to get started. If you have any questions, feel free to reach out to us [on our Discord community](https://qdrant.to/discord).
