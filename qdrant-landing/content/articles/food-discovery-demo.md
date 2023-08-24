@@ -13,7 +13,7 @@ date: 2023-08-24T11:00:00.000Z
 
 Not every search journey begins with a specific destination in mind. Sometimes, you just want to explore and see what’s out there and what you might like.
 This is especially true when it comes to food. You might be craving something sweet, but you don’t know what. Or you might be looking for a new dish to try,
-and just want to see the options available. In these cases, it's impossible to express your needs in a textual query, as the thing you are looking for is not 
+and you just want to see the options available. In these cases, it's impossible to express your needs in a textual query, as the thing you are looking for is not 
 yet defined. This is where semantic search comes in. And it shines even brighter when combined with multiple modalities, such as text and images. It’s 
 natural that we often choose our meals based on how they look, not how they are named, so exposing that way of search improves the UX significantly.
 
@@ -62,8 +62,8 @@ This is how a payload for a single dish looks like:
 }
 ```
 
-Processing this amount of records takes some time, so we precomputed the CLIP embeddings, stored them in Qdrant collection and exported the collection as 
-a snapshot. It's available for download from the [GCP bucket](https://storage.googleapis.com/common-datasets-snapshots/wolt-clip-ViT-B-32.snapshot).
+Processing this amount of records takes some time, so we precomputed the CLIP embeddings, stored them in a Qdrant collection and exported the collection as 
+a snapshot. You may [download it here](https://storage.googleapis.com/common-datasets-snapshots/wolt-clip-ViT-B-32.snapshot).
 
 ## Different search modes
 
@@ -168,7 +168,7 @@ TODO: code sample
 
 ### Location-based search
 
-Last but not least. Location plays an important role in the food discovery process. You are definitely looking for something you can find nearby, not on the other
+Last but not least, location plays an important role in the food discovery process. You are definitely looking for something you can find nearby, not on the other
 side of the globe. Therefore, all the search modes accepts your current location as a filtering criteria. This way you can find the best pizza in your neighborhood, 
 not in the whole world. Qdrant [geo radius filter](https://qdrant.tech/documentation/concepts/filtering/#geo-radius) is a perfect choice for this. It allows you to
 filter the results by distance from a given point. 
