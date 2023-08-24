@@ -87,7 +87,7 @@ Since the demo suffers from the cold start problem, we implemented a textual sea
 by clicking a search icon in the top right corner. The demo will use the CLIP model to encode the query into a vector and then search for the nearest neighbors
 in the vector space. 
 
-TODO: add gif showing how it works in UI
+![Random points selection](/articles_data/food-discovery-demo/textual-search.png)
 
 This is implemented as [a group search query to Qdrant](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L44). 
 We didn't use a simple search, but performed grouping by the restaurant to get more diverse results. [Search groups](https://qdrant.tech/documentation/concepts/search/#search-groups) 
@@ -177,11 +177,15 @@ response = client.recommend_groups(
 )
 ```
 
+From the user perspective nothing changes comparing to the previous case.
+
+![Recommendation results](/articles_data/food-discovery-demo/recommendation-results.png)
+
 ### Location-based search
 
 Last but not least, location plays an important role in the food discovery process. You are definitely looking for something you can find nearby, not on the other
-side of the globe. Therefore, all the search modes accepts your current location as a filtering criteria. This way you can find the best pizza in your neighborhood, 
-not in the whole world. Qdrant [geo radius filter](https://qdrant.tech/documentation/concepts/filtering/#geo-radius) is a perfect choice for this. It lets you
+side of the globe. Therefore, all the search modes accepts your current location as a filtering criteria, and you can enable it by clicking on “Find near me” icon
+in the top right. This way you can find the best pizza in your neighborhood, not in the whole world. Qdrant [geo radius filter](https://qdrant.tech/documentation/concepts/filtering/#geo-radius) is a perfect choice for this. It lets you
 filter the results by distance from a given point. 
 
 ```python
@@ -219,9 +223,9 @@ cd demo-food-discovery
 docker-compose up -d
 ```
 
-The demo will be available at `http://localhost:8000`.
-
-TODO: add a screenshot of the UI
+The demo will be available at `http://localhost:8000`, but you won't be able to search anything until you import the snapshot into your Qdrant instance.
+If you don't want to bother with hosting a local one, you can use the [Qdrant Cloud](https://cloud.qdrant.io/) cluster. 4 GB RAM is enough to load all the 2 million
+entries.
 
 ## Fork and reuse
 
