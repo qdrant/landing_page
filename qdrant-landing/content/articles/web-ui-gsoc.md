@@ -5,10 +5,10 @@ description: My journey as a Google Summer of Code 2023 student working on the "
 preview_dir: /articles_data/web-ui-gsoc/preview
 small_preview_image: /articles_data/web-ui-gsoc/icon.svg
 social_preview_image: /articles_data/web-ui-gsoc/preview/social_preview.jpg
-weight: -1
+weight: -20
 author: Kartik Gupta
 author_link: https://kartik-gupta-ij.vercel.app/
-date: 2023-08-22T08:00:00+03:00
+date: 2023-08-28T08:00:00+03:00
 draft: false
 keywords: 
 
