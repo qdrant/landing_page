@@ -18,8 +18,9 @@ yet defined. Qdrant's semantic search for images is useful when you have a hard 
 
 ## General architecture
 
-We are happy to announce a refreshed version of our Food Discovery Demo. This time available as an open source project, so you can easily deploy it on your own
-and play with it. If you prefer to dive into the source code directly, then feel free to check out the [GitHub repository](https://github.com/qdrant/demo-food-discovery/). 
+We are happy to announce a refreshed version of our [Food Discovery Demo](https://food-discovery.qdrant.tech/). This time available as an open source project, 
+so you can easily deploy it on your own and play with it. If you prefer to dive into the source code directly, then feel free to check out the [GitHub repository
+](https://github.com/qdrant/demo-food-discovery/). 
 Otherwise, read on to learn more about the demo and how it works!
 
 In general, our application consists of three parts: a [FastAPI](https://fastapi.tiangolo.com/) backend, a [React](https://react.dev/) frontend, and 
@@ -211,8 +212,8 @@ we used to create the snapshot. When you import it into your instance, the index
 
 ## Using the demo
 
-The Food Discovery Demo is available online, but if you prefer to run it locally, you can do it with Docker. The [README](https://github.com/qdrant/demo-food-discovery/blob/main/README.md)
-describes all the steps more in detail, but here is a quick start:
+The Food Discovery Demo [is available online](https://food-discovery.qdrant.tech/), but if you prefer to run it locally, you can do it with Docker. The 
+[README](https://github.com/qdrant/demo-food-discovery/blob/main/README.md) describes all the steps more in detail, but here is a quick start:
 
 ```bash
 git clone git@github.com:qdrant/demo-food-discovery.git
