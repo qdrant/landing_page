@@ -222,9 +222,9 @@ cd demo-food-discovery
 docker-compose up -d
 ```
 
-The demo will be available at `http://localhost:8000`, but you won't be able to search anything until you import the snapshot into your Qdrant instance.
-If you don't want to bother with hosting a local one, you can use the [Qdrant Cloud](https://cloud.qdrant.io/) cluster. 4 GB RAM is enough to load all the 2 million
-entries.
+The demo will be available at `http://localhost:8000`, but you won't be able to search anything until you [import the snapshot into your Qdrant 
+instance](/documentation/concepts/snapshots/#recover-via-api). If you don't want to bother with hosting a local one, you can use the [Qdrant 
+Cloud](https://cloud.qdrant.io/) cluster. 4 GB RAM is enough to load all the 2 million entries.
 
 ## Fork and reuse
 
