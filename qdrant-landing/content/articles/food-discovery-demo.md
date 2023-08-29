@@ -1,7 +1,7 @@
 ---
 title: Food Discovery Demo
-short_description: Feeling hungry? Multimodal semantic search makes it easy to find the perfect meal.
-description: Feeling hungry? Multimodal semantic search makes it easy to find the perfect meal.
+short_description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
+description: Feeling hungry? Find the perfect meal with Qdrant's multimodal semantic search.
 preview_dir: /articles_data/food-discovery-demo/preview
 social_preview_image: /articles_data/food-discovery-demo/preview/social_preview.jpg
 small_preview_image: /articles_data/food-discovery-demo/icon.svg
@@ -128,9 +128,9 @@ from the search results. **This works because the cosine distance is based on th
 ![CLIP model](/articles_data/food-discovery-demo/negated-vector.png)
 
 Food Discovery Demo [implements that trick](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L122)
-by calling Qdrant twice. First of all we use the [Scroll API](https://qdrant.tech/documentation/concepts/points/#scroll-points) to find the disliked items, 
+by calling Qdrant twice. Initially, we use the [Scroll API](https://qdrant.tech/documentation/concepts/points/#scroll-points) to find disliked items, 
 and then calculate a negated mean of all their vectors. That allows using the [Search Groups API](https://qdrant.tech/documentation/concepts/search/#search-groups)
-to find the nearest neighbors of the negated mean vector and we are there!
+to find the nearest neighbors of the negated mean vector.
 
 ```python
 import numpy as np
@@ -183,7 +183,7 @@ From the user perspective nothing changes comparing to the previous case.
 ### Location-based search
 
 Last but not least, location plays an important role in the food discovery process. You are definitely looking for something you can find nearby, not on the other
-side of the globe. Therefore, all the search modes accepts your current location as a filtering criteria, and you can enable it by clicking on “Find near me” icon
+side of the globe. Therefore, your current location can be toggled as a filtering condition. You can enable it by clicking on “Find near me” icon
 in the top right. This way you can find the best pizza in your neighborhood, not in the whole world. Qdrant [geo radius filter](https://qdrant.tech/documentation/concepts/filtering/#geo-radius) is a perfect choice for this. It lets you
 filter the results by distance from a given point. 
 
@@ -222,12 +222,12 @@ cd demo-food-discovery
 docker-compose up -d
 ```
 
-The demo will be available at `http://localhost:8000`, but you won't be able to search anything until you import the snapshot into your Qdrant instance.
+The demo will be available at `http://localhost:8000`, but you won't be able to search for anything until you import the snapshot into your Qdrant instance.
 If you don't want to bother with hosting a local one, you can use the [Qdrant Cloud](https://cloud.qdrant.io/) cluster. 4 GB RAM is enough to load all the 2 million
 entries.
 
 ## Fork and reuse
 
-The full source code of this demonstration is open-sourced and available for you to fork, adapt, and build upon. Whether you’re looking to understand the mechanics 
+Our demo is completely open-source. Feel free to fork it, update with your own dataset or adapt the application to your use case. Whether you’re looking to understand the mechanics 
 of semantic search or to have a foundation to build a larger project, this demo can serve as a starting point. Check out the [Food Discovery Demo repository
-](https://github.com/qdrant/demo-food-discovery/) to get started. If you have any questions, feel free to reach out to us [on our Discord community](https://qdrant.to/discord).
+](https://github.com/qdrant/demo-food-discovery/) to get started. If you have any questions, feel free to reach out  [through Discord](https://qdrant.to/discord).
