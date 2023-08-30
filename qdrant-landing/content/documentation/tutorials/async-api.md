@@ -26,7 +26,7 @@ the proper tool from the start.
 
 ## How to use async API?
 
-As usual, calling any method of Qdrant requires establishing a connection to the server. We need to create an instance of `QdrantClient`
+Calling any method of Qdrant requires establishing a connection to the server. We need to create an instance of `QdrantClient`
 that will act as a gateway. If you want to do it locally, please make sure Qdrant server is running. If it's not, then you can launch it
 in a Docker container:
 
