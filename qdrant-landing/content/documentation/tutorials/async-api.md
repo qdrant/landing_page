@@ -31,7 +31,7 @@ that will act as a gateway. If you want to do it locally, please make sure Qdran
 in a Docker container:
 
 ```bash
-docker run -p "6333:6333" -p "6334:6334" qdrant/qdrant:v1.4.1
+docker run -p "6333:6333" -p "6334:6334" qdrant/qdrant:latest
 ```
 
 Alternatively, you can also use a [Qdrant Cloud](https://cloud.qdrant.io/) cluster. With a Cloud cluster you will pass the API key to the
