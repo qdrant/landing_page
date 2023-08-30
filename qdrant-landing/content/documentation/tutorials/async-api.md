@@ -37,7 +37,8 @@ docker run -p "6333:6333" -p "6334:6334" qdrant/qdrant:latest
 Alternatively, you can also use a [Qdrant Cloud](https://cloud.qdrant.io/) cluster. With a Cloud cluster you will pass the API key to the
 client constructor. 
 
-With that, we are ready to create  `QdrantClient` instance:
+With that, we are ready to create a [`QdrantClient`](https://github.com/qdrant/qdrant-client/blob/master/qdrant_client/qdrant_client.py#L13) 
+instance, given you have the [`qdrant-client`](https://pypi.org/project/qdrant-client/) package installed:
 
 ```python
 from qdrant_client import QdrantClient
