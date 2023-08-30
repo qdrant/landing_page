@@ -357,6 +357,6 @@ and dissimilar to negative examples.
 
 ## Support of Qdrant async API in Python libraries
 
-There is plenty of Python libraries that Qdrant integrates with. Up till now, only [Langchain]() provides async API support. 
+There is plenty of Python libraries that Qdrant integrates with. Until recently, only [Langchain]() provided async Python API support. 
 Qdrant is the only vector database with full coverage of async API in Langchain. The documentation [describes how to use 
 it](https://python.langchain.com/docs/modules/data_connection/vectorstores/#asynchronous-operations).
