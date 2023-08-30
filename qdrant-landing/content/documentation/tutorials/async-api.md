@@ -5,6 +5,10 @@ weight: 18
 
 # Using Qdrant asynchronously
 
+Asynchronous programming is being broadly adopted in the Python ecosystem. Tools such as FastAPI [have embraced that new 
+paradigm](https://fastapi.tiangolo.com/async/), but it's also becoming a standard for ML models served as SaaS. For example, the Cohere SDK
+[provides an async client](https://cohere-sdk.readthedocs.io/en/latest/cohere.html#asyncclient) next to its synchronous counterpart.
+
 Databases are often launched as separate services and are accessed via a network. All the interactions with them are IO-bound and can 
 be performed asynchronously so as not to waste time actively waiting for a server response. If you use Python, that is achieved by 
 using [`async/await`](https://docs.python.org/3/library/asyncio-task.html) syntax. That lets the interpreter switch to another task 
