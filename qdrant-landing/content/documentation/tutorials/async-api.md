@@ -163,7 +163,9 @@ result {
 time: 1.3022e-05
 ```
 
-As you can see, the collection was created properly and is ready to be used.
+As you can see, the collection was created properly and is ready to be used. To understand more of the output, please refer to the
+[API specification](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/get_collection) that describes the
+meaning of each parameter.
 
 ##### Handling exceptions
 
