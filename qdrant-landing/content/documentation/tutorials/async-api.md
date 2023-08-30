@@ -21,8 +21,10 @@ blocking the threads of the web server as it limits the number of concurrent req
 the async API.
 
 Modern web frameworks like [FastAPI](https://fastapi.tiangolo.com/) and [Quart](https://quart.palletsprojects.com/en/latest/) support 
-async API out of the box. Asynchronous code cannot be incorporated into an existing synchronous codebase, so it's better to choose 
-the proper tool from the start.
+async API out of the box. Mixing asynchronous code with an existing synchronous codebase might be a challenge. The `async/await` syntax 
+cannot be used in synchronous functions. On the other hand, calling an IO-bound operation synchronously in async code is considered 
+an antipattern. Therefore, if you build an async web service, exposed through an [ASGI](https://asgi.readthedocs.io/en/latest/) server, 
+you should use the async API for all the interactions with Qdrant.
 
 ## How to use async API?
 
