@@ -17,7 +17,7 @@ You might see that AWS gives an ambiguous price for Qdrant. It is common to abst
 ![pricing](/docs/cloud/pricing.png)
 
 The pricing you'll see in Qdrant Cloud while booking will apply normally.
-However, the payment carried out via your AWS account. To get a clearer idea for the pricing structure, please use our [Billing Calculator](https://cloud.qdrant.io/calculator).
+However, the payment is carried out via your AWS account. To get a clearer idea for the pricing structure, please use our [Billing Calculator](https://cloud.qdrant.io/calculator).
 
 ## How to subscribe
 
