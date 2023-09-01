@@ -95,7 +95,7 @@ True
 
 ## Step 2: Add vectors
 
-Let's now add a few vectors with a payload:
+Let's now add a few vectors with a payload. Payloads are other data you want to associate with the vector:
 
 ```python
 from qdrant_client.http.models import PointStruct
