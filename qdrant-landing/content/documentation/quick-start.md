@@ -69,7 +69,7 @@ client = QdrantClient("localhost", port=6333)
 
 # Running vector search queries
 
-In this simple example, you will create a Qdrant collection, load data into it and run a basic search query. 
+In this short example, you will create a Qdrant collection, load data into it and run a basic search query. 
 
 ![Qdrant Quickstart](/docs/quickstart.png)
 
@@ -179,6 +179,6 @@ You have just conducted vector search. You loaded vectors into a database and qu
 
 ## Next Steps
 
-Now you know how Qdrant works. Getting started with [Qdrant Cloud](../cloud/quickstart-cloud/)| is even simpler. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates. 
+Now you know how Qdrant works. Getting started with [Qdrant Cloud](../cloud/quickstart-cloud/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates. 
 
 To move onto some more complex examples of vector search, read our [Tutorials](../tutorials/) and create your own app with the help of our [Examples](../examples/). 
