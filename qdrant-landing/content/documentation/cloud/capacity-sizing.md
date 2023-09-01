@@ -2,7 +2,7 @@
 title: Capacity and sizing
 weight: 40
 aliases:
-  - ../capacity
+  - capacity
 ---
 
 # Capacity and sizing

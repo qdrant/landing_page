@@ -4,7 +4,7 @@ weight: 10
 ---
 # Documentation
 
-**Qdrant (read: quadrant )** is a vector similarity search engine. Use our documentation to develop a production-ready service with a convenient API to store, search, and manage vectors with an additional payload. Qdrant's expanding features allow for all sorts of neural network or semantic-based matching, faceted search, and other applications.
+**Qdrant (read: quadrant)** is a vector similarity search engine. Use our documentation to develop a production-ready service with a convenient API to store, search, and manage vectors with an additional payload. Qdrant's expanding features allow for all sorts of neural network or semantic-based matching, faceted search, and other applications.
 
 ## First-Time Users:
 
