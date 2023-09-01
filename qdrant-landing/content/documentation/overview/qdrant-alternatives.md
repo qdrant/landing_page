@@ -1,31 +1,28 @@
 ---
 title: Qdrant vs. Alternatives
-weight: 10
-draft: true
+weight: 2
 ---
 
-# Comparing Alternatives: Qdrant vs. Pinecone
+# Comparing Qdrant with alternatives
 
-Qdrant might just be the right vector search engine for you - but before you even consider switching: every transition has its challenges, primarily understanding new terminologies and concepts. 
-That's where this guide comes in. It succinctly breaks down the key differences between Qdrant and other vector databases and engines, paving the way for a smoother, more informed transition:
+If you are currently using other vector databases, we recommend you read this short guide. It breaks down the key differences between Qdrant and other similar products. This document should help you decide which product has the features and support you need. 
+Unfortunately, since Pinecone is not an open source product, we can't include it in our [benchmarks](/benchmarks/). However, we still recommend you use the [benchmark tool](/benchmarks/) while exploring Qdrant. 
+
+## Feature comparison
 
 | Feature                         | Pinecone                      | Qdrant                                       | Comments                                                 |
 |---------------------------------|-------------------------------|----------------------------------------------|----------------------------------------------------------|
-| Deployment Modes                | SaaS-only                     | Local, on-premise, Cloud                     | Qdrant offers more flexibility in deployment modes       |
-| Supported Technologies          | Python, JavaScript/TypeScript | Python, JavaScript/TypeScript, Rust, Go      | Qdrant supports a broader range of programming languages |
-| Performance (e.g., query speed) | TnC Prohibit Benchmarking     | [Benchmark result](/benchmarks/)             | Compare performance metrics                              |
-| Pricing                         | Starts at $70/mo              | Free and Open Source, Cloud starts at $25/mo | Pricing as on May 2023                                   |
+| **Deployment Modes**                | SaaS-only                     | Local, on-premise, Cloud                     | Qdrant offers more flexibility in deployment modes       |
+| **Supported Technologies**          | Python, JavaScript/TypeScript | Python, JavaScript/TypeScript, Rust, Go      | Qdrant supports a broader range of programming languages |
+| **Performance** (e.g., query speed) | TnC Prohibit Benchmarking     | [Benchmark result](/benchmarks/)             | Compare performance metrics                              |
+| **Pricing**                         | Starts at $70/mo              | Free and Open Source, Cloud starts at $25/mo | Pricing as of May 2023                                   |
 
-## Pinecone Overview
+## Prototyping options
 
-Pinecone is a SaaS-only vector database written in Rust. Since it's not Open Source, we couldn't include it in our 
-[benchmarks](/benchmarks/), but that's a popular tool among the users who decide to switch to Qdrant. 
+Qdrant offers multiple ways of deployment, including local mode, on-premise, and [Qdrant Cloud](https://cloud.qdrant.io/). 
+You can [get started with local mode quickly](/documentation/quick-start/) and without signing up for SaaS. With Pinecone you will have to connect your development environment to the cloud service just to test the product. 
 
-## Deployment modes
-
-While Qdrant offers multiple ways of deployment, including local mode, on-premise, and [Qdrant Cloud](https://cloud.qdrant.io/), 
-Pinecone is available in a SaaS-only model. Thus, even your development environment has to connect with the cloud services,
-while Qdrant offers you some local modes as well.
+When it comes to SaaS, both Pinecone and [Qdrant Cloud](https://cloud.qdrant.io/) offer a free cloud tier to check out the services, and you dont have to give credit card details for either. Each free tier should be enough to keep around 1M of 768-dimensional vectors, but it may vary depending on the additional attributes stored with vectors. With Qdrant Cloud, however, you can experiment with different models as you may create several collections or keep multiple vectors per each point. That means Qdrant Cloud allows you building several small demos, even on a free tier.
 
 ## Terminology
 
@@ -71,9 +68,28 @@ That makes it easy to integrate with any technology of your choice.
 If you are a Python user, then both tools are well-integrated with the most popular libraries like [LangChain](../integrations/langchain/), [LlamaIndex](../integrations/llama-index/), [Haystack](../integrations/haystack/), and more. 
 Using any of those libraries makes it easier to experiment with different vector databases, as the transition should be seamless.
 
-## Comparison to Qdrant Cloud
+## Planning to migrate?
 
-Both Pinecone and Qdrant Cloud offer a free cloud tier to check out the services, even without providing credit card details.
-Each free tier should be enough to keep around 1M of 768-dimensional vectors, but it may vary depending on the additional attributes 
-stored with vectors. With Qdrant Cloud, however, you can experiment with different models as you may create several collections 
-or keep multiple vectors per each point. That means Qdrant Cloud allows you building several small demos, even on a free tier.
+> We strongly recommend you use [Qdrant Tools](https://github.com/NirantK/qdrant_tools) to migrate from Qdrant to Pinecone.
+
+Migrating from Pinecone to Qdrant involves a series of well-planned steps to ensure that the transition is smooth and disruption-free. Here is a suggested migration plan:
+
+1. Understanding Qdrant: It's important to first get a solid grasp of Qdrant, its functions, and its APIs. Take time to understand how to establish collections, add points, and query these collections.
+
+2. Migration strategy: Create a comprehensive migration strategy, incorporating data migration (copying your vectors and associated metadata from Pinecone to Qdrant), feature migration (verifying the availability and setting up of features currently in use with Pinecone in Qdrant), and a contingency plan (should there be any unexpected issues).
+
+3. Establishing a parallel Qdrant system: Set up a Qdrant system to run concurrently with your current Pinecone system. This step will let you begin testing Qdrant without disturbing your ongoing operations on Pinecone.
+
+4. Data migration: Shift your vectors and metadata from Pinecone to Qdrant. The timeline for this step could vary, depending on the size of your data and Pinecone API's rate limitations.
+
+5. Testing and transition: Following the data migration, thoroughly test the Qdrant system. Once you're assured of the Qdrant system's stability and performance, you can make the switch.
+
+6. Monitoring and fine-tuning: After transitioning to Qdrant, maintain a close watch on its performance. It's key to continue refining the system for optimal results as needed.
+
+## Next steps
+
+1. If you aren't ready yet, [try out Qdrant locally](/documentation/quick-start/) or sign up for [Qdrant Cloud](https://cloud.qdrant.io/).
+
+2. For more basic information on Qdrant read our [Overview](overview/) section or learn more about Qdrant Cloud's [Free Tier](documentation/cloud/).
+
+3. If ready to migrate, please consult our [Comprehensive Guide](https://github.com/NirantK/qdrant_tools) for further details on migration steps.
