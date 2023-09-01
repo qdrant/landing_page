@@ -8,7 +8,7 @@ aliases:
 
 ## Recommended Workflow
 
-There are two ways of using Qdrant locally: [1) Local Mode](#option-1-local-mode) and [2) Docker Mode](#option-2-docker-mode). We recommend that you first try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup. Then, you may further experiment with Qdrant Docker containers. When you are more comfortable with Qdrant, then you should deploy your app to a Free Tier [Qdrant Cloud](../cloud/quickstart-cloud/) cluster.
+There are two ways of using Qdrant locally: [1) Local Mode](#option-1-local-mode) and [2) Docker Mode](#option-2-docker-mode). If you are a Python developer, we recommend that you first try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup. Then, you may further experiment with Qdrant Docker containers. When you are more comfortable with Qdrant, then you should deploy your app to a Free Tier [Qdrant Cloud](../cloud/quickstart-cloud/) cluster.
 
 |[Local Mode](#option-1-local-mode)|[Docker Mode](#option-2-docker-mode)|[Qdrant Cloud](../cloud/quickstart-cloud/)|
 |:-:|:-:|:-:|
