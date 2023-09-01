@@ -46,7 +46,7 @@ docker run -p 6333:6333 -p 6334:6334 \
     qdrant/qdrant
 ```
 
-**When to use gRPC:** The choice between gRPC and the REST API is a trade-off between convenience and speed. gRPC is a binary protocol and can be more challenging to debug.We recommend switching to it if you are already familiar with Qdrant and are trying to optimize the performance of your application.
+**When to use gRPC:** The choice between gRPC and the REST API is a trade-off between convenience and speed. gRPC is a binary protocol and can be more challenging to debug. We recommend using gRPC if you are already familiar with Qdrant and are trying to optimize the performance of your application.
 
 ## Qdrant Web UI
 
