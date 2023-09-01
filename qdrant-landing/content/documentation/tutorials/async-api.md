@@ -220,20 +220,9 @@ await client.async_grpc_collections.Update(
 )
 ```
 
-### Delete a collection
-
 There are plenty of methods available for collections, such as creating aliases or checking the status of the cluster. This tutorial won't use all of them, but you can always [check the list of available methods and their parameters in the 
 documentation](https://github.com/qdrant/qdrant/blob/master/docs/grpc/docs.md#collections_serviceproto).
 
-Right now, you can just delete the collection you created:
-
-```python
-await client.async_grpc_collections.Delete(
-    grpc.DeleteCollection(
-        collection_name="my_collection"
-    )
-)
-```
 That's it when it comes to collection management. Let's move on to points (individual vectors) allowing us to load data into our collection
 
 ## Step 3: Add points to the collection
@@ -354,6 +343,18 @@ response = await client.async_grpc_points.Search(
 You can build even more sophisticated filters with the `must`, `should` and `must_not` clauses. You can find more details in the [filtering documentation](https://qdrant.tech/documentation/concepts/filtering/#filtering).
 
 Analogous to search, you can also [scroll our collection](https://qdrant.tech/documentation/concepts/points/#scroll-points) to retrieve all the points or use the [recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) to find points similar to positive and dissimilar to negative examples.
+
+## Step 6: Delete a collection
+
+Right now, you can just delete the collection you created, so there is nothing left dangling:
+
+```python
+await client.async_grpc_collections.Delete(
+    grpc.DeleteCollection(
+        collection_name="my_collection"
+    )
+)
+```
 
 ## Supported Python libraries
 
