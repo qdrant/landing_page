@@ -29,6 +29,26 @@ cannot be used in synchronous functions. On the other hand, calling an IO-bound 
 an antipattern. Therefore, if you build an async web service, exposed through an [ASGI](https://asgi.readthedocs.io/en/latest/) server, 
 you should use the async API for all the interactions with Qdrant.
 
+<aside role="status">
+All the code examples below have to be launched in an async context. Usually, it means you have to use <code>asyncio.run</code> or <code>asyncio.create_task</code> to run them.
+Please refer to the <a href="https://docs.python.org/3/library/asyncio.html">asyncio documentation</a> for more details.
+</aside>
+
+### Running async code in Python
+
+The simplest way of running any of the examples from that tutorial is to use define `async` function and use the `asyncio.run` in the following way to run it:
+
+```python
+import qdrant_client
+import asyncio
+
+async def main():
+    client = qdrant_client.QdrantClient("localhost")
+    # Your async code using QdrantClient might be put here
+
+asyncio.run(main())
+```
+
 ## How to use async API
 
 Calling any method of Qdrant requires establishing a connection to the server. You need to create an instance of `QdrantClient`
