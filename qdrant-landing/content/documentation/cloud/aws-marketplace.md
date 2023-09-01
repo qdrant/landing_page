@@ -7,17 +7,15 @@ weight: 60
 
 ## Overview
 
-Our [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-rtphb42tydtzg) listing makes it simpler to access Qdrant for users who wish to host all of their infrastructure on Amazon Web Services.
-Using this option is simple and isn't any more different than directly signing up with Qdrant Cloud. 
+Our [AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-rtphb42tydtzg) listing streamlines access to Qdrant for users who rely on Amazon Web Services for hosting and application development. Please note that, while Qdrant's clusters run on AWS, you will still use the Qdrant Cloud infrastructure. 
 
 ## Billing
 
-You might see that AWS gives an ambiguous price for Qdrant. It is common to abstract usage based pricing in the AWS marketplace, as there are too many factors to model billing from the AWS side. 
+You don't need to use a credit card to sign up for Qdrant Cloud. Instead, all billing is processed through the AWS Marketplace and the usage of Qdrant is added to your existing billing for AWS services. It is common for AWS to abstract usage based pricing in the AWS marketplace, as there are too many factors to model when calculating billing from the AWS side. 
 
 ![pricing](/docs/cloud/pricing.png)
 
-The pricing you'll see in Qdrant Cloud while booking will apply normally.
-However, the payment is carried out via your AWS account. To get a clearer idea for the pricing structure, please use our [Billing Calculator](https://cloud.qdrant.io/calculator).
+The payment is carried out via your AWS Account. To get a clearer idea for the pricing structure, please use our [Billing Calculator](https://cloud.qdrant.io/calculator).
 
 ## How to subscribe
 
@@ -41,4 +39,4 @@ Now that you have signed up via AWS Marketplace, please read our instructions to
 
 2. Learn how to [authenticate and access your cluster](../../cloud/authentication/).
 
-3. Additional open source [cocumentation](../../troubleshooting/).
+3. Additional open source [documentation](../../troubleshooting/).
