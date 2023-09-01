@@ -69,7 +69,7 @@ client = QdrantClient("localhost", port=6333)
 
 # Running vector search queries
 
-In this short example, you will create a Qdrant collection, load data into it and run a basic search query. 
+In this short example, you  will use the Python client to create a Qdrant collection, load data into it and run a basic search query. 
 
 ![Qdrant Quickstart](/docs/quickstart.png)
 
