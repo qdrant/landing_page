@@ -57,6 +57,14 @@ Under the default configuration all data will be stored in the `./qdrant_storage
 
 Qdrant should now be accessible at [localhost:6333](http://localhost:6333)
 
+### Initialize Qdrant Client 
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient("localhost", port=6333)
+```
+
 <aside role="status">Qdrant has no encryption or authentication by default and new instances are open to everyone. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
 
 # Running vector search queries
@@ -70,11 +78,9 @@ In this simple example, you will create a Qdrant collection, load data into it a
 You will be storing all of your vector data in a Qdrant collection. Let's call it `test_collection`. This collection will be using a doc production metric. 
 
 ```python
-from qdrant_client import QdrantClient
+
 from qdrant_client.http.models import Distance, VectorParams
 
-# specify port if using Docker 
-# client = QdrantClient("localhost", port=6333)
 client.recreate_collection(
     collection_name="test_collection",
     vectors_config=VectorParams(size=4, distance=Distance.DOT),
