@@ -75,7 +75,7 @@ In this short example, you  will use the Python client to create a Qdrant collec
 
 ## Step 1. Create a collection
 
-You will be storing all of your vector data in a Qdrant collection. Let's call it `test_collection`. This collection will be using a doc production metric. 
+You will be storing all of your vector data in a Qdrant collection. Let's call it `test_collection`. This collection will be using a doc product distance metric to compare vectors. 
 
 ```python
 
