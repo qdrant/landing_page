@@ -141,7 +141,7 @@ ScoredPoint(id=1, version=0, score=1.2729999996721744, payload={'city': 'Berlin'
 ScoredPoint(id=3, version=0, score=1.2080000013113021, payload={'city': ['Berlin', 'Moscow']}, vector=None)
 ```
 
-Note that payload and vector data is missing in these results by default.
+The results are returned in decreasing si,ilarity order. Note that payload and vector data is missing in these results by default.
 See [payload and vector in the result](../concepts/search#payload-and-vector-in-the-result) on how to enable it.
 
 ## Step 4: Add a filter
