@@ -187,9 +187,10 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 
 
 [[menu.main]]
-  identifier = "community"
-  name = "Community"
+  identifier = "developers"
+  name = "Developers"
   weight = 4
+  url = "/developer/"
   [menu.main.params]
     in_header = true
     in_footer = true

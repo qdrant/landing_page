@@ -1,0 +1,14 @@
+{{- partial "header.html" . -}}
+
+<section class="documentation">
+    <div class="container-xxl pt-4 pt-md-5">
+        <div class="row clearfix">
+            {{- partial "dev_sidebar.html" . -}}
+            {{ block "main" . }}{{ end }}
+            {{- partial "table_of_content.html" . -}}
+        </div>
+    </div>
+</section>
+
+
+{{- partial "footer.html" . -}}
