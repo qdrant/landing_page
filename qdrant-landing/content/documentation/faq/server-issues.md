@@ -15,7 +15,7 @@ Directly writing to disk is a lot faster when doing a huge upload batch.You want
 
 ### The server stopped responding via HTTP. 
 
-If you indexed a large number of points and there is not response, try debugging. If no information is available in debug.
+If you indexed a large number of points and there is not response, try debugging. If no information is available in debug, please contact support on Discord with all the necessary information to reproduce the issue.
 
 ### Qdrant Docker fails to start repeatedly on Ubuntu 20.04 
 
