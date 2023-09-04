@@ -107,83 +107,43 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     parent = "product"
     url = "/solutions/"
 
-
-  [[menu.main]]
-    identifier = "benchmarks"
-    name = "Benchmarks"
-    weight = 3
-    parent = "product"
-    url = "/benchmarks/"
-
   [[menu.main]]
     identifier = "demo"
     name = "Demos"
-    weight = 4
+    weight = 3
     parent = "product"
     url = "/demo/"
 
   [[menu.main]]
     identifier = "pricing"
     name = "Pricing"
-    weight = 5
+    weight = 4
     parent = "product"
     url = "/pricing/"
 
 [[menu.main]]
-  identifier = "resources"
-  name = "Resources"
+  identifier = "quick-start"
+  name = "Quickstart"
   weight = 2
+  url = "/documentation/quick-start/"
+  [menu.main.params]
+    in_header = true
+    
+[[menu.main]]
+  identifier = "documentation"
+  name = "Documentation"
+  weight = 3
+  url = "/documentation/"
   [menu.main.params]
     in_header = true
     in_footer = false
 
   [[menu.main]]
-    identifier = "documentation"
-    name = "Documentation"
-    parent = "resources"
+    identifier = "quick-start"
+    name = "Quickstart"
     weight = 1
-    url = "/documentation/"
-
-  [[menu.main]]
-    identifier = "case-studies"
-    name = "Case Studies"
-    weight = 2
-    parent = "resources"
-    url = "/case-studies/"
-
-  [[menu.main]]
-    identifier = "articles"
-    name = "Articles"
-    weight = 4
-    parent = "resources"
-    url = "/articles/"
-
-  [[menu.main]]
-    identifier = "blog"
-    name = "Blog"
-    weight = 5
-    parent = "resources"
-    url = "https://blog.qdrant.tech/"
-    [menu.main.params]
-      external = true
-
-  [[menu.main]]
-    identifier = "roadmap"
-    name = "Roadmap"
-    weight = 6
-    parent = "resources"
-    url = "https://qdrant.to/roadmap"
-    [menu.main.params]
-       external = true
-
-  [[menu.main]]
-    identifier = "changelog"
-    name = "Changelog"
-    weight = 7
-    parent = "resources"
-    url = "https://github.com/qdrant/qdrant/releases"
-    [menu.main.params]
-        external = true
+    parent = "documentation"
+    url = "/documentation/quick-start/"
 
 
 [[menu.main]]
