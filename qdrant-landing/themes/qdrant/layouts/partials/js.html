@@ -5,7 +5,7 @@
 <script src="{{ "js/clipboard.min.js" | absURL }}"></script>
 <script src="{{ "js/anchor.min.js" | absURL }}"></script>
 <script src="{{ "js/vendor.min.js" | absURL }}"></script>
-{{ if eq .Section "documentation" }}
+{{ if (or (eq .Section "documentation") (eq .Section "developer")) }}
 <script src="{{ "js/qdr-search.min.js" | absURL }}"></script>
 {{ end }}
 <script src="{{ "js/qdr-scroll.min.js" | absURL }}"></script>
@@ -57,8 +57,10 @@
     });
 
     // qdrant-page-search initialization
-    if (/documentation/.test(window.location?.pathname)) {
-      window.initQdrantSearch({searchApiUrl: 'https://search.qdrant.tech/api/search', section: "documentation"});
+    const section = "{{ .Section }}";
+    console.log(section);
+    if (/documentation/.test(window.location?.pathname) || /developer/.test(window.location?.pathname)) {
+      window.initQdrantSearch({searchApiUrl: 'https://search.qdrant.tech/api/search', section: section});
     }
   });
 </script>

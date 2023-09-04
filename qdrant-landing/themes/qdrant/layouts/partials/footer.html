@@ -1,6 +1,6 @@
 <!-- Main Footer -->
 <footer class="main-footer">
-    <div class="{{ if (eq $.Section "documentation") }}container-xxl{{ else }}auto-container{{ end }}">
+    <div class="{{ if (or (eq $.Section "documentation") (eq $.Section "developer")) }}container-xxl{{ else }}auto-container{{ end }}">
         <!--Widgets Section-->
         <div class="widgets-section">
             <div class="row clearfix">
