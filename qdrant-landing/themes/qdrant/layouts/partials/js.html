@@ -58,7 +58,6 @@
 
     // qdrant-page-search initialization
     const section = "{{ .Section }}";
-    console.log(section);
     if (/documentation/.test(window.location?.pathname) || /developer/.test(window.location?.pathname)) {
       window.initQdrantSearch({searchApiUrl: 'https://search.qdrant.tech/api/search', section: section});
     }
