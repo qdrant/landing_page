@@ -4,201 +4,64 @@ weight: 11
 aliases:
   - quick_start
 ---
-
 # Quickstart
 
-## Installation
+In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query. 
 
-The easiest way to use Qdrant is to run a pre-built image. To do this, make sure Docker is installed on your system.
+<aside role="status">Before you start, please make sure Docker is installed and running on your system.</aside>
 
-Download image from [DockerHub](https://hub.docker.com/r/qdrant/qdrant):
+## Download and run
+
+First, download the latest Qdrant image from Dockerhub:
 
 ```bash
 docker pull qdrant/qdrant
 ```
 
-And run the service inside the docker:
+Then, run the service:
 
 ```bash
 docker run -p 6333:6333 \
-    -v $(pwd)/qdrant_storage:/qdrant/storage \
+    -v $(pwd)/qdrant_storage:/qdrant/storage:z \
     qdrant/qdrant
 ```
 
-In this case Qdrant will use default configuration and store all data under `./qdrant_storage` directory.
+Under the default configuration all data will be stored in the `./qdrant_storage` directory. This will also be the only directory that both the Container and the host machine can both see. 
 
-Now Qdrant should be accessible at [localhost:6333](http://localhost:6333)
+Qdrant should now be accessible at [localhost:6333](http://localhost:6333)
 
-<aside role="status">Qdrant has no encryption or authentication by default and new instances are open to everyone. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
-
-### Local mode
-
-![Local mode workflow](https://raw.githubusercontent.com/qdrant/qdrant-client/master/docs/images/try-develop-deploy.png)
-
-
-With python client it is possible to try Qdrant without running docker container at all.
-
-Simply install it
-
-```bash
-pip install qdrant-client
-```
-
-and initialize client like this:
+## Initialize the client 
 
 ```python
 from qdrant_client import QdrantClient
-
-client = QdrantClient(":memory:")
-# or
-client = QdrantClient(path="path/to/db")  # Persists changes to disk
-```
-
-Local mode is useful for development, prototyping and testing.
-
-* You can use it to run tests in your CI/CD pipeline.
-* Run it in Colab or Jupyter Notebook, no extra dependencies required. See a [Colab Example](https://colab.research.google.com/drive/1Bz8RSVHwnNDaNtDwotfPj0w7AYzsdXZ-?usp=sharing)
-* When you need to scale, simply switch to server mode.
-
-
-## API
-
-All interaction with Qdrant takes place via the REST API.
-
-This example covers the most basic use-case - collection creation and basic vector search.
-For additional information please refer to the [API documentation](https://qdrant.github.io/qdrant/redoc/index.html).
-
-### gRPC
-
-In addition to REST API, Qdrant also supports gRPC interface.
-To enable gPRC interface, specify the following lines in the [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml):
-
-```yaml
-service:
-  grpc_port: 6334
-```
-
-gRPC interface will be available on the specified port.
-The gRPC methods follow the same principles as REST. For each REST endpoint, there is a corresponding gRPC method.
-Documentation on all available gRPC methods and structures is available here - [gRPC Documentation](https://github.com/qdrant/qdrant/blob/master/docs/grpc/docs.md).
-
-The choice between gRPC and the REST API is a trade-off between convenience and speed.
-gRPC is a binary protocol and can be more challenging to debug.
-We recommend switching to it if you are already familiar with Qdrant and are trying to optimize the performance of your application.
-
-If you are applying Qdrant for the first time or working on a prototype, you might prefer to use REST.
-
-### Clients
-
-Qdrant provides a set of clients for different programming languages. You can find them here:
-
-* [Python](https://github.com/qdrant/qdrant-client) - `pip install qdrant-client`
-* [Rust](https://github.com/qdrant/rust-client) - `cargo add qdrant-client`
-* [Go](https://github.com/qdrant/go-client) - `go get github.com/qdrant/go-client`
-* [Javascript](https://github.com/qdrant/qdrant-js) - `npm install @qdrant/js-client-rest`
-
-If you are using a language that is not listed here, you can use the REST API directly or generate a client for your language 
-using [OpenAPI](https://github.com/qdrant/qdrant/blob/master/docs/redoc/master/openapi.json)
-or [protobuf](https://github.com/qdrant/qdrant/tree/master/lib/api/src/grpc/proto) definitions. 
-
-### Create collection
-
-First - let's create a collection with dot-production metric.
-
-```bash
-curl -X PUT 'http://localhost:6333/collections/test_collection' \
-    -H 'Content-Type: application/json' \
-    --data-raw '{
-        "vectors": {
-            "size": 4,
-            "distance": "Dot"
-        }
-    }'
-```
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.http.models import Distance, VectorParams
 
 client = QdrantClient("localhost", port=6333)
+```
+
+<aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
+
+## Create a collection
+
+You will be storing all of your vector data in a Qdrant collection. Let's call it `test_collection`. This collection will be using a dot product distance metric to compare vectors. 
+
+```python
+from qdrant_client.http.models import Distance, VectorParams
+
 client.recreate_collection(
     collection_name="test_collection",
     vectors_config=VectorParams(size=4, distance=Distance.DOT),
 )
 ```
 
-Expected response:
-
-```json
-{
-    "result": true,
-    "status": "ok",
-    "time": 0.031095451
-}
-```
-
-We can ensure that collection was created:
-
-```bash
-curl 'http://localhost:6333/collections/test_collection'
-```
+**Response:**
 
 ```python
-collection_info = client.get_collection(collection_name="test_collection")
+True
 ```
 
-Expected response:
+## Add vectors
 
-```json
-{
-  "result": {
-    "status": "green",
-    "vectors_count": 0,
-    "segments_count": 5,
-    "disk_data_size": 0,
-    "ram_data_size": 0,
-    "config": {
-      "params": {
-        "vectors": {
-          "size": 4,
-          "distance": "Dot"
-        }
-      },
-      "hnsw_config": { ... },
-      "optimizer_config": { ... },
-      "wal_config": { ... }
-    }
-  },
-  "status": "ok",
-  "time": 2.1199e-05
-}
-```
-
-```python
-from qdrant_client.http.models import CollectionStatus
-
-assert collection_info.status == CollectionStatus.GREEN
-assert collection_info.vectors_count == 0
-```
-
-### Add points
-
-Let's now add vectors with some payload:
-
-```bash
-curl -L -X PUT 'http://localhost:6333/collections/test_collection/points?wait=true' \
-    -H 'Content-Type: application/json' \
-    --data-raw '{
-        "points": [
-          {"id": 1, "vector": [0.05, 0.61, 0.76, 0.74], "payload": {"city": "Berlin" }},
-          {"id": 2, "vector": [0.19, 0.81, 0.75, 0.11], "payload": {"city": ["Berlin", "London"] }},
-          {"id": 3, "vector": [0.36, 0.55, 0.47, 0.94], "payload": {"city": ["Berlin", "Moscow"] }},
-          {"id": 4, "vector": [0.18, 0.01, 0.85, 0.80], "payload": {"city": ["London", "Moscow"] }},
-          {"id": 5, "vector": [0.24, 0.18, 0.22, 0.44], "payload": {"count": [0] }},
-          {"id": 6, "vector": [0.35, 0.08, 0.11, 0.44]}
-        ]
-    }'
-```
+Let's now add a few vectors with a payload. Payloads are other data you want to associate with the vector:
 
 ```python
 from qdrant_client.http.models import PointStruct
@@ -208,47 +71,24 @@ operation_info = client.upsert(
     wait=True,
     points=[
         PointStruct(id=1, vector=[0.05, 0.61, 0.76, 0.74], payload={"city": "Berlin"}),
-        PointStruct(id=2, vector=[0.19, 0.81, 0.75, 0.11], payload={"city": ["Berlin", "London"]}),
-        PointStruct(id=3, vector=[0.36, 0.55, 0.47, 0.94], payload={"city": ["Berlin", "Moscow"]}),
-        PointStruct(id=4, vector=[0.18, 0.01, 0.85, 0.80], payload={"city": ["London", "Moscow"]}),
-        PointStruct(id=5, vector=[0.24, 0.18, 0.22, 0.44], payload={"count": [0]}),
-        PointStruct(id=6, vector=[0.35, 0.08, 0.11, 0.44]),
+        PointStruct(id=2, vector=[0.19, 0.81, 0.75, 0.11], payload={"city": "London"}),
+        PointStruct(id=3, vector=[0.36, 0.55, 0.47, 0.94], payload={"city": "Moscow"}),
+        PointStruct(id=4, vector=[0.18, 0.01, 0.85, 0.80], payload={"city": "New York"}),
+        PointStruct(id=5, vector=[0.24, 0.18, 0.22, 0.44], payload={"city": "Beijing"}),
+        PointStruct(id=6, vector=[0.35, 0.08, 0.11, 0.44], payload={"city": "Mumbai"}),
     ]
 )
+print(operation_info)
 ```
 
-
-Expected response:
-
-```json
-{
-    "result": {
-        "operation_id": 0,
-        "status": "completed"
-    },
-    "status": "ok",
-    "time": 0.000206061
-}
-```
+**Response:**
 
 ```python
-from qdrant_client.http.models import UpdateStatus
-
-assert operation_info.status == UpdateStatus.COMPLETED
+operation_id=0 status=<UpdateStatus.COMPLETED: 'completed'>
 ```
 
-### Search with filtering
-
-Let's start with a basic request:
-
-```bash
-curl -L -X POST 'http://localhost:6333/collections/test_collection/points/search' \
-    -H 'Content-Type: application/json' \
-    --data-raw '{
-        "vector": [0.2,0.1,0.9,0.7],
-        "limit": 3
-    }'
-```
+## Run a query
+Let's ask a basic question - Which of our stored vectors are most similar to the query vector `[0.2, 0.1, 0.9, 0.7]`?
 
 ```python
 search_result = client.search(
@@ -256,62 +96,26 @@ search_result = client.search(
     query_vector=[0.2, 0.1, 0.9, 0.7], 
     limit=3
 )
+print(search_result)
 ```
 
-Expected response:
-
-```json
-{
-    "result": [
-        { "id": 4, "score": 1.362 },
-        { "id": 1, "score": 1.273 },
-        { "id": 3, "score": 1.208 }
-    ],
-    "status": "ok",
-    "time": 0.000055785
-}
-```
+**Response:**
 
 ```python
-assert len(search_result) == 3
-
-print(search_result[0])
-# ScoredPoint(id=4, score=1.362, ...)
-
-print(search_result[1])
-# ScoredPoint(id=1, score=1.273, ...)
-
-print(search_result[2])
-# ScoredPoint(id=3, score=1.208, ...)
+ScoredPoint(id=4, version=0, score=1.362, payload={'city': 'New York'}, vector=None), 
+ScoredPoint(id=1, version=0, score=1.273, payload={'city': 'Berlin'}, vector=None), 
+ScoredPoint(id=3, version=0, score=1.208, payload={'city': 'Moscow'}, vector=None)
 ```
 
-Note that payload and vector data is missing in these results by default.
+The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
 See [payload and vector in the result](../concepts/search#payload-and-vector-in-the-result) on how to enable it.
 
-But the result is different if we add a filter:
+## Add a filter
 
-```bash
-curl -L -X POST 'http://localhost:6333/collections/test_collection/points/search' \
-    -H 'Content-Type: application/json' \
-    --data-raw '{
-      "filter": {
-          "should": [
-              {
-                  "key": "city",
-                  "match": {
-                      "value": "London"
-                  }
-              }
-          ]
-      },
-      "vector": [0.2, 0.1, 0.9, 0.7],
-      "limit": 3
-  }'
-```
+We can narrow down the results further by filtering by payload. Let's find the closest results that include "London".
 
 ```python
 from qdrant_client.http.models import Filter, FieldCondition, MatchValue
-
 
 search_result = client.search(
     collection_name="test_collection",
@@ -326,28 +130,23 @@ search_result = client.search(
     ),
     limit=3
 )
+print(search_result)
 ```
 
-Expected response:
-
-```json
-{
-    "result": [
-        { "id": 4, "score": 1.362 },
-        { "id": 2, "score": 0.871 }
-    ],
-    "status": "ok",
-    "time": 0.000093972
-}
-```
-
+**Response:**
 
 ```python
-assert len(search_result) == 2
-
-print(search_result[0])
-# ScoredPoint(id=4, score=1.362, ...)
-
-print(search_result[1])
-# ScoredPoint(id=2, score=0.871, ...)
+ScoredPoint(id=2, version=0, score=0.871, payload={'city': 'London'}, vector=None)
 ```
+
+You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score. 
+
+## Next steps
+
+Now you know how Qdrant works. Getting started with [Qdrant Cloud](../cloud/quickstart-cloud/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates. 
+
+To move onto some more complex examples of vector search, read our [Tutorials](../tutorials/) and create your own app with the help of our [Examples](../examples/). 
+
+**Note:** There is another way of running Qdrant locally. If you are a Python developer, we recommend that you try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup.
+
+
