@@ -1,6 +1,6 @@
 ---
-title: Community links
-weight: 31
+title: Partner Links
+weight: 20
 ---
 
 # Community Contributions
