@@ -2,17 +2,15 @@
 publish = "qdrant-landing/public"
 command = "cd qdrant-landing ; hugo --gc --minify"
 
-[context.production.environment]
+[build.environment]
 HUGO_VERSION = "0.93.3"
+
+[context.production.environment]
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
 [context.deploy-preview]
 command = "cd qdrant-landing ; hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
-
-[context.deploy-preview.environment]
-HUGO_VERSION = "0.93.3"
-
 
 [[headers]]
     for = "/*"
