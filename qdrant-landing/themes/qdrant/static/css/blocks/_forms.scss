@@ -132,11 +132,6 @@
 }
 
 .styled-form .form-group .check-box label{
-  font-family: $font-family-non-content;
-  color: var(--brand-secondary);
-}
-
-.styled-form .form-group .check-box label{
   position: relative;
   display: block;
   height: 30px;
@@ -145,6 +140,7 @@
   padding: 4px 10px 0;
   padding-left: 25px;
   background: #ffffff;
+  font-family: $font-family-non-content;
   font-size: 15px;
   font-weight: 400;
   color: var(--brand-secondary);
@@ -229,11 +225,6 @@
 }
 
 .styled-form .form-group .radio-box label{
-  font-family: $font-family-non-content;
-  color: var(--brand-secondary);
-}
-
-.styled-form .form-group .radio-box label{
   position: relative;
   display: block;
   height: 30px;
@@ -242,6 +233,7 @@
   padding: 4px 10px 0;
   padding-left: 25px;
   background: #ffffff;
+  font-family: $font-family-non-content;
   font-size: 15px;
   font-weight: 400;
   color: var(--brand-secondary);
