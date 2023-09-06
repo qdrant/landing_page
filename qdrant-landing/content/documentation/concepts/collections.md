@@ -23,7 +23,13 @@ Qdrant supports these most popular types of metrics:
 In addition to metrics and vector size, each collection uses its own set of parameters that controls collection optimization, index construction, and vacuum.
 These settings can be changed at any time by a corresponding request.
 
-### Create collection
+## Setting up multitenancy
+
+**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called multitenancy. It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](../../tutorials/multiple-partitions/)
+
+**When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
+
+## Create a collection
 
 ```http
 PUT /collections/{collection_name}
