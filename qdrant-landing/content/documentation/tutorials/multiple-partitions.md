@@ -4,29 +4,15 @@ weight: 12
 ---
 # Configure Multitenancy
 
-When an instance is shared between multiple users, you may need to partition vectors by user. 
-This is done so that each user can only access their own vectors and can't see the vectors of other users.
+**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called multitenancy. It is efficient for most of users, but it requires additional configuration. This document will show you how to set it up.
 
-Before you configure multitenancy in Qdrant, you must consider the following: 
-- The number of users in your tenancy structure;
-- Individual user performance needs;
-- Resource overhead and budget allowance.
+**When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
-Qdrant supports multitenancy in two ways:
+## Partition by payload
 
-## Multiple collections per user
+When an instance is shared between multiple users, you may need to partition vectors by user. This is done so that each user can only access their own vectors and can't see the vectors of other users.
 
-You may always create a collection for each user. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. We recommend you do this only if you have a limited number of users, and you need to ensure that they do not affect each other in any way, including performance-wise. 
-
->**Tutorial:** Learn how to [create a collection](../../concepts/collections/).
-
-## Partition collection by payload
-
-In most cases, you should use a single collection with payload-based partitioning. 
-This approach is more efficient for a large number of users, but it requires additional configuration.
-
-1. First, add a `group_id` field to each vector in the collection.
-2. Then, use a filter along with `group_id` to filter vectors for each user.
+1. Add a `group_id` field to each vector in the collection.
 
 ```http
 PUT /collections/{collection_name}/points
@@ -74,8 +60,7 @@ client.upsert(
     ]
 )
 ```
-
-3. You can search with the `group_id` filter:
+2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
 POST /collections/{collection_name}/points/search
@@ -127,7 +112,6 @@ To implement this approach, you should:
 
 1. Set `payload_m` in the HNSW configuration to a non-zero value, such as 16.
 2. Set `m` in hnsw config to 0. This will disable building global index for the whole collection.
-3. Create keyword payload index for `group_id` field.
 
 ```http
 PUT /collections/{collection_name}
@@ -159,7 +143,7 @@ client.recreate_collection(
 )
 ```
 
-Create payload index for `group_id` field:
+3. Create keyword payload index for `group_id` field.
 
 ```http
 PUT /collections/{collection_name}/index
