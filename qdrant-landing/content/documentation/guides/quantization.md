@@ -48,7 +48,7 @@ Please refer to the [Quantization Tips](#quantization-tips) section for more inf
 
 *Available as of v1.5.0*
 
-An extreme case of scalar quantization is binary quantization.
+Binary quantization is an extreme case of scalar quantization.
 It allows to represent each vector component as a single bit, effectively reducing the memory footprint by a **factor of 32**.
 
 At the same time, binary quantization is the fastest quantization method, as it allows to perform vector comparison using just a few CPU instructions.
