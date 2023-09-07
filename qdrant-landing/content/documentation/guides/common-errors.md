@@ -33,6 +33,8 @@ Please note, the command should be executed before you run Qdrant server.
 
 ## Collection status is always yellow
 
+*Available as of v1.5.0*
+
 Each collection has a [status color](../../concepts/collections#collection-info).
 It may happen that the status of a collection always stays yellow.
 
