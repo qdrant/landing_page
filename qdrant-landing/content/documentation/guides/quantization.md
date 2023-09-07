@@ -51,7 +51,7 @@ Please refer to the [Quantization Tips](#quantization-tips) section for more inf
 Binary quantization is an extreme case of scalar quantization.
 This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a **factor of 32**.
 
-At the same time, binary quantization is the fastest quantization method, as it allows to perform vector comparison using just a few CPU instructions.
+This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions.
 
 It can achieve up to **40x** speedup compared to the original vectors.
 
