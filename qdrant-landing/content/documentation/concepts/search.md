@@ -117,6 +117,7 @@ Currently, it could be:
 
 * `hnsw_ef` - value that specifies `ef` parameter of the HNSW algorithm.
 * `exact` - option to not use the approximate search (ANN). If set to true, the search may run for a long as it performs a full scan to retrieve exact results.
+* `indexed_only` - this option allows to disable search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance during the parallel update of the collection. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
 See details of possible filters and their work in the [filtering](../filtering) section.
