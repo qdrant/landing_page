@@ -404,6 +404,8 @@ To delete entire points, see [deleting points](#delete-points).
 
 ### Set payload
 
+Set the given payload values on a point.
+
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
 ```http
@@ -472,6 +474,40 @@ client.set_payload(
     ),
 )
 ```
+
+### Overwrite payload
+
+Fully replace any existing payload with the given one.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/overwrite_payload)):
+
+```http
+PUT /collections/{collection_name}/points/payload
+
+{
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "points": [
+        0, 3, 100
+    ]
+}
+```
+
+```python
+client.overwrite_payload(
+    collection_name="{collection_name}",
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=[0, 3, 10],
+)
+```
+
+Like [set payload](#set-payload], you don't need to know the ids of the points
+you want to modify. The alternative is to use filters.
 
 ### Delete payload keys
 
