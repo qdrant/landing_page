@@ -37,7 +37,7 @@ service:
 <aside role="alert"><a href="#tls">TLS</a> must be used to prevent leaking the API key over an unencrypted connection.</aside>
 
 For using API key based authentication in Qdrant cloud see the cloud
-[Authentication](https://qdrant.tech/documentation/cloud/cloud-quick-start/#authentication)
+[Authentication](https://qdrant.tech/documentation/cloud/authentication)
 section.
 
 The API key then needs to be present in all REST or gRPC requests to your instance.
