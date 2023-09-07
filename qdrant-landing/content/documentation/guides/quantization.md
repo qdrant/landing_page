@@ -72,7 +72,7 @@ Additionally, oversampling can be used to tune the tradeoff between search speed
 
 The additional benefit of this method is that you can efficiently emulate Hamming distance with dot product.
 
-More specifilly, if original vectors contain `{-1, 1}` as possible values, then dot product of two vectors is equal to Hamming distance by simply replacing `-1` with `0` and `1` with `1`.
+Specifically, if original vectors contain `{-1, 1}` as possible values, then the dot product of two vectors is equal to the Hamming distance by simply replacing `-1` with `0` and `1` with `1`.
 
 
 <!-- hidden section -->
