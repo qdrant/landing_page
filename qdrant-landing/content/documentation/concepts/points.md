@@ -780,3 +780,146 @@ Returns number of counts matching given filtering conditions:
     "count": 3811
 }
 ```
+
+## Batch update
+
+*Available as of v1.5.0*
+
+You can batch multiple point update operations. This includes inserting,
+updating and deleting points, vectors and payload.
+
+A batch update request consists of a list of operations. These are executed in
+order. These operations can be batched:
+
+- [`upsert` / `UpsertOperation`](#upload-points)
+- [`delete_points` / `DeleteOperation`](#delete-points)
+- [`update_vectors` / `UpdateVectorsOperation`](#update-vectors)
+- [`delete_vectors` / `DeleteVectorsOperation`](#delete-vectors)
+- [`set_payload` / `SetPayloadOperation`](#set-payload)
+- [`overwrite_payload` / `OverwritePayload`](#overwrite-payload)
+- [`delete_payload` / `DeletePayloadOperation`](#delete-payload-keys)
+- [`clear_payload` / `ClearPayloadOperation`](#clear-payload)
+
+The following example snippet makes use of all operations.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/batch_update)):
+
+```http
+POST /collections/{collection_name}/points/batch
+
+{
+    "operations": [
+        {
+            "upsert": {
+                "points": [
+                    {
+                        "id": 1,
+                        "vector": [1.0, 2.0, 3.0, 4.0],
+                        "payload": {}
+                    }
+                ]
+            }
+        },
+        {
+            "update_vectors": {
+                "points": [
+                    {
+                        "id": 1,
+                        "vector": [1.0, 2.0, 3.0, 4.0]
+                    }
+                ]
+            }
+        },
+        {
+            "delete_vectors": {
+                "points": [1],
+                "vector": [""]
+            }
+        },
+        {
+            "overwrite_payload": {
+                "payload": {
+                    "test_payload": "1"
+                },
+                "points": [1]
+            }
+        },
+        {
+            "set_payload": {
+                "payload": {
+                    "test_payload_2": "2",
+                    "test_payload_3": "3"
+                },
+                "points": [1]
+            }
+        },
+        {
+            "delete_payload": {
+                "keys": ["test_payload_2"],
+                "points": [1]
+            }
+        },
+        {
+            "clear_payload": {
+                "points": [1]
+            }
+        },
+        {"delete": {"points": [1]}}
+    ]
+}
+```
+
+```python
+client.batch_update_points(
+    collection_name=collection_name,
+    update_operations=[
+        models.UpsertOperation(
+            upsert=models.PointsList(
+                points=[
+                    models.PointStruct(
+                        id=1,
+                        vector=[1.0, 2.0, 3.0, 4.0],
+                        payload={},
+                    ),
+                ]
+            )
+        ),
+        models.UpdateVectorsOperation(
+            update_vectors=models.UpdateVectors(
+                points=[
+                    models.PointVectors(
+                        id=1,
+                        vector=[1.0, 2.0, 3.0, 4.0],
+                    )
+                ]
+            )
+        ),
+        models.DeleteVectorsOperation(
+            delete_vectors=models.DeleteVectors(points=[1], vector=[""])
+        ),
+        models.OverwritePayloadOperation(
+            overwrite_payload=models.SetPayload(
+                payload={"test_payload": 1},
+                points=[1],
+            )
+        ),
+        models.SetPayloadOperation(
+            set_payload=models.SetPayload(
+                payload={
+                    "test_payload_2": 2,
+                    "test_payload_3": 3,
+                },
+                points=[1]
+            )
+        ),
+        models.DeletePayloadOperation(
+            delete_payload=models.DeletePayload(keys=["test_payload_2"], points=[1])
+        ),
+        models.ClearPayloadOperation(clear_payload=models.PointIdsList(points=[1])),
+        models.DeleteOperation(delete=models.PointIdsList(points=[1])),
+    ],
+)
+```
+
+To batch many points with a single operation type, please use batching
+functionality in that operation directly.
