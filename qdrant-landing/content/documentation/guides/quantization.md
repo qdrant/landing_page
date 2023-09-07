@@ -70,7 +70,7 @@ Additionally, oversampling can be used to tune the tradeoff between search speed
 
 ### Binary Quantization as Hamming Distance
 
-Usage of binary quantization have an additional benefit - it allows to efficiently emulate Hamming distance with dot product.
+The additional benefit of this method is that you can efficiently emulate Hamming distance with dot product.
 
 More specifilly, if original vectors contain `{-1, 1}` as possible values, then dot product of two vectors is equal to Hamming distance by simply replacing `-1` with `0` and `1` with `1`.
 
