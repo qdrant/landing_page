@@ -64,7 +64,7 @@ At the moment, binary quantization shows good accuracy results with the followin
 
 Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
 
-It is recommended to use binary quantization only with rescoring enabled, as it can significantly improve the search quality
+We recommend using binary quantization only with rescoring enabled, as it can significantly improve the search quality
 with just a minor performance impact.
 Additionally, oversampling can be used to tune the tradeoff between search speed and search quality in the query time.
 
