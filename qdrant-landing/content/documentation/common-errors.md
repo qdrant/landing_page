@@ -42,7 +42,7 @@ your collection is still optimizing. This process can take a very long time
 depending on how many points you insert and what hardware is used.
 
 You can use [telemetry](../telemetry) data to get an insight on what the
-optimizer is currently doing. The telemetry data contains a lot of optimizer
+optimizer is currently doing. The telemetry data contains a log of optimizer
 events that describe its behavior. This log may be helpful to detect weird
 optimizer behavior such as an optimization never finishing or an infinite loop
 of optimizations. If you're experiencing problems, please always check your
