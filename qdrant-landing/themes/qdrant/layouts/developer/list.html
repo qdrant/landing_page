@@ -2,32 +2,125 @@
 <article class="documentation__article col-12 col-md-9 col-lg-10 pb-5">
 
     {{ if eq .Page .FirstSection }} <!-- if this is the section root -->
-    <!--    example one - just buttons-->
-    <div class="mt-5"></div>
-    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center mx-auto">
-        {{- partial "action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/" "reversed" "true") -}}
+    <div class="sec-title centered mx-5">
+        <h1 class="mb-4">Get Started Now</h1>
+        <div class="text mx-5">
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, diam quis aliquam ultricies, nunc
+                sapien
+                vulputate nunc, nec ultricies nisl nunc vitae libero. Sed euismod, diam quis aliquam ultricies, nunc
+                sapien
+                vulputate nunc, nec ultricies nisl nunc vitae libero.
+            </p>
+        </div>
+
+    </div>
+    <!--  example one - just buttons-->
+    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center mx-auto mt-5">
+        {{- partial "action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/"
+        "reversed" "true") -}}
         <span class="text-brand-s small mr-3">or</span>
-        {{- partial "action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/") -}}
+        {{- partial "action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/")
+        -}}
         <span class="text-brand-s small mr-3">or</span>
         {{- partial "action-button.html" (dict "context" . "name" "Try it now" "link" "https://cloud.qdrant.io/") -}}
         <span class="text-brand-s small">in minutes.</span>
     </div>
 
-    <!--    example two - card buttons -->
+    <div style="margin-bottom: 150px;"></div> <!-- TODO: remove this hack -->
 
-    <div class="mt-5"></div>
-    <div class="row" style="margin-left: 58px;"> <!-- todo remove this margin -->
-        <div class="col-12 col-md-3 offset-md-1 mb-4 mb-md-0 d-flex align-items-stretch">
-        {{- partial "card-action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/" "iconClasses" "fa fa-memory") -}}
-        </div>
-        <div class="col-12 col-md-3 mb-4 mb-md-0 d-flex align-items-stretch">
-            {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link" "https://cloud.qdrant.io/" "iconClasses" "fa fa-microchip") -}}
-        </div>
-        <div class="col-12 col-md-3 mb-4 mb-md-0 d-flex align-items-stretch">
-            {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link" "https://cloud.qdrant.io/" "iconClasses" "flaticon-job-search") -}}
+    <!--  example two - card buttons on blue background -->
+    <div class="mt-5 pt-4 pb-5" style="background:var(--brand-light);">
+        <h1 class="mb-4 text-center">Get Started Now</h1>
+        <div class="d-flex justify-content-center">
+            <div class="developer__card-btn mr-0 mr-md-4 mb-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Quick Start" "link"
+                "/documentation/quick-start/" "iconClasses" "fa fa-memory") -}}
+            </div>
+            <div class="developer__card-btn mr-0 mr-md-4 mb-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link"
+                "https://cloud.qdrant.io/" "iconClasses" "fa fa-microchip") -}}
+            </div>
+            <div class="developer__card-btn mr-0 mr-md-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link"
+                "https://cloud.qdrant.io/" "iconClasses" "flaticon-job-search") -}}
+            </div>
         </div>
     </div>
 
+    <div style="margin-bottom: 100px;"></div> <!-- TODO: remove this hack -->
+
+    <!--  example three - card buttons -->
+    <div class="mt-5 pt-4 pb-5">
+        <h1 class="mb-5 text-center">Get Started Now</h1>
+        <div class="d-flex justify-content-center">
+            <div class="developer__card-btn mr-0 mr-md-4 mb-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Quick Start" "link"
+                "/documentation/quick-start/" "iconClasses" "fa fa-memory" "classes" "card-btn_border") -}}
+            </div>
+            <div class="developer__card-btn mr-0 mr-md-4 mb-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link"
+                "https://cloud.qdrant.io/" "iconClasses" "fa fa-microchip" "classes" "card-btn_border") -}}
+            </div>
+            <div class="developer__card-btn mr-0 mr-md-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link"
+                "https://cloud.qdrant.io/" "iconClasses" "flaticon-job-search" "classes" "card-btn_border") -}}
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 100px;"></div> <!-- TODO: remove this hack -->
+
+    <!--  example four - card buttons without border -->
+    <div class="mt-5 pt-4 pb-5">
+        <h1 class="mb-5 text-center">Get Started Now</h1>
+        <div class="d-flex justify-content-center">
+            <div class="developer__card-btn mr-0 mr-md-4 mb-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Quick Start" "link"
+                "/documentation/quick-start/" "iconClasses" "fa fa-memory") -}}
+            </div>
+            <div class="developer__card-btn mr-0 mr-md-4 mb-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link"
+                "https://cloud.qdrant.io/" "iconClasses" "fa fa-microchip") -}}
+            </div>
+            <div class="developer__card-btn mr-0 mr-md-4 mb-md-0">
+                {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link"
+                "https://cloud.qdrant.io/" "iconClasses" "flaticon-job-search") -}}
+            </div>
+        </div>
+    </div>
+
+    <!-- divider-->
+    <div class="divider mt-5 mb-5"></div>
+
+    <h2>Articles</h2>
+   <div class="row">
+       <div class="col-12 pb-5">
+           {{ with (.Site.GetPage "section" "developer/articles") }}
+           <div class="row clearfix pt-4">
+               {{ range first 3 .Pages }}
+               <div class="d-flex col-sm-12 col-md-6 col-lg-4">
+                   {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style article-card_small-btn") }}
+               </div>
+               {{ end }}
+           </div>
+           {{ end }}
+       </div>
+   </div>
+
+    <h2>Case Studies</h2>
+    <div class="row">
+        <div class="col-12 pb-5">
+            {{ with (.Site.GetPage "section" "developer/case-studies") }}
+            <div class="row clearfix pt-4">
+                {{ range first 3 .Pages }}
+                <div class="d-flex col-sm-12 col-md-6">
+                    {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style article-card_small-btn") }}
+                </div>
+                {{ end }}
+            </div>
+            {{ end }}
+        </div>
+    </div>
 
     {{ end }}
 </article>
