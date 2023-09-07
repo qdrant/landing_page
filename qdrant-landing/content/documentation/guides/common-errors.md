@@ -33,6 +33,8 @@ Please note, the command should be executed before you run Qdrant server.
 
 ## Qdrant stuck/frozen, extract stack trace
 
+*Available as of v1.5.0*
+
 It might happen that Qdrant is completely stuck. Operations may hang
 indefinitely or an optimization may be stuck forever. Waiting some time does not
 improve the situation.
