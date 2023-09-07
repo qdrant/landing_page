@@ -1,0 +1,16 @@
+<!--PARAMS:-->
+<!--name - button name (required)-->
+<!--link - link to the page (required)-->
+<!--external - "true" or "false" - if true opens the link in a new tab-->
+<!--iconClasses - classes for the icon, for example use font awesome -->
+<!--classes - additional classes for the button-->
+<a class="card-btn card-btn_border p-4{{if .classes}} {{ .classes }}{{end}}"
+href="{{ .link }}"
+{{ if .external }}_target="blank" rel="noopener nofollow"{{ end }}>
+    {{ if .iconClasses }}
+    <span class="card-btn__icon my-2">
+        <i class="{{ .iconClasses }}"></i>
+    </span>
+    {{ end }}
+    <span class="card-btn__title">{{ .name | safeHTML }} ⟶</span>
+</a>

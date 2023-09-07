@@ -1,7 +1,34 @@
 {{ define "main" }}
-<article class="documentation__article col-12 col-md-9 col-lg-8 pb-5">
+<article class="documentation__article col-12 col-md-9 col-lg-10 pb-5">
 
-    {{ .Content }}
+    {{ if eq .Page .FirstSection }} <!-- if this is the section root -->
+    <!--    example one - just buttons-->
+    <div class="mt-5"></div>
+    <div class="d-flex flex-column flex-lg-row justify-content-center align-items-center mx-auto">
+        {{- partial "action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/" "reversed" "true") -}}
+        <span class="text-brand-s small mr-3">or</span>
+        {{- partial "action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/") -}}
+        <span class="text-brand-s small mr-3">or</span>
+        {{- partial "action-button.html" (dict "context" . "name" "Try it now" "link" "https://cloud.qdrant.io/") -}}
+        <span class="text-brand-s small">in minutes.</span>
+    </div>
 
+    <!--    example two - card buttons -->
+
+    <div class="mt-5"></div>
+    <div class="row" style="margin-left: 58px;"> <!-- todo remove this margin -->
+        <div class="col-12 col-md-3 offset-md-1 mb-4 mb-md-0 d-flex align-items-stretch">
+        {{- partial "card-action-button.html" (dict "context" . "name" "Quick Start" "link" "/documentation/quick-start/" "iconClasses" "fa fa-memory") -}}
+        </div>
+        <div class="col-12 col-md-3 mb-4 mb-md-0 d-flex align-items-stretch">
+            {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link" "https://cloud.qdrant.io/" "iconClasses" "fa fa-microchip") -}}
+        </div>
+        <div class="col-12 col-md-3 mb-4 mb-md-0 d-flex align-items-stretch">
+            {{- partial "card-action-button.html" (dict "context" . "name" "Try it now" "link" "https://cloud.qdrant.io/" "iconClasses" "flaticon-job-search") -}}
+        </div>
+    </div>
+
+
+    {{ end }}
 </article>
 {{ end }}
