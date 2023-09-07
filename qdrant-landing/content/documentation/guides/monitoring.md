@@ -24,6 +24,7 @@ Each Qdrant server will expose the following metrics.
 | Name                                | Type    | Meaning                                           |
 |-------------------------------------|---------|---------------------------------------------------|
 | app_info                            | counter | Information about Qdrant server                   |
+| app_status_recovery_mode            | counter | If Qdrant is currently started in recovery mode   |
 | collections_total                   | gauge   | Number of collections                             |
 | collections_vector_total            | gauge   | Total number of vectors in all collections        |
 | collections_full_total              | gauge   | Number of full collections                        |
