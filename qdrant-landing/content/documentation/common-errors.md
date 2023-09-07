@@ -48,11 +48,11 @@ optimizer behavior such as an optimization never finishing or an infinite loop
 of optimizations. If you're experiencing problems, please always check your
 Qdrant logs to see if any errors are printed.
 
-The optimization log in telemetry output may look like this (with all other
-parts trimmed), at
-`result.collections.collections[].shards[].local.optimizations.log`. This lists
-four optimizer events for indexing and merging. Three optimizations are `done`,
-the fourth one is still `optimizing`:
+The optimization log in telemetry output may look like this (other parts are
+trimmed), at
+`result.collections.collections[].shards[].local.optimizations.log`. This
+example lists four optimizer events for indexing and merging. Three
+optimizations are `done`, the fourth one is still `optimizing`:
 
 ```http
 GET /telemetry?details_level=2
