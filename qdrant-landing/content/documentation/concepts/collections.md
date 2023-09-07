@@ -300,7 +300,7 @@ introduce huge overhead due to rebuilding the index.
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
-distributed and indexed. 
+distributed and indexed.
 
 ```http
 GET /collections/{collection_name}
@@ -356,11 +356,17 @@ GET /collections/{collection_name}
 client.get_collection(collection_name="{collection_name}")
 ```
 
-If you insert the vectors into the collection, the `status` field will become `green` once all the points are already processed. 
-In case the optimization is still running, it will be `yellow`, and might be set to `red` if there were some errors the engine 
-could not recover from.
+If you insert the vectors into the collection, the `status` field may become
+`yellow` whilst it is optimizing. It will become `green` once all the points are
+successfully processed.
 
-There are, however, some other attributes you might be interested in:
+The following color statuses are possible:
+
+- 🟢 `green`: collection is ready
+- 🟡 `yellow`: collection is optimizing
+- 🔴 `red`: an error occurred which the engine could not recover from
+
+There are some other attributes you might be interested in:
 
 - `points_count` - total number of objects (vectors and their payloads) stored in the collection
 - `vectors_count` - total number of vectors in a collection. If there are multiple vectors per object, it won't be equal to `points_count`.
