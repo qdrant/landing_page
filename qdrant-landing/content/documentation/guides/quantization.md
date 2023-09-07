@@ -78,7 +78,7 @@ Specifically, if original vectors contain `{-1, 1}` as possible values, then the
 <!-- hidden section -->
 
 <details>
-  <summary><b>Example of the truth table</b></summary>
+  <summary><b>Sample truth table</b></summary>
 
 | Vector 1 | Vector 2 | Dot product |
 |----------|----------|-------------|
