@@ -53,7 +53,7 @@ This feature lets you represent each vector component as a single bit, effective
 
 This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions.
 
-It can achieve up to **40x** speedup compared to the original vectors.
+Binary quantization can achieve up to a **40x** speedup compared to the original vectors.
 
 However, binary quantization is only efficient for high-dimensional vectors and require a centered distribution of vector components. 
 
