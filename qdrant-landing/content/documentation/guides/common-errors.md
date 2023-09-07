@@ -33,7 +33,7 @@ Please note, the command should be executed before you run Qdrant server.
 
 ## Collection status is always yellow
 
-Each collection has a [status color](../../guides/collections#collection-info).
+Each collection has a [status color](../../concepts/collections#collection-info).
 It may happen that the status of a collection always stays yellow.
 
 A yellow status means that the collection is optimizing. It is very likely that
