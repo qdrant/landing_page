@@ -35,10 +35,13 @@ If the API is called with the `&wait=false` parameter, or if it is not explicitl
 }
 ```
 
-This response does not yet mean that the data is available for retrieval, as it is only added to the collection in the second step.
-Actual addition to the collection happens in the background, and if you are doing initial vector loading, we recommend using asynchronous requests to take advantage of pipelining.
+This response does not mean that the data is available for retrieval yet. This
+uses a form of eventual consistency. It may take a short amount of time before it
+is actually processed as updating the collection happens in the background. In
+fact, it is possible that such request eventually fails.
+If inserting a lot of vectors, we also recommend using asynchronous requests to take advantage of pipelining.
 
-If the logic of your application requires a guarantee that the vector will be available for searching immediately after the API execution, then use the flag `?wait=true`.
+If the logic of your application requires a guarantee that the vector will be available for searching immediately after the API responds, then use the flag `?wait=true`.
 In this case, the API will return the result only after the operation is finished:
 
 ```json
