@@ -791,14 +791,14 @@ updating and deleting points, vectors and payload.
 A batch update request consists of a list of operations. These are executed in
 order. These operations can be batched:
 
-- [`upsert` / `UpsertOperation`](#upload-points)
-- [`delete_points` / `DeleteOperation`](#delete-points)
-- [`update_vectors` / `UpdateVectorsOperation`](#update-vectors)
-- [`delete_vectors` / `DeleteVectorsOperation`](#delete-vectors)
-- [`set_payload` / `SetPayloadOperation`](#set-payload)
-- [`overwrite_payload` / `OverwritePayload`](#overwrite-payload)
-- [`delete_payload` / `DeletePayloadOperation`](#delete-payload-keys)
-- [`clear_payload` / `ClearPayloadOperation`](#clear-payload)
+- [Upsert points](#upload-points): `upsert` or `UpsertOperation`
+- [Delete points](#delete-points): `delete_points` or `DeleteOperation`
+- [Update vectors](#update-vectors): `update_vectors` or `UpdateVectorsOperation`
+- [Delete vectors](#delete-vectors): `delete_vectors` or `DeleteVectorsOperation`
+- [Set payload](#set-payload): `set_payload` or `SetPayloadOperation`
+- [Overwrite payload](#overwrite-payload): `overwrite_payload` or `OverwritePayload`
+- [Delete payload](#delete-payload-keys): `delete_payload` or `DeletePayloadOperation`
+- [Clear payload](#clear-payload): `clear_payload` or `ClearPayloadOperation`
 
 The following example snippet makes use of all operations.
 
