@@ -31,13 +31,13 @@ ulimit -n 10000
 
 Please note, the command should be executed before you run Qdrant server.
 
-## Qdrant is stuck or frozen
+## Qdrant stuck/frozen, extract stack trace
 
-It might happen that Qdrant is complete stuck. Operations may hang indefinitely,
-or an optimization may be stuck forever. Waiting some time does not improve the
-situation.
+It might happen that Qdrant is completely stuck. Operations may hang
+indefinitely or an optimization may be stuck forever. Waiting some time does not
+improve the situation.
 
-If you encounter such situation, always check the Qdrant logs first. It may give some
+If you encounter this situation, always check the Qdrant logs first. It may give some
 valuable information on what is happening.
 
 When logs don't show any pointers to the problem, you may extract a stack trace
