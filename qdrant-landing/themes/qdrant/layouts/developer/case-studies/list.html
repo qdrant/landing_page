@@ -1,0 +1,17 @@
+{{ define "main" }}
+<article class="col-12 col-md-9 col-lg-10 pb-5">
+
+    <h1 class="developer_list-h1">{{ .Title }}</h1>
+
+    {{ with (.Site.GetPage "section" "developer/case-studies") }}
+    <div class="row clearfix pt-4">
+        {{ range .Pages }}
+        <div class="d-flex col-md-6 col-sm-12">
+            {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style article-card_small-btn") }}
+        </div>
+        {{ end }}
+    </div>
+    {{ end }}
+
+</article>
+{{ end }}
