@@ -32,7 +32,7 @@ ulimit -n 10000
 
 Please note, the command should be executed before you run Qdrant server.
 
-## Collection status is always yellow
+## Collection status always yellow
 
 *Available as of v1.5.0*
 
