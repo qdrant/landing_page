@@ -1,0 +1,7 @@
+<div class="pt-3">{{ partial "author" . }}</div>
+<div class="article__info mt-4">
+    <span class="d-inline-block mb-2 mb-md-0">
+        {{if .Date }}{{ .Date | time.Format ":date_long" }}&nbsp;&nbsp;|&nbsp;&nbsp;{{end}}
+    </span>
+    {{ partial "share-post" . }}
+</div>

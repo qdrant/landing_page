@@ -154,10 +154,6 @@ article aside[role="status"]:before {
     border-radius: lib.rem(14);
     overflow: hidden;
 
-    @include media-breakpoint-up(lg) {
-      height: lib.rem(300);
-    }
-
     img {
       width: 100%;
       height: auto;
