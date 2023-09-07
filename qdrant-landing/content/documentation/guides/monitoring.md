@@ -56,8 +56,11 @@ There are also some metrics which are exposed in distributed mode only.
 
 *Available as of v1.5.0*
 
-Qdrant exposes three endpoints, namely `/healthz`, `/livez` and `/readyz`, to
-indicate the current status of the Qdrant server.
+Qdrant exposes three endpoints, namely
+[`/healthz`](http://localhost:6333/healthz),
+[`/livez`](http://localhost:6333/livez) and
+[`/readyz`](http://localhost:6333/readyz), to indicate the current status of the
+Qdrant server.
 
 These currently provide the most basic status response, returning HTTP 200 if
 Qdrant is started and ready to be used.
