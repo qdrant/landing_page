@@ -44,6 +44,62 @@ However, this value depends on the data and the quantization parameters.
 Please refer to the [Quantization Tips](#quantization-tips) section for more information on how to optimize the quantization parameters for your use case.
 
 
+## Binary Quantization
+
+*Available as of v1.5.0*
+
+Binary quantization is an extreme case of scalar quantization.
+This feature lets you represent each vector component as a single bit, effectively reducing the memory footprint by a **factor of 32**.
+
+This is the fastest quantization method, since it lets you perform a vector comparison with a few CPU instructions.
+
+Binary quantization can achieve up to a **40x** speedup compared to the original vectors.
+
+However, binary quantization is only efficient for high-dimensional vectors and require a centered distribution of vector components. 
+
+At the moment, binary quantization shows good accuracy results with the following models:
+
+- OpenAI `text-embedding-ada-002` - 1536d tested with [dbpedia dataset](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) achieving 0.98 recall@100 with 4x oversampling
+- Cohere AI `embed-english-v2.0` - 4096d tested on [wikipedia embeddings](https://huggingface.co/datasets/nreimers/wikipedia-22-12-large/tree/main) - 0.98 recall@50 with 2x oversampling
+
+Models with a lower dimensionality or a different distribution of vector components may require additional experiments to find the optimal quantization parameters.
+
+We recommend using binary quantization only with rescoring enabled, as it can significantly improve the search quality
+with just a minor performance impact.
+Additionally, oversampling can be used to tune the tradeoff between search speed and search quality in the query time.
+
+### Binary Quantization as Hamming Distance
+
+The additional benefit of this method is that you can efficiently emulate Hamming distance with dot product.
+
+Specifically, if original vectors contain `{-1, 1}` as possible values, then the dot product of two vectors is equal to the Hamming distance by simply replacing `-1` with `0` and `1` with `1`.
+
+
+<!-- hidden section -->
+
+<details>
+  <summary><b>Sample truth table</b></summary>
+
+| Vector 1 | Vector 2 | Dot product |
+|----------|----------|-------------|
+| 1        | 1        | 1           |
+| 1        | -1       | -1          |
+| -1       | 1        | -1          |
+| -1       | -1       | 1           |
+
+| Vector 1 | Vector 2 | Hamming distance |
+|----------|----------|------------------|
+| 1        | 1        | 0                |
+| 1        | 0        | 1                |
+| 0        | 1        | 1                |
+| 0        | 0        | 0                |
+
+</details>
+
+As you can see, both functions are equal up to a constant factor, which makes similarity search equivalent.
+Binary quantization makes it efficient to compare vectors using this representation.
+
+
 ## Product Quantization
 
 *Available as of v1.2.0*
@@ -59,6 +115,22 @@ But there are some tradeoffs. Product quantization distance calculations are not
 Also, product quantization has a loss of accuracy, so it is recommended to use it only for high-dimensional vectors.
 
 Please refer to the [Quantization Tips](#quantization-tips) section for more information on how to optimize the quantization parameters for your use case.
+
+## How to choose the right quantization method
+
+Here is a brief table of the pros and cons of each quantization method:
+
+| Quantization method | Accuracy | Speed        | Compression |
+|---------------------|----------|--------------|-------------|
+| Scalar              | 0.99     | up to x2     | 4           |
+| Product             | 0.7      | 0.5          | up to 64    |
+| Binary              | 0.95*    | up to x40    | 32          |
+
+`*` - for compatible models
+
+* **Binary Quantization** is the fastest method and the most memory-efficient, but it requires a centered distribution of vector components. It is recommended to use with tested models only.
+* **Scalar Quantization** is the most universal method, as it provides a good balance between accuracy, speed, and compression. It is recommended as default quantization if binary quantization is not applicable.
+* **Product Quantization** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
 
 ## Setting up Quantization in Qdrant
 
@@ -123,6 +195,48 @@ For instance, if you specify `0.99` as the quantile, 1% of extreme values will b
 Using quantiles lower than `1.0` might be useful if there are outliers in your vector components.
 This parameter only affects the resulting precision and not the memory footprint.
 It might be worth tuning this parameter if you experience a significant decrease in search quality.
+
+`always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
+However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
+
+In this case, you can set `always_ram` to `true` to store quantized vectors in RAM.
+
+### Setting up Binary Quantization
+
+To enable binary quantization, you need to specify the quantization parameters in the `quantization_config` section of the collection configuration.
+
+```http
+PUT /collections/{collection_name}
+
+{
+    "vectors": {
+      "size": 1536,
+      "distance": "Cosine"
+    },
+    "quantization_config": {
+        "binary": {
+            "always_ram": true
+        }
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.recreate_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),
+    quantization_config=models.BinaryQuantization(
+        binary=models.BinaryQuantizationConfig(
+            always_ram=True,
+        ),
+    ),
+)
+```
 
 `always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
 However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
