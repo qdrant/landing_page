@@ -51,3 +51,19 @@ There are also some metrics which are exposed in distributed mode only.
 | cluster_commit                   | counter | Index of last committed (finalized) operation cluster peer is aware of |
 | cluster_pending_operations_total | gauge   | Total number of pending operations for cluster peer                    |
 | cluster_voter                    | gauge   | Whether the cluster peer is a voter or learner                         |
+
+## Kubernetes health endpoints
+
+*Available as of v1.5.0*
+
+Qdrant exposes three endpoints, namely `/healthz`, `/livez` and `/readyz`, to
+indicate the current status of the Qdrant server.
+
+These currently provide the most basic status response, returning HTTP 200 if
+Qdrant is started and ready to be used.
+
+Regardless of whether an [API key](../security#authentication) is configured,
+the endpoints are always accessible.
+
+You can read more about Kubernetes health endpoints
+[here](https://kubernetes.io/docs/reference/using-api/health-checks/).
