@@ -1,7 +1,18 @@
 //developer portal styles
+@use "../helpers/functions" as lib;
 
 .developer {
   &_list-h1 {
     line-height: 1.1;
+  }
+
+  &__card-btn {
+    display: flex;
+    justify-items: stretch;
+    width: 100%;
+
+    @include media-breakpoint-up(md) {
+      width: lib.rem(255);
+    }
   }
 }

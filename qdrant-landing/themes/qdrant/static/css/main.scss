@@ -146,6 +146,10 @@ blockquote {
   font-style: italic;
 }
 
+.divider {
+  border-bottom: 1px solid var(--brand-mid-grey);
+}
+
 @import "blocks/forms";
 @import "blocks/categories-widget";
 @import "blocks/tags-widget";
