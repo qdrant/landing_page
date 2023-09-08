@@ -35,10 +35,13 @@ If the API is called with the `&wait=false` parameter, or if it is not explicitl
 }
 ```
 
-This response does not yet mean that the data is available for retrieval, as it is only added to the collection in the second step.
-Actual addition to the collection happens in the background, and if you are doing initial vector loading, we recommend using asynchronous requests to take advantage of pipelining.
+This response does not mean that the data is available for retrieval yet. This
+uses a form of eventual consistency. It may take a short amount of time before it
+is actually processed as updating the collection happens in the background. In
+fact, it is possible that such request eventually fails.
+If inserting a lot of vectors, we also recommend using asynchronous requests to take advantage of pipelining.
 
-If the logic of your application requires a guarantee that the vector will be available for searching immediately after the API execution, then use the flag `?wait=true`.
+If the logic of your application requires a guarantee that the vector will be available for searching immediately after the API responds, then use the flag `?wait=true`.
 In this case, the API will return the result only after the operation is finished:
 
 ```json
@@ -404,6 +407,8 @@ To delete entire points, see [deleting points](#delete-points).
 
 ### Set payload
 
+Set the given payload values on a point.
+
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
 ```http
@@ -472,6 +477,40 @@ client.set_payload(
     ),
 )
 ```
+
+### Overwrite payload
+
+Fully replace any existing payload with the given one.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/overwrite_payload)):
+
+```http
+PUT /collections/{collection_name}/points/payload
+
+{
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "points": [
+        0, 3, 100
+    ]
+}
+```
+
+```python
+client.overwrite_payload(
+    collection_name="{collection_name}",
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=[0, 3, 10],
+)
+```
+
+Like [set payload](#set-payload], you don't need to know the ids of the points
+you want to modify. The alternative is to use filters.
 
 ### Delete payload keys
 
@@ -780,3 +819,146 @@ Returns number of counts matching given filtering conditions:
     "count": 3811
 }
 ```
+
+## Batch update
+
+*Available as of v1.5.0*
+
+You can batch multiple point update operations. This includes inserting,
+updating and deleting points, vectors and payload.
+
+A batch update request consists of a list of operations. These are executed in
+order. These operations can be batched:
+
+- [Upsert points](#upload-points): `upsert` or `UpsertOperation`
+- [Delete points](#delete-points): `delete_points` or `DeleteOperation`
+- [Update vectors](#update-vectors): `update_vectors` or `UpdateVectorsOperation`
+- [Delete vectors](#delete-vectors): `delete_vectors` or `DeleteVectorsOperation`
+- [Set payload](#set-payload): `set_payload` or `SetPayloadOperation`
+- [Overwrite payload](#overwrite-payload): `overwrite_payload` or `OverwritePayload`
+- [Delete payload](#delete-payload-keys): `delete_payload` or `DeletePayloadOperation`
+- [Clear payload](#clear-payload): `clear_payload` or `ClearPayloadOperation`
+
+The following example snippet makes use of all operations.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/batch_update)):
+
+```http
+POST /collections/{collection_name}/points/batch
+
+{
+    "operations": [
+        {
+            "upsert": {
+                "points": [
+                    {
+                        "id": 1,
+                        "vector": [1.0, 2.0, 3.0, 4.0],
+                        "payload": {}
+                    }
+                ]
+            }
+        },
+        {
+            "update_vectors": {
+                "points": [
+                    {
+                        "id": 1,
+                        "vector": [1.0, 2.0, 3.0, 4.0]
+                    }
+                ]
+            }
+        },
+        {
+            "delete_vectors": {
+                "points": [1],
+                "vector": [""]
+            }
+        },
+        {
+            "overwrite_payload": {
+                "payload": {
+                    "test_payload": "1"
+                },
+                "points": [1]
+            }
+        },
+        {
+            "set_payload": {
+                "payload": {
+                    "test_payload_2": "2",
+                    "test_payload_3": "3"
+                },
+                "points": [1]
+            }
+        },
+        {
+            "delete_payload": {
+                "keys": ["test_payload_2"],
+                "points": [1]
+            }
+        },
+        {
+            "clear_payload": {
+                "points": [1]
+            }
+        },
+        {"delete": {"points": [1]}}
+    ]
+}
+```
+
+```python
+client.batch_update_points(
+    collection_name=collection_name,
+    update_operations=[
+        models.UpsertOperation(
+            upsert=models.PointsList(
+                points=[
+                    models.PointStruct(
+                        id=1,
+                        vector=[1.0, 2.0, 3.0, 4.0],
+                        payload={},
+                    ),
+                ]
+            )
+        ),
+        models.UpdateVectorsOperation(
+            update_vectors=models.UpdateVectors(
+                points=[
+                    models.PointVectors(
+                        id=1,
+                        vector=[1.0, 2.0, 3.0, 4.0],
+                    )
+                ]
+            )
+        ),
+        models.DeleteVectorsOperation(
+            delete_vectors=models.DeleteVectors(points=[1], vector=[""])
+        ),
+        models.OverwritePayloadOperation(
+            overwrite_payload=models.SetPayload(
+                payload={"test_payload": 1},
+                points=[1],
+            )
+        ),
+        models.SetPayloadOperation(
+            set_payload=models.SetPayload(
+                payload={
+                    "test_payload_2": 2,
+                    "test_payload_3": 3,
+                },
+                points=[1]
+            )
+        ),
+        models.DeletePayloadOperation(
+            delete_payload=models.DeletePayload(keys=["test_payload_2"], points=[1])
+        ),
+        models.ClearPayloadOperation(clear_payload=models.PointIdsList(points=[1])),
+        models.DeleteOperation(delete=models.PointIdsList(points=[1])),
+    ],
+)
+```
+
+To batch many points with a single operation type, please use batching
+functionality in that operation directly.

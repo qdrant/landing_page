@@ -112,11 +112,11 @@ storage:
   # Where to store snapshots
   snapshots_path: ./snapshots
 
-  # Optional setting. Specify where else to store temp files as default is ./storage.
-  # Route to another location on your system to reduce network disk use. 
-  temp_path: /tmp
+  # Where to store temporary files
+  # If null, temporary snapshot are stored in: storage/snapshots_temp/
+  temp_path: null
 
-  # If true - a point's payload will not be stored in memory.
+  # If true - point's payload will not be stored in memory.
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
   # Note: those payload values that are involved in filtering and are indexed - remain in RAM.
@@ -231,9 +231,8 @@ service:
 
   # gRPC port to bind the service on.
   # If `null` - gRPC is disabled. Default: null
+  # Comment to disable gRPC:
   grpc_port: 6334
-  # Uncomment to enable gRPC:
-  # grpc_port: 6334
 
   # Enable CORS headers in REST API.
   # If enabled, browsers would be allowed to query REST endpoints regardless of query origin.
@@ -241,7 +240,7 @@ service:
   # Default: true
   enable_cors: true
 
-  # Use HTTPS for the REST API
+  # Enable HTTPS for the REST and gRPC API
   enable_tls: false
 
   # Check user HTTPS client certificate against CA file specified in tls config
@@ -281,7 +280,7 @@ cluster:
 
 
 # Set to true to prevent service from sending usage statistics to the developers.
-# Read more: https://qdrant.tech/documentation/telemetry
+# Read more: https://qdrant.tech/documentation/guides/telemetry
 telemetry_disabled: false
 
 
@@ -304,9 +303,9 @@ tls:
   # Required if cluster.p2p.enable_tls is true.
   ca_cert: ./tls/cacert.pem
 
-  # TTL, in seconds, to re-load certificate from disk. Useful for certificate rotations,
-  # Only works for HTTPS endpoints, gRPC endpoints (including intra-cluster communication)
-  # doesn't support certificate re-load
+  # TTL in seconds to reload certificate from disk, useful for certificate rotations.
+  # Only works for HTTPS endpoints. Does not support gRPC (and intra-cluster communication).
+  # If `null` - TTL is disabled.
   cert_ttl: 3600
 ```
 
