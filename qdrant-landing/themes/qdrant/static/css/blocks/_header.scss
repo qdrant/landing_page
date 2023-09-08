@@ -193,6 +193,10 @@
         > a {
           opacity: 1;
           color: var(--brand-primary);
+          text-decoration: underline;
+        }
+        > a:not([href]) {
+          cursor: default;
         }
       }
 
@@ -214,7 +218,7 @@
           width: 100%;
           height: lib.rem(30);
           position: absolute;
-          top: -30px;
+          top: -20px;
           left: 0;
           content: '';
         }
