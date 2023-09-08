@@ -3,9 +3,12 @@
 
     {{ $sectionLink := cond .IsSection .RelPermalink .Parent.RelPermalink }}
     {{ $subject := site.GetPage $sectionLink }}
+    <!-- the variable is set -->
+    {{ if gt (.TableOfContents | len) 34 }}
     <div class="sticky-top">
         <h5 class="tableOfContent__header">Table of contents</h5>
         {{ .TableOfContents }}
         <br/>
     </div>
+    {{ end }}
 </nav>
