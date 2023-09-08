@@ -107,53 +107,72 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     parent = "product"
     url = "/solutions/"
 
+    [[menu.main]]
+    identifier = "benchmarks"
+    name = "Benchmarks"
+    weight = 3
+    parent = "product"
+    url = "/benchmarks/"  
+
   [[menu.main]]
     identifier = "demo"
     name = "Demos"
-    weight = 3
+    weight = 4
     parent = "product"
     url = "/demo/"
 
   [[menu.main]]
     identifier = "pricing"
     name = "Pricing"
-    weight = 4
+    weight = 5
     parent = "product"
     url = "/pricing/"
-
-[[menu.main]]
-  identifier = "quick-start"
-  name = "Quickstart"
-  weight = 2
-  url = "/documentation/quick-start/"
-  [menu.main.params]
-    in_header = true
     
 [[menu.main]]
   identifier = "documentation"
-  name = "Documentation"
+  name = "Docs"
   weight = 3
   url = "/documentation/"
   [menu.main.params]
     in_header = true
     in_footer = false
 
-  [[menu.main]]
-    identifier = "quick-start"
-    name = "Quickstart"
-    weight = 1
-    parent = "documentation"
-    url = "/documentation/quick-start/"
-
-
 [[menu.main]]
-  identifier = "developers"
+  identifier = "developer"
   name = "Developers"
-  weight = 4
+  weight = 2
   url = "/developer/"
   [menu.main.params]
     in_header = true
     in_footer = true
+
+  [[menu.main]]
+    identifier = "tutorials"
+    name = "Tutorials"
+    weight = 1
+    parent = "developer"
+    url = "/developer/tutorials/"
+
+  [[menu.main]]
+    identifier = "examples"
+    name = "Examples"
+    weight = 2
+    parent = "developer"
+    url = "/developer/examples/"
+
+    [[menu.main]]
+    identifier = "articles"
+    name = "Articles"
+    weight = 3
+    parent = "developer"
+    url = "/developer/articles/"  
+
+  [[menu.main]]
+    identifier = "case-studies"
+    name = "Case Studies"
+    weight = 4
+    parent = "developer"
+    url = "/developer/case-studies/"
 
 [[menu.main]]
   identifier = "community"

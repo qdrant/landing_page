@@ -8,5 +8,5 @@ keywords:
   - precomputed embeddings
   - datasets
   - dataset snapshots
-weight: 4
+weight: 7
 ---

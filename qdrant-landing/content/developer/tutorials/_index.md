@@ -1,8 +1,8 @@
 ---
 title: Tutorials
-weight: 2
+weight: 5
 # If the index.md file is empty, the link to the section will be hidden from the sidebar
-is_empty: false
+is_empty: true
 aliases:
   - how-to
   - tutorials

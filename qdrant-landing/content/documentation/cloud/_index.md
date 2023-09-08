@@ -1,6 +1,6 @@
 ---
 title: Qdrant Cloud
-weight: 20
+weight: 16
 ---
 
 # About Qdrant Cloud
