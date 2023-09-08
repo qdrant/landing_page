@@ -1,5 +1,5 @@
 ---
-title: Common Datasets
+title: Datasets
 description: Ready snapshots of some standard datasets which you can easily import into Qdrant.
 keywords:
   - embeddings
@@ -8,5 +8,5 @@ keywords:
   - precomputed embeddings
   - datasets
   - dataset snapshots
-weight: 7
+weight: 4
 ---
