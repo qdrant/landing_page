@@ -3,6 +3,8 @@
 
     {{ $sectionLink := cond .IsSection .RelPermalink .Parent.RelPermalink }}
     {{ $subject := site.GetPage $sectionLink }}
+    <!-- the variable is set -->
+    {{ if gt (.TableOfContents | len) 34 }}
     <div class="sticky-top">
         {{ range $subject.RegularPages }}
             {{ if eq .File.UniqueID $currentNode.File.UniqueID }}
@@ -12,4 +14,5 @@
         {{ end }}
         <br/>
     </div>
+    {{ end }}
 </nav>
