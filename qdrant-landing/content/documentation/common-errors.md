@@ -3,6 +3,7 @@ title: Troubleshooting
 weight: 170
 aliases:
   - ../tutorials/common-errors
+  - ../guidess/common-errors
 ---
 
 # Solving common errors
