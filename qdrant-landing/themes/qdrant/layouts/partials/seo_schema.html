@@ -185,7 +185,7 @@
 {{ end }}
 
 <!-- Canonical URL -->
-{{ if (eq .Section "documentation") }}
+{{ if (or (eq .Section "documentation") (eq .Section "developer")) }}
 {{ if .Params.canonicalUrl }}
 <link rel="canonical" href="{{ .Params.canonicalUrl }}">
 {{ else }}

@@ -84,14 +84,14 @@
 
             <!-- Main Header-->
 
-            {{ if (eq $.Section "documentation") }}
+            {{ if (or (eq $.Section "documentation") (eq $.Section "developer")) }}
             <header class="main-header position-static">
             {{ else }}
             <header class="main-header main-sticky-header{{ if .IsHome }} main-header__home{{ end }}">
             {{ end }}
 
               <!--Header-Upper-->
-                <div class="{{ if (eq $.Section "documentation") }}container-xxl
+                <div class="{{ if (or (eq $.Section "documentation") (eq $.Section "developer")) }}container-xxl
                     {{ else }}auto-container{{ end }} d-flex justify-content-between">
 
                     <div class="logo-box">

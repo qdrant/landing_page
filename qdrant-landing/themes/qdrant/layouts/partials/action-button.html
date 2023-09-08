@@ -1,0 +1,12 @@
+<!--PARAMS:-->
+<!--name - button name (required)-->
+<!--link - link to the page (required)-->
+<!--external - "true" or "false" - if true opens the link in a new tab-->
+<!--reversed - "true" or "false" - changes the button background color-->
+<!--classes - additional classes for the button-->
+
+<a class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_responsive {{ if .reversed }}btn-style-four_reversed{{ end }} btn-style-four_big mr-sm-3 mb-2 mb-lg-0 {{if .classes}} {{ .classes }}{{end}}"
+   href="{{ .link }}"
+   {{ if .external }}target="_blank" rel="noopener nofollow"{{ end }}>
+    <span class="text">{{ .name | safeHTML }}</span>
+</a>

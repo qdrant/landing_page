@@ -13,6 +13,8 @@
         <div class="article-card__content">
             <h5 class="article-card__title"><a href="{{ $link }}">{{ .context.Title }}</a></h5>
             <a class="article-card__text mb-4" href="{{ $link }}">{{ .context.Params.description }}</a>
-            <div class="article__info">{{ .context.Date | time.Format ":date_long" }} | {{ .context.Params.author }}</div>
+            <div class="article__info">{{ .context.Date | time.Format ":date_long" }}
+                {{ if  .context.Params.author }} | {{ end }}
+                {{ .context.Params.author }}</div>
         </div>
     </div>

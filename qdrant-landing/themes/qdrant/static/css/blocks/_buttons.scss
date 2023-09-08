@@ -517,3 +517,57 @@
   }
 
 }
+
+.card-btn {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  border-radius: 7px;
+  background: var(--white);
+  color: var(--brand-secondary);
+  transition: color 0.2s ease;
+
+  &_border {
+    box-shadow: 0 0 0 1px var(--brand-mid-grey);
+  }
+
+  &__icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: lib.rem(70);
+    position: relative;
+    z-index: 1;
+    border-radius: 7px;
+    font-size: lib.rem(24);
+    line-height: 1;
+    overflow: hidden;
+
+    i {
+      font-size: lib.rem(70);
+    }
+  }
+
+  &__title {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 28px;
+    vertical-align: center;
+    flex-direction: column;
+    flex-grow: 1;
+    justify-content: end;
+  }
+
+  &:hover {
+    color: var(--brand-primary);
+    box-shadow: 0 0 0 1px var(--brand-primary);
+  }
+
+  &:active {
+    background: var(--brand-light)
+  }
+}
