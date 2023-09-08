@@ -1,5 +1,6 @@
 @use "../helpers/mixins" as mixins;
 @use "../helpers/functions" as lib;
+@use "../variables" as v;
 
 .documentation {
   padding-top: 2rem;
@@ -10,7 +11,7 @@
     @include mixins.content-reset;
 
     h1 {
-      font-size: 2.25rem;
+      font-size: v.$developer-h1-font-size;
     }
 
     h2 {

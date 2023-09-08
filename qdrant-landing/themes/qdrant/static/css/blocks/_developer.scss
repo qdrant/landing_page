@@ -1,9 +1,11 @@
 //developer portal styles
 @use "../helpers/functions" as lib;
+@use "../variables" as v;
 
 .developer {
   &_list-h1 {
     line-height: 1.1;
+    font-size: v.$developer-h1-font-size;
   }
 
   &__card-btn {
