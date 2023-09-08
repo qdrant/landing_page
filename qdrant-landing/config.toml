@@ -115,73 +115,23 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     url = "/demo/"
 
   [[menu.main]]
-    identifier = "case-studies"
-    name = "Case Studies"
-    weight = 4
-    parent = "product"
-    url = "/case-studies/"
-
-  [[menu.main]]
     identifier = "pricing"
     name = "Pricing"
-    weight = 5
+    weight = 4
     parent = "product"
     url = "/pricing/"
 
 [[menu.main]]
-  identifier = "developer"
-  name = "Developers"
+  identifier = "quick-start"
+  name = "Quickstart"
   weight = 2
-  url = "/developer/"
+  url = "/documentation/quick-start/"
   [menu.main.params]
     in_header = true
-    in_footer = true
-
-  [[menu.main]]
-    identifier = "Tutorials"
-    name = "tutorials"
-    weight = 1
-    parent = "developer"
-    url = "/developer/tutorials/"
-
-  [[menu.main]]
-    identifier = "Examples"
-    name = "Examples"
-    weight = 2
-    parent = "developer"
-    url = "/developer/examples/"
-
-  [[menu.main]]
-    identifier = "articles"
-    name = "articles"
-    weight = 3
-    parent = "developer"
-    url = "/developer/articles/"
-
-  [[menu.main]]
-    identifier = "datasets"
-    name = "Datasets"
-    weight = 4
-    parent = "developer"
-    url = "/developer/datasets/"
-
-  [[menu.main]]
-    identifier = "tools"
-    name = "Tools"
-    weight = 5
-    parent = "developer"
-    url = "/developer/tools/"
-
-  [[menu.main]]
-    identifier = "benchmarks"
-    name = "benchmarks"
-    weight = 6
-    parent = "developer"
-    url = "/developer/benchmarks/"
     
 [[menu.main]]
   identifier = "documentation"
-  name = "Docs"
+  name = "Documentation"
   weight = 3
   url = "/documentation/"
   [menu.main.params]
@@ -195,6 +145,15 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     parent = "documentation"
     url = "/documentation/quick-start/"
 
+
+[[menu.main]]
+  identifier = "developers"
+  name = "Developers"
+  weight = 4
+  url = "/developer/"
+  [menu.main.params]
+    in_header = true
+    in_footer = true
 
 [[menu.main]]
   identifier = "community"
