@@ -168,6 +168,10 @@
   text-transform: capitalize;
 }
 
+.mobile-menu .navigation .navigation__multicol-submenu .navigation__column a {
+  padding: 0;
+}
+
 .mobile-menu .navigation li:hover > a,
 .mobile-menu .navigation li.current > a{
   color:#f34a4d;
@@ -197,12 +201,16 @@
   border-left:1px solid rgba(0,0,0,0.10);
 }
 
-.mobile-menu .navigation li > ul,
-.mobile-menu .navigation li > ul > li > ul{
+.mobile-menu .navigation > li > ul:not(.navigation__multicol-submenu),
+.mobile-menu .navigation > li > ul:not(.navigation__multicol-submenu) > li > ul {
   display: none;
 }
 
 .sticky-header .navbar-header{
   display:none;
+}
+.menu-outer {
+  scroll-behavior: smooth;
+  overflow-y: scroll;
 }
 

@@ -1,0 +1,94 @@
+<div class="logo-box">
+    <div class="logo logo_with-text {{ if .IsHome }}logo_home{{ end }}">
+        <a href="/" class="logo__link"></a>
+    </div>
+</div>
+
+<div class="nav-outer clearfix">
+    <!--Mobile Navigation Toggler-->
+    <div class="mobile-nav-toggler"><i class="icon flaticon-menu"></i></div>
+    <!-- Main Menu -->
+    <nav class="main-menu show navbar-expand-md">
+        <div class="navbar-header">
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+
+        <div class="navbar-collapse collapse clearfix" id="navbarSupportedContent">
+            <ul class="navigation clearfix">
+
+                {{ $currentPage := . }}
+                {{ range .Site.Menus.main }}
+
+                {{ if and .Params.in_header (not (isset .Params "cols")) }}
+                <li class="navigation__item {{if or ($currentPage.IsMenuCurrent " main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}}
+                {{if .HasChildren }}dropdown{{ end }}">
+                <a class="navigation__link" {{ if .URL }}href="{{ .URL }}" {{ end }}>{{ .Name }}</a>
+                {{ if .HasChildren }}
+
+                <ul class="navigation__submenu">
+                    {{ range .Children }}
+                    <li><a href="{{ .URL }}" {{ if .Params.external }}target="_blank" {{ end }}>
+                        {{ if .Pre }} {{ .Pre }}&nbsp;{{ end }}
+                        {{ .Name }}
+                    </a></li>
+                    {{ end }}
+                </ul>
+                {{ end }}
+
+                </li>
+                {{ end }}
+
+                {{ if (and .Params.in_header  .Params.cols) }}
+                {{ $currentChildren := .Children }}
+                <li class="navigation__item {{if or ($currentPage.IsMenuCurrent " main" .) ($currentPage.HasMenuCurrent "main" .) }}current{{end}}
+                {{if .HasChildren }}dropdown{{ end }}">
+                <a class="navigation__link" {{ if .URL }}href="{{ .URL }}" {{ end }}>{{ .Name }}</a>
+
+                <ul class="navigation__multicol-submenu">
+                    <li class="list-group list-group-horizontal">
+
+                        {{ range seq .Params.cols }}
+                        {{ $col := . }}
+
+                        <ul class="navigation__column p-0 p-lg-2 list-group-item border-0 list-group-lg list-group-flush">
+                            {{ range $currentChildren }}
+                            {{ if and (eq .Params.col $col) .Params.is_col_name }}
+                            <li class="list-group-item">
+                                {{ if .Pre }}{{ .Pre | safeHTML }}&nbsp;{{ end }}
+                                <strong>{{ .Name }}</strong>
+                            </li>
+                            {{ end }}
+                            {{ if and (eq .Params.col $col) (not .Params.is_col_name) }}
+                            <li class="list-group-item"><a href="{{ .URL }}">{{ .Name }}</a></li>
+                            {{ end }}
+                            {{ end }}
+                        </ul>
+                        {{ end }}
+                    </li>
+                </ul>
+                {{ end }}
+                </li>
+                {{ end }}
+
+                <li>
+                    <a class="btn btn_in-header" href="{{ .Site.Params.cloud }}" title="Cloud" role="button">
+                        <span class="btn__text"><i class="fas fa-cloud"></i> Cloud</span></a>
+                    <a class="btn btn_in-header" href="{{ .Site.Params.github }}" target="_blank" title="GitHub"
+                       role="button">
+                        <span class="btn__text"><i class="fab fa-github"></i> GitHub</span></a>
+                </li>
+
+            </ul>
+        </div>
+
+    </nav>
+
+</div>
+

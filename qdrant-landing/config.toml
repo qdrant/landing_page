@@ -146,27 +146,52 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   [menu.main.params]
     in_header = true
     in_footer = true
+    cols = 2
+
+  [[menu.main]]
+    identifier = "build"
+    name = "Build with Qdrant"
+    weight = 1
+    parent = "developer"
+    [menu.main.params]
+      col = 1
+      is_col_name = true
 
   [[menu.main]]
     identifier = "tutorials"
     name = "Tutorials"
-    weight = 1
+    weight = 2
     parent = "developer"
     url = "/developer/tutorials/"
+    [menu.main.params]
+      col = 1
 
   [[menu.main]]
     identifier = "examples"
     name = "Examples"
-    weight = 2
+    weight = 3
     parent = "developer"
     url = "/developer/examples/"
+    [menu.main.params]
+      col = 1
+
+  [[menu.main]]
+    identifier = "publications"
+    name = "Publications"
+    weight = 1
+    parent = "developer"
+    [menu.main.params]
+      col = 2
+      is_col_name = true
 
     [[menu.main]]
     identifier = "articles"
     name = "Articles"
     weight = 3
     parent = "developer"
-    url = "/developer/articles/"  
+    url = "/developer/articles/"
+    [menu.main.params]
+      col = 2
 
   [[menu.main]]
     identifier = "case-studies"
@@ -174,6 +199,8 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     weight = 4
     parent = "developer"
     url = "/developer/case-studies/"
+    [menu.main.params]
+      col = 2
 
 [[menu.main]]
   identifier = "community"
