@@ -22,11 +22,11 @@
  ***/
 
 body {
-  font-family: 'SF Pro', 'Open Sans', sans-serif;
-  font-size:14px;
+  font-family:'Roboto', 'SF Pro', 'Open Sans', sans-serif;
+  font-size:$font-size-content;
+  line-height:$line-height-content;
   color: var(--brand-secondary);
-  line-height:1.7em;
-  font-weight:400;
+  font-weight:$font-weight-base;
   background:#ffffff;
   -webkit-font-smoothing: antialiased;
   -moz-font-smoothing: antialiased;
@@ -98,7 +98,6 @@ textarea{
 
 p{
   position:relative;
-  line-height:1.8em;
 }
 
 .auto-container{
