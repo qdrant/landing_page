@@ -61,7 +61,7 @@
                             {{ range $currentChildren }}
                             {{ if and (eq .Params.col $col) .Params.is_col_name }}
                             <li class="list-group-item">
-                                {{ .Pre | safeHTML }}&nbsp;
+                                {{ if .Pre }}{{ .Pre | safeHTML }}&nbsp;{{ end }}
                                 <strong>{{ .Name }}</strong>
                             </li>
                             {{ end }}
