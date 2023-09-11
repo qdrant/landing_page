@@ -61,8 +61,11 @@ article aside[role="status"]:before {
     }
   }
 
-  p, span, ul, ol, li {
-    font: inherit;
+  p, span, ul, ol, li, td {
+    font-family: $font-family-content;
+    font-size: $font-size-content;
+    line-height: $line-height-content;
+    font-weight: $font-weight-content;
   }
 
   p, ul {
