@@ -49,9 +49,9 @@ article aside[role="status"]:before {
 /*.blog,*/
 .article {
   font-family: $font-family-content;
-  font-size: lib.rem(18);
-  font-weight: 400;
-  line-height: lib.rem(32);
+  font-size: lib.rem($font-size-content);
+  font-weight: 200;
+  line-height: lib.rem(28);
 
   @include mixins.content-reset;
 
@@ -141,7 +141,7 @@ article aside[role="status"]:before {
     color: var(--brand-dark-gray);
     font-family: $font-family-non-content;
     font-size: 1rem;
-    font-weight: 400;
+    font-weight: 200;
     font-style: normal;
     line-height: lib.rem(17);
   }

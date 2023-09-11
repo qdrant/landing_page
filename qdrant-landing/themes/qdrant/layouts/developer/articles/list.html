@@ -8,7 +8,7 @@
         <div class="row clearfix pt-4">
             {{ range .Pages }}
             <div class="d-flex col-sm-12 col-md-6 col-lg-4">
-                {{ partial "article-card" (dict "context" . "classes" "article-card_border article-card_contrast article-card_content-style article-card_small-btn") }}
+                {{ partial "article-card" (dict "context" . "classes" "article-card_content article-card_border article-card_contrast article-card_content-style article-card_small-btn") }}
             </div>
             {{ end }}
         </div>
