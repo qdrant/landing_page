@@ -93,41 +93,79 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   [menu.main.params]
       in_header = true
       in_footer = true
+      cols = 2
 
+[[menu.main]]
+    identifier = "whyqdrant"
+    name = "Why Qdrant?"
+    weight = 1
+    parent = "product"
+    [menu.main.params]
+      col = 1
+      is_col_name = true
+      
   [[menu.main]]
     identifier = "use-case"
     name = "Use cases"
-    weight = 1
+    weight = 2
     parent = "product"
     url = "/use-cases/"
+    [menu.main.params]
+      col = 1
 
   [[menu.main]]
     identifier = "solutions"
     name = "Solutions"
-    weight = 2
-    parent = "product"
-    url = "/solutions/"
-
-    [[menu.main]]
-    identifier = "benchmarks"
-    name = "Benchmarks"
     weight = 3
     parent = "product"
+    url = "/solutions/"
+    [menu.main.params]
+      col = 1
+
+  [[menu.main]]
+    identifier = "benchmarks"
+    name = "Benchmarks"
+    weight = 4
+    parent = "product"
     url = "/benchmarks/"  
+    [menu.main.params]
+      col = 1
+
+  [[menu.main]]
+    identifier = "applications"
+    name = "Applications"
+    weight = 5
+    parent = "product"
+    [menu.main.params]
+      col = 2
+      is_col_name = true
 
   [[menu.main]]
     identifier = "demo"
     name = "Demos"
-    weight = 4
+    weight = 6
     parent = "product"
     url = "/demo/"
+    [menu.main.params]
+      col = 2
+
+  [[menu.main]]
+    identifier = "case-studies"
+    name = "Case Studies"
+    weight = 7
+    parent = "product"
+      url = "/developer/case-studies/"
+    [menu.main.params]
+      col = 2
 
   [[menu.main]]
     identifier = "pricing"
     name = "Pricing"
-    weight = 5
+    weight = 8
     parent = "product"
     url = "/pricing/"
+    [menu.main.params]
+      col = 2
     
 [[menu.main]]
   identifier = "documentation"
@@ -137,6 +175,62 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   [menu.main.params]
     in_header = true
     in_footer = false
+    cols = 2
+
+  [[menu.main]]
+    identifier = "start"
+    name = "Getting Started"
+    weight = 1
+    parent = "documentation"
+    [menu.main.params]
+      col = 1
+      is_col_name = true
+
+  [[menu.main]]
+    identifier = "quickstart"
+    name = "Quickstart"
+    weight = 2
+    parent = "documentation"
+    url = "/documentation/quick-start/"
+    [menu.main.params]
+      col = 1
+
+  [[menu.main]]
+    identifier = "overview"
+    name = "What is Qdrant?"
+    weight = 3
+    parent = "documentation"
+    url = "/documentation/overview/"
+    [menu.main.params]
+      col = 1
+
+  [[menu.main]]
+    identifier = "support"
+    name = "Support Documentation"
+    weight = 1
+    parent = "documentation"
+    [menu.main.params]
+      col = 2
+      is_col_name = true
+
+   [[menu.main]]
+    identifier = "integrations"
+    name = "Integrations"
+    weight = 4
+    parent = "documentation"
+    url = "/documentation/integrations/"
+    [menu.main.params]
+      col = 2
+
+  [[menu.main]]
+    identifier = "faq"
+    name = "Frequently Asked Questions"
+    weight = 4
+    parent = "documentation"
+    url = "/documentation/faq/qdrant-fundamentals/"
+    [menu.main.params]
+      col = 2
+
 
 [[menu.main]]
   identifier = "developer"
