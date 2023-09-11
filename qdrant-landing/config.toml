@@ -146,7 +146,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   [menu.main.params]
     in_header = true
     in_footer = true
-    cols = 3
+    cols = 2
 
   [[menu.main]]
     identifier = "build"
