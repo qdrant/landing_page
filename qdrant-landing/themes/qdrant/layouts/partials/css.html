@@ -14,12 +14,17 @@
 */}}
 
 
-<link rel="preconnect" href="https://fonts.gstatic.com">
-
-
 <!-- google fonts -->
-<link rel="preload" href="https://fonts.googleapis.com/css2?family={{ .Site.Params.font }}&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family={{ .Site.Params.font }}&display=swap"></noscript>
+
+{{ if .Site.Params.font }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<noscript><link href="https://fonts.googleapis.com/css2?
+{{ range .Site.Params.fonts }}
+    family={{ . }}&
+{{ end }}
+display=swap" rel="stylesheet"></noscript>
+{{ end }}
 
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css"></noscript>

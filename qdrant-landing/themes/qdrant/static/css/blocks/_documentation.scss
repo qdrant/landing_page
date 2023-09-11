@@ -36,6 +36,16 @@
     p {
       margin-bottom: 0.7rem;
     }
+
+    p, span, ul, ol, li, td {
+      font-size: $font-size-content;
+      line-height: $line-height-content;
+      font-weight: $font-weight-content;
+    }
+
+    pre, pre span, pre code {
+      font-size: $font-size-code;
+    }
   }
 
   &__sidebar-inner {

@@ -1,2 +1,15 @@
-$font-family-non-content: 'SF Pro', 'Roboto', sans-serif;
-$font-family-content: 'New York', 'Serif', serif;
+@use "helpers/functions" as lib;
+
+$font-family-base: 'Roboto', 'SF Pro', 'Open Sans', sans-serif;
+$font-family-non-content: $font-family-base;
+$font-family-content: $font-family-base;
+$font-family-code: 'Roboto Mono', 'SF Mono', 'Courier New', Courier, monospace;
+$font-size-content: lib.rem(16);
+$line-height-content: lib.rem(28);
+$font-size-code: lib.rem(14);
+
+$font-weight-base: 400;
+$font-weight-content: 400;
+$font-weight-code: 300;
+
+$developer-h1-font-size: 2.25rem;

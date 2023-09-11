@@ -18,7 +18,10 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     "knn algorithm", "hnsw", "vector search", "embeddings", "similarity", "simaes networks",
     "BERT", "transformer", "word2vec", "fasttext"]
 
-  font = "Anonymous Pro"
+  fonts = [
+    "Roboto+Mono:wght@200;300",
+    "Roboto:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700"
+  ]
   highlight = true
   highlightStyle = "default"
   highlightLanguages = ["python", "rust", "json", "bash", "http"]
