@@ -236,4 +236,11 @@
     handlePreloader();
   });
 
+  $('.documentation, .article').each(function() {
+    $(this).find('table').each(function() {
+      // wrap table in a container so that it can be responsive
+      $(this).wrap('<div class="table-responsive"></div>');
+    });
+  });
+
 })(window.jQuery);
