@@ -94,8 +94,6 @@
   //Mobile Nav Hide Show
   if ($('.mobile-menu').length) {
 
-    $('.mobile-menu .menu-box').mCustomScrollbar();
-
     var mobileMenuContent = $('.main-header .nav-outer .main-menu').html();
     mobileMenuContent = $(mobileMenuContent).find('.fa-chevron-down').remove().end();
     $('.mobile-menu .menu-box .menu-outer').append(mobileMenuContent);
