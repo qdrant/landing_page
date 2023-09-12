@@ -142,6 +142,12 @@ print(response)
 
 **Response:**
 
-```
+```bash
 There are six frat brothers. Their names are Alex, Patrick, Derek, David, Daniel, and Lorenzo.
 ```
+
+## Next steps:
+
+To move onto some more complex examples of vector search, read our Tutorials and create your own app with the help of our Examples.
+
+For more support with LangChain integrations, read our documentation here. 
