@@ -3,6 +3,9 @@ title: Start with LangChain
 weight: 1
 ---
 
+| Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/)   |
+| --- | ----------- | ----------- |----------- |
+
 # Chat With Your Documents 
 
 This is a very short tutorial that shows you how to retrieve information from your documents using Qdrant, OpenAI and LangChain.
@@ -17,9 +20,13 @@ You will load a text file into Qdrant and ask a few basic questions. Qdrant will
 
 In this example, we are using LangChain, Qdrant's Python Client, OpenAI and its tokenizer.
 
+First, install everything.
+
 ```bash
 pip install langchain qdrant_client openai tiktoken
 ```
+
+Then, import all the libraries. 
 
 ```python
 from langchain.vectorstores import Qdrant
@@ -38,26 +45,31 @@ os.environ['QDRANT_API_KEY'] = # "PASTE QDRANT API KEY HERE"
 
 
 client = qdrant_client.QdrantClient(
-        os.getenv("QDRANT_HOST"),
-        api_key=os.getenv("QDRANT_API_KEY")
-    )
+    os.getenv("QDRANT_HOST"),
+    api_key=os.getenv("QDRANT_API_KEY")
+)
 
 ```
 
 ## Create a collection
 
 ```python
-QDRANT_COLLECTION_NAME = # "WRITE COLLECTION NAME HERE"
+QDRANT_COLLECTION_NAME =# "WRITE COLLECTION NAME HERE"
 
 collection_config = qdrant_client.http.models.VectorParams(
-        size=1536, 
-        distance=qdrant_client.http.models.Distance.COSINE
-    )
+    size=1536, 
+    distance=qdrant_client.http.models.Distance.COSINE
+)
 
 client.recreate_collection(
-    collection_name=os.getenv("QDRANT_COLLECTION"),
+    collection_name=os.getenv("QDRANT_COLLECTION_NAME"),
     vectors_config=collection_config
 )
+```
+**Response:**
+
+```python
+True
 ```
 
 ## Create a vector store
@@ -68,10 +80,10 @@ os.environ['OPENAI_API_KEY'] = # "PASTE OPENAI API KEY HERE"
 embeddings = OpenAIEmbeddings()
 
 vectorstore = Qdrant(
-        client=client,
-        collection_name= QDRANT_COLLECTION_NAME,
-        embeddings=embeddings
-    )
+    client=client,
+    collection_name=QDRANT_COLLECTION_NAME,
+    embeddings=embeddings
+)
 ```
 
 ## Upload a document
@@ -97,6 +109,15 @@ texts = get_chunks(raw_text)
 vectorstore.add_texts(texts)
 ```
 
+**Response:**
+
+```python
+['98329da9dac8410e960eac922c11784b',
+ 'c7d59c24df764154b7eb3ae84c059bf5',
+ '2f41cedab834456fa61cb1467a4d6e62',
+ 'cd51a4d3f83f4696a43ff781a573e263',
+ 'f54b0341f6e14486b5090bddba930c5d']
+```
 
 ## Activate the retrieval chain
 
@@ -108,7 +129,7 @@ qa = RetrievalQA.from_chain_type(
     llm=OpenAI(),
     chain_type="stuff",
     retriever=vectorstore.as_retriever()
-    )
+)
 ```
 
 ## Ask a question
@@ -119,9 +140,8 @@ response = qa.run(query)
 print(response)
 ```
 
-```python
-query = "Which of the brothers has an issue and what is his problem?"
-response = qa.run(query)
+**Response:**
 
-print(response)
+```
+There are six frat brothers. Their names are Alex, Patrick, Derek, David, Daniel, and Lorenzo.
 ```
