@@ -1,3 +1,8 @@
+---
+title: Start with LangChain
+weight: 1
+---
+
 # Chat With Your Documents 
 
 This is a very short tutorial that shows you how to retrieve information from your documents using Qdrant, OpenAI and LangChain.
