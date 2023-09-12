@@ -10,8 +10,8 @@ You will load a text file into Qdrant and ask a few basic questions. Qdrant will
 
 ## Prerequisites
 - You can use any text file. For your convenience, [download our short story]().
-- To create embeddings from this text file, [you will need an OpenAI API key](). 
-- To retrieve answers with Qdrant, [create a Qdrant Cloud Cluster and an API key]().
+- To create embeddings from this text file, [you will need an OpenAI API key](https://help.openai.com/en/articles/4936850-where-do-i-find-my-secret-api-key). 
+- To retrieve answers with Qdrant, [create a Qdrant Cloud Cluster and an API key](/documentation/cloud/create-cluster/).
 
 ## Initialize libraries
 
