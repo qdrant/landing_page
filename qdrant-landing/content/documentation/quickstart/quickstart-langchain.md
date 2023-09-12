@@ -31,7 +31,6 @@ Then, import all the libraries.
 ```python
 from langchain.vectorstores import Qdrant
 from langchain.embeddings.openai import OpenAIEmbeddings
-import qdrant_client
 import os
 ```
 
@@ -42,51 +41,9 @@ From the Qdrant Cloud dashboard, retrieve your hostname and the API key.
 ```python
 os.environ['QDRANT_HOST'] = # "PASTE CLUSTER HOSTNAME HERE"
 os.environ['QDRANT_API_KEY'] = # "PASTE QDRANT API KEY HERE"
-
-
-client = qdrant_client.QdrantClient(
-    os.getenv("QDRANT_HOST"),
-    api_key=os.getenv("QDRANT_API_KEY")
-)
-
 ```
 
-## Create a collection
-
-```python
-QDRANT_COLLECTION_NAME =# "WRITE COLLECTION NAME HERE"
-
-collection_config = qdrant_client.http.models.VectorParams(
-    size=1536, 
-    distance=qdrant_client.http.models.Distance.COSINE
-)
-
-client.recreate_collection(
-    collection_name=os.getenv("QDRANT_COLLECTION_NAME"),
-    vectors_config=collection_config
-)
-```
-**Response:**
-
-```python
-True
-```
-
-## Create a vector store
-
-```python
-os.environ['OPENAI_API_KEY'] = # "PASTE OPENAI API KEY HERE"
-
-embeddings = OpenAIEmbeddings()
-
-vectorstore = Qdrant(
-    client=client,
-    collection_name=QDRANT_COLLECTION_NAME,
-    embeddings=embeddings
-)
-```
-
-## Upload a document
+## Divide a document into chunks
 
 ```python
 from langchain.text_splitter import CharacterTextSplitter
@@ -105,18 +62,22 @@ with open("document.txt") as f:
     raw_text = f.read()
 
 texts = get_chunks(raw_text)
-
-vectorstore.add_texts(texts)
 ```
 
-**Response:**
+## Create a vector store
 
 ```python
-['98329da9dac8410e960eac922c11784b',
- 'c7d59c24df764154b7eb3ae84c059bf5',
- '2f41cedab834456fa61cb1467a4d6e62',
- 'cd51a4d3f83f4696a43ff781a573e263',
- 'f54b0341f6e14486b5090bddba930c5d']
+os.environ['OPENAI_API_KEY'] = # "PASTE OPENAI API KEY HERE"
+
+embeddings = OpenAIEmbeddings()
+
+vectorstore = Qdrant.from_texts(
+    texts,
+    embeddings=embeddings,
+    url=os.getenv("QDRANT_HOST"),
+    api_key=os.getenv("QDRANT_API_KEY"),
+    collection_name=QDRANT_COLLECTION_NAME,
+)
 ```
 
 ## Activate the retrieval chain
