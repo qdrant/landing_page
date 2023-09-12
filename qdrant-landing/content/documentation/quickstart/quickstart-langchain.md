@@ -17,7 +17,7 @@ You will load a text file into Qdrant and ask a few basic questions. Qdrant will
 
 In this example, we are using LangChain, Qdrant's Python Client, OpenAI and its tokenizer.
 
-```python
+```bash
 pip install langchain qdrant_client openai tiktoken
 ```
 
