@@ -293,12 +293,11 @@ client.update_collection(
 )
 ```
 
-For updating vector parameters in a collection that does not have named vectors,
-you can use an empty (`""`) name.
+**Note:** In order to update vector parameters in a collection that does not have named vectors, you can use an empty (`""`) name.
 
 Calls to this endpoint may be blocking as it waits for existing optimizers to
-finish. It is not recommended to use this in a production database as it may
-introduce huge overhead due to rebuilding the index.
+finish. We recommended against using this in a production database as it may
+introduce huge overhead due to the rebuilding of the index.
 
 ## Collection info
 
