@@ -8,7 +8,7 @@ preview_dir: /articles_data/binary-quantization/preview
 weight: -40
 author: Nirant Kasliwal
 author_link: 
-date: 
+date: 2023-09-18T13:00:00+03:00
 draft: false
 keywords:
   - vector search
