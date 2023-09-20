@@ -29,6 +29,7 @@ The rest of this article will cover:
 2. Basic implementation using our Python client
 3. Benchmark analysis and usage recommendations
 
+<!-- TODO: why the product quantization have higher recall than SQ? -->
 ![Speed vs recall of quantization and indexing methods](/articles_data/binary-quantization/bq-1.png)
 
 ## What is Binary Quantization?
@@ -98,8 +99,7 @@ from qdrant_client import QdrantClient
 
 #collect to our Qdrant Server
 client = QdrantClient(
-    url="http://localhost:6334",
-    timeout=600,
+    url="http://localhost:6333",
     prefer_grpc=True,
 )
 
@@ -133,16 +133,15 @@ We're changing the `default_segment_number` to 5. Segment numbers influence the 
 
 ```python
 batch_size = 10000
-for i in range(0, len(dataset), batch_size):
-    client.upload_collection(
-        collection_name=collection_name, 
-        ids=range(i, i+batch_size),
-        vectors=dataset[i:i+batch_size]["openai"],
-        payload=[
-            {"text": x} for x in dataset[i:i+batch_size]["text"]
-        ],
-        parallel=10,
-    )
+client.upload_collection(
+    collection_name=collection_name,
+    ids=range(len(dataset)),
+    vectors=dataset["openai"],
+    payload=[
+        {"text": x} for x in dataset["text"]
+    ],
+    parallel=10,
+)
 ```
 
 Enable indexing again:
@@ -162,7 +161,7 @@ When setting search parameters, we specify that we want to use `oversampling` an
 ```python
 client.search(
     collection_name="{collection_name}",
-    query_vector=[0.2, 0.1, 0.9, 0.7],
+    query_vector=[0.2, 0.1, 0.9, 0.7, ...],
     search_params=models.SearchParams(
         quantization=models.QuantizationSearchParams(
             ignore=False,
