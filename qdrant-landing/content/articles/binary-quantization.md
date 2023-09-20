@@ -195,8 +195,6 @@ We see that "correct" results i.e. recall increases as the number of potential "
 
 As oversampling increases, we see a general improvement in results – but that does not hold in every case. 
 
-![Rescore vs mean time](/articles_data/binary-quantization/bq-6.png)
-
 **Rescore:**
 As expected, rescoring increases the time it takes to return a query. 
 We also repeated the experiment with oversampling except this time we looked at how rescore impacted result accuracy. 
