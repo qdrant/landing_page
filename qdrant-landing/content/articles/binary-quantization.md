@@ -29,9 +29,6 @@ The rest of this article will cover:
 2. Basic implementation using our Python client
 3. Benchmark analysis and usage recommendations
 
-<!-- TODO: why the product quantization have higher recall than SQ? -->
-![Speed vs recall of quantization and indexing methods](/articles_data/binary-quantization/bq-1.png)
-
 ## What is Binary Quantization?
 Binary quantization (BQ) converts any vector embedding of floating point numbers into a vector of binary or boolean values. This feature is an extension of our past work on [scalar quantization](/articles/scalar-quantization/) where we convert `float32` to `uint8` and then leverage a specific SIMD CPU instruction to perform fast vector comparison. 
 
