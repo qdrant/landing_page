@@ -24,13 +24,15 @@ There are two main scenarios of Qdrant usage in terms of resource consumption:
 
 ### I configured on-disk vector storage, but memory usage is still high. Why? 
 
-Firstly, memory usage metrics as reported by `top` or `htop` might be misleading. They are not showing the amount of memory required to run the service.
-If you see RSS memory usage of 10 GB, it doesn't mean that it won't work on a machine with 8 GB of RAM.
+Firstly, memory usage metrics as reported by `top` or `htop` may be misleading. They are not showing the minimal amount of memory required to run the service.
+If the RSS memory usage is 10 GB, it doesn't mean that it won't work on a machine with 8 GB of RAM.
 
-Qdrant uses many techniques to reduce search latency, including caching the disk data in RAM and preloading the data from disk to RAM.
+Qdrant uses many techniques to reduce search latency, including caching disk data in RAM and preloading data from disk to RAM.
 As a result, the Qdrant process might use more memory than the minimum required to run the service.
 
-If you want to limit the memory usage of the service, we recommend using [limits in docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
+> Unused RAM is wasted RAM
+
+If you want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
 
 
 ### My requests are very slow or time out. What should I do?
