@@ -3,6 +3,7 @@ title: Quickstart
 weight: 10
 aliases:
   - ../cloud-quick-start
+  - cloud-quick-start
 ---
 
 # Quickstart
