@@ -9,6 +9,13 @@
   &__article {
     @include mixins.content-reset;
 
+    font-family: $font-family-content;
+    font-size: lib.rem(16);
+    font-weight: 400;
+    line-height: lib.rem(32);
+
+    @include mixins.content-image;
+
     h1 {
       font-size: 2.25rem;
     }
@@ -31,10 +38,6 @@
 
     h6 {
       font-size: 1.25rem;
-    }
-
-    p {
-      margin-bottom: 0.7rem;
     }
   }
 
