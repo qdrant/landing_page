@@ -46,32 +46,20 @@ article aside[role="status"]:before {
   font-weight: 900;
 }
 
-/*.blog,*/
 .article {
+  @include mixins.content-reset;
+
   font-family: $font-family-content;
-  font-size: lib.rem(18);
+  font-size: lib.rem(16);
   font-weight: 400;
   line-height: lib.rem(32);
 
-  @include mixins.content-reset;
+  @include mixins.content-image;
 
   &_narrow {
     @include media-breakpoint-up(lg) {
       margin: 0 6rem;
     }
-  }
-
-  p, span, ul, ol, li {
-    font: inherit;
-  }
-
-  p, ul {
-    margin-bottom: 2rem;
-  }
-
-  p a:hover,
-  ul a:hover {
-    text-decoration: underline;
   }
 
   h1, h2, h3, h4, h5 {
@@ -107,31 +95,31 @@ article aside[role="status"]:before {
     color: var(--brand-dark-gray);
   }
 
-  ul, ol {
-    margin-left: 0;
-  }
-
+  //ul, ol {
+  //  margin-left: 0;
+  //}
+  //
   & > ul, & > ol {
     margin-left: lib.rem(24);
   }
+  //
+  //li {
+  //  margin-left: 0;
+  //}
 
-  li {
-    margin-left: 0;
-  }
+  //img {
+  //  max-width: 100%;
+  //  height: auto;
+  //  margin: 0 auto;
+  //  border-radius: lib.rem(14);
+  //}
 
-  img {
-    max-width: 100%;
-    height: auto;
-    margin: 0 auto;
-    border-radius: lib.rem(14);
-  }
-
-  figcaption {
-    margin-top: lib.rem(10);
-    font-size: lib.rem(18);
-    font-style: italic;
-    line-height: lib.rem(32);
-  }
+  //figcaption {
+  //  margin-top: lib.rem(10);
+  //  font-size: lib.rem(18);
+  //  font-style: italic;
+  //  line-height: lib.rem(32);
+  //}
 
   &__info {
     display: flex;

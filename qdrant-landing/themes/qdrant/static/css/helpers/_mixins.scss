@@ -1,4 +1,5 @@
 @use "../helpers/functions" as lib;
+@use "../variables" as vars;
 
 @mixin content-reset {
 
@@ -35,8 +36,37 @@
     list-style: decimal;
   }
 
+  p, ul {
+    margin-bottom: lib.rem(24);
+  }
+
+  p a:hover,
+  ul a:hover {
+    text-decoration: underline;
+  }
+
   figure {
     text-align: center;
+  }
+
+  figcaption {
+    margin-top: lib.rem(10);
+    font-size: lib.rem(18);
+    font-style: italic;
+    line-height: lib.rem(32);
+  }
+
+  pre, pre span, pre code {
+    font-size: lib.rem(16);
+  }
+}
+
+@mixin content-image {
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: lib.rem(14);
   }
 }
 
