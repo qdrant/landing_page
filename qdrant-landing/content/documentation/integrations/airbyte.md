@@ -3,6 +3,8 @@ title: Airbyte
 weight: 1000
 ---
 
+# Airbyte
+
 [Airbyte](https://airbyte.com/) is an open-source data integration platform that helps you replicate your data 
 between different systems. It has a [growing list of connectors](https://docs.airbyte.io/integrations) that can 
 be used to ingest data from multiple sources. Building data pipelines is also crucial for managing the data in 
@@ -31,7 +33,7 @@ Before you start, make sure you have the following:
 Once you have a running instance of Airbyte, you can set up Qdrant as a destination directly in the UI.
 Airbyte's Qdrant destination is connected with a single collection in Qdrant. 
 
-![Airbyte Qdrant destination](/integrations/airbyte/qdrant-destination.png)
+![Airbyte Qdrant destination](/documentation/integrations/airbyte/qdrant-destination.png)
 
 ### Text processing
 
@@ -39,26 +41,26 @@ Airbyte has some built-in mechanisms to transform your texts into embeddings. Yo
 chunk your fields into pieces before calculating the embeddings, but also which fields should be used to
 create the point payload.
 
-![Processing settings](/integrations/airbyte/processing.png)
+![Processing settings](/documentation/integrations/airbyte/processing.png)
 
 ### Embeddings
 
 You can choose the model that will be used to calculate the embeddings. Currently, Airbyte supports multiple
 models, including OpenAI and Cohere.
 
-![Embeddings settings](/integrations/airbyte/embedding.png)
+![Embeddings settings](/documentation/integrations/airbyte/embedding.png)
 
 Using some precomputed embeddings from your data source is also possible. In this case, you can pass the field 
 name containing the embeddings and their dimensionality.
 
-![Precomputed embeddings settings](/integrations/airbyte/precomputed-embedding.png)
+![Precomputed embeddings settings](/documentation/integrations/airbyte/precomputed-embedding.png)
 
 ### Qdrant connection details
 
 Finally, we can configure the target Qdrant instance and collection. In case you use the built-in authentication
 mechanism, here is where you can pass the token.
 
-![Qdrant connection details](/integrations/airbyte/qdrant-config.png)
+![Qdrant connection details](/documentation/integrations/airbyte/qdrant-config.png)
 
 Once you confirm creating the destination, Airbyte will test if a specified Qdrant cluster is accessible and
 might be used as a destination.
@@ -69,8 +71,7 @@ Airbyte combines sources and destinations into a single entity called a connecti
 configured and a source, you can create a connection between them. It doesn't matter what source you use, as 
 long as Airbyte supports it. The process is pretty straightforward, but depends on the source you use.
 
-![Airbyte connection](/integrations/airbyte/connection.png)
+![Airbyte connection](/documentation/integrations/airbyte/connection.png)
 
 More information about creating connections can be found in the 
 [Airbyte documentation](https://docs.airbyte.com/understanding-airbyte/connections/).
-
