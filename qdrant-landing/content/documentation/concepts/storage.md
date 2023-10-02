@@ -112,7 +112,7 @@ The rule of thumb to set the memmap threshold parameter is simple:
 - if you have a high write load and low RAM - set memmap threshold lower than `indexing_threshold` to e.g. 10000. In this case the optimizer will convert the segments to memmap storage first and will only apply indexing after that.
 
 In addition, you can use memmap storage not only for vectors, but also for HNSW index.
-To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during [creation](../collections/#create-collection) of the collection.
+To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` during collection [creation](../collections/#create-a-collection) or [updating](../collections/#update-collection-parameters).
 
 ```http
 PUT /collections/{collection_name}
