@@ -141,7 +141,7 @@ Let’s connect to the Qdrant instance first and create a collection with the pr
 # Connecting to Qdrant Cloud with qdrant-client requires providing the api_key.
 # If you use an on-premise instance, it has to be skipped.
 qdrant_client = QdrantClient(
-    host="xyz-example.eu-central.aws.staging-cloud.qdrant.io", 
+    host="xyz-example.eu-central.aws.cloud.qdrant.io", 
     prefer_grpc=True,
     api_key=QDRANT_API_KEY,
 )
