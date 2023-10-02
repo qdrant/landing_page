@@ -45,7 +45,7 @@ Our official Qdrant clients for Python, Go, and Rust all support the API key par
 from qdrant_client import QdrantClient
 
 qdrant_client = QdrantClient(
-    "xyz-example.eu-central.aws.staging-cloud.qdrant.io", 
+    "xyz-example.eu-central.aws.cloud.qdrant.io", 
     prefer_grpc=True,
     api_key="<paste-your-api-key-here>",
 )
