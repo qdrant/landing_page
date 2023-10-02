@@ -36,3 +36,7 @@ We recommend that you use the Free Tier cluster for testing purposes. The capaci
 All Qdrant Cloud users are welcome to join our [Discord community](https://qdrant.to/discord). Our Support Engineers are available to help you anytime.
 
 Additionally, paid customers can also contact support via channels provided during cluster creation and/or on-boarding.
+
+### Limits
+
+- queries in Qdrant Cloud have a timeout of 600s
