@@ -13,7 +13,8 @@
                 </div>
                 {{ partial "breadcrumbs" . }}
                 <h1>{{ .Title }}</h1>
-                {{ .Content }}
+                {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
+                {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
             </article>
             <div class="pt-3">{{ partial "author" . }}</div>
             <div class="article__info mt-4">

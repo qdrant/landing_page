@@ -3,7 +3,8 @@
 <div class="col-12 col-md-9 col-lg-8 pb-5">
 
     <article class="documentation__article">
-        {{ .Content }}
+        {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
+        {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
     </article>
 
     <div style="overflow: auto">
