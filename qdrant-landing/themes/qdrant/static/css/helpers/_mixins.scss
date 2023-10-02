@@ -59,6 +59,10 @@
   pre, pre span, pre code {
     font-size: lib.rem(16);
   }
+
+  iframe {
+    max-width: 100%;
+  }
 }
 
 @mixin content-image {
