@@ -29,7 +29,7 @@ and can start producing useful tools using them. At the end of the day, *[what t
 saying what an answer should sound like, which is different from what an answer should be](https://futurism.com/the-byte/ai-expert-chatgpt-way-stupider)*. 
 For many use cases that's completely enough, but we need to redefine the way of using LLMs.
 
-## Issues with LLMs
+## Issues with Large Language Models
 
 While each LLM has its specific flaws, there are some common issues that we can observe in all of them. The most important 
 one is that they are prone to hallucinations. **Hallucination** is a confident response by an AI that does not seem to be 
@@ -115,13 +115,47 @@ build one model, a reward model, that can judge the quality of different answers
 model in a way that maximizes the reward during choosing the next token. Again, this is done on human-annotated data, so its quality is high. 
 The whole process still relies on predicting the next token.
 
+[//]: # (TODO: add graphics of predicting the next token)
+
 The [State of GPT](https://www.youtube.com/watch?v=bZQun8Y4L2A) explains the whole process in detail, but the most important thing is that 
 there is no reasoning being done by the Large Language Models. They are just predicting the next token in a sequence, and that's it. 
 All the issues, such as hallucinations or the reversal curse, come from the fact LLMs do not have a real memory they could use to store
 and recall any information. The parameters of the network encode just the statistical relationships between tokens and what we perceive as 
 knowledge is just a side effect of it. With billions of parameters, they can encode a lot of those relationships in multiple contexts, so
-we might be fooled that we interact with something beyond the statistical parrot.
+we might be fooled that we interact with something beyond the statistical parrot. Not even a creative one. A single prompt usually results in 
+non-deterministic outputs if we call the model multiple times. Those different responses are just caused by the sampling done on the next 
+token probabilities. That being said, GPT-like models are still impressive, but we need to be aware of their limitations.
 
-## Prompting LLMs
+## Knowledge-oriented tasks vs language tasks
+
+Now that we know what are the limitations of LLMs, we need to figure a way to overcome them. Finding the former capital of Germany would 
+be way easier to be solved by the model, if we provided some useful context.
+
+![Former capital of Germany in context](/articles_data/improving-llms-quality/germany-capital-context.png)
+
+With relevant information being added to the prompt, the model can extract the answer from that context, instead of trying to create it
+using its own parameters. The original task is also redefined, so we no longer ask the model to generate the response, but rather to find it
+in the context. By these means, we **switch knowledge-oriented into language task**, which is what LLMs are good at. In our example, it was
+enough to put the first paragraph from the Wikipedia article about Germany. However, in a real-world scenario, we might need to provide more
+information, and that's where the problems start.
+
+## Retrieval Augmented Generation
+
+The idea of Retrieval Augmented Generation (RAG) is to use the knowledge base to provide the context for the model. The knowledge base is
+a collection of facts we know to be true. Those facts are incorporated into the prompt, so the model can use them to generate the response.
+Without applying RAG, we would simply send the user prompt directly to LLM and hope the model won't make up an answer.
+
+![LLMs without RAG](/articles_data/improving-llms-quality/llms-without-rag.png)
+
+With RAG, we use the original prompt to perform search over the knowledge base and build a new prompt based on the original one and the set 
+of relevant facts. I said search, not semantic search, as that depends on the queries we expect the system to handle. However, the whole idea
+of LLMs is to enable natural language interactions, so semantic search is a natural choice.
+
+![LLMs with RAG](/articles_data/improving-llms-quality/llms-with-rag.png)
+
+Designing the RAG pipeline requires setting up the semantic search stack, including an embedding model and vector search engine, such as 
+Qdrant. Retrieval Augmented Generation is strongly related to the challenge of search, and is solved with similar means.
+
+[//]: # (TODO: link the example of RAG pipeline in Qdrant and OpenAI)
 
 [//]: # (# TODO: Know your prompt)
