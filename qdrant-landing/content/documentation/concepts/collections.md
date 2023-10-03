@@ -48,7 +48,7 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=100, distance=models.Distance.COSINE),
 )
