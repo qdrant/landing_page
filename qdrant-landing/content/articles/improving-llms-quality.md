@@ -105,10 +105,22 @@ learn the language, its structure, and some facts. At least, this is supposedly 
 judge that the model can generate text that sounds like a human wrote it. Internally, **this model does nothing more than predict the next 
 token in a sequence**. But that is already some statistical knowledge about the language and the world.
 
-The result of the pretraining phase is a base model, which, when properly trained, might already be a powerful tool. The training of the 
-best models available out there does not stop here, though. 
+The result of the pretraining phase is a **base model**, which, when properly trained, might already be a powerful tool. Taking our model to 
+the next level requires different means. The next phase, the supervised finetuning, focuses more on high quality data, with significantly 
+lower quantity. Contractors provide pairs of prompts and ideal responses to them, which are used to uptrain the model. Still, the model 
+predicts a single token at the time, nothing more.
 
-[//]: # (TODO: continue on training)
+We can improve the model even further, by incorporating the strategy of Reinforcement Learning from Human Feedback (RLHF). The idea is to
+build one model, a reward model, that can judge the quality of different answers to the same prompt, and then use it to finetune the LLM 
+model in a way that maximizes the reward during choosing the next token. Again, this is done on human-annotated data, so its quality is high. 
+The whole process still relies on predicting the next token.
+
+The [State of GPT](https://www.youtube.com/watch?v=bZQun8Y4L2A) explains the whole process in detail, but the most important thing is that 
+there is no reasoning being done by the Large Language Models. They are just predicting the next token in a sequence, and that's it. 
+All the issues, such as hallucinations or the reversal curse, come from the fact LLMs do not have a real memory they could use to store
+and recall any information. The parameters of the network encode just the statistical relationships between tokens and what we perceive as 
+knowledge is just a side effect of it. With billions of parameters, they can encode a lot of those relationships in multiple contexts, so
+we might be fooled that we interact with something beyond the statistical parrot.
 
 ## Prompting LLMs
 
