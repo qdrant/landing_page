@@ -154,8 +154,97 @@ of LLMs is to enable natural language interactions, so semantic search is a natu
 ![LLMs with RAG](/articles_data/improving-llms-quality/llms-with-rag.png)
 
 Designing the RAG pipeline requires setting up the semantic search stack, including an embedding model and vector search engine, such as 
-Qdrant. Retrieval Augmented Generation is strongly related to the challenge of search, and is solved with similar means.
+Qdrant. Retrieval Augmented Generation is strongly related to the challenge of search, and is solved with similar means. 
 
-[//]: # (TODO: link the example of RAG pipeline in Qdrant and OpenAI)
+Implementing a Retrieval Augmented Generation pipeline might be achieved with frameworks such as [Langchain](https://www.langchain.com/), 
+[LlamaIndex](https://www.llamaindex.ai/), or [Haystack](https://haystack.deepset.ai/). However, they all come in handy, but with some overhead, 
+while it is also relatively easy to set everything up using pure SDKs of the vector database and embedding model. We have an example of how to 
+[implement RAG using Qdrant, FastEmbed and OpenAI](https://github.com/qdrant/examples/blob/8d0a678cf495a71ef1ed76658dbf7da34956e9d6/rag-openai-qdrant/rag-openai-qdrant.ipynb)
+with just a few lines of code. Long story short, it's all about building a metaprompt that combines the original prompt and the result of 
+semantic search done on our vector DB, using the same prompt as a query.
 
-[//]: # (# TODO: Know your prompt)
+```python
+metaprompt = f"""
+You are a software architect. Answer the following question using the provided context. 
+If you can't find the answer, do not pretend you know it, but answer "I don't know".
+
+Question: {prompt}
+
+Context: 
+{context}
+
+Answer:
+"""
+```
+
+### Prompt engineering
+
+It's also undeniable that the quality of the prompt is crucial for the quality of the response. It's not only about extending it with context
+required to solve the task, but also about the way we ask the question. A model asked to do a certain job will do it, but the results might not 
+be exactly what we expected.
+
+![Simple prompt example](/articles_data/improving-llms-quality/countries-simple-prompt.png)
+
+There are various strategies to improve the quality of the responses, by forcing some constraints on the model, including:
+
+1. **Putting a role.** A model may prefer using a different language style, depending on the role it is supposed to play. If we ask the model
+   to be a teacher, it might be more likely to provide a more formal response, than if we ask it to be a friend.
+2. **Allowing the model to not provide an answer, if the context does not contain it.** Models are trained to solve tasks, so they quite often
+   prefer making up an answer instead of saying they don't know. If we do not have relevant facts to answer the question, we should not expect
+   the model to do it for us.
+3. **Asking the model to provide a step-by-step reasoning scheme, so called Chain-of-Thoughts.** That gives us a chain of actions required to 
+   solve the task, which is a more reliable way, as we can trace all the steps and spot the errors. However, it doesn't mean the model performed 
+   those actions to get to the final answer. It's rather an instruction for a human to follow.
+4. **Except to provide the sources used to generate the response.** Similarly to the Chain-of-Thoughts, it gives more traceability and a way
+   to link to the original source of the information. Again, it is not a guarantee that the model actually used those sources to generate the
+   response, but just a way to check it. 
+
+![Relaxed prompt](/articles_data/improving-llms-quality/countries-relaxed-prompt.png)
+
+Prompt engineering is not one time process, and usually requires some iterations to get the best results. Prompt versioning became a thing, and
+is already being broadly discussed as one of the strategies. If we see the model fails under some circumstances, we need to update the prompt to
+mitigate the issue.
+
+![Strict prompt](/articles_data/improving-llms-quality/countries-strict-prompt.png)
+
+There is more to it, and definitely more to come regarding prompt engineering. It's a new field, and we're still learning how to use it.
+
+### Know your prompt
+
+The problem with some of the high level frameworks is, they have some built-in default prompts which work well in demos, but might cause you
+a headache in real-life scenarios. If you ever face your RAG returning the name of Michael Jackson, even though your data does not contain it, 
+and you are a Langchain user, you might be a victim of the [default prompt](https://github.com/langchain-ai/langchain/blob/master/libs/langchain/langchain/chains/qa_with_sources/stuff_prompt.py).
+
+```python
+from langchain.prompts import PromptTemplate
+
+template = """Given the following extracted parts of a long document and a question, create a final answer with references ("SOURCES"). 
+If you don't know the answer, just say that you don't know. Don't try to make up an answer.
+ALWAYS return a "SOURCES" part in your answer.
+...
+
+QUESTION: What did the president say about Michael Jackson?
+=========
+Content: Madam Speaker, Madam Vice President, our First Lady and Second Gentleman. ...
+Source: 0-pl
+...
+=========
+FINAL ANSWER: The president did not mention Michael Jackson.
+SOURCES:
+
+QUESTION: {question}
+=========
+{summaries}
+=========
+FINAL ANSWER:"""
+PROMPT = PromptTemplate(template=template, input_variables=["summaries", "question"])
+```
+
+Passing a custom prompt downstream is not a problem, but it is not obvious that you need to do it. Pure SDKs do not have such issues, as you
+are explicitly responsible for building the prompt yourself.
+
+### Quality assurance in the world of LLMs
+
+[//]: # (TODO: Evals)
+
+[//]: # (TODO: Guardrails)
