@@ -81,3 +81,93 @@
   -moz-transition: all $ms ease;
   transition: all $ms ease;
 }
+
+@mixin marque($height, $itemWidth: 250px, $speed: 25s, $pauseOnHover: false) {
+  text-align: center;
+  height: $height;
+  margin-left: -60px;
+  margin-right: -60px;
+
+  &__container {
+    overflow: hidden;
+  }
+
+  &__block {
+    --total-marquee-items: 5;
+    height: $height;
+    display: grid;
+    width: calc($itemWidth * (var(--total-marquee-items)));
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 auto;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      box-shadow: 0 0 30px 30px white;
+      z-index: 1;
+    }
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      box-shadow: 0 0 30px 30px white;
+      z-index: 1;
+    }
+  }
+
+  &__inner {
+    display: block;
+    width: 200%;
+    position: absolute;
+
+    & > span {
+      float: left;
+      width: 50%;
+    }
+
+    &_to-left {
+      animation: marqueeLeft $speed linear infinite;
+    }
+
+    &_to-right {
+      animation: marqueeRight $speed linear infinite;
+    }
+  }
+
+  &__item {
+    width: calc($itemWidth - 20px);
+    height: auto;
+    display: inline-block;
+    margin: 0 10px;
+    float: left;
+    transition: all .2s ease-out;
+  }
+
+  @keyframes marqueeLeft {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: -100%;
+    }
+  }
+  @keyframes marqueeRight {
+    0% {
+      left: -100%;
+    }
+    100% {
+      left: 0;
+    }
+  }
+}

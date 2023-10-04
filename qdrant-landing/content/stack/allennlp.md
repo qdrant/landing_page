@@ -1,6 +1,6 @@
 ---
-draft: true
-image: "content/images/logos/allennlp_logo.png"
+draft: false
+image: "content/images/logos/allennlp_logo"
 origin_url: "https://allennlp.org/"
 name: "AllenNLP"
 sitemapExclude: True

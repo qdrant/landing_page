@@ -192,25 +192,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
 
   {{ with (.Site.GetPage "section" "stack") }}
   <!--Clients Section-->
-<section class="clients-section">
-  <div class="auto-container">
-    <div class="row">
-      <div class="col-12 sec-title">
-        <h2>{{ .Title | safeHTML }}</h2>
-        <div class="text">{{ .Params.subtitle}}</div>
-      </div>
-    </div>
-
-    <ul class="sponsors-outer">
-      {{ range $i, $e := first 3 .Pages }}
-      <li class="mt-3 mb-3 image-box">
-        <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img src="{{ .Params.image }}-mono.png" alt=""></a>
-      </li>
-      {{ end }}
-    </ul>
-
-  </div>
-</section>
+    {{ partial "customers-section" . }}
   <!--End Clients Section-->
   {{ end }}
 

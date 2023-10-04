@@ -1,0 +1,37 @@
+<section class="">
+    <div class="auto-container">
+        <div class="row">
+            <div class="col-12 sec-title">
+                <h2>{{ .Title | safeHTML }}</h2>
+                <div class="text">{{ .Params.subtitle}}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="marquee mt-3 mb-5">
+        <div class="marquee__container">
+            <div class="marquee__block">
+                <div class="marquee__inner marquee__inner_to-left">
+                        <span>
+                        {{ range $i, $e := first 5 .Pages }}
+                            <div class="marquee__item">
+                                <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img
+                                        src="{{ .Params.image }}-mono.png" alt=""></a>
+                            </div>
+                        {{ end }}
+                        </span>
+                    <span>
+                        {{ range $i, $e := first 5 .Pages }}
+                            <div class="marquee__item">
+                                <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img
+                                        src="{{ .Params.image }}-mono.png" alt=""></a>
+                            </div>
+                        {{ end }}
+                        </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</section>

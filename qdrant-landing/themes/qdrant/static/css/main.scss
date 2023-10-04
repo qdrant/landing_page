@@ -1,5 +1,6 @@
 @use "helpers/functions";
 @use "helpers/utils";
+@use "helpers/mixins" as mixins;
 
 @import "colors";
 @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
@@ -144,6 +145,10 @@ blockquote {
   border-left: 3px solid var(--brand-gray);
   padding-left: 12px;
   font-style: italic;
+}
+
+.marquee {
+  @include mixins.marque(80px, 320px);
 }
 
 @import "blocks/forms";
