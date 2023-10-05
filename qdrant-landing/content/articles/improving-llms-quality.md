@@ -275,7 +275,7 @@ is one of such projects, and it's worth checking out.
 Large Language Models are not search engines. They are not assistants. They are not even intelligent. They are just statistical models that
 predict the next token in a sequence. However, they can be used to build reliable systems. Retrieval Augmented Generation is a promising 
 approach to overcome some of their issues. Combined with prompt engineering and proper validation it might be a powerful tool to build systems 
-that just work.
+that just work. To start building RAG systems, you can check out our [RAG OpenAI Qdrant example](https://github.com/qdrant/examples/blob/8d0a678cf495a71ef1ed76658dbf7da34956e9d6/rag-openai-qdrant/rag-openai-qdrant.ipynb).
 
 ## References
 
