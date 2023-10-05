@@ -1,14 +1,14 @@
 ---
 title: On improving LLMs quality
-short_description: "TBD"
-description: "TBD"
+short_description: "A bunch of notes on building systems with Large Language Models that just work"
+description: "Building an LLM-based demo is easy, but real problems require more than that. Here is a bunch of practical strategies to improve the quality of outputs."
 social_preview_image: /articles_data/improving-llms-quality/social_preview.png
 small_preview_image: /articles_data/improving-llms-quality/icon.svg
 preview_dir: /articles_data/improving-llms-quality/preview
-weight: 7
+weight: -50
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2023-10-03T10:38:00+01:00
+date: 2023-10-06T10:38:00+01:00
 draft: false
 keywords:
   - llm
