@@ -1,7 +1,7 @@
 ---
 title: On improving LLMs quality
 short_description: "A bunch of notes on building systems with Large Language Models that just work"
-description: "Building an LLM-based demo is easy, but real problems require more than that. Here is a bunch of practical strategies to improve the quality of outputs."
+description: "Building an LLM-based demo is easy, but real problems require more than that. Here is a bunch of practical strategies to improve the quality of LLM outputs."
 social_preview_image: /articles_data/improving-llms-quality/social_preview.png
 small_preview_image: /articles_data/improving-llms-quality/icon.svg
 preview_dir: /articles_data/improving-llms-quality/preview
@@ -245,6 +245,42 @@ are explicitly responsible for building the prompt yourself.
 
 ### Quality assurance in the world of LLMs
 
-[//]: # (TODO: Evals)
+Even though, we apply all the strategies mentioned above, we still need to be aware of the fact that the model might fail. Evaluation and 
+validation are crucial to ensure the quality of the system. Both still remain open problems, but there are some strategies we can apply to
+mitigate the risk of the model failing.
 
-[//]: # (TODO: Guardrails)
+#### Evaluation
+
+In case of LLMs, evaluation is still often done by humans, but there are also some automated ways to do it. One promising approach is to use
+LLMs again, to evaluate which of the multiple responses is the best one. Another automated way is to use the word-level metrics which measure
+the similarity between the generated response and the ideal reference one. [Evaluating LLM Outputs](https://txt.cohere.com/evaluating-llm-outputs/)
+is a great summary of the current state of the art in that field.
+
+#### Validation
+
+While working on applications built on top of LLMs, validation might be even more important. If we really want to pass the output of the Large
+Language Model to a different part of the application for some further processing, we need to be sure that the response is in some way valid.
+If we expect the model to return its response as one of the predefined options and nothing more, like in case of enum, any other response is an 
+unexpected state we need to handle, so it's better to restrict and control the model's output. Structuring the response as a JSON object with 
+a predefined schema might be a good way to ensure it is possible to be processed further. Generated programming code should be syntactically 
+correct, and so on and so forth. Possibilities are endless, and that's a common problem. We need to guarantee the rules to be obeyed, and there
+are already projects aimed to simplify defining the contracts between us and the models we use. [Guardrails.ai](https://docs.guardrailsai.com/)
+is one of such projects, and it's worth checking out. 
+
+> At the heart of Guardrails is the rail spec. rail is intended to be a language-agnostic, human-readable format for specifying structure and 
+> type information, validators and corrective actions over LLM outputs.
+
+## Summary
+
+Large Language Models are not search engines. They are not assistants. They are not even intelligent. They are just statistical models that
+predict the next token in a sequence. However, they can be used to build reliable systems. Retrieval Augmented Generation is a promising 
+approach to overcome some of their issues. Combined with prompt engineering and proper validation it might be a powerful tool to build systems 
+that just work.
+
+## References
+
+- [The State of GPT](https://www.youtube.com/watch?v=bZQun8Y4L2A)
+- [The Reversal Curse: LLMs trained on “A is B” fail to learn “B is A”](https://arxiv.org/abs/2309.12288)
+- [Evaluating LLM Outputs](https://txt.cohere.com/evaluating-llm-outputs/)
+- [Validating LLM Outputs](https://txt.cohere.com/validating-llm-outputs/)
+- [Patterns for Building LLM-based Systems & Products](https://eugeneyan.com/writing/llm-patterns/)
