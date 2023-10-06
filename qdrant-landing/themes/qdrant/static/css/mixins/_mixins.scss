@@ -1,0 +1,83 @@
+@use "../helpers/functions" as lib;
+@use "../variables" as vars;
+
+@mixin content-reset {
+
+  table {
+    @extend .table;
+    color: var(--brand-secondary);
+  }
+
+  pre {
+    position: relative;
+  }
+
+  img {
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  ul,
+  ol {
+    margin-top: 1em;
+    margin-bottom: 1em;
+  }
+
+  ul > li {
+    margin: 0 0 0 lib.rem(19);
+    position: relative;
+    list-style: disc;
+  }
+
+  ol > li {
+    margin: 0 0 0 lib.rem(19);
+    position: relative;
+    list-style: decimal;
+  }
+
+  p, ul {
+    margin-bottom: lib.rem(24);
+  }
+
+  p a:hover,
+  ul a:hover {
+    text-decoration: underline;
+  }
+
+  figure {
+    text-align: center;
+  }
+
+  figcaption {
+    margin-top: lib.rem(10);
+    font-size: lib.rem(18);
+    font-style: italic;
+    line-height: lib.rem(32);
+  }
+
+  pre, pre span, pre code {
+    font-size: lib.rem(16);
+  }
+
+  iframe {
+    max-width: 100%;
+  }
+}
+
+@mixin content-image {
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: lib.rem(14);
+  }
+}
+
+@mixin transitionAll($ms) {
+  -webkit-transition: all $ms ease;
+  -ms-transition: all $ms ease;
+  -o-transition: all $ms ease;
+  -moz-transition: all $ms ease;
+  transition: all $ms ease;
+}

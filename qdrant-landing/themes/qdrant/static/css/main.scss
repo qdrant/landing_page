@@ -1,6 +1,6 @@
 @use "helpers/functions";
 @use "helpers/utils";
-@use "helpers/mixins" as mixins;
+@use "mixins/marquee";
 
 @import "colors";
 @import "../../../../node_modules/bootstrap/scss/bootstrap.scss";
@@ -148,7 +148,7 @@ blockquote {
 }
 
 .marquee {
-  @include mixins.marque(80px, 200px);
+  @include marquee.base(80px, 200px, 12, 6);
 }
 
 @import "blocks/forms";

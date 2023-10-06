@@ -13,7 +13,7 @@
             <div class="marquee__block">
                 <div class="marquee__inner marquee__inner_to-left">
                         <span>
-                        {{ range $i, $e := first 7 .Pages }}
+                        {{ range .Pages }}
                             <div class="marquee__item">
                                 <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img
                                         src="{{ .Params.image }}-mono.png" alt=""></a>
@@ -21,7 +21,7 @@
                         {{ end }}
                         </span>
                     <span>
-                        {{ range $i, $e := first 7 .Pages }}
+                        {{ range .Pages }}
                             <div class="marquee__item">
                                 <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img
                                         src="{{ .Params.image }}-mono.png" alt=""></a>

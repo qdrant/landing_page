@@ -1,0 +1,98 @@
+@mixin base($height, $itemWidth: 200px, $total-marquee-items: 6, $visible-marquee-items: 6, $item-padding: 20px, $pauseOnHover: false, $speed: 25s) {
+
+  $inner-width: $total-marquee-items / $visible-marquee-items * 2 * 100%;
+
+  max-width: 100%;
+  text-align: center;
+  height: $height;
+  margin-left: -60px;
+  margin-right: -60px;
+
+  &__container {
+    overflow: hidden;
+  }
+
+  &__block {
+    height: $height;
+    display: grid;
+    width: $itemWidth * $visible-marquee-items;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 auto;
+
+    &:before {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 0;
+      box-shadow: 0 0 30px 30px white;
+      z-index: 1;
+    }
+    &:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      width: 0;
+      box-shadow: 0 0 30px 30px white;
+      z-index: 1;
+    }
+  }
+
+  &__inner {
+    display: block;
+    width: $inner-width;
+    position: absolute;
+
+    & > span {
+      float: left;
+      width: 50%;
+    }
+
+    &_to-left {
+      animation: marqueeLeft $speed linear infinite;
+    }
+
+    &_to-right {
+      animation: marqueeRight $speed linear infinite;
+    }
+  }
+
+  &__item {
+    width: $itemWidth - $item-padding * 2;
+    height: $height;
+    display: inline-flex;
+    margin: 0 $item-padding;
+    float: left;
+    transition: all .2s ease-out;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  @keyframes marqueeLeft {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: $inner-width / 2 * -1;
+    }
+  }
+  @keyframes marqueeRight {
+    0% {
+      left: $inner-width / 2 * -1;
+    }
+    100% {
+      left: 0;
+    }
+  }
+}
