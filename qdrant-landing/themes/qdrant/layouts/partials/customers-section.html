@@ -14,16 +14,14 @@
                         <span>
                         {{ range .Pages }}
                             <div class="marquee__item">
-                                <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img
-                                        src="{{ .Params.image }}-mono.png" alt=""></a>
+                                <img src="{{ .Params.image }}-mono.png" alt="{{ .Params.name}} logo">
                             </div>
                         {{ end }}
                         </span>
                 <span>
                         {{ range .Pages }}
                             <div class="marquee__item">
-                                <a href="{{ .Params.origin_url }}" target="_blank" rel="nofollow"><img
-                                        src="{{ .Params.image }}-mono.png" alt=""></a>
+                                <img src="{{ .Params.image }}-mono.png" alt="{{ .Params.name}} logo">
                             </div>
                         {{ end }}
                         </span>

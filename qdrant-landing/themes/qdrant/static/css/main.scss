@@ -148,7 +148,7 @@ blockquote {
 }
 
 .marquee {
-  @include marquee.base(80px, 200px, 12, 6);
+  @include marquee.base(80px, 200px, 12, 6, 20px, false, 50s);
 }
 
 @import "blocks/forms";
