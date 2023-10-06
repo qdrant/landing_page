@@ -51,7 +51,7 @@ docker run -p 6333:6333 qdrant/qdrant</code>
   <!-- End Banner Section -->
 
 
-  {{ with (.Site.GetPage "section" "features") }}
+{{ with (.Site.GetPage "section" "features") }}
 
   <!-- Feature Section -->
   <section class="features-section">
@@ -189,14 +189,15 @@ docker run -p 6333:6333 qdrant/qdrant</code>
   {{ end }}
   <!-- End Business Section -->
 
+  <!--Customers Section-->
+  <section>
+    {{ with (.Site.GetPage "section" "stack") }}
+      {{ partial "customers-section" . }}
+    {{ end }}
+  </section>
+  <!--End Customers Section-->
 
-  {{ with (.Site.GetPage "section" "stack") }}
-  <!--Clients Section-->
-    {{ partial "customers-section" . }}
-  <!--End Clients Section-->
-  {{ end }}
-
-  {{ with (.Site.GetPage "section" "articles") }}
+{{ with (.Site.GetPage "section" "articles") }}
   <!-- Start Articles Section -->
   <section id="articles" class="projects-section-two" style="background: var(--brand-light);">
     <div class="auto-container">
