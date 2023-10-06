@@ -349,26 +349,15 @@ The result of this API contains one array per search requests.
 
 ## Recommendation API
 
-<aside role="alert">Negative vectors is an experimental functionality that is not guaranteed to work with all kind of embeddings.</aside>
-
-In addition to the regular search, Qdrant also allows you to search based on multiple vectors already stored in the collection.
-This API uses vector search without involving the neural network encoder for already encoded objects.
-
-The recommendation API allows specifying several positive and negative vector IDs, which the service will combine into a certain average vector.
-
-`average_vector = avg(positive_vectors) + ( avg(positive_vectors) - avg(negative_vectors) )`
-
-If there is only one positive ID provided - this request is equivalent to the regular search with vector of that point.
-
-Vector components that have a greater value in a negative vector are penalized, and those that have a greater value in a positive vector, on the contrary, are amplified.
-This average vector will be used to find the most similar vectors in the collection.
+In addition to the regular search, Qdrant also allows you to search based on multiple positive and negative examples. The API is called ***recommend***, and the examples can be point IDs, so that you can leverage the already encoded objects; and, as of v1.6, you can also use raw vectors as input, so that you can create your vectors on the fly without uploading them as points.
 
 REST API - API Schema definition is available [here](https://qdrant.github.io/qdrant/redoc/index.html#operation/recommend_points)
 
 ```http
 POST /collections/{collection_name}/points/recommend
-
 {
+  "positive": [100, 231],
+  "negative": [718, [0.2, 0.3, 0.4, 0.5]],
   "filter": {
         "must": [
             {
@@ -379,9 +368,8 @@ POST /collections/{collection_name}/points/recommend
             }
         ]
   },
-  "negative": [718],
-  "positive": [100, 231],
-  "limit": 10
+  "strategy": "average_vector",
+  "limit": 3
 }
 ```
 
@@ -393,6 +381,9 @@ client = QdrantClient("localhost", port=6333)
 
 client.recommend(
     collection_name="{collection_name}",
+    positive=[100, 231],
+    negative=[718, [0.2, 0.3, 0.4, 0.5]],
+    strategy=models.RecommendStrategy.AVERAGE_VECTOR,
     query_filter=models.Filter(
         must=[
             models.FieldCondition(
@@ -403,9 +394,7 @@ client.recommend(
             )
         ]
     ),
-    negative=[718],
-    positive=[100, 231],
-    limit=10,
+    limit=3,
 )
 ```
 
@@ -422,6 +411,49 @@ Example result of this API would be
   "time": 0.001
 }
 ```
+
+The algorithm used to get the recommendations is selected from the available `strategy` options. Each of them has its own strengths and weaknesses, so experiment and choose the one that works best for your case.
+
+### Average vector strategy
+
+The default and first strategy added to Qdrant is called `average_vector`. It preprocesses the input examples to create a single vector that is used for the search. Since the preprocessing step happens very fast, the performance of this strategy is on-par with regular search. The intuition behind this kind of recommendation is that each vector component represents an independent feature of the data, so, by averaging the examples, we should get a good recommendation.
+
+The way to produce the searching vector is by first averaging all the positive and negative examples separately, and then combining them into a single vector using the following formula:
+
+```rust
+avg_positive + avg_positive - avg_negative
+```
+
+In the case of not having any negative examples, the search vector will simply be equal to `avg_positive`.
+
+This is the default strategy that's going to be set implicitly, but you can explicitly define it by setting `"strategy": "average_vector"` in the recommendation request.
+
+### Best score strategy
+
+A new strategy introduced in v1.6, is called `best_score`. It is based on the idea that the best way to find similar vectors is to find the ones that are closer to a positive example, while avoiding the ones that are closer to a negative one.
+The way it works is that each candidate is measured against every example, then we select the best positive and best negative scores. The final score is chosen with this step formula:
+
+```rust
+if best_positive_score > best_negative_score {
+    score = best_positive_score
+} else {
+    score = -(best_negative_score * best_negative_score)
+}
+```
+
+<aside role="alert">The performance of `best_score` strategy will be linearly impacted by the amount of examples.</aside>
+
+Since we are computing similarities to every example at each step of the search, the performance of this strategy will be linearly impacted by the amount of examples. This means that the more examples you provide, the slower the search will be. However, this strategy can be very powerful and should be more embedding-agnostic.
+
+To use this algorithm, you need to set `"strategy": "best_score"` in the recommendation request.
+
+#### Using only negative examples
+
+A beneficial side-effect of `best_score` strategy is that you can use it with only negative examples. This will allow you to find the most dissimilar vectors to the ones you provide. This can be useful for finding outliers in your data, or for finding the most dissimilar vectors to a given one.
+
+Combining negative-only examples with filtering can be a powerful tool for data exploration and cleaning.
+
+### Multiple vectors
 
 *Available as of v0.10.0*
 
@@ -458,7 +490,6 @@ Similar to the batch search API in terms of usage and advantages, it enables the
 
 ```http
 POST /collections/{collection_name}/points/recommend/batch
-
 {
     "searches": [
         {
