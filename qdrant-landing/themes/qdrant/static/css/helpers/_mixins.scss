@@ -93,10 +93,10 @@
   }
 
   &__block {
-    --total-marquee-items: 5;
+    $total-marquee-items: 5;
     height: $height;
     display: grid;
-    width: calc($itemWidth * (var(--total-marquee-items)));
+    width: $itemWidth * $total-marquee-items;
     overflow: hidden;
     box-sizing: border-box;
     position: relative;
@@ -146,12 +146,18 @@
   }
 
   &__item {
-    width: calc($itemWidth - 20px);
-    height: auto;
-    display: inline-block;
+    width: $itemWidth - 20px;
+    height: $height;
+    display: inline-flex;
     margin: 0 10px;
     float: left;
     transition: all .2s ease-out;
+    align-items: center;
+
+    img {
+      width: $itemWidth - 60px;
+      height: auto;
+    }
   }
 
   @keyframes marqueeLeft {
