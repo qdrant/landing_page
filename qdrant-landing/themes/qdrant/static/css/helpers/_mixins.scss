@@ -93,7 +93,7 @@
   }
 
   &__block {
-    $total-marquee-items: 5;
+    $total-marquee-items: 7;
     height: $height;
     display: grid;
     width: $itemWidth * $total-marquee-items;
@@ -155,7 +155,7 @@
     align-items: center;
 
     img {
-      width: $itemWidth - 60px;
+      width: $itemWidth - 40px;
       height: auto;
     }
   }

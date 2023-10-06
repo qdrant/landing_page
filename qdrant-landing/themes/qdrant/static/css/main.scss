@@ -148,7 +148,7 @@ blockquote {
 }
 
 .marquee {
-  @include mixins.marque(80px);
+  @include mixins.marque(80px, 200px);
 }
 
 @import "blocks/forms";
