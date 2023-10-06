@@ -1,6 +1,6 @@
 ---
 draft: false
-image: "content/images/logos/dailymotion-logo"
-name: "Dailymotion"
+image: "content/images/logos/hp-enterprise-logo"
+name: "Hewlett Packard Enterprise"
 sitemapExclude: True
 ---

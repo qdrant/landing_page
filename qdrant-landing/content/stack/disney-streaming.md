@@ -1,7 +1,6 @@
 ---
 draft: false
-image: "content/images/logos/kaufland-logo"
-origin_url: "https://www.kaufland.de/"
-name: "Kaufland"
+image: "content/images/logos/disney-streaming-logo"
+name: "Disney Streaming"
 sitemapExclude: True
 ---

@@ -1,7 +1,6 @@
 ---
 draft: false
-image: "content/images/logos/bayer-logo"
-origin_url: "https://www.bayer.com/"
+image: "content/images/logos/microsoft-logo"
 name: "Bayer"
 sitemapExclude: True
 ---

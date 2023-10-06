@@ -1,6 +1,6 @@
 ---
 draft: false
-image: "content/images/logos/kaufland-logo"
-name: "Kaufland"
+image: "content/images/logos/dailymotion-logo"
+name: "Dailymotion"
 sitemapExclude: True
 ---

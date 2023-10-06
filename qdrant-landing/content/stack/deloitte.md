@@ -1,6 +1,6 @@
 ---
 draft: false
-image: "content/images/logos/bayer-logo"
-name: "Bayer"
+image: "content/images/logos/deloitte-logo"
+name: "Deloitte"
 sitemapExclude: True
 ---

@@ -1,6 +1,6 @@
 ---
 draft: false
-image: "content/images/logos/bayer-logo"
-name: "Bayer"
+image: "content/images/logos/flipkart-logo"
+name: "Flipkart"
 sitemapExclude: True
 ---
