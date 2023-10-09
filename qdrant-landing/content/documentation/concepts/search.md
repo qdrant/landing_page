@@ -243,7 +243,6 @@ It is possible to target nested fields using a dot notation:
 
 Accessing array elements by index is currently not supported.
 
-
 ## Batch search API
 
 *Available as of v0.10.0*
