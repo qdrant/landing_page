@@ -237,6 +237,13 @@ client.search(
 )
 ```
 
+It is possible to target nested fields using a dot notation:
+- `payload.nested_field` - for a nested field
+- `payload.nested_array[].sub_field` - for projecting nested fields within an array
+
+Accessing array elements by index is currently not supported.
+
+
 ## Batch search API
 
 *Available as of v0.10.0*
