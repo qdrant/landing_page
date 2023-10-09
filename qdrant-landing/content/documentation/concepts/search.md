@@ -430,6 +430,8 @@ This is the default strategy that's going to be set implicitly, but you can expl
 
 ### Best score strategy
 
+*Available as of v1.6.0*
+
 A new strategy introduced in v1.6, is called `best_score`. It is based on the idea that the best way to find similar vectors is to find the ones that are closer to a positive example, while avoiding the ones that are closer to a negative one.
 The way it works is that each candidate is measured against every example, then we select the best positive and best negative scores. The final score is chosen with this step formula:
 
