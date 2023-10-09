@@ -209,7 +209,7 @@ client.search(
 )
 ```
 
-Parameter `with_payload` might also be used to include or exclude specific fields only:
+Parameter `with_payload` might also be used to `include` or `exclude` specific fields only:
 
 ```http
 POST /collections/{collection_name}/points/search
