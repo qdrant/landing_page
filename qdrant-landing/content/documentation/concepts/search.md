@@ -209,7 +209,7 @@ client.search(
 )
 ```
 
-Parameter `with_payload` might also be used to include or exclude specific fields only:
+Parameter `with_payload` might also be used to `include` or `exclude` specific fields only:
 
 ```http
 POST /collections/{collection_name}/points/search
@@ -236,6 +236,12 @@ client.search(
     ),
 )
 ```
+
+It is possible to target nested fields using a dot notation:
+- `payload.nested_field` - for a nested field
+- `payload.nested_array[].sub_field` - for projecting nested fields within an array
+
+Accessing array elements by index is currently not supported.
 
 ## Batch search API
 
