@@ -1,3 +1,21 @@
+---
+title: "FastEmbed: 2x faster Embeddings"
+short_description: "FastEmbed is a Python library engineered for speed, efficiency, and above all, usability."
+description: "FastEmbed is a Python library engineered for speed, efficiency, and accuracy. It's more accurate than OpenAI and 1.5x faster than the PyTorch implementation with fewer dependencies"
+social_preview_image: /articles_data/fastembed/social_preview.png
+preview_dir: /articles_data/fastembed/preview
+weight: -40
+author: Nirant Kasliwal
+author_link: https://nirantk.com/about/ 
+date: 2023-10-18T13:00:00+03:00
+draft: false
+keywords:
+  - vector search
+  - embedding models
+  - Flag Embedding
+  - OpenAI Ada
+  - quantized embedding model
+---
 # FastEmbed
 
 In the ever-changing landscape of Data Science and Machine Learning, practitioners often find themselves navigating through a labyrinth of models, libraries, and frameworks. Among the plethora of choices, the need for a specialized, efficient, and easy-to-implement solution for embedding generation is increasingly evident. This is where FastEmbed (docs: [https://qdrant.github.io/fastembed/](https://qdrant.github.io/fastembed/)) comes into play—a Python library engineered for speed, efficiency, and above all, usability.
@@ -69,21 +87,14 @@ Suggested Illustration: Graphical for computational efficiency and accuracy metr
 
 ## Key Features
 
-
 ### Computational Efficiency
 
-ONNX Runtime: Examine how FastEmbed leverages ONNX Runtime for inference
+FastEmbed is fast because of a lot of small things we've taken care of for you:
 
-Resource Utilization: Analyze the resource footprint and computational benefits arising from the lightweight nature of FastEmbed.
-
-
-
-<p id="gdcalert1" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image1.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert2">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
+1. **Quantized Models**: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our models are so small, you can run this in AWS Lambda if you'd like!
+2. **1.5x Throughput**: This is the fastest CPU model which beats OpenAI Embedding model as well. And we do so while being 1.5x faster than the Open Source implementation. 
 
 ![alt_text](images/image1.png "image_tooltip")
-
-
 
 ### Retaining Accuracy and Recall
 
@@ -91,7 +102,7 @@ We support quantized models for State of the Art Embedding models e.g. those fro
 
 How do we measure this? The cosine similarity between the Transformers/PyTorch implementation and our quantized model is 0.999999. 
 
-We strongly recommend that you pin the FastEmbed version in your usage to a specific version, since the DefaultEmbedding will also be continuously updated to give a strong speed vs accuracy balance.
+**No decision fatigue: The DefaultEmbedding model will always be the best Open Source model for English. And if this changes, we'll make a new minor version release e.g. 0.0.6 to 0.1. We strongly recommend that you pin the FastEmbed version in your usage to a specific version.
 
 
 ### Comparison Against OpenAI
@@ -99,8 +110,6 @@ We strongly recommend that you pin the FastEmbed version in your usage to a spec
 For retrieval, FastEmbed does almost 3% better than OpenAI. We're also faster because there is no network latency, using smaller models which are then quantized. 
 
 On every metric that you care about: speed, accuracy and ease of use – we do better and intend to continue to do so!
-
-
 
 <p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
