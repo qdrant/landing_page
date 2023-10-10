@@ -846,12 +846,12 @@ Can be applied to [float](../payload/#float) and [integer](../payload/#integer) 
   "key": "location",
   "geo_bounding_box": {
     "bottom_right": {
-      "lat": 52.495862,
-      "lon": 13.455868
+      "lon": 13.455868,
+      "lat": 52.495862
     },
     "top_left": {
-      "lat": 52.520711,
-      "lon": 13.403683
+      "lon": 13.403683,
+      "lat": 52.520711
     }
   }
 }
@@ -862,12 +862,12 @@ models.FieldCondition(
     key="location",
     geo_bounding_box=models.GeoBoundingBox(
         bottom_right=models.GeoPoint(
-            lat=52.495862,
             lon=13.455868,
+            lat=52.495862,
         ),
         top_left=models.GeoPoint(
-            lat=52.520711,
             lon=13.403683,
+            lat=52.520711,
         ),
     ),
 )
@@ -882,8 +882,8 @@ It matches with `location`s inside a rectangle with the coordinates of the upper
   "key": "location",
   "geo_radius": {
     "center": {
-      "lat": 52.520711,
-      "lon": 13.403683
+      "lon": 13.403683,
+      "lat": 52.520711
     },
     "radius": 1000.0
   }
@@ -895,8 +895,8 @@ models.FieldCondition(
     key="location",
     geo_radius=models.GeoRadius(
         center=models.GeoPoint(
-            lat=52.520711,
             lon=13.403683,
+            lat=52.520711,
         ),
         radius=1000.0,
     ),
@@ -906,6 +906,105 @@ models.FieldCondition(
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
 
 If several values are stored, at least one of them should match the condition.
+These conditions can only be applied to payloads that match the [geo-data format](../payload/#geo).
+
+#### Geo Polygon
+Geo Polygons search is useful for when you want to find points inside an irregularly shaped area, for example a country boundary or a forest boundary. A polygon always has an exterior ring and may optionally include interior rings. A lake with an island would be an example of an interior ring. If you wanted to find points in the water but not on the island, you would make an interior ring for the island. 
+
+When defining a ring, you must pick either a clockwise or counterclockwise ordering for your points.  The first and last point of the polygon must be the same. 
+
+Currently, we only support unprojected global coordinates (decimal degrees longitude and latitude) and we are datum agnostic.
+
+```json
+
+{
+  "key": "location",
+  "geo_polygon": {
+    "exterior": {
+      "points": [
+        { "lon": -70.0, "lat": -70.0 },
+        { "lon": 60.0, "lat": -70.0 },
+        { "lon": 60.0, "lat": 60.0 },
+        { "lon": -70.0, "lat": 60.0 },
+        { "lon": -70.0, "lat": -70.0 }
+      ]
+    },
+    "interiors": [
+      {
+        "points": [
+          { "lon": -65.0, "lat": -65.0 },
+          { "lon": 0.0, "lat": -65.0 },
+          { "lon": 0.0, "lat": 0.0 },
+          { "lon": -65.0, "lat": 0.0 },
+          { "lon": -65.0, "lat": -65.0 }
+        ]
+      }
+    ]
+  }
+}
+```
+
+```python
+models.FieldCondition(
+    key="location",
+    geo_polygon=models.GeoPolygon(
+        exterior=models.GeoLineString(
+            points=[
+                models.GeoPoint(
+                        lon=-70.0,
+                        lat=-70.0,
+                ),
+                models.GeoPoint(
+                        lon=60.0,
+                        lat=-70.0,
+                ),
+                models.GeoPoint(
+                        lon=60.0,
+                        lat=60.0,
+                ),
+                models.GeoPoint(
+                        lon=-70.0,
+                        lat=60.0,
+                ),
+                models.GeoPoint(
+                        lon=-70.0,
+                        lat=-70.0,
+                )
+            ]
+        ),
+        interiors=[
+            models.GeoLineString(
+                points=[
+                    models.GeoPoint(
+                            lon=-65.0,
+                            lat=-65.0,
+                    ),
+                    models.GeoPoint(
+                            lon=0.0,
+                            lat=-65.0,
+                    ),
+                    models.GeoPoint(
+                            lon=0.0,
+                            lat=0.0,
+                    ),
+                    models.GeoPoint(
+                            lon=-65.0,
+                            lat=0.0,
+                    ),
+                    models.GeoPoint(
+                            lon=-65.0,
+                            lat=-65.0,
+                    )
+                ]
+            )
+        ]
+    )
+)
+```
+
+A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
+
+If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset. 
 These conditions can only be applied to payloads that match the [geo-data format](../payload/#geo).
 
 ### Values count
