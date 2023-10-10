@@ -5,7 +5,7 @@ description: A Summary of my work and experience at Qdrant's Gsoc '23.
 preview_dir: /articles_data/geo-polygon-filter-gsoc/preview
 small_preview_image: /articles_data/geo-polygon-filter-gsoc/icon.svg
 social_preview_image: /articles_data/geo-polygon-filter-gsoc/preview/social_preview.jpg
-weight: -20
+weight: -50
 author: Zein Wen
 author_link: https://www.linkedin.com/in/zishenwen/
 date: 2023-10-06T08:00:00+03:00
@@ -22,7 +22,7 @@ keywords:
 
 ## Introduction
 
-Greetings, I'm Zein Wen, and I was a Google Summer of Code 2023 participant at Qdrant. I got to work with an amazing mentor, Arnaud Groulay, on enhancing the Qdrant Geo Polygon Filter.. This new feature allows users to refine their query results using polygons. As the latest addition to the Geo Filter family of radius and rectangle filters, this enhancement promises greater flexibility in querying geo data, unlocking interesting new use cases.
+Greetings, I'm Zein Wen, and I was a Google Summer of Code 2023 participant at Qdrant. I got to work with an amazing mentor, Arnaud Gourlay, on enhancing the Qdrant Geo Polygon Filter. This new feature allows users to refine their query results using polygons. As the latest addition to the Geo Filter family of radius and rectangle filters, this enhancement promises greater flexibility in querying geo data, unlocking interesting new use cases.
 
 ## Project Overview
 
