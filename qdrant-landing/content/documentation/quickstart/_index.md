@@ -3,6 +3,7 @@ title: Quickstart
 weight: 11
 aliases:
   - quick_start
+  - quick-start
 ---
 # Quickstart
 
