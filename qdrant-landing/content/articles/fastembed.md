@@ -18,7 +18,7 @@ keywords:
 ---
 # FastEmbed
 
-In the ever-changing landscape of Data Science and Machine Learning, practitioners often find themselves navigating through a labyrinth of models, libraries, and frameworks. Among the plethora of choices, the need for a specialized, efficient, and easy-to-implement solution for embedding generation is increasingly evident. This is where FastEmbed (docs: [https://qdrant.github.io/fastembed/](https://qdrant.github.io/fastembed/)) comes into play—a Python library engineered for speed, efficiency, and above all, usability.
+In the ever-changing landscape of Data Science and Machine Learning, practitioners often find themselves navigating through a labyrinth of models, libraries, and frameworks. Among the plethora of choices, the need for a specialized, efficient, and easy-to-implement solution for embedding generation is increasingly evident. This is where FastEmbed (docs: [https://qdrant.github.io/fastembed/](https://qdrant.github.io/fastembed/?utm_source=twitter&utm_medium=social&utm_campaign=fastembed&utm_term=fastembed)) comes into play—a Python library engineered for speed, efficiency, and above all, usability.
 
 
 ### Problem Statement
@@ -111,19 +111,11 @@ For retrieval, FastEmbed does almost 3% better than OpenAI. We're also faster be
 
 On every metric that you care about: speed, accuracy and ease of use – we do better and intend to continue to do so!
 
-<p id="gdcalert2" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image2.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert3">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image2.png "image_tooltip")
-
-
+![3% better Retrieval Average on MTEB](images/image2.png "Why do you use OpenAI Ada for Embedding?")
 
 ### Light
 
-FastEmbed sets itself apart by maintaining a lightweight footprint. It's designed to be agile and fast, a critical feature for businesses looking to integrate text embedding solutions without the cumbersome overhead typically associated with such libraries. \
- \
-For FastEmbed, the list of dependencies is refreshingly brief:
-
+FastEmbed sets itself apart by maintaining a lightweight footprint. It's designed to be agile and fast, a critical feature for businesses looking to integrate text embedding solutions without the cumbersome overhead typically associated with such libraries. For FastEmbed, the list of dependencies is refreshingly brief:
 
 
 * onnx: Version ^1.11 – We'll try to drop this also in the future if we can!
@@ -303,12 +295,7 @@ client.add(
 
 Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generate ids if they're missing and then adding them to the index with metadata. 
 
-
-
-<p id="gdcalert3" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image3.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert4">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image3.png "image_tooltip")
+![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](images/image3.png "Sequence Diagram for Qdrant and FastEmbed")
 
 
 ### Performing Queries
@@ -331,12 +318,7 @@ print(search_result)
 
 Behind the scenes, we first convert the `query_text` to the embedding and use that to query the vector index. 
 
-
-
-<p id="gdcalert4" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image4.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert5">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image4.png "image_tooltip")
+![QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration](images/image4.png "Sequence Diagram for Qdrant and FastEmbed integration")
 
 
 By following these steps, you effectively utilize the combined capabilities of FastEmbed and Qdrant, thereby streamlining your embedding generation and retrieval tasks. 
@@ -350,7 +332,7 @@ seamlessly while maintaining low latency.
 
 FastEmbed is a continually evolving platform that thrives on community contributions. 
 
-If the utility of this library resonates with your organizational needs, please consider [starring the repository](https://github.com/qdrant/fastembed) as a sign of support and to stay abreast of our ongoing enhancements. 
+If the utility of this library resonates with your organizational needs, please consider [starring the repository](https://github.com/qdrant/fastembed?utm_source=twitter&utm_medium=website&utm_campaign=fastembed) as a sign of support and to stay abreast of our ongoing enhancements. 
 
 If you'd like to request specific models or features, please consider opening an issue: [https://github.com/qdrant/fastembed/issues](https://github.com/qdrant/fastembed/issues) — that is what we use when starting our prioritization!
 
@@ -362,5 +344,5 @@ Here, we've dissected the multitude of advantages that come from integrating Fas
 The evidence is clear: FastEmbed's computational efficiency and accuracy are second to none, thanks to its quantized models and ONNX Runtime. When coupled with Qdrant's enterprise-grade vector storage capabilities, organizations can achieve an unprecedented level of performance, scalability, and operational excellence.
 
 We invite you to experience the operational advantages of FastEmbed and Qdrant first-hand. Your organization can quickly capitalize on this integration through two simple options:
-1. Activate your Cloud trial today: [https://cloud.qdrant.io](https://cloud.qdrant.io) 
-2. Download our docker container for instant deployment: [https://qdrant.tech/documentation/quick-start/](https://qdrant.tech/documentation/quick-start/)
+1. Activate your Cloud trial today: [https://cloud.qdrant.io](https://cloud.qdrant.io?utm_source=twitter&utm_medium=website&utm_campaign=fastembed) 
+2. Download our docker container for instant deployment: [https://qdrant.tech/documentation/quick-start/](https://qdrant.tech/documentation/quick-start/?utm_source=twitter&utm_medium=website&utm_campaign=fastembed)
