@@ -29,21 +29,16 @@ some limitations. First of all, it was required to pass both positive and negati
 existing points. If you wanted to use a vector embedding directly, you had to either create a new point in a collection,
 or mimic the behaviour of the Recommendation API by using the [Search API](https://qdrant.tech/documentation/concepts/search/#search-api).
 Moreover, in the previous releases of Qdrant, you were always asked to provide at least one positive example. That was caused 
-by the algorithm used to combine multiple samples into a single query vector. Up till now that mechanism was based on the 
-averages of positive and negative examples and was calculated with the following formula:
-
-```
-average_vector = avg(positive_vectors) + ( avg(positive_vectors) - avg(negative_vectors) )
-```
-
-It was a simple, yet effective approach. However, if the only information you had was that your user dislikes some items,
-you couldn't use it directly.
+by the algorithm used to combine multiple samples into a single query vector. It was a simple, yet effective approach. However, 
+if the only information you had was that your user dislikes some items, you couldn't use it directly.
 
 Qdrant 1.6 brings a more flexible API. Right now, you can provide both ids and vectors of positive and negative
 examples. You can even combine them within a single request. That makes the new implementation backward compatible,
 so you can easily upgrade an existing Qdrant instance without any changes in your code. And the default behaviour
 of the API is still the same as before. However, we extended the API, so **you can now choose the strategy of how
 to find the recommended points**.
+
+TODO: add an example of a new API request
 
 ## Recommendations` strategy
 
@@ -59,6 +54,8 @@ present in the layer below, so it's possible to switch to lower one at any time.
 layer would be the airline hubs, well-connected but with big distances between the airports. Local airports, along with 
 railways and buses, build the middle layers with way higher density and smaller distances. Eventually, our bottom layer 
 consists of local means of transport, which is the densest and has the smallest distances between the points.
+
+TODO: add a map with some connections between places
 
 When you travel, you don't have to check all the possible connections. You select an intercontinental flight, then a local
 one, and finally a bus or a taxi. All the decisions are made by distance between the points. The search process in HNSW is 
@@ -76,18 +73,17 @@ distance, but Qdrant 1.6 exposes two strategies for the recommendation API.
 
 ### Average vector
 
-The default one, called `average_vector` is the old one, based on the average of positive and negative examples. 
-It simplifies the process of recommendations and converts it into a single vector search. Now it supports both 
-point IDs and vectors as parameters, so you can, for example, recommend some items based on the past interactions 
-with existing points, and also incorporate the query vector which is not a part of the collection. 
+The default one, called `average_vector` is the old one, based on the average of positive and negative examples. It simplifies 
+the process of recommendations and converts it into a single vector search. Now it supports both point IDs and vectors as 
+parameters, so you can, for example, recommend some items based on the past interactions with existing points, and also 
+incorporate the query vector which is not a part of the collection. Internally, that mechanism is based on the averages of 
+positive and negative examples and was calculated with the following formula:
 
-TODO: add example of calling with IDs and vectors mixed
+```
+average_vector = avg(positive_vectors) + ( avg(positive_vectors) - avg(negative_vectors) )
+```
 
-TODO: image with different books/movies and external query
-
-The process of finding the best matches is pretty straightforward. Qdrant operates on HNSW graph and traverse it to find the 
-closest entries in the vector space by calculating the distance of the query to all the visited points. The best matches are 
-these which return the best distance to the query.
+The `average_vector` converts the problem of recommendations into a single vector search.
 
 ### Best score
 
