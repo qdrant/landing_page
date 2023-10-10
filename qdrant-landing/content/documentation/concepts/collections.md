@@ -484,7 +484,7 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient("localhost", port=6333)
 
-client.list_collection_aliases(
+client.get_collection_aliases(
   collection_name="{collection_name}"
 )
 ```
