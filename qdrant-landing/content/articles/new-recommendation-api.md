@@ -47,7 +47,32 @@ to find the recommended points**.
 
 ## Recommendations` strategy
 
-Currently, we expose two strategies for the recommendation API. 
+Assume you want to travel to a small city at another continent. You start from your hometown, take a taxi to the local 
+airport, and then a flight to one of the closest hubs. From there you have to take another flight to the hub at your 
+destination continent, and hopefully the last one to the airport of the city you want to visit. Finally, you still need 
+to choose some local transport to get to your final address. The transport network is somehow similar to the HNSW graph, 
+a structure used in Qdrant to implement the approximate nearest neighbours search. HNSW is a multilayer graph of vectors, 
+with connections based on vector proximity. The top layer has the least points and the distances between those points are 
+the biggest. The deeper we go, the more points we have and the distances are getting smaller. The graph is built in a way 
+that the points are connected to their closest neighbours at every layer. All the points from a particular layer are also 
+present in the layer below, so it's possible to switch to lower one at any time. In case of transport networks, the top 
+layer would be the airline hubs, well-connected but with big distances between the airports. Local airports, along with 
+railways and buses, build the middle layers with way higher density and smaller distances. Eventually, our bottom layer 
+consists of local means of transport, which is the densest and has the smallest distances between the points.
+
+When you travel, you don't have to check all the possible connections. You select an intercontinental flight, then a local
+one, and finally a bus or a taxi. All the decisions are made by distance between the points. The search process in HNSW is 
+also based on traversing the graph in a similar manner. We start from the entrypoint in the top layer, find the closest point 
+here, and move to the same point, but in the next layer. This process repeats until we reach the bottom layer. Visited points 
+are kept in the memory, along with the distances to the query vector. If none of the neighbours of the current point is better 
+than the best match, we can stop the traversal, as this is a local minimum. We start from zoom out, and then gradually zoom in.
+
+In this oversimplified example, we assumed that the distance between the points is the only factor that matters. In reality,
+we might want to take into account other criteria, such as the price of the ticket, or just have to avoid some specific 
+locations due to certain restrictions. That means, there are various strategies of how to choose the best match, which is also
+true in the case of vector recommendations. We can use different approaches to choosing the path of traversing the HNSW graph 
+by changing the way of how we calculate the score of a candidate point during traversal. The default behaviour is based on pure 
+distance, but Qdrant 1.6 exposes two strategies for the recommendation API. 
 
 ### Average vector
 
@@ -56,30 +81,26 @@ It simplifies the process of recommendations and converts it into a single vecto
 point IDs and vectors as parameters, so you can, for example, recommend some items based on the past interactions 
 with existing points, and also incorporate the query vector which is not a part of the collection. 
 
+TODO: add example of calling with IDs and vectors mixed
+
 TODO: image with different books/movies and external query
 
-The process of finding the best matches is pretty straightforward. Qdrant operates on HNSW graph and traverse it 
-to find the closest entries in the vector space. In a nutshell, the algorithm compares the query vector to the points 
-visited during the traversal and chooses those which are the closest to it, in terms of the selected similarity function. 
-The best matches are these which return the best distance to the query.
-
-TODO: image with HNSW graph and query vector
-
-If you want to know more about the internals of HNSW, you can check out the article about the 
-[Filtrable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) that covers the topic thoroughly. 
+The process of finding the best matches is pretty straightforward. Qdrant operates on HNSW graph and traverse it to find the 
+closest entries in the vector space by calculating the distance of the query to all the visited points. The best matches are 
+these which return the best distance to the query.
 
 ### Best score
 
-The second strategy is called `best_score`. It does not rely on averages and is more flexible. It allows you to
-pass just the negative samples, and has a slightly more sophisticated algorithm under the hood. 
+The second strategy is called `best_score`. It does not rely on averages and is more flexible. It allows you to pass just the 
+negative samples, and has a slightly more sophisticated algorithm under the hood. 
 
-The best score is chosen at every step of HNSW graph traversal. In the average vector strategy, we were selecting 
-the points most similar to the query vector in terms of the distance function. In case of the best score strategy, 
-**there is no single query vector anymore, but a bunch of positive and negative queries**. Thus, we calculate the distance 
-between a traversed point to every positive and negative example first. As a result we have a set of distances, one for 
-each sample. In the next step we simply take the best scores for positives and negatives, so now we have two values. 
-We want to penalize being close to the negatives, so instead of using the similarity value directly, we check if it's 
-closer to positive or negatives. The following formula is used to calculate the score of a traversed point:
+The best score is chosen at every step of HNSW graph traversal. In the average vector strategy, we were selecting the points 
+most similar to the query vector in terms of the distance function. In case of the best score strategy, **there is no single 
+query vector anymore, but a bunch of positive and negative queries**. Thus, we calculate the distance between a traversed point 
+to every positive and negative example first. As a result we have a set of distances, one for each sample. In the next step we 
+simply take the best scores for positives and negatives, so now we have two values. We want to penalize being close to the 
+negatives, so instead of using the similarity value directly, we check if it's closer to positive or negatives. The following 
+formula is used to calculate the score of a traversed point:
 
 ```rust
 if best_positive_score > best_negative_score {
@@ -89,9 +110,26 @@ if best_positive_score > best_negative_score {
 }
 ```
 
-If the point is closer to negatives, we penalize it by taking the negative squared value of the best negative score.
-In this case, the score of the candidate point is always going to be lower than zero, making the chances of choosing
-that point significantly lower. However, if there are only points with best negative score higher than the best 
-positive score, we still prefer those which are further away from the negatives.
+If the point is closer to negatives, we penalize it by taking the negative squared value of the best negative score. In such 
+a case, the score of the candidate point is always going to be lower or equal to zero, making the chances of choosing that point 
+significantly lower. However, if there are only points with best negative score higher than the best positive score, we still 
+prefer those which are further away from the negatives. **That procedure effectively repels the traversal from the negative 
+examples.**
 
-TODO: food discovery demo
+If you want to know more about the internals of HNSW, you can check out the article about the 
+[Filtrable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) that covers the topic thoroughly.
+
+## Food Discovery demo
+
+Our [Food Discovery demo](https://qdrant.tech/articles/food-discovery-demo/) is an application built mainly on top of the 
+[Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api). It allows you to find the meal 
+based on the liked and disliked photos. There are some updates, enabled by the new Qdrant release:
+
+* **Ability to include multiple textual queries in the recommendation request.** Previously we only allowed passing a single
+  query to solve the cold start problem. Right now, you can pass multiple queries and mix them with the liked/disliked photos.
+  This became possible, because we can pass both point ids and embedding vectors in the same request, and user queries are
+  obviously not a part of the collection.
+* **Switch between the recommendation strategies.** You can now choose between the average vector and best score (new algorithm).
+  This clearly shows the difference between the two approaches.
+
+TBC
