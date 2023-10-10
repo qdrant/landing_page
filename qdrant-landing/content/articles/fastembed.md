@@ -1,5 +1,5 @@
 ---
-title: "FastEmbed: 2x faster Embeddings"
+title: "FastEmbed: 2x Faster Embeddings better than OpenAI"
 short_description: "FastEmbed is a Python library engineered for speed, efficiency, and above all, usability."
 description: "FastEmbed is a Python library engineered for speed, efficiency, and accuracy. It's more accurate than OpenAI and 1.5x faster than the PyTorch implementation with fewer dependencies"
 social_preview_image: /articles_data/fastembed/social_preview.png
@@ -16,7 +16,6 @@ keywords:
   - OpenAI Ada
   - quantized embedding model
 ---
-# FastEmbed
 
 In the ever-changing landscape of Data Science and Machine Learning, practitioners often find themselves navigating through a labyrinth of models, libraries, and frameworks. Among the plethora of choices, the need for a specialized, efficient, and easy-to-implement solution for embedding generation is increasingly evident. This is where FastEmbed (docs: [https://qdrant.github.io/fastembed/](https://qdrant.github.io/fastembed/?utm_source=twitter&utm_medium=social&utm_campaign=fastembed&utm_term=fastembed)) comes into play—a Python library engineered for speed, efficiency, and above all, usability.
 
@@ -94,7 +93,7 @@ FastEmbed is fast because of a lot of small things we've taken care of for you:
 1. **Quantized Models**: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our models are so small, you can run this in AWS Lambda if you'd like!
 2. **1.5x Throughput**: This is the fastest CPU model which beats OpenAI Embedding model as well. And we do so while being 1.5x faster than the Open Source implementation. 
 
-![alt_text](images/image1.png "image_tooltip")
+![](images/image1.png "image_tooltip")
 
 ### Retaining Accuracy and Recall
 
