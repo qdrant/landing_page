@@ -1,8 +1,8 @@
 ---
 title: New Recommendation API
-short_description: TBD
-description: TBD
-social_preview_image: /articles_data/new-recommendation-api/preview/social_preview.png
+short_description: Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API.
+description: Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API.
+social_preview_image: /articles_data/new-recommendation-api/preview/social_preview.jpg
 small_preview_image: /articles_data/new-recommendation-api/icon.svg
 weight: -60
 author: Kacper Łukawski
@@ -69,12 +69,13 @@ a structure used in Qdrant to implement the approximate nearest neighbours searc
 with connections based on vector proximity. The top layer has the least points and the distances between those points are 
 the biggest. The deeper we go, the more points we have and the distances are getting smaller. The graph is built in a way 
 that the points are connected to their closest neighbours at every layer. All the points from a particular layer are also 
-present in the layer below, so it's possible to switch to lower one at any time. In case of transport networks, the top 
-layer would be the airline hubs, well-connected but with big distances between the airports. Local airports, along with 
-railways and buses, build the middle layers with way higher density and smaller distances. Eventually, our bottom layer 
-consists of local means of transport, which is the densest and has the smallest distances between the points.
+present in the layer below, so it's possible to switch the search space, while staying in the same locations. In case of 
+transport networks, the top layer would be the airline hubs, well-connected but with big distances between the airports. 
+Local airports, along with railways and buses, build the middle layers with way higher density and smaller distances. 
+Eventually, our bottom layer consists of local means of transport, which is the densest and has the smallest distances 
+between the points.
 
-TODO: add a map with some connections between places
+![Transport network](/articles_data/new-recommendation-api/example-transport-network.png)
 
 When you travel, you don't have to check all the possible connections. You select an intercontinental flight, then a local
 one, and finally a bus or a taxi. All the decisions are made by distance between the points. The search process in HNSW is 
