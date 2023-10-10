@@ -93,7 +93,7 @@ FastEmbed is fast because of a lot of small things we've taken care of for you:
 1. **Quantized Models**: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our models are so small, you can run this in AWS Lambda if you'd like!
 2. **1.5x Throughput**: This is the fastest CPU model which beats OpenAI Embedding model as well. And we do so while being 1.5x faster than the Open Source implementation. 
 
-![](/articles_data/fastembed/image1.png "FastEmbed is 1.5x faster than the PyTorch implementation")
+![](/articles_data/fastembed/image4.png "FastEmbed is 1.5x faster than the PyTorch implementation")
 
 ### Retaining Accuracy and Recall
 
@@ -155,7 +155,6 @@ documents: List[str] = [
     "passage: This is an example passage.",
     "fastembed is supported by and maintained by Qdrant."
 ]
-
 ```
 
 In this list called `documents`, we define four text strings that we want to convert into embeddings.
@@ -230,7 +229,6 @@ client = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
 Once the client is initialized, prepare the text documents you wish to embed, along with any associated metadata and unique IDs:
 
 ```python
-
 docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integrations"]
 
 metadata = [
@@ -252,24 +250,17 @@ docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integr
 With your documents, metadata, and IDs ready, you can proceed to add these to a specified collection within Qdrant using the `add` method:
 
 ```python
-
 client.add(
-
     collection_name="demo_collection",
-
     documents=docs,
-
     metadata=metadata,
-
     ids=ids
-
 )
-
 ```
 
 Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generate ids if they're missing and then adding them to the index with metadata. 
 
-![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](/articles_data/fastembed/image3.png "Sequence Diagram for Qdrant and FastEmbed")
+![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](/articles_data/fastembed/image2.png "Sequence Diagram for Qdrant and FastEmbed")
 
 
 ### Performing Queries
@@ -277,29 +268,22 @@ Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generat
 Finally, you can perform queries on your stored documents. Qdrant offers a robust querying capability, and the query results can be easily retrieved as follows:
 
 ```python
-
 search_result = client.query(
-
     collection_name="demo_collection",
-
     query_text="This is a query document"
-
 )
 
 print(search_result)
-
 ```
 
 Behind the scenes, we first convert the `query_text` to the embedding and use that to query the vector index. 
 
-![QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration](/articles_data/fastembed/image4.png "Sequence Diagram for Qdrant and FastEmbed integration")
+![QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration](/articles_data/fastembed/image3.png "Sequence Diagram for Qdrant and FastEmbed integration")
 
 
 By following these steps, you effectively utilize the combined capabilities of FastEmbed and Qdrant, thereby streamlining your embedding generation and retrieval tasks. 
 
-Qdrant is designed to handle large-scale datasets with billions of data points. Its architecture employs techniques like binary and scalar quantization for efficient storage and retrieval. When you inject FastEmbed's CPU-first design and lightweight nature into this equation, you end up with a system that can scale 
-
-seamlessly while maintaining low latency.
+Qdrant is designed to handle large-scale datasets with billions of data points. Its architecture employs techniques like binary and scalar quantization for efficient storage and retrieval. When you inject FastEmbed's CPU-first design and lightweight nature into this equation, you end up with a system that can scale seamlessly while maintaining low latency.
 
 
 ## Open Source Contributions and Support
