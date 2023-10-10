@@ -93,7 +93,7 @@ FastEmbed is fast because of a lot of small things we've taken care of for you:
 1. **Quantized Models**: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our models are so small, you can run this in AWS Lambda if you'd like!
 2. **1.5x Throughput**: This is the fastest CPU model which beats OpenAI Embedding model as well. And we do so while being 1.5x faster than the Open Source implementation. 
 
-![](images/image1.png "image_tooltip")
+![](/articles_data/fastembed/image1.png "FastEmbed is 1.5x faster than the PyTorch implementation")
 
 ### Retaining Accuracy and Recall
 
@@ -110,7 +110,7 @@ For retrieval, FastEmbed does almost 3% better than OpenAI. We're also faster be
 
 On every metric that you care about: speed, accuracy and ease of use – we do better and intend to continue to do so!
 
-![3% better Retrieval Average on MTEB](images/image2.png "Why do you use OpenAI Ada for Embedding?")
+![3% better Retrieval Average on MTEB](/articles_data/fastembed/image2.png "Why do you use OpenAI Ada for Embedding?")
 
 ### Light
 
@@ -143,25 +143,17 @@ Understanding the nuances of code is crucial for leveraging the full capabilitie
 Let's delve into this example code snippet line-by-line:
 
 ```python
-
 from fastembed.embedding import FlagEmbedding as Embedding
-
 ```
 
 Here, we import the `FlagEmbedding` class from FastEmbed and alias it as `Embedding`. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as `DefaultEmbedding` which is `BAAI/bge-small-en`
 
 ```python
-
 documents: List[str] = [
-
     "passage: Hello, World!",
-
     "query: Hello, World!",
-
     "passage: This is an example passage.",
-
     "fastembed is supported by and maintained by Qdrant."
-
 ]
 
 ```
@@ -181,9 +173,7 @@ The use of text prefixes like "query" and "passage" isn't merely syntactic sugar
 Next, we initialize the `Embedding` model with the model name "BAAI/bge-base-en" and specify a maximum token length of 512.
 
 ```python
-
 embedding_model = Embedding(model_name="BAAI/bge-base-en", max_length=512)
-
 ```
 
 This model strikes a balance between speed and accuracy, ideal for real-world applications.
@@ -192,9 +182,7 @@ This model strikes a balance between speed and accuracy, ideal for real-world ap
 #### Output Structure
 
 ```python
-
 embeddings: List[np.ndarray] = list(embedding_model.embed(documents))
-
 ```
 
 Finally, we call the `embed()` method on our `embedding_model` object, passing in the `documents` list. The method returns a Python generator, so we convert it to a list to get all the embeddings. These embeddings are NumPy arrays, optimized for fast mathematical operations.
@@ -217,17 +205,13 @@ Below is a detailed guide on how to get started with FastEmbed in conjunction wi
 Before diving into the code, the initial step involves installing the Qdrant Client along with the FastEmbed library. This can be done using pip:
 
 ```bash
-
 pip install qdrant-client[fastembed]
-
 ```
 
 For those using zsh as their shell, you might encounter syntax issues. In such cases, wrap the package name in quotes:
 
 ```bash
-
 pip install 'qdrant-client[fastembed]'
-
 ```
 
 ### Initializing the Qdrant Client
@@ -235,13 +219,10 @@ pip install 'qdrant-client[fastembed]'
 After successful installation, the next step involves initializing the Qdrant Client. This can be done either in-memory or by specifying a database path:
 
 ```python
-
 from qdrant_client import QdrantClient
 
 # Initialize the client
-
 client = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
-
 ```
 
 ### Preparing Documents, Metadata, and IDs
@@ -253,23 +234,17 @@ Once the client is initialized, prepare the text documents you wish to embed, al
 docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integrations"]
 
 metadata = [
-
     {"source": "Langchain-docs"},
-
     {"source": "LlamaIndex-docs"},
-
 ]
 
 ids = [42, 2]
-
 ```
 
 Note that the `add` method we'll use is overloaded: If you skip the `ids`, we'll generate those for you. `metadata` is obviously optional. So, you can simply use this too: 
 
 ```python
-
 docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integrations"]
-
 ```
 
 ### Adding Documents to a Collection
@@ -294,7 +269,7 @@ client.add(
 
 Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generate ids if they're missing and then adding them to the index with metadata. 
 
-![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](images/image3.png "Sequence Diagram for Qdrant and FastEmbed")
+![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](/articles_data/fastembed/image3.png "Sequence Diagram for Qdrant and FastEmbed")
 
 
 ### Performing Queries
@@ -317,7 +292,7 @@ print(search_result)
 
 Behind the scenes, we first convert the `query_text` to the embedding and use that to query the vector index. 
 
-![QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration](images/image4.png "Sequence Diagram for Qdrant and FastEmbed integration")
+![QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration](/articles_data/fastembed/image4.png "Sequence Diagram for Qdrant and FastEmbed integration")
 
 
 By following these steps, you effectively utilize the combined capabilities of FastEmbed and Qdrant, thereby streamlining your embedding generation and retrieval tasks. 
