@@ -110,7 +110,7 @@ For retrieval, FastEmbed does almost 3% better than OpenAI. We're also faster be
 
 On every metric that you care about: speed, accuracy and ease of use – we do better and intend to continue to do so!
 
-![3% better Retrieval Average on MTEB](/articles_data/fastembed/image2.png "Why do you use OpenAI Ada for Embedding?")
+![3% better Retrieval Average on MTEB](/articles_data/fastembed/image1.png "Why do you use OpenAI Ada for Embedding?")
 
 ### Light
 
