@@ -28,7 +28,9 @@ docker run -p 6333:6333 \
 
 Under the default configuration all data will be stored in the `./qdrant_storage` directory. This will also be the only directory that both the Container and the host machine can both see. 
 
-Qdrant should now be accessible at [localhost:6333](http://localhost:6333)
+Qdrant is now accessible:
+- API: [localhost:6333](http://localhost:6333)
+- Web UI: [localhost:6333/dashboard](http://localhost:6333/dashboard)
 
 ## Initialize the client 
 
