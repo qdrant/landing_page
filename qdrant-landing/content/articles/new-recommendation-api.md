@@ -38,7 +38,26 @@ so you can easily upgrade an existing Qdrant instance without any changes in you
 of the API is still the same as before. However, we extended the API, so **you can now choose the strategy of how
 to find the recommended points**.
 
-TODO: add an example of a new API request
+```http request
+POST /collections/{collection_name}/points/recommend
+
+{
+  "positive": [100, 231],
+  "negative": [718, [0.2, 0.3, 0.4, 0.5]],
+  "filter": {
+        "must": [
+            {
+                "key": "city",
+                "match": {
+                    "value": "London"
+                }
+            }
+        ]
+  },
+  "strategy": "average_vector",
+  "limit": 3
+}
+```
 
 ## Recommendations` strategy
 
