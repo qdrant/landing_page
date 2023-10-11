@@ -65,7 +65,7 @@ Here's a quick overview of the three:
 is a way to measure how similar two things are. Think of it like a ruler that tells you how far 
 apart two points are, but instead of measuring distance, it measures how similar two things 
 are. It's often used with text to compare how similar two documents or sentences are to each 
-other. The output of the cosine similarity ranges from 0 to 1, where 0 means the two things 
+other. The output of the cosine similarity ranges from -1 to 1, where -1 means the two things 
 are completely dissimilar, and 1 means the two things are exactly the same. It's a straightforward 
 and effective way to compare two things!
 - [**Dot Product**](https://en.wikipedia.org/wiki/Dot_product) - The dot product similarity 
