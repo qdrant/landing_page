@@ -8,7 +8,7 @@ social_preview_image: /articles_data/geo-polygon-filter-gsoc/preview/social_prev
 weight: -50
 author: Zein Wen
 author_link: https://www.linkedin.com/in/zishenwen/
-date: 2023-10-06T08:00:00+03:00
+date: 2023-10-12T08:00:00+03:00
 draft: false
 keywords: 
 
