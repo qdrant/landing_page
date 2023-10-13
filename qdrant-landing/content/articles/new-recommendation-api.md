@@ -152,6 +152,17 @@ based on the liked and disliked photos. There are some updates, enabled by the n
 
 ### Differences between the strategies
 
+The UI of the Food Discovery demo allows you to switch between the strategies. The `best_vector` is the default one, but
+with just a single switch you can see how the results differ when using the `average_vector` strategy.
+
+If you select just a single positive example, both algorithms work identically.
+
+<p float="middle">
+  <img src="/articles_data/new-recommendation-api/one-positive-best-score.png" width="640" />
+  <img src="/articles_data/new-recommendation-api/one-positive-average-vector.png" width="640" /> 
+</p>
+
+
 TODO: write and add strategy comparison in different cases
 
 ### Check out the demo
