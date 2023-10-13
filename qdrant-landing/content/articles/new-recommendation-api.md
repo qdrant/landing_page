@@ -157,9 +157,13 @@ with just a single switch you can see how the results differ when using the `ave
 
 If you select just a single positive example, both algorithms work identically.
 
-|                                                                                                                    |                                                                                                                            |
-|--------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-| ![](/articles_data/new-recommendation-api/one-positive-best-score.png "One positive example, best score strategy") | ![](/articles_data/new-recommendation-api/one-positive-average-vector.png "One positive example, average vector strategy") |
+<div class="multi-figures">
+
+{{< figure src="/articles_data/new-recommendation-api/one-positive-best-score.png" lightbox="one-positive" width="47%" >}}
+{{< figure src="/articles_data/new-recommendation-api/one-positive-average-vector.png" lightbox="mnist-samples" width="6%" >}}
+
+</div>
+
 
 TODO: write and add strategy comparison in different cases
 
