@@ -157,12 +157,10 @@ with just a single switch you can see how the results differ when using the `ave
 
 If you select just a single positive example, both algorithms work identically.
 
-<div class="multi-figures">
+[//]: # (All the figures were generated from .png files using ImageMagick: convert -delay 300 -loop 0 one-positive*.png one-positive.gif)
 
-{{< figure src="/articles_data/new-recommendation-api/one-positive-best-score.png" lightbox="one-positive" width="47%" >}}
-{{< figure src="/articles_data/new-recommendation-api/one-positive-average-vector.png" lightbox="mnist-samples" width="6%" >}}
+{{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}}
 
-</div>
 
 
 TODO: write and add strategy comparison in different cases
