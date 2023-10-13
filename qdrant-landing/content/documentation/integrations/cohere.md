@@ -5,7 +5,7 @@ weight: 700
 
 # Cohere
 
-Qdrant is compatible with Cohere [co.embed API](https://docs.cohere.ai/reference/embed) and it's official Python SDK that
+Qdrant is compatible with Cohere [co.embed API](https://docs.cohere.ai/reference/embed) and its official Python SDK that
 might be installed as any other package:
 
 ```bash
