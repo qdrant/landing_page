@@ -161,9 +161,49 @@ If you select just a single positive example, both algorithms work identically.
 
 {{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}}
 
+The different might be seen when you start adding more examples, especially if you choose some negatives. 
 
+{{< figure src="/articles_data/new-recommendation-api/one-positive-one-negative.gif" caption="One positive and one negative example, both strategies" >}}
 
-TODO: write and add strategy comparison in different cases
+The more examples we add, the more diverse the results of the `best_score` strategy will be. In the old strategy, there 
+is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, 
+making the variety richer.
+
+{{< figure src="/articles_data/new-recommendation-api/multiple.gif" caption="Multiple positive and one negative examples, both strategies" >}}
+
+Choosing the right strategy is dataset-dependent, and the embeddings play a significant role here. Thus, it's always worth 
+trying both of them and comparing the results in a particular case.
+
+#### Handling the negatives only
+
+In the case of our Food Discovery demo, passing just the negatives works as an outlier detection mechanism. The dataset 
+was supposed to contain only food photos, but some of them are not. If you pass them as negative examples, the results
+will usually contain just the non-food items. That's a simple way to filter out the outliers.
+
+{{< figure src="/articles_data/new-recommendation-api/negatives-only.gif" caption="Negatives only, both strategies" >}}
+
+Still, both methods return different results, so they are both complementary if the dataset quality is the problem
+you want to solve.
+
+#### Challenges with multimodality
+
+Food Discovery uses CLIP embeddings model, which is a multimodal one. It means images and texts are encoded into the same
+vector space. That allows us to use the same model for both image and text queries. We utilized that mechanism in the
+refreshed demo, so you can also pass the textual queries to filter the results. 
+
+{{< figure src="/articles_data/new-recommendation-api/text-query.gif" caption="A single text query, both strategies" >}}
+
+Text queries might be mixed with the liked and disliked photos, so you can combine them in a single request. However,
+you might be surprised by the results achieved with the new strategy, if you start adding the negative examples. 
+
+{{< figure src="/articles_data/new-recommendation-api/text-query-with-negative.gif" caption="A single text query with negative example, both strategies" >}}
+
+That issue is related to the embeddings themselves. What we have is a bunch of image embeddings which are pretty close
+to each other. Our text queries are, on the other hand, quite far from the image embeddings, but relatively close to 
+some of them, so the text-to-image search generally works. As a result, when all the examples come from the same domain
+everything works fine. However, if we mix positive text and negative image embeddings, the results of the `best_score` 
+are overwhelmed by the negative samples, which are simply closer to the dataset embeddings. If you experience such
+a problem, the `average_vector` strategy might be a better choice.
 
 ### Check out the demo
 
