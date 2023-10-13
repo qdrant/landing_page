@@ -209,7 +209,33 @@ client.search(
 )
 ```
 
-Parameter `with_payload` might also be used to `include` or `exclude` specific fields only:
+The parameter `with_payload` may also be used to scope to or filter out a
+specific payload subset. You can specify an array of items to include. For
+example, to include `city`:
+
+```http
+POST /collections/{collection_name}/points/search
+
+{
+    "vector": [0.2, 0.1, 0.9, 0.7],
+    "with_payload": ["city"]
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.search(
+    collection_name="{collection_name}",
+    query_vector=[0.2, 0.1, 0.9, 0.7],
+    with_payload=["city"],
+)
+```
+
+Or use `include` or `exclude` explicitly. For example, to exclude `city`:
 
 ```http
 POST /collections/{collection_name}/points/search
