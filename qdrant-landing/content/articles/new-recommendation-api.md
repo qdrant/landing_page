@@ -157,11 +157,7 @@ with just a single switch you can see how the results differ when using the `ave
 
 If you select just a single positive example, both algorithms work identically.
 
-<p float="middle">
-  <img src="/articles_data/new-recommendation-api/one-positive-best-score.png" width="640" />
-  <img src="/articles_data/new-recommendation-api/one-positive-average-vector.png" width="640" /> 
-</p>
-
+![](/articles_data/new-recommendation-api/one-positive-best-score.png) ![](/articles_data/new-recommendation-api/one-positive-average-vector.png)
 
 TODO: write and add strategy comparison in different cases
 
