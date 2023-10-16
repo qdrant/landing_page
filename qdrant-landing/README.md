@@ -167,9 +167,9 @@ If `true`, the page will not be shown in the sidebar. It can be used in regular 
 
 ## Customers/Partners Logos
 
-To add a customer logo to the marqee on the main page:
+To add a customer logo to the marquee on the main page:
 
-1.Add a logo to `/qdrant-landing/static/content/images/logos` directory. The logo should be in png format and have a transparent background and with 200px. The color of the logo should be `#B6C0E4`.
+1.Add a logo to `/qdrant-landing/static/content/images/logos` directory. The logo should be in png format and have a transparent background and width 200px. The color of the logo should be `#B6C0E4`.
  
 2. Add a markdown file to `content/stack` directory using next command (replace `customer-name` with the name of the customer):
 
@@ -180,20 +180,14 @@ hugo new --kind customer-logo stack/customer-name.md
 
 Edit the file if needed.
 
-3. If number of slides changed - update `static/css/main.scss` file. Find line:
+3. If total number of slides changed - update `static/css/main.scss` file. Find line:
 
 ```scss
 @include marquee.base(80px, 200px, 13, 6, 20px, false, 50s);
 ```
 
-and change the third parameter to the number of slides.
+and change 13 to the number of logos.
 
-Below is the full list of parameters with default values for `marquee.base` mixin:
+Rebuild css from scss (see instructions [above](#build-css-from-scss)).
 
-```scss
-@mixin base($height, $itemWidth: 200px, $total-marquee-items: 6, $visible-marquee-items: 6, $item-padding: 20px, $pauseOnHover: false, $speed: 25s) {...}
-```
-
-Rebuild css from scss (see instructions above).
-
-4. To change order of the logos - add or change `weight` parameter in the markdown files in `content/stack` directory.
+4. To change order of the logos - add or change `weight` parameter in the markdown files in `/qdrant-landing/content/stack` directory.
