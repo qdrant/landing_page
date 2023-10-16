@@ -1,6 +1,8 @@
+@use "sass:math";
+
 @mixin base($height, $itemWidth: 200px, $total-marquee-items: 6, $visible-marquee-items: 6, $item-padding: 20px, $pauseOnHover: false, $speed: 25s) {
 
-  $inner-width: $total-marquee-items / $visible-marquee-items * 2 * 100%;
+  $inner-width: math.div($total-marquee-items, $visible-marquee-items) * 2 * 100%;
 
   max-width: 100%;
   text-align: center;
@@ -82,12 +84,12 @@
       left: 0;
     }
     100% {
-      left: $inner-width / 2 * -1;
+      left: $inner-width * 0.5 * -1;
     }
   }
   @keyframes marqueeRight {
     0% {
-      left: $inner-width / 2 * -1;
+      left: $inner-width * 0.5 * -1;
     }
     100% {
       left: 0;
