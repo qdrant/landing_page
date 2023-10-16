@@ -169,7 +169,7 @@ If `true`, the page will not be shown in the sidebar. It can be used in regular 
 
 To add a customer logo to the marquee on the main page:
 
-1.Add a logo to `/qdrant-landing/static/content/images/logos` directory. The logo should be in png format and have a transparent background and width 200px. The color of the logo should be `#B6C0E4`.
+1. Add a logo to `/qdrant-landing/static/content/images/logos` directory. The logo should be in png format and have a transparent background and width 200px. The color of the logo should be `#B6C0E4`.
  
 2. Add a markdown file to `content/stack` directory using next command (replace `customer-name` with the name of the customer):
 
