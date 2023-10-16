@@ -162,3 +162,32 @@ hideInSidebar: true
 ```
 
 If `true`, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
+
+# Main Page
+
+## Customers/Partners Logos
+
+To add a customer logo to the marquee on the main page:
+
+1.Add a logo to `/qdrant-landing/static/content/images/logos` directory. The logo should be in png format and have a transparent background and width 200px. The color of the logo should be `#B6C0E4`.
+ 
+2. Add a markdown file to `content/stack` directory using next command (replace `customer-name` with the name of the customer):
+
+``` bash
+cd qdrant-landing
+hugo new --kind customer-logo stack/customer-name.md
+```
+
+Edit the file if needed.
+
+3. If total number of slides changed - update `static/css/main.scss` file. Find line:
+
+```scss
+@include marquee.base(80px, 200px, 13, 6, 20px, false, 50s);
+```
+
+and change 13 to the number of logos.
+
+Rebuild css from scss (see instructions [above](#build-css-from-scss)).
+
+4. To change order of the logos - add or change `weight` parameter in the markdown files in `/qdrant-landing/content/stack` directory.
