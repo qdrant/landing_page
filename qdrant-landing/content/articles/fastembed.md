@@ -85,9 +85,9 @@ We use `BAAI/bge-small-en-v1.5` as our DefaultEmbedding, hence we've chosen that
 
 ## Under the Hood
 
-Quantized Models: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our default model is so small, you can run this in AWS Lambda if you’d like!
+**Quantized Models**: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our default model is so small, you can run this in AWS Lambda if you’d like!
 
-Shout out to Huggingface's Optimum – which made it easier to quantize models.
+Shout out to Huggingface's [Optimum](https://github.com/huggingface/optimum) – which made it easier to quantize models.
 
 **Reduced Installation Time**:
 
@@ -111,7 +111,7 @@ Notably absent from the dependency list are bulky libraries like PyTorch, and th
 
 We’ve started with a small set of supported models:
 
-All the models we support are quantized to enable even faster computation!
+All the models we support are [quantized](https://pytorch.org/docs/stable/quantization.html) to enable even faster computation!
 
 If you're using FastEmbed and you've got ideas or need certain features, feel free to let us know. Just drop an issue on our GitHub page. That's where we look first when we're deciding what to work on next. Here's where you can do it: [FastEmbed GitHub Issues](https://github.com/qdrant/fastembed/issues).
 
@@ -121,7 +121,7 @@ If anything changes, you'll see a new version number pop up, like going from 0.0
 
 ## Usage with Qdrant
 
-Qdrant is a Vector Store, offering a comprehensive, efficient, and scalable solution for modern machine learning and AI applications. Whether you are dealing with billions of data points, require a low latency performant vector solution, or specialized quantization methods – Qdrant is engineered to meet those demands head-on.
+Qdrant is a Vector Store, offering a comprehensive, efficient, and scalable solution for modern machine learning and AI applications. Whether you are dealing with billions of data points, require a low latency performant vector solution, or specialized quantization methods – [Qdrant is engineered](https://qdrant.tech/documentation/overview/) to meet those demands head-on.
 
 The fusion of FastEmbed with Qdrant’s vector store capabilities enables a transparent workflow for seamless embedding generation, storage, and retrieval. This simplifies the API design — while still giving you the flexibility to make significant changes e.g. you can use FastEmbed to make your own embedding other than the DefaultEmbedding and use that with Qdrant.
 
