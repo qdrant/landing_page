@@ -167,17 +167,7 @@ If you select just a single positive example, both algorithms work identically.
 
 [//]: # (All the figures were generated from .png files using ImageMagick: convert -delay 300 -loop 0 one-positive*.png one-positive.gif)
 
-{{< tabs >}}
-
-{{% tab name="average_vector" %}}
-{{< figure src="/articles_data/new-recommendation-api/one-positive-average-vector.png" caption="One positive example, average vector" >}}
-{{% /tab %}}
-
-{{% tab name="best_score" %}}
-{{< figure src="/articles_data/new-recommendation-api/one-positive-best-score.png" caption="One positive example, best score" >}}
-{{% /tab %}}
-
-{{< /tabs >}}
+{{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}}
 
 The difference only becomes apparent when you start adding more examples, especially if you choose some negatives.
 
