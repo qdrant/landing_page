@@ -209,16 +209,16 @@ client.search(
 )
 ```
 
-The parameter `with_payload` may also be used to scope to or filter out a
-specific payload subset. You can specify an array of items to include. For
-example, to include `city`:
+You can use `with_payload` to scope to or filter a specific payload subset. 
+You can even specify an array of items to include, such as `city`, 
+`village`, and `town`:
 
 ```http
 POST /collections/{collection_name}/points/search
 
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
-    "with_payload": ["city"]
+    "with_payload": ["city", "village", "town"]
 }
 ```
 
