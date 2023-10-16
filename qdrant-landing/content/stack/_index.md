@@ -1,5 +1,5 @@
 ---
-title: Trusted by the best companies
-subtitle: Leading companies use Qdrant vector search engine to power their products
+title: Trusted by developers worldwide
+subtitle: Qdrant is powering thousands of innovative AI solutions at leading companies. Engineers are choosing Qdrant for its top performance, high scalability, ease of use, and flexible cost and resource-saving options
 sitemapExclude: True
 ---
