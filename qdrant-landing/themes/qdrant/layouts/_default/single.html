@@ -2,6 +2,10 @@
 
 <article>
     <div class="auto-container mb-5 mt-5">
+        {{ if (eq .Params.type "external-link") }}
+            Redirecting to <a href="{{ .Params.external_url }}">external page</a>...
+            <meta http-equiv="refresh" content="0; url={{ .Params.external_url }}">
+        {{ end }}
         {{ .Content }}
     </div>
 </article>
