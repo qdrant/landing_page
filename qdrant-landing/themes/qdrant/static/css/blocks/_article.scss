@@ -1,5 +1,5 @@
 @use "../helpers/functions" as lib;
-@use "../helpers/mixins" as mixins;
+@use "../mixins/mixins" as mixins;
 
 article aside[role="alert"],
 article aside[role="status"] {
