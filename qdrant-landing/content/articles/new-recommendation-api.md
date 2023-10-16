@@ -1,5 +1,5 @@
 ---
-title: New Recommendation API
+title: Deliver Better Recommendations with Qdrant’s new API
 short_description: Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API.
 description: Qdrant 1.6 brings recommendations strategies and more flexibility to the Recommendation API.
 preview_dir: /articles_data/new-recommendation-api/preview
@@ -11,33 +11,30 @@ author_link: https://medium.com/@lukawskikacper
 date: 2023-10-10T10:12:00.000Z
 ---
 
-Semantic search with a single vector being used as a query is probably the most popular use case for vector 
-search engines, such as Qdrant. Given the query, we can vectorize it and find the closest points in the index. 
-But [Vector Similarity beyond Search](/articles/vector-similarity-beyond-search/) does exist, and recommendation 
-systems are a great example. Recommendations might be seen as a multi-aim search, where we want to find items 
-close to positive and far from negative examples. That has multiple applications, including recommendation systems 
-for e-commerce, content, or even dating apps.
+The most popular use case for vector search engines, such as Qdrant, is Semantic search with a single query vector. Given the 
+query, we can vectorize (embed) it and find the closest points in the index. But [Vector Similarity beyond Search](/articles/vector-similarity-beyond-search/) 
+does exist, and recommendation systems are a great example. Recommendations might be seen as a multi-aim search, where we want 
+to find items close to positive and far from negative examples. This use of vector databases has many applications, including 
+recommendation systems for e-commerce, content, or even dating apps.
 
 Qdrant has provided the [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) 
 for a while, but the previous version had some limitations. The latest release, [Qdrant 1.6](https://github.com/qdrant/qdrant/releases/tag/v1.6.0), 
-gives you some new exciting features, including an extension of the recommendation API, making it more flexible
-and powerful. This article unveils the internals and shows how they may be used in practice.
+gives you some new exciting features, including an extension of the recommendation API, making it more flexible and powerful. 
+This article unveils the internals and shows how they may be used in practice.
 
 ### Recap of the old recommendations API
 
-The old [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) in Qdrant came with
-some limitations. First of all, it was required to pass both positive and negative examples using the IDs of the
-existing points. If you wanted to use vector embedding directly, you had to either create a new point in a collection
-or mimic the behaviour of the Recommendation API by using the [Search API](https://qdrant.tech/documentation/concepts/search/#search-api).
-Moreover, in the previous releases of Qdrant, you were always asked to provide at least one positive example. That was caused 
-by the algorithm used to combine multiple samples into a single query vector. It was a simple, yet effective approach. However, 
-if the only information you had was that your user dislikes some items, you couldn't use it directly.
+The old [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) in Qdrant came with some limitations. First of all, it was required to pass vector IDs for 
+both positive and negative example points. If you wanted to use vector embeddings directly, you had to either create a new point 
+in a collection or mimic the behaviour of the Recommendation API by using the [Search API](https://qdrant.tech/documentation/concepts/search/#search-api).
+Moreover, in the previous releases of Qdrant, you were always asked to provide at least one positive example. This requirement 
+was based on the algorithm used to combine multiple samples into a single query vector. It was a simple, yet effective approach. 
+However, if the only information you had was that your user dislikes some items, you couldn't use it directly.
 
-Qdrant 1.6 brings a more flexible API. You can now can provide both ids and vectors of positive and negative
-examples. You can even combine them within a single request. That makes the new implementation backward compatible,
-so you can easily upgrade an existing Qdrant instance without any changes in your code. And the default behaviour
-of the API is still the same as before. However, we extended the API, so **you can now choose the strategy of how
-to find the recommended points**.
+Qdrant 1.6 brings a more flexible API. You can now provide both IDs and vectors of positive and negative examples. You can even 
+combine them within a single request. That makes the new implementation backward compatible, so you can easily upgrade an existing
+Qdrant instance without any changes in your code. And the default behaviour of the API is still the same as before. However, we 
+extended the API, so **you can now choose the strategy of how to find the recommended points**.
 
 ```http request
 POST /collections/{collection_name}/points/recommend
@@ -60,6 +57,8 @@ POST /collections/{collection_name}/points/recommend
 }
 ```
 
+TODO: describe the json body
+
 ## Recommendations` strategy
 
 Assume you want to travel to a small city on another continent. You start from your hometown, take a taxi to the local 
@@ -78,20 +77,30 @@ between the points.
 
 ![Transport network](/articles_data/new-recommendation-api/example-transport-network.png)
 
+HNSW is a multilayer graph of vectors (embeddings), with connections based on vector proximity. The top layer has the least 
+points, and the distances between those points are the biggest. The deeper we go, the more points we have, and the distances 
+get closer. The graph is built in a way that the points are connected to their closest neighbours at every layer. 
+
+All the points from a particular layer are also present in the layer below, so it’s possible to switch the search layer while 
+staying in the same location. In the case of transport networks, the top layer would be the airline hubs, well-connected but 
+with big distances between the airports. Local airports, along with railways and buses, with higher density and smaller 
+distances, make up the middle layers. Lastly, our bottom layer consists of local means of transport, which is the densest and 
+has the smallest distances between the points.
+
 You don’t have to check all the possible connections when you travel. You select an intercontinental flight, then a local one, 
-and finally a bus or a taxi. All the decisions are made based on the distance between the points. The search process in HNSW 
-is also based on traversing the graph in a similar manner. We start from the entry point in the top layer, find the closest 
-point here, and move to the same point, but in the next layer. This process repeats until we reach the bottom layer. Visited 
-points are kept in the memory, along with the distances to the query vector. If none of the neighbours of the current point is 
-better than the best match, we can stop the traversal, as this is a local minimum. We start by zooming out, and then gradually 
-zoom in.
+and finally a bus or a taxi. All the decisions are made based on the distance between the points. 
+
+The search process in HNSW is also based on traversing the graph in a similar manner. Start from the entry point in the top layer, 
+find its closest point and then use that point as the entry point into the next densest layer. This process repeats until we 
+reach the bottom layer. Visited points are kept in memory, along with the distances to the original query vector. If none of the 
+neighbours of the current point is better than the best match, we can stop the traversal, as this is a local minimum. We start at 
+the biggest scale, and then gradually zoom in.
 
 In this oversimplified example, we assumed that the distance between the points is the only factor that matters. In reality, we 
-might want to consider other criteria, such as the ticket price, or avoid some specific locations due to certain restrictions. 
-That means, there are various strategies for choosing the best match, which is also true in the case of vector recommendations. 
-We can use different approaches to determine the path of traversing the HNSW graph by changing how we calculate the score of a 
-candidate point during traversal. The default behaviour is based on pure distance, but Qdrant 1.6 exposes two strategies for the 
-recommendation API.
+might want to consider other criteria, such as the ticket price, or avoid some specific locations due to certain restrictions. That 
+means, there are various strategies for choosing the best match, which is also true in the case of vector recommendations. We can 
+use different approaches to determine the path of traversing the HNSW graph by changing how we calculate the score of a candidate 
+point during traversal. The default behaviour is based on pure distance, but Qdrant 1.6 exposes two strategies for the recommendation API.
 
 ### Average vector
 
@@ -139,21 +148,20 @@ If you want to know more about the internals of HNSW, you can check out the arti
 
 ## Food Discovery demo
 
-Our [Food Discovery demo](https://qdrant.tech/articles/food-discovery-demo/) is an application built mainly on top of the 
-[Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api). It allows you to find the meal 
-based on the liked and disliked photos. There are some updates, enabled by the new Qdrant release:
+Our [Food Discovery demo](https://qdrant.tech/articles/food-discovery-demo/) is an application built on top of the new [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api). 
+It allows you to find a meal based on liked and disliked photos. There are some updates, enabled by the new Qdrant release:
 
-* **Ability to include multiple textual queries in the recommendation request.** Previously we only allowed passing a single
-  query to solve the cold start problem. Right now, you can pass multiple queries and mix them with the liked/disliked photos.
-  This became possible, because we can pass both point ids and embedding vectors in the same request, and user queries are
-  obviously not a part of the collection.
-* **Switch between the recommendation strategies.** You can now choose between the `average_vector` and the `best_score`.
-  This clearly shows the difference between the two approaches.
+* **Ability to include multiple textual queries in the recommendation request.** Previously, we only allowed passing a single 
+  query to solve the cold start problem. Right now, you can pass multiple queries and mix them with the liked/disliked photos. 
+  This became possible, This is enabled by the new flexibility in parameters. We can pass both point IDs and embedding vectors 
+  in the same request, and user queries are obviously not a part of the collection.
+* **Switch between the recommendation strategies.** You can now choose between the `average_vector` and the `best_score` scoring 
+  algorithm. 
 
 ### Differences between the strategies
 
-The UI of the Food Discovery demo allows you to switch between the strategies. The `best_vector` is the default one, but
-with just a single switch you can see how the results differ when using the `average_vector` strategy.
+The UI of the Food Discovery demo allows you to switch between the strategies. The `best_vector` is the default one, but with just 
+a single switch, you can see how the results differ when using the previous `average_vector` strategy.
 
 If you select just a single positive example, both algorithms work identically.
 
@@ -161,49 +169,48 @@ If you select just a single positive example, both algorithms work identically.
 
 {{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}}
 
-The different might be seen when you start adding more examples, especially if you choose some negatives. 
+The difference only becomes apparent when you start adding more examples, especially if you choose some negatives.
 
 {{< figure src="/articles_data/new-recommendation-api/one-positive-one-negative.gif" caption="One positive and one negative example, both strategies" >}}
 
-The more examples we add, the more diverse the results of the `best_score` strategy will be. In the old strategy, there 
-is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, 
-making the variety richer.
+The more likes and dislikes we add, the more diverse the results of the `best_score` strategy will be. In the old strategy, there 
+is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, making 
+the variety richer.
 
 {{< figure src="/articles_data/new-recommendation-api/multiple.gif" caption="Multiple positive and one negative examples, both strategies" >}}
 
-Choosing the right strategy is dataset-dependent, and the embeddings play a significant role here. Thus, it's always worth 
-trying both of them and comparing the results in a particular case.
+Choosing the right strategy is dataset-dependent, and the embeddings play a significant role here. Thus, it’s always worth trying 
+both of them and comparing the results in a particular case.
 
 #### Handling the negatives only
 
-In the case of our Food Discovery demo, passing just the negatives works as an outlier detection mechanism. The dataset 
-was supposed to contain only food photos, but some of them are not. If you pass them as negative examples, the results
-will usually contain just the non-food items. That's a simple way to filter out the outliers.
+In the case of our Food Discovery demo, passing just the negatives works as an outlier detection mechanism. The dataset was supposed 
+to contain only food photos, but some of them are not. If you pass them as negative examples, the results will usually contain just 
+the non-food items. That’s a simple way to filter out the outliers.
 
 {{< figure src="/articles_data/new-recommendation-api/negatives-only.gif" caption="Negatives only, both strategies" >}}
 
-Still, both methods return different results, so they are both complementary if the dataset quality is the problem
-you want to solve.
+Still, both methods return different results, so they each have their place depending on the  questions being asked and the datasets 
+being used.
 
 #### Challenges with multimodality
 
-Food Discovery uses CLIP embeddings model, which is a multimodal one. It means images and texts are encoded into the same
-vector space. That allows us to use the same model for both image and text queries. We utilized that mechanism in the
-refreshed demo, so you can also pass the textual queries to filter the results. 
+Food Discovery uses the [CLIP embeddings model](https://huggingface.co/sentence-transformers/clip-ViT-B-32), which is multimodal, 
+allowing both images and texts encoded into the same vector space. Using this model allows for image queries, text queries, or both of 
+them combined. We utilized that mechanism in the updated demo, allowing you to pass the textual queries to filter the results further.
 
 {{< figure src="/articles_data/new-recommendation-api/text-query.gif" caption="A single text query, both strategies" >}}
 
-Text queries might be mixed with the liked and disliked photos, so you can combine them in a single request. However,
-you might be surprised by the results achieved with the new strategy, if you start adding the negative examples. 
+Text queries might be mixed with the liked and disliked photos, so you can combine them in a single request. However, you might be 
+surprised by the results achieved with the new strategy, if you start adding the negative examples.
 
 {{< figure src="/articles_data/new-recommendation-api/text-query-with-negative.gif" caption="A single text query with negative example, both strategies" >}}
 
-That issue is related to the embeddings themselves. What we have is a bunch of image embeddings which are pretty close
-to each other. Our text queries are, on the other hand, quite far from the image embeddings, but relatively close to 
-some of them, so the text-to-image search generally works. As a result, when all the examples come from the same domain
-everything works fine. However, if we mix positive text and negative image embeddings, the results of the `best_score` 
-are overwhelmed by the negative samples, which are simply closer to the dataset embeddings. If you experience such
-a problem, the `average_vector` strategy might be a better choice.
+This is an issue related to the embeddings themselves. Our dataset contains a bunch of image embeddings that are pretty close to each 
+other. On the other hand, our text queries are quite far from most of the image embeddings, but relatively close to some of them, so the 
+text-to-image search seems to work well. When all the embeddings come from the same domain, everything works fine. However, if we mix 
+positive text and negative image embeddings, the results of the `best_score` are overwhelmed by the negative samples, which are simply 
+closer to the dataset embeddings. If you experience such a problem, the `average_vector` strategy might be a better choice.
 
 ### Check out the demo
 
