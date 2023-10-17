@@ -1,5 +1,5 @@
 ---
-title: "FastEmbed: Fast, Light Embedding Generation for Text"
+title: "FastEmbed: Fast and Lightweight Embedding Generation for Text"
 short_description: "FastEmbed: Quantized Embedding models for fast CPU Generation"
 description: "FastEmbed is a Python library engineered for speed, efficiency, and accuracy"
 social_preview_image: /articles_data/fastembed/preview/social_preview.png
