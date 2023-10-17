@@ -1,6 +1,6 @@
 ---
 title: "FastEmbed: Better than SentenceTransformers, 50% faster "
-short_description: "Quantized models with ONNXRuntime for Local Support"
+short_description: "FastEmbed: Quantized models with ONNXRuntime for Local Support"
 description: "FastEmbed is a Python library engineered for speed, efficiency, and accuracy"
 social_preview_image: /articles_data/fastembed/preview/social_preview.png
 preview_dir: /articles_data/fastembed/preview
