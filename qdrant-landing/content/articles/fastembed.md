@@ -180,7 +180,7 @@ client.add(
 
 Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generate ids if they’re missing and then adding them to the index with metadata.
 
-INDEX TIME: Sequence Diagram for Qdrant and FastEmbed
+![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](/articles_data/fastembed/image2.png)
 
 ### Performing Queries
 
@@ -196,7 +196,7 @@ print(search_result)
 
 Behind the scenes, we first convert the query_text to the embedding and use that to query the vector index.
 
-QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration
+![QUERY TIME: Sequence Diagram for Qdrant and FastEmbed integration](/articles_data/fastembed/image2.png)
 
 By following these steps, you effectively utilize the combined capabilities of FastEmbed and Qdrant, thereby streamlining your embedding generation and retrieval tasks.
 
