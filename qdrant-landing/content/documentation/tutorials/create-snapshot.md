@@ -1,5 +1,5 @@
 ---
-title: Create Dataset Snapshot
+title: Create Snapshot
 weight: 14
 ---
 

@@ -1,6 +1,6 @@
 ---
 title: Asynchronous API
-weight: 18
+weight: 14
 ---
 
 # Using Qdrant asynchronously
