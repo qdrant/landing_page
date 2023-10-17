@@ -1,6 +1,6 @@
 ---
-title: "FastEmbed: Fastest Embedding Generation for Text"
-short_description: "FastEmbed: Quantized Embedding models with ONNXRuntime"
+title: "FastEmbed: Fast, Light Embedding Generation for Text"
+short_description: "FastEmbed: Quantized Embedding models for fast CPU Generation"
 description: "FastEmbed is a Python library engineered for speed, efficiency, and accuracy"
 social_preview_image: /articles_data/fastembed/preview/social_preview.png
 preview_dir: /articles_data/fastembed/preview
