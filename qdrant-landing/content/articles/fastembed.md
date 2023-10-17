@@ -1,5 +1,5 @@
 ---
-title: "FastEmbed: Better than SentenceTransformers, 50% faster "
+title: "FastEmbed: Fastest Embedding Generation for Text"
 short_description: "FastEmbed: Quantized Embedding models with ONNXRuntime"
 description: "FastEmbed is a Python library engineered for speed, efficiency, and accuracy"
 social_preview_image: /articles_data/fastembed/preview/social_preview.png
