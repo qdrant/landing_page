@@ -29,7 +29,7 @@ To tackle these problems we built a small library focused on the task of quickly
 
 Here is an example of how simple we have made embedding text documents:
 
-```
+```python
 documents: List[str] = ["Hello, World!", "fastembed is supported by and maintained by Qdrant."] 
 embedding_model = DefaultEmbedding() 
 embeddings: List[np.ndarray] = embedding_model.embed(documents)
@@ -45,8 +45,13 @@ from fastembed.embedding import FlagEmbedding as Embedding
 
 Here, we import the FlagEmbedding class from FastEmbed and alias it as Embedding. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as DefaultEmbedding which is BAAI/bge-small-en
 
-```
-documents: List[str] = ["passage: Hello, World!", "query: How is the World?", "passage: This is an example passage.", "fastembed is supported by and maintained by Qdrant."]
+```python
+documents: List[str] = [
+    "passage: Hello, World!",
+    "query: How is the World?",
+    "passage: This is an example passage.",
+    "fastembed is supported by and maintained by Qdrant."
+]
 ```
 
 In this list called documents, we define four text strings that we want to convert into embeddings.
@@ -57,13 +62,13 @@ The use of text prefixes like “query” and “passage” isn’t merely synta
 
 Next, we initialize the Embedding model with the model name “BAAI/bge-base-en” and specify a maximum token length of 512.
 
-```
+```python
 embedding_model = Embedding(model_name="BAAI/bge-base-en", max_length=512)
 ```
 
 This model strikes a balance between speed and accuracy, ideal for real-world applications.
 
-```
+```python
 embeddings: List[np.ndarray] = list(embedding_model.embed(documents))
 ```
 
@@ -145,15 +150,17 @@ pip install 'qdrant-client[fastembed]'
 
 After successful installation, the next step involves initializing the Qdrant Client. This can be done either in-memory or by specifying a database path:
 
-```
-from qdrant_client import QdrantClient# Initialize the clientclient = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
+```python
+from qdrant_client import QdrantClient
+# Initialize the client
+client = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
 ```
 
 ### Preparing Documents, Metadata, and IDs
 
 Once the client is initialized, prepare the text documents you wish to embed, along with any associated metadata and unique IDs:
 
-```
+```python
 docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integrations"]
 metadata = [{"source": "Langchain-docs"},    {"source": "LlamaIndex-docs"},]
 ids = [42, 2]
@@ -161,7 +168,7 @@ ids = [42, 2]
 
 Note that the add method we’ll use is overloaded: If you skip the ids, we’ll generate those for you. metadata is obviously optional. So, you can simply use this too:
 
-```
+```python
 docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integrations"]
 ```
 
@@ -169,7 +176,7 @@ docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integ
 
 With your documents, metadata, and IDs ready, you can proceed to add these to a specified collection within Qdrant using the add method:
 
-```
+```python
 client.add(
     collection_name="demo_collection",
     documents=docs,
@@ -186,7 +193,7 @@ Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generat
 
 Finally, you can perform queries on your stored documents. Qdrant offers a robust querying capability, and the query results can be easily retrieved as follows:
 
-```
+```python
 search_result = client.query(
     collection_name="demo_collection",
     query_text="This is a query document"
