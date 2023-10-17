@@ -26,7 +26,7 @@ After creation, you will receive a code snippet to access your cluster. Your gen
 
 ```bash
 curl \
-  -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333 \
+  -X GET 'https://xyz-example.eu-central.aws.cloud.qdrant.io:6333' \
   --header 'api-key: <paste-your-api-key-here>'
 ```
 Open Terminal and run the request. You should get a response that looks like this:
