@@ -30,7 +30,10 @@ To tackle these problems we built a small library focused on the task of quickly
 Here is an example of how simple we have made embedding text documents:
 
 ```python
-documents: List[str] = ["Hello, World!", "fastembed is supported by and maintained by Qdrant."] 
+documents: List[str] = [
+    "Hello, World!",
+    "fastembed is supported by and maintained by Qdrant."
+] 
 embedding_model = DefaultEmbedding() 
 embeddings: List[np.ndarray] = embedding_model.embed(documents)
 ```
@@ -41,7 +44,9 @@ These 3 lines of code do a lot of heavy lifting for you: They download the quant
 
 Let’s delve into a more advanced example code snippet line-by-line:
 
+```python
 from fastembed.embedding import FlagEmbedding as Embedding
+```
 
 Here, we import the FlagEmbedding class from FastEmbed and alias it as Embedding. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as DefaultEmbedding which is BAAI/bge-small-en
 
@@ -161,15 +166,24 @@ client = QdrantClient(":memory:")  # or QdrantClient(path="path/to/db")
 Once the client is initialized, prepare the text documents you wish to embed, along with any associated metadata and unique IDs:
 
 ```python
-docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integrations"]
-metadata = [{"source": "Langchain-docs"},    {"source": "LlamaIndex-docs"},]
+docs = [
+    "Qdrant has Langchain integrations",
+    "Qdrant also has Llama Index integrations"
+]
+metadata = [
+    {"source": "Langchain-docs"},
+    {"source": "LlamaIndex-docs"},
+]
 ids = [42, 2]
 ```
 
 Note that the add method we’ll use is overloaded: If you skip the ids, we’ll generate those for you. metadata is obviously optional. So, you can simply use this too:
 
 ```python
-docs = ["Qdrant has Langchain integrations", "Qdrant also has Llama Index integrations"]
+docs = [
+    "Qdrant has Langchain integrations",
+    "Qdrant also has Llama Index integrations"
+]
 ```
 
 ### Adding Documents to a Collection
