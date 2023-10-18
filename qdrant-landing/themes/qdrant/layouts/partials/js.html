@@ -87,3 +87,31 @@
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 {{ end }}
+
+{{ if eq .Section "documentation" }}
+<script>
+  $(function () {
+    const moveSearchButton = function() {
+      if ($(window).width() > 991) {
+        $('.qdr-search-input-btn').detach().prependTo('#sidebar > #accordion');
+      } else {
+        $('.qdr-search-input-btn').detach().prependTo('#sidebar-mobile-header');
+      }
+    }
+
+    moveSearchButton();
+
+    $('#sidebar-toggle').on('click', function () {
+      $('#sidebar').slideToggle();
+      $(this).toggleClass('active');
+    });
+
+    $(window).on('resize', function () {
+      moveSearchButton();
+      if ($(window).width() > 991) {
+        $('#sidebar').show();
+      }
+    });
+  })
+</script>
+{{ end }}

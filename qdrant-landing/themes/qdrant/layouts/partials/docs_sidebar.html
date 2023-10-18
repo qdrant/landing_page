@@ -1,9 +1,14 @@
 {{$currentNode := .}}
-<nav class="documentation__sidebar-inner col-lg-2 col-md-3 col-12 pr-4 mb-4 position-relative">
+<div id="sidebar-mobile-header" class="col-12">
+    <button id="sidebar-toggle" class="documentation__sidebar-toggle btn-style-four btn-style-four_responsive d-inline-block d-md-none">
+        <span class="text">List of Contents <i class="mt-1 ml-4"></i></span>
+    </button>
+</div>
+<nav id="sidebar" class="documentation__sidebar-inner col-lg-2 col-md-3 col-12 pr-lg-4 mb-4 position-relative">
 
     {{ $subject := site.GetPage "documentation" }}
 
-    <div id="accordion" class="sticky-top documentation__sidebar-inner">
+    <div id="accordion" class="sticky-top">
 
         <!-- Button triggers search modal -->
         <button type="button" class="qdr-search-input-btn w-100 mb-2 w-100" data-target="#searchModal">

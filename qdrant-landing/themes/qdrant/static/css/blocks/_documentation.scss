@@ -42,15 +42,21 @@
   }
 
   &__sidebar-inner {
+    display: none;
     top: lib.rem(8);
+    @include media-breakpoint-up(md) {
+      display: block;
+    }
   }
 
   &__sidebar-list {
-    max-height: calc(100vh - 90px);
-    overflow-y: scroll;
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
-    scroll-behavior: smooth;
+    @include media-breakpoint-up(md) {
+      -ms-overflow-style: none; /* IE and Edge */
+      scrollbar-width: none; /* Firefox */
+      scroll-behavior: smooth;
+      overflow-y: scroll;
+      max-height: calc(100vh - 90px);
+    }
 
     &::-webkit-scrollbar {
       display: none;
@@ -121,5 +127,25 @@
     font-weight: 600;
     padding-top: 1rem;
     padding-bottom: 0.3rem;
+  }
+
+  &__sidebar-toggle {
+    & i:after {
+      display: inline-block;
+      width: lib.rem(18);
+      height: lib.rem(18);
+      content: "\f078";
+      text-align: center;
+      font-family: 'Font Awesome 5 Free';
+      font-size: lib.rem(18);
+      font-weight: 600;
+      color: white;
+      font-style: normal;
+    }
+    &.active {
+      & i:after {
+        content: "\f077";
+      }
+    }
   }
 }
