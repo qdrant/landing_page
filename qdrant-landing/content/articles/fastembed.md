@@ -35,7 +35,7 @@ documents: List[str] = [
     "fastembed is supported by and maintained by Qdrant."
 ] 
 embedding_model = DefaultEmbedding() 
-embeddings: List[np.ndarray] = embedding_model.embed(documents)
+embeddings: List[np.ndarray] = list(embedding_model.embed(documents))
 ```
 
 These 3 lines of code do a lot of heavy lifting for you: They download the quantized model, load it using ONNXRuntime, and then run a batched embedding creation of your documents.
