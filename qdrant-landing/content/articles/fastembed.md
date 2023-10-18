@@ -5,7 +5,7 @@ description: "FastEmbed is a Python library engineered for speed, efficiency, an
 social_preview_image: /articles_data/fastembed/preview/social_preview.jpg
 small_preview_image: /articles_data/fastembed/preview/lightning.svg
 preview_dir: /articles_data/fastembed/preview
-weight: -40
+weight: -60
 author: Nirant Kasliwal
 author_link: https://nirantk.com/about/ 
 date: 2023-10-18T10:00:00+03:00
