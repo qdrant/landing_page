@@ -231,7 +231,7 @@ Qdrant is designed to handle large-scale datasets with billions of data points. 
 
 If you're curious about how FastEmbed and Qdrant can make your search tasks a breeze, why not take it for a spin? You get a real feel for what it can do. Here are two easy ways to get started:
 
-1. **Cloud Trial**: You can activate a Cloud trial and see how it fits your needs. It's a click away: [Qdrant Cloud](https://cloud.qdrant.io).
+1. **Cloud**:  Get started with a free plan on the [Qdrant Cloud](https://qdrant.to/cloud?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
 
 2. **Docker Container**: If you're the DIY type, you can set everything up on your own machine. Here's a quick guide to help you out: [Quick Start with Docker](https://qdrant.tech/documentation/quick-start/?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
 
