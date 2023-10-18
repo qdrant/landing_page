@@ -237,6 +237,6 @@ If you're curious about how FastEmbed and Qdrant can make your search tasks a br
 
 So, go ahead, take it for a test drive. We're excited to hear what you think!
 
-Lastly, If you find FastEmbed useful and want to keep up with what we're doing, giving our GitHub repo a star would mean a lot to us. Here's the link to [star the repository](https://github.com/qdrant/fastembed?utm_source=twitter&utm_medium=website&utm_campaign=fastembed).
+Lastly, If you find FastEmbed useful and want to keep up with what we're doing, giving our GitHub repo a star would mean a lot to us. Here's the link to [star the repository](https://github.com/qdrant/fastembed).
 
 If you ever have questions about FastEmbed, please ask them on the Qdrant Discord: [https://discord.gg/Qy6HCJK9Dc](https://discord.gg/Qy6HCJK9Dc)
