@@ -8,7 +8,7 @@ preview_dir: /articles_data/fastembed/preview
 weight: -40
 author: Nirant Kasliwal
 author_link: https://nirantk.com/about/ 
-date: 2023-10-18T13:00:00+03:00
+date: 2023-10-18T10:00:00+03:00
 draft: false
 keywords:
     - vector search
