@@ -3,7 +3,7 @@ title: "FastEmbed: Fast and Lightweight Embedding Generation for Text"
 short_description: "FastEmbed: Quantized Embedding models for fast CPU Generation"
 description: "FastEmbed is a Python library engineered for speed, efficiency, and accuracy"
 social_preview_image: /articles_data/fastembed/preview/social_preview.jpg
-small_preview_image: /articles_data/fastembed/preview/lightning-icon.svg
+small_preview_image: /articles_data/fastembed/preview/lightning.svg
 preview_dir: /articles_data/fastembed/preview
 weight: -40
 author: Nirant Kasliwal
