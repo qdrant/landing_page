@@ -10,11 +10,14 @@ author_link: https://nirantk.com/about/
 date: 2023-10-18T13:00:00+03:00
 draft: false
 keywords:
-  - vector search
-  - embedding models
-  - Flag Embedding
-  - OpenAI Ada
-  - quantized embedding model
+    - vector search
+    - embedding models
+    - Flag Embedding
+    - OpenAI Ada
+    - NLP
+    - embeddings
+    - ONNX Runtime
+    - quantized embedding model
 ---
 
 Data Science and Machine Learning practitioners often find themselves navigating through a labyrinth of models, libraries, and frameworks. Which model to choose, what embedding size, how to approach tokenizing, these are just some questions you are faced with when starting your work. We understood how, for many data scientists, they wanted an easier and intuitive means to do their embedding work. This is why we built FastEmbed (docs: https://qdrant.github.io/fastembed/) —a Python library engineered for speed, efficiency, and above all, usability. We have created easy to use default workflows, handling the 80% use cases in NLP embedding.
