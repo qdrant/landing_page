@@ -75,6 +75,8 @@ Next, we initialize the Embedding model with the default model: [BAAI/bge-small
 embedding_model = DefaultEmbedding()
 ```
 
+The default model and several other models have a context window of maximum 512 tokens. This maximum limit comes from the embedding model training and design itself.If you'd like to embed sequences larger than that, we'd recommend using some pooling strategy to get a single vector out of the sequence. For example, you can use the mean of the embeddings of different chunks of a document. This is also what the [SBERT Paper recommends](https://lilianweng.github.io/posts/2021-05-31-contrastive/#sentence-bert)
+
 This model strikes a balance between speed and accuracy, ideal for real-world applications.
 
 ```python
