@@ -208,9 +208,10 @@ surprised by the results achieved with the new strategy, if you start adding the
 
 This is an issue related to the embeddings themselves. Our dataset contains a bunch of image embeddings that are pretty close to each 
 other. On the other hand, our text queries are quite far from most of the image embeddings, but relatively close to some of them, so the 
-text-to-image search seems to work well. When all the embeddings come from the same domain, everything works fine. However, if we mix 
-positive text and negative image embeddings, the results of the `best_score` are overwhelmed by the negative samples, which are simply 
-closer to the dataset embeddings. If you experience such a problem, the `average_vector` strategy might be a better choice.
+text-to-image search seems to work well. When all query items come from the same domain, such as only text, everything works fine. 
+However, if we mix positive text and negative image embeddings, the results of the `best_score` are overwhelmed by the negative samples, 
+which are simply closer to the dataset embeddings. If you experience such a problem, the `average_vector` strategy might be a better 
+choice.
 
 ### Check out the demo
 
