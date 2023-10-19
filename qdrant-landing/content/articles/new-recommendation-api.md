@@ -167,17 +167,47 @@ If you select just a single positive example, both algorithms work identically.
 
 [//]: # (All the figures were generated from .png files using ImageMagick: convert -delay 300 -loop 0 one-positive*.png one-positive.gif)
 
-| One positive example, average vector                                                                     | | One positive example, best score                                                                     |
-|----------------------------------------------------------------------------------------------------------|-|------------------------------------------------------------------------------------------------------|
-| <img src="/articles_data/new-recommendation-api/one-positive-average-vector.png" class="lightbox-image"> | | <img src="/articles_data/new-recommendation-api/one-positive-best-score.png" class="lightbox-image"> |
+##### One positive example
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <a href="/articles_data/new-recommendation-api/one-positive-average-vector.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/one-positive-average-vector.png" alt="Average vector">
+        </a>
+      </td>
+      <td>
+        <a href="/articles_data/new-recommendation-api/one-positive-best-score.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/one-positive-best-score.png" alt="Best score">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}})
 
 The difference only becomes apparent when you start adding more examples, especially if you choose some negatives.
 
-| One positive and one negative example, average vector                                                                 | | One positive and one negative example, best score                                                                 |
-|-----------------------------------------------------------------------------------------------------------------------|-|-------------------------------------------------------------------------------------------------------------------|
-| <img src="/articles_data/new-recommendation-api/one-positive-one-negative-average-vector.png" class="lightbox-image"> | | <img src="/articles_data/new-recommendation-api/one-positive-one-negative-best-score.png" class="lightbox-image"> |
+##### One positive and one negative example
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <a href="/articles_data/new-recommendation-api/one-positive-one-negative-average-vector.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/one-positive-one-negative-average-vector.png" alt="Average vector">
+        </a>
+      </td>
+      <td>
+        <a href="/articles_data/new-recommendation-api/one-positive-one-negative-best-score.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/one-positive-one-negative-best-score.png" alt="Best score">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/one-positive-one-negative.gif" caption="One positive and one negative example, both strategies" >}})
 
@@ -185,9 +215,24 @@ The more likes and dislikes we add, the more diverse the results of the `best_sc
 is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, making 
 the variety richer.
 
-| Multiple positive and one negative examples, average vector                                          | | Multiple positive and one negative examples, best score                                          |
-|------------------------------------------------------------------------------------------------------|-|--------------------------------------------------------------------------------------------------|
-| <img src="/articles_data/new-recommendation-api/multiple-average-vector.png" class="lightbox-image"> | | <img src="/articles_data/new-recommendation-api/multiple-best-score.png" class="lightbox-image"> |
+##### Multiple positive and one negative examples
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <a href="/articles_data/new-recommendation-api/multiple-average-vector.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/multiple-average-vector.png" alt="Average vector">
+        </a>
+      </td>
+      <td>
+        <a href="/articles_data/new-recommendation-api/multiple-best-score.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/multiple-best-score.png" alt="Best score">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/multiple.gif" caption="Multiple positive and one negative examples, both strategies" >}})
 
@@ -200,9 +245,24 @@ In the case of our Food Discovery demo, passing just the negatives works as an o
 to contain only food photos, but some of them are not. If you pass them as negative examples, the results will usually contain just 
 the non-food items. That’s a simple way to filter out the outliers.
 
-| Negatives only, average vector                                                                             | | Negatives only, best score                                                                             |
-|------------------------------------------------------------------------------------------------------------|-|--------------------------------------------------------------------------------------------------------|
-| <img src="/articles_data/new-recommendation-api/negatives-only-average-vector.png" class="lightbox-image"> | | <img src="/articles_data/new-recommendation-api/negatives-only-best-score.png" class="lightbox-image"> |
+##### Negatives only
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <a href="/articles_data/new-recommendation-api/negatives-only-average-vector.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/negatives-only-average-vector.png" alt="Average vector">
+        </a>
+      </td>
+      <td>
+        <a href="/articles_data/new-recommendation-api/negatives-only-best-score.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/negatives-only-best-score.png" alt="Best score">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/negatives-only.gif" caption="Negatives only, both strategies" >}})
 
@@ -215,18 +275,48 @@ Food Discovery uses the [CLIP embeddings model](https://huggingface.co/sentence-
 allowing both images and texts encoded into the same vector space. Using this model allows for image queries, text queries, or both of 
 them combined. We utilized that mechanism in the updated demo, allowing you to pass the textual queries to filter the results further.
 
-| A single text query, average vector                                                                    | | A single text query, best score                                                                     |
-|--------------------------------------------------------------------------------------------------------|-|-----------------------------------------------------------------------------------------------------|
-| <img src="/articles_data/new-recommendation-api/text-query-average-vector.png" class="lightbox-image"> | | < img src="/articles_data/new-recommendation-api/text-query-best-score.png" class="lightbox-image"> |
+##### A single text query
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <a href="/articles_data/new-recommendation-api/text-query-average-vector.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/text-query-average-vector.png" alt="Average vector">
+        </a>
+      </td>
+      <td>
+        <a href="/articles_data/new-recommendation-api/text-query-best-score.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/text-query-best-score.png" alt="Best score">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/text-query.gif" caption="A single text query, both strategies" >}})
 
 Text queries might be mixed with the liked and disliked photos, so you can combine them in a single request. However, you might be 
 surprised by the results achieved with the new strategy, if you start adding the negative examples.
 
-| A single text query with negative example, average vector                                                            | | A single text query with negative example, best score                                                            |
-|----------------------------------------------------------------------------------------------------------------------|-|------------------------------------------------------------------------------------------------------------------|
-| <img src="/articles_data/new-recommendation-api/text-query-with-negative-average-vector.png" class="lightbox-image"> | | <img src="/articles_data/new-recommendation-api/text-query-with-negative-best-score.png" class="lightbox-image"> |
+##### A single text query with negative example
+
+<table>
+  <tbody>
+    <tr>
+      <td>
+        <a href="/articles_data/new-recommendation-api/text-query-with-negative-average-vector.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/text-query-with-negative-average-vector.png" alt="Average vector">
+        </a>
+      </td>
+      <td>
+        <a href="/articles_data/new-recommendation-api/text-query-with-negative-best-score.png" target="_blank">
+          <img src="/articles_data/new-recommendation-api/text-query-with-negative-best-score.png" alt="Best score">
+        </a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/text-query-with-negative.gif" caption="A single text query with negative example, both strategies" >}})
 
