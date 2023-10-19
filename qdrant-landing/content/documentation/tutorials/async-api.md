@@ -66,6 +66,6 @@ Asynchronous client was introduced in <code>qdrant-client</code> version 1.6.1. 
 
 ## Supported Python libraries
 
-Qdrant integrates with numerous Python libraries. Until recently, only [Langchain]() provided async Python API support. 
+Qdrant integrates with numerous Python libraries. Until recently, only [Langchain](https://python.langchain.com) provided async Python API support. 
 Qdrant is the only vector database with full coverage of async API in Langchain. Their documentation [describes how to use 
 it](https://python.langchain.com/docs/modules/data_connection/vectorstores/#asynchronous-operations).
