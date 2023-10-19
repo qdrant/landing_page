@@ -22,7 +22,11 @@
   }
 
   & a {
+    display: block;
     line-height: 2.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: var(--brand-secondary);
 
     &:hover {
