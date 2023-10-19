@@ -1,5 +1,5 @@
 ---
-title: "Mighty Semantic Search"
+title: "Inference with Mighty"
 short_description: "Mighty offers a speedy scalable embedding, a perfect fit for the speedy scalable Qdrant search. Let's combine them!"
 description: "We combine Mighty and Qdrant to create a semantic search service in Rust with just a few lines of code."
 weight: 17

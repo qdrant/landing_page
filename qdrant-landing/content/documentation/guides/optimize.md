@@ -1,6 +1,8 @@
 ---
-title: Configure Optimal Use
+title: Optimize Resources
 weight: 11
+aliases:
+  - ../tutorials/optimize
 ---
 
 # Optimize Qdrant

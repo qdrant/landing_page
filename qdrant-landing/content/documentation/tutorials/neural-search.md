@@ -1,16 +1,22 @@
 ---
-title: Simple Neural Search
-weight: 15
+title: Neural Search Serivce
+weight: 1
 ---
 
 # Create a Simple Neural Search Service
 
-| Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
+| Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
 | --- | ----------- | ----------- |----------- |
 
 This tutorial shows you how to build and deploy your own neural search service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query. The website contains the company names, descriptions, locations, and a picture for each entry. 
 
 A neural search service uses artificial neural networks to improve the accuracy and relevance of search results. Besides offering simple keyword results, this system can retrieve results by meaning. It can understand and interpret complex search queries and provide more contextually relevant output, effectively enhancing the user's search experience.
+
+<aside role="status">
+There is a version of this tutorial that uses <a href="https://github.com/qdrant/fastembed">Fastembed</a> model inference engine instead of Sentence Transformers.
+Check it out <a href="/documentation/tutorials/neural-search-fastembed">here</a>.
+</aside>
+
 
 ## Workflow
 
@@ -18,7 +24,7 @@ To create a neural search service, you will need to transform your raw data and 
 
 ![Neural Search Workflow](/docs/workflow-neural-search.png)
 
-> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
+> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers). |
 
 ## Prerequisites
 
@@ -329,6 +335,6 @@ You can try it to get an intuition for cases when the neural search is useful.
 The demo contains a switch that selects between neural and full-text searches.
 You can turn the neural search on and off to compare your result with a regular full-text search.
 
-> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
+> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers). |
 
 Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, publish other examples of neural networks and neural search applications.

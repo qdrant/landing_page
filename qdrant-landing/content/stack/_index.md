@@ -1,5 +1,5 @@
 ---
-title: Upgrade your Neural Search Stack
-subtitle: Qdrant vector search engine can integrate with anything, these are some of the featured technologies
+title: Trusted by developers worldwide
+subtitle: Qdrant is powering thousands of innovative AI solutions at leading companies. Engineers are choosing Qdrant for its top performance, high scalability, ease of use, and flexible cost and resource-saving options
 sitemapExclude: True
 ---
