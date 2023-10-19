@@ -49,10 +49,10 @@ These 3 lines of code do a lot of heavy lifting for you: They download the quant
 Let’s delve into a more advanced example code snippet line-by-line:
 
 ```python
-from fastembed.embedding import FlagEmbedding as Embedding
+from fastembed.embedding import DefaultEmbedding
 ```
 
-Here, we import the FlagEmbedding class from FastEmbed and alias it as Embedding. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as DefaultEmbedding which is BAAI/bge-small-en
+Here, we import the FlagEmbedding class from FastEmbed and alias it as Embedding. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as DefaultEmbedding which is [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
 
 ```python
 documents: List[str] = [
@@ -69,10 +69,10 @@ Note the use of prefixes “passage” and “query” to differentiate the type
 
 The use of text prefixes like “query” and “passage” isn’t merely syntactic sugar; it informs the algorithm on how to treat the text for embedding generation. A “query” prefix often triggers the model to generate embeddings that are optimized for similarity comparisons, while “passage” embeddings are fine-tuned for contextual understanding. If you omit the prefix, the default behavior is applied, although specifying it is recommended for more nuanced results.
 
-Next, we initialize the Embedding model with the model name “BAAI/bge-base-en” and specify a maximum token length of 512.
+Next, we initialize the Embedding model with the default model: [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5) and specify a maximum token length of 512.
 
 ```python
-embedding_model = Embedding(model_name="BAAI/bge-base-en", max_length=512)
+embedding_model = DefaultEmbedding()
 ```
 
 This model strikes a balance between speed and accuracy, ideal for real-world applications.
