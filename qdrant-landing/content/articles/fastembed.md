@@ -203,7 +203,7 @@ client.add(
 )
 ```
 
-Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generate ids if they’re missing and then adding them to the index with metadata.
+Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generate ids if they’re missing and then adding them to the index with metadata. This uses the DefaultEmbedding model: [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
 
 ![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](/articles_data/fastembed/image2.png)
 
