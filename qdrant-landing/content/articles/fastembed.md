@@ -49,10 +49,10 @@ These 3 lines of code do a lot of heavy lifting for you: They download the quant
 Let’s delve into a more advanced example code snippet line-by-line:
 
 ```python
-from fastembed.embedding import FlagEmbedding as Embedding
+from fastembed.embedding import DefaultEmbedding
 ```
 
-Here, we import the FlagEmbedding class from FastEmbed and alias it as Embedding. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as DefaultEmbedding which is BAAI/bge-small-en
+Here, we import the FlagEmbedding class from FastEmbed and alias it as Embedding. This is the core class responsible for generating embeddings based on your chosen text model. This is also the class which you can import directly as DefaultEmbedding which is [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
 
 ```python
 documents: List[str] = [
@@ -69,11 +69,13 @@ Note the use of prefixes “passage” and “query” to differentiate the type
 
 The use of text prefixes like “query” and “passage” isn’t merely syntactic sugar; it informs the algorithm on how to treat the text for embedding generation. A “query” prefix often triggers the model to generate embeddings that are optimized for similarity comparisons, while “passage” embeddings are fine-tuned for contextual understanding. If you omit the prefix, the default behavior is applied, although specifying it is recommended for more nuanced results.
 
-Next, we initialize the Embedding model with the model name “BAAI/bge-base-en” and specify a maximum token length of 512.
+Next, we initialize the Embedding model with the default model: [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5). 
 
 ```python
-embedding_model = Embedding(model_name="BAAI/bge-base-en", max_length=512)
+embedding_model = DefaultEmbedding()
 ```
+
+The default model and several other models have a context window of maximum 512 tokens. This maximum limit comes from the embedding model training and design itself.If you'd like to embed sequences larger than that, we'd recommend using some pooling strategy to get a single vector out of the sequence. For example, you can use the mean of the embeddings of different chunks of a document. This is also what the [SBERT Paper recommends](https://lilianweng.github.io/posts/2021-05-31-contrastive/#sentence-bert)
 
 This model strikes a balance between speed and accuracy, ideal for real-world applications.
 
@@ -81,9 +83,9 @@ This model strikes a balance between speed and accuracy, ideal for real-world ap
 embeddings: List[np.ndarray] = list(embedding_model.embed(documents))
 ```
 
-Finally, we call the embed() method on our embedding_model object, passing in the documents list. The method returns a Python generator, so we convert it to a list to get all the embeddings. These embeddings are NumPy arrays, optimized for fast mathematical operations.
+Finally, we call the `embed()` method on our embedding_model object, passing in the documents list. The method returns a Python generator, so we convert it to a list to get all the embeddings. These embeddings are NumPy arrays, optimized for fast mathematical operations.
 
-The embed() method returns a list of NumPy arrays, each corresponding to the embedding of a document in your original documents list. The dimensions of these arrays are determined by the model you chose; for “BAAI/bge-base-en” it’s a 768-dimensional vector.
+The `embed()` method returns a list of NumPy arrays, each corresponding to the embedding of a document in your original documents list. The dimensions of these arrays are determined by the model you chose e.g. for “BAAI/bge-small-en-v1.5” it’s a 384-dimensional vector.
 
 You can easily parse these NumPy arrays for any downstream application—be it clustering, similarity comparison, or feeding them into a machine learning model for further analysis.
 
@@ -96,6 +98,8 @@ FastEmbed is built for inference speed, without sacrificing (too much) performan
 3. Cosine similarity of quantized and original model vectors is 0.92
 
 We use `BAAI/bge-small-en-v1.5` as our DefaultEmbedding, hence we've chosen that for comparison:
+
+![](/articles_data/fastembed/throughput.png)
 
 ## Under the Hood
 
@@ -203,7 +207,7 @@ client.add(
 )
 ```
 
-Behind the scenes, Qdrant is using FastEmbed to make the text embedding, generate ids if they’re missing and then adding them to the index with metadata.
+Inside this function, Qdrant Client uses FastEmbed to make the text embedding, generate ids if they’re missing and then adding them to the index with metadata. This uses the DefaultEmbedding model: [BAAI/bge-small-en-v1.5](https://huggingface.co/baai/bge-small-en-v1.5)
 
 ![INDEX TIME: Sequence Diagram for Qdrant and FastEmbed](/articles_data/fastembed/image2.png)
 
