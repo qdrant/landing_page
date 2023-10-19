@@ -27,7 +27,7 @@ an antipattern. Therefore, if you build an async web service, exposed through an
 you should use the async API for all the interactions with Qdrant.
 
 <aside role="status">
-All the code examples below have to be launched in an async context. Usually, it means you have to use <code>asyncio.run</code> or <code>asyncio.create_task</code> to run them.
+All the async code has to be launched in an async context. Usually, it means you have to use <code>asyncio.run</code> or <code>asyncio.create_task</code> to run them.
 Please refer to the <a href="https://docs.python.org/3/library/asyncio.html">asyncio documentation</a> for more details.
 </aside>
 
