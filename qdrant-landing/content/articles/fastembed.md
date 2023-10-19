@@ -81,9 +81,9 @@ This model strikes a balance between speed and accuracy, ideal for real-world ap
 embeddings: List[np.ndarray] = list(embedding_model.embed(documents))
 ```
 
-Finally, we call the embed() method on our embedding_model object, passing in the documents list. The method returns a Python generator, so we convert it to a list to get all the embeddings. These embeddings are NumPy arrays, optimized for fast mathematical operations.
+Finally, we call the `embed()` method on our embedding_model object, passing in the documents list. The method returns a Python generator, so we convert it to a list to get all the embeddings. These embeddings are NumPy arrays, optimized for fast mathematical operations.
 
-The embed() method returns a list of NumPy arrays, each corresponding to the embedding of a document in your original documents list. The dimensions of these arrays are determined by the model you chose; for “BAAI/bge-base-en” it’s a 768-dimensional vector.
+The `embed()` method returns a list of NumPy arrays, each corresponding to the embedding of a document in your original documents list. The dimensions of these arrays are determined by the model you chose e.g. for “BAAI/bge-small-en-v1.5” it’s a 384-dimensional vector.
 
 You can easily parse these NumPy arrays for any downstream application—be it clustering, similarity comparison, or feeding them into a machine learning model for further analysis.
 
