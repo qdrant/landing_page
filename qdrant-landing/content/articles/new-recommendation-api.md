@@ -5,7 +5,7 @@ description: Qdrant 1.6 brings recommendations strategies and more flexibility t
 preview_dir: /articles_data/new-recommendation-api/preview
 social_preview_image: /articles_data/new-recommendation-api/preview/social_preview.jpg
 small_preview_image: /articles_data/new-recommendation-api/icon.svg
-weight: -60
+weight: -80
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-10-10T10:12:00.000Z
