@@ -167,9 +167,9 @@ If you select just a single positive example, both algorithms work identically.
 
 [//]: # (All the figures were generated from .png files using ImageMagick: convert -delay 300 -loop 0 one-positive*.png one-positive.gif)
 
-|                                                                                                                                           | |                                                                                                                                   |
-|-------------------------------------------------------------------------------------------------------------------------------------------|-|-----------------------------------------------------------------------------------------------------------------------------------|
-| {{< figure src="/articles_data/new-recommendation-api/one-positive-average-vector.png" caption="One positive example, average vector" >}} | | {{< figure src="/articles_data/new-recommendation-api/one-positive-best-score.png" caption="One positive example, best score" >}} |
+| One positive example, average vector                                                                              | | One positive example, best score                                                                              |
+|-------------------------------------------------------------------------------------------------------------------|-|---------------------------------------------------------------------------------------------------------------|
+| {{< figure src="/articles_data/new-recommendation-api/one-positive-average-vector.png" class="lightbox-image" >}} | | {{< figure src="/articles_data/new-recommendation-api/one-positive-best-score.png" class="lightbox-image" >}} |
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}})
 
