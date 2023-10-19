@@ -97,6 +97,8 @@ FastEmbed is built for inference speed, without sacrificing (too much) performan
 
 We use `BAAI/bge-small-en-v1.5` as our DefaultEmbedding, hence we've chosen that for comparison:
 
+![](/articles_data/fastembed/throughput.png)
+
 ## Under the Hood
 
 **Quantized Models**: We quantize the models for CPU (and Mac Metal) – giving you the best buck for your compute model. Our default model is so small, you can run this in AWS Lambda if you’d like!
