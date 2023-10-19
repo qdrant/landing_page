@@ -167,21 +167,29 @@ If you select just a single positive example, both algorithms work identically.
 
 [//]: # (All the figures were generated from .png files using ImageMagick: convert -delay 300 -loop 0 one-positive*.png one-positive.gif)
 
-| One positive example, average vector                                                                              | | One positive example, best score                                                                              |
-|-------------------------------------------------------------------------------------------------------------------|-|---------------------------------------------------------------------------------------------------------------|
-| {{< figure src="/articles_data/new-recommendation-api/one-positive-average-vector.png" class="lightbox-image" >}} | | {{< figure src="/articles_data/new-recommendation-api/one-positive-best-score.png" class="lightbox-image" >}} |
+| One positive example, average vector                                                                           | | One positive example, best score                                                                           |
+|----------------------------------------------------------------------------------------------------------------|-|------------------------------------------------------------------------------------------------------------|
+| {{< img src="/articles_data/new-recommendation-api/one-positive-average-vector.png" class="lightbox-image" >}} | | {{< img src="/articles_data/new-recommendation-api/one-positive-best-score.png" class="lightbox-image" >}} |
 
 [//]: # ({{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}})
 
 The difference only becomes apparent when you start adding more examples, especially if you choose some negatives.
 
-{{< figure src="/articles_data/new-recommendation-api/one-positive-one-negative.gif" caption="One positive and one negative example, both strategies" >}}
+| One positive and one negative example, average vector                                                                       | | One positive and one negative example, best score                                                                       |
+|-----------------------------------------------------------------------------------------------------------------------------|-|-------------------------------------------------------------------------------------------------------------------------|
+| {{< img src="/articles_data/new-recommendation-api/one-positive-one-negative-average-vector.png" class="lightbox-image" >}} | | {{< img src="/articles_data/new-recommendation-api/one-positive-one-negative-best-score.png" class="lightbox-image" >}} |
+
+[//]: # ({{< figure src="/articles_data/new-recommendation-api/one-positive-one-negative.gif" caption="One positive and one negative example, both strategies" >}})
 
 The more likes and dislikes we add, the more diverse the results of the `best_score` strategy will be. In the old strategy, there 
 is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, making 
 the variety richer.
 
-{{< figure src="/articles_data/new-recommendation-api/multiple.gif" caption="Multiple positive and one negative examples, both strategies" >}}
+| Multiple positive and one negative examples, average vector                                                | | Multiple positive and one negative examples, best score                                                |
+|------------------------------------------------------------------------------------------------------------|-|--------------------------------------------------------------------------------------------------------|
+| {{< img src="/articles_data/new-recommendation-api/multiple-average-vector.png" class="lightbox-image" >}} | | {{< img src="/articles_data/new-recommendation-api/multiple-best-score.png" class="lightbox-image" >}} |
+
+[//]: # ({{< figure src="/articles_data/new-recommendation-api/multiple.gif" caption="Multiple positive and one negative examples, both strategies" >}})
 
 Choosing the right strategy is dataset-dependent, and the embeddings play a significant role here. Thus, it’s always worth trying 
 both of them and comparing the results in a particular case.
@@ -192,7 +200,11 @@ In the case of our Food Discovery demo, passing just the negatives works as an o
 to contain only food photos, but some of them are not. If you pass them as negative examples, the results will usually contain just 
 the non-food items. That’s a simple way to filter out the outliers.
 
-{{< figure src="/articles_data/new-recommendation-api/negatives-only.gif" caption="Negatives only, both strategies" >}}
+| Negatives only, average vector                                                                                   | | Negatives only, best score                                                                                   |
+|------------------------------------------------------------------------------------------------------------------|-|--------------------------------------------------------------------------------------------------------------|
+| {{< img src="/articles_data/new-recommendation-api/negatives-only-average-vector.png" class="lightbox-image" >}} | | {{< img src="/articles_data/new-recommendation-api/negatives-only-best-score.png" class="lightbox-image" >}} |
+
+[//]: # ({{< figure src="/articles_data/new-recommendation-api/negatives-only.gif" caption="Negatives only, both strategies" >}})
 
 Still, both methods return different results, so they each have their place depending on the  questions being asked and the datasets 
 being used.
@@ -203,12 +215,20 @@ Food Discovery uses the [CLIP embeddings model](https://huggingface.co/sentence-
 allowing both images and texts encoded into the same vector space. Using this model allows for image queries, text queries, or both of 
 them combined. We utilized that mechanism in the updated demo, allowing you to pass the textual queries to filter the results further.
 
-{{< figure src="/articles_data/new-recommendation-api/text-query.gif" caption="A single text query, both strategies" >}}
+| A single text query, average vector                                                                          | | A single text query, best score                                                                          |
+|--------------------------------------------------------------------------------------------------------------|-|----------------------------------------------------------------------------------------------------------|
+| {{< img src="/articles_data/new-recommendation-api/text-query-average-vector.png" class="lightbox-image" >}} | | {{< img src="/articles_data/new-recommendation-api/text-query-best-score.png" class="lightbox-image" >}} |
+
+[//]: # ({{< figure src="/articles_data/new-recommendation-api/text-query.gif" caption="A single text query, both strategies" >}})
 
 Text queries might be mixed with the liked and disliked photos, so you can combine them in a single request. However, you might be 
 surprised by the results achieved with the new strategy, if you start adding the negative examples.
 
-{{< figure src="/articles_data/new-recommendation-api/text-query-with-negative.gif" caption="A single text query with negative example, both strategies" >}}
+| A single text query with negative example, average vector                                                                  | | A single text query with negative example, best score                                                                  |
+|----------------------------------------------------------------------------------------------------------------------------|-|------------------------------------------------------------------------------------------------------------------------|
+| {{< img src="/articles_data/new-recommendation-api/text-query-with-negative-average-vector.png" class="lightbox-image" >}} | | {{< img src="/articles_data/new-recommendation-api/text-query-with-negative-best-score.png" class="lightbox-image" >}} |
+
+[//]: # ({{< figure src="/articles_data/new-recommendation-api/text-query-with-negative.gif" caption="A single text query with negative example, both strategies" >}})
 
 This is an issue related to the embeddings themselves. Our dataset contains a bunch of image embeddings that are pretty close to each 
 other. On the other hand, our text queries are quite far from most of the image embeddings, but relatively close to some of them, so the 
