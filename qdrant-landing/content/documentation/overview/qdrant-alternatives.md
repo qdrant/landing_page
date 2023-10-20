@@ -10,8 +10,8 @@ Unfortunately, since Pinecone is not an open source product, we can't include it
 
 ## Feature comparison
 
-| Feature                         | Pinecone                      | Qdrant                                       | Comments                                                 |
-|---------------------------------|-------------------------------|----------------------------------------------|----------------------------------------------------------|
+| Feature                             | Pinecone                      | Qdrant                                       | Comments                                                 |
+|-------------------------------------|-------------------------------|----------------------------------------------|----------------------------------------------------------|
 | **Deployment Modes**                | SaaS-only                     | Local, on-premise, Cloud                     | Qdrant offers more flexibility in deployment modes       |
 | **Supported Technologies**          | Python, JavaScript/TypeScript | Python, JavaScript/TypeScript, Rust, Go      | Qdrant supports a broader range of programming languages |
 | **Performance** (e.g., query speed) | TnC Prohibit Benchmarking     | [Benchmark result](/benchmarks/)             | Compare performance metrics                              |
@@ -22,7 +22,7 @@ Unfortunately, since Pinecone is not an open source product, we can't include it
 Qdrant offers multiple ways of deployment, including local mode, on-premise, and [Qdrant Cloud](https://cloud.qdrant.io/). 
 You can [get started with local mode quickly](/documentation/quick-start/) and without signing up for SaaS. With Pinecone you will have to connect your development environment to the cloud service just to test the product. 
 
-When it comes to SaaS, both Pinecone and [Qdrant Cloud](https://cloud.qdrant.io/) offer a free cloud tier to check out the services, and you dont have to give credit card details for either. Each free tier should be enough to keep around 1M of 768-dimensional vectors, but it may vary depending on the additional attributes stored with vectors. With Qdrant Cloud, however, you can experiment with different models as you may create several collections or keep multiple vectors per each point. That means Qdrant Cloud allows you building several small demos, even on a free tier.
+When it comes to SaaS, both Pinecone and [Qdrant Cloud](https://cloud.qdrant.io/) offer a free cloud tier to check out the services, and you don't have to give credit card details for either. Qdrant's free tier should be enough to keep around 1M of 768-dimensional vectors, but it may vary depending on the additional attributes stored with vectors. Pinecone's starter plan supports approximately 100,000 vectors with 1536-dimensional embeddings and metadata, stored within a single index. With Qdrant Cloud, however, you can experiment with different models as you may create several collections or keep multiple vectors per each point. That means Qdrant Cloud allows you building several small demos, even on a free tier.
 
 ## Terminology
 
