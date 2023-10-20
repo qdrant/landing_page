@@ -7,10 +7,5 @@
         {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
     </article>
 
-    <div style="overflow: auto">
-        <span style="float: right">
-            <a href="{{ .Site.Params.githubDocPrefix }}{{ .File.Path }}" target="_blank">Edit on GitHub <i class="flaticon-github"></i></a>
-        </span>
-    </div>
 </div>
 {{ end }}
