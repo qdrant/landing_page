@@ -165,51 +165,15 @@ a single switch, you can see how the results differ when using the previous `ave
 
 If you select just a single positive example, both algorithms work identically.
 
-[//]: # (All the figures were generated from .png files using ImageMagick: convert -delay 300 -loop 0 one-positive*.png one-positive.gif)
-
 ##### One positive example
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <a href="/articles_data/new-recommendation-api/one-positive-average-vector.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/one-positive-average-vector.png" alt="Average vector">
-        </a>
-      </td>
-      <td>
-        <a href="/articles_data/new-recommendation-api/one-positive-best-score.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/one-positive-best-score.png" alt="Best score">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-[//]: # ({{< figure src="/articles_data/new-recommendation-api/one-positive.gif" caption="One positive example, both strategies" >}})
+<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/one-positive.mp4" type="video/mp4"></video>
 
 The difference only becomes apparent when you start adding more examples, especially if you choose some negatives.
 
 ##### One positive and one negative example
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <a href="/articles_data/new-recommendation-api/one-positive-one-negative-average-vector.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/one-positive-one-negative-average-vector.png" alt="Average vector">
-        </a>
-      </td>
-      <td>
-        <a href="/articles_data/new-recommendation-api/one-positive-one-negative-best-score.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/one-positive-one-negative-best-score.png" alt="Best score">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-[//]: # ({{< figure src="/articles_data/new-recommendation-api/one-positive-one-negative.gif" caption="One positive and one negative example, both strategies" >}})
+<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/one-positive-one-negative.mp4" type="video/mp4"></video>
 
 The more likes and dislikes we add, the more diverse the results of the `best_score` strategy will be. In the old strategy, there 
 is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, making 
@@ -217,24 +181,7 @@ the variety richer.
 
 ##### Multiple positive and one negative examples
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <a href="/articles_data/new-recommendation-api/multiple-average-vector.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/multiple-average-vector.png" alt="Average vector">
-        </a>
-      </td>
-      <td>
-        <a href="/articles_data/new-recommendation-api/multiple-best-score.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/multiple-best-score.png" alt="Best score">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-[//]: # ({{< figure src="/articles_data/new-recommendation-api/multiple.gif" caption="Multiple positive and one negative examples, both strategies" >}})
+<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/multiple.mp4" type="video/mp4"></video>
 
 Choosing the right strategy is dataset-dependent, and the embeddings play a significant role here. Thus, it’s always worth trying 
 both of them and comparing the results in a particular case.
@@ -247,24 +194,7 @@ the non-food items. That’s a simple way to filter out the outliers.
 
 ##### Negatives only
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <a href="/articles_data/new-recommendation-api/negatives-only-average-vector.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/negatives-only-average-vector.png" alt="Average vector">
-        </a>
-      </td>
-      <td>
-        <a href="/articles_data/new-recommendation-api/negatives-only-best-score.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/negatives-only-best-score.png" alt="Best score">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-[//]: # ({{< figure src="/articles_data/new-recommendation-api/negatives-only.gif" caption="Negatives only, both strategies" >}})
+<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/negatives-only.mp4" type="video/mp4"></video>
 
 Still, both methods return different results, so they each have their place depending on the  questions being asked and the datasets 
 being used.
@@ -277,48 +207,14 @@ them combined. We utilized that mechanism in the updated demo, allowing you to p
 
 ##### A single text query
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <a href="/articles_data/new-recommendation-api/text-query-average-vector.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/text-query-average-vector.png" alt="Average vector">
-        </a>
-      </td>
-      <td>
-        <a href="/articles_data/new-recommendation-api/text-query-best-score.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/text-query-best-score.png" alt="Best score">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-[//]: # ({{< figure src="/articles_data/new-recommendation-api/text-query.gif" caption="A single text query, both strategies" >}})
+<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/text-query.mp4" type="video/mp4"></video>
 
 Text queries might be mixed with the liked and disliked photos, so you can combine them in a single request. However, you might be 
 surprised by the results achieved with the new strategy, if you start adding the negative examples.
 
 ##### A single text query with negative example
 
-<table>
-  <tbody>
-    <tr>
-      <td>
-        <a href="/articles_data/new-recommendation-api/text-query-with-negative-average-vector.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/text-query-with-negative-average-vector.png" alt="Average vector">
-        </a>
-      </td>
-      <td>
-        <a href="/articles_data/new-recommendation-api/text-query-with-negative-best-score.png" target="_blank">
-          <img src="/articles_data/new-recommendation-api/text-query-with-negative-best-score.png" alt="Best score">
-        </a>
-      </td>
-    </tr>
-  </tbody>
-</table>
-
-[//]: # ({{< figure src="/articles_data/new-recommendation-api/text-query-with-negative.gif" caption="A single text query with negative example, both strategies" >}})
+<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/text-query-with-negative.mp4" type="video/mp4"></video>
 
 This is an issue related to the embeddings themselves. Our dataset contains a bunch of image embeddings that are pretty close to each 
 other. On the other hand, our text queries are quite far from most of the image embeddings, but relatively close to some of them, so the 
