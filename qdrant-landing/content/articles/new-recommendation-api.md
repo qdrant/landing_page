@@ -17,14 +17,13 @@ does exist, and recommendation systems are a great example. Recommendations migh
 to find items close to positive and far from negative examples. This use of vector databases has many applications, including 
 recommendation systems for e-commerce, content, or even dating apps.
 
-Qdrant has provided the [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) 
-for a while, but the previous version had some limitations. The latest release, [Qdrant 1.6](https://github.com/qdrant/qdrant/releases/tag/v1.6.0), 
-gives you some new exciting features, including an extension of the recommendation API, making it more flexible and powerful. 
-This article unveils the internals and shows how they may be used in practice.
+Qdrant has provided the [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) for a while, and with the latest release, [Qdrant 1.6](https://github.com/qdrant/qdrant/releases/tag/v1.6.0), 
+we're glad to give you more flexibility and control over the Recommendation API. 
+Here, we'll discuss some internals and shows how they may be used in practice.
 
 ### Recap of the old recommendations API
 
-The old [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) in Qdrant came with some limitations. First of all, it was required to pass vector IDs for 
+The previous [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) in Qdrant came with some limitations. First of all, it was required to pass vector IDs for 
 both positive and negative example points. If you wanted to use vector embeddings directly, you had to either create a new point 
 in a collection or mimic the behaviour of the Recommendation API by using the [Search API](https://qdrant.tech/documentation/concepts/search/#search-api).
 Moreover, in the previous releases of Qdrant, you were always asked to provide at least one positive example. This requirement 
@@ -110,9 +109,9 @@ parameters. For example, you can get recommendations based on past interactions 
 embedding. Internally, that mechanism is based on the averages of positive and negative examples and was calculated with the 
 following formula:
 
-```
-average_vector = avg(positive_vectors) + ( avg(positive_vectors) - avg(negative_vectors) )
-```
+$$
+\text{average vector} = \text{avg}(\text{positive vectors}) + \left( \text{avg}(\text{positive vectors}) - \text{avg}(\text{negative vectors}) \right)
+$$
 
 The `average_vector` converts the problem of recommendations into a single vector search.
 
