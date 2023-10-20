@@ -87,3 +87,22 @@
 </script>
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 {{ end }}
+
+{{ if or (eq .Section "documentation") (eq .Section "articles") }}
+<script>
+  $(function() {
+    document.querySelectorAll('#TableOfContents a').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const target = document.querySelector(el.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }
+      });
+
+      if (el.innerText) el.setAttribute('title', el.innerText)
+    });
+  });
+</script>
+{{ end }}
