@@ -11,9 +11,13 @@
     margin-left: -5px;
   }
 
-  & ul {
-    margin: 0;
-    padding: 0;
+  & nav {
+    margin-bottom: lib.rem(10);
+
+    & ul {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   & ul li {
@@ -37,7 +41,6 @@
 
   & ul:not(.tableOfContent__footer) a {
     display: block;
-    line-height: 2.2;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -48,7 +51,10 @@
     }
   }
 
-  &__footer li {
-    padding-left: 0;
+  &__footer {
+    margin-top: lib.rem(10);
+    li {
+      padding-left: 0;
+    }
   }
 }

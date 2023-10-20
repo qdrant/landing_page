@@ -147,6 +147,10 @@ blockquote {
   font-style: italic;
 }
 
+.divider {
+  border-bottom: 1px solid var(--brand-mid-grey);
+}
+
 .marquee {
   @include marquee.base(80px, 200px, 13, 6, 20px, false, 50s);
 }
