@@ -19,7 +19,7 @@ recommendation systems for e-commerce, content, or even dating apps.
 
 Qdrant has provided the [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) for a while, and with the latest release, [Qdrant 1.6](https://github.com/qdrant/qdrant/releases/tag/v1.6.0), 
 we're glad to give you more flexibility and control over the Recommendation API. 
-Here, we'll discuss some internals and shows how they may be used in practice.
+Here, we'll discuss some internals and show how they may be used in practice.
 
 ### Recap of the old recommendations API
 
