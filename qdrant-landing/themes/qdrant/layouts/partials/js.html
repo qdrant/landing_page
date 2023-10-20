@@ -91,7 +91,7 @@
 {{ if or (eq .Section "documentation") (eq .Section "articles") }}
 <script>
   $(function() {
-    document.querySelectorAll('#TableOfContents a').forEach(function(el) {
+    document.querySelectorAll('#TOC a').forEach(function(el) {
       el.addEventListener('click', function(e) {
         e.preventDefault();
 
