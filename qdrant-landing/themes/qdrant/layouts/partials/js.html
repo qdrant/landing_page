@@ -88,9 +88,10 @@
 <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 {{ end }}
 
-{{ if or (eq .Section "documentation") (eq .Section "articles") }}
+{{ if eq .Section "documentation" }}
 <script>
   $(function() {
+    // table of contents
     document.querySelectorAll('#TOC a').forEach(function(el) {
       el.addEventListener('click', function(e) {
         e.preventDefault();
@@ -103,14 +104,8 @@
 
       if (el.innerText) el.setAttribute('title', el.innerText)
     });
-  });
-</script>
-{{ end }}
 
-
-{{ if eq .Section "documentation" }}
-<script>
-  $(function () {
+    // sidebar
     const moveSearchButton = function() {
       if ($(window).width() > 991) {
         $('.qdr-search-input-btn').detach().prependTo('#sidebar > #accordion');
