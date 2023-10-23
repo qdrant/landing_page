@@ -7,7 +7,7 @@ weight: 1100
 
 [MindsDB](https://mindsdb.com) is an AI automation platform for building AI/ML powered features and applications. It works by connecting any source of data with any AI/ML model or framework and automating how real-time data flows between them.
 
-With the MindsDB-Qdrant integration, you can now select Qdrant as a database to load into and retrieve from with semantic-search and filtering.
+With the MindsDB-Qdrant integration, you can now select Qdrant as a database to load into and retrieve from with semantic search and filtering.
 
 **MindsDB allows you to easily**:
 
@@ -35,7 +35,7 @@ The available arguments for instantiating Qdrant can be found [here](https://git
 ## Creating a new table
 
 - Qdrant options for creating a collection can be specified as `collection_config` in the `CREATE DATABASE` parameters.
-- By default, UUIDs are set as collection IDs. You can provide your own IDs under the `ids` column.
+- By default, UUIDs are set as collection IDs. You can provide your own IDs under the `id` column.
 ```sql
 CREATE TABLE qdrant_test.test_table (
    SELECT embeddings,'{"source": "bbc"}' as metadata FROM mysql_demo_db.test_embeddings
@@ -51,13 +51,19 @@ SELECT * FROM qdrant_test.test_table
 ```
 By default, the `LIMIT` is set to 10 and the `OFFSET` is set to 0.
 
-#### Perform a similarity search using your embeddings, like so
+#### Perform a similarity search using your embeddings
+
 ```sql
 SELECT * FROM qdrant_test.test_table
 WHERE search_vector = (select embeddings from mysql_demo_db.test_embeddings limit 1)
 ```
-
 #### Perform a search using filters
+
+<aside>
+  <p><strong>NOTICE:</strong></p>
+  <p>Qdrant supports <a href="https://qdrant.tech/documentation/concepts/indexing/#payload-index">payload indexing</a> that vastly improves retrieval efficiency with filters and is highly recommended. Please note that this feature currently cannot be configured via MindsDB and must be set up separately if needed.</p>
+</aside>
+
 ```sql
 SELECT * FROM qdrant_test.test_table
 WHERE `metadata.source` = 'bbc';
@@ -80,8 +86,5 @@ WHERE `metadata.source` = 'bbc';
  DROP TABLE qdrant_test.test_table;
 ```
 
-## NOTICE
-Qdrant supports [payload indexing](https://qdrant.tech/documentation/concepts/indexing/#payload-index) that vastly improves retrieval efficiency with filters and is highly recommended. Please note that this feature currently cannot be configured via MindsDB and must be set up separately if needed.
-
-
+## Next steps
 You can find more information pertaining to MindsDB and its datasources [here](https://docs.mindsdb.com/).
