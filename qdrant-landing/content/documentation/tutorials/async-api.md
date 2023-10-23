@@ -47,7 +47,28 @@ async def main():
     # Create a collection
     await client.create_collection(
         collection_name="my_collection",
-        vectors_config=models.VectorParams(size=10, distance=models.Distance.COSINE),
+        vectors_config=models.VectorParams(size=4, distance=models.Distance.COSINE),
+    )
+    
+    # Insert a vector
+    await client.upsert(
+        collection_name="my_collection",
+        points=[
+            models.PointStruct(
+                id="5c56c793-69f3-4fbf-87e6-c4bf54c28c26",
+                payload={
+                    "color": "red",
+                },
+                vector=[0.9, 0.1, 0.1, 0.5],
+            ),
+        ]
+    )
+    
+    # Search for nearest neighbors
+    points = await client.search(
+        collection_name="my_collection",
+        query_vector=[0.9, 0.1, 0.1, 0.5],
+        limit=2,
     )
     
     # Your async code using AsyncQdrantClient might be put here
