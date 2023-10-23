@@ -53,16 +53,13 @@ By default, the `LIMIT` is set to 10 and the `OFFSET` is set to 0.
 
 #### Perform a similarity search using your embeddings
 
+<aside role="status">Qdrant supports <a href="https://qdrant.tech/documentation/concepts/indexing/#payload-index">payload indexing</a> that vastly improves retrieval efficiency with filters and is highly recommended. Please note that this feature currently cannot be configured via MindsDB and must be set up separately if needed.</aside>
+
 ```sql
 SELECT * FROM qdrant_test.test_table
 WHERE search_vector = (select embeddings from mysql_demo_db.test_embeddings limit 1)
 ```
 #### Perform a search using filters
-
-<aside>
-  <p><strong>NOTICE:</strong></p>
-  <p>Qdrant supports <a href="https://qdrant.tech/documentation/concepts/indexing/#payload-index">payload indexing</a> that vastly improves retrieval efficiency with filters and is highly recommended. Please note that this feature currently cannot be configured via MindsDB and must be set up separately if needed.</p>
-</aside>
 
 ```sql
 SELECT * FROM qdrant_test.test_table
