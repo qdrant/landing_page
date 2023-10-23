@@ -90,7 +90,22 @@
 
 {{ if eq .Section "documentation" }}
 <script>
-  $(function () {
+  $(function() {
+    // table of contents
+    document.querySelectorAll('#TOC a').forEach(function(el) {
+      el.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        const target = document.querySelector(el.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }
+      });
+
+      if (el.innerText) el.setAttribute('title', el.innerText)
+    });
+
+    // sidebar
     const moveSearchButton = function() {
       if ($(window).width() > 991) {
         $('.qdr-search-input-btn').detach().prependTo('#sidebar > #accordion');
