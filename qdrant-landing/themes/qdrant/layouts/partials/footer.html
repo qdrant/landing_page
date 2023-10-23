@@ -25,9 +25,7 @@
                             {{ range .Children }}
                             <li><a href="{{ .URL }}" {{ if .Params.external }}target="_blank" {{ end }}>
                                 {{ if .Pre }}
-                                {{ .Pre }}&nbsp;
-                                {{ else }}
-                                <i class="fas fa-check-circle"></i>
+                                    {{ .Pre }}&nbsp;
                                 {{ end }}
                                 <span>{{ .Name }}</span>
                             </a></li>
