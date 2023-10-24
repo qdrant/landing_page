@@ -178,7 +178,7 @@ The more likes and dislikes we add, the more diverse the results of the `best_sc
 is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, making 
 the variety richer.
 
-##### Multiple positive and one negative examples
+##### Multiple positive and negative examples
 
 <video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/multiple.mp4" type="video/mp4"></video>
 
