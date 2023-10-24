@@ -8,7 +8,7 @@ small_preview_image: /articles_data/new-recommendation-api/icon.svg
 weight: -80
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2023-10-19T10:12:00.000Z
+date: 2023-10-24T14:12:00.000Z
 ---
 
 The most popular use case for vector search engines, such as Qdrant, is Semantic search with a single query vector. Given the 
@@ -191,11 +191,16 @@ In the case of our Food Discovery demo, passing just the negatives works as an o
 to contain only food photos, but some of them are not. If you pass them as negative examples, the results will usually contain just 
 the non-food items. That’s a simple way to filter out the outliers.
 
+**The `average_vector` strategy still requires providing at least one positive example!** However, since cosine distance is set up
+for the collection used in the demo, we could have faked it using [a trick described in the previous article](/articles/food-discovery-demo/#negative-feedback-only).
+In a nutshell, if you only pass negative examples, their vectors will be averaged, and the negated resulting vector will be used as 
+a query to the search endpoint.
+
 ##### Negatives only
 
 <video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/negatives-only.mp4" type="video/mp4"></video>
 
-Still, both methods return different results, so they each have their place depending on the  questions being asked and the datasets 
+Still, both methods return different results, so they each have their place depending on the questions being asked and the datasets 
 being used.
 
 #### Challenges with multimodality
