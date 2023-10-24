@@ -192,7 +192,7 @@ to contain only food photos, but some of them are not. If you pass them as negat
 the non-food items. That’s a simple way to filter out the outliers.
 
 **The `average_vector` strategy still requires providing at least one positive example!** However, since cosine distance is set up
-for the collection used in the demo, we could have faked it using [a trick described in the previous article](/articles/food-discovery-demo/#negative-feedback-only).
+for the collection used in the demo, we faked it using [a trick described in the previous article](/articles/food-discovery-demo/#negative-feedback-only).
 In a nutshell, if you only pass negative examples, their vectors will be averaged, and the negated resulting vector will be used as 
 a query to the search endpoint.
 
