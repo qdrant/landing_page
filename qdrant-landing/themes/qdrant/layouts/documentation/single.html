@@ -1,16 +1,11 @@
 {{ define "main" }}
 
-<div class="col-12 col-md-9 col-lg-8 pb-5">
+<div class="col-12 col-md-9 col-lg-8 pt-4 pt-lg-0 pb-5">
 
     <article class="documentation__article">
         {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
         {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
     </article>
 
-    <div style="overflow: auto">
-        <span style="float: right">
-            <a href="{{ .Site.Params.githubDocPrefix }}{{ .File.Path }}" target="_blank">Edit on GitHub <i class="flaticon-github"></i></a>
-        </span>
-    </div>
 </div>
 {{ end }}

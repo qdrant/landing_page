@@ -1,33 +1,60 @@
+@use "../helpers/functions" as lib;
+
 .tableOfContent {
-  top: 0;
+  top: 10px;
   right: 0;
+  font-size: lib.rem(14);
 
   &__header {
-    margin-bottom: 0.8rem;
+    font-size: 1rem;
+    margin-bottom: lib.rem(13);
     margin-left: -5px;
   }
 
-  & ul {
-    margin: 0;
+  & nav {
+    margin-bottom: lib.rem(10);
+
+    & ul {
+      margin: 0;
+      padding: 0;
+    }
   }
 
   & ul li {
-    padding-left: 0;
     list-style: none;
+    line-height: lib.rem(18);
     margin: 0;
-    &:not(nav > ul  > li) {
-      list-style: '· ';
-      margin-left: 0.5rem;
+
+    &:not(nav > ul  > li):not(ul.tableOfContent__footer > li) {
+      padding-left: 1rem;
     }
   }
 
   & a {
-    line-height: 2.2;
+    display: inline-block;
+    padding: 6px 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  & ul:not(.tableOfContent__footer) a {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     color: var(--brand-secondary);
 
     &:hover {
       color: var(--brand-primary);
-      text-decoration: underline;
+    }
+  }
+
+  &__footer {
+    margin-top: lib.rem(10);
+    li {
+      padding-left: 0;
     }
   }
 }
