@@ -212,7 +212,7 @@ client.update_collection(
 
 The following parameters can be updated:
 
-* `optimizers_config` - see [optimizer](./optimizer/) for details.
+* `optimizers_config` - see [optimizer](../optimizer/) for details.
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
