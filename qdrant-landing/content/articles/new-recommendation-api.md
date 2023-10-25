@@ -166,13 +166,13 @@ If you select just a single positive example, both algorithms work identically.
 
 ##### One positive example
 
-<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/one-positive.mp4" type="video/mp4"></video>
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/one-positive.mp4" type="video/mp4"></video>
 
 The difference only becomes apparent when you start adding more examples, especially if you choose some negatives.
 
 ##### One positive and one negative example
 
-<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/one-positive-one-negative.mp4" type="video/mp4"></video>
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/one-positive-one-negative.mp4" type="video/mp4"></video>
 
 The more likes and dislikes we add, the more diverse the results of the `best_score` strategy will be. In the old strategy, there 
 is just a single vector, so all the examples are similar to it. The new one takes into account all the examples separately, making 
@@ -180,7 +180,7 @@ the variety richer.
 
 ##### Multiple positive and negative examples
 
-<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/multiple.mp4" type="video/mp4"></video>
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/multiple.mp4" type="video/mp4"></video>
 
 Choosing the right strategy is dataset-dependent, and the embeddings play a significant role here. Thus, it’s always worth trying 
 both of them and comparing the results in a particular case.
@@ -198,7 +198,7 @@ a query to the search endpoint.
 
 ##### Negatives only
 
-<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/negatives-only.mp4" type="video/mp4"></video>
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/negatives-only.mp4" type="video/mp4"></video>
 
 Still, both methods return different results, so they each have their place depending on the questions being asked and the datasets 
 being used.
@@ -211,14 +211,14 @@ them combined. We utilized that mechanism in the updated demo, allowing you to p
 
 ##### A single text query
 
-<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/text-query.mp4" type="video/mp4"></video>
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/text-query.mp4" type="video/mp4"></video>
 
 Text queries might be mixed with the liked and disliked photos, so you can combine them in a single request. However, you might be 
 surprised by the results achieved with the new strategy, if you start adding the negative examples.
 
 ##### A single text query with negative example
 
-<video autoplay="true" loop="true" width="100%"><source src="/articles_data/new-recommendation-api/text-query-with-negative.mp4" type="video/mp4"></video>
+<video autoplay="true" loop="true" width="100%" controls><source src="/articles_data/new-recommendation-api/text-query-with-negative.mp4" type="video/mp4"></video>
 
 This is an issue related to the embeddings themselves. Our dataset contains a bunch of image embeddings that are pretty close to each 
 other. On the other hand, our text queries are quite far from most of the image embeddings, but relatively close to some of them, so the 
