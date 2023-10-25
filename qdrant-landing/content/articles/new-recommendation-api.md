@@ -8,7 +8,7 @@ small_preview_image: /articles_data/new-recommendation-api/icon.svg
 weight: -80
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
-date: 2023-10-25T11:46:00.000Z
+date: 2023-10-25T09:46:00.000Z
 ---
 
 The most popular use case for vector search engines, such as Qdrant, is Semantic search with a single query vector. Given the 
