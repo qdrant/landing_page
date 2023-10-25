@@ -187,9 +187,9 @@ both of them and comparing the results in a particular case.
 
 #### Handling the negatives only
 
-In the case of our Food Discovery demo, passing just the negatives works as an outlier detection mechanism. The dataset was supposed 
-to contain only food photos, but some of them are not. If you pass them as negative examples, the results will usually contain just 
-the non-food items. That’s a simple way to filter out the outliers.
+In the case of our Food Discovery demo, passing just the negative images can work as an outlier detection mechanism. While the dataset 
+was supposed to contain only food photos, this is not actually true. A simple way to find these outliers is to pass in food item photos 
+as negatives, leading to the results being the most "unlike" food images. In our case you will see pill bottles and books.
 
 **The `average_vector` strategy still requires providing at least one positive example!** However, since cosine distance is set up
 for the collection used in the demo, we faked it using [a trick described in the previous article](/articles/food-discovery-demo/#negative-feedback-only).
