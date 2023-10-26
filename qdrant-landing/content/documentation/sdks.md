@@ -1,9 +1,11 @@
 ---
-title: Interfaces
+title: SDKs
 weight: 14
+aliases:
+  - ../integrations/
 ---
 
-# Interfaces
+# SDKs
 
 > **Note:** If you are using a language that is not listed here, you can use the REST API directly or generate a client for your language 
 using [OpenAPI](https://github.com/qdrant/qdrant/blob/master/docs/redoc/master/openapi.json)
@@ -12,7 +14,7 @@ or [protobuf](https://github.com/qdrant/qdrant/tree/master/lib/api/src/grpc/prot
 ## Client Libraries
 ||Client Repository|Installation|Version|
 |-|-|-|-|
-|[![python](/docs/misc/python.webp)](https://python-client.qdrant.tech/)|**[Python](https://github.com/qdrant/qdrant-client)**|`pip install qdrant-client[fastembed]`|**Latest Release**, [API Docs](https://python-client.qdrant.tech/)|
+|[![python](/docs/misc/python.webp)](https://python-client.qdrant.tech/)|**[Python](https://github.com/qdrant/qdrant-client)**|`pip install qdrant-client[fastembed]`|**Latest Release**, **[API Docs](https://python-client.qdrant.tech/)**|
 |![typescript](/docs/misc/ts.webp)|**[Typescript](https://github.com/qdrant/qdrant-js)**|`npm install @qdrant/js-client-rest`|**Latest Release**|
 |![rust](/docs/misc/rust.webp)|**[Rust](https://github.com/qdrant/rust-client)**|`cargo add qdrant-client`|**Latest Release**|
 |![golang](/docs/misc/go.webp)|**[Go](https://github.com/qdrant/go-client)**|`go get github.com/qdrant/go-client`|**Latest Release**|
