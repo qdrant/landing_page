@@ -37,7 +37,7 @@ config_list = config_list_from_json(
 )
 ```
 
-It first looks for environment variable "OAI_CONFIG_LIST" which needs to be a valid JSON string. If that variable is not found, it then looks for a JSON file named "OAI_CONFIG_LIST". The file structure sample can be found [here](https://github.com/microsoft/autogen/blob/main/OAI_CONFIG_LIST_sample).
+It first looks for the environment variable "OAI_CONFIG_LIST" which needs to be a valid JSON string. If that variable is not found, it then looks for a JSON file named "OAI_CONFIG_LIST". The file structure sample can be found [here](https://github.com/microsoft/autogen/blob/main/OAI_CONFIG_LIST_sample).
 
 #### Construct agents for RetrieveChat
 
@@ -61,8 +61,10 @@ assistant = RetrieveAssistantAgent(
 # 2. create a QdrantRetrieveUserProxyAgent instance named "qdrantagent"
 # By default, the human_input_mode is "ALWAYS", which means the agent will ask for human input at every step. We set it to "NEVER" here.
 # `docs_path` is the path to the docs directory. By default, it is set to "./docs". Here we specify a custom path.
+# `task` indicates the kind of task we're working on. In this example, it's a `code` task.
 # `chunk_token_size` is the chunk token size for the retrieve chat. By default, it is set to `max_tokens * 0.6`, here we set it to 2000.
 # We use an in-memory QdrantClient instance here. Not recommended for production.
+
 ragproxyagent = QdrantRetrieveUserProxyAgent(
     name="qdrantagent",
     human_input_mode="NEVER",
@@ -87,7 +89,9 @@ assistant.reset()
 # the assistant receives the message and generates a response. The response will be sent back to the ragproxyagent for processing.
 # The conversation continues until the termination condition is met, in RetrieveChat, the termination condition when no human-in-loop is no code block detected.
 # With human-in-loop, the conversation will continue until the user says "exit".
-code_problem = "How can I use FLAML to perform a classification task and use spark to do parallel training? Train 30 seconds and force cancel jobs if time limit is reached."
+
+# The query used below is for demonstration. It should usually be related to the docs made available to the agent
+code_problem = "How can I use FLAML to perform a classification task?"
 ragproxyagent.initiate_chat(assistant, problem=code_problem)
 ```
 
