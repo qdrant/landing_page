@@ -54,7 +54,7 @@ Majority of Vector Database are not *databases* in this sense.
 It would be more accurate to call them *search engines*, but unfortunately, the marketing term *database* is already stuck and it is unlikely to change.
 
 
-*What makes search engines different different and why vector DBs are built as search engines?*
+*What makes search engines different and why vector DBs are built as search engines?*
 
 First of all, search engines assume different patterns of workloads and priorities different properties of the system. The core architecture of such solutions is built around those priorities.
 
