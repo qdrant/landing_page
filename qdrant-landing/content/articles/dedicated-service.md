@@ -50,7 +50,7 @@ The origins of this misconception lie in the careless use of the term Vector *Da
 When we think of a *database*, we subconsciously envision a relational database like Postgres or MySQL.
 Or more scientifically, a service built on ACID principles, that procivides transactions, strong consistency guarantees and atomicity.
 
-Majority of Vector Database are not *databases* in this sense.
+The majority of Vector Database are not *databases* in this sense.
 It would be more accurate to call them *search engines*, but unfortunately, the marketing term *database* is already stuck and it is unlikely to change.
 
 
