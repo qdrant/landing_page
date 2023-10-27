@@ -139,6 +139,7 @@ Coordinate should be described as an object containing two fields: `lon` - for l
 
 ## Create point with payload
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/upsert_points))
+
 ```http
 PUT /collections/{collection_name}/points
 
@@ -176,7 +177,7 @@ client.upsert(
             id=1,
             vector=[0.05, 0.61, 0.76, 0.74],
             payload={
-                "city": "Berlin", 
+                "city": "Berlin",
                 "price": 1.99,
             },
         ),
@@ -184,7 +185,7 @@ client.upsert(
             id=2,
             vector=[0.19, 0.81, 0.75, 0.11],
             payload={
-                "city": ["Berlin", "London"], 
+                "city": ["Berlin", "London"],
                 "price": 1.99,
             },
         ),
@@ -192,12 +193,47 @@ client.upsert(
             id=3,
             vector=[0.36, 0.55, 0.47, 0.94],
             payload={
-                "city": ["Berlin", "Moscow"], 
+                "city": ["Berlin", "Moscow"],
                 "price": [1.99, 2.99],
             },
         ),
-    ]
+    ],
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      vector: [0.05, 0.61, 0.76, 0.74],
+      payload: {
+        city: "Berlin",
+        price: 1.99,
+      },
+    },
+    {
+      id: 2,
+      vector: [0.19, 0.81, 0.75, 0.11],
+      payload: {
+        city: ["Berlin", "London"],
+        price: 1.99,
+      },
+    },
+    {
+      id: 3,
+      vector: [0.36, 0.55, 0.47, 0.94],
+      payload: {
+        city: ["Berlin", "Moscow"],
+        price: [1.99, 2.99],
+      },
+    },
+  ],
+});
 ```
 
 ## Update payload
@@ -231,6 +267,16 @@ client.set_payload(
 )
 ```
 
+```typescript
+client.setPayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  points: [0, 3, 10],
+});
+```
+
 ### Delete payload
 
 This method removes specified payload keys from specified points
@@ -254,6 +300,13 @@ client.delete_payload(
 )
 ```
 
+```typescript
+client.deletePayload("{collection_name}", {
+  keys: ["color", "price"],
+  points: [0, 3, 10],
+});
+```
+
 ### Clear payload
 
 This method removes all payload keys from specified points
@@ -273,8 +326,14 @@ client.clear_payload(
     collection_name="{collection_name}",
     points_selector=models.PointIdsList(
         points=[0, 3, 100],
-    )
+    ),
 )
+```
+
+```typescript
+client.clearPayload("{collection_name}", {
+  points: [0, 3, 100],
+});
 ```
 
 <aside role="status">You can also use `models.FilterSelector` to remove the points matching given filter criteria, instead of providing the ids.</aside>
@@ -309,6 +368,13 @@ client.create_payload_index(
     field_name="name_of_the_field_to_index",
     field_schema="keyword",
 )
+```
+
+```typescript
+client.createPayloadIndex("{collection_name}", {
+  field_name: "name_of_the_field_to_index",
+  field_schema: "keyword",
+});
 ```
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).

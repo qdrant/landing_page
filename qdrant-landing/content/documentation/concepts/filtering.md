@@ -75,6 +75,27 @@ client.scroll(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        key: "city",
+        match: { value: "London" },
+      },
+      {
+        key: "color",
+        match: { value: "red" },
+      },
+    ],
+  },
+});
+```
+
 Filtered points would be:
 
 ```json
@@ -98,7 +119,6 @@ POST /collections/{collection_name}/points/scroll
             { "key": "color", "match": { "value": "red" } }
         ]
     }
-  ...
 }
 ```
 
@@ -118,6 +138,23 @@ client.scroll(
         ]
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    should: [
+      {
+        key: "city",
+        match: { value: "London" },
+      },
+      {
+        key: "color",
+        match: { value: "red" },
+      },
+    ],
+  },
+});
 ```
 
 Filtered points would be:
@@ -148,7 +185,6 @@ POST /collections/{collection_name}/points/scroll
             { "key": "color", "match": { "value": "red" } }
         ]
     }
-  ...
 }
 ```
 
@@ -157,17 +193,28 @@ client.scroll(
     collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must_not=[
-            models.FieldCondition(
-                key="city",
-                match=models.MatchValue(value="London")
-            ),
-            models.FieldCondition(
-                key="color",
-                match=models.MatchValue(value="red")
-            ),
+            models.FieldCondition(key="city", match=models.MatchValue(value="London")),
+            models.FieldCondition(key="color", match=models.MatchValue(value="red")),
         ]
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must_not: [
+      {
+        key: "city",
+        match: { value: "London" },
+      },
+      {
+        key: "color",
+        match: { value: "red" },
+      },
+    ],
+  },
+});
 ```
 
 Filtered points would be:
@@ -198,7 +245,6 @@ POST /collections/{collection_name}/points/scroll
             { "key": "color", "match": { "value": "red" } }
         ]
     }
-  ...
 }
 ```
 
@@ -207,19 +253,32 @@ client.scroll(
     collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must=[
-            models.FieldCondition(
-                key="city",
-                match=models.MatchValue(value="London")
-            ),
+            models.FieldCondition(key="city", match=models.MatchValue(value="London")),
         ],
         must_not=[
-            models.FieldCondition(
-                key="color",
-                match=models.MatchValue(value="red")
-            ),
+            models.FieldCondition(key="color", match=models.MatchValue(value="red")),
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        key: "city",
+        match: { value: "London" },
+      },
+    ],
+    must_not: [
+      {
+        key: "color",
+        match: { value: "red" },
+      },
+    ],
+  },
+});
 ```
 
 Filtered points would be:
@@ -249,7 +308,6 @@ POST /collections/{collection_name}/points/scroll
             }
         ]
     }
-  ...
 }
 ```
 
@@ -261,18 +319,37 @@ client.scroll(
             models.Filter(
                 must=[
                     models.FieldCondition(
-                        key="city",
-                        match=models.MatchValue(value="London")
+                        key="city", match=models.MatchValue(value="London")
                     ),
                     models.FieldCondition(
-                        key="color",
-                        match=models.MatchValue(value="red")
+                        key="color", match=models.MatchValue(value="red")
                     ),
                 ],
             ),
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must_not: [
+      {
+        must: [
+          {
+            key: "city",
+            match: { value: "London" },
+          },
+          {
+            key: "color",
+            match: { value: "red" },
+          },
+        ],
+      },
+    ],
+  },
+});
 ```
 
 Filtered points would be:
@@ -310,6 +387,13 @@ models.FieldCondition(
 )
 ```
 
+```typescript
+{
+    key: 'color', 
+    match: {value: 'red'}
+}
+```
+
 For the other types, the match condition will look exactly the same, except for the type used:
 
 ```json
@@ -326,6 +410,13 @@ models.FieldCondition(
     key="count",
     match=models.MatchValue(value=0),
 )
+```
+
+```typescript
+{
+    key: 'count',
+    match: {value: 0}    
+}
 ```
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
@@ -359,6 +450,13 @@ FieldCondition(
 )
 ```
 
+```typescript
+{
+    key: 'color',
+    match: {any: ['black', 'yellow']}    
+}
+```
+
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
 If the stored value is an array, it should have at least one value matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
@@ -390,6 +488,13 @@ FieldCondition(
     key="color",
     match=models.MatchExcept(**{"except": ["black", "yellow"]}),
 )
+```
+
+```typescript
+{
+    key: 'color',
+    match: {except: ['black', 'yellow']}
+}
 ```
 
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
@@ -472,12 +577,24 @@ client.scroll(
     scroll_filter=models.Filter(
         should=[
             models.FieldCondition(
-                key="country.name",
-                match=models.MatchValue(value="Germany")
+                key="country.name", match=models.MatchValue(value="Germany")
             ),
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    should: [
+      {
+        key: "country.name",
+        match: { value: "Germany" },
+      },
+    ],
+  },
+});
 ```
 
 You can also search through arrays by projecting inner values using the `[]` syntax.
@@ -518,6 +635,24 @@ client.scroll(
 )
 ```
 
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    should: [
+      {
+        key: "country.cities[].population",
+        range: {
+          gt: null,
+          gte: 9.0,
+          lt: null,
+          lte: null,
+        },
+      },
+    ],
+  },
+});
+```
+
 This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
 
 And the leaf nested field can also be an array.
@@ -546,11 +681,24 @@ client.scroll(
         should=[
             models.FieldCondition(
                 key="country.cities[].sightseeing",
-                match=models.MatchValue(value="Osaka Castle")
+                match=models.MatchValue(value="Osaka Castle"),
             ),
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    should: [
+      {
+        key: "country.cities[].sightseeing",
+        match: { value: "Osaka Castle" },
+      },
+    ],
+  },
+});
 ```
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
@@ -615,16 +763,31 @@ client.scroll(
     scroll_filter=models.Filter(
         must=[
             models.FieldCondition(
-                key="diet[].food",
-                match=models.MatchValue(value="meat")
+                key="diet[].food", match=models.MatchValue(value="meat")
             ),
             models.FieldCondition(
-                key="diet[].likes",
-                match=models.MatchValue(value=True)
+                key="diet[].likes", match=models.MatchValue(value=True)
             ),
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        key: "diet[].food",
+        match: { value: "meat" },
+      },
+      {
+        key: "diet[].likes",
+        match: { value: true },
+      },
+    ],
+  },
+});
 ```
 
 This happens because both points are matching the two conditions:
@@ -683,20 +846,44 @@ client.scroll(
                     filter=models.Filter(
                         must=[
                             models.FieldCondition(
-                                key="food",
-                                match=models.MatchValue(value="meat")
+                                key="food", match=models.MatchValue(value="meat")
                             ),
                             models.FieldCondition(
-                                key="likes",
-                                match=models.MatchValue(value=True)
+                                key="likes", match=models.MatchValue(value=True)
                             ),
                         ]
-                    )
+                    ),
                 )
             )
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        nested: {
+          key: "diet",
+          filter: {
+            must: [
+              {
+                key: "food",
+                match: { value: "meat" },
+              },
+              {
+                key: "likes",
+                match: { value: true },
+              },
+            ],
+          },
+        },
+      },
+    ],
+  },
+});
 ```
 
 The matching logic is modified to be applied at the level of an array element within the payload.
@@ -752,21 +939,48 @@ client.scroll(
                     filter=models.Filter(
                         must=[
                             models.FieldCondition(
-                                key="food",
-                                match=models.MatchValue(value="meat")
+                                key="food", match=models.MatchValue(value="meat")
                             ),
                             models.FieldCondition(
-                                key="likes",
-                                match=models.MatchValue(value=True)
+                                key="likes", match=models.MatchValue(value=True)
                             ),
                         ]
-                    )
+                    ),
                 )
-            )
+            ),
             models.HasIdCondition(has_id=[1]),
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        nested: {
+          key: "diet",
+          filter: {
+            must: [
+              {
+                key: "food",
+                match: { value: "meat" },
+              },
+              {
+                key: "likes",
+                match: { value: true },
+              },
+            ],
+          },
+        },
+      },
+      {
+        has_id: [1],
+      },
+    ],
+  },
+});
 ```
 
 ### Full Text Match
@@ -797,6 +1011,13 @@ models.FieldCondition(
 )
 ```
 
+```typescript
+{
+    key: 'description',
+    match: {text: 'good cheap'}    
+}
+```
+
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
 
 ### Range
@@ -823,6 +1044,18 @@ models.FieldCondition(
         lte=450.0,
     ),
 )
+```
+
+```typescript
+{
+    key: 'price',
+    range: {
+        gt: null,
+        gte: 100.0,
+        lt: null,
+        lte: 450.0    
+    }    
+}
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -873,6 +1106,22 @@ models.FieldCondition(
 )
 ```
 
+```typescript
+{
+    key: 'location',
+    geo_bounding_box: {
+        bottom_right: {
+            lon: 13.455868,
+            lat: 52.495862
+        },
+        top_left: {
+            lon: 13.403683,
+            lat: 52.520711
+        }
+    }
+}
+```
+
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 #### Geo Radius
@@ -901,6 +1150,19 @@ models.FieldCondition(
         radius=1000.0,
     ),
 )
+```
+
+```typescript
+{
+    key: 'location',
+    geo_radius: {
+        center: {
+            lon: 13.403683,
+            lat: 52.520711
+        },
+        radius: 1000.0
+    }    
+}
 ```
 
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
@@ -951,55 +1213,111 @@ models.FieldCondition(
         exterior=models.GeoLineString(
             points=[
                 models.GeoPoint(
-                        lon=-70.0,
-                        lat=-70.0,
+                    lon=-70.0,
+                    lat=-70.0,
                 ),
                 models.GeoPoint(
-                        lon=60.0,
-                        lat=-70.0,
+                    lon=60.0,
+                    lat=-70.0,
                 ),
                 models.GeoPoint(
-                        lon=60.0,
-                        lat=60.0,
+                    lon=60.0,
+                    lat=60.0,
                 ),
                 models.GeoPoint(
-                        lon=-70.0,
-                        lat=60.0,
+                    lon=-70.0,
+                    lat=60.0,
                 ),
                 models.GeoPoint(
-                        lon=-70.0,
-                        lat=-70.0,
-                )
+                    lon=-70.0,
+                    lat=-70.0,
+                ),
             ]
         ),
         interiors=[
             models.GeoLineString(
                 points=[
                     models.GeoPoint(
-                            lon=-65.0,
-                            lat=-65.0,
+                        lon=-65.0,
+                        lat=-65.0,
                     ),
                     models.GeoPoint(
-                            lon=0.0,
-                            lat=-65.0,
+                        lon=0.0,
+                        lat=-65.0,
                     ),
                     models.GeoPoint(
-                            lon=0.0,
-                            lat=0.0,
+                        lon=0.0,
+                        lat=0.0,
                     ),
                     models.GeoPoint(
-                            lon=-65.0,
-                            lat=0.0,
+                        lon=-65.0,
+                        lat=0.0,
                     ),
                     models.GeoPoint(
-                            lon=-65.0,
-                            lat=-65.0,
-                    )
+                        lon=-65.0,
+                        lat=-65.0,
+                    ),
                 ]
             )
-        ]
-    )
+        ],
+    ),
 )
+```
+
+```typescript
+{
+    key: 'location', 
+    geo_polygon: {
+        exterior: {
+            points: [
+                {
+                    lon: -70.0,
+                    lat: -70.0
+                },
+                {
+                    lon: 60.0,
+                    lat: -70.0
+                },
+                {
+                    lon: 60.0,
+                    lat: 60.0
+                },
+                {
+                    lon: -70.0,
+                    lat: 60.0
+                },
+                {
+                    lon: -70.0,
+                    lat: -70.0
+                }
+            ]
+        },
+        interiors: {
+            points: [
+                {
+                    lon: -65.0,
+                    lat: -65.0
+                },
+                {
+                    lon: 0.0,
+                    lat: -65.0
+                },
+                {
+                    lon: 0.0,
+                    lat: 0.0
+                },
+                {
+                    lon: -65.0,
+                    lat: 0.0
+                },
+                {
+                    lon: -65.0,
+                    lat: -65.0
+                }
+            ]
+        }
+    }
+}
 ```
 
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
@@ -1038,6 +1356,13 @@ models.FieldCondition(
 )
 ```
 
+```typescript
+{
+    key: 'comments',
+    values_count: {gt: 2}    
+}
+```
+
 The result would be:
 
 ```json
@@ -1065,6 +1390,14 @@ models.IsEmptyCondition(
 )
 ```
 
+```typescript
+{
+  is_empty: {
+    key: "reports";
+  }
+}
+```
+
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
@@ -1086,6 +1419,14 @@ We have to use `IsNull` condition instead:
 models.IsNullCondition(
     is_null=models.PayloadField(key="reports"),
 )
+```
+
+```typescript
+{
+  is_null: {
+    key: "reports";
+  }
+}
 ```
 
 This condition will match all records where the field `reports` exists and has `NULL` value.
@@ -1118,6 +1459,18 @@ client.scroll(
         ],
     ),
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        has_id: [1, 3, 5, 7, 9, 11],
+      },
+    ],
+  },
+});
 ```
 
 Filtered points would be:

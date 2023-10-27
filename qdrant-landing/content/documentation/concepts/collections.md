@@ -54,6 +54,16 @@ client.create_collection(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: { size: 100, distance: "Cosine" },
+});
+```
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
@@ -94,7 +104,7 @@ PUT /collections/{collection_name}
       "distance": "Cosine"
     },
     "init_from": {
-       "collection": {from_collection_name}
+       "collection": "{from_collection_name}"
     }
 }
 ```
@@ -105,13 +115,22 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=100, distance=models.Distance.COSINE),
-    init_from=models.InitFrom(
-        collection={from_collection_name}
-    )
+    init_from=models.InitFrom(collection="{from_collection_name}"),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: { size: 100, distance: "Cosine" },
+  init_from: { collection: "{from_collection_name}" },
+});
 ```
 
 ### Collection with multiple vectors
@@ -146,13 +165,26 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config={
         "image": models.VectorParams(size=4, distance=models.Distance.DOT),
         "text": models.VectorParams(size=8, distance=models.Distance.COSINE),
-    }
+    },
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    image: { size: 4, distance: "Dot" },
+    text: { size: 8, distance: "Cosine" },
+  },
+});
 ```
 
 For rare use cases, it is possible to create a collection without any vector storage.
@@ -183,6 +215,10 @@ DELETE /collections/{collection_name}
 client.delete_collection(collection_name="{collection_name}")
 ```
 
+```typescript
+client.deleteCollection("{collection_name}");
+```
+
 ### Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
@@ -204,10 +240,16 @@ PATCH /collections/{collection_name}
 ```python
 client.update_collection(
     collection_name="{collection_name}",
-    optimizer_config=models.OptimizersConfigDiff(
-        indexing_threshold=10000
-    )
+    optimizer_config=models.OptimizersConfigDiff(indexing_threshold=10000),
 )
+```
+
+```typescript
+client.updateCollection("{collection_name}", {
+  optimizers_config: {
+    indexing_threshold: 10000,
+  },
+});
 ```
 
 The following parameters can be updated:
@@ -265,7 +307,7 @@ PATCH /collections/{collection_name}
 ```python
 client.update_collection(
     collection_name="{collection_name}",
-    vectors_config = {
+    vectors_config={
         "my_vector": models.VectorParamsDiff(
             hnsw_config=models.HnswConfigDiff(
                 m=32,
@@ -291,6 +333,36 @@ client.update_collection(
         ),
     ),
 )
+```
+
+```typescript
+client.updateCollection("{collection_name}", {
+  vectors: {
+    my_vector: {
+      hnsw_config: {
+        m: 32,
+        ef_construct: 123,
+      },
+      quantization_config: {
+        product: {
+          compression: "x32",
+          always_ram: true,
+        },
+      },
+      on_disk: true,
+    },
+  },
+  hnsw_config: {
+    ef_construct: 123,
+  },
+  quantization_config: {
+    scalar: {
+      type: "int8",
+      quantile: 0.8,
+      always_ram: true,
+    },
+  },
+});
 ```
 
 **Note:** In order to update vector parameters in a collection that does not have named vectors, you can use an empty (`""`) name.
@@ -358,6 +430,10 @@ GET /collections/{collection_name}
 client.get_collection(collection_name="{collection_name}")
 ```
 
+```typescript
+client.getCollection("{collection_name}");
+```
+
 If you insert the vectors into the collection, the `status` field may become
 `yellow` whilst it is optimizing. It will become `green` once all the points are
 successfully processed.
@@ -404,8 +480,8 @@ POST /collections/aliases
     "actions": [
         {
             "create_alias": {
-                "alias_name": "production_collection",
-                "collection_name": "example_collection"
+                "collection_name": "example_collection",
+                "alias_name": "production_collection"
             }
         }
     ]
@@ -417,12 +493,24 @@ client.update_collection_aliases(
     change_aliases_operations=[
         models.CreateAliasOperation(
             create_alias=models.CreateAlias(
-                collection_name="example_collection",
-                alias_name="production_collection"
+                collection_name="example_collection", alias_name="production_collection"
             )
         )
     ]
 )
+```
+
+```typescript
+client.updateCollectionAliases({
+  actions: [
+    {
+      create_alias: {
+        collection_name: "example_collection",
+        alias_name: "production_collection",
+      },
+    },
+  ],
+});
 ```
 
 ### Remove alias
@@ -441,12 +529,27 @@ POST /collections/aliases
 }
 ```
 
-<!-- 
-#### Python
-
 ```python
+client.update_collection_aliases(
+    change_aliases_operations=[
+        models.DeleteAliasOperation(
+            delete_alias=models.DeleteAlias(alias_name="production_collection")
+        ),
+    ]
+)
 ```
- -->
+
+```typescript
+client.updateCollectionAliases({
+  actions: [
+    {
+      delete_alias: {
+        alias_name: "production_collection",
+      },
+    },
+  ],
+});
+```
 
 ### Switch collection
 
@@ -465,12 +568,45 @@ POST /collections/aliases
         },
         {
             "create_alias": {
-                "alias_name": "production_collection",
-                "collection_name": "new_collection"
+                "collection_name": "example_collection",
+                "alias_name": "production_collection"
             }
         }
     ]
 }
+```
+
+```python
+client.update_collection_aliases(
+    change_aliases_operations=[
+        models.DeleteAliasOperation(
+            delete_alias=models.DeleteAlias(alias_name="production_collection")
+        ),
+        models.CreateAliasOperation(
+            create_alias=models.CreateAlias(
+                collection_name="example_collection", alias_name="production_collection"
+            )
+        ),
+    ]
+)
+```
+
+```typescript
+client.updateCollectionAliases({
+  actions: [
+    {
+      delete_alias: {
+        alias_name: "production_collection",
+      },
+    },
+    {
+      create_alias: {
+        collection_name: "example_collection",
+        alias_name: "production_collection",
+      },
+    },
+  ],
+});
 ```
 
 ### List collection aliases
@@ -484,9 +620,15 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient("localhost", port=6333)
 
-client.get_collection_aliases(
-  collection_name="{collection_name}"
-)
+client.get_collection_aliases(collection_name="{collection_name}")
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.getCollectionAliases("{collection_name}");
 ```
 
 ### List all aliases
@@ -503,6 +645,14 @@ client = QdrantClient("localhost", port=6333)
 client.get_aliases()
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.getAliases();
+```
+
 ### List all collections
 
 ```http
@@ -515,4 +665,12 @@ from qdrant_client import QdrantClient
 client = QdrantClient("localhost", port=6333)
 
 client.get_collections()
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.getCollections();
 ```
