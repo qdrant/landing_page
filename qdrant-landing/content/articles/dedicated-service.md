@@ -64,6 +64,9 @@ What types of properties do search engines prioritize?
 * **Search speed**. Search engines should guarantee low latency for queries, while the atomicity of updates is less important.
 * **Availability**. Search engines must stay available if the majority of the nodes in a cluster are down. At the same time, they can tolerate the eventual consistency of updates.
 
+{{< figure src=/articles_data/dedicated-service/compass.png caption="Database guarantees compass" width=80% >}}
+
+
 Those priorities lead to different architectural decisions that are not reproducible in a general-purpose database, even if it has vector index support.
 
 
@@ -94,7 +97,7 @@ Assume we have a database with 1 million records.
 This is a small database by modern standards of any relational database.
 You can probably use the smallest free tier of any cloud provider to host it.
 
-But if we want to use this database for vector search, 1 million OpenAI `text-embedding-ada-002` embeddings will take ~6Gb of RAM (sic!).
+But if we want to use this database for vector search, 1 million OpenAI `text-embedding-ada-002` embeddings will take **~6Gb of RAM** (sic!).
 As you can see, the vector search use case completely overwhelmed the main database resource requirements.
 In practice, it means that you will no longer be able to scale your main database efficiently and will be limited by the size of a single machine.
 
@@ -120,6 +123,11 @@ Not to mention that data transfer costs within the same region are usually free 
 In contrast to the short-term attractiveness of integrated solutions, dedicated search engines propose flexibility and a modular approach.
 You don't need to update the whole production database each time some of the vector plugins are updated.
 Maintenance of a dedicated search engine is as much isolated from the main database as the data itself.
+
+In fact, integration of a bit more complex scenatios, such as read/write segregation, is much easier with a dedicated specialized solution.
+You can easily build cross-region replication, to ensure low latency for your users.
+
+{{< figure src=/articles_data/dedicated-service/region-based-deploy.png caption="Read/Write segregation + cross-regional deployment" width=80% >}}
 
 It is especially important in large enterprise organizations, where the responsibility for different parts of the system is distributed among different teams.
 In those situations, it is much easier to maintain a dedicated search engine for the AI team than to convince the core team to update the whole primary database.
