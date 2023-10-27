@@ -27,7 +27,7 @@ Here are [just](https://nextword.substack.com/p/vector-database-is-not-a-separat
 
 
 In this article, we are going to present our vision and arguments on the topic.
-We will try to explain why and when you acutally need a dedicated solution, debunk some ungrounded claims and anti-patterns that you should avoid while building a vector search system.
+We will try to explain why and when you actually need a dedicated solution, debunk some ungrounded claims and anti-patterns that you should avoid while building a vector search system.
 
 We will analyze those theses of the Universal-Database-For-Everything advocates and discuss some of the best practices we recommend to adopt in real production-grade systems. 
 
