@@ -51,7 +51,7 @@ When we think of a *database*, we subconsciously envision a relational database 
 Or more scientifically, a service built on ACID principles, that procivides transactions, strong consistency guarantees and atomicity.
 
 Majority of Vector Database are not *databases* in this sense.
-It would be more accurate to call them *search engines*, but unfortunately, the term marketing term *database* is already stuck and it is unlikely to change.
+It would be more accurate to call them *search engines*, but unfortunately, the marketing term *database* is already stuck and it is unlikely to change.
 
 
 *What makes search engines different different and why vector DBs are built as search engines?*
