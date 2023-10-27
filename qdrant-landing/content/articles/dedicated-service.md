@@ -84,7 +84,7 @@ As a result, even if you want to use a single database for storing all kinds of 
 Most production systems prefer to isolate different types of workloads into separate services.
 In many cases, those isolated services are not even related to search use-cases.
 
-For example, database for analytics and for seriving can be updated from the same source, but store data in a different ways in accordance with their typical workloads.
+For example, database for analytics and for serving can be updated from the same source, but store data in a different ways in accordance with their typical workloads.
 
 Search engines are usually isolated for the same reason, you don't want to create a noisy neighbor problem and compromise the performance of your main database.
 
