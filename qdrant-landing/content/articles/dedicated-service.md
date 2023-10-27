@@ -62,7 +62,7 @@ What types of properties do search engines prioritize?
 
 * **Scalability**. Search engines are built to handle large amounts of data and queries. They are designed to be horizontally scalable and operate with more data than can fit into a single machine.
 * **Search speed**. Search engines should guarantee low latency for queries, while atomicity of updates are less important.
-* **Availability**. Searche engines must stay available if majority of the nodes in cluster are down. At the same time they can tolerate eventual consistency of updates.
+* **Availability**. Search engines must stay available if majority of the nodes in cluster are down. At the same time they can tolerate eventual consistency of updates.
 
 Those priorities lead to different architectural decisions, that are not reproducible in a general-purpose database, even if it has vector index support.
 
