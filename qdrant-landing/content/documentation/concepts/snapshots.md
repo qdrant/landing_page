@@ -48,9 +48,15 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient("localhost", port=6333)
 
-client.create_snapshot(
-    collection_name="{collection_name}"
-)
+client.create_snapshot(collection_name="{collection_name}")
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createSnapshot("{collection_name}");
 ```
 
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
@@ -69,9 +75,16 @@ from qdrant_client import QdrantClient
 client = QdrantClient("localhost", port=6333)
 
 client.delete_snapshot(
-  collection_name="{collection_name}",
-  snapshot_name="{snapshot_name}"
+    collection_name="{collection_name}", snapshot_name="{snapshot_name}"
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.deleteSnapshot("{collection_name}", "{snapshot_name}");
 ```
 
 ## List snapshot
@@ -87,20 +100,26 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient("localhost", port=6333)
 
-client.list_snapshots(
-    collection_name="{collection_name}"
-)
+client.list_snapshots(collection_name="{collection_name}")
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.listSnapshots("{collection_name}");
 ```
 
 ## Retrieve snapshot
+
+<aside role="status">Only available through the REST API for the time being.</aside>
 
 To download a specified snapshot from a collection as a file:
 
 ```http
 GET /collections/{collection_name}/snapshots/{snapshot_name}
 ```
-
-Only available through the REST API for the time being.
 
 ## Restore snapshot
 
@@ -138,10 +157,10 @@ Recovering non-existing collections with snapshots won't make this collection kn
 To recover snapshot via API one can use snapshot recovery endpoint:
 
 ```http
-PUT /collections/<collection_name>/snapshots/recover
+PUT /collections/{collection_name}/snapshots/recover
 
 {
-  "location": "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot"
+  "location": "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot"
 }
 ```
 
@@ -150,10 +169,25 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient("qdrant-node-2", port=6333)
 
-client.recover_snapshot("collection_name", "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot")
+client.recover_snapshot(
+    "{collection_name}",
+    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.recoverSnapshot("{collection_name}", {
+  location:
+    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+});
 ```
 
 The recovery snapshot can also be uploaded as a file to the Qdrant server:
+
 ```bash
 curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload' \
     -H 'Content-Type:multipart/form-data' \
@@ -185,6 +219,14 @@ client = QdrantClient("localhost", port=6333)
 client.create_full_snapshot()
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createFullSnapshot();
+```
+
 ### Delete full storage snapshot
 
 *Available as of v1.0.0*
@@ -198,9 +240,15 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient("localhost", port=6333)
 
-client.delete_full_snapshot(
-  snapshot_name="{snapshot_name}"
-)
+client.delete_full_snapshot(snapshot_name="{snapshot_name}")
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.deleteFullSnapshot("{snapshot_name}");
 ```
 
 ### List full storage snapshots
@@ -217,7 +265,17 @@ client = QdrantClient("localhost", port=6333)
 client.list_full_snapshots()
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.listFullSnapshots();
+```
+
 ### Download full storage snapshot
+
+<aside role="status">Only available through the REST API for the time being.</aside>
 
 ```http
 GET /snapshots/{snapshot_name}

@@ -100,13 +100,35 @@ client.search(
             )
         ]
     ),
-    search_params=models.SearchParams(
-        hnsw_ef=128,
-        exact=False
-    ),
+    search_params=models.SearchParams(hnsw_ef=128, exact=False),
     query_vector=[0.2, 0.1, 0.9, 0.7],
     limit=3,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  filter: {
+    must: [
+      {
+        key: "city",
+        match: {
+          value: "London",
+        },
+      },
+    ],
+  },
+  params: {
+    hnsw_ef: 128,
+    exact: false,
+  },
+  vector: [0.2, 0.1, 0.9, 0.7],
+  limit: 3,
+});
 ```
 
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
@@ -171,6 +193,20 @@ client.search(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: {
+    name: "image",
+    vector: [0.2, 0.1, 0.9, 0.7],
+  },
+  limit: 3,
+});
+```
+
 Search is processing only among vectors with the same name.
 
 ### Filtering results by score
@@ -209,6 +245,14 @@ client.search(
 )
 ```
 
+```typescript
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  with_vector: true,
+  with_payload: true,
+});
+```
+
 You can use `with_payload` to scope to or filter a specific payload subset. 
 You can even specify an array of items to include, such as `city`, 
 `village`, and `town`:
@@ -231,8 +275,19 @@ client = QdrantClient("localhost", port=6333)
 client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
-    with_payload=["city"],
+    with_payload=["city", "village", "town"],
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  with_payload: ["city", "village", "town"],
+});
 ```
 
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
@@ -261,6 +316,19 @@ client.search(
         exclude=["city"],
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  with_payload: {
+    exclude: ["city"],
+  },
+});
 ```
 
 It is possible to target nested fields using a dot notation:
@@ -340,22 +408,45 @@ filter = models.Filter(
 )
 
 search_queries = [
-    models.SearchRequest(
-        vector=[0.2, 0.1, 0.9, 0.7],
-        filter=filter,
-        limit=3
-    ),
-    models.SearchRequest(
-        vector=[0.5, 0.3, 0.2, 0.3],
-        filter=filter,
-        limit=3
-    )
+    models.SearchRequest(vector=[0.2, 0.1, 0.9, 0.7], filter=filter, limit=3),
+    models.SearchRequest(vector=[0.5, 0.3, 0.2, 0.3], filter=filter, limit=3),
 ]
 
-client.search_batch(
-    collection_name="{collection_name}",
-    requests=search_queries
-)
+client.search_batch(collection_name="{collection_name}", requests=search_queries)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+const filter = {
+  must: [
+    {
+      key: "city",
+      match: {
+        value: "London",
+      },
+    },
+  ],
+};
+
+const searches = [
+  {
+    vector: [0.2, 0.1, 0.9, 0.7],
+    filter,
+    limit: 3,
+  },
+  {
+    vector: [0.5, 0.3, 0.2, 0.3],
+    filter,
+    limit: 3,
+  },
+];
+
+client.searchBatch("{collection_name}", {
+  searches,
+});
 ```
 
 The result of this API contains one array per search requests.
@@ -428,6 +519,29 @@ client.recommend(
     ),
     limit=3,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.recommend("{collection_name}", {
+  positive: [100, 231],
+  negative: [718, [0.2, 0.3, 0.4, 0.5]],
+  strategy: "average_vector",
+  filter: {
+    must: [
+      {
+        key: "city",
+        match: {
+          value: "London",
+        },
+      },
+    ],
+  },
+  limit: 3,
+});
 ```
 
 Example result of this API would be
@@ -514,6 +628,15 @@ client.recommend(
 )
 ```
 
+```typescript
+client.recommend("{collection_name}", {
+  positive: [100, 231],
+  negative: [718],
+  using: "image",
+  limit: 10,
+});
+```
+
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
 ## Batch recommendation API
@@ -579,23 +702,48 @@ filter = models.Filter(
 
 recommend_queries = [
     models.RecommendRequest(
-        positive=[100, 231],
-        negative=[718],
-        filter=filter,
-        limit=3
+        positive=[100, 231], negative=[718], filter=filter, limit=3
     ),
-    models.RecommendRequest(
-        positive=[200, 67],
-        negative=[300],
-        filter=filter,
-        limit=3
-    )
+    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter, limit=3),
 ]
 
-client.recommend_batch(
-    collection_name="{collection_name}",
-    requests=recommend_queries
-)
+client.recommend_batch(collection_name="{collection_name}", requests=recommend_queries)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+const filter = {
+  must: [
+    {
+      key: "city",
+      match: {
+        value: "London",
+      },
+    },
+  ],
+};
+
+const searches = [
+  {
+    positive: [100, 231],
+    negative: [718],
+    filter,
+    limit: 3,
+  },
+  {
+    positive: [200, 67],
+    negative: [300],
+    filter,
+    limit: 3,
+  },
+];
+
+client.recommend_batch("{collection_name}", {
+  searches,
+});
 ```
 
 The result of this API contains one array per recommendation requests.
@@ -650,8 +798,22 @@ client.search(
     with_vectors=True,
     with_payload=True,
     limit=10,
-    offset=100
+    offset=100,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  with_vector: true,
+  with_payload: true,
+  limit: 10,
+  offset: 100,
+});
 ```
 
 Is equivalent to retrieving the 11th page with 10 records per page.
@@ -676,56 +838,56 @@ For example, if you have a large document split into multiple chunks, and you wa
 Consider having points with the following payloads:
 
 ```json
-{
+[
     {
         "id": 0,
         "payload": {
             "chunk_part": 0, 
-            "document_id": "a",
+            "document_id": "a"
         },
-        "vector": [0.91],
+        "vector": [0.91]
     },
     {
         "id": 1,
         "payload": {
             "chunk_part": 1, 
-            "document_id": ["a", "b"],
+            "document_id": ["a", "b"]
         },
-        "vector": [0.8],
+        "vector": [0.8]
     },
     {
         "id": 2,
         "payload": {
             "chunk_part": 2, 
-            "document_id": "a",
+            "document_id": "a"
         },
-        "vector": [0.2],
+        "vector": [0.2]
     },
     {
         "id": 3,
         "payload": {
             "chunk_part": 0, 
-            "document_id": 123,
+            "document_id": 123
         },
-        "vector": [0.79],
+        "vector": [0.79]
     },
     {
         "id": 4,
         "payload": {
             "chunk_part": 1, 
-            "document_id": 123,
+            "document_id": 123
         },
-        "vector": [0.75],
+        "vector": [0.75]
     },
     {
         "id": 5,
         "payload": {
             "chunk_part": 0, 
-            "document_id": -10,
+            "document_id": -10
         },
-        "vector": [0.6],
-    },
-}
+        "vector": [0.6]
+    }
+]
 ```
 
 With the ***groups*** API, you will be able to get the best *N* points for each document, assuming that the payload of the points contains the document ID. Of course there will be times where the best *N* points cannot be fulfilled due to lack of points or a big distance with respect to the query. In every case, the `group_size` is a best-effort parameter, akin to the `limit` parameter.
@@ -740,7 +902,6 @@ POST /collections/{collection_name}/points/search/groups
 {
     // Same as in the regular search API
     "vector": [1.1],
-    ...,
 
     // Grouping parameters
     "group_by": "document_id",  // Path of the field to group by
@@ -752,16 +913,22 @@ POST /collections/{collection_name}/points/search/groups
 ```python
 client.search_groups(
     collection_name="{collection_name}",
-
     # Same as in the regular search() API
     query_vector=[1.1],
-    ...,
-    
     # Grouping parameters
-    group_by="document_id", # Path of the field to group by
-    limit=4,                # Max amount of groups
-    group_size=2,           # Max amount of points per group
+    group_by="document_id",  # Path of the field to group by
+    limit=4,  # Max amount of groups
+    group_size=2,  # Max amount of points per group
 )
+```
+
+```typescript
+client.searchPointGroups("{collection_name}", {
+  vector: [1.1],
+  group_by: "document_id",
+  limit: 4,
+  group_size: 2,
+});
 ```
 
 ### Recommend groups
@@ -775,7 +942,6 @@ POST /collections/{collection_name}/points/recommend/groups
     // Same as in the regular recommend API
     "negative": [1],
     "positive": [2, 5],
-    ...,
 
     // Grouping parameters
     "group_by": "document_id",  // Path of the field to group by
@@ -787,17 +953,24 @@ POST /collections/{collection_name}/points/recommend/groups
 ```python
 client.recommend_groups(
     collection_name="{collection_name}",
-
     # Same as in the regular recommend() API
     negative=[1],
     positive=[2, 5],
-    ...,
-
     # Grouping parameters
-    group_by="document_id", # Path of the field to group by
-    limit=4,                # Max amount of groups
-    group_size=2,           # Max amount of points per group
+    group_by="document_id",  # Path of the field to group by
+    limit=4,  # Max amount of groups
+    group_size=2,  # Max amount of points per group
 )
+```
+
+```typescript
+client.recommendPointGroups("{collection_name}", {
+  negative: [1],
+  positive: [2, 5],
+  group_by: "document_id",
+  limit: 4,
+  group_size: 2,
+});
 ```
 
 In either case (search or recommend), the output would look like this:
@@ -872,7 +1045,6 @@ POST /collections/chunks/points/search/groups
 {
     // Same as in the regular search API
     "vector": [1.1],
-    ...,
 
     // Grouping parameters
     "group_by": "document_id",  
@@ -898,30 +1070,38 @@ POST /collections/chunks/points/search/groups
 ```python
 client.search_groups(
     collection_name="chunks",
-
     # Same as in the regular search() API
     query_vector=[1.1],
-    ...,
-    
     # Grouping parameters
-    group_by="document_id", # Path of the field to group by
-    limit=2,                # Max amount of groups
-    group_size=2,           # Max amount of points per group
-
+    group_by="document_id",  # Path of the field to group by
+    limit=2,  # Max amount of groups
+    group_size=2,  # Max amount of points per group
     # Lookup parameters
     with_lookup=models.WithLookup(
         # Name of the collection to look up points in
         collection="documents",
-
-        # Options for specifying what to bring from the payload 
+        # Options for specifying what to bring from the payload
         # of the looked up point, True by default
         with_payload=["title", "text"],
-        
-        # Options for specifying what to bring from the vector(s) 
+        # Options for specifying what to bring from the vector(s)
         # of the looked up point, True by default
         with_vectors=False,
-    )
+    ),
 )
+```
+
+```typescript
+client.searchPointGroups("{collection_name}", {
+  vector: [1.1],
+  group_by: "document_id",
+  limit: 2,
+  group_size: 2,
+  with_lookup: {
+    collection: "documents",
+    with_payload: ["title", "text"],
+    with_vectors: false,
+  },
+});
 ```
 
 For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.
