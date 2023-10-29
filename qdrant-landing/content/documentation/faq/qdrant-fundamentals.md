@@ -10,7 +10,7 @@ weight: 1
 As much as you want, but be aware that each collection requires additional resources.
 It is _highly_ recommended not to create many small collections, as it will lead to significant resource consumption overhead.
 
-We consider creating a collection for each user/dialog/document as an anti-pattern.
+We consider creating a collection for each user/dialog/document as an antipattern.
 
 Please read more about collections, isolation, and multiple users in our [Multitenancy](../../tutorials/multiple-partitions/) tutorial.
 
@@ -38,13 +38,13 @@ What Qdrant can do:
 
 What Qdrant plans to introduce in the future:
 
-- Support for sparse vectors, as used in [SPADE](https://github.com/naver/splade) or similar model
+- Support for sparse vectors, as used in [SPADE](https://github.com/naver/splade) or similar models
 
 What Qdrant doesn't plan to support:
 
 - BM25 or other non-vector-based retrieval or ranking functions
 - Built-in ontologies or knowledge graphs
-- Query analizers and other NLP tools
+- Query analyzers and other NLP tools
 
 Of course, you can always combine Qdrant with any specialized tool you need, including full-text search engines.
 Read more about [our approach](../../../articles/hybrid-search/) to hybrid search.  
@@ -68,7 +68,7 @@ But in some cases, we might be able to help you with that through manual interve
 
 ### How do I avoid issues when updating to the latest version?
 
-We only guarantee compatibility if you update between consequent versions. You would need to upgrade versions one at a time 1.1 -> 1.2, then 1.2 -> 1.3, then 1.3 -> 1.4.
+We only guarantee compatibility if you update between consequent versions. You would need to upgrade versions one at a time: `1.1 -> 1.2`, then `1.2 -> 1.3`, then `1.3 -> 1.4`.
 
 ### Do you guarantee compatibility across versions?
 
