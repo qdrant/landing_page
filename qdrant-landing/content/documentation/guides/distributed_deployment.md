@@ -150,11 +150,25 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
-    shard_number=6
+    shard_number=6,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 300,
+    distance: "Cosine",
+  },
+  shard_number: 6,
+});
 ```
 
 We recommend selecting the number of shards as a factor of the number of nodes you are currently running in your cluster.
@@ -225,12 +239,27 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
     replication_factor=2,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 300,
+    distance: "Cosine",
+  },
+  shard_number: 6,
+  replication_factor: 2,
+});
 ```
 
 This code sample creates a collection with a total of 6 logical shards backed by a total of 12 physical shards.
@@ -384,13 +413,29 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
     replication_factor=2,
     write_consistency_factor=2,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 300,
+    distance: "Cosine",
+  },
+  shard_number: 6,
+  replication_factor: 2,
+  write_consistency_factor: 2,
+});
 ```
 
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
@@ -442,14 +487,26 @@ client.search(
             )
         ]
     ),
-    search_params=models.SearchParams(
-        hnsw_ef=128,
-        exact=False
-    ),
+    search_params=models.SearchParams(hnsw_ef=128, exact=False),
     query_vector=[0.2, 0.1, 0.9, 0.7],
     limit=3,
     consistency="majority",
 )
+```
+
+```typescript
+client.search("{collection_name}", {
+  filter: {
+    must: [{ key: "city", match: { value: "London" } }],
+  },
+  params: {
+    hnsw_ef: 128,
+    exact: false,
+  },
+  vector: [0.2, 0.1, 0.9, 0.7],
+  limit: 3,
+  consistency: "majority",
+});
 ```
 
 ### Write ordering
@@ -497,10 +554,25 @@ client.upsert(
             [0.9, 0.1, 0.1],
             [0.1, 0.9, 0.1],
             [0.1, 0.1, 0.9],
-        ]
+        ],
     ),
-    ordering="strong"
+    ordering="strong",
 )
+```
+
+```typescript
+client.upsert("{collection_name}", {
+  batch: {
+    ids: [1, 2, 3],
+    payloads: [{ color: "red" }, { color: "green" }, { color: "blue" }],
+    vectors: [
+      [0.9, 0.1, 0.1],
+      [0.1, 0.9, 0.1],
+      [0.1, 0.1, 0.9],
+    ],
+  },
+  ordering: "strong",
+});
 ```
 
 
