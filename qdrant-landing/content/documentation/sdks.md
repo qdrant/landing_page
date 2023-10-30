@@ -2,7 +2,7 @@
 title: SDKs
 weight: 14
 aliases:
-  - ../interfaces/
+  - /documentation/interfaces/
 ---
 
 # SDKs
