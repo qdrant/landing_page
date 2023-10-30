@@ -1,8 +1,8 @@
 ---
-title: Troubleshooting
+title: Common Errors
 weight: 170
 aliases:
-  - ../tutorials/troubleshooting
+  - ../tutorials/common-errors
 ---
 # How to Ask a Discord Question that Gets Answered
 
