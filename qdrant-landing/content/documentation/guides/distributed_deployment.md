@@ -388,7 +388,7 @@ Qdrant provides a few options to control consistency guarantees:
 - Write `ordering` param, can be used with update and delete operations to ensure that the operations are executed in the same order on all replicas. If this option is used, qdrant will route the operation to the leader replica of the shard and wait for the response before responding to the client. This option is useful to avoid data inconsistency in case of concurrent updates of the same documents. This options is preferred if read operations are more frequent than update and if search performance is critical.
 
 
-### Write concern factor
+### Write consistency factor
 
 The `write_consistency_factor` represents the number of replicas that must acknowledge a write operation before responding to the client. It is set to one by default.
 It can be configured at the collection's creation time.
