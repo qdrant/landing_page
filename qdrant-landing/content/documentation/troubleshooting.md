@@ -19,7 +19,7 @@ When requesting assistance, please provide as much detail as possible. We need t
 6. **What is your server configuration?** If your question is related to performance, we need to know the operating system version, CPU, RAM size and storage details.
 7. **Is there anything showing in the server logs?** Also, provide screenshots of monitoring or log excerpts that illustrate the issue.
 
-## Reproduce the issue**
+## Reproduce the issue
 
 1. We need reproducible code or a script that demonstrates the problem. Please give us step-by-step instructions to recreate the situation. For errors or problems with queries:
     1. **Show the exact code of the query or the request.**
