@@ -11,7 +11,7 @@ weight: 2
 This tutorial shows you how to build and deploy your own neural search service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query.
 The website contains the company names, descriptions, locations, and a picture for each entry. 
 
-Alternatvely, you cna use such datasources as [Crunchbase](https://www.crunchbase.com/), but that would require obtaining an API key from them.
+Alternatively, you can use datasources such as [Crunchbase](https://www.crunchbase.com/), but that would require obtaining an API key from them.
 
 Our neural search service will use [Fastembed](https://github.com/qdrant/fastembed) package to generate embeddings of text descriptions and [FastAPI](https://fastapi.tiangolo.com/) to serve the search API.
 Fastembed natively integrates with Qdrant client, so you can easily upload the data into Qdrant and perform search queries.
@@ -106,7 +106,7 @@ Now you need to write a script to upload all startup data and vectors into the s
 # Import client library
 from qdrant_client import QdrantClient
 
-qdrant_client = QdrantClient('http://localhost:6333')
+qdrant_client = QdrantClient("http://localhost:6333")
 ```
 
 3. Select model to encode your data.
@@ -122,7 +122,7 @@ qdrant_client.set_model("sentence-transformers/all-MiniLM-L6-v2")
 
 ```python
 qdrant_client.recreate_collection(
-    collection_name='startups',
+    collection_name="startups",
     vectors_config=qdrant_client.get_fastembed_vector_params(),
 )
 ```
@@ -137,14 +137,14 @@ Additionally, you can specify extended configuration for our vectors, like `quan
 5. Read data from the file.
 
 ```python
-payload_path = os.path.join(DATA_DIR, 'startups_demo.json')
+payload_path = os.path.join(DATA_DIR, "startups_demo.json")
 metadata = []
 documents = []
 
 with open(payload_path) as fd:
     for line in fd:
         obj = json.loads(line)
-        documents.append(obj.pop('description'))
+        documents.append(obj.pop("description"))
         metadata.append(obj)
 ```
 
@@ -157,10 +157,10 @@ We will use `documents` to encode the data into vectors.
 
 ```python
 client.add(
-    collection_name='startups',
+    collection_name="startups",
     documents=documents,
     metadata=metadata,
-    parallel=0, # Use all available CPU cores to encode data
+    parallel=0,  # Use all available CPU cores to encode data
 )
 ```
 
@@ -178,10 +178,10 @@ You can monitor the progress of the encoding by passing tqdm progress bar to the
 from tqdm import tqdm
 
 client.add(
-    collection_name='startups',
+    collection_name="startups",
     documents=documents,
     metadata=metadata,
-    ids=tqdm(range(len(documents)))
+    ids=tqdm(range(len(documents))),
 )
 ```
 
@@ -201,19 +201,19 @@ Fastembed integration into qdrant client combines encoding and uploading into a 
 ```python
 from qdrant_client import QdrantClient
 
-class NeuralSearcher:
 
+class NeuralSearcher:
     def __init__(self, collection_name):
         self.collection_name = collection_name
         # initialize Qdrant client
-        self.qdrant_client = QdrantClient('http://localhost:6333')
-        self.qdrant_client.set_model('sentence-transformers/all-MiniLM-L6-v2')
+        self.qdrant_client = QdrantClient("http://localhost:6333")
+        self.qdrant_client.set_model("sentence-transformers/all-MiniLM-L6-v2")
 ```
 
 2. Write the search function.
 
 ```python
-    def search(self, text: str):
+def search(self, text: str):
         search_result = self.qdrant_client.query(
             collection_name=self.collection_name,
             query_text=text,
@@ -255,7 +255,6 @@ from qdrant_client.models import Filter
         limit=5
     )
     ...
-
 ```
 
 You have now created a class for neural search queries. Now wrap it up into a service.
@@ -279,7 +278,7 @@ Create a file named `service.py` and specify the following.
 The service will have only one API endpoint and will look like this: 
 
 ```python
- from fastapi import FastAPI
+from fastapi import FastAPI
 
 # The file where NeuralSearcher is stored
 from neural_searcher import NeuralSearcher
@@ -299,7 +298,6 @@ def search_startup(q: str):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
 ```
 
 3. Run the service.
