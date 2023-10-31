@@ -40,6 +40,12 @@ from qdrant_client import QdrantClient
 client = QdrantClient("localhost", port=6333)
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+```
+
 <aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
 
 ## Create a collection
@@ -49,17 +55,19 @@ You will be storing all of your vector data in a Qdrant collection. Let's call i
 ```python
 from qdrant_client.http.models import Distance, VectorParams
 
-client.recreate_collection(
+client.create_collection(
     collection_name="test_collection",
     vectors_config=VectorParams(size=4, distance=Distance.DOT),
 )
 ```
 
-**Response:**
-
-```python
-True
+```typescript
+await client.createCollection("test_collection", {
+  vectors: { size: 4, distance: "Dot" },
+});
 ```
+
+<aside role="status">TypeScript examples use async/await syntax, so should be called in an async function.</aside>
 
 ## Add vectors
 
@@ -78,9 +86,26 @@ operation_info = client.upsert(
         PointStruct(id=4, vector=[0.18, 0.01, 0.85, 0.80], payload={"city": "New York"}),
         PointStruct(id=5, vector=[0.24, 0.18, 0.22, 0.44], payload={"city": "Beijing"}),
         PointStruct(id=6, vector=[0.35, 0.08, 0.11, 0.44], payload={"city": "Mumbai"}),
-    ]
+    ],
 )
+
 print(operation_info)
+```
+
+```typescript
+const operationInfo = await client.upsert("test_collection", {
+  wait: true,
+  points: [
+    { id: 1, vector: [0.05, 0.61, 0.76, 0.74], payload: { city: "Berlin" } },
+    { id: 2, vector: [0.19, 0.81, 0.75, 0.11], payload: { city: "London" } },
+    { id: 3, vector: [0.36, 0.55, 0.47, 0.94], payload: { city: "Moscow" } },
+    { id: 4, vector: [0.18, 0.01, 0.85, 0.80], payload: { city: "New York" } },
+    { id: 5, vector: [0.24, 0.18, 0.22, 0.44], payload: { city: "Beijing" } },
+    { id: 6, vector: [0.35, 0.08, 0.11, 0.44], payload: { city: "Mumbai" } },
+  ],
+});
+
+console.debug(operationInfo);
 ```
 
 **Response:**
@@ -89,24 +114,62 @@ print(operation_info)
 operation_id=0 status=<UpdateStatus.COMPLETED: 'completed'>
 ```
 
+```typescript
+{ operation_id: 0, status: 'completed' }
+```
+
 ## Run a query
 Let's ask a basic question - Which of our stored vectors are most similar to the query vector `[0.2, 0.1, 0.9, 0.7]`?
 
 ```python
 search_result = client.search(
-    collection_name="test_collection",
-    query_vector=[0.2, 0.1, 0.9, 0.7], 
-    limit=3
+    collection_name="test_collection", query_vector=[0.2, 0.1, 0.9, 0.7], limit=3
 )
+
 print(search_result)
+```
+
+```typescript
+let searchResult = await client.search("test_collection", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  limit: 3,
+});
+
+console.debug(searchResult);
 ```
 
 **Response:**
 
 ```python
-ScoredPoint(id=4, version=0, score=1.362, payload={'city': 'New York'}, vector=None), 
-ScoredPoint(id=1, version=0, score=1.273, payload={'city': 'Berlin'}, vector=None), 
-ScoredPoint(id=3, version=0, score=1.208, payload={'city': 'Moscow'}, vector=None)
+ScoredPoint(id=4, version=0, score=1.362, payload={"city": "New York"}, vector=None),
+ScoredPoint(id=1, version=0, score=1.273, payload={"city": "Berlin"}, vector=None),
+ScoredPoint(id=3, version=0, score=1.208, payload={"city": "Moscow"}, vector=None)
+```
+
+```typescript
+[
+  {
+    id: 4,
+    version: 0,
+    score: 1.362,
+    payload: { city: "New York" },
+    vector: null,
+  },
+  {
+    id: 1,
+    version: 0,
+    score: 1.273,
+    payload: { city: "Berlin" },
+    vector: null,
+  },
+  {
+    id: 3,
+    version: 0,
+    score: 1.208,
+    payload: { city: "Moscow" },
+    vector: null,
+  },
+];
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
@@ -121,24 +184,44 @@ from qdrant_client.http.models import Filter, FieldCondition, MatchValue
 
 search_result = client.search(
     collection_name="test_collection",
-    query_vector=[0.2, 0.1, 0.9, 0.7], 
+    query_vector=[0.2, 0.1, 0.9, 0.7],
     query_filter=Filter(
-        must=[
-            FieldCondition(
-                key="city",
-                match=MatchValue(value="London")
-            )
-        ]
+        must=[FieldCondition(key="city", match=MatchValue(value="London"))]
     ),
-    limit=3
+    limit=3,
 )
+
 print(search_result)
+```
+
+```typescript
+searchResult = await client.search("test_collection", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  filter: {
+    must: [{ key: "city", match: { value: "London" } }],
+  },
+  limit: 3,
+});
+
+console.debug(searchResult);
 ```
 
 **Response:**
 
 ```python
-ScoredPoint(id=2, version=0, score=0.871, payload={'city': 'London'}, vector=None)
+ScoredPoint(id=2, version=0, score=0.871, payload={"city": "London"}, vector=None)
+```
+
+```typescript
+[
+  {
+    id: 2,
+    version: 0,
+    score: 0.871,
+    payload: { city: "London" },
+    vector: null,
+  },
+];
 ```
 
 You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score. 
@@ -150,5 +233,3 @@ Now you know how Qdrant works. Getting started with [Qdrant Cloud](../cloud/quic
 To move onto some more complex examples of vector search, read our [Tutorials](../tutorials/) and create your own app with the help of our [Examples](../examples/). 
 
 **Note:** There is another way of running Qdrant locally. If you are a Python developer, we recommend that you try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup.
-
-

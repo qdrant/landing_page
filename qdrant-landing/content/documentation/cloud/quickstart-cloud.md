@@ -26,7 +26,7 @@ After creation, you will receive a code snippet to access your cluster. Your gen
 
 ```bash
 curl \
-  -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333 \
+  -X GET 'https://xyz-example.eu-central.aws.cloud.qdrant.io:6333' \
   --header 'api-key: <paste-your-api-key-here>'
 ```
 Open Terminal and run the request. You should get a response that looks like this:
@@ -36,17 +36,25 @@ Open Terminal and run the request. You should get a response that looks like thi
 ```
 > **Note:** The API key needs to be present in the request header every time you make a request via Rest or gRPC interface.
 
-## Step 3: Authenticate via Python client
+## Step 3: Authenticate via SDK
 
 Now that you have created your first cluster and key, you might want to access Qdrant Cloud from within your application.
-Our official Qdrant clients for Python, Go, and Rust all support the API key parameter. 
+Our official Qdrant clients for Python, TypeScript, Go, and Rust all support the API key parameter. 
 
 ```python
 from qdrant_client import QdrantClient
 
 qdrant_client = QdrantClient(
-    "xyz-example.eu-central.aws.cloud.qdrant.io", 
-    prefer_grpc=True,
+    "xyz-example.eu-central.aws.cloud.qdrant.io",
     api_key="<paste-your-api-key-here>",
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({
+  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
+  apiKey: "<paste-your-api-key-here>",
+});
 ```

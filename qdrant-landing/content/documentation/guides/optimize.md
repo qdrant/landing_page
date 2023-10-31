@@ -1,6 +1,8 @@
 ---
-title: Configure Optimal Use
+title: Optimize Resources
 weight: 11
+aliases:
+  - ../tutorials/optimize
 ---
 
 # Optimize Qdrant
@@ -46,7 +48,7 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
@@ -57,6 +59,28 @@ client.recreate_collection(
         ),
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    memmap_threshold: 20000,
+  },
+  quantization_config: {
+    scalar: {
+      type: "int8",
+      always_ram: true,
+    },
+  },
+});
 ```
 
 `mmmap_threshold` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
@@ -87,11 +111,24 @@ client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
     search_params=models.SearchParams(
-        quantization=models.QuantizationSearchParams(
-            rescore=False
-        )
-    )
+        quantization=models.QuantizationSearchParams(rescore=False)
+    ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  params: {
+    quantization: {
+      rescore: false,
+    },
+  },
+});
 ```
 
 ## Prefer high precision with low memory footprint
@@ -120,12 +157,31 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
-    hnsw_config=models.HnswConfigDiff(on_disk=True)
+    hnsw_config=models.HnswConfigDiff(on_disk=True),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    memmap_threshold: 20000,
+  },
+  hnsw_config: {
+    on_disk: true,
+  },
+});
 ```
 
 In this scenario you can increase the precision of the search by increasing the `ef` and `m` parameters of the HNSW index, even with limited RAM.
@@ -176,7 +232,7 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
@@ -187,6 +243,28 @@ client.recreate_collection(
         ),
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    memmap_threshold: 20000,
+  },
+  quantization_config: {
+    scalar: {
+      type: "int8",
+      always_ram: true,
+    },
+  },
+});
 ```
 
 There are also some search-time parameters you can use to tune the search accuracy and speed:
@@ -211,13 +289,25 @@ client = QdrantClient("localhost", port=6333)
 
 client.search(
     collection_name="{collection_name}",
-    search_params=models.SearchParams(
-        hnsw_ef=128,
-        exact=False
-    ),
+    search_params=models.SearchParams(hnsw_ef=128, exact=False),
     query_vector=[0.2, 0.1, 0.9, 0.7],
     limit=3,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  params: {
+    hnsw_ef: 128,
+    exact: false,
+  },
+  limit: 3,
+});
 ```
 
 - `hnsw_ef` - controls the number of neighbors to visit during search. The higher the value, the more accurate and slower the search will be. Recommended range is 32-512.
@@ -254,11 +344,27 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(default_segment_number=16),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    default_segment_number: 16,
+  },
+});
 ```
 
 To prefer throughput, you can set up Qdrant to use as many cores as possible for processing multiple requests in parallel.
@@ -266,7 +372,6 @@ To do that, you can configure qdrant to use minimal number of segments, which is
 Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. But at the same time require more time to build index.
 
 ```http
-
 PUT /collections/{collection_name}
 
 {
@@ -285,9 +390,25 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(default_segment_number=2),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    default_segment_number: 2,
+  },
+});
 ```

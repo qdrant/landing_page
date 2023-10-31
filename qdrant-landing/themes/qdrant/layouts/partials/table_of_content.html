@@ -1,11 +1,24 @@
 {{$currentNode := .}}
-<nav class="tableOfContent col-lg-2 col-12 d-lg-block d-none mt-0 pr-4 mb-4">
+<nav id="TOC" class="tableOfContent col-lg-2 col-12 d-lg-block d-none mt-0 pr-4 mb-4">
 
-    {{ $sectionLink := cond .IsSection .RelPermalink .Parent.RelPermalink }}
-    {{ $subject := site.GetPage $sectionLink }}
+    {{ if gt (.TableOfContents | len) 34 }}
     <div class="sticky-top">
         <h5 class="tableOfContent__header">Table of contents</h5>
         {{ .TableOfContents }}
+        <div class="divider mb-1"></div>
+        <ul class="tableOfContent__footer">
+            <li>
+                <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ .File.Path }}" target="_blank">
+                    <i class="fab fa-github"></i> Edit on GitHub
+                </a>
+            </li>
+            <li>
+                <a class="text-brand-p" href="{{ .Site.Params.githubIssueLink }}" target="_blank">
+                    <i class="fa fa-bug"></i> Create an Issue
+                </a>
+            </li>
+        </ul>
         <br/>
     </div>
+    {{ end }}
 </nav>

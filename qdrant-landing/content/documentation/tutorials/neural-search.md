@@ -1,16 +1,22 @@
 ---
-title: Simple Neural Search
-weight: 15
+title: Neural Search Serivce
+weight: 1
 ---
 
 # Create a Simple Neural Search Service
 
-| Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
+| Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
 | --- | ----------- | ----------- |----------- |
 
 This tutorial shows you how to build and deploy your own neural search service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query. The website contains the company names, descriptions, locations, and a picture for each entry. 
 
 A neural search service uses artificial neural networks to improve the accuracy and relevance of search results. Besides offering simple keyword results, this system can retrieve results by meaning. It can understand and interpret complex search queries and provide more contextually relevant output, effectively enhancing the user's search experience.
+
+<aside role="status">
+There is a version of this tutorial that uses <a href="https://github.com/qdrant/fastembed">Fastembed</a> model inference engine instead of Sentence Transformers.
+Check it out <a href="/documentation/tutorials/neural-search-fastembed">here</a>.
+</aside>
+
 
 ## Workflow
 
@@ -18,7 +24,7 @@ To create a neural search service, you will need to transform your raw data and 
 
 ![Neural Search Workflow](/docs/workflow-neural-search.png)
 
-> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
+> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers). |
 
 ## Prerequisites
 
@@ -61,20 +67,22 @@ This is a performance-optimized sentence embedding model and you can read more a
 4. Download and create a pre-trained sentence encoder.
 
 ```python
-model = SentenceTransformer('all-MiniLM-L6-v2', device="cuda") # or device="cpu" if you don't have a GPU
+model = SentenceTransformer(
+    "all-MiniLM-L6-v2", device="cuda"
+)  # or device="cpu" if you don't have a GPU
 ```
 5. Read the raw data file.
 
 ```python
-df = pd.read_json('./startups_demo.json', lines=True)
+df = pd.read_json("./startups_demo.json", lines=True)
 ```
 6. Encode all startup descriptions to create an embedding vector for each. Internally, the `encode` function will split the input into batches, which will significantly speed up the process.
 
 ```python
-vectors = model.encode([
-    row.alt + ". " + row.description
-    for row in df.itertuples()
-], show_progress_bar=True)
+vectors = model.encode(
+    [row.alt + ". " + row.description for row in df.itertuples()],
+    show_progress_bar=True,
+)
 ```
 All of the descriptions are now converted into vectors. There are 40474 vectors of 384 dimensions. The output layer of the model has this dimension
 
@@ -86,7 +94,7 @@ vectors.shape
 7. Download the saved vectors into a new file named `startup_vectors.npy`
 
 ```python
-np.save('startup_vectors.npy', vectors, allow_pickle=False)
+np.save("startup_vectors.npy", vectors, allow_pickle=False)
 ```
 
 ## Run Qdrant in Docker
@@ -138,14 +146,14 @@ Now you need to write a script to upload all startup data and vectors into the s
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
 
-qdrant_client = QdrantClient('http://localhost:6333')
+qdrant_client = QdrantClient("http://localhost:6333")
 ```
 
 3. Related vectors need to be added to a collection. Create a new collection for your startup vectors.
 
 ```python
 qdrant_client.recreate_collection(
-    collection_name='startups', 
+    collection_name="startups",
     vectors_config=VectorParams(size=384, distance=Distance.COSINE),
 )
 ```
@@ -165,25 +173,25 @@ The Qdrant client library defines a special function that allows you to load dat
 However, since there may be too much data to fit a single computer memory, the function takes an iterator over the data as input.
 
 ```python
-fd = open('./startups_demo.json')
+fd = open("./startups_demo.json")
 
 # payload is now an iterator over startup data
 payload = map(json.loads, fd)
 
 # Load all vectors into memory, numpy array works as iterable for itself.
 # Other option would be to use Mmap, if you don't want to load all data into RAM
-vectors = np.load('./startup_vectors.npy')
+vectors = np.load("./startup_vectors.npy")
 ```
 
 5. Upload the data
 
 ```python
 qdrant_client.upload_collection(
-    collection_name='startups',
+    collection_name="startups",
     vectors=vectors,
     payload=payload,
     ids=None,  # Vector ids will be assigned automatically
-    batch_size=256  # How many vectors will be uploaded in a single request?
+    batch_size=256,  # How many vectors will be uploaded in a single request?
 )
 ```
 
@@ -203,19 +211,18 @@ from sentence_transformers import SentenceTransformer
 
 
 class NeuralSearcher:
-
     def __init__(self, collection_name):
         self.collection_name = collection_name
         # Initialize encoder model
-        self.model = SentenceTransformer('all-MiniLM-L6-v2', device='cpu')
+        self.model = SentenceTransformer("all-MiniLM-L6-v2", device="cpu")
         # initialize Qdrant client
-        self.qdrant_client = QdrantClient('http://localhost:6333')
+        self.qdrant_client = QdrantClient("http://localhost:6333")
 ```
 
 2. Write the search function.
 
 ```python
-    def search(self, text: str):
+def search(self, text: str):
         # Convert text query into vector
         vector = self.model.encode(text).tolist()
 
@@ -261,7 +268,6 @@ from qdrant_client.models import Filter
         limit=5
     )
     ...
-
 ```
 
 You have now created a class for neural search queries. Now wrap it up into a service.
@@ -285,7 +291,7 @@ Create a file named `service.py` and specify the following.
 The service will have only one API endpoint and will look like this: 
 
 ```python
- from fastapi import FastAPI
+from fastapi import FastAPI
 
 # The file where NeuralSearcher is stored
 from neural_searcher import NeuralSearcher
@@ -305,7 +311,6 @@ def search_startup(q: str):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)
-
 ```
 
 3. Run the service.
@@ -329,6 +334,6 @@ You can try it to get an intuition for cases when the neural search is useful.
 The demo contains a switch that selects between neural and full-text searches.
 You can turn the neural search on and off to compare your result with a regular full-text search.
 
-> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py). |
+> **Note**: The code for this tutorial can be found here: | [Step 1: Data Preparation Process](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing) | [Step 2: Full Code for Neural Search](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers). |
 
 Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, publish other examples of neural networks and neural search applications.

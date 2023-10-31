@@ -1,5 +1,5 @@
 ---
-title: Create Dataset Snapshot
+title: Create Snapshot
 weight: 14
 ---
 
@@ -92,12 +92,10 @@ client.recreate_collection(
     collection_name=collection_name,
     vectors_config={
         "image": models.VectorParams(
-            size=image_embeddings.shape[1], 
-            distance=models.Distance.COSINE
+            size=image_embeddings.shape[1], distance=models.Distance.COSINE
         ),
         "text": models.VectorParams(
-            size=text_embeddings.shape[1], 
-            distance=models.Distance.COSINE
+            size=text_embeddings.shape[1], distance=models.Distance.COSINE
         ),
     },
 )
@@ -136,7 +134,6 @@ As a response, we should see a similar output:
 
 ```python
 name='LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot' creation_time='2023-07-04T11:51:25' size=74202112
-
 ```
 
 ## List all snapshots
@@ -150,7 +147,13 @@ print(snapshots)
 This endpoint exposes all the snapshots in the same format as before:
 
 ```python
-[SnapshotDescription(name='LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot', creation_time='2023-07-04T11:51:25', size=74202112)]
+[
+    SnapshotDescription(
+        name="LAION-5B-1217055918586176-2023-07-04-11-51-24.snapshot",
+        creation_time="2023-07-04T11:51:25",
+        size=74202112,
+    )
+]
 ```
 
 We can use the same naming convention to create the URL to download it.

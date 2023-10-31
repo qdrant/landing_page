@@ -1,6 +1,8 @@
 ---
-title: Configure Multitenancy
+title: Multitenancy
 weight: 12
+aliases:
+  - ../tutorials/multiple-partitions
 ---
 # Configure Multitenancy
 
@@ -57,9 +59,36 @@ client.upsert(
             payload={"group_id": "user_2"},
             vector=[0.1, 0.1, 0.9],
         ),
-    ]
+    ],
 )
 ```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      payload: { group_id: "user_1" },
+      vector: [0.9, 0.1, 0.1],
+    },
+    {
+      id: 2,
+      payload: { group_id: "user_1" },
+      vector: [0.1, 0.9, 0.1],
+    },
+    {
+      id: 3,
+      payload: { group_id: "user_2" },
+      vector: [0.1, 0.1, 0.9],
+    },
+  ],
+});
+```
+
 2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
@@ -102,6 +131,21 @@ client.search(
     limit=10,
 )
 ```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  filter: {
+    must: [{ key: "group_id", match: { value: "user_1" } }],
+  },
+  vector: [0.1, 0.1, 0.9],
+  limit: 10,
+});
+```
+
 ## Calibrate performance
 
 The speed of indexation may become a bottleneck in this case, as each user's vector will be indexed into the same collection. To avoid this bottleneck, consider _bypassing the construction of a global vector index_ for the entire collection and building it only for individual groups instead.
@@ -133,7 +177,7 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     hnsw_config=models.HnswConfigDiff(
@@ -141,6 +185,23 @@ client.recreate_collection(
         m=0,
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  hnsw_config: {
+    payload_m: 16,
+    m: 0,
+  },
+});
 ```
 
 3. Create keyword payload index for `group_id` field.
@@ -156,10 +217,17 @@ PUT /collections/{collection_name}/index
 
 ```python
 client.create_payload_index(
-  collection_name="{collection_name}", 
-  field_name="group_id", 
-  field_schema=models.PayloadSchemaType.KEYWORD
+    collection_name="{collection_name}",
+    field_name="group_id",
+    field_schema=models.PayloadSchemaType.KEYWORD,
 )
+```
+
+```typescript
+client.createPayloadIndex("{collection_name}", {
+  field_name: "group_id",
+  field_schema: "keyword",
+});
 ```
 
 ## Limitations

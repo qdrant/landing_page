@@ -9,9 +9,7 @@ canonifyURLs = true
 
 keywords = "search engine, vector database, neural network, matching, filter, SaaS, approximate nearest neighbor search, image search, recommender system, vectors, knn algorithm, hnsw, vector search, embeddings, similarity"
 
-
 [params]
-  author = "Andrey Vasnetsov"
   description = "Qdrant is an Open-Source Vector Database and Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
   keywords = ["vector search engine", "neural network", "matching", "SaaS",
     "approximate nearest neighbor search", "image search", "recommender system", "vectors",
@@ -72,11 +70,16 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
   githubDocPrefix = "https://github.com/qdrant/landing_page/tree/master/qdrant-landing/content/"
+  githubIssueLink = "https://github.com/qdrant/landing_page/issues/new/choose"
 
-  docVersion = "v1.4.x"
+  docVersion = "v1.6.x"
   cloudDocVersion = "v0.1.x"
 
   googleTagManager = "GTM-KRLCXD5"
+
+[params.author]
+  name = "Andrey Vasnetsov"
+  email = "info@qdrant.tech"
 
 [taxonomies]
     tag = "tags"

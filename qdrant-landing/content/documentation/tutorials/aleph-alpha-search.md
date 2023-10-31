@@ -61,7 +61,7 @@ from aleph_alpha_client import (
     AsyncClient,
     SemanticEmbeddingRequest,
     SemanticRepresentation,
-    ImagePrompt
+    ImagePrompt,
 )
 
 from glob import glob
@@ -69,7 +69,7 @@ from glob import glob
 ids, vectors, payloads = [], [], []
 async with AsyncClient(token=aa_token) as client:
     for i, image_path in enumerate(glob("./val2017/*.jpg")):
-        # Convert the JPEG file into the embedding by calling 
+        # Convert the JPEG file into the embedding by calling
         # Aleph Alpha API
         prompt = ImagePrompt.from_file(image_path)
         prompt = Prompt.from_image(prompt)
@@ -79,9 +79,7 @@ async with AsyncClient(token=aa_token) as client:
             "compress_to_size": 128,
         }
         query_request = SemanticEmbeddingRequest(**query_params)
-        query_response = await client.semantic_embed(
-            request=query_request, model=model
-        )
+        query_response = await client.semantic_embed(request=query_request, model=model)
 
         # Finally store the id, vector and the payload
         ids.append(i)
@@ -99,7 +97,7 @@ from qdrant_client.http.models import Batch, VectorParams, Distance
 
 qdrant_client = qdrant_client.Qdrant.Client()
 qdrant_client.recreate_collection(
-    collection_name="COCO"
+    collection_name="COCO",
     vector_params=VectorParams(
         size=len(vectors[0]),
         distance=Distance.COSINE,
@@ -135,9 +133,7 @@ async with AsyncCliet(token=aa_token) as client:
         "compress_to_size": 128,
     }
     query_request = SemanticEmbeddingRequest(**query_params)
-    query_response = await client.semantic_embed(
-        request=query_request, model=model
-    )
+    query_response = await client.semantic_embed(request=query_request, model=model)
 
     results = qdrant.search(
         collection_name="COCO",
@@ -155,7 +151,7 @@ Here are the results:
 and Spanish. Your search is not only multimodal, but also multilingual, without any need for translations.
 
 ```python
-text= "Surfing"
+text = "Surfing"
 
 async with AsyncClient(token=aa_token) as client:
     query_params = {
@@ -164,9 +160,7 @@ async with AsyncClient(token=aa_token) as client:
         "compres_to_size": 128,
     }
     query_request = SemanticEmbeddingRequest(**query_params)
-    query_response = await client.semantic_embed(
-        request=query_request, model=model
-    )
+    query_response = await client.semantic_embed(request=query_request, model=model)
 
     results = qdrant.search(
         collection_name="COCO",
