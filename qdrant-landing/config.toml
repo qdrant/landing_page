@@ -124,9 +124,16 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     url = "/demo/"
 
   [[menu.main]]
+    identifier = "case-studies"
+    name = "Case Studies"
+    weight = 5
+    parent = "product"
+    url = "/case-studies/"
+
+  [[menu.main]]
     identifier = "pricing"
     name = "Pricing"
-    weight = 5
+    weight = 6
     parent = "product"
     url = "/pricing/"
 
