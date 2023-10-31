@@ -40,13 +40,29 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(
         indexing_threshold=0,
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    indexing_threshold: 0,
+  },
+});
 ```
 
 After upload is done, you can enable indexing by setting `indexing_threshold` to a desired value (default is 20000):
@@ -68,10 +84,20 @@ client = QdrantClient("localhost", port=6333)
 
 client.update_collection(
     collection_name="{collection_name}",
-    optimizer_config=models.OptimizersConfigDiff(
-        indexing_threshold=20000
-    )
+    optimizer_config=models.OptimizersConfigDiff(indexing_threshold=20000),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.updateCollection("{collection_name}", {
+  optimizers_config: {
+    indexing_threshold: 20000,
+  },
+});
 ```
 
 ## Upload directly to disk
@@ -117,9 +143,23 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     shard_number=2,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  shard_number: 2,
+});
 ```
