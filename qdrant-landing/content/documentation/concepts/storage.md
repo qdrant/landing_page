@@ -19,7 +19,7 @@ A segment can be `appendable` or `non-appendable` depending on the type of stora
 You can freely add, delete and query data in the `appendable` segment.
 With `non-appendable` segment can only read and delete data.
 
-The configuration of the segments in the collection can be different and independent from one another, but at least one `appendable' segment must be present in a collection.
+The configuration of the segments in the collection can be different and independent of one another, but at least one `appendable' segment must be present in a collection.
 
 ## Vector storage
 
@@ -59,14 +59,26 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(
-        size=768,
-        distance=models.Distance.COSINE
-        on_disk=True
+        size=768, distance=models.Distance.COSINE, on_disk=True
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+    on_disk: true,
+  },
+});
 ```
 
 This will create a collection with all vectors immediately stored in memmap storage.
@@ -99,11 +111,27 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000)
+    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    memmap_threshold: 20000,
+  },
+});
 ```
 
 The rule of thumb to set the memmap threshold parameter is simple:
@@ -136,12 +164,31 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
-    hnsw_config=models.HnswConfigDiff(on_disk=True)
+    hnsw_config=models.HnswConfigDiff(on_disk=True),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    memmap_threshold: 20000,
+  },
+  hnsw_config: {
+    on_disk: true,
+  },
+});
 ```
 
 ## Payload storage

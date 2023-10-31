@@ -171,7 +171,7 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     quantization_config=models.ScalarQuantization(
@@ -182,6 +182,26 @@ client.recreate_collection(
         ),
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  quantization_config: {
+    scalar: {
+      type: "int8",
+      quantile: 0.99,
+      always_ram: true,
+    },
+  },
+});
 ```
 
 There are 3 parameters that you can specify in the `quantization_config` section:
@@ -227,7 +247,7 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),
     quantization_config=models.BinaryQuantization(
@@ -236,6 +256,24 @@ client.recreate_collection(
         ),
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 1536,
+    distance: "Cosine",
+  },
+  quantization_config: {
+    binary: {
+      always_ram: true,
+    },
+  },
+});
 ```
 
 `always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
@@ -270,7 +308,7 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     quantization_config=models.ProductQuantization(
@@ -280,6 +318,25 @@ client.recreate_collection(
         ),
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  quantization_config: {
+    product: {
+      compression: "x16",
+      always_ram: true,
+    },
+  },
+});
 ```
 
 There are two parameters that you can specify in the `quantization_config` section:
@@ -329,8 +386,26 @@ client.search(
             rescore=True,
             oversampling=2.0,
         )
-    )
+    ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  params: {
+    quantization: {
+      ignore: false,
+      rescore: true,
+      oversampling: 2.0,
+    },
+  },
+  limit: 10,
+});
 ```
 
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
@@ -370,7 +445,7 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
@@ -381,8 +456,23 @@ client.search(
         quantization=models.QuantizationSearchParams(
             ignore=True,
         )
-    )
+    ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  params: {
+    quantization: {
+      ignore: true,
+    },
+  },
+});
 ```
 
 - **Adjust the quantile parameter**: The quantile parameter in scalar quantization determines the quantization bounds.
@@ -426,12 +516,11 @@ PUT /collections/{collection_name}
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
@@ -442,6 +531,28 @@ client.recreate_collection(
         ),
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    memmap_threshold: 20000,
+  },
+  quantization_config: {
+    scalar: {
+      type: "int8",
+      always_ram: true,
+    },
+  },
+});
 ```
 
 In this scenario, the number of disk reads may play a significant role in the search speed.
@@ -464,8 +575,7 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
@@ -473,14 +583,25 @@ client.search(
     collection_name="{collection_name}",
     query_vector=[0.2, 0.1, 0.9, 0.7],
     search_params=models.SearchParams(
-        quantization=models.QuantizationSearchParams(
-            rescore=False
-        )
-    )
+        quantization=models.QuantizationSearchParams(rescore=False)
+    ),
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
 
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: [0.2, 0.1, 0.9, 0.7],
+  params: {
+    quantization: {
+      rescore: false,
+    },
+  },
+});
+```
 
 - **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
 
@@ -509,11 +630,11 @@ PUT /collections/{collection_name}
 ```
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient("localhost", port=6333)
 
-client.recreate_collection(
+client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
@@ -524,4 +645,26 @@ client.recreate_collection(
         ),
     ),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 768,
+    distance: "Cosine",
+  },
+  optimizers_config: {
+    memmap_threshold: 20000,
+  },
+  quantization_config: {
+    scalar: {
+      type: "int8",
+      always_ram: false,
+    },
+  },
+});
 ```

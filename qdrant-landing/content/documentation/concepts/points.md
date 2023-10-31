@@ -98,8 +98,26 @@ client.upsert(
             },
             vector=[0.9, 0.1, 0.1],
         ),
-    ]
+    ],
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: "5c56c793-69f3-4fbf-87e6-c4bf54c28c26",
+      payload: {
+        color: "red",
+      },
+      vector: [0.9, 0.1, 0.1],
+    },
+  ],
+});
 ```
 
 and
@@ -129,8 +147,22 @@ client.upsert(
             },
             vector=[0.9, 0.1, 0.1],
         ),
-    ]
+    ],
 )
+```
+
+```typescript
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      payload: {
+        color: "red",
+      },
+      vector: [0.9, 0.1, 0.1],
+    },
+  ],
+});
 ```
 
 are both possible.
@@ -143,7 +175,7 @@ Batching allows you to minimize the overhead of creating a network connection.
 The Qdrant API supports two ways of creating batches - record-oriented and column-oriented.
 Internally, these options do not differ and are made only for the convenience of interaction.
 
-Create points with REST API :
+Create points with batch:
 
 ```http
 PUT /collections/{collection_name}/points
@@ -179,9 +211,23 @@ client.upsert(
             [0.9, 0.1, 0.1],
             [0.1, 0.9, 0.1],
             [0.1, 0.1, 0.9],
-        ]
+        ],
     ),
 )
+```
+
+```typescript
+client.upsert("{collection_name}", {
+  batch: {
+    ids: [1, 2, 3],
+    payloads: [{ color: "red" }, { color: "green" }, { color: "blue" }],
+    vectors: [
+      [0.9, 0.1, 0.1],
+      [0.1, 0.9, 0.1],
+      [0.1, 0.1, 0.9],
+    ],
+  },
+});
 ```
 
 or record-oriented equivalent:
@@ -235,8 +281,30 @@ client.upsert(
             },
             vector=[0.1, 0.1, 0.9],
         ),
-    ]
+    ],
 )
+```
+
+```typescript
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      payload: { color: "red" },
+      vector: [0.9, 0.1, 0.1],
+    },
+    {
+      id: 2,
+      payload: { color: "green" },
+      vector: [0.1, 0.9, 0.1],
+    },
+    {
+      id: 3,
+      payload: { color: "blue" },
+      vector: [0.1, 0.1, 0.9],
+    },
+  ],
+});
 ```
 
 <!-- 
@@ -260,7 +328,6 @@ Even with such a system, Qdrant ensures data consistency.
 *Available as of v0.10.0*
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
-
 ```http
 PUT /collections/{collection_name}/points
 
@@ -302,8 +369,29 @@ client.upsert(
                 "text": [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
             },
         ),
-    ]
+    ],
 )
+```
+
+```typescript
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      vector: {
+        image: [0.9, 0.1, 0.1, 0.2],
+        text: [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+      },
+    },
+    {
+      id: 2,
+      vector: {
+        image: [0.2, 0.1, 0.3, 0.9],
+        text: [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+      },
+    },
+  ],
+});
 ```
 
 *Available as of v1.2.0*
@@ -368,8 +456,27 @@ client.update_vectors(
                 "text": [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2],
             },
         ),
-    ]
+    ],
 )
+```
+
+```typescript
+client.updateVectors("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      vector: {
+        image: [0.1, 0.2, 0.3, 0.4],
+      },
+    },
+    {
+      id: 2,
+      vector: {
+        text: [0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2],
+      },
+    },
+  ],
+});
 ```
 
 To update points and replace all of its vectors, see [uploading
@@ -399,8 +506,15 @@ client.delete_vectors(
     points_selector=models.PointIdsList(
         points=[0, 3, 100],
     ),
-    vectors=["text", "image"]
+    vectors=["text", "image"],
 )
+```
+
+```typescript
+client.deleteVectors("{collection_name}", {
+  points: [0, 3, 10],
+  vectors: ["text", "image"],
+});
 ```
 
 To delete entire points, see [deleting points](#delete-points).
@@ -434,6 +548,16 @@ client.set_payload(
     },
     points=[0, 3, 10],
 )
+```
+
+```typescript
+client.setPayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  points: [0, 3, 10],
+});
 ```
 
 You don't need to know the ids of the points you want to modify. The alternative
@@ -478,6 +602,25 @@ client.set_payload(
 )
 ```
 
+```typescript
+client.setPayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+});
+```
+
 ### Overwrite payload
 
 Fully replace any existing payload with the given one.
@@ -509,6 +652,16 @@ client.overwrite_payload(
 )
 ```
 
+```typescript
+client.overwritePayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  points: [0, 3, 10],
+});
+```
+
 Like [set payload](#set-payload], you don't need to know the ids of the points
 you want to modify. The alternative is to use filters.
 
@@ -531,6 +684,13 @@ client.delete_payload(
     keys=["color", "price"],
     points=[0, 3, 100],
 )
+```
+
+```typescript
+client.deletePayload("{collection_name}", {
+  keys: ["color", "price"],
+  points: [0, 3, 10],
+});
 ```
 
 Alternatively, you can use filters to delete payload keys from the points.
@@ -568,6 +728,22 @@ client.delete_payload(
 )
 ```
 
+```typescript
+client.deletePayload("{collection_name}", {
+  keys: ["color", "price"],
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+});
+```
+
 ### Clear payload
 
 This method removes all payload keys from specified points
@@ -587,8 +763,14 @@ client.clear_payload(
     collection_name="{collection_name}",
     points_selector=models.PointIdsList(
         points=[0, 3, 100],
-    )
+    ),
 )
+```
+
+```typescript
+client.clearPayload("{collection_name}", {
+  points: [0, 3, 10],
+});
 ```
 
 ## Delete points
@@ -610,6 +792,12 @@ client.delete(
         points=[0, 3, 100],
     ),
 )
+```
+
+```typescript
+client.delete("{collection_name}", {
+  points: [0, 3, 10],
+});
 ```
 
 Alternative way to specify which points to remove is to use filter.
@@ -647,6 +835,21 @@ client.delete(
 )
 ```
 
+```typescript
+client.delete("{collection_name}", {
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+});
+```
+
 This example removes all points with `{ "color": "red" }` from the collection.
 
 ## Retrieve points
@@ -668,6 +871,12 @@ client.retrieve(
     collection_name="{collection_name}",
     ids=[0, 3, 10],
 )
+```
+
+```typescript
+client.retrieve("{collection_name}", {
+  ids: [0, 3, 10],
+});
 ```
 
 This method has additional parameters `with_vectors` and `with_payload`. 
@@ -694,7 +903,6 @@ Python client:
 Sometimes it might be necessary to get all stored points without knowing ids, or iterate over points that correspond to a filter.
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
-
 ```http
 POST /collections/{collection_name}/points/scroll
 
@@ -717,19 +925,34 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     scroll_filter=models.Filter(
         must=[
-            models.FieldCondition(
-                key="color", 
-                match=models.MatchValue(value="red")
-            ),
+            models.FieldCondition(key="color", match=models.MatchValue(value="red")),
         ]
     ),
     limit=1,
     with_payload=True,
     with_vectors=False,
 )
+```
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+  limit: 1,
+  with_payload: true,
+  with_vector: false,
+});
 ```
 
 Returns all point with `color` = `red`.
@@ -778,7 +1001,6 @@ Among others, for example, we can highlight the following scenarios:
 * Debugging the query execution speed
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/count_points)):
-
 ```http
 POST /collections/{collection_name}/points/count
 
@@ -799,17 +1021,30 @@ POST /collections/{collection_name}/points/count
 
 ```python
 client.count(
-    collection_name="{collection_name}", 
+    collection_name="{collection_name}",
     count_filter=models.Filter(
         must=[
-            models.FieldCondition(
-                key="color", 
-                match=models.MatchValue(value="red")
-            ),
+            models.FieldCondition(key="color", match=models.MatchValue(value="red")),
         ]
     ),
     exact=True,
 )
+```
+
+```typescript
+client.count("{collection_name}", {
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+  exact: true,
+});
 ```
 
 Returns number of counts matching given filtering conditions:
@@ -948,7 +1183,7 @@ client.batch_update_points(
                     "test_payload_2": 2,
                     "test_payload_3": 3,
                 },
-                points=[1]
+                points=[1],
             )
         ),
         models.DeletePayloadOperation(
@@ -958,6 +1193,73 @@ client.batch_update_points(
         models.DeleteOperation(delete=models.PointIdsList(points=[1])),
     ],
 )
+```
+
+```typescript
+client.batchUpdate("{collection_name}", {
+  operations: [
+    {
+      upsert: {
+        points: [
+          {
+            id: 1,
+            vector: [1.0, 2.0, 3.0, 4.0],
+            payload: {},
+          },
+        ],
+      },
+    },
+    {
+      update_vectors: {
+        points: [
+          {
+            id: 1,
+            vector: [1.0, 2.0, 3.0, 4.0],
+          },
+        ],
+      },
+    },
+    {
+      delete_vectors: {
+        points: [1],
+        vector: [""],
+      },
+    },
+    {
+      overwrite_payload: {
+        payload: {
+          test_payload: 1,
+        },
+        points: [1],
+      },
+    },
+    {
+      set_payload: {
+        payload: {
+          test_payload_2: 2,
+          test_payload_3: 3,
+        },
+        points: [1],
+      },
+    },
+    {
+      delete_payload: {
+        keys: ["test_payload_2"],
+        points: [1],
+      },
+    },
+    {
+      clear_payload: {
+        points: [1],
+      },
+    },
+    {
+      delete: {
+        points: [1],
+      },
+    },
+  ],
+});
 ```
 
 To batch many points with a single operation type, please use batching

@@ -41,15 +41,16 @@ from qdrant_client import models
 import qdrant_client
 import asyncio
 
+
 async def main():
     client = qdrant_client.AsyncQdrantClient("localhost")
-    
+
     # Create a collection
     await client.create_collection(
         collection_name="my_collection",
         vectors_config=models.VectorParams(size=4, distance=models.Distance.COSINE),
     )
-    
+
     # Insert a vector
     await client.upsert(
         collection_name="my_collection",
@@ -61,18 +62,19 @@ async def main():
                 },
                 vector=[0.9, 0.1, 0.1, 0.5],
             ),
-        ]
+        ],
     )
-    
+
     # Search for nearest neighbors
     points = await client.search(
         collection_name="my_collection",
         query_vector=[0.9, 0.1, 0.1, 0.5],
         limit=2,
     )
-    
+
     # Your async code using AsyncQdrantClient might be put here
     # ...
+
 
 asyncio.run(main())
 ```

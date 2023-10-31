@@ -39,9 +39,22 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient(host="localhost", port=6333)
 
-client.create_payload_index(collection_name="{collection_name}", 
-                            field_name="name_of_the_field_to_index", 
-                            field_schema="keyword")
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema="keyword",
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createPayloadIndex("{collection_name}", {
+  field_name: "name_of_the_field_to_index",
+  field_schema: "keyword",
+});
 ```
 
 Available field types are:
@@ -54,7 +67,7 @@ Available field types are:
 * `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
 
 Payload index may occupy some additional memory, so it is recommended to only use index for those fields that are used in filtering conditions.
-If you you need to filter by many fields and the memory limits does not allow to index all of them, it is recommended to choose the field that limits the search result the most.
+If you need to filter by many fields and the memory limits does not allow to index all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
 ### Full-text index
@@ -99,8 +112,25 @@ client.create_payload_index(
         min_token_len=2,
         max_token_len=15,
         lowercase=True,
-    )
+    ),
 )
+```
+
+```typescript
+import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createPayloadIndex("{collection_name}", {
+  field_name: "name_of_the_field_to_index",
+  field_schema: {
+    type: "text",
+    tokenizer: "word",
+    min_token_len: 2,
+    max_token_len: 15,
+    lowercase: true,
+  },
+});
 ```
 
 Available tokenizers are:
