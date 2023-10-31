@@ -2,7 +2,7 @@
 title: "Vector Search as a dedicated service"
 short_description: "Some arguments on why vector search requires to be a dedicated service"
 description: "Some arguments on why vector search requires to be a dedicated service"
-social_preview_image: /articles_data/dedicated-service/social_preview.png
+social_preview_image: /articles_data/dedicated-service/social-preview.png
 small_preview_image: /articles_data/dedicated-service/preview/icon.svg
 preview_dir: /articles_data/dedicated-service/preview
 weight: -70
