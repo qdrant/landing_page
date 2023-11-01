@@ -277,6 +277,35 @@ index, quantization and disk configurations can now be changed without
 recreating a collection. Segments (with index and quantized data) will
 automatically be rebuilt in the background to match updated parameters.
 
+To put vector data on disk in a collection that **does not have** named vectors,
+use `""` as name:
+
+```http
+PATCH /collections/{collection_name}
+
+{
+    "vectors": {
+        "": {
+            "on_disk": true
+        }
+    },
+}
+```
+
+To put vector data on disk in a collection that **does have** named vectors:
+
+```http
+PATCH /collections/{collection_name}
+
+{
+    "vectors": {
+        "my_vector": {
+            "on_disk": true
+        }
+    },
+}
+```
+
 In the following example the HNSW index and quantization parameters are updated,
 for the whole collection and `my_vector` specifically:
 
