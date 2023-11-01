@@ -33,7 +33,7 @@ We will analyze those theses of the Universal-Database-For-Everything advocates 
 
 A table of contents:
 
-* *Each database vector will sooner or later introduce vector capabilities...* [[click](#each-database-vector-will-sooner-or-later-introduce-vector-capabilities-that-will-make-every-database-a-vector-database)]
+* *Each database vendor will sooner or later introduce vector capabilities...* [[click](#each-database-vector-will-sooner-or-later-introduce-vector-capabilities-that-will-make-every-database-a-vector-database)]
 * *Having a dedicated vector database requires duplication of data.* [[click](#having-a-dedicated-vector-database-requires-duplication-of-data)]
 * *Having a dedicated vector database requires complex data synchronization.* [[click](#having-a-dedicated-vector-database-requires-complex-data-synchronization)]
 * *You have to pay for their uptime and data transfer.* [[click](#you-have-to-pay-for-their-uptime-and-data-transfer-of-both-solution)]
@@ -43,7 +43,7 @@ A table of contents:
 
 ## Responding to claims
 
-###### Each database vector will sooner or later introduce vector capabilities. That will make every database a Vector Database.
+###### Each database vendor will sooner or later introduce vector capabilities. That will make every database a Vector Database.
 
 
 The origins of this misconception lie in the careless use of the term Vector *Database*.
