@@ -1,53 +1,38 @@
 ---
 draft: false
 id: 1
-title: Single node speed benchmark
-description: We benchmarked several engines using various configurations of them on 3 different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. It is also quite interesting to see how the number of search threads may impact the performance of the engines, so we added that option as well.
+title: Single node benchmarks
+description: Benchmarks with only 1 node. This is a good starting point for small-medium scale projects.
 
-data: /benchmarks/result-2022-08-10.json
+hundred_thread_title: For backend services (RPS is important)
+hundred_thread_description: The most common requiremement is to have vector dbs running with backend services. In this case, RPS is the most important factor because of parallel requests and we should try to use all the CPU resources. So we will try with 100 parallel clients.
+hundred_thread_data: /benchmarks/results-100-thread.json
+
+single_thread_title: For realtime systems (Latency is important)
+single_thread_description: Another common requiremement is to have vector dbs powering systems that need to take action in realtime. In this case, latency becomes the most important factor. So for that we will use only 1 concurrent search thread so different vector DBs can do their best in terms of latency. Remember that we are still batching the queries.
+single_thread_data: /benchmarks/results-1-thread.json
+
 preview_image: /benchmarks/benchmark-1.png
 date: 2022-08-23
 weight: 2
 ---
 
-## Disclaimer
-
-Even if we try to be objective, we are not experts in using all the existing vector databases.
-We develop Qdrant and try to make it stand out from the crowd.
-Due to that, we could have missed some important tweaks in different engines.
-
-We tried our best, kept scrolling the docs up and down, and experimented with different configurations to get the most out of the tools. However, we believe you can do it better than us, so all **benchmarks are fully [open-sourced](https://github.com/qdrant/vector-db-benchmark), and contributions are welcome**!
-
-
 ### Tested datasets
 
-Our benchmark, inspired by [github.com/erikbern/ann-benchmarks/](https://github.com/erikbern/ann-benchmarks/), used the following datasets to test the performance of the engines on ANN Search tasks:
+Our [benchmark tool](https://github.com/qdrant/vector-db-benchmark) is inspired by [github.com/erikbern/ann-benchmarks](https://github.com/erikbern/ann-benchmarks/). We used the following datasets to test the performance of the engines on ANN Search tasks:
 
 <div class="table-responsive">
 
-| Datasets              | Number of vectors | Vector dimensionality | Distance function |
+| Datasets              | # Vectors | # Dimensations | Distance |
 |-----------------------|-------------------|-----------------------|-------------------|
-| deep-image-96-angular | 9,990,000         | 96                    | cosine            |
-| gist-960-euclidean    | 1,000,000         | 960                   | euclidean         |
-| glove-100-angular     | 1,183,514         | 100                   | cosine            |
+| [deep-image-96-angular](http://sites.skoltech.ru/compvision/noimi/) | 9,990,000         | 96                    | cosine            |
+| [gist-960-euclidean](http://corpus-texmex.irisa.fr/)    | 1,000,000         | 960                   | euclidean         |
+| [glove-100-angular](https://nlp.stanford.edu/projects/glove/)     | 1,183,514         | 100                   | cosine            |
+| [dbpedia-openai-1M-angular](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) | 1,000,000     | 1536                  | cosine            |
 
 </div>
 
-### Hardware
-
-In our experiments, we are not focusing on the absolute values of the metrics but rather on a relative comparison of different engines.
-What is important is the fact we used the same machine for all the tests.
-It was just wiped off between launching different engines. 
-
-We selected an average machine, which you can easily rent from almost any cloud provider. No extra quota or custom configuration is required.
-
-For this particular experiment, we used 8 CPUs and 32GB of RAM as a Server, with additionally limited memory to 25Gb by means of Docker, to make it exact.
-
-And 8 CPUs + 16Gb RAM for client machine. We were trying to make the bottleneck on client side as wide as possible.
-
-
-
-### Experiment setup
+### Setup
 
 ```text
  ┌────────┐      ┌──────────┐
@@ -57,17 +42,18 @@ And 8 CPUs + 16Gb RAM for client machine. We were trying to make the bottleneck 
  └────────┘      └──────────┘
 ```
 
-The Python Client uploads data to the server, waits for all required indexes to be constructed, and then performs searches with multiple threads. We repeat this process with multiple different configurations for each engine, and then select the best one for a given precision.
+- This was our setup for this experiment:
+    - Client: 8 vcpus, 16 GiB memory, 64GiB storage (`Standard D8ls v5` on Azure Cloud)
+    - Server: 8 vcpus, 32 GiB memory, 64GiB storage (`Standard D8s v3` on Azure Cloud)
+- The Python Client uploads data to the server, waits for all required indexes to be constructed, and then performs searches with multiple threads. We repeat this process with multiple different configurations for each engine, and then select the best one for a given precision.
+- We ran all the engines in docker and limited their memory to 25Gb by means of Docker (read the [first paragraph of this](https://qdrant.tech/articles/memory-consumption/#minimal-ram-you-need-to-serve-a-million-vectors)).
 
 ### Why we decided to test with the Python client
 
-
 There is no consensus in the world of vector databases when it comes to the best technology to implement such a tool.
-You’re free to choose Go, Java or Rust-based systems.
-But you’re most likely to generate your embeddings using Python with PyTorch or Tensorflow, as according to stats it is the most commonly used language for Deep Learning.
-Thus, you’re probably going to use Python to put the created vectors in the database of your choice either way.
-For that reason, using Go, Java or Rust clients will rarely happen in the typical pipeline.
-**Python clients are also the most popular clients among all the engines, just by looking at the number of GitHub stars.**
+You’re free to choose Go, Java or Rust-based systems. But there are two main reasons for us to use Python for this:
+1. While generating embeddings you're most likely going to use Python and python based frameworks.
+2. Based on GitHub stars, python clients are one of the most popular clients across all the engines.
 
 From the user’s perspective, the crucial thing is the latency perceived while using a specific library - in most cases a Python client.
 Nobody can and even should redefine the whole technology stack, just because of using a specific search tool.
@@ -77,15 +63,14 @@ Those may use some different protocols under the hood, but at the end of the day
 
 ## How to read the results
 
-An interactive chart that allows you to check the results achieved by each engine under selected circumstances.
-First of all, you can choose the dataset, the number of search threads and the metric you want to check.
-Then, you can select a precision level that would be satisfactory for you.
-After doing all this, the table under the chart will get automatically refreshed and will only display the best results of each of the engines, with all its configuration properties.
-The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
+- Choose the dataset and the metric you want to check.
+- **Select a precision threshold** that would be satisfactory for you.
+- The table under the chart will get automatically refreshed and will only display the best results of each of the engines (i.e. engines with >= selected precision), with all its configuration properties.
+- The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
 
 The graph displays the best configuration / result for a given precision, so it allows us to avoid visual and measurement noise.
 
-Please note that some of the engines might not satisfy the precision criteria, if you select a really high threshold. Some of them also failed on a specific dataset, due to memory issues. That’s why the list may sometimes be incomplete and not contain all the engines.
+Please note that **some of the engines might not satisfy the precision criteria, if you select a really high threshold. Some of them also failed on a specific dataset, due to memory issues (25GB limit)**. That’s why the list may sometimes be incomplete and not contain all the engines.
 
 ## Side notes
 
@@ -96,8 +81,7 @@ Please note that some of the engines might not satisfy the precision criteria, i
 
 Some of the engines are clearly doing better than others and here are some interesting findings of us:
 
-* `Qdrant` and `Milvus` are the fastest engines when it comes to indexing time. The time they need to build internal search structures is order of magnitude lower than for the competitors.
-* `Qdrant` achives highest RPS and lowest latencies in almost all scenarios, no matter the precision threshold and the metric we choose.
+* **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.**
+* `Qdrant` and `Milvus` are generally the fastest engines. Plus, the time they need to build internal search structures is 3-10x lower depending on config.
+* `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck is likely to be the python clients, not the servers, where `Redis`'s custom protocol gives it an advantage. However, Redis is architecturally limited to only a single thread execution, which makes it impossible to scale vertically.
 * There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. `Qdrant` allows you to configure the number of segments to achieve your desired goal.
-* `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck might be the client, not the server, where `Redis`'s custom protocol gives it an advantage. But it is architecturally limited to only a single thread execution, which makes it impossible to scale vertically. 
-* `Elasticsearch` is typically way slower than all the competitors, no matter the dataset and metric.

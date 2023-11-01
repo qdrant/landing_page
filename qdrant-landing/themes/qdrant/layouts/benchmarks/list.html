@@ -21,11 +21,32 @@
             </article>
             {{ end }}
 
-
-            {{ if .Params.data }}
+            {{ if .Params.hundred_thread_data }}
             <div class="row clearfix">
+                <article class="article article_benchmarks article_narrow">
+                    <h1>{{ .Params.hundred_thread_title }}</h1>
+                    <p>{{ .Params.hundred_thread_description }}</p>
+                </article>
                 <section class="content-side col-lg-12 col-md-12 col-sm-12">
-                    {{ partial "benchmark_chart" . }}
+                    {{
+                        partial "benchmark_chart"
+                        (dict "Params" (dict "id" 1 "data" .Params.hundred_thread_data))
+                    }}
+                </section>
+            </div>
+            {{ end }}
+
+            {{ if .Params.single_thread_data }}
+            <div class="row clearfix">
+                <article class="article article_benchmarks article_narrow">
+                    <h1>{{ .Params.single_thread_title }}</h1>
+                    <p>{{ .Params.single_thread_description }}</p>
+                </article>
+                <section class="content-side col-lg-12 col-md-12 col-sm-12">
+                    {{
+                        partial "benchmark_chart"
+                        (dict "Params" (dict "id" 2 "data" .Params.single_thread_data))
+                    }}
                 </section>
             </div>
             {{ end }}

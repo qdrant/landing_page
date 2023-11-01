@@ -10,7 +10,7 @@ let engineToColor = {
   milvus: '#1493cc',
   weaviate: '#01cc26',
   qdrant: '#bc1439',
-  elastic: '#f9b110',
+  elasticsearch: '#f9b110',
 }
 
 let lowerIsBetterMap = {
