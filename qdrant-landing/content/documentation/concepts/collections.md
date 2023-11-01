@@ -262,7 +262,15 @@ The following parameters can be updated:
 
 Full API specification is available in [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/update_collection).
 
+Calls to this endpoint may be blocking as it waits for existing optimizers to
+finish. We recommended against using this in a production database as it may
+introduce huge overhead due to the rebuilding of the index.
+
+#### Update vector parameters
+
 *Available as of v1.4.0*
+
+<aside role="status">To update vector parameters using the collection update API, you must always specify a vector name. If your collection does not have named vectors, use an empty (<code>""</code>) name.</aside>
 
 Qdrant 1.4 adds support for updating more collection parameters at runtime. HNSW
 index, quantization and disk configurations can now be changed without
@@ -364,12 +372,6 @@ client.updateCollection("{collection_name}", {
   },
 });
 ```
-
-**Note:** In order to update vector parameters in a collection that does not have named vectors, you can use an empty (`""`) name.
-
-Calls to this endpoint may be blocking as it waits for existing optimizers to
-finish. We recommended against using this in a production database as it may
-introduce huge overhead due to the rebuilding of the index.
 
 ## Collection info
 
