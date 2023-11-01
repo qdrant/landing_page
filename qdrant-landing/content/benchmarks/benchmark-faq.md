@@ -5,16 +5,15 @@ title: Benchmarks F.A.Q.
 weight: 10
 ---
 
-
 # Benchmarks F.A.Q.
 
 ## Are we biased?
 
-Of course, we are! Even if we try to be objective, we are not experts in using all the existing vector databases.
-We develop Qdrant and try to make it stand out from the crowd.
+Probably, yes. Even if we try to be objective, we are not experts in using all the existing vector databases.
+We build Qdrant and know the most about it.
 Due to that, we could have missed some important tweaks in different engines.
 
-We tried our best, kept scrolling the docs up and down, and experimented with different configurations to get the most out of the tools. However, we believe you can do it better than us, so all **benchmarks are fully open-sourced, and contributions are welcome**!
+However, we tried our best, kept scrolling the docs up and down, experimented with combinations of different configurations, and gave all of them an equal chance to stand out. If you believe you can do it better than us, our **benchmarks are fully open-sourced, and contributions are welcome**!
 
 
 ## What do we measure?
@@ -25,14 +24,11 @@ But in general, we all care about the search precision, speed, and resources req
 
 There is one important thing - **the speed of the engines has to be compared only if they achieve the same precision**. Otherwise, they could maximize the speed factors by providing inaccurate results, which everybody would rather avoid. Thus, our benchmark results are compared only at a specific search precision threshold.
 
-We currently have planned measurements in several scenarios, from the most standard - single node deployment to a distributed cluster.
-
-
 ## How we select hardware?
 
 In our experiments, we are not focusing on the absolute values of the metrics but rather on a relative comparison of different engines.
 What is important is the fact we used the same machine for all the tests.
-It was just wiped off between launching different engines. 
+It was just wiped off between launching different engines.
 
 We selected an average machine, which you can easily rent from almost any cloud provider. No extra quota or custom configuration is required.
 
@@ -44,17 +40,20 @@ If you are using FAISS in production, in the best case, you never need to update
 
 Some vector search engines even use FAISS under the hood, but the search engine is much more than just an indexing algorithm.
 
-We do, however, use the same benchmark datasets as the famous [ann-benchmarks project](https://github.com/erikbern/ann-benchmarks), so you can align your expectations for any practical reasons. 
+We do, however, use the same benchmark datasets as the famous [ann-benchmarks project](https://github.com/erikbern/ann-benchmarks), so you can align your expectations for any practical reasons.
 
 
-## Why are you using Python client?
 
-There is no consensus in the world of vector databases when it comes to the best technology to implement such a tool.
-You’re free to choose Go, Java or Rust-based systems. 
-But you’re most likely to generate your embeddings using Python with PyTorch or Tensorflow, as according to stats it is the most commonly used language for Deep Learning.
-Thus, you’re probably going to use Python to put the created vectors in the database of your choice either way.
-For that reason, using Go, Java or Rust clients will rarely happen in the typical pipeline - although, we encourage you to adopt Rust stack if you care about the performance of your application.
-Python clients are also the most popular clients among all the engines, just by looking at the number of GitHub stars.
+### Why we decided to test with the Python client
+
+There is no consensus when it comes to the best technology to run benchmarks. You’re free to choose Go, Java or Rust-based systems. But there are two main reasons for us to use Python for this:
+1. While generating embeddings you're most likely going to use Python and python based ML frameworks.
+2. Based on GitHub stars, python clients are one of the most popular clients across all the engines.
+
+From the user’s perspective, the crucial thing is the latency perceived while using a specific library - in most cases a Python client.
+Nobody can and even should redefine the whole technology stack, just because of using a specific search tool.
+That’s why we decided to focus primarily on official Python libraries, provided by the database authors.
+Those may use some different protocols under the hood, but at the end of the day, we do not care how the data is transferred, as long as it ends up in the target location.
 
 
 ## What about closed-source SaaS platforms?
@@ -63,13 +62,11 @@ There are some vector databases available as SaaS only so that we couldn’t tes
 That makes the comparison unfair. That’s why we purely focused on testing the Open Source vector databases, so everybody may reproduce the benchmarks easily.
 
 This is not the final list, and we’ll continue benchmarking as many different engines as possible.
-Some applications do not support the full list of features needed for any particular benchmark, in which case we will exclude them from the list.
-
 
 ## How to reproduce the benchmark?
 
-The source code is available on [Github](https://github.com/qdrant/vector-db-benchmark) and has a README file describing the process of running the benchmark for a specific engine.
+The source code is available on [Github](https://github.com/qdrant/vector-db-benchmark) and has a `README.md` file describing the process of running the benchmark for a specific engine.
 
 ## How to contribute?
 
-We made the benchmark Open Source because we believe that it has to be transparent. We could have misconfigured one of the engines or just done it inefficiently. If you feel like you could help us out, check out the [benchmark repository](https://github.com/qdrant/vector-db-benchmark).
+We made the benchmark Open Source because we believe that it has to be transparent. We could have misconfigured one of the engines or just done it inefficiently. If you feel like you could help us out, check out our [benchmark repository](https://github.com/qdrant/vector-db-benchmark).

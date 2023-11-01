@@ -46,25 +46,12 @@ Our [benchmark tool](https://github.com/qdrant/vector-db-benchmark) is inspired 
     - Client: 8 vcpus, 16 GiB memory, 64GiB storage (`Standard D8ls v5` on Azure Cloud)
     - Server: 8 vcpus, 32 GiB memory, 64GiB storage (`Standard D8s v3` on Azure Cloud)
 - The Python Client uploads data to the server, waits for all required indexes to be constructed, and then performs searches with multiple threads. We repeat this process with multiple different configurations for each engine, and then select the best one for a given precision.
-- We ran all the engines in docker and limited their memory to 25Gb by means of Docker (read the [first paragraph of this](https://qdrant.tech/articles/memory-consumption/#minimal-ram-you-need-to-serve-a-million-vectors)).
-
-### Why we decided to test with the Python client
-
-There is no consensus in the world of vector databases when it comes to the best technology to implement such a tool.
-You’re free to choose Go, Java or Rust-based systems. But there are two main reasons for us to use Python for this:
-1. While generating embeddings you're most likely going to use Python and python based frameworks.
-2. Based on GitHub stars, python clients are one of the most popular clients across all the engines.
-
-From the user’s perspective, the crucial thing is the latency perceived while using a specific library - in most cases a Python client.
-Nobody can and even should redefine the whole technology stack, just because of using a specific search tool.
-That’s why we decided to focus primarily on official Python libraries, provided by the database authors.
-Those may use some different protocols under the hood, but at the end of the day, we do not care how the data is transferred, as long as it ends up in the target location.
-
+- We ran all the engines in docker and limited their memory to 25Gb by means of Docker (read [this](https://qdrant.tech/articles/memory-consumption/#minimal-ram-you-need-to-serve-a-million-vectors) to learn why).
 
 ## How to read the results
 
 - Choose the dataset and the metric you want to check.
-- **Select a precision threshold** that would be satisfactory for you.
+- **Select a precision threshold** that would be satisfactory for your usecase.
 - The table under the chart will get automatically refreshed and will only display the best results of each of the engines (i.e. engines with >= selected precision), with all its configuration properties.
 - The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
 
