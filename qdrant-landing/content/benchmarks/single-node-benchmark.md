@@ -71,4 +71,5 @@ Some of the engines are clearly doing better than others and here are some inter
 * **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.**
 * `Qdrant` and `Milvus` are generally the fastest engines. Plus, the time they need to build internal search structures is 3-10x lower depending on config.
 * `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck is likely to be the python clients, not the servers, where `Redis`'s custom protocol gives it an advantage. However, Redis is architecturally limited to only a single thread execution, which makes it impossible to scale vertically.
+* `Elasticsearch` is the slowest in terms of indexing time, followed by `Redis`. The difference is 4-10x when compared to `Qdrant`!
 * There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. `Qdrant` allows you to configure the number of segments to achieve your desired goal.
