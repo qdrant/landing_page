@@ -2,6 +2,63 @@
   {
     "engine_name": "elasticsearch",
     "setup_name": "elasticsearch-m-16-ef-128",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1145.3786074520322,
+    "total_upload_time": 4383.120810342021,
+    "p95_time": 0.010520696034654978,
+    "rps": 93.57448649504398,
+    "parallel": 1.0,
+    "p99_time": 0.07494790440658146,
+    "mean_time": 0.010038831512676552,
+    "mean_precisions": 0.97344,
+    "engine_params": {
+      "index_options": {
+        "m": 16,
+        "ef_construction": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-16-ef-128",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1145.3786074520322,
+    "total_upload_time": 4383.120810342021,
+    "p95_time": 0.011761200975161045,
+    "rps": 100.71195003866134,
+    "parallel": 1.0,
+    "p99_time": 0.012443096720380709,
+    "mean_time": 0.009267044100002385,
+    "mean_precisions": 0.9848599999999998,
+    "engine_params": {
+      "index_options": {
+        "m": 16,
+        "ef_construction": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-16-ef-128",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1145.3786074520322,
+    "total_upload_time": 4383.120810342021,
+    "p95_time": 0.01801602688501589,
+    "rps": 69.81991682843835,
+    "parallel": 1.0,
+    "p99_time": 0.019223949612351136,
+    "mean_time": 0.013627465756167658,
+    "mean_precisions": 0.9918399999999999,
+    "engine_params": {
+      "index_options": {
+        "m": 16,
+        "ef_construction": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-16-ef-128",
     "dataset_name": "deep-image-96-angular",
     "upload_time": 2425.2032582778484,
     "total_upload_time": 18502.08459948888,
@@ -166,6 +223,63 @@
     "engine_params": {
       "index_options": {
         "m": 16,
+        "ef_construction": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-128",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1150.9815927050076,
+    "total_upload_time": 5023.614104792941,
+    "p95_time": 0.01108675883151591,
+    "rps": 83.37374991885824,
+    "parallel": 1.0,
+    "p99_time": 0.07198159035178896,
+    "mean_time": 0.01132263448855374,
+    "mean_precisions": 0.9845600000000002,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-128",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1150.9815927050076,
+    "total_upload_time": 5023.614104792941,
+    "p95_time": 0.01546007383731194,
+    "rps": 84.26237597933988,
+    "parallel": 1.0,
+    "p99_time": 0.016677619131514804,
+    "mean_time": 0.011177583474665881,
+    "mean_precisions": 0.9913200000000001,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 128
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-128",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1150.9815927050076,
+    "total_upload_time": 5023.614104792941,
+    "p95_time": 0.024210043880157173,
+    "rps": 56.54807627168174,
+    "parallel": 1.0,
+    "p99_time": 0.026253748417366298,
+    "mean_time": 0.01693473806383554,
+    "mean_precisions": 0.9954799999999999,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
         "ef_construction": 128
       }
     }
@@ -344,6 +458,63 @@
   {
     "engine_name": "elasticsearch",
     "setup_name": "elasticsearch-m-32-ef-256",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1400.049110705033,
+    "total_upload_time": 10058.765229195007,
+    "p95_time": 0.011595265578944237,
+    "rps": 79.40909162217838,
+    "parallel": 1.0,
+    "p99_time": 0.05803877095226205,
+    "mean_time": 0.011932483700383455,
+    "mean_precisions": 0.99006,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 256
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-256",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1400.049110705033,
+    "total_upload_time": 10058.765229195007,
+    "p95_time": 0.016765173664316537,
+    "rps": 76.15971903021641,
+    "parallel": 1.0,
+    "p99_time": 0.017807942901272328,
+    "mean_time": 0.012434954623668455,
+    "mean_precisions": 0.99582,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 256
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-256",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1400.049110705033,
+    "total_upload_time": 10058.765229195007,
+    "p95_time": 0.026937370450468734,
+    "rps": 49.89164152567326,
+    "parallel": 1.0,
+    "p99_time": 0.0291247210535221,
+    "mean_time": 0.019294925636565312,
+    "mean_precisions": 0.99828,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 256
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-256",
     "dataset_name": "deep-image-96-angular",
     "upload_time": 4024.3746634309646,
     "total_upload_time": 36517.66519238893,
@@ -515,6 +686,63 @@
   {
     "engine_name": "elasticsearch",
     "setup_name": "elasticsearch-m-32-ef-512",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1982.689348487067,
+    "total_upload_time": 19125.295860829065,
+    "p95_time": 0.01179508623899892,
+    "rps": 78.3070852653807,
+    "parallel": 1.0,
+    "p99_time": 0.049140950699802545,
+    "mean_time": 0.012106586299021728,
+    "mean_precisions": 0.9934199999999999,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 512
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-512",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1982.689348487067,
+    "total_upload_time": 19125.295860829065,
+    "p95_time": 0.017841921624494717,
+    "rps": 69.0519935521126,
+    "parallel": 1.0,
+    "p99_time": 0.018948133238591253,
+    "mean_time": 0.013767532027605922,
+    "mean_precisions": 0.99734,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 512
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-512",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1982.689348487067,
+    "total_upload_time": 19125.295860829065,
+    "p95_time": 0.029068448423640803,
+    "rps": 44.47276998061625,
+    "parallel": 1.0,
+    "p99_time": 0.031149914212292063,
+    "mean_time": 0.021742140268255026,
+    "mean_precisions": 0.9989600000000001,
+    "engine_params": {
+      "index_options": {
+        "m": 32,
+        "ef_construction": 512
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-32-ef-512",
     "dataset_name": "gist-960-euclidean",
     "upload_time": 1192.6988747629985,
     "total_upload_time": 13767.552721817,
@@ -629,6 +857,63 @@
   {
     "engine_name": "elasticsearch",
     "setup_name": "elasticsearch-m-64-ef-256",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1425.2530145939672,
+    "total_upload_time": 11104.308376293979,
+    "p95_time": 0.013904584536794575,
+    "rps": 69.21640203953407,
+    "parallel": 1.0,
+    "p99_time": 0.06449694778886662,
+    "mean_time": 0.013781106048217043,
+    "mean_precisions": 0.9929,
+    "engine_params": {
+      "index_options": {
+        "m": 64,
+        "ef_construction": 256
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-64-ef-256",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1425.2530145939672,
+    "total_upload_time": 11104.308376293979,
+    "p95_time": 0.020504556311061607,
+    "rps": 67.36176681514021,
+    "parallel": 1.0,
+    "p99_time": 0.02221789517789149,
+    "mean_time": 0.014132639853749424,
+    "mean_precisions": 0.99672,
+    "engine_params": {
+      "index_options": {
+        "m": 64,
+        "ef_construction": 256
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-64-ef-256",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1425.2530145939672,
+    "total_upload_time": 11104.308376293979,
+    "p95_time": 0.03282865136279725,
+    "rps": 43.62271801498888,
+    "parallel": 1.0,
+    "p99_time": 0.03549764409777709,
+    "mean_time": 0.022143378259497696,
+    "mean_precisions": 0.99854,
+    "engine_params": {
+      "index_options": {
+        "m": 64,
+        "ef_construction": 256
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-64-ef-256",
     "dataset_name": "gist-960-euclidean",
     "upload_time": 875.7830108460003,
     "total_upload_time": 8155.238315557002,
@@ -737,6 +1022,63 @@
       "index_options": {
         "m": 64,
         "ef_construction": 256
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-64-ef-512",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1863.5589663529536,
+    "total_upload_time": 22264.17694292497,
+    "p95_time": 0.015285072318511084,
+    "rps": 65.6465437035491,
+    "parallel": 1.0,
+    "p99_time": 0.046852740189060584,
+    "mean_time": 0.014559031385392883,
+    "mean_precisions": 0.99508,
+    "engine_params": {
+      "index_options": {
+        "m": 64,
+        "ef_construction": 512
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-64-ef-512",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1863.5589663529536,
+    "total_upload_time": 22264.17694292497,
+    "p95_time": 0.023432900063926357,
+    "rps": 57.68447400233918,
+    "parallel": 1.0,
+    "p99_time": 0.025335660581476988,
+    "mean_time": 0.016600885034701786,
+    "mean_precisions": 0.9981,
+    "engine_params": {
+      "index_options": {
+        "m": 64,
+        "ef_construction": 512
+      }
+    }
+  },
+  {
+    "engine_name": "elasticsearch",
+    "setup_name": "elasticsearch-m-64-ef-512",
+    "dataset_name": "dbpedia-openai-1M-1536-angular",
+    "upload_time": 1863.5589663529536,
+    "total_upload_time": 22264.17694292497,
+    "p95_time": 0.03812710763886571,
+    "rps": 36.59493074730065,
+    "parallel": 1.0,
+    "p99_time": 0.04126721020205878,
+    "mean_time": 0.026500729365856387,
+    "mean_precisions": 0.9994,
+    "engine_params": {
+      "index_options": {
+        "m": 64,
+        "ef_construction": 512
       }
     }
   },
