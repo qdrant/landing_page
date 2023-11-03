@@ -13,6 +13,23 @@ Once you download a snapshot, you need to restore it using the Qdrant CLI upon s
 
 **Tutorials:** You may either [**restore a dataset from a snapshot**](/documentation/concepts/snapshots/#restore-snapshot) or [**create a snapshot from a dataset**](/documentation/tutorials/create-snapshot/).
 
+## Qdrant on Hugging Face
+
+<p align="center">
+  <a href="https://huggingface.co/Qdrant">
+    <img style="max-width: 500px" src="/content/images/hf-logo-with-title.svg" alt="HuggingFace" title="HuggingFace">
+  </a>
+</p>
+
+[Hugging Face](https://huggingface.co/) provides a platform for sharing and using ML models and 
+datasets. [Qdrant](https://huggingface.co/Qdrant) is one of the organizations there. We aim to 
+provide you with datasets containing neural embeddings that you can use to practice with Qdrant 
+and build your applications based on semantic search. **Please let us know if you'd like to see
+a specific dataset!**
+
+If you are not familiar with [Hugging Face datasets](https://huggingface.co/docs/datasets/index),
+or would like to know how to combine it with Qdrant, please refer to the [tutorial](/documentation/tutorials/huggingface-datasets/).
+
 ## Arxiv.org Sample Text Data
 
 Our snapshots are generated from publicly available datasets, which are often used for 
@@ -28,8 +45,7 @@ the development of future innovations.
 Arxiv.org snapshots were created using precomputed embeddings exposed by
 [the Alexandria Index](https://alex.macrocosm.so/download).
 
-
-## Journal Article Titles 
+### Journal Article Titles 
 
 This dataset contains embeddings generated from the paper titles only. Each vector has a
 payload with the title used to create it, along with the DOI (Digital Object Identifier).
@@ -40,29 +56,27 @@ payload with the title used to create it, along with the DOI (Digital Object Ide
     "DOI": "1612.05191"
 }
 ```
-| Models                                                      | Dimensionality | Documents | Size   | Link                                                                                                                                    |
+| Model                                                       | Dimensionality | Documents | Size   | Link                                                                                                                                    |
 |-------------------------------------------------------------|----------------|-----------|--------|-----------------------------------------------------------------------------------------------------------------------------------------|
 | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 7.1 GB | [DOWNLOAD LINK](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot) |
 
 The embeddings generated with InstructorXL model have been generated using the following
 instruction:
 
-```
-Represent the Research Paper title for retrieval; Input:
-```
+> Represent the Research Paper title for retrieval; Input:
 
 The following code snippet shows how to generate embeddings using the InstructorXL model:
 
 ```python
 from InstructorEmbedding import INSTRUCTOR
 
-model = INSTRUCTOR('hkunlp/instructor-xl')
+model = INSTRUCTOR("hkunlp/instructor-xl")
 sentence = "3D ActionSLAM: wearable person tracking in multi-floor environments"
 instruction = "Represent the Research Paper title for retrieval; Input:"
 embeddings = model.encode([[instruction, sentence]])
 ```
 
-## Journal Article Abstracts
+### Journal Article Abstracts
 
 This dataset contains embeddings generated from the paper abstracts. Each vector has a
 payload with the abstract used to create it, along with the DOI (Digital Object Identifier).
@@ -74,24 +88,22 @@ payload with the abstract used to create it, along with the DOI (Digital Object 
 }
 ```
 
-| Models                                                      | Dimensionality | Documents | Size   | Link                                                                                                                                       |
+| Model                                                       | Dimensionality | Documents | Size   | Link                                                                                                                                       |
 |-------------------------------------------------------------|----------------|-----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------|
 | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 8.4 GB | [DOWNLOAD LINK](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) |
 
 The embeddings generated with InstructorXL model have been generated using the following
 instruction:
 
-```
-Represent the Research Paper abstract for retrieval; Input:
-```
+> Represent the Research Paper abstract for retrieval; Input:
 
 The following code snippet shows how to generate embeddings using the InstructorXL model:
 
 ```python
 from InstructorEmbedding import INSTRUCTOR
 
-model = INSTRUCTOR('hkunlp/instructor-xl')
+model = INSTRUCTOR("hkunlp/instructor-xl")
 sentence = "The dominant sequence transduction models are based on complex recurrent or convolutional neural networks in an encoder-decoder configuration. The best performing models also connect the encoder and decoder through an attention mechanism. We propose a new simple network architecture, the Transformer, based solely on attention mechanisms, dispensing with recurrence and convolutions entirely. Experiments on two machine translation tasks show these models to be superior in quality while being more parallelizable and requiring significantly less time to train."
 instruction = "Represent the Research Paper abstract for retrieval; Input:"
-embeddings = model.encode([[instruction,sentence]])
+embeddings = model.encode([[instruction, sentence]])
 ```
