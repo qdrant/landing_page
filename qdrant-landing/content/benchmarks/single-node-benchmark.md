@@ -69,7 +69,8 @@ Please note that **some of the engines might not satisfy the precision criteria,
 Some of the engines are clearly doing better than others and here are some interesting findings of us:
 
 * **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.**
-* `Qdrant` and `Milvus` are generally the fastest engines. Plus, the time they need to build internal search structures is 3-10x lower depending on config.
-* `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck is likely to be the python clients, not the servers, where `Redis`'s custom protocol gives it an advantage. However, Redis is architecturally limited to only a single thread execution, which makes it impossible to scale vertically.
-* `Elasticsearch` is the slowest in terms of indexing time, followed by `Redis`. The difference is 4-10x when compared to `Qdrant`!
+* `Elasticsearch` is the second fastest in many cases but it's the slowest in terms of indexing time. It can be 10x slower than the fastest engine (`Qdrant`) when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
+* `Milvus` is the fastest when it comes to indexing time and has maintains precision. However, it's mostly not on-par with others when it comes to RPS or latency.
+* `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck is likely to be the python clients, not the servers, where **`Redis`'s custom protocol gives it an advantage**. However, Redis is architecturally limited to only a single thread execution, which makes it impossible to scale vertically.
+* `Weaviate` seems to perform the poorest in terms of RPS as well as latency. Furthermore, it requires higher RAM and hence crashed under heavier configurations because of 25Gb docker limit (unlike other engines).
 * There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. `Qdrant` allows you to configure the number of segments to achieve your desired goal.
