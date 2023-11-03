@@ -10,7 +10,7 @@
             <section class="content-side col-lg-12 col-md-12 col-sm-12">
                 {{
                     partial "benchmark_chart"
-                    (dict "Params" (dict "id" 1 "data" .Params.hundred_thread_data))
+                    (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.hundred_thread_data))
                 }}
             </section>
         </div>
@@ -27,7 +27,7 @@
             <section class="content-side col-lg-12 col-md-12 col-sm-12">
                 {{
                     partial "benchmark_chart"
-                    (dict "Params" (dict "id" 2 "data" .Params.single_thread_data))
+                    (dict "Params" (dict "id" 2 "metric" "mean_time" "data" .Params.single_thread_data))
                 }}
             </section>
         </div>

@@ -1,5 +1,4 @@
-<div class="benchmark-wrapper">
-
+<div class="benchmark-wrapper" id="benchmark-plot-wrapper-{{ .Params.id }}">
   <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
   <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
 
@@ -13,7 +12,7 @@
 
   <!-- Radio button group to select values to render -->
   <label>
-    <input checked type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderSelected('{{ .Params.id }}', this.value)"/>
     RPS
   </label> |
 
@@ -57,6 +56,8 @@
   let parallelSelector = document.getElementById("parallel-selector-{{ .Params.id }}");
 
   let precisionSelector = document.getElementById("precision-selector-{{ .Params.id }}");
+
+  let metricRadioSelector = document.getElementsByName("plot-value-{{ .Params.id }}");
 
   const config = {
     type: 'line',
@@ -128,7 +129,16 @@
       window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
       window.charts = { "{{ .Params.id }}": chart, ...window.charts }
 
-      renderSelected("{{ .Params.id }}");
+      let plotValueRadioBtns = document.getElementsByName("plot-value-{{ .Params.id }}");
+      let defaultPlotValue = '{{ .Params.metric }}'
+
+      plotValueRadioBtns.forEach(btn => {
+        if (btn.value === defaultPlotValue) {
+          btn.checked = true;
+        }
+      });
+
+      renderSelected("{{ .Params.id }}", getRadioButtonValue(plotValueRadioBtns) || defaultPlotValue);
 
       // Chart js set min x value
 
