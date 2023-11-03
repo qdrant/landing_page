@@ -101,7 +101,7 @@ qdrant_client.recreate_collection(
     vector_params=VectorParams(
         size=len(vectors[0]),
         distance=Distance.COSINE,
-    )
+    ),
 )
 qdrant_client.upsert(
     collection_name="COCO",
@@ -109,7 +109,7 @@ qdrant_client.upsert(
         ids=ids,
         vectors=vectors,
         payloads=payloads,
-    )
+    ),
 )
 ```
 
