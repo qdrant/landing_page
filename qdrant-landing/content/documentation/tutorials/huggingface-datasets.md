@@ -111,3 +111,6 @@ for batch in batcher(dataset, batch_size):
         ),
     )
 ```
+
+Your collection is ready to be used for search! Please [let us know using Discord](https://qdrant.to/discord) 
+if you would like to see more datasets published on Hugging Face hub.
