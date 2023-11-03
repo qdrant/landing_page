@@ -56,9 +56,9 @@ payload with the title used to create it, along with the DOI (Digital Object Ide
     "DOI": "1612.05191"
 }
 ```
-| Model                                                       | Dimensionality | Documents | Size   | Link                                                                                                                                    |
-|-------------------------------------------------------------|----------------|-----------|--------|-----------------------------------------------------------------------------------------------------------------------------------------|
-| [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 7.1 GB | [DOWNLOAD LINK](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot) |
+| Model                                                       | Dimensionality | Documents | Size   | Qdrant snapshot                                                                                                                    | HuggingFace dataset                                                                 |
+|-------------------------------------------------------------|----------------|-----------|--------|------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
+| [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 7.1 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) |
 
 The embeddings generated with InstructorXL model have been generated using the following
 instruction:
@@ -88,9 +88,10 @@ payload with the abstract used to create it, along with the DOI (Digital Object 
 }
 ```
 
-| Model                                                       | Dimensionality | Documents | Size   | Link                                                                                                                                       |
-|-------------------------------------------------------------|----------------|-----------|--------|--------------------------------------------------------------------------------------------------------------------------------------------|
-| [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 8.4 GB | [DOWNLOAD LINK](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) |
+| Model                                                       | Dimensionality | Documents | Size   | Qdrant snapshot                                                                                                                       | HuggingFace dataset                                                                    |
+|-------------------------------------------------------------|----------------|-----------|--------|---------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 8.4 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
+
 
 The embeddings generated with InstructorXL model have been generated using the following
 instruction:
