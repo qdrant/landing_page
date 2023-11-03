@@ -130,15 +130,13 @@
       window.charts = { "{{ .Params.id }}": chart, ...window.charts }
 
       let plotValueRadioBtns = document.getElementsByName("plot-value-{{ .Params.id }}");
-      let defaultPlotValue = '{{ .Params.metric }}'
-
       plotValueRadioBtns.forEach(btn => {
-        if (btn.value === defaultPlotValue) {
+        if (btn.value === '{{ .Params.metric }}') {
           btn.checked = true;
         }
       });
 
-      renderSelected("{{ .Params.id }}", getRadioButtonValue(plotValueRadioBtns) || defaultPlotValue);
+      renderSelected("{{ .Params.id }}");
 
       // Chart js set min x value
 
