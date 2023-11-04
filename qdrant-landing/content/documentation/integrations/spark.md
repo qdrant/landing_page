@@ -40,8 +40,7 @@ To begin, import the necessary libraries and create a Spark session with Qdrant 
 ```python
 from pyspark.sql import SparkSession
 
-spark = (
-    SparkSession.builder.config(
+spark = SparkSession.builder.config(
         "spark.jars",
         "spark-1.0-assembly.jar",  # Specify the downloaded JAR file
     )
