@@ -29,8 +29,8 @@ from dspy.retrieve.qdrant_rm import QdrantRM
 
 from qdrant_client import QdrantClient
 
-turbo = dspy.OpenAI(model='gpt-3.5-turbo')
-qdrant_client = Qdrant()    # Defaults to a local instance at http://localhost:6333/
+turbo = dspy.OpenAI(model="gpt-3.5-turbo")
+qdrant_client = QdrantClient()  # Defaults to a local instance at http://localhost:6333/
 qdrant_retriever_model = QdrantRM("collection-name", qdrant_client, k=3)
 
 dspy.settings.configure(lm=turbo, rm=qdrant_retriever_model)
@@ -42,10 +42,10 @@ retrieve = dspy.Retrieve(k=3)
 question = "Some question about my data"
 topK_passages = retrieve(question).passages
 
-print(f"Top {retrieve.k} passages for question: {question} \n", '\n')
+print(f"Top {retrieve.k} passages for question: {question} \n", "\n")
 
 for idx, passage in enumerate(topK_passages):
-    print(f'{idx+1}]', passage, '\n')
+    print(f"{idx+1}]", passage, "\n")
 ```
 
 With Qdrant configured as the retriever for contexts, you can set up a DSPy module like so:
@@ -56,10 +56,11 @@ class RAG(dspy.Module):
 
         self.retrieve = dspy.Retrieve(k=num_passages)
         ...
-    
+
     def forward(self, question):
         context = self.retrieve(question).passages
         ...
+
 ```
 
 With the generic RAG blueprint now in place, you can add the many interactions offered by DSPy with context retrieval powered by Qdrant.
