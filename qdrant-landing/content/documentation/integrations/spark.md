@@ -22,12 +22,19 @@ If you prefer to build the JAR from source, you'll need [JDK 17](https://www.ora
 ```bash
 mvn package -P assembly
 ```
-
 This command will compile the source code and generate a fat JAR, which will be stored in the `target` directory by default.
 
 ### Maven Central
 
 For Java and Scala projects, you can also obtain the Qdrant-Spark Connector from [Maven Central](https://central.sonatype.com/artifact/io.qdrant/spark).
+
+```xml
+<dependency>
+    <groupId>io.qdrant</groupId>
+    <artifactId>spark</artifactId>
+    <version>1.6</version>
+</dependency>
+```
 
 ## Getting Started
 
@@ -76,7 +83,9 @@ public class QdrantSparkJavaExample {
 
 ### Loading Data into Qdrant
 
-To load data into Qdrant, you'll need to create a collection with the appropriate vector dimensions and configurations in advance. Here's how you can use the Qdrant-Spark Connector to upsert data:
+<aside role="status">To load data into Qdrant, you'll need to create a collection with the appropriate vector dimensions and configurations in advance.</aside>
+
+Here's how you can use the Qdrant-Spark Connector to upsert data:
 
 ```python
 <YourDataFrame>
