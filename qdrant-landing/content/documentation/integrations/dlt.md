@@ -11,19 +11,19 @@ With the DLT-Qdrant integration, you can now select Qdrant as a DLT destination 
 
 **DLT Enables**
 
-- Automated maintenance - with schema inference, evolution, and alerts, and with short declarative code, maintenance becomes simple.
-- Run it where Python runs - on Airflow, serverless functions, notebooks. No external APIs, backends or containers, scales on micro and large infrastructure alike.
+- Automated maintenance - with schema inference, alerts and short declarative code, maintenance becomes simple.
+- Run it where Python runs - on Airflow, serverless functions, notebooks. Scales on micro and large infrastructure alike.
 - User-friendly, declarative interface that removes knowledge obstacles for beginners while empowering senior professionals.
 
 ## Usage
 
-- To get started, install `dlt` with the `qdrant` extra.
+#### To get started, install `dlt` with the `qdrant` extra.
 
 ```bash
 pip install "dlt[qdrant]"
 ```
 
-- Configure the destination in the DLT secrets file. The file is located at ~/.dlt/secrets.toml by default. Add the following section to the secrets file
+#### Configure the destination in the DLT secrets file. The file is located at ~/.dlt/secrets.toml by default. Add the following section to the secrets file
 
 ```toml
 [destination.qdrant.credentials]
@@ -34,7 +34,7 @@ api_key = "your-qdrant-api-key"
 The location will default to `http://localhost:6333` and `api_key` is not defined - which are the defaults for a local Qdrant instance.
 Find more information about DLT configurations [here](https://dlthub.com/docs/general-usage/credentials).
 
-- Define the source of the data.
+#### Define the source of the data.
 
 ```python
 import dlt
@@ -63,7 +63,7 @@ movies = [
 A more comprehensive pipeline would load data from some API or use one of <a href="https://dlthub.com/docs/dlt-ecosystem/verified-sources">DLT's verified sources</a>.
 </aside>
 
-- Define the pipeline
+#### Define the pipeline
 
 ```python
 pipeline = dlt.pipeline(
@@ -73,7 +73,7 @@ pipeline = dlt.pipeline(
 )
 ```
 
-- Run the pipeline
+#### Run the pipeline
 
 ```python
 info = pipeline.run(
@@ -90,7 +90,7 @@ To use vector search after the data has been loaded, you must specify which fiel
 
 ## Write disposition
 
-A DLT [write disposition](https://deploy-preview-724--dlt-hub-docs.netlify.app/docs/dlt-ecosystem/destinations/qdrant/#write-disposition) defines how the data should be written to the destination. All write dispositions are supported by the Qdrant destination.
+A DLT [write disposition](https://dlthub.com/docs/dlt-ecosystem/destinations/qdrant/#write-disposition) defines how the data should be written to the destination. All write dispositions are supported by the Qdrant destination.
 
 ## DLT Sync
 
@@ -98,4 +98,4 @@ Qdrant destination supports syncing of the [`DLT` state](https://dlthub.com/docs
 
 ## Next steps
 
-- The comprehensive Qdrant DLT destination documentation can be found [here](https://deploy-preview-724--dlt-hub-docs.netlify.app/docs/dlt-ecosystem/destinations/qdrant/).
+- The comprehensive Qdrant DLT destination documentation can be found [here](https://dlthub.com/docs/dlt-ecosystem/destinations/qdrant/).
