@@ -7,18 +7,20 @@ weight: 1200
 
 [AutoGen](https://github.com/microsoft/autogen) is a framework that enables the development of LLM applications using multiple agents that can converse with each other to solve tasks. AutoGen agents are customizable, conversable, and seamlessly allow human participation. They can operate in various modes that employ combinations of LLMs, human inputs, and tools.
 
- - Multi-agent conversations: AutoGen agents can communicate with each other to solve tasks. This allows for more complex and sophisticated applications than would be possible with a single LLM.
+- Multi-agent conversations: AutoGen agents can communicate with each other to solve tasks. This allows for more complex and sophisticated applications than would be possible with a single LLM.
 - Customization: AutoGen agents can be customized to meet the specific needs of an application. This includes the ability to choose the LLMs to use, the types of human input to allow, and the tools to employ.
 - Human participation: AutoGen seamlessly allows human participation. This means that humans can provide input and feedback to the agents as needed.
 
 With the Autogen-Qdrant integration, you can use the `QdrantRetrieveUserProxyAgent` from autogen to build retrieval augmented generation(RAG) services with ease.
 
 ## Installation
+
 ```bash
 pip install "pyautogen[retrievechat]" "qdrant_client[fastembed]"
 ```
 
 ## Usage
+
 A demo application that generates code based on context w/o human feedback
 
 #### Set your API Endpoint
@@ -49,7 +51,7 @@ autogen.ChatCompletion.start_logging()
 
 # 1. create a RetrieveAssistantAgent instance named "assistant"
 assistant = RetrieveAssistantAgent(
-    name="assistant", 
+    name="assistant",
     system_message="You are a helpful assistant.",
     llm_config={
         "request_timeout": 600,
@@ -59,10 +61,10 @@ assistant = RetrieveAssistantAgent(
 )
 
 # 2. create a QdrantRetrieveUserProxyAgent instance named "qdrantagent"
-# By default, the human_input_mode is "ALWAYS", which means the agent will ask for human input at every step. We set it to "NEVER" here.
-# `docs_path` is the path to the docs directory. By default, it is set to "./docs". Here we specify a custom path.
-# `task` indicates the kind of task we're working on. In this example, it's a `code` task.
-# `chunk_token_size` is the chunk token size for the retrieve chat. By default, it is set to `max_tokens * 0.6`, here we set it to 2000.
+# By default, the human_input_mode is "ALWAYS", i.e. the agent will ask for human input at every step.
+# `docs_path` is the path to the docs directory.
+# `task` indicates the kind of task we're working on.
+# `chunk_token_size` is the chunk token size for the retrieve chat.
 # We use an in-memory QdrantClient instance here. Not recommended for production.
 
 ragproxyagent = QdrantRetrieveUserProxyAgent(
@@ -81,14 +83,14 @@ ragproxyagent = QdrantRetrieveUserProxyAgent(
 ```
 
 #### Run the retriever service
+
 ```python
-# reset the assistant. Always reset the assistant before starting a new conversation.
+# Always reset the assistant before starting a new conversation.
 assistant.reset()
 
-# given a problem, we use the ragproxyagent to generate a prompt to be sent to the assistant as the initial message.
-# the assistant receives the message and generates a response. The response will be sent back to the ragproxyagent for processing.
+# We use the ragproxyagent to generate a prompt to be sent to the assistant as the initial message.
+# The assistant receives the message and generates a response. The response will be sent back to the ragproxyagent for processing.
 # The conversation continues until the termination condition is met, in RetrieveChat, the termination condition when no human-in-loop is no code block detected.
-# With human-in-loop, the conversation will continue until the user says "exit".
 
 # The query used below is for demonstration. It should usually be related to the docs made available to the agent
 code_problem = "How can I use FLAML to perform a classification task?"
@@ -96,4 +98,5 @@ ragproxyagent.initiate_chat(assistant, problem=code_problem)
 ```
 
 ## Next steps
+
 Check out more Autogen [examples](https://microsoft.github.io/autogen/docs/Examples/AutoGen-AgentChat). You can find detailed documentation about AutoGen [here](https://microsoft.github.io/autogen/).
