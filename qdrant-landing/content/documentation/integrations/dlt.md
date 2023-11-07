@@ -17,14 +17,13 @@ With the DLT-Qdrant integration, you can now select Qdrant as a DLT destination 
 
 ## Usage
 
-#### To get started, install `dlt` with the `qdrant` extra.
+To get started, install `dlt` with the `qdrant` extra.
 
 ```bash
 pip install "dlt[qdrant]"
 ```
 
-#### Configure the destination in the DLT secrets file.
-The file is located at `~/.dlt/secrets.toml` by default. Add the following section to the secrets file
+Configure the destination in the DLT secrets file. The file is located at `~/.dlt/secrets.toml` by default. Add the following section to the secrets file.
 
 ```toml
 [destination.qdrant.credentials]
@@ -35,7 +34,7 @@ api_key = "your-qdrant-api-key"
 The location will default to `http://localhost:6333` and `api_key` is not defined - which are the defaults for a local Qdrant instance.
 Find more information about DLT configurations [here](https://dlthub.com/docs/general-usage/credentials).
 
-#### Define the source of the data.
+Define the source of the data.
 
 ```python
 import dlt
@@ -64,7 +63,7 @@ movies = [
 A more comprehensive pipeline would load data from some API or use one of <a href="https://dlthub.com/docs/dlt-ecosystem/verified-sources">DLT's verified sources</a>.
 </aside>
 
-#### Define the pipeline
+Define the pipeline.
 
 ```python
 pipeline = dlt.pipeline(
@@ -74,7 +73,7 @@ pipeline = dlt.pipeline(
 )
 ```
 
-#### Run the pipeline
+Run the pipeline.
 
 ```python
 info = pipeline.run(
