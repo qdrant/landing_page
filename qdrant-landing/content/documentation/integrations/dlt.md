@@ -23,7 +23,8 @@ With the DLT-Qdrant integration, you can now select Qdrant as a DLT destination 
 pip install "dlt[qdrant]"
 ```
 
-#### Configure the destination in the DLT secrets file. The file is located at ~/.dlt/secrets.toml by default. Add the following section to the secrets file
+#### Configure the destination in the DLT secrets file.
+The file is located at `~/.dlt/secrets.toml` by default. Add the following section to the secrets file
 
 ```toml
 [destination.qdrant.credentials]
