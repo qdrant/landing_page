@@ -262,15 +262,52 @@ The following parameters can be updated:
 
 Full API specification is available in [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/update_collection).
 
+Calls to this endpoint may be blocking as it waits for existing optimizers to
+finish. We recommended against using this in a production database as it may
+introduce huge overhead due to the rebuilding of the index.
+
+#### Update vector parameters
+
 *Available as of v1.4.0*
+
+<aside role="status">To update vector parameters using the collection update API, you must always specify a vector name. If your collection does not have named vectors, use an empty (<code>""</code>) name.</aside>
 
 Qdrant 1.4 adds support for updating more collection parameters at runtime. HNSW
 index, quantization and disk configurations can now be changed without
 recreating a collection. Segments (with index and quantized data) will
 automatically be rebuilt in the background to match updated parameters.
 
+To put vector data on disk for a collection that **does not have** named vectors,
+use `""` as name:
+
+```http
+PATCH /collections/{collection_name}
+
+{
+    "vectors": {
+        "": {
+            "on_disk": true
+        }
+    },
+}
+```
+
+To put vector data on disk for a collection that **does have** named vectors:
+
+```http
+PATCH /collections/{collection_name}
+
+{
+    "vectors": {
+        "my_vector": {
+            "on_disk": true
+        }
+    },
+}
+```
+
 In the following example the HNSW index and quantization parameters are updated,
-for the whole collection and `my_vector` specifically:
+both for the whole collection, and for `my_vector` specifically:
 
 ```http
 PATCH /collections/{collection_name}
@@ -364,12 +401,6 @@ client.updateCollection("{collection_name}", {
   },
 });
 ```
-
-**Note:** In order to update vector parameters in a collection that does not have named vectors, you can use an empty (`""`) name.
-
-Calls to this endpoint may be blocking as it waits for existing optimizers to
-finish. We recommended against using this in a production database as it may
-introduce huge overhead due to the rebuilding of the index.
 
 ## Collection info
 
