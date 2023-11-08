@@ -23,7 +23,7 @@ Our [benchmark tool](https://github.com/qdrant/vector-db-benchmark) is inspired 
 
 <div class="table-responsive">
 
-| Datasets              | # Vectors | # Dimensations | Distance |
+| Datasets              | # Vectors | Dimensions | Distance |
 |-----------------------|-------------------|-----------------------|-------------------|
 | [deep-image-96-angular](http://sites.skoltech.ru/compvision/noimi/) | 9,990,000         | 96                    | cosine            |
 | [gist-960-euclidean](http://corpus-texmex.irisa.fr/)    | 1,000,000         | 960                   | euclidean         |
