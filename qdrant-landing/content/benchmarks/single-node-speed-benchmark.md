@@ -2,15 +2,9 @@
 draft: false
 id: 1
 title: Single node benchmarks
-description: Benchmarks with only 1 node. This is a good starting point for small-medium scale projects.
 
-hundred_thread_title: For backend services (RPS is important)
-hundred_thread_description: The most common requiremement is to have vector dbs running with backend services. In this case, RPS is the most important factor because of parallel requests and we should try to use all the CPU resources. So we will try with 100 parallel clients.
-hundred_thread_data: /benchmarks/results-100-thread.json
-
-single_thread_title: For realtime systems (Latency is important)
-single_thread_description: Another common requiremement is to have vector dbs powering systems that need to take action in realtime. In this case, latency becomes the most important factor. So for that we will use only 1 concurrent search thread so different vector DBs can do their best in terms of latency. Remember that we are still batching the queries.
-single_thread_data: /benchmarks/results-1-thread.json
+single_node_title: Single node benchmarks
+single_node_data: /benchmarks/results-1-100-thread.json
 
 preview_image: /benchmarks/benchmark-1.png
 date: 2022-08-23
@@ -51,8 +45,8 @@ Our [benchmark tool](https://github.com/qdrant/vector-db-benchmark) is inspired 
 ## How to read the results
 
 - Choose the dataset and the metric you want to check.
-- **Select a precision threshold** that would be satisfactory for your usecase.
-- The table under the chart will get automatically refreshed and will only display the best results of each of the engines (i.e. engines with >= selected precision), with all its configuration properties.
+- Select a precision threshold that would be satisfactory for your usecase.
+- The **table under the chart will get automatically refreshed and will only display the best results for the selected precision threshold** of each of the engines with the corresponding configurations.
 - The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
 
 The graph displays the best configuration / result for a given precision, so it allows us to avoid visual and measurement noise.
@@ -69,8 +63,7 @@ Please note that **some of the engines might not satisfy the precision criteria,
 Some of the engines are clearly doing better than others and here are some interesting findings of us:
 
 * **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.**
-* `Elasticsearch` is the second fastest in many cases but it's the slowest in terms of indexing time. It can be 10x slower than the fastest engine (`Qdrant`) when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
+* `Elasticsearch` is the considerably fast in many cases but it's always the slowest in terms of indexing time. It can be 10x slower than `Qdrant` when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
 * `Milvus` is the fastest when it comes to indexing time and has maintains precision. However, it's mostly not on-par with others when it comes to RPS or latency.
 * `Redis` does better than the others while using one thread only. When we just use a single thread, the bottleneck is likely to be the python clients, not the servers, where **`Redis`'s custom protocol gives it an advantage**. However, Redis is architecturally limited to only a single thread execution, which makes it impossible to scale vertically.
-* `Weaviate` seems to perform the poorest in terms of RPS as well as latency. Furthermore, it requires higher RAM and hence crashed under heavier configurations because of 25Gb docker limit (unlike other engines).
-* There is a noticeable difference between engines that try to do a single HNSW index and those with multiple segments. Single-segment leads to higher RPS but lowers the precision and higher indexing time. `Qdrant` allows you to configure the number of segments to achieve your desired goal.
+* `Weaviate` seems to perform the poorest in terms of RPS as well as latency. Plus, it requires higher RAM and hence crashed under heavier configurations because of 25Gb docker limit (unlike other engines).

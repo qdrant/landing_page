@@ -21,31 +21,27 @@
             </article>
             {{ end }}
 
-            {{ if .Params.hundred_thread_data }}
+            {{ if .Params.single_node_data }}
             <div class="row clearfix">
                 <article class="article article_benchmarks article_narrow">
-                    <h1>{{ .Params.hundred_thread_title }}</h1>
-                    <p>{{ .Params.hundred_thread_description }}</p>
+                    <h1> Single node benchmarks </h1>
+                    <p>
+                        There are two types of common usecases that we have tried to cover:
+                        <ol>
+                            <li>
+                                Vector DBs powering backend services: RPS is the most important metric because of parallel requests and we should try to use all the CPU resources. So we will try with 100 parallel clients.
+                            </li>
+                            <li>
+                                Systems that take action in realtime: Latency becomes an important metric. To measure it properly, we will use only 1 concurrent search client. Remember, that we will still batch the queries in both the cases.
+                            </li>
+                        </ol>
+                    </p>
                 </article>
-                <section class="content-side col-lg-12 col-md-12 col-sm-12">
-                    {{
-                        partial "benchmark_chart"
-                        (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.hundred_thread_data))
-                    }}
-                </section>
-            </div>
-            {{ end }}
 
-            {{ if .Params.single_thread_data }}
-            <div class="row clearfix">
-                <article class="article article_benchmarks article_narrow">
-                    <h1>{{ .Params.single_thread_title }}</h1>
-                    <p>{{ .Params.single_thread_description }}</p>
-                </article>
                 <section class="content-side col-lg-12 col-md-12 col-sm-12">
                     {{
                         partial "benchmark_chart"
-                        (dict "Params" (dict "id" 2 "metric" "mean_time" "data" .Params.single_thread_data))
+                        (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
                     }}
                 </section>
             </div>

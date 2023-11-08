@@ -20,7 +20,7 @@ At Qdrant, performance is the top-most priority. We always make sure that we use
 
 ### Benchmark variants:
 
-1. Upload & Search benchmark on single node [Benchmark](/benchmarks/single-node-benchmark/)
+1. Upload & Search benchmark on single node [Benchmark](/benchmarks/single-node-speed-benchmark/)
     - Requirement for backend services - **RPS is critical**
     - Requirement for realtime systems - **Latency is critical**
 2. Filtered search benchmark - [Benchmark](/benchmarks/#filtered-search-benchmark)
