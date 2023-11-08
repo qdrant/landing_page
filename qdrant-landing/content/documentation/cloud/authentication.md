@@ -21,7 +21,7 @@ However, we recommend rotating the keys from time to time. To create additional 
 ## Authenticate via SDK
 
 Now that you have created your first cluster and key, you might want to access Qdrant Cloud from within your application.
-Our official Qdrant clients for Python, TypeScript, Go, and Rust all support the API key parameter. 
+Our official Qdrant clients for Python, TypeScript, Go, Rust, and .NET all support the API key parameter. 
 
 ```bash
 curl \
@@ -45,4 +45,14 @@ const client = new QdrantClient({
   host: "xyz-example.eu-central.aws.cloud.qdrant.io",
   apiKey: "<paste-your-api-key-here>",
 });
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient(
+  "xyz-example.eu-central.aws.cloud.qdrant.io",
+  https: true,
+  apiKey: "<paste-your-api-key-here>"
+);
 ```
