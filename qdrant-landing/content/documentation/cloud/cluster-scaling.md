@@ -38,12 +38,12 @@ We will be glad to consult you on an optimal strategy for scaling.
 
 ### Guide: Moving shards to a new node after adding nodes
 
-After scaling a cluster horizontally, the user can move shards from their old node to the new one to balance the memory and storage utilization of the nodes. 
+After scaling a cluster horizontally, you can move shards from your original nodes to the new ones to balance memory and storage utilization.
 
-NOTE: this guide is an example of moving shards from node 0, if the user wants to move shard from another 
-node they would need to change their cluster URL to `https://node-{source_node}-xyz-example.eu-central.aws.cloud.qdrant.io`
+NOTE: NOTE: this guide is an example of moving shards from node 0, if you want to move shards from another 
+node you would need to change your cluster URL to `https://node-{source_node}-xyz-example.eu-central.aws.cloud.qdrant.io`
 
-Firstly, after adding nodes confirm that new peers are added by running the following:
+Firstly, after adding nodes confirm that new peers are present by running:
 
 ```bash
 curl \
@@ -53,7 +53,7 @@ curl \
 
 Note the `peer_ids` of the peers as they are needed for the last step of moving shards
 
-Afterwards the user needs to check the target collection cluster info. This gives insights of how many shards are on the node and its size. Note the `local_shards` from the return result and note a `shard_id` of the shard you want to move to another node.
+Afterwards you need to check the target collection cluster info. This gives insights of how many shards are on the node and its size. Note the `local_shards` from the return result and note a `shard_id` of the shard you want to move to another node.
 
 ```bash
 curl \
@@ -75,6 +75,5 @@ curl \
 }' -H "Content-Type: application/json"
 ```
 
-This inititates a background shard move operation which doesn't affect the database performance. After the shard is moved the user
-can confirm it by once again running the second step command (querying collection cluster info), and the user will notice that the shard has moved to another peer.
+This initiates a background shard move operation. After the shard is moved you can confirm it by once again running the command from step two (querying collection cluster info), and you will notice that the shard has moved to another peer.
 
