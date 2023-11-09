@@ -71,4 +71,4 @@ Some of the engines are clearly doing better than others and here are some inter
 
 * **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.**
 * `Elasticsearch` is the considerably fast in many cases but it's always the slowest in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
-* `Milvus` is the fastest when it comes to indexing time and has maintains precision. However, it's mostly not on-par with others when it comes to RPS or latency.
+* `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's mostly not on-par with others when it comes to RPS or latency.
