@@ -22,12 +22,12 @@
   </label> |
 
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="p95_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="p95_time"  onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"/>
     p95 latency
   </label> |
 
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="total_upload_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="total_upload_time"  onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"/>
     Index time
   </label>
 
