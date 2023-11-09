@@ -48,7 +48,7 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 ```
 
 ```rust
-use qdrant_client::prelude::*;
+use qdrant_client::client::QdrantClient;
 
 //The Rust client uses Qdrant's GRPC interface
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
