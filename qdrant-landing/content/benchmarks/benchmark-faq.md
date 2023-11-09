@@ -13,7 +13,7 @@ Probably, yes. Even if we try to be objective, we are not experts in using all t
 We build Qdrant and know the most about it.
 Due to that, we could have missed some important tweaks in different engines.
 
-However, we tried our best, kept scrolling the docs up and down, experimented with combinations of different configurations, and gave all of them an equal chance to stand out. If you believe you can do it better than us, our **benchmarks are fully open-sourced, and contributions are welcome**!
+However, we tried our best, kept scrolling the docs up and down, experimented with combinations of different configurations, and gave all of them an equal chance to stand out. If you believe you can do it better than us, our **benchmarks are fully [open-sourced](https://github.com/qdrant/vector-db-benchmark), and contributions are welcome**!
 
 
 ## What do we measure?

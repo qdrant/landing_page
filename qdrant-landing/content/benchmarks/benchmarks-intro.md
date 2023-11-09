@@ -14,6 +14,7 @@ Here are the principles we followed while designing these benchmarks:
 - We do comparative benchmarks, which means we focus on **relative numbers** rather than absolute numbers.
 - We use affordable hardware, so that you can reproduce the results easily.
 - We run benchmarks on the same exact machines to avoid any possible hardware bias.
+- All the benchmarks are [open-sourced](https://github.com/qdrant/vector-db-benchmark), so you can contribute and improve them.
 
 <details>
 <summary> Scenarios we tested </summary>
