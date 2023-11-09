@@ -10,11 +10,14 @@
 
 .copy-code__btn {
 	padding: 4px;
-	background: none;
+	background: var(--brand-light);
+	i {
+		color: var(--brand-secondary);
+	}
 }
 
 .copy-code__btn:hover {
-	background: #dcdcdc;
+	background: white;
 }
 
 .copy-code__btn_light {
