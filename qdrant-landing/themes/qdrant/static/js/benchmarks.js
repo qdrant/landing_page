@@ -30,15 +30,22 @@ const normalizedTitles = {
   dataset_name: 'Dataset',
   rps: 'RPS',
   mean_precisions: 'Precision',
-  total_upload_time: 'Upload + Index Time(s)',
-  upload_time: 'Upload Time(s)',
-  mean_time: 'Latency(s)',
-  p95_time: 'P95(s)',
-  p99_time: 'P99(s)',
+  total_upload_time: 'Upload + Index Time(m)',
+  upload_time: 'Upload Time(m)',
+  mean_time: 'Latency(ms)',
+  p95_time: 'P95(ms)',
+  p99_time: 'P99(ms)',
   setup_name: 'Setup',
   // engine_params: 'Run Params',
 }
 
+const columnMultiplyFactor = {
+  total_upload_time: 1/60,
+  upload_time: 1/60,
+  mean_time: 1000,
+  p95_time: 1000,
+  p99_time: 1000
+}
 
 function extractUniqueVals(data, key) {
   let vals = {};

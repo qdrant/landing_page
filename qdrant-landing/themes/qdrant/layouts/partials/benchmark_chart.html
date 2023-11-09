@@ -121,6 +121,14 @@
 
       let parallelsInt = parseInt(parallels[0]);
 
+      for (const row in data) {
+        for (const column in columnMultiplyFactor) {
+          if (column in data[row]) {
+            data[row][column] *= columnMultiplyFactor[column];
+          }
+        }
+      }
+
       let selectedData = filterData(data, {
         "dataset_name": datasets[0],
         "parallel": parallelsInt
