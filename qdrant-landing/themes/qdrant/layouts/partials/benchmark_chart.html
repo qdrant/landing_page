@@ -5,19 +5,19 @@
   </select>
 
   <label for="parallel-selector-{{ .Params.id }}">Search threads:</label>
-  <select name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+  <select disabled name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
   </select>
 
   Plot values:
 
   <!-- Radio button group to select values to render -->
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"/>
     RPS
   </label> |
 
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="mean_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="mean_time"  onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"/>
     Latency
   </label> |
 

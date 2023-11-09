@@ -2,6 +2,9 @@
 
 {{ range $i,$p := where .Data.Pages "Section" "benchmarks" }}
 
+{{ if .Params.Unlisted }}
+
+{{ else }}
 
 <div class="auto-container pt-3 pt-md-5 single-page">
     <div class="row clearfix">
@@ -17,27 +20,12 @@
             {{ if .Description }}
             <article class="article article_benchmarks article_narrow">
                 <h1>{{ .Title }}</h1>
-                <p>{{ .Description }}</p>
+                <p>{{ .Description | safeHTML }}</p>
             </article>
             {{ end }}
 
             {{ if .Params.single_node_data }}
             <div class="row clearfix">
-                <article class="article article_benchmarks article_narrow">
-                    <h1> Single node benchmarks </h1>
-                    <p>
-                        There are two types of common usecases that we have tried to cover:
-                        <ol>
-                            <li>
-                                Vector DBs powering backend services: RPS is the most important metric because of parallel requests and we should try to use all the CPU resources. So we will try with 100 parallel clients.
-                            </li>
-                            <li>
-                                Systems that take action in realtime: Latency becomes an important metric. To measure it properly, we will use only 1 concurrent search client. Remember, that we will still batch the queries in both the cases.
-                            </li>
-                        </ol>
-                    </p>
-                </article>
-
                 <section class="content-side col-lg-12 col-md-12 col-sm-12">
                     {{
                         partial "benchmark_chart"
@@ -63,6 +51,6 @@
     </div>
 </div>
 
-
+{{ end }}
 {{ end }}
 {{ end }}
