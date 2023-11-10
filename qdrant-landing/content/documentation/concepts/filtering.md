@@ -96,6 +96,25 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{Condition, Filter, ScrollPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "test_collection".to_string(),
+        filter: Some(Filter::must([
+            Condition::matches("city", "london".to_string()),
+            Condition::matches("color", "red".to_string()),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
 Filtered points would be:
 
 ```json
@@ -157,6 +176,18 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .scroll(&ScrollPoints {
+        collection_name: "test_collection".to_string(),
+        filter: Some(Filter::should([
+            Condition::matches("city", "london".to_string()),
+            Condition::matches("color", "red".to_string()),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
 Filtered points would be:
 
 ```json
@@ -217,6 +248,18 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .scroll(&ScrollPoints {
+        collection_name: "test_collection".to_string(),
+        filter: Some(Filter::must_not([
+            Condition::matches("city", "london".to_string()),
+            Condition::matches("color", "red".to_string()),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
 Filtered points would be:
 
 ```json
@@ -281,6 +324,19 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter {
+            must: vec![Condition::matches("city", "London".to_string())],
+            must_not: vec![Condition::matches("color", "red".to_string())],
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
 Filtered points would be:
 
 ```json
@@ -352,6 +408,19 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must_not([Filter::must([
+            Condition::matches("city", "London".to_string()),
+            Condition::matches("color", "Red".to_string()),
+        ])
+        .into()])),
+        ..Default::default()
+    })
+    .await?;
+```
 Filtered points would be:
 
 ```json
@@ -394,6 +463,9 @@ models.FieldCondition(
 }
 ```
 
+```rust
+Condition::matches("color", "red".to_string());
+```
 For the other types, the match condition will look exactly the same, except for the type used:
 
 ```json
@@ -417,6 +489,10 @@ models.FieldCondition(
     key: 'count',
     match: {value: 0}    
 }
+```
+
+```rust
+Condition::matches("count", 0);
 ```
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
@@ -457,6 +533,9 @@ FieldCondition(
 }
 ```
 
+```rust
+Condition::matches("color", vec!["black".to_string(), "yellow".to_string()]);
+```
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
 If the stored value is an array, it should have at least one value matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
@@ -497,6 +576,12 @@ FieldCondition(
 }
 ```
 
+```rust
+Condition::matches(
+        "color",
+        !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
+    );
+```
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
 
 If the stored value is an array, it should have at least one value not matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"green"` does not match `"black"` nor `"yellow"`.
@@ -597,6 +682,18 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::should([Condition::matches(
+            "country.name",
+            "Germany".to_string(),
+        )])),
+        ..Default::default()
+    })
+    .await?;
+```
 You can also search through arrays by projecting inner values using the `[]` syntax.
 
 ```http
@@ -653,6 +750,21 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::should([Condition::range(
+            "country.cities[].population",
+            Range {
+                gte: Some(9.0),
+                ..Default::default()
+            },
+        )])),
+        ..Default::default()
+    })
+    .await?;
+```
 This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
 
 And the leaf nested field can also be an array.
