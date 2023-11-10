@@ -123,6 +123,8 @@ GET /collections/{collection_name}/snapshots/{snapshot_name}
 
 ## Restore snapshot
 
+<aside role="status">Restoration of snapshots is limited to Qdrant clusters sharing the same minor version. For instance, a snapshot captured in v1.4.1 is exclusive to restoration in clusters of version v1.4.x, where x is equal to or greater than 1.</aside>
+
 There is a difference in recovering snapshots in single-deployment node and distributed deployment mode.
 
 ### Recover during start-up
