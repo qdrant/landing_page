@@ -120,6 +120,29 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::PointStruct};
+use serde_json::json;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .upsert_points_blocking(
+        "{collection_name}".to_string(),
+        vec![PointStruct::new(
+            "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
+            vec![0.05, 0.61, 0.76, 0.74],
+            json!(
+                {"color": "Red"}
+            )
+            .try_into()
+            .unwrap(),
+        )],
+        None,
+    )
+    .await?;
+```
+
 and
 
 ```http
@@ -163,6 +186,24 @@ client.upsert("{collection_name}", {
     },
   ],
 });
+```
+
+```rust
+client
+    .upsert_points_blocking(
+        1,
+        vec![PointStruct::new(
+            "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
+            vec![0.05, 0.61, 0.76, 0.74],
+            json!(
+                {"color": "Red"}
+            )
+            .try_into()
+            .unwrap(),
+        )],
+        None,
+    )
+    .await?;
 ```
 
 are both possible.
@@ -229,6 +270,7 @@ client.upsert("{collection_name}", {
   },
 });
 ```
+
 
 or record-oriented equivalent:
 
@@ -305,6 +347,45 @@ client.upsert("{collection_name}", {
     },
   ],
 });
+```
+
+```rust
+client
+    .upsert_points_batch_blocking(
+        "{collection_name}".to_string(),
+        vec![
+            PointStruct::new(
+                1,
+                vec![0.9, 0.1, 0.1],
+                json!(
+                    {"color": "red"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                2,
+                vec![0.1, 0.9, 0.1],
+                json!(
+                    {"color": "green"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                3,
+                vec![0.1, 0.1, 0.9],
+                json!(
+                    {"color": "blue"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+        ],
+        None,
+        100,
+    )
+    .await?;
 ```
 
 <!-- 
@@ -394,6 +475,39 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .upsert_points_blocking(
+        "{collection_name}".to_string(),
+        vec![
+            PointStruct::new(
+                1,
+                HashMap::from([
+                    ("image".to_string(), vec![0.9, 0.1, 0.1, 0.2]),
+                    (
+                        "text".to_string(),
+                        vec![0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+                    ),
+                ]),
+                HashMap::new().into(),
+            ),
+            PointStruct::new(
+                2,
+                HashMap::from([
+                    ("image".to_string(), vec![0.2, 0.1, 0.3, 0.9]),
+                    (
+                        "text".to_string(),
+                        vec![0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+                    ),
+                ]),
+                HashMap::new().into(),
+            ),
+        ],
+        None,
+    )
+    .await?;
+```
+
 *Available as of v1.2.0*
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
@@ -479,6 +593,33 @@ client.updateVectors("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .update_vectors_blocking(
+        "{collection_name}",
+        &[
+            PointVectors {
+                id: Some(1.into()),
+                vectors: Some(
+                    HashMap::from([("image".to_string(), vec![0.1, 0.2, 0.3, 0.4])]).into(),
+                ),
+            },
+            PointVectors {
+                id: Some(2.into()),
+                vectors: Some(
+                    HashMap::from([(
+                        "text".to_string(),
+                        vec![0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2],
+                    )])
+                    .into(),
+                ),
+            },
+        ],
+        None,
+    )
+    .await?;
+```
+
 To update points and replace all of its vectors, see [uploading
 points](#upload-points).
 
@@ -515,6 +656,23 @@ client.deleteVectors("{collection_name}", {
   points: [0, 3, 10],
   vectors: ["text", "image"],
 });
+```
+
+```rust
+client
+    .delete_vectors_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 10.into()],
+            })),
+        },
+        &VectorsSelector {
+            names: vec!["text".into(), "image".into()],
+        },
+        None,
+    )
+    .await?;
 ```
 
 To delete entire points, see [deleting points](#delete-points).
@@ -558,6 +716,26 @@ client.setPayload("{collection_name}", {
   },
   points: [0, 3, 10],
 });
+```
+
+```rust
+client
+    .set_payload_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 10.into()],
+            })),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
 ```
 
 You don't need to know the ids of the points you want to modify. The alternative
@@ -621,6 +799,26 @@ client.setPayload("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .set_payload_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
 ### Overwrite payload
 
 Fully replace any existing payload with the given one.
@@ -662,7 +860,27 @@ client.overwritePayload("{collection_name}", {
 });
 ```
 
-Like [set payload](#set-payload], you don't need to know the ids of the points
+```rust
+client
+    .overwrite_payload_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 10.into()],
+            })),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
+Like [set payload](#set-payload), you don't need to know the ids of the points
 you want to modify. The alternative is to use filters.
 
 ### Delete payload keys
@@ -689,8 +907,23 @@ client.delete_payload(
 ```typescript
 client.deletePayload("{collection_name}", {
   keys: ["color", "price"],
-  points: [0, 3, 10],
+  points: [0, 3, 100],
 });
+```
+
+```rust
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
 ```
 
 Alternatively, you can use filters to delete payload keys from the points.
@@ -744,6 +977,21 @@ client.deletePayload("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
+```
+
 ### Clear payload
 
 This method removes all payload keys from specified points
@@ -769,8 +1017,22 @@ client.clear_payload(
 
 ```typescript
 client.clearPayload("{collection_name}", {
-  points: [0, 3, 10],
+  points: [0, 3, 100],
 });
+```
+
+```rust
+client
+    .clear_payload_blocking(
+        "{collection_name}",
+        Some(PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        }),
+        None,
+    )
+    .await?;
 ```
 
 ## Delete points
@@ -796,8 +1058,22 @@ client.delete(
 
 ```typescript
 client.delete("{collection_name}", {
-  points: [0, 3, 10],
+  points: [0, 3, 100],
 });
+```
+
+```rust
+client
+    .delete_points_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        },
+        None,
+    )
+    .await?;
 ```
 
 Alternative way to specify which points to remove is to use filter.
@@ -850,6 +1126,20 @@ client.delete("{collection_name}", {
 });
 ```
 
+```rust
+client
+    .delete_points_blocking(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        None,
+    )
+    .await?;
+```
+
 This example removes all points with `{ "color": "red" }` from the collection.
 
 ## Retrieve points
@@ -869,14 +1159,24 @@ POST /collections/{collection_name}/points
 ```python
 client.retrieve(
     collection_name="{collection_name}",
-    ids=[0, 3, 10],
+    ids=[0, 3, 100],
 )
 ```
 
 ```typescript
 client.retrieve("{collection_name}", {
-  ids: [0, 3, 10],
+  ids: [0, 3, 100],
 });
+```
+
+```rust
+client.get_points(
+    "{collection_name}",
+    &[0.into(), 30.into(), 100.into()],
+    Some(false),
+    Some(false),
+    None,
+).await?;
 ```
 
 This method has additional parameters `with_vectors` and `with_payload`. 
