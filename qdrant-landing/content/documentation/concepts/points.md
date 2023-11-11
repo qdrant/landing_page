@@ -1255,6 +1255,17 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+client.scroll(&ScrollPoints {
+    collection_name: "{collection_name}".to_string(),
+    filter: Some(Filter::must([Condition::matches("color", "red".to_string())])),
+    limit: Some(1),
+    with_payload: Some(true.into()),
+    with_vectors: Some(false.into()),
+    ..Default::default()
+}).await?;
+```
+
 Returns all point with `color` = `red`.
 
 ```json
@@ -1345,6 +1356,14 @@ client.count("{collection_name}", {
   },
   exact: true,
 });
+```
+
+```rust
+client.count(&CountPoints {
+    collection_name: "{collection_name}".to_string(),
+    filter: Some(Filter::must([Condition::matches("color", "red".to_string())])),
+    exact: Some(true) 
+}).await?;
 ```
 
 Returns number of counts matching given filtering conditions:
@@ -1560,6 +1579,101 @@ client.batchUpdate("{collection_name}", {
     },
   ],
 });
+```
+
+```rust
+client
+    .batch_updates_blocking(
+        "{collection_name}",
+        &[
+            PointsUpdateOperation {
+                operation: Some(Operation::Upsert(PointStructList {
+                    points: vec![PointStruct::new(
+                        1,
+                        vec![1.0, 2.0, 3.0, 4.0],
+                        json!({}).try_into().unwrap(),
+                    )],
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::UpdateVectors(UpdateVectors {
+                    points: vec![PointVectors {
+                        id: Some(1.into()),
+                        vectors: Some(vec![1.0, 2.0, 3.0, 4.0].into()),
+                    }],
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::DeleteVectors(DeleteVectors {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    vectors: Some(VectorsSelector {
+                        names: vec!["".into()],
+                    }),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::OverwritePayload(SetPayload {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    payload: HashMap::from([("test_payload".to_string(), 1.into())]),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::SetPayload(SetPayload {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    payload: HashMap::from([
+                        ("test_payload_2".to_string(), 2.into()),
+                        ("test_payload_3".to_string(), 3.into()),
+                    ]),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::DeletePayload(DeletePayload {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    keys: vec!["test_payload_2".to_string()],
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::ClearPayload(PointsSelector {
+                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                        ids: vec![1.into()],
+                    })),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::Delete(PointsSelector {
+                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                        ids: vec![1.into()],
+                    })),
+                })),
+            },
+        ],
+        None,
+    )
+    .await?;
 ```
 
 To batch many points with a single operation type, please use batching
