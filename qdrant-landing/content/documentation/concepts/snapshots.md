@@ -59,6 +59,14 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.createSnapshot("{collection_name}");
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.create_snapshot("{collection_name}").await?;
+```
+
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
 
 ### Delete snapshot
@@ -87,6 +95,14 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.deleteSnapshot("{collection_name}", "{snapshot_name}");
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.delete_snapshot("{collection_name}", "{snapshot_name}").await?;
+```
+
 ## List snapshot
 
 List of snapshots for a collection:
@@ -109,6 +125,14 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.listSnapshots("{collection_name}");
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_snapshots("{collection_name}").await?;
 ```
 
 ## Retrieve snapshot
@@ -229,6 +253,14 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.createFullSnapshot();
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.create_full_snapshot().await?;
+```
+
 ### Delete full storage snapshot
 
 *Available as of v1.0.0*
@@ -253,6 +285,14 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.deleteFullSnapshot("{snapshot_name}");
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.delete_full_snapshot("{snapshot_name}").await?;
+```
+
 ### List full storage snapshots
 
 ```http
@@ -273,6 +313,14 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.listFullSnapshots();
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_full_snapshots().await?;
 ```
 
 ### Download full storage snapshot
