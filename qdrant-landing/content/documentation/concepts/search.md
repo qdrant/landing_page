@@ -746,11 +746,11 @@ A new strategy introduced in v1.6, is called `best_score`. It is based on the id
 The way it works is that each candidate is measured against every example, then we select the best positive and best negative scores. The final score is chosen with this step formula:
 
 ```rust
-if best_positive_score > best_negative_score {
-    score = best_positive_score
+let score = if best_positive_score > best_negative_score {
+    best_positive_score;
 } else {
-    score = -(best_negative_score * best_negative_score)
-}
+    -(best_negative_score * best_negative_score);
+};
 ```
 
 <aside role="alert">The performance of `best_score` strategy will be linearly impacted by the amount of examples.</aside>
