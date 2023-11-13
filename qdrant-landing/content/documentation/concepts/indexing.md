@@ -167,14 +167,7 @@ client
         FieldType::Text,
         Some(&PayloadIndexParams {
             index_params: Some(IndexParams::TextIndexParams(TextIndexParams {
-                // enum TokenizerType {
-                //     Unknown = 0;
-                //     Prefix = 1;
-                //     Whitespace = 2;
-                //     Word = 3;
-                //     Multilingual = 4;
-                //   }
-                tokenizer: 3,
+                tokenizer: TokenizerType::Word as i32,
                 min_token_len: Some(2),
                 max_token_len: Some(10),
                 lowercase: Some(true),
