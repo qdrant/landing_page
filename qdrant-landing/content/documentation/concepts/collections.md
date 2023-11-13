@@ -511,8 +511,52 @@ client.updateCollection("{collection_name}", {
 ```
 
 ```rust
-// Unavailable
-// Ref: https://github.com/qdrant/rust-client/issues/75
+// Available as of Rust client 1.7.0
+// See: <https://github.com/qdrant/rust-client/issues/75>
+
+use qdrant_client::client::QdrantClient;
+use qdrant_client::qdrant::{
+    quantization_config_diff::Quantization, vectors_config_diff::Config, HnswConfigDiff,
+    QuantizationConfigDiff, QuantizationType, ScalarQuantization, VectorParamsDiff,
+    VectorsConfigDiff,
+};
+
+client
+    .update_collection(
+        "{collection_name}",
+        None,
+        None,
+        Some(&HnswConfigDiff {
+            ef_construct: Some(123),
+            ..Default::default()
+        }),
+        Some(&VectorsConfigDiff {
+            config: Some(Config::ParamsMap(
+                qdrant_client::qdrant::VectorParamsDiffMap {
+                    map: HashMap::from([(
+                        ("my_vector".into()),
+                        VectorParamsDiff {
+                            hnsw_config: Some(HnswConfigDiff {
+                                m: Some(32),
+                                ef_construct: Some(123),
+                                ..Default::default()
+                            }),
+                            ..Default::default()
+                        },
+                    )]),
+                },
+            )),
+        }),
+        Some(&QuantizationConfigDiff {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8 as i32,
+                quantile: Some(0.8),
+                always_ram: Some(true),
+                ..Default::default()
+            })),
+        }),
+    )
+    .await?;
 ```
 
 ## Collection info
