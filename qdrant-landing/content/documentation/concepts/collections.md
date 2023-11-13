@@ -171,6 +171,7 @@ client
     })
     .await?;
 ```
+
 ### Collection with multiple vectors
 
 *Available as of v0.10.0*
@@ -266,6 +267,7 @@ client
     })
     .await?;
 ```
+
 For rare use cases, it is possible to create a collection without any vector storage.
 
 *Available as of v1.1.1*
@@ -301,6 +303,7 @@ client.deleteCollection("{collection_name}");
 ```rust
 client.delete_collection("{collection_name}").await?;
 ```
+
 ### Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
@@ -502,6 +505,7 @@ client.updateCollection("{collection_name}", {
 // Unavailable
 // Ref: https://github.com/qdrant/rust-client/issues/75
 ```
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
@@ -651,6 +655,7 @@ client.updateCollectionAliases({
 ```rust
 client.create_alias("example_collection", "production_collection").await?;
 ```
+
 ### Remove alias
 
 ```http
@@ -755,6 +760,7 @@ client.updateCollectionAliases({
 client.delete_alias("production_collection").await?;
 client.create_alias("example_collection", "production_collection").await?;
 ```
+
 ### List collection aliases
 
 ```http
@@ -784,6 +790,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client.list_collection_aliases("{collection_name}").await?;
 ```
+
 ### List all aliases
 
 ```http

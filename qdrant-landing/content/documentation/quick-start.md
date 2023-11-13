@@ -177,6 +177,7 @@ PointsOperationResponse {
     time: 0.006347708,
 }
 ```
+
 ## Run a query
 Let's ask a basic question - Which of our stored vectors are most similar to the query vector `[0.2, 0.1, 0.9, 0.7]`?
 
@@ -351,6 +352,7 @@ let search_result = client
 
 dbg!(search_result);
 ```
+
 **Response:**
 
 ```python

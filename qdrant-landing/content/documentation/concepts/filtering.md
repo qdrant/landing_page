@@ -115,6 +115,7 @@ client
     })
     .await?;
 ```
+
 Filtered points would be:
 
 ```json
@@ -188,6 +189,7 @@ client
     })
     .await?;
 ```
+
 Filtered points would be:
 
 ```json
@@ -260,6 +262,7 @@ client
     })
     .await?;
 ```
+
 Filtered points would be:
 
 ```json
@@ -337,6 +340,7 @@ client
     })
     .await?;
 ```
+
 Filtered points would be:
 
 ```json
@@ -421,6 +425,7 @@ client
     })
     .await?;
 ```
+
 Filtered points would be:
 
 ```json
@@ -466,6 +471,7 @@ models.FieldCondition(
 ```rust
 Condition::matches("color", "red".to_string());
 ```
+
 For the other types, the match condition will look exactly the same, except for the type used:
 
 ```json
@@ -536,6 +542,7 @@ FieldCondition(
 ```rust
 Condition::matches("color", vec!["black".to_string(), "yellow".to_string()]);
 ```
+
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
 If the stored value is an array, it should have at least one value matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
@@ -582,6 +589,7 @@ Condition::matches(
         !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
     );
 ```
+
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
 
 If the stored value is an array, it should have at least one value not matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"green"` does not match `"black"` nor `"yellow"`.
@@ -694,6 +702,7 @@ client
     })
     .await?;
 ```
+
 You can also search through arrays by projecting inner values using the `[]` syntax.
 
 ```http
@@ -765,6 +774,7 @@ client
     })
     .await?;
 ```
+
 This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
 
 And the leaf nested field can also be an array.
@@ -825,6 +835,7 @@ client
     })
     .await?;
 ```
+
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
 
 ### Nested object filter
@@ -926,6 +937,7 @@ client
     })
     .await?;
 ```
+
 This happens because both points are matching the two conditions:
 
 - the "t-rex" matches food=meat on `diet[1].food` and likes=true on `diet[1].likes`
@@ -1038,6 +1050,7 @@ client
     })
     .await?;
 ```
+
 The matching logic is modified to be applied at the level of an array element within the payload.
 
 Nested filters work in the same way as if the nested filter was applied to a single element of the array at a time.
@@ -1154,6 +1167,7 @@ client
     })
     .await?;
 ```
+
 ### Full Text Match
 
 *Available as of v0.10.0*
@@ -1195,6 +1209,7 @@ models.FieldCondition(
 // Else a keyword match will be performed.
 Condition::matches("description", "good cheap".to_string());
 ```
+
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
 
 ### Range
