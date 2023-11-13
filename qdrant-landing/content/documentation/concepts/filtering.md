@@ -477,7 +477,7 @@ models.FieldCondition(
 ```
 
 ```rust
-Condition::matches("color", "red".to_string());
+Condition::matches("color", "red".to_string())
 ```
 
 For the other types, the match condition will look exactly the same, except for the type used:
@@ -506,7 +506,7 @@ models.FieldCondition(
 ```
 
 ```rust
-Condition::matches("count", 0);
+Condition::matches("count", 0)
 ```
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
@@ -548,7 +548,7 @@ FieldCondition(
 ```
 
 ```rust
-Condition::matches("color", vec!["black".to_string(), "yellow".to_string()]);
+Condition::matches("color", vec!["black".to_string(), "yellow".to_string()])
 ```
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
@@ -595,7 +595,7 @@ FieldCondition(
 Condition::matches(
         "color",
         !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
-    );
+    )
 ```
 
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
@@ -1222,10 +1222,9 @@ models.FieldCondition(
 ```
 
 ```rust
-// If the match string contains a white-space,
-// Full text match will be performed.
-// Else a keyword match will be performed.
-Condition::matches("description", "good cheap".to_string());
+// If the match string contains a white-space, full text match is performed.
+// Otherwise a keyword match is performed.
+Condition::matches("description", "good cheap".to_string())
 ```
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
@@ -1274,7 +1273,7 @@ Condition::range("price", Range {
     gte: Some(100.0),
     lt: None,
     lte: Some(450.0),
-});
+})
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -1354,7 +1353,7 @@ Condition::geo_bounding_box(
             lat: 52.520711,
         }),
     },
-);
+)
 ```
 
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
@@ -1410,7 +1409,7 @@ Condition::geo_radius(
         }),
         radius: 1000.0,
     },
-);
+)
 ```
 
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
@@ -1621,7 +1620,7 @@ Condition::geo_polygon(
             ],
         }],
     },
-);
+)
 ```
 
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
@@ -1674,7 +1673,7 @@ Condition::values_count(
         gt: Some(2),
         ..Default::default()
     },
-);
+)
 ```
 
 The result would be:
@@ -1713,7 +1712,7 @@ models.IsEmptyCondition(
 ```
 
 ```rust
-Condition::is_empty("reports");
+Condition::is_empty("reports")
 ```
 
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
@@ -1748,7 +1747,7 @@ models.IsNullCondition(
 ```
 
 ```rust
-Condition::is_null("reports");
+Condition::is_null("reports")
 ```
 
 This condition will match all records where the field `reports` exists and has `NULL` value.
