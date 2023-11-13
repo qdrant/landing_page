@@ -319,6 +319,11 @@ client.setPayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+use serde_json::json;
+
 client
     .set_payload(
         "{collection_name}",
@@ -369,6 +374,10 @@ client.deletePayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
 client
     .delete_payload(
         "{collection_name}",
@@ -413,6 +422,10 @@ client.clearPayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
 client
     .clear_payload(
         "{collection_name}",
@@ -468,6 +481,8 @@ client.createPayloadIndex("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::FieldType;
+
 client
     .create_field_index(
         "{collection_name}",

@@ -65,7 +65,10 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::{CreateCollection, VectorParams, vectors_config::Config, Distance, VectorsConfig}};
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
 
 //The Rust client uses Qdrant's GRPC interface
 let client = QdrantClient::from_url("http://localhost:6334").build()?;

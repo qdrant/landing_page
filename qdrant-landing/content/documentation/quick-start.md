@@ -76,7 +76,7 @@ await client.createCollection("test_collection", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{VectorsConfig, vectors_config::Config, VectorParams};
+use qdrant_client::qdrant::{vectors_config::Config, VectorParams, VectorsConfig};
 
 client.create_collection(&CreateCollection { collection_name: "test_collection".to_string(), vectors_config: Some(VectorsConfig {
     config: Some(Config::Params(VectorParams {
@@ -338,7 +338,7 @@ console.debug(searchResult);
 ```
 
 ```rust
-use qdrant_client::qdrant::Filter, Condition;
+use qdrant_client::qdrant::{Condition, Filter, SearchPoints};
 
 let search_result = client
     .search_points(&SearchPoints {

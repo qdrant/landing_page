@@ -249,8 +249,8 @@ client.createCollection("{collection_name}", {
 use qdrant_client::{
     client::QdrantClient,
     qdrant::{
-        vectors_config::Config, CreateCollection, Distance, HnswConfigDiff, OptimizersConfigDiff,
-        VectorParams, VectorsConfig,
+        vectors_config::Config, CreateCollection, Distance, HnswConfigDiff,
+        OptimizersConfigDiff, VectorParams, VectorsConfig,
     },
 };
 

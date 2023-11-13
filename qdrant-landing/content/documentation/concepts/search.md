@@ -802,6 +802,8 @@ client.recommend("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::RecommendPoints;
+
 client
     .recommend(&RecommendPoints {
         collection_name: "{collection_name}".to_string(),
@@ -1165,6 +1167,8 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::SearchPointGroups;
+
 client
     .search_groups(&SearchPointGroups {
         collection_name: "{collection_name}".to_string(),
@@ -1220,6 +1224,8 @@ client.recommendPointGroups("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::RecommendPointGroups;
+
 client
     .recommend_groups(&RecommendPointGroups {
         collection_name: "{collection_name}".to_string(),
@@ -1365,6 +1371,8 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{SearchPointGroups, WithLookup};
+
 client
     .search_groups(&SearchPointGroups {
         collection_name: "{collection_name}".to_string(),

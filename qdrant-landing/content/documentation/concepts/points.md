@@ -189,6 +189,9 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::PointStruct;
+use serde_json::json;
+
 client
     .upsert_points_blocking(
         1,
@@ -350,6 +353,9 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::PointStruct;
+use serde_json::json;
+
 client
     .upsert_points_batch_blocking(
         "{collection_name}".to_string(),
@@ -476,6 +482,9 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::PointStruct;
+use std::collections::HashMap;
+
 client
     .upsert_points_blocking(
         "{collection_name}".to_string(),
@@ -594,6 +603,9 @@ client.updateVectors("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::PointVectors;
+use std::collections::HashMap;
+
 client
     .update_vectors_blocking(
         "{collection_name}",
@@ -659,6 +671,10 @@ client.deleteVectors("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector, VectorsSelector,
+};
+
 client
     .delete_vectors_blocking(
         "{collection_name}",
@@ -719,6 +735,11 @@ client.setPayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+use serde_json::json;
+
 client
     .set_payload_blocking(
         "{collection_name}",
@@ -800,6 +821,11 @@ client.setPayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+use serde_json::json;
+
 client
     .set_payload_blocking(
         "{collection_name}",
@@ -861,6 +887,11 @@ client.overwritePayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+use serde_json::json;
+
 client
     .overwrite_payload_blocking(
         "{collection_name}",
@@ -912,6 +943,10 @@ client.deletePayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
 client
     .delete_payload_blocking(
         "{collection_name}",
@@ -978,6 +1013,10 @@ client.deletePayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+
 client
     .delete_payload_blocking(
         "{collection_name}",
@@ -1022,6 +1061,10 @@ client.clearPayload("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
 client
     .clear_payload_blocking(
         "{collection_name}",
@@ -1063,6 +1106,10 @@ client.delete("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
 client
     .delete_points_blocking(
         "{collection_name}",
@@ -1127,6 +1174,10 @@ client.delete("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+
 client
     .delete_points_blocking(
         "{collection_name}",
@@ -1256,6 +1307,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client.scroll(&ScrollPoints {
     collection_name: "{collection_name}".to_string(),
     filter: Some(Filter::must([Condition::matches("color", "red".to_string())])),
@@ -1359,6 +1412,8 @@ client.count("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, CountPoints, Filter};
+
 client.count(&CountPoints {
     collection_name: "{collection_name}".to_string(),
     filter: Some(Filter::must([Condition::matches("color", "red".to_string())])),
@@ -1582,6 +1637,17 @@ client.batchUpdate("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf,
+    points_update_operation::{
+        DeletePayload, DeleteVectors, Operation, PointStructList, SetPayload, UpdateVectors,
+    },
+    PointStruct, PointVectors, PointsIdsList, PointsSelector, PointsUpdateOperation,
+    VectorsSelector,
+};
+use serde_json::json;
+use std::collections::HashMap;
+
 client
     .batch_updates_blocking(
         "{collection_name}",

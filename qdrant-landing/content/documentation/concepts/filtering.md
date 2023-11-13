@@ -178,6 +178,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "test_collection".to_string(),
@@ -251,6 +253,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "test_collection".to_string(),
@@ -328,6 +332,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),
@@ -413,6 +419,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),
@@ -691,6 +699,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),
@@ -760,6 +770,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, Range, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),
@@ -824,6 +836,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),
@@ -926,6 +940,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "test_collection".to_string(),
@@ -1149,6 +1165,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),
@@ -1778,6 +1796,8 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),

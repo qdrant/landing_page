@@ -152,7 +152,10 @@ client.createPayloadIndex("{collection_name}", {
 ```rust
 use qdrant_client::{
     client::QdrantClient,
-    qdrant::{payload_index_params::IndexParams, FieldType, PayloadIndexParams, TextIndexParams},
+    qdrant::{
+        payload_index_params::IndexParams, FieldType, PayloadIndexParams, TextIndexParams,
+        TokenizerType,
+    },
 };
 
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
