@@ -593,9 +593,9 @@ FieldCondition(
 
 ```rust
 Condition::matches(
-        "color",
-        !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
-    )
+    "color",
+    !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
+)
 ```
 
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
@@ -1051,11 +1051,13 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPoints};
+
 client
     .scroll(&ScrollPoints {
         collection_name: "{collection_name}".to_string(),
         filter: Some(Filter::must([NestedCondition {
-        key: "diet".to_string(),
+            key: "diet".to_string(),
             filter: Some(Filter::must([
                 Condition::matches("food", "meat".to_string()),
                 Condition::matches("likes", true),
@@ -1268,12 +1270,15 @@ models.FieldCondition(
 ```
 
 ```rust
-Condition::range("price", Range {
-    gt: None,
-    gte: Some(100.0),
-    lt: None,
-    lte: Some(450.0),
-})
+Condition::range(
+    "price",
+    Range {
+        gt: None,
+        gte: Some(100.0),
+        lt: None,
+        lte: Some(450.0),
+    },
+)
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -1571,7 +1576,7 @@ models.FieldCondition(
 Condition::geo_polygon(
     "location",
     GeoPolygon {
-    exterior: Some(GeoLineString {
+        exterior: Some(GeoLineString {
             points: vec![
                 GeoPoint {
                     lon: -70.0,
@@ -1605,10 +1610,7 @@ Condition::geo_polygon(
                     lon: 0.0,
                     lat: -65.0,
                 },
-                GeoPoint { 
-                  lon: 0.0, 
-                  lat: 0.0 
-                },
+                GeoPoint { lon: 0.0, lat: 0.0 },
                 GeoPoint {
                     lon: -65.0,
                     lat: 0.0,

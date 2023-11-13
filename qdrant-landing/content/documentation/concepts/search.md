@@ -362,7 +362,7 @@ client
         with_payload: Some(vec!["city", "village", "town"].into()),
         limit: 3,
         ..Default::default()
-        })
+    })
     .await?;
 ```
 
@@ -577,7 +577,7 @@ let searches = vec![
         ..Default::default()
     },
 ];
-    
+
 client
     .search_batch_points(&SearchBatchPoints {
         collection_name: "{collection_name}".to_string(),
@@ -1249,13 +1249,13 @@ In either case (search or recommend), the output would look like this:
                 "id": "a",
                 "hits": [
                     { "id": 0, "score": 0.91 },
-                    { "id": 1, "score": 0.85 },
+                    { "id": 1, "score": 0.85 }
                 ]
             },
             {
                 "id": "b",
                 "hits": [
-                    { "id": 1, "score": 0.85 },
+                    { "id": 1, "score": 0.85 }
                 ]
             },
             {

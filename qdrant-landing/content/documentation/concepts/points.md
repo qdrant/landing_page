@@ -1221,13 +1221,15 @@ client.retrieve("{collection_name}", {
 ```
 
 ```rust
-client.get_points(
-    "{collection_name}",
-    &[0.into(), 30.into(), 100.into()],
-    Some(false),
-    Some(false),
-    None,
-).await?;
+client
+    .get_points(
+        "{collection_name}",
+        &[0.into(), 30.into(), 100.into()],
+        Some(false),
+        Some(false),
+        None,
+    )
+    .await?;
 ```
 
 This method has additional parameters `with_vectors` and `with_payload`. 
@@ -1309,14 +1311,19 @@ client.scroll("{collection_name}", {
 ```rust
 use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
 
-client.scroll(&ScrollPoints {
-    collection_name: "{collection_name}".to_string(),
-    filter: Some(Filter::must([Condition::matches("color", "red".to_string())])),
-    limit: Some(1),
-    with_payload: Some(true.into()),
-    with_vectors: Some(false.into()),
-    ..Default::default()
-}).await?;
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::matches(
+            "color",
+            "red".to_string(),
+        )])),
+        limit: Some(1),
+        with_payload: Some(true.into()),
+        with_vectors: Some(false.into()),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 Returns all point with `color` = `red`.
@@ -1414,11 +1421,16 @@ client.count("{collection_name}", {
 ```rust
 use qdrant_client::qdrant::{Condition, CountPoints, Filter};
 
-client.count(&CountPoints {
-    collection_name: "{collection_name}".to_string(),
-    filter: Some(Filter::must([Condition::matches("color", "red".to_string())])),
-    exact: Some(true) 
-}).await?;
+client
+    .count(&CountPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::matches(
+            "color",
+            "red".to_string(),
+        )])),
+        exact: Some(true),
+    })
+    .await?;
 ```
 
 Returns number of counts matching given filtering conditions:

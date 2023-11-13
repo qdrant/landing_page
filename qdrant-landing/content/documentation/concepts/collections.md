@@ -73,13 +73,19 @@ use qdrant_client::{
 //The Rust client uses Qdrant's GRPC interface
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
-client.create_collection(&CreateCollection { collection_name: "{collection_name}".to_string(), vectors_config: Some(VectorsConfig {
-    config: Some(Config::Params(VectorParams {
-        size: 100,
-        distance: Distance::Cosine.into(),
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 100,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
         ..Default::default()
-    }))
-}), ..Default::default()}).await?;
+    })
+    .await?;
 ```
 
 In addition to the required options, you can also specify custom values for the following collection options:
