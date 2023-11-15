@@ -747,9 +747,17 @@ let score = if best_positive_score > best_negative_score {
 };
 ```
 
-<aside role="alert">The performance of `best_score` strategy will be linearly impacted by the amount of examples.</aside>
+<aside role="alert">
+
+The performance of `best_score` strategy will be linearly impacted by the amount of examples.
+</aside>
 
 Since we are computing similarities to every example at each step of the search, the performance of this strategy will be linearly impacted by the amount of examples. This means that the more examples you provide, the slower the search will be. However, this strategy can be very powerful and should be more embedding-agnostic.
+
+<aside role="status">
+
+Accuracy may be impacted with this strategy. To improve it, increasing the `ef` search parameter to something above 32 will already be much better than the default 16, e.g: `"params": { "ef": 64 }` 
+</aside>
 
 To use this algorithm, you need to set `"strategy": "best_score"` in the recommendation request.
 
@@ -976,6 +984,205 @@ The result of this API contains one array per recommendation requests.
   "time": 0.001
 }
 ```
+
+## Discovery API
+
+*Available as of v1.7*
+
+REST API Schema definition available [here](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/discover_points)
+
+In this api, Qdrant introduces the concept of `context`, which is used for splitting the space, so that the space in which you search becomes constrained by the vectors you provide in the context. The interface for providing them is in vector examples (ids or raw vectors), just like in the recommendation API, but in this case, they need to be provided in the form of positive-negative pairs. 
+
+Discovery API lets you do two new types of search:
+- **Discovery search**: Uses a target and context pairs of examples to get the points closest to the target, but constrained by the context.
+- **Context search**: Using only the context pairs, get the points that live in the best zone, where loss is minimized
+
+The way positive and negative examples should be arranged in the context pairs is completely up to you. So you can have the flexibility of trying out different permutation techniques based on your model and data.
+
+<aside role="alert">The speed of search is linearly related to the amount of examples</aside>
+
+### Discovery search
+
+This type of search works specially well for combining multimodal, vector-constrained searches. Qdrant already has extensive support for filters, which constrain the search based on its payload, but using discovery search, you can also constrain the vector space in which the search is performed.
+
+<!-- insert image here -->
+
+The formula for the discovery score can be expressed as:
+
+$$
+\text{rank}(v^+, v^-) = \begin{cases}
+    1, &\quad s(v^+) \geq s(v^-) \\\\
+    -1, &\quad s(v^+) < s(v^-)
+\end{cases}
+$$
+where $v^+$ represents a positive example, $v^-$ represents a negative example, and $s(v)$ is the similarity score of a vector $v$ to the target vector. The discovery score is then computed as:
+$$
+ \text{discovery score} = \text{sigmoid}(s(v_t))+ \sum \text{rank}(v_i^+, v_i^-),
+$$
+where $s(v)$ is the similarity function, $v_t$ is the target vector, and again $v_i^+$ and $v_i^-$ are the positive and negative examples, respectively. The sigmoid function is used to normalize the score between 0 and 1 and the sum of ranks is used to penalize vectors that are closer to the negative examples than to the positive ones. In other words, the sum of individual ranks determines how many positive zones a point is in, while the closeness hierarchy comes second.
+
+Example:
+
+```http
+POST /collections/{collection_name}/points/discover
+
+{
+  "target": [0.2, 0.1, 0.9, 0.7],
+  "context": [
+    {
+      "positive": 100,
+      "negative": 718
+    },
+    {
+      "positive": 200,
+      "negative": 300
+    }
+  ],
+  "limit": 10
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+discover_queries = [
+    models.DiscoverRequest(
+        target=[0.2, 0.1, 0.9, 0.7],
+        context=[
+            models.ContextExamplePair(
+                positive=100,
+                negative=718,
+            ),
+            models.ContextExamplePair(
+                positive=200,
+                negative=300,
+            ),
+        ],
+        limit=10,
+    ),
+]
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.discover("{collection_name}", {
+    target: [0.2, 0.1, 0.9, 0.7],
+    context: [
+    {
+        positive: 100,
+        negative: 718,
+    },
+    {
+        positive: 200,
+        negative: 300,
+    },
+    ],
+    limit: 10,
+});
+```
+
+<aside role="status">
+Notes about discovery search:
+
+* When providing ids as examples, they will be excluded from the results.
+* Score is always in descending order (larger is better), regardless of the metric used.
+* Since the space is hard-constrained by the context, accuracy is normal to drop when using default settings. To mitigate this, increasing the `ef` search parameter to something above 64 will already be much better than the default 16, e.g: `"params": { "ef": 128 }`
+
+</aside>
+
+### Context search
+
+Conversely, in the absence of a target, a rigid integer-by-integer function doesn't provide much guidance for the search when utilizing a proximity graph like HNSW. Instead, context search employs a function derived from the [triplet-loss](/articles/triplet-loss/) concept, which is usually applied during model training. For context search, this function is adapted to steer the search towards areas with fewer negative examples.
+
+<!-- insert image here -->
+
+We can directly associate the score function to a loss function, where 0.0 is the maximum score a point can have, which means it is only in positive areas. As soon as a point exists closer to a negative example, its loss will simply be the difference of the positive and negative similarities.
+
+$$
+\text{context score} = \sum min(s(v^+_i) - s(v^-_i), 0.0)
+$$
+
+Where $v^+_i$ and $v^-_i$ are the positive and negative examples of each pair, and $s(v)$ is the similarity function.
+
+Using this kind of search, you can expect the output to not necessarily be around a single point, but rather, to be any point that isn’t closer to a negative example, which creates a constrained diverse result. So, even when the api is not called [`recommend`](#recommendation-api), recommendation systems can also use this approach and adapt it for their specific use-cases.
+
+Example:
+
+```http
+POST /collections/{collection_name}/points/discover
+
+{
+  "context": [
+    {
+      "positive": 100,
+      "negative": 718
+    },
+    {
+      "positive": 200,
+      "negative": 300
+    }
+  ],
+  "limit": 10
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+discover_queries = [
+    models.DiscoverRequest(
+        context=[
+            models.ContextExamplePair(
+                positive=100,
+                negative=718,
+            ),
+            models.ContextExamplePair(
+                positive=200,
+                negative=300,
+            ),
+        ],
+        limit=10,
+    ),
+]
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.discover("{collection_name}", {
+    context: [
+    {
+        positive: 100,
+        negative: 718,
+    },
+    {
+        positive: 200,
+        negative: 300,
+    },
+    ],
+    limit: 10,
+});
+```
+
+<aside role="status">
+Notes about context search:
+
+* When providing ids as examples, they will be excluded from the results.
+* Score is always in descending order (larger is better), regardless of the metric used.
+* Best possible score is `0.0`, and it is normal that many points get this score.
+
+</aside>
 
 ## Pagination
 
