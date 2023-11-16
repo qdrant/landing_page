@@ -172,11 +172,13 @@ client.createCollection("{collection_name}", {
 We recommend setting the number of shards to be a multiple of the number of nodes you are currently running in your cluster.
 For example, if you have 3 nodes, 6 shards could be a good option.
 
-Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
+Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size or replication factor changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
 
 ### Moving shards
 
-*As of v0.9.0:* Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster. This functionality unlocks the ability to dynamically scale the cluster size without downtime. It also allows you to upgrade or migrate nodes without downtime.
+*Available as of v0.9.0*
+
+Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster. This functionality unlocks the ability to dynamically scale the cluster size without downtime. It also allows you to upgrade or migrate nodes without downtime.
 
 Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/collection_cluster_info).
 
@@ -207,7 +209,9 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 ## Replication
 
-*As of v0.11.0:* Qdrant allows you to replicate shards between nodes in the cluster.
+*Available as of v0.11.0*
+
+Qdrant allows you to replicate shards between nodes in the cluster.
 
 Shard replication increases the reliability of the cluster by keeping several copies of a shard spread across the cluster.
 This ensures the availability of the data in case of node failures, except if all replicas are lost.
@@ -216,7 +220,7 @@ This ensures the availability of the data in case of node failures, except if al
 
 When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. You can change that by setting the `replication_factor` when you create a collection.
 
-The replication factor of a collection can only be configured at creation time.
+Currently, the replication factor of a collection can only be configured at creation time.
 
 ```http
 PUT /collections/{collection_name}
