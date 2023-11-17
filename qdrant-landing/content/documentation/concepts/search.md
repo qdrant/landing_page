@@ -1005,7 +1005,7 @@ The way positive and negative examples should be arranged in the context pairs i
 
 This type of search works specially well for combining multimodal, vector-constrained searches. Qdrant already has extensive support for filters, which constrain the search based on its payload, but using discovery search, you can also constrain the vector space in which the search is performed.
 
-<!-- insert image here -->
+![Discovery search](/docs/discovery-search.png)
 
 The formula for the discovery score can be expressed as:
 
@@ -1100,7 +1100,7 @@ Notes about discovery search:
 
 Conversely, in the absence of a target, a rigid integer-by-integer function doesn't provide much guidance for the search when utilizing a proximity graph like HNSW. Instead, context search employs a function derived from the [triplet-loss](/articles/triplet-loss/) concept, which is usually applied during model training. For context search, this function is adapted to steer the search towards areas with fewer negative examples.
 
-<!-- insert image here -->
+![Context search](/docs/context-search.png)
 
 We can directly associate the score function to a loss function, where 0.0 is the maximum score a point can have, which means it is only in positive areas. As soon as a point exists closer to a negative example, its loss will simply be the difference of the positive and negative similarities.
 
