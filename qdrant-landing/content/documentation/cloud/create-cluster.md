@@ -9,8 +9,8 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 
 > **Prerequisite:** Please make sure you have provided billing information before creating a custom cluster. 
 
-1. Start in the **Clusters** section of the Dashboard. 
-2. Under **Clusters** click **+ Create**.
+1. Start in the **Clusters** section of the [Cloud Dashboard](https://cloud.qdrant.io). 
+2. Select **Clusters**, and click **+ Create**.
 3. A window will open. Enter a cluster **Name**.
 4. Currently, you can deploy to AWS or GCP. We are developing support for Azure. 
 5. Choose your data center region. If you have latency concerns or other topology-related requirements, [**let us know**](mailto:cloud@qdrant.io).
