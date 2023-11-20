@@ -147,7 +147,7 @@ For example, in our recent article, we discuss the possibility of building an [e
 
 ## Summary
 
-Large-scale production systems usually consist of different specialized services for a good reason.
+Large-scale production systems usually consist of different specialized services for good reasons.
 We discussed those of them that are related to vector search use cases in this article, but there are many more.
 
 Scaling even the simplest systems unlocks a whole new level of challenges with each order of magnitude, and that is especially true for vector search.
