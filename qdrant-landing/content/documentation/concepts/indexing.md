@@ -57,6 +57,22 @@ client.createPayloadIndex("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::FieldType};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        FieldType::Keyword,
+        None,
+        None,
+    )
+    .await?;
+```
+
 Available field types are:
 
 * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
@@ -131,6 +147,35 @@ client.createPayloadIndex("{collection_name}", {
     lowercase: true,
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        payload_index_params::IndexParams, FieldType, PayloadIndexParams, TextIndexParams,
+        TokenizerType,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        FieldType::Text,
+        Some(&PayloadIndexParams {
+            index_params: Some(IndexParams::TextIndexParams(TextIndexParams {
+                tokenizer: TokenizerType::Word as i32,
+                min_token_len: Some(2),
+                max_token_len: Some(10),
+                lowercase: Some(true),
+            })),
+        }),
+        None,
+    )
+    .await?;
 ```
 
 Available tokenizers are:

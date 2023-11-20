@@ -56,3 +56,12 @@ var client = new QdrantClient(
   apiKey: "<paste-your-api-key-here>"
 );
 ```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("xyz-example.eu-central.aws.cloud.qdrant.io:6334")
+    .with_api_key("<paste-your-api-key-here>")
+    .build()
+    .unwrap();
+```
