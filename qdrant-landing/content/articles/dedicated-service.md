@@ -19,7 +19,7 @@ keywords:
 
 
 Ever since the data science community discovered that vector search significantly improves LLM answers,
-various vendors and enthusiasts have been arguing over where to store embeddings properly.
+various vendors and enthusiasts have been arguing over the proper place to store embeddings.
 
 Some say storing them in a specialized search engine (aka vector database) is better. Others say that it's enough to use plugins for existing databases.
 
