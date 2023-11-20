@@ -33,7 +33,7 @@ The available configuration options are:
 | Field        | Description |
 |--------------|-------------|
 | location     | If `:memory:` - use in-memory Qdrant instance.<br>If `str` - use it as a `url` parameter.|
-| url          | Either host or str of 'Optional[scheme], host, Optional[port], Optional[prefix]'.<br> Eg. `http://localhost:6333` |
+| url          | Either host or str of `Optional[scheme], host, Optional[port], Optional[prefix]`.<br> Eg. `http://localhost:6333` |
 | port         | Port of the REST API interface. Default: `6333` |
 | grpc_port    | Port of the gRPC interface. Default: `6334` |
 | prefer_grpc  | If `true` - use gRPC interface whenever possible in custom methods. |
