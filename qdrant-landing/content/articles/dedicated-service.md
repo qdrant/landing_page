@@ -26,7 +26,7 @@ Some say storing them in a specialized search engine (aka vector database) is be
 Here are [just](https://nextword.substack.com/p/vector-database-is-not-a-separate) a [few](https://stackoverflow.blog/2023/09/20/do-you-need-a-specialized-vector-database-to-implement-vector-search-well/) of [them](https://www.singlestore.com/blog/why-your-vector-database-should-not-be-a-vector-database/).
 
 
-This article will present our vision and arguments on the topic.
+This article presents our vision and arguments on the topic .
 We will explain why and when you actually need a dedicated solution and will debunk some ungrounded claims and anti-patterns you should avoid while building a vector search system.
 
 We will analyze those theses of the Universal-Database-For-Everything advocates and discuss some of the best practices we recommend to adopt in real production-grade systems. 
