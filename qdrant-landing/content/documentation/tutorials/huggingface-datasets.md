@@ -76,7 +76,7 @@ client.create_collection(
 )
 ```
 
-It is always a good idea to set using batching, while loading a large dataset, so let's do that.
+It is always a good idea to use batching, while loading a large dataset, so let's do that.
 We are going to need a helper function to split the dataset into batches:
 
 ```python
