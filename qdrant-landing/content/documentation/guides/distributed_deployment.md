@@ -169,7 +169,32 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 300,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        shard_number: Some(6),
+        ..Default::default()
+    })
+    .await?;
+```
+
 We recommend setting the number of shards to be a multiple of the number of nodes you are currently running in your cluster.
+
 For example, if you have 3 nodes, 6 shards could be a good option.
 
 Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size or replication factor changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
@@ -262,6 +287,31 @@ client.createCollection("{collection_name}", {
   shard_number: 6,
   replication_factor: 2,
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 300,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        shard_number: Some(6),
+        replication_factor: Some(2),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 This code sample creates a collection with a total of 6 logical shards backed by a total of 12 physical shards.
@@ -438,6 +488,32 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 300,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        shard_number: Some(6),
+        replication_factor: Some(2),
+        write_consistency_factor: Some(2),
+        ..Default::default()
+    })
+    .await?;
+```
+
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
 
 ### Read consistency
@@ -509,6 +585,39 @@ client.search("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        read_consistency::Value, Condition, Filter, ReadConsistency, ReadConsistencyType,
+        SearchParams, SearchPoints,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::matches(
+            "city",
+            "London".to_string(),
+        )])),
+        params: Some(SearchParams {
+            hnsw_ef: Some(128),
+            exact: Some(false),
+            ..Default::default()
+        }),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        limit: 3,
+        read_consistency: Some(ReadConsistency {
+            value: Some(Value::Type(ReadConsistencyType::Majority.into())),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 ### Write ordering
 
 Write `ordering` can be specified for any write request to serialize it through a single "leader" node,
@@ -575,6 +684,48 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{PointStruct, WriteOrdering, WriteOrderingType};
+use serde_json::json;
+
+client
+    .upsert_points_blocking(
+        "{collection_name}",
+        vec![
+            PointStruct::new(
+                1,
+                vec![0.9, 0.1, 0.1],
+                json!({
+                    "color": "red"
+                })
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                2,
+                vec![0.1, 0.9, 0.1],
+                json!({
+                    "color": "green"
+                })
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                3,
+                vec![0.1, 0.1, 0.9],
+                json!({
+                    "color": "blue"
+                })
+                .try_into()
+                .unwrap(),
+            ),
+        ],
+        Some(WriteOrdering {
+            r#type: WriteOrderingType::Strong.into(),
+        }),
+    )
+    .await?;
+```
 
 ## Listener mode
 
