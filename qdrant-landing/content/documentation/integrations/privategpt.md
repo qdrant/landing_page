@@ -17,9 +17,7 @@ To enable Qdrant, install the qdrant extra within your PrivateGPT project first.
 poetry install --extras qdrant
 ```
 
-By default Qdrant tries to connect to an instance at http://localhost:3000.
-
-Qdrant settings can be configured by setting values to the qdrant property in the `settings.yaml` file.
+Qdrant settings can be configured by setting values to the qdrant property in the `settings.yaml` file. By default, Qdrant tries to connect to an instance at http://localhost:3000.
 
 Example: 
 ```yaml
