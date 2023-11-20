@@ -11,7 +11,7 @@ PrivateGPT supports Qdrant as a vectorstore for ingesting and retrieving documen
 
 ## Usage
 
-To enable Qdrant, set the vectorstore.database property in the settings.yaml file to qdrant and install the qdrant extra within your PrivateGPT project.
+To enable Qdrant, install the qdrant extra within your PrivateGPT project first.
 
 ```bash
 poetry install --extras qdrant
