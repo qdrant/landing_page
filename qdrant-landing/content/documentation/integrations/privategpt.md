@@ -5,17 +5,19 @@ weight: 1600
 
 # PrivateGPT
 
-[PrivateGPT](https://docs.privategpt.dev/) is a production-ready AI project that allows you to ask questions about your documents using the power of Large Language Models (LLMs), even in scenarios without an Internet connection. 100% private, no data leaves your execution environment at any point.
+[PrivateGPT](https://docs.privategpt.dev/) is a production-ready AI project that allows you to inquire about your documents using Large Language Models (LLMs) with offline support.
 
 PrivateGPT supports Qdrant as a vectorstore for ingesting and retrieving documents.
 
-## Usage
+## Installation
 
 To enable Qdrant, install the qdrant extra within your PrivateGPT project first.
 
 ```bash
 poetry install --extras qdrant
 ```
+
+## Configuration
 
 Qdrant settings can be configured by setting values to the qdrant property in the `settings.yaml` file. By default, Qdrant tries to connect to an instance at http://localhost:3000.
 
@@ -29,7 +31,7 @@ qdrant:
     api_key: "<your-api-key>"
 ```
 
-The available configuration options are:
+The available [configuration options](https://docs.privategpt.dev/manual/storage/vector-stores#qdrant-configuration) are:
 | Field        | Description |
 |--------------|-------------|
 | location     | If `:memory:` - use in-memory Qdrant instance.<br>If `str` - use it as a `url` parameter.|
