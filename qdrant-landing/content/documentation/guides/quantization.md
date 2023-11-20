@@ -332,7 +332,7 @@ client
         }),
         quantization_config: Some(QuantizationConfig {
             quantization: Some(Quantization::Binary(BinaryQuantization {
-                    always_ram: Some(true),
+                always_ram: Some(true),
             })),
         }),
         ..Default::default()

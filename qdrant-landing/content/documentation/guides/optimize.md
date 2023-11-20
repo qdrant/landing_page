@@ -388,7 +388,7 @@ client
         }),
         optimizers_config: Some(OptimizersConfigDiff {
             memmap_threshold: Some(20000),
-              ..Default::default()
+            ..Default::default()
         }),
         quantization_config: Some(QuantizationConfig {
             quantization: Some(Quantization::Scalar(ScalarQuantization {
