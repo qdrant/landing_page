@@ -510,6 +510,7 @@ client.updateCollection("{collection_name}", {
 });
 ```
 
+<!---
 ```rust
 // Available as of Rust client 1.7.0
 // See: <https://github.com/qdrant/rust-client/issues/75>
@@ -558,6 +559,7 @@ client
     )
     .await?;
 ```
+--->
 
 ## Collection info
 
