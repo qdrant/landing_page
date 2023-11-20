@@ -7,15 +7,7 @@ weight: 1600
 
 [PrivateGPT](https://docs.privategpt.dev/) is a production-ready AI project that allows you to inquire about your documents using Large Language Models (LLMs) with offline support.
 
-PrivateGPT supports Qdrant as a vectorstore for ingesting and retrieving documents.
-
-## Installation
-
-To enable Qdrant, install the qdrant extra within your PrivateGPT project first.
-
-```bash
-poetry install --extras qdrant
-```
+PrivateGPT uses Qdrant as the default vectorstore for ingesting and retrieving documents.
 
 ## Configuration
 
@@ -23,9 +15,6 @@ Qdrant settings can be configured by setting values to the qdrant property in th
 
 Example: 
 ```yaml
-vectorstore:
-    database: qdrant
-
 qdrant:
     url: "https://xyz-example.eu-central.aws.cloud.qdrant.io:6333"
     api_key: "<your-api-key>"
