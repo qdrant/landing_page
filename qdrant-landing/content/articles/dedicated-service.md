@@ -124,7 +124,7 @@ Not to mention that data transfer costs within the same region are usually free 
 
 In contrast to the short-term attractiveness of integrated solutions, dedicated search engines propose flexibility and a modular approach.
 You don't need to update the whole production database each time some of the vector plugins are updated.
-Maintenance of a dedicated search engine is as much isolated from the main database as the data itself.
+Maintenance of a dedicated search engine is as isolated from the main database as the data itself.
 
 In fact, integration of a bit more complex scenatios, such as read/write segregation, is much easier with a dedicated specialized solution.
 You can easily build cross-region replication, to ensure low latency for your users.
