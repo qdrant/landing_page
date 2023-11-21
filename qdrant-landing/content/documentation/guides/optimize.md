@@ -83,6 +83,44 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
+        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
+        VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            memmap_threshold: Some(20000),
+              ..Default::default()
+        }),
+        quantization_config: Some(QuantizationConfig {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8.into(),
+                always_ram: Some(true),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 `mmmap_threshold` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
 
 Optionally, you can disable rescoring with search `params`, which will reduce the number of disk reads even further, but potentially slightly decrease the precision.
@@ -129,6 +167,31 @@ client.search("{collection_name}", {
     },
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        params: Some(SearchParams {
+            quantization: Some(QuantizationSearchParams {
+                rescore: Some(false),
+                ..Default::default()
+            }),
+            ..Default::default()
+        }),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 ## Prefer high precision with low memory footprint
@@ -182,6 +245,40 @@ client.createCollection("{collection_name}", {
     on_disk: true,
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, HnswConfigDiff, OptimizersConfigDiff,
+        VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            memmap_threshold: Some(20000),
+            ..Default::default()
+        }),
+        hnsw_config: Some(HnswConfigDiff {
+            on_disk: Some(true),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 In this scenario you can increase the precision of the search by increasing the `ef` and `m` parameters of the HNSW index, even with limited RAM.
@@ -267,6 +364,44 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
+        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
+        VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            memmap_threshold: Some(20000),
+            ..Default::default()
+        }),
+        quantization_config: Some(QuantizationConfig {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8.into(),
+                always_ram: Some(true),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 There are also some search-time parameters you can use to tune the search accuracy and speed:
 
 ```http
@@ -308,6 +443,29 @@ client.search("{collection_name}", {
   },
   limit: 3,
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{SearchParams, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        params: Some(SearchParams {
+            hnsw_ef: Some(128),
+            exact: Some(false),
+            ..Default::default()
+        }),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 - `hnsw_ef` - controls the number of neighbors to visit during search. The higher the value, the more accurate and slower the search will be. Recommended range is 32-512.
@@ -367,6 +525,36 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, OptimizersConfigDiff, VectorParams,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            default_segment_number: Some(16),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 To prefer throughput, you can set up Qdrant to use as many cores as possible for processing multiple requests in parallel.
 To do that, you can configure qdrant to use minimal number of segments, which is usually 2.
 Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. But at the same time require more time to build index.
@@ -411,4 +599,34 @@ client.createCollection("{collection_name}", {
     default_segment_number: 2,
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, OptimizersConfigDiff, VectorParams,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            default_segment_number: Some(2),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```

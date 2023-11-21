@@ -89,6 +89,49 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::PointStruct};
+use serde_json::json;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .upsert_points_blocking(
+        "{collection_name}".to_string(),
+        vec![
+            PointStruct::new(
+                1,
+                vec![0.9, 0.1, 0.1],
+                json!(
+                    {"group_id": "user_1"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                2,
+                vec![0.1, 0.9, 0.1],
+                json!(
+                    {"group_id": "user_1"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                3,
+                vec![0.1, 0.1, 0.9],
+                json!(
+                    {"group_id": "user_2"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+        ],
+        None,
+    )
+    .await?;
+```
+
 2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
@@ -144,6 +187,28 @@ client.search("{collection_name}", {
   vector: [0.1, 0.1, 0.9],
   limit: 10,
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{Condition, Filter, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::matches(
+            "group_id",
+            "user_1".to_string(),
+        )])),
+        vector: vec![0.1, 0.1, 0.9],
+        limit: 10,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 ## Calibrate performance
@@ -204,6 +269,37 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, HnswConfigDiff, VectorParams,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        hnsw_config: Some(HnswConfigDiff {
+            payload_m: Some(16),
+            m: Some(0),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 3. Create keyword payload index for `group_id` field.
 
 ```http
@@ -228,6 +324,22 @@ client.createPayloadIndex("{collection_name}", {
   field_name: "group_id",
   field_schema: "keyword",
 });
+```
+
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::FieldType};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "group_id",
+        FieldType::Keyword,
+        None,
+        None,
+    )
+    .await?;
 ```
 
 ## Limitations
