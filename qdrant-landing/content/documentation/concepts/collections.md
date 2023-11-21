@@ -25,7 +25,7 @@ These settings can be changed at any time by a corresponding request.
 
 ## Setting up multitenancy
 
-**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://www.ibm.com/topics/multi-tenant). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](../../tutorials/multiple-partitions/)
+**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://en.wikipedia.org/wiki/Multitenancy). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](../../tutorials/multiple-partitions/)
 
 **When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
