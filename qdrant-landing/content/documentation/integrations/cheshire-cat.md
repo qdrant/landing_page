@@ -7,13 +7,44 @@ weight: 600
 
 [Cheshire Cat](https://cheshirecat.ai/) is an open-source framework that allows you to develop intelligent agents on top of many Large Language Models (LLM). You can develop your custom AI architecture to assist you in a wide range of tasks.
 
+<br>
+
+![Cheshire cat](https://cheshirecat.ai/wp-content/uploads/2023/11/cat.jpg)
+
+<br>
+
+## Cheshire Cat and Qdrant
 Cheshire Cat uses Qdrant as the default [Vector Memory](https://cheshire-cat-ai.github.io/docs/conceptual/memory/vector_memory/) for ingesting and retrieving documents.
+
+It uses:
+* memory based for testing
+* file based by default
+* container by settings two environment variables
+
+```
+# Decide host and port for your Cat. Default will be localhost:1865
+CORE_HOST=localhost
+CORE_PORT=1865
+
+# Qdrant server
+# QDRANT_HOST=localhost
+# QDRANT_PORT=6333
+```
+
+Cheshire Cat takes great advantage of the following features of Qdrant:
+* [Collection Aliases](https://qdrant.tech/documentation/concepts/collections/#collection-aliases) to manage the change from one embedder to another.
+* [Quantization](https://qdrant.tech/documentation/guides/quantization/) to obtain a good balance between speed, memory usage and quality of the results.
+* [Snapshots](https://qdrant.tech/documentation/concepts/snapshots/) to not miss any information.
+* [Community](https://discord.com/invite/tdtYvXjC4h) and [documentation](https://qdrant.tech/documentation/)
 
 <br>
 
 ![RAG Pipeline](https://cheshirecat.ai/wp-content/uploads/2023/11/stregatto.jpg)
 
 <br>
+
+### Work in Progress
+We are working on a **separate retriever container** that use [fastembed](https://github.com/qdrant/fastembed) by default.
 
 For more information about our use of Qdrant check the articles about Vector Memory:
 * [Don’t get lost in Vector Space](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
@@ -22,25 +53,8 @@ For more information about our use of Qdrant check the articles about Vector Mem
 ### Requirements
 To run the Cheshire Cat, you need to have [Docker](https://docs.docker.com/engine/install/) and [docker-compose](https://docs.docker.com/compose/install/) already installed on your system.
 
-### Setup
-Clone [the repository](https://github.com/cheshire-cat-ai/core) on your machine.
-
-```
-git clone https://github.com/cheshire-cat-ai/core.git cheshire-cat
-```
-
 ### Starting the Cat
-Enter the created folder
-
-```
-cd cheshire-cat
-```
-
-Run docker containers
-
-```
-docker-compose up
-```
+For a quick start check the [instructions on github](https://github.com/cheshire-cat-ai/core/blob/main/README.md).
 
 ### First configuration of the LLM
 
@@ -54,3 +68,5 @@ For more information check our [documentation](https://cheshire-cat-ai.github.io
 * [How the Cat works](https://cheshirecat.ai/how-the-cat-works/)
 * [Write Your First Plugin](https://cheshirecat.ai/write-your-first-plugin/)
 
+## Community
+Join the [Discord Community](https://discord.com/invite/bHX5sNFCYU)
