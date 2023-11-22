@@ -27,6 +27,11 @@ Our official Qdrant clients for Python, TypeScript, Go, Rust, and .NET all suppo
 curl \
   -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333 \
   --header 'api-key: <provide-your-own-key>'
+
+# Alternatively, you can use the `Authorization` header with the `Bearer` prefix
+curl \
+  -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333 \
+  --header 'Authorization: Bearer <provide-your-own-key>'
 ```
 
 ```python
