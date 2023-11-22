@@ -1,6 +1,6 @@
 ---
 title: Cheshire-Cat
-weight: 1600
+weight: 600
 ---
 
 # Cheshire Cat
@@ -10,7 +10,6 @@ weight: 1600
 Cheshire Cat uses Qdrant as the default [Vector Memory](https://cheshire-cat-ai.github.io/docs/conceptual/memory/vector_memory/) for ingesting and retrieving documents.
 For more information check our articles about Vector Memory:
 * [Don’t get lost in Vector Space](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
-* 
 
 <br>
 
@@ -46,7 +45,7 @@ docker-compose up
 
 * Open the Admin Portal in your browser at [localhost:1865/admin](localhost:1865/admin)
 * Configure the LLM in the `Settings` tab
-* TIf you don't explicitly choose it using `Settings` tab, the Embedder follows the LLM
+* If you don't explicitly choose it using `Settings` tab, the Embedder follows the LLM
 
 ## Blog
 For more information check our [documentation](https://cheshire-cat-ai.github.io/docs/) and [blog](https://cheshirecat.ai/blog/), here three articles to get started with the Cheshire cat:
