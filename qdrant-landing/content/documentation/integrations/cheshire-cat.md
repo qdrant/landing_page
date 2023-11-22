@@ -8,14 +8,15 @@ weight: 600
 [Cheshire Cat](https://cheshirecat.ai/) is an open-source framework that allows you to develop intelligent agents on top of many Large Language Models (LLM). You can develop your custom AI architecture to assist you in a wide range of tasks.
 
 Cheshire Cat uses Qdrant as the default [Vector Memory](https://cheshire-cat-ai.github.io/docs/conceptual/memory/vector_memory/) for ingesting and retrieving documents.
-For more information check our articles about Vector Memory:
-* [Don’t get lost in Vector Space](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
 
 <br>
 
 ![RAG Pipeline](https://cheshirecat.ai/wp-content/uploads/2023/11/stregatto.jpg)
 
 <br>
+
+For more information about our use of Qdrant check the articles about Vector Memory:
+* [Don’t get lost in Vector Space](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
 
 ## How to use the Cheshire Cat
 ### Requirements
