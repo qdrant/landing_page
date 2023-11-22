@@ -1,5 +1,5 @@
 ---
-title: Cheshire-Cat
+title: Cheshire Cat
 weight: 600
 ---
 
