@@ -83,6 +83,14 @@ var client = new QdrantClient(
 );
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
+        .with_api_key("<paste-your-api-key-here>")
+        .build()?;
+```
+
 <aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
 ## TLS
@@ -146,6 +154,12 @@ client = QdrantClient(
 import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ url: "https://localhost", port: 6333 });
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("https://localhost:6334").build()?;
 ```
 
 Certificate rotation is enabled with a default refresh time of one hour. This

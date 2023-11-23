@@ -131,6 +131,33 @@ client.search("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{Condition, Filter, SearchParams, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::matches(
+            "city",
+            "London".to_string(),
+        )])),
+        params: Some(SearchParams {
+            hnsw_ef: Some(128),
+            exact: Some(false),
+            ..Default::default()
+        }),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
+```
+
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
 Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
@@ -207,6 +234,22 @@ client.search("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        vector_name: Some("image".to_string()),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
+```
+
 Search is processing only among vectors with the same name.
 
 ### Filtering results by score
@@ -253,6 +296,23 @@ client.search("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        with_payload: Some(true.into()),
+        with_vectors: Some(true.into()),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
+```
+
 You can use `with_payload` to scope to or filter a specific payload subset. 
 You can even specify an array of items to include, such as `city`, 
 `village`, and `town`:
@@ -288,6 +348,22 @@ client.search("{collection_name}", {
   vector: [0.2, 0.1, 0.9, 0.7],
   with_payload: ["city", "village", "town"],
 });
+```
+
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        with_payload: Some(vec!["city", "village", "town"].into()),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
@@ -329,6 +405,32 @@ client.search("{collection_name}", {
     exclude: ["city"],
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        with_payload_selector::SelectorOptions, PayloadIncludeSelector, SearchPoints,
+        WithPayloadSelector,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        with_payload: Some(WithPayloadSelector {
+            selector_options: Some(SelectorOptions::Include(PayloadIncludeSelector {
+                fields: vec!["city".to_string()],
+            })),
+        }),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 It is possible to target nested fields using a dot notation:
@@ -449,6 +551,42 @@ client.searchBatch("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{Condition, Filter, SearchBatchPoints, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+let filter = Filter::must([Condition::matches("city", "London".to_string())]);
+
+let searches = vec![
+    SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        filter: Some(filter.clone()),
+        limit: 3,
+        ..Default::default()
+    },
+    SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.5, 0.3, 0.2, 0.3],
+        filter: Some(filter),
+        limit: 3,
+        ..Default::default()
+    },
+];
+
+client
+    .search_batch_points(&SearchBatchPoints {
+        collection_name: "{collection_name}".to_string(),
+        search_points: searches,
+        read_consistency: None,
+    })
+    .await?;
+```
+
 The result of this API contains one array per search requests.
 
 ```json
@@ -544,6 +682,32 @@ client.recommend("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{Condition, Filter, RecommendPoints, RecommendStrategy},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .recommend(&RecommendPoints {
+        collection_name: "{collection_name}".to_string(),
+        positive: vec![100.into(), 200.into()],
+        positive_vectors: vec![vec![100.0, 231.0].into()],
+        negative: vec![718.into()],
+        negative_vectors: vec![vec![0.2, 0.3, 0.4, 0.5].into()],
+        strategy: Some(RecommendStrategy::AverageVector.into()),
+        filter: Some(Filter::must([Condition::matches(
+            "city",
+            "London".to_string(),
+        )])),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
+```
+
 Example result of this API would be
 
 ```json
@@ -582,11 +746,11 @@ A new strategy introduced in v1.6, is called `best_score`. It is based on the id
 The way it works is that each candidate is measured against every example, then we select the best positive and best negative scores. The final score is chosen with this step formula:
 
 ```rust
-if best_positive_score > best_negative_score {
-    score = best_positive_score
+let score = if best_positive_score > best_negative_score {
+    best_positive_score;
 } else {
-    score = -(best_negative_score * best_negative_score)
-}
+    -(best_negative_score * best_negative_score);
+};
 ```
 
 <aside role="alert">The performance of `best_score` strategy will be linearly impacted by the amount of examples.</aside>
@@ -635,6 +799,21 @@ client.recommend("{collection_name}", {
   using: "image",
   limit: 10,
 });
+```
+
+```rust
+use qdrant_client::qdrant::RecommendPoints;
+
+client
+    .recommend(&RecommendPoints {
+        collection_name: "{collection_name}".to_string(),
+        positive: vec![100.into(), 231.into()],
+        negative: vec![718.into()],
+        using: Some("image".to_string()),
+        limit: 10,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 Parameter `using` specifies which stored vectors to use for the recommendation.
@@ -746,6 +925,44 @@ client.recommend_batch("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{Condition, Filter, RecommendBatchPoints, RecommendPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+let filter = Filter::must([Condition::matches("city", "London".to_string())]);
+
+let recommend_queries = vec![
+    RecommendPoints {
+        collection_name: "{collection_name}".to_string(),
+        positive: vec![100.into(), 231.into()],
+        negative: vec![718.into()],
+        filter: Some(filter.clone()),
+        limit: 3,
+        ..Default::default()
+    },
+    RecommendPoints {
+        collection_name: "{collection_name}".to_string(),
+        positive: vec![200.into(), 67.into()],
+        negative: vec![300.into()],
+        filter: Some(filter),
+        limit: 3,
+        ..Default::default()
+    },
+];
+
+client
+    .recommend_batch(&RecommendBatchPoints {
+        collection_name: "{collection_name}".to_string(),
+        recommend_points: recommend_queries,
+        ..Default::default()
+    })
+    .await?;
+```
+
 The result of this API contains one array per recommendation requests.
 
 ```json
@@ -814,6 +1031,24 @@ client.search("{collection_name}", {
   limit: 10,
   offset: 100,
 });
+```
+
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        with_vectors: Some(true.into()),
+        with_payload: Some(true.into()),
+        limit: 10,
+        offset: Some(100),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 Is equivalent to retrieving the 11th page with 10 records per page.
@@ -914,7 +1149,7 @@ POST /collections/{collection_name}/points/search/groups
 client.search_groups(
     collection_name="{collection_name}",
     # Same as in the regular search() API
-    query_vector=[1.1],
+    query_vector=g,
     # Grouping parameters
     group_by="document_id",  # Path of the field to group by
     limit=4,  # Max amount of groups
@@ -929,6 +1164,21 @@ client.searchPointGroups("{collection_name}", {
   limit: 4,
   group_size: 2,
 });
+```
+
+```rust
+use qdrant_client::qdrant::SearchPointGroups;
+
+client
+    .search_groups(&SearchPointGroups {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![1.1],
+        group_by: "document_id".to_string(),
+        limit: 4,
+        group_size: 2,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 ### Recommend groups
@@ -973,6 +1223,22 @@ client.recommendPointGroups("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::RecommendPointGroups;
+
+client
+    .recommend_groups(&RecommendPointGroups {
+        collection_name: "{collection_name}".to_string(),
+        positive: vec![1.into()],
+        negative: vec![2.into(), 5.into()],
+        group_by: "document_id".to_string(),
+        limit: 4,
+        group_size: 10,
+        ..Default::default()
+    })
+    .await?;
+```
+
 In either case (search or recommend), the output would look like this:
 
 ```json
@@ -983,13 +1249,13 @@ In either case (search or recommend), the output would look like this:
                 "id": "a",
                 "hits": [
                     { "id": 0, "score": 0.91 },
-                    { "id": 1, "score": 0.85 },
+                    { "id": 1, "score": 0.85 }
                 ]
             },
             {
                 "id": "b",
                 "hits": [
-                    { "id": 1, "score": 0.85 },
+                    { "id": 1, "score": 0.85 }
                 ]
             },
             {
@@ -1097,11 +1363,31 @@ client.searchPointGroups("{collection_name}", {
   limit: 2,
   group_size: 2,
   with_lookup: {
-    collection: "documents",
+    collection: w,
     with_payload: ["title", "text"],
     with_vectors: false,
   },
 });
+```
+
+```rust
+use qdrant_client::qdrant::{SearchPointGroups, WithLookup};
+
+client
+    .search_groups(&SearchPointGroups {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![1.1],
+        group_by: "document_id".to_string(),
+        limit: 2,
+        group_size: 2,
+        with_lookup: Some(WithLookup {
+            collection: "documents".to_string(),
+            with_payload: Some(vec!["title", "text"].into()),
+            with_vectors: Some(false.into()),
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.

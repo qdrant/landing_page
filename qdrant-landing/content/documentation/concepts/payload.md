@@ -236,6 +236,47 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::PointStruct};
+use serde_json::json;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+let points = vec![
+    PointStruct::new(
+        1,
+        vec![0.05, 0.61, 0.76, 0.74],
+        json!(
+            {"city": "Berlin", "price": 1.99}
+        )
+        .try_into()
+        .unwrap(),
+    ),
+    PointStruct::new(
+        2,
+        vec![0.19, 0.81, 0.75, 0.11],
+        json!(
+            {"city": ["Berlin", "London"]}
+        )
+        .try_into()
+        .unwrap(),
+    ),
+    PointStruct::new(
+        3,
+        vec![0.36, 0.55, 0.47, 0.94],
+        json!(
+            {"city": ["Berlin", "Moscow"], "price": [1.99, 2.99]}
+        )
+        .try_into()
+        .unwrap(),
+    ),
+];
+
+client
+    .upsert_points("{collection_name}".to_string(), points, None)
+    .await?;
+```
+
 ## Update payload
 
 ### Set payload
@@ -277,6 +318,31 @@ client.setPayload("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+use serde_json::json;
+
+client
+    .set_payload(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 10.into()],
+            })),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
 ### Delete payload
 
 This method removes specified payload keys from specified points
@@ -303,8 +369,27 @@ client.delete_payload(
 ```typescript
 client.deletePayload("{collection_name}", {
   keys: ["color", "price"],
-  points: [0, 3, 10],
+  points: [0, 3, 100],
 });
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
+client
+    .delete_payload(
+        "{collection_name}",
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
 ```
 
 ### Clear payload
@@ -334,6 +419,24 @@ client.clear_payload(
 client.clearPayload("{collection_name}", {
   points: [0, 3, 100],
 });
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
+client
+    .clear_payload(
+        "{collection_name}",
+        Some(PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        }),
+        None,
+    )
+    .await?;
 ```
 
 <aside role="status">You can also use `models.FilterSelector` to remove the points matching given filter criteria, instead of providing the ids.</aside>
@@ -375,6 +478,20 @@ client.createPayloadIndex("{collection_name}", {
   field_name: "name_of_the_field_to_index",
   field_schema: "keyword",
 });
+```
+
+```rust
+use qdrant_client::qdrant::FieldType;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        FieldType::Keyword,
+        None,
+        None,
+    )
+    .await?;
 ```
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).

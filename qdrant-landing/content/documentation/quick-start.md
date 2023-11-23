@@ -21,7 +21,7 @@ docker pull qdrant/qdrant
 Then, run the service:
 
 ```bash
-docker run -p 6333:6333 \
+docker run -p 6333:6333 -p 6334:6334 \
     -v $(pwd)/qdrant_storage:/qdrant/storage:z \
     qdrant/qdrant
 ```
@@ -29,8 +29,9 @@ docker run -p 6333:6333 \
 Under the default configuration all data will be stored in the `./qdrant_storage` directory. This will also be the only directory that both the Container and the host machine can both see. 
 
 Qdrant is now accessible:
-- API: [localhost:6333](http://localhost:6333)
+- REST API: [localhost:6333](http://localhost:6333)
 - Web UI: [localhost:6333/dashboard](http://localhost:6333/dashboard)
+- GRPC API: [localhost:6334](http://localhost:6334)
 
 ## Initialize the client 
 
@@ -44,6 +45,13 @@ client = QdrantClient("localhost", port=6333)
 import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+// The Rust client uses Qdrant's GRPC interface
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
 ```
 
 <aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
@@ -67,7 +75,24 @@ await client.createCollection("test_collection", {
 });
 ```
 
-<aside role="status">TypeScript examples use async/await syntax, so should be called in an async function.</aside>
+```rust
+use qdrant_client::qdrant::{vectors_config::Config, VectorParams, VectorsConfig};
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "test_collection".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 4,
+                distance: Distance::Dot.into(),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+<aside role="status">TypeScript, Rust examples use async/await syntax, so should be used in an async block.</aside>
 
 ## Add vectors
 
@@ -108,6 +133,37 @@ const operationInfo = await client.upsert("test_collection", {
 console.debug(operationInfo);
 ```
 
+```rust
+use qdrant_client::qdrant::PointStruct;
+use serde_json::json;
+
+let points = vec![
+    PointStruct::new(
+        1,
+        vec![0.05, 0.61, 0.76, 0.74],
+        json!(
+            {"city": "Berlin"}
+        )
+        .try_into()
+        .unwrap(),
+    ),
+    PointStruct::new(
+        2,
+        vec![0.19, 0.81, 0.75, 0.11],
+        json!(
+            {"city": "London"}
+        )
+        .try_into()
+        .unwrap(),
+    ),
+    // ..truncated
+];
+let operation_info = client
+    .upsert_points_blocking("test_collection".to_string(), points, None)
+    .await?;
+
+dbg!(operation_info);
+```
 **Response:**
 
 ```python
@@ -116,6 +172,16 @@ operation_id=0 status=<UpdateStatus.COMPLETED: 'completed'>
 
 ```typescript
 { operation_id: 0, status: 'completed' }
+```
+
+```rust
+PointsOperationResponse {
+    result: Some(UpdateResult {
+        operation_id: 0,
+        status: Completed,
+    }),
+    time: 0.006347708,
+}
 ```
 
 ## Run a query
@@ -138,6 +204,22 @@ let searchResult = await client.search("test_collection", {
 console.debug(searchResult);
 ```
 
+```rust
+use qdrant_client::qdrant::SearchPoints;
+
+let search_result = client
+    .search_points(&SearchPoints {
+        collection_name: "test_collection".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        limit: 3,
+        with_payload: Some(true.into()),
+        ..Default::default()
+    })
+    .await?;
+
+dbg!(search_result);
+```
+
 **Response:**
 
 ```python
@@ -152,24 +234,59 @@ ScoredPoint(id=3, version=0, score=1.208, payload={"city": "Moscow"}, vector=Non
     id: 4,
     version: 0,
     score: 1.362,
-    payload: { city: "New York" },
+    payload: null,
     vector: null,
   },
   {
     id: 1,
     version: 0,
     score: 1.273,
-    payload: { city: "Berlin" },
+    payload: null,
     vector: null,
   },
   {
     id: 3,
     version: 0,
     score: 1.208,
-    payload: { city: "Moscow" },
+    payload: null,
     vector: null,
   },
 ];
+```
+
+```rust
+SearchResponse {
+    result: [
+        ScoredPoint {
+            id: Some(PointId {
+                point_id_options: Some(Num(4)),
+            }),
+            payload: {},
+            score: 1.362,
+            version: 0,
+            vectors: None,
+        },
+        ScoredPoint {
+            id: Some(PointId {
+                point_id_options: Some(Num(1)),
+            }),
+            payload: {},
+            score: 1.273,
+            version: 0,
+            vectors: None,
+        },
+        ScoredPoint {
+            id: Some(PointId {
+                point_id_options: Some(Num(3)),
+            }),
+            payload: {},
+            score: 1.208,
+            version: 0,
+            vectors: None,
+        },
+    ],
+    time: 0.003635125,
+}
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
@@ -188,6 +305,7 @@ search_result = client.search(
     query_filter=Filter(
         must=[FieldCondition(key="city", match=MatchValue(value="London"))]
     ),
+    with_payload=True,
     limit=3,
 )
 
@@ -200,10 +318,30 @@ searchResult = await client.search("test_collection", {
   filter: {
     must: [{ key: "city", match: { value: "London" } }],
   },
+  with_payload: true,
   limit: 3,
 });
 
 console.debug(searchResult);
+```
+
+```rust
+use qdrant_client::qdrant::{Condition, Filter, SearchPoints};
+
+let search_result = client
+    .search_points(&SearchPoints {
+        collection_name: "test_collection".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        filter: Some(Filter::all([Condition::matches(
+            "city",
+            "London".to_string(),
+        )])),
+        limit: 2,
+        ..Default::default()
+    })
+    .await?;
+
+dbg!(search_result);
 ```
 
 **Response:**
@@ -224,6 +362,36 @@ ScoredPoint(id=2, version=0, score=0.871, payload={"city": "London"}, vector=Non
 ];
 ```
 
+```rust
+SearchResponse {
+    result: [
+        ScoredPoint {
+            id: Some(
+                PointId {
+                    point_id_options: Some(
+                        Num(
+                            2,
+                        ),
+                    ),
+                },
+            ),
+            payload: {
+                "city": Value {
+                    kind: Some(
+                        StringValue(
+                            "London",
+                        ),
+                    ),
+                },
+            },
+            score: 0.871,
+            version: 0,
+            vectors: None,
+        },
+    ],
+    time: 0.004001083,
+}
+```
 You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score. 
 
 ## Next steps

@@ -64,6 +64,30 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+//The Rust client uses Qdrant's GRPC interface
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 100,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
@@ -100,7 +124,7 @@ PUT /collections/{collection_name}
 
 {
     "vectors": {
-      "size": 300,
+      "size": 100,
       "distance": "Cosine"
     },
     "init_from": {
@@ -131,6 +155,30 @@ client.createCollection("{collection_name}", {
   vectors: { size: 100, distance: "Cosine" },
   init_from: { collection: "{from_collection_name}" },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 100,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        init_from_collection: Some("{from_collection_name}".to_string()),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 ### Collection with multiple vectors
@@ -187,6 +235,48 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, VectorParams, VectorParamsMap,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::ParamsMap(VectorParamsMap {
+                map: [
+                    (
+                        "image".to_string(),
+                        VectorParams {
+                            size: 4,
+                            distance: Distance::Dot.into(),
+                            ..Default::default()
+                        },
+                    ),
+                    (
+                        "text".to_string(),
+                        VectorParams {
+                            size: 8,
+                            distance: Distance::Cosine.into(),
+                            ..Default::default()
+                        },
+                    ),
+                ]
+                .into(),
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 For rare use cases, it is possible to create a collection without any vector storage.
 
 *Available as of v1.1.1*
@@ -217,6 +307,10 @@ client.delete_collection(collection_name="{collection_name}")
 
 ```typescript
 client.deleteCollection("{collection_name}");
+```
+
+```rust
+client.delete_collection("{collection_name}").await?;
 ```
 
 ### Update collection parameters
@@ -250,6 +344,20 @@ client.updateCollection("{collection_name}", {
     indexing_threshold: 10000,
   },
 });
+```
+
+```rust
+use qdrant_client::qdrant::OptimizersConfigDiff;
+
+client
+    .update_collection(
+        "{collection_name}",
+        &OptimizersConfigDiff {
+            indexing_threshold: Some(10000),
+            ..Default::default()
+        },
+    )
+    .await?;
 ```
 
 The following parameters can be updated:
@@ -402,6 +510,57 @@ client.updateCollection("{collection_name}", {
 });
 ```
 
+<!---
+```rust
+// Available as of Rust client 1.7.0
+// See: <https://github.com/qdrant/rust-client/issues/75>
+
+use qdrant_client::client::QdrantClient;
+use qdrant_client::qdrant::{
+    quantization_config_diff::Quantization, vectors_config_diff::Config, HnswConfigDiff,
+    QuantizationConfigDiff, QuantizationType, ScalarQuantization, VectorParamsDiff,
+    VectorsConfigDiff,
+};
+
+client
+    .update_collection(
+        "{collection_name}",
+        None,
+        None,
+        Some(&HnswConfigDiff {
+            ef_construct: Some(123),
+            ..Default::default()
+        }),
+        Some(&VectorsConfigDiff {
+            config: Some(Config::ParamsMap(
+                qdrant_client::qdrant::VectorParamsDiffMap {
+                    map: HashMap::from([(
+                        ("my_vector".into()),
+                        VectorParamsDiff {
+                            hnsw_config: Some(HnswConfigDiff {
+                                m: Some(32),
+                                ef_construct: Some(123),
+                                ..Default::default()
+                            }),
+                            ..Default::default()
+                        },
+                    )]),
+                },
+            )),
+        }),
+        Some(&QuantizationConfigDiff {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8 as i32,
+                quantile: Some(0.8),
+                always_ram: Some(true),
+                ..Default::default()
+            })),
+        }),
+    )
+    .await?;
+```
+--->
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
@@ -463,6 +622,10 @@ client.get_collection(collection_name="{collection_name}")
 
 ```typescript
 client.getCollection("{collection_name}");
+```
+
+```rust
+client.collection_info("{collection_name}").await?;
 ```
 
 If you insert the vectors into the collection, the `status` field may become
@@ -544,6 +707,10 @@ client.updateCollectionAliases({
 });
 ```
 
+```rust
+client.create_alias("example_collection", "production_collection").await?;
+```
+
 ### Remove alias
 
 ```http
@@ -580,6 +747,10 @@ client.updateCollectionAliases({
     },
   ],
 });
+```
+
+```rust
+client.delete_alias("production_collection").await?;
 ```
 
 ### Switch collection
@@ -640,6 +811,11 @@ client.updateCollectionAliases({
 });
 ```
 
+```rust
+client.delete_alias("production_collection").await?;
+client.create_alias("example_collection", "production_collection").await?;
+```
+
 ### List collection aliases
 
 ```http
@@ -660,6 +836,14 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.getCollectionAliases("{collection_name}");
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_collection_aliases("{collection_name}").await?;
 ```
 
 ### List all aliases
@@ -684,6 +868,14 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.getAliases();
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_aliases().await?;
+```
+
 ### List all collections
 
 ```http
@@ -704,4 +896,12 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.getCollections();
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_collections().await?;
 ```
