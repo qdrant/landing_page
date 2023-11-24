@@ -12,10 +12,10 @@ This page shows you how to use the Qdrant Cloud Console to create a custom API k
 The API key is only shown once after creation. If you lose it, you will need to create a new one. 
 However, we recommend rotating the keys from time to time. To create additional API keys do the following.
 
-1. Go to the **Access** section in the [Cloud Dashboard](https://cloud.qdrant.io).
+1. Go to the [Cloud Dashboard](https://qdrant.to/cloud).
 2. Select **Access Management** to display available API keys.
 3. Click **Create** and choose a cluster name from the dropdown menu.
-> **Note:** You can create a key that provides access to multiple clusters. Simply check off which cluster in the dropdown
+> **Note:** You can create a key that provides access to multiple clusters. Select desired clusters in the dropdown box.
 4. Click **OK** and retrieve your API key. 
 
 ## Authenticate via SDK
