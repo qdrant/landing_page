@@ -204,6 +204,39 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
+        QuantizationConfig, QuantizationType, ScalarQuantization, VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        quantization_config: Some(QuantizationConfig {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8.into(),
+                quantile: Some(0.99),
+                always_ram: Some(true),
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 There are 3 parameters that you can specify in the `quantization_config` section:
 
 `type` - the type of the quantized vector components. Currently, Qdrant supports only `int8`.
@@ -276,6 +309,37 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        quantization_config::Quantization, vectors_config::Config, BinaryQuantization,
+        CreateCollection, Distance, QuantizationConfig, VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 1536,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        quantization_config: Some(QuantizationConfig {
+            quantization: Some(Quantization::Binary(BinaryQuantization {
+                always_ram: Some(true),
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 `always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
 However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
 
@@ -337,6 +401,39 @@ client.createCollection("{collection_name}", {
     },
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        quantization_config::Quantization, vectors_config::Config, CompressionRatio,
+        CreateCollection, Distance, ProductQuantization, QuantizationConfig, VectorParams,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        quantization_config: Some(QuantizationConfig {
+            quantization: Some(Quantization::Product(ProductQuantization {
+                compression: CompressionRatio::X16.into(),
+                always_ram: Some(true),
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 There are two parameters that you can specify in the `quantization_config` section:
@@ -408,6 +505,33 @@ client.search("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        params: Some(SearchParams {
+            quantization: Some(QuantizationSearchParams {
+                ignore: Some(false),
+                rescore: Some(true),
+                oversampling: Some(2.0),
+                ..Default::default()
+            }),
+            ..Default::default()
+        }),
+        limit: 10,
+        ..Default::default()
+    })
+    .await?;
+```
+
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
 `rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. 
@@ -473,6 +597,31 @@ client.search("{collection_name}", {
     },
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        params: Some(SearchParams {
+            quantization: Some(QuantizationSearchParams {
+                ignore: Some(true),
+                ..Default::default()
+            }),
+            ..Default::default()
+        }),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 - **Adjust the quantile parameter**: The quantile parameter in scalar quantization determines the quantization bounds.
@@ -555,6 +704,44 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
+        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
+        VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            memmap_threshold: Some(20000),
+            ..Default::default()
+        }),
+        quantization_config: Some(QuantizationConfig {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8.into(),
+                always_ram: Some(true),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 In this scenario, the number of disk reads may play a significant role in the search speed.
 In a system with high disk latency, the re-scoring step may become a bottleneck.
 
@@ -601,6 +788,31 @@ client.search("{collection_name}", {
     },
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector: vec![0.2, 0.1, 0.9, 0.7],
+        params: Some(SearchParams {
+            quantization: Some(QuantizationSearchParams {
+                rescore: Some(true),
+                ..Default::default()
+            }),
+            ..Default::default()
+        }),
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
 ```
 
 - **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
@@ -667,4 +879,42 @@ client.createCollection("{collection_name}", {
     },
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
+        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
+        VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            memmap_threshold: Some(20000),
+            ..Default::default()
+        }),
+        quantization_config: Some(QuantizationConfig {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8.into(),
+                always_ram: Some(false),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```

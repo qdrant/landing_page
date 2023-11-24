@@ -81,6 +81,30 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                on_disk: Some(true),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 This will create a collection with all vectors immediately stored in memmap storage.
 This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
 
@@ -132,6 +156,36 @@ client.createCollection("{collection_name}", {
     memmap_threshold: 20000,
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, OptimizersConfigDiff, VectorParams,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            memmap_threshold: Some(20000),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 The rule of thumb to set the memmap threshold parameter is simple:
@@ -189,6 +243,40 @@ client.createCollection("{collection_name}", {
     on_disk: true,
   },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, HnswConfigDiff,
+        OptimizersConfigDiff, VectorParams, VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 768,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        optimizers_config: Some(OptimizersConfigDiff {
+            memmap_threshold: Some(20000),
+            ..Default::default()
+        }),
+        hnsw_config: Some(HnswConfigDiff {
+            on_disk: Some(true),
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 ## Payload storage
