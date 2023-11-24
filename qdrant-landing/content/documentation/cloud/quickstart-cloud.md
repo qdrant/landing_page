@@ -11,7 +11,7 @@ This page shows you how to use the Qdrant Cloud Console to create a free tier cl
 
 ## Step 1: Create a Free Tier cluster
 
-1. Start in the **Overview** section of the Dashboard. 
+1. Start in the **Overview** section of the [Cloud Dashboard](https://cloud.qdrant.io). 
 2. Under **Set a Cluster Up** enter a **Cluster name**.
 3. Click **Create Free Tier** and then **Continue**.
 4. Under **Get an API Key**, select the cluster and click **Get API Key**.
