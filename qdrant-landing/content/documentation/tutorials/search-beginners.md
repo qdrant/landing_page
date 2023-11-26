@@ -16,7 +16,11 @@ If you are new to vector databases, this tutorial is for you. In 5 minutes you w
 
 Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow Python documentation for [Creating Virtual Environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first.
 
-This tutorial assumes you're in the bash shell. Use the Python documentation to activate a virtual environment.
+This tutorial assumes you're in the bash shell. Use the Python documentation to activate a virtual environment, with commands such as:
+
+```bash
+source tutorial-env/bin/activate
+``` 
 
 ## 1. Installation
 
