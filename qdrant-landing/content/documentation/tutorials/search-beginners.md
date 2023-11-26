@@ -24,7 +24,7 @@ source tutorial-env/bin/activate
 
 ## 1. Installation
 
-You need to process your data so that the search engine can work with it. The [Sentence Transformers] framework gives you access to common [Large Language Models] that turn raw data into embeddings.
+You need to process your data so that the search engine can work with it. The [Sentence Transformers](https://www.sbert.net/) framework gives you access to common Large Language Models that turn raw data into embeddings.
 
 ```bash
 pip install -U sentence-transformers
