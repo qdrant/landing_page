@@ -14,11 +14,17 @@ weight: -100
 
 If you are new to vector databases, this tutorial is for you. In 5 minutes you will build a semantic search engine for science fiction books. After you set it up, you will ask the engine about an impending alien threat. Your creation will recommend books as preparation for a potential space attack.
 
-Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow [this tutorial](https://towardsdatascience.com/creating-and-using-virtual-environment-on-jupyter-notebook-with-python-db3f5afdd56a) first.
+Before you begin, you need to have a [recent version of Python](https://www.python.org/downloads/) installed. If you don't know how to run this code in a virtual environment, follow Python documentation for [Creating Virtual Environments](https://docs.python.org/3/tutorial/venv.html#creating-virtual-environments) first.
+
+This tutorial assumes you're in the bash shell. Use the Python documentation to activate a virtual environment, with commands such as:
+
+```bash
+source tutorial-env/bin/activate
+``` 
 
 ## 1. Installation
 
-You need to process your data so that the search engine can work with it. The [Sentence Transformers] framework gives you access to common [Large Language Models] that turn raw data into embeddings.
+You need to process your data so that the search engine can work with it. The [Sentence Transformers](https://www.sbert.net/) framework gives you access to common Large Language Models that turn raw data into embeddings.
 
 ```bash
 pip install -U sentence-transformers
@@ -32,7 +38,7 @@ pip install qdrant-client
 
 ### Import the models 
 
-Once the two main frameworks are defined, you need to specify the exact models this engine will use. 
+Once the two main frameworks are defined, you need to specify the exact models this engine will use. Before you do, activate the Python prompt (`>>>`) with the `python` command.
 
 ```python
 from qdrant_client import models, QdrantClient
@@ -229,3 +235,10 @@ The query has been narrowed down to one result from 2008.
 ## Next Steps
 
 Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial you should try building an actual [Neural Search Service with a complete API and a dataset](../../tutorials/neural-search/).
+
+## Return to the bash shell
+
+To return to the bash prompt:
+
+1. Press Ctrl+D to exit the Python prompt (`>>>`).
+1. Enter the `deactivate` command to deactivate the virtual environment.
