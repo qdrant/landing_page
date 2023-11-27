@@ -11,9 +11,9 @@ These snapshots contain pre-computed vectors that you can easily import into you
 
 ## Available datasets
 
-Our snapshots are generated from publicly available datasets, which are often used for commercial 
-r academic purposes. The following datasets are currently available. Please click on a dataset 
-name to see the detailed description.
+Our snapshots are usually generated from publicly available datasets, which are often used for 
+non-commercial or academic purposes. The following datasets are currently available. Please click 
+on a dataset name to see its detailed description.
 
 | Dataset                                    | Model                                                       | Vector size | Documents | Size   | Qdrant snapshot                                                                                                                       | HF Hub                                                                                 |
 |--------------------------------------------|-------------------------------------------------------------|-------------|-----------|--------|---------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
@@ -21,7 +21,7 @@ name to see the detailed description.
 | [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 8.4 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
 
 Once you download a snapshot, you need to [restore it](/documentation/concepts/snapshots/#restore-snapshot) 
-using the Qdrant CLI upon startup.
+using the Qdrant CLI upon startup or through the API.
 
 ## Qdrant on Hugging Face
 
