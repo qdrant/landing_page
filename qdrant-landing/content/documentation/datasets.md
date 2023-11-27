@@ -9,9 +9,19 @@ You may find that creating embeddings from datasets is a very resource-intensive
 If you need a practice dataset, feel free to pick one of the ready-made snapshots on this page.
 These snapshots contain pre-computed vectors that you can easily import into your Qdrant instance.
 
-Once you download a snapshot, you need to restore it using the Qdrant CLI upon startup. 
+## Available datasets
 
-**Tutorials:** You may either [**restore a dataset from a snapshot**](/documentation/concepts/snapshots/#restore-snapshot) or [**create a snapshot from a dataset**](/documentation/tutorials/create-snapshot/).
+Our snapshots are generated from publicly available datasets, which are often used for commercial 
+r academic purposes. The following datasets are currently available. Please click on a dataset 
+name to see the detailed description.
+
+| Dataset                                    | Model                                                       | Vector size | Documents | Size   | Qdrant snapshot                                                                                                                       | HF Hub                                                                                 |
+|--------------------------------------------|-------------------------------------------------------------|-------------|-----------|--------|---------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [Arxiv.org titles](#arxivorg-titles)       | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 7.1 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)    |
+| [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 8.4 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
+
+Once you download a snapshot, you need to [restore it](/documentation/concepts/snapshots/#restore-snapshot) 
+using the Qdrant CLI upon startup.
 
 ## Qdrant on Hugging Face
 
@@ -22,7 +32,7 @@ Once you download a snapshot, you need to restore it using the Qdrant CLI upon s
 </p>
 
 [Hugging Face](https://huggingface.co/) provides a platform for sharing and using ML models and 
-datasets. [Qdrant](https://huggingface.co/Qdrant) is one of the organizations there. We aim to 
+datasets. [Qdrant](https://huggingface.co/Qdrant) is one of the organizations there! We aim to 
 provide you with datasets containing neural embeddings that you can use to practice with Qdrant 
 and build your applications based on semantic search. **Please let us know if you'd like to see
 a specific dataset!**
@@ -30,22 +40,21 @@ a specific dataset!**
 If you are not familiar with [Hugging Face datasets](https://huggingface.co/docs/datasets/index),
 or would like to know how to combine it with Qdrant, please refer to the [tutorial](/documentation/tutorials/huggingface-datasets/).
 
-## Arxiv.org Sample Text Data
+## Arxiv.org
 
-Our snapshots are generated from publicly available datasets, which are often used for 
-commercial or academic purposes. [Arxiv.org](https://arxiv.org) is a highly-regarded open-access repository 
-of electronic preprints in multiple fields. Operated by Cornell University, arXiv allows 
-researchers to share their findings with the scientific community and receive feedback before 
-they undergo peer review for formal publication. Its archives host millions of scholarly 
-articles, making it an invaluable resource for those looking to explore the cutting edge of 
-scientific research. With a high frequency of daily submissions from scientists around the 
-world, arXiv forms a comprehensive, evolving dataset that is ripe for mining, analysis, and 
-the development of future innovations.
+[Arxiv.org](https://arxiv.org) is a highly-regarded open-access repository of electronic preprints in multiple 
+fields. Operated by Cornell University, arXiv allows researchers to share their findings with 
+the scientific community and receive feedback before they undergo peer review for formal 
+publication. Its archives host millions of scholarly articles, making it an invaluable resource 
+for those looking to explore the cutting edge of scientific research. With a high frequency of 
+daily submissions from scientists around the world, arXiv forms a comprehensive, evolving dataset 
+that is ripe for mining, analysis, and the development of future innovations.
 
-Arxiv.org snapshots were created using precomputed embeddings exposed by
-[the Alexandria Index](https://alex.macrocosm.so/download).
+<aside role="status">
+Arxiv.org snapshots were created using precomputed embeddings exposed by <a href="https://alex.macrocosm.so/download">the Alexandria Index</a>.
+</aside>
 
-### Journal Article Titles 
+### Arxiv.org titles
 
 This dataset contains embeddings generated from the paper titles only. Each vector has a
 payload with the title used to create it, along with the DOI (Digital Object Identifier).
@@ -56,9 +65,6 @@ payload with the title used to create it, along with the DOI (Digital Object Ide
     "DOI": "1612.05191"
 }
 ```
-| Model                                                       | Dimensionality | Documents | Size   | Qdrant snapshot                                                                                                                    | HuggingFace dataset                                                                 |
-|-------------------------------------------------------------|----------------|-----------|--------|------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------|
-| [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 7.1 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) |
 
 The embeddings generated with InstructorXL model have been generated using the following
 instruction:
@@ -76,7 +82,9 @@ instruction = "Represent the Research Paper title for retrieval; Input:"
 embeddings = model.encode([[instruction, sentence]])
 ```
 
-### Journal Article Abstracts
+The snapshot of the dataset might be downloaded [here](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot).
+
+### Arxiv.org abstracts
 
 This dataset contains embeddings generated from the paper abstracts. Each vector has a
 payload with the abstract used to create it, along with the DOI (Digital Object Identifier).
@@ -87,11 +95,6 @@ payload with the abstract used to create it, along with the DOI (Digital Object 
     "DOI": "1612.05191"
 }
 ```
-
-| Model                                                       | Dimensionality | Documents | Size   | Qdrant snapshot                                                                                                                       | HuggingFace dataset                                                                    |
-|-------------------------------------------------------------|----------------|-----------|--------|---------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768            | 2.3M      | 8.4 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
-
 
 The embeddings generated with InstructorXL model have been generated using the following
 instruction:
@@ -108,3 +111,5 @@ sentence = "The dominant sequence transduction models are based on complex recur
 instruction = "Represent the Research Paper abstract for retrieval; Input:"
 embeddings = model.encode([[instruction, sentence]])
 ```
+
+The snapshot of the dataset might be downloaded [here](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot).
