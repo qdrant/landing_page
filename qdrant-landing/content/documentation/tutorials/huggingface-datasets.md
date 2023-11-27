@@ -8,7 +8,7 @@ weight: 18
 [Hugging Face](https://huggingface.co/) provides a platform for sharing and using ML models and
 datasets. [Qdrant](https://huggingface.co/Qdrant) also publishes datasets along with the
 embeddings that you can use to practice with Qdrant and build your applications based on semantic
-search. **Please let us know if you'd like to see a specific dataset!**
+search. **Please [let us know](https://qdrant.to/discord) if you'd like to see a specific dataset!**
 
 ## arxiv-titles-instructorxl-embeddings
 
@@ -83,7 +83,7 @@ We are going to need a helper function to split the dataset into batches:
 from itertools import islice
 
 
-def batcher(iterable, n):
+def batched(iterable, n):
     iterator = iter(iterable)
     while batch := list(islice(iterator, n)):
         yield batch
@@ -98,7 +98,7 @@ batch by batch, into Qdrant:
 ```python
 batch_size = 100
 
-for batch in batcher(dataset, batch_size):
+for batch in batched(dataset, batch_size):
     ids = [point.pop("id") for point in batch]
     vectors = [point.pop("vector") for point in batch]
 
