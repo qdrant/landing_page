@@ -82,7 +82,6 @@ We are going to need a helper function to split the dataset into batches:
 ```python
 from itertools import islice
 
-
 def batched(iterable, n):
     iterator = iter(iterable)
     while batch := list(islice(iterator, n)):
