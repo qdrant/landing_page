@@ -40,7 +40,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -48,7 +47,7 @@ POST /collections/{collection_name}/points/scroll
             { "key": "color", "match": { "value": "red" } }
         ]
     }
-  ...
+    ...
 }
 ```
 
@@ -131,7 +130,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -212,7 +210,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must_not": [
@@ -285,7 +282,6 @@ It is also possible to use several clauses simultaneously:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -362,7 +358,6 @@ Also, the conditions could be recursively nested. Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must_not": [
@@ -657,7 +652,6 @@ You can search on a nested field using a dot notation.
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -717,7 +711,6 @@ You can also search through arrays by projecting inner values using the `[]` syn
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -793,7 +786,6 @@ And the leaf nested field can also be an array.
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -885,7 +877,6 @@ The following query would match both points:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -969,7 +960,6 @@ The key should point to an array of objects and can be used with or without the 
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -1080,7 +1070,6 @@ The `has_id` condition is not supported within the nested object filter. If you 
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -1762,14 +1751,13 @@ For example, the user could mark some specific search results as irrelevant, or 
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
             { "has_id": [1,3,5,7,9,11] }
         ]
     }
-  ...
+    ...
 }
 ```
 

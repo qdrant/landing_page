@@ -69,7 +69,6 @@ Here is how you can configure the oversampling factor - define how many extra ve
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
   "params": {
     "quantization": {
@@ -122,7 +121,6 @@ When using the grouping API, add the `with_lookup` parameter to bring the inform
 
 ```http
 POST /collections/chunks/points/search/groups
-
 {
     // Same as in the regular search API
     "vector": [1.1],

@@ -149,7 +149,6 @@ To enable scalar quantization, you need to specify the quantization parameters i
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -260,7 +259,6 @@ To enable binary quantization, you need to specify the quantization parameters i
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 1536,
@@ -351,7 +349,6 @@ To enable product quantization, you need to specify the quantization parameters 
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -454,7 +451,6 @@ However, there are a few options that you can use to control the search process:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -556,7 +552,6 @@ In order to disable quantization, you can set `ignore` to `true` in the search r
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -646,7 +641,6 @@ This mode is enabled by setting `always_ram` to `true` in the quantization confi
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -749,7 +743,6 @@ Consider disabling `rescore` to improve the search speed:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -823,7 +816,6 @@ This mode is enabled by setting `always_ram` to `false` in the quantization conf
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,

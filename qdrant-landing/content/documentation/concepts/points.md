@@ -70,7 +70,6 @@ Example:
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -147,7 +146,6 @@ and
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -223,7 +221,6 @@ Create points with batch:
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "batch": {
         "ids": [1, 2, 3],
@@ -279,7 +276,6 @@ or record-oriented equivalent:
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -415,9 +411,9 @@ Even with such a system, Qdrant ensures data consistency.
 *Available as of v0.10.0*
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
+
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -544,7 +540,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/up
 
 ```http
 PUT /collections/{collection_name}/points/vectors
-
 {
     "points": [
         {
@@ -646,7 +641,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/de
 
 ```http
 POST /collections/{collection_name}/points/vectors/delete
-
 {
     "points": [0, 3, 100],
     "vectors": ["text", "image"]
@@ -701,7 +695,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/se
 
 ```http
 POST /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -764,7 +757,6 @@ is to use filters.
 
 ```http
 POST /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -853,7 +845,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/ov
 
 ```http
 PUT /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -920,7 +911,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/de
 
 ```http
 POST /collections/{collection_name}/points/payload/delete
-
 {
     "keys": ["color", "price"],
     "points": [0, 3, 100]
@@ -965,7 +955,6 @@ Alternatively, you can use filters to delete payload keys from the points.
 
 ```http
 POST /collections/{collection_name}/points/payload/delete
-
 {
     "keys": ["color", "price"],
     "filter": {
@@ -1039,7 +1028,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/cl
 
 ```http
 POST /collections/{collection_name}/points/payload/clear
-
 {
     "points": [0, 3, 100]
 }
@@ -1084,7 +1072,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/de
 
 ```http
 POST /collections/{collection_name}/points/delete
-
 {
     "points": [0, 3, 100]
 }
@@ -1127,7 +1114,6 @@ Alternative way to specify which points to remove is to use filter.
 
 ```http
 POST /collections/{collection_name}/points/delete
-
 {
     "filter": {
         "must": [
@@ -1201,7 +1187,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/ge
 
 ```http
 POST /collections/{collection_name}/points
-
 {
     "ids": [0, 3, 100]
 }
@@ -1244,7 +1229,7 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/ge
 GET /collections/{collection_name}/points/{point_id}
 ```
 
-<!-- 
+<!--
 Python client:
 
 ```python
@@ -1256,9 +1241,9 @@ Python client:
 Sometimes it might be necessary to get all stored points without knowing ids, or iterate over points that correspond to a filter.
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
+
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -1372,9 +1357,9 @@ Among others, for example, we can highlight the following scenarios:
 * Debugging the query execution speed
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/count_points)):
+
 ```http
 POST /collections/{collection_name}/points/count
-
 {
     "filter": {
         "must": [
@@ -1466,7 +1451,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/o
 
 ```http
 POST /collections/{collection_name}/points/batch
-
 {
     "operations": [
         {

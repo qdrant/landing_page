@@ -18,7 +18,6 @@ When an instance is shared between multiple users, you may need to partition vec
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -136,7 +135,6 @@ client
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "filter": {
         "must": [
@@ -224,7 +222,6 @@ To implement this approach, you should:
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -304,7 +301,6 @@ client
 
 ```http
 PUT /collections/{collection_name}/index
-
 {
     "field_name": "group_id",
     "field_schema": "keyword"
