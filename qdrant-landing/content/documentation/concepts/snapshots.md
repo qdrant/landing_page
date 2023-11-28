@@ -224,6 +224,29 @@ curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/up
 Qdrant will extract shard data from the snapshot and properly register shards in the cluster.
 If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node to maintain data consistency.
 
+### Snapshot priority
+
+When recovering a snapshot you can specify what source of data is prioritized
+during recovery. It is important because different priorities can give very
+different end results, and the default priority is probably not what you expect.
+
+The available snapshot recovery priorities are:
+
+- `replica`: (default) prefer existing data over the snapshot.
+- `snapshot`: prefer snapshot data over exiting data.
+- `no_sync`: restore snapshot without any additional synchronization.
+
+To recover a new collection from a snapshot on a Qdrant cluster, you need to set
+the `snapshot` priority. With `snapshot` priority all data from the snapshot will be
+recovered on the cluster. With `replica` priority (default) you'd end up with an
+empty collection because the collection on the cluster did not contain any
+points and that was preferred.
+
+`no_sync` is for specialized use cases and is not commonly used. It allows to
+manage shards and transfer shards between clusters manually without any
+additional synchronization. Using it incorrectly will leave your cluster in a
+broken state.
+
 ## Snapshots for the whole storage
 
 *Available as of v0.8.5*
