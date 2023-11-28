@@ -207,8 +207,7 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.recoverSnapshot("{collection_name}", {
-  location:
-    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
 });
 ```
 
@@ -218,7 +217,6 @@ The recovery snapshot can also be uploaded as a file to the Qdrant server:
 curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload' \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
-
 ```
 
 <aside role="status">You probably want to set the <a href="#snapshot-priority">snapshot priority</a> explicitly during recovery to prevent unexpected results.</aside>
@@ -248,6 +246,48 @@ contain any points and that source was preferred.
 managing shards and transferring shards between clusters manually without any
 additional synchronization. Using it incorrectly will leave your cluster in a
 broken state.
+
+For recovery from an URL you specify a request parameter:
+
+```http
+PUT /collections/{collection_name}/snapshots/recover
+
+{
+  "location": "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
+  "priority": "snapshot"
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("qdrant-node-2", port=6333)
+
+client.recover_snapshot(
+    "{collection_name}",
+    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+    priority=models.SnapshotPriority.SNAPSHOT,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.recoverSnapshot("{collection_name}", {
+  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  priority: "snapshot"
+});
+```
+
+For uploading a multipart file you specify it as URL parameter:
+
+```bash
+curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload?priority=snapshot' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
+```
 
 ## Snapshots for the whole storage
 
