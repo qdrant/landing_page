@@ -226,24 +226,24 @@ If there are other active replicas of the recovered shards in the cluster, Qdran
 
 ### Snapshot priority
 
-When recovering a snapshot you can specify what source of data is prioritized
+When recovering a snapshot, you can specify what source of data is prioritized
 during recovery. It is important because different priorities can give very
-different end results, and the default priority is probably not what you expect.
+different end results. The default priority is probably not what you expect.
 
 The available snapshot recovery priorities are:
 
-- `replica`: (default) prefer existing data over the snapshot.
-- `snapshot`: prefer snapshot data over exiting data.
+- `replica`: _(default)_ prefer existing data over the snapshot.
+- `snapshot`: prefer snapshot data over existing data.
 - `no_sync`: restore snapshot without any additional synchronization.
 
 To recover a new collection from a snapshot on a Qdrant cluster, you need to set
-the `snapshot` priority. With `snapshot` priority all data from the snapshot will be
-recovered on the cluster. With `replica` priority (default) you'd end up with an
-empty collection because the collection on the cluster did not contain any
-points and that was preferred.
+the `snapshot` priority. With `snapshot` priority, all data from the snapshot
+will be recovered onto the cluster. With `replica` priority _(default)_, you'd
+end up with an empty collection because the collection on the cluster did not
+contain any points and that source was preferred.
 
-`no_sync` is for specialized use cases and is not commonly used. It allows to
-manage shards and transfer shards between clusters manually without any
+`no_sync` is for specialized use cases and is not commonly used. It allows
+managing shards and transferring shards between clusters manually without any
 additional synchronization. Using it incorrectly will leave your cluster in a
 broken state.
 
