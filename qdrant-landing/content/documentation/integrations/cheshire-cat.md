@@ -16,11 +16,6 @@ weight: 600
 ## Cheshire Cat and Qdrant
 Cheshire Cat uses Qdrant as the default [Vector Memory](https://cheshire-cat-ai.github.io/docs/conceptual/memory/vector_memory/) for ingesting and retrieving documents.
 
-It uses:
-* memory based for testing
-* file based by default
-* container by settings two environment variables
-
 ```
 # Decide host and port for your Cat. Default will be localhost:1865
 CORE_HOST=localhost
