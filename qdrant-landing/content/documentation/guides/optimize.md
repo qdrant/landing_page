@@ -24,11 +24,10 @@ To configure in-memory quantization, with on-disk original vectors, you need to 
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
-      "size": 768,
-      "distance": "Cosine"
+        "size": 768,
+        "distance": "Cosine"
     },
     "optimizers_config": {
         "memmap_threshold": 20000
@@ -127,7 +126,6 @@ Optionally, you can disable rescoring with search `params`, which will reduce th
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -200,7 +198,6 @@ In case you need high precision, but don't have enough RAM to store vectors in m
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -305,7 +302,6 @@ Is is possible to achieve high search speed and tunable accuracy by applying qua
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -406,7 +402,6 @@ There are also some search-time parameters you can use to tune the search accura
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "hnsw_ef": 128,
@@ -483,9 +478,7 @@ To prefer minimizing latency, you can set up Qdrant to use as many cores as poss
 You can do this by setting the number of segments in the collection to be equal to the number of cores in the system. In this case, each segment will be processed in parallel, and the final result will be obtained faster.
 
 ```http
-
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -561,7 +554,6 @@ Large segments benefit from the size of the index and overall smaller number of 
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,

@@ -61,7 +61,6 @@ REST API - API Schema definition is available [here](https://qdrant.github.io/qd
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "filter": {
         "must": [
@@ -197,7 +196,6 @@ If the collection was created with multiple vectors, the name of the vector to u
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": {
         "name": "image",
@@ -271,7 +269,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
@@ -319,7 +316,6 @@ You can even specify an array of items to include, such as `city`,
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_payload": ["city", "village", "town"]
@@ -370,7 +366,6 @@ Or use `include` or `exclude` explicitly. For example, to exclude `city`:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_payload": {
@@ -457,7 +452,6 @@ In order to use it, simply pack together your search requests. All the regular a
 
 ```http
 POST /collections/{collection_name}/points/search/batch
-
 {
     "searches": [
         {
@@ -773,7 +767,6 @@ If the collection was created with multiple vectors, the name of the vector shou
 
 ```http
 POST /collections/{collection_name}/points/recommend
-
 {
   "positive": [100, 231],
   "negative": [718],
@@ -994,7 +987,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
@@ -1133,7 +1125,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/o
 
 ```http
 POST /collections/{collection_name}/points/search/groups
-
 {
     // Same as in the regular search API
     "vector": [1.1],
@@ -1187,7 +1178,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/o
 
 ```http
 POST /collections/{collection_name}/points/recommend/groups
-
 {
     // Same as in the regular recommend API
     "negative": [1],
@@ -1307,15 +1297,14 @@ In this case, to bring the information from the documents into the chunks groupe
 
 ```http
 POST /collections/chunks/points/search/groups
-
 {
     // Same as in the regular search API
     "vector": [1.1],
 
     // Grouping parameters
-    "group_by": "document_id",  
-    "limit": 2,                 
-    "group_size": 2,            
+    "group_by": "document_id",
+    "limit": 2,
+    "group_size": 2,
 
     // Lookup parameters
     "with_lookup": {

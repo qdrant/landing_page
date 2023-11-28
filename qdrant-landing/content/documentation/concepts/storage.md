@@ -44,7 +44,6 @@ There are two ways to configure the usage of memmap(also known as on-disk) stora
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -118,7 +117,6 @@ There are two ways to do this:
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -198,7 +196,6 @@ To enable this, you need to set the `hnsw_config.on_disk` parameter to `true` du
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,

@@ -35,9 +35,8 @@ combine them within a single request. That makes the new implementation backward
 Qdrant instance without any changes in your code. And the default behaviour of the API is still the same as before. However, we 
 extended the API, so **you can now choose the strategy of how to find the recommended points**.
 
-```http request
+```http
 POST /collections/{collection_name}/points/recommend
-
 {
   "positive": [100, 231],
   "negative": [718, [0.2, 0.3, 0.4, 0.5]],

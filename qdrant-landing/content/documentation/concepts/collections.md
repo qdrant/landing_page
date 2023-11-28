@@ -33,7 +33,6 @@ These settings can be changed at any time by a corresponding request.
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 300,
@@ -121,7 +120,6 @@ Make sure the vectors have the same size and distance function when setting up t
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 100,
@@ -192,7 +190,6 @@ Each named vector in this mode has its distance and size:
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
         "image": {
@@ -323,7 +320,6 @@ The following command enables indexing for segments that have more than 10000 kB
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "optimizers_config": {
         "indexing_threshold": 10000
@@ -390,7 +386,6 @@ use `""` as name:
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "vectors": {
         "": {
@@ -404,7 +399,6 @@ To put vector data on disk for a collection that **does have** named vectors:
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "vectors": {
         "my_vector": {
@@ -419,7 +413,6 @@ both for the whole collection, and for `my_vector` specifically:
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "vectors": {
         "my_vector": {
@@ -568,7 +561,6 @@ distributed and indexed.
 
 ```http
 GET /collections/{collection_name}
-
 {
     "result": {
         "status": "green",
@@ -669,7 +661,6 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 
 ```http
 POST /collections/aliases
-
 {
     "actions": [
         {
@@ -715,7 +706,6 @@ client.create_alias("example_collection", "production_collection").await?;
 
 ```http
 POST /collections/aliases
-
 {
     "actions": [
         {
@@ -760,7 +750,6 @@ For example, you can switch underlying collection with the following command:
 
 ```http
 POST /collections/aliases
-
 {
     "actions": [
         {

@@ -142,7 +142,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/o
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -285,7 +284,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/se
 
 ```http
 POST /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -351,7 +349,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/de
 
 ```http
 POST /collections/{collection_name}/points/payload/delete
-
 {
     "keys": ["color", "price"],
     "points": [0, 3, 100]
@@ -400,7 +397,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/cl
 
 ```http
 POST /collections/{collection_name}/points/payload/clear
-
 {
     "points": [0, 3, 100]
 }
@@ -458,7 +454,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/collecti
 
 ```http
 PUT /collections/{collection_name}/index
-
 {
     "field_name": "name_of_the_field_to_index",
     "field_schema": "keyword"

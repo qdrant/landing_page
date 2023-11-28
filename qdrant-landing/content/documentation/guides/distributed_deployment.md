@@ -132,7 +132,6 @@ When you create a collection, Qdrant splits the collection into `shard_number` s
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 300,
@@ -211,13 +210,12 @@ Use the [Update collection cluster setup API](https://qdrant.github.io/qdrant/re
 
 ```http
 POST /collections/{collection_name}/cluster
-
 {
-  "move_shard": {
-    "shard_id": 0,
-    "from_peer_id": 381894127,
-    "to_peer_id": 467122995
-  }
+    "move_shard": {
+        "shard_id": 0,
+        "from_peer_id": 381894127,
+        "to_peer_id": 467122995
+    }
 }
 ```
 
@@ -249,11 +247,10 @@ Currently, the replication factor of a collection can only be configured at crea
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
-      "size": 300,
-      "distance": "Cosine"
+        "size": 300,
+        "distance": "Cosine"
     },
     "shard_number": 6,
     "replication_factor": 2,
@@ -326,13 +323,12 @@ A replica can be added on a specific peer by specifying the peer from which to r
 
 ```http
 POST /collections/{collection_name}/cluster
-
 {
-  "replicate_shard": {
-    "shard_id": 0,
-    "from_peer_id": 381894127,
-    "to_peer_id": 467122995
-  }
+    "replicate_shard": {
+        "shard_id": 0,
+        "from_peer_id": 381894127,
+        "to_peer_id": 467122995
+    }
 }
 ```
 
@@ -340,12 +336,11 @@ And a replica can be removed on a specific peer.
 
 ```http
 POST /collections/{collection_name}/cluster
-
 {
-  "drop_replica": {
-    "shard_id": 0,
-    "peer_id": 381894127
-  }
+    "drop_replica": {
+        "shard_id": 0,
+        "peer_id": 381894127
+    }
 }
 ```
 
@@ -445,11 +440,10 @@ It can be configured at the collection's creation time.
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
-      "size": 300,
-      "distance": "Cosine"
+        "size": 300,
+        "distance": "Cosine"
     },
     "shard_number": 6,
     "replication_factor": 2,
@@ -529,7 +523,6 @@ is consistent across cluster nodes.
 
 ```http
 POST /collections/{collection_name}/points/search?consistency=majority
-
 {
     "filter": {
         "must": [
@@ -631,7 +624,6 @@ sequentially.
 
 ```http
 PUT /collections/{collection_name}/points?ordering=strong
-
 {
     "batch": {
         "ids": [1, 2, 3],
