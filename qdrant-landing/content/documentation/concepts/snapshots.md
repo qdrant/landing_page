@@ -221,8 +221,10 @@ curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/up
 
 ```
 
+<aside role="status">You probably want to set the <a href="#snapshot-priority">snapshot priority</a> explicitly during recovery to prevent unexpected results.</aside>
+
 Qdrant will extract shard data from the snapshot and properly register shards in the cluster.
-If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node to maintain data consistency.
+If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node by default to maintain data consistency.
 
 ### Snapshot priority
 
