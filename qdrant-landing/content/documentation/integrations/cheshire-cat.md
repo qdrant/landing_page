@@ -39,7 +39,7 @@ Cheshire Cat takes great advantage of the following features of Qdrant:
 <br>
 
 ### Work in Progress
-We are working on a **separate retriever container** that uses [fastembed](https://github.com/qdrant/fastembed) by default.
+Cheshire Cat is working on a **separate retriever container** that uses [fastembed](https://github.com/qdrant/fastembed) by default.
 
 For more information about Cheshire Cat's use of Qdrant, check the articles about Vector Memory:
 * [Don’t get lost in Vector Space](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
