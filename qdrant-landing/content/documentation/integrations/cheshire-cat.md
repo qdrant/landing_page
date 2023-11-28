@@ -53,9 +53,9 @@ For a quick start check the [instructions on github](https://github.com/cheshire
 
 ### First configuration of the LLM
 
-* Open the Admin Portal in your browser at [localhost:1865/admin](http://localhost:1865/admin)
-* Configure the LLM in the `Settings` tab
-* If you don't explicitly choose it using `Settings` tab, the Embedder follows the LLM
+* Open the Admin Portal in your browser at [localhost:1865/admin](http://localhost:1865/admin).
+* Configure the LLM in the `Settings` tab.
+* If you don't explicitly choose it using `Settings` tab, the Embedder follows the LLM.
 
 ## Blog
 For more information refer to the Cheshire Cat [documentation](https://cheshire-cat-ai.github.io/docs/) and [blog](https://cheshirecat.ai/blog/).
