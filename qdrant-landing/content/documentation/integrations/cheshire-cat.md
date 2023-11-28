@@ -27,7 +27,7 @@ CORE_PORT=1865
 ```
 
 Cheshire Cat takes great advantage of the following features of Qdrant:
-* [Collection Aliases](../..//concepts/collections/#collection-aliases) to manage the change from one embedder to another.
+* [Collection Aliases](../../concepts/collections/#collection-aliases) to manage the change from one embedder to another.
 * [Quantization](../../guides/quantization/) to obtain a good balance between speed, memory usage and quality of the results.
 * [Snapshots](../../concepts/snapshots/) to not miss any information.
 * [Community](https://discord.com/invite/tdtYvXjC4h)
