@@ -180,6 +180,8 @@ Recovering in cluster mode is more sophisticated, as Qdrant should maintain cons
 As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
 Recovering non-existing collections with snapshots won't make this collection known to the consensus.
 
+<aside role="status">It is recommended to explicitly set a <a href="#snapshot-priority">snapshot priority</a> during recovery to prevent unexpected results.</aside>
+
 To recover snapshot via API one can use snapshot recovery endpoint:
 
 ```http
@@ -219,8 +221,6 @@ curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/up
     -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
 ```
 
-<aside role="status">You probably want to set the <a href="#snapshot-priority">snapshot priority</a> explicitly during recovery to prevent unexpected results.</aside>
-
 Qdrant will extract shard data from the snapshot and properly register shards in the cluster.
 If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node by default to maintain data consistency.
 
@@ -247,7 +247,7 @@ managing shards and transferring shards between clusters manually without any
 additional synchronization. Using it incorrectly will leave your cluster in a
 broken state.
 
-For recovery from an URL you specify a request parameter:
+To recover from an URL you specify a request parameter:
 
 ```http
 PUT /collections/{collection_name}/snapshots/recover
@@ -281,7 +281,7 @@ client.recoverSnapshot("{collection_name}", {
 });
 ```
 
-For uploading a multipart file you specify it as URL parameter:
+To upload a multipart file you specify it as URL parameter:
 
 ```bash
 curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload?priority=snapshot' \
