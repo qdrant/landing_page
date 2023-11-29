@@ -28,17 +28,18 @@ Here are [just](https://nextword.substack.com/p/vector-database-is-not-a-separat
 
 This article presents our vision and arguments on the topic .
 We will:
+
 1. Explain why and when you actually need a dedicated vector solution 
 2. Debunk some ungrounded claims and anti-patterns to be avoided when building a vector search system.
 
-We will analyze those theses of the Universal-Database-For-Everything advocates and discuss some of the best practices we recommend to adopt in real production-grade systems. 
+Below I will get into a more detailed discussion on these topics.
 
 A table of contents:
 
 * *Each database vendor will sooner or later introduce vector capabilities...* [[click](#each-database-vendor-will-sooner-or-later-introduce-vector-capabilities-that-will-make-every-database-a-vector-database)]
 * *Having a dedicated vector database requires duplication of data.* [[click](#having-a-dedicated-vector-database-requires-duplication-of-data)]
 * *Having a dedicated vector database requires complex data synchronization.* [[click](#having-a-dedicated-vector-database-requires-complex-data-synchronization)]
-* *You have to pay for their uptime and data transfer.* [[click](#you-have-to-pay-for-their-uptime-and-data-transfer-of-both-solution)]
+* *You have to pay for a vector service uptime and data transfer.* [[click](#you-have-to-pay-for-a-vector-service-uptime-and-data-transfer-of-both-solution)]
 * *What is more seamless than your current database adding vector search capability?* [[click](#what-is-more-seamless-than-your-current-database-adding-vector-search-capability)]
 * *Databases can support RAG use-case end-to-end.* [[click](#databases-can-support-rag-use-case-end-to-end)]
 
@@ -53,7 +54,7 @@ When we think of a *database*, we subconsciously envision a relational database 
 Or, more scientifically, a service built on ACID principles that provides transactions, strong consistency guarantees, and atomicity.
 
 The majority of Vector Database are not *databases* in this sense.
-It would be more accurate to call them *search engines*, but unfortunately, the marketing term *database* is already stuck, and it is unlikely to change.
+It would be more accurate to call them *search engines*, but unfortunately, the marketing term *database* has already stuck, and it is unlikely to change.
 
 
 *What makes search engines different, and why vector DBs are built as search engines?*
@@ -74,7 +75,8 @@ Those priorities lead to different architectural decisions that are not reproduc
 
 ###### Having a dedicated vector database requires duplication of data.
 
-The nature of vector embeddings suggests that they are not the primary source of information about the object.
+By their very nature, vector embeddings suggests are derivatives from the primary source  data.
+
 In the vast majority of cases, embeddings are derived from some other data, such as text, images, or additional information stored in your system. So, in fact, all embeddings you have in your system can be considered transformations of some original source.
 
 And the distinguishing feature of derivative data is that it will change when the transformation pipeline changes. 
@@ -89,7 +91,8 @@ As a result, even if you want to use a single database for storing all kinds of 
 Most production systems prefer to isolate different types of workloads into separate services.
 In many cases, those isolated services are not even related to search use cases.
 
-For example, databases for analytics and serving can be updated from the same source but store data in a different way in accordance with their typical workloads.
+For example,  a databases for analytics and one for serving can be updated from the same source.
+Yet they can store and organize the data in a way that is optimal for their typical workloads.
 
 Search engines are usually isolated for the same reason: you want to avoid creating a noisy neighbor problem and compromise the performance of your main database.
 
@@ -101,22 +104,22 @@ You can probably use the smallest free tier of any cloud provider to host it.
 
 But if we want to use this database for vector search, 1 million OpenAI `text-embedding-ada-002` embeddings will take **~6Gb of RAM** (sic!).
 As you can see, the vector search use case completely overwhelmed the main database resource requirements.
-In practice, it means that you will no longer be able to scale your main database efficiently and will be limited by the size of a single machine.
+In practice, this means that your main database becomes burdened with the high memory requirements and can not scale efficiently limited by the size of a single machine.
 
 Fortunately, the data synchronization problem is not new and definitely not unique to vector search.
 There are many well-known solutions, starting with message queues and ending with specialized ETL tools.
 
-For example, just recently, we have released our [integration with Airbyte](/documentation/integrations/airbyte/), which allows you to synchronize data from various sources to Qdrant incrementally.
+For example, we recently released our [integration with Airbyte](/documentation/integrations/airbyte/), allowing you to synchronize data from various sources into Qdrant incrementally.
 
-###### You have to pay for their uptime and data transfer. Of both solution.
+###### You have to pay for a vector service uptime and data transfer. Of both solution.
 
 In the open-source world, you pay for the resources you use, not the number of different databases you run.
 Resources depend more on the optimal solution for each use case.
-As a result, running a dedicated vector search engine might be even cheaper, as it allies optimization specifically for vector search use cases.
+As a result, running a dedicated vector search engine can be even cheaper, as it makes optimization specifically for vector search use cases.
 
 For instance, Qdrant implements a number of [quantization techniques](documentation/guides/quantization/) that can significantly reduce the memory footprint of embeddings.
 
-Not to mention that data transfer costs within the same region are usually free in the majority of cloud providers.
+In terms of data transfer costs, on most cloud providers network use within a region is usually free. As long as you put the original source data and the vector store in the same region, there is no added data transfer costs.
 
 
 ###### What is more seamless than your current database adding vector search capability?
@@ -126,7 +129,7 @@ In contrast to the short-term attractiveness of integrated solutions, dedicated 
 You don't need to update the whole production database each time some of the vector plugins are updated.
 Maintenance of a dedicated search engine is as isolated from the main database as the data itself.
 
-In fact, integration of a bit more complex scenatios, such as read/write segregation, is much easier with a dedicated specialized solution.
+In fact, integration of more complex scenatios, such as read/write segregation, is much easier with a dedicated vector solution.
 You can easily build cross-region replication, to ensure low latency for your users.
 
 {{< figure src=/articles_data/dedicated-service/region-based-deploy.png caption="Read/Write segregation + cross-regional deployment" width=80% >}}
@@ -134,14 +137,15 @@ You can easily build cross-region replication, to ensure low latency for your us
 It is especially important in large enterprise organizations, where the responsibility for different parts of the system is distributed among different teams.
 In those situations, it is much easier to maintain a dedicated search engine for the AI team than to convince the core team to update the whole primary database.
 
-Additionally, you won't depend on sluggish development cycles of huge integrated products, which have to consider legacy support and backward compatibility for all their features.
+Finally, the vector capabilities of the all-in-on database are tied to the development and release cycle of the entire stack.
+Their long history of use also means that they need to pay a high price for backward compatibility.
 
 
 ###### Databases can support RAG use-case end-to-end.
 
 Putting aside performance and scalability questions, the whole discussion about implementing RAG in the DBs assumes that the only detail missing in traditional databases is the vector index and the ability to make fast ANN queries.
 
-In fact, we believe that the capabilities of vector search have only started to unwrap.
+In fact, we believe that the current capabilities of vector search has only scratched the surface of what is possible.
 For example, in our recent article, we discuss the possibility of building an [exploration API](/articles/vector-similarity-beyond-search/) to fuel the discovery process - an alternative to kNN search, where you don’t know what exactly you are looking for.
 
 
@@ -150,5 +154,6 @@ For example, in our recent article, we discuss the possibility of building an [e
 Large-scale production systems usually consist of different specialized services for good reasons.
 We discussed those of them that are related to vector search use cases in this article, but there are many more.
 
-Each scaling of even the simplest systems unlocks whole new levels of challenges, and that is especially true for vector search.
-Having control and flexibility over each part of the system is crucial for controlling those challenges and, hence, the cost of the system.
+So when we stuff the database with a vector index, we compromise on both: the performance and scalability of the main database and the vector search capabilities.
+There is no one-size-fits-all approach, which would not compromise on performance or flexibility.
+So if your use case utilizes vector search in any significant way, it is worth investing in a dedicated vector search engine.
