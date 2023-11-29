@@ -219,6 +219,8 @@ POST /collections/{collection_name}/cluster
 }
 ```
 
+<aside role="status">You likely want to select a specific <a href="#shard-transfer-method">shard transfer method</a> to get desired performance and guarantees.</aside>
+
 After the transfer is initiated, the service will keep both copies of the shard in sync until the transfer is complete.
 It will also make sure the transferred shard indexing process is keeping up before performing a final switch. This way, Qdrant ensures that there will be no degradation in performance at the end of the transfer. Once the transfer is completed, the old shard is deleted from the original node.
 
@@ -406,6 +408,8 @@ POST /collections/{collection_name}/cluster
     }
 }
 ```
+
+<aside role="status">You likely want to select a specific <a href="#shard-transfer-method">shard transfer method</a> to get desired performance and guarantees.</aside>
 
 And a replica can be removed on a specific peer.
 
