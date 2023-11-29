@@ -221,8 +221,9 @@ POST /collections/{collection_name}/cluster
 
 <aside role="status">You likely want to select a specific <a href="#shard-transfer-method">shard transfer method</a> to get desired performance and guarantees.</aside>
 
-After the transfer is initiated, the service will keep both copies of the shard in sync until the transfer is complete.
-It will also make sure the transferred shard indexing process is keeping up before performing a final switch. This way, Qdrant ensures that there will be no degradation in performance at the end of the transfer. Once the transfer is completed, the old shard is deleted from the original node.
+After the transfer is initiated, the service will process it based on the used
+[transfer method](#shard-transfer-method) keeping both shards in sync. Once the
+transfer is completed, the old shard is deleted from the source node.
 
 In case you want to downscale the cluster, you can move all shards away from a peer and then remove the peer using the [remove peer API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer).
 
@@ -237,22 +238,23 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 *Available as of v1.7.0*
 
 There are different methods for transferring, such as moving or replicating, a
-shard to another node. Depending on how you'd like to manage your cluster you
-might want to choose a specific method. Each method has its own pros and cons.
-Which is fastest depends on the size and state of a shard.
+shard to another node. Depending on what performance and guarantees you'd like
+to have and how you'd like to manage your cluster, you likely want to choose a
+specific method. Each method has its own pros and cons. Which is fastest depends
+on the size and state of a shard.
 
 Available shard transfer methods are:
 
 - `stream_records`: _(default)_ transfer shard by streaming just its records to the target node in batches.
 - `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots) automatically.
 
-Pros, cons and requirements for each transfer method are:
+Each has pros, cons and specific requirements, which are:
 
 | Method: | Stream records | Snapshot |
 |:---|:---|:---|
 | **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
-| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will requantize on target node</li></ul> | <ul><li>Quantized data is transferred with snapshot</li><li>Immediately ready on target node</li></ul> |
+| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
+| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
 | **Consistency** | <ul><li>Weak data consistency</li><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Strong data consistency</li><li>Ordered updates on target node[^ordered]</li></ul> |
 | **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
 
@@ -283,26 +285,29 @@ POST /collections/{collection_name}/cluster
 
 The `stream_records` transfer method is the simplest available. It simply
 transfers all shard records in batches to the target node until it has
-transferred all of them. The method has two common disadvantages: 1. it does not
-transfer index or quantization data, meaning that the shard has to be optimized
-again on the new node which can be very expensive. 2. The consistency and
-ordering guarantees are `weak`[^unordered], which is not suitable for some
-applications. Because it is so simple it's also very robust, making it a
-reliable choice if the above cons are accepatble in your use case. If your
-cluster is unstable and out of resources it is probably best to use the
-`stream_records` transfer method, because it is unlikely to fail.
+transferred all of them, keeping both shards in sync. It will also make sure the
+transferred shard indexing process is keeping up before performing a final
+switch. The method has two common disadvantages: 1. It does not transfer index
+or quantization data, meaning that the shard has to be optimized again on the
+new node, which can be very expensive. 2. The consistency and ordering
+guarantees are `weak`[^unordered], which is not suitable for some applications.
+Because it is so simple, it's also very robust, making it a reliable choice if
+the above cons are acceptable in your use case. If your cluster is unstable and
+out of resources, it's probably best to use the `stream_records` transfer
+method, because it is unlikely to fail.
 
 The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots) to
 transfer a shard. A snapshot is created automatically. It is then transferred
 and restored on the target node. After this is done, the snapshot is removed
 from both nodes. While the snapshot/transfer/restore operation is happening, the
-source nodes queues up all new operations. All queued updates are then sent in
+source node queues up all new operations. All queued updates are then sent in
 order to the target shard to bring it into the same state as the source. There
 are two important benefits: 1. It transfers index and quantization data, so that
 the shard does not have to be optimized again on the target node, making them
-immediately available. Especially on large shards, this can give a huge
-performance improvement. 2. The consistency and ordering guarantees can be
-`strong`[^ordered], required for some applications.
+immediately available. This way, Qdrant ensures that there will be no
+degradation in performance at the end of the transfer. Especially on large
+shards, this can give a huge performance improvement. 2. The consistency and
+ordering guarantees can be `strong`[^ordered], required for some applications.
 
 The `stream_records` method is currently used as default. This may change in the
 future.
