@@ -991,7 +991,9 @@ The result of this API contains one array per recommendation requests.
 
 REST API Schema definition available [here](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/discover_points)
 
-In this api, Qdrant introduces the concept of `context`, which is used for splitting the space, so that the space in which you search becomes constrained by the vectors you provide in the context. The interface for providing them is in vector examples (ids or raw vectors), just like in the recommendation API, but in this case, they need to be provided in the form of positive-negative pairs. 
+In this API, Qdrant introduces the concept of `context`, which is used for splitting the space. Context is a set of positive-negative pairs, and each pair divides the space into positive and negative zones. In that mode, the search operation prefers points based on how many positive zones they belong to (or how much they avoid negative zones).
+
+The interface for providing context is similar to the recommendation API (ids or raw vectors). Still, in this case, they need to be provided in the form of positive-negative pairs.
 
 Discovery API lets you do two new types of search:
 - **Discovery search**: Uses a target and context pairs of examples to get the points closest to the target, but constrained by the context.
@@ -1110,7 +1112,7 @@ $$
 
 Where $v^+_i$ and $v^-_i$ are the positive and negative examples of each pair, and $s(v)$ is the similarity function.
 
-Using this kind of search, you can expect the output to not necessarily be around a single point, but rather, to be any point that isn’t closer to a negative example, which creates a constrained diverse result. So, even when the api is not called [`recommend`](#recommendation-api), recommendation systems can also use this approach and adapt it for their specific use-cases.
+Using this kind of search, you can expect the output to not necessarily be around a single point, but rather, to be any point that isn’t closer to a negative example, which creates a constrained diverse result. So, even when the API is not called [`recommend`](#recommendation-api), recommendation systems can also use this approach and adapt it for their specific use-cases.
 
 Example:
 
