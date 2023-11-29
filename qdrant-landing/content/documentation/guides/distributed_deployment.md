@@ -230,6 +230,45 @@ DELETE /cluster/peer/{peer_id}
 
 After that, Qdrant will exclude the node from the consensus, and the instance will be ready for shutdown.
 
+### Shard transfer method
+
+*Available as of v1.7.0*
+
+There are different methods for moving or replicating a shard to another node.
+Depending on how you'd like to manage your cluster you might choose one or the
+other. Each method has its own pros and cons, which is fastest depends on the
+size and state of a shard.
+
+Available shard transfer methods are:
+
+- `stream_records`: _(default)_ transfer shard by streaming all its records to
+  the other node in batches
+- `snapshot`: transfer shard by using a snapshot
+
+| | `stream_records` | `snapshot` |
+|:---|:---|:---|
+| Connection | Works over cluster gRPC | Requires REST access |
+| Index | Does not transfer index, will reoptimize on new node | Index transferred |
+| Quantization | Does not transfer quantized data, will reoptimize on new node | Quantized data transferred |
+| Disk space | Does not require extra disk space | Requires extra disk space for snapshot |
+
+To select a shard transfer method, specify the `method`:
+
+```http
+POST /collections/{collection_name}/cluster
+{
+    "move_shard": {
+        "shard_id": 0,
+        "from_peer_id": 381894127,
+        "to_peer_id": 467122995,
+        "method": "snapshot"
+    }
+}
+```
+
+The `stream_records` method is currently used as default. This may change in the
+future.
+
 ## Replication
 
 *Available as of v0.11.0*
