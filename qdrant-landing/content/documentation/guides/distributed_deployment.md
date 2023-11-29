@@ -234,23 +234,37 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 *Available as of v1.7.0*
 
-There are different methods for moving or replicating a shard to another node.
-Depending on how you'd like to manage your cluster you might choose one or the
-other. Each method has its own pros and cons, which is fastest depends on the
-size and state of a shard.
+There are different methods for transferring, such as moving or replicating, a
+shard to another node. Depending on how you'd like to manage your cluster you
+might want to choose a specific method. Each method has its own pros and cons.
+Which is fastest depends on the size and state of a shard.
 
 Available shard transfer methods are:
 
 - `stream_records`: _(default)_ transfer shard by streaming all its records to
-  the other node in batches
-- `snapshot`: transfer shard by using a snapshot
+  the other node in batches.
+- `snapshot`: transfer shard by using a snapshot.
 
-| | `stream_records` | `snapshot` |
+Pros, cons and requirements for each transfer method are:
+
+| Method: | `stream_records` | `snapshot` |
 |:---|:---|:---|
-| Connection | Works over cluster gRPC | Requires REST access |
-| Index | Does not transfer index, will reoptimize on new node | Index transferred |
-| Quantization | Does not transfer quantized data, will reoptimize on new node | Quantized data transferred |
-| Disk space | Does not require extra disk space | Requires extra disk space for snapshot |
+| **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
+| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on new node</li></ul> | <ul><li>Index is transferred with snapshot</li><li>Immediately ready on new node</li></ul> |
+| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will requantize on new node</li></ul> | <ul><li>Quantized data is transferred with snapshot</li><li>Immediately ready on new node</li></ul> |
+| **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
+| **Consistency** | <ul><li>Weak data consistency</li><li>Unordered updates on new node[^unordered]</li></ul> | <ul><li>Strong data consistency</li><li>Ordered updates on new node[^ordered]</li></ul> |
+
+[^unordered]: Weak data consistency and unordered updates: All records are streamed to the new node in order.
+    New updates are received on the new node in parallel, while the transfer of
+    records is still happening. We therefore have `weak` ordering, regardless of
+    what [ordering](#write-ordering) is used for updates.
+[^ordered]: Strong data consistency and ordered updates: A snapshot of the shard
+    is created, it is transferred and recovered on the new node. That ensures
+    the state of the shard is kept consistent. New updates are queued on the
+    source node, and transferred in order to the new shard. Updates therefore
+    have the same [ordering](#write-ordering) as the user selects, making
+    `strong` ordering possible.
 
 To select a shard transfer method, specify the `method`:
 
