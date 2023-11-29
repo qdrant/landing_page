@@ -241,32 +241,31 @@ Which is fastest depends on the size and state of a shard.
 
 Available shard transfer methods are:
 
-- `stream_records`: _(default)_ transfer shard by streaming all its records to
-  the other node in batches.
-- `snapshot`: transfer shard by using a snapshot.
+- `stream_records`: _(default)_ transfer shard by streaming just its records to the target node in batches.
+- `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots) automatically.
 
 Pros, cons and requirements for each transfer method are:
 
-| Method: | `stream_records` | `snapshot` |
+| Method: | Stream records | Snapshot |
 |:---|:---|:---|
 | **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
-| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on new node</li></ul> | <ul><li>Index is transferred with snapshot</li><li>Immediately ready on new node</li></ul> |
-| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will requantize on new node</li></ul> | <ul><li>Quantized data is transferred with snapshot</li><li>Immediately ready on new node</li></ul> |
+| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with snapshot</li><li>Immediately ready on target node</li></ul> |
+| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will requantize on target node</li></ul> | <ul><li>Quantized data is transferred with snapshot</li><li>Immediately ready on target node</li></ul> |
+| **Consistency** | <ul><li>Weak data consistency</li><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Strong data consistency</li><li>Ordered updates on target node[^ordered]</li></ul> |
 | **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
-| **Consistency** | <ul><li>Weak data consistency</li><li>Unordered updates on new node[^unordered]</li></ul> | <ul><li>Strong data consistency</li><li>Ordered updates on new node[^ordered]</li></ul> |
 
-[^unordered]: Weak data consistency and unordered updates: All records are streamed to the new node in order.
-    New updates are received on the new node in parallel, while the transfer of
-    records is still happening. We therefore have `weak` ordering, regardless of
-    what [ordering](#write-ordering) is used for updates.
+[^unordered]: Weak data consistency and unordered updates: All records are streamed to the target node in order.
+    New updates are received on the target node in parallel, while the transfer
+    of records is still happening. We therefore have `weak` ordering, regardless
+    of what [ordering](#write-ordering) is used for updates.
 [^ordered]: Strong data consistency and ordered updates: A snapshot of the shard
-    is created, it is transferred and recovered on the new node. That ensures
+    is created, it is transferred and recovered on the target node. That ensures
     the state of the shard is kept consistent. New updates are queued on the
-    source node, and transferred in order to the new shard. Updates therefore
+    source node, and transferred in order to the target node. Updates therefore
     have the same [ordering](#write-ordering) as the user selects, making
     `strong` ordering possible.
 
-To select a shard transfer method, specify the `method`:
+To select a shard transfer method, specify the `method` like:
 
 ```http
 POST /collections/{collection_name}/cluster
@@ -279,6 +278,29 @@ POST /collections/{collection_name}/cluster
     }
 }
 ```
+
+The `stream_records` transfer method is the simplest available. It simply
+transfers all shard records in batches to the target node until it has
+transferred all of them. The method has two common disadvantages: 1. it does not
+transfer index or quantization data, meaning that the shard has to be optimized
+again on the new node which can be very expensive. 2. The consistency and
+ordering guarantees are `weak`[^unordered], which is not suitable for some
+applications. Because it is so simple it's also very robust, making it a
+reliable choice if the above cons are accepatble in your use case. If your
+cluster is unstable and out of resources it is probably best to use the
+`stream_records` transfer method, because it is unlikely to fail.
+
+The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots) to
+transfer a shard. A snapshot is created automatically. It is then transferred
+and restored on the target node. After this is done, the snapshot is removed
+from both nodes. While the snapshot/transfer/restore operation is happening, the
+source nodes queues up all new operations. All queued updates are then sent in
+order to the target shard to bring it into the same state as the source. There
+are two important benefits: 1. It transfers index and quantization data, so that
+the shard does not have to be optimized again on the target node, making them
+immediately available. Especially on large shards, this can give a huge
+performance improvement. 2. The consistency and ordering guarantees can be
+`strong`[^ordered], required for some applications.
 
 The `stream_records` method is currently used as default. This may change in the
 future.
