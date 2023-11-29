@@ -8,7 +8,7 @@ preview_dir: /articles_data/dedicated-service/preview
 weight: -70
 author: Andrey Vasnetsov
 author_link: https://vasnetsov.com/
-date: 2023-10-01T10:00:00+03:00
+date: 2023-11-30T10:00:00+03:00
 draft: false
 keywords:
     - system architecture
