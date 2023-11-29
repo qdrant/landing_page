@@ -180,6 +180,8 @@ Recovering in cluster mode is more sophisticated, as Qdrant should maintain cons
 As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
 Recovering non-existing collections with snapshots won't make this collection known to the consensus.
 
+<aside role="status">It is recommended to explicitly set a <a href="#snapshot-priority">snapshot priority</a> during recovery to prevent unexpected results.</aside>
+
 To recover snapshot via API one can use snapshot recovery endpoint:
 
 ```http
@@ -206,8 +208,7 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.recoverSnapshot("{collection_name}", {
-  location:
-    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
 });
 ```
 
@@ -217,11 +218,74 @@ The recovery snapshot can also be uploaded as a file to the Qdrant server:
 curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload' \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
-
 ```
 
 Qdrant will extract shard data from the snapshot and properly register shards in the cluster.
-If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node to maintain data consistency.
+If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node by default to maintain data consistency.
+
+### Snapshot priority
+
+When recovering a snapshot, you can specify what source of data is prioritized
+during recovery. It is important because different priorities can give very
+different end results. The default priority is probably not what you expect.
+
+The available snapshot recovery priorities are:
+
+- `replica`: _(default)_ prefer existing data over the snapshot.
+- `snapshot`: prefer snapshot data over existing data.
+- `no_sync`: restore snapshot without any additional synchronization.
+
+To recover a new collection from a snapshot on a Qdrant cluster, you need to set
+the `snapshot` priority. With `snapshot` priority, all data from the snapshot
+will be recovered onto the cluster. With `replica` priority _(default)_, you'd
+end up with an empty collection because the collection on the cluster did not
+contain any points and that source was preferred.
+
+`no_sync` is for specialized use cases and is not commonly used. It allows
+managing shards and transferring shards between clusters manually without any
+additional synchronization. Using it incorrectly will leave your cluster in a
+broken state.
+
+To recover from an URL you specify a request parameter:
+
+```http
+PUT /collections/{collection_name}/snapshots/recover
+{
+  "location": "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
+  "priority": "snapshot"
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("qdrant-node-2", port=6333)
+
+client.recover_snapshot(
+    "{collection_name}",
+    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+    priority=models.SnapshotPriority.SNAPSHOT,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.recoverSnapshot("{collection_name}", {
+  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  priority: "snapshot"
+});
+```
+
+To upload a multipart file you specify it as URL parameter:
+
+```bash
+curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload?priority=snapshot' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
+```
 
 ## Snapshots for the whole storage
 
