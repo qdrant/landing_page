@@ -692,10 +692,9 @@ Write `ordering` can be specified for any write request to serialize it through 
 which ensures that all write operations (issued with the same `ordering`) are performed and observed
 sequentially.
 
-- `weak` ordering does not provide any additional guarantees, so write operations can be freely reordered
-- `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change
-- `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down
-- default ordering is `weak`
+- `weak` _(default)_ ordering does not provide any additional guarantees, so write operations can be freely reordered.
+- `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change.
+- `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down.
 
 ```http
 PUT /collections/{collection_name}/points?ordering=strong
