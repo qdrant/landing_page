@@ -49,7 +49,7 @@ For a quick start check the [instructions on github](https://github.com/cheshire
 * Configure the LLM in the `Settings` tab.
 * If you don't explicitly choose it using `Settings` tab, the Embedder follows the LLM.
 
-## Blog
+## Next steps
 For more information refer to the Cheshire Cat [documentation](https://cheshire-cat-ai.github.io/docs/) and [blog](https://cheshirecat.ai/blog/).
 * [Getting started](https://cheshirecat.ai/hello-world/)
 * [How the Cat works](https://cheshirecat.ai/how-the-cat-works/)
