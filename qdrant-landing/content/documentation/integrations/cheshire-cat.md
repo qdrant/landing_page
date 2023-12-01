@@ -58,5 +58,6 @@ For more information, refer to the Cheshire Cat [documentation](https://cheshire
 * [Getting started](https://cheshirecat.ai/hello-world/)
 * [How the Cat works](https://cheshirecat.ai/how-the-cat-works/)
 * [Write Your First Plugin](https://cheshirecat.ai/write-your-first-plugin/)
-* [Cheshire Cat's use of Qdrant](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
+* [Cheshire Cat's use of Qdrant - Vector Space](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
+* [Cheshire Cat's use of Qdrant - Aliases](https://cheshirecat.ai/the-drunken-cat-effect/)
 * [Discord Community](https://discord.com/invite/bHX5sNFCYU)
