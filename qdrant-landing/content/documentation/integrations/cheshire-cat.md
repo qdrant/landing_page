@@ -30,7 +30,6 @@ Cheshire Cat takes great advantage of the following features of Qdrant:
 * [Snapshots](../../concepts/snapshots/) to not miss any information.
 * [Community](https://discord.com/invite/tdtYvXjC4h)
 
-<br>
 
 ![RAG Pipeline](https://cheshirecat.ai/wp-content/uploads/2023/11/stregatto.jpg)
 
