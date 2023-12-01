@@ -10,7 +10,6 @@ weight: 600
 
 ![Cheshire cat](https://cheshirecat.ai/wp-content/uploads/2023/11/cat.jpg)
 
-<br>
 
 ## Cheshire Cat and Qdrant
 Cheshire Cat uses Qdrant as the default [Vector Memory](https://cheshire-cat-ai.github.io/docs/conceptual/memory/vector_memory/) for ingesting and retrieving documents.
