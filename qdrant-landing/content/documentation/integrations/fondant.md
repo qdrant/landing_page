@@ -12,8 +12,7 @@ Fondant features a Qdrant component image to load textual data and embeddings in
 ## Usage
 
 <aside role="status">
-A Qdrant collection has to be created in advance with the appropriate configurations.
-https://qdrant.tech/documentation/concepts/collections/
+A Qdrant collection has to be <a href="documentation/concepts/collections/">created in advance</a>
 </aside>
 
 **A data load pipeline for RAG using Qdrant**.
