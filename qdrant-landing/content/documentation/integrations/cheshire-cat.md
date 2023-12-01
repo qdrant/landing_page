@@ -7,7 +7,6 @@ weight: 600
 
 [Cheshire Cat](https://cheshirecat.ai/) is an open-source framework that allows you to develop intelligent agents on top of many Large Language Models (LLM). You can develop your custom AI architecture to assist you in a wide range of tasks.
 
-<br>
 
 ![Cheshire cat](https://cheshirecat.ai/wp-content/uploads/2023/11/cat.jpg)
 
