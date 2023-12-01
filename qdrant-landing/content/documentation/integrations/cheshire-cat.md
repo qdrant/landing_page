@@ -33,7 +33,6 @@ Cheshire Cat takes great advantage of the following features of Qdrant:
 
 ![RAG Pipeline](https://cheshirecat.ai/wp-content/uploads/2023/11/stregatto.jpg)
 
-<br>
 
 
 ## How to use the Cheshire Cat
