@@ -1,5 +1,5 @@
 ---
-title: Neural Search Serivice
+title: Neural Search Service
 weight: 1
 ---
 
