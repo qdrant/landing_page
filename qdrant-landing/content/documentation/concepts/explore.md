@@ -194,7 +194,8 @@ If you have collections with vectors of the same dimensionality,
 and you want to look for recommendations in one collection based on the vectors of another collection,
 you can use the `lookup_from` parameter.
 
-It might be useful, e.g. in the item-to-user recommendations where user and item embeddings are stored in different collections with different index configuration.
+It might be useful, e.g. in the item-to-user recommendations scenario. 
+Where user and item embeddings, although having the same vector parameters (distance type and dimensionality), are usually stored in different collections.
 
 ```http
 POST /collections/{collection_name}/points/recommend
@@ -239,7 +240,7 @@ client.recommend("{collection_name}", {
 ```
 
 Vectors are retrieved from the external collection by ids provided in the `positive` and `negative` lists. 
-These vectors then used to perform the recommendation in the current collection.
+These vectors then used to perform the recommendation in the current collection, comparing against the "using" or default vector.
 
 
 ## Batch recommendation API
