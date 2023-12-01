@@ -60,6 +60,5 @@ For more information refer to the Cheshire Cat [documentation](https://cheshire-
 * [Getting started](https://cheshirecat.ai/hello-world/)
 * [How the Cat works](https://cheshirecat.ai/how-the-cat-works/)
 * [Write Your First Plugin](https://cheshirecat.ai/write-your-first-plugin/)
-
-## Community
-Join the [Discord Community](https://discord.com/invite/bHX5sNFCYU)
+* [Cheshire Cat's use of Qdrant](https://cheshirecat.ai/dont-get-lost-in-vector-space/)
+* [Discord Community](https://discord.com/invite/bHX5sNFCYU)
