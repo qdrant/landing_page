@@ -226,6 +226,63 @@ client
 
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
+### Lookup vectors from another collection
+
+*Available as of v0.11.6*
+
+If you have collections with vectors of the same dimensionality,
+and you want to look for recommendations in one collection based on the vectors of another collection,
+you can use the `lookup_from` parameter.
+
+It might be useful, e.g. in the item-to-user recommendations scenario. 
+Where user and item embeddings, although having the same vector parameters (distance type and dimensionality), are usually stored in different collections.
+
+```http
+POST /collections/{collection_name}/points/recommend
+
+{
+  "positive": [100, 231],
+  "negative": [718],
+  "using": "image",
+  "limit": 10,
+  "lookup_from": {
+    "collection":"{external_collection_name}",
+    "vector":"{external_vector_name}"
+ }
+}
+```
+
+```python
+client.recommend(
+    collection_name="{collection_name}",
+    positive=[100, 231],
+    negative=[718],
+    using="image",
+    limit=10,
+    lookup_from=models.LookupLocation(
+        collection="{external_collection_name}",
+        vector="{external_vector_name}"
+    ),
+)
+```
+
+```typescript
+client.recommend("{collection_name}", {
+  positive: [100, 231],
+  negative: [718],
+  using: "image",
+  limit: 10,
+  lookup_from: {
+        "collection" : "{external_collection_name}",
+        "vector" : "{external_vector_name}"
+    },
+});
+```
+
+Vectors are retrieved from the external collection by ids provided in the `positive` and `negative` lists. 
+These vectors then used to perform the recommendation in the current collection, comparing against the "using" or default vector.
+
+
 ## Batch recommendation API
 
 *Available as of v0.10.0*
