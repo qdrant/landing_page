@@ -37,7 +37,7 @@ A table of contents:
 * *Each database vendor will sooner or later introduce vector capabilities...* [[click](#each-database-vendor-will-sooner-or-later-introduce-vector-capabilities-that-will-make-every-database-a-vector-database)]
 * *Having a dedicated vector database requires duplication of data.* [[click](#having-a-dedicated-vector-database-requires-duplication-of-data)]
 * *Having a dedicated vector database requires complex data synchronization.* [[click](#having-a-dedicated-vector-database-requires-complex-data-synchronization)]
-* *You have to pay for a vector service uptime and data transfer.* [[click](#you-have-to-pay-for-a-vector-service-uptime-and-data-transfer-of-both-solution)]
+* *You have to pay for a vector service uptime and data transfer.* [[click](#you-have-to-pay-for-a-vector-service-uptime-and-data-transfer-of-both-solutions)]
 * *What is more seamless than your current database adding vector search capability?* [[click](#what-is-more-seamless-than-your-current-database-adding-vector-search-capability)]
 * *Databases can support RAG use-case end-to-end.* [[click](#databases-can-support-rag-use-case-end-to-end)]
 
