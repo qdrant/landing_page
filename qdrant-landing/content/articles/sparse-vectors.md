@@ -91,13 +91,6 @@ import torch
 def compute_vector(text):
     """
     Computes a vector from logits and attention mask using ReLU, log, and max operations.
-
-    Args:
-    logits (torch.Tensor): The logits output from a model.
-    attention_mask (torch.Tensor): The attention mask corresponding to the input tokens.
-
-    Returns:
-    torch.Tensor: Computed vector.
     """
     tokens = tokenizer(text, return_tensors="pt")
     output = model(**tokens)
