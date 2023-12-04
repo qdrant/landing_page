@@ -35,7 +35,7 @@ The tokens aren't always words though, sometimes they can be sub-words: `['ch', 
 
 They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
 
-BM25's capabibilities are well proven, but it has its limitations. For example, it often needs building complex dictionary of synonyms, which is where sparse vectors come in. Sparse vectors excel in handling large text data, making them crucial in modern data processing and an improvement over more well known methods like BM25.
+BM25's capabilities are well proven, but it has its limitations. For example, it often needs building complex dictionary of synonyms, which is where sparse vectors come in. Sparse vectors excel in handling large text data, making them crucial in modern data processing and an improvement over more well-known methods like BM25.
 
 # Understanding Sparse Vectors
 Sparse vectors are like the Marie Kondo of data—keeping only what sparks joy (or relevance, in this case). 
@@ -46,7 +46,7 @@ Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain n
 
 # SPLADE
 
-Let's checkout [SPLADE](https://europe.naverlabs.com/research/computer-science/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-full-text-document-ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), an excellent way to make sparse vectors. Let's look at some numbers first. Higher is better:
+Let's check out [SPLADE](https://europe.naverlabs.com/research/computer-science/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-full-text-document-ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), an excellent way to make sparse vectors. Let's look at some numbers first. Higher is better:
 
 | Model              | MRR@10 (MS MARCO Dev) | Type           |
 |--------------------|---------|----------------|
@@ -169,9 +169,10 @@ Here are some terms which are added: "Berlin", "founder" - despite having no men
 }
 ```
 
-If you're interested in using the higher performance approach, check out the following models:
-1. naver/efficient-splade-VI-BT-large-doc
-2. naver/efficient-splade-VI-BT-large-query
+If you're interested in using the higher-performance approach, check out the following models:
+
+1. [naver/efficient-splade-VI-BT-large-doc](huggingface.co/naver/efficient-splade-vi-bt-large-doc)
+2. [naver/efficient-splade-VI-BT-large-query](huggingface.co/naver/efficient-splade-vi-bt-large-doc)
 
 ## Why SPLADE works? Term Expansion
 
@@ -197,8 +198,8 @@ The output logits from the transformer backbone are inputs upon which SPLADE bui
 
 This sparsity is critical; it mirrors the probability distributions from a typical [Masked Language Modeling](http://jalammar.github.io/illustrated-bert/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) task but is tuned for retrieval effectiveness, emphasizing terms that are both:
 
-1. Contextually relevant: Terms which represent a document well should be given more weight.
-2. Discriminative across documents: Terms which a document has, and other documents don't, should be given more weight.
+1. Contextually relevant: Terms that represent a document well should be given more weight.
+2. Discriminative across documents: Terms that a document has, and other documents don't, should be given more weight.
 
 The token-level distributions that you'd expect in a standard transformer model are now transformed into token-level importance scores in SPLADE. These scores reflect the significance of each term in the context of the document or query, guiding the model to allocate more weight to terms that are likely to be more meaningful for retrieval purposes. 
 
@@ -219,7 +220,7 @@ The switch to max pooling in SPLADE improved its performance on the MS MARCO and
 The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​.
 
 ## Combining the Best of Both Worlds: Sparse and Dense Vectors in Qdrant
-What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Yep, Qdrant lets you mix and match to create your own perfect blend.
+What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Yep, Qdrant lets you mix and match to create your perfect blend.
 
 ## Additional Resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
@@ -232,7 +233,7 @@ For those who want to dive deeper, here are the top papers on the topic most of 
 
 Why just read when you try it out? 
 
-We've packed an easy-to-use Colab for you: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb). Run it, tinker with it, and start seeing the magic unfold in your own projects. We can't wait to hear how you use it!
+We've packed an easy-to-use Colab for you: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
 
 ## Conclusion
 
