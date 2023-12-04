@@ -35,7 +35,7 @@ The tokens aren't always words though, sometimes they can be sub-words: `['ch', 
 
 They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
 
-BM25's capabilities are well proven, but it has its limitations. For example, it often needs building complex dictionary of synonyms, which is where sparse vectors come in. Sparse vectors excel in handling large text data, making them crucial in modern data processing and an improvement over more well-known methods like BM25.
+BM25's capabilities are well proven, but it has its limitations. For example, it often needs building complex dictionary of synonyms, that is where sparse vectors come in. Sparse vectors excel in handling large text data, making them crucial in modern data processing and an improvement over more well-known methods like BM25.
 
 # Understanding Sparse Vectors
 Sparse vectors are like the Marie Kondo of data—keeping only what sparks joy (or relevance, in this case). 
@@ -145,7 +145,7 @@ sorted_tokens
 
 There will be 102 sorted tokens in total. This has expanded to include tokens that weren't in the original text. This is the term expansion we will talk about next.
 
-Here are some terms which are added: "Berlin", "founder" - despite having no mention of Arthur's race (which leads to Owen's Berlin win) and his better known work as the founder of Arthur Ashe Institute for Urban Health. Here are the top few `sorted_tokens` with a weight of more than 1: 
+Here are some terms that are added: "Berlin", and "founder" - despite having no mention of Arthur's race (which leads to Owen's Berlin win) and his work as the founder of Arthur Ashe Institute for Urban Health. Here are the top few `sorted_tokens` with a weight of more than 1: 
 
 ```python
 {
