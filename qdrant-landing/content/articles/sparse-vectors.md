@@ -3,7 +3,7 @@ title: "Sparse Vectors: Interpretable and Scalable Document Ranking"
 short_description: "Sparse vectors are several times more efficient than dense vectors, making them a great choice for large-scale systems. They're also interpretable, which is a huge advantage over dense vectors."
 description: "Sparse vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors."
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
-small_preview_image: /articles_data/sparse-vectors/binary-quantization-icon.svg
+small_preview_image: /articles_data/sparse-vectors/sparse-vectors-icon.svg
 preview_dir: /articles_data/sparse-vectors/preview
 weight: -40
 author: Nirant Kasliwal
@@ -70,21 +70,117 @@ First, let's look at how to create a sparse vector. Then, we'll look at the conc
 
 # Creating a Sparse Vector
 
-We'll explore two different ways to create a sparse vector. The first is a simple way to create a sparse vector from the same model for both document and query. The second is higher performance way to create a sparse vector from dedicated document and query encoders:
+We'll explore two different ways to create a sparse vector. The higher performance way to create a sparse vector from dedicated document and query encoders. We'll look at a simpler approach -- here we will use the same model for both document and query. We will get a dictionary of token ids and their corresponding weights for a sample text - representing a document.
 
-## TK 1. Same Document and Query Encoder
+If you'd like to follow along, here's a [Colab Notebook](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb) with all the code.
 
+## Setting Up
 ```python
-from transformers import AutoTokenizer, AutoModel
-import torch
+from transformers import AutoModelForMaskedLM, AutoTokenizer
 
+model_id = 'naver/splade-cocondenser-ensembledistil'
+
+tokenizer = AutoTokenizer.from_pretrained(model_id)
+model = AutoModelForMaskedLM.from_pretrained(model_id)
+
+text = """Arthur Robert Ashe Jr. (July 10, 1943 – February 6, 1993) was an American professional tennis player. He won three Grand Slam titles in singles and two in doubles."""
 ```
 
-## TK 2. Different Document and Query Encoder
+## Computing the Sparse Vector
+```python
+import torch
+
+def compute_vector(text):
+    """
+    Computes a vector from logits and attention mask using ReLU, log, and max operations.
+
+    Args:
+    logits (torch.Tensor): The logits output from a model.
+    attention_mask (torch.Tensor): The attention mask corresponding to the input tokens.
+
+    Returns:
+    torch.Tensor: Computed vector.
+    """
+    tokens = tokenizer(text, return_tensors="pt")
+    output = model(**tokens)
+    logits, attention_mask = output.logits, tokens.attention_mask
+    relu_log = torch.log(1 + torch.relu(logits))
+    weighted_log = relu_log * attention_mask.unsqueeze(-1)
+    max_val, _ = torch.max(weighted_log, dim=1)
+    vec = max_val.squeeze()
+
+    return vec, tokens
 
 
-naver/efficient-splade-VI-BT-large-doc
-naver/efficient-splade-VI-BT-large-query
+vec, tokens = compute_vector(text)
+print(vec.shape)
+```
+
+You'll notice that there are 38 tokens in the text based on this tokenizer. This will be different from the number of tokens in the vector. In a TF-IDF, we'd assign weights only to these tokens or words. In SPLADE, we assign weights to all the tokens in the vocabulary using this vector using our learned model.
+
+# Term Expansion and Weights
+```python
+def extract_and_map_sparse_vector(vector, tokenizer):
+    """
+    Extracts non-zero elements from a given vector and maps these elements to their human-readable tokens using a tokenizer. The function creates and returns a sorted dictionary where keys are the tokens corresponding to non-zero elements in the vector, and values are the weights of these elements, sorted in descending order of weights.
+
+    This function is useful in NLP tasks where you need to understand the significance of different tokens based on a model's output vector. It first identifies non-zero values in the vector, maps them to tokens, and sorts them by weight for better interpretability.
+
+    Args:
+    vector (torch.Tensor): A PyTorch tensor from which to extract non-zero elements.
+    tokenizer: The tokenizer used for tokenization in the model, providing the mapping from tokens to indices.
+
+    Returns:
+    dict: A sorted dictionary mapping human-readable tokens to their corresponding non-zero weights.
+    """
+
+    # Extract indices and values of non-zero elements in the vector
+    cols = vector.nonzero().squeeze().cpu().tolist()
+    weights = vector[cols].cpu().tolist()
+
+    # Map indices to tokens and create a dictionary
+    idx2token = {idx: token for token, idx in tokenizer.get_vocab().items()}
+    token_weight_dict = {idx2token[idx]: round(weight, 2) for idx, weight in zip(cols, weights)}
+
+    # Sort the dictionary by weights in descending order
+    sorted_token_weight_dict = {k: v for k, v in sorted(token_weight_dict.items(), key=lambda item: item[1], reverse=True)}
+
+    return sorted_token_weight_dict
+
+# Usage example
+sorted_tokens = extract_and_map_sparse_vector(vec, tokenizer)
+sorted_tokens
+```
+
+There will be 102 sorted tokens in total. This has expanded to include tokens that weren't in the original text. This is the term expansion we will talk about next.
+
+Here are some terms which are added: "Berlin", "founder" - despite having no mention of Arthur's race (which leads to Owen's Berlin win) and his better known work as the founder of Arthur Ashe Institute for Urban Health. Here are the top few `sorted_tokens` with a weight of more than 1: 
+
+```python
+{
+ 'ashe': 2.95,
+ 'arthur': 2.61,
+ 'tennis': 2.22,
+ 'robert': 1.74,
+ 'jr': 1.55,
+ 'he': 1.39,
+ 'founder': 1.36,
+ 'doubles': 1.24,
+ 'won': 1.22,
+ 'slam': 1.22,
+ 'died': 1.19,
+ 'singles': 1.1,
+ 'was': 1.07,
+ 'player': 1.06,
+ 'titles': 0.99,
+ 'birthday': 0.99,
+ ...
+}
+```
+
+If you're interested in using the higher performance approach, check out the following models:
+1. naver/efficient-splade-VI-BT-large-doc
+2. naver/efficient-splade-VI-BT-large-query
 
 ## Why SPLADE works? Term Expansion
 
@@ -129,12 +225,10 @@ SPLADE importance estimation can provide insights into the 'why' behind a docume
 The switch to max pooling in SPLADE improved its performance on the MS MARCO and TREC datasets. However, this indicates a potential limitation of the baseline SPLADE pooling method, suggesting that SPLADE's performance is sensitive to the choice of pooling strategy​​.
 
 ### Document and Query Encoder 
-The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​. 
-
+The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​.
 
 ## Combining the Best of Both Worlds: Sparse and Dense Vectors in Qdrant
-What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Yep, Qdrant lets you mix and match to create your own perfect blend. 
-
+What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Yep, Qdrant lets you mix and match to create your own perfect blend.
 
 ## Additional Resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
@@ -145,6 +239,10 @@ For those who want to dive deeper, here are the top papers on the topic most of 
 1. Late Interaction - [ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction](https://ar5iv.org/abs/2112.01488)
 1. [SparseEmbed: Learning Sparse Lexical Representations with Contextual Embeddings for Retrieval](https://research.google/pubs/pub52289/)
 
+Why just read when you try it out? 
+
+We've packed an easy-to-use Colab for you: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb). Run it, tinker with it, and start seeing the magic unfold in your own projects. We can't wait to hear how you use it!
+
 ## Conclusion
 
 Alright, folks, let's wrap it up. Better ranking isn't a 'nice-to-have,' it's a game-changer, and Qdrant can get you there.
@@ -154,8 +252,3 @@ Got questions? Our [Discord community](https://qdrant.to/discord?utm_source=qdra
 If you enjoyed reading this, why not sign up for our [newsletter](https://qdrant.tech/subscribe/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) to stay ahead of the curve. 
 
 And, of course, a big thanks to you, our readers, for pushing us to make ranking better for everyone.
-
-## Appendix: Your Ready-to-Go Code Kit
-Why just read when you try it out? We've packed an easy-to-use code kit for you.
-Download it, tinker with it, and start seeing the magic unfold in your own projects.
-It's like a DIY kit for improving your ranking game, and we can't wait to hear how you use it.
