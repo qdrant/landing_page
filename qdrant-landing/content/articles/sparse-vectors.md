@@ -17,8 +17,6 @@ keywords:
   - efficient neural search
 ---
 
-# TK means to be filled in
-
 # Sparse Vectors for Scalable Document Ranking
 Imagine a search engine where only the most relevant chapters across books for your search are displayed. This is what sparse vectors enable for text. 
 
@@ -35,7 +33,7 @@ The numbers 331 and 14136 map to specific tokens in the vocabulary e.g. `['choco
 
 The tokens aren't always words though, sometimes they can be sub-words: `['ch', 'ocolate]` too.
 
-They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
+They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
 
 BM25's capabibilities are well proven, but it has its limitations. For example, it often needs building complex dictionary of synonyms, which is where sparse vectors come in. Sparse vectors excel in handling large text data, making them crucial in modern data processing and an improvement over more well known methods like BM25.
 
@@ -48,7 +46,7 @@ Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain n
 
 # SPLADE
 
-Let's checkout [SPLADE](https://europe.naverlabs.com/research/computer-science/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-full-text-document-ranking/), an excellent way to make sparse vectors. Let's look at some numbers first. Higher is better:
+Let's checkout [SPLADE](https://europe.naverlabs.com/research/computer-science/splade-a-sparse-bi-encoder-bert-based-model-achieves-effective-and-efficient-full-text-document-ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), an excellent way to make sparse vectors. Let's look at some numbers first. Higher is better:
 
 | Model              | MRR@10 (MS MARCO Dev) | Type           |
 |--------------------|---------|----------------|
@@ -60,7 +58,7 @@ Let's checkout [SPLADE](https://europe.naverlabs.com/research/computer-science/s
 | SPLADE-doc         | 0.322   | Sparse |
 | DistilSPLADE-max   | 0.368   | Sparse |
 
-All numbers are from [SPLADEv2](https://arxiv.org/abs/2109.10086). MRR is [Mean Reciprocal Rank](https://www.wikiwand.com/en/Mean_reciprocal_rank#References), a standard metric for ranking. [MS MARCO](https://microsoft.github.io/MSMARCO-Passage-Ranking/) is a dataset for evaluating ranking and retrieval for passages.  
+All numbers are from [SPLADEv2](https://arxiv.org/abs/2109.10086). MRR is [Mean Reciprocal Rank](https://www.wikiwand.com/en/Mean_reciprocal_rank#References), a standard metric for ranking. [MS MARCO](https://microsoft.github.io/MSMARCO-Passage-Ranking/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) is a dataset for evaluating ranking and retrieval for passages.  
 
 SPLADE is quite flexible as a method, with regularization knobs that can be tuned to obtain [different models](https://github.com/naver/splade) as well: 
 
@@ -204,7 +202,7 @@ SPLADE leverages a transformer architecture to generate sparse representations o
 
 The output logits from the transformer backbone are inputs upon which SPLADE builds. The transformer architecture can be something familiar like BERT. Rather than producing dense probability distributions, SPLADE utilizes these logits to construct sparse vectors—think of them as a distilled essence of tokens, where each dimension corresponds to a term from the vocabulary and its associated weight in the context of the given document or query. 
 
-This sparsity is critical; it mirrors the probability distributions from a typical [Masked Language Modeling](http://jalammar.github.io/illustrated-bert/) task but is tuned for retrieval effectiveness, emphasizing terms that are both:
+This sparsity is critical; it mirrors the probability distributions from a typical [Masked Language Modeling](http://jalammar.github.io/illustrated-bert/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) task but is tuned for retrieval effectiveness, emphasizing terms that are both:
 
 1. Contextually relevant: Terms which represent a document well should be given more weight.
 2. Discriminative across documents: Terms which a document has, and other documents don't, should be given more weight.
@@ -233,11 +231,11 @@ What if we told you there's a magical formula that combines sparse and dense vec
 ## Additional Resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
 
-1. Problem Motivation: [Sparse Overcomplete Word Vector Representations](https://ar5iv.org/abs/1506.02004)
-1. [SPLADE v2: Sparse Lexical and Expansion Model for Information Retrieval](https://ar5iv.org/abs/2109.10086)
-1. [SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking](https://ar5iv.org/abs/2107.05720)
-1. Late Interaction - [ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction](https://ar5iv.org/abs/2112.01488)
-1. [SparseEmbed: Learning Sparse Lexical Representations with Contextual Embeddings for Retrieval](https://research.google/pubs/pub52289/)
+1. Problem Motivation: [Sparse Overcomplete Word Vector Representations](https://ar5iv.org/abs/1506.02004?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
+1. [SPLADE v2: Sparse Lexical and Expansion Model for Information Retrieval](https://ar5iv.org/abs/2109.10086?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
+1. [SPLADE: Sparse Lexical and Expansion Model for First Stage Ranking](https://ar5iv.org/abs/2107.05720?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
+1. Late Interaction - [ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction](https://ar5iv.org/abs/2112.01488?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
+1. [SparseEmbed: Learning Sparse Lexical Representations with Contextual Embeddings for Retrieval](https://research.google/pubs/pub52289/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
 
 Why just read when you try it out? 
 
