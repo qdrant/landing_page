@@ -18,6 +18,10 @@ keywords:
   - exploration
   - custom sharding
   - snapshot-based shard transfer
+  - hybrid search
+  - bm25
+  - tfidf
+  - splade
 ---
 
 Please welcome the long-awaited [Qdrant 1.7.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.7.0). Except for a handful of minor fixes and improvements, this release brings some cool brand-new features that we are excited to share! 
@@ -25,7 +29,7 @@ The latest version of your favorite vector search engine finally supports **spar
 We also decided to continue our journey with [vector similarity beyond search](/articles/vector-similarity-beyond-search/). The new Discovery API covers some utterly new use cases. We're more than excited to see what you will build with it! 
 But there is more to it! Check out what's new in **Qdrant 1.7.0**!
 
-1. Sparse vectors: do you want to use BM25? Support for sparse vectors is finally here!
+1. Sparse vectors: do you want to use keyword-based search? Support for sparse vectors is finally here!
 2. Discovery API: an entirely new way of using vectors for restricted search and exploration.
 3. User-defined sharding: you can now decide which points should be stored on which shard.
 4. Snapshot-based shard transfer: a new option for moving shards between nodes.
@@ -38,7 +42,14 @@ Qdrant 1.7.0 brings a bunch of new features. Let's take a closer look at them!
 
 ### Sparse vectors
 
-TODO: Describe the sparse vectors and use cases. We can just summarize it briefly here, and then announce the dedicated article.
+The good old keyword-based search mechanisms are usually based on TFIDF, BM25, or similar algorithms. Internally, those methods also rely on vectors, but they are sparse. That means, **they contain a lot of zeros, and the number of non-zero values is usually small**.
+Those sparse vectors are theoretically highly dimensional, definitely way higher than the dense vectors used in semantic search. However, since the majority of dimensions are usually zeros, we store them differently and just keep the non-zero dimensions. 
+
+Until now, Qdrant has not been able to handle sparse vectors natively. Some were trying to convert them to dense vectors, but that was not the best solution or a suggested way. We even wrote a piece with [our thoughts on building a hybrid search](/articles/hybrid-search/), and we encouraged you to use a different tool for keyword lookup. 
+
+Things have changed since then, as so many of you wanted a single tool for sparse and dense vectors. That’s why we decided to implement native support for sparse vectors! Please wait closely for our next article, describing how to use this feature in practice. For now, you can check out the [sparse vectors documentation](/documentation/concepts/search/#sparse-vectors)!
+
+TODO: Add a link to the sparse vectors documentation.
 
 ### Discovery API
 
