@@ -338,8 +338,6 @@ result
 
 In the above code, we execute a search against our collection using the prepared sparse vector query. The `client.search` method takes the collection name and the query vector as inputs. The query vector is constructed using the `models.NamedSparseVector`, which includes the indices and values derived from the query text. This is a crucial step in efficiently retrieving relevant documents. 
 
-Those familiar with the Qdrant API will notice that the extra care taken to be consistent with the existing named vectors API -- this is to make it easier to use sparse vectors in existing codebases. As always, you're still able to apply payload filters, shard keys, and other advanced features you've come to expect from Qdrant.
-
 ```python
 ScoredPoint(id=1, version=0, score=3.4292831420898438, payload={}, vector={'text': SparseVector(indices=[2001, 2002, 2010, 2018, 2032, ...], values=[1.0660614967346191, 1.391068458557129, 0.8903818726539612, 0.2502821087837219, ...])}, shard_key=None)
 ```
@@ -353,7 +351,7 @@ $$\text{Similarity}(\text{Query}, \text{Document}) = \sum_{i \in I} \text{Query}
 This formula calculates the similarity score by multiplying corresponding elements of the query and document vectors and summing these products. This method is particularly effective with sparse vectors, where many elements are zero, leading to a computationally efficient process. The higher the score, the greater the similarity between the query and the document, making it a valuable metric for assessing the relevance of the retrieved documents.
 
 
-## Qdrant's Dual-Vector Capability: A Two-Stage Retrieval Powerhouse
+### Why does dual vector support matter?
 
 Qdrant's unique ability to handle both sparse and dense vectors within the same collection is not just a feature, but a strategic advantage. Here’s how you can use this in a two-stage retrieval process:
 
@@ -364,6 +362,7 @@ Qdrant's unique ability to handle both sparse and dense vectors within the same 
 You can limit the second stage to only the top results from the first stage, which will further improve the efficiency of your system. You can use the same collection for both stages, with the first-stage retrieval using sparse vectors and the second-stage ranking using dense vectors. This is a powerful combination that can significantly improve the efficiency of your system.
 
 ### Combining Sparse and Dense Vectors for Better Ranking
+
 What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Well, we don't know of one yet. But we do know that lot of people like Reciprocal Rank Fusion (RRF) for combining sparse and dense vectors. [Ranx](https://github.com/AmenRa/ranx) is a great library for this.
 
 ## Additional Resources
