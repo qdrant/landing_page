@@ -193,13 +193,13 @@ SPLADE learns the query/document expansion to include other relevant terms. This
 
 This expansion has a direct relationship with what we can control when making a SPLADE model: Sparsity via Regularisation. The number of tokens (BERT wordpieces) we use to represent each document. If we use more tokens, we can represent more terms, but the vectors become denser. This number is typically between 20 to 200 per document. As a reference point, the dense BERT vector is 768 dimensions, OpenAI Embedding is 1536 dimensions, and the sparse vector is 30 dimensions. 
 
-For example, assume a 1M document corpus. Say, we use 100 sparse token ids per document. Correspondingly, dense BERT vector would be 768M floats, the OpenAI Embedding would be 1.536B floats, and the sparse vector would be 30M integers. This could mean a **100x reduction in memory usage**, which is a huge win for large-scale systems:
+For example, assume a 1M document corpus. Say, we use 100 sparse token ids + weights per document. Correspondingly, dense BERT vector would be 768M floats, the OpenAI Embedding would be 1.536B floats, and the sparse vector would be a maximum of 100M integers + 100M floats. This could mean a **10x reduction in memory usage**, which is a huge win for large-scale systems:
 
 | Vector Type       | Memory (GB) |
 |-------------------|-------------------------|
 | Dense BERT Vector | 6.144                   |
 | OpenAI Embedding  | 12.288                  |
-| Sparse Vector     | 0.12                    |
+| Sparse Vector     | 1.12                    |
 
 ## How SPLADE works? Leveraging BERT
 
