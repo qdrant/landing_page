@@ -36,22 +36,30 @@ The tokens aren't always words though, sometimes they can be sub-words: `['ch', 
 
 They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
 
-BM25's capabilities are well proven, but it has its limitations. For example, it often needs building complex dictionary of synonyms, that is where sparse vectors come in. Sparse vectors excel in handling large text data, making them crucial in modern data processing and an improvement over more well-known methods like BM25.
+BM25's capabilities are well-established, yet it has its limitations. 
+BM25 relies solely on the frequency of words in a document and does not attempt to comprehend the meaning or the contextual importance of the words.
+Additionally, it requires the computation of the entire corpus's statistics in advance, posing a challenge for large datasets.
+
+Sparse vectors harness the power of neural networks to surmount these limitations while retaining the ability to query exact words and phrases.
+They excel in handling large text data, making them crucial in modern data processing a and marking an advancement over traditional methods such as BM25.
+
 
 # Understanding Sparse Vectors
 
 Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors. 
 
-Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain non-zero values for every element, whereas sparse vectors focus on relative word frequencies per document, with most values being zero. This results in a more efficient and interpretable system, especially in text-heavy applications like search.
+Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain non-zero values for every element. In contrast, sparse vectors focus on relative word weights per document, with most values being zero. This results in a more efficient and interpretable system, especially in text-heavy applications like search.
 
-Sparse Vectors shine in domains and scenarios where we don't have a lot of relevant data for high quality dense vectors. 
+Sparse Vectors shine in domains and scenarios where many rare keywords or specialized terms are present.
+For example, in the medical domain, many rare terms are not present in the general vocabulary, so general-purpose dense vectors cannot capture the nuances of the domain.
+
 
 | Feature                   | Sparse Vectors                              | Dense Vectors                                |
 |---------------------------|---------------------------------------------|----------------------------------------------|
 | **Data Representation**   | Majority of elements are zero               | All elements are non-zero                   |
 | **Computational Efficiency** | Generally higher, especially in operations involving zero elements | Lower, as operations are performed on all elements |
 | **Information Density**   | Less dense, focuses on key features | Highly dense, capturing nuanced relationships |
-| **Example Applications**  | Recommendation systems | RAG, many general machine learning tasks |
+| **Example Applications**  | Text search, Hybrid search | RAG, many general machine learning tasks |
 
 Where do Sparse Vectors fail though? They're not great at capturing nuanced relationships between words. For example, they can't capture the relationship between "king" and "queen" as well as dense vectors.
 
@@ -230,9 +238,24 @@ The switch to max pooling in SPLADE improved its performance on the MS MARCO and
 ### Document and Query Encoder 
 The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​.
 
+## Other Sparse Vector Methods
+
+SPLADE is not the only method to create sparse vectors.
+
+Essentially, sparse vectors are a superset of TF-IDF and BM25, which are the most popular text retrieval methods.
+In other words, you can create a sparse vector using the term frequency and inverse document frequency (TF-IDF) to reproduce the BM25 score exactly.
+
+Additionally, attention weights from Sentence Transformers can be used to create sparse vectors.
+This method preserves the ability to query exact words and phrases but avoids the computational overhead of query expansion used in SPLADE.
+
+We will cover these methods in detail in a future article.
+
+
 # Leveraging Sparse Vectors in Qdrant for Efficient First-Stage Retrieval
 
-Qdrant supports a separate index for Sparse Vectors. This enables you to use the same collection for both dense and sparse vectors. Each "Point" in Qdrant can have both dense and sparse vectors.
+Qdrant supports a separate index for Sparse Vectors.
+This enables you to use the same collection for both dense and sparse vectors.
+Each "Point" in Qdrant can have both dense and sparse vectors.
 
 ## Speed and Efficiency with Sparse Vectors
 
