@@ -1,11 +1,11 @@
 ---
 title: "Sparse Vectors in Qdrant: Pure Vector-based Hybrid Search"
-short_description: "Sparse vectors are several times more efficient than dense vectors, making them a great choice for large-scale systems. They're also interpretable, which is a huge advantage over dense vectors."
-description: "Sparse vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors."
+short_description: "Combining the precision of exact keyword search with NN-based ranking"
+description: "Sparse vectors are the generalization of TF-IDF and BM25, that allows to leverage the power of neural networks for text retrieval."
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
 small_preview_image: /articles_data/sparse-vectors/sparse-vectors-icon.svg
 preview_dir: /articles_data/sparse-vectors/preview
-weight: -40
+weight: -100
 author: Nirant Kasliwal
 author_link: 
 date: 2023-12-03T13:00:00+03:00
@@ -251,21 +251,17 @@ This method preserves the ability to query exact words and phrases but avoids th
 We will cover these methods in detail in a future article.
 
 
-# Leveraging Sparse Vectors in Qdrant for Efficient First-Stage Retrieval
+# Leveraging Sparse Vectors in Qdrant for Hybrid Search
 
 Qdrant supports a separate index for Sparse Vectors.
 This enables you to use the same collection for both dense and sparse vectors.
 Each "Point" in Qdrant can have both dense and sparse vectors.
 
-## Speed and Efficiency with Sparse Vectors
-
-Sparse vectors, inherently characterized by their minimalistic data representation, offer a significant advantage in terms of speed. 
-
-In Qdrant, the handling of sparse vectors is optimized to exploit this characteristic, resulting in rapid retrieval times. This makes Qdrant an ideal choice for first-stage retrieval where the goal is to quickly narrow down the search space from a large dataset. This is not a replacement for dense vectors, but a complementary approach that can be used in conjunction with dense vectors to improve ranking cost with minimal impact on relevance or latency. 
+But let's first take a look at how you can work with sparse vectors in Qdrant.
 
 ## Practical Implementation in Python
 
-Let's delve into how Qdrant handles sparse vectors with an example. Here is what we will cover:
+Let's deive into how Qdrant handles sparse vectors with an example. Here is what we will cover:
 
 1. Setting Up Qdrant Client: Initially, we establish a connection with Qdrant using the QdrantClient. This setup is crucial for subsequent operations.
 
@@ -294,16 +290,16 @@ point_id = 1  # Assign a unique ID for the point
 
 ```python
 client.recreate_collection(
-        collection_name=COLLECTION_NAME,
-        vectors_config={},
-        sparse_vectors_config={
-            "text": models.SparseVectorParams(
-                index=models.SparseIndexConfig(
-                    on_disk=False,
-                )
+    collection_name=COLLECTION_NAME,
+    vectors_config={},
+    sparse_vectors_config={
+        "text": models.SparseVectorParams(
+            index=models.SparseIndexConfig(
+                on_disk=False,
             )
-        },
-    )
+        )
+    },
+)
 ```
 
 
@@ -373,7 +369,18 @@ result
 In the above code, we execute a search against our collection using the prepared sparse vector query. The `client.search` method takes the collection name and the query vector as inputs. The query vector is constructed using the `models.NamedSparseVector`, which includes the indices and values derived from the query text. This is a crucial step in efficiently retrieving relevant documents. 
 
 ```python
-ScoredPoint(id=1, version=0, score=3.4292831420898438, payload={}, vector={'text': SparseVector(indices=[2001, 2002, 2010, 2018, 2032, ...], values=[1.0660614967346191, 1.391068458557129, 0.8903818726539612, 0.2502821087837219, ...])}, shard_key=None)
+ScoredPoint(
+    id=1,
+    version=0,
+    score=3.4292831420898438,
+    payload={},
+    vector={
+        'text': SparseVector(
+            indices=[2001, 2002, 2010, 2018, 2032, ...],
+            values=[1.0660614967346191, 1.391068458557129, 0.8903818726539612, 0.2502821087837219, ...]
+        )
+    }
+)
 ```
 
 The result, as shown above, is a `ScoredPoint` object containing the ID of the retrieved document, its version, a similarity score, and the sparse vector. The score is a key element as it quantifies the similarity between the query and the document, based on their respective vectors.
@@ -385,15 +392,96 @@ $$\text{Similarity}(\text{Query}, \text{Document}) = \sum_{i \in I} \text{Query}
 This formula calculates the similarity score by multiplying corresponding elements of the query and document vectors and summing these products. This method is particularly effective with sparse vectors, where many elements are zero, leading to a computationally efficient process. The higher the score, the greater the similarity between the query and the document, making it a valuable metric for assessing the relevance of the retrieved documents.
 
 
-### Why does dual vector support matter?
+### Combining Sparse and Dense Vectors
 
-Qdrant's unique ability to handle both sparse and dense vectors within the same collection is not just a feature, but a strategic advantage. Here’s how you can use this in a two-stage retrieval process:
 
-1. *First-Stage Retrieval with Sparse Vectors*: Initially, query Qdrant with sparse vectors for the first-stage retrieval. This stage is all about speed and efficiently filtering through vast amounts of data to find a relevant subset. Sparse vectors are ideal for this due to their lower computational overhead and faster processing times. You will get a list of scored points as a result of this stage.
+By combining search results from both dense and sparse vectors, you can achieve a hybrid search that is both efficient and accurate.
+Results from sparse vectors will guranatee, that all results with the required keywords are returned, 
+while dense vectors will cover the semantically similar results.
 
-2. *Second-Stage Ranking with Dense Vectors*: Once a relevant subset of data is identified, the process moves to the second stage, which involves dense vector-based ranking. Dense vectors, with their rich information representation, are well-suited for this detailed analysis, providing a more nuanced understanding and ranking of the results.
+The mixtire of dense and sparse results can be presented directly to the user, or used as a first stage of a two-stage retrieval process.
 
-You can limit the second stage to only the top results from the first stage, which will further improve the efficiency of your system. You can use the same collection for both stages, with the first-stage retrieval using sparse vectors and the second-stage ranking using dense vectors. This is a powerful combination that can significantly improve the efficiency of your system.
+Let's see how you can make a hybrid search query in Qdrant.
+
+First, you need to create a collection with both dense and sparse vectors:
+
+```python
+client.recreate_collection(
+    collection_name=COLLECTION_NAME,
+    vectors_config={
+        "text-dense": models.VectorParams(
+            size=1536, # OpenAI Embeddings
+            distance=models.Distance.COSINE,
+        )
+    },
+    sparse_vectors_config={
+        "text-sparse": models.SparseVectorParams(
+            index=models.SparseIndexConfig(
+                on_disk=False,
+            )
+        )
+    },
+)
+```
+
+
+Then, assuming you have upserted both dense and sparse vectors, you can query them together:
+
+```python
+
+query_text = "Who was Arthur Ashe?"
+
+# Compute sparse and dense vectors
+query_indices, query_values = compute_sparse_vector(query_text)
+query_dense_vector = compute_dense_vector(query_text)
+
+
+cleint.search_batch(
+    collection_name=COLLECTION_NAME,
+    requests=[
+        models.SearchRequest(
+            vector=models.NamedVector(
+                name="text-dense",
+                vector=query_dense_vector,
+            ),
+            top=10,
+        ),
+        models.SearchRequest(
+            vector=models.NamedSparseVector(
+                name="text-sparse",
+                vector=models.SparseVector(
+                    indices=query_indices, 
+                    values=query_values,
+                ),
+            ),
+            top=10,
+        ),
+    ]
+)
+```
+
+The result will be a pair of result lists, one for dense and one for sparse vectors.
+
+Having those results, there are several ways to combine them:
+
+- **Mixing**: You can mix the results from both dense and sparse vectors, based purely on their relative scores. 
+  This is a simple and effective approach, but it doesn't take into account the semantic similarity between the results.
+  Among the [popular mixing methods](https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18) are:
+
+    - Reciprocal Ranked Fusion (RRF)
+    - Relative Score Fusion (RSF)
+    - Distribution-Based Score Fusion (DBSF)
+
+
+{{< figure src=/articles_data/sparse-vectors/mixture.png caption="Relative Score Fusion" width=80% >}}
+
+
+- **Re-ranking**: You can use obtained results as a first stage of a two-stage retrieval process. 
+  In the second stage, you can re-rank the results from the first stage using a more complex model, 
+  such as [Cross-Encoders](https://www.sbert.net/examples/applications/cross-encoder/README.html) or services like [Cohere Rerank](https://txt.cohere.com/rerank/).
+
+And that's it! You've successfully achieved hybrid search with Qdrant.
+
 
 ## Additional Resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
@@ -410,7 +498,7 @@ We've packed an easy-to-use Colab for you on how to make a Sparse Vector: [Spars
 
 ## Conclusion
 
-Alright, folks, let's wrap it up. Better ranking isn't a 'nice-to-have,' it's a game-changer, and Qdrant can get you there.
+Alright, folks, let's wrap it up. Better search isn't a 'nice-to-have,' it's a game-changer, and Qdrant can get you there.
 
 Got questions? Our [Discord community](https://qdrant.to/discord?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) is teeming with answers. 
 

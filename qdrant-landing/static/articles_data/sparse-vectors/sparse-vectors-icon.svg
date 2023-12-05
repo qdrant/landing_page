@@ -1,18 +1,107 @@
-<?xml version="1.0" encoding="utf-8"?>
-
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
-<svg width="800px" height="800px" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg" >
 
-<path d="M0 0h48v48H0z" fill="none"/>
-<g id="Shopicon">
-	<rect x="4" y="4" width="10" height="10"/>
-	<rect x="19" y="4" width="10" height="10"/>
-	<rect x="34" y="4" width="10" height="10"/>
-	<rect x="4" y="19" width="10" height="10"/>
-	<rect x="19" y="19" width="10" height="10"/>
-	<rect x="34" y="19" width="10" height="10"/>
-	<rect x="4" y="34" width="10" height="10"/>
-	<rect x="19" y="34" width="10" height="10"/>
-	<rect x="34" y="34" width="10" height="10"/>
-</g>
+<svg
+   width="800px"
+   height="800px"
+   viewBox="0 0 48 48"
+   version="1.1"
+   id="svg23"
+   sodipodi:docname="sparse-vectors-icon.svg"
+   inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs27" />
+  <sodipodi:namedview
+     id="namedview25"
+     pagecolor="#ffffff"
+     bordercolor="#999999"
+     borderopacity="1"
+     inkscape:pageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     showgrid="false"
+     inkscape:zoom="0.89875"
+     inkscape:cx="399.44367"
+     inkscape:cy="399.44367"
+     inkscape:window-width="2560"
+     inkscape:window-height="1011"
+     inkscape:window-x="0"
+     inkscape:window-y="32"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg23" />
+  <path
+     d="M0 0h48v48H0z"
+     fill="none"
+     id="path2" />
+  <g
+     id="Shopicon"
+     style="fill:#ffffff">
+    <rect
+       x="4"
+       y="4"
+       width="10"
+       height="10"
+       id="rect4"
+       style="fill:#ffffff" />
+    <rect
+       x="19"
+       y="4"
+       width="10"
+       height="10"
+       id="rect6"
+       style="fill:#ffffff" />
+    <rect
+       x="34"
+       y="4"
+       width="10"
+       height="10"
+       id="rect8"
+       style="fill:#ffffff" />
+    <rect
+       x="4"
+       y="19"
+       width="10"
+       height="10"
+       id="rect10"
+       style="fill:#ffffff" />
+    <rect
+       x="19"
+       y="19"
+       width="10"
+       height="10"
+       id="rect12"
+       style="fill:#ffffff" />
+    <rect
+       x="34"
+       y="19"
+       width="10"
+       height="10"
+       id="rect14"
+       style="fill:#ffffff" />
+    <rect
+       x="4"
+       y="34"
+       width="10"
+       height="10"
+       id="rect16"
+       style="fill:#ffffff" />
+    <rect
+       x="19"
+       y="34"
+       width="10"
+       height="10"
+       id="rect18"
+       style="fill:#ffffff" />
+    <rect
+       x="34"
+       y="34"
+       width="10"
+       height="10"
+       id="rect20"
+       style="fill:#ffffff" />
+  </g>
 </svg>
