@@ -1,5 +1,5 @@
 ---
-title: "SPLADE in Qdrant: Improving Search with Sparse Vectors for Scalability"
+title: "Sparse Vectors in Qdrant: Memory Efficient Ranking"
 short_description: "Sparse vectors are several times more efficient than dense vectors, making them a great choice for large-scale systems. They're also interpretable, which is a huge advantage over dense vectors."
 description: "Sparse vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors."
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
@@ -17,8 +17,7 @@ keywords:
   - efficient neural search
 ---
 
-# Sparse Vectors for Scalable Document Ranking
-Imagine a search engine where only the most relevant chapters across books for your search are displayed. This is what sparse vectors enable for text. 
+Think of a library with a vast index card system. Each index card only has a few keywords marked out (sparse vector) of a large possible set for each book (document). This is what sparse vectors enable for text. 
 
 ## What is a Sparse Vector?
 
@@ -44,6 +43,20 @@ BM25's capabilities are well proven, but it has its limitations. For example, it
 Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors. 
 
 Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain non-zero values for every element, whereas sparse vectors focus on relative word frequencies per document, with most values being zero. This results in a more efficient and interpretable system, especially in text-heavy applications like search.
+
+Sparse Vectors shine in domains and scenarios where we don't have a lot of relevant data for high quality dense vectors. 
+
+| Feature                   | Sparse Vectors                              | Dense Vectors                                |
+|---------------------------|---------------------------------------------|----------------------------------------------|
+| **Data Representation**   | Majority of elements are zero               | Most elements are non-zero                   |
+| **Storage Efficiency**    | High, due to storing only non-zero elements | Lower, as all elements are stored            |
+| **Computational Efficiency** | Generally higher, especially in operations involving zero elements | Lower, as operations are performed on all elements |
+| **Use Case**              | Effective in high-dimensional data where most elements are zero (e.g., text data) | Suitable for data where all dimensions carry significant information |
+| **Robustness to Noise**   | Potentially more robust, especially in high-dimensional spaces | Less robust to noise compared to sparse representations |
+| **Model Complexity**      | Can lead to simpler models in certain contexts | Often results in more complex models          |
+| **Information Density**   | Less dense, focuses on key features | Highly dense, capturing nuanced relationships |
+| **Example Applications**  | Recommendation systems | RAG, many general machine learning tasks |
+
 
 # SPLADE
 
