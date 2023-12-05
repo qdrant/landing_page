@@ -352,16 +352,16 @@ After setting up the collection and inserting sparse vectors, the next critical 
 ```python
 # Searching for similar documents
 result = client.search(
-        collection_name=COLLECTION_NAME,
-        query_vector=models.NamedSparseVector(
-            name="text",
-            vector=models.SparseVector(
-                indices=query_indices, 
-                values=query_values,
-            ),
+    collection_name=COLLECTION_NAME,
+    query_vector=models.NamedSparseVector(
+        name="text",
+        vector=models.SparseVector(
+            indices=query_indices, 
+            values=query_values,
         ),
-        with_vectors=["text"],
-    )
+    ),
+    with_vectors=["text"],
+)
 
 result
 ```
