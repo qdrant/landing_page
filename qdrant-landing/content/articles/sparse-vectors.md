@@ -266,7 +266,6 @@ client.recreate_collection(
             "text": models.SparseVectorParams(
                 index=models.SparseIndexConfig(
                     on_disk=False,
-                    full_scan_threshold=100,
                 )
             )
         },
