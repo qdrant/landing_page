@@ -1,5 +1,5 @@
 ---
-title: "Sparse Vectors: Interpretable and Scalable Document Ranking"
+title: "Sparse Vectors: SPLADE for Efficient Document Ranking"
 short_description: "Sparse vectors are several times more efficient than dense vectors, making them a great choice for large-scale systems. They're also interpretable, which is a huge advantage over dense vectors."
 description: "Sparse vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors."
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
@@ -22,6 +22,8 @@ Imagine a search engine where only the most relevant chapters across books for y
 
 ## What is a Sparse Vector?
 
+Sparse vectors are like the Marie Kondo of data—keeping only what sparks joy (or relevance, in this case). 
+
 Consider a simplified example of 2 documents, each with 200 words. A dense vector would have several hundred non-zero values, whereas a sparse vector would have only 20 non-zero values.
 
 ```python
@@ -38,7 +40,6 @@ They're pivotal in information retrieval, especially in ranking and search syste
 BM25's capabilities are well proven, but it has its limitations. For example, it often needs building complex dictionary of synonyms, that is where sparse vectors come in. Sparse vectors excel in handling large text data, making them crucial in modern data processing and an improvement over more well-known methods like BM25.
 
 # Understanding Sparse Vectors
-Sparse vectors are like the Marie Kondo of data—keeping only what sparks joy (or relevance, in this case). 
 
 Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors. 
 
