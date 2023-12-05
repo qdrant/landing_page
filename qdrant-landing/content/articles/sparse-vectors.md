@@ -219,8 +219,153 @@ The switch to max pooling in SPLADE improved its performance on the MS MARCO and
 ### Document and Query Encoder 
 The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​.
 
-## Combining the Best of Both Worlds: Sparse and Dense Vectors in Qdrant
-What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Yep, Qdrant lets you mix and match to create your perfect blend.
+# Leveraging Sparse Vectors in Qdrant for Efficient First-Stage Retrieval
+
+Qdrant supports a separate index for Sparse Vectors. This enables you to use the same collection for both dense and sparse vectors. Each "Point" in Qdrant can have both dense and sparse vectors.
+
+## Speed and Efficiency with Sparse Vectors
+
+Sparse vectors, inherently characterized by their minimalistic data representation, offer a significant advantage in terms of speed. 
+
+In Qdrant, the handling of sparse vectors is optimized to exploit this characteristic, resulting in rapid retrieval times. This makes Qdrant an ideal choice for first-stage retrieval where the goal is to quickly narrow down the search space from a large dataset. This is not a replacement for dense vectors, but a complementary approach that can be used in conjunction with dense vectors to improve ranking cost with minimal impact on relevance or latency. 
+
+## Practical Implementation in Python
+
+Let's delve into how Qdrant handles sparse vectors with an example. Here is what we will cover:
+
+1. Setting Up Qdrant Client: Initially, we establish a connection with Qdrant using the QdrantClient. This setup is crucial for subsequent operations.
+
+2. Creating a Collection with Sparse Vector Support: In Qdrant, a collection is a container for your vectors. Here, we create a collection specifically designed to support sparse vectors. This is done using the recreate_collection method where we define the parameters for sparse vectors, such as setting the index configuration.
+
+3. Inserting Sparse Vectors: Once the collection is set up, we can insert sparse vectors into it. This involves defining the sparse vector with its indices and values, and then upserting this point into the collection.
+
+4. Querying with Sparse Vectors: To perform a search, we first prepare a query vector. This involves computing the vector from a query text and extracting its indices and values. We then use these details to construct a query against our collection.
+
+5. Retrieving and Interpreting Results: The search operation returns results that include the id of the matching document, its score, and other relevant details. The score is a crucial aspect, reflecting the similarity between the query and the documents in the collection.
+
+### 1. Setting up
+
+```python
+# Qdrant client setup
+client = QdrantClient(":memory:")
+
+# Define collection name
+COLLECTION_NAME = "example_collection"
+
+# Insert sparse vector into Qdrant collection
+point_id = 1  # Assign a unique ID for the point
+```
+
+### 2. Creating a Collection with Sparse Vector Support
+
+```python
+client.recreate_collection(
+        collection_name=COLLECTION_NAME,
+        vectors_config={},
+        sparse_vectors_config={
+            "text": models.SparseVectorParams(
+                index=models.SparseIndexConfig(
+                    on_disk=False,
+                    full_scan_threshold=100,
+                )
+            )
+        },
+    )
+```
+
+
+### 3. Inserting Sparse Vectors
+
+Here, we see the process of inserting a sparse vector into the Qdrant collection. This step is key to building a dataset that can be quickly retrieved in the first stage of the retrieval process, utilizing the efficiency of sparse vectors. Since this is for demonstration purposes, we insert only one point with Sparse Vector and no dense vector.
+
+```python
+client.upsert(
+    collection_name=COLLECTION_NAME,
+    points=[
+        models.PointStruct(
+            id=point_id,
+            payload={},  # Add any additional payload if necessary
+            vector={
+                "text": models.SparseVector(
+                    indices=indices.tolist(),
+                    values=values.tolist()
+                )
+            }
+        )
+    ]
+)
+```
+By upserting points with sparse vectors, we prepare our dataset for rapid first-stage retrieval, laying the groundwork for subsequent detailed analysis using dense vectors. Notice that we use "text" to denote the name of the sparse vector.
+
+Those familiar with the Qdrant API will notice that the extra care taken to be consistent with the existing named vectors API -- this is to make it easier to use sparse vectors in existing codebases. As always, you're able to **apply payload filters**, shard keys, and other advanced features you've come to expect from Qdrant. To make things easier for you, the indices and values don't have to be sorted before upsert. Qdrant will sort them for you for indexing.
+
+### 4. Querying with Sparse Vectors
+
+We use the same process to prepare a query vector as well. This involves computing the vector from a query text and extracting its indices and values. We then use these details to construct a query against our collection. 
+
+```python
+# Preparing a query vector
+
+query_text = "Who was Arthur Ashe?"
+query_vec, query_tokens = compute_vector(query_text)
+query_vec.shape
+
+query_indices = query_vec.nonzero().numpy().flatten()
+query_values = query_vec.detach().numpy()[indices]
+```
+
+In this example, we use the same model for both document and query. This is not a requirement, but it's a simpler approach.
+
+### 5. Retrieving and Interpreting Results
+
+After setting up the collection and inserting sparse vectors, the next critical step is retrieving and interpreting the results. This process involves executing a search query and then analyzing the returned results.
+
+```python
+# Searching for similar documents
+result = client.search(
+        collection_name=COLLECTION_NAME,
+        query_vector=models.NamedSparseVector(
+            name="text",
+            vector=models.SparseVector(
+                indices=query_indices, 
+                values=query_values,
+            ),
+        ),
+        with_vectors=["text"],
+    )
+
+result
+```
+
+In the above code, we execute a search against our collection using the prepared sparse vector query. The `client.search` method takes the collection name and the query vector as inputs. The query vector is constructed using the `models.NamedSparseVector`, which includes the indices and values derived from the query text. This is a crucial step in efficiently retrieving relevant documents. 
+
+Those familiar with the Qdrant API will notice that the extra care taken to be consistent with the existing named vectors API -- this is to make it easier to use sparse vectors in existing codebases. As always, you're still able to apply payload filters, shard keys, and other advanced features you've come to expect from Qdrant.
+
+```python
+ScoredPoint(id=1, version=0, score=3.4292831420898438, payload={}, vector={'text': SparseVector(indices=[2001, 2002, 2010, 2018, 2032, ...], values=[1.0660614967346191, 1.391068458557129, 0.8903818726539612, 0.2502821087837219, ...])}, shard_key=None)
+```
+
+The result, as shown above, is a `ScoredPoint` object containing the ID of the retrieved document, its version, a similarity score, and the sparse vector. The score is a key element as it quantifies the similarity between the query and the document, based on their respective vectors.
+
+To understand how this scoring works, we use the familiar dot product method:
+
+$$\text{Similarity}(\text{Query}, \text{Document}) = \sum_{i \in I} \text{Query}_i \times \text{Document}_i$$
+
+This formula calculates the similarity score by multiplying corresponding elements of the query and document vectors and summing these products. This method is particularly effective with sparse vectors, where many elements are zero, leading to a computationally efficient process. The higher the score, the greater the similarity between the query and the document, making it a valuable metric for assessing the relevance of the retrieved documents.
+
+
+## Qdrant's Dual-Vector Capability: A Two-Stage Retrieval Powerhouse
+
+Qdrant's unique ability to handle both sparse and dense vectors within the same collection is not just a feature, but a strategic advantage. Here’s how you can use this in a two-stage retrieval process:
+
+1. *First-Stage Retrieval with Sparse Vectors*: Initially, query Qdrant with sparse vectors for the first-stage retrieval. This stage is all about speed and efficiently filtering through vast amounts of data to find a relevant subset. Sparse vectors are ideal for this due to their lower computational overhead and faster processing times. You will get a list of scored points as a result of this stage.
+
+2. *Second-Stage Ranking with Dense Vectors*: Once a relevant subset of data is identified, the process moves to the second stage, which involves dense vector-based ranking. Dense vectors, with their rich information representation, are well-suited for this detailed analysis, providing a more nuanced understanding and ranking of the results.
+
+You can limit the second stage to only the top results from the first stage, which will further improve the efficiency of your system. You can use the same collection for both stages, with the first-stage retrieval using sparse vectors and the second-stage ranking using dense vectors. This is a powerful combination that can significantly improve the efficiency of your system.
+
+### Combining Sparse and Dense Vectors for Better Ranking
+What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Well, we don't know of one yet. But we do know that lot of people like Reciprocal Rank Fusion (RRF) for combining sparse and dense vectors. [Ranx](https://github.com/AmenRa/ranx) is a great library for this.
 
 ## Additional Resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
