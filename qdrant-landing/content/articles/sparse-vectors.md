@@ -27,7 +27,7 @@ Consider a simplified example of 2 documents, each with 200 words. A dense vecto
 
 ```python
 dense = [0.2, 0.3, 0.5, 0.7.....] # several hundred floats
-sparse = [331, 14136] 
+sparse = [{331: 0.5}, {14136: 0.7}] # 20 key value pairs
 ```
 
 The numbers 331 and 14136 map to specific tokens in the vocabulary e.g. `['chocolate', 'icecream']`. The rest of the values are zero. This is why it's called a sparse vector.
