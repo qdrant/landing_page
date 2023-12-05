@@ -372,10 +372,6 @@ Qdrant's unique ability to handle both sparse and dense vectors within the same 
 
 You can limit the second stage to only the top results from the first stage, which will further improve the efficiency of your system. You can use the same collection for both stages, with the first-stage retrieval using sparse vectors and the second-stage ranking using dense vectors. This is a powerful combination that can significantly improve the efficiency of your system.
 
-### Combining Sparse and Dense Vectors for Better Ranking
-
-What if we told you there's a magical formula that combines sparse and dense vectors for damn good ranking? Well, we don't know of one yet. But we do know that lot of people like Reciprocal Rank Fusion (RRF) for combining sparse and dense vectors. [Ranx](https://github.com/AmenRa/ranx) is a great library for this.
-
 ## Additional Resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
 
@@ -385,9 +381,9 @@ For those who want to dive deeper, here are the top papers on the topic most of 
 1. Late Interaction - [ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction](https://ar5iv.org/abs/2112.01488?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
 1. [SparseEmbed: Learning Sparse Lexical Representations with Contextual Embeddings for Retrieval](https://research.google/pubs/pub52289/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
 
-Why just read when you try it out? 
+**Why just read when you try it out?**
 
-We've packed an easy-to-use Colab for you: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
+We've packed an easy-to-use Colab for you on how to make a Sparse Vector: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
 
 ## Conclusion
 
