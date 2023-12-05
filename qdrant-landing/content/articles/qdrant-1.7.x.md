@@ -22,11 +22,11 @@ keywords:
 
 Please welcome the long-awaited [Qdrant 1.7.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.7.0). Except for a handful of minor fixes and improvements, this release brings some cool brand-new features that we are excited to share! 
 The latest version of your favorite vector search engine finally supports **sparse vectors**. That's the feature many of you requested, so why should we ignore it? 
-We also decided to continue our journey with [vector similarity beyond search](/articles/vector-similarity-beyond-search/). The new Discovery API covers some completely new use cases. We're more than excited to see what you will build with it! 
+We also decided to continue our journey with [vector similarity beyond search](/articles/vector-similarity-beyond-search/). The new Discovery API covers some utterly new use cases. We're more than excited to see what you will build with it! 
 But there is more to it! Check out what's new in **Qdrant 1.7.0**!
 
-1. Sparse vectors: do you want to use BM25? Long-awaited support for sparse vectors is finally here!
-2. Discovery API: a completely new way of using vectors for restricted search and exploration.
+1. Sparse vectors: do you want to use BM25? Support for sparse vectors is finally here!
+2. Discovery API: an entirely new way of using vectors for restricted search and exploration.
 3. User-defined sharding: you can now decide which points should be stored on which shard.
 4. Snapshot-based shard transfer: a new option for moving shards between nodes.
 
