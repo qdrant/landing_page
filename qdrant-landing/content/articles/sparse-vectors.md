@@ -297,7 +297,7 @@ client.upsert(
 ```
 By upserting points with sparse vectors, we prepare our dataset for rapid first-stage retrieval, laying the groundwork for subsequent detailed analysis using dense vectors. Notice that we use "text" to denote the name of the sparse vector.
 
-Those familiar with the Qdrant API will notice that the extra care taken to be consistent with the existing named vectors API -- this is to make it easier to use sparse vectors in existing codebases. As always, you're able to **apply payload filters**, shard keys, and other advanced features you've come to expect from Qdrant. To make things easier for you, the indices and values don't have to be sorted before upsert. Qdrant will sort them for you for indexing.
+Those familiar with the Qdrant API will notice that the extra care taken to be consistent with the existing named vectors API -- this is to make it easier to use sparse vectors in existing codebases. As always, you're able to **apply payload filters**, shard keys, and other advanced features you've come to expect from Qdrant. To make things easier for you, the indices and values don't have to be sorted before upsert. Qdrant will sort them when the index is persisted e.g. on disk.
 
 ### 4. Querying with Sparse Vectors
 
