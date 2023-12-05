@@ -1,5 +1,5 @@
 ---
-title: "Sparse Vectors in Qdrant: Memory Efficient Ranking"
+title: "Sparse Vectors in Qdrant: Pure Vector-based Hybrid Search"
 short_description: "Sparse vectors are several times more efficient than dense vectors, making them a great choice for large-scale systems. They're also interpretable, which is a huge advantage over dense vectors."
 description: "Sparse vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors."
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
@@ -57,6 +57,7 @@ Sparse Vectors shine in domains and scenarios where we don't have a lot of relev
 | **Information Density**   | Less dense, focuses on key features | Highly dense, capturing nuanced relationships |
 | **Example Applications**  | Recommendation systems | RAG, many general machine learning tasks |
 
+Where do Sparse Vectors fail though? They're not great at capturing nuanced relationships between words. For example, they can't capture the relationship between "king" and "queen" as well as dense vectors.
 
 # SPLADE
 
