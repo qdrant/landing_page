@@ -48,12 +48,8 @@ Sparse Vectors shine in domains and scenarios where we don't have a lot of relev
 
 | Feature                   | Sparse Vectors                              | Dense Vectors                                |
 |---------------------------|---------------------------------------------|----------------------------------------------|
-| **Data Representation**   | Majority of elements are zero               | Most elements are non-zero                   |
-| **Storage Efficiency**    | High, due to storing only non-zero elements | Lower, as all elements are stored            |
+| **Data Representation**   | Majority of elements are zero               | All elements are non-zero                   |
 | **Computational Efficiency** | Generally higher, especially in operations involving zero elements | Lower, as operations are performed on all elements |
-| **Use Case**              | Effective in high-dimensional data where most elements are zero (e.g., text data) | Suitable for data where all dimensions carry significant information |
-| **Robustness to Noise**   | Potentially more robust, especially in high-dimensional spaces | Less robust to noise compared to sparse representations |
-| **Model Complexity**      | Can lead to simpler models in certain contexts | Often results in more complex models          |
 | **Information Density**   | Less dense, focuses on key features | Highly dense, capturing nuanced relationships |
 | **Example Applications**  | Recommendation systems | RAG, many general machine learning tasks |
 
