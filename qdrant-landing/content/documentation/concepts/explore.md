@@ -155,15 +155,13 @@ let score = if best_positive_score > best_negative_score {
 ```
 
 <aside role="alert">
-
-The performance of `best_score` strategy will be linearly impacted by the amount of examples.
+The performance of <code>best_score</code> strategy will be linearly impacted by the amount of examples.
 </aside>
 
 Since we are computing similarities to every example at each step of the search, the performance of this strategy will be linearly impacted by the amount of examples. This means that the more examples you provide, the slower the search will be. However, this strategy can be very powerful and should be more embedding-agnostic.
 
 <aside role="status">
-
-Accuracy may be impacted with this strategy. To improve it, increasing the `ef` search parameter to something above 32 will already be much better than the default 16, e.g: `"params": { "ef": 64 }` 
+Accuracy may be impacted with this strategy. To improve it, increasing the <code>ef</code> search parameter to something above 32 will already be much better than the default 16, e.g: <code>"params": { "ef": 64 }</code>
 </aside>
 
 To use this algorithm, you need to set `"strategy": "best_score"` in the recommendation request.
