@@ -28,8 +28,8 @@ Consider a simplified example of 2 documents, each with 200 words. A dense vecto
 In this example: We assume it selects only 2 words or tokens from each document. The rest of the values are zero. This is why it's called a sparse vector.
 
 ```python
-dense = [0.2, 0.3, 0.5, 0.7.....] # several hundred floats
-sparse = [{331: 0.5}, {14136: 0.7}] # 20 key value pairs
+dense = [0.2, 0.3, 0.5, 0.7, ...]  # several hundred floats
+sparse = [{331: 0.5}, {14136: 0.7}]  # 20 key value pairs
 ```
 
 The numbers 331 and 14136 map to specific tokens in the vocabulary e.g. `['chocolate', 'icecream']`. The rest of the values are zero. This is why it's called a sparse vector.
@@ -39,12 +39,11 @@ The tokens aren't always words though, sometimes they can be sub-words: `['ch', 
 They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
 
 BM25's capabilities are well-established, yet it has its limitations. 
-BM25 relies solely on the frequency of words in a document and does not attempt to comprehend the meaning or the contextual importance of the words.
-Additionally, it requires the computation of the entire corpus's statistics in advance, posing a challenge for large datasets.
+
+BM25 relies solely on the frequency of words in a document and does not attempt to comprehend the meaning or the contextual importance of the words. Additionally, it requires the computation of the entire corpus's statistics in advance, posing a challenge for large datasets.
 
 Sparse vectors harness the power of neural networks to surmount these limitations while retaining the ability to query exact words and phrases.
 They excel in handling large text data, making them crucial in modern data processing a and marking an advancement over traditional methods such as BM25.
-
 
 # Understanding Sparse Vectors
 
@@ -97,7 +96,7 @@ If you'd like to follow along, here's a [Colab Notebook](https://colab.research.
 ```python
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 
-model_id = 'naver/splade-cocondenser-ensembledistil'
+model_id = "naver/splade-cocondenser-ensembledistil"
 
 tokenizer = AutoTokenizer.from_pretrained(model_id)
 model = AutoModelForMaskedLM.from_pretrained(model_id)
@@ -108,6 +107,7 @@ text = """Arthur Robert Ashe Jr. (July 10, 1943 – February 6, 1993) was an Ame
 ## Computing the Sparse Vector
 ```python
 import torch
+
 
 def compute_vector(text):
     """
@@ -152,12 +152,20 @@ def extract_and_map_sparse_vector(vector, tokenizer):
 
     # Map indices to tokens and create a dictionary
     idx2token = {idx: token for token, idx in tokenizer.get_vocab().items()}
-    token_weight_dict = {idx2token[idx]: round(weight, 2) for idx, weight in zip(cols, weights)}
+    token_weight_dict = {
+        idx2token[idx]: round(weight, 2) for idx, weight in zip(cols, weights)
+    }
 
     # Sort the dictionary by weights in descending order
-    sorted_token_weight_dict = {k: v for k, v in sorted(token_weight_dict.items(), key=lambda item: item[1], reverse=True)}
+    sorted_token_weight_dict = {
+        k: v
+        for k, v in sorted(
+            token_weight_dict.items(), key=lambda item: item[1], reverse=True
+        )
+    }
 
     return sorted_token_weight_dict
+
 
 # Usage example
 sorted_tokens = extract_and_map_sparse_vector(vec, tokenizer)
@@ -170,23 +178,22 @@ Here are some terms that are added: "Berlin", and "founder" - despite having no 
 
 ```python
 {
- 'ashe': 2.95,
- 'arthur': 2.61,
- 'tennis': 2.22,
- 'robert': 1.74,
- 'jr': 1.55,
- 'he': 1.39,
- 'founder': 1.36,
- 'doubles': 1.24,
- 'won': 1.22,
- 'slam': 1.22,
- 'died': 1.19,
- 'singles': 1.1,
- 'was': 1.07,
- 'player': 1.06,
- 'titles': 0.99,
- 'birthday': 0.99,
- ...
+    "ashe": 2.95,
+    "arthur": 2.61,
+    "tennis": 2.22,
+    "robert": 1.74,
+    "jr": 1.55,
+    "he": 1.39,
+    "founder": 1.36,
+    "doubles": 1.24,
+    "won": 1.22,
+    "slam": 1.22,
+    "died": 1.19,
+    "singles": 1.1,
+    "was": 1.07,
+    "player": 1.06,
+    "titles": 0.99, 
+    ...
 }
 ```
 
@@ -318,12 +325,11 @@ client.upsert(
             payload={},  # Add any additional payload if necessary
             vector={
                 "text": models.SparseVector(
-                    indices=indices.tolist(),
-                    values=values.tolist()
+                    indices=indices.tolist(), values=values.tolist()
                 )
-            }
+            },
         )
-    ]
+    ],
 )
 ```
 By upserting points with sparse vectors, we prepare our dataset for rapid first-stage retrieval, laying the groundwork for subsequent detailed analysis using dense vectors. Notice that we use "text" to denote the name of the sparse vector.
@@ -358,7 +364,7 @@ result = client.search(
     query_vector=models.NamedSparseVector(
         name="text",
         vector=models.SparseVector(
-            indices=query_indices, 
+            indices=query_indices,
             values=query_values,
         ),
     ),
@@ -377,11 +383,17 @@ ScoredPoint(
     score=3.4292831420898438,
     payload={},
     vector={
-        'text': SparseVector(
+        "text": SparseVector(
             indices=[2001, 2002, 2010, 2018, 2032, ...],
-            values=[1.0660614967346191, 1.391068458557129, 0.8903818726539612, 0.2502821087837219, ...]
+            values=[
+                1.0660614967346191,
+                1.391068458557129,
+                0.8903818726539612,
+                0.2502821087837219,
+                ...,
+            ],
         )
-    }
+    },
 )
 ```
 
@@ -411,7 +423,7 @@ client.recreate_collection(
     collection_name=COLLECTION_NAME,
     vectors_config={
         "text-dense": models.VectorParams(
-            size=1536, # OpenAI Embeddings
+            size=1536,  # OpenAI Embeddings
             distance=models.Distance.COSINE,
         )
     },
@@ -429,7 +441,6 @@ client.recreate_collection(
 Then, assuming you have upserted both dense and sparse vectors, you can query them together:
 
 ```python
-
 query_text = "Who was Arthur Ashe?"
 
 # Compute sparse and dense vectors
@@ -451,13 +462,13 @@ cleint.search_batch(
             vector=models.NamedSparseVector(
                 name="text-sparse",
                 vector=models.SparseVector(
-                    indices=query_indices, 
+                    indices=query_indices,
                     values=query_values,
                 ),
             ),
             top=10,
         ),
-    ]
+    ],
 )
 ```
 
