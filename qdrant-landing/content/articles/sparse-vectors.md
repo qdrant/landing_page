@@ -303,7 +303,7 @@ client.recreate_collection(
     vectors_config={},
     sparse_vectors_config={
         "text": models.SparseVectorParams(
-            index=models.SparseIndexConfig(
+            index=models.SparseIndexParams(
                 on_disk=False,
             )
         )
@@ -429,7 +429,7 @@ client.recreate_collection(
     },
     sparse_vectors_config={
         "text-sparse": models.SparseVectorParams(
-            index=models.SparseIndexConfig(
+            index=models.SparseIndexParams(
                 on_disk=False,
             )
         )
