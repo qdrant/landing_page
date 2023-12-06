@@ -32,7 +32,7 @@ sparse = [{331: 0.5}, {14136: 0.7}] # 20 key value pairs
 
 The numbers 331 and 14136 map to specific tokens in the vocabulary e.g. `['chocolate', 'icecream']`. The rest of the values are zero. This is why it's called a sparse vector.
 
-The tokens aren't always words though, sometimes they can be sub-words: `['ch', 'ocolate]` too.
+The tokens aren't always words though, sometimes they can be sub-words: `['ch', 'ocolate']` too.
 
 They're pivotal in information retrieval, especially in ranking and search systems. BM25, a standard ranking function used by search engines like [Elasticsearch](https://www.elastic.co/blog/practical-bm25-part-2-the-bm25-algorithm-and-its-variables?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors), exemplifies this. BM25 calculates the relevance of documents to a given search query. 
 
