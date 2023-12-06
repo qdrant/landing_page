@@ -46,7 +46,7 @@ They excel in handling large text data, making them crucial in modern data proce
 
 # Understanding Sparse Vectors
 
-Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, offering an advantage over embedding or dense vectors. 
+Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, complimenting the meaning-rich embedding or dense vectors. 
 
 Dense vectors from models like OpenAI Ada-002 or Sentence Transformers contain non-zero values for every element. In contrast, sparse vectors focus on relative word weights per document, with most values being zero. This results in a more efficient and interpretable system, especially in text-heavy applications like search.
 
@@ -392,8 +392,7 @@ $$\text{Similarity}(\text{Query}, \text{Document}) = \sum_{i \in I} \text{Query}
 This formula calculates the similarity score by multiplying corresponding elements of the query and document vectors and summing these products. This method is particularly effective with sparse vectors, where many elements are zero, leading to a computationally efficient process. The higher the score, the greater the similarity between the query and the document, making it a valuable metric for assessing the relevance of the retrieved documents.
 
 
-### Combining Sparse and Dense Vectors
-
+## Combining Sparse and Dense Vectors
 
 By combining search results from both dense and sparse vectors, you can achieve a hybrid search that is both efficient and accurate.
 Results from sparse vectors will guranatee, that all results with the required keywords are returned, 
@@ -465,8 +464,8 @@ The result will be a pair of result lists, one for dense and one for sparse vect
 Having those results, there are several ways to combine them:
 
 - **Mixing**: You can mix the results from both dense and sparse vectors, based purely on their relative scores. 
-  This is a simple and effective approach, but it doesn't take into account the semantic similarity between the results.
-  Among the [popular mixing methods](https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18) are:
+This is a simple and effective approach, but it doesn't take into account the semantic similarity between the results.
+Among the [popular mixing methods](https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18) are:
 
     - Reciprocal Ranked Fusion (RRF)
     - Relative Score Fusion (RSF)
@@ -475,13 +474,13 @@ Having those results, there are several ways to combine them:
 
 {{< figure src=/articles_data/sparse-vectors/mixture.png caption="Relative Score Fusion" width=80% >}}
 
+[Ranx](https://github.com/AmenRa/ranx) is a great library for mixing results from different sources.
+
 
 - **Re-ranking**: You can use obtained results as a first stage of a two-stage retrieval process. 
-  In the second stage, you can re-rank the results from the first stage using a more complex model, 
-  such as [Cross-Encoders](https://www.sbert.net/examples/applications/cross-encoder/README.html) or services like [Cohere Rerank](https://txt.cohere.com/rerank/).
+In the second stage, you can re-rank the results from the first stage using a more complex model, such as [Cross-Encoders](https://www.sbert.net/examples/applications/cross-encoder/README.html) or services like [Cohere Rerank](https://txt.cohere.com/rerank/).
 
-And that's it! You've successfully achieved hybrid search with Qdrant.
-
+And that's it! You've successfully achieved hybrid search with Qdrant!
 
 ## Additional Resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
