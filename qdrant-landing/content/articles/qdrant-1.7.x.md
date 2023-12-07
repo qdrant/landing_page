@@ -42,12 +42,12 @@ Qdrant 1.7.0 brings a bunch of new features. Let's take a closer look at them!
 
 ### Sparse vectors
 
-The good old keyword-based search mechanisms are usually based on TFIDF, BM25, or similar algorithms. Internally, those methods also rely on vectors, but they are sparse. That means, **they contain a lot of zeros, and the number of non-zero values is usually small**.
-Those sparse vectors are theoretically highly dimensional, definitely way higher than the dense vectors used in semantic search. However, since the majority of dimensions are usually zeros, we store them differently and just keep the non-zero dimensions. 
+Traditional keyword-based search mechanisms often rely on algorithms like TF-IDF, BM25, or comparable methods. While these techniques internally utilize vectors, they typically involve sparse vector representations. In these methods, the **vectors are predominantly filled with zeros, containing a relatively small number of non-zero values**.
+Those sparse vectors are theoretically high dimensional, definitely way higher than the dense vectors used in semantic search. However, since the majority of dimensions are usually zeros, we store them differently and just keep the non-zero dimensions. 
 
 Until now, Qdrant has not been able to handle sparse vectors natively. Some were trying to convert them to dense vectors, but that was not the best solution or a suggested way. We even wrote a piece with [our thoughts on building a hybrid search](/articles/hybrid-search/), and we encouraged you to use a different tool for keyword lookup. 
 
-Things have changed since then. And responding to  [popular](https://github.com/qdrant/qdrant/issues/1678) [demand](https://github.com/qdrant/qdrant/issues/1135] , we've now introduced Sparse Vectors! 
+Things have changed since then, as so many of you wanted a single tool for sparse and dense vectors. And responding to this [popular](https://github.com/qdrant/qdrant/issues/1678) [demand](https://github.com/qdrant/qdrant/issues/1135] , we've now introduced sparse vectors! 
 
 Please wait closely for our next article, describing how to use this feature in practice. For now, you can check out the [sparse vectors documentation](/documentation/concepts/search/#sparse-vectors)!
 
@@ -55,8 +55,8 @@ TODO: Add a link to the sparse vectors documentation.
 
 ### Discovery API
 
-The newly introduced [Discovery API](/documentation/concepts/explore/#discovery-api) aims to enable even more scenarios for using vectors. Its interface is similar to the [Recommendation API](/documentation/concepts/explore/#recommendation-api), but it effectively constraints the search space.
-There is a concept of `context`, which is a set of positive-negative pairs. Each pair divides the space into positive and negative zones. In that mode, the search operation prefers points based on how many positive zones they belong to (or how much they avoid negative zones).
+The recently launched [Discovery API](/documentation/concepts/explore/#discovery-api) extends the range of scenarios for leveraging vectors. While its interface mirrors the [Recommendation API](/documentation/concepts/explore/#recommendation-api), it focuses on refining the search parameters for greater precision.
+The concept of 'context' refers to a collection of positive-negative pairs that define zones within a space. Each pair effectively divides the space into positive or negative segments. This concept guides the search operation to prioritize points based on their inclusion within positive zones or their avoidance of negative zones. Essentially, the search algorithm favors points that fall within multiple positive zones or steer clear of negative ones.
 
 The Discovery API can be used in two ways - either with or without the target point. The first case is called a **discovery search**, while the second is called a **context search**.
 
@@ -71,16 +71,16 @@ Please refer to the [Discovery API documentation on discovery search](/documenta
 #### Context search
 
 The mode of *context search* is similar to the discovery search, but it does not use a target point. Instead, the `context` is used to navigate the [HNSW graph](https://arxiv.org/abs/1603.09320) towards preferred zones. It is expected that the results in that mode will be diverse, and not centered around one point.
-*Context search* might be an answer for those looking for some kind of exploration of the vector space. 
+*Context Search* could serve as a solution for individuals seeking a more exploratory approach to navigate the vector space.
 
 ![Context search visualization](/articles_data/qdrant-1.7.x/context-search.png)
 
 ### User-defined sharding
 
 Qdrant's collections are divided into shards. A single **shard** is a self-contained store of points, which can be moved between nodes. Up till now, the points were distributed among shards by using a consistent hashing algorithm, so that shards were managing non-intersecting subsets of points.
-The latter one remains true, but now you can define your own sharding and decide which points should be stored on which shard. Sounds cool, right? But why would you need that? Well, there are multiple scenarios in which you may want to use custom sharding. For example, you may want to store some points on a dedicated node, or you may want to store points from the same user on the same shard.
+The latter one remains true, but now you can define your own sharding and decide which points should be stored on which shard. Sounds cool, right? But why would you need that? Well, there are multiple scenarios in which you may want to use custom sharding. For example, you may want to store some points on a dedicated node, or you may want to store points from the same user on the same shard and 
 
-While the old behavior is still the default one, you can now define the shards when you create a collection. Then, you can assign each point to a shard by providing a `shard_key` in the `upsert` operation. What's more, you can also search over the selected shards only by providing the `shard_key` parameter in the search operation.
+While the existing behavior is still the default one, you can now define the shards when you create a collection. Then, you can assign each point to a shard by providing a `shard_key` in the `upsert` operation. What's more, you can also search over the selected shards only, by providing the `shard_key` parameter in the search operation.
 
 ```http request
 POST /collections/my_collection/points/search
@@ -96,16 +96,18 @@ If you want to know more about the user-defined sharding, please refer to the [s
 
 ### Snapshot-based shard transfer
 
-That's a really more in depth technical improvement for the distributed mode users, but we implemented a new options the shard transfer mechanism. The new approach is based on the snapshot of the shard, which is transferred to the target node.
+That's a really more in depth technical improvement for the distributed mode users, that we implemented a new options the shard transfer mechanism. The new approach is based on the snapshot of the shard, which is transferred to the target node.
 
 Moving shards is required for dynamical scaling of the cluster. Your data can migrate between nodes, and the way you move it is crucial for the performance of the whole system. The good old `stream_records` method (still the default one) transmits all the records between the machines and indexes them on the target node. 
-That means, even the HNSW index has to be recreated every time you move the shard. The new `snapshot` approach is based on the snapshot, which is transferred to the target node. The snapshot contains all the data, even quantized if you use it, and the index, so the target node can just load it and start serving requests. 
+In the case of moving the shard, it's necessary to recreate the HNSW index each time. However, with the introduction of the new `snapshot` approach, the snapshot itself, inclusive of all data and potentially quantized content, is transferred to the target node. This comprehensive snapshot includes the entire index, enabling the target node to seamlessly load it and promptly begin handling requests without the need for index recreation.
 
 There are multiple scenarios in which you may prefer one over the other. Please check out the docs of the [shard transfer method](/documentation/guides/distributed_deployment/#shard-transfer-method) for more details and head-to-head comparison. As for now, the old `stream_records` method is still the default one, but we may decide to change it in the future.
 
 ## Minor improvements
 
 Except for the new features, Qdrant 1.7.0 improves and fixes some minor issues. Here is a list of the most important ones:
+
+- Support of a [Manhattan distance](https://github.com/qdrant/qdrant/pull/3079) as a fourth metric
 
 TODO: Put the list of issues here. Just copy the most important ones from the release notes.
 
