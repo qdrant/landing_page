@@ -250,6 +250,12 @@ client
 
 Search is processing only among vectors with the same name.
 
+*Available as of v0.17.0*
+
+If the collection was created with sparse vectors, the name of the sparse vector to use for searching should be provided:
+
+TODO: add examples
+
 ### Filtering results by score
 
 In addition to payload filtering, it might be useful to filter out results with a low similarity score.

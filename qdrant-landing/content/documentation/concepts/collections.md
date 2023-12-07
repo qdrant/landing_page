@@ -297,40 +297,9 @@ which is suitable for ingesting a large amount of data.
 
 *Available as of v1.7.0*
 
-A sparse vector is an array in which most of the elements have a value of zero.
-
-It is possible to take advantage of this property to have an optimized representation, for this reason they have a different shape than dense vectors.
-
-They are represented as a list of `(index, value)` pairs, where `index` is an integer and `value` is a floating point number. The `index` is the position of the non-zero value in the vector. The `values` is the value of the non-zero element.
-
-For example, the following vector:
-
-```
-[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 2.0, 0.0, 0.0]
-```
-
-can be represented as a sparse vector:
-
-```
-[(6, 1.0), (7, 2.0)]
-```
-
-Qdrat uses the following JSON representation throughout the REST API.
-
-```json
-{
-  "indices": [6, 7],
-  "values": [1.0, 2.0]
-}
-```
-
-The `indices` and `values` arrays must have the same length.
-And the `indices` must be unique.
-
 Collections can contain sparse vectors as additional [named vectors](#collection-with-multiple-vectors) along side regular dense vectors in a single point.
 
 Sparse vectors must be named, unlike dense vectors which support a single dense anonymous vector.
-
 
 ```http
 PUT /collections/{collection_name}
@@ -395,6 +364,10 @@ client
     })
     .await?;
 ```
+
+There are no required configuration parameters for named sparse vectors.
+
+However, you can optionally tune the following parameters for the underlying [sparse indexing](../indexing/#sparse-vector-index).
 
 ### Delete collection
 

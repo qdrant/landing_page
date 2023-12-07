@@ -190,7 +190,7 @@ See [Full Text match](../filtering/#full-text-match) for examples of querying wi
 A vector index is a data structure built on vectors through a specific mathematical model.
 Through the vector index, we can efficiently query several vectors similar to the target vector.
 
-Qdrant currently only uses HNSW as a vector index.
+Qdrant currently only uses HNSW as a dense vector index.
 
 [HNSW](https://arxiv.org/abs/1603.09320) (Hierarchical Navigable Small World Graph) is a graph-based indexing algorithm. It builds a multi-layer navigation structure for an image according to certain rules. In this structure, the upper layers are more sparse and the distances between nodes are farther. The lower layers are denser and the distances between nodes are closer. The search starts from the uppermost layer, finds the node closest to the target in this layer, and then enters the next layer to begin another search. After multiple iterations, it can quickly approach the target position.
 
@@ -227,6 +227,35 @@ Second, it is one of the most accurate and fastest algorithms, according to [pub
 The HNSW parameters can also be configured on a collection and named vector
 level by setting [`hnsw_config`](../indexing/#vector-index) to fine-tune search
 performance.
+
+## Sparse vector index
+
+*Available as of v1.4.0*
+
+Qdrant supports sparse vectors, which are vectors with a large number of zeroes.
+
+Those vectors are stored in a specialized way, which allows to save space and speed up search.
+
+The sparse vector index resides in memory for appendable segments providing fast search and update operations.
+
+When the segment becomes immutable, the sparse index can either be kept in memory or mmaped to disk.
+
+For instance, to enable on-disk storage for immutable segments and full scan for segments with less than 10000 vectors:
+
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": {
+            "index": {
+                "on_disk": true,
+                "full_scan_threshold": 10000
+            }
+         },
+    }
+}
+```
+
 
 ## Filtrable Index
 
