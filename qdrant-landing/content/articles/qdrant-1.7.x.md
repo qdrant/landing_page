@@ -105,7 +105,7 @@ There are multiple scenarios in which you may prefer one over the other. Please 
 
 ## Minor improvements
 
-Except for the new features, Qdrant 1.7.0 improves and fixes some minor issues. Here is a list of the most important ones:
+Beyond introducing new features, Qdrant 1.7.0 enhances performance and addresses various minor issues. Here's a rundown of the key improvements:
 
 - Support of a [Manhattan distance](https://github.com/qdrant/qdrant/pull/3079) as a fourth metric
 
