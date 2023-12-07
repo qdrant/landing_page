@@ -656,6 +656,8 @@ So to clarify: these numbers don't represent the exact amount of points or
 vectors you have inserted, nor does it represent the exact number of
 distinguishable points or vectors you can query.
 
+_Note: these numbers may be removed in a future version of Qdrant._
+
 ### Indexing vectors in HNSW
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
