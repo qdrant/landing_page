@@ -380,14 +380,18 @@ client
 ```
 
 <aside role="alert">
-
-Using the same point ID across multiple shard keys is __not supported<sup>*</sup>__ and should be avoided.
-
-<strong><sup>*</sup></strong> When using custom sharding, IDs are only enforced to be unique within a shard key. This means that you can have multiple points with the same ID, if they have different shard keys.
-This is a limitation of the current implementation, and is an anti-pattern that should be avoided because it can create scenarios of points with the same ID to have different contents. In the future, we plan to add a global ID uniqueness check.
+Using the same point ID across multiple shard keys is <strong>not supported<sup>*</sup></strong> and should be avoided.
 </aside>
+<sup>
+<strong>*</strong> When using custom sharding, IDs are only enforced to be unique within a shard key. This means that you can have multiple points with the same ID, if they have different shard keys.
+This is a limitation of the current implementation, and is an anti-pattern that should be avoided because it can create scenarios of points with the same ID to have different contents. In the future, we plan to add a global ID uniqueness check.
+</sup>
 
 Now you can target the operations to specific shard(s) by specifying the `shard_key` on any operation you do. Operations that do not specify the shard key will be executed on __all__ shards.
+
+Another use-case would be to have shards that track the data chronologically, so that you can do more complex itineraries like uploading live data in one shard and archiving it once a certain age has passed.
+
+<img src="/docs/sharding-per-day.png" alt="Sharding per day" width="500" height="600">
 
 ### Shard transfer method
 
