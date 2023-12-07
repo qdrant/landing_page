@@ -47,7 +47,9 @@ Those sparse vectors are theoretically highly dimensional, definitely way higher
 
 Until now, Qdrant has not been able to handle sparse vectors natively. Some were trying to convert them to dense vectors, but that was not the best solution or a suggested way. We even wrote a piece with [our thoughts on building a hybrid search](/articles/hybrid-search/), and we encouraged you to use a different tool for keyword lookup. 
 
-Things have changed since then, as so many of you wanted a single tool for sparse and dense vectors. That’s why we decided to implement native support for sparse vectors! Please wait closely for our next article, describing how to use this feature in practice. For now, you can check out the [sparse vectors documentation](/documentation/concepts/search/#sparse-vectors)!
+Things have changed since then. And responding to  [popular](https://github.com/qdrant/qdrant/issues/1678) [demand](https://github.com/qdrant/qdrant/issues/1135] , we've now introduced Sparse Vectors! 
+
+Please wait closely for our next article, describing how to use this feature in practice. For now, you can check out the [sparse vectors documentation](/documentation/concepts/search/#sparse-vectors)!
 
 TODO: Add a link to the sparse vectors documentation.
 
@@ -68,7 +70,7 @@ Please refer to the [Discovery API documentation on discovery search](/documenta
 
 #### Context search
 
-The mode of *context search* is similar to the discovery search, but it does not use a target point. Instead, the `context` is used to navigate the HNSW graph towards preferred zones. It is expected that the results in that mode will be diverse, and not centered around one point.
+The mode of *context search* is similar to the discovery search, but it does not use a target point. Instead, the `context` is used to navigate the [HNSW graph](https://arxiv.org/abs/1603.09320) towards preferred zones. It is expected that the results in that mode will be diverse, and not centered around one point.
 *Context search* might be an answer for those looking for some kind of exploration of the vector space. 
 
 ![Context search visualization](/articles_data/qdrant-1.7.x/context-search.png)
