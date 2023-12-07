@@ -1,0 +1,152 @@
+$blog-font-family: 'Roboto', sans-serif;
+
+.qdrant-blog {
+  // todo: move
+  @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;300&family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,100;1,400;1,500;1,700&display=swap');
+
+  &__subheader {
+    color: var(--neutral-n-800, #102252);
+    margin-bottom: 1.5rem;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 0;
+    }
+
+    font-family: $blog-font-family;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 3rem; /* 120% */
+  }
+
+  &__search {
+    position: relative;
+    margin-bottom: 2.5rem;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 3rem;
+    }
+
+    & > input {
+      width: 100%;
+      height: 3rem;
+      padding: 0.625rem 1.5rem;
+      padding-right: 4rem;
+      border-radius: 6.25rem;
+      border: 1px solid var(--neutral-n-200, #AEBDE5);
+      //background: var(--neutral-white, #FFF);
+
+      &::placeholder {
+        color: var(--neutral-n-300, #8B9CCC);
+
+        font-family: $blog-font-family;
+        font-size: 1rem;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 1.5rem; /* 150% */
+      }
+    }
+
+    & > button {
+      position: absolute;
+      top: 50%;
+      right: 1.5rem;
+      transform: translateY(-50%);
+      background: transparent;
+    }
+  }
+
+  &__featured {
+    min-height: 33rem;
+    margin-bottom: 3.17rem;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 5rem;
+    }
+  }
+
+  &__card {
+    transition: all 0.3s ease-in-out;
+    margin-bottom: 3.17rem;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: 5rem;
+    }
+  }
+
+}
+
+.qb-card {
+  display: block;
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__img {
+    margin-bottom: 1.58rem;
+
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__title {
+    color: var(--neutral-n-800, #102252);
+
+    /* H/H24 */
+    font-family: $blog-font-family;
+    font-size: 1.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 2rem; /* 133.333% */
+    margin-bottom: 0.79rem;
+  }
+
+  &__text {
+    overflow: hidden;
+    color: var(--neutral-n-700, #1F3266);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    /* P/P16 */
+    font-family: $blog-font-family;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.5rem; /* 150% */
+
+    margin-bottom: 0.79rem;
+  }
+
+  &__meta {
+    color: var(--neutral-n-500, #4B6A9B);
+
+    /* P/P14 */
+    font-family: $blog-font-family;
+    font-size: 0.875rem;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 1.25rem; /* 143% */
+  }
+
+  &__meta-divider {
+    margin: 0 0.53rem;
+  }
+
+  &:hover {
+    // todo: think about adding some nice transform
+    .qb-card__title {
+      color: var(--brand-primary, #DC244C);
+    }
+  }
+
+
+  //
+  &_border-bottom {
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--neutral-n-200, #AEBDE5);
+  }
+}
