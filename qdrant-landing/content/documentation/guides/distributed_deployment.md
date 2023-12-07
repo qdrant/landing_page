@@ -313,7 +313,7 @@ In this mode, the `shard_number` means the number of shards per shard key, where
 
 Then you will have `1 * 10 * 2 = 20` total physical shards in the collection.
 
-To specify the shard for each point, you need to provide the `shard_key` field in the point payload:
+To specify the shard for each point, you need to provide the `shard_key` field in the upsert request:
 
 ```http
 PUT /collections/{collection_name}/points
@@ -380,10 +380,14 @@ client
 ```
 
 <aside role="alert">
-When using custom sharding, IDs are only enforced to be unique within a shard key. This means that you can have multiple points with the same ID, if they have different shard keys.
 
+Using the same point ID across multiple shard keys is __not supported<sup>*</sup>__ and should be avoided.
+
+<strong><sup>*</sup></strong> When using custom sharding, IDs are only enforced to be unique within a shard key. This means that you can have multiple points with the same ID, if they have different shard keys.
 This is a limitation of the current implementation, and is an anti-pattern that should be avoided because it can create scenarios of points with the same ID to have different contents. In the future, we plan to add a global ID uniqueness check.
 </aside>
+
+Now you can target the operations to specific shard(s) by specifying the `shard_key` on any operation you do. Operations that do not specify the shard key will be executed on __all__ shards.
 
 ### Shard transfer method
 
