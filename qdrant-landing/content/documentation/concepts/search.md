@@ -1,4 +1,4 @@
-<!-- --- -->
+---
 title: Search
 weight: 50
 aliases:

@@ -569,7 +569,7 @@ Conversely, in the absence of a target, a rigid integer-by-integer function does
 We can directly associate the score function to a loss function, where 0.0 is the maximum score a point can have, which means it is only in positive areas. As soon as a point exists closer to a negative example, its loss will simply be the difference of the positive and negative similarities.
 
 $$
-\text{context score} = \sum min(s(v^+_i) - s(v^-_i), 0.0)
+\text{context score} = \sum \min(s(v^+_i) - s(v^-_i), 0.0)
 $$
 
 Where $v^+_i$ and $v^-_i$ are the positive and negative examples of each pair, and $s(v)$ is the similarity function.
