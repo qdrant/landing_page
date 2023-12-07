@@ -124,7 +124,13 @@ You may use the cluster [REST API](https://qdrant.github.io/qdrant/redoc/index.h
 
 A Collection in Qdrant is made of one or more shards.
 A shard is an independent store of points which is able to perform all operations provided by collections.
-Points are distributed among shards by using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so that shards are managing non-intersecting subsets of points.
+There are two methods of distributing points across shards:
+
+- **Automatic sharding**:
+    Points are distributed among shards by using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so that shards are managing non-intersecting subsets of points. This is the default behavior.
+
+- **User-defined sharding**:
+    <i>Available as of v1.7</i> - Each point is uploaded to a specific shard, so that operations can hit only the shard or shards they need. Even with this distribution, shards still ensure having non-intersecting subsets of points. [See more...](#user-defined-sharding)
 
 Each node knows where all parts of the collection are stored through the [consensus protocol](./#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
 
@@ -160,11 +166,11 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.createCollection("{collection_name}", {
-  vectors: {
-    size: 300,
-    distance: "Cosine",
-  },
-  shard_number: 6,
+    vectors: {
+        size: 300,
+        distance: "Cosine",
+    },
+    shard_number: 6,
 });
 ```
 
@@ -187,7 +193,6 @@ client
             })),
         }),
         shard_number: Some(6),
-        ..Default::default()
     })
     .await?;
 ```
@@ -232,6 +237,153 @@ DELETE /cluster/peer/{peer_id}
 ```
 
 After that, Qdrant will exclude the node from the consensus, and the instance will be ready for shutdown.
+
+### User-defined sharding
+
+*Available as of v1.7*
+
+Qdrant allows you to specify the shard for each point individually. This feature is useful if you want to control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
+
+A clear use-case for this feature is managing a multi-tenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards.
+
+To enable user-defined sharding, set `sharding_method` to `custom` during collection creation:
+
+```http
+PUT /collections/{collection_name}
+{
+    "shard_number": 1,
+    "sharding_method": "custom"
+    // ... other collection parameters
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.create_collection(
+    name="{collection_name}",
+    shard_number=1,
+    sharding_method=models.ShardingMethod.CUSTOM,
+    # ... other collection parameters
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+    shard_number: 1,
+    sharding_method: "custom",
+    // ... other collection parameters
+});
+```
+
+```rust
+
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{CreateCollection, ShardingMethod},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        shard_number: Some(1),
+        sharding_method: Some(ShardingMethod::Custom),
+        ..Default::default()
+    })
+    .await?;
+```
+
+In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
+```
+{
+    "shard_number": 1,
+    "sharding_method": "custom"
+    "replication_factor": 2
+}
+```
+
+Then you will have `1 * 10 * 2 = 20` total physical shards in the collection.
+
+To specify the shard for each point, you need to provide the `shard_key` field in the point payload:
+
+```http
+PUT /collections/{collection_name}/points
+{
+    "points": [
+        {
+            "id": 1111,
+            "vector": [0.1, 0.2, 0.3]
+        },
+    ]
+    "shard_key": "user_1"
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.upsert_points(
+    collection_name="{collection_name}",
+    points=[
+        models.Point(
+            id=1111,
+            vector=[0.1, 0.2, 0.3],
+        ),
+    ],
+    shard_key="user_1",
+)
+```
+
+```typescript
+
+client.upsertPoints("{collection_name}", {
+    points: [
+        {
+            id: 1111,
+            vector: [0.1, 0.2, 0.3],
+        },
+    ],
+    shard_key: "user_1",
+});
+```
+
+```rust
+
+use qdrant_client::qdrant::{PointStruct, WriteOrdering, WriteOrderingType};
+
+client
+    .upsert_points_blocking(
+        "{collection_name}",
+        Some(vec![shard_key::Key::String("user_1".to_string())]),
+        vec![
+            PointStruct::new(
+                1111,
+                vec![0.1, 0.2, 0.3],
+                Default::default(),
+            ),
+        ],
+        None,
+    )
+    .await?;
+```
+
+<aside role="alert">
+When using custom sharding, IDs are only enforced to be unique within a shard key. This means that you can have multiple points with the same ID, if they have different shard keys.
+
+This is a limitation of the current implementation, and is an anti-pattern that should be avoided because it can create scenarios of points with the same ID to have different contents. In the future, we plan to add a global ID uniqueness check.
+</aside>
 
 ### Shard transfer method
 
