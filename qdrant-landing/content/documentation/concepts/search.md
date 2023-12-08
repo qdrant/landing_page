@@ -689,7 +689,7 @@ The result of this API contains one array per search requests.
 
 *Available as of v0.8.3*
 
-Search and recommendation APIs allow to skip first results of the search and return only the result starting from some specified offset:
+Search and [recommendation](../explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:
 
 Example:
 
@@ -768,7 +768,7 @@ Using an `offset` parameter, will require to internally retrieve `offset + limit
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
 
-For example, if you have a large document split into multiple chunks, and you want to search or recommend on a per-document basis, you can group the results by the document ID.
+For example, if you have a large document split into multiple chunks, and you want to search or [recommend](../explore/#recommendation-api) on a per-document basis, you can group the results by the document ID.
 
 Consider having points with the following payloads:
 
