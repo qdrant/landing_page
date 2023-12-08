@@ -230,7 +230,7 @@ performance.
 
 ## Sparse Vector Index
 
-**Version Availability:** Available as of v1.7.0
+*Available as of v1.7.0*
 
 ### Key Features of Sparse Vector Index
 - **Support for Sparse Vectors:** Qdrant supports sparse vectors, characterized by a high proportion of zeroes.
