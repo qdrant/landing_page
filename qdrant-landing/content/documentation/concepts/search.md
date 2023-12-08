@@ -692,7 +692,7 @@ The result of this API contains one array per search requests.
 
 *Available as of v0.8.3*
 
-Search and recommendation APIs allow to skip first results of the search and return only the result starting from some specified offset:
+Search and [recommendation](../explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:
 
 Example:
 
@@ -771,7 +771,7 @@ Using an `offset` parameter, will require to internally retrieve `offset + limit
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
 
-For example, if you have a large document split into multiple chunks, and you want to search or recommend on a per-document basis, you can group the results by the document ID.
+For example, if you have a large document split into multiple chunks, and you want to search or [recommend](../explore/#recommendation-api) on a per-document basis, you can group the results by the document ID.
 
 Consider having points with the following payloads:
 
@@ -878,63 +878,6 @@ client
         group_by: "document_id".to_string(),
         limit: 4,
         group_size: 2,
-        ..Default::default()
-    })
-    .await?;
-```
-
-### Recommend groups
-
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/recommend_point_groups)):
-
-```http
-POST /collections/{collection_name}/points/recommend/groups
-{
-    // Same as in the regular recommend API
-    "negative": [1],
-    "positive": [2, 5],
-
-    // Grouping parameters
-    "group_by": "document_id",  // Path of the field to group by
-    "limit": 4,                 // Max amount of groups
-    "group_size": 2,            // Max amount of points per group
-}
-```
-
-```python
-client.recommend_groups(
-    collection_name="{collection_name}",
-    # Same as in the regular recommend() API
-    negative=[1],
-    positive=[2, 5],
-    # Grouping parameters
-    group_by="document_id",  # Path of the field to group by
-    limit=4,  # Max amount of groups
-    group_size=2,  # Max amount of points per group
-)
-```
-
-```typescript
-client.recommendPointGroups("{collection_name}", {
-  negative: [1],
-  positive: [2, 5],
-  group_by: "document_id",
-  limit: 4,
-  group_size: 2,
-});
-```
-
-```rust
-use qdrant_client::qdrant::RecommendPointGroups;
-
-client
-    .recommend_groups(&RecommendPointGroups {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![1.into()],
-        negative: vec![2.into(), 5.into()],
-        group_by: "document_id".to_string(),
-        limit: 4,
-        group_size: 10,
         ..Default::default()
     })
     .await?;
