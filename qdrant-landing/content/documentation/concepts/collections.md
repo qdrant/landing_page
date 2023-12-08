@@ -372,7 +372,7 @@ client
 
 There are no required configuration parameters for named sparse vectors.
 
-However, you can optionally tune the following parameters for the underlying [sparse indexing](../indexing/#sparse-vector-index).
+However, there are optional parameters to tune the underlying [sparse index](../indexing/#sparse-vector-index).
 
 ### Delete collection
 

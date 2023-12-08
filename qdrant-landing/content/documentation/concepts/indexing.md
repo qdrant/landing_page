@@ -230,16 +230,18 @@ performance.
 
 ## Sparse vector index
 
-*Available as of v1.4.0*
+*Available as of v1.7.0*
 
 Qdrant supports sparse vectors, which are vectors with a large number of zeroes.
 
-We can take advantage of this property to index those in a specialized way, which allows to save space and speed up search.
+We can take advantage of this property to index vector in a specialized way, which allows to save space and speed up search.
 
 The underlying index is an inverted index, which stores the list of vectors for each non-zero dimension.
 
 Upon search, the index is used to find the list of vectors that have non-zero values in the query dimensions.
 Then, the vectors are scored using the dot product.
+
+There are optimizations in place to reduce the number of vectors to score for dimensions with a large number of vectors.
 
 The sparse vector index supports filtering by payload fields, which allows to use it in combination with the payload index.
 
@@ -247,7 +249,7 @@ Similar to the dense vector, it is possible configure `full_scan_threshold` to c
 
 In the case of sparse vectors, the threshold is specified in the number of vectors, not in the size of the payload.
 
-The index always resides in memory for appendable segments providing fast search and update operations.
+The index always resides in memory for appendable segments providing fast search and update operations by default.
 
 When the segment becomes immutable, the sparse index can either be kept in memory or mmaped to disk by setting the `on_disk` flag on the index.
 
