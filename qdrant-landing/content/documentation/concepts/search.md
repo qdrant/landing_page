@@ -880,63 +880,6 @@ client
     .await?;
 ```
 
-### Recommend groups
-
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/recommend_point_groups)):
-
-```http
-POST /collections/{collection_name}/points/recommend/groups
-{
-    // Same as in the regular recommend API
-    "negative": [1],
-    "positive": [2, 5],
-
-    // Grouping parameters
-    "group_by": "document_id",  // Path of the field to group by
-    "limit": 4,                 // Max amount of groups
-    "group_size": 2,            // Max amount of points per group
-}
-```
-
-```python
-client.recommend_groups(
-    collection_name="{collection_name}",
-    # Same as in the regular recommend() API
-    negative=[1],
-    positive=[2, 5],
-    # Grouping parameters
-    group_by="document_id",  # Path of the field to group by
-    limit=4,  # Max amount of groups
-    group_size=2,  # Max amount of points per group
-)
-```
-
-```typescript
-client.recommendPointGroups("{collection_name}", {
-  negative: [1],
-  positive: [2, 5],
-  group_by: "document_id",
-  limit: 4,
-  group_size: 2,
-});
-```
-
-```rust
-use qdrant_client::qdrant::RecommendPointGroups;
-
-client
-    .recommend_groups(&RecommendPointGroups {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![1.into()],
-        negative: vec![2.into(), 5.into()],
-        group_by: "document_id".to_string(),
-        limit: 4,
-        group_size: 10,
-        ..Default::default()
-    })
-    .await?;
-```
-
 The output of a ***groups*** call looks like this:
 
 ```json
