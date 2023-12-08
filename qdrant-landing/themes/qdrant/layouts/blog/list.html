@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
-<section class="auto-container pt-3 pt-md-5">
+<section class="auto-container pt-4 pt-md-5">
 
     <!-- Features and News -->
     <div class="row">
@@ -29,7 +29,7 @@
 
     <!-- Featured Post -->
     <div class="row clearfix qdrant-blog__featured">
-        {{ range where $all ".Params.featured" "=" true }}
+        {{ range first 1 (where $all ".Params.featured" "=" true) }}
         {{ $link := .Permalink }}
         {{ if .Params.external_link }}
         {{ $link = .Params.external_link }}
@@ -55,7 +55,7 @@
         <!-- Latest Posts -->
         <div class="col-12 col-md-5 d-flex flex-column justify-content-between">
             {{ range first 3 $all }}
-            <div class="qb-card qb-card_border-bottom ml-3">
+            <div class="qb-card qb-card_border-bottom ml-md-3">
                 <h3 class="qb-card__title">
                     <a href="{{ .Permalink }}">{{ .Params.title }}</a>
                 </h3>
@@ -72,6 +72,7 @@
     <!-- End of Features and News -->
 
     <!-- Blog Cards -->
+    <!--    todo: exclude featured and new posts from list-->
     <div class="row clearfix">
 
         <!-- Sidebar Page Container -->

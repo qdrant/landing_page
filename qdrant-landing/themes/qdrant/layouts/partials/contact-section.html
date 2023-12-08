@@ -1,15 +1,52 @@
 <!-- Contact Form Section -->
+
+<!--we will put the result of .Scratch.Get "variable" inside a variable-->
+{{ $variant := .Scratch.Get "variant" }}
+
+{{ if eq $variant "compact" }}
+
+<section class="newsletter-form newsletter-form_compact">
+    <p class="newsletter-form_compact__title">A place to learn how to become an expert traveler through vector space.
+        Subscribe and we will update you on features and news.</p>
+    <form
+            class="newsletter-form_compact__form d-flex flex-column flex-md-row validate"
+            action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+            name="mc-embedded-subscribe-form" target="_blank" novalidate>
+        <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
+               id="mce-EMAIL">
+        <div style="position: absolute; left: -5000px;" aria-hidden="true">
+            <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
+                   value="">
+        </div>
+        <button type="submit">
+            <span class="txt">Subscribe</span>
+        </button>
+    </form>
+</section>
+
+{{ else if eq $variant "two-columns" }}
+
+<!-- todo -->
+<section class="row">
+    <div class="col">
+        dgdfhhj
+    </div>
+</section>
+
+{{ else }}
+
 <section class="clients-section contact-section">
     <div class="auto-container">
         <div class="row">
             <div class="col-12 sec-title">
                 <h2>Get Updates from Qdrant</h2>
-                <div class="text">We will update you on new features and news regarding Qdrant and Vector Similarity Search
+                <div class="text">We will update you on new features and news regarding Qdrant and Vector Similarity
+                    Search
                 </div>
             </div>
             <div class="content-column col-12">
                 <!-- Newsletter Form -->
-                <div class="newsletter-form">
+                <div class="newsletter-form newsletter-form_default">
                     <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
                           name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div class="d-flex justify-content-between flex-wrap">
@@ -30,6 +67,9 @@
         </div>
     </div>
 </section>
+
+{{ end }}
+
 <!-- End of Contact Section -->
 
 

@@ -1,8 +1,27 @@
-$blog-font-family: 'Roboto', sans-serif;
+@use '../variables' as var;
+
+$blog-font-family: var.$blog-font-family;
 
 .qdrant-blog {
   // todo: move
   @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;300&family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,100;1,400;1,500;1,700&display=swap');
+
+  &__header {
+    margin-bottom: 2.5rem;
+
+    color: var(--neutral-n-800, #102252);
+
+    font-family: $blog-font-family;
+    font-size: 2.5rem;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 3rem; /* 120% */
+
+    @include media-breakpoint-up(md) {
+      font-size: 4.5rem;
+      line-height: 5.375rem;
+    }
+  }
 
   &__subheader {
     color: var(--neutral-n-800, #102252);
@@ -66,18 +85,18 @@ $blog-font-family: 'Roboto', sans-serif;
   }
 
   &__card {
-    transition: all 0.3s ease-in-out;
-    margin-bottom: 3.17rem;
-
-    @include media-breakpoint-up(md) {
-      margin-bottom: 5rem;
-    }
   }
 
 }
 
 .qb-card {
   display: block;
+  transition: all 0.3s ease-in-out;
+  margin-bottom: 3.17rem;
+
+  @include media-breakpoint-up(md) {
+    margin-bottom: 5rem;
+  }
 
   a {
     text-decoration: none;

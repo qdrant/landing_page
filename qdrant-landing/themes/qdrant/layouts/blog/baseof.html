@@ -4,14 +4,14 @@
 <section class="page-title qdrant-blog">
     <div class="auto-container">
         <div class="row">
-            <div class="col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0 pb-5">
+            <div class="col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0">
                 {{ partial "breadcrumbs" . }}
 
-                <h1 class="page-title__title{{ if not .Params.section_title }} page-title__title_dark{{ end }}"> {{ .Params.title | safeHTML }}</h1>
+                <h1 class="qdrant-blog__header{{ if not .Params.section_title }} page-title__title_dark{{ end }}"> {{ .Params.title | safeHTML }}</h1>
             </div>
         </div>
         <div class="row">
-            <div class="offset-6 col-6">
+            <div class="offset-md-6 col-12 col-md-6">
                 {{ .Scratch.Set "variant" "compact" }}
                 {{ partial "contact-section" . }}
             </div>
