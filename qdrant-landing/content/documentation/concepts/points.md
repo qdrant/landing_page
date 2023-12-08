@@ -524,7 +524,7 @@ then it is inserted with just the specified vectors. In other words, the entire
 point is replaced, and any unspecified vectors are set to null. To keep existing 
 vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
 
-* Available as of v1.7.0*
+*Available as of v1.7.0*
 
 Points can contain dense and sparse vectors.
 

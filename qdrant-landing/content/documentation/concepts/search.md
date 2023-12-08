@@ -250,7 +250,7 @@ client
 
 Search is processing only among vectors with the same name.
 
-*Available as of v0.17.0*
+*Available as of v1.7.0*
 
 If the collection was created with sparse vectors, the name of the sparse vector to use for searching should be provided:
 
