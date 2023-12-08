@@ -182,7 +182,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         vectors_config: Some(VectorsConfig {
             config: Some(Config::Params(VectorParams {
                 size: 300,
@@ -292,7 +292,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         shard_number: Some(1),
         sharding_method: Some(ShardingMethod::Custom),
         ..Default::default()
@@ -364,7 +364,7 @@ use qdrant_client::qdrant::{PointStruct, WriteOrdering, WriteOrderingType};
 client
     .upsert_points_blocking(
         "{collection_name}",
-        Some(vec![shard_key::Key::String("user_1".to_string())]),
+        Some(vec![shard_key::Key::String("user_1".into())]),
         vec![
             PointStruct::new(
                 1111,
@@ -536,7 +536,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         vectors_config: Some(VectorsConfig {
             config: Some(Config::Params(VectorParams {
                 size: 300,
@@ -734,7 +734,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         vectors_config: Some(VectorsConfig {
             config: Some(Config::Params(VectorParams {
                 size: 300,
@@ -833,10 +833,10 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         filter: Some(Filter::must([Condition::matches(
             "city",
-            "London".to_string(),
+            "London".into(),
         )])),
         params: Some(SearchParams {
             hnsw_ef: Some(128),
