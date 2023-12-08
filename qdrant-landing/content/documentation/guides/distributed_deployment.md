@@ -128,7 +128,7 @@ There are two methods of distributing points across shards:
 
 - **Automatic sharding**: Points are distributed among shards by using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so that shards are managing non-intersecting subsets of points. This is the default behavior.
 
-- **User-defined sharding**: _Available as of v1.7_ - Each point is uploaded to a specific shard, so that operations can hit only the shard or shards they need. Even with this distribution, shards still ensure having non-intersecting subsets of points. [See more...](#user-defined-sharding)
+- **User-defined sharding**: _Available as of v1.7.0_ - Each point is uploaded to a specific shard, so that operations can hit only the shard or shards they need. Even with this distribution, shards still ensure having non-intersecting subsets of points. [See more...](#user-defined-sharding)
 
 Each node knows where all parts of the collection are stored through the [consensus protocol](./#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
 
@@ -238,7 +238,7 @@ After that, Qdrant will exclude the node from the consensus, and the instance wi
 
 ### User-defined sharding
 
-*Available as of v1.7*
+*Available as of v1.7.0*
 
 Qdrant allows you to specify the shard for each point individually. This feature is useful if you want to control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
 
