@@ -1,5 +1,5 @@
 ---
-title: Distributed deployment
+title: Distributed Deployment
 weight: 100
 aliases:
   - ../distributed_deployment
