@@ -509,7 +509,6 @@ client.updateCollection("{collection_name}", {
 ```
 
 ```rust
-
 use qdrant_client::client::QdrantClient;
 use qdrant_client::qdrant::{
     quantization_config_diff::Quantization, vectors_config_diff::Config, HnswConfigDiff,
@@ -555,7 +554,6 @@ client
     )
     .await?;
 ```
-
 
 ## Collection info
 
