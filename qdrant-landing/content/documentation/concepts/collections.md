@@ -739,7 +739,8 @@ round of automatic optimizations has completed.
 
 To clarify: these numbers don't represent the exact amount of points or vectors
 you have inserted, nor does it represent the exact number of distinguishable
-points or vectors you can query.
+points or vectors you can query. If you want to know exact counts, refer to the
+[count API](../points/#counting-points).
 
 _Note: these numbers may be removed in a future version of Qdrant._
 
