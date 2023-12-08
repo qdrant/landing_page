@@ -301,10 +301,11 @@ client
 ```
 
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
-```
+
+```json
 {
     "shard_number": 1,
-    "sharding_method": "custom"
+    "sharding_method": "custom",
     "replication_factor": 2
 }
 ```
