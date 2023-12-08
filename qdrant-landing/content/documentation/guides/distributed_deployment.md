@@ -152,7 +152,7 @@ from qdrant_client.http import models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
 )
@@ -262,11 +262,12 @@ from qdrant_client.http import models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     shard_number=1,
     sharding_method=models.ShardingMethod.CUSTOM,
     # ... other collection parameters
 )
+client.create_shard_key("{collection_name}", "user_1")
 ```
 
 ```typescript
@@ -333,15 +334,15 @@ from qdrant_client.http import models
 
 client = QdrantClient("localhost", port=6333)
 
-client.upsert_points(
+client.upsert(
     collection_name="{collection_name}",
     points=[
-        models.Point(
+        models.PointStruct(
             id=1111,
             vector=[0.1, 0.2, 0.3],
         ),
     ],
-    shard_key="user_1",
+    shard_key_selector="user_1",
 )
 ```
 
@@ -505,7 +506,7 @@ from qdrant_client.http import models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
     replication_factor=2,
@@ -701,7 +702,7 @@ from qdrant_client.http import models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
     replication_factor=2,
