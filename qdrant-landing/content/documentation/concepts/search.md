@@ -254,6 +254,12 @@ Search is processing only among vectors with the same name.
 
 If the collection was created with sparse vectors, the name of the sparse vector to use for searching should be provided:
 
+Unlike dense vector, sparse vector search returns only the vectors which have non-zero values in the same indices as the query vector.
+
+For this reason, you can can receive less than `limit` results.
+
+For the moment sparse vectors are supported only for `Dot` metric by default.
+
 ```http
 POST /collections/{collection_name}/points/search
 {

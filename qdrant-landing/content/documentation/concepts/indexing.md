@@ -234,13 +234,24 @@ performance.
 
 Qdrant supports sparse vectors, which are vectors with a large number of zeroes.
 
-Those vectors are stored in a specialized way, which allows to save space and speed up search.
+We can take advantage of this property to index those in a specialized way, which allows to save space and speed up search.
 
-The sparse vector index resides in memory for appendable segments providing fast search and update operations.
+The underlying index is an inverted index, which stores the list of vectors for each non-zero dimension.
 
-When the segment becomes immutable, the sparse index can either be kept in memory or mmaped to disk.
+Upon search, the index is used to find the list of vectors that have non-zero values in the query dimensions.
+Then, the vectors are scored using the dot product.
 
-For instance, to enable on-disk storage for immutable segments and full scan for segments with less than 10000 vectors:
+The sparse vector index supports filtering by payload fields, which allows to use it in combination with the payload index.
+
+Similar to the dense vector, it is possible configure `full_scan_threshold` to control when to drive the search from the payload index to decrease the number of vectors to score.
+
+In the case of sparse vectors, the threshold is specified in the number of vectors, not in the size of the payload.
+
+The index always resides in memory for appendable segments providing fast search and update operations.
+
+When the segment becomes immutable, the sparse index can either be kept in memory or mmaped to disk by setting the `on_disk` flag on the index.
+
+For instance, to enable on-disk storage for immutable segments and full scan for queries inspecting less than 5000 vectors:
 
 ```http
 PUT /collections/{collection_name}
@@ -249,7 +260,7 @@ PUT /collections/{collection_name}
         "text": {
             "index": {
                 "on_disk": true,
-                "full_scan_threshold": 10000
+                "full_scan_threshold": 5000
             }
          },
     }
