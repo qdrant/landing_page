@@ -228,32 +228,31 @@ The HNSW parameters can also be configured on a collection and named vector
 level by setting [`hnsw_config`](../indexing/#vector-index) to fine-tune search
 performance.
 
-## Sparse vector index
+## Sparse Vector Index
 
 *Available as of v1.7.0*
 
-Qdrant supports sparse vectors, which are vectors with a large number of zeroes.
+### Key Features of Sparse Vector Index
+- **Support for Sparse Vectors:** Qdrant supports sparse vectors, characterized by a high proportion of zeroes.
+- **Efficient Indexing:** Utilizes an inverted index structure to store vectors for each non-zero dimension, optimizing memory and search speed.
 
-We can take advantage of this property to index the vectors in a specialized way, which allows to save space and speed up search.
+### Search Mechanism
+- **Index Usage:** The index identifies vectors with non-zero values in query dimensions during a search.
+- **Scoring Method:** Vectors are scored using the dot product.
 
-The underlying structure is an inverted index, which stores the list of vectors for each non-zero dimension.
+### Optimizations
+- **Reducing Vectors to Score:** Implementations are in place to minimize the number of vectors scored, especially for dimensions with numerous vectors.
 
-Upon search, the index is used to find the list of vectors that have non-zero values in the query dimensions.
-Then, the vectors are scored using the dot product.
+### Filtering and Configuration
+- **Filtering Support:** Similar to dense vectors, supports filtering by payload fields.
+- **`full_scan_threshold` Configuration:** Allows control over when to switch search from the payload index to minimize scoring vectors.
+- **Threshold for Sparse Vectors:** Specifies the threshold in terms of the number of matching vectors found by the query planner.
 
-There are optimizations in place to reduce the number of vectors to score for dimensions with a large number of vectors.
+### Index Storage and Management
+- **Memory-Based Index:** The index resides in memory for appendable segments, ensuring fast search and update operations.
+- **Handling Immutable Segments:** For immutable segments, the sparse index can either stay in memory or be mapped to disk with the `on_disk` flag.
 
-Similar to dense vectors, the sparse vector index supports filtering by payload fields, which allows to use it in combination with indexed payload fields.
-
-It is possible configure `full_scan_threshold` to control when to drive the search from the payload index to decrease the number of vectors to score.
-
-In the case of sparse vectors, the threshold is specified in the number of matching vectors found by the query planner.
-
-The index always resides in memory for appendable segments providing fast search and update operations by default.
-
-When the segment becomes immutable, the sparse index can either be kept in memory or mmaped to disk by setting the `on_disk` flag on the index.
-
-For instance, to enable on-disk storage for immutable segments and full scan for queries inspecting less than 5000 vectors:
+**Example Configuration:** To enable on-disk storage for immutable segments and full scan for queries inspecting less than 5000 vectors:
 
 ```http
 PUT /collections/{collection_name}
