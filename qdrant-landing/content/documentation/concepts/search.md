@@ -24,6 +24,7 @@ Qdrant supports these most popular types of metrics:
 * Dot product: `Dot` - https://en.wikipedia.org/wiki/Dot_product
 * Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
 * Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
+* Manhattan distance: `Manhattan`* - https://en.wikipedia.org/wiki/Taxicab_geometry <i><sup>*Available as of v1.7</sup></i>
 
 The most typical metric used in similarity learning models is the cosine metric.
 
