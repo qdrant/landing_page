@@ -370,9 +370,11 @@ client
     .await?;
 ```
 
-There are no required configuration parameters for named sparse vectors.
+Outside of a unique name, there are no required configuration parameters for sparse vectors.
 
-However, there are optional parameters to tune the underlying [sparse index](../indexing/#sparse-vector-index).
+The distance function for sparse vectors is always `Dot` and does not need to be specified.
+
+However, there are optional parameters to tune the underlying [sparse vector index](../indexing/#sparse-vector-index).
 
 ### Delete collection
 

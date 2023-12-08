@@ -258,8 +258,10 @@ You can still use payload filtering and other features of the search API with sp
 
 There are however important differences between dense and sparse vector search:
 - only `Dot` metric is supported for sparse vectors (no need to specify it in the request)
-- the search is not approximate, it is always returning the exact match
-- it returns only the vectors which have non-zero values in the same indices as the query vector, for this reason, you can can receive less than `limit` results.
+- the sparse search is not approximate, it is always returning the exact match
+- the spearse search returns only the vectors which have non-zero values in the same indices as the query vector, for this reason, you can can receive less than `limit` results.
+
+In general, the speed of the search is proportional to the number of non-zero values in the query vector.
 
 ```http
 POST /collections/{collection_name}/points/search
