@@ -190,7 +190,7 @@ See [Full Text match](../filtering/#full-text-match) for examples of querying wi
 A vector index is a data structure built on vectors through a specific mathematical model.
 Through the vector index, we can efficiently query several vectors similar to the target vector.
 
-Qdrant currently only uses HNSW as a vector index.
+Qdrant currently only uses HNSW as a dense vector index.
 
 [HNSW](https://arxiv.org/abs/1603.09320) (Hierarchical Navigable Small World Graph) is a graph-based indexing algorithm. It builds a multi-layer navigation structure for an image according to certain rules. In this structure, the upper layers are more sparse and the distances between nodes are farther. The lower layers are denser and the distances between nodes are closer. The search starts from the uppermost layer, finds the node closest to the target in this layer, and then enters the next layer to begin another search. After multiple iterations, it can quickly approach the target position.
 
@@ -227,6 +227,48 @@ Second, it is one of the most accurate and fastest algorithms, according to [pub
 The HNSW parameters can also be configured on a collection and named vector
 level by setting [`hnsw_config`](../indexing/#vector-index) to fine-tune search
 performance.
+
+## Sparse vector index
+
+*Available as of v1.7.0*
+
+Qdrant supports sparse vectors, which are vectors with a large number of zeroes.
+
+We can take advantage of this property to index the vectors in a specialized way, which allows to save space and speed up search.
+
+The underlying structure is an inverted index, which stores the list of vectors for each non-zero dimension.
+
+Upon search, the index is used to find the list of vectors that have non-zero values in the query dimensions.
+Then, the vectors are scored using the dot product.
+
+There are optimizations in place to reduce the number of vectors to score for dimensions with a large number of vectors.
+
+Similar to dense vectors, the sparse vector index supports filtering by payload fields, which allows to use it in combination with indexed payload fields.
+
+It is possible configure `full_scan_threshold` to control when to drive the search from the payload index to decrease the number of vectors to score.
+
+In the case of sparse vectors, the threshold is specified in the number of matching vectors found by the query planner.
+
+The index always resides in memory for appendable segments providing fast search and update operations by default.
+
+When the segment becomes immutable, the sparse index can either be kept in memory or mmaped to disk by setting the `on_disk` flag on the index.
+
+For instance, to enable on-disk storage for immutable segments and full scan for queries inspecting less than 5000 vectors:
+
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": {
+            "index": {
+                "on_disk": true,
+                "full_scan_threshold": 5000
+            }
+         },
+    }
+}
+```
+
 
 ## Filtrable Index
 

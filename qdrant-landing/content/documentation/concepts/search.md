@@ -251,6 +251,88 @@ client
 
 Search is processing only among vectors with the same name.
 
+*Available as of v1.7.0*
+
+If the collection was created with sparse vectors, the name of the sparse vector to use for searching should be provided:
+
+You can still use payload filtering and other features of the search API with sparse vectors.
+
+There are however important differences between dense and sparse vector search:
+- only `Dot` metric is supported for sparse vectors (no need to specify it in the request)
+- the sparse search is not approximate, it is always returning the exact match
+- the spearse search returns only the vectors which have non-zero values in the same indices as the query vector, for this reason, you can can receive less than `limit` results.
+
+In general, the speed of the search is proportional to the number of non-zero values in the query vector.
+
+```http
+POST /collections/{collection_name}/points/search
+{
+    "vector": {
+        "name": "text",
+        "vector": {
+            "indices": [6, 7],
+            "values": [1.0, 2.0]
+        }    
+    },
+    "limit": 3
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.search(
+    collection_name="{collection_name}",
+    query_vector=models.NamedSparseVector(
+        name="text",
+        vector=models.SparseVector(
+            indices=[1, 7],
+            values=[2.0, 1.0],
+        ),
+    ),
+    limit=3,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: {
+    name: "text",
+    vector: {
+        indices: [1, 7],
+        values: [2.0, 1.0]
+    },
+  },
+  limit: 3,
+});
+```
+
+```rust
+use qdrant_client::{client::QdrantClient, client::Vector, qdrant::SearchPoints};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+let sparse_vector: Vector = vec![(1, 2.0), (7, 1.0)].into();
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector_name: Some("text".to_string()),
+        sparse_indices: sparse_vector.indices,
+        vector: sparse_vector.data,
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
+```
+
 ### Filtering results by score
 
 In addition to payload filtering, it might be useful to filter out results with a low similarity score.

@@ -292,6 +292,90 @@ the use of
 [memmaps](../../concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
+
+### Collection with sparse vectors
+
+*Available as of v1.7.0*
+
+Qdrant supports sparse vectors as a first-class citizen.
+
+Sparse vectors are useful for text search, where each word is represented as a separate dimension.
+
+Collections can contain sparse vectors as additional [named vectors](#collection-with-multiple-vectors) along side regular dense vectors in a single point.
+
+Unlike dense vectors, sparse vectors must be named.
+And additionally, sparse vectors and dense vectors must have different names within a collection.
+
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": { },
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.create_collection(
+    collection_name="{collection_name}",
+    sparse_vectors_config={
+        "text": models.SparseVectorParams(),
+    },
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  sparse_vectors: {
+    text: { },
+  },
+});
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, SparseVectorParams, VectorParamsMap,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        sparse_vectors_config: Some(SparseVectorsConfig {
+            map: [
+                    (
+                        "text".to_string(),
+                        SparseVectorParams {},
+                    ),
+                ]
+                .into(),
+            }),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
+Outside of a unique name, there are no required configuration parameters for sparse vectors.
+
+The distance function for sparse vectors is always `Dot` and does not need to be specified.
+
+However, there are optional parameters to tune the underlying [sparse vector index](../indexing/#sparse-vector-index).
+
 ### Delete collection
 
 ```http
