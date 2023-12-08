@@ -352,6 +352,11 @@ client
             indexing_threshold: Some(10000),
             ..Default::default()
         },
+        None,
+        None,
+        None,
+        None,
+        None,
     )
     .await?;
 ```
@@ -503,10 +508,7 @@ client.updateCollection("{collection_name}", {
 });
 ```
 
-<!---
 ```rust
-// Available as of Rust client 1.7.0
-// See: <https://github.com/qdrant/rust-client/issues/75>
 
 use qdrant_client::client::QdrantClient;
 use qdrant_client::qdrant::{
@@ -518,6 +520,7 @@ use qdrant_client::qdrant::{
 client
     .update_collection(
         "{collection_name}",
+        None,
         None,
         None,
         Some(&HnswConfigDiff {
@@ -552,7 +555,7 @@ client
     )
     .await?;
 ```
---->
+
 
 ## Collection info
 
