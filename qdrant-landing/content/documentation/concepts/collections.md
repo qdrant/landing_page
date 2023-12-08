@@ -630,11 +630,33 @@ The following color statuses are possible:
 - 🟡 `yellow`: collection is optimizing
 - 🔴 `red`: an error occurred which the engine could not recover from
 
-There are some other attributes you might be interested in:
+### Approximate point and vector counts
+
+You may be interested in the count attributes:
 
 - `points_count` - total number of objects (vectors and their payloads) stored in the collection
-- `vectors_count` - total number of vectors in a collection. If there are multiple vectors per object, it won't be equal to `points_count`.
-- `indexed_vectors_count` - total number of vectors stored in the HNSW index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+- `vectors_count` - total number of vectors in a collection, useful if you have multiple vectors per point
+- `indexed_vectors_count` - total number of vectors stored in the HNSW or sparse index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+
+The above counts are not exact, but should be considered approximate. Depending
+on how you use Qdrant these may give very different numbers than what you may
+expect. It's therefore important **not** to rely on them.
+
+More specifically, these numbers represent the count of points and vectors in
+Qdrant's internal storage. Internally, Qdrant may temporarily duplicate points
+as part of automatic optimizations. It may keep changed or deleted points for a
+bit. And it may delay indexing of new points. All of that is for optimization
+reasons.
+
+Updates you do are therefore not directly reflected in these numbers. If you see
+a wildly different count of points, it will likely resolve itself once a new
+round of automatic optimizations has completed.
+
+To clarify: these numbers don't represent the exact amount of points or vectors
+you have inserted, nor does it represent the exact number of distinguishable
+points or vectors you can query.
+
+_Note: these numbers may be removed in a future version of Qdrant._
 
 ### Indexing vectors in HNSW
 
