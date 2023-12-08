@@ -925,6 +925,7 @@ use serde_json::json;
 client
     .upsert_points_blocking(
         "{collection_name}",
+        None,
         vec![
             PointStruct::new(
                 1,
