@@ -159,7 +159,7 @@ let points = vec![
     // ..truncated
 ];
 let operation_info = client
-    .upsert_points_blocking("test_collection".to_string(), points, None)
+    .upsert_points_blocking("test_collection".to_string(), None, points, None)
     .await?;
 
 dbg!(operation_info);

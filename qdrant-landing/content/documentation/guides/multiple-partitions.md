@@ -97,6 +97,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client
     .upsert_points_blocking(
         "{collection_name}".to_string(),
+        None,
         vec![
             PointStruct::new(
                 1,

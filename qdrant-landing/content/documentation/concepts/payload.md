@@ -272,7 +272,7 @@ let points = vec![
 ];
 
 client
-    .upsert_points("{collection_name}".to_string(), points, None)
+    .upsert_points("{collection_name}".to_string(), None, points, None)
     .await?;
 ```
 
@@ -325,6 +325,7 @@ use serde_json::json;
 client
     .set_payload(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 10.into()],
@@ -378,6 +379,7 @@ use qdrant_client::qdrant::{
 client
     .delete_payload(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 100.into()],
@@ -425,6 +427,7 @@ use qdrant_client::qdrant::{
 client
     .clear_payload(
         "{collection_name}",
+        None,
         Some(PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 100.into()],

@@ -128,6 +128,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client
     .upsert_points_blocking(
         "{collection_name}".to_string(),
+        None,
         vec![PointStruct::new(
             "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
             vec![0.05, 0.61, 0.76, 0.74],
@@ -193,6 +194,7 @@ use serde_json::json;
 client
     .upsert_points_blocking(
         1,
+        None,
         vec![PointStruct::new(
             "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
             vec![0.05, 0.61, 0.76, 0.74],
@@ -355,6 +357,7 @@ use serde_json::json;
 client
     .upsert_points_batch_blocking(
         "{collection_name}".to_string(),
+        None,
         vec![
             PointStruct::new(
                 1,
@@ -484,6 +487,7 @@ use std::collections::HashMap;
 client
     .upsert_points_blocking(
         "{collection_name}".to_string(),
+        None,
         vec![
             PointStruct::new(
                 1,
@@ -604,6 +608,7 @@ use std::collections::HashMap;
 client
     .update_vectors_blocking(
         "{collection_name}",
+        None,
         &[
             PointVectors {
                 id: Some(1.into()),
@@ -672,6 +677,7 @@ use qdrant_client::qdrant::{
 client
     .delete_vectors_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 10.into()],
@@ -736,6 +742,7 @@ use serde_json::json;
 client
     .set_payload_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 10.into()],
@@ -821,6 +828,7 @@ use serde_json::json;
 client
     .set_payload_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
                 Condition::matches("color", "red".to_string()),
@@ -886,6 +894,7 @@ use serde_json::json;
 client
     .overwrite_payload_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 10.into()],
@@ -940,6 +949,7 @@ use qdrant_client::qdrant::{
 client
     .delete_payload_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 100.into()],
@@ -1009,6 +1019,7 @@ use qdrant_client::qdrant::{
 client
     .delete_payload_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
                 Condition::matches("color", "red".to_string()),
@@ -1056,6 +1067,7 @@ use qdrant_client::qdrant::{
 client
     .clear_payload_blocking(
         "{collection_name}",
+        None,
         Some(PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 100.into()],
@@ -1100,6 +1112,7 @@ use qdrant_client::qdrant::{
 client
     .delete_points_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 100.into()],
@@ -1167,6 +1180,7 @@ use qdrant_client::qdrant::{
 client
     .delete_points_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
                 Condition::matches("color", "red".to_string()),
@@ -1209,6 +1223,7 @@ client.retrieve("{collection_name}", {
 client
     .get_points(
         "{collection_name}",
+        None,
         &[0.into(), 30.into(), 100.into()],
         Some(false),
         Some(false),
