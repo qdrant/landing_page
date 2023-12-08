@@ -253,7 +253,7 @@ service:
 
   # Set an api-key.
   # If set, all requests must include a header with the api-key.
-  # example header: `api-key: <API-KEY>`
+  # Example header: `api-key: <API-KEY>`
   #
   # If you enable this you should also enable TLS.
   # (Either above or via an external service like nginx.)
@@ -261,6 +261,17 @@ service:
   #
   # Uncomment to enable.
   # api_key: your_secret_api_key_here
+   
+  # Set an api-key for read-only operations.
+  # If set, all read requests must include a header with the api-key.
+  # Example header: `api-key: <API-KEY>`
+  #
+  # If you enable this you should also enable TLS.
+  # (Either above or via an external service like nginx.)
+  # Sending an api-key over an unencrypted channel is insecure.
+  #
+  # Uncomment to enable.
+  # read_only_api_key: your_secret_read_only_api_key_here
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
