@@ -14,9 +14,10 @@ The choice of metric depends on the way vectors obtaining and, in particular, on
 
 Qdrant supports these most popular types of metrics:
 
-* Dot product: `Dot` - https://en.wikipedia.org/wiki/Dot_product
-* Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
-* Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
+* Dot product: `Dot` - [[wiki]](https://en.wikipedia.org/wiki/Dot_product)
+* Cosine similarity: `Cosine`  - [[wiki]](https://en.wikipedia.org/wiki/Cosine_similarity)
+* Euclidean distance: `Euclid` - [[wiki]](https://en.wikipedia.org/wiki/Euclidean_distance)
+* Manhattan distance: `Manhattan` - [[wiki]](https://en.wikipedia.org/wiki/Taxicab_geometry)
 
 <aside role="status">For search efficiency, Cosine similarity is implemented as dot-product over normalized vectors. Vectors are automatically normalized during upload</aside>
 
