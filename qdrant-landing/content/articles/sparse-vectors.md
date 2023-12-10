@@ -270,7 +270,7 @@ But let's first take a look at how you can work with sparse vectors in Qdrant.
 
 ## Practical Implementation in Python
 
-Let's deive into how Qdrant handles sparse vectors with an example. Here is what we will cover:
+Let's dive into how Qdrant handles sparse vectors with an example. Here is what we will cover:
 
 1. Setting Up Qdrant Client: Initially, we establish a connection with Qdrant using the QdrantClient. This setup is crucial for subsequent operations.
 
