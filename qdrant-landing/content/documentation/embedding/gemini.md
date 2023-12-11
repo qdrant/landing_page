@@ -15,7 +15,7 @@ The Embedding Model API supports various task types, outlined as follows:
 
 These are the task types that are supported by the Embedding Model API:
 
-- TASK_TYPE_UNSPECIFIED (0): Unset value, which will default to one of the other enum values.
+- task_type_unspecified: Unset value, which will default to one of the other values.
 - retreival_query: Specifies the given text is a query in a search/retrieval setting.
 - retrieval_document: Specifies the given text is a document from the corpus being searched.
 - SEMANTIC_SIMILARITY (3): Specifies the given text will be used for STS.
