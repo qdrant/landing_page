@@ -38,7 +38,7 @@ qdrant_client.upsert(
     points=Batch(
         ids=[1],
         vectors=[response["data"][0]["embedding"]],
-    )
+    ),
 )
 ```
 
