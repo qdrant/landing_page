@@ -5,16 +5,15 @@ weight: 800
 
 # OpenAI
 
-Qdrant can also easily work with [OpenAI embeddings](https://beta.openai.com/docs/guides/embeddings/embeddings). There is an 
-official OpenAI Python package that simplifies obtaining them, and it might be installed with pip:
+Qdrant can also easily work with [OpenAI embeddings](https://beta.openai.com/docs/guides/embeddings/embeddings). 
+
+There is an official OpenAI Python package that simplifies obtaining them, and it might be installed with pip:
 
 ```bash
 pip install openai
 ```
 
-Once installed, the package exposes the method allowing to retrieve the embedding for given text. OpenAI requires an API key
-that has to be provided either as an environmental variable `OPENAI_API_KEY` or set in the source code directly, as 
-presented below:
+Once installed, the package exposes the method allowing to retrieve the embedding for given text. OpenAI requires an API key that has to be provided either as an environmental variable `OPENAI_API_KEY` or set in the source code directly, as presented below:
 
 ```python
 import openai
