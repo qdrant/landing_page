@@ -1,6 +1,6 @@
 ---
 title: Embedding
-weight: 31
+weight: 33
 # If the index.md file is empty, the link to the section will be hidden from the sidebar
 is_empty: false
 ---
