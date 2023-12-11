@@ -9,17 +9,16 @@ Qdrant is compatible with Gemini Embedding Model API and its official Python SDK
 
 Gemini is a new family of Google PaLM models, released in December 2023. The new embedding models succeed the previous Gecko Embedding Model. 
 
-In the latest models, an additional parameter, task_type, can be passed to the API call. This parameter serves to designate the intended purpose for the embeddings utilized.
+In the latest models, an additional parameter, `task_type`, can be passed to the API call. This parameter serves to designate the intended purpose for the embeddings utilized.
 
 The Embedding Model API supports various task types, outlined as follows:
 
-
-- task_type_unspecified: Unset value, which will default to one of the other values.
-- retreival_query: Specifies the given text is a query in a search/retrieval setting.
-- retrieval_document: Specifies the given text is a document from the corpus being searched.
-- semantic_similarity: Specifies the given text will be used for Semantic Text Similarity.
-- classification: Specifies that the given text will be classified.
-- clustering: Specifies that the embeddings will be used for clustering.
+1. `retrieval_query`: Specifies the given text is a query in a search/retrieval setting.
+2. `retrieval_document`: Specifies the given text is a document from the corpus being searched.
+3. `semantic_similarity`: Specifies the given text will be used for Semantic Text Similarity.
+4. `classification`: Specifies that the given text will be classified.
+5. `clustering`: Specifies that the embeddings will be used for clustering.
+6. `task_type_unspecified`: Unset value, which will default to one of the other values.
 
 
 If you're building a semantic search application, such as RAG, you should use `task_type="retrieval_document"` for the indexed documents and `task_type="retrieval_query"` for the search queries. 
