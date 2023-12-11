@@ -20,7 +20,7 @@ These are the task types that are supported by the Embedding Model API:
 - retrieval_document: Specifies the given text is a document from the corpus being searched.
 - SEMANTIC_SIMILARITY (3): Specifies the given text will be used for STS.
 - CLASSIFICATION (4): Specifies that the given text will be classified.
-- CLUSTERING (5): Specifies that the embeddings will be used for clustering.
+- clustering: Specifies that the embeddings will be used for clustering.
 
 
 If you're building a semantic search application, such as RAG, you should use `task_type="retrieval_document"` for the indexed documents and `task_type="retrieval_query"` for the search queries. 
