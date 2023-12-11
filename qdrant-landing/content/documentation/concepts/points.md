@@ -421,7 +421,7 @@ client.upload_collection(
 ```
 
 <aside role="status">
-If `ids` are not provided, integer ids will be generated automatically using an autoincrement function.
+If <code>ids</code> are not provided, integer ids will be generated automatically using an auto increment function.
 It means if method is used several times, ids will be the same each time which might lead to overwriting of existing points.
 </aside>
 
@@ -459,7 +459,7 @@ client.upload_records(
 ```
 
 <aside role="status">
-As of v1.7.0 the `upload_records` and `upload_collections` supports setting user defined shard keys.
+As of v1.7.0 the <code>upload_records</code> and <code>upload_collections</code> supports setting user defined shard keys.
 If batch contains several keys, it will be split into several batches, which might affect performance.
 Make sure not to mix records with different shard keys too much.
 </aside>
