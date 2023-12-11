@@ -47,11 +47,11 @@ Those sparse vectors are theoretically high dimensional, definitely way higher t
 
 Until now, Qdrant has not been able to handle sparse vectors natively. Some were trying to convert them to dense vectors, but that was not the best solution or a suggested way. We even wrote a piece with [our thoughts on building a hybrid search](/articles/hybrid-search/), and we encouraged you to use a different tool for keyword lookup. 
 
-Things have changed since then, as so many of you wanted a single tool for sparse and dense vectors. And responding to this [popular](https://github.com/qdrant/qdrant/issues/1678) [demand](https://github.com/qdrant/qdrant/issues/1135), we've now introduced sparse vectors! 
+Things have changed since then, as so many of you wanted a single tool for sparse and dense vectors. And responding to this [popular](https://github.com/qdrant/qdrant/issues/1678) [demand](https://github.com/qdrant/qdrant/issues/1135), we've now introduced sparse vectors!
 
-Please wait closely for our next article, describing how to use this feature in practice. For now, you can check out the [sparse vectors documentation](/documentation/concepts/search/#sparse-vectors)!
+If you're coming across the topic of sparse vectors for the first time, our [Brief History of Search](https://qdrant.tech/documentation/overview/vector-search/) explains the difference between sparse and dense vectors.
 
-TODO: Add a link to the sparse vectors documentation.
+Check out the [sparse vectors index docs](/documentation/concepts/indexing/#sparse-vector-index) for more details on what this new index means for Qdrant users. Stay tuned for a full article with code examples on how to use sparse vectors in Qdrant!
 
 ### Discovery API
 
