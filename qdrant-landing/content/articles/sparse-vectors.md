@@ -368,7 +368,7 @@ result = client.search(
             values=query_values,
         ),
     ),
-    with_vectors=["text"],
+    with_vectors=True,
 )
 
 result
