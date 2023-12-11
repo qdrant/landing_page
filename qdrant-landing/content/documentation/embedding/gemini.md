@@ -5,7 +5,7 @@ weight: 700
 
 # Gemini
 
-Qdrant is compatible with Gemini Embedding Model API and its official Python SDK that might be installed as any other package:
+Qdrant is compatible with Gemini Embedding Model API and its official Python SDK that can be installed as any other package:
 
 Gemini is a new family of Google PaLM models, released in December 2023. The new embedding models succeed the previous Gecko Embedding Model. 
 
