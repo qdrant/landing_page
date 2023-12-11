@@ -13,7 +13,6 @@ In the latest models, an additional parameter, task_type, can be passed to the A
 
 The Embedding Model API supports various task types, outlined as follows:
 
-These are the task types that are supported by the Embedding Model API:
 
 - task_type_unspecified: Unset value, which will default to one of the other values.
 - retreival_query: Specifies the given text is a query in a search/retrieval setting.
