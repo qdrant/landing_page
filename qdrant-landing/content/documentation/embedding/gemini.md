@@ -92,7 +92,3 @@ qdrant_client.search(
 ```
 
 That's it! You can now use Gemini Embedding Models with Qdrant.
-
-<aside role="status">
-
-</aside>
