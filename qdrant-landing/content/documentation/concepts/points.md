@@ -395,8 +395,8 @@ client
 
 
 The Python client has additional features for loading points. 
-These include parallelization, retry mechanism and lazy batching support, i.e. you can read your data directly from disks and avoid having everything in the memory. 
-These features are incorporated into the `upload_collection` and `upload_records` method.
+These include parallelization, a retry mechanism and lazy batching support. For example, you can read your data directly from disks and avoid having everything in the memory.
+These features are incorporated into the `upload_collection` and `upload_records` methods.
 Similar to the basic upsert API, these methods support both record-oriented and column-oriented formats.
 
 Column-oriented format:
