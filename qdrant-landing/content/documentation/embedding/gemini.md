@@ -9,7 +9,9 @@ Qdrant is compatible with Gemini Embedding Model API and its official Python SDK
 
 Gemini is a new family of Google PaLM models, released in December 2023. The new embedding models succeed the previous Gecko Embedding Model. 
 
-The new models allow passing an additional parameter to the API call: `task_type`. It determines the type of task you want to use the embeddings for.
+In the latest models, an additional parameter, task_type, can be passed to the API call. This parameter serves to designate the intended purpose for the embeddings utilized.
+
+The Embedding Model API supports various task types, outlined as follows:
 
 These are the task types that are supported by the Embedding Model API:
 
