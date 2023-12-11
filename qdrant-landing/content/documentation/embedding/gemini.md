@@ -35,7 +35,7 @@ Let's see how to use the Embedding Model API to embed a document for retrieval.
 
 The following example shows how to embed a document with the `models/embedding-001` with the `retrieval_document` task type:
 
-### Embedding a document
+## Embedding a document
 
 ```python
 import pathlib
