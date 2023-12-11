@@ -8,7 +8,7 @@ preview_dir: /articles_data/qdrant-1.7.x/preview
 weight: -90
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
-date: 2023-12-05T10:00:00Z
+date: 2023-12-10T10:00:00Z
 draft: false
 keywords:
   - vector search
