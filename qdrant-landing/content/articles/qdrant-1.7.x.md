@@ -107,9 +107,15 @@ There are multiple scenarios in which you may prefer one over the other. Please 
 
 Beyond introducing new features, Qdrant 1.7.0 enhances performance and addresses various minor issues. Here's a rundown of the key improvements:
 
-- Support of a [Manhattan distance](https://github.com/qdrant/qdrant/pull/3079) as a fourth metric
+1. Improvement of HNSW Index Building on High CPU Systems [pull request](https://github.com/qdrant/qdrant/pull/2869)
 
-TODO: Put the list of issues here. Just copy the most important ones from the release notes.
+2. Improving [Search Tail Latencies](https://github.com/qdrant/qdrant/pull/2931): Improvement for high CPU systems with many parallel searches, directly impacting the user experience by reducing latency
+
+3. [Adding Index for Geo Map Payloads](https://github.com/qdrant/qdrant/pull/2768): Index for geo map payloads can significantly improve search performance, especially for applications involving geographical data
+
+4. Stability of Consensus on Big High Load Clusters: Enhancing the stability of consensus in large, high-load environments is critical for ensuring the reliability and scalability of the system (https://github.com/qdrant/qdrant/pull/3013, https://github.com/qdrant/qdrant/pull/3026, https://github.com/qdrant/qdrant/pull/2942, https://github.com/qdrant/qdrant/pull/3103, https://github.com/qdrant/qdrant/pull/3054)
+
+5. Configurable Timeout for Searches [PR#2748](https://github.com/qdrant/qdrant/pull/2748), [PR#2771](https://github.com/qdrant/qdrant/pull/2771): Allowing users to configure the timeout for searches provides greater flexibility and can help optimize system performance under different operational conditions.
 
 ## Release notes
 
