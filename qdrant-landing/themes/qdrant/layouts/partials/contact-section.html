@@ -26,10 +26,30 @@
 
 {{ else if eq $variant "two-columns" }}
 
-<!-- todo -->
-<section class="row">
-    <div class="col">
-        dgdfhhj
+<section class="newsletter-form newsletter-form_two-columns">
+    <div class="auto-container">
+        <div class="row d-flex align-items-end">
+            <div class="col-12 col-md-6">
+                <h2 class="newsletter-form_two-columns__title">Stay updated with Qdrant</h2>
+                <p class="newsletter-form_two-columns__subtitle">We will update you on new features and news regarding Qdrant and Vector Similarity Search.</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <form
+                        class="newsletter-form_two-columns__form d-flex flex-column flex-md-row validate"
+                        action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+                        name="mc-embedded-subscribe-form" target="_blank" novalidate>
+                    <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
+                           id="mce-EMAIL">
+                    <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                        <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
+                               value="">
+                    </div>
+                    <button type="submit">
+                        <span class="txt">Subscribe</span>
+                    </button>
+                </form>
+            </div>
+        </div>
     </div>
 </section>
 

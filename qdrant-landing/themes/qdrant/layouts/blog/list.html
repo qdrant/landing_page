@@ -1,6 +1,6 @@
 {{ define "main" }}
 {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
-<section class="auto-container pt-4 pt-md-5">
+<section class="auto-container pt-4 pt-md-5 pb-5 mb-5">
 
     <!-- Features and News -->
     <div class="row">
@@ -106,6 +106,7 @@
 
         {{ end }}
 
+        <!-- todo: move to partial-->
         <script>
           (function() {
 
