@@ -5,6 +5,12 @@ weight: 33
 is_empty: false
 ---
 
-| Embedding | Integration Instructions |
-|---|---|
-| [Gemini](./gemini/) | Embedding for semantic search with Gemini |
+| Embedding |
+|---|
+| [Gemini](./gemini/) | 
+| [Aleph Alpha](./aleph-alpha/) | 
+| [Cohere](./cohere/) | 
+| [Fifty One](./fifty-one/) |
+| [Jina](./jina-emebddngs/) |
+| [OpenAI](./openai/) |
+| [txtai](./txtai/) |
