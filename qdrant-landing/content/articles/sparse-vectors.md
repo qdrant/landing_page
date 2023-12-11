@@ -8,7 +8,7 @@ preview_dir: /articles_data/sparse-vectors/preview
 weight: -100
 author: Nirant Kasliwal
 author_link: 
-date: 2023-12-03T13:00:00+03:00
+date: 2023-12-09T13:00:00+03:00
 draft: false
 keywords:
   - sparse vectors
