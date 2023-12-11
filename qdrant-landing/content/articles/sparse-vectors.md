@@ -412,7 +412,7 @@ By combining search results from both dense and sparse vectors, you can achieve 
 Results from sparse vectors will guranatee, that all results with the required keywords are returned, 
 while dense vectors will cover the semantically similar results.
 
-The mixtire of dense and sparse results can be presented directly to the user, or used as a first stage of a two-stage retrieval process.
+The mixture of dense and sparse results can be presented directly to the user, or used as a first stage of a two-stage retrieval process.
 
 Let's see how you can make a hybrid search query in Qdrant.
 
