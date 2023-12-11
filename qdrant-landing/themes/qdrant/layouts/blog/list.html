@@ -14,7 +14,8 @@
                 <button>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_1846_3020)">
-                            <path d="M15.707 13.293L13 10.586C13.63 9.536 14 8.311 14 7C14 3.14 10.859 0 7 0C3.141 0 0 3.14 0 7C0 10.86 3.141 14 7 14C8.312 14 9.536 13.631 10.586 13L13.293 15.707C13.488 15.902 13.744 16 14 16C14.256 16 14.512 15.902 14.707 15.707L15.707 14.707C16.098 14.316 16.098 13.684 15.707 13.293ZM7 12C4.239 12 2 9.761 2 7C2 4.239 4.239 2 7 2C9.761 2 12 4.239 12 7C12 9.761 9.761 12 7 12Z" fill="#1F3266"/>
+                            <path d="M15.707 13.293L13 10.586C13.63 9.536 14 8.311 14 7C14 3.14 10.859 0 7 0C3.141 0 0 3.14 0 7C0 10.86 3.141 14 7 14C8.312 14 9.536 13.631 10.586 13L13.293 15.707C13.488 15.902 13.744 16 14 16C14.256 16 14.512 15.902 14.707 15.707L15.707 14.707C16.098 14.316 16.098 13.684 15.707 13.293ZM7 12C4.239 12 2 9.761 2 7C2 4.239 4.239 2 7 2C9.761 2 12 4.239 12 7C12 9.761 9.761 12 7 12Z"
+                                  fill="#1F3266"/>
                         </g>
                         <defs>
                             <clipPath id="clip0_1846_3020">
@@ -27,8 +28,8 @@
         </div>
     </div>
 
-    <!-- Featured Post -->
     <div class="row clearfix qdrant-blog__featured">
+        <!-- Featured Post -->
         {{ range first 1 (where $all ".Params.featured" "=" true) }}
         {{ $link := .Permalink }}
         {{ if .Params.external_link }}
@@ -54,7 +55,7 @@
         <!-- End of Featured Post -->
         <!-- Latest Posts -->
         <div class="col-12 col-md-5 d-flex flex-column justify-content-between">
-            {{ range first 3 $all }}
+            {{ range first 3 (where $all ".Params.featured" "!=" true) }}
             <div class="qb-card qb-card_border-bottom ml-md-3">
                 <h3 class="qb-card__title">
                     <a href="{{ .Permalink }}">{{ .Params.title }}</a>
@@ -73,17 +74,19 @@
 
     <!-- Blog Cards -->
     <!--    todo: exclude featured and new posts from list-->
-    <div class="row clearfix">
+    <div class="row clearfix" id="posts-container">
 
         <!-- Sidebar Page Container -->
-        {{ $paginator := .Paginate (where .Pages "Section" "blog") 9 }}
-        {{ range $paginator.Pages}}
+        {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 6 }} <!-- todo: make it 9 -->
+        {{ range after 3 $paginator.Pages}}
         {{ .Scratch.Set "scope" "list" }}
 
         {{ $link := .Permalink }}
         {{ if .Params.external_link }}
         {{ $link = .Params.external_link }}
         {{ end }}
+
+        {{ if or (not .Params.featured) (not .Params.new) }}
 
         <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
             {{ if .Params.preview_image }}
@@ -99,9 +102,71 @@
                 <span>{{ .Date | time.Format ":date_long" }}</span>
             </div>
         </a>
-
+        {{ end }}
 
         {{ end }}
+
+        <script>
+          (function() {
+
+
+            document.addEventListener('DOMContentLoaded', function() {
+              const mdBreakpoint = 768;
+              const container = document.getElementById('posts-container');
+              const paginatorLength = {{ $paginator.TotalPages }};
+              let loading = false;
+              let pageLoaded = 1;
+
+              window.addEventListener('scroll', function() {
+                if (window.innerWidth >= mdBreakpoint || loading) return;
+
+                const scrollTop = window.scrollY;
+                const windowHeight = window.innerHeight;
+                const documentHeight = container.offsetHeight;
+
+                console.log('paginator length: ' + paginatorLength);
+
+                if (scrollTop + windowHeight >= documentHeight - 100 && pageLoaded < paginatorLength) {
+                  loadMorePosts();
+                }
+              });
+
+              function loadMorePosts() {
+                loading = true;
+                const prevPageLoaded = pageLoaded;
+                const nextPage = parseInt({{ $paginator.PageNumber }}) + 1;
+
+                if (pageLoaded === nextPage || nextPage >= paginatorLength) return;
+
+                // Fetch more posts (adjust the URL accordingly)
+                const nextPageURL = '/blog/page/' + nextPage + '/';
+                fetch(nextPageURL).then(function(response) {
+                  pageLoaded = nextPage;
+                  return response.text();
+                }).then(function(html) {
+                  const parser = new DOMParser();
+                  const newDocument = parser.parseFromString(html, 'text/html');
+                  const newPosts = newDocument.querySelector('#posts-container').querySelectorAll('.qdrant-blog__card');
+
+                  console.log(newDocument.querySelectorAll('.qdrant-blog__card'));
+
+                  // Append the new posts to the existing container
+                  newPosts.forEach.call(newPosts, function(post) {
+                    container.appendChild(post);
+                  });
+
+                  // Update loading status
+                  loading = false;
+                }).catch(function(error) {
+                  console.error('Error fetching more posts:', error);
+                  pageLoaded = prevPageLoaded;
+                  loading = false;
+                });
+              }
+            });
+          })();
+        </script>
+
 
         {{ if gt $paginator.TotalPages 1}}
         {{ partial "paginator" $paginator }}
