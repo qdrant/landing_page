@@ -25,11 +25,11 @@ Expanding beyond just nearest neighbors search, let us explore the case of restr
 
 This is where the concept of vector _context_ comes in. We define _context_ as a list of pairs, which in turn are made up of a positive and a negative vector. By adding a context, we can define boundaries within the vector space, to which the positive side will always be preferred over the negative side, effectively partitioning the space in which the search is performed.
 
-< image of Discovery search >
+![Discovery search visualization](/articles_data/discovery-search/discovery-search.png)
 
 When hearing about positive and negative vectors, one might be taken back to recommendation systems. However, now these positive and negative vectors have to be provided in the shape of a context. This is inspired from the machine-learning concept of _triplet loss_, where you have three vectors: an anchor, a positive, and a negative. But in this case, the anchor would be the vector you are searching for, and the positive and negative vectors are the ones that define the context.
 
-< image of triplet loss >
+![Triplet loss](/articles_data/discovery-search/triplet-loss.png)
 
 __Discovery search__, then, is made up of two main inputs: the query vector –or _target_– and the _context_ we just defined. On the other hand, you can also __only__ provide a context, which will invoke a __Context Search__ instead. This is useful when you want to explore the space defined by the context, but you don't have a specific target in mind.
 
@@ -44,23 +44,23 @@ CLIP is a neural network that can embed both images and text into the same vecto
 
 A first strategy would be describing it with text, and then looking for similar images. 
 
-< image of search strategy >
+![Googling dragon with human heads](/articles_data/discovery-search/googling-weird-dragon.png)
 
 Trial and error might work if you are clever enough to describe it well and get close enough on the selected image. If not, good luck getting out of the similarity bubble, even if you can select multiple images. Why is this hard?
 
 Turns out, cross modal encoders might not work how you expect them to. Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
 
-< image of mental model of cross modal embeddings >
+![Mental model of CLIP embeddings](/articles_data/discovery-search/clip-mental-model.png)
 
 This is where discovery excels, because it allows us to constrain the space considering the same mode (images) while using a target from the other mode (text).
 
-< image of discovery on two planes >
+![Cross-modal search with discovery](/articles_data/discovery-search/clip-discovery.png)
 
 Discovery also lets us keep giving feedback to the search engine in the shape of more context pairs, so we can keep refining our search until we find what we are looking for.
 
 Another intuitive example: imagine you're looking for a fish pizza, but pizza names can be confusing, so you can just type pizza, and prefer a fish over meat. Discovery search will let you use these inputs to suggest a fish pizza... even if it's not called fish pizza!
 
-< image of fish pizza search >
+![Simple discovery example](/articles_data/discovery-search/discovery-example-with-images.png)
 
 ## Context search
 
@@ -68,13 +68,15 @@ Now, second case: only context.
 
 Ever been caught in the same recommendations on your favourite music streaming service? This may be caused by getting stuck in a similarity bubble. As user input gets more complex, diversity becomes scarse, and it becomes harder to force the system to recommend something different.
 
-__Context search__ solves this by de-focusing the search around a single point, and selecting points randomly from within an zone in the vector space. This search is the most influenced by _triplet loss_, as the score can be thought of as "how much a point is closer to a negative than a positive". If it is closer to the positive, then its score will then be zero, same as any other point within the same zone. But if it is on the negative side, it will be assigned a more and more negative score the further it gets.
+![Context vs recommendation search](/articles_data/discovery-search/context-vs-recommendation.png)
 
-< image of context search >
+__Context search__ solves this by de-focusing the search around a single point. Instead, it selects points randomly from within an zone in the vector space. This search is the most influenced by _triplet loss_, as the score can be thought of as _"how much a point is closer to a negative than a positive vector?"_. If it is closer to the positive one, then its score will be zero, same as any other point within the same zone. But if it is on the negative side, it will be assigned a more and more negative score the further it gets.
+
+![Context search visualization](/articles_data/discovery-search/context-search.png)
 
 Creating complex tastes in a high-dimensional space becomes easier, since you can just add more context pairs to the search. So, in theory, you should be able to constrain the space enough so you select point from a per-search "category" created just from the context in the input.
 
-< image of complex context search >
+![A more complex context search](/articles_data/discovery-search/complex-context-search.png)
 
 This way you can give refeshing recommendations, while still being in control with positive and negative feedback.
 
