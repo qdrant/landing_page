@@ -19,11 +19,15 @@ keywords: # Keywords for SEO
   - vector search
 ---
 
-Last Friday, Qdrant [released](/articles/qdrant-1.7.x/) a new functionality that lets you constrain the space in which a search is performed, relying only pure vectors. This is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to create complex tastes, and get out of the similarity bubble.
+When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for America. They were looking for a new route to India, and they were convinced that the Earth was round. They didn't know anything about America, but since they were going west, they stumbled upon it.
 
-Expanding beyond just nearest neighbors search, let us explore the case of restricting the points across a search is performed. One way to do this is by filtering out the points we know for a fact are not relevant to our search. This is really powerful because it allows us to craft filters that leaves us with only the points that satisfy their criteria deterministically. However, the data –or payload– associated to each point is arbitrary and does not tell us anything about their position in the vector space. So, if you were to visualize it, it would create a _mask_ rather than a wall.
+They couldn't reach their target, because the context of the geography didn't let them, but once they realized it wasn't India, they claimed it a new "discovery" for their crown. Let's keep this concepts of target and context in mind, as we explore the new functionality of Qdrant: __Discovery search__.
 
-This is where the concept of vector _context_ comes in. We define _context_ as a list of pairs, which in turn are made up of a positive and a negative vector. By adding a context, we can define boundaries within the vector space, to which the positive side will always be preferred over the negative side, effectively partitioning the space in which the search is performed.
+In version 1.7, Qdrant [released](/articles/qdrant-1.7.x/) this novel API that lets you constrain the space in which a search is performed, relying only on pure vectors. This is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily closest to the target, but are still relevant to the search.
+
+One previous way to restrict the points that are available to the search is by filtering out the points we know for a fact are not relevant. This is really powerful because it allows us to craft complex filters that show only the points that satisfy their criteria deterministically. However, the data –or payload– associated to each point is arbitrary and does not tell us anything about their position in the vector space. In other words, it would create a _mask_ rather than a _boundary_ in the space.
+
+This is where the concept of __vector _context___ comes in. We define _context_ as a list of pairs, which in turn are made up of a positive and a negative vector. By adding a context, we can define boundaries within the vector space, to which the positive side will always be preferred over the negative side, effectively partitioning the space in which the search is performed. After the space is partitioned, we then need a _target_ to select the points that are closest to it.
 
 ![Discovery search visualization](/articles_data/discovery-search/discovery-search.png)
 
@@ -31,7 +35,7 @@ When hearing about positive and negative vectors, one might be taken back to rec
 
 ![Triplet loss](/articles_data/discovery-search/triplet-loss.png)
 
-__Discovery search__, then, is made up of two main inputs: the query vector –or _target_– and the _context_ we just defined. On the other hand, you can also __only__ provide a context, which will invoke a __Context Search__ instead. This is useful when you want to explore the space defined by the context, but you don't have a specific target in mind.
+[__Discovery search__](#discovery-search), then, is made up of two main inputs: the query vector –or _target_– and the _context_ we just defined. However, it is not the only way to use it, you can also __only__ provide a context, which will invoke a [__Context Search__](#context-search) instead. This is useful when you want to explore the space defined by the context, but you don't have a specific target in mind.
 
 ## Discovery search
 
@@ -41,6 +45,11 @@ To understand why this is useful, let's take a look at a real-world example: usi
 CLIP is a neural network that can embed both images and text into the same vector space. This means that if you were to search for an image, you could do so by providing a text query, and vice versa. Now, let's say you want to look for this:
 
 < image of weird dragon with human heads >
+
+You just have two rules:
+
+- Can't use the name
+- Cannot do reverse image search.
 
 A first strategy would be describing it with text, and then looking for similar images. 
 
@@ -58,7 +67,7 @@ This is where discovery excels, because it allows us to constrain the space cons
 
 Discovery also lets us keep giving feedback to the search engine in the shape of more context pairs, so we can keep refining our search until we find what we are looking for.
 
-Another intuitive example: imagine you're looking for a fish pizza, but pizza names can be confusing, so you can just type pizza, and prefer a fish over meat. Discovery search will let you use these inputs to suggest a fish pizza... even if it's not called fish pizza!
+Another intuitive example: imagine you're looking for a fish pizza, but pizza names can be confusing, so you can just type "pizza", and prefer a fish over meat. Discovery search will let you use these inputs to suggest a fish pizza... even if it's not called fish pizza!
 
 ![Simple discovery example](/articles_data/discovery-search/discovery-example-with-images.png)
 
@@ -74,12 +83,12 @@ __Context search__ solves this by de-focusing the search around a single point. 
 
 ![Context search visualization](/articles_data/discovery-search/context-search.png)
 
-Creating complex tastes in a high-dimensional space becomes easier, since you can just add more context pairs to the search. So, in theory, you should be able to constrain the space enough so you select point from a per-search "category" created just from the context in the input.
+Creating complex tastes in a high-dimensional space becomes easier, since you can just add more context pairs to the search. So, in theory, you should be able to constrain the space enough so you select points from a per-search "category" created just from the context in the input.
 
 ![A more complex context search](/articles_data/discovery-search/complex-context-search.png)
 
-This way you can give refeshing recommendations, while still being in control with positive and negative feedback.
+This way you can give refeshing recommendations, while still being in control by providing positive and negative feedback.
 
 ## Wrapping up
 
-[Discovery search](/documentation/concepts/explore/#discovery-api) is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to create complex tastes, and get out of the similarity bubble.
+[Discovery search](/documentation/concepts/explore/#discovery-api) is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to represent complex tastes, and break out of the similarity bubble.
