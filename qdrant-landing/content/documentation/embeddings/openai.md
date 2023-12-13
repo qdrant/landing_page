@@ -6,7 +6,7 @@ aliases: [ /integrations/openai/ ]
 
 # OpenAI
 
-Qdrant can also easily work with [OpenAI embeddings](https://beta.openai.com/docs/guides/embeddings/embeddings). 
+Qdrant can also easily work with [OpenAI embeddings](https://platform.openai.com/docs/guides/embeddings/embeddings). 
 
 There is an official OpenAI Python package that simplifies obtaining them, and it might be installed with pip:
 
