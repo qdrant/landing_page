@@ -40,7 +40,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -48,7 +47,7 @@ POST /collections/{collection_name}/points/scroll
             { "key": "color", "match": { "value": "red" } }
         ]
     }
-  ...
+    ...
 }
 ```
 
@@ -96,6 +95,26 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{Condition, Filter, ScrollPoints},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "test_collection".to_string(),
+        filter: Some(Filter::must([
+            Condition::matches("city", "london".to_string()),
+            Condition::matches("color", "red".to_string()),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 Filtered points would be:
 
 ```json
@@ -111,7 +130,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -157,6 +175,21 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "test_collection".to_string(),
+        filter: Some(Filter::should([
+            Condition::matches("city", "london".to_string()),
+            Condition::matches("color", "red".to_string()),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 Filtered points would be:
 
 ```json
@@ -177,7 +210,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must_not": [
@@ -217,6 +249,21 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "test_collection".to_string(),
+        filter: Some(Filter::must_not([
+            Condition::matches("city", "london".to_string()),
+            Condition::matches("color", "red".to_string()),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 Filtered points would be:
 
 ```json
@@ -235,7 +282,6 @@ It is also possible to use several clauses simultaneously:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -281,6 +327,22 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter {
+            must: vec![Condition::matches("city", "London".to_string())],
+            must_not: vec![Condition::matches("color", "red".to_string())],
+            ..Default::default()
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 Filtered points would be:
 
 ```json
@@ -296,7 +358,6 @@ Also, the conditions could be recursively nested. Example:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must_not": [
@@ -352,6 +413,22 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must_not([Filter::must([
+            Condition::matches("city", "London".to_string()),
+            Condition::matches("color", "Red".to_string()),
+        ])
+        .into()])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 Filtered points would be:
 
 ```json
@@ -394,6 +471,10 @@ models.FieldCondition(
 }
 ```
 
+```rust
+Condition::matches("color", "red".to_string())
+```
+
 For the other types, the match condition will look exactly the same, except for the type used:
 
 ```json
@@ -417,6 +498,10 @@ models.FieldCondition(
     key: 'count',
     match: {value: 0}    
 }
+```
+
+```rust
+Condition::matches("count", 0)
 ```
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
@@ -457,6 +542,10 @@ FieldCondition(
 }
 ```
 
+```rust
+Condition::matches("color", vec!["black".to_string(), "yellow".to_string()])
+```
+
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
 
 If the stored value is an array, it should have at least one value matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"black"` is in `["black", "yellow"]`.
@@ -495,6 +584,13 @@ FieldCondition(
     key: 'color',
     match: {except: ['black', 'yellow']}
 }
+```
+
+```rust
+Condition::matches(
+    "color",
+    !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
+)
 ```
 
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
@@ -556,7 +652,6 @@ You can search on a nested field using a dot notation.
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -597,11 +692,25 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::should([Condition::matches(
+            "country.name",
+            "Germany".to_string(),
+        )])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 You can also search through arrays by projecting inner values using the `[]` syntax.
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -653,13 +762,30 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, Range, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::should([Condition::range(
+            "country.cities[].population",
+            Range {
+                gte: Some(9.0),
+                ..Default::default()
+            },
+        )])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
 
 And the leaf nested field can also be an array.
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "should": [
@@ -701,6 +827,21 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::should([Condition::matches(
+            "country.cities[].sightseeing",
+            "Osaka Castle".to_string(),
+        )])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
 
 ### Nested object filter
@@ -736,7 +877,6 @@ The following query would match both points:
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -790,6 +930,21 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "test_collection".to_string(),
+        filter: Some(Filter::must([
+            Condition::matches("diet[].food", "meat".to_string()),
+            Condition::matches("diet[].likes", true),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 This happens because both points are matching the two conditions:
 
 - the "t-rex" matches food=meat on `diet[1].food` and likes=true on `diet[1].likes`
@@ -805,7 +960,6 @@ The key should point to an array of objects and can be used with or without the 
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -886,6 +1040,25 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([NestedCondition {
+            key: "diet".to_string(),
+            filter: Some(Filter::must([
+                Condition::matches("food", "meat".to_string()),
+                Condition::matches("likes", true),
+            ])),
+        }
+        .into()])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 The matching logic is modified to be applied at the level of an array element within the payload.
 
 Nested filters work in the same way as if the nested filter was applied to a single element of the array at a time.
@@ -897,7 +1070,6 @@ The `has_id` condition is not supported within the nested object filter. If you 
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -983,6 +1155,28 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([
+            NestedCondition {
+                key: "diet".to_string(),
+                filter: Some(Filter::must([
+                    Condition::matches("food", "meat".to_string()),
+                    Condition::matches("likes", true),
+                ])),
+            }
+            .into(),
+            Condition::has_id([1]),
+        ])),
+        ..Default::default()
+    })
+    .await?;
+```
+
 ### Full Text Match
 
 *Available as of v0.10.0*
@@ -1016,6 +1210,12 @@ models.FieldCondition(
     key: 'description',
     match: {text: 'good cheap'}    
 }
+```
+
+```rust
+// If the match string contains a white-space, full text match is performed.
+// Otherwise a keyword match is performed.
+Condition::matches("description", "good cheap".to_string())
 ```
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
@@ -1056,6 +1256,18 @@ models.FieldCondition(
         lte: 450.0    
     }    
 }
+```
+
+```rust
+Condition::range(
+    "price",
+    Range {
+        gt: None,
+        gte: Some(100.0),
+        lt: None,
+        lte: Some(450.0),
+    },
+)
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -1122,6 +1334,22 @@ models.FieldCondition(
 }
 ```
 
+```rust
+Condition::geo_bounding_box(
+    "location",
+    GeoBoundingBox {
+        bottom_right: Some(GeoPoint {
+            lon: 13.455868,
+            lat: 52.495862,
+        }),
+        top_left: Some(GeoPoint {
+            lon: 13.403683,
+            lat: 52.520711,
+        }),
+    },
+)
+```
+
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 #### Geo Radius
@@ -1163,6 +1391,19 @@ models.FieldCondition(
         radius: 1000.0
     }    
 }
+```
+
+```rust
+Condition::geo_radius(
+    "location",
+    GeoRadius {
+        center: Some(GeoPoint {
+            lon: 13.403683,
+            lat: 52.520711,
+        }),
+        radius: 1000.0,
+    },
+)
 ```
 
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
@@ -1320,6 +1561,59 @@ models.FieldCondition(
 }
 ```
 
+```rust
+Condition::geo_polygon(
+    "location",
+    GeoPolygon {
+        exterior: Some(GeoLineString {
+            points: vec![
+                GeoPoint {
+                    lon: -70.0,
+                    lat: -70.0,
+                },
+                GeoPoint {
+                    lon: 60.0,
+                    lat: -70.0,
+                },
+                GeoPoint {
+                    lon: 60.0,
+                    lat: 60.0,
+                },
+                GeoPoint {
+                    lon: -70.0,
+                    lat: 60.0,
+                },
+                GeoPoint {
+                    lon: -70.0,
+                    lat: -70.0,
+                },
+            ],
+        }),
+        interiors: vec![GeoLineString {
+            points: vec![
+                GeoPoint {
+                    lon: -65.0,
+                    lat: -65.0,
+                },
+                GeoPoint {
+                    lon: 0.0,
+                    lat: -65.0,
+                },
+                GeoPoint { lon: 0.0, lat: 0.0 },
+                GeoPoint {
+                    lon: -65.0,
+                    lat: 0.0,
+                },
+                GeoPoint {
+                    lon: -65.0,
+                    lat: -65.0,
+                },
+            ],
+        }],
+    },
+)
+```
+
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
 
 If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset. 
@@ -1363,6 +1657,16 @@ models.FieldCondition(
 }
 ```
 
+```rust
+Condition::values_count(
+    "comments",
+    ValuesCount {
+        gt: Some(2),
+        ..Default::default()
+    },
+)
+```
+
 The result would be:
 
 ```json
@@ -1398,6 +1702,10 @@ models.IsEmptyCondition(
 }
 ```
 
+```rust
+Condition::is_empty("reports")
+```
+
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
@@ -1429,6 +1737,10 @@ models.IsNullCondition(
 }
 ```
 
+```rust
+Condition::is_null("reports")
+```
+
 This condition will match all records where the field `reports` exists and has `NULL` value.
 
 
@@ -1439,14 +1751,13 @@ For example, the user could mark some specific search results as irrelevant, or 
 
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
             { "has_id": [1,3,5,7,9,11] }
         ]
     }
-  ...
+    ...
 }
 ```
 
@@ -1471,6 +1782,18 @@ client.scroll("{collection_name}", {
     ],
   },
 });
+```
+
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::has_id([1, 3, 5, 7, 9, 11])])),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 Filtered points would be:

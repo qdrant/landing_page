@@ -1,5 +1,5 @@
 (function () {
-  let codeBlocks = document.querySelectorAll('pre > code');
+  let codeBlocks = document.querySelectorAll('.highlight > pre');
 
   const codeClipboard = new ClipboardJS('.copy-code__btn');
 

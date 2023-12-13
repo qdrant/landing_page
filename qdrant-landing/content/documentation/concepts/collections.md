@@ -14,9 +14,10 @@ The choice of metric depends on the way vectors obtaining and, in particular, on
 
 Qdrant supports these most popular types of metrics:
 
-* Dot product: `Dot` - https://en.wikipedia.org/wiki/Dot_product
-* Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
-* Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
+* Dot product: `Dot` - [[wiki]](https://en.wikipedia.org/wiki/Dot_product)
+* Cosine similarity: `Cosine`  - [[wiki]](https://en.wikipedia.org/wiki/Cosine_similarity)
+* Euclidean distance: `Euclid` - [[wiki]](https://en.wikipedia.org/wiki/Euclidean_distance)
+* Manhattan distance: `Manhattan` - [[wiki]](https://en.wikipedia.org/wiki/Taxicab_geometry)
 
 <aside role="status">For search efficiency, Cosine similarity is implemented as dot-product over normalized vectors. Vectors are automatically normalized during upload</aside>
 
@@ -25,7 +26,7 @@ These settings can be changed at any time by a corresponding request.
 
 ## Setting up multitenancy
 
-**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called multitenancy. It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](../../tutorials/multiple-partitions/)
+**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://en.wikipedia.org/wiki/Multitenancy). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](../../tutorials/multiple-partitions/)
 
 **When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
@@ -33,7 +34,6 @@ These settings can be changed at any time by a corresponding request.
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 300,
@@ -62,6 +62,30 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.createCollection("{collection_name}", {
   vectors: { size: 100, distance: "Cosine" },
 });
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+//The Rust client uses Qdrant's GRPC interface
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 100,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
 ```
 
 In addition to the required options, you can also specify custom values for the following collection options:
@@ -97,10 +121,9 @@ Make sure the vectors have the same size and distance function when setting up t
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
-      "size": 300,
+      "size": 100,
       "distance": "Cosine"
     },
     "init_from": {
@@ -133,6 +156,30 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::Params(VectorParams {
+                size: 100,
+                distance: Distance::Cosine.into(),
+                ..Default::default()
+            })),
+        }),
+        init_from_collection: Some("{from_collection_name}".to_string()),
+        ..Default::default()
+    })
+    .await?;
+```
+
 ### Collection with multiple vectors
 
 *Available as of v0.10.0*
@@ -144,7 +191,6 @@ Each named vector in this mode has its distance and size:
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
         "image": {
@@ -187,6 +233,48 @@ client.createCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, VectorParams, VectorParamsMap,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        vectors_config: Some(VectorsConfig {
+            config: Some(Config::ParamsMap(VectorParamsMap {
+                map: [
+                    (
+                        "image".to_string(),
+                        VectorParams {
+                            size: 4,
+                            distance: Distance::Dot.into(),
+                            ..Default::default()
+                        },
+                    ),
+                    (
+                        "text".to_string(),
+                        VectorParams {
+                            size: 8,
+                            distance: Distance::Cosine.into(),
+                            ..Default::default()
+                        },
+                    ),
+                ]
+                .into(),
+            })),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
 For rare use cases, it is possible to create a collection without any vector storage.
 
 *Available as of v1.1.1*
@@ -205,6 +293,90 @@ the use of
 [memmaps](../../concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
+
+### Collection with sparse vectors
+
+*Available as of v1.7.0*
+
+Qdrant supports sparse vectors as a first-class citizen.
+
+Sparse vectors are useful for text search, where each word is represented as a separate dimension.
+
+Collections can contain sparse vectors as additional [named vectors](#collection-with-multiple-vectors) along side regular dense vectors in a single point.
+
+Unlike dense vectors, sparse vectors must be named.
+And additionally, sparse vectors and dense vectors must have different names within a collection.
+
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": { },
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.create_collection(
+    collection_name="{collection_name}",
+    sparse_vectors_config={
+        "text": models.SparseVectorParams(),
+    },
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  sparse_vectors: {
+    text: { },
+  },
+});
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, SparseVectorParams, VectorParamsMap,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        sparse_vectors_config: Some(SparseVectorsConfig {
+            map: [
+                    (
+                        "text".to_string(),
+                        SparseVectorParams {},
+                    ),
+                ]
+                .into(),
+            }),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
+Outside of a unique name, there are no required configuration parameters for sparse vectors.
+
+The distance function for sparse vectors is always `Dot` and does not need to be specified.
+
+However, there are optional parameters to tune the underlying [sparse vector index](../indexing/#sparse-vector-index).
+
 ### Delete collection
 
 ```http
@@ -219,6 +391,10 @@ client.delete_collection(collection_name="{collection_name}")
 client.deleteCollection("{collection_name}");
 ```
 
+```rust
+client.delete_collection("{collection_name}").await?;
+```
+
 ### Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
@@ -229,7 +405,6 @@ The following command enables indexing for segments that have more than 10000 kB
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "optimizers_config": {
         "indexing_threshold": 10000
@@ -250,6 +425,25 @@ client.updateCollection("{collection_name}", {
     indexing_threshold: 10000,
   },
 });
+```
+
+```rust
+use qdrant_client::qdrant::OptimizersConfigDiff;
+
+client
+    .update_collection(
+        "{collection_name}",
+        &OptimizersConfigDiff {
+            indexing_threshold: Some(10000),
+            ..Default::default()
+        },
+        None,
+        None,
+        None,
+        None,
+        None,
+    )
+    .await?;
 ```
 
 The following parameters can be updated:
@@ -282,7 +476,6 @@ use `""` as name:
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "vectors": {
         "": {
@@ -296,7 +489,6 @@ To put vector data on disk for a collection that **does have** named vectors:
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "vectors": {
         "my_vector": {
@@ -311,7 +503,6 @@ both for the whole collection, and for `my_vector` specifically:
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "vectors": {
         "my_vector": {
@@ -402,6 +593,53 @@ client.updateCollection("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+use qdrant_client::qdrant::{
+    quantization_config_diff::Quantization, vectors_config_diff::Config, HnswConfigDiff,
+    QuantizationConfigDiff, QuantizationType, ScalarQuantization, VectorParamsDiff,
+    VectorsConfigDiff,
+};
+
+client
+    .update_collection(
+        "{collection_name}",
+        None,
+        None,
+        None,
+        Some(&HnswConfigDiff {
+            ef_construct: Some(123),
+            ..Default::default()
+        }),
+        Some(&VectorsConfigDiff {
+            config: Some(Config::ParamsMap(
+                qdrant_client::qdrant::VectorParamsDiffMap {
+                    map: HashMap::from([(
+                        ("my_vector".into()),
+                        VectorParamsDiff {
+                            hnsw_config: Some(HnswConfigDiff {
+                                m: Some(32),
+                                ef_construct: Some(123),
+                                ..Default::default()
+                            }),
+                            ..Default::default()
+                        },
+                    )]),
+                },
+            )),
+        }),
+        Some(&QuantizationConfigDiff {
+            quantization: Some(Quantization::Scalar(ScalarQuantization {
+                r#type: QuantizationType::Int8 as i32,
+                quantile: Some(0.8),
+                always_ram: Some(true),
+                ..Default::default()
+            })),
+        }),
+    )
+    .await?;
+```
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
@@ -409,7 +647,6 @@ distributed and indexed.
 
 ```http
 GET /collections/{collection_name}
-
 {
     "result": {
         "status": "green",
@@ -465,6 +702,10 @@ client.get_collection(collection_name="{collection_name}")
 client.getCollection("{collection_name}");
 ```
 
+```rust
+client.collection_info("{collection_name}").await?;
+```
+
 If you insert the vectors into the collection, the `status` field may become
 `yellow` whilst it is optimizing. It will become `green` once all the points are
 successfully processed.
@@ -475,11 +716,34 @@ The following color statuses are possible:
 - 🟡 `yellow`: collection is optimizing
 - 🔴 `red`: an error occurred which the engine could not recover from
 
-There are some other attributes you might be interested in:
+### Approximate point and vector counts
+
+You may be interested in the count attributes:
 
 - `points_count` - total number of objects (vectors and their payloads) stored in the collection
-- `vectors_count` - total number of vectors in a collection. If there are multiple vectors per object, it won't be equal to `points_count`.
-- `indexed_vectors_count` - total number of vectors stored in the HNSW index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+- `vectors_count` - total number of vectors in a collection, useful if you have multiple vectors per point
+- `indexed_vectors_count` - total number of vectors stored in the HNSW or sparse index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+
+The above counts are not exact, but should be considered approximate. Depending
+on how you use Qdrant these may give very different numbers than what you may
+expect. It's therefore important **not** to rely on them.
+
+More specifically, these numbers represent the count of points and vectors in
+Qdrant's internal storage. Internally, Qdrant may temporarily duplicate points
+as part of automatic optimizations. It may keep changed or deleted points for a
+bit. And it may delay indexing of new points. All of that is for optimization
+reasons.
+
+Updates you do are therefore not directly reflected in these numbers. If you see
+a wildly different count of points, it will likely resolve itself once a new
+round of automatic optimizations has completed.
+
+To clarify: these numbers don't represent the exact amount of points or vectors
+you have inserted, nor does it represent the exact number of distinguishable
+points or vectors you can query. If you want to know exact counts, refer to the
+[count API](../points/#counting-points).
+
+_Note: these numbers may be removed in a future version of Qdrant._
 
 ### Indexing vectors in HNSW
 
@@ -506,7 +770,6 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 
 ```http
 POST /collections/aliases
-
 {
     "actions": [
         {
@@ -544,11 +807,14 @@ client.updateCollectionAliases({
 });
 ```
 
+```rust
+client.create_alias("example_collection", "production_collection").await?;
+```
+
 ### Remove alias
 
 ```http
 POST /collections/aliases
-
 {
     "actions": [
         {
@@ -582,6 +848,10 @@ client.updateCollectionAliases({
 });
 ```
 
+```rust
+client.delete_alias("production_collection").await?;
+```
+
 ### Switch collection
 
 Multiple alias actions are performed atomically.
@@ -589,7 +859,6 @@ For example, you can switch underlying collection with the following command:
 
 ```http
 POST /collections/aliases
-
 {
     "actions": [
         {
@@ -640,6 +909,11 @@ client.updateCollectionAliases({
 });
 ```
 
+```rust
+client.delete_alias("production_collection").await?;
+client.create_alias("example_collection", "production_collection").await?;
+```
+
 ### List collection aliases
 
 ```http
@@ -660,6 +934,14 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.getCollectionAliases("{collection_name}");
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_collection_aliases("{collection_name}").await?;
 ```
 
 ### List all aliases
@@ -684,6 +966,14 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.getAliases();
 ```
 
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_aliases().await?;
+```
+
 ### List all collections
 
 ```http
@@ -704,4 +994,12 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.getCollections();
+```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.list_collections().await?;
 ```

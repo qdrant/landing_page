@@ -11,7 +11,7 @@ This page shows you how to use the Qdrant Cloud Console to create a free tier cl
 
 ## Step 1: Create a Free Tier cluster
 
-1. Start in the **Overview** section of the Dashboard. 
+1. Start in the **Overview** section of the [Cloud Dashboard](https://cloud.qdrant.io). 
 2. Under **Set a Cluster Up** enter a **Cluster name**.
 3. Click **Create Free Tier** and then **Continue**.
 4. Under **Get an API Key**, select the cluster and click **Get API Key**.
@@ -39,7 +39,7 @@ Open Terminal and run the request. You should get a response that looks like thi
 ## Step 3: Authenticate via SDK
 
 Now that you have created your first cluster and key, you might want to access Qdrant Cloud from within your application.
-Our official Qdrant clients for Python, TypeScript, Go, and Rust all support the API key parameter. 
+Our official Qdrant clients for Python, TypeScript, Go, Rust, and .NET all support the API key parameter. 
 
 ```python
 from qdrant_client import QdrantClient
@@ -57,4 +57,14 @@ const client = new QdrantClient({
   host: "xyz-example.eu-central.aws.cloud.qdrant.io",
   apiKey: "<paste-your-api-key-here>",
 });
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient(
+  "xyz-example.eu-central.aws.cloud.qdrant.io",
+  https: true,
+  apiKey: "<paste-your-api-key-here>"
+);
 ```

@@ -23,7 +23,6 @@ To disable indexing during upload, set `indexing_threshold` to `0`:
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -69,7 +68,6 @@ After upload is done, you can enable indexing by setting `indexing_threshold` to
 
 ```http
 PATCH /collections/{collection_name}
-
 {
     "optimizers_config": {
         "indexing_threshold": 20000
@@ -128,7 +126,6 @@ By creating multiple shards, you can parallelize upload of a large dataset. From
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,

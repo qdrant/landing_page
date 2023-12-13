@@ -173,8 +173,7 @@ In the second experiment, we tested how well our system performs when **vectors 
 Create collection with:
 
 ```http
-PUT /collections/benchmark 
-
+PUT /collections/benchmark
 {
   ...
   "optimizers_config": {
@@ -222,7 +221,6 @@ Create collection with:
 
 ```http
 PUT /collections/benchmark 
-
 {
   ...
   "hnsw_config": {

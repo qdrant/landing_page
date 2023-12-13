@@ -27,7 +27,6 @@ To mark a field as indexable, you can use the following:
 
 ```http
 PUT /collections/{collection_name}/index
-
 {
     "field_name": "name_of_the_field_to_index",
     "field_schema": "keyword"
@@ -57,6 +56,22 @@ client.createPayloadIndex("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::FieldType};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        FieldType::Keyword,
+        None,
+        None,
+    )
+    .await?;
+```
+
 Available field types are:
 
 * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
@@ -84,7 +99,6 @@ To create a full-text index, you can use the following:
 
 ```http
 PUT /collections/{collection_name}/index
-
 {
     "field_name": "name_of_the_field_to_index",
     "field_schema": {
@@ -133,6 +147,35 @@ client.createPayloadIndex("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        payload_index_params::IndexParams, FieldType, PayloadIndexParams, TextIndexParams,
+        TokenizerType,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        FieldType::Text,
+        Some(&PayloadIndexParams {
+            index_params: Some(IndexParams::TextIndexParams(TextIndexParams {
+                tokenizer: TokenizerType::Word as i32,
+                min_token_len: Some(2),
+                max_token_len: Some(10),
+                lowercase: Some(true),
+            })),
+        }),
+        None,
+    )
+    .await?;
+```
+
 Available tokenizers are:
 
 * `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
@@ -147,7 +190,7 @@ See [Full Text match](../filtering/#full-text-match) for examples of querying wi
 A vector index is a data structure built on vectors through a specific mathematical model.
 Through the vector index, we can efficiently query several vectors similar to the target vector.
 
-Qdrant currently only uses HNSW as a vector index.
+Qdrant currently only uses HNSW as a dense vector index.
 
 [HNSW](https://arxiv.org/abs/1603.09320) (Hierarchical Navigable Small World Graph) is a graph-based indexing algorithm. It builds a multi-layer navigation structure for an image according to certain rules. In this structure, the upper layers are more sparse and the distances between nodes are farther. The lower layers are denser and the distances between nodes are closer. The search starts from the uppermost layer, finds the node closest to the target in this layer, and then enters the next layer to begin another search. After multiple iterations, it can quickly approach the target position.
 
@@ -184,6 +227,47 @@ Second, it is one of the most accurate and fastest algorithms, according to [pub
 The HNSW parameters can also be configured on a collection and named vector
 level by setting [`hnsw_config`](../indexing/#vector-index) to fine-tune search
 performance.
+
+## Sparse Vector Index
+
+*Available as of v1.7.0*
+
+### Key Features of Sparse Vector Index
+- **Support for Sparse Vectors:** Qdrant supports sparse vectors, characterized by a high proportion of zeroes.
+- **Efficient Indexing:** Utilizes an inverted index structure to store vectors for each non-zero dimension, optimizing memory and search speed.
+
+### Search Mechanism
+- **Index Usage:** The index identifies vectors with non-zero values in query dimensions during a search.
+- **Scoring Method:** Vectors are scored using the dot product.
+
+### Optimizations
+- **Reducing Vectors to Score:** Implementations are in place to minimize the number of vectors scored, especially for dimensions with numerous vectors.
+
+### Filtering and Configuration
+- **Filtering Support:** Similar to dense vectors, supports filtering by payload fields.
+- **`full_scan_threshold` Configuration:** Allows control over when to switch search from the payload index to minimize scoring vectors.
+- **Threshold for Sparse Vectors:** Specifies the threshold in terms of the number of matching vectors found by the query planner.
+
+### Index Storage and Management
+- **Memory-Based Index:** The index resides in memory for appendable segments, ensuring fast search and update operations.
+- **Handling Immutable Segments:** For immutable segments, the sparse index can either stay in memory or be mapped to disk with the `on_disk` flag.
+
+**Example Configuration:** To enable on-disk storage for immutable segments and full scan for queries inspecting less than 5000 vectors:
+
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": {
+            "index": {
+                "on_disk": true,
+                "full_scan_threshold": 5000
+            }
+         },
+    }
+}
+```
+
 
 ## Filtrable Index
 

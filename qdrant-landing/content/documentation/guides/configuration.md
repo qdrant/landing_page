@@ -149,6 +149,12 @@ storage:
     # So total number of threads used for optimization will be `max_optimization_threads * max_indexing_threads`
     max_optimization_threads: 1
 
+    # Prevent DDoS of too many concurrent updates in distributed mode.
+    # One external update usually triggers multiple internal updates, which breaks internal
+    # timings. For example, the health check timing and consensus timing.
+    # If null - auto selection.
+    update_rate_limit: null
+
   optimizers:
     # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
     deleted_threshold: 0.2
@@ -261,6 +267,17 @@ service:
   #
   # Uncomment to enable.
   # api_key: your_secret_api_key_here
+   
+  # Set an api-key for read-only operations.
+  # If set, all requests must include a header with the api-key.
+  # example header: `api-key: <API-KEY>`
+  #
+  # If you enable this you should also enable TLS.
+  # (Either above or via an external service like nginx.)
+  # Sending an api-key over an unencrypted channel is insecure.
+  #
+  # Uncomment to enable.
+  # read_only_api_key: your_secret_read_only_api_key_here
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode
