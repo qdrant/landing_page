@@ -1,6 +1,7 @@
 ---
 title: txtai
 weight: 500
+aliases: [ /integrations/txtai/ ]
 ---
 
 # txtai
