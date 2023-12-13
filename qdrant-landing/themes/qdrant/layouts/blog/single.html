@@ -1,16 +1,67 @@
-{{ define "main" }}
-<section class="auto-container pt-3 pt-md-5 single-page">
-    <div class="row clearfix">
+{{ partial "header" . }}
+<section class="auto-container pt-3 pt-md-2 mb-5">
+    <div class="row clearfix mt-md-5 pt-md-5">
+        <div class="col-12">
+            {{ partial "breadcrumbs" . }}
+        </div>
 
-        <!-- Sidebar Side -->
-        {{ .Scratch.Set "scope" "single" }}
-        {{ partial "blog-sidebar" . }}
-
-        <!-- Content Side -->
-        <div class="content-side col-lg-8 col-md-12 col-sm-12">
-            {{ partial "blogpost" .}}
+        <div class="qdrant-blog__post qb-post offset-md-1 col-12 col-md-10">
+            <h1 class="qb-post__title">{{ .Params.title }}</h1>
+            <div class="qb-post__meta">
+                <span>By {{ .Params.author }}</span>
+                <span class="qb-post__meta-divider">·</span>
+                <span>{{ .Date | time.Format ":date_long" }}</span>
+            </div>
+            <div class="qb-post__img"><img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" class="img-fluid"></div>
+            <div class="d-md-flex">
+                <div class="qb-post__share qb-share">
+                    <span class="qb-share__title">Share:</span>
+                    <div class="qb-share__buttons">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" target="_blank" class="qb-share__link"><svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_1849_3732)">
+                                <path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM13.7889 17.625V25.75H17.25V17.625H19.75L21 13.875H17.25V11.736C17.25 10.7709 17.5625 10.1133 18.9465 10.1133L20.7114 10.1125V7.13132C20.4061 7.09075 19.3585 7 18.1395 7C15.5948 7 13.7889 8.40361 13.7889 11.2562V13.875H11V17.625H13.7889Z" fill="#8B9CCC"/>
+                            </g>
+                            <defs>
+                                <clipPath id="clip0_1849_3732">
+                                    <rect width="32" height="32" fill="white"/>
+                                </clipPath>
+                            </defs>
+                        </svg>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?text={{ .Params.title }}&url={{ .Permalink }}" target="_blank" class="qb-share__link">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1849_3736)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM24.0006 22.8979H19.0629L15.197 17.8437L10.7706 22.8979H8.31543L14.0512 16.3457L8 8.43457H13.0627L16.5595 13.0584L20.6015 8.43457H23.0551L17.6969 14.5625L24.0006 22.8979ZM19.7401 21.4293H21.0996L12.324 9.82615H10.8653L19.7401 21.4293Z" fill="#8B9CCC"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1849_3736">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink }}&title={{ .Params.title }}&summary={{ .Description }}&source={{ .Permalink }}" target="_blank" class="qb-share__link">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1849_3736)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM24.0006 22.8979H19.0629L15.197 17.8437L10.7706 22.8979H8.31543L14.0512 16.3457L8 8.43457H13.0627L16.5595 13.0584L20.6015 8.43457H23.0551L17.6969 14.5625L24.0006 22.8979ZM19.7401 21.4293H21.0996L12.324 9.82615H10.8653L19.7401 21.4293Z" fill="#8B9CCC"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1849_3736">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+                <div class="qb-post__content">
+                    {{ .Content }}
+                </div>
+            </div>
         </div>
     </div>
 </section>
 
-{{ end }}
+{{ .Scratch.Set "variant" "two-columns" }}
+{{ partial "contact-section" . }}
+{{ partial "footer" . }}

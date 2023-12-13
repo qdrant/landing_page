@@ -1,4 +1,23 @@
 {{ define "main" }}
+
+<section class="page-title qdrant-blog">
+    <div class="auto-container">
+        <div class="row">
+            <div class="col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0">
+                {{ partial "breadcrumbs" . }}
+
+                <h1 class="qdrant-blog__header{{ if not .Params.section_title }} page-title__title_dark{{ end }}"> {{ .Params.title | safeHTML }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-md-6 col-12 col-md-6">
+                {{ .Scratch.Set "variant" "compact" }}
+                {{ partial "contact-section" . }}
+            </div>
+        </div>
+    </div>
+</section>
+
 {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
 <section class="auto-container pt-4 pt-md-5 pb-5 mb-5">
 
