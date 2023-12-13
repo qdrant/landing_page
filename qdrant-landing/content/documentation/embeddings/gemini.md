@@ -91,4 +91,16 @@ qdrant_client.search(
 )
 ```
 
-That's it! You can now use Gemini Embedding Models with Qdrant.
+## Using Gemini Embedding Models with Binary Quantization
+
+You can use Gemini Embedding Models with [Binary Quantization](../../articles/binary-quantization.md)
+
+| oversampling | rescore | False    | True     | False    | True     | False    | True     |
+|--------------|---------|----------|----------|----------|----------|----------|----------|
+| limit        |         |          |          |          |          |          |          |
+| 10           |         | 0.523333 | 0.831111 | 0.523333 | 0.915556 | 0.523333 | 0.950000 |
+| 20           |         | 0.510000 | 0.836667 | 0.510000 | 0.912222 | 0.510000 | 0.937778 |
+| 50           |         | 0.489111 | 0.841556 | 0.489111 | 0.913333 | 0.488444 | 0.947111 |
+| 100          |         | 0.485778 | 0.846556 | 0.485556 | 0.929000 | 0.486000 | 0.956333 |
+
+That's it! You can now use Gemini Embedding Models with Qdrant!
