@@ -93,7 +93,7 @@ qdrant_client.search(
 
 ## Using Gemini Embedding Models with Binary Quantization
 
-You can use Gemini Embedding Models with [Binary Quantization](../../articles/binary-quantization.md) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much. 
+You can use Gemini Embedding Models with [Binary Quantization](../../articles/binary-quantization) - a technique that allows you to reduce the size of the embeddings by 32 times without losing the quality of the search results too much. 
 
 In this table, you can see the results of the search with the `models/embedding-001` model with Binary Quantization in comparison with the original model:
 
