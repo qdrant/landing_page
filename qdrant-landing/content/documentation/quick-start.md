@@ -159,7 +159,7 @@ let points = vec![
     // ..truncated
 ];
 let operation_info = client
-    .upsert_points_blocking("test_collection".to_string(), points, None)
+    .upsert_points_blocking("test_collection".to_string(), None, points, None)
     .await?;
 
 dbg!(operation_info);
@@ -392,7 +392,10 @@ SearchResponse {
     time: 0.004001083,
 }
 ```
-You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score. 
+
+<aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="../concepts/indexing/#payload-index">payload indexes</a>!</aside>
+
+You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score.
 
 ## Next steps
 

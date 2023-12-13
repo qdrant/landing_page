@@ -14,9 +14,10 @@ The choice of metric depends on the way vectors obtaining and, in particular, on
 
 Qdrant supports these most popular types of metrics:
 
-* Dot product: `Dot` - https://en.wikipedia.org/wiki/Dot_product
-* Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
-* Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
+* Dot product: `Dot` - [[wiki]](https://en.wikipedia.org/wiki/Dot_product)
+* Cosine similarity: `Cosine`  - [[wiki]](https://en.wikipedia.org/wiki/Cosine_similarity)
+* Euclidean distance: `Euclid` - [[wiki]](https://en.wikipedia.org/wiki/Euclidean_distance)
+* Manhattan distance: `Manhattan` - [[wiki]](https://en.wikipedia.org/wiki/Taxicab_geometry)
 
 <aside role="status">For search efficiency, Cosine similarity is implemented as dot-product over normalized vectors. Vectors are automatically normalized during upload</aside>
 
@@ -292,6 +293,90 @@ the use of
 [memmaps](../../concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
+
+### Collection with sparse vectors
+
+*Available as of v1.7.0*
+
+Qdrant supports sparse vectors as a first-class citizen.
+
+Sparse vectors are useful for text search, where each word is represented as a separate dimension.
+
+Collections can contain sparse vectors as additional [named vectors](#collection-with-multiple-vectors) along side regular dense vectors in a single point.
+
+Unlike dense vectors, sparse vectors must be named.
+And additionally, sparse vectors and dense vectors must have different names within a collection.
+
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": { },
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.create_collection(
+    collection_name="{collection_name}",
+    sparse_vectors_config={
+        "text": models.SparseVectorParams(),
+    },
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  sparse_vectors: {
+    text: { },
+  },
+});
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        vectors_config::Config, CreateCollection, Distance, SparseVectorParams, VectorParamsMap,
+        VectorsConfig,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".to_string(),
+        sparse_vectors_config: Some(SparseVectorsConfig {
+            map: [
+                    (
+                        "text".to_string(),
+                        SparseVectorParams {},
+                    ),
+                ]
+                .into(),
+            }),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
+Outside of a unique name, there are no required configuration parameters for sparse vectors.
+
+The distance function for sparse vectors is always `Dot` and does not need to be specified.
+
+However, there are optional parameters to tune the underlying [sparse vector index](../indexing/#sparse-vector-index).
+
 ### Delete collection
 
 ```http
@@ -352,6 +437,11 @@ client
             indexing_threshold: Some(10000),
             ..Default::default()
         },
+        None,
+        None,
+        None,
+        None,
+        None,
     )
     .await?;
 ```
@@ -503,11 +593,7 @@ client.updateCollection("{collection_name}", {
 });
 ```
 
-<!---
 ```rust
-// Available as of Rust client 1.7.0
-// See: <https://github.com/qdrant/rust-client/issues/75>
-
 use qdrant_client::client::QdrantClient;
 use qdrant_client::qdrant::{
     quantization_config_diff::Quantization, vectors_config_diff::Config, HnswConfigDiff,
@@ -518,6 +604,7 @@ use qdrant_client::qdrant::{
 client
     .update_collection(
         "{collection_name}",
+        None,
         None,
         None,
         Some(&HnswConfigDiff {
@@ -552,7 +639,6 @@ client
     )
     .await?;
 ```
---->
 
 ## Collection info
 
@@ -630,11 +716,34 @@ The following color statuses are possible:
 - 🟡 `yellow`: collection is optimizing
 - 🔴 `red`: an error occurred which the engine could not recover from
 
-There are some other attributes you might be interested in:
+### Approximate point and vector counts
+
+You may be interested in the count attributes:
 
 - `points_count` - total number of objects (vectors and their payloads) stored in the collection
-- `vectors_count` - total number of vectors in a collection. If there are multiple vectors per object, it won't be equal to `points_count`.
-- `indexed_vectors_count` - total number of vectors stored in the HNSW index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+- `vectors_count` - total number of vectors in a collection, useful if you have multiple vectors per point
+- `indexed_vectors_count` - total number of vectors stored in the HNSW or sparse index. Qdrant does not store all the vectors in the index, but only if an index segment might be created for a given configuration.
+
+The above counts are not exact, but should be considered approximate. Depending
+on how you use Qdrant these may give very different numbers than what you may
+expect. It's therefore important **not** to rely on them.
+
+More specifically, these numbers represent the count of points and vectors in
+Qdrant's internal storage. Internally, Qdrant may temporarily duplicate points
+as part of automatic optimizations. It may keep changed or deleted points for a
+bit. And it may delay indexing of new points. All of that is for optimization
+reasons.
+
+Updates you do are therefore not directly reflected in these numbers. If you see
+a wildly different count of points, it will likely resolve itself once a new
+round of automatic optimizations has completed.
+
+To clarify: these numbers don't represent the exact amount of points or vectors
+you have inserted, nor does it represent the exact number of distinguishable
+points or vectors you can query. If you want to know exact counts, refer to the
+[count API](../points/#counting-points).
+
+_Note: these numbers may be removed in a future version of Qdrant._
 
 ### Indexing vectors in HNSW
 

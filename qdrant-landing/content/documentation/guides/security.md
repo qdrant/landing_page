@@ -93,6 +93,25 @@ let client = QdrantClient::from_url("https://xyz-example.eu-central.aws.cloud.qd
 
 <aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
+### Read-only API key
+
+In addition to the regular API key, Qdrant also supports a read-only API key.
+This key can be used to access read-only operations on the instance.
+
+```yaml
+service:
+  read_only_api_key: your_secret_read_only_api_key_here
+```
+
+Or with the environment variable:
+
+```bash
+export QDRANT__SERVICE__READ_ONLY_API_KEY=your_secret_read_only_api_key_here
+```
+
+Both API keys can be used simultaneously.
+
+
 ## TLS
 
 *Available as of v1.2.0*

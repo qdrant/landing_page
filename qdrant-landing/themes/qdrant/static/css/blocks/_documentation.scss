@@ -39,6 +39,11 @@
     h6 {
       font-size: 1rem;
     }
+
+    // Correct spacing of unordered list in table cells
+    & table tr td ul {
+        margin: 0;
+    }
   }
 
   &__sidebar-inner {
