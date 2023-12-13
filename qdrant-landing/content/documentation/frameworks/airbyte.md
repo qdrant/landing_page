@@ -1,6 +1,7 @@
 ---
 title: Airbyte
 weight: 1000
+aliases: [ /integrations/airbyte/ ]
 ---
 
 # Airbyte

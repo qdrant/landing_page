@@ -1,6 +1,7 @@
 ---
 title: ML6 Fondant
 weight: 1700
+aliases: [ /integrations/fondant/ ]
 ---
 
 # ML6 Fondant

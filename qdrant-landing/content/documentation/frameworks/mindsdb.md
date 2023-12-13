@@ -1,6 +1,7 @@
 ---
 title: MindsDB
 weight: 1100
+aliases: [ /integrations/mindsdb/ ]
 ---
 
 # MindsDB
