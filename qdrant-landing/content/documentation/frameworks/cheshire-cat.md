@@ -1,6 +1,7 @@
 ---
 title: Cheshire Cat
 weight: 600
+aliases: [ /integrations/cheshire-cat/ ]
 ---
 
 # Cheshire Cat

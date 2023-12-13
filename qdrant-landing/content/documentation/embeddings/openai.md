@@ -1,6 +1,7 @@
 ---
 title: OpenAI
 weight: 800
+aliases: [ /integrations/openai/ ]
 ---
 
 # OpenAI

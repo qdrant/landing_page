@@ -1,6 +1,7 @@
 ---
 title: Cohere
 weight: 700
+aliases: [ /integrations/cohere/ ]
 ---
 
 # Cohere
