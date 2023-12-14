@@ -25,9 +25,9 @@ They couldn't reach their _target_, because the the geography didn't let them, b
 
 In version 1.7, Qdrant [released](/articles/qdrant-1.7.x/) this novel API that lets you constrain the space in which a search is performed, relying only on pure vectors. This is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily closest to the target, but are still relevant to the search.
 
-One previous way to restrict the points that are available to the search is by filtering out the points we know for a fact are not relevant. This is really powerful because it allows us to craft complex filters that show only the points that satisfy their criteria deterministically. However, the data –or payload– associated to each point is arbitrary and does not tell us anything about their position in the vector space. In other words, it would create a _mask_ rather than a hyperplane –cutting in between the positive and negative vectors– in the space.
+One previous way to restrict the points that are available to the search is by filtering out the points we know for a fact are not relevant. This is already very versatile because it allows us to craft complex filters that show only the points that satisfy their criteria deterministically. However, the data –or payload– associated to each point is arbitrary and does not tell us anything about their position in the vector space. In other words, it would create a _mask_ rather than a hyperplane –cutting in between the positive and negative vectors– in the space.
 
-This is where the concept of __vector _context___ comes in. We define _context_ as a list of pairs, which in turn are made up of a positive and a negative vector. By adding a context, we can define boundaries within the vector space, to which the positive side will always be preferred over the negative side, effectively partitioning the space in which the search is performed. After the space is partitioned, we then need a _target_ to select the points that are closest to it.
+This is where the concept of __vector _context___ comes in. We define _context_ as a list of pairs, which in turn are made up of a positive and a negative vector. By adding a context, we can define hyperplanes within the vector space, to which the positive side will always be preferred over the negative side, effectively partitioning the space in which the search is performed. After the space is partitioned, we then need a _target_ to select the points that are closest to it.
 
 ![Discovery search visualization](/articles_data/discovery-search/discovery-search.png)
 
@@ -41,7 +41,7 @@ When hearing about positive and negative vectors, one might be taken back to rec
 
 Let's talk about the first case: target with context.
 
-To understand why this is useful, let's take a look at a real-world example: using a cross-modal embedder like [CLIP](https://openai.com/blog/clip/) to search for images, from text __and__ images.
+To understand why this is useful, let's take a look at a real-world example: using a multimodal encoder like [CLIP](https://openai.com/blog/clip/) to search for images, from text __and__ images.
 CLIP is a neural network that can embed both images and text into the same vector space. This means that if you were to search for an image, you could do so by providing a text query, and vice versa. Now, take a glance at this image, and don't look at it again:
 
 ![Weird dragon](/articles_data/discovery-search/weird-dragon.png)
@@ -58,7 +58,7 @@ A first strategy would be describing it with text, and then looking for similar 
 
 Trial and error might work if you are clever enough to describe it well and get close enough on the selected image. If not, good luck getting out of the similarity bubble, even if you can select multiple images. Why is this hard?
 
-Turns out, cross modal encoders might not work how you expect them to. Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
+Turns out, multimodal encoders [might not work how you expect them to](https://twitter.com/metasemantic/status/1356406256802607112). Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
 
 ![Mental model of CLIP embeddings](/articles_data/discovery-search/clip-mental-model.png)
 
@@ -80,7 +80,7 @@ Ever been caught in the same recommendations on your favourite music streaming s
 
 ![Context vs recommendation search](/articles_data/discovery-search/context-vs-recommendation.png)
 
-__Context search__ solves this by de-focusing the search around a single point. Instead, it selects points randomly from within an zone in the vector space. This search is the most influenced by _triplet loss_, as the score can be thought of as _"how much a point is closer to a negative than a positive vector?"_. If it is closer to the positive one, then its score will be zero, same as any other point within the same zone. But if it is on the negative side, it will be assigned a more and more negative score the further it gets.
+__Context search__ solves this by de-focusing the search around a single point. Instead, it selects points randomly from within a zone in the vector space. This search is the most influenced by _triplet loss_, as the score can be thought of as _"how much a point is closer to a negative than a positive vector?"_. If it is closer to the positive one, then its score will be zero, same as any other point within the same zone. But if it is on the negative side, it will be assigned a more and more negative score the further it gets.
 
 ![Context search visualization](/articles_data/discovery-search/context-search.png)
 
