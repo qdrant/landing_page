@@ -31,17 +31,11 @@ $blog-text-color: var.$blog-text-color;
   background: var(--brand-primary, #DC244C);
   color: var(--neutral-white, #FFF);
   margin-bottom: 1.5rem;
+  @include mixins.blog-font-styles(1rem, 500, 3rem, var(--neutral-white, #FFF));
 
   @include media-breakpoint-up(md) {
-    width: 9rem;
-  }
-
-  & > .text {
-    font-family: $blog-font-family;
-    font-size: 1rem;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 3rem;
+    width: 12.7rem;
+    line-height: 1.5rem; /* 150% */
   }
 }
 
@@ -116,6 +110,9 @@ $blog-text-color: var.$blog-text-color;
     &__title {
       @extend .form-title-base;
       margin-bottom: 1.5rem;
+      @include media-breakpoint-up(md) {
+        margin-bottom: 2rem;
+      }
     }
 
     &__form {
@@ -139,20 +136,18 @@ $blog-text-color: var.$blog-text-color;
 
     @include media-breakpoint-up(md) {
       padding-top: 6rem;
-      padding-bottom: 6rem;
+      padding-bottom: 1.4rem;
     }
 
     &__title {
       display: inline-block;
       margin-bottom: 1.5rem;
-      color: var(--neutral-n-800, #102252);
+      @include mixins.blog-font-styles(2rem, 700, 2.5rem, $blog-text-color);
 
-      /* H/H32 */
-      font-family: $blog-font-family;
-      font-size: 2rem;
-      font-style: normal;
-      font-weight: 700;
-      line-height: 2.5rem; /* 125% */
+      @include media-breakpoint-up(md) {
+        font-size: 2.5rem;
+        line-height: 3rem;
+      }
     }
 
     &__subtitle {

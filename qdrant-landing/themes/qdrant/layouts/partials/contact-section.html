@@ -18,9 +18,7 @@
             <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
                    value="">
         </div>
-        <button type="submit">
-            <span class="txt">Subscribe</span>
-        </button>
+        <button type="submit">Subscribe</button>
     </form>
 </section>
 
@@ -28,10 +26,12 @@
 
 <section class="newsletter-form newsletter-form_two-columns">
     <div class="auto-container">
-        <div class="row d-flex align-items-end">
-            <div class="col-12 col-md-6">
+        <div class="row">
+            <div class="col-12">
                 <h2 class="newsletter-form_two-columns__title">Stay updated with Qdrant</h2>
-                <p class="newsletter-form_two-columns__subtitle">We will update you on new features and news regarding Qdrant and Vector Similarity Search.</p>
+            </div>
+            <div class="col-12 col-md-6">
+                <p class="newsletter-form_two-columns__subtitle">We will update you on new features and news regarding <br class="d-none d-lg-inline"> Qdrant and Vector Similarity Search.</p>
             </div>
             <div class="col-12 col-md-6">
                 <form
@@ -44,9 +44,7 @@
                         <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
                                value="">
                     </div>
-                    <button type="submit">
-                        <span class="txt">Subscribe</span>
-                    </button>
+                    <button type="submit">Subscribe</button>
                 </form>
             </div>
         </div>
