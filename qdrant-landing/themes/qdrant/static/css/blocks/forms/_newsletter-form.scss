@@ -1,9 +1,59 @@
 @use '../../variables' as var;
+@use '../../mixins/mixins' as mixins;
 
 $blog-font-family: var.$blog-font-family;
+$blog-text-color: var.$blog-text-color;
 
-// todo: move
-@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;300&family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,100;1,400;1,500;1,700&display=swap');
+.input-base {
+  width: 100%;
+  height: 3rem;
+  padding: 0.625rem 4rem 0.625rem 1.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 6.25rem;
+
+  @include media-breakpoint-up(md) {
+    margin-right: 1.5rem;
+    margin-bottom: 5rem;
+  }
+
+  &::placeholder {
+    color: var(--neutral-n-300, #8B9CCC);
+
+    @include mixins.blog-font-styles(1rem, 400, 1.5rem, $blog-text-color)
+  }
+}
+
+.form-button-base {
+  width: 100%;
+  height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 6.25rem;
+  background: var(--brand-primary, #DC244C);
+  color: var(--neutral-white, #FFF);
+  margin-bottom: 1.5rem;
+
+  @include media-breakpoint-up(md) {
+    width: 9rem;
+  }
+
+  & > .text {
+    font-family: $blog-font-family;
+    font-size: 1rem;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 3rem;
+  }
+}
+
+.form-title-base {
+  display: inline-block;
+  @include mixins.blog-font-styles(1rem, 600, 1.5rem, $blog-text-color);
+  @include media-breakpoint-up(md) {
+    font-size: 1.125rem;
+    line-height: 1.6875rem;
+  }
+}
+
 .newsletter-form {
   &_default {
     margin-bottom: 35px;
@@ -64,64 +114,18 @@ $blog-font-family: var.$blog-font-family;
 
   &_compact {
     &__title {
-      display: inline-block;
-      margin-bottom: 2rem;
-      color: var(--neutral-n-700, #1F3266);
-
-      font-family: $blog-font-family;
-      font-size: 1.125rem;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 1.6875rem; /* 150% */
+      @extend .form-title-base;
+      margin-bottom: 1.5rem;
     }
 
     &__form {
       input[type="text"],
       input[type="email"] {
-        width: 100%;
-        height: 3rem;
-        padding: 0.625rem 1.5rem;
-        padding-right: 4rem;
-        margin-bottom: 0.5rem;
-        border-radius: 6.25rem;
-        border: 1px solid var(--neutral-n-200, #AEBDE5);
-
-        @include media-breakpoint-up(md) {
-          margin-right: 1.5rem;
-          margin-bottom: 5rem;
-        }
-
-        &::placeholder {
-          color: var(--neutral-n-300, #8B9CCC);
-
-          font-family: $blog-font-family;
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 1.5rem; /* 150% */
-        }
+        @extend .input-base;
       }
 
       button[type="submit"] {
-        width: 100%;
-        height: 3rem;
-        padding: 0 1.5rem;
-        border-radius: 6.25rem;
-        background: var(--brand-primary, #DC244C);
-        color: var(--neutral-white, #FFF);
-        margin-bottom: 1.5rem;
-
-        @include media-breakpoint-up(md) {
-          width: 9rem;
-        }
-
-        & > .text {
-          font-family: $blog-font-family;
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 3rem; /* 150% */
-        }
+        @extend .form-button-base;
       }
     }
 
@@ -152,64 +156,18 @@ $blog-font-family: var.$blog-font-family;
     }
 
     &__subtitle {
-      display: inline-block;
+      @extend .form-title-base;
       margin-bottom: 2rem;
-
-      color: var(--neutral-n-700, #1F3266);
-      font-family: $blog-font-family;
-      font-size: 1rem;
-      font-style: normal;
-      font-weight: 600;
-      line-height: 1.5rem; /* 150% */
     }
 
     &__form {
       input[type="text"],
       input[type="email"] {
-        width: 100%;
-        height: 3rem;
-        padding: 0.625rem 1.5rem;
-        padding-right: 4rem;
-        margin-bottom: 0.5rem;
-        border-radius: 6.25rem;
-        //border: 1px solid var(--neutral-n-200, #AEBDE5);
-
-        @include media-breakpoint-up(md) {
-          margin-right: 1.5rem;
-          margin-bottom: 5rem;
-        }
-
-        &::placeholder {
-          color: var(--neutral-n-300, #8B9CCC);
-
-          font-family: $blog-font-family;
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 400;
-          line-height: 1.5rem; /* 150% */
-        }
+        @extend .input-base;
       }
 
       button[type="submit"] {
-        width: 100%;
-        height: 3rem;
-        padding: 0 1.5rem;
-        border-radius: 6.25rem;
-        background: var(--brand-primary, #DC244C);
-        color: var(--neutral-white, #FFF);
-        margin-bottom: 1.5rem;
-
-        @include media-breakpoint-up(md) {
-          width: 9rem;
-        }
-
-        & > .text {
-          font-family: $blog-font-family;
-          font-size: 1rem;
-          font-style: normal;
-          font-weight: 600;
-          line-height: 3rem; /* 150% */
-        }
+        @extend .form-button-base;
       }
     }
 

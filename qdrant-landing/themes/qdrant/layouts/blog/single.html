@@ -12,8 +12,9 @@
                 <span class="qb-post__meta-divider">·</span>
                 <span>{{ .Date | time.Format ":date_long" }}</span>
             </div>
-            <div class="qb-post__img"><img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}"
-                                           class="img-fluid"></div>
+            <div class="qb-post__img">
+                <img class="img-fluid" src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}">
+            </div>
             <div class="d-md-flex">
                 <div class="qb-post__share qb-share">
                     <span class="qb-share__title">Share:</span>

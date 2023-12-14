@@ -81,3 +81,16 @@
   -moz-transition: all $ms ease;
   transition: all $ms ease;
 }
+
+@mixin font-styles($size, $weight, $line-height, $color, $font-family) {
+  font-family: $font-family;
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: $line-height;
+  color: $color;
+}
+
+@mixin blog-font-styles($size, $weight, $line-height, $color) {
+  @include font-styles($size, $weight, $line-height, $color, vars.$blog-font-family);
+}
