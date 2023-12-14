@@ -70,7 +70,6 @@ Example:
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -120,11 +119,34 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::{client::QdrantClient, qdrant::PointStruct};
+use serde_json::json;
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .upsert_points_blocking(
+        "{collection_name}".to_string(),
+        None,
+        vec![PointStruct::new(
+            "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
+            vec![0.05, 0.61, 0.76, 0.74],
+            json!(
+                {"color": "Red"}
+            )
+            .try_into()
+            .unwrap(),
+        )],
+        None,
+    )
+    .await?;
+```
+
 and
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -165,6 +187,28 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::PointStruct;
+use serde_json::json;
+
+client
+    .upsert_points_blocking(
+        1,
+        None,
+        vec![PointStruct::new(
+            "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
+            vec![0.05, 0.61, 0.76, 0.74],
+            json!(
+                {"color": "Red"}
+            )
+            .try_into()
+            .unwrap(),
+        )],
+        None,
+    )
+    .await?;
+```
+
 are both possible.
 
 ## Upload points
@@ -179,7 +223,6 @@ Create points with batch:
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "batch": {
         "ids": [1, 2, 3],
@@ -230,11 +273,11 @@ client.upsert("{collection_name}", {
 });
 ```
 
+
 or record-oriented equivalent:
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -307,6 +350,49 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::PointStruct;
+use serde_json::json;
+
+client
+    .upsert_points_batch_blocking(
+        "{collection_name}".to_string(),
+        None,
+        vec![
+            PointStruct::new(
+                1,
+                vec![0.9, 0.1, 0.1],
+                json!(
+                    {"color": "red"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                2,
+                vec![0.1, 0.9, 0.1],
+                json!(
+                    {"color": "green"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+            PointStruct::new(
+                3,
+                vec![0.1, 0.1, 0.9],
+                json!(
+                    {"color": "blue"}
+                )
+                .try_into()
+                .unwrap(),
+            ),
+        ],
+        None,
+        100,
+    )
+    .await?;
+```
+
 <!-- 
 
 The Python client has additional features for loading points.
@@ -328,9 +414,9 @@ Even with such a system, Qdrant ensures data consistency.
 *Available as of v0.10.0*
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
+
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -394,6 +480,43 @@ client.upsert("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::PointStruct;
+use std::collections::HashMap;
+
+client
+    .upsert_points_blocking(
+        "{collection_name}".to_string(),
+        None,
+        vec![
+            PointStruct::new(
+                1,
+                HashMap::from([
+                    ("image".to_string(), vec![0.9, 0.1, 0.1, 0.2]),
+                    (
+                        "text".to_string(),
+                        vec![0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+                    ),
+                ]),
+                HashMap::new().into(),
+            ),
+            PointStruct::new(
+                2,
+                HashMap::from([
+                    ("image".to_string(), vec![0.2, 0.1, 0.3, 0.9]),
+                    (
+                        "text".to_string(),
+                        vec![0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+                    ),
+                ]),
+                HashMap::new().into(),
+            ),
+        ],
+        None,
+    )
+    .await?;
+```
+
 *Available as of v1.2.0*
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
@@ -404,6 +527,159 @@ When uploading a point with an existing ID, the existing point is deleted first,
 then it is inserted with just the specified vectors. In other words, the entire 
 point is replaced, and any unspecified vectors are set to null. To keep existing 
 vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
+
+*Available as of v1.7.0*
+
+Points can contain dense and sparse vectors.
+
+A sparse vector is an array in which most of the elements have a value of zero.
+
+It is possible to take advantage of this property to have an optimized representation, for this reason they have a different shape than dense vectors.
+
+They are represented as a list of `(index, value)` pairs, where `index` is an integer and `value` is a floating point number. The `index` is the position of the non-zero value in the vector. The `values` is the value of the non-zero element.
+
+For example, the following vector:
+
+```
+[0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 2.0, 0.0, 0.0]
+```
+
+can be represented as a sparse vector:
+
+```
+[(6, 1.0), (7, 2.0)]
+```
+
+Qdrant uses the following JSON representation throughout its APIs.
+
+```json
+{
+  "indices": [6, 7],
+  "values": [1.0, 2.0]
+}
+```
+
+The `indices` and `values` arrays must have the same length.
+And the `indices` must be unique.
+
+If the `indices` are not sorted, Qdrant will sort them internally so you may not rely on the order of the elements.
+
+Sparse vectors must be named and can be uploaded in the same way as dense vectors.
+
+```http
+PUT /collections/{collection_name}/points
+{
+    "points": [
+        {
+            "id": 1,
+            "vector": {
+                "text": {
+                    "indices": [6, 7],
+                    "values": [1.0, 2.0]
+                }
+            }
+        },
+        {
+            "id": 2,
+            "vector": {
+                "text": {
+                    "indices": [1, 1, 2, 3, 4, 5],
+                    "values": [0.1, 0.2, 0.3, 0.4, 0.5]
+                }
+            }
+        }
+    ]
+}
+```
+
+```python
+client.upsert(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1,
+            vector={
+                "text": models.SparseVector(
+                    indices=[6, 7],
+                    values=[1.0, 2.0],
+                )
+            },
+        ),
+        models.PointStruct(
+            id=2,
+            vector={
+                "text": models.SparseVector(
+                    indices=[1, 2, 3, 4, 5],
+                    values= [0.1, 0.2, 0.3, 0.4, 0.5],
+                )
+            },
+        ),
+    ],
+)
+```
+
+```typescript
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      vector: {
+        text: {
+          indices: [6, 7],
+          values: [1.0, 2.0]
+        },
+      },
+    },
+    {
+      id: 2,
+      vector: {
+        text: {
+          indices=[1, 2, 3, 4, 5],
+          values= [0.1, 0.2, 0.3, 0.4, 0.5],
+        },
+      },
+    },
+  ],
+});
+```
+
+```rust
+use qdrant_client::qdrant::{PointStruct, Vector};
+use std::collections::HashMap;
+
+client
+    .upsert_points_blocking(
+        "{collection_name}".to_string(),
+        vec![
+            PointStruct::new(
+                1,
+                HashMap::from([
+                    (
+                        "text".to_string(),
+                        Vector::from(
+                            (vec![6, 7], vec![1.0, 2.0])
+                        ),
+                    ),
+                ]),
+                HashMap::new().into(),
+            ),
+            PointStruct::new(
+                2,
+                HashMap::from([
+                    (
+                        "text".to_string(),
+                        Vector::from(
+                            (vec![1, 2, 3, 4, 5], vec![0.1, 0.2, 0.3, 0.4, 0.5])
+                        ),
+                    ),
+                ]),
+                HashMap::new().into(),
+            ),
+        ],
+        None,
+    )
+    .await?;
+```
 
 ## Modify points
 
@@ -421,7 +697,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/up
 
 ```http
 PUT /collections/{collection_name}/points/vectors
-
 {
     "points": [
         {
@@ -479,6 +754,37 @@ client.updateVectors("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::PointVectors;
+use std::collections::HashMap;
+
+client
+    .update_vectors_blocking(
+        "{collection_name}",
+        None,
+        &[
+            PointVectors {
+                id: Some(1.into()),
+                vectors: Some(
+                    HashMap::from([("image".to_string(), vec![0.1, 0.2, 0.3, 0.4])]).into(),
+                ),
+            },
+            PointVectors {
+                id: Some(2.into()),
+                vectors: Some(
+                    HashMap::from([(
+                        "text".to_string(),
+                        vec![0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2],
+                    )])
+                    .into(),
+                ),
+            },
+        ],
+        None,
+    )
+    .await?;
+```
+
 To update points and replace all of its vectors, see [uploading
 points](#upload-points).
 
@@ -493,7 +799,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/de
 
 ```http
 POST /collections/{collection_name}/points/vectors/delete
-
 {
     "points": [0, 3, 100],
     "vectors": ["text", "image"]
@@ -517,6 +822,28 @@ client.deleteVectors("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector, VectorsSelector,
+};
+
+client
+    .delete_vectors_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 10.into()],
+            })),
+        },
+        &VectorsSelector {
+            names: vec!["text".into(), "image".into()],
+        },
+        None,
+    )
+    .await?;
+```
+
 To delete entire points, see [deleting points](#delete-points).
 
 ### Set payload
@@ -527,7 +854,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/se
 
 ```http
 POST /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -560,12 +886,37 @@ client.setPayload("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+use serde_json::json;
+
+client
+    .set_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 10.into()],
+            })),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
 You don't need to know the ids of the points you want to modify. The alternative
 is to use filters.
 
 ```http
 POST /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -621,6 +972,32 @@ client.setPayload("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+use serde_json::json;
+
+client
+    .set_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
 ### Overwrite payload
 
 Fully replace any existing payload with the given one.
@@ -629,7 +1006,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/ov
 
 ```http
 PUT /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -662,7 +1038,33 @@ client.overwritePayload("{collection_name}", {
 });
 ```
 
-Like [set payload](#set-payload], you don't need to know the ids of the points
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+use serde_json::json;
+
+client
+    .overwrite_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 10.into()],
+            })),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
+Like [set payload](#set-payload), you don't need to know the ids of the points
 you want to modify. The alternative is to use filters.
 
 ### Delete payload keys
@@ -671,7 +1073,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/de
 
 ```http
 POST /collections/{collection_name}/points/payload/delete
-
 {
     "keys": ["color", "price"],
     "points": [0, 3, 100]
@@ -689,15 +1090,34 @@ client.delete_payload(
 ```typescript
 client.deletePayload("{collection_name}", {
   keys: ["color", "price"],
-  points: [0, 3, 10],
+  points: [0, 3, 100],
 });
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
 ```
 
 Alternatively, you can use filters to delete payload keys from the points.
 
 ```http
 POST /collections/{collection_name}/points/payload/delete
-
 {
     "keys": ["color", "price"],
     "filter": {
@@ -744,6 +1164,26 @@ client.deletePayload("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
+```
+
 ### Clear payload
 
 This method removes all payload keys from specified points
@@ -752,7 +1192,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/cl
 
 ```http
 POST /collections/{collection_name}/points/payload/clear
-
 {
     "points": [0, 3, 100]
 }
@@ -769,8 +1208,27 @@ client.clear_payload(
 
 ```typescript
 client.clearPayload("{collection_name}", {
-  points: [0, 3, 10],
+  points: [0, 3, 100],
 });
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
+client
+    .clear_payload_blocking(
+        "{collection_name}",
+        None,
+        Some(PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        }),
+        None,
+    )
+    .await?;
 ```
 
 ## Delete points
@@ -779,7 +1237,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/de
 
 ```http
 POST /collections/{collection_name}/points/delete
-
 {
     "points": [0, 3, 100]
 }
@@ -796,15 +1253,33 @@ client.delete(
 
 ```typescript
 client.delete("{collection_name}", {
-  points: [0, 3, 10],
+  points: [0, 3, 100],
 });
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
+client
+    .delete_points_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        },
+        None,
+    )
+    .await?;
 ```
 
 Alternative way to specify which points to remove is to use filter.
 
 ```http
 POST /collections/{collection_name}/points/delete
-
 {
     "filter": {
         "must": [
@@ -850,6 +1325,25 @@ client.delete("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+
+client
+    .delete_points_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        None,
+    )
+    .await?;
+```
+
 This example removes all points with `{ "color": "red" }` from the collection.
 
 ## Retrieve points
@@ -860,7 +1354,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/ge
 
 ```http
 POST /collections/{collection_name}/points
-
 {
     "ids": [0, 3, 100]
 }
@@ -869,14 +1362,27 @@ POST /collections/{collection_name}/points
 ```python
 client.retrieve(
     collection_name="{collection_name}",
-    ids=[0, 3, 10],
+    ids=[0, 3, 100],
 )
 ```
 
 ```typescript
 client.retrieve("{collection_name}", {
-  ids: [0, 3, 10],
+  ids: [0, 3, 100],
 });
+```
+
+```rust
+client
+    .get_points(
+        "{collection_name}",
+        None,
+        &[0.into(), 30.into(), 100.into()],
+        Some(false),
+        Some(false),
+        None,
+    )
+    .await?;
 ```
 
 This method has additional parameters `with_vectors` and `with_payload`. 
@@ -891,7 +1397,7 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/ge
 GET /collections/{collection_name}/points/{point_id}
 ```
 
-<!-- 
+<!--
 Python client:
 
 ```python
@@ -903,9 +1409,9 @@ Python client:
 Sometimes it might be necessary to get all stored points without knowing ids, or iterate over points that correspond to a filter.
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
+
 ```http
 POST /collections/{collection_name}/points/scroll
-
 {
     "filter": {
         "must": [
@@ -955,6 +1461,24 @@ client.scroll("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::matches(
+            "color",
+            "red".to_string(),
+        )])),
+        limit: Some(1),
+        with_payload: Some(true.into()),
+        with_vectors: Some(false.into()),
+        ..Default::default()
+    })
+    .await?;
+```
+
 Returns all point with `color` = `red`.
 
 ```json
@@ -1001,9 +1525,9 @@ Among others, for example, we can highlight the following scenarios:
 * Debugging the query execution speed
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/count_points)):
+
 ```http
 POST /collections/{collection_name}/points/count
-
 {
     "filter": {
         "must": [
@@ -1047,6 +1571,21 @@ client.count("{collection_name}", {
 });
 ```
 
+```rust
+use qdrant_client::qdrant::{Condition, CountPoints, Filter};
+
+client
+    .count(&CountPoints {
+        collection_name: "{collection_name}".to_string(),
+        filter: Some(Filter::must([Condition::matches(
+            "color",
+            "red".to_string(),
+        )])),
+        exact: Some(true),
+    })
+    .await?;
+```
+
 Returns number of counts matching given filtering conditions:
 
 ```json
@@ -1080,7 +1619,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/o
 
 ```http
 POST /collections/{collection_name}/points/batch
-
 {
     "operations": [
         {
@@ -1260,6 +1798,112 @@ client.batchUpdate("{collection_name}", {
     },
   ],
 });
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf,
+    points_update_operation::{
+        DeletePayload, DeleteVectors, Operation, PointStructList, SetPayload, UpdateVectors,
+    },
+    PointStruct, PointVectors, PointsIdsList, PointsSelector, PointsUpdateOperation,
+    VectorsSelector,
+};
+use serde_json::json;
+use std::collections::HashMap;
+
+client
+    .batch_updates_blocking(
+        "{collection_name}",
+        &[
+            PointsUpdateOperation {
+                operation: Some(Operation::Upsert(PointStructList {
+                    points: vec![PointStruct::new(
+                        1,
+                        vec![1.0, 2.0, 3.0, 4.0],
+                        json!({}).try_into().unwrap(),
+                    )],
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::UpdateVectors(UpdateVectors {
+                    points: vec![PointVectors {
+                        id: Some(1.into()),
+                        vectors: Some(vec![1.0, 2.0, 3.0, 4.0].into()),
+                    }],
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::DeleteVectors(DeleteVectors {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    vectors: Some(VectorsSelector {
+                        names: vec!["".into()],
+                    }),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::OverwritePayload(SetPayload {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    payload: HashMap::from([("test_payload".to_string(), 1.into())]),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::SetPayload(SetPayload {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    payload: HashMap::from([
+                        ("test_payload_2".to_string(), 2.into()),
+                        ("test_payload_3".to_string(), 3.into()),
+                    ]),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::DeletePayload(DeletePayload {
+                    points_selector: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    keys: vec!["test_payload_2".to_string()],
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::ClearPayload(PointsSelector {
+                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                        ids: vec![1.into()],
+                    })),
+                })),
+            },
+            PointsUpdateOperation {
+                operation: Some(Operation::Delete(PointsSelector {
+                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                        ids: vec![1.into()],
+                    })),
+                })),
+            },
+        ],
+        None,
+    )
+    .await?;
 ```
 
 To batch many points with a single operation type, please use batching

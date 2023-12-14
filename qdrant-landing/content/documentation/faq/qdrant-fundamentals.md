@@ -38,7 +38,7 @@ What Qdrant can do:
 
 What Qdrant plans to introduce in the future:
 
-- Support for sparse vectors, as used in [SPADE](https://github.com/naver/splade) or similar models
+- Support for sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
 
 What Qdrant doesn't plan to support:
 

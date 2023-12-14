@@ -7,7 +7,7 @@ social_preview_image: /articles_data/neural-search-tutorial/social_preview.jpg
 preview_dir: /articles_data/neural-search-tutorial/preview
 small_preview_image: /articles_data/neural-search-tutorial/tutorial.svg
 weight: 50
-author: Andrei Vasnetsov
+author: Andrey Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2021-06-10T10:18:00.000Z
 # aliases: [ /articles/neural-search-tutorial/ ]
@@ -222,7 +222,7 @@ qdrant_client.upload_collection(
 Now we have vectors, uploaded to the vector search engine.
 On the next step we will learn how to actually search for closest vectors.
 
-The full code for this step could be found [here](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_vector_search_index.py).
+The full code for this step could be found [here](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_collection_startups.py).
 
 ### Make a search API
 

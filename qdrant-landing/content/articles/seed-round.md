@@ -46,7 +46,7 @@ The current Qdrant ecosystem consists of excellent products to work with vector 
 {{< figure src=/articles_data/seed-round/ecosystem.png caption="Qdrant Ecosystem" alt="Qdrant Vector Database Ecosystem" >}}
 
 
-Our plan for the current [open-source roadmap](https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md) is to make billion-scale vector search affordable. Our recent release of the [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/) improves both memory usage (x4) as well as speed (x2). Upcoming [Product Quantization](https://lear.inrialpes.fr/pubs/2011/JDS11/jegou_searching_with_quantization.pdf) will introduce even another option with more memory saving. Stay tuned. 
+Our plan for the current [open-source roadmap](https://github.com/qdrant/qdrant/blob/master/docs/roadmap/README.md) is to make billion-scale vector search affordable. Our recent release of the [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/) improves both memory usage (x4) as well as speed (x2). Upcoming [Product Quantization](https://www.irisa.fr/texmex/people/jegou/papers/jegou_searching_with_quantization.pdf) will introduce even another option with more memory saving. Stay tuned. 
 
 Qdrant started more than two years ago with the mission of building a vector database powered by a well-thought-out tech stack. Using Rust as the system programming language and technical architecture decision during the development of the engine made Qdrant the leading and one of the most popular vector database solutions. 
 
