@@ -15,10 +15,10 @@ Our snapshots are usually generated from publicly available datasets, which are 
 non-commercial or academic purposes. The following datasets are currently available. Please click 
 on a dataset name to see its detailed description.
 
-| Dataset                                    | Model                                                       | Vector size | Documents | Size   | Qdrant snapshot                                                                                                                       | HF Hub                                                                                 |
-|--------------------------------------------|-------------------------------------------------------------|-------------|-----------|--------|---------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [Arxiv.org titles](#arxivorg-titles)       | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 7.1 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)    |
-| [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 8.4 GB | [Download](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
+| Dataset                                    | Model                                                       | Vector size | Documents | Size   | Qdrant snapshot                                                               | HF Hub                                                                                 |
+|--------------------------------------------|-------------------------------------------------------------|-------------|-----------|--------|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [Arxiv.org titles](#arxivorg-titles)       | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 7.1 GB | [Download](https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)    |
+| [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 8.4 GB | [Download](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
 
 Once you download a snapshot, you need to [restore it](/documentation/concepts/snapshots/#restore-snapshot) 
 using the Qdrant CLI upon startup or through the API.
@@ -82,7 +82,7 @@ instruction = "Represent the Research Paper title for retrieval; Input:"
 embeddings = model.encode([[instruction, sentence]])
 ```
 
-The snapshot of the dataset might be downloaded [here](https://storage.googleapis.com/common-datasets-snapshots/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot).
+The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot).
 
 ### Arxiv.org abstracts
 
@@ -112,4 +112,4 @@ instruction = "Represent the Research Paper abstract for retrieval; Input:"
 embeddings = model.encode([[instruction, sentence]])
 ```
 
-The snapshot of the dataset might be downloaded [here](https://storage.googleapis.com/common-datasets-snapshots/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot).
+The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot).
