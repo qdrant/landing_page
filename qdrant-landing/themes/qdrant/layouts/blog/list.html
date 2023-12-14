@@ -1,12 +1,12 @@
 {{ define "main" }}
 
-<section class="page-title qdrant-blog">
+<section class="qb-hero">
     <div class="auto-container">
         <div class="row">
-            <div class="col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0">
+            <div class="qb-hero__breadcrumbs col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0">
                 {{ partial "breadcrumbs" . }}
 
-                <h1 class="qdrant-blog__header{{ if not .Params.section_title }} page-title__title_dark{{ end }}"> {{ .Params.title | safeHTML }}</h1>
+                <h1 class="qb-hero__header"> {{ .Params.title | safeHTML }}</h1>
             </div>
         </div>
         <div class="row">
