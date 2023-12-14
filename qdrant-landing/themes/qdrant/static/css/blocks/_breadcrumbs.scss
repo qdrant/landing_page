@@ -1,20 +1,17 @@
 @use "../helpers/functions" as lib;
 
-ul.breadcrumbs,
 .breadcrumbs {
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: lib.rem(30);
-  margin-left: 0;
-  margin-right: 0;
-  position: relative;
-  color: var(--brand-dark-gray);
-  font-size: lib.rem(14);
-  font-weight: 400;
-  line-height: lib.rem(17);
+  margin: 0 0 1.5rem;
+  color: var(--neutral-n-300, #8B9CCC);
 
-  &__crumb,
-  & > li.breadcrumbs__crumb {
+  font-size: 0.875rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.3125rem;
+
+  &__crumb {
     display: inline-block;
     margin: 0;
     position: relative;
@@ -26,6 +23,11 @@ ul.breadcrumbs,
     &:last-child {
       margin-right: 0;
       padding-right: 0;
+      color: var(--neutral-n-600, #39508F);
+    }
+
+    &:not(:last-child) {
+      margin-right: 0.38rem;
     }
 
     & > a {

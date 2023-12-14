@@ -69,6 +69,12 @@ $blog-text-color: var.$blog-text-color;
     @include media-breakpoint-up(md) {
       padding-top: 2.5rem;
     }
+    & > .breadcrumbs {
+      margin-bottom: 1rem;
+      @include media-breakpoint-up(md) {
+        margin-bottom: 2.5rem;
+      }
+    }
   }
 
   &__header {
