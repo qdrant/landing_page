@@ -42,16 +42,17 @@ When hearing about positive and negative vectors, one might be taken back to rec
 Let's talk about the first case: target with context.
 
 To understand why this is useful, let's take a look at a real-world example: using a cross-modal embedder like [CLIP](https://openai.com/blog/clip/) to search for images, from text __and__ images.
-CLIP is a neural network that can embed both images and text into the same vector space. This means that if you were to search for an image, you could do so by providing a text query, and vice versa. Now, let's say you want to look for this:
+CLIP is a neural network that can embed both images and text into the same vector space. This means that if you were to search for an image, you could do so by providing a text query, and vice versa. Now, take a glance at this image, and don't look at it again:
 
-< image of weird dragon with human heads >
+![Weird dragon](/articles_data/discovery-search/weird-dragon.png)
 
-You just have two rules:
+How would you look for it if you:
 
-- Can't use the name
+- Don't know the name
+- Can't see it again
 - Cannot do reverse image search.
 
-A first strategy would be describing it with text, and then looking for similar images. 
+A first strategy would be describing it with text, and then looking for similar images.
 
 ![Googling dragon with human heads](/articles_data/discovery-search/googling-weird-dragon.png)
 
