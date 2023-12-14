@@ -546,7 +546,9 @@ client
     .await?;
 ```
 
-<aside role="status">You can also use `models.FilterSelector` to remove the points matching given filter criteria, instead of providing the ids.</aside>
+<aside role="status">
+You can also use <code>models.FilterSelector</code> to remove the points matching given filter criteria, instead of providing the ids.
+</aside>
 
 ### Delete payload keys
 
