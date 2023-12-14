@@ -85,6 +85,19 @@ embeddings = model.encode([[instruction, sentence]])
 
 The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot).
 
+#### Importing the dataset
+
+The easiest way to use the provided dataset is to recover it via the API by passing the
+URL as a location. It works also in [Qdrant Cloud](https://cloud.qdrant.io/). The following
+code snippet shows how to create a new collection and fill it with the snapshot data:
+
+```http request
+PUT /collections/{collection_name}/snapshots/recover
+{
+  "location": "https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot"
+}
+```
+
 ### Arxiv.org abstracts
 
 This dataset contains embeddings generated from the paper abstracts. Each vector has a
@@ -114,6 +127,19 @@ embeddings = model.encode([[instruction, sentence]])
 ```
 
 The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot).
+
+#### Importing the dataset
+
+The easiest way to use the provided dataset is to recover it via the API by passing the
+URL as a location. It works also in [Qdrant Cloud](https://cloud.qdrant.io/). The following
+code snippet shows how to create a new collection and fill it with the snapshot data:
+
+```http request
+PUT /collections/{collection_name}/snapshots/recover
+{
+  "location": "https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot"
+}
+```
 
 ## Wolt food
 
@@ -153,3 +179,16 @@ embedding = model.encode(Image.open(image_path))
 ```
 
 The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot).
+
+#### Importing the dataset
+
+The easiest way to use the provided dataset is to recover it via the API by passing the
+URL as a location. It works also in [Qdrant Cloud](https://cloud.qdrant.io/). The following
+code snippet shows how to create a new collection and fill it with the snapshot data:
+
+```http request
+PUT /collections/{collection_name}/snapshots/recover
+{
+  "location": "https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot"
+}
+```
