@@ -15,10 +15,11 @@ Our snapshots are usually generated from publicly available datasets, which are 
 non-commercial or academic purposes. The following datasets are currently available. Please click 
 on a dataset name to see its detailed description.
 
-| Dataset                                    | Model                                                       | Vector size | Documents | Size   | Qdrant snapshot                                                               | HF Hub                                                                                 |
-|--------------------------------------------|-------------------------------------------------------------|-------------|-----------|--------|-------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
-| [Arxiv.org titles](#arxivorg-titles)       | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 7.1 GB | [Download](https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)    |
-| [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) | 768         | 2.3M      | 8.4 GB | [Download](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
+| Dataset                                    | Model                                                                       | Vector size | Documents | Size   | Qdrant snapshot                                                                                          | HF Hub                                                                                 |
+|--------------------------------------------|-----------------------------------------------------------------------------|-------------|-----------|--------|----------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------|
+| [Arxiv.org titles](#arxivorg-titles)       | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 7.1 GB | [Download](https://snapshots.qdrant.io/arxiv_titles-3083016565637815127-2023-05-29-13-56-22.snapshot)    | [Open](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings)    |
+| [Arxiv.org abstracts](#arxivorg-abstracts) | [InstructorXL](https://huggingface.co/hkunlp/instructor-xl)                 | 768         | 2.3M      | 8.4 GB | [Download](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot) | [Open](https://huggingface.co/datasets/Qdrant/arxiv-abstracts-instructorxl-embeddings) |
+| [Wolt food](#wolt-food)                    | [clip-ViT-B-32](https://huggingface.co/sentence-transformers/clip-ViT-B-32) | 512         | 1.7M      | 6.1 GB | [Download](https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot)                                                                                             | Not available                                                                          |
 
 Once you download a snapshot, you need to [restore it](/documentation/concepts/snapshots/#restore-snapshot) 
 using the Qdrant CLI upon startup or through the API.
@@ -113,3 +114,42 @@ embeddings = model.encode([[instruction, sentence]])
 ```
 
 The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/arxiv_abstracts-3083016565637815127-2023-06-02-07-26-29.snapshot).
+
+## Wolt food
+
+Our [Food Discovery demo](https://food-discovery.qdrant.tech/) relies on the dataset of 
+food images from the Wolt app. Each point in the collection represents a dish with a single 
+image. The image is represented as a vector of 512 float numbers. There is also a JSON 
+payload attached to each point, which looks similar to this:
+
+```json
+{
+    "cafe": {
+        "address": "VGX7+6R2 Vecchia Napoli, Valletta",
+        "categories": ["italian", "pasta", "pizza", "burgers", "mediterranean"],
+        "location": {"lat": 35.8980154, "lon": 14.5145106},
+        "menu_id": "610936a4ee8ea7a56f4a372a",
+        "name": "Vecchia Napoli Is-Suq Tal-Belt",
+        "rating": 9,
+        "slug": "vecchia-napoli-skyparks-suq-tal-belt"
+    },
+    "description": "Tomato sauce, mozzarella fior di latte, crispy guanciale, Pecorino Romano cheese and a hint of chilli",
+    "image": "https://wolt-menu-images-cdn.wolt.com/menu-images/610936a4ee8ea7a56f4a372a/005dfeb2-e734-11ec-b667-ced7a78a5abd_l_amatriciana_pizza_joel_gueller1.jpeg",
+    "name": "L'Amatriciana"
+}
+```
+
+The embeddings generated with clip-ViT-B-32 model have been generated using the following
+code snippet:
+
+```python
+from PIL import Image
+from sentence_transformers import SentenceTransformer
+
+image_path = "5dbfd216-5cce-11eb-8122-de94874ad1c8_ns_takeaway_seelachs_ei_baguette.jpeg"
+
+model = SentenceTransformer("clip-ViT-B-32")
+embedding = model.encode(Image.open(image_path))
+```
+
+The snapshot of the dataset might be downloaded [here](https://snapshots.qdrant.io/wolt-clip-ViT-B-32-2446808438011867-2023-12-14-15-55-26.snapshot).
