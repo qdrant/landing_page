@@ -280,6 +280,8 @@ client
 
 ### Set payload
 
+Set only the given payload values on a point.
+
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
 ```http
@@ -323,7 +325,7 @@ use qdrant_client::qdrant::{
 use serde_json::json;
 
 client
-    .set_payload(
+    .set_payload_blocking(
         "{collection_name}",
         None,
         &PointsSelector {
@@ -342,32 +344,129 @@ client
     .await?;
 ```
 
-### Delete payload
-
-This method removes specified payload keys from specified points
-
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
+You don't need to know the ids of the points you want to modify. The alternative
+is to use filters.
 
 ```http
-POST /collections/{collection_name}/points/payload/delete
+POST /collections/{collection_name}/points/payload
 {
-    "keys": ["color", "price"],
-    "points": [0, 3, 100]
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "value": "red"
+                }
+            }
+        ]
+    }
 }
 ```
 
 ```python
-client.delete_payload(
+client.set_payload(
     collection_name="{collection_name}",
-    keys=["color", "price"],
-    points=[0, 3, 100],
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color",
+                match=models.MatchValue(value="red"),
+            ),
+        ],
+    ),
 )
 ```
 
 ```typescript
-client.deletePayload("{collection_name}", {
-  keys: ["color", "price"],
-  points: [0, 3, 100],
+client.setPayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+use serde_json::json;
+
+client
+    .set_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
+### Overwrite payload
+
+Fully replace any existing payload with the given one.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/overwrite_payload)):
+
+```http
+PUT /collections/{collection_name}/points/payload
+{
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "points": [
+        0, 3, 100
+    ]
+}
+```
+
+```python
+client.overwrite_payload(
+    collection_name="{collection_name}",
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=[0, 3, 10],
+)
+```
+
+```typescript
+client.overwritePayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  points: [0, 3, 10],
 });
 ```
 
@@ -375,21 +474,30 @@ client.deletePayload("{collection_name}", {
 use qdrant_client::qdrant::{
     points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
 };
+use serde_json::json;
 
 client
-    .delete_payload(
+    .overwrite_payload_blocking(
         "{collection_name}",
         None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
-                ids: vec![0.into(), 3.into(), 100.into()],
+                ids: vec![0.into(), 3.into(), 10.into()],
             })),
         },
-        vec!["color".to_string(), "price".to_string()],
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
         None,
     )
     .await?;
 ```
+
+Like [set payload](#set-payload), you don't need to know the ids of the points
+you want to modify. The alternative is to use filters.
 
 ### Clear payload
 
@@ -439,6 +547,125 @@ client
 ```
 
 <aside role="status">You can also use `models.FilterSelector` to remove the points matching given filter criteria, instead of providing the ids.</aside>
+
+### Delete payload keys
+
+Delete specific payload keys from points.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
+
+```http
+POST /collections/{collection_name}/points/payload/delete
+{
+    "keys": ["color", "price"],
+    "points": [0, 3, 100]
+}
+```
+
+```python
+client.delete_payload(
+    collection_name="{collection_name}",
+    keys=["color", "price"],
+    points=[0, 3, 100],
+)
+```
+
+```typescript
+client.deletePayload("{collection_name}", {
+  keys: ["color", "price"],
+  points: [0, 3, 100],
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
+```
+
+Alternatively, you can use filters to delete payload keys from the points.
+
+```http
+POST /collections/{collection_name}/points/payload/delete
+{
+    "keys": ["color", "price"],
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "value": "red"
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.delete_payload(
+    collection_name="{collection_name}",
+    keys=["color", "price"],
+    points=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color",
+                match=models.MatchValue(value="red"),
+            ),
+        ],
+    ),
+)
+```
+
+```typescript
+client.deletePayload("{collection_name}", {
+  keys: ["color", "price"],
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
+```
 
 ## Payload indexing
 
