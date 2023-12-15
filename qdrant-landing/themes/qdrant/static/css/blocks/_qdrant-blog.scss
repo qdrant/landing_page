@@ -7,12 +7,19 @@ $blog-text-color: var.$blog-text-color;
 .qdrant-blog {
   font-family: $blog-font-family;
 
+  &__content {
+    padding-bottom: 7.5rem;
+  }
+
   &__subheader {
+    margin-top: 2rem;
     margin-bottom: 1.5rem;
-    color: var(--neutral-n-800, #102252);
-    @include mixins.blog-font-styles(2.5rem, 700, 3rem, $blog-text-color);
+    @include mixins.blog-font-styles(2rem, 700, 2.5rem, $blog-text-color);
 
     @include media-breakpoint-up(md) {
+      font-size: 2.5rem;
+      line-height: 3rem;
+      margin-top: 4rem;
       margin-bottom: 0;
     }
   }
@@ -22,6 +29,7 @@ $blog-text-color: var.$blog-text-color;
     margin-bottom: 2.5rem;
 
     @include media-breakpoint-up(md) {
+      margin-top: 4rem;
       margin-bottom: 3rem;
     }
 
@@ -56,6 +64,12 @@ $blog-text-color: var.$blog-text-color;
       margin-bottom: 5rem;
     }
   }
+
+  &__posts {
+    @include media-breakpoint-up(md) {
+      margin-bottom: 1.5rem;
+    }
+  }
 }
 
 .qb-hero {
@@ -67,7 +81,7 @@ $blog-text-color: var.$blog-text-color;
   @include media-breakpoint-up(md) {
     margin-top: 0;
     padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-bottom: 3.5rem;
   }
 
   &__breadcrumbs {
@@ -113,36 +127,41 @@ $blog-text-color: var.$blog-text-color;
 
   &__img {
     margin-bottom: 1.58rem;
+    max-height: 12.3rem;
 
     img {
       width: 100%;
       height: auto;
     }
+
   }
 
   &__title {
     color: var(--neutral-n-800, #102252);
     @include mixins.blog-font-styles(1.5rem, 700, 2rem, $blog-text-color);
-    margin-bottom: 0.79rem;
+    margin-bottom: 0.75rem;
   }
 
   &__text {
+    display: -webkit-box;
+    max-height: 4.5rem;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
     overflow: hidden;
     color: var(--neutral-n-700, #1F3266);
     text-overflow: ellipsis;
-    white-space: nowrap;
-
     @include mixins.blog-font-styles(1rem, 400, 1.5rem, $blog-text-color);
-    margin-bottom: 0.79rem;
+    margin-bottom: 1rem;
   }
 
   &__meta {
     color: var(--neutral-n-500, #4B6A9B);
-    @include mixins.blog-font-styles(0.875rem, 400, 1.25rem, $blog-text-color);
+    @include mixins.blog-font-styles(0.75rem, 400, 1.125rem, var(--neutral-n-600, #102252));
   }
 
   &__meta-divider {
-    margin: 0 0.53rem;
+    margin: 0 0.38rem;
   }
 
   &:hover {
@@ -155,6 +174,28 @@ $blog-text-color: var.$blog-text-color;
   &_border-bottom {
     padding-bottom: 1.25rem;
     border-bottom: 1px solid var(--neutral-n-200, #AEBDE5);
+  }
+
+  &_featured {
+    margin-bottom: 2rem;
+
+    .qb-card__img {
+      display: flex;
+      align-items: center;
+      max-height: 10.5rem;
+      overflow: hidden;
+
+      @include media-breakpoint-up(md) {
+        max-height: 19.125rem;
+      }
+    }
+
+    .qb-card__title {
+      @include media-breakpoint-up(md) {
+        font-size: 2rem;
+        line-height: 2.5rem;
+      }
+    }
   }
 }
 

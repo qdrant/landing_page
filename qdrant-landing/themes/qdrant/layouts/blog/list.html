@@ -18,7 +18,7 @@
 </section>
 
 {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
-<section class="auto-container pt-4 pt-md-5 pb-5 mb-5">
+<section class="qdrant-blog__content auto-container">
 
     <!-- Features and News -->
     <div class="row">
@@ -53,8 +53,8 @@
         {{ if .Params.external_link }}
         {{ $link = .Params.external_link }}
         {{ end }}
-        <div class="qb-card col-12 col-md-7">
-            <a href="{{ $link }}" class="qdrant-blog__card qb-card">
+        <div class="col-12 col-md-7">
+            <a href="{{ $link }}" class="qdrant-blog__card qb-card qb-card_featured">
                 {{ if .Params.preview_image }}
                 <div class="qb-card__img">
                     <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" class="img-fluid">
@@ -63,9 +63,10 @@
                 <h3 class="qb-card__title">{{ .Params.title }}</h3>
                 <p class="qb-card__text">{{ .Description }}</p>
                 <div class="qb-card__meta">
-                    <span>By {{ .Params.author }}</span>
+                    {{ $t := .Date }}
+                    <span>{{ time.Format "January 02, 2006" $t }}</span>
                     <span class="qb-card__meta-divider">·</span>
-                    <span>{{ .Date | time.Format ":date_long" }}</span>
+                    <span>{{ .Params.author }}</span>
                 </div>
             </a>
         </div>
@@ -79,9 +80,9 @@
                     <a href="{{ .Permalink }}">{{ .Params.title }}</a>
                 </h3>
                 <div class="qb-card__meta">
-                    <span>By {{ .Params.author }}</span>
-                    <span class="qb-card__meta-divider">·</span>
                     <span>{{ .Date | time.Format ":date_long" }}</span>
+                    <span class="qb-card__meta-divider">·</span>
+                    <span>{{ .Params.author }}</span>
                 </div>
             </div>
             {{ end }}
@@ -92,7 +93,7 @@
 
     <!-- Blog Cards -->
     <!--    todo: exclude featured and new posts from list-->
-    <div class="row clearfix" id="posts-container">
+    <div class="qdrant-blog__posts row clearfix" id="posts-container">
 
         <!-- Sidebar Page Container -->
         {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 6 }} <!-- todo: make it 9 -->
@@ -124,74 +125,75 @@
 
         {{ end }}
 
+    </div>
         <!-- todo: move to partial-->
-        <script>
-          (function() {
+<!--        <script>-->
+<!--          (function() {-->
 
 
-            document.addEventListener('DOMContentLoaded', function() {
-              const mdBreakpoint = 768;
-              const container = document.getElementById('posts-container');
-              const paginatorLength = {{ $paginator.TotalPages }};
-              let loading = false;
-              let pageLoaded = 1;
+<!--            document.addEventListener('DOMContentLoaded', function() {-->
+<!--              const mdBreakpoint = 768;-->
+<!--              const container = document.getElementById('posts-container');-->
+<!--              const paginatorLength = {{ $paginator.TotalPages }};-->
+<!--              let loading = false;-->
+<!--              let pageLoaded = 1;-->
 
-              window.addEventListener('scroll', function() {
-                if (window.innerWidth >= mdBreakpoint || loading) return;
+<!--              window.addEventListener('scroll', function() {-->
+<!--                if (window.innerWidth >= mdBreakpoint || loading) return;-->
 
-                const scrollTop = window.scrollY;
-                const windowHeight = window.innerHeight;
-                const documentHeight = container.offsetHeight;
+<!--                const scrollTop = window.scrollY;-->
+<!--                const windowHeight = window.innerHeight;-->
+<!--                const documentHeight = container.offsetHeight;-->
 
-                console.log('paginator length: ' + paginatorLength);
+<!--                console.log('paginator length: ' + paginatorLength);-->
 
-                if (scrollTop + windowHeight >= documentHeight - 100 && pageLoaded < paginatorLength) {
-                  loadMorePosts();
-                }
-              });
+<!--                if (scrollTop + windowHeight >= documentHeight - 100 && pageLoaded < paginatorLength) {-->
+<!--                  loadMorePosts();-->
+<!--                }-->
+<!--              });-->
 
-              function loadMorePosts() {
-                loading = true;
-                const prevPageLoaded = pageLoaded;
-                const nextPage = parseInt({{ $paginator.PageNumber }}) + 1;
+<!--              function loadMorePosts() {-->
+<!--                loading = true;-->
+<!--                const prevPageLoaded = pageLoaded;-->
+<!--                const nextPage = parseInt({{ $paginator.PageNumber }}) + 1;-->
 
-                if (pageLoaded === nextPage || nextPage >= paginatorLength) return;
+<!--                if (pageLoaded === nextPage || nextPage >= paginatorLength) return;-->
 
-                // Fetch more posts (adjust the URL accordingly)
-                const nextPageURL = '/blog/page/' + nextPage + '/';
-                fetch(nextPageURL).then(function(response) {
-                  pageLoaded = nextPage;
-                  return response.text();
-                }).then(function(html) {
-                  const parser = new DOMParser();
-                  const newDocument = parser.parseFromString(html, 'text/html');
-                  const newPosts = newDocument.querySelector('#posts-container').querySelectorAll('.qdrant-blog__card');
+<!--                // Fetch more posts (adjust the URL accordingly)-->
+<!--                const nextPageURL = '/blog/page/' + nextPage + '/';-->
+<!--                fetch(nextPageURL).then(function(response) {-->
+<!--                  pageLoaded = nextPage;-->
+<!--                  return response.text();-->
+<!--                }).then(function(html) {-->
+<!--                  const parser = new DOMParser();-->
+<!--                  const newDocument = parser.parseFromString(html, 'text/html');-->
+<!--                  const newPosts = newDocument.querySelector('#posts-container').querySelectorAll('.qdrant-blog__card');-->
 
-                  console.log(newDocument.querySelectorAll('.qdrant-blog__card'));
+<!--                  console.log(newDocument.querySelectorAll('.qdrant-blog__card'));-->
 
-                  // Append the new posts to the existing container
-                  newPosts.forEach.call(newPosts, function(post) {
-                    container.appendChild(post);
-                  });
+<!--                  // Append the new posts to the existing container-->
+<!--                  newPosts.forEach.call(newPosts, function(post) {-->
+<!--                    container.appendChild(post);-->
+<!--                  });-->
 
-                  // Update loading status
-                  loading = false;
-                }).catch(function(error) {
-                  console.error('Error fetching more posts:', error);
-                  pageLoaded = prevPageLoaded;
-                  loading = false;
-                });
-              }
-            });
-          })();
-        </script>
+<!--                  // Update loading status-->
+<!--                  loading = false;-->
+<!--                }).catch(function(error) {-->
+<!--                  console.error('Error fetching more posts:', error);-->
+<!--                  pageLoaded = prevPageLoaded;-->
+<!--                  loading = false;-->
+<!--                });-->
+<!--              }-->
+<!--            });-->
+<!--          })();-->
+<!--        </script>-->
 
-
-        {{ if gt $paginator.TotalPages 1}}
-        {{ partial "paginator" $paginator }}
-        {{ end }}
-
-
+    <div class="row clearfix">
+        <div class="col-12">
+            {{ if gt $paginator.TotalPages 1}}
+            {{ partial "paginator" $paginator }}
+            {{ end }}
+        </div>
     </div>
 </section>
 {{ end }}

@@ -13,7 +13,6 @@ $blog-text-color: var.$blog-text-color;
 
   @include media-breakpoint-up(md) {
     margin-right: 1.5rem;
-    margin-bottom: 5rem;
   }
 
   &::placeholder {
@@ -136,7 +135,7 @@ $blog-text-color: var.$blog-text-color;
 
     @include media-breakpoint-up(md) {
       padding-top: 6rem;
-      padding-bottom: 1.4rem;
+      padding-bottom: 4.4rem;
     }
 
     &__title {
