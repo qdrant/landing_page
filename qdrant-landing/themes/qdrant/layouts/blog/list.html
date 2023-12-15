@@ -63,8 +63,7 @@
                 <h3 class="qb-card__title">{{ .Params.title }}</h3>
                 <p class="qb-card__text">{{ .Description }}</p>
                 <div class="qb-card__meta">
-                    {{ $t := .Date }}
-                    <span>{{ time.Format "January 02, 2006" $t }}</span>
+                    <span>{{ time.Format "January 02, 2006" .Date }}</span>
                     <span class="qb-card__meta-divider">·</span>
                     <span>{{ .Params.author }}</span>
                 </div>
@@ -74,13 +73,13 @@
         <!-- End of Featured Post -->
         <!-- Latest Posts -->
         <div class="col-12 col-md-5 d-flex flex-column justify-content-between">
-            {{ range first 3 (where $all ".Params.featured" "!=" true) }}
+            {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
             <div class="qb-card qb-card_border-bottom ml-md-3">
                 <h3 class="qb-card__title">
                     <a href="{{ .Permalink }}">{{ .Params.title }}</a>
                 </h3>
                 <div class="qb-card__meta">
-                    <span>{{ .Date | time.Format ":date_long" }}</span>
+                    <span>{{ time.Format "January 02, 2006" .Date }}</span>
                     <span class="qb-card__meta-divider">·</span>
                     <span>{{ .Params.author }}</span>
                 </div>
@@ -97,7 +96,7 @@
 
         <!-- Sidebar Page Container -->
         {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 6 }} <!-- todo: make it 9 -->
-        {{ range after 3 $paginator.Pages}}
+        {{ range $paginator.Pages}}
         {{ .Scratch.Set "scope" "list" }}
 
         {{ $link := .Permalink }}
@@ -118,7 +117,7 @@
             <div class="qb-card__meta">
                 <span>By {{ .Params.author }}</span>
                 <span class="qb-card__meta-divider">·</span>
-                <span>{{ .Date | time.Format ":date_long" }}</span>
+                <span>{{ time.Format "January 02, 2006" .Date }}</span>
             </div>
         </a>
         {{ end }}

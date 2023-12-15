@@ -29,7 +29,6 @@ $blog-text-color: var.$blog-text-color;
   border-radius: 6.25rem;
   background: var(--brand-primary, #DC244C);
   color: var(--neutral-white, #FFF);
-  margin-bottom: 1.5rem;
   @include mixins.blog-font-styles(1rem, 500, 3rem, var(--neutral-white, #FFF));
 
   @include media-breakpoint-up(md) {
@@ -122,6 +121,7 @@ $blog-text-color: var.$blog-text-color;
 
       button[type="submit"] {
         @extend .form-button-base;
+        margin-bottom: 1.5rem;
       }
     }
 
