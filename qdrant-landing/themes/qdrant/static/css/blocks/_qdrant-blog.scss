@@ -216,6 +216,35 @@ $blog-text-color: var.$blog-text-color;
       }
     }
   }
+
+  &_mobile-compact {
+    @include media-breakpoint-down(sm) {
+      display: flex;
+      margin-bottom: 1.5rem;
+
+      .qb-card__text, .qb-card__meta {
+        display: none;
+      }
+      .qb-card__img {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 1.25rem;
+        max-width: 6.25rem;
+        min-width: 6.25rem;
+        height: 5rem;
+        overflow: hidden;
+        margin-bottom: 0;
+        & > img {
+          width: auto;
+          height: 100%;
+        }
+      }
+      .qb-card__title {
+        @include mixins.blog-font-styles(1.125rem, 600, 1.6875rem, $blog-text-color);
+      }
+    }
+  }
 }
 
 .qb-post {
@@ -270,9 +299,11 @@ $blog-text-color: var.$blog-text-color;
       color: var(--neutral-n-700, #1F3266);
       @include mixins.blog-font-styles(1.125rem, 400, 1.6875rem, $blog-text-color);
     }
+
     p {
       margin-bottom: 1.7rem;
     }
+
     a {
       color: var(--Primary, #DC244C);
       text-decoration: underline;
