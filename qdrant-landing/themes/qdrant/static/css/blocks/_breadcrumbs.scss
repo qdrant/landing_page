@@ -3,7 +3,7 @@
 .breadcrumbs {
   display: flex;
   flex-wrap: wrap;
-  margin: 0 0 1.5rem;
+  margin: -0.38rem 0 1.5rem;
   color: var(--neutral-n-300, #8B9CCC);
 
   font-size: 0.875rem;
@@ -18,7 +18,7 @@
     text-transform: capitalize;
     font-size: lib.rem(14);
     font-weight: 400;
-    line-height: lib.rem(17);
+    line-height: 1.69rem;
 
     &:last-child {
       margin-right: 0;

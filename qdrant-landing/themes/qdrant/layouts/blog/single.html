@@ -1,23 +1,24 @@
+{{ .Scratch.Set "classes" "qdrant-blog__header" }}
 {{ partial "header" . }}
-<div class="auto-container pt-3 pt-md-2 mb-5">
+<div class="qdrant-blog__post auto-container">
     <section class="row clearfix mt-md-5 pt-md-5">
         <nav class="col-12">
             {{ partial "breadcrumbs" . }}
         </nav>
 
-        <article class="qdrant-blog__post qb-post offset-md-1 col-12 col-md-10">
+        <article class="qb-post offset-md-1 col-12 col-md-10">
             <h1 class="qb-post__title">{{ .Params.title }}</h1>
             <div class="qb-post__meta">
-                <span>By {{ .Params.author }}</span>
+                <span>{{ time.Format "January 02, 2006" .Date }}</span>
                 <span class="qb-post__meta-divider">·</span>
-                <span>{{ .Date | time.Format ":date_long" }}</span>
+                <span>{{ .Params.author }}</span>
             </div>
             <div class="qb-post__img">
                 <img class="img-fluid" src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}">
             </div>
             <div class="d-md-flex">
                 <div class="qb-post__share qb-share">
-                    <span class="qb-share__title">Share:</span>
+                    <span class="qb-share__title">Share</span>
                     <div class="qb-share__buttons">
                         <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" target="_blank"
                            class="qb-share__link">

@@ -7,6 +7,10 @@ $blog-text-color: var.$blog-text-color;
 .qdrant-blog {
   font-family: $blog-font-family;
 
+  &__header {
+    background-color: var(--neutral-n-50, #F9FAFB);
+  }
+
   &__content {
     padding-bottom: 0.8rem;
     @include media-breakpoint-up(md) {
@@ -72,6 +76,18 @@ $blog-text-color: var.$blog-text-color;
       margin-bottom: 1.5rem;
     }
   }
+
+  &__post {
+    padding-top: 1.5rem;
+
+    & .breadcrumbs {
+      margin-bottom: 3rem;
+    }
+
+    & .qb-related__title {
+      margin-bottom: 0.5rem;
+    }
+  }
 }
 
 .qb-hero {
@@ -91,6 +107,7 @@ $blog-text-color: var.$blog-text-color;
     @include media-breakpoint-up(md) {
       padding-top: 2.5rem;
     }
+
     & > .breadcrumbs {
       margin-bottom: 1rem;
       @include media-breakpoint-up(md) {
@@ -202,7 +219,7 @@ $blog-text-color: var.$blog-text-color;
 }
 
 .qb-post {
-  padding-bottom: 4rem;
+  padding-bottom: 2.33rem;
 
   @include media-breakpoint-up(md) {
     padding-bottom: 10rem;
@@ -247,15 +264,15 @@ $blog-text-color: var.$blog-text-color;
     margin: 0 0.53rem;
   }
 
-  &__share {
-  }
-
   &__content {
-    flex: 1 0 0;
-    color: var(--neutral-n-700, #1F3266);
-
-    @include mixins.blog-font-styles(1.125rem, 400, 1.6875rem, $blog-text-color);
-
+    p, a, span, li {
+      flex: 1 0 0;
+      color: var(--neutral-n-700, #1F3266);
+      @include mixins.blog-font-styles(1.125rem, 400, 1.6875rem, $blog-text-color);
+    }
+    p {
+      margin-bottom: 1.7rem;
+    }
     a {
       color: var(--Primary, #DC244C);
       text-decoration: underline;
