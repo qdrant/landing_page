@@ -356,6 +356,12 @@ $blog-text-color: var.$blog-text-color;
   &__link {
     display: inline-block;
 
+    &:hover {
+      svg > g > path {
+        fill: var(--neutral-n-400, #6A80BD);
+      }
+    }
+
     &:not(:first-of-type) {
       margin-left: 2rem;
 
