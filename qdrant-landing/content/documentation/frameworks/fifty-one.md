@@ -1,7 +1,7 @@
 ---
 title: FiftyOne
 weight: 600
-aliases: [ /integrations/fifty-one/ ]
+aliases: [ ../integrations/fifty-one ]
 ---
 
 # FiftyOne

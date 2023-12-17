@@ -1,7 +1,7 @@
 ---
 title: Jina Embeddings
 weight: 800
-aliases: [ /integrations/jina-embeddings/ ]
+aliases: [ ../integrations/jina-embeddings/ ]
 ---
 
 # Jina Embeddings
