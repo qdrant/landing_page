@@ -1,7 +1,7 @@
 ---
 title: DocArray
 weight: 300
-aliases: [ /integrations/docarray/ ]
+aliases: [ ../integrations/docarray/ ]
 ---
 
 # DocArray

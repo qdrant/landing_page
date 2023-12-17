@@ -1,7 +1,7 @@
 ---
 title: PrivateGPT
 weight: 1600
-aliases: [ /integrations/privategpt/ ]
+aliases: [ ../integrations/privategpt/ ]
 ---
 
 # PrivateGPT
