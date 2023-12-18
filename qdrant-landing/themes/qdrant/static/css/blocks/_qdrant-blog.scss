@@ -261,6 +261,7 @@ $blog-text-color: var.$blog-text-color;
 
 .qb-post {
   padding-bottom: 2.33rem;
+  @include mixins.content-reset;
 
   @include media-breakpoint-up(md) {
     padding-bottom: 8.3rem;
