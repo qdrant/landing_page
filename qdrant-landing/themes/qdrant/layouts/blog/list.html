@@ -27,9 +27,9 @@
         </div>
 
         <div class="col-12 col-md-7">
-            <div class="qdrant-blog__search">
-                <input type="text" name="q" placeholder="What are you looking for?" class="qdrant-blog__search-input">
-                <button>
+            <button type="button" class="qdrant-blog__search" data-target="#searchModal">
+                What are you looking for?
+                <i>
                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <g clip-path="url(#clip0_1846_3020)">
                             <path d="M15.707 13.293L13 10.586C13.63 9.536 14 8.311 14 7C14 3.14 10.859 0 7 0C3.141 0 0 3.14 0 7C0 10.86 3.141 14 7 14C8.312 14 9.536 13.631 10.586 13L13.293 15.707C13.488 15.902 13.744 16 14 16C14.256 16 14.512 15.902 14.707 15.707L15.707 14.707C16.098 14.316 16.098 13.684 15.707 13.293ZM7 12C4.239 12 2 9.761 2 7C2 4.239 4.239 2 7 2C9.761 2 12 4.239 12 7C12 9.761 9.761 12 7 12Z"
@@ -41,8 +41,8 @@
                             </clipPath>
                         </defs>
                     </svg>
-                </button>
-            </div>
+                </i>
+            </button>
         </div>
     </div>
 
@@ -123,69 +123,7 @@
         {{ end }}
 
         {{ end }}
-
     </div>
-        <!-- todo: move to partial-->
-<!--        <script>-->
-<!--          (function() {-->
-
-
-<!--            document.addEventListener('DOMContentLoaded', function() {-->
-<!--              const mdBreakpoint = 768;-->
-<!--              const container = document.getElementById('posts-container');-->
-<!--              const paginatorLength = {{ $paginator.TotalPages }};-->
-<!--              let loading = false;-->
-<!--              let pageLoaded = 1;-->
-
-<!--              window.addEventListener('scroll', function() {-->
-<!--                if (window.innerWidth >= mdBreakpoint || loading) return;-->
-
-<!--                const scrollTop = window.scrollY;-->
-<!--                const windowHeight = window.innerHeight;-->
-<!--                const documentHeight = container.offsetHeight;-->
-
-<!--                console.log('paginator length: ' + paginatorLength);-->
-
-<!--                if (scrollTop + windowHeight >= documentHeight - 100 && pageLoaded < paginatorLength) {-->
-<!--                  loadMorePosts();-->
-<!--                }-->
-<!--              });-->
-
-<!--              function loadMorePosts() {-->
-<!--                loading = true;-->
-<!--                const prevPageLoaded = pageLoaded;-->
-<!--                const nextPage = parseInt({{ $paginator.PageNumber }}) + 1;-->
-
-<!--                if (pageLoaded === nextPage || nextPage >= paginatorLength) return;-->
-
-<!--                // Fetch more posts (adjust the URL accordingly)-->
-<!--                const nextPageURL = '/blog/page/' + nextPage + '/';-->
-<!--                fetch(nextPageURL).then(function(response) {-->
-<!--                  pageLoaded = nextPage;-->
-<!--                  return response.text();-->
-<!--                }).then(function(html) {-->
-<!--                  const parser = new DOMParser();-->
-<!--                  const newDocument = parser.parseFromString(html, 'text/html');-->
-<!--                  const newPosts = newDocument.querySelector('#posts-container').querySelectorAll('.qdrant-blog__card');-->
-
-<!--                  console.log(newDocument.querySelectorAll('.qdrant-blog__card'));-->
-
-<!--                  // Append the new posts to the existing container-->
-<!--                  newPosts.forEach.call(newPosts, function(post) {-->
-<!--                    container.appendChild(post);-->
-<!--                  });-->
-
-<!--                  // Update loading status-->
-<!--                  loading = false;-->
-<!--                }).catch(function(error) {-->
-<!--                  console.error('Error fetching more posts:', error);-->
-<!--                  pageLoaded = prevPageLoaded;-->
-<!--                  loading = false;-->
-<!--                });-->
-<!--              }-->
-<!--            });-->
-<!--          })();-->
-<!--        </script>-->
 
     <div class="row clearfix">
         <div class="col-12">

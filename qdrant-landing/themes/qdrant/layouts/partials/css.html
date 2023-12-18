@@ -24,7 +24,7 @@
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css"></noscript>
 
-{{ if eq .Section "documentation" }}
+{{ if or (eq .Section "documentation") (eq .Section "blog") }}
 <link rel="stylesheet" href="/css/qdr-search.min.css">
 {{ end }}
 

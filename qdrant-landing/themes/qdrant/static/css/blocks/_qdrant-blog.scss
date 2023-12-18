@@ -34,20 +34,21 @@ $blog-text-color: var.$blog-text-color;
   &__search {
     position: relative;
     margin-bottom: 2.5rem;
+    background: none;
+    border: none;
+    @extend .input-base;
+    color: var(--neutral-n-200, #8B9CCC);
+    padding: 0.625rem 4rem 0.625rem 1.5rem;
+    box-shadow: 0 0 0 1px var(--neutral-n-200);
+    text-align: left;
+    cursor: text;
 
     @include media-breakpoint-up(md) {
       margin-top: 4rem;
       margin-bottom: 3rem;
     }
 
-    & > input {
-      @extend .input-base;
-      padding: 0.625rem 4rem 0.625rem 1.5rem;
-      margin-bottom: 0;
-      box-shadow: 0 0 0 1px var(--neutral-n-200);
-    }
-
-    & > button {
+    & > i {
       position: absolute;
       top: 50%;
       right: 1.5rem;
@@ -62,10 +63,6 @@ $blog-text-color: var.$blog-text-color;
 
   &__featured {
     min-height: 33rem;
-
-    @include media-breakpoint-up(md) {
-      margin-bottom: 5rem;
-    }
   }
 
   &__posts {
@@ -197,7 +194,7 @@ $blog-text-color: var.$blog-text-color;
       bottom: 0;
       left: 0;
       right: 0;
-      background: linear-gradient(-60deg,var(--neutral-n-50) 40%, transparent 50%, var(--neutral-n-50)  60%);
+      background: linear-gradient(-60deg, var(--neutral-n-50) 40%, transparent 50%, var(--neutral-n-50) 60%);
       background-size: 300%;
       background-position-x: 100%;
       animation: shimmer 1.6s infinite linear;
