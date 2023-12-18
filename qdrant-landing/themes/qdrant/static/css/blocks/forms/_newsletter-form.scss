@@ -10,6 +10,7 @@ $blog-text-color: var.$blog-text-color;
   padding: 0.625rem 4rem 0.625rem 1.5rem;
   margin-bottom: 0.5rem;
   border-radius: 6.25rem;
+  @include mixins.blog-font-styles(1rem, 400, 1.5rem, $blog-font-family);
 
   @include media-breakpoint-up(md) {
     margin-right: 1.5rem;
@@ -17,8 +18,14 @@ $blog-text-color: var.$blog-text-color;
 
   &::placeholder {
     color: var(--neutral-n-300, #8B9CCC);
+  }
 
-    @include mixins.blog-font-styles(1rem, 400, 1.5rem, $blog-text-color)
+  &:focus {
+    border: 1px solid var(--neutral-n-600);
+
+    &::placeholder {
+      color: var(--neutral-n-200);
+    }
   }
 }
 

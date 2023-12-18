@@ -28,6 +28,10 @@
       font-style: normal;
       font-weight: 400;
       line-height: 1.5rem;
+
+      &:hover {
+        background: var(--neutral-n-100, #F5F7FF);
+      }
     }
 
     &.active {
