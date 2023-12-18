@@ -3,12 +3,13 @@
 
 {{ if eq $variant "compact" }}
 
+{{ $randNum := delimit (shuffle (seq 1 9)) "" }}
 <section class="newsletter-form newsletter-form_compact">
     <p class="newsletter-form_compact__title">A place to learn how to become an expert traveler through vector space.
         Subscribe and we will update you on features and news.</p>
     <form
             class="newsletter-form_compact__form d-flex flex-column flex-md-row validate"
-            action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+            action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form-{{ $randNum }}"
             name="mc-embedded-subscribe-form" target="_blank" novalidate>
         <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
                id="mce-EMAIL">
@@ -22,6 +23,7 @@
 
 {{ else if eq $variant "two-columns" }}
 
+{{ $randNum2 := delimit (shuffle (seq 1 9)) "" }}
 <section class="newsletter-form newsletter-form_two-columns">
     <div class="auto-container">
         <div class="row">
@@ -34,10 +36,10 @@
             <div class="col-12 col-md-6">
                 <form
                         class="newsletter-form_two-columns__form d-flex flex-column flex-md-row validate"
-                        action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+                        action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form-{{ $randNum2 }}"
                         name="mc-embedded-subscribe-form" target="_blank" novalidate>
                     <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
-                           id="mce-EMAIL">
+                           id="mce-EMAIL-{{ $randNum2 }}">
                     <div style="position: absolute; left: -5000px;" aria-hidden="true">
                         <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
                                value="">
@@ -51,6 +53,7 @@
 
 {{ else }}
 
+{{ $randNum3 := delimit (shuffle (seq 1 9)) "" }}
 <section class="clients-section contact-section">
     <div class="auto-container">
         <div class="row">
@@ -63,11 +66,11 @@
             <div class="content-column col-12">
                 <!-- Newsletter Form -->
                 <div class="newsletter-form newsletter-form_default">
-                    <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+                    <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form-{{ $randNum3 }}"
                           name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
                         <div class="d-flex justify-content-between flex-wrap">
                             <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
-                                   id="mce-EMAIL">
+                                   id="mce-EMAIL-{{ $randNum3 }}">
                             <div style="position: absolute; left: -5000px;" aria-hidden="true">
                                 <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
                                        value="">

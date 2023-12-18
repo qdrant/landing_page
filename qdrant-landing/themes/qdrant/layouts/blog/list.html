@@ -109,7 +109,7 @@
         <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
             {{ if .Params.preview_image }}
             <div class="qb-card__img">
-                <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" class="img-fluid">
+                <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" loading="lazy" class="img-fluid">
             </div>
             {{ end }}
             <h3 class="qb-card__title">{{ .Params.title }}</h3>
