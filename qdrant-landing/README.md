@@ -191,3 +191,12 @@ and change 13 to the number of logos.
 Rebuild css from scss (see instructions [above](#build-css-from-scss)).
 
 4. To change order of the logos - add or change `weight` parameter in the markdown files in `/qdrant-landing/content/stack` directory.
+
+# Blog
+
+Adding a new blog post:
+
+``` bash
+cd qdrant-landing
+hugo new --kind blog-post blog/<post-title>.md
+```
