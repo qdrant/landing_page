@@ -17,9 +17,7 @@ tags:
   - Release
 sitemapExclude: True
 ---
-![Release notes 0.7.0](/blog_data/from_cms/v0.7.0.png)
 
-\
 We've released the new version of Qdrant neural search engine. 
 
 Let's see what's new in update 0.7.0.

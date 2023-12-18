@@ -6,7 +6,7 @@ slug: quaterion
 short_description: Please meet Quaterion—a framework for training and
   fine-tuning similarity learning models.
 description: We're happy to share the result of the work we've been into during
-  the last months - [Quaterion](https://quaterion.qdrant.tech/). It is a
+  the last months - Quaterion. It is a
   framework for fine-tuning similarity learning models that streamlines the
   training process to make it significantly faster and cost-efficient.
 preview_image: /blog_data/from_cms/new-cmp-demo.gif
@@ -25,8 +25,9 @@ tags:
   - PyTorch
 sitemapExclude: True
 ---
-We're happy to share the result of the work we've been into during the last months - [Quaterion](https://quaterion.qdrant.tech/). It is a framework for fine-tuning similarity learning models that streamlines the training process to make it significantly faster and cost-efficient.
 
+We're happy to share the result of the work we've been into during the last months -
+[Quaterion](https://quaterion.qdrant.tech/). It is a framework for fine-tuning similarity learning models that streamlines the training process to make it significantly faster and cost-efficient.
 To develop Quaterion, we utilized PyTorch Lightning, leveraging a high-performing AI research approach to constructing training loops for ML models.
 
 ![quaterion](/blog_data/from_cms/new-cmp-demo.gif)
