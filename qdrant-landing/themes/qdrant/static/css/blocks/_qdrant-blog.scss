@@ -204,7 +204,7 @@ $blog-text-color: var.$blog-text-color;
     }
     .qb-card__img:after {
       content: "";
-      display: block;
+      display: none;
       position: absolute;
       top: 0;
       bottom: 0;
