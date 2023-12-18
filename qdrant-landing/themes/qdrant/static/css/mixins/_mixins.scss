@@ -153,3 +153,22 @@
     }
   }
 }
+
+@mixin fixed-height-img($height, $width: auto) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: $width;
+    min-width:$width;
+    height: $width;
+    overflow: hidden;
+    margin-bottom: 0;
+    & > img {
+      flex-shrink: 0;
+      width: auto;
+      min-width: 100%;
+      min-height: 100%;
+      max-width: none;
+      max-height: 100%;
+    }
+}

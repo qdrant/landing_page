@@ -79,10 +79,12 @@
         </div>
     </article>
 
+    {{ $related :=  ($.Site.GetPage "blog" .Section).RegularPages.Related . | first 3 }}
+    {{ with $related }}
     <section class="qb-related row clearfix">
         <header class="col-12 qb-related__title-outer">
             <h2 class="qb-related__title">Related Posts</h2>
-            <a class="qb-related__link" href="{{ .Site.BaseURL }}blog">View all blog posts
+            <a class="qb-related__link" href="/blog">View all blog posts
                 <i>
                     <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 5H13" stroke="#102252" stroke-width="2" stroke-linecap="round"
@@ -93,6 +95,8 @@
                 </i>
             </a>
         </header>
+
+        {{ range . }}
         {{ $link := .Permalink }}
         {{ if .Params.external_link }}
         {{ $link = .Params.external_link }}
@@ -111,35 +115,9 @@
                 <span>{{ .Date | time.Format ":date_long" }}</span>
             </div>
         </a>
-        <a href="{{ $link }}" class="qb-card qb-card_mobile-compact col-12 col-md-4">
-            {{ if .Params.preview_image }}
-            <div class="qb-card__img">
-                <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}">
-            </div>
-            {{ end }}
-            <h3 class="qb-card__title">{{ .Params.title }}</h3>
-            <p class="qb-card__text">{{ .Description }}</p>
-            <div class="qb-card__meta">
-                <span>By {{ .Params.author }}</span>
-                <span class="qb-card__meta-divider">·</span>
-                <span>{{ .Date | time.Format ":date_long" }}</span>
-            </div>
-        </a>
-        <a href="{{ $link }}" class="qb-card qb-card_mobile-compact col-12 col-md-4">
-            {{ if .Params.preview_image }}
-            <div class="qb-card__img">
-                <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}">
-            </div>
-            {{ end }}
-            <h3 class="qb-card__title">{{ .Params.title }}</h3>
-            <p class="qb-card__text">{{ .Description }}</p>
-            <div class="qb-card__meta">
-                <span>By {{ .Params.author }}</span>
-                <span class="qb-card__meta-divider">·</span>
-                <span>{{ .Date | time.Format ":date_long" }}</span>
-            </div>
-        </a>
+        {{ end }}
     </section>
+    {{ end }}
 </div>
 
 {{ .Scratch.Set "variant" "two-columns" }}

@@ -91,11 +91,9 @@
     <!-- End of Features and News -->
 
     <!-- Blog Cards -->
-    <!--    todo: exclude featured and new posts from list-->
-    <div class="qdrant-blog__posts row clearfix" id="posts-container">
+    <div class="qdrant-blog__posts row clearfix d-none d-md-flex">
 
-        <!-- Sidebar Page Container -->
-        {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 6 }} <!-- todo: make it 9 -->
+        {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 9 }}
         {{ range $paginator.Pages}}
         {{ .Scratch.Set "scope" "list" }}
 
@@ -104,7 +102,7 @@
         {{ $link = .Params.external_link }}
         {{ end }}
 
-        {{ if or (not .Params.featured) (not .Params.new) }}
+        {{ if or (not .Params.featured) }}
 
         <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
             {{ if .Params.preview_image }}
@@ -124,6 +122,39 @@
 
         {{ end }}
     </div>
+
+    <!-- Mobile Blog Cards -->
+    <div class="qdrant-blog__posts row clearfix d-md-none">
+
+        {{ range (where $all ".Params.featured" "!=" true) }}
+        {{ .Scratch.Set "scope" "list" }}
+
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+        {{ $link = .Params.external_link }}
+        {{ end }}
+
+        {{ if or (not .Params.featured) }}
+
+        <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
+            {{ if .Params.preview_image }}
+            <div class="qb-card__img">
+                <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" loading="lazy" class="img-fluid">
+            </div>
+            {{ end }}
+            <h3 class="qb-card__title">{{ .Params.title }}</h3>
+            <p class="qb-card__text">{{ .Description }}</p>
+            <div class="qb-card__meta">
+                <span>By {{ .Params.author }}</span>
+                <span class="qb-card__meta-divider">·</span>
+                <span>{{ time.Format "January 02, 2006" .Date }}</span>
+            </div>
+        </a>
+        {{ end }}
+
+        {{ end }}
+    </div>
+
 
     <div class="row clearfix">
         <div class="col-12">
