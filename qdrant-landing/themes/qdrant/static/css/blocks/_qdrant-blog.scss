@@ -41,30 +41,10 @@ $blog-text-color: var.$blog-text-color;
     }
 
     & > input {
-      width: 100%;
-      height: 3rem;
-      padding: 0.625rem 1.5rem;
-      padding-right: 4rem;
-      border-radius: 6.25rem;
-      border: 1px solid var(--neutral-n-200, #AEBDE5);
-
-      &::placeholder {
-        color: var(--neutral-n-300, #8B9CCC);
-      }
-
-      &:focus {
-        border: 1px solid var(--neutral-n-600);
-
-        &::placeholder {
-          color: var(--neutral-n-200);
-        }
-      }
-
-
-      &::placeholder {
-        color: var(--neutral-n-300, #8B9CCC);
-        @include mixins.blog-font-styles(1rem, 400, 1.5rem, $blog-text-color);
-      }
+      @extend .input-base;
+      padding: 0.625rem 4rem 0.625rem 1.5rem;
+      margin-bottom: 0;
+      box-shadow: 0 0 0 1px var(--neutral-n-200);
     }
 
     & > button {
@@ -73,6 +53,10 @@ $blog-text-color: var.$blog-text-color;
       right: 1.5rem;
       transform: translateY(-50%);
       background: transparent;
+
+      &:hover > svg > g > path {
+        fill: var(--brand-primary, #6A80BD);
+      }
     }
   }
 
@@ -164,6 +148,7 @@ $blog-text-color: var.$blog-text-color;
   &__img {
     margin-bottom: 1.58rem;
     max-height: 12.3rem;
+    position: relative;
 
     img {
       width: 100%;
@@ -201,9 +186,22 @@ $blog-text-color: var.$blog-text-color;
   }
 
   &:hover {
-    // todo: think about adding some nice transform
     .qb-card__title {
       color: var(--brand-primary, #DC244C);
+    }
+    .qb-card__img:after {
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(-60deg,var(--neutral-n-50) 40%, transparent 50%, var(--neutral-n-50)  60%);
+      background-size: 300%;
+      background-position-x: 100%;
+      animation: shimmer 1.6s infinite linear;
+      opacity: 0.15;
     }
   }
 
@@ -443,5 +441,11 @@ $blog-text-color: var.$blog-text-color;
       justify-content: center;
       align-items: center;
     }
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-position-x: 0%;
   }
 }
