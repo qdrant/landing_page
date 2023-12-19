@@ -200,3 +200,10 @@ Adding a new blog post:
 cd qdrant-landing
 hugo new --kind blog-post blog/<post-title>.md
 ```
+
+It will create a file `content/blog/<post-title>.md`. Open it and edit the front matter.
+
+## Important notes
+
+- Tags are not showed on the blog post page, but they are used for displaying related posts. So, it's better to add tags to each post.
+- If post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
