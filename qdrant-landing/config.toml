@@ -299,5 +299,5 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   includeNewer = true
   toLower = true
   [[related.indices]]
-    name = "category"
+    name = "tags"
     weight = 100
