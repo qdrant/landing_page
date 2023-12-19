@@ -25,14 +25,8 @@ collections:
           hint: 'Shown in previews of featured posts and on social media' }
       - { label: 'Publish Date', name: 'date', widget: 'datetime' }
       - { label: 'Author', name: 'author', widget: 'string', hint: 'Name'}
-      - { label: 'Author Link', name: 'author_link', widget: 'string', required: false,
-          hint: 'Link to the author (personal blog, social media, or anything else)' }
       - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: false,
-          hint: 'If enabled, the post will appear in the left column of the blog. Do not overuse it.' }
-      - { label: 'Category', name: 'categories', widget: 'list',
-          allow_add: true, hint: 'It is technically possible to add more than one, but it is better not to do so.
-          It may behave strangely with spaces. If you can not put a space,
-          type everything together and add a space afterwards.'}
+          hint: 'If enabled, this post will be featured in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.' }
       - { label: 'Tags', name: 'tags', widget: 'list', allow_add: true,
-          hint: 'Use a comma without a space to separate tags (this widget will add spaces after commas itself)' }
+          hint: 'Use a comma without a space to separate tags (this widget will add spaces after commas itself). Currently, tags only used to show related posts and not appear in user interface. But it can change in the future.' }
       - { label: 'Body', name: 'body', widget: 'markdown' }
