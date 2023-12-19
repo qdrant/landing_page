@@ -45,7 +45,7 @@
 
 .form-title-base {
   display: inline-block;
-  @include mixins.blog-font-styles(1rem, 600, 1.5rem, var.$blog-text-color);
+  @include mixins.blog-font-styles(1rem, 500, 1.5rem, var.$blog-text-color);
   @include media-breakpoint-up(md) {
     font-size: 1.125rem;
     line-height: 1.6875rem;
