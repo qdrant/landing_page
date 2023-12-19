@@ -7,7 +7,7 @@ short_description: Andrey Vasnetsov, Co-founder and CTO at Qdrant has shared
 description: Andrey Vasnetsov, Co-founder and CTO at Qdrant has shared about
   vector search and applications with Learn NLP Academy. 
 preview_image: /blog_data/from_cms/screenshot_5.jpg
-date: 2022-08-10T12:16:42.004Z
+date: 2023-12-11T12:16:42.004Z
 author: Alyona Kavyerina
 featured: false
 categories:

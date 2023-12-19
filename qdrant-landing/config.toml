@@ -294,3 +294,10 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   [markup.highlight]
     style='friendly'
    codeFences=true
+
+[related]
+  includeNewer = true
+  toLower = true
+  [[related.indices]]
+    name = "category"
+    weight = 100

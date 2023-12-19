@@ -24,6 +24,12 @@
 <link rel="preload" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
 <noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@splidejs/splide@4.1.2/dist/css/splide-core.min.css"></noscript>
 
-{{ if eq .Section "documentation" }}
+{{ if or (eq .Section "documentation") (eq .Section "blog") }}
 <link rel="stylesheet" href="/css/qdr-search.min.css">
+{{ end }}
+
+{{ if eq .Section "blog" }}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;300&family=Roboto:ital,wght@0,100;0,400;0,500;0,700;1,100;1,400;1,500;1,700&display=swap" rel="stylesheet">
 {{ end }}

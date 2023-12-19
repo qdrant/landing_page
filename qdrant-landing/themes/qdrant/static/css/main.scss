@@ -155,7 +155,7 @@ blockquote {
   @include marquee.base(80px, 200px, 13, 6, 20px, false, 50s);
 }
 
-@import "blocks/forms";
+@import "blocks/forms/forms";
 @import "blocks/categories-widget";
 @import "blocks/tags-widget";
 @import "blocks/header";
@@ -164,6 +164,7 @@ blockquote {
 @import "blocks/logo";
 @import "blocks/buttons";
 @import "blocks/copy-btn";
+@import "blocks/pagination";
 @import "blocks/hero-code";
 @import "blocks/features-section";
 @import "blocks/business-section-two";
@@ -173,6 +174,7 @@ blockquote {
 @import "blocks/documentation";
 @import "blocks/article";
 @import "blocks/blog";
+@import "blocks/qdrant-blog";
 @import "blocks/article-card";
 @import "blocks/breadcrumbs";
 @import "blocks/share-post";
