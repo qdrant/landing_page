@@ -71,8 +71,10 @@
         </div>
         {{ end }}
         <!-- End of Featured Post -->
-        <!-- Latest Posts -->
-        <div class="col-12 col-md-5 d-flex flex-column justify-content-between">
+
+        <!-- Older Featured Posts -->
+        <!-- desktop -->
+        <div class="col-md-5 d-none d-md-flex flex-column justify-content-between">
             {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
             <div class="qb-card qb-card_border-bottom ml-md-3">
                 <h3 class="qb-card__title">
@@ -86,7 +88,31 @@
             </div>
             {{ end }}
         </div>
-        <!-- End of Latest Posts -->
+
+        <!-- mobile -->
+        <div class="col-12 d-flex flex-column justify-content-between d-md-none">
+            <section class="splide" aria-label="featured posts carousel">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
+                        <li class="splide__slide">
+                            <div class="qb-card qb-card_border-bottom ml-md-3">
+                                <h3 class="qb-card__title">
+                                    <a href="{{ .Permalink }}">{{ .Params.title }}</a>
+                                </h3>
+                                <div class="qb-card__meta">
+                                    <span>{{ time.Format "January 02, 2006" .Date }}</span>
+                                    <span class="qb-card__meta-divider">·</span>
+                                    <span>{{ .Params.author }}</span>
+                                </div>
+                            </div>
+                        </li>
+                        {{ end }}
+                    </ul>
+                </div>
+            </section>
+        </div>
+        <!-- End of Older Featured Posts -->
     </div>
     <!-- End of Features and News -->
 

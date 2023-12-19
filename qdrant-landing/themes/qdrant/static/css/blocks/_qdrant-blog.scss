@@ -6,6 +6,7 @@ $blog-text-color: var.$blog-text-color;
 
 .full-height-img {
   display: flex;
+
   & > img {
     flex-shrink: 0;
     width: auto;
@@ -93,6 +94,34 @@ $blog-text-color: var.$blog-text-color;
 
     & .qb-related__title {
       margin-bottom: 0.5rem;
+    }
+  }
+
+  .splide {
+    margin-bottom: 3.97rem;
+
+    .qb-card {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      max-width: 18rem;
+      height: 11.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .splide__pagination__page {
+      width: 0.5rem;
+      height: 0.5rem;
+      border-radius: 50%;
+      background: var(--neutral-n-200, #AEBDE5);
+
+      &.is-active {
+        background: var(--neutral-n-700, #1F3266);
+      }
+    }
+
+    .splide__pagination > li:not(:last-child) {
+      margin-right: 0.5rem;
     }
   }
 }
@@ -199,6 +228,7 @@ $blog-text-color: var.$blog-text-color;
     .qb-card__title {
       color: var(--brand-primary, #DC244C);
     }
+
     .qb-card__img:after {
       content: "";
       display: none;
