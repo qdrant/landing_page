@@ -31,32 +31,30 @@ This is where the concept of __vector _context___ comes in. We define _context_ 
 
 ![Discovery search visualization](/articles_data/discovery-search/discovery-search.png)
 
-When hearing about positive and negative vectors, one might be taken back to recommendation systems. However, now these positive and negative vectors have to be provided in the shape of a context. This is inspired from the machine-learning concept of _triplet loss_, where you have three vectors: an anchor, a positive, and a negative. But in this case, the anchor would be the vector you are searching for, and the positive and negative vectors are the ones that define the context.
+When hearing about positive and negative vectors, one might be taken back to recommendation systems. However, now these positive and negative vectors have to be provided in the shape of a context. This is inspired from the machine-learning concept of _triplet loss_, where you have three vectors: an anchor, a positive, and a negative. Its main idea is to make the positive distance shorter than the negative distance in relation to the anchor, so that learning happens by "moving" the positive and negative points. In the case of discovery, though, we consider the positive and negative vectors static, and search through the whole dataset for "anchors", or result candidates.
 
 ![Triplet loss](/articles_data/discovery-search/triplet-loss.png)
 
-[__Discovery search__](#discovery-search), then, is made up of two main inputs: the query vector –or _target_– and the _context_ we just defined. However, it is not the only way to use it, you can also __only__ provide a context, which will invoke a [__Context Search__](#context-search) instead. This is useful when you want to explore the space defined by the context, but you don't have a specific target in mind.
+[__Discovery search__](#discovery-search), then, is made up of two main inputs: 
+- __target__: the main point of interest
+- __context__: the pairs of positive and negative points we just defined.
+
+However, it is not the only way to use it, you can also __only__ provide a context, which will invoke a [__Context Search__](#context-search) instead. This is useful when you want to explore the space defined by the context, but you don't have a specific target in mind. But hold your horses, we'll get to that [later ↪](#context-search).
 
 ## Discovery search
 
 Let's talk about the first case: target with context.
 
 To understand why this is useful, let's take a look at a real-world example: using a multimodal encoder like [CLIP](https://openai.com/blog/clip/) to search for images, from text __and__ images.
-CLIP is a neural network that can embed both images and text into the same vector space. This means that if you were to search for an image, you could do so by providing a text query, and vice versa. Now, take a glance at this image, and don't look at it again:
+CLIP is a neural network that can embed both images and text into the same vector space. This means that if you were to search for an image, you could do so by providing a text query, and vice versa. For this example, we'll reuse our [food recommendations demo](https://food-discovery.qdrant.tech/) by typing "burger" in the text input:
 
-![Weird dragon](/articles_data/discovery-search/weird-dragon.png)
+![Burger text input in food demo](/articles_data/discovery-search/search-for-burger.png)
 
-How would you look for it if you:
+This is basically nearest neighbor search, and while technically we have only images of burgers, one of them is a representations of a burger. We're looking for actual burgers, though. Let's try to exclude images like that by adding it as a negative example:
 
-- Don't know the name
-- Can't see it again
-- Cannot do reverse image search.
+![Try to exclude burger drawing](/articles_data/discovery-search/try-to-exclude-non-burger.png)
 
-A first strategy would be describing it with text, and then looking for similar images.
-
-![Googling dragon with human heads](/articles_data/discovery-search/googling-weird-dragon.png)
-
-Trial and error might work if you are clever enough to describe it well and get close enough on the selected image. If not, good luck getting out of the similarity bubble, even if you can select multiple images. Why is this hard?
+Wait a second, what has just happened? These pictures have __nothing__ to do with burgers, and still, they appear on the first results. Is the demo broken?
 
 Turns out, multimodal encoders [might not work how you expect them to](https://twitter.com/metasemantic/status/1356406256802607112). Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
 
@@ -74,7 +72,7 @@ Another intuitive example: imagine you're looking for a fish pizza, but pizza na
 
 ## Context search
 
-Now, second case: only context.
+Now, second case: only providing context.
 
 Ever been caught in the same recommendations on your favourite music streaming service? This may be caused by getting stuck in a similarity bubble. As user input gets more complex, diversity becomes scarse, and it becomes harder to force the system to recommend something different.
 
