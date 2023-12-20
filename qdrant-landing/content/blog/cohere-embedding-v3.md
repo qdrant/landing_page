@@ -4,10 +4,10 @@ title: "From Content Quality to Compression: The Evolution of Embedding Models a
 slug: cohere-embedding-v3
 short_description: Nils Reimers head of machine learning at Cohere shares the details about their latest embedding model.
 description: Nils Reimers head of machine learning at Cohere comes on the recent vector space talks to share details about their latest embedding V3 model.
-preview_image: /blog_data/from_cms/new-cmp-demo.gif
-date: 2023-12-28T12:48:36.622Z
-author: Andrey Vasnetsov
-author_link: https://www.linkedin.com/in/andrey-vasnetsov-75268897/
+preview_image: /blog_data/cohere-embedding-v3/preview-nils.png
+date: 2023-11-19T12:48:36.622Z
+author: Demetrios Brinkmann
+author_link: https://www.linkedin.com/in/dpbrinkm/
 featured: true
 categories:
   - News
@@ -18,7 +18,6 @@ tags:
   - Embedding Model
 sitemapExclude: True
 ---
-# From Content Quality to Compression: The Evolution of Embedding Models at Cohere with Nils Reimers
 
 For the second edition of our Vector Space Talks we were joined by none other than Cohere’s Head of Machine Learning Nils Reimers. 
 
