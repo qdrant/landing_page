@@ -35,7 +35,8 @@ When hearing about positive and negative vectors, one might be taken back to rec
 
 ![Triplet loss](/articles_data/discovery-search/triplet-loss.png)
 
-[__Discovery search__](#discovery-search), then, is made up of two main inputs: 
+[__Discovery search__](#discovery-search), then, is made up of two main inputs:
+
 - __target__: the main point of interest
 - __context__: the pairs of positive and negative points we just defined.
 
@@ -90,4 +91,4 @@ This way you can give refeshing recommendations, while still being in control by
 
 ## Wrapping up
 
-[Discovery search](/documentation/concepts/explore/#discovery-api) is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to represent complex tastes, and break out of the similarity bubble.
+Discovery search is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to represent complex tastes, and break out of the similarity bubble. Check out the [documentation](/documentation/concepts/explore/#discovery-api) to learn more about how to use it.
