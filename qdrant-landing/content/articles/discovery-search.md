@@ -21,7 +21,7 @@ keywords: # Keywords for SEO
 
 When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for America. They were looking for a new route to India, and they were convinced that the Earth was round. They didn't know anything about America, but since they were going west, they stumbled upon it.
 
-They couldn't reach their _target_, because the the geography didn't let them, but once they realized it wasn't India, they claimed it a new "discovery" for their crown. If we consider that sailors need bodies of water to sail, then we can establish a _context_ which is positive in the water, and negative on land. Once the sailor's search was stopped by the land, they could not go any further, and a new route was found. Let's keep this concepts of _target_ and _context_ in mind as we explore the new functionality of Qdrant: __Discovery search__.
+They couldn't reach their _target_, because the geography didn't let them, but once they realized it wasn't India, they claimed it a new "discovery" for their crown. If we consider that sailors need water to sail, then we can establish a _context_ which is positive in the water, and negative on land. Once the sailor's search was stopped by the land, they could not go any further, and a new route was found. Let's keep this concepts of _target_ and _context_ in mind as we explore the new functionality of Qdrant: __Discovery search__.
 
 In version 1.7, Qdrant [released](/articles/qdrant-1.7.x/) this novel API that lets you constrain the space in which a search is performed, relying only on pure vectors. This is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily closest to the target, but are still relevant to the search.
 
@@ -51,13 +51,13 @@ CLIP is a neural network that can embed both images and text into the same vecto
 
 ![Burger text input in food demo](/articles_data/discovery-search/search-for-burger.png)
 
-This is basically nearest neighbor search, and while technically we have only images of burgers, one of them is a representations of a burger. We're looking for actual burgers, though. Let's try to exclude images like that by adding it as a negative example:
+This is basically nearest neighbor search, and while technically we have only images of burgers, one of them is a logo representation of a burger. We're looking for actual burgers, though. Let's try to exclude images like that by adding it as a negative example:
 
 ![Try to exclude burger drawing](/articles_data/discovery-search/try-to-exclude-non-burger.png)
 
 Wait a second, what has just happened? These pictures have __nothing__ to do with burgers, and still, they appear on the first results. Is the demo broken?
 
-Turns out, multimodal encoders [might not work how you expect them to](https://twitter.com/metasemantic/status/1356406256802607112). Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
+Turns out, multimodal encoders <a href="https://twitter.com/metasemantic/status/1356406256802607112" target="_blank">might not work how you expect them to</a>. Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
 
 ![Mental model of CLIP embeddings](/articles_data/discovery-search/clip-mental-model.png)
 
@@ -75,7 +75,7 @@ Another intuitive example: imagine you're looking for a fish pizza, but pizza na
 
 Now, second case: only providing context.
 
-Ever been caught in the same recommendations on your favourite music streaming service? This may be caused by getting stuck in a similarity bubble. As user input gets more complex, diversity becomes scarse, and it becomes harder to force the system to recommend something different.
+Ever been caught in the same recommendations on your favourite music streaming service? This may be caused by getting stuck in a similarity bubble. As user input gets more complex, diversity becomes scarce, and it becomes harder to force the system to recommend something different.
 
 ![Context vs recommendation search](/articles_data/discovery-search/context-vs-recommendation.png)
 
@@ -83,12 +83,12 @@ __Context search__ solves this by de-focusing the search around a single point. 
 
 ![Context search visualization](/articles_data/discovery-search/context-search.png)
 
-Creating complex tastes in a high-dimensional space becomes easier, since you can just add more context pairs to the search. So, in theory, you should be able to constrain the space enough so you select points from a per-search "category" created just from the context in the input.
+Creating complex tastes in a high-dimensional space becomes easier, since you can just add more context pairs to the search. This way, you should be able to constrain the space enough so you select points from a per-search "category" created just from the context in the input.
 
 ![A more complex context search](/articles_data/discovery-search/complex-context-search.png)
 
-This way you can give refeshing recommendations, while still being in control by providing positive and negative feedback.
+This way you can give refeshing recommendations, while still being in control by providing positive and negative feedback, or even by trying out different permutations of pairs.
 
 ## Wrapping up
 
-Discovery search is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to represent complex tastes, and break out of the similarity bubble. Check out the [documentation](/documentation/concepts/explore/#discovery-api) to learn more about how to use it.
+Discovery search is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to represent complex tastes, and break out of the similarity bubble. Check out the [documentation](/documentation/concepts/explore/#discovery-api) to learn more about the math behind it and how to use it.

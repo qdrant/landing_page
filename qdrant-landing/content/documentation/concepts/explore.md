@@ -463,7 +463,7 @@ Discovery API lets you do two new types of search:
 
 The way positive and negative examples should be arranged in the context pairs is completely up to you. So you can have the flexibility of trying out different permutation techniques based on your model and data.
 
-<aside role="alert">The speed of search is linearly related to the amount of examples</aside>
+<aside role="alert">The speed of search is linearly related to the amount of examples you provide in the query.</aside>
 
 ### Discovery search
 
