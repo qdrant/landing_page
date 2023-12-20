@@ -2,7 +2,12 @@
 
 ## Prerequisites
 
+### Required
+
 - [Hugo](https://gohugo.io/getting-started/installing/)
+
+### Needed only for development
+
 - [Node.js](https://nodejs.org/en/download/)
 - [npm](https://www.npmjs.com/get-npm)
 - [sass](https://sass-lang.com/install)
