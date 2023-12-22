@@ -1,5 +1,5 @@
 ---
-draft: false
+draft: true
 title: New 0.7.0 update of the Qdrant engine went live
 slug: qdrant-0-7-0-released
 short_description: Qdrant v0.7.0 engine has been released

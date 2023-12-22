@@ -1,4 +1,5 @@
 ---
+draft: true
 title: Qdrant v0.6.0 engine with gRPC interface has been released
 short_description: We’ve released a new engine, version 0.6.0.
 description: We’ve released a new engine, version 0.6.0. The main feature of the release in the gRPC interface.

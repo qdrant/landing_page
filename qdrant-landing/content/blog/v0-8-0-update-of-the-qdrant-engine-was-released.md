@@ -1,5 +1,5 @@
 ---
-draft: false
+draft: true
 title: v0.8.0 update of the Qdrant engine was released
 slug: qdrant-0-8-0-released
 short_description: "The new version of our engine - v0.8.0, went live. "
