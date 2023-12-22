@@ -57,7 +57,7 @@ Both tools are easy to combine, so you can start working with semantic search in
 
 And what if your needs are so specific that you need to fine-tune a general usage model? Co.embed API goes beyond 
 pre-trained encoders and allows providing some custom datasets to 
-[customize the embedding model with your own data](https://docs.cohere.ai/docs/training-a-representation-model). 
+[customize the embedding model with your own data](https://docs.cohere.com/docs/finetuning). 
 As a result, you get the quality of domain-specific models, but without worrying about infrastructure.
 
 ## System architecture overview

@@ -1,7 +1,7 @@
 ---
 title: Stanford DSPy
 weight: 1500
-aliases: [ /integrations/dspy/ ]
+aliases: [ ../integrations/dspy/ ]
 ---
 
 # Stanford DSPy

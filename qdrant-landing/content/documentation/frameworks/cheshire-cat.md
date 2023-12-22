@@ -1,14 +1,14 @@
 ---
 title: Cheshire Cat
 weight: 600
-aliases: [ /integrations/cheshire-cat/ ]
+aliases: [ ../integrations/cheshire-cat/ ]
 ---
 
 # Cheshire Cat
 
 [Cheshire Cat](https://cheshirecat.ai/) is an open-source framework that allows you to develop intelligent agents on top of many Large Language Models (LLM). You can develop your custom AI architecture to assist you in a wide range of tasks.
 
-![Cheshire cat](/documentation/integrations/cheshire-cat/cat.jpg)
+![Cheshire cat](/documentation/frameworks/cheshire-cat/cat.jpg)
 
 ## Cheshire Cat and Qdrant
 
@@ -30,7 +30,7 @@ Cheshire Cat takes great advantage of the following features of Qdrant:
 * [Snapshots](../../concepts/snapshots/) to not miss any information.
 * [Community](https://discord.com/invite/tdtYvXjC4h)
 
-![RAG Pipeline](/documentation/integrations/cheshire-cat/stregatto.jpg)
+![RAG Pipeline](/documentation/frameworks/cheshire-cat/stregatto.jpg)
 
 ## How to use the Cheshire Cat
 

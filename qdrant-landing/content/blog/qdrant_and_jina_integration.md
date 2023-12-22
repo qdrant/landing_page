@@ -6,7 +6,6 @@ preview_image: /blog_data/qdrant_and_jina_intergationpreview.jpg
 date: 2022-03-15T15:00:00+03:00
 author: Alyona Kavyerina
 author_link: https://medium.com/@alyona.kavyerina
-featured: true
 categories:
 - News
 tags:
@@ -14,7 +13,6 @@ tags:
 - docarray
 sitemapExclude: True
 ---
-![preview](/blog_data/qdrant_and_jina_intergationpreview.jpg)
 We are happy to announce that [Jina.AI](https://jina.ai/) integrates Qdrant engine as a storage backend to their [DocArray](https://docarray.jina.ai/) solution.
 
 Now you can experience the convenience of Pythonic API and Rust performance in a single workflow.

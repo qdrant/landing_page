@@ -1,7 +1,7 @@
 ---
 title: Autogen
 weight: 1200
-aliases: [ /integrations/autogen/ ]
+aliases: [ ../integrations/autogen/ ]
 ---
 
 # Microsoft Autogen
@@ -100,4 +100,4 @@ ragproxyagent.initiate_chat(assistant, problem=code_problem)
 
 ## Next steps
 
-Check out more Autogen [examples](https://microsoft.github.io/autogen/docs/Examples/AgentChat). You can find detailed documentation about AutoGen [here](https://microsoft.github.io/autogen/).
+Check out more Autogen [examples](https://microsoft.github.io/autogen/docs/Examples). You can find detailed documentation about AutoGen [here](https://microsoft.github.io/autogen/).

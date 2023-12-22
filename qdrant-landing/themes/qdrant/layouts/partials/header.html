@@ -1,3 +1,4 @@
+{{ $classes := .Scratch.Get "classes" }}
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
     <head>
@@ -87,7 +88,7 @@
             {{ if (eq $.Section "documentation") }}
             <header class="main-header position-static">
             {{ else }}
-            <header class="main-header main-sticky-header{{ if .IsHome }} main-header__home{{ end }}">
+            <header class="main-header main-sticky-header{{ if .IsHome }} main-header__home{{ end }}{{ if $classes }} {{ $classes }}{{ end }}">
             {{ end }}
 
               <!--Header-Upper-->

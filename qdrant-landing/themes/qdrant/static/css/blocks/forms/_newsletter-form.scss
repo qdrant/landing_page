@@ -1,0 +1,124 @@
+@use '../../variables' as var;
+@use '../../mixins/mixins' as mixins;
+
+.newsletter-form {
+  &_default {
+    margin-bottom: 35px;
+
+    ::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+      color: var(--brand-gray);
+      opacity: 1;
+    }
+
+    ::-moz-placeholder { /* Firefox 19+ */
+      color: var(--brand-gray);
+      opacity: 1;
+    }
+
+    :-ms-input-placeholder { /* IE 10+ */
+      color: var(--brand-gray);
+      opacity: 1;
+    }
+
+    :-moz-placeholder { /* Firefox 18- */
+      color: var(--brand-gray);
+      opacity: 1;
+    }
+
+    input[type="text"],
+    input[type="email"] {
+      position: relative;
+      display: flex;
+      flex: auto;
+      padding: 10px 39px;
+      height: 56px;
+      font-size: 18px;
+      color: var(--brand-secondary);
+      background: none;
+      border-radius: 50px;
+      border: 1px solid var(--brand-dark-gray);
+      background: white;
+      font-family: $font-family-non-content;
+      margin-right: 24px;
+      margin-bottom: 0;
+      @include media-breakpoint-down(md) {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+
+      &:focus {
+        border: 1px solid var(--brand-secondary);
+      }
+    }
+
+    &.style-two input,
+    &.style-two button {
+      border-radius: 0;
+    }
+
+
+  }
+
+  &_compact {
+    &__title {
+      @extend .form-title-base;
+      margin-bottom: 1.5rem;
+      @include media-breakpoint-up(md) {
+        margin-bottom: 2rem;
+      }
+    }
+
+    &__form {
+      input[type="text"],
+      input[type="email"] {
+        @extend .input-base;
+      }
+
+      button[type="submit"] {
+        @extend .form-button-base;
+        margin-bottom: 1.5rem;
+      }
+    }
+
+  }
+
+  &_two-columns {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+
+    background: var(--neutral-n-50, #F2F6FF);
+
+    @include media-breakpoint-up(md) {
+      padding-top: 6rem;
+      padding-bottom: 4.4rem;
+    }
+
+    &__title {
+      display: inline-block;
+      margin-bottom: 1.5rem;
+      @include mixins.blog-font-styles(2rem, 700, 2.5rem, var.$blog-text-color);
+
+      @include media-breakpoint-up(md) {
+        font-size: 2.5rem;
+        line-height: 3rem;
+      }
+    }
+
+    &__subtitle {
+      @extend .form-title-base;
+      margin-bottom: 2rem;
+    }
+
+    &__form {
+      input[type="text"],
+      input[type="email"] {
+        @extend .input-base;
+      }
+
+      button[type="submit"] {
+        @extend .form-button-base;
+      }
+    }
+
+  }
+}

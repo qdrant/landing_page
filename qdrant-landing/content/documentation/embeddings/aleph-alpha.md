@@ -1,7 +1,7 @@
 ---
 title: Aleph Alpha
 weight: 900
-aliases: [ /integrations/aleph-alpha/ ]
+aliases: [ ../integrations/aleph-alpha/ ]
 ---
 
 Aleph Alpha is a multimodal and multilingual embeddings' provider. Their API allows creating the embeddings for text and images, both 

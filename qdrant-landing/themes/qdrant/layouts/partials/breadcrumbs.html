@@ -1,15 +1,15 @@
 <ul class="breadcrumbs">
-    <li class="breadcrumbs__crumb"><a href="/"><i class="flaticon-home small"></i> Home</a></li>
+    <li class="breadcrumbs__crumb"><a href="/">Home</a></li>
     {{ $rellink := "" }}
     {{ $paths := (split .RelPermalink "/") }}
     {{ $len := sub (len $paths) 2 }}
     {{ range first $len $paths }}
     {{ if gt (len . ) 0 }}
     {{ $rellink = printf "%s/%s" $rellink . }}
-    &nbsp;/&nbsp;
+    <li class="breadcrumbs__crumb">/</li>
     <li class="breadcrumbs__crumb"><a href="{{$rellink}}">{{ humanize . }}</a></li>
     {{ end }}
     {{ end }}
-    &nbsp;/&nbsp;
+    <li class="breadcrumbs__crumb">/</li>
     <li class="breadcrumbs__crumb">{{ .Params.title | safeHTML }}</li>
 </ul>

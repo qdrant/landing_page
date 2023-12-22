@@ -1,7 +1,7 @@
 ---
 title: Apache Spark
 weight: 1400
-aliases: [ /integrations/spark/ ]
+aliases: [ ../integrations/spark/ ]
 ---
 
 # Apache Spark
