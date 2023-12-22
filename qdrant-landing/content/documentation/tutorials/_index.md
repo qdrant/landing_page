@@ -26,5 +26,3 @@ These tutorials demonstrate different ways you can build vector search into your
 | [Multitenancy with LlamaIndex](../tutorials/llama-index-multitenancy/) | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex |
 | [HuggingFace datasets](../tutorials/huggingface-datasets/)             | Load a Hugging Face dataset to Qdrant                             | Qdrant, Python, datasets   |
 | [Troubleshooting](../tutorials/common-errors/)                         | Solutions to common errors and fixes                              | Qdrant                     |
-
-
