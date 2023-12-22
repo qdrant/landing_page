@@ -8,7 +8,7 @@ if [ -z "$1" ]; then
 fi
 
 if [ -z "$2" ]; then
-  echo "Please provide an article name alias"
+  echo "Please provide an blog slug"
   exit 1
 fi
 
@@ -23,8 +23,8 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
 PATH_TO_IMAGE=$1 \
-STATIC_DIRECTORY_NAME="./qdrant-landing/static/articles_data/${2}" \
+STATIC_DIRECTORY_NAME="./qdrant-landing/static/blog_data/${2}" \
 SOCIAL_PREVIEW_RESOLUTION="1200x630" \
-TITLE_RESOLUTION="898x300" \
-PREVIEW_RESOLUTION="530x145" \
+TITLE_RESOLUTION="916x515" \
+PREVIEW_RESOLUTION="350x201" \
 bash -x ${DIR}/process-img.sh

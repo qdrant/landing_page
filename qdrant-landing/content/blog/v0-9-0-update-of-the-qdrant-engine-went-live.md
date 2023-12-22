@@ -1,5 +1,5 @@
 ---
-draft: false
+draft: true
 title: v0.9.0 update of the Qdrant engine went live
 slug: qdrant-v090-release
 short_description: We've released the new version of Qdrant engine - v.0.9.0.
