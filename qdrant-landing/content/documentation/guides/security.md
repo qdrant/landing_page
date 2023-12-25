@@ -95,6 +95,8 @@ let client = QdrantClient::from_url("https://xyz-example.eu-central.aws.cloud.qd
 
 ### Read-only API key
 
+*Available as of v1.7.0*
+
 In addition to the regular API key, Qdrant also supports a read-only API key.
 This key can be used to access read-only operations on the instance.
 
