@@ -23,7 +23,7 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
 PATH_TO_IMAGE=$1 \
-STATIC_DIRECTORY_NAME="./qdrant-landing/static/blog_data/${2}" \
+STATIC_DIRECTORY_NAME="./qdrant-landing/static/blog/${2}" \
 SOCIAL_PREVIEW_RESOLUTION="1200x630" \
 TITLE_RESOLUTION="916x515" \
 PREVIEW_RESOLUTION="350x201" \

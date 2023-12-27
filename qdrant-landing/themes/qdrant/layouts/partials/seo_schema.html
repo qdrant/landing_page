@@ -144,25 +144,34 @@
     {{ $preview_image := printf "%s-social-preview.png" $preview_image_base }}
     {{ $preview_image_exists := fileExists $preview_image }}
 
-    {{ if $preview_image_exists }}
-        {{ $preview_image_base :=  path.Join .Dir .ContentBaseName }}
-        {{ $preview_image := printf "%s-social-preview.png" $preview_image_base }}
-        {{ $image = $preview_image }}
-    {{ else }}
-
-    <!-- If there are no image for document, check preview for the section -->
-
-    {{ $preview_image_section_base :=  path.Join "static" .File.Dir }}
-    {{ $preview_image_section :=  path.Join $preview_image_section_base "social-preview.png" }}
-    {{ $preview_image_section_exists := fileExists $preview_image_section }}
-
-    {{ if $preview_image_section_exists }}
-        {{ $preview_image_section_base :=  path.Join .Dir }}
-        {{ $preview_image_section :=  path.Join $preview_image_section_base "social-preview.png" }}
-        {{ $image = $preview_image_section }}
+    {{ if not $preview_image_exists }}
+        {{ $preview_image = printf "%s-social-preview.jpg" $preview_image_base }}
+        {{ $preview_image_exists = fileExists $preview_image }}
     {{ end }}
 
-    
+    {{ if not $preview_image_exists }}
+        {{ $preview_image =  path.Join "static" .File.Dir .File.ContentBaseName "preview" "social_preview.jpg" }}
+        {{ $preview_image_exists = fileExists $preview_image }}
+    {{ end }}
+
+    {{ if not $preview_image_exists }}
+        {{ $preview_image =  path.Join "static" .File.Dir .File.ContentBaseName "preview" "social_preview.png" }}
+        {{ $preview_image_exists = fileExists $preview_image }}
+    {{ end }}
+
+
+    {{ if not $preview_image_exists }}
+        <!-- If there are no image for document, check preview for the section -->
+        {{ $preview_image_base =  path.Join "static" .File.Dir }}
+        {{ $preview_image =  path.Join $preview_image_base "social-preview.png" }}
+        {{ $preview_image_exists = fileExists $preview_image }}
+    {{ end }}
+
+    {{ if $preview_image_exists }}
+        {{ $preview_image = strings.TrimPrefix "static/" $preview_image }}
+        {{ $preview_image = strings.TrimPrefix "/static" $preview_image }}
+        {{ $image = $preview_image }}
+
     {{ end }}
 {{ end }}
 
