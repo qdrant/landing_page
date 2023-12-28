@@ -4,7 +4,12 @@ draft: false
 slug: {{ .Name }} # Change this slug to your page slug if needed
 short_description:  This is a blog post # Change this
 description: This is a blog post # Change this
-preview_image: /blog_data/Article-Image.png # Change this
+preview_image: /blog/Article-Image.png # Change this
+
+# social_preview_image: /blog/Article-Image.png # Optional image used for link previews
+# title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
+# small_preview_image: /blog/Article-Image.png # Optional image used for small preview in the list of blog posts
+
 date: {{ .Date }}
 author: John Doe # Change this
 featured: false # if true, this post will be featured on the blog page

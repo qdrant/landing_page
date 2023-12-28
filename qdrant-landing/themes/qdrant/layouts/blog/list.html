@@ -57,7 +57,7 @@
             <a href="{{ $link }}" class="qdrant-blog__card qb-card qb-card_featured">
                 {{ if .Params.preview_image }}
                 <div class="qb-card__img">
-                    <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" class="img-fluid">
+                    {{ partial "preview-image" (dict "context" . "default_file_name" "title.jpg" "preview_file" .Params.title_preview_image) }}
                 </div>
                 {{ end }}
                 <h3 class="qb-card__title">{{ .Params.title }}</h3>
@@ -107,7 +107,7 @@
         <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
             {{ if .Params.preview_image }}
             <div class="qb-card__img">
-                <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" loading="lazy" class="img-fluid">
+                {{ partial "preview-image" (dict "context" . "default_file_name" "preview.jpg" "preview_file" .Params.small_preview_image) }}
             </div>
             {{ end }}
             <h3 class="qb-card__title">{{ .Params.title }}</h3>
@@ -139,7 +139,7 @@
         <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
             {{ if .Params.preview_image }}
             <div class="qb-card__img">
-                <img src="{{ .Params.preview_image | safeHTML }}" alt="{{ .Params.title }}" loading="lazy" class="img-fluid">
+                {{ partial "preview-image" (dict "context" . "default_file_name" "preview.jpg" "preview_file" .Params.small_preview_image) }}
             </div>
             {{ end }}
             <h3 class="qb-card__title">{{ .Params.title }}</h3>

@@ -8,8 +8,8 @@ set -e
 # Example usage
 #
 #
-# PATH_TO_IMAGE="./qdrant-landing/static/blog_data/qdrant-v-1-7/preview.png"
-# STATIC_DIRECTORY_NAME="./qdrant-landing/static/blog_data/qdrant-v-1-7"
+# PATH_TO_IMAGE="./qdrant-landing/static/blog/qdrant-v-1-7/preview.png"
+# STATIC_DIRECTORY_NAME="./qdrant-landing/static/blog/qdrant-v-1-7"
 
 
 PATH_TO_IMAGE=${PATH_TO_IMAGE:-""}
