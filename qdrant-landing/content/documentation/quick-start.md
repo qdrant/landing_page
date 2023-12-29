@@ -208,14 +208,14 @@ UpdateResult operationInfo =
                     .setId(id(2))
                     .setVectors(vectors(0.19f, 0.81f, 0.75f, 0.11f))
                     .putAllPayload(Map.of("city", value("London")))
-                        build(),
+                    .build(),
                 PointStruct.newBuilder()
                     .setId(id(3))
                     .setVectors(vectors(0.36f, 0.55f, 0.47f, 0.94f))
                     .putAllPayload(Map.of("city", value("Moscow")))
                     .build()))
                 // Truncated
-            get();
+            .get();
 
 System.out.println(operationInfo);
 ```
