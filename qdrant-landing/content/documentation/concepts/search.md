@@ -158,6 +158,32 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
+            .setParams(SearchParams.newBuilder().setExact(false).setHnswEf(128).build())
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
 Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
@@ -249,6 +275,27 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorName("image")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 Search is processing only among vectors with the same name.
 
 *Available as of v1.7.0*
@@ -336,6 +383,29 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.SparseIndices;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+.searchAsync(
+    SearchPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setVectorName("text")
+        .addAllVector(List.of(2.0f, 1.0f))
+        .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 7)).build())
+        .setLimit(3)
+        .build())
+.get();
+```
+
 ### Filtering results by score
 
 In addition to payload filtering, it might be useful to filter out results with a low similarity score.
@@ -396,6 +466,31 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.WithVectorsSelectorFactory;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(enable(true))
+            .setWithVectors(WithVectorsSelectorFactory.enable(true))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 You can use `with_payload` to scope to or filter a specific payload subset. 
 You can even specify an array of items to include, such as `city`, 
 `village`, and `town`:
@@ -446,6 +541,29 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(include(List.of("city", "village", "town")))
+            .setLimit(3)
+            .build())
+    .get();
 ```
 
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
@@ -512,6 +630,29 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.exclude;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(exclude(List.of("city")))
+            .setLimit(3)
+            .build())
+    .get();
 ```
 
 It is possible to target nested fields using a dot notation:
@@ -667,6 +808,35 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+Filter filter = Filter.newBuilder().addMust(matchKeyword("city", "London")).build();
+List<SearchPoints> searches =
+    List.of(
+        SearchPoints.newBuilder()
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setFilter(filter)
+            .setLimit(3)
+            .build(),
+        SearchPoints.newBuilder()
+            .addAllVector(List.of(0.5f, 0.3f, 0.2f, 0.3f))
+            .setFilter(filter)
+            .setLimit(3)
+            .build());
+client.searchBatchAsync("{collection_name}", searches, null).get();
+```
+
 The result of this API contains one array per search requests.
 
 ```json
@@ -752,6 +922,32 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.WithVectorsSelectorFactory;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(enable(true))
+            .setWithVectors(WithVectorsSelectorFactory.enable(true))
+            .setLimit(10)
+            .setOffset(100)
+            .build())
+    .get();
 ```
 
 Is equivalent to retrieving the 11th page with 10 records per page.
@@ -881,6 +1077,23 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import io.qdrant.client.grpc.Points.SearchPointGroups;
+
+client
+    .searchGroupsAsync(
+        SearchPointGroups.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(1.1f))
+            .setGroupBy("document_id")
+            .setLimit(4)
+            .setGroupSize(2)
+            .build())
+    .get();
 ```
 
 The output of a ***groups*** call looks like this:
@@ -1031,6 +1244,33 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
+import static io.qdrant.client.WithVectorsSelectorFactory.enable;
+
+import io.qdrant.client.grpc.Points.SearchPointGroups;
+import io.qdrant.client.grpc.Points.WithLookup;
+
+client
+    .searchGroupsAsync(
+        SearchPointGroups.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(1.0f))
+            .setGroupBy("document_id")
+            .setLimit(2)
+            .setGroupSize(2)
+            .setWithLookup(
+                WithLookup.newBuilder()
+                    .setCollection("documents")
+                    .setWithPayload(include(List.of("title", "text")))
+                    .setWithVectors(enable(false))
+                    .build())
+            .build())
+    .get();
 ```
 
 For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.
