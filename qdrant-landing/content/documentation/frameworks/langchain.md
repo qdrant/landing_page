@@ -56,7 +56,7 @@ doc_store = Qdrant(
 ## Local mode
 
 Python client allows you to run the same code in local mode without running the Qdrant server. That's great for testing things 
-out and debugging or if you plan to store just a small amount of vectors. The embeddings might be fully kepy in memory or 
+out and debugging or if you plan to store just a small amount of vectors. The embeddings might be fully kept in memory or 
 persisted on disk.
 
 ### In-memory
