@@ -105,7 +105,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .scroll(&ScrollPoints {
-        collection_name: "test_collection".to_string(),
+        collection_name: "{collection_name}".to_string(),
         filter: Some(Filter::must([
             Condition::matches("city", "london".to_string()),
             Condition::matches("color", "red".to_string()),
@@ -113,6 +113,32 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addAllMust(
+                        List.of(matchKeyword("city", "London"), matchKeyword("color", "Red")))
+                    .build())
+            .build())
+    .get();
 ```
 
 Filtered points would be:
@@ -180,7 +206,7 @@ use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
 
 client
     .scroll(&ScrollPoints {
-        collection_name: "test_collection".to_string(),
+        collection_name: "{collection_name}".to_string(),
         filter: Some(Filter::should([
             Condition::matches("city", "london".to_string()),
             Condition::matches("color", "red".to_string()),
@@ -188,6 +214,26 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+import java.util.List;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addAllShould(
+                        List.of(matchKeyword("city", "London"), matchKeyword("color", "Red")))
+                    .build())
+            .build())
+    .get();
 ```
 
 Filtered points would be:
@@ -254,7 +300,7 @@ use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
 
 client
     .scroll(&ScrollPoints {
-        collection_name: "test_collection".to_string(),
+        collection_name: "{collection_name}".to_string(),
         filter: Some(Filter::must_not([
             Condition::matches("city", "london".to_string()),
             Condition::matches("color", "red".to_string()),
@@ -262,6 +308,27 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addAllMustNot(
+                        List.of(matchKeyword("city", "London"), matchKeyword("color", "Red")))
+                    .build())
+            .build())
+    .get();
 ```
 
 Filtered points would be:
@@ -341,6 +408,25 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addMust(matchKeyword("city", "London"))
+                    .addMustNot(matchKeyword("color", "Red"))
+                    .build())
+            .build())
+    .get();
 ```
 
 Filtered points would be:
@@ -429,6 +515,34 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.filter;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addMustNot(
+                        filter(
+                            Filter.newBuilder()
+                                .addAllMust(
+                                    List.of(
+                                        matchKeyword("city", "London"),
+                                        matchKeyword("color", "Red")))
+                                .build()))
+                    .build())
+            .build())
+    .get();
+```
+
 Filtered points would be:
 
 ```json
@@ -475,6 +589,10 @@ models.FieldCondition(
 Condition::matches("color", "red".to_string())
 ```
 
+```java
+matchKeyword("color", "Red");
+```
+
 For the other types, the match condition will look exactly the same, except for the type used:
 
 ```json
@@ -502,6 +620,12 @@ models.FieldCondition(
 
 ```rust
 Condition::matches("count", 0)
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.match;
+
+match("count", 0);
 ```
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
@@ -544,6 +668,12 @@ FieldCondition(
 
 ```rust
 Condition::matches("color", vec!["black".to_string(), "yellow".to_string()])
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchKeywords;
+
+matchKeywords("color", List.of("black", "yellow"))
 ```
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
@@ -591,6 +721,12 @@ Condition::matches(
     "color",
     !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
 )
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchExceptKeywords;
+
+matchExceptKeywords("color", List.of("black", "yellow"));
 ```
 
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
@@ -707,6 +843,24 @@ client
     .await?;
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addShould(matchKeyword("country.name", "Germany"))
+                    .build())
+            .build())
+    .get();
+```
+
 You can also search through arrays by projecting inner values using the `[]` syntax.
 
 ```http
@@ -780,6 +934,28 @@ client
     .await?;
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.range;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.Range;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addShould(
+                        range(
+                            "country.cities[].population",
+                            Range.newBuilder().setGte(9.0).build()))
+                    .build())
+            .build())
+    .get();
+```
+
 This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
 
 And the leaf nested field can also be an array.
@@ -840,6 +1016,24 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addShould(matchKeyword("country.cities[].sightseeing", "Germany"))
+                    .build())
+            .build())
+    .get();
 ```
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
@@ -935,7 +1129,7 @@ use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
 
 client
     .scroll(&ScrollPoints {
-        collection_name: "test_collection".to_string(),
+        collection_name: "{collection_name}".to_string(),
         filter: Some(Filter::must([
             Condition::matches("diet[].food", "meat".to_string()),
             Condition::matches("diet[].likes", true),
@@ -943,6 +1137,33 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.match;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addAllMust(
+                        List.of(matchKeyword("diet[].food", "meat"), match("diet[].likes", true)))
+                    .build())
+            .build())
+    .get();
 ```
 
 This happens because both points are matching the two conditions:
@@ -1057,6 +1278,35 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.match;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.ConditionFactory.nested;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addMust(
+                        nested(
+                            "diet",
+                            Filter.newBuilder()
+                                .addAllMust(
+                                    List.of(
+                                        matchKeyword("food", "meat"), match("likes", true)))
+                                .build()))
+                    .build())
+            .build())
+    .get();
 ```
 
 The matching logic is modified to be applied at the level of an array element within the payload.
@@ -1177,6 +1427,38 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.hasId;
+import static io.qdrant.client.ConditionFactory.match;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.ConditionFactory.nested;
+import static io.qdrant.client.PointIdFactory.id;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addMust(
+                        nested(
+                            "diet",
+                            Filter.newBuilder()
+                                .addAllMust(
+                                    List.of(
+                                        matchKeyword("food", "meat"), match("likes", true)))
+                                .build()))
+                    .addMust(hasId(id(1)))
+                    .build())
+            .build())
+    .get();
+```
+
 ### Full Text Match
 
 *Available as of v0.10.0*
@@ -1216,6 +1498,12 @@ models.FieldCondition(
 // If the match string contains a white-space, full text match is performed.
 // Otherwise a keyword match is performed.
 Condition::matches("description", "good cheap".to_string())
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchText;
+
+matchText("description", "good cheap");
 ```
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
@@ -1268,6 +1556,14 @@ Condition::range(
         lte: Some(450.0),
     },
 )
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.range;
+
+import io.qdrant.client.grpc.Points.Range;
+
+range("price", Range.newBuilder().setGte(100.0).setLte(450).build());
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -1350,6 +1646,12 @@ Condition::geo_bounding_box(
 )
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.geoBoundingBox;
+
+geoBoundingBox("location", 52.520711, 13.403683, 52.495862, 13.455868);
+```
+
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 #### Geo Radius
@@ -1404,6 +1706,12 @@ Condition::geo_radius(
         radius: 1000.0,
     },
 )
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.geoRadius;
+
+geoRadius("location", 52.520711, 13.403683, 1000.0f);
 ```
 
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
@@ -1614,6 +1922,35 @@ Condition::geo_polygon(
 )
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.geoPolygon;
+
+import io.qdrant.client.grpc.Points.GeoLineString;
+import io.qdrant.client.grpc.Points.GeoPoint;
+
+geoPolygon(
+    "location",
+    GeoLineString.newBuilder()
+        .addAllPoints(
+            List.of(
+                GeoPoint.newBuilder().setLon(-70.0).setLat(-70.0).build(),
+                GeoPoint.newBuilder().setLon(60.0).setLat(-70.0).build(),
+                GeoPoint.newBuilder().setLon(60.0).setLat(60.0).build(),
+                GeoPoint.newBuilder().setLon(-70.0).setLat(60.0).build(),
+                GeoPoint.newBuilder().setLon(-70.0).setLat(-70.0).build()))
+        .build(),
+    List.of(
+        GeoLineString.newBuilder()
+            .addAllPoints(
+                List.of(
+                    GeoPoint.newBuilder().setLon(-65.0).setLat(-65.0).build(),
+                    GeoPoint.newBuilder().setLon(0.0).setLat(-65.0).build(),
+                    GeoPoint.newBuilder().setLon(0.0).setLat(0.0).build(),
+                    GeoPoint.newBuilder().setLon(-65.0).setLat(0.0).build(),
+                    GeoPoint.newBuilder().setLon(-65.0).setLat(-65.0).build()))
+            .build()));
+```
+
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
 
 If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset. 
@@ -1667,6 +2004,14 @@ Condition::values_count(
 )
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.valuesCount;
+
+import io.qdrant.client.grpc.Points.ValuesCount;
+
+valuesCount("comments", ValuesCount.newBuilder().setGt(2).build());
+```
+
 The result would be:
 
 ```json
@@ -1706,6 +2051,12 @@ models.IsEmptyCondition(
 Condition::is_empty("reports")
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.isEmpty;
+
+isEmpty("reports");
+```
+
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
@@ -1739,6 +2090,12 @@ models.IsNullCondition(
 
 ```rust
 Condition::is_null("reports")
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.isNull;
+
+isNull("reports");
 ```
 
 This condition will match all records where the field `reports` exists and has `NULL` value.
@@ -1794,6 +2151,27 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.hasId;
+import static io.qdrant.client.PointIdFactory.id;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addMust(hasId(List.of(id(1), id(3), id(5), id(7), id(9), id(11))))
+                    .build())
+            .build())
+    .get();
 ```
 
 Filtered points would be:
