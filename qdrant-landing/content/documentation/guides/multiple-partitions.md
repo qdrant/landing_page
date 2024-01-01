@@ -132,6 +132,39 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+import java.util.Map;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(1))
+                .setVectors(vectors(0.9f, 0.1f, 0.1f))
+                .putAllPayload(Map.of("group_id", value("user_1")))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(2))
+                .setVectors(vectors(0.1f, 0.9f, 0.1f))
+                .putAllPayload(Map.of("group_id", value("user_1")))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(3))
+                .setVectors(vectors(0.1f, 0.1f, 0.9f))
+                .putAllPayload(Map.of("group_id", value("user_2")))
+                .build()))
+    .get();
+```
+
 2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
@@ -208,6 +241,29 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder().addMust(matchKeyword("group_id", "user_1")).build())
+            .addAllVector(List.of(0.1f, 0.1f, 0.9f))
+            .setLimit(10)
+            .build())
+    .get();
 ```
 
 ## Calibrate performance
@@ -298,6 +354,35 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setHnswConfig(HnswConfigDiff.newBuilder().setPayloadM(16).setM(0).build())
+            .build())
+    .get();
+```
+
 3. Create keyword payload index for `group_id` field.
 
 ```http
@@ -337,6 +422,20 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createPayloadIndexAsync(
+        "{collection_name}", "group_id", PayloadSchemaType.Keyword, null, null, null, null)
+    .get();
 ```
 
 ## Limitations
