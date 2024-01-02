@@ -9,15 +9,17 @@ aliases:
 
 *Available as of v0.8.4*
 
-Snapshots are performed on a per-collection basis and consist in a `tar` archive file containing the necessary data to restore the collection at the time of the snapshot.
+Snapshots are created individually for each node in a collection, resulting in a `tar` archive file that holds the data needed to restore that collection at the snapshot time. In a distributed setup, when you have multiple nodes in your cluster, you must create snapshots for each node separately when dealing with a single collection. 
+Therefore, in a distributed deployment, a snapshot of a collection consists of multiple `tar` archive files, with one file for each collection node.
 
-This feature can be used to archive data or easily replicate an existing deployment.
+This feature can be used to archive data or easily replicate an existing deployment. For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
 
 ## Store snapshots
 
 The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
 
 You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
+
 ```yaml
 storage:
   # Specify where you want to store snapshots.
@@ -36,6 +38,8 @@ storage:
 ```
 
 ## Create snapshot
+
+<aside role="status">If you work with a distributed deployment, you have to create snapshots for each node separately. A single snapshot will contain only the data coming from the node on which the snapshot was created.</aside>
 
 To create a new snapshot for an existing collection:
 
@@ -183,7 +187,7 @@ There is a difference in recovering snapshots in single-deployment node and dist
 
 ### Recover during start-up
 
-<aside role="status">This method cannot be used in a cluster deployment.</aside>
+<aside role="alert">This method cannot be used in a cluster deployment.</aside>
 
 Single deployment is simpler, you can recover any collection on the start-up and it will be immediately available in the service.
 Restoring snapshots is done through the Qdrant CLI at startup time.
