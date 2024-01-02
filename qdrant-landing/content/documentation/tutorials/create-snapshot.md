@@ -1,121 +1,131 @@
 ---
-title: Create Snapshot
+title: Create and restore collections from snapshot
 weight: 14
 ---
 
 # Exporting Qdrant collections into snapshots
 
 | Time: 20 min | Level: Beginner |  |    |
-|--------------| ----------- | ----------- |----------- |
+|--------------|-----------------|--|----|
 
-The best way to export a Qdrant collection is to create a snapshot of it. Then, you may use the snapshot to backup or restore your collection to whichever environment you see fit. 
-Snapshots contain vectors with their ids and payloads, as well as internal Qdrant data structures used to keep the search efficient.
+A collection is a basic unit of data storage in Qdrant. It contains vectors, their IDs, and payloads. However, keeping the search efficient requires additional data structures to be built on top of the data. Building these data structures may take a while, especially for large collections. 
+That's why using snapshots is the best way to export and import Qdrant collections, as they contain all the bits and pieces required to restore the entire collection efficiently.
 
-This tutorial will show you how to import the data into a Qdrant collection and create a snapshot from it. 
-
-Please note that the process of importing the data strongly depends on the input data format. All the tips from the [Bulk Upload Vectors](/documentation/tutorials/bulk-upload/) tutorial also apply here.
+This tutorial will show you how to create a snapshot of a collection and restore it. Since working with snapshots in a distributed environment might be thought to be a bit more complex, we will use a 3-node Qdrant cluster. However, the same approach applies to a single-node setup.
 
 <aside role="status">Snapshots cannot be created in local mode of Python SDK. You need to spin up a Qdrant Docker container or use Qdrant Cloud.</aside>
 
 ## Prerequisites
 
-The sample dataset for this tutorial is [LAION-5B](https://laion.ai/blog/laion-5b/). We are going to use the first 1000 entries from the subset - [laion2b-en-vit-l-14-embeddings](https://huggingface.co/datasets/laion/laion2b-en-vit-l-14-embeddings). Since we don't want to download the whole dataset, we are going to download just the first batch:
+Let's assume you already have a running Qdrant instance or a cluster. If not, you can follow the [installation guide](/documentation/guides/installation) to set up a local Qdrant instance or use [Qdrant Cloud](https://cloud.qdrant.io/) to create a cluster in a few clicks.
 
-- metadata: https://huggingface.co/datasets/laion/laion2b-en-vit-l-14-embeddings/resolve/main/metadata/metadata_0000.parquet
-- image embeddings: https://huggingface.co/datasets/laion/laion2b-en-vit-l-14-embeddings/resolve/main/img_emb/img_emb_0000.npy
-- text embeddings: https://huggingface.co/datasets/laion/laion2b-en-vit-l-14-embeddings/resolve/main/text_emb/text_emb_0000.npy
-
-
-## Initial setup
-
-Install the required dependencies.
+Once the cluster is running, let's install the required dependencies:
 
 ```shell
-pip install qdrant-client numpy pandas pyarrow
-```
+pip install qdrant-client datasets
+```  
 
-Create a subdirectory `data` in your working directory and download all the datasets there.
+### Establish a connection to Qdrant
 
-Next, print the metadata from your dataset to see how it looks:
+We are going to use the Python SDK and raw HTTP calls to interact with Qdrant. Since we are going to use a 3-node cluster, we need to know the URLs of all the nodes. For the simplicity, let's keep them all in constants, along with the collection name, so we can refer to them later:
 
 ```python
-import pandas as pd
-
-metadata_df = pd.read_parquet("data/metadata_0000.parquet")
-print(metadata_df.iloc[0].to_dict())
+QDRANT_MAIN_URL = "https://my-cluster.eastus-0.azure.cloud.qdrant.io:6333"
+QDRANT_API_KEY = "my-api-key"
+QDRANT_NODES = (
+    "https://node-0-my-cluster.eastus-0.azure.cloud.qdrant.io:6333",
+    "https://node-1-my-cluster.eastus-0.azure.cloud.qdrant.io:6333",
+    "https://node-2-my-cluster.eastus-0.azure.cloud.qdrant.io:6333",
+)
+INPUT_COLLECTION_NAME = "test_collection"
 ```
 
-A single row should look like this:
+<aside role="status">If you are using Qdrant Cloud, you can find the URL and API key in the <a href="https://cloud.qdrant.io/">Qdrant Cloud dashboard</a>.</aside>
+
+We can now create a client instance:
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(QDRANT_MAIN_URL, api_key=QDRANT_API_KEY)
+```
+
+First of all, we are going to create a collection from a precomputed dataset. If you already have a collection, you can skip this step and start by [creating a snapshot](#create-a-snapshot).
+
+### Load the dataset
+
+We are going to use a dataset with precomputed embeddings, available on Hugging Face Hub. The dataset is called [Qdrant/arxiv-titles-instructorxl-embeddings](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) and was created using the [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) model. It contains 2.25M embeddings for the titles of the papers from the [arXiv](https://arxiv.org/) dataset.
+
+Loading the dataset is as simple as:
+
+```python
+from datasets import load_dataset
+
+dataset = load_dataset(
+    "Qdrant/arxiv-titles-instructorxl-embeddings", split="train", streaming=True
+)
+```
+
+We used the streaming mode, so the dataset is not loaded into memory. Instead, we can iterate through it and extract the id and vector embedding:
+
+```python
+for payload in dataset:
+    id = payload.pop("id")
+    vector = payload.pop("vector")
+    print(id, vector, payload)
+```
+
+A single payload looks like this:
 
 ```json
 {
-  'image_path': '185120009', 
-  'caption': 'Color version PULP FICTION alternative poster art', 
-  'NSFW': 'UNLIKELY', 
-  'similarity': 0.33966901898384094, 
-  'LICENSE': '?', 
-  'url': 'http://cdn.shopify.com/s/files/1/0282/0804/products/pulp_1024x1024.jpg?v=1474264437', 
-  'key': '185120009', 
-  'status': 'success', 
-  'error_message': null, 
-  'width': 384,
-  'height': 512, 
-  'original_width': 768, 
-  'original_height': 1024, 
-  'exif': '{"Image Orientation": "Horizontal (normal)", "Image XResolution": "100", "Image YResolution": "100", "Image ResolutionUnit": "Pixels/Inch", "Image YCbCrPositioning": "Centered", "Image ExifOffset": "102", "EXIF ExifVersion": "0210", "EXIF ComponentsConfiguration": "YCbCr", "EXIF FlashPixVersion": "0100", "EXIF ColorSpace": "Uncalibrated", "EXIF ExifImageWidth": "768", "EXIF ExifImageLength": "1024"}', 
-  'md5': '46c4bbab739a2b71639fb5a3a4035b36'
+  'title': 'Dynamics of partially localized brane systems', 
+  'DOI': '1109.1415'
 }
 ```
 
-Now, we can iterate through the rows and their corresponding embeddings to store them into Qdrant. We are not going to import a whole batch,
-but upload just the first 1000 entries.
-
-```python
-import numpy as np
-
-image_embeddings = np.load("data/img_emb_0000.npy")
-text_embeddings = np.load("data/text_emb_0000.npy")
-```
-
-## Create a collection
+### Create a collection
 
 First things first, we need to create our collection. We're not going to play with the configuration of it, but it makes sense do it right now. 
 The configuration is also a part of the collection snapshot.
 
 ```python
-from qdrant_client import QdrantClient, models
+from qdrant_client import models
 
-collection_name = "LAION-5B"
-
-client = QdrantClient("localhost")
 client.recreate_collection(
-    collection_name=collection_name,
-    vectors_config={
-        "image": models.VectorParams(
-            size=image_embeddings.shape[1], distance=models.Distance.COSINE
-        ),
-        "text": models.VectorParams(
-            size=text_embeddings.shape[1], distance=models.Distance.COSINE
-        ),
-    },
+    collection_name=INPUT_COLLECTION_NAME,
+    vectors_config=models.VectorParams(
+        size=768,  # Size of the embedding vector generated by the InstructorXL model
+        distance=models.Distance.COSINE
+    ),
 )
 ```
 
-## Upload the dataset
+### Upload the dataset
 
 While loaded, it is pretty straightforward to upload the collection from the precomputed embeddings. Calculating the embeddings is usually
-a bottleneck of the vector search pipelines, but we are happy to have them in place already.
+a bottleneck of the vector search pipelines, but we are happy to have them in place already. Since the goal of this tutorial is to show how to create a snapshot, **we are going to upload only a small part of the dataset**.
 
 ```python
-client.upload_collection(
-    collection_name=collection_name,
-    vectors={
-        "image": image_embeddings[:1000],
-        "text": image_embeddings[:1000],
-    },
-    payload=metadata_df.iloc[:1000].to_dict(orient="records"),
-    batch_size=64,
-    parallel=2,
+ids, vectors, payloads = [], [], []
+for payload in dataset:
+    id = payload.pop("id")
+    vector = payload.pop("vector")
+    
+    ids.append(id)
+    vectors.append(vector)
+    payloads.append(payload)
+    
+    if len(ids) == 1000:
+        break
+
+client.upsert(
+    collection_name=INPUT_COLLECTION_NAME,
+    points=models.Batch(
+        ids=ids,
+        vectors=vectors,
+        payloads=payloads,
+    ),
 )
 ```
 
