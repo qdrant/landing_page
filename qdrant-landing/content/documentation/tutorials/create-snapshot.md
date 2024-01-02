@@ -3,7 +3,7 @@ title: Create and restore collections from snapshot
 weight: 14
 ---
 
-# Exporting Qdrant collections into snapshots
+# Create and restore collections from snapshot
 
 | Time: 20 min | Level: Beginner |  |    |
 |--------------|-----------------|--|----|
@@ -172,7 +172,7 @@ for snapshot_url in snapshot_urls:
     local_snapshot_paths.append(local_snapshot_path)
 ```
 
-The snapshots are now stored locally. We can use them to restore the collection to a different Qdrant instance, or treat them as a backup.
+The snapshots are now stored locally. We can use them to restore the collection to a different Qdrant instance, or treat them as a backup. We will create another collection using the same data on the same cluster.
 
 ## Restore from snapshot
 
