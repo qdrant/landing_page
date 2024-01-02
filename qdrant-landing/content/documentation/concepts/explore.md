@@ -109,6 +109,37 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.RecommendPoints;
+import io.qdrant.client.grpc.Points.RecommendStrategy;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .recommendAsync(
+        RecommendPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllPositive(List.of(id(100), id(200)))
+            .addAllPositiveVectors(List.of(vector(100.0f, 231.0f)))
+            .addAllNegative(List.of(id(718)))
+            .addAllPositiveVectors(List.of(vector(0.2f, 0.3f, 0.4f, 0.5f)))
+            .setStrategy(RecommendStrategy.AverageVector)
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 Example result of this API would be
 
 ```json
@@ -222,6 +253,25 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+import io.qdrant.client.grpc.Points.RecommendPoints;
+
+client
+    .recommendAsync(
+        RecommendPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllPositive(List.of(id(100), id(231)))
+            .addAllNegative(List.of(id(718)))
+            .setUsing("image")
+            .setLimit(10)
+            .build())
+    .get();
+```
+
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
 ### Lookup vectors from another collection
@@ -275,6 +325,31 @@ client.recommend("{collection_name}", {
         "vector" : "{external_vector_name}"
     },
 });
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+import io.qdrant.client.grpc.Points.LookupLocation;
+import io.qdrant.client.grpc.Points.RecommendPoints;
+
+client
+    .recommendAsync(
+        RecommendPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllPositive(List.of(id(100), id(231)))
+            .addAllNegative(List.of(id(718)))
+            .setUsing("image")
+            .setLimit(10)
+            .setLookupFrom(
+                LookupLocation.newBuilder()
+                    .setCollectionName("{external_collection_name}")
+                    .setVectorName("{external_vector_name}")
+                    .build())
+            .build())
+    .get();
 ```
 
 Vectors are retrieved from the external collection by ids provided in the `positive` and `negative` lists. 
@@ -426,6 +501,40 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.PointIdFactory.id;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.RecommendPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+Filter filter = Filter.newBuilder().addMust(matchKeyword("city", "London")).build();
+
+List<RecommendPoints> recommendQueries =
+    List.of(
+        RecommendPoints.newBuilder()
+            .addAllPositive(List.of(id(100), id(231)))
+            .addAllNegative(List.of(id(718)))
+            .setFilter(filter)
+            .setLimit(3)
+            .build(),
+        RecommendPoints.newBuilder()
+            .addAllPositive(List.of(id(200), id(67)))
+            .addAllNegative(List.of(id(300)))
+            .setFilter(filter)
+            .setLimit(3)
+            .build());
+
+client.recommendBatchAsync("{collection_name}", recommendQueries, null).get();
+```
+
 The result of this API contains one array per recommendation requests.
 
 ```json
@@ -551,6 +660,47 @@ client.discover("{collection_name}", {
 });
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.ContextExamplePair;
+import io.qdrant.client.grpc.Points.DiscoverPoints;
+import io.qdrant.client.grpc.Points.TargetVector;
+import io.qdrant.client.grpc.Points.VectorExample;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .discoverAsync(
+        DiscoverPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setTarget(
+                TargetVector.newBuilder()
+                    .setSingle(
+                        VectorExample.newBuilder()
+                            .setVector(vector(0.2f, 0.1f, 0.9f, 0.7f))
+                            .build()))
+            .addAllContext(
+                List.of(
+                    ContextExamplePair.newBuilder()
+                        .setPositive(VectorExample.newBuilder().setId(id(100)))
+                        .setNegative(VectorExample.newBuilder().setId(id(718)))
+                        .build(),
+                    ContextExamplePair.newBuilder()
+                        .setPositive(VectorExample.newBuilder().setId(id(200)))
+                        .setNegative(VectorExample.newBuilder().setId(id(300)))
+                        .build()))
+            .setLimit(10)
+            .build())
+    .get();
+```
+
 <aside role="status">
 Notes about discovery search:
 
@@ -637,6 +787,39 @@ client.discover("{collection_name}", {
     ],
     limit: 10,
 });
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.ContextExamplePair;
+import io.qdrant.client.grpc.Points.DiscoverPoints;
+import io.qdrant.client.grpc.Points.VectorExample;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .discoverAsync(
+        DiscoverPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllContext(
+                List.of(
+                    ContextExamplePair.newBuilder()
+                        .setPositive(VectorExample.newBuilder().setId(id(100)))
+                        .setNegative(VectorExample.newBuilder().setId(id(718)))
+                        .build(),
+                    ContextExamplePair.newBuilder()
+                        .setPositive(VectorExample.newBuilder().setId(id(200)))
+                        .setNegative(VectorExample.newBuilder().setId(id(300)))
+                        .build()))
+            .setLimit(10)
+            .build())
+    .get();
 ```
 
 <aside role="status">

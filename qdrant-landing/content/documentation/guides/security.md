@@ -41,7 +41,7 @@ For using API key based authentication in Qdrant cloud see the cloud
 section.
 
 The API key then needs to be present in all REST or gRPC requests to your instance.
-All official Qdrant clients for Python, Go, Rust, and .NET support the API key parameter.
+All official Qdrant clients for Python, Go, Rust, .NET and Java support the API key parameter.
 
 <!---
 Examples with clients
@@ -91,6 +91,19 @@ let client = QdrantClient::from_url("https://xyz-example.eu-central.aws.cloud.qd
         .build()?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(
+        QdrantGrpcClient.newBuilder(
+                "xyz-example.eu-central.aws.cloud.qdrant.io",
+                6334,
+                true)
+            .withApiKey("<paste-your-api-key-here>")
+            .build());
+```
 <aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
 ### Read-only API key

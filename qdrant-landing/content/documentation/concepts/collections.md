@@ -88,6 +88,19 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client = new QdrantClient(
+    QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createCollectionAsync("test_collection",
+        VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
+```
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
@@ -178,6 +191,33 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build())
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(100)
+                            .setDistance(Distance.Cosine)
+                            .build()))
+            .setInitFromCollection("{from_collection_name}")
+            .build())
+    .get();
 ```
 
 ### Collection with multiple vectors
@@ -273,6 +313,27 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.Map;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        "{collection_name}",
+        Map.of(
+            "image", VectorParams.newBuilder().setSize(4).setDistance(Distance.Dot).build(),
+            "text",
+                VectorParams.newBuilder().setSize(8).setDistance(Distance.Cosine).build()))
+    .get();
 ```
 
 For rare use cases, it is possible to create a collection without any vector storage.
@@ -371,6 +432,27 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.SparseVectorConfig;
+import io.qdrant.client.grpc.Collections.SparseVectorParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setSparseVectorsConfig(
+                SparseVectorConfig.newBuilder()
+                    .putMap("text", SparseVectorParams.getDefaultInstance()))
+            .build())
+    .get();
+```
+
 Outside of a unique name, there are no required configuration parameters for sparse vectors.
 
 The distance function for sparse vectors is always `Dot` and does not need to be specified.
@@ -393,6 +475,16 @@ client.deleteCollection("{collection_name}");
 
 ```rust
 client.delete_collection("{collection_name}").await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.deleteCollectionAsync("{collection_name}").get();
 ```
 
 ### Update collection parameters
@@ -444,6 +536,18 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.UpdateCollection;
+
+client.updateCollectionAsync(
+    UpdateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setOptimizersConfig(
+            OptimizersConfigDiff.newBuilder().setIndexingThreshold(10000).build())
+        .build());
 ```
 
 The following parameters can be updated:
@@ -640,6 +744,46 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+import io.qdrant.client.grpc.Collections.QuantizationConfigDiff;
+import io.qdrant.client.grpc.Collections.QuantizationType;
+import io.qdrant.client.grpc.Collections.ScalarQuantization;
+import io.qdrant.client.grpc.Collections.UpdateCollection;
+import io.qdrant.client.grpc.Collections.VectorParamsDiff;
+import io.qdrant.client.grpc.Collections.VectorParamsDiffMap;
+import io.qdrant.client.grpc.Collections.VectorsConfigDiff;
+
+client
+    .updateCollectionAsync(
+        UpdateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setHnswConfig(HnswConfigDiff.newBuilder().setEfConstruct(123).build())
+            .setVectorsConfig(
+                VectorsConfigDiff.newBuilder()
+                    .setParamsMap(
+                        VectorParamsDiffMap.newBuilder()
+                            .putMap(
+                                "my_vector",
+                                VectorParamsDiff.newBuilder()
+                                    .setHnswConfig(
+                                        HnswConfigDiff.newBuilder()
+                                            .setM(3)
+                                            .setEfConstruct(123)
+                                            .build())
+                                    .build())))
+            .setQuantizationConfig(
+                QuantizationConfigDiff.newBuilder()
+                    .setScalar(
+                        ScalarQuantization.newBuilder()
+                            .setType(QuantizationType.Int8)
+                            .setQuantile(0.8f)
+                            .setAlwaysRam(true)
+                            .build()))
+            .build())
+    .get();
+```
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
@@ -704,6 +848,10 @@ client.getCollection("{collection_name}");
 
 ```rust
 client.collection_info("{collection_name}").await?;
+```
+
+```java
+client.getCollectionInfoAsync("{collection_name}").get();
 ```
 
 If you insert the vectors into the collection, the `status` field may become
@@ -811,6 +959,10 @@ client.updateCollectionAliases({
 client.create_alias("example_collection", "production_collection").await?;
 ```
 
+```java
+client.createAliasAsync("production_collection", "example_collection").get();
+```
+
 ### Remove alias
 
 ```http
@@ -850,6 +1002,10 @@ client.updateCollectionAliases({
 
 ```rust
 client.delete_alias("production_collection").await?;
+```
+
+```java
+client.deleteAliasAsync("production_collection").get();
 ```
 
 ### Switch collection
@@ -914,6 +1070,11 @@ client.delete_alias("production_collection").await?;
 client.create_alias("example_collection", "production_collection").await?;
 ```
 
+```java
+client.deleteAliasAsync("production_collection").get();
+client.createAliasAsync("production_collection", "example_collection").get();
+```
+
 ### List collection aliases
 
 ```http
@@ -942,6 +1103,16 @@ use qdrant_client::client::QdrantClient;
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client.list_collection_aliases("{collection_name}").await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.listCollectionAliasesAsync("{collection_name}").get();
 ```
 
 ### List all aliases
@@ -974,6 +1145,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.list_aliases().await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.listAliasesAsync().get();
+```
+
 ### List all collections
 
 ```http
@@ -1002,4 +1183,14 @@ use qdrant_client::client::QdrantClient;
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client.list_collections().await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.listCollectionsAsync().get();
 ```

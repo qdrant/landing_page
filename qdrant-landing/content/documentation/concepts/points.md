@@ -143,6 +143,34 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(UUID.fromString("5c56c793-69f3-4fbf-87e6-c4bf54c28c26")))
+                .setVectors(vectors(0.05f, 0.61f, 0.76f, 0.74f))
+                .putAllPayload(Map.of("color", value("Red")))
+                .build()))
+    .get();
+```
+
 and
 
 ```http
@@ -207,6 +235,33 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(1))
+                .setVectors(vectors(0.05f, 0.61f, 0.76f, 0.74f))
+                .putAllPayload(Map.of("color", value("Red")))
+                .build()))
+    .get();
 ```
 
 are both possible.
@@ -517,6 +572,42 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorsFactory.namedVectors;
+
+import io.qdrant.client.grpc.Points.PointStruct;
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(1))
+                .setVectors(
+                    namedVectors(
+                        Map.of(
+                            "image",
+                            List.of(0.9f, 0.1f, 0.1f, 0.2f),
+                            "text",
+                            List.of(0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f))))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(2))
+                .setVectors(
+                    namedVectors(
+                        Map.of(
+                            "image",
+                            List.of(0.2f, 0.1f, 0.3f, 0.9f),
+                            "text",
+                            List.of(0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f))))
+                .build()))
+    .get();
+```
+
 *Available as of v1.2.0*
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
@@ -681,6 +772,51 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
+
+import io.qdrant.client.grpc.Points.NamedVectors;
+import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.Vectors;
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(1))
+                .setVectors(
+                    Vectors.newBuilder()
+                        .setVectors(
+                            NamedVectors.newBuilder()
+                                .putAllVectors(
+                                    Map.of(
+                                        "text", vector(List.of(1.0f, 2.0f), List.of(6, 7))))
+                                .build())
+                        .build())
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(2))
+                .setVectors(
+                    Vectors.newBuilder()
+                        .setVectors(
+                            NamedVectors.newBuilder()
+                                .putAllVectors(
+                                    Map.of(
+                                        "text",
+                                        vector(
+                                            List.of(0.1f, 0.2f, 0.3f, 0.4f, 0.5f),
+                                            List.of(1, 2, 3, 4, 5))))
+                                .build())
+                        .build())
+                .build()))
+    .get();
+```
+
 ## Modify points
 
 To change a point, you can modify its vectors or its payload. There are several
@@ -785,6 +921,32 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorsFactory.namedVectors;
+
+client
+    .updateVectorsAsync(
+        "{collection_name}",
+        List.of(
+            PointVectors.newBuilder()
+                .setId(id(1))
+                .setVectors(namedVectors(Map.of("image", List.of(0.1f, 0.2f, 0.3f, 0.4f))))
+                .build(),
+            PointVectors.newBuilder()
+                .setId(id(2))
+                .setVectors(
+                    namedVectors(
+                        Map.of(
+                            "text", List.of(0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f))))
+                .build()))
+    .get();
+```
+
+
 To update points and replace all of its vectors, see [uploading
 points](#upload-points).
 
@@ -844,6 +1006,17 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+client
+    .deleteVectorsAsync(
+        "{collection_name}", List.of("text", "image"), List.of(id(0), id(3), id(10)))
+    .get();
+```
+
 To delete entire points, see [deleting points](#delete-points).
 
 ### Update payload
@@ -893,6 +1066,14 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+client.deleteAsync("{collection_name}", List.of(id(0), id(3), id(100)));
 ```
 
 Alternative way to specify which points to remove is to use filter.
@@ -963,6 +1144,18 @@ client
     .await?;
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+
+client
+    .deleteAsync(
+        "{collection_name}",
+        Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
+    .get();
+```
+
 This example removes all points with `{ "color": "red" }` from the collection.
 
 ## Retrieve points
@@ -1002,6 +1195,16 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+client
+    .retrieveAsync("{collection_name}", List.of(id(0), id(30), id(100)), false, false, null)
+    .get();
 ```
 
 This method has additional parameters `with_vectors` and `with_payload`. 
@@ -1096,6 +1299,24 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
+            .setLimit(1)
+            .setWithPayload(enable(true))
+            .build())
+    .get();
 ```
 
 Returns all point with `color` = `red`.
@@ -1203,6 +1424,19 @@ client
         exact: Some(true),
     })
     .await?;
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.grpc.Points.Filter;
+
+client
+    .countAsync(
+        "{collection_name}",
+        Filter.newBuilder().addMust(matchKeyword("color", "red")).build(),
+        true)
+    .get();
 ```
 
 Returns number of counts matching given filtering conditions:

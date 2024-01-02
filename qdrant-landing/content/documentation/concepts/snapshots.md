@@ -67,6 +67,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.create_snapshot("{collection_name}").await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+      new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createSnapshotAsync("{collection_name}").get();
+```
+
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
 
 ### Delete snapshot
@@ -103,6 +113,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.delete_snapshot("{collection_name}", "{snapshot_name}").await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.deleteSnapshotAsync("{collection_name}", "{snapshot_name}").get();
+```
+
 ## List snapshot
 
 List of snapshots for a collection:
@@ -133,6 +153,16 @@ use qdrant_client::client::QdrantClient;
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client.list_snapshots("{collection_name}").await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.listSnapshotAsync("{collection_name}").get();
 ```
 
 ## Retrieve snapshot
@@ -324,6 +354,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.create_full_snapshot().await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createFullSnapshotAsync().get();
+```
+
 ### Delete full storage snapshot
 
 *Available as of v1.0.0*
@@ -356,6 +396,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.delete_full_snapshot("{snapshot_name}").await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.deleteFullSnapshotAsync("{snapshot_name}").get();
+```
+
 ### List full storage snapshots
 
 ```http
@@ -384,6 +434,16 @@ use qdrant_client::client::QdrantClient;
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client.list_full_snapshots().await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.listFullSnapshotAsync().get();
 ```
 
 ### Download full storage snapshot

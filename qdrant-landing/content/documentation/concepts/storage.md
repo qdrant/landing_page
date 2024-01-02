@@ -104,6 +104,26 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        "{collection_name}",
+        VectorParams.newBuilder()
+            .setSize(768)
+            .setDistance(Distance.Cosine)
+            .setOnDisk(true)
+            .build())
+    .get();
+```
+
 This will create a collection with all vectors immediately stored in memmap storage.
 This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
 
@@ -184,6 +204,36 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+            .build())
+    .get();
 ```
 
 The rule of thumb to set the memmap threshold parameter is simple:
@@ -274,6 +324,38 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+            .setHnswConfig(HnswConfigDiff.newBuilder().setOnDisk(true).build())
+            .build())
+    .get();
 ```
 
 ## Payload storage
