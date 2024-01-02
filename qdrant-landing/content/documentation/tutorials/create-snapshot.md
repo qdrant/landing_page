@@ -145,7 +145,7 @@ for node_url in QDRANT_NODES:
     snapshot_urls.append(snapshot_url)
 ```
 
-<aside role="status">You may get a timeout error. The process is still running, but creating a snapshot may take a while.</aside>
+<aside role="status">You may get a timeout error. The process is still running, but creating a snapshot may take a while. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
 
 Once we have the snapshot URLs, we can download them. Please make sure to include the API key in the request headers.
 Downloading the snapshot **can be done only through the HTTP API**, so we are going to use the `requests` library.
