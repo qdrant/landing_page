@@ -3,7 +3,7 @@ draft: false
 id: 1
 title: Single node benchmarks
 description: |
-    We benchmarked several engines using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: November 2023 </b>
+    We benchmarked several engines using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January 2024 </b>
 single_node_title: Single node benchmarks
 single_node_data: /benchmarks/results-1-100-thread.json
 preview_image: /benchmarks/benchmark-1.png
@@ -16,7 +16,7 @@ Unlisted: false
 ## How to read the results
 
 - Choose the dataset and the metric you want to check.
-- Select a precision threshold that would be satisfactory for your usecase. This is important because ANN search is all about trading precision for speed. This means in an ANN benchmark, **two results should be compared only when you have similar precision**. However most ANN benchmarks miss this critical aspect.
+- Select a precision threshold that would be satisfactory for your usecase. This is important because ANN search is all about trading precision for speed. This means in any vector search benchmark, **two results must be compared only when you have similar precision**. However most benchmarks miss this critical aspect.
 - The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
 
 ## Observations
@@ -26,8 +26,8 @@ Some of the engines are clearly doing better than others and here are some inter
 * **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.**
 * `Elasticsearch` is the considerably fast in many cases but it's always the slowest in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
 * `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's not on-par with others when it comes to RPS or latency when you have more dimensions or number of vectors.
-* `Weaviate` has improved the least since [our last run](/benchmarks/single-node-speed-benchmark-2022). At the moment, it's the slowest in terms of RPS and has the highest latency.
-* `Redis` is able to achieve good RPS however its latency is slower with parallel requests and is one of the slowest in terms of indexing time.
+* `Weaviate` has improved the least since [our last run](/benchmarks/single-node-speed-benchmark-2022). At the moment, it's one of the slowest in terms of RPS as well as latency.
+* `Redis` is able to achieve good RPS however its latency is higher with parallel requests and is one of the slowest in terms of indexing time.
 
 
 
