@@ -24,6 +24,5 @@ These tutorials demonstrate different ways you can build vector search into your
 | [Mighty Semantic Search](../tutorials/mighty/)                         | Build a simple semantic search with an on-demand NLP service.     | Qdrant, Mighty             | 
 | [Asynchronous API](../tutorials/async-api/)                            | Communicate with Qdrant server asynchronously with Python SDK.    | Qdrant, Python             |
 | [Multitenancy with LlamaIndex](../tutorials/llama-index-multitenancy/) | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex |
-| [Troubleshooting](../tutorials/common-errors/)                         | Solutions to common errors and fixes                              | Qdrant                     |  
-
-
+| [HuggingFace datasets](../tutorials/huggingface-datasets/)             | Load a Hugging Face dataset to Qdrant                             | Qdrant, Python, datasets   |
+| [Troubleshooting](../tutorials/common-errors/)                         | Solutions to common errors and fixes                              | Qdrant                     |

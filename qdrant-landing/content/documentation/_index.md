@@ -20,6 +20,10 @@ There are three ways to use Qdrant:
 
 First, try Qdrant locally using the [Qdrant Client](https://github.com/qdrant/qdrant-client) and with the help of our [Tutorials](tutorials/) and Guides. Develop a sample app from our [Examples](examples/) list and try it using a [Qdrant Docker](guides/installation/) container. Then, when you are ready for production, deploy to a Free Tier [Qdrant Cloud](cloud/) cluster.
 
+### Try Qdrant with Practice Data:
+
+You may always use our [Practice Datasets](datasets/) to build with Qdrant. This page will be regularly updated with dataset snapshots you can use to bootstrap complete projects.
+
 ## Popular Topics:
 
 | Tutorial                                           | Description                                  | Tutorial| Description      |
