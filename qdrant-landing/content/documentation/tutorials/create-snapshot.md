@@ -138,8 +138,8 @@ Our setup consists of 3 nodes, so we need to call the endpoint on each of them a
 ```python
 snapshot_urls = []
 for node_url in QDRANT_NODES:
-    client = QdrantClient(node_url, api_key=QDRANT_API_KEY)
-    snapshot_info = client.create_snapshot(collection_name="test_collection")
+    node_client = QdrantClient(node_url, api_key=QDRANT_API_KEY)
+    snapshot_info = node_client.create_snapshot(collection_name="test_collection")
     
     snapshot_url = f"{node_url}/collections/test_collection/snapshots/{snapshot_info.name}"
     snapshot_urls.append(snapshot_url)
