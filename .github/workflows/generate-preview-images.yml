@@ -1,0 +1,31 @@
+name: update-blog-preview-images
+on:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Install cwebp and imagemagick
+        run: sudo apt-get install -y webp imagemagick
+      - name: Run a script
+        run: |
+          ADD_TO_GIT=true bash -x automation/gen-all-blogs-previews.sh
+          if [[ `git status --porcelain` ]]; then
+            # Changes
+            echo "Changes detected"
+          else
+            # No changes
+            echo "No changes detected"
+            exit 0
+          fi
+          git config --global user.name 'qdrant'
+          git config --global user.email 'qdrant@users.noreply.github.com'
+          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
+          git checkout $GITHUB_HEAD_REF
+          git commit -am "update blog preview images" && git push || true

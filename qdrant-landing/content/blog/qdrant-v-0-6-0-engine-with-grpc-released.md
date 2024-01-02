@@ -1,8 +1,9 @@
 ---
+draft: true
 title: Qdrant v0.6.0 engine with gRPC interface has been released
 short_description: We’ve released a new engine, version 0.6.0.
 description: We’ve released a new engine, version 0.6.0. The main feature of the release in the gRPC interface.
-preview_image: /blog_data/qdrant-v-0-6-0-engine-with-grpc-released/upload_time.png
+preview_image: /blog/qdrant-v-0-6-0-engine-with-grpc-released/upload_time.png
 date: 2022-03-10T01:36:43+03:00
 author: Alyona Kavyerina
 author_link: https://medium.com/@alyona.kavyerina
@@ -24,7 +25,7 @@ The main feature of the release in the gRPC interface — it is much faster than
 
 This results in 3 times faster data uploading on our benchmarks:
 
-![REST API vs gRPC upload time, sec](/blog_data/qdrant-v-0-6-0-engine-with-grpc-released/upload_time.png)
+![REST API vs gRPC upload time, sec](/blog/qdrant-v-0-6-0-engine-with-grpc-released/upload_time.png)
 
 Read more about the gRPC interface and whether you should use it by this [link](/documentation/quick_start/#grpc).
 

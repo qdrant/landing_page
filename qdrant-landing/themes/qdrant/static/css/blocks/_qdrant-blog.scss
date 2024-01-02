@@ -199,20 +199,13 @@ $blog-text-color: var.$blog-text-color;
     .qb-card__title {
       color: var(--brand-primary, #DC244C);
     }
-    .qb-card__img:after {
-      content: "";
-      display: none;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      background: linear-gradient(-60deg, transparent 30%, var(--neutral-n-50) 50%, transparent 70%, var(--neutral-n-50) 80%);
-      background-size: 300%;
-      background-position-x: 100%;
-      animation: shimmer 0.6s linear;
-      animation-iteration-count: 1;
-      opacity: 0.3;
+  }
+  &:hover:not(.qb-card_featured) {
+    .qb-card__img {
+      img {
+        transform: scale(1.05);
+        transition: all 0.25s ease-in-out
+      }
     }
   }
 
@@ -328,6 +321,12 @@ $blog-text-color: var.$blog-text-color;
       color: var(--Primary, #DC244C);
       text-decoration: underline;
     }
+  }
+
+  iframe {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1.7 / 1;
   }
 }
 

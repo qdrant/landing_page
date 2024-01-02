@@ -17,13 +17,14 @@ if [ ! -f "$1" ]; then
   exit 1
 fi
 
-IMG_DESTINATION="./qdrant-landing/static/articles_data/${2}/preview"
-mkdir -p $IMG_DESTINATION
+# Get the directory of the script
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
-convert "$1" -resize 1200x630^ -gravity center -extent 1200x630 "${IMG_DESTINATION}/social_preview.jpg";
 
-convert "$1" -resize 898x300^ -gravity center -extent 898x300 "${IMG_DESTINATION}/title.jpg";
-convert "${IMG_DESTINATION}/title.jpg" -resize 530x145^ -gravity center -extent 530x145 "${IMG_DESTINATION}/preview.jpg";
 
-cwebp -q 95 "${IMG_DESTINATION}/title.jpg" -o "${IMG_DESTINATION}/title.webp";
-cwebp -q 95 "${IMG_DESTINATION}/preview.jpg" -o "${IMG_DESTINATION}/preview.webp";
+PATH_TO_IMAGE=$1 \
+STATIC_DIRECTORY_NAME="./qdrant-landing/static/articles_data/${2}" \
+SOCIAL_PREVIEW_RESOLUTION="1200x630" \
+TITLE_RESOLUTION="898x300" \
+PREVIEW_RESOLUTION="530x145" \
+bash -x ${DIR}/process-img.sh

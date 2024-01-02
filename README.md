@@ -247,7 +247,7 @@ It will create a file `content/blog/<post-title>.md`. Open it and edit the front
 
 ### Images
 
-Images for blog posts should be placed in `static/blog_data/<post-title>` directory. You can add nested directories if needed. Use images not smaller than 1200x630px for social media previews.
+Images for blog posts should be placed in `static/blog/<post-title>` directory. You can add nested directories if needed. Use images not smaller than 1200x630px for social media previews.
 
 ### Important notes
 

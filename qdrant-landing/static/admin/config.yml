@@ -1,8 +1,8 @@
 backend:
   name: git-gateway
   branch: master # Branch to update (optional; defaults to master)
-media_folder: qdrant-landing/static/blog_data/from_cms
-public_folder: /blog_data/from_cms
+media_folder: qdrant-landing/static/blog/from_cms
+public_folder: /blog/from_cms
 collections:
   - name: 'blog'
     label: 'Blog'
@@ -22,7 +22,7 @@ collections:
       - { label: 'Description', name: 'description', widget: 'string',
           hint: 'Shown in previews of featured posts and on social media' }
       - { label: 'Preview Image', name: 'preview_image', widget: 'image',
-          hint: 'Shown in previews of featured posts and on social media' }
+          hint: 'Image should be 1200x630' }
       - { label: 'Publish Date', name: 'date', widget: 'datetime' }
       - { label: 'Author', name: 'author', widget: 'string', hint: 'Name'}
       - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: false,

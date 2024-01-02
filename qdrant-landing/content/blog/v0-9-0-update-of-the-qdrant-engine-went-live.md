@@ -1,10 +1,10 @@
 ---
-draft: false
+draft: true
 title: v0.9.0 update of the Qdrant engine went live
 slug: qdrant-v090-release
 short_description: We've released the new version of Qdrant engine - v.0.9.0.
 description: We’ve released the new version of Qdrant engine - v.0.9.0. It features the dynamic cluster scaling capabilities. Now Qdrant is more flexible with cluster deployment, allowing to move
-preview_image: /blog_data/qdrant-v.0.9.0-release-update.png
+preview_image: /blog/qdrant-v.0.9.0-release-update.png
 date: 2022-08-08T14:54:45.476Z
 author: Alyona Kavyerina
 author_link: https://www.linkedin.com/in/alyona-kavyerina/

@@ -195,6 +195,34 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(300)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setShardNumber(6)
+            .build())
+    .get();
+```
+
 We recommend setting the number of shards to be a multiple of the number of nodes you are currently running in your cluster.
 
 For example, if you have 3 nodes, 6 shards could be a good option.
@@ -301,6 +329,26 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.ShardingMethod;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            // ... other collection parameters
+            .setShardNumber(1)
+            .setShardingMethod(ShardingMethod.Custom)
+            .build())
+    .get();
+```
+
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
 
 ```json
@@ -377,6 +425,36 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ShardKeySelectorFactory.shardKeySelector;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.UpsertPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .upsertAsync(
+        UpsertPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllPoints(
+                List.of(
+                    PointStruct.newBuilder()
+                        .setId(id(111))
+                        .setVectors(vectors(0.1f, 0.2f, 0.3f))
+                        .build()))
+            .setShardKeySelector(shardKeySelector("user_1"))
+            .build())
+    .get();
 ```
 
 <aside role="alert">
@@ -551,6 +629,35 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(300)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setShardNumber(6)
+            .setReplicationFactor(2)
+            .build())
+    .get();
 ```
 
 This code sample creates a collection with a total of 6 logical shards backed by a total of 12 physical shards.
@@ -752,6 +859,36 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(300)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setShardNumber(6)
+            .setReplicationFactor(2)
+            .setWriteConsistencyFactor(2)
+            .build())
+    .get();
+```
+
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
 
 ### Read consistency
@@ -853,6 +990,36 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ReadConsistency;
+import io.qdrant.client.grpc.Points.ReadConsistencyType;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
+            .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(true).build())
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setLimit(3)
+            .setReadConsistency(
+                ReadConsistency.newBuilder().setType(ReadConsistencyType.Majority).build())
+            .build())
+    .get();
 ```
 
 ### Write ordering
@@ -961,6 +1128,45 @@ client
         }),
     )
     .await?;
+```
+
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.UpsertPoints;
+import io.qdrant.client.grpc.Points.WriteOrdering;
+import io.qdrant.client.grpc.Points.WriteOrderingType;
+
+client
+    .upsertAsync(
+        UpsertPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllPoints(
+                List.of(
+                    PointStruct.newBuilder()
+                        .setId(id(1))
+                        .setVectors(vectors(0.9f, 0.1f, 0.1f))
+                        .putAllPayload(Map.of("color", value("red")))
+                        .build(),
+                    PointStruct.newBuilder()
+                        .setId(id(2))
+                        .setVectors(vectors(0.1f, 0.9f, 0.1f))
+                        .putAllPayload(Map.of("color", value("green")))
+                        .build(),
+                    PointStruct.newBuilder()
+                        .setId(id(3))
+                        .setVectors(vectors(0.1f, 0.1f, 0.94f))
+                        .putAllPayload(Map.of("color", value("blue")))
+                        .build()))
+            .setOrdering(WriteOrdering.newBuilder().setType(WriteOrderingType.Strong).build())
+            .build())
+    .get();
 ```
 
 ## Listener mode
