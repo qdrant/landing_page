@@ -1,5 +1,5 @@
 ---
-title: Create and restore collections from snapshot
+title: Create and restore from snapshot
 weight: 14
 ---
 
@@ -159,7 +159,7 @@ os.makedirs("snapshots", exist_ok=True)
 
 local_snapshot_paths = []
 for snapshot_url in snapshot_urls:
-    snapshot_name = snapshot_url.split("/")[-1]
+    snapshot_name = os.path.basename(snapshot_url)
     local_snapshot_path = os.path.join("snapshots", snapshot_name)
     
     response = requests.get(
@@ -176,4 +176,22 @@ The snapshots are now stored locally. We can use them to restore the collection 
 
 ## Restore from snapshot
 
-TODO: add a section about restoring from snapshot, once the feature is implemented on Cloud
+Our brand-new snapshot is ready to be restored. Typically, it is used to move a collection to a different Qdrant instance, but we are going to use it to create a new collection on the same cluster.
+It is just going to have a different name, `test_collection_import`. We do not need to create a collection first, as it is going to be created automatically.
+
+Restoring collection is also done separately on each node, but our Python SDK does not support it yet. We are going to use the HTTP API instead,
+and send a request to each node using `requests` library. Alternatively, you can use the `curl` command.
+
+```python
+for node_url, snapshot_path in zip(QDRANT_NODES, local_snapshot_paths):
+    snapshot_name = os.path.basename(snapshot_path)
+    requests.post(
+        f"{node_url}/collections/test_collection_import/snapshots/upload?priority=snapshot",
+        headers={
+            "Api-key": QDRANT_API_KEY,
+        },
+        files={"snapshot": (snapshot_name, open(snapshot_path, "rb"))},
+    )
+```
+
+We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/concepts/snapshots/#snapshot-priority).
