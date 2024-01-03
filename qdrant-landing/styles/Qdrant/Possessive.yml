@@ -1,0 +1,12 @@
+---
+# Warning: qdrant.Possessive
+#
+# The word Qdrant should not be used in the possessive form.
+#
+extends: existence
+message: "Rewrite '%s' to not use 's."
+level: error
+ignorecase: true
+link: https://developers.google.com/style/possessives#product,-feature,-and-company-names
+tokens:
+  - Qdrant's
