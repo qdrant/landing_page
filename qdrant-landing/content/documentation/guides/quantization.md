@@ -1006,7 +1006,7 @@ client
         vector: vec![0.2, 0.1, 0.9, 0.7],
         params: Some(SearchParams {
             quantization: Some(QuantizationSearchParams {
-                rescore: Some(true),
+                rescore: Some(false),
                 ..Default::default()
             }),
             ..Default::default()

@@ -610,7 +610,7 @@ client.search("{collection_name}", {
 use qdrant_client::{
     client::QdrantClient,
     qdrant::{
-        with_payload_selector::SelectorOptions, PayloadIncludeSelector, SearchPoints,
+        with_payload_selector::SelectorOptions, PayloadExcludeSelector, SearchPoints,
         WithPayloadSelector,
     },
 };
@@ -622,7 +622,7 @@ client
         collection_name: "{collection_name}".to_string(),
         vector: vec![0.2, 0.1, 0.9, 0.7],
         with_payload: Some(WithPayloadSelector {
-            selector_options: Some(SelectorOptions::Include(PayloadIncludeSelector {
+            selector_options: Some(SelectorOptions::Exclude(PayloadExcludeSelector {
                 fields: vec!["city".to_string()],
             })),
         }),
@@ -804,6 +804,7 @@ client
         collection_name: "{collection_name}".to_string(),
         search_points: searches,
         read_consistency: None,
+        ..Default::default()
     })
     .await?;
 ```
