@@ -51,6 +51,9 @@ client = QdrantClient(QDRANT_MAIN_URL, api_key=QDRANT_API_KEY)
 
 First of all, we are going to create a collection from a precomputed dataset. If you already have a collection, you can skip this step and start by [creating a snapshot](#create-and-download-snapshots).
 
+<details>
+    <summary>(Optional) Create collection and import data</summary>
+
 ### Load the dataset
 
 We are going to use a dataset with precomputed embeddings, available on Hugging Face Hub. The dataset is called [Qdrant/arxiv-titles-instructorxl-embeddings](https://huggingface.co/datasets/Qdrant/arxiv-titles-instructorxl-embeddings) and was created using the [InstructorXL](https://huggingface.co/hkunlp/instructor-xl) model. It contains 2.25M embeddings for the titles of the papers from the [arXiv](https://arxiv.org/) dataset.
@@ -82,6 +85,7 @@ A single payload looks like this:
   'DOI': '1109.1415'
 }
 ```
+
 
 ### Create a collection
 
@@ -130,10 +134,18 @@ client.upsert(
 
 Our collection is now ready to be used for search. Let's create a snapshot of it.
 
+</details>
+
+If you already have a collection, you can skip the previous step and start by [creating a snapshot](#create-and-download-snapshots).
+
 ## Create and download snapshots
 
 Qdrant exposes HTTP endpoint to request creating a snapshot, but we can also call it with the Python SDK.
-Our setup consists of 3 nodes, so we need to call the endpoint on each of them and create a snapshot on each node. While using Python SDK, that means creating a separate client instance for each node.
+Our setup consists of 3 nodes, so we need to call the endpoint **on each of them** and create a snapshot on each node. While using Python SDK, that means creating a separate client instance for each node.
+
+
+<aside role="status">You may get a timeout error, if the collection size is big. You can trigger snapshot process in the background, without avaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
+
 
 ```python
 snapshot_urls = []
@@ -145,7 +157,34 @@ for node_url in QDRANT_NODES:
     snapshot_urls.append(snapshot_url)
 ```
 
-<aside role="status">You may get a timeout error. The process is still running, but creating a snapshot may take a while. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
+```http
+// for `https://node-0.my-cluster.com:6333`
+POST /collections/test_collection/snapshots
+
+// for `https://node-1.my-cluster.com:6333`
+POST /collections/test_collection/snapshots
+
+// for `https://node-2.my-cluster.com:6333`
+POST /collections/test_collection/snapshots
+```
+
+<details>
+    <summary>Response</summary>
+
+```json
+{
+  "result": {
+    "name": "test_collection-559032209313046-2024-01-03-13-20-11.snapshot",
+    "creation_time": "2024-01-03T13:20:11",
+    "size": 18956800
+  },
+  "status": "ok",
+  "time": 0.307644965
+}
+```
+</details>
+
+
 
 Once we have the snapshot URLs, we can download them. Please make sure to include the API key in the request headers.
 Downloading the snapshot **can be done only through the HTTP API**, so we are going to use the `requests` library.
@@ -163,13 +202,27 @@ for snapshot_url in snapshot_urls:
     local_snapshot_path = os.path.join("snapshots", snapshot_name)
     
     response = requests.get(
-        snapshot_url, headers={"Api-key": QDRANT_API_KEY}
+        snapshot_url, headers={"api-key": QDRANT_API_KEY}
     )
     with open(local_snapshot_path, "wb") as f:
         response.raise_for_status()
         f.write(response.content)
 
     local_snapshot_paths.append(local_snapshot_path)
+```
+
+```bash
+wget https://node-0.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313046-2024-01-03-13-20-11.snapshot \
+    --header="api-key: ${QDRANT_API_KEY}" \
+    -O node-0-shapshot.snapshot
+
+wget https://node-1.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313047-2024-01-03-13-20-12.snapshot \
+    --header="api-key: ${QDRANT_API_KEY}" \
+    -O node-1-shapshot.snapshot
+
+wget https://node-2.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313048-2024-01-03-13-20-13.snapshot \
+    --header="api-key: ${QDRANT_API_KEY}" \
+    -O node-2-shapshot.snapshot
 ```
 
 The snapshots are now stored locally. We can use them to restore the collection to a different Qdrant instance, or treat them as a backup. We will create another collection using the same data on the same cluster.
@@ -188,10 +241,30 @@ for node_url, snapshot_path in zip(QDRANT_NODES, local_snapshot_paths):
     requests.post(
         f"{node_url}/collections/test_collection_import/snapshots/upload?priority=snapshot",
         headers={
-            "Api-key": QDRANT_API_KEY,
+            "api-key": QDRANT_API_KEY,
         },
         files={"snapshot": (snapshot_name, open(snapshot_path, "rb"))},
     )
 ```
 
-We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/concepts/snapshots/#snapshot-priority).
+```bash
+curl -X POST 'https://node-0.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
+    -H 'api-key: ${QDRANT_API_KEY}' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@node-0-shapshot.snapshot'
+
+curl -X POST 'https://node-1.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
+    -H 'api-key: ${QDRANT_API_KEY}' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@node-1-shapshot.snapshot'
+
+curl -X POST 'https://node-2.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
+    -H 'api-key: ${QDRANT_API_KEY}' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@node-2-shapshot.snapshot'
+```
+
+
+**Important:** We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/concepts/snapshots/#snapshot-priority).
+
+
