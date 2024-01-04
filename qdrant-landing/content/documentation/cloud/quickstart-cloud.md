@@ -68,3 +68,26 @@ var client = new QdrantClient(
   apiKey: "<paste-your-api-key-here>"
 );
 ```
+
+```rust
+use qdrant_client::client::QdrantClient;
+
+let client = QdrantClient::from_url("xyz-example.eu-central.aws.cloud.qdrant.io:6334")
+    .with_api_key("<paste-your-api-key-here>")
+    .build()
+    .unwrap();
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(
+        QdrantGrpcClient.newBuilder(
+                "xyz-example.eu-central.aws.cloud.qdrant.io",
+                6334,
+                true)
+            .withApiKey("<paste-your-api-key-here>")
+            .build());
+```
