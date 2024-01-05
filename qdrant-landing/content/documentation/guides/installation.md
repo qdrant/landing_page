@@ -122,7 +122,7 @@ docker run -p 6333:6333 \
     ./qdrant --config-path config/custom_config.yaml
 ```
 
-For more details see the [Configuration](../configuration) section.
+For more information, see the [Configuration](/documentation/guides/configuration/) documentation.
 
 ### Docker Compose
 
