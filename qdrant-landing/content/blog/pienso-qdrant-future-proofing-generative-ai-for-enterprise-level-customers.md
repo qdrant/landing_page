@@ -1,5 +1,5 @@
 ---
-draft: false
+draft: true
 title: "Pienso & Qdrant: Future Proofing Generative AI for Enterprise-Level Customers"
 slug: pienso-case-study
 short_description: Case study
