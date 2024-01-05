@@ -149,7 +149,7 @@ configs:
 ### From source
 
 Qdrant is written in Rust and can be compiled into a binary executable.
-This installation method can be helpful if you want to compile Qdrant for a specific processor architecture or if you do not want to use Docker for some reason.
+This installation method can be helpful if you want to compile Qdrant for a specific processor architecture or if you do not want to use Docker.
 
 Before compiling, make sure that the necessary libraries and the [rust toolchain](https://www.rust-lang.org/tools/install) are installed.
 The current list of required libraries can be found in the [Dockerfile](https://github.com/qdrant/qdrant/blob/master/Dockerfile).
