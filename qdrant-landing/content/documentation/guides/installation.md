@@ -99,7 +99,7 @@ docker run -p 6333:6333 \
     qdrant/qdrant
 ```
 
-With this command, you will start a Qdrant instance with the default configuration.
+With this command, you start a Qdrant instance with the default configuration.
 It stores all data in the `./path/to/data` directory.
 
 By default, Qdrant uses port 6333, so at [localhost:6333](http://localhost:6333) you should see the welcome message.
