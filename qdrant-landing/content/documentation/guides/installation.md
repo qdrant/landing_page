@@ -21,7 +21,7 @@ The CPU and RAM that you need depends on:
 - Replication
 - How you configure quantization
 
-Our [Cloud Pricing Calculator](https://cloud.qdrant.io/calculator) can give you a very rough approximation of the necessary resources to store the vectors without any payload or index data.
+Our [Cloud Pricing Calculator](https://cloud.qdrant.io/calculator) can help you estimate required resources without payload or index data.
 
 ### Storage
 
