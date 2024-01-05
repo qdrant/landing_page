@@ -64,7 +64,7 @@ It provides horizontal and vertical scaling, one click installation and upgrades
 
 ### Kubernetes
 
-You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubeternetes cluster.
+You can use a ready-made [Helm Chart](https://helm.sh/docs/) to run Qdrant in your Kubernetes cluster:
 
 ```bash
 helm repo add qdrant https://qdrant.to/helm
