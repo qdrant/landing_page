@@ -38,9 +38,10 @@ Each Qdrant instance opens 3 ports:
 * `6334` - For the gRPC API
 * `6335` - For internal replication communication
 
-All Qdrant instances in a cluster must be able to communicate with each other over these ports.
+All Qdrant instances in a cluster must be able to:
 
-Each Qdrant instance must also allow incoming connections to ports `6333` and `6334` from the clients that will be using Qdrant.
+- Communicate with each other over these ports
+- Allow incoming connections to ports `6333` and `6334` from clients that use Qdrant.
 
 ## Installation options
 
