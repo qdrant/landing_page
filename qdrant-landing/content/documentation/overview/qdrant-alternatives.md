@@ -70,7 +70,7 @@ Using any of those libraries makes it easier to experiment with different vector
 
 ## Planning to migrate?
 
-> We strongly recommend you use [Qdrant Tools](https://github.com/NirantK/qdrant_tools) to migrate from Qdrant to Pinecone.
+> We strongly recommend you use [Qdrant Tools](https://github.com/NirantK/qdrant_tools) to migrate from Pinecone to Qdrant.
 
 Migrating from Pinecone to Qdrant involves a series of well-planned steps to ensure that the transition is smooth and disruption-free. Here is a suggested migration plan:
 
