@@ -12,7 +12,14 @@ The following sections describe the requirements for deploying Qdrant.
 
 ### CPU and memory
 
-The amount of CPU and memory that Qdrant needs depends on the amount of vectors, their dimensions, the additional payload data that you store, and their indexes, as well as storage, replication and quantization configuration.
+The CPU and RAM that you need depends on:
+
+- Number of vectors
+- Vector dimensions
+- [Payloads](/documentation/concepts/payload/) and their indexes
+- Storage
+- Replication
+- How you configure quantization
 
 Our [Cloud Pricing Calculator](https://cloud.qdrant.io/calculator) can give you a very rough approximation of the necessary resources to store the vectors without any payload or index data.
 
