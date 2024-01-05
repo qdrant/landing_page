@@ -8,6 +8,8 @@ aliases:
 
 ## Installation requirements
 
+The following sections describe the requirements for deploying Qdrant.
+
 ### CPU and memory
 
 The amount of CPU and memory that Qdrant needs depends on the amount of vectors, their dimensions, the additional payload data that you store, and their indexes, as well as storage, replication and quantization configuration.
