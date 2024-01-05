@@ -28,8 +28,6 @@ Our [Cloud Pricing Calculator](https://cloud.qdrant.io/calculator) can help you 
 For persistent storage, Qdrant requires a block storage device with a proper file system such es ext4. This is especially important, if you mount an external volume inside the Qdrant container or if you use a Kubernetes Persistent Volume.
 Qdrant won't work on a file storage device, such as NFS, or an object storage such as S3.
 
-The amount of storage depends on the size of your data.
-
 If you offload vectors to disk, you also have to ensure that your disk storage is performant. You should at least use SSDs or NVMEs. HDDs are not recommended.
 
 ### Networking
