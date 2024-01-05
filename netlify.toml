@@ -5,6 +5,9 @@ command = "cd qdrant-landing ; hugo --gc --minify"
 [build.environment]
 HUGO_VERSION = "0.93.3"
 
+[[plugins]]
+package = "netlify-plugin-checklinks"
+
 [context.production.environment]
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
