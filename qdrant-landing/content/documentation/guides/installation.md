@@ -72,7 +72,7 @@ Read further instructions at [qdrant-helm](https://github.com/qdrant/qdrant-helm
 
 ### Qdrant Operator
 
-We provide a Qdrant Enterprise Operator for Kubernetes installations. If you are interested in using it, please [contact us](https://qdrant.to/contact-us).
+We provide a Qdrant Enterprise Operator for Kubernetes installations. For more information, [use this form](https://qdrant.to/contact-us) to contact us.
 
 ## Development
 
