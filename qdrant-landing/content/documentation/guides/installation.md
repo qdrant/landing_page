@@ -10,6 +10,8 @@ aliases:
 
 The following sections describe the requirements for deploying Qdrant.
 
+The following sections describe the requirements for deploying Qdrant.
+
 ### CPU and memory
 
 The CPU and RAM that you need depends on:
