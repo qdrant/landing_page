@@ -79,6 +79,8 @@ We provide a Qdrant Enterprise Operator for Kubernetes installations. For more i
 
 ## Development
 
+For development and testing, we recommend that you set up Qdrant in Docker. We also have different client libraries.
+
 ### Docker
 
 The easiest way to start using Qdrant for testing or development is to run the Qdrant container image.
