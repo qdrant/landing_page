@@ -57,6 +57,8 @@ If you want to run Qdrant in your own infrastructure, without any cloud connecti
 
 ## Production
 
+For production, we recommend that you configure Qdrant in the cloud, with Kubernetes, or with a Qdrant Enterprise Operator.
+
 ### Qdrant Cloud
 
 You can set up production with the [Qdrant Cloud](https://qdrant.to/cloud), which provides fully managed Qdrant databases. 
