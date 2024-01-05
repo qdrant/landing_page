@@ -5,7 +5,7 @@ weight: 1900
 
 # Unstructured
 
-[Unstructured](https://unstructured.io/) is a library designed to help preprocess, structure unstructured text documents for use in downstream machine learning tasks
+[Unstructured](https://unstructured.io/) is a library designed to help preprocess, structure unstructured text documents for downstream machine learning tasks.
 
 Qdrant can be used as an ingestion destination in Unstructured.
 
@@ -19,7 +19,10 @@ pip install "unstructured[qdrant]"
 
 ## Usage
 
-- CLI
+
+Depending on the use case you can prefer the command line or using it within your application.
+
+### CLI
 
 ```bash
 EMBEDDING_PROVIDER=${EMBEDDING_PROVIDER:-"langchain-huggingface"}
@@ -41,9 +44,9 @@ unstructured-ingest \
 
 For a full list of the options the CLI accepts, run `unstructured-ingest <upstream connector> qdrant --help`
 
-- Programmatic usage
+### Programmatic usage
 
-```bash
+```python
 from unstructured.ingest.connector.local import SimpleLocalConfig
 from unstructured.ingest.connector.qdrant import (
     QdrantWriteConfig,
@@ -93,5 +96,4 @@ if __name__ == "__main__":
 ## Next steps
 
 - Unstructured API [reference](https://unstructured-io.github.io/unstructured/api.html).
-
 - Qdrant ingestion destination [reference](https://unstructured-io.github.io/unstructured/ingest/destination_connectors/qdrant.html).
