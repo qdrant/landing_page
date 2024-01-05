@@ -37,5 +37,4 @@ The vectorstore supports the following operations:
 ## Further Reading
 
 - N8N vectorstore [reference](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/).
-
 - N8N AI-based workflows [reference](https://n8n.io/integrations/basic-llm-chain/).
