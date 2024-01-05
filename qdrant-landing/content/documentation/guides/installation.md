@@ -128,7 +128,7 @@ For more information, see the [Configuration](/documentation/guides/configuratio
 
 You can also use [Docker Compose](https://docs.docker.com/compose/) to run Qdrant.
 
-Here is an example compose file for a single node Qdrant cluster with custom configuration:
+Here is an example customized compose file for a single node Qdrant cluster:
 
 ```yaml
 services:
