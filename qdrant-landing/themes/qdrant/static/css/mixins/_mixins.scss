@@ -24,7 +24,7 @@
     margin-bottom: 1em;
   }
 
-  ul > li {
+  ul > li:not(.breadcrumbs__crumb) {
     margin: 0 0 0 lib.rem(19);
     position: relative;
     list-style: disc;
