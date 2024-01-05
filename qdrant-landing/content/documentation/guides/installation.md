@@ -59,7 +59,8 @@ If you want to run Qdrant in your own infrastructure, without any cloud connecti
 
 ### Qdrant Cloud
 
-The easiest way to run Qdrant for a production setup is to use the [Qdrant Cloud](https://qdrant.to/cloud), which provides fully managed Qdrant databases. Out-of-the-box you will get easy horizontal and vertical scaling, one click installation and upgrades, monitoring, logging and backup and disaster recovery. For more information, see the [Qdrant Cloud documentention](../../cloud).
+You can set up production with the [Qdrant Cloud](https://qdrant.to/cloud), which provides fully managed Qdrant databases. 
+It provides horizontal and vertical scaling, one click installation and upgrades, monitoring, logging, as well as backup and disaster recovery. For more information, see the [Qdrant Cloud documentation](/documentation/cloud).
 
 ### Kubernetes
 
