@@ -112,7 +112,7 @@ docker run -p 6333:6333 \
     qdrant/qdrant
 ```
 
-Or use your own configuration file and specify it:
+Alternatively, you can use your own `custom_config.yaml` configuration file:
 
 ```bash
 docker run -p 6333:6333 \
