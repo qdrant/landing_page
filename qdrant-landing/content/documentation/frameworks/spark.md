@@ -125,6 +125,14 @@ Here's how you can use the Qdrant-Spark Connector to upsert data:
     .save();
 ```
 
+## Databricks
+You can use the `qdrant-spark` connector as a library in Databricks to ingest data into Qdrant.
+- Go to the `Libraries` section in your cluster dashboard.
+- Select `Install New` to open the library installation modal.
+- Search for `io.qdrant:spark:1.12` in the Maven packages and click `Install`.
+
+![Databricks](/documentation/frameworks/spark/databricks.png)
+
 ## Datatype Support
 
 Qdrant supports all the Spark data types, and the appropriate data types are mapped based on the provided schema.
