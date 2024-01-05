@@ -70,7 +70,7 @@ helm repo add qdrant https://qdrant.to/helm
 helm install qdrant qdrant/qdrant
 ```
 
-Read further instructions at [qdrant-helm](https://github.com/qdrant/qdrant-helm/tree/main/charts/qdrant).
+For more information, see the [qdrant-helm](https://github.com/qdrant/qdrant-helm/tree/main/charts/qdrant) README.
 
 ### Qdrant Operator
 
