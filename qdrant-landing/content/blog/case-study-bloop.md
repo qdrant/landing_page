@@ -5,6 +5,8 @@ description: Bloop is a fast code-search engine that combines semantic search, r
 preview_image: /case-studies/bloop/social_preview.png
 author: Qdrant Team
 date: 2023-02-28T09:48:00.000Z
+aliases:
+- /case-studies/bloop/
 ---
 
 Founded in early 2021, [bloop](https://bloop.ai/) was one of the first companies to tackle semantic 
