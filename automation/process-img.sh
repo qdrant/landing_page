@@ -44,23 +44,26 @@ if [[ ! "$PATH_TO_IMAGE" =~ \.(png|jpg|jpeg)$ ]]; then
   exit 1
 fi
 
+MODIFICATION_TIME=$(stat -c %Y "$PATH_TO_IMAGE")
 
 IMG_DESTINATION="${STATIC_DIRECTORY_NAME}/preview"
 mkdir -p $IMG_DESTINATION
 
-function check_file_exists() {
+function check_file_exists_and_new() {
   local file=$1
   if [ -f "${file}" ] && [ "$ALLOW_OVERWRITE" != "true" ]; then
-    echo "$file exists. Please remove it or set ALLOW_OVERWRITE=true"
-    exit 0
+    if [ $MODIFICATION_TIME -lt $(stat -c %Y "${file}") ]; then
+      echo "$file exists and newer than the source image. Please remove it or set ALLOW_OVERWRITE=true"
+      exit 0
+    fi
   fi
 }
 
-check_file_exists "${IMG_DESTINATION}/social_preview.jpg"
-check_file_exists "${IMG_DESTINATION}/title.jpg"
-check_file_exists "${IMG_DESTINATION}/preview.jpg"
-check_file_exists "${IMG_DESTINATION}/title.webp"
-check_file_exists "${IMG_DESTINATION}/preview.webp"
+check_file_exists_and_new "${IMG_DESTINATION}/social_preview.jpg"
+check_file_exists_and_new "${IMG_DESTINATION}/title.jpg"
+check_file_exists_and_new "${IMG_DESTINATION}/preview.jpg"
+check_file_exists_and_new "${IMG_DESTINATION}/title.webp"
+check_file_exists_and_new "${IMG_DESTINATION}/preview.webp"
 
 
 convert "${PATH_TO_IMAGE}" -resize "${SOCIAL_PREVIEW_RESOLUTION}^" -gravity center -extent $SOCIAL_PREVIEW_RESOLUTION "${IMG_DESTINATION}/social_preview.jpg";
