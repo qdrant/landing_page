@@ -26,7 +26,7 @@ Our [Cloud Pricing Calculator](https://cloud.qdrant.io/calculator) can help you 
 ### Storage
 
 For persistent storage, Qdrant requires block-level access to storage devices with a [POSIX-compatible file system](https://www.quobyte.com/storage-explained/posix-filesystem/). Network systems such as [iSCSI](https://en.wikipedia.org/wiki/ISCSI) that provide block-level access are also acceptable.
-Qdrant won't work with [Network file systems](https://en.wikipedia.org/wiki/File_system#Network_file_systems) such such as NFS, or [Object storage](https://en.wikipedia.org/wiki/Object_storage) systems such as S3.
+Qdrant won't work with [Network file systems](https://en.wikipedia.org/wiki/File_system#Network_file_systems) such as NFS, or [Object storage](https://en.wikipedia.org/wiki/Object_storage) systems such as S3.
 
 If you offload vectors to a local disk, we recommend you use a solid-state (SSD or NVMe) drive.
 
@@ -73,9 +73,23 @@ helm install qdrant qdrant/qdrant
 
 For more information, see the [qdrant-helm](https://github.com/qdrant/qdrant-helm/tree/main/charts/qdrant) README.
 
-### Qdrant Operator
+### Qdrant Kubernetes Operator
 
 We provide a Qdrant Enterprise Operator for Kubernetes installations. For more information, [use this form](https://qdrant.to/contact-us) to contact us.
+
+### Docker and Docker Compose
+
+Usually, we recommend to run Qdrant in Kubernetes, or use the Qdrant Cloud for production setups. This makes setting up highly available and scalable Qdrant clusters with backups and disaster recovery a lot easier.
+
+However, you can also use Docker and Docker Compose to run Qdrant in production, by following the setup instructions in the [Docker](#docker) and [Docker Compose](#docker-compose) Development sections. 
+In addition, you have to make sure:
+
+* To use a performant [persistent storage](#storage) for your data
+* To configure the [security settings](/documentation/guides/security/) for your deployment
+* To set up and configure Qdrant on multiple nodes for a highly available [distributed deployment](/documentation/guides/distributed_deployment/)
+* To set up a load balancer for your Qdrant cluster
+* To create a [backup and disaster recovery strategy](/documentation/concepts/snapshots/) for your data
+* To integrate Qdrant with your [monitoring](/documentation/guides/monitoring/) and logging solutions
 
 ## Development
 
