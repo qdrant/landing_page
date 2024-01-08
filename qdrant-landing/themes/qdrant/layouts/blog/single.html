@@ -1,6 +1,6 @@
 {{ .Scratch.Set "classes" "qdrant-blog__header" }}
 {{ partial "header" . }}
-<div class="qdrant-blog__post auto-container">
+<div class="qdrant-blog__post auto-container" xmlns="http://www.w3.org/1999/html">
     <section class="row clearfix mt-md-5 pt-md-5">
         <nav class="col-12">
             {{ partial "breadcrumbs" . }}
@@ -73,7 +73,12 @@
                     </div>
                 </section>
                 <div class="qb-post__content">
-                    {{ .Content }}
+                    {{ $reAltTitleIn := "<img src=\"([^\"]+)\" alt=\"([^\"]*)\" title=\"([^\"]+)\">" }}
+                    {{ $reAltTitleOut := "<figure><img src=\"$1\" alt=\"$2\" title=\"$3\"><figcaption>$3</figcaption></figure>" }}
+                    {{ $contentWithImgCaptures := .Content | replaceRE $reAltTitleIn $reAltTitleOut | safeHTML }}
+
+                    {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
+                    {{ $contentWithImgCaptures | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
                 </div>
             </div>
         </div>
