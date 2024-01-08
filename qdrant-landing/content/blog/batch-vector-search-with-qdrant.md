@@ -39,7 +39,7 @@ client.recreate_collection(
     collection_name="test_collection",
     vectors_config=VectorParams(size=4, distance=Distance.EUCLID),
 )
-`﻿``
+```
 
 # Loading the vectors
 
@@ -62,7 +62,7 @@ client.upload_collection(
     collection_name="test_collection",
     vectors=vectors,
 )
-`﻿``
+```
 
 # Batch search in a single request
 
@@ -93,7 +93,7 @@ results = client.search_batch(
 #                payload=None, vector=[0.0, 0.1, 0.0, 0.0])]
 # ]
 
-`﻿``
+```
 
 Each instance of the SearchRequest class may provide its own search parameters, including vector query but also some additional filters. The response will be a list of individual results for each request. In case any of the requests is malformed, there will be an exception thrown, so either all of them pass or none of them.
 
