@@ -39,4 +39,19 @@ form:
     - We are using another solution at the moment
     - No, we are not using any vector search engine
     name: experienced
+  - id: 5
+    label: Please describe the approximate size of the deployment you are planning to use. (optional)
+    placeholder: 3 machines 64GB RAM each, or a deployment capable of serving 100M OpenAI embeddings
+    type: text
+    name: clusterSize
+    required: False
+  - id: 6
+    label: What's your target infrastructure?
+    type: radio
+    options:
+    - AWS
+    - GCP
+    - Azure
+    - Other
+    name: infrastructure
 ---
