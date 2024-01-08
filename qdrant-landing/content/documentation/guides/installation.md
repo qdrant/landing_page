@@ -177,4 +177,4 @@ After a successful build, the binary is available at `./target/release/qdrant`.
 
 ## Client libraries
 
-In addition to the service itself, Qdrant provides client libraries for different programming languages. For a full list and documentation, see the [Client libraries](../../interfaces/#client-libraries) section.
+In addition to the service, Qdrant provides a variety of client libraries for different programming languages. For a full list, see our [Client libraries](../../interfaces/#client-libraries) documentation.
