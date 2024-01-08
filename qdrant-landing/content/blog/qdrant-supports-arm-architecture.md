@@ -7,7 +7,7 @@ short_description: Qdrant announces ARM architecture support, expanding
 description: Qdrant'ssupport for ARM architecture marks a pivotal step in
   enhancing accessibility and performance. This development optimizes data
   indexing and retrieval.
-preview_image: /blog/from_cms/andrey.vasnetsov_docker_in_space_245082f1-c496-4836-9dfd-f5fb4dddf48b.png
+preview_image: /blog/from_cms/docker-preview.png
 date: 2022-09-21T09:49:53.352Z
 author: Kacper Łukawski
 featured: false
