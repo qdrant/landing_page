@@ -29,4 +29,4 @@ collections:
           hint: 'If enabled, this post will be featured in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.' }
       - { label: 'Tags', name: 'tags', widget: 'list', allow_add: true,
           hint: 'Use a comma without a space to separate tags (this widget will add spaces after commas itself). Currently, tags only used to show related posts and not appear in user interface. But it can change in the future.' }
-      - { label: 'Body', name: 'body', widget: 'markdown' }
+      - { label: 'Body', name: 'body', widget: 'markdown', modes: ['raw'] }
