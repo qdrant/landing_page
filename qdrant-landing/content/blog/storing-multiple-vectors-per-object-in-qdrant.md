@@ -7,7 +7,7 @@ short_description: Qdrant's approach to storing multiple vectors per object,
 description: Discover how Qdrant continues to push the boundaries of data
   indexing, providing insights into the practical applications and benefits of
   this novel vector storage strategy.
-preview_image: /blog/from_cms/1_ygzei7duqtbnueyfkaqfkw.jpg
+preview_image: /blog/from_cms/andrey.vasnetsov_a_space_station_with_multiple_attached_modules_853a27c7-05c4-45d2-aebc-700a6d1e79d0.png
 date: 2022-10-05T10:05:43.329Z
 author: Kacper Łukawski
 featured: false
@@ -20,21 +20,50 @@ tags:
 ---
 In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable semantic search with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!
 
-![](/blog/from_cms/1_ygzei7duqtbnueyfkaqfkw.webp "In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable semantic search with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!")
+In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable semantic search with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!
 
 Running the new version of Qdrant is as simple as it always was. By running the following command, you are able to set up a single instance that will also expose the HTTP API:
 
-> docker run -p 6333:6333 qdrant/qdrant:v0.10.1
+
+```
+docker run -p 6333:6333 qdrant/qdrant:v0.10.1
+```
 
 # Creating a collection
 
 Adding new functionalities typically requires making some changes to the interfaces, so no surprise we had to do it to enable the multiple vectors support. Currently, if you want to create a collection, you need to define the configuration of all the vectors you want to store for each object. Each vector type has its own name and the distance function used to measure how far the points are.
 
-<script src="https://gist.github.com/kacperlukawski/9d6c8330b7d4dd1cb1d7e07ba30181c5.js"></script>\
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import VectorParams, Distance
+
+client = QdrantClient()
+client.recreate_collection(
+   collection_name="multiple_vectors",
+   vectors_config={
+       "title": VectorParams(
+           size=100,
+           distance=Distance.EUCLID,
+       ),
+       "image": VectorParams(
+           size=786,
+           distance=Distance.COSINE,
+       ),
+   }
+)
+```
 
 In case you want to keep a single vector per collection, you can still do it without putting a name though.
 
-<script src="https://gist.github.com/kacperlukawski/2ba05929f41649cbb9c7bdea1b0ea8db.js"></script>
+```python
+client.recreate_collection(
+   collection_name="single_vector",
+   vectors_config=VectorParams(
+       size=100,
+       distance=Distance.COSINE,
+   )
+)
+```
 
 All the search-related operations have slightly changed their interfaces as well, so you can choose which vector to use in a specific request. However, it might be easier to see all the changes by following an end-to-end Qdrant usage on a real-world example.
 
@@ -42,11 +71,19 @@ All the search-related operations have slightly changed their interfaces as well
 
 Quite a common approach to building search engines is to combine semantic textual capabilities with image search as well. For that purpose, we need a dataset containing both images and their textual descriptions. There are several datasets available with [MS_COCO_2017_URL_TEXT](https://huggingface.co/datasets/ChristophSchuhmann/MS_COCO_2017_URL_TEXT) being probably the simplest available. And because it’s available on HuggingFace, we can easily use it with their [datasets](https://huggingface.co/docs/datasets/index) library.
 
-<script src="https://gist.github.com/kacperlukawski/c85cfb009cbfdca5b3f0a6321e3f823d.js"></script>
+```python
+from datasets import load_dataset
+
+dataset = load_dataset("ChristophSchuhmann/MS_COCO_2017_URL_TEXT")
+```
 
 Right now, we have a dataset with a structure containing the image URL and its textual description in English. For simplicity, we can convert it to the DataFrame, as this structure might be quite convenient for future processing.
 
-<script src="https://gist.github.com/kacperlukawski/b0c360e071ebd40dce242b1001430260.js"></script>
+```python
+import pandas as pd
+
+dataset_df = pd.DataFrame(dataset["train"])
+```
 
 The dataset consists of two columns: *TEXT* and *URL*. Thus, each data sample is described by two separate pieces of information and each of them has to be encoded with a different model.
 
@@ -54,7 +91,24 @@ The dataset consists of two columns: *TEXT* and *URL*. Thus, each data sample
 
 Thanks to [embetter](https://github.com/koaning/embetter), we can reuse some existing pretrained models and use a convenient scikit-learn API, including pipelines. This library also provides some utilities to load the images, but only supports the local filesystem, so we need to create our own class that will download the file, given its URL.
 
-<script src="https://gist.github.com/kacperlukawski/632f8c481eb651d8eb8004caa02b9edf.js"></script>
+```python
+from pathlib import Path
+from urllib.request import urlretrieve
+from embetter.base import EmbetterBase
+
+class DownloadFile(EmbetterBase):
+
+   def __init__(self, out_dir: Path):
+       self.out_dir = out_dir
+
+   def transform(self, X, y=None):
+       output_paths = []
+       for x in X:
+           output_file = self.out_dir / Path(x).name
+           urlretrieve(x, output_file)
+           output_paths.append(str(output_file))
+       return output_paths
+```
 
 Now we’re ready to define the pipelines to process our images and texts using *all-MiniLM-L6-v2* and *vit_base_patch16_224* models respectively. First of all, let’s start with Qdrant configuration.
 
@@ -62,17 +116,62 @@ Now we’re ready to define the pipelines to process our images and texts using�
 
 We’re going to put two vectors per object (one for image and another one for text), so we need to create a collection with a configuration allowing us to do so.
 
-<script src="https://gist.github.com/kacperlukawski/3ade04b61364f13340216120f0f87651.js"></script>
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import VectorParams, Distance
+
+client = QdrantClient(timeout=None)
+client.recreate_collection(
+   collection_name="ms-coco-2017",
+   vectors_config={
+       "text": VectorParams(
+           size=384,
+           distance=Distance.EUCLID,
+       ),
+       "image": VectorParams(
+           size=1000,
+           distance=Distance.COSINE,
+       ),
+   },
+)
+```
 
 # Defining the pipelines
 
 And since we have all the puzzles already in place, we can start the processing to convert raw data into the embeddings we need. The pretrained models come in handy.
 
-<script src="https://gist.github.com/kacperlukawski/7db2135b24ab8abebe06519b55e072d1.js"></script>
+```python
+from sklearn.pipeline import make_pipeline
+from embetter.grab import ColumnGrabber
+from embetter.vision import ImageLoader, TimmEncoder
+from embetter.text import SentenceEncoder
+
+output_directory = Path("./images")
+
+image_pipeline = make_pipeline(
+   ColumnGrabber("URL"),
+   DownloadFile(output_directory),
+   ImageLoader(),
+   TimmEncoder("vit_base_patch16_224"),
+)
+
+text_pipeline = make_pipeline(
+   ColumnGrabber("TEXT"),
+   SentenceEncoder("all-MiniLM-L6-v2"),
+)
+```
+
 
 Thanks to the scikit-learn API, we can simply call each pipeline on the created DataFrame and put created vectors into Qdrant to enable fast vector search. For convenience, we’re going to put the vectors as other columns in our DataFrame.
 
-<script src="https://gist.github.com/kacperlukawski/ccb153456881ccbbfd0b885be9a716eb.js"></script>
+```python
+sample_df = dataset_df.sample(n=2000, random_state=643)
+image_vectors = image_pipeline.transform(sample_df)
+text_vectors = text_pipeline.transform(sample_df)
+sample_df["image_vector"] = image_vectors.tolist()
+sample_df["text_vector"] = text_vectors.tolist()
+```
+
 
 The created vectors might be easily put into Qdrant. For the sake of simplicity, we’re going to skip it, but if you are interested in details, please check out the [Jupyter notebook](https://gist.github.com/kacperlukawski/961aaa7946f55110abfcd37fbe869b8f) going step by step.
 
@@ -80,7 +179,20 @@ The created vectors might be easily put into Qdrant. For the sake of simplicity,
 
 If you decided to describe each object with several neural embeddings, then at each search operation you need to provide the vector name along with the embedding, so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
 
-<script src="https://gist.github.com/kacperlukawski/71a3f270cc42c0d3cf56c6b3ba2a0528.js"></script>
+```python
+from qdrant_client.http.models import NamedVector
+
+text_results = client.search(
+   collection_name="ms-coco-2017",
+   query_vector=NamedVector(
+       name="text",
+       vector=row["text_vector"],
+   ),
+   limit=5,
+   with_vectors=False,
+   with_payload=True,
+)
+```
 
 If we, on the other hand, decided to search using the image embedding, then we just provide the vector name we have chosen while creating the collection, so instead of “text”, we would provide “image”, as this is how we configured it at the very beginning.
 
