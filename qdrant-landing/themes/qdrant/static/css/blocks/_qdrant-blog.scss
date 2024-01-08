@@ -1,5 +1,6 @@
 @use '../variables' as var;
 @use '../mixins/mixins' as mixins;
+@use "../helpers/functions" as lib;
 
 $blog-font-family: var.$blog-font-family;
 $blog-text-color: var.$blog-text-color;
@@ -140,10 +141,10 @@ $blog-text-color: var.$blog-text-color;
 .qb-card {
   display: block;
   transition: all 0.3s ease-in-out;
-  margin-bottom: 3.17rem;
+  margin-bottom: 2.5rem;
 
   @include media-breakpoint-up(md) {
-    margin-bottom: 5rem;
+    margin-bottom: 3.5rem;
   }
 
   a {
@@ -153,12 +154,12 @@ $blog-text-color: var.$blog-text-color;
 
   &__img {
     display: flex;
-    height: 12.3rem;
-    margin-bottom: 1.58rem;
+    margin-bottom: 1rem;
     position: relative;
     overflow: hidden;
     align-items: center;
     justify-content: center;
+    aspect-ratio: 2/1;
 
     img {
       width: 100%;
@@ -220,13 +221,8 @@ $blog-text-color: var.$blog-text-color;
     .qb-card__img {
       display: flex;
       align-items: center;
-      max-height: 10.5rem;
       overflow: hidden;
-
-      @include media-breakpoint-up(md) {
-        height: auto;
-        max-height: 22rem;
-      }
+      aspect-ratio: 2/1;
     }
 
     .qb-card__title {
@@ -279,6 +275,7 @@ $blog-text-color: var.$blog-text-color;
 
   &__img {
     margin-bottom: 2.5rem;
+    aspect-ratio: 2/1;
 
     @include media-breakpoint-up(md) {
       margin-bottom: 4rem;
