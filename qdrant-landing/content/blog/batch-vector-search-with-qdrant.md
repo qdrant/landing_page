@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Batch vector search with Qdrant
 slug: batch-vector-search-with-qdrant
 short_description: Introducing efficient batch vector search capabilities,
