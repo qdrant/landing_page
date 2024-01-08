@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Storing multiple vectors per object in Qdrant
 slug: storing-multiple-vectors-per-object-in-qdrant
 short_description: Qdrant's approach to storing multiple vectors per object,
