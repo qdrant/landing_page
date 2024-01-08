@@ -41,7 +41,7 @@ There are also some additional parameters you can provide, such as
 * **max_token_len** — maximal length of the token
 * **lowercase** — if set to *true*, then the index will be case-insensitive, as Qdrant will convert all the texts to lowercase
 
-# Using text filters in practice
+## Using text filters in practice
 
 ![](/blog/from_cms/1_pbtd2tzqtjqqlbi61r8czg.webp "There are also some additional parameters you can provide, such as  min_token_len — minimal length of the token max_token_len — maximal length of the token lowercase — if set to true, then the index will be case-insensitive, as Qdrant will convert all the texts to lowercase Using text filters in practice")
 
