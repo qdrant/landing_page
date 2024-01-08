@@ -22,7 +22,7 @@ collections:
       - { label: 'Description', name: 'description', widget: 'string',
           hint: 'Shown in previews of featured posts and on social media' }
       - { label: 'Preview Image', name: 'preview_image', widget: 'image',
-          hint: 'Image should be 1200x630' }
+          hint: 'Image should be 1200x630. Ensure that main image content is placed in the middle to make pictures friendly to cropping' }
       - { label: 'Publish Date', name: 'date', widget: 'datetime' }
       - { label: 'Author', name: 'author', widget: 'string', hint: 'Name'}
       - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: false,
