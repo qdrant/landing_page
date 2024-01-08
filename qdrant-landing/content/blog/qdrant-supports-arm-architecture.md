@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Qdrant supports ARM architecture!
 slug: qdrant-supports-arm-architecture
 short_description: Qdrant announces ARM architecture support, expanding
