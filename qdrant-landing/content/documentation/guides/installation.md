@@ -173,7 +173,7 @@ Build Qdrant with Cargo:
 cargo build --release --bin qdrant
 ```
 
-After a successful build, the binary is available at `./target/release/qdrant`.
+After a successful build, you can find the binary in the following subdirectory `./target/release/qdrant`.
 
 ## Client libraries
 
