@@ -174,3 +174,20 @@
   })
 </script>
 {{ end }}
+
+{{ if or (eq .Section "articles") (eq .Section "blog") }}
+<script>
+  (function() {
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        const target = document.getElementById(this.getAttribute('href').replace('#', ''));
+        target.scrollIntoView({
+          behavior: 'smooth',
+            block: 'center'
+        });
+      });
+    });
+  })();
+</script>
+{{ end }}
