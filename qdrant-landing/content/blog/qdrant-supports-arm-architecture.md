@@ -28,11 +28,11 @@ In order to make an application available for ARM users, it has to be compiled f
 
 AWS offers ARM-based EC2 instances that are 20% cheaper than the x86 corresponding alternatives with a similar configuration. That estimate has been done for the eu-central-1 region (Frankfurt) and R6g/R6i instance families. For the purposes of this comparison, we used an r6i.large instance (Intel Xeon) and compared it to r6g.large one (AWS Graviton2). Both setups have 2 vCPUs and 16 GB of memory available and these were the smallest comparable instances available.
 
-# The results
+## The results
 
 For the purposes of this test, we created some random vectors which were compared with cosine distance.
 
-## Vector search
+### Vector search
 
 During our experiments, we performed 1000 search operations for both ARM64 and x86-based setups. We didn’t measure the network overhead, only the time measurements returned by the engine in the API response. The chart below shows the distribution of that time, separately for each architecture.
 
