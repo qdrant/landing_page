@@ -2,6 +2,11 @@ name: update-blog-preview-images
 on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
+  # Run on commits to the master branch
+  push:
+    branches:
+      - master
+
 
 jobs:
   sync:
