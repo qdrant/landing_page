@@ -33,7 +33,7 @@ For Java and Scala projects, you can also obtain the Qdrant-Spark Connector from
 <dependency>
     <groupId>io.qdrant</groupId>
     <artifactId>spark</artifactId>
-    <version>1.6</version>
+    <version>1.12</version>
 </dependency>
 ```
 
