@@ -33,7 +33,7 @@ For Java and Scala projects, you can also obtain the Qdrant-Spark Connector from
 <dependency>
     <groupId>io.qdrant</groupId>
     <artifactId>spark</artifactId>
-    <version>1.6</version>
+    <version>1.12</version>
 </dependency>
 ```
 
@@ -124,6 +124,14 @@ Here's how you can use the Qdrant-Spark Connector to upsert data:
     .mode("append")
     .save();
 ```
+
+## Databricks
+You can use the `qdrant-spark` connector as a library in [Databricks](https://www.databricks.com/) to ingest data into Qdrant.
+- Go to the `Libraries` section in your cluster dashboard.
+- Select `Install New` to open the library installation modal.
+- Search for `io.qdrant:spark:1.12` in the Maven packages and click `Install`.
+
+![Databricks](/documentation/frameworks/spark/databricks.png)
 
 ## Datatype Support
 
