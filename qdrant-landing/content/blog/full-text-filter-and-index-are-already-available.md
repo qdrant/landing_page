@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Full-text filter and index are already available!
 slug: qdrant-introduces-full-text-filters-and-indexes
 short_description: Qdrant v0.10 introduced full-text filters
