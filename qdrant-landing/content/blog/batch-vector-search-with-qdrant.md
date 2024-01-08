@@ -30,7 +30,7 @@ We’ve used the official Python client to show how the batch search might be in
 
 The first step is to create a collection with a specified configuration — at least vector size and the distance function used to measure the similarity between vectors.
 
-`﻿``python
+```python
 from qdrant_client import QdrantClient
 from qdrant_client.conversions.common_types import VectorParams
 
@@ -45,7 +45,7 @@ client.recreate_collection(
 
 With the collection created, we can put some vectors into it. We’re going to have just a few examples.
 
-`﻿``python
+```python
 vectors = [
     [.1, .0, .0, .0],
     [.0, .1, .0, .0],
@@ -68,7 +68,7 @@ client.upload_collection(
 
 Now we’re ready to start looking for similar vectors, as our collection has some entries. Let’s say we want to find the distance between the selected vector and the most similar database entry and at the same time find the two most similar objects for a different vector query. Up till 0.9, we would need to call the API twice. Now, we can send both requests together:
 
-`﻿``python
+```python
 results = client.search_batch(
     collection_name="test_collection",
     requests=[
