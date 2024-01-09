@@ -17,7 +17,7 @@ tags:
   - Quantized Emdedding Models
   - FastEmbed
 ---
-> *"We want that when things are actually similar or whatever is our definition of similarity. They are close to each other and if they are not, they're far from each other. This is what a model or embedding model tries to do basically in this piece.”*\
+> *"When things are actually similar or how we define similarity. They are close to each other and if they are not, they're far from each other. This is what a model or embedding model tries to do.”*\
 >-- Nirant Kasliwal
 
 Heard about FastEmbed? It's a game-changer. Nirant shares tricks on how to improve your embedding models. You might want to give it a shot!
