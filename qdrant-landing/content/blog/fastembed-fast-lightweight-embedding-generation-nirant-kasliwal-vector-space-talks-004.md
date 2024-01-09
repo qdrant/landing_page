@@ -11,7 +11,7 @@ description: Nirant Kasliwal discusses the efficiency and optimization
 preview_image: /blog/from_cms/nirant-kasliwal.png
 date: 2024-01-09T11:38:59.693Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talks
   - Quantized Emdedding Models
