@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Superpower Your Semantic Search Using Vector Database - Nicolas Mauti |
   Vector Space Talk
 slug: vector-space-talk-007
@@ -36,7 +36,7 @@ Nicolas Mauti, a computer science graduate from INSA Lyon Engineering School, tr
 
 Dive into the intricacies of semantic search enhancement with Nicolas Mauti, MLOps Engineer at Malt. Discover how Nicolas and his team at Malt revolutionize the way freelancers connect with projects.
 
-In this episode, Nicolas Mauti delves into enhancing semantics search at Malt by implementing a retriever-ranker architecture with multilingual transformer-based models, improving freelancer-project matching through a transition to Qdrant that reduced latency from 10 seconds to 1 second and bolstering the platform's overall performance and scaling capabilities.
+In this episode, Nicolas delves into enhancing semantics search at Malt by implementing a retriever-ranker architecture with multilingual transformer-based models, improving freelancer-project matching through a transition to Qdrant that reduced latency from 10 seconds to 1 second and bolstering the platform's overall performance and scaling capabilities.
 
 5 Keys to Learning from the Episode:
 
