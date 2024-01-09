@@ -10,7 +10,7 @@ description: Andrey Vasnetsov, CTO of Qdrant, discusses the concept of binary
 preview_image: /blog/from_cms/andrey-vasnetsov.png
 date: 2024-01-09T10:30:10.952Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talks
   - Binary Quantization
