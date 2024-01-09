@@ -17,8 +17,7 @@ tags:
   - Qdrant
 ---
 
-> "Everything changed when we actually tried binary quantization with OpenAI model.”
-
+> "Everything changed when we actually tried binary quantization with OpenAI model.”\
 > -- Andrey Vasnetsov
 
 Ever wonder why we need quantization for vector indexes? Andrey Vasnetsov explains the complexities and challenges of searching through proximity graphs. Binary quantization reduces storage size and boosts speed by 30x, but not all models are compatible. 
@@ -50,30 +49,22 @@ In this episode, Andrey shares invaluable insights into the world of binary quan
 
 ## Show Notes:
 
-00:00 Overview of HNSW vector index.
-
-03:57 Efficient storage needed for large vector sizes.
-
-07:49 Oversampling controls precision in real-time search.
-
-12:21 Comparison of vectors using dot production.
-
-15:20 Experimenting with models, OpenAI has compatibility.
-
+00:00 Overview of HNSW vector index.\
+03:57 Efficient storage needed for large vector sizes.\
+07:49 Oversampling controls precision in real-time search.\
+12:21 Comparison of vectors using dot production.\
+15:20 Experimenting with models, OpenAI has compatibility.\
 18:29 Qdrant architecture doesn't support removing original vectors.
 
 ## More Quotes from Andrey:
 
-"Inside Qdrant we use HNSW vector Index, which is essentially a proximity graph. You can imagine it as a number of vertices where each vertex is representing one vector and links between those vertices representing nearest neighbors.” 
-
+"Inside Qdrant we use HNSW vector Index, which is essentially a proximity graph. You can imagine it as a number of vertices where each vertex is representing one vector and links between those vertices representing nearest neighbors.”\
 -- Andrey Vasnetsov
 
-"The main idea is that we convert the float point elements of the vector into binary representation. So, it's either zero or one, depending if the original element is positive or negative.”
-
+"The main idea is that we convert the float point elements of the vector into binary representation. So, it's either zero or one, depending if the original element is positive or negative.”\
 -- Andrey Vasnetsov
 
-"We tried most popular open source models, and unfortunately they are not as good compatible with binary quantization as OpenAI.”
-
+"We tried most popular open source models, and unfortunately they are not as good compatible with binary quantization as OpenAI.”\
 -- Andrey Vasnetsov
 
 ## Transcript:
