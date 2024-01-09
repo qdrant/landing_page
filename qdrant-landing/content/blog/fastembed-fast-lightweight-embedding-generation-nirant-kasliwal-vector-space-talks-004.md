@@ -6,7 +6,7 @@ slug: vector-space-talk-004
 short_description: Nirant Kasliwal, AI Engineer at Qdrant, discusses the power
   and potential of embedding models.
 description: Nirant Kasliwal discusses the efficiency and optimization
-  techniques of Fast Embed, a Python library designed for speedy, lightweight
+  techniques of FastEmbed, a Python library designed for speedy, lightweight
   embedding generation in machine learning applications.
 preview_image: /blog/from_cms/nirant-kasliwal.png
 date: 2024-01-09T11:38:59.693Z
