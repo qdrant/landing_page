@@ -38,7 +38,7 @@ Filip is not only professionally engaged but also passionate about tech startups
 
 ## **Top Takeaways:**
 
-Take a look at the song vibe recommender system created by Filip Makraduli, Data Scientist at Marks and Spencer. Find out how it works!
+Take a look at the song vibe recommender system created by Filip Makraduli. Find out how it works!
 
 Filip discusses how AI can assist in finding the perfect songs for any mood. He takes us through his unique approach, using human language and AI models to capture the essence of a song and generate personalized recommendations.
 
