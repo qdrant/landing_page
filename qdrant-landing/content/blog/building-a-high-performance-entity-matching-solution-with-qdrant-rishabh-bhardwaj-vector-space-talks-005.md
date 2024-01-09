@@ -11,7 +11,7 @@ description: Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses building
 preview_image: /blog/from_cms/rishabh-bhardwaj.png
 date: 2024-01-09T11:53:56.825Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talk
   - Entity Matching Solution
