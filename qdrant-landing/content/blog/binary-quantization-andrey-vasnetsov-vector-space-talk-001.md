@@ -32,7 +32,7 @@ Andrey worked as a Machine Learning Engineer most of his career. He prefers prac
 
 ## Top Takeaways:
 
-Discover how oversampling optimizes precision in real-time, enhancing the accuracy without altering stored data structures in our very first episode of the Vector Space Talks by Qdrant, with none other than the CTO of Quadrant, Andrey Vasnetsov. 
+Discover how oversampling optimizes precision in real-time, enhancing the accuracy without altering stored data structures in our very first episode of the Vector Space Talks by Qdrant, with none other than the CTO of Qdrant, Andrey Vasnetsov. 
 
 In this episode, Andrey shares invaluable insights into the world of binary quantization and its profound impact on Vector Space technology. 
 
@@ -40,11 +40,11 @@ In this episode, Andrey shares invaluable insights into the world of binary quan
 
 1. The necessity of quantization and the complex challenges it helps to overcome.
 2. The transformative effects of binary quantization on processing speed and storage size reduction.
-3. A detailed exploration of oversampling and its real-time precision control in query searches.
+3. A detailed exploration of oversampling and its real-time precision control in query search.
 4. Understanding the simplicity and effectiveness of binary quantization, especially when compared to more intricate quantization methods.
 5. The ongoing research and potential impact of binary quantization on future models.
 
-> Fun Fact: Binary quantization can deliver processing speeds over 30 times faster than traditional quantization methods, which is a revolutionary advancement in vector space technology.
+> Fun Fact: Binary quantization can deliver processing speeds over 30 times faster than traditional quantization methods, which is a revolutionary advancement in Vector Space technology.
 > 
 
 ## Show Notes:
