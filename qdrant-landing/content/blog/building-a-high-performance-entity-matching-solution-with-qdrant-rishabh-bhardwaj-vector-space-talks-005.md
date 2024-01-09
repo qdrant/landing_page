@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Building a High-Performance Entity Matching Solution with Qdrant -
   Rishabh Bhardwaj | Vector Space Talks
 slug: vector-space-talk-005
