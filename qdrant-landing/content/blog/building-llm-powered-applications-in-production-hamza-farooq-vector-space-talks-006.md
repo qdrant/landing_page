@@ -30,7 +30,7 @@ Hamza Farooq, an accomplished educator and AI enthusiast, is the founder of Trav
 
 <iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/1oh31JA2XsqzuZhCUQVNN8/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
 
-## **Top Takeaways:****************************
+## Top Takeaways:
 
 UX specialist? Your expertise in designing seamless user experiences for GenAI products is guaranteed to be in high demand. Let's elevate the user interface for next-gen technology!
 
