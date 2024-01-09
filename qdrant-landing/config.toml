@@ -159,7 +159,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     name = "Blog"
     weight = 5
     parent = "resources"
-    url = "https://qdrant.tech/blog/"
+    url = "/blog/"
 
   [[menu.main]]
     identifier = "roadmap"
