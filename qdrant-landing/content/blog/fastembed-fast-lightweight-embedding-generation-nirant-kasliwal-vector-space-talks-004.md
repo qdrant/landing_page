@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: "FastEmbed: Fast & Lightweight Embedding Generation - Nirant Kasliwal |
   Vector Space Talks"
 slug: vector-space-talk-004
