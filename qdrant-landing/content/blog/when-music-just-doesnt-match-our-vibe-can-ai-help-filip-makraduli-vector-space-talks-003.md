@@ -59,7 +59,7 @@ Here are 5 key things you'll learn from this video:
 06:17 Faster and accurate model.\
 10:07 Sentence embedding model maps song descriptions.\
 14:32 Improving recommendations, user personalization in music.\
-15:49 Quadrant Python client creates user recommendations.\
+15:49 Qdrant Python client creates user recommendations.\
 21:26 Questions about getting better embeddings for songs.\
 25:04 Contextual information for personalized walking recommendations.\
 26:00 Need predictions, voice input, and music options.
