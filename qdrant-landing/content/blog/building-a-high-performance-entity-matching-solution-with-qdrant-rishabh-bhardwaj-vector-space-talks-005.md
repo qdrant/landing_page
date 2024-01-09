@@ -3,9 +3,9 @@ draft: true
 title: "Building a High-Performance Entity Matching Solution with Qdrant -
   Rishabh Bhardwaj | Vector Space Talks #005"
 slug: vector-space-talk-005
-short_description: Rishabh Bhardwaj, a data engineer at HRS Group, discusses
+short_description: Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses
   building a high-performance hotel matching solution with Qdrant.
-description: Rishabh Bhardwaj, a data engineer at HRS Group, discusses building
+description: Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses building
   a high-performance hotel matching solution with Qdrant, addressing data
   inconsistency, duplication, and real-time processing challenges.
 preview_image: /blog/from_cms/rishabh-bhardwaj.png
@@ -23,7 +23,7 @@ tags:
 
 How does the HNSW (Hierarchical Navigable Small World) algorithm benefit the solution built by Rishabh?
 
-Rhishabh, a data engineer at HRS Group, excels in designing, developing, and maintaining data pipelines and infrastructure crucial for data-driven decision-making processes. With extensive experience, Rhishabh brings a profound understanding of data engineering principles and best practices to the role. Proficient in SQL, Python, Airflow, ETL tools, and cloud platforms like AWS and Azure, Rhishabh has a proven track record of delivering high-quality data solutions that align with business needs. Collaborating closely with data analysts, scientists, and stakeholders at HRS Group, Rhishabh ensures the provision of valuable data and insights for informed decision-making.
+Rhishabh, a Data Engineer at HRS Group, excels in designing, developing, and maintaining data pipelines and infrastructure crucial for data-driven decision-making processes. With extensive experience, Rhishabh brings a profound understanding of data engineering principles and best practices to the role. Proficient in SQL, Python, Airflow, ETL tools, and cloud platforms like AWS and Azure, Rhishabh has a proven track record of delivering high-quality data solutions that align with business needs. Collaborating closely with data analysts, scientists, and stakeholders at HRS Group, Rhishabh ensures the provision of valuable data and insights for informed decision-making.
 
 ***Listen to the episode on [Spotify](https://open.spotify.com/episode/3IMIZljXqgYBqt671eaR9b?si=HUV6iwzIRByLLyHmroWTFA), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/tDWhMAOyrcE).***
 
@@ -35,13 +35,13 @@ Rhishabh, a data engineer at HRS Group, excels in designing, developing, and mai
 
 Data inconsistency, duplication, and real-time processing challenges? Rishabh Bhardwaj, Data Engineer at HRS Group has the solution!
 
-In this episode, Rishabh Bhardwaj dives into the nitty-gritty of creating a high-performance hotel matching solution with Qdrant, covering everything from data inconsistency challenges to the speed and accuracy enhancements achieved through the HNSW algorithm.
+In this episode, Rishabh dives into the nitty-gritty of creating a high-performance hotel matching solution with Qdrant, covering everything from data inconsistency challenges to the speed and accuracy enhancements achieved through the HNSW algorithm.
 
 5 Keys to Learning from the Episode:
 
 1. Discover the importance of data consistency and the challenges it poses when dealing with multiple sources and languages.
-2. Learn how Quadrant, an open-source vector database, outperformed other solutions and provided an efficient solution for high-speed matching.
-3. Explore the unique modification of the HNSW algorithm in Quadrant and how it optimized the performance of the solution.
+2. Learn how Qdrant, an open-source vector database, outperformed other solutions and provided an efficient solution for high-speed matching.
+3. Explore the unique modification of the HNSW algorithm in Qdrant and how it optimized the performance of the solution.
 4. Dive into the crucial role of geofiltering and how it ensures accurate matching based on hotel locations.
 5. Gain insights into the considerations surrounding GDPR compliance and the secure handling of hotel data.
 
@@ -72,10 +72,10 @@ In this episode, Rishabh Bhardwaj dives into the nitty-gritty of creating a high
 
 ## Transcript:
 Demetrios:
-Hello, fellow travelers in vector space there. I call you astronauts. Today we've got an incredible conversation coming up with Rashab, and I am happy that you all have joined us. Rashab, it's great to have you here, man. How you doing?
+Hello, fellow travelers in vector space. Dare, I call you astronauts? Today we've got an incredible conversation coming up with Rishabh, and I am happy that you all have joined us. Rishabh, it's great to have you here, man. How you doing?
 
 Rishabh Bhardwaj:
-Thanks for having me, Dimitris. I'm doing really great.
+Thanks for having me, Demetrios. I'm doing really great.
 
 Demetrios:
 Cool. I love hearing that. And I know you are in India. It is a little bit late there, so I appreciate you taking the time to come on the Vector space talks with us today. You've got a lot of stuff that you're going to be talking about. For anybody that does not know you, you are a data engineer at Hrs Group, and you're responsible for designing, developing, and maintaining data pipelines and infrastructure that supports the company. I am excited because today we're going to be talking about building a high performance hotel matching solution with Qdrant. Of course, there's a little kicker there.
@@ -270,10 +270,10 @@ Rishabh Bhardwaj:
 So in terms of accuracy, Mpnet was a little bit better than Mini LM but then again it was a lot slower than the Mini LM model. It was around five times slower than the Mini LM model, so it was not a big trade off to give up with. So we decided to go ahead with Mini LM.
 
 Demetrios:
-Awesome. Well, dude, this has been pretty enlightening. I really appreciate you coming on here and doing this. If anyone else has any questions for you, we'll leave all your information on where to get in touch in the chat. Rashab, thank you so much. This is super cool. I appreciate you coming on here. Anyone that's listening, if you want to come onto the vector space talks, feel free to reach out to me and I'll make it happen.
+Awesome. Well, dude, this has been pretty enlightening. I really appreciate you coming on here and doing this. If anyone else has any questions for you, we'll leave all your information on where to get in touch in the chat. Rishabh, thank you so much. This is super cool. I appreciate you coming on here. Anyone that's listening, if you want to come onto the vector space talks, feel free to reach out to me and I'll make it happen.
 
 Demetrios:
 This is really cool to see the different work that people are doing and how you all are evolving the game, man. I really appreciate this.
 
 Rishabh Bhardwaj:
-Thank you, Dimitros. Thank you for inviting inviting me and have a nice day.
+Thank you, Demetrios. Thank you for inviting inviting me and have a nice day.
