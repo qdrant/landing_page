@@ -12,7 +12,7 @@ description: Filip Makraduli discusses using human language and AI to capture
 preview_image: /blog/from_cms/filip-makraduli.png
 date: 2024-01-09T10:44:20.559Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talks
   - Vector Database
