@@ -11,7 +11,7 @@ description: Noé Achache shares insights on vector search complexities,
 preview_image: /blog/from_cms/noé-achache.png
 date: 2024-01-09T13:51:26.168Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talks
   - Vector Image Search
