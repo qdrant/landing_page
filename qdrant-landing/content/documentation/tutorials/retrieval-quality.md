@@ -35,8 +35,8 @@ search quality.
 
 There are various ways of how quantify the quality of semantic search. Some of them, such as [Precision@k](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k), 
 are based on the number of relevant documents in the top-k search results. Others, such as [Mean Reciprocal Rank (MRR)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank), 
-take into account the position of the first relevant document in the search results. DCG and NDCG metrics are, in turn, based on the relevance 
-score of the documents.
+take into account the position of the first relevant document in the search results. [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) 
+metrics are, in turn, based on the relevance score of the documents.
 
 If we treat the search pipeline as a whole, we could use them all. The same is true for the embeddings quality evaluation. However, for the 
 ANN algorithm itself, anything based on the relevance score or ranking is not applicable. Ranking in vector search relies on the distance
