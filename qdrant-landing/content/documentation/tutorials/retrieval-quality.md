@@ -182,7 +182,7 @@ see how it affects the precision. Of course, we need to wait until the indexing 
 client.update_collection(
     collection_name="arxiv-titles-instructorxl-embeddings",
     hnsw_config=models.HnswConfigDiff(
-        m=32,  # Increase the number of edges per node from the default 16 to 64
+        m=32,  # Increase the number of edges per node from the default 16 to 32
         ef_construct=200,  # Increase the number of neighbours from the default 100 to 200
     )
 )
