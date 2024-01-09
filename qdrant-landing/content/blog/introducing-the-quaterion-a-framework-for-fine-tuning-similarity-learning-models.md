@@ -1,29 +1,29 @@
 ---
-draft: false
+draft: true
+preview_image: /blog/from_cms/new-cmp-demo.gif
+sitemapExclude: true
 title: "Introducing the Quaterion: a framework for fine-tuning similarity
   learning models"
 slug: quaterion
 short_description: Please meet Quaterion—a framework for training and
   fine-tuning similarity learning models.
 description: We're happy to share the result of the work we've been into during
-  the last months - Quaterion. It is a
-  framework for fine-tuning similarity learning models that streamlines the
-  training process to make it significantly faster and cost-efficient.
-preview_image: /blog/from_cms/new-cmp-demo.gif
+  the last months - Quaterion. It is a framework for fine-tuning similarity
+  learning models that streamlines the training process to make it significantly
+  faster and cost-efficient.
 date: 2022-06-28T12:48:36.622Z
 author: Andrey Vasnetsov
-author_link: https://www.linkedin.com/in/andrey-vasnetsov-75268897/
 featured: true
-categories:
-  - News
-  - Release
-  - Quaterion
+author_link: https://www.linkedin.com/in/andrey-vasnetsov-75268897/
 tags:
   - Corporate news
   - Release
   - Quaterion
   - PyTorch
-sitemapExclude: True
+categories:
+  - News
+  - Release
+  - Quaterion
 ---
 
 We're happy to share the result of the work we've been into during the last months -
