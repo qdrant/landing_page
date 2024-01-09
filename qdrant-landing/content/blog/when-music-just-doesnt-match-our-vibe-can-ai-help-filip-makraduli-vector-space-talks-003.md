@@ -18,7 +18,7 @@ tags:
   - Vector Database
   - LLM Recommendation System
 ---
-> "Was it possible to somehow maybe find a way to transfer this feeling that we have this vibe and get the help of AI to understand what exactly we need at that moment in terms of songs?”\
+> *"Was it possible to somehow maybe find a way to transfer this feeling that we have this vibe and get the help of AI to understand what exactly we need at that moment in terms of songs?”*\
 > -- Filip Makraduli
 > 
 
@@ -66,13 +66,13 @@ Here are 5 key things you'll learn from this video:
 
 ## More Quotes from Filip:
 
-"When you log in with Spotify, you could get recommendations related to your taste on Spotify or on whatever app you listen your music on.”\
+*"When you log in with Spotify, you could get recommendations related to your taste on Spotify or on whatever app you listen your music on.”*\
 -- Filip Makraduli
 
-"Once the user writes a query and the query mentions, like some kind of a mood, for example, I feel happy and it's a sunny day and so on, you would get the similarity to the song that has this kind of language explanations and language intricacies in its description.”\
+*"Once the user writes a query and the query mentions, like some kind of a mood, for example, I feel happy and it's a sunny day and so on, you would get the similarity to the song that has this kind of language explanations and language intricacies in its description.”*\
 -- Filip Makraduli
 
-"I've explored Qdrant and as I said with Spotify web API there are a lot of things to be done with these specific user-created recommendations.”\
+*"I've explored Qdrant and as I said with Spotify web API there are a lot of things to be done with these specific user-created recommendations.”*\
 -- Filip Makraduli
 
 ## Transcript:
