@@ -1,6 +1,6 @@
 ---
 title: Measure retrieval quality
-weight: 16
+weight: 21
 ---
 
 # Measure retrieval quality
