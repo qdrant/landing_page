@@ -12,7 +12,7 @@ description: Nicolas Mauti discusses the improvements to Malt's semantic search
 preview_image: /blog/from_cms/nicolas-mauti.png
 date: 2024-01-09T12:27:18.659Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talks
   - Retriever-Ranker Architecture
