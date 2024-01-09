@@ -1,8 +1,7 @@
 ---
-draft: true
+draft: false
 title: "Navigating the Complexities of Vector Search: Practical Insights from
-  Diverse Projects in Image Search and RAG - Noé Achache | Vector Space Talk
-  #008"
+  Diverse Projects in Image Search and RAG - Noé Achache | Vector Space Talk"
 slug: vector-space-talk-008
 short_description: Noe Acache discusses their projects in image search and RAG
   and its complexities.
@@ -36,7 +35,7 @@ Noé Achache is a Lead Data Scientist at Sicara, where he worked on a wide range
 
 Discover the efficacy of Dino V2 in image representation and the complexities of deploying vector databases, while navigating the challenges of fine-tuning and data safety in sensitive fields.
 
-In this episode, Noe Acache, shares insights on vector search from image search to retrieval augmented generation, emphasizing practical application in complex projects.
+In this episode, Noe, shares insights on vector search from image search to retrieval augmented generation, emphasizing practical application in complex projects.
 
 5 key insights you’ll learn:
 
