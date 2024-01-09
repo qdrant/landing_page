@@ -11,7 +11,7 @@ description: Nils Reimers head of machine learning at Cohere comes on the recent
   vector space talks to share details about their latest embedding V3 model.
 date: 2023-11-19T12:48:36.622Z
 author: Demetrios Brinkmann
-featured: false
+featured: true
 author_link: https://www.linkedin.com/in/dpbrinkm/
 tags:
   - Vector Space Talk
