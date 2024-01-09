@@ -22,7 +22,7 @@ tags:
 
 How do you think Hamza's background in machine learning and previous experiences at Google and Walmart Labs have influenced his approach to building LLM-powered applications?
 
-Hamza Farooq, an accomplished educator and AI enthusiast, is the founder of Traversaal.ai. His journey is marked by a relentless passion for AI exploration, particularly in building Large Language Models. As an adjunct professor at UCLA Anderson, Hamza shapes the future of AI by teaching cutting-edge technology courses. At Traversaal.ai, he empowers businesses with domain-specific AI solutions, focusing on conversational search and recommendation systems to deliver personalized experiences. With a diverse career spanning academia, industry, and entrepreneurship, Hamza brings a wealth of experience from roles at Google. His overarching goal is to bridge the gap between AI innovation and real-world applications, introducing transformative solutions to the market. Hamza eagerly anticipates the dynamic challenges and opportunities in the ever-evolving field of AI and machine learning.
+Hamza Farooq, an accomplished educator and AI enthusiast, is the founder of Traversaal.ai. His journey is marked by a relentless passion for AI exploration, particularly in building Large Language Models. As an adjunct professor at UCLA Anderson, Hamza shapes the future of AI by teaching cutting-edge technology courses. At Traversaal.ai, he empowers businesses with domain-specific AI solutions, focusing on conversational search and recommendation systems to deliver personalized experiences. With a diverse career spanning academia, industry, and entrepreneurship, Hamza brings a wealth of experience from time at Google. His overarching goal is to bridge the gap between AI innovation and real-world applications, introducing transformative solutions to the market. Hamza eagerly anticipates the dynamic challenges and opportunities in the ever-evolving field of AI and machine learning.
 
 ***Listen to the episode on [Spotify](https://open.spotify.com/episode/1oh31JA2XsqzuZhCUQVNN8?si=viPPgxiZR0agFhz1QlimSA), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/0N9ozwgmEQM).***
 
@@ -32,9 +32,9 @@ Hamza Farooq, an accomplished educator and AI enthusiast, is the founder of Trav
 
 ## **Top Takeaways:****************************
 
-UX specialist? Your expertise in designing seamless user experiences for Gen AI products is guaranteed to be in high demand. Let's elevate the user interface for next-gen technology!
+UX specialist? Your expertise in designing seamless user experiences for GenAI products is guaranteed to be in high demand. Let's elevate the user interface for next-gen technology!
 
-In this episode, Hamza Farooq, CEO and founder at Traversaal.ai presents the future of large language models and complex search, discussing real-world applications and the challenges of implementing these technologies in production.
+In this episode, Hamza presents the future of large language models and complex search, discussing real-world applications and the challenges of implementing these technologies in production.
 
 5 Keys to Learning from the Episode:
 
