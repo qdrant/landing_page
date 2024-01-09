@@ -1,7 +1,7 @@
 ---
 draft: false
 title: "Navigating the Complexities of Vector Search: Practical Insights from
-  Diverse Projects in Image Search and RAG - Noé Achache | Vector Space Talk"
+  Diverse Projects in Image Search and RAG - Noé Achache | Vector Space Talks"
 slug: vector-space-talk-008
 short_description: Noe Acache discusses their projects in image search and RAG
   and its complexities.
