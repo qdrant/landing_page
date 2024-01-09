@@ -159,9 +159,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     name = "Blog"
     weight = 5
     parent = "resources"
-    url = "https://blog.qdrant.tech/"
-    [menu.main.params]
-      external = true
+    url = "https://qdrant.tech/blog/"
 
   [[menu.main]]
     identifier = "roadmap"
