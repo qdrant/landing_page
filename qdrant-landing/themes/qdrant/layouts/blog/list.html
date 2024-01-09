@@ -72,7 +72,7 @@
         {{ end }}
         <!-- End of Featured Post -->
         <!-- Latest Posts -->
-        <div class="col-12 col-md-5 d-flex flex-column justify-content-between">
+        <div class="col-12 col-md-5 d-flex flex-column">
             {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
             <div class="qb-card qb-card_border-bottom ml-md-3">
                 <h3 class="qb-card__title">
