@@ -10,7 +10,7 @@ description: Hamza Farooq presents the future of large language models, complex
 preview_image: /blog/from_cms/hamza-farooq.png
 date: 2024-01-09T13:50:05.622Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talks
   - LLM
