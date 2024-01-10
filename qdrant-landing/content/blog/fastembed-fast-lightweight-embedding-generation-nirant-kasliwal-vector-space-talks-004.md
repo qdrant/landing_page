@@ -2,7 +2,7 @@
 draft: false
 title: "FastEmbed: Fast & Lightweight Embedding Generation - Nirant Kasliwal |
   Vector Space Talks"
-slug: vector-space-talk-embedding-models
+slug: fast-embed-models
 short_description: Nirant Kasliwal, AI Engineer at Qdrant, discusses the power
   and potential of embedding models.
 description: Nirant Kasliwal discusses the efficiency and optimization
