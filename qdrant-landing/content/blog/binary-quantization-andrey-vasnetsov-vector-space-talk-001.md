@@ -7,7 +7,7 @@ short_description: Andrey Vasnetsov, CTO of Qdrant, discusses the concept of
 description: Andrey Vasnetsov, CTO of Qdrant, discusses the concept of binary
   quantization and its benefits in vector indexing, including the challenges and
   potential future developments of this technique.
-preview_image: /blog/from_cms/andrey-vasnetsov.png
+preview_image: /blog/from_cms/andrey-vasnetsov-cropped.png
 date: 2024-01-09T10:30:10.952Z
 author: Demetrios Brinkmann
 featured: false
