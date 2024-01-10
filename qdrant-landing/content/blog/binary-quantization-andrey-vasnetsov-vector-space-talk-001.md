@@ -28,7 +28,7 @@ Andrey worked as a Machine Learning Engineer most of his career. He prefers prac
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/4aUq5VnR_VI?si=CdT2OL-eQLEFjswr" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/7dPOm3x4rDBwSFkGZuwaMq/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Binary-Quantization---Andrey-Vasnetsov--Vector-Space-Talk-001-e2bsa3m/a-aajrqfd" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## Top Takeaways:
 
