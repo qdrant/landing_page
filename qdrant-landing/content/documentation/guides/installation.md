@@ -108,7 +108,7 @@ Pull the image:
 docker pull qdrant/qdrant
 ```
 
-Run the container:
+In the following command, revise `$(pwd)/path/to/data` for your Docker configuration. Then use the updated command to run the container:
 
 ```bash
 docker run -p 6333:6333 \
