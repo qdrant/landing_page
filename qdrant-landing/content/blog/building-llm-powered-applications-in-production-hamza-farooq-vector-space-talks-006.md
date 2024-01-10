@@ -2,7 +2,7 @@
 draft: false
 title: Building LLM Powered Applications in Production - Hamza Farooq | Vector
   Space Talks
-slug: vector-space-talk-llm-complex-search-copilot
+slug: llm-complex-search-copilot
 short_description: Hamza Farooq discusses the future of LLMs, complex search, and copilots.
 description: Hamza Farooq presents the future of large language models, complex
   search, and copilot, discussing real-world applications and the challenges of
