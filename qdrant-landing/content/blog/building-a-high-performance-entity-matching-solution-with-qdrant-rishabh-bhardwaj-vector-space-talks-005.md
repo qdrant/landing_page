@@ -8,7 +8,7 @@ short_description: Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses
 description: Rishabh Bhardwaj, a Data Engineer at HRS Group, discusses building
   a high-performance hotel matching solution with Qdrant, addressing data
   inconsistency, duplication, and real-time processing challenges.
-preview_image: /blog/from_cms/rishabh-bhardwaj.png
+preview_image: /blog/from_cms/rishabh-bhardwaj-cropped.png
 date: 2024-01-09T11:53:56.825Z
 author: Demetrios Brinkmann
 featured: false
@@ -29,7 +29,7 @@ Rhishabh, a Data Engineer at HRS Group, excels in designing, developing, and mai
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/tDWhMAOyrcE?si=-LVPtwvJTyyvaSv3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/3IMIZljXqgYBqt671eaR9b/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Building-a-High-Performance-Entity-Matching-Solution-with-Qdrant---Rishabh-Bhardwaj--Vector-Space-Talks-005-e2cbu7e/a-aaldc8e" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top Takeaways:**
 
