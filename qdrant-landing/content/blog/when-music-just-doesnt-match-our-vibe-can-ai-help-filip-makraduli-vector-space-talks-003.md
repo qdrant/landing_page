@@ -9,7 +9,7 @@ description: Filip Makraduli discusses using human language and AI to capture
   music vibes, encoding text with sentence transformers, generating
   recommendations through vector spaces, integrating Streamlit and Spotify API,
   and future improvements for AI-powered music recommendations.
-preview_image: /blog/from_cms/filip-makraduli.png
+preview_image: /blog/from_cms/filip-makraduli-cropped.png
 date: 2024-01-09T10:44:20.559Z
 author: Demetrios Brinkmann
 featured: false
@@ -34,7 +34,7 @@ Filip is not only professionally engaged but also passionate about tech startups
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/WIBtZa7mcCs?si=szfeeuIAZ5LEgVI3" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/6a517GfyUQLuXwFRxvwtp5/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/When-music-just-doesnt-match-our-vibe--can-AI-help----Filip-Makraduli--Vector-Space-Talks-003-e2bskcq/a-aajslv4" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top Takeaways:**
 
