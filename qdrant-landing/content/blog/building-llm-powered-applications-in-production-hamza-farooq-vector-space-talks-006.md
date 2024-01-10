@@ -7,7 +7,7 @@ short_description: Hamza Farooq discusses the future of LLMs, complex search, an
 description: Hamza Farooq presents the future of large language models, complex
   search, and copilot, discussing real-world applications and the challenges of
   implementing these technologies in production.
-preview_image: /blog/from_cms/hamza-farooq.png
+preview_image: /blog/from_cms/hamza-farooq-cropped.png
 date: 2024-01-09T12:16:22.760Z
 author: Demetrios Brinkmann
 featured: false
@@ -28,7 +28,7 @@ Hamza Farooq, an accomplished educator and AI enthusiast, is the founder of Trav
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/0N9ozwgmEQM?si=4f_MaEUrberT575w" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/1oh31JA2XsqzuZhCUQVNN8/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Building-LLM-Powered-Applications-in-Production---Hamza-Farooq--Vector-Space-Talks-006-e2cuur5/a-aan8b8j" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## Top Takeaways:
 
@@ -72,68 +72,28 @@ In this episode, Hamza presents the future of large language models and complex 
 ## Transcript:
 Demetrios:
 Yes, we are live. So what is going on? Hamza, it's great to have you here for this edition of the Vector Space Talks.
-
-Demetrios:
 Let's first start with this. Everybody that is here with us right now, great to have you.
-
-Demetrios:
 Let us know where you're dialing in from in the chat and feel free over the course of the next 20 - 25 minutes to ask any questions as they.
-
-Demetrios:
 Come up in the chat.
-
-Demetrios:
 I'll be monitoring it and maybe jumping.
-
-Demetrios:
 In in case we need to stop.
-
-Demetrios:
 Hunts at any moment. And if you or anybody you know would like to come and give a presentation on our vector space talks, we are very open to that. Reach out to me either on discord or LinkedIn or your preferred method of communication.
-
-Demetrios:
 Maybe it's carrier Pigeon.
-
-Demetrios:
 Whatever it may be, I am here and ready to hear your pitch about.
-
-Demetrios:
 What you want to talk about. It's always cool hearing about how people are building with Qdrant or what they.
-
-Demetrios:
 Are building in this space. So without further ado, let's jump into this with my man Hamza. Great to have you here, dude.
 
-Hamza Farooq:
-Thank you for having me. It's an honor.
+Hamza Farooq: Thank you for having me. It's an honor.
 
-Demetrios:
-You say that now. Just wait. You don't know me that well. I guess that's the only thing. So let's just say this. You're doing some incredible stuff.
-
-Demetrios:
+Demetrios: You say that now. Just wait. You don't know me that well. I guess that's the only thing. So let's just say this. You're doing some incredible stuff.
 You're the founder of Traversaal.ai.
-
-Demetrios:
 You have been building large language models in the past, and you're also a professor at UCLA. You're doing all kinds of stuff.
-
-Demetrios:
 And that is why I think it.
-
-Demetrios:
 Is my honor to have you here with us today. I know you've got all kinds of fun stuff that you want to get.
-
-Demetrios:
 Into, and it's really about building llm powered applications in production.
-
-Demetrios:
 You have some slides for us, I believe. So I'm going to kick it over.
-
-Demetrios:
 To you, let you start rocking, and in case anything comes up, I'll jump.
-
-Demetrios:
 In and stop you from going too.
-
-Demetrios:
 Far down the road.
 
 Hamza Farooq:
