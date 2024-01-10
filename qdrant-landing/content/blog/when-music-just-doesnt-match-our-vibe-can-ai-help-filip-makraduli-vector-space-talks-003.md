@@ -2,7 +2,7 @@
 draft: false
 title: When music just doesn't match our vibe, can AI help? - Filip Makraduli |
   Vector Space Talks
-slug: vector-space-talk-003
+slug: human-language-ai-models
 short_description: Filip Makraduli discusses using AI to create personalized
   music recommendations based on user mood and vibe descriptions.
 description: Filip Makraduli discusses using human language and AI to capture
