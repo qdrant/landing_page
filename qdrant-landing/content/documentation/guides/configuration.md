@@ -17,22 +17,7 @@ production mode, you could also choose to overwrite `config/production.yaml`.
 See [ordering](#order-and-priority) for details on how configurations are
 loaded.
 
-To use Qdrant in Docker and overwrite the production configuration use:
-
-```bash
-docker run -p 6333:6333 \
-    -v $(pwd)/path/to/custom_config.yaml:/qdrant/config/production.yaml \
-    qdrant/qdrant
-```
-
-Or use your own configuration file and specify it:
-
-```bash
-docker run -p 6333:6333 \
-    -v $(pwd)/path/to/custom_config.yaml:/qdrant/config/custom_config.yaml \
-    qdrant/qdrant \
-    ./qdrant --config-path config/custom_config.yaml
-```
+The [Installation](../installation) guide contains examples of how to set up Qdrant with a custom configuration for the different deployment methods.
 
 ## Order and priority
 
