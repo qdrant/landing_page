@@ -8,7 +8,7 @@ short_description: Nirant Kasliwal, AI Engineer at Qdrant, discusses the power
 description: Nirant Kasliwal discusses the efficiency and optimization
   techniques of FastEmbed, a Python library designed for speedy, lightweight
   embedding generation in machine learning applications.
-preview_image: /blog/from_cms/nirant-kasliwal.png
+preview_image: /blog/from_cms/nirant-kasliwal-cropped.png
 date: 2024-01-09T11:38:59.693Z
 author: Demetrios Brinkmann
 featured: true
@@ -28,7 +28,7 @@ Nirant Kasliwal, the creator and maintainer of FastEmbed, has made notable contr
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/e67jLAx_F2A?si=533LvUwRKIt_qWWu" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/4QWCyu28SlURZfS2qCeGKf/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/FastEmbed-Fast--Lightweight-Embedding-Generation---Nirant-Kasliwal--Vector-Space-Talks-004-e2c8s3b/a-aal40k6" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top Takeaways:**
 
