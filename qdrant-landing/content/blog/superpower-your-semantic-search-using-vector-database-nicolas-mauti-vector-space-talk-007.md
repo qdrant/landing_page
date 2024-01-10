@@ -2,7 +2,7 @@
 draft: false
 title: Superpower Your Semantic Search Using Vector Database - Nicolas Mauti |
   Vector Space Talks
-slug: vector-space-talk-007
+slug: semantic-search-vector-database
 short_description: Nicolas Mauti and his team at Malt discusses how they
   revolutionize the way freelancers connect with projects.
 description: Nicolas Mauti discusses the improvements to Malt's semantic search
