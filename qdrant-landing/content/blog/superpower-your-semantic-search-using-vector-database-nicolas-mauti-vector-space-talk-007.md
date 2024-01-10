@@ -9,7 +9,7 @@ description: Nicolas Mauti discusses the improvements to Malt's semantic search
   capabilities to enhance freelancer and project matching, highlighting the
   transition to retriever-ranker architecture, implementation of a multilingual
   encoder model, and the deployment of Qdrant to significantly reduce latency.
-preview_image: /blog/from_cms/nicolas-mauti.png
+preview_image: /blog/from_cms/nicolas-mauti-cropped.png
 date: 2024-01-09T12:27:18.659Z
 author: Demetrios Brinkmann
 featured: false
@@ -30,7 +30,7 @@ Nicolas Mauti, a computer science graduate from INSA Lyon Engineering School, tr
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/OSZSingUYBM?si=1PHIRm5K5Q-HKIiS" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/5aTPXqa7GMjekUfD8aAXWG/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Superpower-Your-Semantic-Search-Using-Vector-Database---Nicolas-Mauti--Vector-Space-Talk-007-e2d9lrs/a-aaoae5a" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top Takeaways:**
 
