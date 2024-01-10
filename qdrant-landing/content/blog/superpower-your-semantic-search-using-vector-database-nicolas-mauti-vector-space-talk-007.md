@@ -1,6 +1,6 @@
 ---
 draft: false
-title: Superpower Your Semantic Search Using Vector Database - Nicolas Mauti |
+title: Superpower your Semantic Search using Vector Database - Nicolas Mauti |
   Vector Space Talks
 slug: semantic-search-vector-database
 short_description: Nicolas Mauti and his team at Malt discusses how they
