@@ -29,12 +29,12 @@ Once you have the prerequisites in place, let's begin the data ingestion.
 
 ### Retrieving Data from Discord
 
-To generate structured data from Discord using the Unstructured CLI, run the following command:
+To generate structured data from Discord using the Unstructured CLI, run the following command with the [channel IDs](https://www.pythondiscord.com/pages/guides/pydis-guides/contributing/obtaining-discord-ids/):
 
 ```bash
 unstructured-ingest \
   discord \
-  --channels LIST_OF_CHANNEL_IDS \
+  --channels <CHANNEL_IDS> \
   --token "<YOUR_BOT_TOKEN>" \
   --output-dir "discord-output"
 ```
