@@ -3,7 +3,7 @@ draft: false
 id: 1
 title: Single node benchmarks
 description: |
-    We benchmarked several engines using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January 2024 </b>
+    We benchmarked several vector databases using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January 2024 </b>
 single_node_title: Single node benchmarks
 single_node_data: /benchmarks/results-1-100-thread.json
 preview_image: /benchmarks/benchmark-1.png
@@ -21,13 +21,13 @@ Unlisted: false
 
 ## Observations
 
-Some of the engines are clearly doing better than others and here are some interesting findings of us:
+Most of the engines have improved since [our last run](/benchmarks/single-node-speed-benchmark-2022). Both life and software have trade-offs but some clearly do better:
 
-* **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.**
-* `Elasticsearch` is the considerably fast in many cases but it's always the slowest in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
-* `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's not on-par with others when it comes to RPS or latency when you have more dimensions or number of vectors.
-* `Weaviate` has improved the least since [our last run](/benchmarks/single-node-speed-benchmark-2022). At the moment, it's one of the slowest in terms of RPS as well as latency.
-* `Redis` is able to achieve good RPS however its latency is higher with parallel requests and is one of the slowest in terms of indexing time.
+* **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.** It has also shown 2-4x RPS gains on our last 2 datasets.
+* `Elasticsearch` has become considerably fast for many cases but it's very slow in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
+* `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's not on-par with others when it comes to RPS or latency when you have higher dimensions or more number of vectors.
+* `Redis` is able to achieve good RPS but only for lower precision. It also achieved low latency with single thread, however its latency goes up quickly with more parallel requests. Part of this speed gain comes from their custom protocol.
+* `Weaviate` has improved the least since [our last run](/benchmarks/single-node-speed-benchmark-2022). Because of relative improvements in other engines, it has become one of the slowest in terms of RPS as well as latency.
 
 
 
@@ -37,7 +37,7 @@ In our benchmark we test two main search usage scenarios that arise in practice.
 
 - **Requests-per-Second (RPS)**: Serve more requests per second in exchange of individual requests taking longer (i.e. higher latency). This is a typical scenario for a web application, where multiple users are searching at the same time.
 To simulate this scenario, we run client requests in parallel with multiple threads and measure how many requests the engine can handle per second.
-- **Latency**: React quickly to individual requests rather than serving more requests in parallel. This is a typical scenario for applications, where server response time is critical. Self-driving cars, manufacturing robots, and other real-time systems are good examples of such applications.
+- **Latency**: React quickly to individual requests rather than serving more requests in parallel. This is a typical scenario for applications where server response time is critical. Self-driving cars, manufacturing robots, and other real-time systems are good examples of such applications.
 To simulate this scenario, we run client in a single thread and measure how long each request takes.
 
 
@@ -65,7 +65,7 @@ Our [benchmark tool](https://github.com/qdrant/vector-db-benchmark) is inspired 
     - Client: 8 vcpus, 16 GiB memory, 64GiB storage (`Standard D8ls v5` on Azure Cloud)
     - Server: 8 vcpus, 32 GiB memory, 64GiB storage (`Standard D8s v3` on Azure Cloud)
 - The Python client uploads data to the server, waits for all required indexes to be constructed, and then performs searches with configured number of threads. We repeat this process with different configurations for each engine, and then select the best one for a given precision.
-- We ran all the engines in docker and limited their memory to 25Gb by means of Docker (read [this](https://qdrant.tech/articles/memory-consumption/#minimal-ram-you-need-to-serve-a-million-vectors) to learn why).
+- We ran all the engines in docker and limited their memory to 25GB. This was used to ensure fairness by avoiding the case of some engine configs being too greedy with RAM usage for caching. This 25 GB limit is completely fair because even to serve the largest `dbpedia-openai-1M-1536-angular` dataset, one hardly needs `1M * 1536 * 4bytes * 1.5 = 8.6GB` of RAM (including vectors + index). Hence, we decided to provide all the engines with ~3x the requirement.
 
-Please note that **some of the engines might not satisfy the precision criteria, if you select a really high threshold. Some of them also failed on a specific dataset, due to the memory limit (25 GB)**. That’s why the list may sometimes be incomplete and not contain all the engines.
+Please note that some of the configs of some engines crashed on some datasets because of the 25 GB memory limit.  That's why you might see fewer points for some engines on choosing higher precision thresholds.
 

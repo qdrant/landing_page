@@ -7,7 +7,7 @@ weight: 1
 
 # Benchmarking Vector Databases
 
-At Qdrant, performance is the top-most priority. We always make sure that we use system resources efficiently so you get the fastest and most accurate results at the cheapest cloud costs. So all of our decisions from [choosing Rust](/articles/why-rust), [io optimisations](/articles/io_uring), [serverless support](/articles/serverless), [binary quantization](/articles/binary-quantization), to our [fastembed library](/articles/fastembed) are based on that. In this article, we will compare how Qdrant performs against the other engines.
+At Qdrant, performance is the top-most priority. We always make sure that we use system resources efficiently so you get the **fastest and most accurate results at the cheapest cloud costs**. So all of our decisions from [choosing Rust](/articles/why-rust), [io optimisations](/articles/io_uring), [serverless support](/articles/serverless), [binary quantization](/articles/binary-quantization), to our [fastembed library](/articles/fastembed) are all based on our principle. In this article, we will compare how Qdrant performs against the other vector search engines.
 
 Here are the principles we followed while designing these benchmarks:
 

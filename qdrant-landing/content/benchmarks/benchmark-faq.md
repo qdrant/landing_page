@@ -11,7 +11,7 @@ weight: 10
 
 Probably, yes. Even if we try to be objective, we are not experts in using all the existing vector databases.
 We build Qdrant and know the most about it.
-Due to that, we could have missed some important tweaks in different engines.
+Due to that, we could have missed some important tweaks in different vector search engines.
 
 However, we tried our best, kept scrolling the docs up and down, experimented with combinations of different configurations, and gave all of them an equal chance to stand out. If you believe you can do it better than us, our **benchmarks are fully [open-sourced](https://github.com/qdrant/vector-db-benchmark), and contributions are welcome**!
 
@@ -22,7 +22,7 @@ There are several factors considered while deciding on which database to use.
 Of course, some of them support a different subset of functionalities, and those might be a key factor to make the decision.
 But in general, we all care about the search precision, speed, and resources required to achieve it.
 
-There is one important thing - **the speed of the engines has to be compared only if they achieve the same precision**. Otherwise, they could maximize the speed factors by providing inaccurate results, which everybody would rather avoid. Thus, our benchmark results are compared only at a specific search precision threshold.
+There is one important thing - **the speed of the vector databases should to be compared only if they achieve the same precision**. Otherwise, they could maximize the speed factors by providing inaccurate results, which everybody would rather avoid. Thus, our benchmark results are compared only at a specific search precision threshold.
 
 ## How we select hardware?
 
@@ -38,7 +38,7 @@ We selected an average machine, which you can easily rent from almost any cloud 
 Libraries like FAISS provide a great tool to do experiments with vector search. But they are far away from real usage in production environments.
 If you are using FAISS in production, in the best case, you never need to update it in real-time. In the worst case, you have to create your custom wrapper around it to support CRUD, high availability, horizontal scalability, concurrent access, and so on.
 
-Some vector search engines even use FAISS under the hood, but the search engine is much more than just an indexing algorithm.
+Some vector search engines even use FAISS under the hood, but a search engine is much more than just an indexing algorithm.
 
 We do, however, use the same benchmark datasets as the famous [ann-benchmarks project](https://github.com/erikbern/ann-benchmarks), so you can align your expectations for any practical reasons.
 
