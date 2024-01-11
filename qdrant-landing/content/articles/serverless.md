@@ -23,7 +23,7 @@ You may find all of the assets for this tutorial on [GitHub](https://github.com/
 * [cargo lambda](https://cargo-lambda.info) (install via package manager, [download](https://github.com/cargo-lambda/cargo-lambda/releases) binary or `cargo install cargo-lambda`)
 * The [AWS CLI](https://aws.amazon.com/cli)
 * Qdrant instance ([free tier](https://cloud.qdrant.io) available)
-* An embedding provider service of your choice (see our [integration docs](https://qdrant.tech/documentation/integrations). You may be able to get credits from [AI Grant](https://aigrant.org), also Cohere has a [rate-limited non-commercial free tier](https://cohere.com/pricing))
+* An embedding provider service of your choice (see our [Embeddings docs](https://qdrant.tech/documentation/embeddings). You may be able to get credits from [AI Grant](https://aigrant.org), also Cohere has a [rate-limited non-commercial free tier](https://cohere.com/pricing))
 * AWS Lambda account (12-month free tier available)
 
 ## What you're going to build
@@ -176,7 +176,7 @@ pub async fn embed(client: &Client, text: &str, api_key: &str) -> Result<Vec<Vec
 Note that this may return multiple vectors if the text overflows the input dimensions.
 Cohere's `small` model has 1024 output dimensions.
 
-Other providers have similar interfaces. Consult our [integration docs](https://qdrant.tech/documentation/integrations) for further information. See how little code it took to get the embedding?
+Other providers have similar interfaces. Consult our [Embeddings docs](https://qdrant.tech/documentation/embeddings) for further information. See how little code it took to get the embedding?
 
 While you're at it, it's a good idea to write a small test to check if embedding works and the vectors are of the expected size:
 
