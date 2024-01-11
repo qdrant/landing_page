@@ -64,7 +64,7 @@ Dive into the intricacies of vector databases with Andrey as he unpacks Qdrant's
 59:55 Embedding models for time series data explained.\
 01:02:01 Cheaper system for serving billion vectors.
 
-## More Quotes from Noé:
+## More Quotes from Andrey:
 
 *"It allows us to compress vector to a level where a single dimension is represented by just a single bit, which gives total of 32 times compression for the vector."*\
 -- Andrey Vasnetsov on vector compression in AI
