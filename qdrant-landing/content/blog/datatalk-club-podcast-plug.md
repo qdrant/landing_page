@@ -1,3 +1,20 @@
+---
+title: "Navigating challenges and innovations in search technologies"
+draft: false
+slug: navigating-challenges-innovations
+short_description: Podcast on search and LLM with Datatalk.club
+description: Podcast on search and LLM with Datatalk.club
+date: 12.01.2024
+author: Atita Arora
+featured: false
+tags:
+  - podcast
+  - search
+  - blog
+  - retrieval-augmented generation
+  - large language models
+---
+
 ## Navigating challenges and innovations in search technologies
 
 We participated in a [podcast](#podcast-discussion-recap) on search technologies, specifically with retrieval-augmented generation (RAG) in language models.
