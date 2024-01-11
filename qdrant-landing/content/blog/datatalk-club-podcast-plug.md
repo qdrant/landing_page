@@ -1,40 +1,49 @@
-## Unveiling the Significance of Evaluating Retrieval-Augmented Generation in Language Models
+## Navigating challenges and innovations in search technologies
 
-### Introduction
+We participated in a [podcast](#podcast-discussion-recap) on search technologies, specifically with retrieval-augmented generation (RAG) in language models.
 
-Retrieval-Augmented Generation (RAG) is a cutting-edge approach in natural language processing that combines the strengths of information retrieval and language generation models. It's a technique that leverages both retrieval-based and generation-based models to enhance the capabilities of AI systems in understanding, retrieving, and generating human-like text.
+RAG is a cutting-edge approach in natural language processing (NLP). It uses information retrieval and language generation models. We describe how it can enhance what AI can do to understand, retrieve, and generate human-like text.
 
-*In principle* - Imagine RAG as a smart system that first searches through a vast database of information to find relevant knowledge and then uses that information to craft or generate a more accurate and contextually relevant response. It's like having an AI assistant that not only understands your query but also finds the best information available to provide an informed and detailed answer.
+### More about RAG
 
-RAG represents a significant advancement in NLP because it addresses the limitations of traditional generation models by integrating retrieval mechanisms. It enables models to access external knowledge sources, databases, or documents to enrich the generation process, ensuring more accurate, contextually relevant, and informative outputs. This approach opens up avenues for more precise language generation, better context understanding, and the ability to incorporate real-world knowledge into AI-generated text, improving overall performance in various tasks such as question-answering , summarisation, and conversational AI.
+Think of RAG as a system that finds relevant knowledge from a vast database. It takes your query, finds the best available information, and then provides an answer.
 
-### Importance of Evaluation in RAG and LLM ?
+RAG is the next step in NLP. It goes beyond the limits of traditional generation models by integrating retrieval mechanisms. With RAG, NLP can access external knowledge sources, databases, and documents. This ensures more accurate, contextually relevant, and informative output.
 
-Evaluation is crucial for any application leveraging LLMs to establish a sense of confidence in the application quality and with an intent to implement feedback and improvement loops.
+With RAG, we can set up more precise language generation as well as better context understanding. RAG helps us incorporate real-world knowledge into AI-generated text. This can improve overall performance in tasks such as:
 
-### Unique challenges of evaluating RAG (or LLM-based applications)?
+- Answering questions
+- Creating summaries
+- Setting up conversations
 
-*Retrieval* is the most important aspect of Retrieval Augmented Generation.
-In the context of typical information retrieval problems there is a more defined or expected set of documents, which enables the quality assessment.
-When it comes to generated text concerning applications like RAG this poses a significant challenge.
-Additionally , another important factor is the *subjectiveness*, with respect to fitment or applicability to the given domain or a use case.
+### The importance of evaluation for RAG and LLM
+
+Evaluation is crucial for any application leveraging LLMs. It promotes confidence in the quality of the application. It also supports implementation of feedback and improvement loops.
+
+### Unique challenges of evaluating RAG and LLM-based applications
+
+*Retrieval* is the key to Retrieval Augmented Generation, as it affects quality of the generated response.
+Potential problems include:
+
+- Setting up a defined or expected set of documents, which can be a significant challenge.
+- Measuring *subjectiveness*, which relates to how well the data fits or applies to a given domain or use case.
 
 ### Podcast Discussion Recap
 
-We briefly touched upon 4 layers of evaluation :
+In the podcast, we addressed the following:
 
-- **Model evaluation(LLM)** - Domain level understanding of the model for the given use case , support for required context length and terminology/concept understanding.
-- **Ingestion pipeline evaluation** - Various factors related to data ingestion and processing such as chunk strategies , chunk size , chunk overlap etc
-- **Retrieval evaluation** - Classic retrieval evaluation leveraging Average Precision , DCG , nDCG
-- **Generation evaluation(E2E)** - Prompt evaluation , establishing guardrails , along with evaluating number of chunks required to assist the context for generation.
+- **Model evaluation(LLM)** - Understanding the model at the domain-level for the given use case, supporting required context length and terminology/concept understanding.
+- **Ingestion pipeline evaluation** - Evaluating factors related to data ingestion and processing such as chunk strategies, chunk size, chunk overlap, and more.
+- **Retrieval evaluation** - Understanding factors such as average precision, [Distributed cumulative gain](https://en.wikipedia.org/wiki/Discounted_cumulative_gain) (DCG), as well as normalized DCG.
+- **Generation evaluation(E2E)** - Establishing guardrails. Evaulating prompts. Evaluating the number of chunks needed to set up the context for generation.
 
-### Recording Link
+### The recording
 
-https://www.youtube.com/watch?v=_fbe1QyJ1PY
+Thanks to the [DataTalks.Club](https://datatalks.club) for organizing [this podcast](https://www.youtube.com/watch?v=_fbe1QyJ1PY).
 
 ### Event Alert
-If you're interested in similar such discussions , you can check out the forthcoming event [here]("https://www.eventbrite.co.uk/e/the-evolution-of-genai-exploring-practical-applications-tickets-778359172237?aff=oddtdtcreator")
+If you're interested in a similar discussion, watch for the recording from the [following event](https://www.eventbrite.co.uk/e/the-evolution-of-genai-exploring-practical-applications-tickets-778359172237?aff=oddtdtcreator), organized by [DeepRec.ai](https://deeprec.ai).
 
-### Reading recommendation
-- https://blog.qdrant.tech/
+### Further reading
+- https://qdrant.tech/blog
 - https://hub.superlinked.com/blog
