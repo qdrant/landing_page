@@ -69,7 +69,7 @@ Dive into the intricacies of vector databases with Andrey as he unpacks Qdrant's
 *"It allows us to compress vector to a level where a single dimension is represented by just a single bit, which gives total of 32 times compression for the vector."*\
 -- Andrey Vasnetsov on vector compression in AI
 
-*"We build overlapping intervals and we build these subgraphs with additional links for those intervals. And also we can do the same with, let's say, location data where we have geocordinates, so latitude, longitude, we encode it into geo hashes and basically build this additional graph for overlapping geo hash regions."*\
+*"We build overlapping intervals and we build these subgraphs with additional links for those intervals. And also we can do the same with, let's say, location data where we have geocoordinates, so latitude, longitude, we encode it into geo hashes and basically build this additional graph for overlapping geo hash regions."*\
 -- Andrey Vasnetsov
 
 *"We can further compress data using such techniques as delta encoding, as variable byte encoding, and so on. And this total effect, total combined effect of this optimization can make immutable data structures order of minute more efficient than mutable ones."*\
