@@ -2,10 +2,10 @@
 draft: true
 title: Open Source Vector Search Engine and Vector Database
 slug: open-source-vector-search-engine-vector-database
-short_description: Andrey V talks about vector search engines and the technical
+short_description: Andrey V talks about Vector search engines and the technical
   facets and challenges encountered in developing an open-source vector
   database.
-description: Andrey Vasnetsov, CTO and co-founder of Quadrant, presents an
+description: Andrey Vasnetsov, CTO and Co-founder of Quadrant, presents an
   in-depth look into the intricacies of their open-source vector search engine
   and database, detailing its optimized architecture, data structure challenges,
   and innovative filtering techniques for efficient vector similarity searches.
@@ -18,7 +18,7 @@ tags:
   - Vector Search Engine
   - Vector Database
 ---
-> *"For systems like quadrant, scalability and performance in my opinion, is much more important than transactional consistency, so it should be treated as a search engine rather than database."*\
+> *"For systems like Qdrant, scalability and performance in my opinion, is much more important than transactional consistency, so it should be treated as a search engine rather than database."*\
 -- Andrey Vasnetsov
 > 
 
