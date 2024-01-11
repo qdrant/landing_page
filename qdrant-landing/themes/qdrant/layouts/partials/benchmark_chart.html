@@ -1,34 +1,33 @@
-<div class="benchmark-wrapper">
-
+<div class="benchmark-wrapper" id="benchmark-plot-wrapper-{{ .Params.id }}">
   <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
   <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
 
   </select>
 
   <label for="parallel-selector-{{ .Params.id }}">Search threads:</label>
-  <select name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+  <select disabled name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
   </select>
 
   Plot values:
 
   <!-- Radio button group to select values to render -->
   <label>
-    <input checked type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="rps" onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"/>
     RPS
   </label> |
 
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="mean_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="mean_time"  onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"/>
     Latency
   </label> |
 
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="p95_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="p95_time"  onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"/>
     p95 latency
   </label> |
 
   <label>
-    <input type="radio" name="plot-value-{{ .Params.id }}" value="total_upload_time"  onclick="renderSelected('{{ .Params.id }}', this.value)"/>
+    <input type="radio" name="plot-value-{{ .Params.id }}" value="total_upload_time"  onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"/>
     Index time
   </label>
 
@@ -57,6 +56,8 @@
   let parallelSelector = document.getElementById("parallel-selector-{{ .Params.id }}");
 
   let precisionSelector = document.getElementById("precision-selector-{{ .Params.id }}");
+
+  let metricRadioSelector = document.getElementsByName("plot-value-{{ .Params.id }}");
 
   const config = {
     type: 'line',
@@ -120,6 +121,14 @@
 
       let parallelsInt = parseInt(parallels[0]);
 
+      for (const row in data) {
+        for (const column in columnMultiplyFactor) {
+          if (column in data[row]) {
+            data[row][column] *= columnMultiplyFactor[column];
+          }
+        }
+      }
+
       let selectedData = filterData(data, {
         "dataset_name": datasets[0],
         "parallel": parallelsInt
@@ -127,6 +136,13 @@
 
       window.datasets = { "{{ .Params.id }}": data, ...window.datasets }
       window.charts = { "{{ .Params.id }}": chart, ...window.charts }
+
+      let plotValueRadioBtns = document.getElementsByName("plot-value-{{ .Params.id }}");
+      plotValueRadioBtns.forEach(btn => {
+        if (btn.value === '{{ .Params.metric }}') {
+          btn.checked = true;
+        }
+      });
 
       renderSelected("{{ .Params.id }}");
 

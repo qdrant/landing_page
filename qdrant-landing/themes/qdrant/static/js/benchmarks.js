@@ -4,12 +4,12 @@
  *
  */
 
-
 let engineToColor = {
   redis: '#5961FF',
   milvus: '#1493cc',
   weaviate: '#01cc26',
   qdrant: '#bc1439',
+  elasticsearch: '#f9b110',
   elastic: '#f9b110',
 }
 
@@ -30,13 +30,22 @@ const normalizedTitles = {
   dataset_name: 'Dataset',
   rps: 'RPS',
   mean_precisions: 'Precision',
-  total_upload_time: 'Upload + Index Time (s)',
-  upload_time: 'Upload Time (s)',
-  mean_time: 'Latency (s)',
-  p95_time: 'P95 (s)',
-  p99_time: 'P99 (s)'
+  total_upload_time: 'Upload + Index Time(m)',
+  upload_time: 'Upload Time(m)',
+  mean_time: 'Latency(ms)',
+  p95_time: 'P95(ms)',
+  p99_time: 'P99(ms)',
+  setup_name: 'Setup',
+  // engine_params: 'Run Params',
 }
 
+const columnMultiplyFactor = {
+  total_upload_time: 1/60,
+  upload_time: 1/60,
+  mean_time: 1000,
+  p95_time: 1000,
+  p99_time: 1000
+}
 
 function extractUniqueVals(data, key) {
   let vals = {};
@@ -326,12 +335,24 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
     let normTitle = title;
     if (normalizedTitles.hasOwnProperty(title)) {
       normTitle = normalizedTitles[title];
+    } else {
+      return "";
     }
     return `<th scope="col">${normTitle}</th>`;
   });
 
   const rows = tableData.map(obj => {
-    const row = Object.values(obj).map((value, i) => {
+    const row = Object.keys(obj).map((key, i) => {
+      let value = obj[key];
+
+      if (!normalizedTitles.hasOwnProperty(key)) {
+        return "";
+      }
+
+      if (key === 'setup_name') {
+        return `<td title='${JSON.stringify(obj['engine_params'])}'><u>${value}</u></td>`;
+      }
+
       if (typeof value === 'object') {
         value = JSON.stringify(value)
       }
@@ -348,7 +369,7 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
   });
 
   const table = document.createElement('table');
-  table.classList.add('table', 'table-striped', 'table-responsive', 'table-sm');
+  table.classList.add('table', 'table-striped', 'table-responsive', 'table-md');
   table.innerHTML = `<thead><tr>${titleElements.join('')}</tr></thead><tbody>${rows.join('')}</tbody>`;
 
   if (document.getElementById('table-' + chartId).querySelector('.table')) {
