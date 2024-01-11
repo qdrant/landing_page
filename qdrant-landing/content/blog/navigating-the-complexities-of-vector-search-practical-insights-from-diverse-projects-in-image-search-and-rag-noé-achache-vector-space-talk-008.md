@@ -1,14 +1,14 @@
 ---
 draft: false
-title: "Navigating the Complexities of Vector Search: Image Search and RAG - Noé
-  Achache | Vector Space Talks"
+title: "Vector Search Complexities: Insights from Projects in Image Search and
+  RAG - Noé Achache | Vector Space Talks"
 slug: vector-image-search-rag
 short_description: Noé Achache discusses their projects in image search and RAG
   and its complexities.
 description: Noé Achache shares insights on vector search complexities,
   discussing projects on image matching, document retrieval, and handling
   sensitive medical data with practical solutions and industry challenges.
-preview_image: /blog/from_cms/noé-achache.png
+preview_image: /blog/from_cms/noé-achache-cropped.png
 date: 2024-01-09T13:51:26.168Z
 author: Demetrios Brinkmann
 featured: false
@@ -29,7 +29,7 @@ Noé Achache is a Lead Data Scientist at Sicara, where he worked on a wide range
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/1vKoiFAdorE?si=wupcX2v8vHNnR_QB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe style="border-radius:12px" src="https://open.spotify.com/embed/episode/2YgcSFjP7mKE0YpDGmSiq5/video?utm_source=generator" width="496" height="279" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Navigating-the-Complexities-of-Vector-Search-Practical-Insights-from-Diverse-Projects-in-Image-Search-and-RAG---No-Achache--Vector-Space-Talk-008-e2diivl/a-aap4q5d" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top Takeaways:**
 
