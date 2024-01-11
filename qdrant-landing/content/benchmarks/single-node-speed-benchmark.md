@@ -23,7 +23,7 @@ Unlisted: false
 
 Most of the engines have improved since [our last run](/benchmarks/single-node-speed-benchmark-2022). Both life and software have trade-offs but some clearly do better:
 
-* **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.** It has also shown 2-4x RPS gains on our last 2 datasets.
+* **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.** Qdrant has also shown 4x RPS gains on one of the datasets.
 * `Elasticsearch` has become considerably fast for many cases but it's very slow in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
 * `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's not on-par with others when it comes to RPS or latency when you have higher dimensions or more number of vectors.
 * `Redis` is able to achieve good RPS but only for lower precision. It also achieved low latency with single thread, however its latency goes up quickly with more parallel requests. Part of this speed gain comes from their custom protocol.
