@@ -39,7 +39,7 @@ unstructured-ingest \
   --output-dir "discord-output"
 ```
 
-This commands downloads and structures the data in the `"discord-output"` directory.
+This command downloads and structures the data in the `"discord-output"` directory.
 
 For a complete list of options supported by this source, run:
 
