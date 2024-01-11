@@ -30,6 +30,8 @@ Andrey Vasnetsov, CTO at Qdrant is an enthusiast of Open Source, machine learnin
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/bU38Ovdh3NY?si=GiRluTu_c-4jESMj" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
+***This episode is part of the [ML⇄DB Seminar Series](https://db.cs.cmu.edu/seminar2023/#) (Machine Learning for Databases + Databases for Machine Learning) of the Carnegie Mellon University Database Research Group.***
+
 ## **Top Takeaways:**
 
 Dive into the intricacies of vector databases with Andrey as he unpacks Qdrant's approach to combining filtering and vector search, revealing how in-place filtering during graph traversal optimizes precision without sacrificing search exactness, even when scaling to billions of vectors.
