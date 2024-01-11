@@ -26,7 +26,7 @@ What this means for you:
 - **Rapid application development**: Deploy your own cluster through the Qdrant Cloud Console within seconds and scale your resources as needed.
 - **Billion vector scale**: Seamlessly grow and handle large-scale datasets with billions of vectors. Leverage Qdrant features like horizontal scaling and binary quantization with Microsoft Azure's scalable infrastructure.
 
-**"With Qdrant, we found the missing piece to develop our own provider independent multimodal generative AI platform at enterprise scale."** - Daly Singh, AI Squad Lead & Product Owner, Bosch Digital.
+**"With Qdrant, we found the missing piece to develop our own provider independent multimodal generative AI platform at enterprise scale."** -- Jeremy Teichmann (AI Squad Technical Lead & Generative AI Expert), Daly Singh (AI Squad Lead & Product Owner) - Bosch Digital.
 
 Get started by [signing up for a Qdrant Cloud account](https://cloud.qdrant.io). And learn more about Qdrant Cloud in our [docs](https://qdrant.tech/documentation/cloud/).
 
