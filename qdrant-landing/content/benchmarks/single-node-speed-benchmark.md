@@ -13,23 +13,21 @@ Unlisted: false
 ---
 
 
+## Observations
+
+Most of the engines have improved since [our last run](/benchmarks/single-node-speed-benchmark-2022). Both life and software have trade-offs but some clearly do better:
+
+* **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.** It has also shown 4x RPS gains on one of the datasets.
+* `Elasticsearch` has become considerably fast for many cases but it's very slow in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
+* `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's not on-par with others when it comes to RPS or latency when you have higher dimension embeddings or more number of vectors.
+* `Redis` is able to achieve good RPS but mostly for lower precision. It also achieved low latency with single thread, however its latency goes up quickly with more parallel requests. Part of this speed gain comes from their custom protocol.
+* `Weaviate` has improved the least since our last run. Because of relative improvements in other engines, it has become one of the slowest in terms of RPS as well as latency.
+
 ## How to read the results
 
 - Choose the dataset and the metric you want to check.
 - Select a precision threshold that would be satisfactory for your usecase. This is important because ANN search is all about trading precision for speed. This means in any vector search benchmark, **two results must be compared only when you have similar precision**. However most benchmarks miss this critical aspect.
 - The table is sorted by the value of the selected metric (RPS / Latency / p95 latency / Index time), and the first entry is always the winner of the category 🏆
-
-## Observations
-
-Most of the engines have improved since [our last run](/benchmarks/single-node-speed-benchmark-2022). Both life and software have trade-offs but some clearly do better:
-
-* **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.** Qdrant has also shown 4x RPS gains on one of the datasets.
-* `Elasticsearch` has become considerably fast for many cases but it's very slow in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
-* `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's not on-par with others when it comes to RPS or latency when you have higher dimensions or more number of vectors.
-* `Redis` is able to achieve good RPS but only for lower precision. It also achieved low latency with single thread, however its latency goes up quickly with more parallel requests. Part of this speed gain comes from their custom protocol.
-* `Weaviate` has improved the least since [our last run](/benchmarks/single-node-speed-benchmark-2022). Because of relative improvements in other engines, it has become one of the slowest in terms of RPS as well as latency.
-
-
 
 ### Latency vs RPS
 
@@ -65,7 +63,7 @@ Our [benchmark tool](https://github.com/qdrant/vector-db-benchmark) is inspired 
     - Client: 8 vcpus, 16 GiB memory, 64GiB storage (`Standard D8ls v5` on Azure Cloud)
     - Server: 8 vcpus, 32 GiB memory, 64GiB storage (`Standard D8s v3` on Azure Cloud)
 - The Python client uploads data to the server, waits for all required indexes to be constructed, and then performs searches with configured number of threads. We repeat this process with different configurations for each engine, and then select the best one for a given precision.
-- We ran all the engines in docker and limited their memory to 25GB. This was used to ensure fairness by avoiding the case of some engine configs being too greedy with RAM usage for caching. This 25 GB limit is completely fair because even to serve the largest `dbpedia-openai-1M-1536-angular` dataset, one hardly needs `1M * 1536 * 4bytes * 1.5 = 8.6GB` of RAM (including vectors + index). Hence, we decided to provide all the engines with ~3x the requirement.
+- We ran all the engines in docker and limited their memory to 25GB. This was used to ensure fairness by avoiding the case of some engine configs being too greedy with RAM usage. This 25 GB limit is completely fair because even to serve the largest `dbpedia-openai-1M-1536-angular` dataset, one hardly needs `1M * 1536 * 4bytes * 1.5 = 8.6GB` of RAM (including vectors + index). Hence, we decided to provide all the engines with ~3x the requirement.
 
 Please note that some of the configs of some engines crashed on some datasets because of the 25 GB memory limit.  That's why you might see fewer points for some engines on choosing higher precision thresholds.
 
