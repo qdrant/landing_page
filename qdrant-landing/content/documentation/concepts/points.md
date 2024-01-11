@@ -577,6 +577,7 @@ import java.util.List;
 import java.util.Map;
 
 import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
 import static io.qdrant.client.VectorsFactory.namedVectors;
 
 import io.qdrant.client.grpc.Points.PointStruct;
@@ -591,9 +592,9 @@ client
                     namedVectors(
                         Map.of(
                             "image",
-                            List.of(0.9f, 0.1f, 0.1f, 0.2f),
+                            vector(List.of(0.9f, 0.1f, 0.1f, 0.2f)),
                             "text",
-                            List.of(0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f))))
+                            vector(List.of(0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f)))))
                 .build(),
             PointStruct.newBuilder()
                 .setId(id(2))
@@ -926,6 +927,7 @@ import java.util.List;
 import java.util.Map;
 
 import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
 import static io.qdrant.client.VectorsFactory.namedVectors;
 
 client
@@ -934,14 +936,14 @@ client
         List.of(
             PointVectors.newBuilder()
                 .setId(id(1))
-                .setVectors(namedVectors(Map.of("image", List.of(0.1f, 0.2f, 0.3f, 0.4f))))
+                .setVectors(namedVectors(Map.of("image", vector(List.of(0.1f, 0.2f, 0.3f, 0.4f)))))
                 .build(),
             PointVectors.newBuilder()
                 .setId(id(2))
                 .setVectors(
                     namedVectors(
                         Map.of(
-                            "text", List.of(0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f))))
+                            "text", vector(List.of(0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f)))))
                 .build()))
     .get();
 ```
@@ -1757,6 +1759,114 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.PointVectors;
+import io.qdrant.client.grpc.Points.PointsIdsList;
+import io.qdrant.client.grpc.Points.PointsSelector;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.ClearPayload;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeletePayload;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeletePoints;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.DeleteVectors;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.PointStructList;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.SetPayload;
+import io.qdrant.client.grpc.Points.PointsUpdateOperation.UpdateVectors;
+import io.qdrant.client.grpc.Points.VectorsSelector;
+
+client
+    .batchUpdateAsync(
+        "{collection_name}",
+        List.of(
+            PointsUpdateOperation.newBuilder()
+                .setUpsert(
+                    PointStructList.newBuilder()
+                        .addPoints(
+                            PointStruct.newBuilder()
+                                .setId(id(1))
+                                .setVectors(vectors(1.0f, 2.0f, 3.0f, 4.0f))
+                                .build())
+                        .build())
+                .build(),
+            PointsUpdateOperation.newBuilder()
+                .setUpdateVectors(
+                    UpdateVectors.newBuilder()
+                        .addPoints(
+                            PointVectors.newBuilder()
+                                .setId(id(1))
+                                .setVectors(vectors(1.0f, 2.0f, 3.0f, 4.0f))
+                                .build())
+                        .build())
+                .build(),
+            PointsUpdateOperation.newBuilder()
+                .setDeleteVectors(
+                    DeleteVectors.newBuilder()
+                        .setPointsSelector(
+                            PointsSelector.newBuilder()
+                                .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())
+                                .build())
+                        .setVectors(VectorsSelector.newBuilder().addNames("").build())
+                        .build())
+                .build(),
+            PointsUpdateOperation.newBuilder()
+                .setOverwritePayload(
+                    SetPayload.newBuilder()
+                        .setPointsSelector(
+                            PointsSelector.newBuilder()
+                                .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())
+                                .build())
+                        .putAllPayload(Map.of("test_payload", value(1)))
+                        .build())
+                .build(),
+            PointsUpdateOperation.newBuilder()
+                .setSetPayload(
+                    SetPayload.newBuilder()
+                        .setPointsSelector(
+                            PointsSelector.newBuilder()
+                                .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())
+                                .build())
+                        .putAllPayload(
+                            Map.of("test_payload_2", value(2), "test_payload_3", value(3)))
+                        .build())
+                .build(),
+            PointsUpdateOperation.newBuilder()
+                .setDeletePayload(
+                    DeletePayload.newBuilder()
+                        .setPointsSelector(
+                            PointsSelector.newBuilder()
+                                .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())
+                                .build())
+                        .addKeys("test_payload_2")
+                        .build())
+                .build(),
+            PointsUpdateOperation.newBuilder()
+                .setClearPayload(
+                    ClearPayload.newBuilder()
+                        .setPoints(
+                            PointsSelector.newBuilder()
+                                .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())
+                                .build())
+                        .build())
+                .build(),
+            PointsUpdateOperation.newBuilder()
+                .setDeletePoints(
+                    DeletePoints.newBuilder()
+                        .setPoints(
+                            PointsSelector.newBuilder()
+                                .setPoints(PointsIdsList.newBuilder().addIds(id(1)).build())
+                                .build())
+                        .build())
+                .build()))
+    .get();
 ```
 
 To batch many points with a single operation type, please use batching
