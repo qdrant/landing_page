@@ -1,5 +1,5 @@
 ---
-title: Loading Unstructured Data into Qdrant from the Terminal
+title: Loading Unstructured.io Data into Qdrant from the Terminal
 slug: qdrant-unstructured
 short_description: Loading Unstructured Data into Qdrant from the Terminal
 description: Learn how to simplify the process of loading unstructured data into Qdrant using the Qdrant Unstructured destination.
@@ -11,15 +11,15 @@ tags:
   - unstructured
 ---
 
-Building powerful applications with Qdrant starts with loading vector representations into the system. Traditionally, this involves scraping or extracting data from sources, performing operations such as cleaning, chunking, and generating embeddings, and finally loading it into Qdrant. This process can be complex, but the Qdrant ingestion destination in Unstructured aims to simplify it.
+Building powerful applications with Qdrant starts with loading vector representations into the system. Traditionally, this involves scraping or extracting data from sources, performing operations such as cleaning, chunking, and generating embeddings, and finally loading it into Qdrant. While this process can be complex, Unstructured.io includes Qdrant as an ingestion destination.
 
-In this blog post, we'll demonstrate how to load data into Qdrant from the channels of a Discord server. The process is similar for the [20+ vetted data sources](https://unstructured-io.github.io/unstructured/ingest/source_connectors.html) supported by Unstructured.
+In this blog post, we'll demonstrate how to load data into Qdrant from the channels of a Discord server. You can use a similar process for the [20+ vetted data sources](https://unstructured-io.github.io/unstructured/ingest/source_connectors.html) supported by Unstructured.
 
 ### Prerequisites
 
 - A running Qdrant instance. Refer to our [Quickstart guide](https://qdrant.tech/documentation/quick-start/) to set up an instance.
 - A Discord bot token. Generate one [here](https://discord.com/developers/applications) after adding the bot to your server.
-- Unstructured CLI with the required extras. Install it with the following command:
+- Unstructured CLI with the required extras. For more information, see the Discord [Getting Started guide](https://discord.com/developers/docs/getting-started). Install it with the following command:
 
 ```bash
 pip install unstructured[discord,local-inference,qdrant]
@@ -49,7 +49,9 @@ unstructured-ingest discord --help
 
 ### Ingesting into Qdrant
 
-Before loading the data, set up a collection with the appropriate configurations. In this example we use a local Huggingface model generating 384-dimensional embeddings, we set up the collection with:
+Before loading the data, set up a collection with the information you need for the following REST call. In this example we use a local Huggingface model generating 384-dimensional embeddings. You can create a Qdrant [API key](/documentation/cloud/authentication/#create-api-keys) and set names for your Qdrant [collections](/documentation/concepts/collections/).
+
+We set up the collection with the following command:
 
 ```bash
 curl -X PUT \
@@ -93,4 +95,4 @@ unstructured-ingest local qdrant --help
 
 Unstructured can also be used programmatically or via the hosted API. Refer to the [Unstructured Reference Manual](https://unstructured-io.github.io/unstructured/introduction.html).
 
-For more information about the Qdrant ingest destination, visit [here](https://unstructured-io.github.io/unstructured/ingest/destination_connectors/qdrant.html).
+For more information about the Qdrant ingest destination, review how Unstructured.io configures their [Qdrant](https://unstructured-io.github.io/unstructured/ingest/destination_connectors/qdrant.html) interface.
