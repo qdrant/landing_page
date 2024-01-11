@@ -1,6 +1,6 @@
 ---
 draft: true
-title: Open Source Vector Search Engine and Vector Database
+title: Open Source Vector Search Engine and Vector Database - Andrey Vasnetsov
 slug: open-source-vector-search-engine-vector-database
 short_description: Andrey V talks about Vector search engines and the technical
   facets and challenges encountered in developing an open-source vector
