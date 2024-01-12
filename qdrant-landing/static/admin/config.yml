@@ -22,11 +22,11 @@ collections:
       - { label: 'Description', name: 'description', widget: 'string',
           hint: 'Shown in previews of featured posts and on social media' }
       - { label: 'Preview Image', name: 'preview_image', widget: 'image',
-          hint: 'Image should be 1200x630' }
+          hint: 'Image should be 1200x630. Ensure that main image content is placed in the middle to make pictures friendly to cropping' }
       - { label: 'Publish Date', name: 'date', widget: 'datetime' }
       - { label: 'Author', name: 'author', widget: 'string', hint: 'Name'}
       - { label: 'Featured Post', name: 'featured', widget: 'boolean', default: false,
           hint: 'If enabled, this post will be featured in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.' }
       - { label: 'Tags', name: 'tags', widget: 'list', allow_add: true,
           hint: 'Use a comma without a space to separate tags (this widget will add spaces after commas itself). Currently, tags only used to show related posts and not appear in user interface. But it can change in the future.' }
-      - { label: 'Body', name: 'body', widget: 'markdown' }
+      - { label: 'Body', name: 'body', widget: 'markdown', modes: ['raw'] }

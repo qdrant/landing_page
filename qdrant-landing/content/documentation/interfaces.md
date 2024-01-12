@@ -13,7 +13,7 @@ or [protobuf](https://github.com/qdrant/qdrant/tree/master/lib/api/src/grpc/prot
 ||Client Repository|Installation|Version|
 |-|-|-|-|
 |[![python](/docs/misc/python.webp)](https://python-client.qdrant.tech/)|**[Python](https://github.com/qdrant/qdrant-client)**|`pip install qdrant-client[fastembed]`|**Latest Release**, [API Docs](https://python-client.qdrant.tech/)|
-|![typescript](/docs/misc/ts.webp)|**[Typescript](https://github.com/qdrant/qdrant-js)**|`npm install @qdrant/js-client-rest`|**Latest Release**|
+|![typescript](/docs/misc/ts.webp)|**[JavaScript / Typescript](https://github.com/qdrant/qdrant-js)**|`npm install @qdrant/js-client-rest`|**Latest Release**|
 |![rust](/docs/misc/rust.webp)|**[Rust](https://github.com/qdrant/rust-client)**|`cargo add qdrant-client`|**Latest Release**|
 |![golang](/docs/misc/go.webp)|**[Go](https://github.com/qdrant/go-client)**|`go get github.com/qdrant/go-client`|**Latest Release**|
 |![.net](/docs/misc/dotnet.webp)|**[.NET](https://github.com/qdrant/qdrant-dotnet)**|`dotnet add package Qdrant.Client`|**Latest Release**|

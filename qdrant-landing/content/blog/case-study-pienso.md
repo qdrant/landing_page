@@ -1,10 +1,17 @@
 ---
+draft: false
 title: "Pienso & Qdrant: Future Proofing Generative AI for Enterprise-Level Customers"
-short_description: Why Pienso chose Qdrant as a cornerstone for building domain-specific foundation models.
-description: Why Pienso chose Qdrant as a cornerstone for building domain-specific foundation models.
+slug: case-study-pienso
+short_description: Why Pienso chose Qdrant as a cornerstone for building
+  domain-specific foundation models.
+description: Why Pienso chose Qdrant as a cornerstone for building
+  domain-specific foundation models.
 preview_image: /case-studies/pienso/social_preview.png
-author: Qdrant Team
 date: 2023-02-28T09:48:00.000Z
+author: Qdrant Team
+featured: true
+aliases:
+  - /case-studies/pienso/
 ---
 
 The partnership between Pienso and Qdrant is set to revolutionize interactive deep learning, making it practical, efficient, and scalable for global customers. Pienso's low-code platform provides a streamlined and user-friendly process for deep learning tasks. This exceptional level of convenience is augmented by Qdrant’s scalable and cost-efficient high vector computation capabilities, which enable reliable retrieval of similar vectors from high-dimensional spaces.
