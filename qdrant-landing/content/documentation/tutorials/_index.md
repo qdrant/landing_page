@@ -25,4 +25,5 @@ These tutorials demonstrate different ways you can build vector search into your
 | [Asynchronous API](../tutorials/async-api/)                            | Communicate with Qdrant server asynchronously with Python SDK.    | Qdrant, Python             |
 | [Multitenancy with LlamaIndex](../tutorials/llama-index-multitenancy/) | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex |
 | [HuggingFace datasets](../tutorials/huggingface-datasets/)             | Load a Hugging Face dataset to Qdrant                             | Qdrant, Python, datasets   |
+| [Measure retrieval quality](../tutorials/retrieval-quality/)           | Measure and fine-tune the retrieval quality                       | Qdrant, Python, datasets   |
 | [Troubleshooting](../tutorials/common-errors/)                         | Solutions to common errors and fixes                              | Qdrant                     |
