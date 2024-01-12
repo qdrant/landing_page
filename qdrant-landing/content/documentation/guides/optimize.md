@@ -397,7 +397,7 @@ You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abd
 For high speed and high precision search it is critical to keep as much data in RAM as possible.
 By default, Qdrant follows this approach, but you can tune it to your needs.
 
-Is is possible to achieve high search speed and tunable accuracy by applying quantization with re-scoring.
+It is possible to achieve high search speed and tunable accuracy by applying quantization with re-scoring.
 
 ```http
 PUT /collections/{collection_name}
