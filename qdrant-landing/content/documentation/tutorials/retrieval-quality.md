@@ -80,6 +80,12 @@ Now, let's create a collection and index the training data. This collection will
 it might be different from your collection settings, and it's always important to test exactly the same configuration you are going to use later
 in production.
 
+<aside role="status">
+    Distance function is another parameter that may impact the retrieval quality. If the embedding model was not trained to minimize cosine 
+    distance, you can get suboptimal search results by using it. Please test different distance functions to find the best one for your embeddings, 
+    if you don't know the specifics of the model training.
+</aside>
+
 ```python
 from qdrant_client import QdrantClient, models
 
