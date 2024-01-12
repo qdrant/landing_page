@@ -21,7 +21,7 @@ jobs:
         id: lychee
         uses: lycheeverse/lychee-action@v1.8.0
         with:
-          args: '--headers "accept=text/html" --headers "User-Agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" qdrant-landing/public'
+          args: '--header "accept=text/html" --header "User-Agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" qdrant-landing/public'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
