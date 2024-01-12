@@ -2,9 +2,9 @@
 draft: false
 title: Open Source Vector Search Engine and Vector Database - Andrey Vasnetsov
 slug: open-source-vector-search-engine-vector-database
-short_description: Andrey V talks about Vector search engines and the technical
-  facets and challenges encountered in developing an open-source vector
-  database.
+short_description: CTO of Qdrant Andrey talks about Vector search engines and
+  the technical facets and challenges encountered in developing an open-source
+  vector database.
 description: Andrey Vasnetsov, CTO and Co-founder of Qdrant, presents an
   in-depth look into the intricacies of their open-source vector search engine
   and database, detailing its optimized architecture, data structure challenges,
@@ -51,7 +51,7 @@ Dive into the intricacies of vector databases with Andrey as he unpacks Qdrant's
 > Fun Fact: The Qdrant system is capable of in-place filtering during graph traversal, which is a novel approach compared to traditional post-filtering methods, ensuring the correct quantity of results that meet the filtering conditions.
 > 
 
-## Show Notes:
+## Timestamps:
 
 00:00 Search professional with expertise in vectors and engines.\
 09:59 Elasticsearch: scalable, weak consistency, prefer vector search.\
