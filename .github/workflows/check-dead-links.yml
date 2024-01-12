@@ -8,7 +8,7 @@ on:
 
 jobs:
   linkChecker:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
       - name: Setup Hugo
@@ -19,9 +19,9 @@ jobs:
         run: cd qdrant-landing && hugo -b 'https://qdrant.tech/'
       - name: Link Checker
         id: lychee
-        uses: lycheeverse/lychee-action@v1.8.0
+        uses: lycheeverse/lychee-action@v1.9.1
         with:
-          args: '--header "accept=text/html" --header "User-Agent=Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36" qdrant-landing/public'
+          args: 'qdrant-landing/public'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
