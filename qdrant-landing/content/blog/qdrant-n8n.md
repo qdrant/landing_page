@@ -13,19 +13,19 @@ tags:
   - blog
 ---
 
-n8n (pronounced n-eight-n) helps you connect any app with an API with any other and manipulate its data with little or no code. With the Qdrant node now available on n8n, you can now build AI-powered workflows visually.
+n8n (pronounced n-eight-n) helps you connect any app with an API. You can then manipulate its data with little or no code. With the Qdrant node on n8n, you can build AI-powered workflows visually.
 
-We'll do a quick walkthrough of what building a workflow would look like by building a chat with your codebase service in under 5 minutes.
+Let's go through the process of building a workflow. We'll build a chat with a codebase service.
 
 ## Prerequisites
 
-- A running Qdrant instance. Follow the steps [here](https://qdrant.tech/documentation/quick-start/) to set it up.
-- OpenAI API Key. Retrieve your key from [this link](https://platform.openai.com/account/api-keys).
-- GitHub access token. Generate one [here](https://github.com/settings/tokens/new).
+- A running Qdrant instance. If you need one, use our [Quick start guide](https://qdrant.tech/documentation/quick-start/) to set it up.
+- An OpenAI API Key. Retrieve your key from the [OpenAI API page](https://platform.openai.com/account/api-keys) for your account.
+- A GitHub access token. If you need to generate one, start at the [GitHub Personal access tokens page](https://github.com/settings/tokens/).
 
 ## Building the App
 
-Our workflow will consist of two main parts. Refer to the [n8n quick start guide](https://docs.n8n.io/workflows/create/) to get acquainted with workflow semantics.
+Our workflow has two components. Refer to the [n8n quick start guide](https://docs.n8n.io/workflows/create/) to get acquainted with workflow semantics.
 
 - A workflow to ingest a GitHub repository into Qdrant
 - A workflow for a chat service with the ingested documents
@@ -34,7 +34,7 @@ Our workflow will consist of two main parts. Refer to the [n8n quick start guide
 
 ![GitHub to Qdrant workflow](/blog/qdrant-n8n/load-demo.gif)
 
-For this workflow, we'll use the following nodes.
+For this workflow, we'll use the following nodes:
 
 - [Qdrant Vector Store - Insert](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#insert-documents): Configure with API key and collection name. If the collection doesn't exist, it's automatically created with the appropriate configurations.
 
@@ -50,7 +50,7 @@ Connect the workflow to a manual trigger. Click "Test Workflow" to run it. You s
 
 ![Chat workflow](/blog/qdrant-n8n/chat.png)
 
-The workflow use the following nodes
+The workflow use the following nodes:
 
 - [Qdrant Vector Store - Retrieve](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#retrieve-documents-for-agentchain): Configure with the API key and the name of the collection the data was loaded into.
 
@@ -68,5 +68,5 @@ To embed the chat in your applications, consider using the [@n8n/chat](https://w
 
 ## Further reading
 
-- [N8N Reference](https://docs.n8n.io/)
-- [Qdrant Node documentation](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#qdrant-vector-store)
+- [n8n Documentation](https://docs.n8n.io/)
+- [n8n Qdrant Node documentation](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#qdrant-vector-store)
