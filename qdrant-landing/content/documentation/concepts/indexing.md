@@ -223,7 +223,7 @@ client = QdrantClient(host="localhost", port=6333)
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="name_of_the_field_to_index",
-    field_schema=models.IntegerParams(
+    field_schema=models.IntegerIndexParams(
         type="integer",
         lookup=False,
         range=True,
@@ -251,7 +251,7 @@ use qdrant_client::{
     client::QdrantClient,
     qdrant::{
         payload_index_params::IndexParams, FieldType, PayloadIndexParams,
-        IntegerParams, TokenizerType,
+        IntegerIndexParams, TokenizerType,
     },
 };
 
@@ -263,7 +263,7 @@ client
         "name_of_the_field_to_index",
         FieldType::Integer,
         Some(&PayloadIndexParams {
-            index_params: Some(IndexParams::IndexParams(IndexParams {
+            index_params: Some(IndexParams::IntegerIndexParams(IntegerIndexParams {
                 lookup: false,
                 range: true,
             })),
