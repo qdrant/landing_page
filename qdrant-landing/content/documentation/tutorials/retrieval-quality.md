@@ -223,5 +223,5 @@ your search results. Qdrant provides a built-in exact search mode, which can be 
 even in an automated way, as part of your CI/CD pipeline.
 
 Again, **the quality of the embeddings is the most important factor**. HNSW does a pretty good job in terms of precision, and it is
-parameterizable and tunable, when required. There are some other ANN algorithms available out there, such as IVF, but they usually [perform 
-worse than HNSW in terms of quality and performance](https://nirantk.com/writing/pgvector-vs-qdrant/#correctness). 
+parameterizable and tunable, when required. There are some other ANN algorithms available out there, such as [IVF*](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes#cell-probe-methods-indexivf-indexes), 
+but they usually [perform worse than HNSW in terms of quality and performance](https://nirantk.com/writing/pgvector-vs-qdrant/#correctness). 
