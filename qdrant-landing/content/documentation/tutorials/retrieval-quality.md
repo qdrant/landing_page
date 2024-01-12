@@ -213,15 +213,15 @@ avg(precision@5) = 0.9969999999999998
 ```
 
 The precision has obviously increased, and we know how to control it. However, there is a trade-off between the precision and the search
-latency and memory requirements. In some specific cases, we might want to increase the precision as much as possible, so now we know how
+latency and memory requirements. In some specific cases, we may want to increase the precision as much as possible, so now we know how
 to do it. 
 
 ## Wrapping up
 
-Retrieval quality is an important factor of the semantic search quality. It might and should be measured if you care about the quality of
+Assessing the quality of retrieval is a critical aspect of evaluating semantic search performance. It is imperative to measure retrieval quality when aiming for optimal quality of.
 your search results. Qdrant provides a built-in exact search mode, which can be used to measure the quality of the ANN algorithm itself, 
 even in an automated way, as part of your CI/CD pipeline.
 
-Again, **the quality of the embeddings is the most important factor**. HNSW does a pretty good job in terms of precision, but it is
+Again, **the quality of the embeddings is the most important factor**. HNSW does a pretty good job in terms of precision, and it is
 parameterizable and tunable, when required. There are some other ANN algorithms available out there, such as IVF, but they usually [perform 
 worse than HNSW in terms of quality and performance](https://nirantk.com/writing/pgvector-vs-qdrant/#correctness). 
