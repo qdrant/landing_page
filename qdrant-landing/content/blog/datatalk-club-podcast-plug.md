@@ -5,7 +5,7 @@ slug: navigating-challenges-innovations
 short_description: Podcast on search and LLM with Datatalk.club
 description: Podcast on search and LLM with Datatalk.club
 preview_image: /blog/navigating-challenges-innovations/preview/preview.png
-date: 12.01.2024T15:39:53.751Z
+date: 2024-01-12T15:39:53.751Z
 author: Atita Arora
 featured: false
 tags:
