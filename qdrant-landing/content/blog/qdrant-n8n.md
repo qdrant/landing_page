@@ -36,7 +36,7 @@ Our workflow has two components. Refer to the [n8n quick start guide](https://do
 
 For this workflow, we'll use the following nodes:
 
-- [Qdrant Vector Store - Insert](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#insert-documents): Configure with API key and collection name. If the collection doesn't exist, it's automatically created with the appropriate configurations.
+- [Qdrant Vector Store - Insert](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#insert-documents): Configure with [Qdrant credentials](https://docs.n8n.io/integrations/builtin/credentials/qdrant/) and a collection name. If the collection doesn't exist, it's automatically created with the appropriate configurations.
 
 - [GitHub Document Loader](https://docs.n8n.io/integrations/builtin/cluster-nodes/sub-nodes/n8n-nodes-langchain.documentgithubloader/): Configure the GitHub access token, repository name, and branch. In this example, we'll use [qdrant/demo-food-discovery@main](https://github.com/qdrant/demo-food-discovery).
 
@@ -52,7 +52,7 @@ Connect the workflow to a manual trigger. Click "Test Workflow" to run it. You s
 
 The workflow use the following nodes:
 
-- [Qdrant Vector Store - Retrieve](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#retrieve-documents-for-agentchain): Configure with the API key and the name of the collection the data was loaded into.
+- [Qdrant Vector Store - Retrieve](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/#retrieve-documents-for-agentchain): Configure with [Qdrant credentials](https://docs.n8n.io/integrations/builtin/credentials/qdrant/) and the name of the collection the data was loaded into in workflow 1.
 
 - [Retrieval Q&A Chain](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.chainretrievalqa/): Configure with default values.
 
