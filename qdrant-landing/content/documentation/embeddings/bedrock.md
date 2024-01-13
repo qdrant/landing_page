@@ -5,11 +5,17 @@ weight: 1000
 
 # Bedrock Embeddings
 
-Qdrant can be used with [AWS Bedrock](https://aws.amazon.com/bedrock/) which offers multiple [embedding model providers](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html) to choose from.
+You can use [AWS Bedrock](https://aws.amazon.com/bedrock/) with Qdrant. AWS Bedrock supports multiple [embedding model providers](https://docs.aws.amazon.com/bedrock/latest/userguide/models-supported.html).
 
-To access the hosted embedding providers, authentication with your AWS credentials is required. Your can learn how to obtain and configure your credentials [here](https://repost.aws/knowledge-center/create-access-key)."
+You'll need the following information from your AWS account:
 
-Below is an example to generate embeddings using `Titan Embeddings G1 - Text` model that produces sentence embeddings of size 1536 and add them to Qdrant.
+- Region
+- Access key ID
+- Secret key
+
+To configure your credentials, review the following AWS article: [How do I create an AWS access key](https://repost.aws/knowledge-center/create-access-key)."
+
+With the following code sample, you can generate embeddings using the [Titan Embeddings G1 - Text model](https://docs.aws.amazon.com/bedrock/latest/userguide/titan-embedding-models.html). Amazon suggests that it produces sentence embeddings of size 1536.
 
 ```python
 # Install the required dependencies
