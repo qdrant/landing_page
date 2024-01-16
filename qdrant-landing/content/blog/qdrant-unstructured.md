@@ -3,6 +3,7 @@ title: Loading Unstructured.io Data into Qdrant from the Terminal
 slug: qdrant-unstructured
 short_description: Loading Unstructured Data into Qdrant from the Terminal
 description: Learn how to simplify the process of loading unstructured data into Qdrant using the Qdrant Unstructured destination.
+preview_image: /blog/qdrant-unstructured/preview/preview.jpg
 date: 2024-01-09T00:41:38+05:30
 author: Anush Shetty
 tags:

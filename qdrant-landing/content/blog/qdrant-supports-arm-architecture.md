@@ -4,7 +4,7 @@ title: Qdrant supports ARM architecture!
 slug: qdrant-supports-arm-architecture
 short_description: Qdrant announces ARM architecture support, expanding
   accessibility and performance for their advanced data indexing technology.
-description: Qdrant'ssupport for ARM architecture marks a pivotal step in
+description: Qdrant's support for ARM architecture marks a pivotal step in
   enhancing accessibility and performance. This development optimizes data
   indexing and retrieval.
 preview_image: /blog/from_cms/docker-preview.png
