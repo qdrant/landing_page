@@ -65,9 +65,9 @@ We use the same benchmark datasets as the [ann-benchmarks](https://github.com/er
 
 ### Detailed Report and Access
 
-For an in-depth look at our latest benchmark results, we invite you to read the [detailed report](qdrant.tech/benchmarks).
+For an in-depth look at our latest benchmark results, we invite you to read the [detailed report](https://qdrant.tech/benchmarks).
 
 
-If you're interested in testing the benchmark yourself or want to contribute to its development, head over to our [benchmark repository](github.com/qdrant/vector-db-benchmark). We appreciate your support and involvement in improving the performance of vector databases.
+If you're interested in testing the benchmark yourself or want to contribute to its development, head over to our [benchmark repository](https://github.com/qdrant/vector-db-benchmark). We appreciate your support and involvement in improving the performance of vector databases.
 
 
