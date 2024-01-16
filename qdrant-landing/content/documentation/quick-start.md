@@ -7,8 +7,9 @@ aliases:
 # Quickstart
 
 In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query. 
+The first few steps will show you how to self-host Qdrant using Docker. However, you can always sign up for [Qdrant Cloud](../cloud/quickstart-cloud/) and spin up a cluster with much less effort. Your first cluster is completely free.
 
-<aside role="status">Before you start, please make sure Docker is installed and running on your system.</aside>
+<aside role="status">Before you start, please make sure Docker is installed and running on your system. You should also have the latest version of Python, so that you can run the code inside of a virtual environment.</aside>
 
 ## Download and run
 
@@ -34,6 +35,8 @@ Qdrant is now accessible:
 - GRPC API: [localhost:6334](http://localhost:6334)
 
 ## Initialize the client 
+
+For local prototyping, we like to use Jupyter Notebooks or Google Colab. Open up your virtual environment to run the following Python code:
 
 ```python
 from qdrant_client import QdrantClient
