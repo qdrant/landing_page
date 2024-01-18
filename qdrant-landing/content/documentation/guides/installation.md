@@ -35,7 +35,7 @@ If you offload vectors to a local disk, we recommend you use a solid-state (SSD 
 Each Qdrant instance requires three open ports:
 
 * `6333` - For the HTTP API, for the [Monitoring](/documentation/guides/monitoring/) health and metrics endpoints
-* `6334` - For the [gRPC](https://abc.def) API
+* `6334` - For the [gRPC](/documentation/interfaces/#grpc-interface) API
 * `6335` - For [Distributed deployment](/documentation/guides/distributed_deployment/)
 
 All Qdrant instances in a cluster must be able to:
