@@ -1,0 +1,93 @@
+{{ define "main" }}
+
+<!-- Hero Section -->
+{{ if .Params.heroSection }}
+{{ $heroSection := .Params.heroSection }}
+<section class="row ml-hero">
+    <div class="col-12 col-md-5 ml">
+        <div class="ml-hero__logo">{{ partial "logo.html" . }}</div>
+        <h1 class="ml-hero__title">{{ $heroSection.title}}</h1>
+        <p class="ml-hero__description">{{ $heroSection.description}}</p>
+        <div class="d-flex">
+            <a href="{{ $heroSection.buttonLeft.link }}" class="ml-hero__button">
+                <span class="text">{{ $heroSection.buttonLeft.text }}</span>
+            </a>
+            <a href="{{ $heroSection.buttonRight.link }}" class="ml-hero__textButton">
+                <span class="text">{{ $heroSection.buttonRight.text }}</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-7">
+        <figure class="ml-hero__image">
+            <img src="{{ $heroSection.image }}" alt="{{ $heroSection.title }}">
+        </figure>
+    </div>
+</section>
+{{ end }}
+
+<!-- Customers -->
+{{ if .Params.customersSection }}
+{{ $customersSection := .Params.customersSection }}
+<section class="row ml-customers">
+    <div class="col-12">
+        {{ partial "marquee.html" (dict "context" $customersSection.customers "marqueeClass" "ml-marquee") }}
+    </div>
+</section>
+{{ end }}
+
+<!-- Features -->
+{{ if .Params.featuresSection }}
+{{ $featuresSection := .Params.featuresSection }}
+<section class="row">
+    <div class="col-12">
+        <h2>{{ $featuresSection.description | safeHTML }}</h2>
+    </div>
+    <div class="col-12 d-flex">
+        {{ range $featuresSection.features }}
+
+        <div>
+            <img src="{{ .icon }}" alt="{{ .title }}">
+            <h3>{{ .title }}</h3>
+            <p>{{ .text }}</p>
+        </div>
+
+        {{ end }}
+    </div>
+    <div class="col-12">
+        <a href="{{ $featuresSection.button.link }}" class="">{{ $featuresSection.button.text }}</a>
+    </div>
+    {{ end }}
+</section>
+
+<!-- Marketplace -->
+{{ if .Params.marketplaceSection}}
+{{ $marketplace := .Params.marketplaceSection }}
+<section class="row">
+    <div class="col-12 market">
+        <h2>{{ $marketplace.title }}</h2>
+        {{ range $marketplace.buttons }}
+        <a href="{{ .link }}" class="btn btn_market" target="_blank" title="{{ .name }}">
+            <img src="{{ .image }}" alt="{{ .name }}">
+        </a>
+        {{ end }}
+    </div>
+</section>
+{{ end }}
+
+<!-- Banner -->
+{{ if .Params.bannerSection}}
+{{ $banner := .Params.bannerSection }}
+< class="row">
+<div class="col-12 banner">
+    <div style="background-image: url('{{ $banner.image }}')">
+        <div>
+            <p>{{ $banner.title }}</p>
+            <a href="{{ $banner.button.link }}" class="">{{ $banner.button.text }}</a>
+        </div>
+    </div>
+</div>
+</section>
+{{ end }}
+
+{{end}}

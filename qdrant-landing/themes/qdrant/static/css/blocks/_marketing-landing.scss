@@ -1,0 +1,79 @@
+@use "../helpers/functions" as *;
+@use "../mixins/mixins" as *;
+@use "../mixins/marquee" as marquee;
+@use "../variables" as vars;
+
+$landing-font-family: 'Roboto', sans-serif;
+
+@mixin here-font-styles($size, $weight, $line-height, $color) {
+  @include font-styles($size, $weight, $line-height, $color, $landing-font-family);
+}
+.m-landing {
+  padding-top: rem(120);
+  background: var(--neutral-n-50);
+}
+.ml-hero {
+  margin-bottom: rem(80);
+
+  &__logo {
+    width: rem(106);
+    height: rem(36);
+    margin-bottom: rem(24);
+  }
+  &__title {
+    @include here-font-styles(rem(40), 700, rem(48), var(--neutral-n-700, #1F3266));
+    margin-bottom: rem(24);
+  }
+  &__description {
+    @include here-font-styles(rem(18), 400, rem(27), var(--neutral-n-600, #39508F));
+    margin-bottom: rem(24);
+  }
+  &__button {
+    display: flex;
+    height: 56px;
+    padding: 13px 40px;
+    justify-content: center;
+    align-items: center;
+    margin-right: rem(40);
+    border-radius: 8px;
+    background: #DC244C;
+
+    @include here-font-styles(rem(18), 600, rem(27), #FFF);
+    @include buttonHoverEffect(var(--neutral-n-600, #39508F), #FFF);
+
+  }
+
+
+  &__textButton {
+    display: flex;
+    padding: 13px 0;
+    justify-content: center;
+    align-items: center;
+
+    @include here-font-styles(rem(18), 600, rem(27), var(--neutral-n-700, #1F3266));
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__image {
+    padding-left: rem(29);
+    & img {
+      width: 100%;
+      height: auto;
+    }
+  }
+}
+
+.ml-marquee {
+  @include marquee.base(80px, 200px, 6, 7, 20px, false, 50s);
+  &__block {
+    &:before {
+      box-shadow: 0 0 30px 30px var(--neutral-n-50);
+    }
+    &:after {
+      box-shadow: 0 0 30px 30px var(--neutral-n-50);
+    }
+  }
+}

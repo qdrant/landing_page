@@ -1,0 +1,24 @@
+{{$marqueeClass := .marqueeClass}}
+<div class="{{ $marqueeClass }} mt-3 mb-5">
+    <div class="{{ $marqueeClass }}__container">
+        <div class="{{ $marqueeClass }}__block">
+            <div class="{{ $marqueeClass }}__inner {{ $marqueeClass }}__inner_to-left">
+                        <span>
+                        {{ range .context }}
+                            <div class="{{ $marqueeClass }}__item">
+                                <img src="{{ .image }}" alt="{{ .name}} logo">
+                            </div>
+                        {{ end }}
+                        </span>
+                        <span>
+                        {{ range .context }}
+                            <div class="{{ $marqueeClass }}__item">
+                                <img src="{{ .image }}" alt="{{ .name}} logo">
+                            </div>
+                        {{ end }}
+                        </span>
+            </div>
+        </div>
+
+    </div>
+</div>

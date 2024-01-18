@@ -1,0 +1,9 @@
+<body>
+{{ if hugo.IsProduction }}
+{{ if .Site.Params.googleTagManager }}
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ .Site.Params.googleTagManager }}"
+                  height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+{{ end }}
+{{ end }}
+
+<div class="page-wrapper">

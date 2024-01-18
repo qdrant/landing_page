@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="{{ .Site.LanguageCode }}">
+{{ partial "head.html" . }}
+{{ partial "body_start.html" . }}
+
+<div class="m-landing">
+    <div class="auto-container">
+        {{ block "main" . }}{{ end }}
+    </div>
+</div>
+
+<footer>
+    <div class="auto-container">
+        © 2024 Qdrant. All Rights Reserved
+    </div>
+</footer>
+{{ partial "body_end.html" . }}
+</html>
+
