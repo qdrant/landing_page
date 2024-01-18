@@ -28,7 +28,7 @@ using the Qdrant CLI upon startup or through the API.
 
 <p align="center">
   <a href="https://huggingface.co/Qdrant">
-    <img style="max-width: 500px" src="/content/images/hf-logo-with-title.svg" alt="HuggingFace" title="HuggingFace">
+    <img style="width: 500px; max-width: 100%;" src="/content/images/hf-logo-with-title.svg" alt="HuggingFace" title="HuggingFace">
   </a>
 </p>
 
