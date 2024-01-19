@@ -84,8 +84,18 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 [params.ui.feedback]
 enable = true
 # The responses that the user sees after clicking "yes" (the page was helpful) or "no" (the page was not helpful).
-yes = 'Glad to hear it! <a href="https://github.com/cobalthq/cobalt-product-public-docs/issues/new">We welcome your compliments</a>.'
-no = 'Sorry to hear that. Please <a href="https://github.com/cobalthq/cobalt-product-public-docs/issues/new">tell us how we can improve</a>.'
+yes = 'Thanks!'
+no = 'Sorry! You can edit this page on GitHub, or create a GitHub issue.'
+
+# Feedback details. See feedback.html
+[feedback_title]
+other = "Feedback"
+[feedback_question]
+other = "Was this page helpful?"
+[feedback_positive]
+other = "Yes"
+[feedback_negative]
+other = "No"
 
 [taxonomies]
     tag = "tags"
