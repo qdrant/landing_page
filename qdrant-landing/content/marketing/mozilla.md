@@ -1,5 +1,7 @@
 ---
-title: Marketing page
+title: High-Performance Vector Search at Scale
+description: The leading open-source vector database designed to handle high-dimensional vectors for performance and massive-scale AI applications.
+keywords: qdrant1
 url: /high-performance-vector-search/
 aliases:
   - /marketing/
@@ -17,20 +19,45 @@ heroSection:
 customersSection:
     title: Qdrant Powers Thousands of Top AI Solutions.
     customers:
-        - image: /content/images/logos/alphasense-logo-mono.png
-          name: AlphaSense
-        - image: /content/images/logos/deloitte-logo-mono.png
-          name: Deloitte
-        - image: /content/images/logos/bayer-logo-mono.png
-          name: Bayer
-        - image: /content/images/logos/disney-streaming-logo-mono.png
-          name: Disney Streaming
-        - image: /content/images/logos/flipkart-logo-mono.png
-          name: Flipkart
-        - image: /content/images/logos/glg-logo-mono.png
-          name: GLG
         - image: /content/images/logos/mozilla-logo-mono.png
           name: Mozilla
+          weight: 0
+        - image: /content/images/logos/alphasense-logo-mono.png
+          name: Alphasense
+          weight: 10
+        - image: /content/images/logos/bayer-logo-mono.png
+          name: Bayer
+          weight: 10
+        - image: /content/images/logos/dailymotion-logo-mono.png
+          name: Dailymotion
+          weight: 10
+        - image: /content/images/logos/deloitte-logo-mono.png
+          name: Deloitte
+          weight: 10
+        - image: /content/images/logos/disney-streaming-logo-mono.png
+          name: Disney Streaming
+          weight: 10
+        - image: /content/images/logos/flipkart-logo-mono.png
+          name: Flipkart
+          weight: 10
+        - image: /content/images/logos/glg-logo-mono.png
+          name: GLG
+          weight: 10
+        - image: /content/images/logos/hp-enterprise-logo-mono.png
+          name: HP Enterprise
+          weight: 10
+        - image: /content/images/logos/hrs-logo-mono.png
+          name: HRS
+          weight: 10
+        - image: /content/images/logos/johnson-logo-mono.png
+          name: Johnson & Jonson
+          weight: 10
+        - image: /content/images/logos/kaufland-logo-mono.png
+          name: Kaufland
+          weight: 10
+        - image: /content/images/logos/microsoft-logo-mono.png
+          name: Microsoft
+          weight: 10
 
 featuresSection:
     description: Qdrant is designed to deliver the <span class="text-brand-p">fastest and most accurate results at the lowest&nbsp;cost</span>.&nbsp;Learn more about it in our performance benchmarks.

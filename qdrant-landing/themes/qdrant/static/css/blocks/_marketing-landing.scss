@@ -176,7 +176,7 @@ $landing-font-family: 'Roboto', sans-serif;
 }
 
 .ml-marquee {
-  @include marquee.base(80px, 200px, 6, 7, 20px, false, 50s);
+  @include marquee.base(80px, 200px, 13, 6, 20px, false, 50s);
   &__block {
     &:before {
       display: none;
@@ -193,8 +193,8 @@ $landing-font-family: 'Roboto', sans-serif;
       &:after {
         display: block;
         box-shadow: 0 0 30px 30px var(--neutral-n-50);
+        right: 106px;
       }
-      // todo: fix :after
     }
   }
 
@@ -298,6 +298,10 @@ $landing-font-family: 'Roboto', sans-serif;
     background-image: $markets-background;
     @include media-breakpoint-up(md) {
       width: rem(352);
+
+      &:hover {
+        box-shadow: 0 0 0 1px var(--neutral-n-100);
+      }
     }
 
     img {

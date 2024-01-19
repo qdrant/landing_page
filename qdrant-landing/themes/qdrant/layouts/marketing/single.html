@@ -9,8 +9,8 @@
     </div>
     <div class="col-12 col-md-5 order-1 order-md-0">
         <div class="ml-hero__logo d-none d-md-block">{{ partial "logo.html" . }}</div>
-        <h1 class="ml-hero__title">{{ $heroSection.title}}</h1>
-        <p class="ml-hero__description">{{ $heroSection.description}}</p>
+        <h1 class="ml-hero__title">{{ $heroSection.title | safeHTML }}</h1>
+        <p class="ml-hero__description">{{ $heroSection.description | safeHTML }}</p>
         <div class="d-flex flex-column flex-md-row align-items-center">
             <a href="{{ $heroSection.buttonLeft.link }}" class="ml-button">
                 <span class="text">{{ $heroSection.buttonLeft.text }}</span>
@@ -23,7 +23,7 @@
 
     <div class="col-12 col-md-7 order-0 order-md-1">
         <figure class="ml-hero__image">
-            <img src="{{ $heroSection.image }}" alt="{{ $heroSection.title }}">
+            <img src="{{ $heroSection.image }}" alt="{{ $heroSection.title | plainify }}">
         </figure>
     </div>
 </section>
@@ -34,11 +34,12 @@
 {{ $customersSection := .Params.customersSection }}
 <section class="row ml-customers">
     <div class="col-12">
-        <h2 class="ml-customers__title">{{ $customersSection.title }}</h2>
+        <h2 class="ml-customers__title">{{ $customersSection.title | safeHTML }}</h2>
     </div>
     <div class="col-12">
         <div class="ml-customers__marquee">
-            {{ partial "marquee.html" (dict "context" $customersSection.customers "marqueeClass" "ml-marquee") }}
+            {{ $customers := sort $customersSection.customers "weight" "asc" }}
+            {{ partial "marquee.html" (dict "context" $customers "marqueeClass" "ml-marquee") }}
         </div>
     </div>
 </section>
@@ -55,9 +56,9 @@
         {{ range $featuresSection.features }}
 
         <div class="ml-features__card">
-            <img src="{{ .icon }}" alt="{{ .title }}">
-            <h3 class="ml-features__card-title">{{ .title }}</h3>
-            <p class="ml-features__card-text mb-0">{{ .text }}</p>
+            <img src="{{ .icon }}" alt="{{ .title | plainify }}">
+            <h3 class="ml-features__card-title">{{ .title | safeHTML }}</h3>
+            <p class="ml-features__card-text mb-0">{{ .text | safeHTML }}</p>
         </div>
 
         {{ end }}
@@ -79,8 +80,8 @@
         <h2 class="ml-markets__title">{{ $marketplace.title }}</h2>
         <div class="ml-markets__buttons-outer">
             {{ range $marketplace.buttons }}
-            <a class="ml-markets__button" href="{{ .link }}" target="_blank" title="{{ .name }}">
-                <img src="{{ .image }}" alt="{{ .name }}">
+            <a class="ml-markets__button" href="{{ .link }}" target="_blank" title="{{ .name | plainify }}">
+                <img src="{{ .image }}" alt="{{ .name | plainify }}">
             </a>
             {{ end }}
         </div>
