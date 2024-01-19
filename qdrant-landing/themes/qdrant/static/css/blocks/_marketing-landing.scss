@@ -17,6 +17,12 @@ $landing-font-family: 'Roboto', sans-serif;
   @include media-breakpoint-up(md) {
     padding-top: rem(120);
   }
+
+  &__footer {
+    text-align: center;
+    @include here-font-styles(rem(16), 400, rem(24));
+    padding: rem(27) 0;
+  }
 }
 
 .ml-button {
@@ -241,5 +247,56 @@ $landing-font-family: 'Roboto', sans-serif;
       text-align: center;
       @include here-font-styles(rem(16), 400, rem(24))
     }
+  }
+}
+
+.ml-markets {
+  padding-top: rem(40);
+  margin-bottom: rem(40);
+
+  @include media-breakpoint-up(md) {
+    padding-top: rem(64);
+    margin-bottom: rem(80);
+  }
+
+  &__title {
+    @include here-font-styles(rem(24), 700, rem(32));
+    margin-bottom: rem(40);
+    text-align: center;
+
+    @include media-breakpoint-up(md) {
+      margin-bottom: rem(64);
+    }
+  }
+
+  &__buttons-outer {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    @include media-breakpoint-up(md) {
+      flex-direction: row;
+      justify-content: center;
+    }
+  }
+  &__button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: rem(184);
+
+    border-radius: 8px;
+    background: #FFF;
+    //background-image: url(");
+
+    @include media-breakpoint-up(md) {
+      width: rem(352);
+    }
+
+    img {
+      width: auto;
+      height: auto;
+    }
+
   }
 }

@@ -74,12 +74,14 @@
 <div class="divider"></div>
 <section class="row ml-markets">
     <div class="col-12">
-        <h2>{{ $marketplace.title }}</h2>
-        {{ range $marketplace.buttons }}
-        <a href="{{ .link }}" class="btn btn_market" target="_blank" title="{{ .name }}">
-            <img src="{{ .image }}" alt="{{ .name }}">
-        </a>
-        {{ end }}
+        <h2 class="ml-markets__title">{{ $marketplace.title }}</h2>
+        <div class="ml-markets__buttons-outer">
+            {{ range $marketplace.buttons }}
+            <a class="ml-markets__button" href="{{ .link }}" target="_blank" title="{{ .name }}">
+                <img src="{{ .image }}" alt="{{ .name }}">
+            </a>
+            {{ end }}
+        </div>
     </div>
 </section>
 {{ end }}
@@ -87,15 +89,15 @@
 <!-- Banner -->
 {{ if .Params.bannerSection}}
 {{ $banner := .Params.bannerSection }}
-< class="row">
-<div class="col-12 banner">
-    <div style="background-image: url('{{ $banner.image }}')">
-        <div>
-            <p>{{ $banner.title }}</p>
-            <a href="{{ $banner.button.link }}" class="">{{ $banner.button.text }}</a>
+<section class="row">
+    <div class="col-12 banner">
+        <div style="background-image: url('{{ $banner.image }}')">
+            <div>
+                <p>{{ $banner.title | safeHTML }}</p>
+                <a href="{{ $banner.button.link }}" class="">{{ $banner.button.text }}</a>
+            </div>
         </div>
     </div>
-</div>
 </section>
 {{ end }}
 

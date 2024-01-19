@@ -4,16 +4,16 @@
 {{ partial "body_start.html" . }}
 
 <div class="m-landing">
-    <div class="auto-container">
+    <main class="auto-container">
         {{ block "main" . }}{{ end }}
-    </div>
-</div>
+    </main>
 
-<footer>
+<footer class="m-landing__footer">
     <div class="auto-container">
         © 2024 Qdrant. All Rights Reserved
     </div>
 </footer>
+</div>
 {{ partial "body_end.html" . }}
 </html>
 
