@@ -66,7 +66,8 @@ marketplaceSection:
           name: Google Cloud Marketplace
 bannerSection:
     title: <span class="text-brand-p">Scale your AI</span> with Qdrant
-    image: /marketing/mozilla/banner.svg
+    bgImage: /marketing/mozilla/stars-pattern.svg # not required
+    image: /marketing/mozilla/space-rocket.png
     button:
         text: Get Started For Free
         link: https://qdrant.to/cloud

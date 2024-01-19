@@ -2,6 +2,7 @@
 @use "../mixins/mixins" as *;
 @use "../mixins/marquee" as marquee;
 @use "../variables" as vars;
+@use "grid-background" as *;
 
 $landing-font-family: 'Roboto', sans-serif;
 
@@ -294,8 +295,7 @@ $landing-font-family: 'Roboto', sans-serif;
 
     border-radius: 8px;
     background: #FFF;
-    //background-image: url(");
-
+    background-image: $markets-background;
     @include media-breakpoint-up(md) {
       width: rem(352);
     }
@@ -316,9 +316,12 @@ $landing-font-family: 'Roboto', sans-serif;
     height: 560px;
     border-radius: 8px;
     background: #03091A;
+    background-repeat: no-repeat;
+    background-position: bottom center;
 
     @include media-breakpoint-up(md) {
       height: rem(400);
+      background-position: bottom right;
     }
   }
 
