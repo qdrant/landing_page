@@ -29,6 +29,7 @@ $landing-font-family: 'Roboto', sans-serif;
   display: flex;
   width: fit-content;
   min-width: 200px;
+  position: relative;
   line-height: 1;
   padding: 13px 40px;
   justify-content: center;
@@ -40,6 +41,12 @@ $landing-font-family: 'Roboto', sans-serif;
   @include here-font-styles(rem(18), 600, rem(27));
   color: #FFF;
 
+  @include media-breakpoint-down(md) {
+    &:hover, &:active {
+      background-color: var(--neutral-n-600, #39508F);
+      color: #FFF;
+    }
+  }
 
   @include media-breakpoint-up(md) {
     @include buttonHoverEffect(var(--neutral-n-600, #39508F), #FFF);
@@ -297,6 +304,58 @@ $landing-font-family: 'Roboto', sans-serif;
       width: auto;
       height: auto;
     }
+  }
+}
 
+.ml-banner {
+  @include media-breakpoint-up(md) {
+    margin-bottom: rem(48);
+  }
+
+  &__banner {
+    height: 560px;
+    border-radius: 8px;
+    background: #03091A;
+
+    @include media-breakpoint-up(md) {
+      height: rem(400);
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: rem(40) rem(24);
+    justify-content: center;
+
+    @include media-breakpoint-up(md) {
+      width: 50%;
+      height: rem(400);
+      padding-top: rem(40);
+      padding-left: rem(94);
+      padding-bottom: rem(40);
+    }
+  }
+
+  &__title {
+    color: #FFF;
+    text-align: center;
+    @include here-font-styles(rem(32), 700, rem(40));
+    margin-bottom: rem(24);
+
+    @include media-breakpoint-up(md) {
+      text-align: left;
+      font-size: rem(48);
+      line-height: rem(56);
+    }
+  }
+
+  &__button {
+    margin-left: auto;
+    margin-right: auto;
+
+    @include media-breakpoint-up(md) {
+      margin: 0;
+    }
   }
 }

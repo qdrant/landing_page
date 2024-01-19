@@ -65,7 +65,7 @@ marketplaceSection:
           link: https://console.cloud.google.com/marketplace/...
           name: Google Cloud Marketplace
 bannerSection:
-    title: <span>Scale your AI</span> with Qdrant
+    title: <span class="text-brand-p">Scale your AI</span> with Qdrant
     image: /marketing/mozilla/banner.svg
     button:
         text: Get Started For Free

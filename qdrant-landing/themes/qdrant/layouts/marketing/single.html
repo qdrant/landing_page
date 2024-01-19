@@ -63,7 +63,9 @@
         {{ end }}
     </div>
     <div class="col-12 text-center">
-        <a class="ml-button mx-auto" href="{{ $featuresSection.button.link }}">{{ $featuresSection.button.text }}</a>
+        <a class="ml-button mx-auto" href="{{ $featuresSection.button.link }}">
+            <span class="text">{{ $featuresSection.button.text }}</span>
+        </a>
     </div>
     {{ end }}
 </section>
@@ -90,11 +92,13 @@
 {{ if .Params.bannerSection}}
 {{ $banner := .Params.bannerSection }}
 <section class="row">
-    <div class="col-12 banner">
-        <div style="background-image: url('{{ $banner.image }}')">
-            <div>
-                <p>{{ $banner.title | safeHTML }}</p>
-                <a href="{{ $banner.button.link }}" class="">{{ $banner.button.text }}</a>
+    <div class="col-12 ml-banner">
+        <div class="ml-banner__banner" style="background-image: url('{{ $banner.image }}')">
+            <div class="ml-banner__content">
+                <h2 class="ml-banner__title">{{ $banner.title | safeHTML }}</h2>
+                <a class="ml-button ml-banner__button" href="{{ $banner.button.link }}">
+                    <span class="text">{{ $banner.button.text }}</span>
+                </a>
             </div>
         </div>
     </div>
