@@ -4,12 +4,15 @@
 {{ if .Params.heroSection }}
 {{ $heroSection := .Params.heroSection }}
 <section class="row ml-hero">
-    <div class="col-12 col-md-5 ml">
+    <div class="col-12 col-md-5 d-md-none d-flex justify-content-center">
         <div class="ml-hero__logo">{{ partial "logo.html" . }}</div>
+    </div>
+    <div class="col-12 col-md-5 order-1 order-md-0">
+        <div class="ml-hero__logo d-none d-md-block">{{ partial "logo.html" . }}</div>
         <h1 class="ml-hero__title">{{ $heroSection.title}}</h1>
         <p class="ml-hero__description">{{ $heroSection.description}}</p>
-        <div class="d-flex">
-            <a href="{{ $heroSection.buttonLeft.link }}" class="ml-hero__button">
+        <div class="d-flex flex-column flex-md-row align-items-center">
+            <a href="{{ $heroSection.buttonLeft.link }}" class="ml-button">
                 <span class="text">{{ $heroSection.buttonLeft.text }}</span>
             </a>
             <a href="{{ $heroSection.buttonRight.link }}" class="ml-hero__textButton">
@@ -18,7 +21,7 @@
         </div>
     </div>
 
-    <div class="col-12 col-md-7">
+    <div class="col-12 col-md-7 order-0 order-md-1">
         <figure class="ml-hero__image">
             <img src="{{ $heroSection.image }}" alt="{{ $heroSection.title }}">
         </figure>
@@ -31,7 +34,12 @@
 {{ $customersSection := .Params.customersSection }}
 <section class="row ml-customers">
     <div class="col-12">
-        {{ partial "marquee.html" (dict "context" $customersSection.customers "marqueeClass" "ml-marquee") }}
+        <h2 class="ml-customers__title">{{ $customersSection.title }}</h2>
+    </div>
+    <div class="col-12">
+        <div class="ml-customers__marquee">
+            {{ partial "marquee.html" (dict "context" $customersSection.customers "marqueeClass" "ml-marquee") }}
+        </div>
     </div>
 </section>
 {{ end }}
@@ -39,23 +47,23 @@
 <!-- Features -->
 {{ if .Params.featuresSection }}
 {{ $featuresSection := .Params.featuresSection }}
-<section class="row">
+<section class="row ml-features">
     <div class="col-12">
-        <h2>{{ $featuresSection.description | safeHTML }}</h2>
+        <h2 class="ml-features__title">{{ $featuresSection.description | safeHTML }}</h2>
     </div>
-    <div class="col-12 d-flex">
+    <div class="col-12 d-flex flex-column flex-md-row ml-features__cards-outer">
         {{ range $featuresSection.features }}
 
-        <div>
+        <div class="ml-features__card">
             <img src="{{ .icon }}" alt="{{ .title }}">
-            <h3>{{ .title }}</h3>
-            <p>{{ .text }}</p>
+            <h3 class="ml-features__card-title">{{ .title }}</h3>
+            <p class="ml-features__card-text mb-0">{{ .text }}</p>
         </div>
 
         {{ end }}
     </div>
-    <div class="col-12">
-        <a href="{{ $featuresSection.button.link }}" class="">{{ $featuresSection.button.text }}</a>
+    <div class="col-12 text-center">
+        <a class="ml-button mx-auto" href="{{ $featuresSection.button.link }}">{{ $featuresSection.button.text }}</a>
     </div>
     {{ end }}
 </section>
@@ -63,8 +71,9 @@
 <!-- Marketplace -->
 {{ if .Params.marketplaceSection}}
 {{ $marketplace := .Params.marketplaceSection }}
-<section class="row">
-    <div class="col-12 market">
+<div class="divider"></div>
+<section class="row ml-markets">
+    <div class="col-12">
         <h2>{{ $marketplace.title }}</h2>
         {{ range $marketplace.buttons }}
         <a href="{{ .link }}" class="btn btn_market" target="_blank" title="{{ .name }}">

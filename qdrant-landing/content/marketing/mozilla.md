@@ -1,6 +1,6 @@
 ---
 title: Marketing page
-url: /mozilla/
+url: /high-performance-vector-search/
 aliases:
   - /marketing/
 heroSection:
@@ -33,7 +33,7 @@ customersSection:
           name: Mozilla
 
 featuresSection:
-    description: Qdrant is designed to deliver the <span class="">fastest and most accurate results at the lowest cost</span>. Learn more about it in our performance benchmarks.
+    description: Qdrant is designed to deliver the <span class="text-brand-p">fastest and most accurate results at the lowest&nbsp;cost</span>.&nbsp;Learn more about it in our performance benchmarks.
     features:
         - title: Highest RPS
           text: Qdrant leads with top requests-per-seconds, outperforming alternative vector databases in various datasets by up to 4x.
