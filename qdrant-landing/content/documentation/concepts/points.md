@@ -409,16 +409,14 @@ Column-oriented format:
 ```python
 client.upload_collection(
     collection_name="{collection_name}",
-    ids=[1, 2, 3],
+    ids=[1, 2],
     payloads=[
         {"color": "red"},
         {"color": "green"},
-        {"color": "blue"},
     ],
     vectors=[
         [0.9, 0.1, 0.1],
         [0.1, 0.9, 0.1],
-        [0.1, 0.1, 0.9],
     ],
     parallel=4,
     max_retries=3,
@@ -448,13 +446,6 @@ client.upload_points(
                 "color": "green",
             },
             vector=[0.1, 0.9, 0.1],
-        ),
-        models.PointStruct(
-            id=3,
-            payload={
-                "color": "blue",
-            },
-            vector=[0.1, 0.1, 0.9],
         ),
     ],
     parallel=4,
