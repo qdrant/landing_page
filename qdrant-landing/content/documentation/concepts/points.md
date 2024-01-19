@@ -395,9 +395,14 @@ client
 
 
 The Python client has additional features for loading points. 
-These include parallelization, a retry mechanism and lazy batching support. For example, you can read your data directly from disks and avoid having everything in the memory.
-These features are incorporated into the `upload_collection` and `upload_records` methods.
+These include parallelization, a retry mechanism and lazy batching support. 
+For example, you can read your data directly from disks and avoid having everything in the memory.
+These features are incorporated into the `upload_collection` and `upload_points` methods.
 Similar to the basic upsert API, these methods support both record-oriented and column-oriented formats.
+
+<aside role="status">
+<code>upload_points</code> is available as of v1.7.1. It has replaced <code>upload_records</code> which is now deprecated.
+</aside>
 
 Column-oriented format:
 
@@ -421,31 +426,30 @@ client.upload_collection(
 ```
 
 <aside role="status">
-If <code>ids</code> are not provided, integer ids will be generated automatically using an auto increment function.
-It means if method is used several times, ids will be the same each time which might lead to overwriting of existing points.
+If <code>ids</code> are not provided, they will be generated automatically as UUIDs.
 </aside>
 
 Record-oriented format:
 
 ```python
-client.upload_records(
+client.upload_points(
     collection_name="{collection_name}",
     points=[
-        models.Record(
+        models.PointStruct(
             id=1,
             payload={
                 "color": "red",
             },
             vector=[0.9, 0.1, 0.1],
         ),
-        models.Record(
+        models.PointStruct(
             id=2,
             payload={
                 "color": "green",
             },
             vector=[0.1, 0.9, 0.1],
         ),
-        models.Record(
+        models.PointStruct(
             id=3,
             payload={
                 "color": "blue",
@@ -457,12 +461,6 @@ client.upload_records(
     max_retries=3,
 )
 ```
-
-<aside role="status">
-As of v1.7.0 the <code>upload_records</code> and <code>upload_collections</code> supports setting user defined shard keys.
-If batch contains several keys, it will be split into several batches, which might affect performance.
-Make sure not to mix records with different shard keys too much.
-</aside>
 
 All APIs in Qdrant, including point loading, are idempotent.
 It means that executing the same method several times in a row is equivalent to a single execution.
