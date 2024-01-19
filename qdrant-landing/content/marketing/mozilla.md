@@ -86,10 +86,10 @@ marketplaceSection:
     title: Qdrant is also available on leading marketplaces.
     buttons:
         - image: /marketing/mozilla/amazon_logo.png
-          link: https://aws.amazon.com/marketplace/...
+          link: https://aws.amazon.com/marketplace/pp/prodview-rtphb42tydtzg?sr=0-1&ref_=beagle&applicationId=AWS-Marketplace-Console
           name: AWS Marketplace
         - image: /marketing/mozilla/google_cloud_logo.png
-          link: https://console.cloud.google.com/marketplace/...
+          link: https://console.cloud.google.com/marketplace/product/qdrant-public/qdrant?project=qdrant-public
           name: Google Cloud Marketplace
 bannerSection:
     title: <span class="text-brand-p">Scale your AI</span> with Qdrant
