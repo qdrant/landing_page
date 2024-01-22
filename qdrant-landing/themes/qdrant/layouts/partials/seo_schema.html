@@ -138,6 +138,11 @@
 <!-- Preview Image -->
 {{ $image := index (.Site.Params.preview_images | shuffle ) 0 }}
 
+{{ if .Params.preview_image }}
+    {{ $image := .Params.preview_image }}
+{{ end }}
+
+
 <!-- Check image exist in `static` path -->
 {{ with .File }}
     {{ $preview_image_base :=  path.Join "static" .File.Dir .File.ContentBaseName }}
