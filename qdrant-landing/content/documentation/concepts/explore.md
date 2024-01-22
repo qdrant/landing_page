@@ -458,7 +458,7 @@ In this API, Qdrant introduces the concept of `context`, which is used for split
 The interface for providing context is similar to the recommendation API (ids or raw vectors). Still, in this case, they need to be provided in the form of positive-negative pairs.
 
 Discovery API lets you do two new types of search:
-- **Discovery search**: Uses a target and context pairs of examples to get the points closest to the target, but constrained by the context.
+- **Discovery search**: Uses the context (the pairs of positive-negative vectors) and a target to return the points more similar to the target, but constrained by the context.
 - **Context search**: Using only the context pairs, get the points that live in the best zone, where loss is minimized
 
 The way positive and negative examples should be arranged in the context pairs is completely up to you. So you can have the flexibility of trying out different permutation techniques based on your model and data.

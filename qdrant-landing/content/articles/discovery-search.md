@@ -44,10 +44,10 @@ However, it is not the only way to use it, you can also __only__ provide a conte
 
 ## Discovery search
 
-Let's talk about the first case: target with context.
+Let's talk about the first case: context with a target.
 
 To understand why this is useful, let's take a look at a real-world example: using a multimodal encoder like [CLIP](https://openai.com/blog/clip/) to search for images, from text __and__ images.
-CLIP is a neural network that can embed both images and text into the same vector space. This means that if you were to search for an image, you could do so by providing a text query, and vice versa. For this example, we'll reuse our [food recommendations demo](https://food-discovery.qdrant.tech/) by typing "burger" in the text input:
+CLIP is a neural network that can embed both images and text into the same vector space. This means that you can search for images using either a text query or an image query. For this example, we'll reuse our [food recommendations demo](https://food-discovery.qdrant.tech/) by typing "burger" in the text input:
 
 ![Burger text input in food demo](/articles_data/discovery-search/search-for-burger.png)
 
@@ -57,7 +57,7 @@ This is basically nearest neighbor search, and while technically we have only im
 
 Wait a second, what has just happened? These pictures have __nothing__ to do with burgers, and still, they appear on the first results. Is the demo broken?
 
-Turns out, multimodal encoders <a href="https://twitter.com/metasemantic/status/1356406256802607112" target="_blank">might not work how you expect them to</a>. Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
+Turns out, multimodal encoders <a href="https://modalitygap.readthedocs.io/en/latest/" target="_blank">might not work how you expect them to</a>. Images and text are embedded in the same space, but they are not necessarily close to each other. This means that we can create a mental model of the distribution as two separate planes, one for images and one for text.
 
 ![Mental model of CLIP embeddings](/articles_data/discovery-search/clip-mental-model.png)
 
