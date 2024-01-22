@@ -5,6 +5,7 @@ slug: series-A-funding-round
 short_description: 
 description:
 preview_image: /blog/series-A-funding-round/series-A.png
+social_preview_image: /blog/series-A-funding-round/series-A.png
 date: 2024-01-23T09:00:00.000Z
 author: Andre Zayarni, CEO & Co-Founder
 featured: true
