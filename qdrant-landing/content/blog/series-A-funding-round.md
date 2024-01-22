@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "How Qdrant Pushes the Boundaries of Vector Search and Announcing our $28M Series A Funding Round"
+title: "Announcing Qdrant's $28M Series A Funding Round"
 slug: series-A-funding-round
 short_description: 
 description:
