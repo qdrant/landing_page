@@ -4,7 +4,7 @@ title: "How Qdrant Pushes the Boundaries of Vector Search and Announcing our $28
 slug: series-A-funding-round
 short_description: 
 description:
-preview_image: /blog/from_cms/series-A.png
+preview_image: /blog/series-A-funding-round/series-A.png
 date: 2024-01-23T09:00:00.000Z
 author: Andre Zayarni, CEO & Co-Founder
 featured: true
