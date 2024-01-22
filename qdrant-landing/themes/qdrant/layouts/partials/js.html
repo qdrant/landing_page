@@ -137,15 +137,6 @@
   $(function() {
     // table of contents
     document.querySelectorAll('#TOC a').forEach(function(el) {
-      el.addEventListener('click', function(e) {
-        e.preventDefault();
-
-        const target = document.querySelector(el.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({behavior: 'smooth', block: 'start'});
-        }
-      });
-
       if (el.innerText) el.setAttribute('title', el.innerText)
     });
 
@@ -175,19 +166,60 @@
 </script>
 {{ end }}
 
-{{ if or (eq .Section "articles") (eq .Section "blog") }}
+{{ if or (or (eq .Section "articles") (eq .Section "blog")) (eq .Section "documentation") }}
 <script>
+
+  function scrollIntoViewWithOffset (id, offset) {
+    offset = offset || 0
+
+    const targetPosition = document.getElementById(id).getBoundingClientRect().top -
+        document.body.getBoundingClientRect().top -
+        offset;
+
+    window.scrollTo({
+      top: targetPosition,
+      behavior: 'smooth'
+    })
+
+    return new Promise(resolve => {
+      const scrollHandler = () => {
+        // resolve promise when scroll is finished
+        if (window.scrollY.toFixed() === targetPosition.toFixed()) {
+          window.removeEventListener('scroll', scrollHandler)
+          resolve()
+        }
+      }
+      window.addEventListener('scroll', scrollHandler)
+    })
+  }
+
   (function() {
+    const header = document.querySelector('.main-header');
+    const isHeaderInViewport = header.getBoundingClientRect().top === 0;
+
+    let offsetPosition;
+
+    if (isHeaderInViewport) {
+      offsetPosition = document.querySelector('.main-header')?.getBoundingClientRect().height + 30;
+    } else {
+      offsetPosition = 100;
+    }
+
+    if (window.location.hash) {
+      scrollIntoViewWithOffset(window.location.hash.replace('#', ''), offsetPosition);
+    }
+
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      const target = anchor.getAttribute('href');
       anchor.addEventListener('click', function (e) {
         e.preventDefault();
-        const target = document.getElementById(this.getAttribute('href').replace('#', ''));
-        target.scrollIntoView({
-          behavior: 'smooth',
-            block: 'center'
+        scrollIntoViewWithOffset(target.replace('#', ''), offsetPosition)
+        .then(() => {
+          history.pushState(null, null, target);
         });
       });
     });
+
   })();
 </script>
 {{ end }}
