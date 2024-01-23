@@ -50,7 +50,10 @@
 {{ $featuresSection := .Params.featuresSection }}
 <section class="row ml-features">
     <div class="col-12">
-        <h2 class="ml-features__title">{{ $featuresSection.description | safeHTML }}</h2>
+        <div class="mb-4">
+            <h2 class="ml-features__title">{{ $featuresSection.title | safeHTML }}</h2>
+            {{ if $featuresSection.subtitle }}<h3 class="ml-features__subtitle">{{ $featuresSection.subtitle | safeHTML }}</h3>{{ end }}
+        </div>
     </div>
     <div class="col-12 d-flex flex-column flex-md-row ml-features__cards-outer">
         {{ range $featuresSection.features }}

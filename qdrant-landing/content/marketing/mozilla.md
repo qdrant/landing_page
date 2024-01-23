@@ -2,9 +2,10 @@
 title: High-Performance Vector Search at Scale
 description: The leading open-source vector database designed to handle high-dimensional vectors for performance and massive-scale AI applications.
 keywords: qdrant1
-url: /high-performance-vector-search/
+url: /lp/high-performance-vector-search/
 aliases:
   - /marketing/
+sitemapExclude: true
 heroSection:
     title: High-Performance Vector Search at Scale
     description: The leading open-source vector database designed to handle high-dimensional vectors for performance and massive-scale AI applications. Qdrant is purpose-built in Rust for unmatched speed and reliability even when processing billions of vectors.
@@ -60,7 +61,8 @@ customersSection:
           weight: 10
 
 featuresSection:
-    description: Qdrant is designed to deliver the <span class="text-brand-p">fastest and most accurate results at the lowest&nbsp;cost</span>.&nbsp;Learn more about it in our performance benchmarks.
+    title: Qdrant is designed to deliver the <span class="text-brand-p">fastest and most accurate results at the lowest cost</span>.
+    subtitle: Learn more about it in our <a href="/benchmarks/" target="_blank">performance benchmarks</a>. # not required, optional
     features:
         - title: Highest RPS
           text: Qdrant leads with top requests-per-seconds, outperforming alternative vector databases in various datasets by up to 4x.
@@ -93,7 +95,7 @@ marketplaceSection:
           name: Google Cloud Marketplace
 bannerSection:
     title: <span class="text-brand-p">Scale your AI</span> with Qdrant
-    bgImage: /marketing/mozilla/stars-pattern.svg # not required
+    bgImage: /marketing/mozilla/stars-pattern.svg # not required, optional
     image: /marketing/mozilla/space-rocket.png
     button:
         text: Get Started For Free

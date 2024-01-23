@@ -253,3 +253,13 @@ Images for blog posts should be placed in `static/blog/<post-title>` directory. 
 
 - Tags are not showed on the blog post page, but they are used for displaying related posts. So, it's better to add tags to each post.
 - If post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
+
+## Marketing Landing Pages
+
+### Build styles
+
+From the root of the project:
+
+```bash
+sass --watch --style=compressed ./qdrant-landing/themes/qdrant/static/css/pages/marketing-landing.scss ./qdrant-landing/themes/qdrant/static/css/marketing-landing.css
+```
