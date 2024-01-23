@@ -144,7 +144,7 @@ Qdrant exposes HTTP endpoint to request creating a snapshot, but we can also cal
 Our setup consists of 3 nodes, so we need to call the endpoint **on each of them** and create a snapshot on each node. While using Python SDK, that means creating a separate client instance for each node.
 
 
-<aside role="status">You may get a timeout error, if the collection size is big. You can trigger snapshot process in the background, without avaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
+<aside role="status">You may get a timeout error, if the collection size is big. You can trigger snapshot process in the background, without awaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
 
 
 ```python
