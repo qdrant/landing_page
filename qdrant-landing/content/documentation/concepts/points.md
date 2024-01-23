@@ -448,15 +448,69 @@ client
     .await?;
 ```
 
-<!-- 
 
-The Python client has additional features for loading points.
-These include parallel loading, and also loading directly from a numpy file.
+The Python client has additional features for loading points, which include:
+
+- Parallelization
+- A retry mechanism
+- Lazy batching support
+
+For example, you can read your data directly from hard drives, to avoid storing all data in RAM. You can use these
+features with the `upload_collection` and `upload_points` methods.
+Similar to the basic upsert API, these methods support both record-oriented and column-oriented formats.
+
+<aside role="status">
+<code>upload_points</code> is available as of v1.7.1. It has replaced <code>upload_records</code> which is now deprecated.
+</aside>
+
+Column-oriented format:
 
 ```python
-``` 
+client.upload_collection(
+    collection_name="{collection_name}",
+    ids=[1, 2],
+    payloads=[
+        {"color": "red"},
+        {"color": "green"},
+    ],
+    vectors=[
+        [0.9, 0.1, 0.1],
+        [0.1, 0.9, 0.1],
+    ],
+    parallel=4,
+    max_retries=3,
+)
+```
 
--->
+<aside role="status">
+If <code>ids</code> are not provided, they will be generated automatically as UUIDs.
+</aside>
+
+Record-oriented format:
+
+```python
+client.upload_points(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1,
+            payload={
+                "color": "red",
+            },
+            vector=[0.9, 0.1, 0.1],
+        ),
+        models.PointStruct(
+            id=2,
+            payload={
+                "color": "green",
+            },
+            vector=[0.1, 0.9, 0.1],
+        ),
+    ],
+    parallel=4,
+    max_retries=3,
+)
+```
 
 All APIs in Qdrant, including point loading, are idempotent.
 It means that executing the same method several times in a row is equivalent to a single execution.
