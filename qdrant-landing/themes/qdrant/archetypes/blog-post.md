@@ -17,6 +17,7 @@ tags: # Change this, related by tags posts will be shown on the blog page
   - news
   - blog
 weight: 0 # Change this weight to change order of posts
+# For more guidance, see https://github.com/qdrant/landing_page?tab=readme-ov-file#blog
 ---
 
 Here is your blog post content. You can use markdown syntax here.

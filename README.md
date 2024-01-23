@@ -236,23 +236,34 @@ If `true`, the page will not be shown in the sidebar. It can be used in regular 
 
 ## Blog
 
-Adding a new blog post:
+To add a new blog post, run the following commands:
 
 ``` bash
 cd qdrant-landing
 hugo new --kind blog-post blog/<post-title>.md
 ```
 
-It will create a file `content/blog/<post-title>.md`. Open it and edit the front matter.
+You'll see a file named `content/blog/<post-title>.md`. Open it and edit the front matter.
 
 ### Images
 
-Images for blog posts should be placed in `static/blog/<post-title>` directory. You can add nested directories if needed. Use images not smaller than 1200x630px for social media previews.
+Store images for blog posts in the following subdirectory: `static/blog/<post-title>`. You can add nested directories if needed. For social media previews, use images of at least 1200x600px.
+
+In the blog post file, you'll see:
+
+- `preview_image`: The image that appears with the blog post. If you want different images for social media, the blog post title, or the preview, use the following properties:
+
+  - `social_preview_image`
+  - `title_preview_image`
+  - `small_preview_image`
+
+- 
 
 ### Important notes
 
-- Tags are not showed on the blog post page, but they are used for displaying related posts. So, it's better to add tags to each post.
+- Add tags. While they're not shown on the blog post page, they are used to display related posts.
 - If post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
+  - If there are more than 4 `featured: true` posts (where `draft: false`), the oldest post disappears from https://qdrant.tech/blog.
 
 ## Marketing Landing Pages
 
