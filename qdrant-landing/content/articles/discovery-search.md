@@ -25,13 +25,13 @@ They couldn't reach their _target_, because the geography didn't let them, but o
 
 In version 1.7, Qdrant [released](/articles/qdrant-1.7.x/) this novel API that lets you constrain the space in which a search is performed, relying only on pure vectors. This is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily closest to the target, but are still relevant to the search.
 
-One previous way to restrict the points that are available to the search is by filtering out the points we know for a fact are not relevant. This is already very versatile because it allows us to craft complex filters that show only the points that satisfy their criteria deterministically. However, the data –or payload– associated to each point is arbitrary and does not tell us anything about their position in the vector space. In other words, it would create a _mask_ rather than a hyperplane –cutting in between the positive and negative vectors– in the space.
+You can already select which points are available to the search by using payload filters. This by itself is very versatile because it allows us to craft complex filters that show only the points that satisfy their criteria deterministically. However, the payload associated with each point is arbitrary and cannot tell us anything about their position in the vector space. In other words, filtering out irrelevant points can be seen as creating a _mask_ rather than a hyperplane –cutting in between the positive and negative vectors– in the space.
 
-This is where the concept of __vector _context___ comes in. We define _context_ as a list of pairs, which in turn are made up of a positive and a negative vector. By adding a context, we can define hyperplanes within the vector space, to which the positive side will always be preferred over the negative side, effectively partitioning the space in which the search is performed. After the space is partitioned, we then need a _target_ to select the points that are closest to it.
+This is where a __vector _context___ can help. We define _context_ as a list of pairs. Each pair is made up of a positive and a negative vector. With a context, we can define hyperplanes within the vector space, which always prefer the positive over the negative vectors. This effectively partitions the space where the search is performed. After the space is partitioned, we then need a _target_ to return the points that are more similar to it.
 
 ![Discovery search visualization](/articles_data/discovery-search/discovery-search.png)
 
-When hearing about positive and negative vectors, one might be taken back to recommendation systems. However, now these positive and negative vectors have to be provided in the shape of a context. This is inspired from the machine-learning concept of _triplet loss_, where you have three vectors: an anchor, a positive, and a negative. Its main idea is to make the positive distance shorter than the negative distance in relation to the anchor, so that learning happens by "moving" the positive and negative points. In the case of discovery, though, we consider the positive and negative vectors static, and search through the whole dataset for "anchors", or result candidates.
+While positive and negative vectors might suggest the use of the <a href="/documentation/concepts/explore/#recommendation-api" target="_blank">recommendation interface</a>, in the case of _context_ they require to be paired up in a positive-negative fashion. This is inspired from the machine-learning concept of <a href="https://en.wikipedia.org/wiki/Triplet_loss" target="_blank">_triplet loss_</a>, where you have three vectors: an anchor, a positive, and a negative. Triplet loss is an evaluation of how much the anchor is closer to the positive than to the negative vector, so that learning happens by "moving" the positive and negative points to try to get a better evaluation. However, during discovery, we consider the positive and negative vectors as static points, and we search through the whole dataset for the "anchors", or result cantidates, which fit this characteristic better.
 
 ![Triplet loss](/articles_data/discovery-search/triplet-loss.png)
 
@@ -40,7 +40,7 @@ When hearing about positive and negative vectors, one might be taken back to rec
 - __target__: the main point of interest
 - __context__: the pairs of positive and negative points we just defined.
 
-However, it is not the only way to use it, you can also __only__ provide a context, which will invoke a [__Context Search__](#context-search) instead. This is useful when you want to explore the space defined by the context, but you don't have a specific target in mind. But hold your horses, we'll get to that [later ↪](#context-search).
+However, it is not the only way to use it. Alternatively, you can __only__ provide a context, which invokes a [__Context Search__](#context-search). This is useful when you want to explore the space defined by the context, but don't have a specific target in mind. But hold your horses, we'll get to that [later ↪](#context-search).
 
 ## Discovery search
 
