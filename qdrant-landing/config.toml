@@ -83,7 +83,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 
 [params.feedback]
   enable = true
-  max_value = 1
+  max_value = 100
   title = "Feedback"
   question = "Was this page helpful?"
   positive = "Yes"
