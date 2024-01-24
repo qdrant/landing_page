@@ -40,9 +40,12 @@ $landing-font-family: 'Roboto', sans-serif;
   border-radius: 8px;
   background: #DC244C;
   margin-bottom: rem(24);
-
   @include here-font-styles(rem(18), 600, rem(27));
   color: #FFF;
+
+  &:hover, &:active {
+    text-decoration: none;
+  }
 
   @include bs.media-breakpoint-down(md) {
     &:hover, &:active {
