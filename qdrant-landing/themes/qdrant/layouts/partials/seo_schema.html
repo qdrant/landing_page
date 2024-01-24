@@ -1,3 +1,7 @@
+<!-- we suppose that if a page is excluded from the site map it also shouldn't be indexed by any robots -->
+{{ if .Params.sitemapExclude}}
+<meta name="robots" content="noindex">
+{{ end }}
 {{ if .Params.description }}
 <meta name="description" content="{{ .Params.Description }}">
 {{ else }}
@@ -199,10 +203,8 @@
 {{ end }}
 
 <!-- Canonical URL -->
-{{ if (eq .Section "documentation") }}
 {{ if .Params.canonicalUrl }}
 <link rel="canonical" href="{{ .Params.canonicalUrl }}">
 {{ else }}
 <link rel="canonical" href="{{ .Permalink }}">
-{{ end }}
 {{ end }}

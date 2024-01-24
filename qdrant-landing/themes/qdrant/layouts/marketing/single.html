@@ -1,0 +1,113 @@
+{{ define "main" }}
+
+<!-- Hero Section -->
+{{ if .Params.heroSection }}
+{{ $heroSection := .Params.heroSection }}
+<section class="row ml-hero">
+    <div class="col-12 col-md-6 col-lg-5 d-md-none d-flex justify-content-center">
+        <div class="ml-hero__logo">{{ partial "logo.html" . }}</div>
+    </div>
+    <div class="col-12 col-md-6 col-lg-5 order-1 order-md-0">
+        <div class="ml-hero__logo d-none d-md-block">{{ partial "logo.html" . }}</div>
+        <h1 class="ml-hero__title">{{ $heroSection.title | safeHTML }}</h1>
+        <p class="ml-hero__description">{{ $heroSection.description | safeHTML }}</p>
+        <div class="d-flex flex-column flex-md-row align-items-center">
+            <a href="{{ $heroSection.buttonLeft.link }}" class="ml-button">
+                <span class="text">{{ $heroSection.buttonLeft.text }}</span>
+            </a>
+            <a href="{{ $heroSection.buttonRight.link }}" class="ml-hero__textButton">
+                <span class="text">{{ $heroSection.buttonRight.text }}</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="col-12 col-md-6 col-lg-7 order-0 order-md-1">
+        <figure class="ml-hero__image">
+            <img src="{{ $heroSection.image }}" alt="{{ $heroSection.title | plainify }}">
+        </figure>
+    </div>
+</section>
+{{ end }}
+
+<!-- Customers -->
+{{ if .Params.customersSection }}
+{{ $customersSection := .Params.customersSection }}
+<section class="row ml-customers">
+    <div class="col-12">
+        <h2 class="ml-customers__title">{{ $customersSection.title | safeHTML }}</h2>
+    </div>
+    <div class="col-12">
+        <div class="ml-customers__marquee">
+            {{ $customers := sort $customersSection.customers "weight" "asc" }}
+            {{ partial "marquee.html" (dict "context" $customers "marqueeClass" "ml-marquee") }}
+        </div>
+    </div>
+</section>
+{{ end }}
+
+<!-- Features -->
+{{ if .Params.featuresSection }}
+{{ $featuresSection := .Params.featuresSection }}
+<section class="row ml-features">
+    <div class="col-12">
+        <div class="mb-4">
+            <h2 class="ml-features__title">{{ $featuresSection.title | safeHTML }}</h2>
+            {{ if $featuresSection.subtitle }}<h3 class="ml-features__subtitle">{{ $featuresSection.subtitle | safeHTML }}</h3>{{ end }}
+        </div>
+    </div>
+    <div class="col-12 d-flex flex-column flex-md-row ml-features__cards-outer">
+        {{ range $featuresSection.features }}
+
+        <div class="ml-features__card">
+            <img src="{{ .icon }}" alt="{{ .title | plainify }}">
+            <h3 class="ml-features__card-title">{{ .title | safeHTML }}</h3>
+            <p class="ml-features__card-text mb-0">{{ .text | safeHTML }}</p>
+        </div>
+
+        {{ end }}
+    </div>
+    <div class="col-12 text-center">
+        <a class="ml-button mx-auto" href="{{ $featuresSection.button.link }}">
+            <span class="text">{{ $featuresSection.button.text }}</span>
+        </a>
+    </div>
+    {{ end }}
+</section>
+
+<!-- Marketplace -->
+{{ if .Params.marketplaceSection}}
+{{ $marketplace := .Params.marketplaceSection }}
+<div class="divider"></div>
+<section class="row ml-markets">
+    <div class="col-12">
+        <h2 class="ml-markets__title">{{ $marketplace.title }}</h2>
+        <div class="ml-markets__buttons-outer">
+            {{ range $marketplace.buttons }}
+            <a class="ml-markets__button" href="{{ .link }}" target="_blank" title="{{ .name | plainify }}">
+                <img src="{{ .image }}" alt="{{ .name | plainify }}">
+            </a>
+            {{ end }}
+        </div>
+    </div>
+</section>
+{{ end }}
+
+<!-- Banner -->
+{{ if .Params.bannerSection}}
+{{ $banner := .Params.bannerSection }}
+<section class="row">
+    <div class="col-12 ml-banner">
+        <div class="ml-banner__banner"
+             style="background-image: url('{{ $banner.image }}') {{ if $banner.bgImage }}, url('{{ $banner.bgImage }}'){{ end }}">
+            <div class="ml-banner__content">
+                <h2 class="ml-banner__title">{{ $banner.title | safeHTML }}</h2>
+                <a class="ml-button ml-banner__button" href="{{ $banner.button.link }}">
+                    <span class="text">{{ $banner.button.text }}</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+{{ end }}
+
+{{end}}

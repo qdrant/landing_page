@@ -2,6 +2,9 @@
 
 <link href="{{ "css/main.css" | absURL }}" rel="stylesheet">
 
+{{ if eq .Section "marketing" }}
+<link href="{{ "css/marketing-landing.css" | absURL }}" rel="stylesheet">
+{{ end }}
 
 {{/*
 {{ $maincss := resources.Get "css/main.css" }}

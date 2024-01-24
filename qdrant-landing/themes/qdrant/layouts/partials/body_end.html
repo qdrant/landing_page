@@ -1,0 +1,45 @@
+</div>
+<!--End pagewrapper-->
+
+<!--Scroll to top-->
+<div class="scroll-to-top scroll-to-target" data-target="html"><span class="fa fa-arrow-circle-up"></span></div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="contact form" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Thanks for using Qdrant!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <!-- Newsletter Form -->
+                <p>Subscribe to our e-mail newsletter if you want to be updated on new features and news regarding
+                    Qdrant.</p>
+                <p>Like what we are doing? Consider giving us a ⭐ <a href="{{ .Site.Params.github }}">on Github</a>.</p>
+                <div class="newsletter-form">
+                    <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form"
+                          name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                        <div class="form-group">
+                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
+                                <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
+                                       value="">
+                            </div>
+                            <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required="">
+                            <button type="submit" class="theme-btn btn-style-three"><span class="txt">Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal -->
+
+
+{{ partial "js" .}}
+
+</body>
