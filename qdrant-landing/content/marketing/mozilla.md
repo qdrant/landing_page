@@ -1,7 +1,6 @@
 ---
 title: High-Performance Vector Search at Scale
-description: The leading open-source vector database designed to handle high-dimensional vectors for performance and massive-scale AI applications.
-keywords: qdrant1
+description: Maximize vector search efficiency by trying the leading open-source vector search database.
 url: /lp/high-performance-vector-search/
 aliases:
   - /marketing/

@@ -5,7 +5,7 @@
 
     {{ if .Params.Page_title }}
     <title>{{ .Params.Page_title }} - Qdrant</title>
-    {{ else if and ($.IsNode) (eq $.Section "") }}
+    {{ else if or (and ($.IsNode) (eq $.Section "")) (eq $.Section "marketing") }}
     <title>{{ .Title }}</title>
     {{ else }}
     <title>{{ .Title }} - Qdrant</title>
