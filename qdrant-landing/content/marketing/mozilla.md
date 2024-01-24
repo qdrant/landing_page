@@ -4,6 +4,7 @@ description: Maximize vector search efficiency by trying the leading open-source
 url: /lp/high-performance-vector-search/
 aliases:
   - /marketing/
+  - /lp/
 sitemapExclude: true
 heroSection:
     title: High-Performance Vector Search at Scale
