@@ -39,7 +39,7 @@ As you read our documentation, you can find a feedback form towards the lower-
 right part of each page: "Was this page helpful?" To answer, select 
 "Yes" or "No."
 
-![A "Was this page helpful?" form, with Yes/No options](/blog/doc-feedback-option/doc-feedback.png)
+![A "Was this page helpful?" form, with Yes/No options](/blog/doc-feedback-option/doc-feedback-form.png)
 
 ### If you select "Yes"
 
