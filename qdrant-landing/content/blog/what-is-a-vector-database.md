@@ -84,10 +84,6 @@ Each layer extracts different levels of features, such as context, semantics, an
 The final layers of the network condense this information into a vector that is a compact, lower-dimensional representation of the image but still retains the essential information.
 
 
-![](/blog/what-is-a-vector-database/i-love-similarity.png)
-
-
-
 ## Core Functionalities of Vector Databases
 
 
