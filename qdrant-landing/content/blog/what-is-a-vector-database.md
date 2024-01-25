@@ -127,7 +127,7 @@ The way it works is, when the user queries the database, this query is also conv
 The search then moves down progressively narrowing down to more closely related vectors. The goal is to narrow down the dataset to the most relevant items. The image below illustrates this.
 
 
-![](/blog/what-is-a-vector-database/Similarity-Search-and-Retrieval)
+![](/blog/what-is-a-vector-database/Similarity-Search-and-Retrieval.jpg)
 
 
 Once the closest vectors are identified at the bottom layer, these points translate back to actual data, like images or music, representing your search results.
