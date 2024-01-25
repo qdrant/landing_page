@@ -1,16 +1,16 @@
 ---
-title: "Help us enhance Qdrant docs!"
+title: "We want your feedback on our docs"
 draft: false
 slug: doc-feedback-option 
-short_description: Tell us. What docs have helped you, and what docs need help?
-description: On every doc page, you can now tell us if the doc helped you (or not)
-preview_image: /blog/doc-feedback-option/doc-feedback-png
+short_description: Help us help you.
+description: On every doc page, you can now tell us if the doc helped you (or not), and why.
+preview_image: /blog/doc-feedback-option/doc-feedback.png
 
 # social_preview_image: /blog/Article-Image.png # Optional image used for link previews
 # title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
 # small_preview_image: /blog/Article-Image.png # Optional image used for small preview in the list of blog posts
 
-date: 2024-01-31T11:00:00-08:00
+date: 2024-01-25T11:00:00-08:00
 author: Mike Jang
 featured: false 
 tags: 
@@ -39,22 +39,34 @@ As you read our documentation, you can find a feedback form towards the lower-
 right part of each page: "Was this page helpful?" To answer, select 
 "Yes" or "No."
 
+![A "Was this page helpful?" form, with Yes/No options](/blog/doc-feedback-option/doc-feedback.png)
+
+### If you select "Yes"
+
+You've made our day! More importantly, we get substantive data that tells us
+that the specific doc page has actually helped you.
+
+![If you select "Yes", we thank you](/blog/doc-feedback-option/feedback_like.png)
+
 ### If you select "No"
 
-If you select "no," we provide a link to:
+If you select "no," we provide links to:
 
 - Edit this page on GitHub
 - Create a GitHub issue
 
-In the spirit of open source, you can help us help you with better
-documentation. You can always create an issue or submit a pull request directly
-to the relevant GitHub repository, https://github.com/qdrant/landing_page.
+In the spirit of open source, we encourage you to use these links. Help us
+help you with better documentation. Alternatively, you can always create
+an issue or submit a pull request directly in the relevant GitHub
+repository, https://github.com/qdrant/landing_page.
+
+![If you select "No," we ask for your help](/blog/doc-feedback-option/feedback_dislike.png)
 
 ## Data-driven improvements
 
 All responses are sent to Google Analytics. This data helps us understand
 what parts of our documentation need our attention. All Yes/No answers are
-anonymous. If you choose to propose an edit or create an issue, we'll see the
-GitHub account that you're using.
+anonymous. If you choose to propose an edit or create an issue, we do
+see the GitHub account that you're using.
 
 We look forward to your feedback!
