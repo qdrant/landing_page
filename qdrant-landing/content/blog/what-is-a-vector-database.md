@@ -160,7 +160,7 @@ Other techniques like **handling computational load **and **parallel processing*
 
 Filters use metadata to refine search queries within the database. For example, in a database containing text documents, a user might want to search for documents not only based on textual similarity but also filter the results by publication date or author.
 
-When a query is made, the system can use **both** the vector data and the metadata to process the query. This means that the database doesn’t just look for the closest vectors but also considers the additional criteria set by the metadata filters, creating a more customizable search experience.
+When a query is made, the system can use **both** the vector data and the metadata to process the query. In other words, the database doesn’t just look for the closest vectors. It also considers the additional criteria set by the metadata filters, creating a more customizable search experience.
 
 
 ![](/blog/what-is-a-vector-database/metadata.jpg)
