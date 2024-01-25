@@ -171,7 +171,14 @@ When a query is made, the system can use **both** the vector data and the metada
 
 Vector databases often store sensitive information. This could include personal data in customer databases, confidential images, or proprietary text documents. Ensuring data security means protecting this information from unauthorized access, breaches, and other forms of cyber threats.
 
-At Qdrant, this includes mechanisms like user authentication, role-based access control, attribute-based access control, encryption for data at rest and in transit, keeping audit trails, and advanced database monitoring and anomaly detection
+At Qdrant, this includes mechanisms such as:
+
+ - User authentication
+ - Role-based access control
+ - Attribute-based access control
+ - Encryption for data at rest and in transit
+ - Keeping audit trails
+ - Advanced database monitoring and anomaly detection
 
 
 ## Architecture of a Vector Database
