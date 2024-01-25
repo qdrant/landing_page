@@ -43,7 +43,7 @@ Vector databases allow you to understand the **context** or **conceptual similar
 
 For example, in recommendation systems, vector databases can analyze user behavior and item characteristics to suggest products or content with a high degree of personal relevance. 
 
-In search engines and research databases, they enhance the user experience by providing results that are** semantically** similar to the query, rather than relying solely on the exact words typed into the search bar.
+In search engines and research databases, they enhance the user experience by providing results that are **semantically** similar to the query. They do not rely solely on the exact words typed into the search bar.
 
 If you're new to the vector search space, this article will get you started by explaining the key concepts and relations you need to get familiar with to fully understand how vector database systems work.
 
