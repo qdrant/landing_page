@@ -141,7 +141,7 @@ Once the closest vectors are identified at the bottom layer, these points transl
 
 Vector databases often deal with datasets that comprise billions of high-dimensional vectors. This data isn't just large in volume but also complex in nature, requiring more computing power and memory to process. Scalable systems can handle this increased complexity without performance degradation. This is achieved through a combination of a **distributed architecture**,** dynamic resource allocation**, **data partitioning**,** load balancing**, and **optimization techniques**. 
 
-Systems like Qdrant, developed in Rust, exemplify scalability in vector databases by leveraging Rust's efficiency in **memory management** and **performance**, allowing handling of large-scale data with optimized resource usage.
+Systems like Qdrant exemplify scalability in vector databases. It leverages Rust's efficiency in **memory management** and **performance**, which allows handling of large-scale data with optimized resource usage.
 
 
 ### Efficient Query Processing 
