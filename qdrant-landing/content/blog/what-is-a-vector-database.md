@@ -62,7 +62,7 @@ With an image, the vector data encapsulates aspects like color, texture, and sha
 
 Each pixel in an image can be seen as one dimension, as it holds data (like color intensity values for red, green, and blue channels in a color image). So even a small image with thousands of pixels translates to thousands of dimensions.
 
-So from now on, when we talk about high-dimensional data, we mean that the datacontains a large number of data points (pixels, features, semantics, syntax). 
+So from now on, when we talk about high-dimensional data, we mean that the data contains a large number of data points (pixels, features, semantics, syntax). 
 
 The **creation** of vector data (so we can store this high-dimensional data on our vector database) is primarily done through **embeddings**.
 
@@ -201,7 +201,7 @@ If we had to summarize the use cases for vector databases into a single word, it
 
 Here’s some examples on how to take advantage of using vector databases:
 
-**Personalized recommendation systems **to analyze and interpret complex user data, such as preferences, behaviors, and interactions. For example, on Spotify, if a user frequently listens to the same song or skips it, the recommendation engine takes note of this to personalize future suggestions.
+**Personalized recommendation systems** to analyze and interpret complex user data, such as preferences, behaviors, and interactions. For example, on Spotify, if a user frequently listens to the same song or skips it, the recommendation engine takes note of this to personalize future suggestions.
 
 **Semantic search** allows for systems to be able to capture the deeper semantic meaning of words and text. In modern search engines, if someone searches for "tips for planting in spring," it tries to understand the intent and contextual meaning behind the query. It doesn’t try just matching the words themselves. Here’s an example of a [vector search engine for Startups](https://demo.qdrant.tech/) made with Qdrant:
 
