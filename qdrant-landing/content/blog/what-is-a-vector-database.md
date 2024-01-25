@@ -110,7 +110,7 @@ Different indexing methods exist, each with its strengths. [HNSW](https://qdrant
 
 Quantization is a technique used for reducing the total size of the database. It works by compressing vectors into a more compact representation at the cost of accuracy.
 
-[Binary Quantization](https://qdrant.tech/articles/binary-quantization/) is a fast indexing and data compression method available in Qdrant that allows for rapid vector comparison, which can speed up query processing times dramatically (up to 40x faster!).
+[Binary Quantization](https://qdrant.tech/articles/binary-quantization/) is a fast indexing and data compression method used by Qdrant. It supports vector comparisons, which can dramatically speed up query processing times (up to 40x faster!).
 
 Think of each data point as a ruler. Binary quantization splits this ruler in half at a certain point, marking everything above as "1" and everything below as "0". This [binarization](https://deepai.org/machine-learning-glossary-and-terms/binarization) process results in a string of bits, representing the original vector.
 
