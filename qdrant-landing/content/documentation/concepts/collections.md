@@ -38,7 +38,7 @@ through `test_collection4`.
 ## Create a collection
 
 ```http
-curl -X PUT http://localhost:6333/collections/test_collection \
+curl -X PUT http://localhost:6333/collections/test_collection1 \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
