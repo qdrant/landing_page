@@ -30,16 +30,22 @@ These settings can be changed at any time by a corresponding request.
 
 **When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
+Note: If you're using `HTTP` with `curl`, the following commands assume you've
+set up and are running Docker as described in our [Quickstart](/documentation/quick-start/). In that case, you're running Docker on `http://localhost:6333`.
+For convenience, these commands specify collections named `test_collection1`
+through `test_collection4`.
+
 ## Create a collection
 
 ```http
-PUT /collections/{collection_name}
-{
+curl -X PUT http://localhost:6333/collections/test_collection \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
       "size": 300,
       "distance": "Cosine"
-    }
-}
+    } 
+  }'
 ```
 
 ```python
@@ -101,6 +107,10 @@ client.createCollectionAsync("test_collection",
         VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
 ```
 
+If successful, these commands write data to the `qdrant_storage` subdirectory. You
+can verify changes in the `config.json` file in the directory associated with
+your collection.
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
@@ -130,19 +140,21 @@ It is possible to initialize a collection from another existing collection.
 
 This might be useful for experimenting quickly with different configurations for the same data set.
 
-Make sure the vectors have the same size and distance function when setting up the vectors configuration in the new collection.
+Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
+code, `"size": 300` and `"distance": "Cosine"`.
 
 ```http
-PUT /collections/{collection_name}
-{
+curl -X PUT http://localhost:6333/collections/test_collection2 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
-      "size": 100,
+      "size": 300,
       "distance": "Cosine"
     },
     "init_from": {
-       "collection": "{from_collection_name}"
+       "collection": "test_collection1"
     }
-}
+  }'
 ```
 
 ```python
@@ -230,8 +242,9 @@ To distinguish vectors in one record, they should have a unique name defined whe
 Each named vector in this mode has its distance and size:
 
 ```http
-PUT /collections/{collection_name}
-{
+curl -X PUT http://localhost:6333/collections/test_collection3 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
         "image": {
             "size": 4,
@@ -241,8 +254,8 @@ PUT /collections/{collection_name}
             "size": 8,
             "distance": "Cosine"
         }
-    }
-}
+      }
+    }'
 ```
 
 ```python
@@ -462,7 +475,7 @@ However, there are optional parameters to tune the underlying [sparse vector ind
 ### Delete collection
 
 ```http
-DELETE /collections/{collection_name}
+curl -X DELETE http://localhost:6333/collections/test_collection4 
 ```
 
 ```python
@@ -579,27 +592,29 @@ To put vector data on disk for a collection that **does not have** named vectors
 use `""` as name:
 
 ```http
-PATCH /collections/{collection_name}
-{
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
-        "": {
-            "on_disk": true
-        }
-    },
-}
+        "": { 
+            "on_disk": true 
+      }
+    }
+  }'
 ```
 
 To put vector data on disk for a collection that **does have** named vectors:
 
 ```http
-PATCH /collections/{collection_name}
-{
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
-        "my_vector": {
-            "on_disk": true
-        }
-    },
-}
+        "my_vector": { 
+           "on_disk": true 
+      }
+    }
+  }'
 ```
 
 In the following example the HNSW index and quantization parameters are updated,
