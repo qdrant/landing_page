@@ -11,7 +11,7 @@ concepts can help you learn more about AI and the Qdrant approach.
 
 | Concept                                             | Description                                                                                                          |
 |-----------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|
-| [Collections](/documentation/concepts/collections/) | Defines a named set of [points](/documentation/concepts/collections/points/) that you can use for your search        |
+| [Collections](/documentation/concepts/collections/) | Defines a named set of [points](/documentation/concepts/points/) that you can use for your search        |
 | [Payload](/documentation/concepts/payload/)         | Describes information that you can store with vectors                                                                |
 | [Points](/documentation/concepts/points/)           | Discusses a record which consists of a vector and an optional [payload](/documentation/concepts/collections/payload/ |
 | [Search](/documentation/concepts/search/)           | Describes _similarity search_, which set up related objects close to each other in vector space                      |
