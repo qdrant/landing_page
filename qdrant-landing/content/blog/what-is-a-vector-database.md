@@ -170,8 +170,6 @@ Vector databases often store sensitive information. This could include personal 
 At Qdrant, this includes mechanisms such as:
 
  - User authentication
- - Role-based access control
- - Attribute-based access control
  - Encryption for data at rest and in transit
  - Keeping audit trails
  - Advanced database monitoring and anomaly detection
