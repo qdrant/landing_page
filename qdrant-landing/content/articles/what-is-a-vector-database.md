@@ -4,24 +4,19 @@ draft: false
 slug: what-is-a-vector-database? 
 short_description:  What is a Vector Database? 
 description: An overview of vector databases, detailing their functionalities, architecture, and diverse use cases in modern data processing.
-
-preview_image: /blog/what-is-a-vector-database/What-Is-A-Vector-Database-2.jpg
-
-social_preview_image: /blog/what-is-a-vector-database/What-Is-A-Vector-Database-2.jpg
-title_preview_image: /blog/what-is-a-vector-database/What-Is-A-Vector-Database-2.jpg
-small_preview_image: /blog/what-is-a-vector-database/What-Is-A-Vector-Database-2.jpg
-
-# social_preview_image: /blog/Article-Image.png # Optional image used for link previews
-# title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
-# small_preview_image: /blog/Article-Image.png # Optional image used for small preview in the list of blog posts
-
+preview_dir: /articles_data/what-is-a-vector-database/preview
+weight: -100
+social_preview_image: /articles_data/what-is-a-vector-database/preview/social-preview.jpg
+small_preview_image: /articles_data/what-is-a-vector-database/preview/title.jpg
 date: 2024-01-25T09:29:33-03:00
-author: Sabrina Aquino # Change this
-featured: false # if true, this post will be featured on the blog page
-tags: # Change this, related by tags posts will be shown on the blog page
+author: Sabrina Aquino 
+featured: true 
+tags: 
   - vector-search
   - vector-database
   - embeddings
+
+aliases: [ /blog/what-is-a-vector-database/ ]
 ---
 
 > A Vector Database is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
@@ -37,7 +32,7 @@ Traditional databases, even with extensions that provide some vector handling ca
 
 Handling of vector data is extremely resource-intensive. A traditional vector is around 6Kb. You can see how scaling to millions of vectors can demand substantial system memory and computational resources. Which is at least very challenging for traditional [OLTP](https://www.ibm.com/topics/oltp) and [OLAP](https://www.ibm.com/topics/olap) databases to manage.
 
-![](/blog/what-is-a-vector-database/Why-Use-Vector-Database.jpg)
+![](/articles_data/what-is-a-vector-database/Why-Use-Vector-Database.jpg)
 
 Vector databases allow you to understand the **context** or **conceptual similarity** of unstructured data by representing them as **vectors**, enabling advanced analysis and retrieval based on data similarity.
 
@@ -66,7 +61,7 @@ So from now on, when we talk about high-dimensional data, we mean that the data 
 
 The **creation** of vector data (so we can store this high-dimensional data on our vector database) is primarily done through **embeddings**.
 
-![](/blog/what-is-a-vector-database/Vector-Data.jpg)
+![](/articles_data/what-is-a-vector-database/Vector-Data.jpg)
 
 ### How do Embeddings Work?
 
@@ -78,7 +73,7 @@ Transformer-based neural networks like **BERT** (Bidirectional Encoder Represent
 
 Each layer extracts different levels of features, such as context, semantics, and syntax.
 
-![](/blog/what-is-a-vector-database/How-Do-Embeddings-Work_.jpg)
+![](/articles_data/what-is-a-vector-database/How-Do-Embeddings-Work_.jpg)
 
 
 The final layers of the network condense this information into a vector that is a compact, lower-dimensional representation of the image but still retains the essential information.
@@ -96,7 +91,7 @@ Now, imagine dividing the crowd into smaller groups based on hair color, then ey
 This way, finding similar images becomes a quick hop across related groups, instead of scanning every picture one by one.
 
 
-![](/blog/what-is-a-vector-database/Indexing.jpg)
+![](/articles_data/what-is-a-vector-database/Indexing.jpg)
 
 
 Different indexing methods exist, each with its strengths. [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) balances speed and accuracy like a well-connected network of shortcuts in the crowd. Others, like IVF or Product Quantization, focus on specific tasks or memory efficiency.
@@ -112,7 +107,7 @@ Think of each data point as a ruler. Binary quantization splits this ruler in ha
 
 
 
-![](/blog/what-is-a-vector-database/Binary-Quant.png)
+![](/articles_data/what-is-a-vector-database/Binary-Quant.png)
 
 
 This "quantized" code is much smaller and easier to compare. Especially for OpenAI embeddings, this type of quantization has proven to achieve a massive performance improvement at a lower cost of accuracy.
@@ -127,7 +122,7 @@ The way it works is, when the user queries the database, this query is also conv
 The search then moves down progressively narrowing down to more closely related vectors. The goal is to narrow down the dataset to the most relevant items. The image below illustrates this.
 
 
-![](/blog/what-is-a-vector-database/Similarity-Search-and-Retrieval.jpg)
+![](/articles_data/what-is-a-vector-database/Similarity-Search-and-Retrieval.jpg)
 
 
 Once the closest vectors are identified at the bottom layer, these points translate back to actual data, like images or music, representing your search results.
@@ -146,7 +141,7 @@ The key to efficient query processing in these databases is linked to their **in
 
 
 
-![](/blog/what-is-a-vector-database/search-query.jpg)
+![](/articles_data/what-is-a-vector-database/search-query.jpg)
 
 
 Other techniques like **handling computational load** and **parallel processing** are used for performance, especially when managing multiple simultaneous queries. Complementing them, **strategic caching** is also employed to store frequently accessed data, facilitating a quicker retrieval for subsequent queries.
@@ -159,7 +154,7 @@ Filters use metadata to refine search queries within the database. For example, 
 When a query is made, the system can use **both** the vector data and the metadata to process the query. In other words, the database doesn’t just look for the closest vectors. It also considers the additional criteria set by the metadata filters, creating a more customizable search experience.
 
 
-![](/blog/what-is-a-vector-database/metadata.jpg)
+![](/articles_data/what-is-a-vector-database/metadata.jpg)
 
 
 
@@ -180,7 +175,7 @@ At Qdrant, this includes mechanisms such as:
 A vector database is made of multiple different entities and relations. Here's a high-level overview of Qdrant's terminologies and how they fit into the larger picture:
 
 
-![](/blog/what-is-a-vector-database/Architecture-of-a-Vector-Database.jpg)
+![](/articles_data/what-is-a-vector-database/Architecture-of-a-Vector-Database.jpg)
 
 
 **Collections**: [Collections](https://qdrant.tech/documentation/concepts/collections/) are a named set of data points, where each point is a vector with an associated payload. All vectors within a collection must have the same dimensionality and be comparable using a single metric.
@@ -207,7 +202,7 @@ Here’s some examples on how to take advantage of using vector databases:
 **Semantic search** allows for systems to be able to capture the deeper semantic meaning of words and text. In modern search engines, if someone searches for "tips for planting in spring," it tries to understand the intent and contextual meaning behind the query. It doesn’t try just matching the words themselves. Here’s an example of a [vector search engine for Startups](https://demo.qdrant.tech/) made with Qdrant:
 
 
-![](/blog/what-is-a-vector-database/semantic-search.png)
+![](/articles_data/what-is-a-vector-database/semantic-search.png)
 
 There are many other use cases like for **fraud detection and anomaly analysis** used in sectors like finance and cybersecurity, to detect anomalies and potential fraud. And **Content-Based Image Retrieval (CBIR)** for images by comparing vector representations rather than metadata or tags. 
 
