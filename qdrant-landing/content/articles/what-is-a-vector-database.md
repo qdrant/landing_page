@@ -130,11 +130,7 @@ Once the closest vectors are identified at the bottom layer, these points transl
 
 ### Scalability
 
-<<<<<<< HEAD:qdrant-landing/content/articles/what-is-a-vector-database.md
-Vector databases often deal with datasets that comprise billions of high-dimensional vectors. This data isn't just large in volume but also complex in nature, requiring more computing power and memory to process. Scalable systems can handle this increased complexity without performance degradation. This is achieved through a combination of a **distributed architecture**, **dynamic resource allocation**, **data partitioning**, **load balancing**, and **optimization techniques**. 
-=======
 Vector databases often deal with datasets that comprise billions of high-dimensional vectors. This data isn't just large in volume but also complex in nature, requiring more computing power and memory to process. Scalable systems can handle this increased complexity without performance degradation. This is achieved through a combination of a **distributed architecture**, **dynamic resource allocation**, **data partitioning**, **load balancing**, and **optimization techniques**.
->>>>>>> master:qdrant-landing/content/blog/what-is-a-vector-database.md
 
 Systems like Qdrant exemplify scalability in vector databases. It leverages Rust's efficiency in **memory management** and **performance**, which allows handling of large-scale data with optimized resource usage.
 
