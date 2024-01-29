@@ -1,7 +1,7 @@
 ---
 draft: true
 title: "Qdrant x Dust: How Vector Search helps make work work better - Stan Polu
-  | Vector Space Talk #010"
+  | Vector Space Talk"
 slug: qdrant-x-dust-vector-search
 short_description: Stanislas shares insights from his experiences at Stripe and
   founding his own company, Dust, focusing on AI technology's product layer.
@@ -74,7 +74,7 @@ Here are 5 golden nuggets you'll unearth from tuning in:
 ## More Quotes from Stan:
 
 
-*"You really want to narrow the data exactly where that information lies. And that's where there, we're really relying hard on Qdrant as well. So the kind of indexing capabilities on top of the vector search."*\
+*"You really want to narrow the data exactly where that information lies. And that's where we're really relying hard on Qdrant as well. So the kind of indexing capabilities on top of the vector search."*\
 -- Stanislas Polu
 
 
