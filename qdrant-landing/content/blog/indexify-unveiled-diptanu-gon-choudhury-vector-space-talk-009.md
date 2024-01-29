@@ -1,6 +1,6 @@
 ---
 draft: true
-title: "Indexify Unveiled - Diptanu Gon Choudhury | Vector Space Talk #009"
+title: Indexify Unveiled - Diptanu Gon Choudhury | Vector Space Talk
 slug: indexify-content-extraction-engine
 short_description: Diptanu Gon Choudhury discusses how Indexify is transforming
   the AI-driven workflow in enterprises today.
