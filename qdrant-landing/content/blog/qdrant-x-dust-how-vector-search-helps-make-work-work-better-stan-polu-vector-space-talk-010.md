@@ -1,6 +1,6 @@
 ---
 draft: true
-title: "Qdrant x Dust: How Vector Search Helps Make Work Work Better - Stan Polu
+title: "Qdrant x Dust: How Vector Search helps make work work better - Stan Polu
   | Vector Space Talk #010"
 slug: qdrant-x-dust-vector-search
 short_description: Stanislas shares insights from his experiences at Stripe and
@@ -18,12 +18,12 @@ tags:
   - Vector Search
   - OpenAI
 ---
-> *"We ultimately chose Quadrant due to its open-source nature, strong performance, being written in Rust, comprehensive documentation, and the feeling of control.”*\
+> *"We ultimately chose Qdrant due to its open-source nature, strong performance, being written in Rust, comprehensive documentation, and the feeling of control.”*\
 -- Stanislas Polu
 > 
 
 
-Stanislas Polu is the Co-founder and an engineer at Dust. He had previously sold a company to Stripe and spent 5 years there from 80 to 3000 people. Then pivoted to research at OpenAI on large language models and mathematical reasoning capabilities. He started Dust 6 months ago to make work work better with LLMs.
+Stanislas Polu is the Co-Founder and an Engineer at Dust. He had previously sold a company to Stripe and spent 5 years there, seeing them grow from 80 to 3000 people. Then pivoted to research at OpenAI on large language models and mathematical reasoning capabilities. He started Dust 6 months ago to make work work better with LLMs.
 
 
 ***Listen to the episode on [Spotify](https://open.spotify.com/episode/2YgcSFjP7mKE0YpDGmSiq5?si=6BhlAMveSty4Yt7umPeHjA), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/1vKoiFAdorE).***
