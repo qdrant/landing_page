@@ -4,7 +4,7 @@ title: "Indexify Unveiled - Diptanu Gon Choudhury | Vector Space Talk #009"
 slug: indexify-content-extraction-engine
 short_description: Diptanu Gon Choudhury discusses how Indexify is transforming
   the AI-driven workflow in enterprises today.
-description: Diptanu Gon Choudhury shares insights on reimaging Spark and data
+description: Diptanu Gon Choudhury shares insights on re-imaging Spark and data
   infrastructure while discussing his work on Indexify to enhance AI-driven
   workflows and knowledge bases.
 preview_image: /blog/from_cms/diptanu-choudhury-cropped.png
@@ -17,7 +17,7 @@ tags:
   - structured extraction engine
   - rag-based applications
 ---
-> *"Then we have something like Qdrant, which is very geared towards doing vector search and so on. And so we understand the shape of the storage system now.”*\
+> *"We have something like Qdrant, which is very geared towards doing Vector search. And so we understand the shape of the storage system now.”*\
 — Diptanu Gon Choudhury
 > 
 
@@ -37,11 +37,11 @@ Here's What You'll Discover:
 
 1. **Innovative Data Infrastructure**: Diptanu dives deep into how Indexify is revolutionizing the enterprise world by providing a sharper focus on data infrastructure and a refined abstraction for generative AI this year.
 2. **AI-Copilot for Call Centers**: Learn how Indexify streamlines customer service with a real-time knowledge base, transforming how agents interact and resolve issues.
-3. **Scaling Real-Time Indexing**: Discover the system’s powerful capability to index content as it happens, enabling multiple extractors to run simultaneously. It’s all about the right model and the computing capacity for on-the-fly content generation.
-4. **Revamping Developer Experience**: Get a glimpse into the future as Diptanu chats with Demetrios about reimagining Spark to fit today's tech capabilities, vastly different from just two years ago!
+3. **Scaling Real-Time Indexing**: discover the system’s powerful capability to index content as it happens, enabling multiple extractors to run simultaneously. It’s all about the right model and the computing capacity for on-the-fly content generation.
+4. **Revamping Developer Experience**: get a glimpse into the future as Diptanu chats with Demetrios about reimagining Spark to fit today's tech capabilities, vastly different from just two years ago!
 5. **AI Agent Workflow Insights**: Understand the crux of AI agent-driven workflows, where models dynamically react to data, making orchestrated decisions in live environments.
 
-> Fun Fact: The development of Indexify by Diptanu was spurred by the rising use of large language models in applications and the subsequent need for better data infrastructure to support these technologies.
+> Fun Fact: The development of Indexify by Diptanu was spurred by the rising use of Large Language Models in applications and the subsequent need for better data infrastructure to support these technologies.
 > 
 
 ## Show notes:
