@@ -1,7 +1,7 @@
 ---
 draft: true
 title: "Qdrant x Dust: How Vector Search helps make work work better - Stan Polu
-  | Vector Space Talk"
+  | Vector Space Talks"
 slug: qdrant-x-dust-vector-search
 short_description: Stanislas shares insights from his experiences at Stripe and
   founding his own company, Dust, focusing on AI technology's product layer.
