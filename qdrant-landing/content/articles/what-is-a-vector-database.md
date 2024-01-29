@@ -130,7 +130,11 @@ Once the closest vectors are identified at the bottom layer, these points transl
 
 ### Scalability
 
+<<<<<<< HEAD:qdrant-landing/content/articles/what-is-a-vector-database.md
 Vector databases often deal with datasets that comprise billions of high-dimensional vectors. This data isn't just large in volume but also complex in nature, requiring more computing power and memory to process. Scalable systems can handle this increased complexity without performance degradation. This is achieved through a combination of a **distributed architecture**, **dynamic resource allocation**, **data partitioning**, **load balancing**, and **optimization techniques**. 
+=======
+Vector databases often deal with datasets that comprise billions of high-dimensional vectors. This data isn't just large in volume but also complex in nature, requiring more computing power and memory to process. Scalable systems can handle this increased complexity without performance degradation. This is achieved through a combination of a **distributed architecture**, **dynamic resource allocation**, **data partitioning**, **load balancing**, and **optimization techniques**.
+>>>>>>> master:qdrant-landing/content/blog/what-is-a-vector-database.md
 
 Systems like Qdrant exemplify scalability in vector databases. It leverages Rust's efficiency in **memory management** and **performance**, which allows handling of large-scale data with optimized resource usage.
 
@@ -144,7 +148,7 @@ The key to efficient query processing in these databases is linked to their **in
 ![](/articles_data/what-is-a-vector-database/search-query.jpg)
 
 
-Other techniques like **handling computational load **and **parallel processing** are used for performance, especially when managing multiple simultaneous queries. Complementing them, **strategic caching** is also employed to store frequently accessed data, facilitating a quicker retrieval for subsequent queries.
+Other techniques like **handling computational load** and **parallel processing** are used for performance, especially when managing multiple simultaneous queries. Complementing them, **strategic caching** is also employed to store frequently accessed data, facilitating a quicker retrieval for subsequent queries.
 
 
 ### Using Metadata and Filters
