@@ -30,7 +30,24 @@ These settings can be changed at any time by a corresponding request.
 
 **When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
+> Note: If you're running `curl` from the command line, the following commands
+assume that you have a running instance of Qdrant on `http://localhost:6333`.
+If needed, you can set one up as described in our
+[Quickstart](/documentation/quick-start/) guide. For convenience, these commands
+specify collections named  `test_collection1` through `test_collection4`.
+
 ## Create a collection
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    } 
+  }'
+```
 
 ```http
 PUT /collections/{collection_name}
@@ -130,7 +147,22 @@ It is possible to initialize a collection from another existing collection.
 
 This might be useful for experimenting quickly with different configurations for the same data set.
 
-Make sure the vectors have the same size and distance function when setting up the vectors configuration in the new collection.
+Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
+code, `"size": 300` and `"distance": "Cosine"`.
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection2 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    },
+    "init_from": {
+       "collection": "test_collection1"
+    }
+  }'
+```
 
 ```http
 PUT /collections/{collection_name}
@@ -228,6 +260,23 @@ It is possible to have multiple vectors per record.
 This feature allows for multiple vector storages per collection. 
 To distinguish vectors in one record, they should have a unique name defined when creating the collection.
 Each named vector in this mode has its distance and size:
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection3 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "image": {
+            "size": 4,
+            "distance": "Dot"
+        },
+        "text": {
+            "size": 8,
+            "distance": "Cosine"
+        }
+      }
+    }'
+```
 
 ```http
 PUT /collections/{collection_name}
@@ -368,6 +417,16 @@ Collections can contain sparse vectors as additional [named vectors](#collection
 Unlike dense vectors, sparse vectors must be named.
 And additionally, sparse vectors and dense vectors must have different names within a collection.
 
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection4 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "sparse_vectors": {
+        "text": { }
+    }
+  }'
+```
+
 ```http
 PUT /collections/{collection_name}
 {
@@ -461,8 +520,12 @@ However, there are optional parameters to tune the underlying [sparse vector ind
 
 ### Delete collection
 
+```bash
+curl -X DELETE http://localhost:6333/collections/test_collection4 
+```
+
 ```http
-DELETE /collections/{collection_name}
+DELETE http://localhost:6333/collections/test_collection4 
 ```
 
 ```python
@@ -494,6 +557,16 @@ For example, you can disable indexing during the upload process, and enable it i
 As a result, you will not waste extra computation resources on rebuilding the index.
 
 The following command enables indexing for segments that have more than 10000 kB of vectors stored:
+
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "optimizers_config": {
+        "indexing_threshold": 10000
+    }
+  }'
+```
 
 ```http
 PATCH /collections/{collection_name}
@@ -578,6 +651,18 @@ automatically be rebuilt in the background to match updated parameters.
 To put vector data on disk for a collection that **does not have** named vectors,
 use `""` as name:
 
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "": { 
+            "on_disk": true 
+      }
+    }
+  }'
+```
+
 ```http
 PATCH /collections/{collection_name}
 {
@@ -585,11 +670,25 @@ PATCH /collections/{collection_name}
         "": {
             "on_disk": true
         }
-    },
+    }
 }
 ```
 
 To put vector data on disk for a collection that **does have** named vectors:
+
+Note: To create a vector name, follow the procedure from our [Points](/documentation/concepts/points/#create-vector-name).
+
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "my_vector": { 
+           "on_disk": true 
+      }
+    }
+  }'
+```
 
 ```http
 PATCH /collections/{collection_name}
@@ -598,12 +697,44 @@ PATCH /collections/{collection_name}
         "my_vector": {
             "on_disk": true
         }
-    },
+    }
 }
 ```
 
 In the following example the HNSW index and quantization parameters are updated,
 both for the whole collection, and for `my_vector` specifically:
+
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "my_vector": {
+            "hnsw_config": {
+                "m": 32,
+                "ef_construct": 123
+            },
+            "quantization_config": {
+                "product": {
+                    "compression": "x32",
+                    "always_ram": true
+                }
+            },
+            "on_disk": true
+        }
+    },
+    "hnsw_config": {
+        "ef_construct": 123
+    },
+    "quantization_config": {
+        "scalar": {
+            "type": "int8",
+            "quantile": 0.8,
+            "always_ram": false
+        }
+    }
+}'
+```
 
 ```http
 PATCH /collections/{collection_name}
@@ -789,8 +920,58 @@ client
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
 distributed and indexed.
 
+```bash
+curl -X GET http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "result": {
+        "status": "green",
+        "optimizer_status": "ok",
+        "vectors_count": 1068786,
+        "indexed_vectors_count": 1024232,
+        "points_count": 1068786,
+        "segments_count": 31,
+        "config": {
+            "params": {
+                "vectors": {
+                    "size": 384,
+                    "distance": "Cosine"
+                },
+                "shard_number": 1,
+                "replication_factor": 1,
+                "write_consistency_factor": 1,
+                "on_disk_payload": false
+            },
+            "hnsw_config": {
+                "m": 16,
+                "ef_construct": 100,
+                "full_scan_threshold": 10000,
+                "max_indexing_threads": 0
+            },
+            "optimizer_config": {
+                "deleted_threshold": 0.2,
+                "vacuum_min_vector_number": 1000,
+                "default_segment_number": 0,
+                "max_segment_size": null,
+                "memmap_threshold": null,
+                "indexing_threshold": 20000,
+                "flush_interval_sec": 5,
+                "max_optimization_threads": 1
+            },
+            "wal_config": {
+                "wal_capacity_mb": 32,
+                "wal_segments_ahead": 0
+            }
+        },
+        "payload_schema": {}
+    },
+    "status": "ok",
+    "time": 0.00010143
+}'
+```
+
 ```http
-GET /collections/{collection_name}
+GET /collections/test_collection1
 {
     "result": {
         "status": "green",
@@ -916,13 +1097,28 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 
 ### Create alias
 
+```bash
+curl -X POST http://localhost:6333/collections/aliases \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "actions": [
+        {
+            "create_alias": {
+                "collection_name": "test_collection1",
+                "alias_name": "production_collection"
+            }
+        }
+    ]
+}'
+```
+
 ```http
 POST /collections/aliases
 {
     "actions": [
         {
             "create_alias": {
-                "collection_name": "example_collection",
+                "collection_name": "test_collection1",
                 "alias_name": "production_collection"
             }
         }
@@ -964,6 +1160,21 @@ client.createAliasAsync("production_collection", "example_collection").get();
 ```
 
 ### Remove alias
+
+```bash
+curl -X POST http://localhost:6333/collections/aliases \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "actions": [
+        {
+            "delete_alias": {
+                "collection_name": "test_collection1",
+                "alias_name": "production_collection"
+            }
+        }
+    ]
+}'
+```
 
 ```http
 POST /collections/aliases
@@ -1013,6 +1224,26 @@ client.deleteAliasAsync("production_collection").get();
 Multiple alias actions are performed atomically.
 For example, you can switch underlying collection with the following command:
 
+```bash
+curl -X POST http://localhost:6333/collections/aliases \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "actions": [
+        {
+            "delete_alias": {
+                "alias_name": "production_collection"
+            }
+        },
+        {
+            "create_alias": {
+                "collection_name": "test_collection2",
+                "alias_name": "production_collection"
+            }
+        }
+    ]
+}'
+```
+
 ```http
 POST /collections/aliases
 {
@@ -1024,7 +1255,7 @@ POST /collections/aliases
         },
         {
             "create_alias": {
-                "collection_name": "example_collection",
+                "collection_name": "test_collection2",
                 "alias_name": "production_collection"
             }
         }
@@ -1077,8 +1308,12 @@ client.createAliasAsync("production_collection", "example_collection").get();
 
 ### List collection aliases
 
+```bash
+curl -X GET http://localhost:6333/collections/test_collection2/aliases
+```
+
 ```http
-GET /collections/{collection_name}/aliases
+GET /collections/test_collection2/aliases
 ```
 
 ```python
@@ -1116,6 +1351,10 @@ client.listCollectionAliasesAsync("{collection_name}").get();
 ```
 
 ### List all aliases
+
+```bash
+curl -X GET http://localhost:6333/aliases
+```
 
 ```http
 GET /aliases
@@ -1156,6 +1395,10 @@ client.listAliasesAsync().get();
 ```
 
 ### List all collections
+
+```bash
+curl -X GET http://localhost:6333/collections
+```
 
 ```http
 GET /collections

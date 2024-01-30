@@ -520,7 +520,7 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
-*Available as of v0.10.0*
+[*Available as of v0.10.0*](#create-vector-name)
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
