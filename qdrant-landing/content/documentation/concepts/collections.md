@@ -30,14 +30,15 @@ These settings can be changed at any time by a corresponding request.
 
 **When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
-Note: If you're using `HTTP` with `curl`, the following commands assume you've
-set up and are running Docker as described in our [Quickstart](/documentation/quick-start/). In that case, you're running Docker on `http://localhost:6333`.
-For convenience, these commands specify collections named `test_collection1`
-through `test_collection4`.
+Note: If you're running `curl` from the command line, the following commands
+assume you've set up and are running Docker as described in our
+[Quickstart](/documentation/quick-start/). In that case, you're running Docker 
+on `http://localhost:6333`. For convenience, these commands specify collections
+named `test_collection1` through `test_collection4`.
 
 ## Create a collection
 
-```http
+```bash
 curl -X PUT http://localhost:6333/collections/test_collection1 \
   -H 'Content-Type: application/json' \
   --data-raw '{
@@ -46,6 +47,16 @@ curl -X PUT http://localhost:6333/collections/test_collection1 \
       "distance": "Cosine"
     } 
   }'
+```
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    }
+}
 ```
 
 ```python
@@ -107,10 +118,6 @@ client.createCollectionAsync("test_collection",
         VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
 ```
 
-If successful, these commands write data to the `qdrant_storage` subdirectory. You
-can verify changes in the `config.json` file in the directory associated with
-your collection.
-
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
@@ -143,7 +150,7 @@ This might be useful for experimenting quickly with different configurations for
 Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
 code, `"size": 300` and `"distance": "Cosine"`.
 
-```http
+```bash
 curl -X PUT http://localhost:6333/collections/test_collection2 \
   -H 'Content-Type: application/json' \
   --data-raw '{
@@ -155,6 +162,19 @@ curl -X PUT http://localhost:6333/collections/test_collection2 \
        "collection": "test_collection1"
     }
   }'
+```
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+      "size": 100,
+      "distance": "Cosine"
+    },
+    "init_from": {
+       "collection": "{from_collection_name}"
+    }
+}
 ```
 
 ```python
@@ -241,7 +261,7 @@ This feature allows for multiple vector storages per collection.
 To distinguish vectors in one record, they should have a unique name defined when creating the collection.
 Each named vector in this mode has its distance and size:
 
-```http
+```bash
 curl -X PUT http://localhost:6333/collections/test_collection3 \
   -H 'Content-Type: application/json' \
   --data-raw '{
@@ -256,6 +276,22 @@ curl -X PUT http://localhost:6333/collections/test_collection3 \
         }
       }
     }'
+```
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+        "image": {
+            "size": 4,
+            "distance": "Dot"
+        },
+        "text": {
+            "size": 8,
+            "distance": "Cosine"
+        }
+    }
+}
 ```
 
 ```python
@@ -381,6 +417,16 @@ Collections can contain sparse vectors as additional [named vectors](#collection
 Unlike dense vectors, sparse vectors must be named.
 And additionally, sparse vectors and dense vectors must have different names within a collection.
 
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection4 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "sparse_vectors": {
+        "text": { }
+    }
+  }'
+```
+
 ```http
 PUT /collections/{collection_name}
 {
@@ -474,8 +520,12 @@ However, there are optional parameters to tune the underlying [sparse vector ind
 
 ### Delete collection
 
-```http
+```bash
 curl -X DELETE http://localhost:6333/collections/test_collection4 
+```
+
+```http
+DELETE /collections/{collection_name}
 ```
 
 ```python
@@ -507,6 +557,16 @@ For example, you can disable indexing during the upload process, and enable it i
 As a result, you will not waste extra computation resources on rebuilding the index.
 
 The following command enables indexing for segments that have more than 10000 kB of vectors stored:
+
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "optimizers_config": {
+        "indexing_threshold": 10000
+    }
+  }'
+```
 
 ```http
 PATCH /collections/{collection_name}
@@ -591,7 +651,7 @@ automatically be rebuilt in the background to match updated parameters.
 To put vector data on disk for a collection that **does not have** named vectors,
 use `""` as name:
 
-```http
+```bash
 curl -X PATCH http://localhost:6333/collections/test_collection1 \
   -H 'Content-Type: application/json' \
   --data-raw '{
@@ -603,9 +663,20 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
   }'
 ```
 
+```http
+PATCH /collections/{collection_name}
+{
+    "vectors": {
+        "": {
+            "on_disk": true
+        }
+    },
+}
+```
+
 To put vector data on disk for a collection that **does have** named vectors:
 
-```http
+```bash
 curl -X PATCH http://localhost:6333/collections/test_collection1 \
   -H 'Content-Type: application/json' \
   --data-raw '{
@@ -615,6 +686,17 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
       }
     }
   }'
+```
+
+```http
+PATCH /collections/{collection_name}
+{
+    "vectors": {
+        "my_vector": {
+            "on_disk": true
+        }
+    },
+}
 ```
 
 In the following example the HNSW index and quantization parameters are updated,
