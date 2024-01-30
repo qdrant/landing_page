@@ -8,7 +8,7 @@ preview_dir: /articles_data/discovery-search/preview # This directory contains i
 weight: -100 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
 author: Luis Cossío # Author of the article. Required.
 author_link: https://coszio.github.io # Link to the author's page. Required.
-date: 2023-12-11T13:00:00+03:00 # Date of the article. Required.
+date: 2024-01-31T08:00:00+03:00 # Date of the article. Required.
 draft: false # If true, the article will not be published
 keywords: # Keywords for SEO
   - why use a vector database
