@@ -50,13 +50,14 @@ curl -X PUT http://localhost:6333/collections/test_collection1 \
 ```
 
 ```http
-PUT /collections/{collection_name}
-{
+curl -X PUT http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
       "size": 300,
       "distance": "Cosine"
-    }
-}
+    } 
+  }'
 ```
 
 ```python
@@ -118,6 +119,10 @@ client.createCollectionAsync("test_collection",
         VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
 ```
 
+If successful, these commands write data to the `qdrant_storage` subdirectory. You
+can verify changes in the `config.json` file in the directory associated with
+your collection.
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
@@ -162,19 +167,6 @@ curl -X PUT http://localhost:6333/collections/test_collection2 \
        "collection": "test_collection1"
     }
   }'
-```
-
-```http
-PUT /collections/{collection_name}
-{
-    "vectors": {
-      "size": 100,
-      "distance": "Cosine"
-    },
-    "init_from": {
-       "collection": "{from_collection_name}"
-    }
-}
 ```
 
 ```python
@@ -279,8 +271,9 @@ curl -X PUT http://localhost:6333/collections/test_collection3 \
 ```
 
 ```http
-PUT /collections/{collection_name}
-{
+curl -X PUT http://localhost:6333/collections/test_collection3 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
         "image": {
             "size": 4,
@@ -290,8 +283,8 @@ PUT /collections/{collection_name}
             "size": 8,
             "distance": "Cosine"
         }
-    }
-}
+      }
+    }'
 ```
 
 ```python
@@ -525,7 +518,7 @@ curl -X DELETE http://localhost:6333/collections/test_collection4
 ```
 
 ```http
-DELETE /collections/{collection_name}
+curl -X DELETE http://localhost:6333/collections/test_collection4 
 ```
 
 ```python
@@ -664,14 +657,15 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
 ```
 
 ```http
-PATCH /collections/{collection_name}
-{
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
-        "": {
-            "on_disk": true
-        }
-    },
-}
+        "": { 
+            "on_disk": true 
+      }
+    }
+  }'
 ```
 
 To put vector data on disk for a collection that **does have** named vectors:
@@ -689,14 +683,15 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
 ```
 
 ```http
-PATCH /collections/{collection_name}
-{
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
     "vectors": {
-        "my_vector": {
-            "on_disk": true
-        }
-    },
-}
+        "my_vector": { 
+           "on_disk": true 
+      }
+    }
+  }'
 ```
 
 In the following example the HNSW index and quantization parameters are updated,
