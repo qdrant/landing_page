@@ -5,18 +5,18 @@ description: Qdrant released a new functionality that lets you constrain the spa
 social_preview_image: /articles_data/discovery-search/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
 small_preview_image: /articles_data/discovery-search/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
 preview_dir: /articles_data/discovery-search/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
-weight: -100 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
+weight: -110 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
 author: Luis Cossío # Author of the article. Required.
 author_link: https://coszio.github.io # Link to the author's page. Required.
-date: 2024-01-31T08:00:00+03:00 # Date of the article. Required.
+date: 2024-01-31T08:00:00-03:00 # Date of the article. Required.
 draft: false # If true, the article will not be published
 keywords: # Keywords for SEO
   - why use a vector database
   - specialty
   - search
   - discovery
-  - state of the art
-  - vector search
+  - state-of-the-art
+  - vector-search
 ---
 
 When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for America. They were looking for a new route to India, and they were convinced that the Earth was round. They didn't know anything about America, but since they were going west, they stumbled upon it.
