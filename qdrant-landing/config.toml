@@ -291,8 +291,8 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   [markup.goldmark.renderer]
     unsafe=true
   [markup.highlight]
-    style='friendly'
-   codeFences=true
+    noClasses = false
+    codeFences=true
 
 [related]
   includeNewer = true

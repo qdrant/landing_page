@@ -1,26 +1,53 @@
-.highlight {
-    position: relative;
-}
-.highlight + .highlight {
-    display: none;
-}
-.highlight > pre {
-    padding: 10px 12px;
-}
 .lang-tabs {
-    display: block;
-    min-height: 26px;
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    background: var(--neutral-n-100);
 }
 .lang-tabs__button {
-    padding: 2px 4px 5px;
-    background: #dcdcdc;
-    color: inherit;
-    cursor: pointer;
-}
-.lang-tabs__button.active {
-    background: #8d8d8d;
-    color: #fff;
-}
-.lang-tabs__button:not(:last-of-type) {
-    border-right: 1px solid #fff;
+    display: flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: var(--neutral-n-500);
+    position: relative;
+
+    &:not(.active) {
+        cursor: pointer;
+    }
+
+    &:hover {
+        background: var(--neutral-n-200);
+        color: var(--neutral-n-600);
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--neutral-n-200);
+            z-index: 1;
+        }
+    }
+
+    &.active {
+        background: var(--neutral-n-50);
+        color: var(--neutral-n-700);
+        border-left: 1px solid var(--neutral-n-100);
+        border-right: 1px solid var(--neutral-n-100);
+        border-top: 1px solid var(--neutral-n-100);
+        box-sizing: border-box;
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background: var(--neutral-n-50);
+            z-index: 1;
+        }
+    }
 }
