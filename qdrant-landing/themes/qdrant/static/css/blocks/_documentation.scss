@@ -75,7 +75,7 @@
     }
 
     &:hover {
-      scrollbar-width: thin; /* Firefox */
+      scrollbar-width: none; /* Firefox */
       scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
 
       &::-webkit-scrollbar {
@@ -88,7 +88,7 @@
     }
 
     @media (hover: none) {
-      scrollbar-width: thin; /* Firefox */
+      scrollbar-width: none; /* Firefox */
       scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
 
       &::-webkit-scrollbar-thumb {
