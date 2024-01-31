@@ -2,8 +2,8 @@
 title: "Discovery needs context" #required
 short_description: Discover points by constraining the space.
 description: Qdrant released a new functionality that lets you constrain the space in which a search is performed, relying only on vectors. #required
-social_preview_image: /articles_data/discovery-search/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
-small_preview_image: /articles_data/discovery-search/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
+social_preview_image: /articles_data/discovery-search/preview/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
+small_preview_image: /articles_data/discovery-search/preview/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
 preview_dir: /articles_data/discovery-search/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
 weight: -110 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
 author: Luis Cossío # Author of the article. Required.
