@@ -7,7 +7,7 @@ description: An overview of vector databases, detailing their functionalities, a
 preview_dir: /articles_data/what-is-a-vector-database/preview
 weight: -100
 social_preview_image: /articles_data/what-is-a-vector-database/preview/social-preview.jpg
-small_preview_image: /articles_data/what-is-a-vector-database/preview/title.jpg
+small_preview_image: /articles_data/what-is-a-vector-database/icon.svg
 date: 2024-01-25T09:29:33-03:00
 author: Sabrina Aquino 
 featured: true 
