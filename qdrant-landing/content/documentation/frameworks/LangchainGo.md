@@ -1,6 +1,6 @@
 ---
 title: Langchain Go
-weight: 2200
+weight: 120
 ---
 
 # Langchain Go
@@ -18,6 +18,13 @@ go get -u github.com/tmc/langchaingo
 ```
 
 ## Usage
+
+Before you use the following code sample, customize the following values for your configuration:
+
+- `YOUR_QDRANT_REST_URL`: If you've set up Qdrant using the [Quick Start](/documentation/quick-start/) guide,
+  set this value to `http://localhost:6333`.
+- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections) guide to create or
+  list collections.
 
 ```go
 import (
