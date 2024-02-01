@@ -64,32 +64,35 @@
     }
 
     &::-webkit-scrollbar {
-      display: none;
-    }
-
-    &::-webkit-scrollbar {
       width: 1px;
     }
 
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
     &::-webkit-scrollbar-thumb {
-      background: var(--brand-gray);
+      background: transparent;
     }
 
     &:hover {
-      scrollbar-width: thin; /* Firefox */
+      scrollbar-width: none; /* Firefox */
       scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
 
       &::-webkit-scrollbar {
         display: block;
       }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--brand-gray);
+      }
     }
 
     @media (hover: none) {
-      scrollbar-width: thin; /* Firefox */
+      scrollbar-width: none; /* Firefox */
       scrollbar-color: var(--brand-gray) var(--brand-mid-grey) !important;
 
-      &::-webkit-scrollbar {
-        display: block;
+      &::-webkit-scrollbar-thumb {
+        background: var(--brand-gray);
       }
     }
   }
