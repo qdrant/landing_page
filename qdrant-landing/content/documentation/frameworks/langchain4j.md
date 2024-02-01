@@ -27,9 +27,9 @@ Before you use the following code sample, customize the following values for you
 
 - `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections) guide to create or
   list collections.
-- `YOUR_HOST_URL`: Use the REST URL for your system. If you used the [Quick Start](/documentation/quick-start/) guide,
-  it may be http://localhost:6333. If you've deployed in the [Qdrant Cloud](/documentation/cloud/), you may have a
-  longer URL such as `https://example.location.cloud.qdrant.io`.
+- `YOUR_HOST_URL`: Use the GRPC URL for your system. If you used the [Quick Start](/documentation/quick-start/) guide,
+  it may be http://localhost:6334. If you've deployed in the [Qdrant Cloud](/documentation/cloud/), you may have a
+  longer URL such as `https://example.location.cloud.qdrant.io:6334`.
 - `YOUR_API_KEY`: Substitute the API key associated with your configuration.
 ```java
 import dev.langchain4j.store.embedding.EmbeddingStore;
