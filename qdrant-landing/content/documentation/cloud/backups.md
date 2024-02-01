@@ -63,26 +63,13 @@ choose to restore or delete the backups of your choice.
 
 ![Restore or delete a cluster backup](/documentation/cloud/restore-delete.png)
 
-### Self-service backups
-
-Alternatively, Qdrant offers a snapshot API which allows you to create a snapshot
-of a specific collection or your entire cluster. For more information, see our
-[snapshot documentation](/documentation/concepts/snapshots/).
-
-### Backup considerations
-
-Backups are incremental. For example, if you have two backups, backup number 2
-contains only the data that changed since backup number 1. This reduces the
-total cost of your backups.
-
-You can create multiple backup schedules.
-
-When you restore a snapshot, any changes made after the date of the snapshot
-are lost.
-
 <!-- I think we should move this to the Snapshot page, but I'll do it later -->
 
 ## Backups with a snapshot
+
+Qdrant also offers a snapshot API which allows you to create a snapshot
+of a specific collection or your entire cluster. For more information, see our
+[snapshot documentation](/documentation/concepts/snapshots/).
 
 Here is how you can snapshot and recover a collection:
 
@@ -96,3 +83,13 @@ Here is how you can snapshot and recover a collection:
 3. Recover the snapshot:
    - Call the [recover endpoint](../../concepts/snapshots/#recover-in-cluster-deployment). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
 
+## Backup considerations
+
+Backups are incremental. For example, if you have two backups, backup number 2
+contains only the data that changed since backup number 1. This reduces the
+total cost of your backups.
+
+You can create multiple backup schedules.
+
+When you restore a snapshot, any changes made after the date of the snapshot
+are lost.
