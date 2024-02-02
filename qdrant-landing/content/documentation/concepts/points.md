@@ -469,7 +469,7 @@ Column-oriented format:
 client.upload_collection(
     collection_name="{collection_name}",
     ids=[1, 2],
-    payloads=[
+    payload=[
         {"color": "red"},
         {"color": "green"},
     ],
