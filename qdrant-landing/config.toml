@@ -90,6 +90,9 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   on_yes = "Thanks! 🙏"
   on_no = "Sorry! 😔"
 
+[params.github_links]
+  enable = true
+  
 [taxonomies]
     tag = "tags"
     category = "categories"
