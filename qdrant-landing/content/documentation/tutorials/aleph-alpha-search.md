@@ -27,7 +27,10 @@ https://deepai.org generated the images with pangrams used as input prompts.*
 You will be using [COCO](https://cocodataset.org/), a large-scale object detection, segmentation, and captioning dataset. It provides 
 various splits, 330,000 images in total. For demonstration purposes, this tutorials uses the 
 [2017 validation split](http://images.cocodataset.org/zips/train2017.zip) that contains 5000 images from different 
-categories.
+categories with total size about 19GB.
+```terminal 
+wget http://images.cocodataset.org/zips/train2017.zip
+```
 
 ## Prerequisites
 
@@ -53,7 +56,7 @@ model = "luminous-base"
 
 ## Vectorize the dataset
 
-In this example, images are stored in the `val2017` directory:
+In this example, images have been extracted and are stored in the `val2017` directory:
 
 ```python
 from aleph_alpha_client import (
@@ -61,7 +64,7 @@ from aleph_alpha_client import (
     AsyncClient,
     SemanticEmbeddingRequest,
     SemanticRepresentation,
-    ImagePrompt,
+    Image,
 )
 
 from glob import glob
@@ -71,7 +74,7 @@ async with AsyncClient(token=aa_token) as client:
     for i, image_path in enumerate(glob("./val2017/*.jpg")):
         # Convert the JPEG file into the embedding by calling
         # Aleph Alpha API
-        prompt = ImagePrompt.from_file(image_path)
+        prompt = Image.from_file(image_path)
         prompt = Prompt.from_image(prompt)
         query_params = {
             "prompt": prompt,
@@ -95,13 +98,13 @@ Add all created embeddings, along with their ids and payloads into the `COCO` co
 import qdrant_client
 from qdrant_client.http.models import Batch, VectorParams, Distance
 
-qdrant_client = qdrant_client.Qdrant.Client()
+qdrant_client = qdrant_client.QdrantClient()
 qdrant_client.recreate_collection(
     collection_name="COCO",
-    vector_params=VectorParams(
+    vectors_config=VectorParams(
         size=len(vectors[0]),
         distance=Distance.COSINE,
-    )
+    ),
 )
 qdrant_client.upsert(
     collection_name="COCO",
@@ -109,7 +112,7 @@ qdrant_client.upsert(
         ids=ids,
         vectors=vectors,
         payloads=payloads,
-    )
+    ),
 )
 ```
 

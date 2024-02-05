@@ -1,0 +1,47 @@
+.pagination {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  &__list {
+    display: inline-flex;
+    justify-content: center;
+  }
+
+  &__item {
+
+    & > a {
+      margin: 0 0.25rem;
+
+      display: flex;
+      min-width: 2rem;
+      height: 2rem;
+      text-align: center;
+      padding: 0.125rem 0.5625rem;
+      justify-content: center;
+      align-items: center;
+
+      border-radius: 0.625rem;
+      color: var(--neutral-n-600, #39508F);
+      font-family: inherit;
+      font-size: 1rem;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 1.5rem;
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background: var(--neutral-n-100, #F5F7FF);
+      }
+    }
+
+    &.active {
+      & > a {
+        background: var(--Primary, #DC244C);
+        cursor: default;
+        color: var(--neutral-white, #FFF);
+        pointer-events: none;
+      }
+    }
+  }
+}

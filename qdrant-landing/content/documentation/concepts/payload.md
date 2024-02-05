@@ -142,7 +142,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/o
 
 ```http
 PUT /collections/{collection_name}/points
-
 {
     "points": [
         {
@@ -273,19 +272,63 @@ let points = vec![
 ];
 
 client
-    .upsert_points("{collection_name}".to_string(), points, None)
+    .upsert_points("{collection_name}".to_string(), None, points, None)
     .await?;
+```
+
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(1))
+                .setVectors(vectors(0.05f, 0.61f, 0.76f, 0.74f))
+                .putAllPayload(Map.of("city", value("Berlin"), "price", value(1.99)))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(2))
+                .setVectors(vectors(0.19f, 0.81f, 0.75f, 0.11f))
+                .putAllPayload(
+                    Map.of("city", list(List.of(value("Berlin"), value("London")))))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(3))
+                .setVectors(vectors(0.36f, 0.55f, 0.47f, 0.94f))
+                .putAllPayload(
+                    Map.of(
+                        "city",
+                        list(List.of(value("Berlin"), value("London"))),
+                        "price",
+                        list(List.of(value(1.99), value(2.99)))))
+                .build()))
+    .get();
 ```
 
 ## Update payload
 
 ### Set payload
 
+Set only the given payload values on a point.
+
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
 
 ```http
 POST /collections/{collection_name}/points/payload
-
 {
     "payload": {
         "property1": "string",
@@ -325,8 +368,9 @@ use qdrant_client::qdrant::{
 use serde_json::json;
 
 client
-    .set_payload(
+    .set_payload_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 10.into()],
@@ -343,33 +387,164 @@ client
     .await?;
 ```
 
-### Delete payload
+```java
+import java.util.List;
+import java.util.Map;
 
-This method removes specified payload keys from specified points
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
+client
+    .setPayloadAsync(
+        "{collection_name}",
+        Map.of("property1", value("string"), "property2", value("string")),
+        List.of(id(0), id(3), id(10)),
+        true,
+        null,
+        null)
+    .get();
+```
+
+You don't need to know the ids of the points you want to modify. The alternative
+is to use filters.
 
 ```http
-POST /collections/{collection_name}/points/payload/delete
-
+POST /collections/{collection_name}/points/payload
 {
-    "keys": ["color", "price"],
-    "points": [0, 3, 100]
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "value": "red"
+                }
+            }
+        ]
+    }
 }
 ```
 
 ```python
-client.delete_payload(
+client.set_payload(
     collection_name="{collection_name}",
-    keys=["color", "price"],
-    points=[0, 3, 100],
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color",
+                match=models.MatchValue(value="red"),
+            ),
+        ],
+    ),
 )
 ```
 
 ```typescript
-client.deletePayload("{collection_name}", {
-  keys: ["color", "price"],
-  points: [0, 3, 100],
+client.setPayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+use serde_json::json;
+
+client
+    .set_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
+        None,
+    )
+    .await?;
+```
+
+```java
+import java.util.Map;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.ValueFactory.value;
+
+client
+    .setPayloadAsync(
+        "{collection_name}",
+        Map.of("property1", value("string"), "property2", value("string")),
+        Filter.newBuilder().addMust(matchKeyword("color", "red")).build(),
+        true,
+        null,
+        null)
+    .get();
+```
+
+### Overwrite payload
+
+Fully replace any existing payload with the given one.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/overwrite_payload)):
+
+```http
+PUT /collections/{collection_name}/points/payload
+{
+    "payload": {
+        "property1": "string",
+        "property2": "string"
+    },
+    "points": [
+        0, 3, 100
+    ]
+}
+```
+
+```python
+client.overwrite_payload(
+    collection_name="{collection_name}",
+    payload={
+        "property1": "string",
+        "property2": "string",
+    },
+    points=[0, 3, 10],
+)
+```
+
+```typescript
+client.overwritePayload("{collection_name}", {
+  payload: {
+    property1: "string",
+    property2: "string",
+  },
+  points: [0, 3, 10],
 });
 ```
 
@@ -377,20 +552,47 @@ client.deletePayload("{collection_name}", {
 use qdrant_client::qdrant::{
     points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
 };
+use serde_json::json;
 
 client
-    .delete_payload(
+    .overwrite_payload_blocking(
         "{collection_name}",
+        None,
         &PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
-                ids: vec![0.into(), 3.into(), 100.into()],
+                ids: vec![0.into(), 3.into(), 10.into()],
             })),
         },
-        vec!["color".to_string(), "price".to_string()],
+        json!({
+            "property1": "string",
+            "property2": "string",
+        })
+        .try_into()
+        .unwrap(),
         None,
     )
     .await?;
 ```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+
+client
+    .overwritePayloadAsync(
+        "{collection_name}",
+        Map.of("property1", value("string"), "property2", value("string")),
+        List.of(id(0), id(3), id(10)),
+        true,
+        null,
+        null)
+    .get();
+```
+
+Like [set payload](#set-payload), you don't need to know the ids of the points
+you want to modify. The alternative is to use filters.
 
 ### Clear payload
 
@@ -400,7 +602,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/cl
 
 ```http
 POST /collections/{collection_name}/points/payload/clear
-
 {
     "points": [0, 3, 100]
 }
@@ -429,6 +630,7 @@ use qdrant_client::qdrant::{
 client
     .clear_payload(
         "{collection_name}",
+        None,
         Some(PointsSelector {
             points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 100.into()],
@@ -439,7 +641,170 @@ client
     .await?;
 ```
 
-<aside role="status">You can also use `models.FilterSelector` to remove the points matching given filter criteria, instead of providing the ids.</aside>
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+client
+    .clearPayloadAsync("{collection_name}", List.of(id(0), id(3), id(100)), true, null, null)
+    .get();
+```
+
+<aside role="status">
+You can also use <code>models.FilterSelector</code> to remove the points matching given filter criteria, instead of providing the ids.
+</aside>
+
+### Delete payload keys
+
+Delete specific payload keys from points.
+
+REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
+
+```http
+POST /collections/{collection_name}/points/payload/delete
+{
+    "keys": ["color", "price"],
+    "points": [0, 3, 100]
+}
+```
+
+```python
+client.delete_payload(
+    collection_name="{collection_name}",
+    keys=["color", "price"],
+    points=[0, 3, 100],
+)
+```
+
+```typescript
+client.deletePayload("{collection_name}", {
+  keys: ["color", "price"],
+  points: [0, 3, 100],
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
+};
+
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+                ids: vec![0.into(), 3.into(), 100.into()],
+            })),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+
+client
+    .deletePayloadAsync(
+        "{collection_name}",
+        List.of("color", "price"),
+        List.of(id(0), id(3), id(100)),
+        true,
+        null,
+        null)
+    .get();
+```
+
+Alternatively, you can use filters to delete payload keys from the points.
+
+```http
+POST /collections/{collection_name}/points/payload/delete
+{
+    "keys": ["color", "price"],
+    "filter": {
+        "must": [
+            {
+                "key": "color",
+                "match": {
+                    "value": "red"
+                }
+            }
+        ]
+    }
+}
+```
+
+```python
+client.delete_payload(
+    collection_name="{collection_name}",
+    keys=["color", "price"],
+    points=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color",
+                match=models.MatchValue(value="red"),
+            ),
+        ],
+    ),
+)
+```
+
+```typescript
+client.deletePayload("{collection_name}", {
+  keys: ["color", "price"],
+  filter: {
+    must: [
+      {
+        key: "color",
+        match: {
+          value: "red",
+        },
+      },
+    ],
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
+};
+
+client
+    .delete_payload_blocking(
+        "{collection_name}",
+        None,
+        &PointsSelector {
+            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
+                Condition::matches("color", "red".to_string()),
+            ]))),
+        },
+        vec!["color".to_string(), "price".to_string()],
+        None,
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+client
+    .deletePayloadAsync(
+        "{collection_name}",
+        List.of("color", "price"),
+        Filter.newBuilder().addMust(matchKeyword("color", "red")).build(),
+        true,
+        null,
+        null)
+    .get();
+```
 
 ## Payload indexing
 
@@ -458,7 +823,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/collecti
 
 ```http
 PUT /collections/{collection_name}/index
-
 {
     "field_name": "name_of_the_field_to_index",
     "field_schema": "keyword"
@@ -492,6 +856,19 @@ client
         None,
     )
     .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+
+client.createPayloadIndexAsync(
+    "{collection_name}",
+    "name_of_the_field_to_index",
+    PayloadSchemaType.Keyword,
+    null,
+    true,
+    null,
+    null);
 ```
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).

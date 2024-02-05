@@ -9,15 +9,17 @@ aliases:
 
 *Available as of v0.8.4*
 
-Snapshots are performed on a per-collection basis and consist in a `tar` archive file containing the necessary data to restore the collection at the time of the snapshot.
+Snapshots are created individually for each node in a collection, resulting in a `tar` archive file that holds the data needed to restore that collection at the snapshot time. In a distributed setup, when you have multiple nodes in your cluster, you must create snapshots for each node separately when dealing with a single collection. 
+Therefore, in a distributed deployment, a snapshot of a collection consists of multiple `tar` archive files, with one file for each collection node.
 
-This feature can be used to archive data or easily replicate an existing deployment.
+This feature can be used to archive data or easily replicate an existing deployment. For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
 
 ## Store snapshots
 
 The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
 
 You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
+
 ```yaml
 storage:
   # Specify where you want to store snapshots.
@@ -36,6 +38,8 @@ storage:
 ```
 
 ## Create snapshot
+
+<aside role="status">If you work with a distributed deployment, you have to create snapshots for each node separately. A single snapshot will contain only the data coming from the node on which the snapshot was created.</aside>
 
 To create a new snapshot for an existing collection:
 
@@ -65,6 +69,16 @@ use qdrant_client::client::QdrantClient;
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client.create_snapshot("{collection_name}").await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+      new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createSnapshotAsync("{collection_name}").get();
 ```
 
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
@@ -103,6 +117,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.delete_snapshot("{collection_name}", "{snapshot_name}").await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.deleteSnapshotAsync("{collection_name}", "{snapshot_name}").get();
+```
+
 ## List snapshot
 
 List of snapshots for a collection:
@@ -135,6 +159,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.list_snapshots("{collection_name}").await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.listSnapshotAsync("{collection_name}").get();
+```
+
 ## Retrieve snapshot
 
 <aside role="status">Only available through the REST API for the time being.</aside>
@@ -153,7 +187,7 @@ There is a difference in recovering snapshots in single-deployment node and dist
 
 ### Recover during start-up
 
-<aside role="status">This method cannot be used in a cluster deployment.</aside>
+<aside role="alert">This method cannot be used in a cluster deployment.</aside>
 
 Single deployment is simpler, you can recover any collection on the start-up and it will be immediately available in the service.
 Restoring snapshots is done through the Qdrant CLI at startup time.
@@ -180,11 +214,12 @@ Recovering in cluster mode is more sophisticated, as Qdrant should maintain cons
 As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
 Recovering non-existing collections with snapshots won't make this collection known to the consensus.
 
+<aside role="status">It is recommended to explicitly set a <a href="#snapshot-priority">snapshot priority</a> during recovery to prevent unexpected results.</aside>
+
 To recover snapshot via API one can use snapshot recovery endpoint:
 
 ```http
 PUT /collections/{collection_name}/snapshots/recover
-
 {
   "location": "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot"
 }
@@ -207,8 +242,7 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.recoverSnapshot("{collection_name}", {
-  location:
-    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
 });
 ```
 
@@ -218,11 +252,74 @@ The recovery snapshot can also be uploaded as a file to the Qdrant server:
 curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload' \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
-
 ```
 
 Qdrant will extract shard data from the snapshot and properly register shards in the cluster.
-If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node to maintain data consistency.
+If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node by default to maintain data consistency.
+
+### Snapshot priority
+
+When recovering a snapshot, you can specify what source of data is prioritized
+during recovery. It is important because different priorities can give very
+different end results. The default priority is probably not what you expect.
+
+The available snapshot recovery priorities are:
+
+- `replica`: _(default)_ prefer existing data over the snapshot.
+- `snapshot`: prefer snapshot data over existing data.
+- `no_sync`: restore snapshot without any additional synchronization.
+
+To recover a new collection from a snapshot on a Qdrant cluster, you need to set
+the `snapshot` priority. With `snapshot` priority, all data from the snapshot
+will be recovered onto the cluster. With `replica` priority _(default)_, you'd
+end up with an empty collection because the collection on the cluster did not
+contain any points and that source was preferred.
+
+`no_sync` is for specialized use cases and is not commonly used. It allows
+managing shards and transferring shards between clusters manually without any
+additional synchronization. Using it incorrectly will leave your cluster in a
+broken state.
+
+To recover from an URL you specify a request parameter:
+
+```http
+PUT /collections/{collection_name}/snapshots/recover
+{
+  "location": "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
+  "priority": "snapshot"
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("qdrant-node-2", port=6333)
+
+client.recover_snapshot(
+    "{collection_name}",
+    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+    priority=models.SnapshotPriority.SNAPSHOT,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.recoverSnapshot("{collection_name}", {
+  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  priority: "snapshot"
+});
+```
+
+To upload a multipart file you specify it as URL parameter:
+
+```bash
+curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload?priority=snapshot' \
+    -H 'Content-Type:multipart/form-data' \
+    -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
+```
 
 ## Snapshots for the whole storage
 
@@ -261,6 +358,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.create_full_snapshot().await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createFullSnapshotAsync().get();
+```
+
 ### Delete full storage snapshot
 
 *Available as of v1.0.0*
@@ -293,6 +400,16 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 client.delete_full_snapshot("{snapshot_name}").await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.deleteFullSnapshotAsync("{snapshot_name}").get();
+```
+
 ### List full storage snapshots
 
 ```http
@@ -321,6 +438,16 @@ use qdrant_client::client::QdrantClient;
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client.list_full_snapshots().await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.listFullSnapshotAsync().get();
 ```
 
 ### Download full storage snapshot

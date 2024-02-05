@@ -1,17 +1,166 @@
 {{ define "main" }}
-<section class="auto-container pt-3 pt-md-5">
-    <div class="row clearfix">
 
-        <!-- Sidebar Page Container -->
-        <div class="sidebar-page-container">
-            <div class="auto-container">
-                <div class="row clearfix">
+<section class="qb-hero">
+    <div class="auto-container">
+        <div class="row">
+            <div class="col-12{{ if .Params.img }} col-md-8{{ end }} order-1 order-md-0">
+                <div class="qb-hero__breadcrumbs">{{ partial "breadcrumbs" . }}</div>
+                <h1 class="qb-hero__header"> {{ .Params.title | safeHTML }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="offset-md-6 col-12 col-md-6">
+                {{ .Scratch.Set "variant" "compact" }}
+                {{ partial "contact-section" . }}
+            </div>
+        </div>
+    </div>
+</section>
 
-                    <!-- Content Side -->
-                   {{ partial "sidebar-list" . }}
+{{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
+<section class="qdrant-blog__content auto-container">
 
+    <!-- Features and News -->
+    <div class="row">
+        <div class="col-12 col-md-5 d-flex justify-content-between">
+            <h1 class="qdrant-blog__subheader">Features and News</h1>
+        </div>
+
+        <div class="col-12 col-md-7">
+            <button type="button" class="qdrant-blog__search" data-target="#searchModal">
+                What are you looking for?
+                <i>
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <g clip-path="url(#clip0_1846_3020)">
+                            <path d="M15.707 13.293L13 10.586C13.63 9.536 14 8.311 14 7C14 3.14 10.859 0 7 0C3.141 0 0 3.14 0 7C0 10.86 3.141 14 7 14C8.312 14 9.536 13.631 10.586 13L13.293 15.707C13.488 15.902 13.744 16 14 16C14.256 16 14.512 15.902 14.707 15.707L15.707 14.707C16.098 14.316 16.098 13.684 15.707 13.293ZM7 12C4.239 12 2 9.761 2 7C2 4.239 4.239 2 7 2C9.761 2 12 4.239 12 7C12 9.761 9.761 12 7 12Z"
+                                  fill="#1F3266"/>
+                        </g>
+                        <defs>
+                            <clipPath id="clip0_1846_3020">
+                                <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                        </defs>
+                    </svg>
+                </i>
+            </button>
+        </div>
+    </div>
+
+    <div class="row clearfix qdrant-blog__featured">
+        <!-- Featured Post -->
+        {{ range first 1 (where $all ".Params.featured" "=" true) }}
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+        {{ $link = .Params.external_link }}
+        {{ end }}
+        <div class="col-12 col-md-7">
+            <a href="{{ $link }}" class="qdrant-blog__card qb-card qb-card_featured">
+                {{ if .Params.preview_image }}
+                <div class="qb-card__img">
+                    {{ partial "preview-image" (dict "context" . "default_file_name" "title.jpg" "preview_file" .Params.title_preview_image) }}
+                </div>
+                {{ end }}
+                <h3 class="qb-card__title">{{ .Params.title }}</h3>
+                <p class="qb-card__text">{{ .Description }}</p>
+                <div class="qb-card__meta">
+                    <span>{{ time.Format "January 02, 2006" .Date }}</span>
+                    <span class="qb-card__meta-divider">·</span>
+                    <span>{{ .Params.author }}</span>
+                </div>
+            </a>
+        </div>
+        {{ end }}
+        <!-- End of Featured Post -->
+        <!-- Latest Posts -->
+        <div class="col-12 col-md-5 d-flex flex-column">
+            {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
+            <div class="qb-card qb-card_border-bottom ml-md-3">
+                <h3 class="qb-card__title">
+                    <a href="{{ .Permalink }}">{{ .Params.title }}</a>
+                </h3>
+                <div class="qb-card__meta">
+                    <span>{{ time.Format "January 02, 2006" .Date }}</span>
+                    <span class="qb-card__meta-divider">·</span>
+                    <span>{{ .Params.author }}</span>
                 </div>
             </div>
+            {{ end }}
+        </div>
+        <!-- End of Latest Posts -->
+    </div>
+    <!-- End of Features and News -->
+
+    <!-- Blog Cards -->
+    <div class="qdrant-blog__posts row clearfix d-none d-md-flex">
+
+        {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 9 }}
+        {{ range $paginator.Pages}}
+        {{ .Scratch.Set "scope" "list" }}
+
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+        {{ $link = .Params.external_link }}
+        {{ end }}
+
+        {{ if or (not .Params.featured) }}
+
+        <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
+            {{ if .Params.preview_image }}
+            <div class="qb-card__img">
+                {{ partial "preview-image" (dict "context" . "default_file_name" "preview.jpg" "preview_file" .Params.small_preview_image) }}
+            </div>
+            {{ end }}
+            <h3 class="qb-card__title">{{ .Params.title }}</h3>
+            <p class="qb-card__text">{{ .Description }}</p>
+            <div class="qb-card__meta">
+                <span>By {{ .Params.author }}</span>
+                <span class="qb-card__meta-divider">·</span>
+                <span>{{ time.Format "January 02, 2006" .Date }}</span>
+            </div>
+        </a>
+        {{ end }}
+
+        {{ end }}
+    </div>
+
+    <!-- Mobile Blog Cards -->
+    <div class="qdrant-blog__posts row clearfix d-md-none">
+
+        {{ range (where $all ".Params.featured" "!=" true) }}
+        {{ .Scratch.Set "scope" "list" }}
+
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+        {{ $link = .Params.external_link }}
+        {{ end }}
+
+        {{ if or (not .Params.featured) }}
+
+        <a href="{{ $link }}" class="qdrant-blog__card qb-card col-12 col-md-4">
+            {{ if .Params.preview_image }}
+            <div class="qb-card__img">
+                {{ partial "preview-image" (dict "context" . "default_file_name" "preview.jpg" "preview_file" .Params.small_preview_image) }}
+            </div>
+            {{ end }}
+            <h3 class="qb-card__title">{{ .Params.title }}</h3>
+            <p class="qb-card__text">{{ .Description }}</p>
+            <div class="qb-card__meta">
+                <span>By {{ .Params.author }}</span>
+                <span class="qb-card__meta-divider">·</span>
+                <span>{{ time.Format "January 02, 2006" .Date }}</span>
+            </div>
+        </a>
+        {{ end }}
+
+        {{ end }}
+    </div>
+
+
+    <div class="row clearfix">
+        <div class="col-12">
+            {{ if gt $paginator.TotalPages 1}}
+            {{ partial "paginator" $paginator }}
+            {{ end }}
         </div>
     </div>
 </section>

@@ -54,6 +54,14 @@ use qdrant_client::client::QdrantClient;
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client = new QdrantClient(
+    QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+```
+
 <aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
 
 ## Create a collection
@@ -92,7 +100,17 @@ client
     })
     .await?;
 ```
+
+```java
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+
+client.createCollectionAsync("test_collection",
+        VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
+```
+
 <aside role="status">TypeScript, Rust examples use async/await syntax, so should be used in an async block.</aside>
+<aside role="status">Java examples are enclosed within a try/catch block.</aside>
 
 ## Add vectors
 
@@ -159,11 +177,49 @@ let points = vec![
     // ..truncated
 ];
 let operation_info = client
-    .upsert_points_blocking("test_collection".to_string(), points, None)
+    .upsert_points_blocking("test_collection".to_string(), None, points, None)
     .await?;
 
 dbg!(operation_info);
 ```
+
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.UpdateResult;
+
+UpdateResult operationInfo =
+    client
+        .upsertAsync(
+            "test_collection",
+            List.of(
+                PointStruct.newBuilder()
+                    .setId(id(1))
+                    .setVectors(vectors(0.05f, 0.61f, 0.76f, 0.74f))
+                    .putAllPayload(Map.of("city", value("Berlin")))
+                    .build(),
+                PointStruct.newBuilder()
+                    .setId(id(2))
+                    .setVectors(vectors(0.19f, 0.81f, 0.75f, 0.11f))
+                    .putAllPayload(Map.of("city", value("London")))
+                    .build(),
+                PointStruct.newBuilder()
+                    .setId(id(3))
+                    .setVectors(vectors(0.36f, 0.55f, 0.47f, 0.94f))
+                    .putAllPayload(Map.of("city", value("Moscow")))
+                    .build()))
+                // Truncated
+            .get();
+
+System.out.println(operationInfo);
+```
+
 **Response:**
 
 ```python
@@ -182,6 +238,11 @@ PointsOperationResponse {
     }),
     time: 0.006347708,
 }
+```
+
+```java
+operation_id: 0
+status: Completed
 ```
 
 ## Run a query
@@ -218,6 +279,28 @@ let search_result = client
     .await?;
 
 dbg!(search_result);
+```
+
+```java
+import java.util.List;
+
+import io.qdrant.client.grpc.Points.ScoredPoint;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
+List<ScoredPoint> searchResult =
+    client
+        .searchAsync(
+            SearchPoints.newBuilder()
+                .setCollectionName("test_collection")
+                .setLimit(3)
+                .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(enable(true))
+                .build())
+        .get();
+      
+System.out.println(searchResult);
 ```
 
 **Response:**
@@ -289,6 +372,43 @@ SearchResponse {
 }
 ```
 
+```java
+[id {
+  num: 4
+}
+payload {
+  key: "city"
+  value {
+    string_value: "New York"
+  }
+}
+score: 1.362
+version: 1
+, id {
+  num: 1
+}
+payload {
+  key: "city"
+  value {
+    string_value: "Berlin"
+  }
+}
+score: 1.273
+version: 1
+, id {
+  num: 3
+}
+payload {
+  key: "city"
+  value {
+    string_value: "Moscow"
+  }
+}
+score: 1.208
+version: 1
+]
+```
+
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
 See [payload and vector in the result](../concepts/search#payload-and-vector-in-the-result) on how to enable it.
 
@@ -344,6 +464,24 @@ let search_result = client
 dbg!(search_result);
 ```
 
+```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+List<ScoredPoint> searchResult =
+    client
+        .searchAsync(
+            SearchPoints.newBuilder()
+                .setCollectionName("test_collection")
+                .setLimit(3)
+                .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")))
+                .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(enable(true))
+                .build())
+        .get();
+
+System.out.println(searchResult);
+```
+
 **Response:**
 
 ```python
@@ -392,7 +530,25 @@ SearchResponse {
     time: 0.004001083,
 }
 ```
-You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score. 
+
+```java
+[id {
+  num: 2
+}
+payload {
+  key: "city"
+  value {
+    string_value: "London"
+  }
+}
+score: 0.871
+version: 1
+]
+```
+
+<aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="../concepts/indexing/#payload-index">payload indexes</a>!</aside>
+
+You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score.
 
 ## Next steps
 

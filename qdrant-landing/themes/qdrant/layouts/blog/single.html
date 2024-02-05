@@ -1,16 +1,130 @@
-{{ define "main" }}
-<section class="auto-container pt-3 pt-md-5 single-page">
-    <div class="row clearfix">
+{{ .Scratch.Set "classes" "qdrant-blog__header" }}
+{{ partial "header" . }}
+<div class="qdrant-blog__post auto-container">
+    <section class="row clearfix mt-md-5 pt-md-5">
+        <nav class="col-12">
+            {{ partial "breadcrumbs" . }}
+        </nav>
+    </section>
 
-        <!-- Sidebar Side -->
-        {{ .Scratch.Set "scope" "single" }}
-        {{ partial "blog-sidebar" . }}
+    <article class="row clearfix">
 
-        <!-- Content Side -->
-        <div class="content-side col-lg-8 col-md-12 col-sm-12">
-            {{ partial "blogpost" .}}
+        <div class="col-12 col-md-8 offset-md-2">
+            <h1 class="qb-post__title">{{ .Params.title }}</h1>
         </div>
-    </div>
-</section>
+        <div class="qb-post offset-md-1 col-12 col-md-10">
+            <div class="qb-post__meta">
+                <span>{{ time.Format "January 02, 2006" .Date }}</span>
+                <span class="qb-post__meta-divider">·</span>
+                <span>{{ .Params.author }}</span>
+            </div>
+            <div class="qb-post__img">
+                {{ partial "preview-image" (dict "context" . "default_file_name" "title.jpg" "preview_file" .Params.title_preview_image) }}
+            </div>
+            <div class="d-md-flex">
+                <section class="qb-post__share qb-share">
+                    <span class="qb-share__title">Share</span>
+                    <div class="qb-share__buttons">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ .Permalink }}" target="_blank"
+                           class="qb-share__link">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1849_3732)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM13.7889 17.625V25.75H17.25V17.625H19.75L21 13.875H17.25V11.736C17.25 10.7709 17.5625 10.1133 18.9465 10.1133L20.7114 10.1125V7.13132C20.4061 7.09075 19.3585 7 18.1395 7C15.5948 7 13.7889 8.40361 13.7889 11.2562V13.875H11V17.625H13.7889Z"
+                                          fill="#8B9CCC"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1849_3732">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?text={{ .Params.title }}&url={{ .Permalink }}"
+                           target="_blank" class="qb-share__link">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none"
+                                 xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1849_3736)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd"
+                                          d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM24.0006 22.8979H19.0629L15.197 17.8437L10.7706 22.8979H8.31543L14.0512 16.3457L8 8.43457H13.0627L16.5595 13.0584L20.6015 8.43457H23.0551L17.6969 14.5625L24.0006 22.8979ZM19.7401 21.4293H21.0996L12.324 9.82615H10.8653L19.7401 21.4293Z"
+                                          fill="#8B9CCC"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1849_3736">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                        <a href="https://www.linkedin.com/shareArticle?mini=true&url={{ .Permalink }}&title={{ .Params.title }}&summary={{ .Description }}&source={{ .Permalink }}"
+                           target="_blank" class="qb-share__link">
+                            <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <g clip-path="url(#clip0_1826_6142)">
+                                    <path fill-rule="evenodd" clip-rule="evenodd" d="M16 32C24.8366 32 32 24.8366 32 16C32 7.16344 24.8366 0 16 0C7.16344 0 0 7.16344 0 16C0 24.8366 7.16344 32 16 32ZM8.84883 22.6946H11.8545V13.1413H8.84883V22.6946ZM9.38152 11.5327C9.66832 11.7254 10.0058 11.8288 10.3514 11.8299C10.5814 11.8307 10.8094 11.786 11.0221 11.6985C11.2349 11.611 11.4283 11.4823 11.5912 11.3199C11.7541 11.1575 11.8834 10.9645 11.9716 10.752C12.0597 10.5395 12.1051 10.3117 12.105 10.0816C12.105 9.73605 12.0026 9.39825 11.8107 9.11087C11.6188 8.82348 11.3461 8.5994 11.0269 8.46692C10.7078 8.33444 10.3566 8.29951 10.0176 8.36653C9.67858 8.43356 9.36705 8.59954 9.12234 8.84351C8.87763 9.08748 8.7107 9.39849 8.64264 9.73728C8.57459 10.0761 8.60845 10.4274 8.73995 10.747C8.87146 11.0665 9.09471 11.3399 9.38152 11.5327ZM20.0552 22.6946H22.9996L22.9989 17.4497C22.9989 14.8896 22.4355 12.8915 19.4298 12.8915C18.8627 12.8719 18.3009 13.0068 17.8046 13.2818C17.3082 13.5567 16.896 13.9615 16.6119 14.4526H16.5493V13.1413H13.7946V22.7572H16.7364V18.0112C16.7364 16.763 16.9249 15.5762 18.49 15.5762C20.0552 15.5762 20.0552 16.9502 20.0552 18.0738V22.6946Z" fill="#8B9CCC"/>
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1826_6142">
+                                        <rect width="32" height="32" fill="white"/>
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                        </a>
+                    </div>
+                </section>
+                <div class="qb-post__content">
+                    {{ $reAltTitleIn := "<img src=\"([^\"]+)\" alt=\"([^\"]*)\" title=\"([^\"]+)\">" }}
+                    {{ $reAltTitleOut := "<figure><img src=\"$1\" alt=\"$2\" title=\"$3\"><figcaption>$3</figcaption></figure>" }}
+                    {{ $contentWithImgCaptures := .Content | replaceRE $reAltTitleIn $reAltTitleOut | safeHTML }}
 
-{{ end }}
+                    {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
+                    {{ $contentWithImgCaptures | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+                </div>
+            </div>
+        </div>
+    </article>
+
+    {{ $related :=  ($.Site.GetPage "blog" .Section).RegularPages.Related . | first 3 }}
+    {{ with $related }}
+    <section class="qb-related row clearfix">
+        <header class="col-12 qb-related__title-outer">
+            <h2 class="qb-related__title">Related Posts</h2>
+            <a class="qb-related__link" href="/blog">View all blog posts
+                <i>
+                    <svg width="14" height="10" viewBox="0 0 14 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M1 5H13" stroke="#102252" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                        <path d="M9 1L13 5L9 9" stroke="#102252" stroke-width="2" stroke-linecap="round"
+                              stroke-linejoin="round"/>
+                    </svg>
+                </i>
+            </a>
+        </header>
+
+        {{ range . }}
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+        {{ $link = .Params.external_link }}
+        {{ end }}
+        <a href="{{ $link }}" class="qb-card qb-card_mobile-compact col-12 col-md-4">
+            {{ if .Params.preview_image }}
+            <div class="qb-card__img">
+                {{ partial "preview-image" (dict "context" . "default_file_name" "preview.jpg" "preview_file" .Params.small_preview_image) }}
+            </div>
+            {{ end }}
+            <h3 class="qb-card__title">{{ .Params.title }}</h3>
+            <p class="qb-card__text">{{ .Description }}</p>
+            <div class="qb-card__meta">
+                <span>By {{ .Params.author }}</span>
+                <span class="qb-card__meta-divider">·</span>
+                <span>{{ .Date | time.Format ":date_long" }}</span>
+            </div>
+        </a>
+        {{ end }}
+    </section>
+    {{ end }}
+</div>
+
+{{ .Scratch.Set "variant" "two-columns" }}
+{{ partial "contact-section" . }}
+{{ partial "footer" . }}

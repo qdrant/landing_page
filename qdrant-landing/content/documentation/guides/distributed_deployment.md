@@ -1,5 +1,5 @@
 ---
-title: Distributed deployment
+title: Distributed Deployment
 weight: 100
 aliases:
   - ../distributed_deployment
@@ -124,7 +124,11 @@ You may use the cluster [REST API](https://qdrant.github.io/qdrant/redoc/index.h
 
 A Collection in Qdrant is made of one or more shards.
 A shard is an independent store of points which is able to perform all operations provided by collections.
-Points are distributed among shards by using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so that shards are managing non-intersecting subsets of points.
+There are two methods of distributing points across shards:
+
+- **Automatic sharding**: Points are distributed among shards by using a [consistent hashing](https://en.wikipedia.org/wiki/Consistent_hashing) algorithm, so that shards are managing non-intersecting subsets of points. This is the default behavior.
+
+- **User-defined sharding**: _Available as of v1.7.0_ - Each point is uploaded to a specific shard, so that operations can hit only the shard or shards they need. Even with this distribution, shards still ensure having non-intersecting subsets of points. [See more...](#user-defined-sharding)
 
 Each node knows where all parts of the collection are stored through the [consensus protocol](./#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
 
@@ -132,7 +136,6 @@ When you create a collection, Qdrant splits the collection into `shard_number` s
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 300,
@@ -149,7 +152,7 @@ from qdrant_client.http import models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
 )
@@ -161,11 +164,11 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.createCollection("{collection_name}", {
-  vectors: {
-    size: 300,
-    distance: "Cosine",
-  },
-  shard_number: 6,
+    vectors: {
+        size: 300,
+        distance: "Cosine",
+    },
+    shard_number: 6,
 });
 ```
 
@@ -179,7 +182,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         vectors_config: Some(VectorsConfig {
             config: Some(Config::Params(VectorParams {
                 size: 300,
@@ -188,9 +191,36 @@ client
             })),
         }),
         shard_number: Some(6),
-        ..Default::default()
     })
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(300)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setShardNumber(6)
+            .build())
+    .get();
 ```
 
 We recommend setting the number of shards to be a multiple of the number of nodes you are currently running in your cluster.
@@ -211,18 +241,20 @@ Use the [Update collection cluster setup API](https://qdrant.github.io/qdrant/re
 
 ```http
 POST /collections/{collection_name}/cluster
-
 {
-  "move_shard": {
-    "shard_id": 0,
-    "from_peer_id": 381894127,
-    "to_peer_id": 467122995
-  }
+    "move_shard": {
+        "shard_id": 0,
+        "from_peer_id": 381894127,
+        "to_peer_id": 467122995
+    }
 }
 ```
 
-After the transfer is initiated, the service will keep both copies of the shard in sync until the transfer is complete.
-It will also make sure the transferred shard indexing process is keeping up before performing a final switch. This way, Qdrant ensures that there will be no degradation in performance at the end of the transfer. Once the transfer is completed, the old shard is deleted from the original node.
+<aside role="status">You likely want to select a specific <a href="#shard-transfer-method">shard transfer method</a> to get desired performance and guarantees.</aside>
+
+After the transfer is initiated, the service will process it based on the used
+[transfer method](#shard-transfer-method) keeping both shards in sync. Once the
+transfer is completed, the old shard is deleted from the source node.
 
 In case you want to downscale the cluster, you can move all shards away from a peer and then remove the peer using the [remove peer API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer).
 
@@ -231,6 +263,292 @@ DELETE /cluster/peer/{peer_id}
 ```
 
 After that, Qdrant will exclude the node from the consensus, and the instance will be ready for shutdown.
+
+### User-defined sharding
+
+*Available as of v1.7.0*
+
+Qdrant allows you to specify the shard for each point individually. This feature is useful if you want to control the shard placement of your data, so that operations can hit only the subset of shards they actually need. In big clusters, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
+
+A clear use-case for this feature is managing a multi-tenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards.
+
+To enable user-defined sharding, set `sharding_method` to `custom` during collection creation:
+
+```http
+PUT /collections/{collection_name}
+{
+    "shard_number": 1,
+    "sharding_method": "custom"
+    // ... other collection parameters
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.create_collection(
+    collection_name="{collection_name}",
+    shard_number=1,
+    sharding_method=models.ShardingMethod.CUSTOM,
+    # ... other collection parameters
+)
+client.create_shard_key("{collection_name}", "user_1")
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+    shard_number: 1,
+    sharding_method: "custom",
+    // ... other collection parameters
+});
+```
+
+```rust
+
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{CreateCollection, ShardingMethod},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(&CreateCollection {
+        collection_name: "{collection_name}".into(),
+        shard_number: Some(1),
+        sharding_method: Some(ShardingMethod::Custom),
+        ..Default::default()
+    })
+    .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.ShardingMethod;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            // ... other collection parameters
+            .setShardNumber(1)
+            .setShardingMethod(ShardingMethod.Custom)
+            .build())
+    .get();
+```
+
+In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
+
+```json
+{
+    "shard_number": 1,
+    "sharding_method": "custom",
+    "replication_factor": 2
+}
+```
+
+Then you will have `1 * 10 * 2 = 20` total physical shards in the collection.
+
+To specify the shard for each point, you need to provide the `shard_key` field in the upsert request:
+
+```http
+PUT /collections/{collection_name}/points
+{
+    "points": [
+        {
+            "id": 1111,
+            "vector": [0.1, 0.2, 0.3]
+        },
+    ]
+    "shard_key": "user_1"
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.upsert(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1111,
+            vector=[0.1, 0.2, 0.3],
+        ),
+    ],
+    shard_key_selector="user_1",
+)
+```
+
+```typescript
+
+client.upsertPoints("{collection_name}", {
+    points: [
+        {
+            id: 1111,
+            vector: [0.1, 0.2, 0.3],
+        },
+    ],
+    shard_key: "user_1",
+});
+```
+
+```rust
+
+use qdrant_client::qdrant::{PointStruct, WriteOrdering, WriteOrderingType};
+
+client
+    .upsert_points_blocking(
+        "{collection_name}",
+        Some(vec![shard_key::Key::String("user_1".into())]),
+        vec![
+            PointStruct::new(
+                1111,
+                vec![0.1, 0.2, 0.3],
+                Default::default(),
+            ),
+        ],
+        None,
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ShardKeySelectorFactory.shardKeySelector;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.UpsertPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .upsertAsync(
+        UpsertPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllPoints(
+                List.of(
+                    PointStruct.newBuilder()
+                        .setId(id(111))
+                        .setVectors(vectors(0.1f, 0.2f, 0.3f))
+                        .build()))
+            .setShardKeySelector(shardKeySelector("user_1"))
+            .build())
+    .get();
+```
+
+<aside role="alert">
+Using the same point ID across multiple shard keys is <strong>not supported<sup>*</sup></strong> and should be avoided.
+</aside>
+<sup>
+<strong>*</strong> When using custom sharding, IDs are only enforced to be unique within a shard key. This means that you can have multiple points with the same ID, if they have different shard keys.
+This is a limitation of the current implementation, and is an anti-pattern that should be avoided because it can create scenarios of points with the same ID to have different contents. In the future, we plan to add a global ID uniqueness check.
+</sup>
+
+Now you can target the operations to specific shard(s) by specifying the `shard_key` on any operation you do. Operations that do not specify the shard key will be executed on __all__ shards.
+
+Another use-case would be to have shards that track the data chronologically, so that you can do more complex itineraries like uploading live data in one shard and archiving it once a certain age has passed.
+
+<img src="/docs/sharding-per-day.png" alt="Sharding per day" width="500" height="600">
+
+### Shard transfer method
+
+*Available as of v1.7.0*
+
+There are different methods for transferring, such as moving or replicating, a
+shard to another node. Depending on what performance and guarantees you'd like
+to have and how you'd like to manage your cluster, you likely want to choose a
+specific method. Each method has its own pros and cons. Which is fastest depends
+on the size and state of a shard.
+
+Available shard transfer methods are:
+
+- `stream_records`: _(default)_ transfer shard by streaming just its records to the target node in batches.
+- `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots) automatically.
+
+Each has pros, cons and specific requirements, which are:
+
+| Method: | Stream records | Snapshot |
+|:---|:---|:---|
+| **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
+| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
+| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
+| **Consistency** | <ul><li>Weak data consistency</li><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Strong data consistency</li><li>Ordered updates on target node[^ordered]</li></ul> |
+| **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
+
+[^unordered]: Weak data consistency and unordered updates: All records are streamed to the target node in order.
+    New updates are received on the target node in parallel, while the transfer
+    of records is still happening. We therefore have `weak` ordering, regardless
+    of what [ordering](#write-ordering) is used for updates.
+[^ordered]: Strong data consistency and ordered updates: A snapshot of the shard
+    is created, it is transferred and recovered on the target node. That ensures
+    the state of the shard is kept consistent. New updates are queued on the
+    source node, and transferred in order to the target node. Updates therefore
+    have the same [ordering](#write-ordering) as the user selects, making
+    `strong` ordering possible.
+
+To select a shard transfer method, specify the `method` like:
+
+```http
+POST /collections/{collection_name}/cluster
+{
+    "move_shard": {
+        "shard_id": 0,
+        "from_peer_id": 381894127,
+        "to_peer_id": 467122995,
+        "method": "snapshot"
+    }
+}
+```
+
+The `stream_records` transfer method is the simplest available. It simply
+transfers all shard records in batches to the target node until it has
+transferred all of them, keeping both shards in sync. It will also make sure the
+transferred shard indexing process is keeping up before performing a final
+switch. The method has two common disadvantages: 1. It does not transfer index
+or quantization data, meaning that the shard has to be optimized again on the
+new node, which can be very expensive. 2. The consistency and ordering
+guarantees are `weak`[^unordered], which is not suitable for some applications.
+Because it is so simple, it's also very robust, making it a reliable choice if
+the above cons are acceptable in your use case. If your cluster is unstable and
+out of resources, it's probably best to use the `stream_records` transfer
+method, because it is unlikely to fail.
+
+The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots) to
+transfer a shard. A snapshot is created automatically. It is then transferred
+and restored on the target node. After this is done, the snapshot is removed
+from both nodes. While the snapshot/transfer/restore operation is happening, the
+source node queues up all new operations. All queued updates are then sent in
+order to the target shard to bring it into the same state as the source. There
+are two important benefits: 1. It transfers index and quantization data, so that
+the shard does not have to be optimized again on the target node, making them
+immediately available. This way, Qdrant ensures that there will be no
+degradation in performance at the end of the transfer. Especially on large
+shards, this can give a huge performance improvement. 2. The consistency and
+ordering guarantees can be `strong`[^ordered], required for some applications.
+
+The `stream_records` method is currently used as default. This may change in the
+future.
 
 ## Replication
 
@@ -249,11 +567,10 @@ Currently, the replication factor of a collection can only be configured at crea
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
-      "size": 300,
-      "distance": "Cosine"
+        "size": 300,
+        "distance": "Cosine"
     },
     "shard_number": 6,
     "replication_factor": 2,
@@ -267,7 +584,7 @@ from qdrant_client.http import models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
     replication_factor=2,
@@ -299,7 +616,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         vectors_config: Some(VectorsConfig {
             config: Some(Config::Params(VectorParams {
                 size: 300,
@@ -314,6 +631,35 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(300)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setShardNumber(6)
+            .setReplicationFactor(2)
+            .build())
+    .get();
+```
+
 This code sample creates a collection with a total of 6 logical shards backed by a total of 12 physical shards.
 
 Since a replication factor of "2" would require twice as much storage space, it is advised to make sure the hardware can host the additional shard replicas beforehand.
@@ -326,26 +672,26 @@ A replica can be added on a specific peer by specifying the peer from which to r
 
 ```http
 POST /collections/{collection_name}/cluster
-
 {
-  "replicate_shard": {
-    "shard_id": 0,
-    "from_peer_id": 381894127,
-    "to_peer_id": 467122995
-  }
+    "replicate_shard": {
+        "shard_id": 0,
+        "from_peer_id": 381894127,
+        "to_peer_id": 467122995
+    }
 }
 ```
+
+<aside role="status">You likely want to select a specific <a href="#shard-transfer-method">shard transfer method</a> to get desired performance and guarantees.</aside>
 
 And a replica can be removed on a specific peer.
 
 ```http
 POST /collections/{collection_name}/cluster
-
 {
-  "drop_replica": {
-    "shard_id": 0,
-    "peer_id": 381894127
-  }
+    "drop_replica": {
+        "shard_id": 0,
+        "peer_id": 381894127
+    }
 }
 ```
 
@@ -445,11 +791,10 @@ It can be configured at the collection's creation time.
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
-      "size": 300,
-      "distance": "Cosine"
+        "size": 300,
+        "distance": "Cosine"
     },
     "shard_number": 6,
     "replication_factor": 2,
@@ -464,7 +809,7 @@ from qdrant_client.http import models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    name="{collection_name}",
+    collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=6,
     replication_factor=2,
@@ -498,7 +843,7 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         vectors_config: Some(VectorsConfig {
             config: Some(Config::Params(VectorParams {
                 size: 300,
@@ -512,6 +857,36 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(300)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setShardNumber(6)
+            .setReplicationFactor(2)
+            .setWriteConsistencyFactor(2)
+            .build())
+    .get();
 ```
 
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
@@ -529,7 +904,6 @@ is consistent across cluster nodes.
 
 ```http
 POST /collections/{collection_name}/points/search?consistency=majority
-
 {
     "filter": {
         "must": [
@@ -598,10 +972,10 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
+        collection_name: "{collection_name}".into(),
         filter: Some(Filter::must([Condition::matches(
             "city",
-            "London".to_string(),
+            "London".into(),
         )])),
         params: Some(SearchParams {
             hnsw_ef: Some(128),
@@ -618,20 +992,48 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ReadConsistency;
+import io.qdrant.client.grpc.Points.ReadConsistencyType;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
+            .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(true).build())
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setLimit(3)
+            .setReadConsistency(
+                ReadConsistency.newBuilder().setType(ReadConsistencyType.Majority).build())
+            .build())
+    .get();
+```
+
 ### Write ordering
 
 Write `ordering` can be specified for any write request to serialize it through a single "leader" node,
 which ensures that all write operations (issued with the same `ordering`) are performed and observed
 sequentially.
 
-- `weak` ordering does not provide any additional guarantees, so write operations can be freely reordered
-- `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change
-- `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down
-- default ordering is `weak`
+- `weak` _(default)_ ordering does not provide any additional guarantees, so write operations can be freely reordered.
+- `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change.
+- `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down.
 
 ```http
 PUT /collections/{collection_name}/points?ordering=strong
-
 {
     "batch": {
         "ids": [1, 2, 3],
@@ -691,6 +1093,7 @@ use serde_json::json;
 client
     .upsert_points_blocking(
         "{collection_name}",
+        None,
         vec![
             PointStruct::new(
                 1,
@@ -725,6 +1128,45 @@ client
         }),
     )
     .await?;
+```
+
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.grpc.Points.PointStruct;
+import io.qdrant.client.grpc.Points.UpsertPoints;
+import io.qdrant.client.grpc.Points.WriteOrdering;
+import io.qdrant.client.grpc.Points.WriteOrderingType;
+
+client
+    .upsertAsync(
+        UpsertPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllPoints(
+                List.of(
+                    PointStruct.newBuilder()
+                        .setId(id(1))
+                        .setVectors(vectors(0.9f, 0.1f, 0.1f))
+                        .putAllPayload(Map.of("color", value("red")))
+                        .build(),
+                    PointStruct.newBuilder()
+                        .setId(id(2))
+                        .setVectors(vectors(0.1f, 0.9f, 0.1f))
+                        .putAllPayload(Map.of("color", value("green")))
+                        .build(),
+                    PointStruct.newBuilder()
+                        .setId(id(3))
+                        .setVectors(vectors(0.1f, 0.1f, 0.94f))
+                        .putAllPayload(Map.of("color", value("blue")))
+                        .build()))
+            .setOrdering(WriteOrdering.newBuilder().setType(WriteOrderingType.Strong).build())
+            .build())
+    .get();
 ```
 
 ## Listener mode

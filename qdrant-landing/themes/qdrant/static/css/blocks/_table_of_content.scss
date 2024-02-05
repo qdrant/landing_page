@@ -28,7 +28,6 @@
     &:not(nav > ul  > li):not(ul.tableOfContent__footer > li) {
       padding-left: 1rem;
     }
-  }
 
   & a {
     display: inline-block;
@@ -37,6 +36,7 @@
     &:hover {
       text-decoration: underline;
     }
+  }
   }
 
   & ul:not(.tableOfContent__footer) a {

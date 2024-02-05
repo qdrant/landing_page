@@ -24,6 +24,7 @@ Qdrant supports these most popular types of metrics:
 * Dot product: `Dot` - https://en.wikipedia.org/wiki/Dot_product
 * Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
 * Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
+* Manhattan distance: `Manhattan`* - https://en.wikipedia.org/wiki/Taxicab_geometry <i><sup>*Available as of v1.7</sup></i>
 
 The most typical metric used in similarity learning models is the cosine metric.
 
@@ -61,7 +62,6 @@ REST API - API Schema definition is available [here](https://qdrant.github.io/qd
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "filter": {
         "must": [
@@ -158,6 +158,32 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
+            .setParams(SearchParams.newBuilder().setExact(false).setHnswEf(128).build())
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
 Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
@@ -197,7 +223,6 @@ If the collection was created with multiple vectors, the name of the vector to u
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": {
         "name": "image",
@@ -250,7 +275,136 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorName("image")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 Search is processing only among vectors with the same name.
+
+*Available as of v1.7.0*
+
+If the collection was created with sparse vectors, the name of the sparse vector to use for searching should be provided:
+
+You can still use payload filtering and other features of the search API with sparse vectors.
+
+There are however important differences between dense and sparse vector search:
+
+| Index| Sparse Query | Dense Query |
+| --- | --- | --- | 
+| Scoring Metric | Default is `Dot product`, no need to specify it | `Distance` has supported metrics e.g. Dot, Cosine |
+| Search Type | Always exact in Qdrant | HNSW is an approximate NN |
+| Return Behaviour | Returns only vectors with non-zero values in the same indices as the query vector | Returns `limit` vectors |
+
+In general, the speed of the search is proportional to the number of non-zero values in the query vector.
+
+```http
+POST /collections/{collection_name}/points/search
+{
+    "vector": {
+        "name": "text",
+        "vector": {
+            "indices": [6, 7],
+            "values": [1.0, 2.0]
+        }    
+    },
+    "limit": 3
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient("localhost", port=6333)
+
+client.search(
+    collection_name="{collection_name}",
+    query_vector=models.NamedSparseVector(
+        name="text",
+        vector=models.SparseVector(
+            indices=[1, 7],
+            values=[2.0, 1.0],
+        ),
+    ),
+    limit=3,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: {
+    name: "text",
+    vector: {
+        indices: [1, 7],
+        values: [2.0, 1.0]
+    },
+  },
+  limit: 3,
+});
+```
+
+```rust
+use qdrant_client::{client::QdrantClient, client::Vector, qdrant::SearchPoints};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+let sparse_vector: Vector = vec![(1, 2.0), (7, 1.0)].into();
+
+client
+    .search_points(&SearchPoints {
+        collection_name: "{collection_name}".to_string(),
+        vector_name: Some("text".to_string()),
+        sparse_indices: sparse_vector.indices,
+        vector: sparse_vector.data,
+        limit: 3,
+        ..Default::default()
+    })
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.SparseIndices;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+.searchAsync(
+    SearchPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setVectorName("text")
+        .addAllVector(List.of(2.0f, 1.0f))
+        .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 7)).build())
+        .setLimit(3)
+        .build())
+.get();
+```
 
 ### Filtering results by score
 
@@ -271,7 +425,6 @@ Example:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
@@ -313,13 +466,37 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.WithVectorsSelectorFactory;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(enable(true))
+            .setWithVectors(WithVectorsSelectorFactory.enable(true))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 You can use `with_payload` to scope to or filter a specific payload subset. 
 You can even specify an array of items to include, such as `city`, 
 `village`, and `town`:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_payload": ["city", "village", "town"]
@@ -366,11 +543,33 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(include(List.of("city", "village", "town")))
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_payload": {
@@ -411,7 +610,7 @@ client.search("{collection_name}", {
 use qdrant_client::{
     client::QdrantClient,
     qdrant::{
-        with_payload_selector::SelectorOptions, PayloadIncludeSelector, SearchPoints,
+        with_payload_selector::SelectorOptions, PayloadExcludeSelector, SearchPoints,
         WithPayloadSelector,
     },
 };
@@ -423,7 +622,7 @@ client
         collection_name: "{collection_name}".to_string(),
         vector: vec![0.2, 0.1, 0.9, 0.7],
         with_payload: Some(WithPayloadSelector {
-            selector_options: Some(SelectorOptions::Include(PayloadIncludeSelector {
+            selector_options: Some(SelectorOptions::Exclude(PayloadExcludeSelector {
                 fields: vec!["city".to_string()],
             })),
         }),
@@ -431,6 +630,29 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.exclude;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(exclude(List.of("city")))
+            .setLimit(3)
+            .build())
+    .get();
 ```
 
 It is possible to target nested fields using a dot notation:
@@ -457,7 +679,6 @@ In order to use it, simply pack together your search requests. All the regular a
 
 ```http
 POST /collections/{collection_name}/points/search/batch
-
 {
     "searches": [
         {
@@ -583,387 +804,41 @@ client
         collection_name: "{collection_name}".to_string(),
         search_points: searches,
         read_consistency: None,
+        ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+Filter filter = Filter.newBuilder().addMust(matchKeyword("city", "London")).build();
+List<SearchPoints> searches =
+    List.of(
+        SearchPoints.newBuilder()
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setFilter(filter)
+            .setLimit(3)
+            .build(),
+        SearchPoints.newBuilder()
+            .addAllVector(List.of(0.5f, 0.3f, 0.2f, 0.3f))
+            .setFilter(filter)
+            .setLimit(3)
+            .build());
+client.searchBatchAsync("{collection_name}", searches, null).get();
 ```
 
 The result of this API contains one array per search requests.
-
-```json
-{
-  "result": [
-    [
-        { "id": 10, "score": 0.81 },
-        { "id": 14, "score": 0.75 },
-        { "id": 11, "score": 0.73 }
-    ],
-    [
-        { "id": 1, "score": 0.92 },
-        { "id": 3, "score": 0.89 },
-        { "id": 9, "score": 0.75 }
-    ]
-  ],
-  "status": "ok",
-  "time": 0.001
-}
-```
-
-## Recommendation API
-
-In addition to the regular search, Qdrant also allows you to search based on multiple positive and negative examples. The API is called ***recommend***, and the examples can be point IDs, so that you can leverage the already encoded objects; and, as of v1.6, you can also use raw vectors as input, so that you can create your vectors on the fly without uploading them as points.
-
-REST API - API Schema definition is available [here](https://qdrant.github.io/qdrant/redoc/index.html#operation/recommend_points)
-
-```http
-POST /collections/{collection_name}/points/recommend
-{
-  "positive": [100, 231],
-  "negative": [718, [0.2, 0.3, 0.4, 0.5]],
-  "filter": {
-        "must": [
-            {
-                "key": "city",
-                "match": {
-                    "value": "London"
-                }
-            }
-        ]
-  },
-  "strategy": "average_vector",
-  "limit": 3
-}
-```
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
-
-client = QdrantClient("localhost", port=6333)
-
-client.recommend(
-    collection_name="{collection_name}",
-    positive=[100, 231],
-    negative=[718, [0.2, 0.3, 0.4, 0.5]],
-    strategy=models.RecommendStrategy.AVERAGE_VECTOR,
-    query_filter=models.Filter(
-        must=[
-            models.FieldCondition(
-                key="city",
-                match=models.MatchValue(
-                    value="London",
-                ),
-            )
-        ]
-    ),
-    limit=3,
-)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-client.recommend("{collection_name}", {
-  positive: [100, 231],
-  negative: [718, [0.2, 0.3, 0.4, 0.5]],
-  strategy: "average_vector",
-  filter: {
-    must: [
-      {
-        key: "city",
-        match: {
-          value: "London",
-        },
-      },
-    ],
-  },
-  limit: 3,
-});
-```
-
-```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, RecommendPoints, RecommendStrategy},
-};
-
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
-
-client
-    .recommend(&RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![100.into(), 200.into()],
-        positive_vectors: vec![vec![100.0, 231.0].into()],
-        negative: vec![718.into()],
-        negative_vectors: vec![vec![0.2, 0.3, 0.4, 0.5].into()],
-        strategy: Some(RecommendStrategy::AverageVector.into()),
-        filter: Some(Filter::must([Condition::matches(
-            "city",
-            "London".to_string(),
-        )])),
-        limit: 3,
-        ..Default::default()
-    })
-    .await?;
-```
-
-Example result of this API would be
-
-```json
-{
-  "result": [
-    { "id": 10, "score": 0.81 },
-    { "id": 14, "score": 0.75 },
-    { "id": 11, "score": 0.73 }
-  ],
-  "status": "ok",
-  "time": 0.001
-}
-```
-
-The algorithm used to get the recommendations is selected from the available `strategy` options. Each of them has its own strengths and weaknesses, so experiment and choose the one that works best for your case.
-
-### Average vector strategy
-
-The default and first strategy added to Qdrant is called `average_vector`. It preprocesses the input examples to create a single vector that is used for the search. Since the preprocessing step happens very fast, the performance of this strategy is on-par with regular search. The intuition behind this kind of recommendation is that each vector component represents an independent feature of the data, so, by averaging the examples, we should get a good recommendation.
-
-The way to produce the searching vector is by first averaging all the positive and negative examples separately, and then combining them into a single vector using the following formula:
-
-```rust
-avg_positive + avg_positive - avg_negative
-```
-
-In the case of not having any negative examples, the search vector will simply be equal to `avg_positive`.
-
-This is the default strategy that's going to be set implicitly, but you can explicitly define it by setting `"strategy": "average_vector"` in the recommendation request.
-
-### Best score strategy
-
-*Available as of v1.6.0*
-
-A new strategy introduced in v1.6, is called `best_score`. It is based on the idea that the best way to find similar vectors is to find the ones that are closer to a positive example, while avoiding the ones that are closer to a negative one.
-The way it works is that each candidate is measured against every example, then we select the best positive and best negative scores. The final score is chosen with this step formula:
-
-```rust
-let score = if best_positive_score > best_negative_score {
-    best_positive_score;
-} else {
-    -(best_negative_score * best_negative_score);
-};
-```
-
-<aside role="alert">The performance of `best_score` strategy will be linearly impacted by the amount of examples.</aside>
-
-Since we are computing similarities to every example at each step of the search, the performance of this strategy will be linearly impacted by the amount of examples. This means that the more examples you provide, the slower the search will be. However, this strategy can be very powerful and should be more embedding-agnostic.
-
-To use this algorithm, you need to set `"strategy": "best_score"` in the recommendation request.
-
-#### Using only negative examples
-
-A beneficial side-effect of `best_score` strategy is that you can use it with only negative examples. This will allow you to find the most dissimilar vectors to the ones you provide. This can be useful for finding outliers in your data, or for finding the most dissimilar vectors to a given one.
-
-Combining negative-only examples with filtering can be a powerful tool for data exploration and cleaning.
-
-### Multiple vectors
-
-*Available as of v0.10.0*
-
-If the collection was created with multiple vectors, the name of the vector should be specified in the recommendation request:
-
-```http
-POST /collections/{collection_name}/points/recommend
-
-{
-  "positive": [100, 231],
-  "negative": [718],
-  "using": "image",
-  "limit": 10
- }
-```
-
-```python
-client.recommend(
-    collection_name="{collection_name}",
-    positive=[100, 231],
-    negative=[718],
-    using="image",
-    limit=10,
-)
-```
-
-```typescript
-client.recommend("{collection_name}", {
-  positive: [100, 231],
-  negative: [718],
-  using: "image",
-  limit: 10,
-});
-```
-
-```rust
-use qdrant_client::qdrant::RecommendPoints;
-
-client
-    .recommend(&RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![100.into(), 231.into()],
-        negative: vec![718.into()],
-        using: Some("image".to_string()),
-        limit: 10,
-        ..Default::default()
-    })
-    .await?;
-```
-
-Parameter `using` specifies which stored vectors to use for the recommendation.
-
-## Batch recommendation API
-
-*Available as of v0.10.0*
-
-Similar to the batch search API in terms of usage and advantages, it enables the batching of recommendation requests.
-
-```http
-POST /collections/{collection_name}/points/recommend/batch
-{
-    "searches": [
-        {
-            "filter": {
-                    "must": [
-                        {
-                            "key": "city",
-                            "match": {
-                                "value": "London"
-                            }
-                        }
-                    ]
-            },
-            "negative": [718],
-            "positive": [100, 231],
-            "limit": 10
-        },
-        {
-            "filter": {
-                "must": [
-                    {
-                        "key": "city",
-                        "match": {
-                            "value": "London"
-                        }
-                    }
-                    ]
-            },
-            "negative": [300],
-            "positive": [200, 67],
-            "limit": 10
-        }
-    ]
-}
-```
-
-```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
-
-client = QdrantClient("localhost", port=6333)
-
-filter = models.Filter(
-    must=[
-        models.FieldCondition(
-            key="city",
-            match=models.MatchValue(
-                value="London",
-            ),
-        )
-    ]
-)
-
-recommend_queries = [
-    models.RecommendRequest(
-        positive=[100, 231], negative=[718], filter=filter, limit=3
-    ),
-    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter, limit=3),
-]
-
-client.recommend_batch(collection_name="{collection_name}", requests=recommend_queries)
-```
-
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
-
-const client = new QdrantClient({ host: "localhost", port: 6333 });
-
-const filter = {
-  must: [
-    {
-      key: "city",
-      match: {
-        value: "London",
-      },
-    },
-  ],
-};
-
-const searches = [
-  {
-    positive: [100, 231],
-    negative: [718],
-    filter,
-    limit: 3,
-  },
-  {
-    positive: [200, 67],
-    negative: [300],
-    filter,
-    limit: 3,
-  },
-];
-
-client.recommend_batch("{collection_name}", {
-  searches,
-});
-```
-
-```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, RecommendBatchPoints, RecommendPoints},
-};
-
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
-
-let filter = Filter::must([Condition::matches("city", "London".to_string())]);
-
-let recommend_queries = vec![
-    RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![100.into(), 231.into()],
-        negative: vec![718.into()],
-        filter: Some(filter.clone()),
-        limit: 3,
-        ..Default::default()
-    },
-    RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![200.into(), 67.into()],
-        negative: vec![300.into()],
-        filter: Some(filter),
-        limit: 3,
-        ..Default::default()
-    },
-];
-
-client
-    .recommend_batch(&RecommendBatchPoints {
-        collection_name: "{collection_name}".to_string(),
-        recommend_points: recommend_queries,
-        ..Default::default()
-    })
-    .await?;
-```
-
-The result of this API contains one array per recommendation requests.
 
 ```json
 {
@@ -988,13 +863,12 @@ The result of this API contains one array per recommendation requests.
 
 *Available as of v0.8.3*
 
-Search and recommendation APIs allow to skip first results of the search and return only the result starting from some specified offset:
+Search and [recommendation](../explore/#recommendation-api) APIs allow to skip first results of the search and return only the result starting from some specified offset:
 
 Example:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "vector": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
@@ -1051,6 +925,32 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.WithVectorsSelectorFactory;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setWithPayload(enable(true))
+            .setWithVectors(WithVectorsSelectorFactory.enable(true))
+            .setLimit(10)
+            .setOffset(100)
+            .build())
+    .get();
+```
+
 Is equivalent to retrieving the 11th page with 10 records per page.
 
 <aside role="alert">Large offset values may cause performance issues</aside>
@@ -1068,7 +968,7 @@ Using an `offset` parameter, will require to internally retrieve `offset + limit
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
 
-For example, if you have a large document split into multiple chunks, and you want to search or recommend on a per-document basis, you can group the results by the document ID.
+For example, if you have a large document split into multiple chunks, and you want to search or [recommend](../explore/#recommendation-api) on a per-document basis, you can group the results by the document ID.
 
 Consider having points with the following payloads:
 
@@ -1133,7 +1033,6 @@ REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/o
 
 ```http
 POST /collections/{collection_name}/points/search/groups
-
 {
     // Same as in the regular search API
     "vector": [1.1],
@@ -1181,65 +1080,24 @@ client
     .await?;
 ```
 
-### Recommend groups
+```java
+import java.util.List;
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/recommend_point_groups)):
-
-```http
-POST /collections/{collection_name}/points/recommend/groups
-
-{
-    // Same as in the regular recommend API
-    "negative": [1],
-    "positive": [2, 5],
-
-    // Grouping parameters
-    "group_by": "document_id",  // Path of the field to group by
-    "limit": 4,                 // Max amount of groups
-    "group_size": 2,            // Max amount of points per group
-}
-```
-
-```python
-client.recommend_groups(
-    collection_name="{collection_name}",
-    # Same as in the regular recommend() API
-    negative=[1],
-    positive=[2, 5],
-    # Grouping parameters
-    group_by="document_id",  # Path of the field to group by
-    limit=4,  # Max amount of groups
-    group_size=2,  # Max amount of points per group
-)
-```
-
-```typescript
-client.recommendPointGroups("{collection_name}", {
-  negative: [1],
-  positive: [2, 5],
-  group_by: "document_id",
-  limit: 4,
-  group_size: 2,
-});
-```
-
-```rust
-use qdrant_client::qdrant::RecommendPointGroups;
+import io.qdrant.client.grpc.Points.SearchPointGroups;
 
 client
-    .recommend_groups(&RecommendPointGroups {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![1.into()],
-        negative: vec![2.into(), 5.into()],
-        group_by: "document_id".to_string(),
-        limit: 4,
-        group_size: 10,
-        ..Default::default()
-    })
-    .await?;
+    .searchGroupsAsync(
+        SearchPointGroups.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(1.1f))
+            .setGroupBy("document_id")
+            .setLimit(4)
+            .setGroupSize(2)
+            .build())
+    .get();
 ```
 
-In either case (search or recommend), the output would look like this:
+The output of a ***groups*** call looks like this:
 
 ```json
 {
@@ -1307,15 +1165,14 @@ In this case, to bring the information from the documents into the chunks groupe
 
 ```http
 POST /collections/chunks/points/search/groups
-
 {
     // Same as in the regular search API
     "vector": [1.1],
 
     // Grouping parameters
-    "group_by": "document_id",  
-    "limit": 2,                 
-    "group_size": 2,            
+    "group_by": "document_id",
+    "limit": 2,
+    "group_size": 2,
 
     // Lookup parameters
     "with_lookup": {
@@ -1388,6 +1245,33 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
+import static io.qdrant.client.WithVectorsSelectorFactory.enable;
+
+import io.qdrant.client.grpc.Points.SearchPointGroups;
+import io.qdrant.client.grpc.Points.WithLookup;
+
+client
+    .searchGroupsAsync(
+        SearchPointGroups.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(1.0f))
+            .setGroupBy("document_id")
+            .setLimit(2)
+            .setGroupSize(2)
+            .setWithLookup(
+                WithLookup.newBuilder()
+                    .setCollection("documents")
+                    .setWithPayload(include(List.of("title", "text")))
+                    .setWithVectors(enable(false))
+                    .build())
+            .build())
+    .get();
 ```
 
 For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.

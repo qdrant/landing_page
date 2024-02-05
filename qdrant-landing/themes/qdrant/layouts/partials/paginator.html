@@ -1,20 +1,18 @@
 {{ $paginator := . }}
-<div class="pagination-outer text-center">
-    <div class="styled-pagination">
-        <ul class="clearfix">
-            {{ if $paginator.HasPrev }}
-            <li class="prev"><a href="{{ $paginator.Prev.URL }}"><span class="arrow flaticon-left-arrow-2"></span>&ensp;
-                Older</a></li>
-            {{ end }}
-            {{ range $paginator.Pagers }}
-            <li {{if eq .PageNumber $paginator.PageNumber }}class="active" {{end}}>
-                <a href="{{ .URL }}">{{ .PageNumber }}</a>
-            </li>
-            {{ end }}
-            {{ if $paginator.HasNext }}
-            <li class="next"><a class="next" href="{{ $paginator.Next.URL }}">&ensp; Newest <span
-                    class="arrow flaticon-right-arrow-2"></span></a></li>
-            {{ end }}
-        </ul>
-    </div>
+<div class="pagination d-none d-md-flex">
+    <ul class="pagination__list">
+        {{ range $paginator.Pagers }}
+        <li class="pagination__item{{if eq .PageNumber $paginator.PageNumber }} active{{end}}">
+            <a href="{{ .URL }}">{{ .PageNumber }}</a>
+        </li>
+        {{ end }}
+
+        {{ range first 1 $paginator.Pagers }}
+        <li class="pagination__item">
+            <a href="{{ .URL }}">
+                Newest
+            </a>
+        </li>
+        {{ end }}
+    </ul>
 </div>

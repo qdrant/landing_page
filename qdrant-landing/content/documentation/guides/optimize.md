@@ -24,11 +24,10 @@ To configure in-memory quantization, with on-disk original vectors, you need to 
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
-      "size": 768,
-      "distance": "Cosine"
+        "size": 768,
+        "distance": "Cosine"
     },
     "optimizers_config": {
         "memmap_threshold": 20000
@@ -121,13 +120,53 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.QuantizationConfig;
+import io.qdrant.client.grpc.Collections.QuantizationType;
+import io.qdrant.client.grpc.Collections.ScalarQuantization;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+            .setQuantizationConfig(
+                QuantizationConfig.newBuilder()
+                    .setScalar(
+                        ScalarQuantization.newBuilder()
+                            .setType(QuantizationType.Int8)
+                            .setAlwaysRam(true)
+                            .build())
+                    .build())
+            .build())
+    .get();
+```
+
 `mmmap_threshold` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
 
 Optionally, you can disable rescoring with search `params`, which will reduce the number of disk reads even further, but potentially slightly decrease the precision.
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -194,13 +233,38 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setParams(
+                SearchParams.newBuilder()
+                    .setQuantization(
+                        QuantizationSearchParams.newBuilder().setRescore(false).build())
+                    .build())
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 ## Prefer high precision with low memory footprint
 
 In case you need high precision, but don't have enough RAM to store vectors in memory, you can enable on-disk vectors and HNSW index.
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -281,6 +345,38 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.HnswConfigDiff;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+            .setHnswConfig(HnswConfigDiff.newBuilder().setOnDisk(true).build())
+            .build())
+    .get();
+```
+
 In this scenario you can increase the precision of the search by increasing the `ef` and `m` parameters of the HNSW index, even with limited RAM.
 
 ```json
@@ -301,11 +397,10 @@ You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abd
 For high speed and high precision search it is critical to keep as much data in RAM as possible.
 By default, Qdrant follows this approach, but you can tune it to your needs.
 
-Is is possible to achieve high search speed and tunable accuracy by applying quantization with re-scoring.
+It is possible to achieve high search speed and tunable accuracy by applying quantization with re-scoring.
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -402,11 +497,51 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.QuantizationConfig;
+import io.qdrant.client.grpc.Collections.QuantizationType;
+import io.qdrant.client.grpc.Collections.ScalarQuantization;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+            .setQuantizationConfig(
+                QuantizationConfig.newBuilder()
+                    .setScalar(
+                        ScalarQuantization.newBuilder()
+                            .setType(QuantizationType.Int8)
+                            .setAlwaysRam(true)
+                            .build())
+                    .build())
+            .build())
+    .get();
+```
+
 There are also some search-time parameters you can use to tune the search accuracy and speed:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "hnsw_ef": 128,
@@ -468,6 +603,28 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(false).build())
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 - `hnsw_ef` - controls the number of neighbors to visit during search. The higher the value, the more accurate and slower the search will be. Recommended range is 32-512.
 - `exact` - if set to `true`, will perform exact search, which will be slower, but more accurate. You can use it to compare results of the search with different `hnsw_ef` values versus the ground truth.
 
@@ -483,9 +640,7 @@ To prefer minimizing latency, you can set up Qdrant to use as many cores as poss
 You can do this by setting the number of segments in the collection to be equal to the number of cores in the system. In this case, each segment will be processed in parallel, and the final result will be obtained faster.
 
 ```http
-
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -555,13 +710,42 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setDefaultSegmentNumber(16).build())
+            .build())
+    .get();
+```
+
 To prefer throughput, you can set up Qdrant to use as many cores as possible for processing multiple requests in parallel.
 To do that, you can configure qdrant to use minimal number of segments, which is usually 2.
 Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. But at the same time require more time to build index.
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -630,3 +814,34 @@ client
     })
     .await?;
 ```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setDefaultSegmentNumber(2).build())
+            .build())
+    .get();
+```
+

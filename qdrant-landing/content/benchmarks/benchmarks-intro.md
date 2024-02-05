@@ -1,30 +1,32 @@
 ---
 draft: false
 id: 2
-title: How vector search databases should be tested?
+title: How vector search should be benchmarked?
 weight: 1
 ---
 
-# Benchmarking Vector Search Engines
+# Benchmarking Vector Databases
 
-As an Open Source vector search engine, we are often compared to the competitors and asked about our performance vs the other tools.
-But the answer was never simple, as the world of vector databases lacked a unified open benchmark that would show the differences.
-So we created one, making some bold assumptions about how it should be done.
-Here we describe why we think that’s the best way.
+At Qdrant, performance is the top-most priority. We always make sure that we use system resources efficiently so you get the **fastest and most accurate results at the cheapest cloud costs**. So all of our decisions from [choosing Rust](/articles/why-rust), [io optimisations](/articles/io_uring), [serverless support](/articles/serverless), [binary quantization](/articles/binary-quantization), to our [fastembed library](/articles/fastembed) are all based on our principle. In this article, we will compare how Qdrant performs against the other vector search engines.
 
-That is why we perform our benchmarks on exactly the same hardware, which you can rent from any cloud provider. 
-It does not guarantee the best performance, making the whole process affordable and reproducible, so you can easily repeat it yourself.
-So in our benchmarks, we **focus on the relative numbers**, so it is possible to **compare** the performance of different engines given equal resources.
+Here are the principles we followed while designing these benchmarks:
 
-The list will be updated:
+- We do comparative benchmarks, which means we focus on **relative numbers** rather than absolute numbers.
+- We use affordable hardware, so that you can reproduce the results easily.
+- We run benchmarks on the same exact machines to avoid any possible hardware bias.
+- All the benchmarks are [open-sourced](https://github.com/qdrant/vector-db-benchmark), so you can contribute and improve them.
 
-* Upload & Search speed on single node - [Benchmark](/benchmarks/single-node-speed-benchmark/)
-* Filtered search benchmark - [Benchmark](/benchmarks/#filtered-search-benchmark)
-* Memory consumption benchmark - TBD
-* Cluster mode benchmark - TBD
+<details>
+<summary> Scenarios we tested </summary>
 
-Some of our experiment design decisions are described at [F.A.Q Section](/benchmarks/#benchmarks-faq).
+1. Upload & Search benchmark on single node [Benchmark](/benchmarks/single-node-speed-benchmark/)
+2. Filtered search benchmark - [Benchmark](/benchmarks/#filtered-search-benchmark)
+3. Memory consumption benchmark - Coming soon
+4. Cluster mode benchmark - Coming soon
 
-Suggest your variants of what you want to test in our [Discord channel](https://qdrant.to/discord)!
+</details>
 
+</br>
 
+Some of our experiment design decisions are described in the [F.A.Q Section](/benchmarks/#benchmarks-faq).
+Reach out to us on our [Discord channel](https://qdrant.to/discord) if you want to discuss anything related Qdrant or these benchmarks.

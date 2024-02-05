@@ -1,0 +1,399 @@
+@use 'sass:map';
+
+/***
+
+====================================================================
+	Login Page Section
+====================================================================
+
+***/
+
+/* we use it on the news letter subscription page */
+
+.login-page-section{
+  position:relative;
+
+  @media (min-width: 992px) {
+    padding:95px 0 0;
+  }
+}
+
+.login-page-section .image-column{
+  position:relative;
+}
+
+.login-page-section .image-column .inner-column{
+  position:relative;
+  margin-left:-180px;
+}
+
+.login-page-section .image-column .inner-column .image{
+  position:relative;
+}
+
+.login-page-section .form-column{
+  position:relative;
+}
+
+.login-page-section .form-column .inner-column{
+  position:relative;
+  padding:30px 50px;
+  box-shadow:0 0 25px rgba(0,0,0,0.07);
+}
+
+.login-page-section .form-column h3{
+  position:relative;
+  font-weight:700;
+  color: var(--brand-secondary);
+  line-height:1.3em;
+  font-size:36px;
+}
+
+.login-page-section .form-column .welcome{
+  position:relative;
+  font-weight:400;
+  color: var(--brand-secondary);
+  font-size:16px;
+  line-height:1.3em;
+  margin-top:12px;
+  margin-bottom:25px;
+}
+
+/* Styled Form */
+
+.styled-form{
+  position:relative;
+}
+
+.styled-form .form-group{
+  position:relative;
+  margin-bottom:25px;
+}
+
+.styled-form .form-group label{
+  position:relative;
+  color: var(--brand-secondary);
+  font-size:16px;
+  margin-bottom:15px;
+}
+
+.styled-form .form-group input{
+  position:relative;
+  height:50px;
+  padding:6px 30px;
+  width:100%;
+  color:var(--brand-secondary);
+  border-radius:50px;
+  border:1px solid #f2f2f2;
+  /* transition:all 500ms ease; */
+  /* -moz-transition:all 500ms ease; */
+  /* -webkit-transition:all 500ms ease; */
+  /* -ms-transition:all 500ms ease; */
+  /* -o-transition:all 500ms ease; */
+  font-family: $font-family-non-content;
+}
+
+.styled-form .form-group input:focus{
+  border-color:var(--brand-primary);
+}
+
+.styled-form .form-group textarea{
+  position:relative;
+  height:150px;
+  width:100%;
+  resize:none;
+  padding:15px 15px;
+  border-radius:50px;
+  border:1px solid #f2f2f2;
+  /* transition:all 500ms ease; */
+  /* -moz-transition:all 500ms ease; */
+  /* -webkit-transition:all 500ms ease; */
+  /* -ms-transition:all 500ms ease; */
+  /* -o-transition:all 500ms ease; */
+  font-family: $font-family-non-content;
+}
+
+.styled-form .form-group .users{
+  position:relative;
+  color:#a6a6a6;
+  font-size:15px;
+  font-family: $font-family-non-content;
+}
+
+.styled-form .form-group .users a{
+  position:relative;
+  color:var(--brand-primary);
+}
+
+/* CheckBox */
+
+.styled-form .form-group .check-box{
+  position:relative;
+  margin-bottom:3px;
+  margin-top:7px;
+}
+
+.styled-form .form-group .check-box label{
+  font-family: $font-family-non-content;
+  color: var(--brand-secondary);
+}
+
+.styled-form .form-group .check-box label{
+  position: relative;
+  display: block;
+  height: 30px;
+  width: 100%;
+  line-height: 22px;
+  padding: 4px 10px 0;
+  padding-left: 25px;
+  background: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--brand-secondary);
+  cursor: pointer;
+  margin-bottom: 0;
+  /* -webkit-transition: all 300ms ease; */
+  /* -moz-transition: all 300ms ease; */
+  /* -ms-transition: all 300ms ease; */
+  /* -o-transition: all 300ms ease; */
+  /* transition: all 300ms ease; */
+}
+
+.styled-form .form-group .check-box input[type="checkbox"]:checked + label{
+  border-color: #25a9e0;
+}
+
+.styled-form .form-group .form-group .check-box label {
+  padding-left: 30px;
+  padding-top: 1px;
+  cursor: pointer;
+}
+
+.styled-form .form-group .check-box label:before{
+  position: absolute;
+  left: 0;
+  top: 7px;
+  height:15px;
+  width: 15px;
+  background: #ffffff;
+  content: "";
+  border-radius: 3px;
+  /* -webkit-transition: all 300ms ease; */
+  /* -moz-transition: all 300ms ease; */
+  /* -ms-transition: all 300ms ease; */
+  /* -o-transition: all 300ms ease; */
+  /* transition: all 300ms ease; */
+  border:1px solid var(--brand-primary);
+}
+
+.styled-form .form-group .check-box label:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 15px;
+  line-height: 15px;
+  max-width: 0;
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 800;
+  overflow: hidden;
+  background: transparent;
+  text-align: center;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+  /* -webkit-transition: max-width 500ms ease; */
+  /* -moz-transition: max-width 500ms ease; */
+  /* -ms-transition: max-width 500ms ease; */
+  /* -o-transition: max-width 500ms ease; */
+  /* transition: max-width 500ms ease; */
+}
+
+.styled-form .form-group .check-box input[type="checkbox"] {
+  display: none;
+}
+
+.styled-form .form-group .check-box input[type="checkbox"]:checked + label:before{
+  border: 5px solid var(--brand-primary);
+  background: #ffffff;
+}
+
+.styled-form .form-group .check-box input[type="checkbox"]:checked + label:after {
+  max-width: 20px;
+  opacity: 1;
+}
+
+/* Radio Box */
+
+.styled-form .form-group .radio-box{
+  position:relative;
+  margin-bottom:3px;
+  margin-top:7px;
+}
+
+.styled-form .form-group .radio-box label{
+  font-family: $font-family-non-content;
+  color: var(--brand-secondary);
+}
+
+.styled-form .form-group .radio-box label{
+  position: relative;
+  display: block;
+  height: 30px;
+  width: 100%;
+  line-height: 9px;
+  padding: 4px 10px 0;
+  padding-left: 25px;
+  background: #ffffff;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--brand-secondary);
+  cursor: pointer;
+  margin-bottom: 0;
+  /* -webkit-transition: all 300ms ease; */
+  /* -moz-transition: all 300ms ease; */
+  /* -ms-transition: all 300ms ease; */
+  /* -o-transition: all 300ms ease; */
+  /* transition: all 300ms ease; */
+}
+
+.styled-form .form-group .radio-box input[type="radio"]:checked + label{
+  border-color: #25a9e0;
+}
+
+.styled-form .form-group .form-group .radio-box label {
+  padding-left: 30px;
+  padding-top: 1px;
+  cursor: pointer;
+}
+
+.styled-form .form-group .radio-box label:before{
+  position: absolute;
+  left: 0;
+  top: 0;
+  height:15px;
+  width: 15px;
+  background: #ffffff;
+  content: "";
+  border-radius: 3px;
+  /* -webkit-transition: all 300ms ease; */
+  /* -moz-transition: all 300ms ease; */
+  /* -ms-transition: all 300ms ease; */
+  /* -o-transition: all 300ms ease; */
+  /* transition: all 300ms ease; */
+  border:1px solid var(--brand-primary);
+}
+
+.styled-form .form-group .radio-box label:after {
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 15px;
+  line-height: 15px;
+  max-width: 0;
+  font-size: 14px;
+  color: #ffffff;
+  font-weight: 800;
+  overflow: hidden;
+  background: transparent;
+  text-align: center;
+  font-family: 'Font Awesome 5 Free';
+  font-weight: 900;
+}
+
+.styled-form .form-group .radio-box input[type="radio"] {
+  display: none;
+}
+
+.styled-form .form-group .radio-box input[type="radio"]:checked + label:before{
+  border: 5px solid var(--brand-primary);
+  background: #ffffff;
+}
+
+.styled-form .form-group .radio-box input[type="radio"]:checked + label:after {
+  max-width: 20px;
+  opacity: 1;
+}
+
+.styled-form .forgot{
+  position:relative;
+  font-weight:400;
+  color:#a6a6a6;
+  font-size:14px;
+  margin-top:10px;
+  text-decoration:underline;
+  font-family: $font-family-non-content;
+}
+
+.styled-form .theme-btn {
+  border-radius:50px;
+  margin-bottom:15px;
+  width:100%;
+  cursor:pointer;
+}
+
+/* Contact Form */
+
+.contact-form{
+  position:relative;
+}
+
+.contact-form .form-group{
+  position:relative;
+  margin-bottom:25px;
+}
+
+.contact-form .form-group label{
+  position:relative;
+  color: var(--brand-secondary);
+  font-size:16px;
+  margin-bottom:15px;
+}
+
+.contact-form .form-group input{
+  position:relative;
+  height:50px;
+  padding:6px 30px;
+  width:100%;
+  color:var(--brand-secondary);
+  border-radius:50px;
+  border: 1px solid var(--brand-dark-gray);
+  font-family: $font-family-non-content;
+}
+
+.contact-form .form-group textarea:focus,
+.contact-form .form-group input:focus{
+  border-color:var(--brand-secondary);
+}
+
+.contact-form .form-group textarea{
+  position:relative;
+  height:150px;
+  width:100%;
+  resize:none;
+  padding:15px 30px;
+  border-radius:20px;
+  border:1px solid #f2f2f2;
+  font-family: $font-family-non-content;
+}
+
+.contact-form .form-group button{
+  border-radius:50px;
+  width:100%;
+}
+
+.contact-form input.error,
+.contact-form select.error,
+.contact-form textarea.error{
+  border-color:#ff0000 !important;
+}
+
+.contact-form label.error{
+  display:block;
+  line-height:24px;
+  padding:5px 0 0;
+  margin:0;
+  text-transform:uppercase;
+  font-size:12px;
+  color:#ff0000;
+  font-weight:500;
+}

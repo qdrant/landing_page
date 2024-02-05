@@ -149,7 +149,6 @@ To enable scalar quantization, you need to specify the quantization parameters i
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -237,6 +236,45 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.QuantizationConfig;
+import io.qdrant.client.grpc.Collections.QuantizationType;
+import io.qdrant.client.grpc.Collections.ScalarQuantization;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setQuantizationConfig(
+                QuantizationConfig.newBuilder()
+                    .setScalar(
+                        ScalarQuantization.newBuilder()
+                            .setType(QuantizationType.Int8)
+                            .setQuantile(0.99f)
+                            .setAlwaysRam(true)
+                            .build())
+                    .build())
+            .build())
+    .get();
+```
+
 There are 3 parameters that you can specify in the `quantization_config` section:
 
 `type` - the type of the quantized vector components. Currently, Qdrant supports only `int8`.
@@ -260,7 +298,6 @@ To enable binary quantization, you need to specify the quantization parameters i
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 1536,
@@ -340,6 +377,39 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.BinaryQuantization;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.QuantizationConfig;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(1536)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setQuantizationConfig(
+                QuantizationConfig.newBuilder()
+                    .setBinary(BinaryQuantization.newBuilder().setAlwaysRam(true).build())
+                    .build())
+            .build())
+    .get();
+```
+
 `always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
 However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
 
@@ -351,7 +421,6 @@ To enable product quantization, you need to specify the quantization parameters 
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -436,6 +505,44 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CompressionRatio;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.ProductQuantization;
+import io.qdrant.client.grpc.Collections.QuantizationConfig;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setQuantizationConfig(
+                QuantizationConfig.newBuilder()
+                    .setProduct(
+                        ProductQuantization.newBuilder()
+                            .setCompression(CompressionRatio.x16)
+                            .setAlwaysRam(true)
+                            .build())
+                    .build())
+            .build())
+    .get();
+```
+
 There are two parameters that you can specify in the `quantization_config` section:
 
 `compression` - compression ratio.
@@ -454,7 +561,6 @@ However, there are a few options that you can use to control the search process:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -532,6 +638,37 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setParams(
+                SearchParams.newBuilder()
+                    .setQuantization(
+                        QuantizationSearchParams.newBuilder()
+                            .setIgnore(false)
+                            .setRescore(true)
+                            .setOversampling(2.0)
+                            .build())
+                    .build())
+            .setLimit(10)
+            .build())
+    .get();
+```
+
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
 `rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. 
@@ -556,7 +693,6 @@ In order to disable quantization, you can set `ignore` to `true` in the search r
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -624,6 +760,33 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setParams(
+                SearchParams.newBuilder()
+                    .setQuantization(
+                        QuantizationSearchParams.newBuilder().setIgnore(true).build())
+                    .build())
+            .setLimit(10)
+            .build())
+    .get();
+```
+
 - **Adjust the quantile parameter**: The quantile parameter in scalar quantization determines the quantization bounds.
 By setting it to a value lower than 1.0, you can exclude extreme values (outliers) from the quantization bounds. 
 For example, if you set the quantile to 0.99, 1% of the extreme values will be excluded.
@@ -646,7 +809,6 @@ This mode is enabled by setting `always_ram` to `true` in the quantization confi
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -742,6 +904,47 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.QuantizationConfig;
+import io.qdrant.client.grpc.Collections.QuantizationType;
+import io.qdrant.client.grpc.Collections.ScalarQuantization;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+            .setQuantizationConfig(
+                QuantizationConfig.newBuilder()
+                    .setScalar(
+                        ScalarQuantization.newBuilder()
+                            .setType(QuantizationType.Int8)
+                            .setAlwaysRam(true)
+                            .build())
+                    .build())
+            .build())
+    .get();
+```
+
 In this scenario, the number of disk reads may play a significant role in the search speed.
 In a system with high disk latency, the re-scoring step may become a bottleneck.
 
@@ -749,7 +952,6 @@ Consider disabling `rescore` to improve the search speed:
 
 ```http
 POST /collections/{collection_name}/points/search
-
 {
     "params": {
         "quantization": {
@@ -804,7 +1006,7 @@ client
         vector: vec![0.2, 0.1, 0.9, 0.7],
         params: Some(SearchParams {
             quantization: Some(QuantizationSearchParams {
-                rescore: Some(true),
+                rescore: Some(false),
                 ..Default::default()
             }),
             ..Default::default()
@@ -815,6 +1017,33 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.SearchParams;
+import io.qdrant.client.grpc.Points.SearchPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .searchAsync(
+        SearchPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+            .setParams(
+                SearchParams.newBuilder()
+                    .setQuantization(
+                        QuantizationSearchParams.newBuilder().setRescore(false).build())
+                    .build())
+            .setLimit(3)
+            .build())
+    .get();
+```
+
 - **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
 
 It is recommended to use this mode if you have a large collection and fast storage (e.g. SSD or NVMe).
@@ -823,7 +1052,6 @@ This mode is enabled by setting `always_ram` to `false` in the quantization conf
 
 ```http
 PUT /collections/{collection_name}
-
 {
     "vectors": {
       "size": 768,
@@ -917,4 +1145,45 @@ client
         ..Default::default()
     })
     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.QuantizationConfig;
+import io.qdrant.client.grpc.Collections.QuantizationType;
+import io.qdrant.client.grpc.Collections.ScalarQuantization;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setVectorsConfig(
+                VectorsConfig.newBuilder()
+                    .setParams(
+                        VectorParams.newBuilder()
+                            .setSize(768)
+                            .setDistance(Distance.Cosine)
+                            .build())
+                    .build())
+            .setOptimizersConfig(
+                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
+            .setQuantizationConfig(
+                QuantizationConfig.newBuilder()
+                    .setScalar(
+                        ScalarQuantization.newBuilder()
+                            .setType(QuantizationType.Int8)
+                            .setAlwaysRam(false)
+                            .build())
+                    .build())
+            .build())
+    .get();
 ```

@@ -99,7 +99,7 @@ article aside[role="status"]:before {
   //  margin-left: 0;
   //}
   //
-  & > ul, & > ol {
+  & > ul:not(.breadcrumbs), & > ol {
     margin-left: lib.rem(24);
   }
   //

@@ -9,8 +9,11 @@ HUGO_VERSION = "0.93.3"
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 
+[context.deploy-preview.environment]
+HUGO_ENV = "staging"
+
 [context.deploy-preview]
-command = "cd qdrant-landing ; hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
+command = "cd qdrant-landing ; echo $HUGO_ENV ; hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
 
 [[headers]]
     for = "/*"

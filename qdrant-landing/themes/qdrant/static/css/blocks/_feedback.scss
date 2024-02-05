@@ -1,0 +1,36 @@
+.feedback {
+  &__title {
+    font-size: 1rem;
+  }
+  &__answer {
+    &_yes {
+      background: var(--brand-success-100);
+      margin-right: 6px;
+      box-sizing: border-box;
+      &:hover {
+        border: 1px solid var(--brand-success-500);
+      }
+    }
+    &_no {
+      background: var(--brand-error-100);
+      &:hover {
+        border: 1px solid var(--brand-error-500);
+      }
+    }
+    &[disabled] {
+      display: none;
+    }
+  }
+
+  &__response {
+    display: none;
+    padding: 10px 8px;
+    color: var(--brand-secondary);
+    background: var(--neutral-n-50);
+    border-radius: 8px;
+
+    &_visible {
+      display: block;
+    }
+  }
+}

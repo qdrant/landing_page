@@ -1,10 +1,10 @@
 ---
-draft: false
+draft: true
 title: New 0.7.0 update of the Qdrant engine went live
 slug: qdrant-0-7-0-released
 short_description: Qdrant v0.7.0 engine has been released
 description: Qdrant v0.7.0 engine has been released
-preview_image: /blog_data/from_cms/v0.7.0.png
+preview_image: /blog/from_cms/v0.7.0.png
 date: 2022-04-13T08:57:07.604Z
 author: Alyona Kavyerina
 author_link: https://www.linkedin.com/in/alyona-kavyerina/
@@ -17,9 +17,7 @@ tags:
   - Release
 sitemapExclude: True
 ---
-![Release notes 0.7.0](/blog_data/from_cms/v0.7.0.png)
 
-\
 We've released the new version of Qdrant neural search engine. 
 
 Let's see what's new in update 0.7.0.

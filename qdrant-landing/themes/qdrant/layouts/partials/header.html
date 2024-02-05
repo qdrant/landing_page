@@ -1,93 +1,15 @@
+{{ $classes := .Scratch.Get "classes" }}
 <!DOCTYPE html>
 <html lang="{{ .Site.LanguageCode }}">
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
-
-        {{ if .Params.Page_title }}
-        <title>{{ .Params.Page_title }} - Qdrant</title>
-        {{ else if and ($.IsNode) (eq $.Section "") }}
-        <title>{{ .Title }}</title>
-        {{ else }}
-        <title>{{ .Title }} - Qdrant</title>
-        {{ end }}
-
-        {{ partial "seo_schema" . }}
-
-
-        <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16.png">
-        <link rel="manifest" href="/images/site.webmanifest">
-        <link rel="mask-icon" href="/images/safari-pinned-tab.svg" color="#5bbad5">
-        <link rel="shortcut icon" href="/images/favicon.ico">
-        <meta name="msapplication-TileColor" content="#2b5797">
-        <meta name="msapplication-config" content="/images/browserconfig.xml">
-        <meta name="theme-color" content="#ffffff">
-
-
-        {{ partial "css" . }}
-
-        {{ hugo.Generator }}
-
-        {{ with .OutputFormats.Get "RSS" }}
-            <link href="{{ .RelPermalink }}" rel="alternate" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
-            <link href="{{ .RelPermalink }}" rel="feed" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
-        {{ end }}
-
-        {{ if .Site.GoogleAnalytics }}
-            <script async src="https://www.googletagmanager.com/gtag/js?id={{ .Site.GoogleAnalytics }}"></script>
-            <script>
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments)};
-              gtag('js', new Date());
-              gtag('config', '{{ .Site.GoogleAnalytics }}');
-            </script>
-        {{ end }}
-
-        {{ if .Site.Params.googleTagManager }}
-            <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
-            new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
-            j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
-            'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
-            })(window,document,'script','dataLayer','{{ .Site.Params.googleTagManager }}');</script>
-        {{ end }}
-
-
-        <!--[if lt IE 9]>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script><![endif]-->
-        <!--[if lt IE 9]>
-        <script src="js/respond.js"></script><![endif]-->
-
-        <!-- Netlify identity -->
-        <!-- Required because netlify sends a registration link that redirects to the home page -->
-        <!-- but commented because slows down a site and used extremely rarely -->
-        <!-- <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>-->
-
-        {{ if eq .Section "benchmarks" }}
-          <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-          <script src="{{ "js/benchmarks.js" | absURL }}"></script>
-          <script src="{{ "js/benchmarks_filtered_search.js" | absURL }}"></script>
-        {{ end }}
-
-        <script src="/js/qdr-scroll.min.js" type="module"></script>
-    </head>
-
-    <body>
-        {{ if .Site.Params.googleTagManager }}
-            <noscript><iframe src="https://www.googletagmanager.com/ns.html?id={{ .Site.Params.googleTagManager }}"
-            height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-        {{ end }}
-
-        <div class="page-wrapper">
+    {{ partial "head.html" . }}
+    {{ partial "body_start.html" . }}
 
             <!-- Main Header-->
 
             {{ if (eq $.Section "documentation") }}
             <header class="main-header position-static">
             {{ else }}
-            <header class="main-header main-sticky-header{{ if .IsHome }} main-header__home{{ end }}">
+            <header class="main-header main-sticky-header{{ if .IsHome }} main-header__home{{ end }}{{ if $classes }} {{ $classes }}{{ end }}">
             {{ end }}
 
               <!--Header-Upper-->
