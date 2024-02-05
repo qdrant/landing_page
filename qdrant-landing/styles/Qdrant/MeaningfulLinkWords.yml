@@ -1,0 +1,14 @@
+---
+# Warning: qdrant.MeaningfulLinkWords
+#
+# Checks for the presence of semantically unhelpful words in link text.
+#
+extends: existence
+message: 'Improve SEO and accessibility by rewriting "%s" in the link text.'
+level: warning
+scope: raw
+ignorecase: true
+link: https://developers.google.com/style/link-text
+tokens:
+  - \[here]
+  - \[this page]

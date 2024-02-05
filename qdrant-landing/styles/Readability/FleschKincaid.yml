@@ -1,0 +1,8 @@
+extends: metric
+message: "Make your content readable. Set a Flesch–Kincaid grade level (%s) below 10. To lower the score, use shorter sentences and more common words."
+link: https://en.wikipedia.org/wiki/Flesch%E2%80%93Kincaid_readability_tests
+
+formula: |
+  (0.39 * (words / sentences)) + (11.8 * (syllables / words)) - 15.59
+
+condition: "> 1"

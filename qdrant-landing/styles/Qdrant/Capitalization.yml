@@ -1,0 +1,24 @@
+---
+# Checks the capitalization of terms specific to Cobalt.
+extends: substitution
+message: 'Use "%s" instead of "%s".'
+level: warning
+ignorecase: false
+swap:
+  agile pentest: Agile Pentest
+  Agile pentest: Agile Pentest
+  agile Pentest: Agile Pentest
+  comprehensive pentest: Comprehensive Pentest
+  Comprehensive pentest: Comprehensive Pentest
+  comprehensive Pentest: Comprehensive Pentest
+  Cobalt App: Cobalt app
+  cobalt app: Cobalt app
+  cobalt App: Cobalt app
+  draft state: Draft state
+  in review state: In Review state
+  planned state: Planned state
+  live state: Live state
+  paused state: Paused state
+  remediation state: Remediation state
+  closed state: Closed state
+  cancelled state: Cancelled state
