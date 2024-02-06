@@ -6,9 +6,9 @@ slug: dust-and-qdrant
 description: Using AI to Unlock Company Knowledge and Drive Employee Productivity
 preview_image: /blog/Article-Image.png # Change this
 
-# social_preview_image: /blog/Article-Image.png # Optional image used for link previews
-# title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
-# small_preview_image: /blog/Article-Image.png # Optional image used for small preview in the list of blog posts
+social_preview_image: /blog/case-study-dust/preview.jpg # Optional image used for link previews
+title_preview_image: /blog/case-study-dust/preview.jpg # Optional image used for blog post title
+small_preview_image: /blog/case-study-dust/preview.jpg # Optional image used for small preview in the list of blog posts
 
 date: 2024-02-06T07:03:26-08:00
 author: Manuel Meyer
@@ -21,8 +21,8 @@ weight: 0 # Change this weight to change order of posts
 
 One of the major promises of artificial intelligence is its potential to
 accelerate efficiency and productivity within businesses, empowering employees
-and teams in their daily tasks. The French company Dust, co-founded by former
-Open AI Research Engineer Stanislas Polu, set out to deliver on this promise by
+and teams in their daily tasks. The French company [Dust](https://dust.tt/), co-founded by former
+Open AI Research Engineer [Stanislas Polu](https://www.linkedin.com/in/spolu/), set out to deliver on this promise by
 providing businesses and teams with an expansive platform for building
 customizable and secure AI assistants.
 
@@ -62,6 +62,8 @@ Dust and upload files or directly connect to it via APIs to ingest data from
 tools like Notion, Google Drive, or Slack. Dust then handles the chunking
 strategy with the embeddings models and performs retrieval augmented generation.
 
+![solution-laptop-screen](/case-studies/dust/laptop-solutions.jpg)
+
 For this, Dust required a vector database and evaluated different options
 including Pinecone and Weaviate, but ultimately decided on Qdrant as the
 solution of choice. “We particularly liked Qdrant because it is open-source,
@@ -75,7 +77,7 @@ library support.
 When building their solution with Qdrant, Dust took a two step approach:
 
 Get started quickly: Initially, Dust wanted to get started quickly and opted for
-Qdrant Cloud, Qdrant’s managed solution, to reduce the administrative load on
+[Qdrant Cloud](https://qdrant.to/cloud), Qdrant’s managed solution, to reduce the administrative load on
 Dust’s end. In addition, they created clusters and deployed them on Google
 Cloud since Dust wanted to have those run directly in their existing Google
 Cloud environment. This added a lot of value as it allowed Dust to centralize
@@ -84,9 +86,9 @@ billing and increase security by having the instance live within the same VPC.
 
 Scale and optimize: As the load grew, Dust started to take advantage of Qdrant’s
 features to tune the setup for optimization and scale. They started to look into
-how they map and cache data, as well as applying some of Qdrant’s built-in
-compression features. In particular, Dust leveraged the control of the MMAP
-payload threshold as well as Scalar Quantization, which enabled Dust to manage
+how they map and cache data, as well as applying some of Qdrant’s [built-in
+compression features](https://qdrant.tech/documentation/guides/quantization/). In particular, Dust leveraged the control of the [MMAP
+payload threshold](https://qdrant.tech/documentation/concepts/storage/#configuring-memmap-storage) as well as [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/), which enabled Dust to manage
 the balance between storing vectors on disk and keeping quantized vectors in RAM,
 more effectively. “This allowed us to scale smoothly from there,” Polu says.
 
@@ -98,15 +100,22 @@ it offers in terms of data management has been crucial for us. The observability
 features, such as historical graphs of RAM, Disk, and CPU, provided by Qdrant are
 also particularly useful, allowing us to plan our scaling strategy effectively.”
 
-Dust was able to scale its application with Qdrant while maintaining low latency
-across hundreds of thousands of collections with retrieval only taking
-milliseconds, as well as maintaining high accuracy. Additionally, Polu highlights
-the efficiency gains Dust was able to unlock with Qdrant: “We were able to reduce
-the footprint of vectors in memory, which led to a significant cost reduction as
+![“We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as
 we don’t have to run lots of nodes in parallel. While being memory-bound, we were
 able to push the same instances further with the help of quantization. While you
 get pressure on MMAP in this case you maintain very good performance even if the
-RAM is fully used. With this we were able to reduce our cost by 2x.”
+RAM is fully used. With this we were able to reduce our cost by 2x.” - Stanislas Polu, Co-Founder of Dust](/case-studies/dust/Dust-Quote.jpg)
+
+Dust was able to scale its application with Qdrant while maintaining low latency
+across hundreds of thousands of collections with retrieval only taking
+milliseconds, as well as maintaining high accuracy. Additionally, Polu highlights
+the efficiency gains Dust was able to unlock with Qdrant: "We were able to reduce the footprint of vectors in memory, which led to a significant cost reduction as
+we don’t have to run lots of nodes in parallel. While being memory-bound, we were
+able to push the same instances further with the help of quantization. While you
+get pressure on MMAP in this case you maintain very good performance even if the
+RAM is fully used. With this we were able to reduce our cost by 2x."
+
+
 
 ## Outlook
 
@@ -117,4 +126,4 @@ will add more connections, such as Intercom, Jira, or Salesforce. Additionally,
 Dust will expand on its structured data capabilities.
 
 To learn more about how Dust uses Qdrant to help employees in their day to day
-tasks, check out our Vector Space Talk featuring Stanislas Polu, Co-Founder of Dust.
+tasks, check out our [Vector Space Talk](https://www.youtube.com/watch?v=toIgkJuysQ4) featuring Stanislas Polu, Co-Founder of Dust.
