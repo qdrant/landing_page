@@ -18,9 +18,9 @@ keywords:
 
 Whether you're building a fraud-detection analytics app, a RAG solution for e-commerce sites, or a healthcare portal for the government - you need to leverage a multitenant architecture and ensure access to your data is controlled. In the world of SaaS and large-scale enterprise solutions, this setup is the norm and it will considerably increase performance and lower your hosting costs. A single Qdrant cluster has the potential to support all of your customers, while each one of them would only see their own data. At times, if this data is location-sensitive, Qdrant gives you the option to divide your cluster by region or other criteria. 
 
-We are seeing the topics of multitenancy and distributed deployment pop-up daily on our [free support Discord](https://qdrant.to/discord) channel, which tells us that users are looking to scale Qdrant along with the rest of their ML setup. If you are currently mulling over your vector database implementation and are thinking of creating a multiple collections for each user, read on. 
+We are seeing the topics of multitenancy and distributed deployment pop-up daily on our [free support Discord](https://qdrant.to/discord) channel, which tells us that users are looking to scale Qdrant along with the rest of their ML setup. If you are currently mulling over your vector database implementation and are thinking of creating multiple collections for each user, read on. 
 
-[Multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/) is one of the most useful features Qdrant can offer, whereby you can partition one instance of Qdrant for a vast number of users. Combining this with [Custom Sharding](https://qdrant.tech/documentation/guides/distributed_deployment/#user-defined-sharding) will result in an efficiently-partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
+[Multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/) is one of the most useful features Qdrant can offer, whereby you can partition one database instance for a vast number of users. Combining this with [Custom Sharding](https://qdrant.tech/documentation/guides/distributed_deployment/#user-defined-sharding) will result in an efficiently-partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
 
 ## Multitenancy: one collection, many users
 
@@ -40,7 +40,7 @@ Qdrant lets you specify a shard for each point individually. This feature is use
 
 This works in the other direction as well. Whenever you search for something, you can specify a shard or several shards and Qdrant will know where to find them. It will avoid asking all machines in your cluster for results. This will minimize overhead and maximize performance. 
 
-A clear use-case for this feature is managing a multi-tenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations.  
+A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations.  
 
 Custom sharding also gives you precise control over other use cases. A time-based data placement means that data streams can index shards that represent latest updates. If you organize your shards by date, you can have great control over the recency of retrieved data. This is relevant for social media platforms, which greatly rely on time-sensitive data. 
 
@@ -115,7 +115,7 @@ client.upsert(
 
 ## Retrieve data via filters
 
-The access control setup is completed as you specifiy the criteria for data retrieval. When searching for vectors, you need to use a `query_filter` along with `group_id` to filter vectors for each user. Additionally specifying the `shard_key_selector` will look for data in the region of your choosing. In this case, your query is based on `user_1` and data dedicated to the Canadian region.
+The access control setup is completed as you specify the criteria for data retrieval. When searching for vectors, you need to use a `query_filter` along with `group_id` to filter vectors for each user. Additionally specifying the `shard_key_selector` will look for data in the region of your choosing. In this case, your query is based on `user_1` and data dedicated to the Canadian region.
 
 ```python
 client.search(
