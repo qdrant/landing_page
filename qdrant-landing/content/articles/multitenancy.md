@@ -16,8 +16,7 @@ keywords:
   - vector database
 ---
 
-Whether you're building a fraud-detection analytics app, a RAG solution for e-commerce sites, or a healthcare portal for the government - you need to leverage a multitenant architecture and ensure access to your data is controlled. In the world of SaaS and large-scale enterprise solutions, this setup is the norm and it will considerably increase performance and lower your hosting costs. A single Qdrant cluster can support all of your customers, but each one of them can only see their private data set. At times, if this data is location-sensitive, Qdrant gives you the option to divide your sincle cluster by region or other criteria.
-In this way, we are ensuring that Qdrant can support you from a mere prototype all the way to a complete business solution.
+Whether you're building a fraud-detection analytics app, a RAG solution for e-commerce sites, or a healthcare portal for the government - you need to leverage a multitenant architecture and ensure access to your data is controlled. In the world of SaaS and large-scale enterprise solutions, this setup is the norm and it will considerably increase performance and lower your hosting costs. A single Qdrant cluster has the potential to support all of your customers, while each one of them would only see their own data. At times, if this data is location-sensitive, Qdrant gives you the option to divide your cluster by region or other criteria. 
 
 We are seeing the topics of multitenancy and distributed deployment pop-up daily on our [free support Discord](https://qdrant.to/discord) channel, which tells us that users are looking to scale Qdrant along with the rest of their ML setup. If you are currently mulling over your vector database implementation and are thinking of creating a multiple collections for each user, read on. 
 
