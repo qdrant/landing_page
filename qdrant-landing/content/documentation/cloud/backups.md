@@ -14,7 +14,8 @@ However, this process can take time. For high availability critical projects we
 recommend replication. It guarantees the proper cluster functionality as long as
 at least one replica is running.
 
-For less critical use-cases you can set up automatic or self-service backups.
+For other use-cases such as disaster recovery, you can set up automatic or
+self-service backups.
 
 ## Prerequisites
 
@@ -28,16 +29,20 @@ set up your cluster, as described in the following sections:
 
 ## Automatic backups
 
-You can set up automatic backups of your clusters with our Cloud UI at
-https://cloud.qdrant.io. With the procedures listed in this page, you can set up
+You can set up automatic backups of your clusters with our Cloud UI. With the
+procedures listed in this page, you can set up
 snapshots on a daily/weekly/monthly basis. You can keep as many snapshots as you
 need. You can restore a cluster from the snapshot of your choice.
 
-> Note: Restoring a snapshot may create issues:
+> Note: When you restore a snapshot, consider the following:
 > - The affected cluster is not available while a snapshot is being restored.
-> - If you changed the cluster setup after the copy was created, the new cluster 
-    resets to the previous configuration. You may lose data after the date of 
-    that restored snapshot.
+> - If you changed the cluster setup after the copy was created, the cluster 
+    resets to the previous configuration.
+> - The previous configuration includes:
+>   - CPU
+>   - Memory
+>   - Node count
+>   - Qdrant version
 
 ### Configure a backup
 
@@ -71,7 +76,7 @@ Qdrant also offers a snapshot API which allows you to create a snapshot
 of a specific collection or your entire cluster. For more information, see our
 [snapshot documentation](/documentation/concepts/snapshots/).
 
-Here is how you can snapshot and recover a collection:
+Here is how you can take a snapshot and recover a collection:
 
 1. Take a snapshot:
    - For a single node cluster, call the snapshot endpoint on the exposed URL.
