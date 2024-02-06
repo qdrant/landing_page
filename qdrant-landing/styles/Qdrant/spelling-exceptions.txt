@@ -71,6 +71,7 @@ badging
 Bamboo
 Bazel
 Bhyve
+biophilic
 Bitbucket
 blockquote
 blockquoted
@@ -228,6 +229,7 @@ failovers
 failsafe
 Falco
 falsy
+fastembed
 fastlane
 Fastzip
 favicon
@@ -434,6 +436,7 @@ mov
 multiline
 multimodal
 multitenancy
+multitenant
 mutex
 nameserver
 nameservers
@@ -872,6 +875,7 @@ unverifying
 uploader
 uploaders
 upsert
+upserting
 Upsert
 upstreams
 upvote
