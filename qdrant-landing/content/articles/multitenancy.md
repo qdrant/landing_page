@@ -35,10 +35,10 @@ As a vector search engine, Qdrant is built to excel in multitenant environments.
 
 Qdrant lets you specify a shard for each point individually. This feature is useful if you want to control where your data is kept in the cluster. Your operations will be able to hit only the subset of shards they actually need. In massive-scale deployments, this can significantly improve the performance of operations that do not require the whole collection to be scanned.
 
+This works in the other direction as well. Whenever you search for something, you can specify a shard or several shards and Qdrant will know where to find them. It will avoid asking all machines in your cluster for results. This will minimize overhead and maximize performance. 
+
 **Figure 2:** Users can both upsert and query shards that are relevant to them, all within the same collection. Regional sharding can help avoid cross-continental traffic. 
 ![Qdrant Multitenancy](/articles_data/multitenancy/shards.png)
-
-This works in the other direction as well. Whenever you search for something, you can specify a shard or several shards and Qdrant will know where to find them. It will avoid asking all machines in your cluster for results. This will minimize overhead and maximize performance. 
 
 A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations.  
 
