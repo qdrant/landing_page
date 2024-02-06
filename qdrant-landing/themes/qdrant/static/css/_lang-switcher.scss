@@ -2,8 +2,8 @@ $tabs-bg-color: var(--neutral-n-100);
 $tabs-bg-color-active: var(--neutral-n-50);
 $tabs-bg-color-hover: var(--neutral-n-200);
 $tabs-font-color: var(--neutral-n-500);
-$tabs-font-color-hover: var(--neutral-n-600);
 $tabs-font-color-active: var(--neutral-n-700);
+$tabs-font-color-hover: var(--neutral-n-600);
 
 .lang-tabs {
   display: flex;
@@ -22,6 +22,11 @@ $tabs-font-color-active: var(--neutral-n-700);
     gap: 8px;
     color: $tabs-font-color;
     position: relative;
+    text-indent: -9999px;
+
+    @include media-breakpoint-up(sm) {
+      text-indent: unset;
+    }
 
     &:before {
       content: "";
