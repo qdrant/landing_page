@@ -29,7 +29,7 @@
         button.classList.add('lang-tabs__button');
         (i == 0) && button.classList.add('active');
         button.dataset.lang = lang;
-        button.innerText = lang;
+        button.innerHTML = `<i class="lang-tabs__icon lang-tabs__icon_${lang}"></i> ${lang}`;
         // append new button into wrapper element
         this.langButtons.append(button);
       });
