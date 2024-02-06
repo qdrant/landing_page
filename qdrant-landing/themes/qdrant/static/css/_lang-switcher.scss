@@ -14,30 +14,6 @@ $tabs-font-color-active: var(--neutral-n-700);
   border-left: 1px solid $tabs-bg-color;
   border-right: 1px solid $tabs-bg-color;
 
-  &__icon {
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    background-color: $tabs-font-color;
-
-    &_python {
-      -webkit-mask-image: url("/css/assets/lang-switcher/python.svg");
-      mask-image: url("/css/assets/lang-switcher/python.svg");
-    }
-    &_typescript {
-      -webkit-mask-image: url("/css/assets/lang-switcher/typescript.svg");
-      mask-image: url("/css/assets/lang-switcher/typescript.svg");
-    }
-    &_rust {
-      -webkit-mask-image: url("/css/assets/lang-switcher/rust.svg");
-      mask-image: url("/css/assets/lang-switcher/rust.svg");
-    }
-    &_java {
-      -webkit-mask-image: url("/css/assets/lang-switcher/java.svg");
-      mask-image: url("/css/assets/lang-switcher/java.svg");
-    }
-  }
-
   &__button {
     display: flex;
     padding: 10px 20px;
@@ -47,10 +23,46 @@ $tabs-font-color-active: var(--neutral-n-700);
     color: $tabs-font-color;
     position: relative;
 
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-color: $tabs-font-color;
+    }
+
+    &_python {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/python.svg");
+        mask-image: url("/css/assets/lang-switcher/python.svg");
+      }
+    }
+    &_typescript {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/typescript.svg");
+        mask-image: url("/css/assets/lang-switcher/typescript.svg");
+      }
+    }
+    &_rust {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/rust.svg");
+        mask-image: url("/css/assets/lang-switcher/rust.svg");
+      }
+    }
+    &_java {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/java.svg");
+        mask-image: url("/css/assets/lang-switcher/java.svg");
+      }
+    }
+
     &:not(.active):hover {
       background: $tabs-bg-color-hover;
       color: $tabs-font-color-hover;
       cursor: pointer;
+      &:before {
+        background-color: $tabs-font-color-hover;
+      }
       &:after {
         content: "";
         position: absolute;
@@ -70,6 +82,9 @@ $tabs-font-color-active: var(--neutral-n-700);
     &.active {
       background: $tabs-bg-color-active;
       color: $tabs-font-color-active;
+      &:before {
+        background-color: $tabs-font-color-active;
+      }
       &:after {
         content: "";
         position: absolute;
@@ -85,5 +100,6 @@ $tabs-font-color-active: var(--neutral-n-700);
         background-color: $tabs-font-color-active;
       }
     }
+
   }
 }

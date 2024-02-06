@@ -27,9 +27,10 @@
         const lang = this.getLang(tab);
         let button = document.createElement('span');
         button.classList.add('lang-tabs__button');
+        button.classList.add(`lang-tabs__button_${lang}`);
         (i == 0) && button.classList.add('active');
         button.dataset.lang = lang;
-        button.innerHTML = `<i class="lang-tabs__icon lang-tabs__icon_${lang}"></i> ${lang}`;
+        button.innerText = lang;
         // append new button into wrapper element
         this.langButtons.append(button);
       });
