@@ -10,7 +10,7 @@ preview_image: /blog/Article-Image.png # Change this
 # title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
 # small_preview_image: /blog/Article-Image.png # Optional image used for small preview in the list of blog posts
 
-date: 2024-02-06T07:53:26-08:00
+date: 2024-02-06T07:03:26-08:00
 author: Manuel Meyer
 featured: false
 tags: # Change this, related by tags posts will be shown on the blog page
