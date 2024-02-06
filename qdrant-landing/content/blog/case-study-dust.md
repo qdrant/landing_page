@@ -1,14 +1,14 @@
 ---
-title: "Case Study: Dust & Qdrant"
+title: "Dust and Qdrant: Using AI to Unlock Company Knowledge and Drive Employee Productivity"
 draft: false
 slug: dust-and-qdrant 
 #short_description: 
 description: Using AI to Unlock Company Knowledge and Drive Employee Productivity
 preview_image: /blog/Article-Image.png # Change this
 
-social_preview_image: /blog/case-study-dust/preview.jpg # Optional image used for link previews
-title_preview_image: /blog/case-study-dust/preview.jpg # Optional image used for blog post title
-small_preview_image: /blog/case-study-dust/preview.jpg # Optional image used for small preview in the list of blog posts
+social_preview_image: /case-studies/dust/preview.jpg # Optional image used for link previews
+title_preview_image: /case-studies/dust/preview.jpg # Optional image used for blog post title
+small_preview_image: /case-studies/dust/preview.jpg # Optional image used for small preview in the list of blog posts
 
 date: 2024-02-06T07:03:26-08:00
 author: Manuel Meyer
@@ -76,7 +76,7 @@ library support.
 
 When building their solution with Qdrant, Dust took a two step approach:
 
-Get started quickly: Initially, Dust wanted to get started quickly and opted for
+1. **Get started quickly:** Initially, Dust wanted to get started quickly and opted for
 [Qdrant Cloud](https://qdrant.to/cloud), Qdrant’s managed solution, to reduce the administrative load on
 Dust’s end. In addition, they created clusters and deployed them on Google
 Cloud since Dust wanted to have those run directly in their existing Google
@@ -84,7 +84,7 @@ Cloud environment. This added a lot of value as it allowed Dust to centralize
 billing and increase security by having the instance live within the same VPC.
 “The early setup worked out of the box nicely,” Polu says.
 
-Scale and optimize: As the load grew, Dust started to take advantage of Qdrant’s
+2. **Scale and optimize:** As the load grew, Dust started to take advantage of Qdrant’s
 features to tune the setup for optimization and scale. They started to look into
 how they map and cache data, as well as applying some of Qdrant’s [built-in
 compression features](https://qdrant.tech/documentation/guides/quantization/). In particular, Dust leveraged the control of the [MMAP
