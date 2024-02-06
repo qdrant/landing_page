@@ -115,7 +115,7 @@ client.upsert(
 
 ## Retrieve data via filters
 
-The access control setup is completed as you specify the criteria for data retrieval. When searching for vectors, you need to use a `query_filter` along with `group_id` to filter vectors for each user. Additionally specifying the `shard_key_selector` will look for data in the region of your choosing. In this case, your query is based on `user_1` and data dedicated to the Canadian region.
+The access control setup is completed as you specify the criteria for data retrieval. When searching for vectors, you need to use a `query_filter` along with `group_id` to filter vectors for each user. 
 
 ```python
 client.search(
@@ -127,12 +127,6 @@ client.search(
                 match=models.MatchValue(
                     value="user_1",
                 ),
-            ),
-            models.FieldCondition(
-                key="shard_key_selector",
-                match=models.MatchValue(
-                    value="canada"
-                ,)
             ),
         ]
     ),
