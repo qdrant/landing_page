@@ -37,6 +37,8 @@ $tabs-font-color-hover: var(--neutral-n-600);
       mask-size: contain;
       mask-repeat: no-repeat;
       mask-position: center;
+      -webkit-mask-image: url("/css/assets/lang-switcher/http.svg");
+      mask-image: url("/css/assets/lang-switcher/http.svg");
     }
 
     &_python {
@@ -61,12 +63,6 @@ $tabs-font-color-hover: var(--neutral-n-600);
       &:before {
         -webkit-mask-image: url("/css/assets/lang-switcher/java.svg");
         mask-image: url("/css/assets/lang-switcher/java.svg");
-      }
-    }
-    &_http {
-      &:before {
-        -webkit-mask-image: url("/css/assets/lang-switcher/http.svg");
-        mask-image: url("/css/assets/lang-switcher/http.svg");
       }
     }
 
