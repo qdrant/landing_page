@@ -1,8 +1,8 @@
 extends: existence
-message: "Avoid first-person pronouns such as '%s'."
+message: "In docs, avoid first-person pronouns such as '%s'. It's OK in blogs and articles."
 link: 'https://developers.google.com/style/pronouns#personal-pronouns'
 ignorecase: true
-level: warning
+level: suggestion
 nonword: true
 tokens:
   - (?:^|\s)I\s

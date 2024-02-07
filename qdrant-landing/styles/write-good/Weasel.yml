@@ -1,5 +1,5 @@
 extends: existence
-message: "'%s' is not precise. Consider deleting it."
+message: "'%s' is not precise. Unless you're writing a blog / article, consider deleting it."
 ignorecase: true
 level: warning
 tokens:
