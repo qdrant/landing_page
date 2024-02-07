@@ -21,13 +21,15 @@ tags:
 
 ---
 
-You know when you’re scrolling through your social media feeds and the content just feels incredibly tailored to you. There's the news you care about, followed by a perfect tutorial with your favorite stack, and then a meme that gives you a snort laugh.
+> **Embeddings** are numerical machine learning representations of the semantic of the input data. They capture the meaning of complex, high-dimensional data, like text, images, or audio, into vectors. Enabling algorithms to process and analyze the data more efficiently.
 
-Or how YouTube recommends videos you ended up loving, even by creators you've never even heard of. And you didn’t even send YouTube a note about your ideal content lineup.
+You know when you’re scrolling through your social media feeds and the content just feels incredibly tailored to you? There's the news you care about, followed by a perfect tutorial with your favorite tech stack, and then a meme that makes you laugh so hard you snort.
 
-This is not a coincidence. It is the work of **embeddings**.
+Or what about how YouTube recommends videos you ended up loving. It’s by creators you've never even heard of and you didn’t even send YouTube a note about your ideal content lineup.
 
-Embeddings come from **deep learning models** which analyze the data of your interactions online. It comes from your likes, shares, comments, searches, the kind of content you linger on, and even the content you decide to skip. It also allows the algorithm to predict future content that you are likely to appreciate.
+This is the magic of embeddings.
+
+These are the result of **deep learning models** analyzing the data of your interactions online. From your likes, shares, comments, searches, the kind of content you linger on, and even the content you decide to skip. It also allows the algorithm to predict future content that you are likely to appreciate.
 
 The same embeddings can be repurposed for search, ads, and other features, creating a highly personalized user experience.
 
@@ -35,14 +37,16 @@ The same embeddings can be repurposed for search, ads, and other features, creat
 ![How embeddings are applied to perform recommendantions and other use cases](/articles_data/what-are-embeddings/Embeddings-Use-Case.jpg)
 
 
-They make high-dimensional data more manageable. This reduces storage requirements, improves computational efficiency, and makes sense of a ton of **unstructured** data.
+They make [high-dimensional](https://www.sciencedirect.com/topics/computer-science/high-dimensional-data) data more manageable. This reduces storage requirements, improves computational efficiency, and makes sense of a ton of **unstructured** data.
 
 
 ## Why Use Vector Embeddings?
 
-Traditional relational databases are great when everything fits neatly into tables, but they fall short when asked to handle the **nuances** of natural language or the hidden **meaning** in large datasets of images, sounds, or user interactions. 
+The **nuances** of natural language or the hidden **meaning** in large datasets of images, sounds, or user interactions are hard to fit into a table. Traditional relational databases can't efficiently query most types of data being currently used and produced, making the **retrieval** of this information very limited.
 
-In the embeddings space, synonyms tend to appear in similar contexts and end up having similar embeddings. It’s a system smart enough to analyze that "pretty" and "attractive" are playing for the same team, without being explicitly told so. 
+In the embeddings space, synonyms tend to appear in similar contexts and end up having similar embeddings. The space is a system smart enough to understand that "pretty" and "attractive" are playing for the same team. Without being explicitly told so. 
+
+That’s the magic.
 
 At their core, vector embeddings are about semantics. They take the idea that "a word is known by the company it keeps" and apply it on a grand scale. 
 
@@ -50,12 +54,11 @@ At their core, vector embeddings are about semantics. They take the idea that "a
 ![Example of how synonyms are placed closer together in the embeddings space](/articles_data/what-are-embeddings/Similar-Embeddings.jpg)
 
 
-This capability is crucial for creating search systems, recommendation engines, and any application that benefits from a deep understanding of content.
-
+This capability is crucial for creating search systems, recommendation engines, retrieval augmented generation (RAG) and any application that benefits from a deep understanding of content.
 
 ## How do embeddings work?
 
-Embeddings are created through neural networks. They capture complex relationships and semantics into dense vectors. They can then project these dense vectors into a proper **high-dimensional** space, specifically, a [Vector Database](https://qdrant.tech/articles/what-is-a-vector-database/). 
+Embeddings are created through neural networks. They capture complex relationships and semantics into [dense vectors](https://www1.se.cuhk.edu.hk/~seem5680/lecture/semantics-with-dense-vectors-2018.pdf) which are more suitable for machine learning and data processing applications. They can then project these vectors into a proper **high-dimensional** space, specifically, a [Vector Database](https://qdrant.tech/articles/what-is-a-vector-database/). 
 
 
 
@@ -64,7 +67,7 @@ Embeddings are created through neural networks. They capture complex relationshi
 
 The meaning of a data point is implicitly defined by its **position** on the vector space. After the vectors are stored, we can use their spatial properties to perform [nearest neighbor searches](https://en.wikipedia.org/wiki/Nearest_neighbor_search#:~:text=Nearest%20neighbor%20search%20(NNS)%2C,the%20larger%20the%20function%20values.). These searches retrieve semantically similar items based on how close they are in this space.  
 
-The quality of the vector representations drives the performance. The embedding model that works best for you depends on your use case.
+> The quality of the vector representations drives the performance. The embedding model that works best for you depends on your use case.
 
 
 ### Creating Vector Embeddings
@@ -127,8 +130,13 @@ The model creates a vector embedding for "biophilic design" that encapsulates th
 
 ### Integration with Embedding APIs
 
-Selecting the right embedding model for your use case crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](https://qdrant.tech/documentation/embeddings/cohere/), [Gemini](https://qdrant.tech/documentation/embeddings/gemini/), [Jina Embeddings](https://qdrant.tech/documentation/embeddings/jina-embeddings/), [OpenAI](https://qdrant.tech/documentation/embeddings/openai/), [Aleph Alpha](https://qdrant.tech/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](https://qdrant.tech/documentation/embeddings/bedrock/). Accelerate the integration process with our quick-start examples.
+Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](https://qdrant.tech/documentation/embeddings/cohere/), [Gemini](https://qdrant.tech/documentation/embeddings/gemini/), [Jina Embeddings](https://qdrant.tech/documentation/embeddings/jina-embeddings/), [OpenAI](https://qdrant.tech/documentation/embeddings/openai/), [Aleph Alpha](https://qdrant.tech/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](https://qdrant.tech/documentation/embeddings/bedrock/). 
 
+If you’re looking for NLP and rapid prototyping, including language translation, question-answering, and text generation, OpenAI is a great choice. Gemini is ideal for image search, duplicate detection, and clustering tasks. 
+
+Fastembed, which we’ll use on the example below, is designed for efficiency and speed, great for applications needing low-latency responses, such as autocomplete and instant content recommendations. 
+
+We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
 
 ## Create a Neural Search Service with Fastembed
 
@@ -142,3 +150,5 @@ Tutorial guides you through a practical application of how to use Qdrant for doc
 
 
 Check out what the final version of this project looks like on the [live online demo](https://qdrant.to/semantic-search-demo).
+
+Let us know what you’re building with embeddings! Join our [Discord](https://discord.gg/qdrant-907569970500743200) community and share your projects!
