@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en">
+  {{ partial "head.html" . }}
+  <body>
+    <main>
+      <header class="main-header">
+        {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ partial "menu" . }}
+        {{ partial "hero" . }}
+      </header>
+    </main>
+    
+    {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+    <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+  </body>
+</html>

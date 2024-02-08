@@ -1,7 +1,7 @@
 baseURL = "https://qdrant.tech"
 languageCode = "en-us"
 title = "Qdrant - Vector Database"
-theme = "qdrant"
+theme = "qdrant-2024"
 
 googleAnalytics = "G-NZYW2651NE"
 enableRobotsTXT = true
@@ -309,3 +309,14 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   [[related.indices]]
     name = "tags"
     weight = 100
+
+# Not rendering the content of the cd following files in production
+[[cascade]]
+  [cascade._build]
+    list = 'never'
+    render = 'never'
+  [cascade._target]
+    environment = '{production}'
+    path = '{**.skip,**.skip/*}'
+
+
