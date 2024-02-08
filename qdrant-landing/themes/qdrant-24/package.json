@@ -1,0 +1,30 @@
+{
+  "scripts": {
+    "build": "webpack --mode=production",
+    "sass:watch": "",
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  },
+  "dependencies": {
+    "qdrant-page-search": "^1.0.6"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.23.9",
+    "copy-webpack-plugin": "^12.0.2",
+    "prettier": "^3.2.5",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

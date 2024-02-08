@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+    {{ $opts := dict "transpiler" "dartsass" }}
+    {{ with resources.Get "styles/main.scss" | toCSS $opts | minify | fingerprint }}
+    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{ end }}
+
+  </head>
+  <body>
+
+  {{ range resources.Match "**/*.*" }}
+  <p>{{ .RelPermalink }}</p>
+  {{ end }}
+  </body>
+</html>
