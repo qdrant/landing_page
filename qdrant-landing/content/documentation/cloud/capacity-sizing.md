@@ -43,7 +43,7 @@ If your use case assumes that the vectors are split into multiple collections or
 it is recommended to configure memory-map storage.
 For example, if you serve search for multiple users, but each of them has an subset of vectors which they use independently.
 
-In this scenatio only the active subset of vectors will be kept in RAM, which allows
+In this scenario only the active subset of vectors will be kept in RAM, which allows
 the fast search for the most active and recent users.
 
 In this case you can estimate required memory size as follows:
