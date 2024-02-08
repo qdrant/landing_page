@@ -4,6 +4,8 @@ command = "cd qdrant-landing ; hugo --gc --minify"
 
 [build.environment]
 HUGO_VERSION = "0.123.0"
+DART_SASS_VERSION = "1.70.0"
+NODE_VERSION = "20.10.0"
 
 [context.production.environment]
 HUGO_ENV = "production"
@@ -13,7 +15,13 @@ HUGO_ENABLEGITINFO = "true"
 HUGO_ENV = "staging"
 
 [context.deploy-preview]
-command = "cd qdrant-landing ; echo $HUGO_ENV ; hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
+command = """\
+    curl -LJO https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz && \
+    tar -xf dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz && \
+    rm dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz && \
+    export PATH=/opt/build/repo/dart-sass:$PATH && \
+    cd qdrant-landing && npm install && echo $HUGO_ENV && hugo --gc --minify --config config.toml,config-theme.toml --buildFuture -b $DEPLOY_PRIME_URL
+    """
 
 [[headers]]
     for = "/*"
