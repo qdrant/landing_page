@@ -1,0 +1,53 @@
+@use '../mixins/mixins' as mixins;
+
+.menu-link {
+  text-decoration: none;
+  color: $neutral-98;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-50;
+  }
+}
+
+.main-menu {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  padding: 32px 40px 32px 40px;
+  background: linear-gradient(180deg, #090d19, rgba(9, 13, 25, 0));
+  z-index: 1;
+
+  &__links {
+    display: flex;
+    gap: 8px;
+    position: relative;
+    margin-bottom: 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    padding: 0 16px;
+    position: relative;
+    color: $neutral-98; // ?
+    line-height: 1.5;
+    white-space: nowrap;
+    @include mixins.transitionAll(300ms);
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: $spacer;
+  }
+}
