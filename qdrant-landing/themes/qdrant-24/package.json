@@ -6,6 +6,7 @@
     "format:check": "prettier . --check"
   },
   "dependencies": {
+    "bootstrap": "^5.3.2",
     "qdrant-page-search": "^1.0.6"
   },
   "devDependencies": {
