@@ -64,7 +64,7 @@ This command is only necessary for the initial installation. After that, you can
 
 Once you have created a private region, you can create a Qdrant cluster in your private region. This works the same way as creating a cluster in a managed cloud region, except that you can choose your private region as the target region.
 
-### Authentication of your Qdrant clusters
+### Authentication at your Qdrant clusters
 
 ### Exposing Qdrant Clusters to your client applications
 
