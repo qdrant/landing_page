@@ -5,7 +5,7 @@ weight: 14
 
 # Interfaces
 
-These are the "official" clients used by Qdrant. The groups behind each client
+These are the "official" clients used by Qdrant. The organizations behind each client
 are responsible for their support.
 
 > **Note:** If you are using a language that is not listed here, you can use the REST API directly or generate a client for your language 
