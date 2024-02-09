@@ -1,11 +1,11 @@
 {
   "scripts": {
-    "build": "webpack --mode=production"
+    "build": "npx webpack --mode=production"
   },
   "dependencies": {
     "@splidejs/splide": "^4.1.2",
     "bootstrap": "^4.6.1",
-    "qdrant-page-search": "^1.0.6"
+    "qdrant-page-search": "^1.0.8"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^11.0.0",

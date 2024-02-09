@@ -4,7 +4,7 @@
 @use "../variables" as vars;
 @use "../blocks/grid-background" as *;
 
-@use "../../../../../node_modules/bootstrap/scss/bootstrap.scss" as bs;
+@use "../../../node_modules/bootstrap/scss/bootstrap.scss" as bs;
 
 $landing-font-family: 'Roboto', sans-serif;
 
