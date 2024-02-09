@@ -12,10 +12,10 @@ module.exports = function (env, argv) {
     mode: isEnvProduction ? 'production' : isEnvDevelopment && 'development',
     context: __dirname,
     entry: {
-      vendor: './themes/qdrant/vendor/js/vendor.js',
+      vendor: './vendor/js/vendor.js',
     },
     output: {
-      path: path.resolve(__dirname, './themes/qdrant/static/js'),
+      path: path.resolve(__dirname, './static/js'),
       filename: '[name].min.js'
     },
     externals: {
