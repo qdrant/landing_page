@@ -5,21 +5,21 @@ weight: 1100
 
 # Nomic
 
-The `nomic-embed-text-v1` model is an [open source](https://github.com/nomic-ai/contrastors) 8192 context length text encoder.
-It is available on [Hugging Face Hub](https://huggingface.co/nomic-ai/nomic-embed-text-v1), but the easiest way to use it is 
-through the [Nomic Text Embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text), either by using the official
-Python client or by sending HTTP requests directly.
+The `nomic-embed-text-v1` model is an open source [8192 context length]((https://github.com/nomic-ai/contrastors)) text encoder.
+While you can find it on the [Hugging Face Hub](https://huggingface.co/nomic-ai/nomic-embed-text-v1), 
+you may have more success through the [Nomic Text Embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
+Once installed, you can configure it with the official Python client or through direct HTTP requests.
 
-Nomic embeddings might be used directly in the Qdrant client's calls. Please note there is a difference in the way the embeddings
-are obtained for the documents and queries. The `task_type` parameter defines what kind of embeddings you want to obtain.
-For the documents, it should be set to `search_document`:
+You can use Nomic embeddings directly in Qdrant client calls. There is a difference in the way the embeddings
+are obtained for documents and queries. The `task_type` parameter defines the embeddings that you get.
+For documents, set the `task_type` to `search_document`:
 
 ```python
 from qdrant_client import QdrantClient, models
 from nomic import embed
 
 output = embed.text(
-    texts=["The best vector database"],
+    texts=["Qdrant is the best vector database!"],
     model="nomic-embed-text-v1",
     task_type="search_document",
 )
@@ -34,11 +34,11 @@ qdrant_client.upsert(
 )
 ```
 
-While querying the collection, the `task_type` should be set to `search_query`:
+To query the collection, set the `task_type` to `search_query`:
 
 ```python
 output = embed.text(
-    texts=["The best vector database"],
+    texts=["What is the best vector database?"],
     model="nomic-embed-text-v1",
     task_type="search_query",
 )
@@ -49,4 +49,4 @@ qdrant_client.search(
 )
 ```
 
-Please refer to the [Nomic documentation](https://docs.nomic.ai/reference/endpoints/nomic-embed-text) for more details.
+For more information, see the Nomic documentation on [Text embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
