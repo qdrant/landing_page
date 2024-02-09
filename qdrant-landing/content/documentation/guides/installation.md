@@ -151,7 +151,7 @@ Here is an example customized compose file for a single node Qdrant cluster:
 ```yaml
 services:
   qdrant:
-    image: qdrant/qdrant:v1.6.1
+    image: qdrant/qdrant:latest
     restart: always
     container_name: qdrant
     ports:
