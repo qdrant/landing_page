@@ -3,10 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <title>Title</title>
-    {{ $opts := dict "transpiler" "dartsass" }}
-    {{ with resources.Get "styles/main.scss" | toCSS $opts | minify | fingerprint }}
-    <link rel="stylesheet" href="{{ .RelPermalink }}" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{ $opts := dict
+      "transpiler" "dartsass"
+      "enableSourceMap" (not hugo.IsProduction)
+      "includePaths" (slice "node_modules/bootstrap/scss")
+    }}
+    {{ with resources.Get "css/main.scss" | toCSS $opts | minify | fingerprint }}
+    <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
     {{ end }}
+
+    {{ $pageSearchCss := resources.Get "/css/qdrant-page-search.css" | resources.Fingerprint "sha512" }}
+    <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}">
 
   </head>
   <body>
@@ -14,5 +21,8 @@
   {{ range resources.Match "**/*.*" }}
   <p>{{ .RelPermalink }}</p>
   {{ end }}
+
+  {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
+  <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
 </html>
