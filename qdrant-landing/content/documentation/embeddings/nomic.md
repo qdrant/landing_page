@@ -5,7 +5,7 @@ weight: 1100
 
 # Nomic
 
-The `nomic-embed-text-v1` model is an open source [8192 context length](https://github.com/nomic-ai/contrastors)) text encoder.
+The `nomic-embed-text-v1` model is an open source [8192 context length](https://github.com/nomic-ai/contrastors) text encoder.
 While you can find it on the [Hugging Face Hub](https://huggingface.co/nomic-ai/nomic-embed-text-v1), 
 you may have more success through the [Nomic Text Embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
 Once installed, you can configure it with the official Python client or through direct HTTP requests.
