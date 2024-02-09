@@ -35,7 +35,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 Once provisioned, you can access your cluster on ports 443 and 6333 (REST)
 and 6334 (gRPC).
 
-![Embeddings](/docs/cloud/create-cluster.png)
+![Cluster configured in the UI](/docs/cloud/create-cluster-test.png)
 
 You should now see the new cluster in the **Clusters** menu.
 
