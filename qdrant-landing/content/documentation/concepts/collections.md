@@ -38,16 +38,6 @@ specify collections named  `test_collection1` through `test_collection4`.
 
 ## Create a collection
 
-```bash
-curl -X PUT http://localhost:6333/collections/test_collection1 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-      "size": 300,
-      "distance": "Cosine"
-    } 
-  }'
-```
 
 ```http
 PUT /collections/{collection_name}
@@ -57,6 +47,17 @@ PUT /collections/{collection_name}
       "distance": "Cosine"
     }
 }
+```
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    } 
+  }'
 ```
 
 ```python
@@ -150,19 +151,6 @@ This might be useful for experimenting quickly with different configurations for
 Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
 code, `"size": 300` and `"distance": "Cosine"`.
 
-```bash
-curl -X PUT http://localhost:6333/collections/test_collection2 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-      "size": 300,
-      "distance": "Cosine"
-    },
-    "init_from": {
-       "collection": "test_collection1"
-    }
-  }'
-```
 
 ```http
 PUT /collections/{collection_name}
@@ -175,6 +163,20 @@ PUT /collections/{collection_name}
        "collection": "{from_collection_name}"
     }
 }
+```
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection2 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    },
+    "init_from": {
+       "collection": "test_collection1"
+    }
+  }'
 ```
 
 ```python
@@ -261,22 +263,6 @@ This feature allows for multiple vector storages per collection.
 To distinguish vectors in one record, they should have a unique name defined when creating the collection.
 Each named vector in this mode has its distance and size:
 
-```bash
-curl -X PUT http://localhost:6333/collections/test_collection3 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-        "image": {
-            "size": 4,
-            "distance": "Dot"
-        },
-        "text": {
-            "size": 8,
-            "distance": "Cosine"
-        }
-      }
-    }'
-```
 
 ```http
 PUT /collections/{collection_name}
@@ -292,6 +278,23 @@ PUT /collections/{collection_name}
         }
     }
 }
+```
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection3 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "image": {
+            "size": 4,
+            "distance": "Dot"
+        },
+        "text": {
+            "size": 8,
+            "distance": "Cosine"
+        }
+      }
+    }'
 ```
 
 ```python
@@ -417,6 +420,15 @@ Collections can contain sparse vectors as additional [named vectors](#collection
 Unlike dense vectors, sparse vectors must be named.
 And additionally, sparse vectors and dense vectors must have different names within a collection.
 
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": { },
+    }
+}
+```
+
 ```bash
 curl -X PUT http://localhost:6333/collections/test_collection4 \
   -H 'Content-Type: application/json' \
@@ -427,14 +439,6 @@ curl -X PUT http://localhost:6333/collections/test_collection4 \
   }'
 ```
 
-```http
-PUT /collections/{collection_name}
-{
-    "sparse_vectors": {
-        "text": { },
-    }
-}
-```
 
 ```python
 from qdrant_client import QdrantClient
@@ -520,12 +524,12 @@ However, there are optional parameters to tune the underlying [sparse vector ind
 
 ### Delete collection
 
-```bash
-curl -X DELETE http://localhost:6333/collections/test_collection4 
-```
-
 ```http
 DELETE http://localhost:6333/collections/test_collection4 
+```
+
+```bash
+curl -X DELETE http://localhost:6333/collections/test_collection4 
 ```
 
 ```python
@@ -558,15 +562,6 @@ As a result, you will not waste extra computation resources on rebuilding the in
 
 The following command enables indexing for segments that have more than 10000 kB of vectors stored:
 
-```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "optimizers_config": {
-        "indexing_threshold": 10000
-    }
-  }'
-```
 
 ```http
 PATCH /collections/{collection_name}
@@ -575,6 +570,16 @@ PATCH /collections/{collection_name}
         "indexing_threshold": 10000
     }
 }
+```
+
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "optimizers_config": {
+        "indexing_threshold": 10000
+    }
+  }'
 ```
 
 ```python
@@ -651,17 +656,6 @@ automatically be rebuilt in the background to match updated parameters.
 To put vector data on disk for a collection that **does not have** named vectors,
 use `""` as name:
 
-```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-        "": { 
-            "on_disk": true 
-      }
-    }
-  }'
-```
 
 ```http
 PATCH /collections/{collection_name}
@@ -674,9 +668,34 @@ PATCH /collections/{collection_name}
 }
 ```
 
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "": { 
+            "on_disk": true 
+      }
+    }
+  }'
+```
+
+
 To put vector data on disk for a collection that **does have** named vectors:
 
 Note: To create a vector name, follow the procedure from our [Points](/documentation/concepts/points/#create-vector-name).
+
+
+```http
+PATCH /collections/{collection_name}
+{
+    "vectors": {
+        "my_vector": {
+            "on_disk": true
+        }
+    }
+}
+```
 
 ```bash
 curl -X PATCH http://localhost:6333/collections/test_collection1 \
@@ -690,19 +709,40 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
   }'
 ```
 
+In the following example the HNSW index and quantization parameters are updated,
+both for the whole collection, and for `my_vector` specifically:
+
+
 ```http
 PATCH /collections/{collection_name}
 {
     "vectors": {
         "my_vector": {
+            "hnsw_config": {
+                "m": 32,
+                "ef_construct": 123
+            },
+            "quantization_config": {
+                "product": {
+                    "compression": "x32",
+                    "always_ram": true
+                }
+            },
             "on_disk": true
+        }
+    },
+    "hnsw_config": {
+        "ef_construct": 123
+    },
+    "quantization_config": {
+        "scalar": {
+            "type": "int8",
+            "quantile": 0.8,
+            "always_ram": false
         }
     }
 }
 ```
-
-In the following example the HNSW index and quantization parameters are updated,
-both for the whole collection, and for `my_vector` specifically:
 
 ```bash
 curl -X PATCH http://localhost:6333/collections/test_collection1 \
@@ -734,37 +774,6 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
         }
     }
 }'
-```
-
-```http
-PATCH /collections/{collection_name}
-{
-    "vectors": {
-        "my_vector": {
-            "hnsw_config": {
-                "m": 32,
-                "ef_construct": 123
-            },
-            "quantization_config": {
-                "product": {
-                    "compression": "x32",
-                    "always_ram": true
-                }
-            },
-            "on_disk": true
-        }
-    },
-    "hnsw_config": {
-        "ef_construct": 123
-    },
-    "quantization_config": {
-        "scalar": {
-            "type": "int8",
-            "quantile": 0.8,
-            "always_ram": false
-        }
-    }
-}
 ```
 
 ```python
@@ -920,58 +929,34 @@ client
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
 distributed and indexed.
 
-```bash
-curl -X GET http://localhost:6333/collections/test_collection1 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "result": {
-        "status": "green",
-        "optimizer_status": "ok",
-        "vectors_count": 1068786,
-        "indexed_vectors_count": 1024232,
-        "points_count": 1068786,
-        "segments_count": 31,
-        "config": {
-            "params": {
-                "vectors": {
-                    "size": 384,
-                    "distance": "Cosine"
-                },
-                "shard_number": 1,
-                "replication_factor": 1,
-                "write_consistency_factor": 1,
-                "on_disk_payload": false
-            },
-            "hnsw_config": {
-                "m": 16,
-                "ef_construct": 100,
-                "full_scan_threshold": 10000,
-                "max_indexing_threads": 0
-            },
-            "optimizer_config": {
-                "deleted_threshold": 0.2,
-                "vacuum_min_vector_number": 1000,
-                "default_segment_number": 0,
-                "max_segment_size": null,
-                "memmap_threshold": null,
-                "indexing_threshold": 20000,
-                "flush_interval_sec": 5,
-                "max_optimization_threads": 1
-            },
-            "wal_config": {
-                "wal_capacity_mb": 32,
-                "wal_segments_ahead": 0
-            }
-        },
-        "payload_schema": {}
-    },
-    "status": "ok",
-    "time": 0.00010143
-}'
-```
-
 ```http
 GET /collections/test_collection1
+```
+
+```bash
+curl -X GET http://localhost:6333/collections/test_collection1
+```
+
+```python
+client.get_collection(collection_name="{collection_name}")
+```
+
+```typescript
+client.getCollection("{collection_name}");
+```
+
+```rust
+client.collection_info("{collection_name}").await?;
+```
+
+```java
+client.getCollectionInfoAsync("{collection_name}").get();
+```
+
+<details>
+<summary>Expected result</summary>
+
+```json
 {
     "result": {
         "status": "green",
@@ -1019,21 +1004,10 @@ GET /collections/test_collection1
 }
 ```
 
-```python
-client.get_collection(collection_name="{collection_name}")
-```
+</details>
+<br/>
 
-```typescript
-client.getCollection("{collection_name}");
-```
 
-```rust
-client.collection_info("{collection_name}").await?;
-```
-
-```java
-client.getCollectionInfoAsync("{collection_name}").get();
-```
 
 If you insert the vectors into the collection, the `status` field may become
 `yellow` whilst it is optimizing. It will become `green` once all the points are
@@ -1097,6 +1071,20 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 
 ### Create alias
 
+```http
+POST /collections/aliases
+{
+    "actions": [
+        {
+            "create_alias": {
+                "collection_name": "test_collection1",
+                "alias_name": "production_collection"
+            }
+        }
+    ]
+}
+```
+
 ```bash
 curl -X POST http://localhost:6333/collections/aliases \
   -H 'Content-Type: application/json' \
@@ -1110,20 +1098,6 @@ curl -X POST http://localhost:6333/collections/aliases \
         }
     ]
 }'
-```
-
-```http
-POST /collections/aliases
-{
-    "actions": [
-        {
-            "create_alias": {
-                "collection_name": "test_collection1",
-                "alias_name": "production_collection"
-            }
-        }
-    ]
-}
 ```
 
 ```python
@@ -1224,6 +1198,25 @@ client.deleteAliasAsync("production_collection").get();
 Multiple alias actions are performed atomically.
 For example, you can switch underlying collection with the following command:
 
+```http
+POST /collections/aliases
+{
+    "actions": [
+        {
+            "delete_alias": {
+                "alias_name": "production_collection"
+            }
+        },
+        {
+            "create_alias": {
+                "collection_name": "test_collection2",
+                "alias_name": "production_collection"
+            }
+        }
+    ]
+}
+```
+
 ```bash
 curl -X POST http://localhost:6333/collections/aliases \
   -H 'Content-Type: application/json' \
@@ -1242,25 +1235,6 @@ curl -X POST http://localhost:6333/collections/aliases \
         }
     ]
 }'
-```
-
-```http
-POST /collections/aliases
-{
-    "actions": [
-        {
-            "delete_alias": {
-                "alias_name": "production_collection"
-            }
-        },
-        {
-            "create_alias": {
-                "collection_name": "test_collection2",
-                "alias_name": "production_collection"
-            }
-        }
-    ]
-}
 ```
 
 ```python
@@ -1308,12 +1282,12 @@ client.createAliasAsync("production_collection", "example_collection").get();
 
 ### List collection aliases
 
-```bash
-curl -X GET http://localhost:6333/collections/test_collection2/aliases
-```
-
 ```http
 GET /collections/test_collection2/aliases
+```
+
+```bash
+curl -X GET http://localhost:6333/collections/test_collection2/aliases
 ```
 
 ```python
@@ -1352,13 +1326,14 @@ client.listCollectionAliasesAsync("{collection_name}").get();
 
 ### List all aliases
 
+```http
+GET /aliases
+```
+
 ```bash
 curl -X GET http://localhost:6333/aliases
 ```
 
-```http
-GET /aliases
-```
 
 ```python
 from qdrant_client import QdrantClient
@@ -1396,13 +1371,14 @@ client.listAliasesAsync().get();
 
 ### List all collections
 
+```http
+GET /collections
+```
+
 ```bash
 curl -X GET http://localhost:6333/collections
 ```
 
-```http
-GET /collections
-```
 
 ```python
 from qdrant_client import QdrantClient
