@@ -88,37 +88,30 @@ client.upsert(
         models.PointStruct(
             id=1,
             payload={"group_id": "tenant_1"},
-            vector=[0.9, 0.1, 0.1],
-            shard_key_selector="canada",
+            vector=[0.9, 0.1, 0.1], 
+        ),
+        models.PointStruct(
+            id=2,
+            payload={"group_id": "tenant_1"},
+            vector=[0.1, 0.9, 0.1],
         ),
     ],
+    shard_key_selector="canada",
 )
 ```
-Keep in mind that the data for each `group_id` is isolated. In the example below, `tenant_1` vectors are kept separate from `tenant_2`. The first tenant will be able to access their data in the Canadian portion of the cluster, while `tenant_2 `might only be able to retrieve information hosted in Germany.
+Keep in mind that the data for each `group_id` is isolated. In the example below, `tenant_1` vectors are kept separate from `tenant_2`. The first tenant will be able to access their data in the Canadian portion of the cluster. However, as shown below `tenant_2 `might only be able to retrieve information hosted in Germany.
 
 ```python
 client.upsert(
     collection_name="{collection_name}",
     points=[
         models.PointStruct(
-            id=1,
-            payload={"group_id": "tenant_1"},
-            vector=[0.9, 0.1, 0.1],
-            shard_key_selector="canada",  
-        ),
-        models.PointStruct(
-            id=2,
-            payload={"group_id": "tenant_1"},
-            vector=[0.1, 0.9, 0.1],
-            shard_key_selector="canada", 
-        ),
-        models.PointStruct(
             id=3,
             payload={"group_id": "tenant_2"},
             vector=[0.1, 0.1, 0.9],
-            shard_key_selector="germany", 
         ),
     ],
+    shard_key_selector="germany",
 )
 ```
 
