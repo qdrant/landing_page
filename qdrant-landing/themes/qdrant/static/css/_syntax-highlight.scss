@@ -1,3 +1,11 @@
+/* inline code */
+code:not([class]) {
+  color: var(--neutral-n-700);
+  background-color: var(--neutral-n-50);
+  padding: 0.2em 0.4em;
+  border-radius: 0.4em;
+}
+
 /* Background */
 .highlight {
   position: relative;
@@ -15,7 +23,7 @@
 /* PreWrapper */ .chroma { background-color:  var(--neutral-n-50, #F2F6FF); }
 /* Other */ .chroma .x {  }
 /* Error */ .chroma .err { color:  var(--neutral-n-700, #1F3266) }
-/* CodeLine */ .chroma .cl { font-weight: 500; }
+/* CodeLine */ .chroma .cl {  }
 /* LineLink */ .chroma .lnlinks { outline: none; text-decoration: none; color: inherit }
 /* LineTableTD */ .chroma .lntd { vertical-align: top; padding: 0; margin: 0; border: 0; }
 /* LineTable */ .chroma .lntable { border-spacing: 0; padding: 0; margin: 0; border: 0; }

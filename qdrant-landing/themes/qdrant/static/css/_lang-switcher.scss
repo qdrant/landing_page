@@ -24,7 +24,7 @@ $tabs-font-color-hover: var(--neutral-n-600);
     position: relative;
     text-indent: -9999px;
 
-    @include media-breakpoint-up(sm) {
+    @include media-breakpoint-up(md) {
       text-indent: unset;
     }
 
