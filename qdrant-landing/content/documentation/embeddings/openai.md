@@ -22,12 +22,14 @@ import qdrant_client
 
 from qdrant_client.http.models import Batch
 
-# Provide OpenAI API key and choose one of the available models:
-# https://beta.openai.com/docs/models/overview
-openai.api_key = "<< your_api_key >>"
+# Choose one of the available models:
+# https://platform.openai.com/docs/models/embeddings
 embedding_model = "text-embedding-ada-002"
 
-response = openai.Embedding.create(
+openai_client = openai.Client(
+    api_key="<< your_api_key >>"
+)
+response = openai_client.embeddings.create(
     input="The best vector database",
     model=embedding_model,
 )
@@ -37,7 +39,7 @@ qdrant_client.upsert(
     collection_name="MyCollection",
     points=Batch(
         ids=[1],
-        vectors=[response["data"][0]["embedding"]],
+        vectors=[response.data[0].embedding],
     ),
 )
 ```
