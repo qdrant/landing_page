@@ -188,6 +188,15 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     [menu.main.params]
         external = true
 
+  [[menu.main]]
+    identifier = "trust-center"
+    name = "Trust Center"
+    weight = 8
+    parent = "resources"
+    url = "http://qdrant.to/trust-center"
+    [menu.main.params]
+      external = true
+
 [[menu.main]]
   identifier = "community"
   name = "Community"
