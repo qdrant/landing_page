@@ -2,7 +2,7 @@
 title: "Best Practices for Massive-Scale Deployments: Multitenancy and Custom Sharding"
 short_description: "Combining our most popular features to support scalable machine learning solutions."
 description: "Combining our most popular features to support scalable machine learning solutions."
-social_preview_image: /articles_data/multitenancy/preview/social_preview.jpg
+social_preview_image: /articles_data/multitenancy/social_preview.png
 preview_dir: /articles_data/multitenancy/preview
 small_preview_image: /articles_data/multitenancy/scatter-graph.svg
 weight: -101
