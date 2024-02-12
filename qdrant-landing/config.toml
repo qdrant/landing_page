@@ -311,13 +311,11 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     weight = 100
 
 [[module.mounts]]
-source = "node_modules/qdrant-page-search/dist/css/styles.min.css"
-target = "assets/css/qdrant-page-search.css"
-
+  source = "themes/qdrant-24/node_modules/qdrant-page-search/dist/css/styles.min.css"
+  target = "assets/css/qdrant-page-search.css"
 [[module.mounts]]
-source = "node_modules/qdrant-page-search/dist/js/search.min.js"
-target = "assets/js/qdrant-page-search.min.js"
-
+  source = "themes/qdrant-24/node_modules/qdrant-page-search/dist/js/search.min.js"
+  target = "assets/js/qdrant-page-search.min.js"
 [[module.mounts]]
-source = "node_modules/qdrant-page-search/dist/js/scroll.min.js"
-target = "assets/js/qdrant-page-search-scroll.min.js"
+  source = "themes/qdrant-24/node_modules/qdrant-page-search/dist/js/scroll.min.js"
+  target = "assets/js/qdrant-page-search-scroll.min.js"
