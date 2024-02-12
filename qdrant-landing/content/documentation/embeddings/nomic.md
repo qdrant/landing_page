@@ -28,7 +28,7 @@ qdrant_client = QdrantClient()
 qdrant_client.upsert(
     collection_name="my-collection",
     points=models.Batch(
-        ids=[1, 2],
+        ids=[1],
         vectors=output["embeddings"],
     ),
 )
