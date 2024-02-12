@@ -92,6 +92,14 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync("{collection_name}", "name_of_the_field_to_index");
+```
+
 Available field types are:
 
 * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
@@ -216,7 +224,7 @@ client
             .setTextIndexParams(
                 TextIndexParams.newBuilder()
                     .setTokenizer(TokenizerType.Word)
-                    .setMaxTokenLen(2)
+                    .setMinTokenLen(2)
                     .setMaxTokenLen(10)
                     .setLowercase(true)
                     .build())
@@ -225,6 +233,29 @@ client
         null,
         null)
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync(
+	"{collection_name}",
+	"name_of_the_field_to_index",
+	PayloadSchemaType.Text,
+	indexParams: new PayloadIndexParams
+	{
+		TextIndexParams = new TextIndexParams
+		{
+			Tokenizer = TokenizerType.Word,
+			MinTokenLen = 2,
+			MaxTokenLen = 10,
+			Lowercase = true
+		}
+	}
+);
 ```
 
 Available tokenizers are:

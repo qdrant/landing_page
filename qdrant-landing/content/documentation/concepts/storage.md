@@ -124,6 +124,23 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams
+	{
+		Size = 768,
+		Distance = Distance.Cosine,
+		OnDisk = true
+	}
+);
+```
+
 This will create a collection with all vectors immediately stored in memmap storage.
 This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
 
@@ -234,6 +251,19 @@ client
                 OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 }
+);
 ```
 
 The rule of thumb to set the memmap threshold parameter is simple:
@@ -356,6 +386,20 @@ client
             .setHnswConfig(HnswConfigDiff.newBuilder().setOnDisk(true).build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	hnswConfig: new HnswConfigDiff { OnDisk = true }
+);
 ```
 
 ## Payload storage

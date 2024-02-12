@@ -171,6 +171,26 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new()
+		{
+			Id = Guid.Parse("5c56c793-69f3-4fbf-87e6-c4bf54c28c26"),
+			Vectors = new[] { 0.05f, 0.61f, 0.76f, 0.74f },
+			Payload = { ["city"] = "red" }
+		}
+	}
+);
+```
+
 and
 
 ```http
@@ -262,6 +282,26 @@ client
                 .putAllPayload(Map.of("color", value("Red")))
                 .build()))
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new[] { 0.05f, 0.61f, 0.76f, 0.74f },
+			Payload = { ["city"] = "red" }
+		}
+	}
+);
 ```
 
 are both possible.
@@ -448,6 +488,72 @@ client
     .await?;
 ```
 
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.ValueFactory.value;
+import static io.qdrant.client.VectorsFactory.vectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(1))
+                .setVectors(vectors(0.9f, 0.1f, 0.1f))
+                .putAllPayload(Map.of("color", value("red")))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(2))
+                .setVectors(vectors(0.1f, 0.9f, 0.1f))
+                .putAllPayload(Map.of("color", value("green")))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(3))
+                .setVectors(vectors(0.1f, 0.1f, 0.9f))
+                .putAllPayload(Map.of("color", value("blue")))
+                .build()))
+    .get();
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new[] { 0.9f, 0.1f, 0.1f },
+			Payload = { ["city"] = "red" }
+		},
+		new()
+		{
+			Id = 2,
+			Vectors = new[] { 0.1f, 0.9f, 0.1f },
+			Payload = { ["city"] = "green" }
+		},
+		new()
+		{
+			Id = 3,
+			Vectors = new[] { 0.1f, 0.1f, 0.9f },
+			Payload = { ["city"] = "blue" }
+		}
+	}
+);
+```
 
 The Python client has additional features for loading points, which include:
 
@@ -663,6 +769,38 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new Dictionary<string, float[]>
+			{
+				["image"] = [0.9f, 0.1f, 0.1f, 0.2f],
+				["text"] = [0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f]
+			}
+		},
+		new()
+		{
+			Id = 2,
+			Vectors = new Dictionary<string, float[]>
+			{
+				["image"] = [0.2f, 0.1f, 0.3f, 0.9f],
+				["text"] = [0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f]
+			}
+		}
+	}
+);
+```
+
 *Available as of v1.2.0*
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
@@ -872,6 +1010,33 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new Dictionary<string, Vector> { ["text"] = ([1.0f, 2.0f], [6, 7]) }
+		},
+		new()
+		{
+			Id = 2,
+			Vectors = new Dictionary<string, Vector>
+			{
+				["text"] = ([0.1f, 0.2f, 0.3f, 0.4f, 0.5f], [1, 2, 3, 4, 5])
+			}
+		}
+	}
+);
+```
+
 ## Modify points
 
 To change a point, you can modify its vectors or its payload. There are several
@@ -1002,6 +1167,25 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateVectorsAsync(
+	"{collection_name}",
+	new List<PointVectors>
+	{
+		new() { Id = 1, Vectors = ("image", new float[] { 0.1f, 0.2f, 0.3f, 0.4f }) },
+		new()
+		{
+			Id = 2,
+			Vectors = ("text", new float[] { 0.9f, 0.8f, 0.7f, 0.6f, 0.5f, 0.4f, 0.3f, 0.2f })
+		}
+	}
+);
+```
 
 To update points and replace all of its vectors, see [uploading
 points](#upload-points).
@@ -1132,6 +1316,14 @@ import static io.qdrant.client.PointIdFactory.id;
 client.deleteAsync("{collection_name}", List.of(id(0), id(3), id(100)));
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeleteAsync("{collection_name}", [0, 3, 100]);
+```
+
 Alternative way to specify which points to remove is to use filter.
 
 ```http
@@ -1212,6 +1404,15 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeleteAsync("{collection_name}", MatchKeyword("color", "red"));
+```
+
 This example removes all points with `{ "color": "red" }` from the collection.
 
 ## Retrieve points
@@ -1261,6 +1462,19 @@ import static io.qdrant.client.PointIdFactory.id;
 client
     .retrieveAsync("{collection_name}", List.of(id(0), id(30), id(100)), false, false, null)
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.RetrieveAsync(
+	"{collection_name}",
+	[0, 30, 100],
+	withPayload: false,
+	withVectors: false
+);
 ```
 
 This method has additional parameters `with_vectors` and `with_payload`. 
@@ -1373,6 +1587,20 @@ client
             .setWithPayload(enable(true))
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	"{collection_name}",
+	MatchKeyword("color", "red"),
+	limit: 1,
+	payloadSelector: true
+);
 ```
 
 Returns all point with `color` = `red`.
@@ -1493,6 +1721,15 @@ client
         Filter.newBuilder().addMust(matchKeyword("color", "red")).build(),
         true)
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CountAsync("{collection_name}", MatchKeyword("color", "red"), exact: true);
 ```
 
 Returns number of counts matching given filtering conditions:
