@@ -27,6 +27,7 @@
         const lang = this.getLang(tab);
         let button = document.createElement('span');
         button.classList.add('lang-tabs__button');
+        button.classList.add(`lang-tabs__button_${lang}`);
         (i == 0) && button.classList.add('active');
         button.dataset.lang = lang;
         button.innerText = lang;

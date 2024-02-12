@@ -1,7 +1,5 @@
 /* copy button for documentation */
 
-/* ##bem */
-
 .copy-code {
 	position: absolute;
 	right: 8px;
@@ -10,14 +8,24 @@
 
 .copy-code__btn {
 	padding: 4px;
-	background: var(--brand-light);
+	background: var(--neutral-n-50);
 	i {
-		color: var(--brand-secondary);
+		display: block;
+		width: 24px;
+		height: 24px;
+		background-color: var(--neutral-n-700);
+		-webkit-mask-image: url("/css/assets/copy.svg");
+		mask-image: url("/css/assets/copy.svg");
+		mask-size: contain;
+		mask-repeat: no-repeat;
+		mask-position: center;
 	}
 }
 
 .copy-code__btn:hover {
-	background: white;
+	i {
+		background-color: var(--neutral-n-600);
+	}
 }
 
 .copy-code__btn_light {
