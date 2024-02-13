@@ -64,16 +64,17 @@ When creating a collection, you will need to configure user-defined sharding. Th
 
 ```python
 client.create_collection(
-    collection_name="{collection_name}",
+    collection_name="{tenant_data}",
     shard_number=2,
     sharding_method=models.ShardingMethod.CUSTOM,
     # ... other collection parameters
 )
-client.create_shard_key("{collection_name}", "canada", "germany")
+client.create_shard_key("{tenant_data}", "canada")
+client.create_shard_key("{tenant_data}", "germany")
 ```
 In this example, your cluster is divided between Germany and Canada. Canadian and German law differ when it comes to international data transfer. Let's say you are creating a RAG application that supports the healthcare industry. Your Canadian customer data will have to be clearly separated for compliance purposes from your German customer. 
 
-Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Qdrant Client specification](https://python-client.qdrant.tech) and our [Distributed Deployments](https://qdrant.tech/documentation/guides/distributed_deployment/) documentation.
+Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Distributed Deployments](https://qdrant.tech/documentation/guides/distributed_deployment/) documentation and [Qdrant Client specification](https://python-client.qdrant.tech).
 
 ## Configure a multitenant setup for users
 
