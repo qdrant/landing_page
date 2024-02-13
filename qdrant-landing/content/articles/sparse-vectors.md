@@ -456,7 +456,7 @@ client.search_batch(
                 name="text-dense",
                 vector=query_dense_vector,
             ),
-            top=10,
+            limit=10,
         ),
         models.SearchRequest(
             vector=models.NamedSparseVector(
@@ -466,7 +466,7 @@ client.search_batch(
                     values=query_values,
                 ),
             ),
-            top=10,
+            limit=10,
         ),
     ],
 )
