@@ -448,7 +448,7 @@ query_indices, query_values = compute_sparse_vector(query_text)
 query_dense_vector = compute_dense_vector(query_text)
 
 
-cleint.search_batch(
+client.search_batch(
     collection_name=COLLECTION_NAME,
     requests=[
         models.SearchRequest(
