@@ -69,7 +69,8 @@ client.create_collection(
     sharding_method=models.ShardingMethod.CUSTOM,
     # ... other collection parameters
 )
-client.create_shard_key("{collection_name}", "canada", "germany")
+client.create_shard_key("{collection_name}", "canada")
+client.create_shard_key("{collection_name}", "germany")
 ```
 In this example, your cluster is divided between Germany and Canada. Canadian and German law differ when it comes to international data transfer. Let's say you are creating a RAG application that supports the healthcare industry. Your Canadian customer data will have to be clearly separated for compliance purposes from your German customer. 
 
