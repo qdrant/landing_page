@@ -10,7 +10,7 @@
   </p>
   <p class="feedback__response feedback__response_no">
     {{.Site.Params.feedback.on_no | safeHTML }}
-    <br>You can <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ .File.Path }}" target="_blank">edit</a> this page on GitHub, or <a class="text-brand-p" href="{{ .Site.Params.githubIssueLink }}" target="_blank">create</a> a GitHub issue.
+    <br>You can <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">edit</a> this page on GitHub, or <a class="text-brand-p" href="{{ .Site.Params.githubIssueLink }}" target="_blank">create</a> a GitHub issue.
   </p>
 </div>
 
