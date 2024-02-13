@@ -5,7 +5,7 @@ description: "Combining our most popular features to support scalable machine le
 social_preview_image: /articles_data/multitenancy/social_preview.png
 preview_dir: /articles_data/multitenancy/preview
 small_preview_image: /articles_data/multitenancy/icon.svg
-weight: -101
+weight: -120
 author: David Myriel
 date: 2024-02-06T13:21:00.000Z
 draft: false
