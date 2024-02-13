@@ -223,6 +223,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 300, Distance = Distance.Cosine },
+	shardNumber: 6
+);
+```
+
 We recommend setting the number of shards to be a multiple of the number of nodes you are currently running in your cluster.
 
 For example, if you have 3 nodes, 6 shards could be a good option.
@@ -324,6 +337,7 @@ client
         collection_name: "{collection_name}".into(),
         shard_number: Some(1),
         sharding_method: Some(ShardingMethod::Custom),
+        // ... other collection parameters
         ..Default::default()
     })
     .await?;
@@ -347,6 +361,20 @@ client
             .setShardingMethod(ShardingMethod.Custom)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	// ... other collection parameters
+	shardNumber: 1,
+	shardingMethod: ShardingMethod.Custom
+);
 ```
 
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
@@ -455,6 +483,22 @@ client
             .setShardKeySelector(shardKeySelector("user_1"))
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new() { Id = 111, Vectors = new[] { 0.1f, 0.2f, 0.3f } }
+	},
+	shardKeySelector: new ShardKeySelector { ShardKeys = { new List<ShardKey> { "user_id" } } }
+);
 ```
 
 <aside role="alert">
@@ -658,6 +702,20 @@ client
             .setReplicationFactor(2)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 300, Distance = Distance.Cosine },
+	shardNumber: 6,
+	replicationFactor: 2
+);
 ```
 
 This code sample creates a collection with a total of 6 logical shards backed by a total of 12 physical shards.
@@ -889,6 +947,21 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 300, Distance = Distance.Cosine },
+	shardNumber: 6,
+	replicationFactor: 2,
+	writeConsistencyFactor: 2
+);
+```
+
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
 
 ### Read consistency
@@ -1020,6 +1093,23 @@ client
                 ReadConsistency.newBuilder().setType(ReadConsistencyType.Majority).build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	"{collection_name}",
+	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	MatchKeyword("city", "London"),
+	new SearchParams { HnswEf = 128, Exact = true },
+	3,
+	readConsistency: new ReadConsistency { Type = ReadConsistencyType.Majority }
+);
 ```
 
 ### Write ordering
@@ -1167,6 +1257,39 @@ client
             .setOrdering(WriteOrdering.newBuilder().setType(WriteOrderingType.Strong).build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new[] { 0.9f, 0.1f, 0.1f },
+			Payload = { ["city"] = "red" }
+		},
+		new()
+		{
+			Id = 2,
+			Vectors = new[] { 0.1f, 0.9f, 0.1f },
+			Payload = { ["city"] = "green" }
+		},
+		new()
+		{
+			Id = 3,
+			Vectors = new[] { 0.1f, 0.1f, 0.9f },
+			Payload = { ["city"] = "blue" }
+		}
+	},
+	ordering: WriteOrderingType.Strong
+);
 ```
 
 ## Listener mode

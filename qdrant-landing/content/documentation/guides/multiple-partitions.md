@@ -165,6 +165,38 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	"{collection_name}",
+	new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new[] { 0.9f, 0.1f, 0.1f },
+			Payload = { ["group_id"] = "user_1" }
+		},
+		new()
+		{
+			Id = 2,
+			Vectors = new[] { 0.1f, 0.9f, 0.1f },
+			Payload = { ["group_id"] = "user_1" }
+		},
+		new()
+		{
+			Id = 3,
+			Vectors = new[] { 0.1f, 0.1f, 0.9f },
+			Payload = { ["group_id"] = "user_2" }
+		}
+	}
+);
+```
+
 2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
@@ -264,6 +296,21 @@ client
             .setLimit(10)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	"{collection_name}",
+	new float[] { 0.1f, 0.1f, 0.9f },
+	MatchKeyword("group_id", "user_1"),
+	limit: 10
+);
 ```
 
 ## Calibrate performance
@@ -383,6 +430,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	hnswConfig: new HnswConfigDiff { PayloadM = 16, M = 0 }
+);
+```
+
 3. Create keyword payload index for `group_id` field.
 
 ```http
@@ -434,8 +494,16 @@ QdrantClient client =
 
 client
     .createPayloadIndexAsync(
-        "{collection_name}", "group_id", PayloadSchemaType.Keyword, null, null, null, null)
+        "{collection_name}", "group_id", PayloadSchsemaType.Keyword, null, null, null, null)
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync("{collection_name}", "group_id");
 ```
 
 ## Limitations

@@ -52,16 +52,6 @@ const client = new QdrantClient({
 });
 ```
 
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient(
-  "xyz-example.eu-central.aws.cloud.qdrant.io",
-  https: true,
-  apiKey: "<paste-your-api-key-here>"
-);
-```
-
 ```rust
 use qdrant_client::client::QdrantClient;
 
@@ -83,4 +73,14 @@ QdrantClient client =
                 true)
             .withApiKey("<paste-your-api-key-here>")
             .build());
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient(
+  "xyz-example.eu-central.aws.cloud.qdrant.io",
+  https: true,
+  apiKey: "<paste-your-api-key-here>"
+);
 ```

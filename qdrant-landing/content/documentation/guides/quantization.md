@@ -275,6 +275,27 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	quantizationConfig: new QuantizationConfig
+	{
+		Scalar = new ScalarQuantization
+		{
+			Type = QuantizationType.Int8,
+			Quantile = 0.99f,
+			AlwaysRam = true
+		}
+	}
+);
+```
+
 There are 3 parameters that you can specify in the `quantization_config` section:
 
 `type` - the type of the quantized vector components. Currently, Qdrant supports only `int8`.
@@ -410,6 +431,22 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 1536, Distance = Distance.Cosine },
+	quantizationConfig: new QuantizationConfig
+	{
+		Binary = new BinaryQuantization { AlwaysRam = true }
+	}
+);
+```
+
 `always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
 However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
 
@@ -543,6 +580,22 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	quantizationConfig: new QuantizationConfig
+	{
+		Product = new ProductQuantization { Compression = CompressionRatio.X16, AlwaysRam = true }
+	}
+);
+```
+
 There are two parameters that you can specify in the `quantization_config` section:
 
 `compression` - compression ratio.
@@ -669,6 +722,28 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	"{collection_name}",
+	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	searchParams: new SearchParams
+	{
+		Quantization = new QuantizationSearchParams
+		{
+			Ignore = false,
+			Rescore = true,
+			Oversampling = 2.0
+		}
+	},
+	limit: 10
+);
+```
+
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
 `rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. 
@@ -785,6 +860,23 @@ client
             .setLimit(10)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	"{collection_name}",
+	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	searchParams: new SearchParams
+	{
+		Quantization = new QuantizationSearchParams { Ignore = true }
+	},
+	limit: 10
+);
 ```
 
 - **Adjust the quantile parameter**: The quantile parameter in scalar quantization determines the quantization bounds.
@@ -945,6 +1037,23 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	quantizationConfig: new QuantizationConfig
+	{
+		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }
+	}
+);
+```
+
 In this scenario, the number of disk reads may play a significant role in the search speed.
 In a system with high disk latency, the re-scoring step may become a bottleneck.
 
@@ -1042,6 +1151,23 @@ client
             .setLimit(3)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	"{collection_name}",
+	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	searchParams: new SearchParams
+	{
+		Quantization = new QuantizationSearchParams { Rescore = false }
+	},
+	limit: 3
+);
 ```
 
 - **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
@@ -1186,4 +1312,21 @@ client
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	"{collection_name}",
+	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	quantizationConfig: new QuantizationConfig
+	{
+		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = false }
+	}
+);
 ```
