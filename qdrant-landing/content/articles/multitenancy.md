@@ -4,7 +4,7 @@ short_description: "Combining our most popular features to support scalable mach
 description: "Combining our most popular features to support scalable machine learning solutions."
 social_preview_image: /articles_data/multitenancy/social_preview.png
 preview_dir: /articles_data/multitenancy/preview
-small_preview_image: /articles_data/multitenancy/scatter-graph.svg
+small_preview_image: /articles_data/multitenancy/icon.svg
 weight: -101
 author: David Myriel
 date: 2024-02-06T13:21:00.000Z
@@ -83,7 +83,7 @@ Additionally, each vector can now be allocated to a shard. You can specify the `
 
 ```python
 client.upsert(
-    collection_name="{collection_name}",
+    collection_name="{tenant_data}",
     points=[
         models.PointStruct(
             id=1,
@@ -103,7 +103,7 @@ Keep in mind that the data for each `group_id` is isolated. In the example below
 
 ```python
 client.upsert(
-    collection_name="{collection_name}",
+    collection_name="{tenant_data}",
     points=[
         models.PointStruct(
             id=3,
@@ -121,7 +121,7 @@ The access control setup is completed as you specify the criteria for data retri
 
 ```python
 client.search(
-    collection_name="{collection_name}",
+    collection_name="{tenant_data}",
     query_filter=models.Filter(
         must=[
             models.FieldCondition(
@@ -154,7 +154,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient("localhost", port=6333)
 
 client.create_collection(
-    collection_name="{collection_name}",
+    collection_name="{tenant_data}",
     vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     hnsw_config=models.HnswConfigDiff(
         payload_m=16,
@@ -167,7 +167,7 @@ client.create_collection(
 
 ```python
 client.create_payload_index(
-    collection_name="{collection_name}",
+    collection_name="{tenant_data}",
     field_name="group_id",
     field_schema=models.PayloadSchemaType.KEYWORD,
 )
