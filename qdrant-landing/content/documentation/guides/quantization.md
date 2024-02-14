@@ -282,8 +282,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	quantizationConfig: new QuantizationConfig
 	{
 		Scalar = new ScalarQuantization
@@ -438,8 +438,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 1536, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 1536, Distance = Distance.Cosine },
 	quantizationConfig: new QuantizationConfig
 	{
 		Binary = new BinaryQuantization { AlwaysRam = true }
@@ -869,8 +869,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	"{collection_name}",
-	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	searchParams: new SearchParams
 	{
 		Quantization = new QuantizationSearchParams { Ignore = true }
@@ -1044,8 +1044,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
 	quantizationConfig: new QuantizationConfig
 	{
@@ -1160,8 +1160,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	"{collection_name}",
-	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	searchParams: new SearchParams
 	{
 		Quantization = new QuantizationSearchParams { Rescore = false }
@@ -1321,8 +1321,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
 	quantizationConfig: new QuantizationConfig
 	{

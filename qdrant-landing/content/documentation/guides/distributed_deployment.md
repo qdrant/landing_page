@@ -230,8 +230,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 300, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 300, Distance = Distance.Cosine },
 	shardNumber: 6
 );
 ```
@@ -370,7 +370,7 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
+	collectionName: "{collection_name}",
 	// ... other collection parameters
 	shardNumber: 1,
 	shardingMethod: ShardingMethod.Custom
@@ -492,8 +492,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new() { Id = 111, Vectors = new[] { 0.1f, 0.2f, 0.3f } }
 	},
@@ -711,8 +711,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 300, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 300, Distance = Distance.Cosine },
 	shardNumber: 6,
 	replicationFactor: 2
 );
@@ -954,8 +954,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 300, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 300, Distance = Distance.Cosine },
 	shardNumber: 6,
 	replicationFactor: 2,
 	writeConsistencyFactor: 2
@@ -1103,11 +1103,11 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	"{collection_name}",
-	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	MatchKeyword("city", "London"),
-	new SearchParams { HnswEf = 128, Exact = true },
-	3,
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	filter: MatchKeyword("city", "London"),
+	searchParams: new SearchParams { HnswEf = 128, Exact = true },
+	limit: 3,
 	readConsistency: new ReadConsistency { Type = ReadConsistencyType.Majority }
 );
 ```
@@ -1266,8 +1266,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new()
 		{

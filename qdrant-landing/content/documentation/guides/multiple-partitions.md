@@ -172,8 +172,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new()
 		{
@@ -306,9 +306,9 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	"{collection_name}",
-	new float[] { 0.1f, 0.1f, 0.9f },
-	MatchKeyword("group_id", "user_1"),
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.1f, 0.1f, 0.9f },
+	filter: MatchKeyword("group_id", "user_1"),
 	limit: 10
 );
 ```
@@ -437,8 +437,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	hnswConfig: new HnswConfigDiff { PayloadM = 16, M = 0 }
 );
 ```
@@ -503,7 +503,7 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.CreatePayloadIndexAsync("{collection_name}", "group_id");
+await client.CreatePayloadIndexAsync(collectionName: "{collection_name}", fieldName: "group_id");
 ```
 
 ## Limitations
