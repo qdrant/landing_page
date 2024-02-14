@@ -2,6 +2,8 @@
 
 # directory of the current script
 
+set -e
+
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 
 
@@ -14,6 +16,14 @@ function get_value_from_md() {
     local key=$1
     local file=$2
     local value=$(grep -m 1 "^$key:" "$file" | sed "s/^$key: //")
+
+    # remove comments from the value, starting with #
+
+    value=$(echo "$value" | sed 's/#.*//')
+
+    # remove leading and trailing spaces
+    value=$(echo "$value" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+
     echo "$value"
 }
 

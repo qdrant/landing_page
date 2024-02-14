@@ -57,6 +57,15 @@ function check_file_exists_and_new() {
       exit 0
     fi
   fi
+
+  abs_path_file=$(realpath "${file}")
+  abs_path_to_image=$(realpath "${PATH_TO_IMAGE}")
+
+
+  if [ "${abs_path_file}" == "${abs_path_to_image}" ]; then
+    echo "Source image and destination image are the same. Please provide a different destination"
+    exit 1
+  fi
 }
 
 check_file_exists_and_new "${IMG_DESTINATION}/social_preview.jpg"
