@@ -310,6 +310,15 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     name = "tags"
     weight = 100
 
+# Not rendering the content of the following files in production
+[[cascade]]
+[cascade._build]
+list = 'never'
+render = 'never'
+[cascade._target]
+environment = '{production}'
+path = '{**-skip.md,**-skip/index.md,**-skip/_index.md}'
+
 [[module.mounts]]
   source = "themes/qdrant-24/node_modules/qdrant-page-search/dist/css/styles.min.css"
   target = "assets/css/qdrant-page-search.css"
