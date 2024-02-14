@@ -147,6 +147,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
+// & operator combines two conditions in an AND conjunction(must)
 await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: MatchKeyword("city", "London") & MatchKeyword("color", "red")
@@ -254,6 +255,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
+// | operator combines two conditions in an OR disjunction(should)
 await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: MatchKeyword("city", "London") | MatchKeyword("color", "red")
@@ -361,6 +363,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
+// The ! operator negates the condition(must not)
 await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: !(MatchKeyword("city", "London") & MatchKeyword("color", "red"))
