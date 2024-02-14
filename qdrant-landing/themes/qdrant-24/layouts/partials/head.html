@@ -1,0 +1,16 @@
+{{ $opts := dict
+"transpiler" "dartsass"
+"enableSourceMap" (not hugo.IsProduction)
+}}
+<head>
+    <meta charset="UTF-8" />
+    <title>Title</title>
+
+    {{ with resources.Get "css/main.scss" | toCSS $opts | minify | fingerprint }}
+    <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
+    {{ end }}
+
+    {{ $pageSearchCss := resources.Get "/css/qdrant-page-search.css" | resources.Fingerprint "sha512" }}
+    <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}">
+
+</head>
