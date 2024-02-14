@@ -1,6 +1,7 @@
 @use 'sass:math';
-@import "bootstrap";
+@import "satoshi-font";
+@import "bootstrap-custom";
 
 body {
-  background: #0f6674;
+  background: $neutral-90;
 }

@@ -6,7 +6,6 @@
     {{ $opts := dict
       "transpiler" "dartsass"
       "enableSourceMap" (not hugo.IsProduction)
-      "includePaths" (slice "node_modules/bootstrap/scss")
     }}
     {{ with resources.Get "css/main.scss" | toCSS $opts | minify | fingerprint }}
     <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous">
@@ -18,9 +17,6 @@
   </head>
   <body>
 
-  {{ range resources.Match "**/*.*" }}
-  <p>{{ .RelPermalink }}</p>
-  {{ end }}
 
   {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
