@@ -1,3 +1,5 @@
+@use 'helpers/functions' as *;
+
 $neutral-10: #090E1A;
 $neutral-20: #161E33;
 $neutral-30: #28324D;
@@ -57,6 +59,19 @@ $error-50: #E02828;
 $error-70: #FE897F;
 $error-90: #FFDAD6;
 
+$grays: (
+        "100": $neutral-94,
+        "200": $neutral-90,
+        "300": $neutral-80,
+        "400": $neutral-60,
+        "500": $neutral-50,
+        "600": $neutral-40,
+        "700": $neutral-30,
+        "800": $neutral-20,
+        "900": $neutral-10
+);
+
+
 $theme-colors: (
         "primary":    $primary-50,
         "secondary":  $secondary-blue-50,
@@ -70,4 +85,55 @@ $theme-colors: (
 
 $body-bg: $neutral-98;
 
-$font-family-base: 'Satoshi-Medium', 'Helvetica Neue', Arial, sans-serif;
+// Typography
+//
+// Font, line-height, and color for body text, headings, and more.
+
+$font-family-sans-serif:      "Satoshi", "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-monospace:       "Azeret Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+// stylelint-enable value-keyword-case
+$font-family-base:           'Satoshi', "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+$font-family-code:            "Azeret Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+
+// $font-size-root affects the value of `rem`, which is used for as well font sizes, paddings, and margins
+// $font-size-base affects the font size of the body text
+$font-size-root:              null !default;
+$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
+$font-size-sm:                rem(12);
+$font-size-lg:                rem(18);
+
+$font-weight-base:            $font-weight-medium;
+
+$line-height-base:            2;
+$line-height-sm:              rem(21);
+$line-height-lg:              rem(27);
+
+$h1-font-size:                rem(64);
+$h2-font-size:                rem(56);
+$h3-font-size:                rem(48);
+$h4-font-size:                rem(40);
+$h5-font-size:                rem(32);
+$h6-font-size:                rem(24);
+
+$font-sizes: (
+        1: rem(64),
+        2: rem(56),
+        3: rem(48),
+        4: rem(40),
+        5: rem(32),
+        6: rem(24)
+);
+
+$headings-font-weight:        700;
+$headings-line-height:        1.2;
+
+$display-font-sizes: (
+        1: rem(80),
+        //2: 4.5rem,
+        //3: 4rem,
+        //4: 3.5rem,
+        //5: 3rem,
+        //6: 2.5rem
+);
+
+$display-font-weight: 700;
