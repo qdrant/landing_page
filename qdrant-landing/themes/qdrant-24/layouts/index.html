@@ -2,9 +2,7 @@
 <html lang="en">
   {{ partial "head.html" . }}
   <body>
-
-
-  {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
-  <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+    {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
+    <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
 </html>
