@@ -278,7 +278,7 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.RecommendAsync(
-	"{collection_name}",
+	collectionName: "{collection_name}",
 	positive: new List<ulong> { 100, 231 },
 	negative: new List<ulong> { 718 },
 	usingVector: "image",
@@ -393,7 +393,7 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.RecommendAsync(
-	"{collection_name}",
+	collectionName: "{collection_name}",
 	positive: new List<ulong> { 100, 231 },
 	negative: new List<ulong> { 718 },
 	usingVector: "image",
@@ -599,8 +599,8 @@ var client = new QdrantClient("localhost", 6334);
 var filter = MatchKeyword("city", "london");
 
 await client.RecommendBatchAsync(
-	"{collection_name}",
-	new List<RecommendPoints>
+	collectionName: "{collection_name}",
+	recommendSearches: new List<RecommendPoints>
 	{
 		new()
 		{
@@ -844,7 +844,7 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.DiscoverAsync(
-	"{collection_name}",
+	collectionName: "{collection_name}",
 	target: new TargetVector
 	{
 		Single = new VectorExample { Vector = new float[] { 0.2f, 0.1f, 0.9f, 0.7f }, }

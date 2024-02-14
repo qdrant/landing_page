@@ -326,8 +326,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new PointStruct
 		{
@@ -451,9 +451,9 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SetPayloadAsync(
-	"{collection_name}",
-	new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
-	new ulong[] { 0, 3, 10 }
+	collectionName: "{collection_name}",
+	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+	ids: new ulong[] { 0, 3, 10 }
 );
 ```
 
@@ -568,9 +568,9 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SetPayloadAsync(
-	"{collection_name}",
-	new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
-	MatchKeyword("color", "red")
+	collectionName: "{collection_name}",
+	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+	filter: MatchKeyword("color", "red")
 );
 ```
 
@@ -664,9 +664,9 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.OverwritePayloadAsync(
-	"{collection_name}",
-	new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
-	new ulong[] { 0, 3, 10 }
+	collectionName: "{collection_name}",
+	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+	ids: new ulong[] { 0, 3, 10 }
 );
 ```
 
@@ -735,7 +735,7 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.ClearPayloadAsync("{collection_name}", new ulong[] { 0, 3, 100 });
+await client.ClearPayloadAsync(collectionName: "{collection_name}", ids: new ulong[] { 0, 3, 100 });
 ```
 
 <aside role="status">
@@ -812,7 +812,12 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.DeletePayloadAsync("{collection_name}", ["color", "price"], new ulong[] { 0, 3, 100 });
+await client.DeletePayloadAsync(
+	collectionName: "{collection_name}",
+	keys: ["color", "price"],
+	ids: new ulong[] { 0, 3, 100 }
+);
+
 ```
 
 Alternatively, you can use filters to delete payload keys from the points.
@@ -908,9 +913,9 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.DeletePayloadAsync(
-	"{collection_name}",
-	["color", "price"],
-	MatchKeyword("color", "red")
+	collectionName: "{collection_name}",
+	keys: ["color", "price"],
+	filter: MatchKeyword("color", "red")
 );
 ```
 
@@ -984,7 +989,10 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.CreatePayloadIndexAsync("{collection_name}", "name_of_the_field_to_index");
+await client.CreatePayloadIndexAsync(
+	collectionName: "{collection_name}",
+	fieldName: "name_of_the_field_to_index"
+);
 ```
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).

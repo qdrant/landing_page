@@ -148,8 +148,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	MatchKeyword("city", "London") & MatchKeyword("color", "red")
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("city", "London") & MatchKeyword("color", "red")
 );
 ```
 
@@ -255,8 +255,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	MatchKeyword("city", "London") | MatchKeyword("color", "red")
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("city", "London") | MatchKeyword("color", "red")
 );
 ```
 
@@ -362,8 +362,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	!(MatchKeyword("city", "London") & MatchKeyword("color", "red"))
+	collectionName: "{collection_name}",
+	filter: !(MatchKeyword("city", "London") & MatchKeyword("color", "red"))
 );
 ```
 
@@ -472,8 +472,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	MatchKeyword("city", "London") & !MatchKeyword("color", "red")
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("city", "London") & !MatchKeyword("color", "red")
 );
 ```
 
@@ -599,8 +599,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	new Filter { MustNot = { MatchKeyword("city", "London") & MatchKeyword("color", "red") } }
+	collectionName: "{collection_name}",
+	filter: new Filter { MustNot = { MatchKeyword("city", "London") & MatchKeyword("color", "red") } }
 );
 ```
 
@@ -655,6 +655,8 @@ matchKeyword("color", "red");
 ```
 
 ```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
 MatchKeyword("color", "red");
 ```
 
@@ -951,7 +953,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.ScrollAsync("{collection_name}", MatchKeyword("country.name", "Germany"));
+await client.ScrollAsync(collectionName: "{collection_name}", filter: MatchKeyword("country.name", "Germany"));
 ```
 
 You can also search through arrays by projecting inner values using the `[]` syntax.
@@ -1056,8 +1058,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	Range("country.cities[].population", new Qdrant.Client.Grpc.Range { Gte = 9.0 })
+	collectionName: "{collection_name}",
+	filter: Range("country.cities[].population", new Qdrant.Client.Grpc.Range { Gte = 9.0 })
 );
 ```
 
@@ -1148,8 +1150,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	MatchKeyword("country.cities[].sightseeing", "Germany")
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("country.cities[].sightseeing", "Germany")
 );
 ```
 
@@ -1290,8 +1292,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	MatchKeyword("diet[].food", "meat") & Match("diet[].likes", true)
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("diet[].food", "meat") & Match("diet[].likes", true)
 );
 ```
 
@@ -1445,8 +1447,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	Nested("diet", MatchKeyword("food", "meat") & Match("likes", true))
+	collectionName: "{collection_name}",
+	filter: Nested("diet", MatchKeyword("food", "meat") & Match("likes", true))
 );
 ```
 
@@ -1608,8 +1610,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	Nested("diet", MatchKeyword("food", "meat") & Match("likes", true)) & HasId(1)
+	collectionName: "{collection_name}",
+	filter: Nested("diet", MatchKeyword("food", "meat") & Match("likes", true)) & HasId(1)
 );
 ```
 
@@ -2134,8 +2136,8 @@ using Qdrant.Client.Grpc;
 using static Qdrant.Client.Grpc.Conditions;
 
 GeoPolygon(
-	"location",
-	new GeoLineString
+	field: "location",
+	exterior: new GeoLineString
 	{
 		Points =
 		{
@@ -2146,7 +2148,7 @@ GeoPolygon(
 			new GeoPoint { Lat = -70.0, Lon = -70.0 }
 		}
 	},
-	[
+	interiors: [
 		new()
 		{
 			Points =
@@ -2412,7 +2414,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.ScrollAsync("{collection_name}", HasId([1, 3, 5, 7, 9, 11]));
+await client.ScrollAsync(collectionName: "{collection_name}", filter: HasId([1, 3, 5, 7, 9, 11]));
 ```
 
 Filtered points would be:

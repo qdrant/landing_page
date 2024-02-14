@@ -63,7 +63,7 @@ const client = new QdrantClient({
 using Qdrant.Client;
 
 var client = new QdrantClient(
-  "xyz-example.eu-central.aws.cloud.qdrant.io",
+  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
   https: true,
   apiKey: "<paste-your-api-key-here>"
 );

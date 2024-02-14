@@ -124,11 +124,10 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.CreateCollectionAsync("{collection_name}", new VectorParams
-{
-    Size = 100,
-    Distance = Distance.Cosine
-});
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 100, Distance = Distance.Cosine }
+);
 ```
 
 In addition to the required options, you can also specify custom values for the following collection options:
@@ -272,8 +271,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 100, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 100, Distance = Distance.Cosine },
 	initFromCollection: "{from_collection_name}"
 );
 ```
@@ -418,8 +417,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParamsMap
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParamsMap
 	{
 		Map =
 		{
@@ -564,7 +563,7 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
+	collectionName: "{collection_name}",
 	sparseVectorsConfig: ("text", new SparseVectorParams())
 );
 ```
@@ -695,7 +694,7 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpdateCollectionAsync(
-	"{collection_name}",
+	collectionName: "{collection_name}",
 	optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 10000 }
 );
 ```
@@ -999,7 +998,7 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpdateCollectionAsync(
-	"{collection_name}",
+	collectionName: "{collection_name}",
 	hnswConfig: new HnswConfigDiff { EfConstruct = 123 },
 	vectorsConfig: new VectorParamsDiffMap
 	{
@@ -1275,7 +1274,7 @@ client.createAliasAsync("production_collection", "example_collection").get();
 ```
 
 ```csharp
-await client.CreateAliasAsync("production_collection", "example_collection");
+await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
 ```
 
 ### Remove alias
@@ -1431,7 +1430,7 @@ client.createAliasAsync("production_collection", "example_collection").get();
 
 ```csharp
 await client.DeleteAliasAsync("production_collection");
-await client.CreateAliasAsync("production_collection", "example_collection");
+await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
 ```
 ### List collection aliases
 

@@ -260,8 +260,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 }
 );
 ```
@@ -395,8 +395,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	"{collection_name}",
-	new VectorParams { Size = 768, Distance = Distance.Cosine },
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
 	hnswConfig: new HnswConfigDiff { OnDisk = true }
 );

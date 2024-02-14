@@ -178,8 +178,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new()
 		{
@@ -291,8 +291,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new()
 		{
@@ -302,6 +302,7 @@ await client.UpsertAsync(
 		}
 	}
 );
+
 ```
 
 are both possible.
@@ -526,12 +527,14 @@ client
 ```
 
 ```csharp
+using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
+var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new()
 		{
@@ -776,8 +779,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new()
 		{
@@ -1017,8 +1020,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	"{collection_name}",
-	new List<PointStruct>
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
 	{
 		new()
 		{
@@ -1174,8 +1177,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpdateVectorsAsync(
-	"{collection_name}",
-	new List<PointVectors>
+	collectionName: "{collection_name}",
+	points: new List<PointVectors>
 	{
 		new() { Id = 1, Vectors = ("image", new float[] { 0.1f, 0.2f, 0.3f, 0.4f }) },
 		new()
@@ -1321,7 +1324,7 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.DeleteAsync("{collection_name}", [0, 3, 100]);
+await client.DeleteAsync(collectionName: "{collection_name}", ids: [0, 3, 100]);
 ```
 
 Alternative way to specify which points to remove is to use filter.
@@ -1410,7 +1413,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.DeleteAsync("{collection_name}", MatchKeyword("color", "red"));
+await client.DeleteAsync(collectionName: "{collection_name}", filter: MatchKeyword("color", "red"));
 ```
 
 This example removes all points with `{ "color": "red" }` from the collection.
@@ -1470,8 +1473,8 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.RetrieveAsync(
-	"{collection_name}",
-	[0, 30, 100],
+	collectionName: "{collection_name}",
+	ids: [0, 30, 100],
 	withPayload: false,
 	withVectors: false
 );
@@ -1596,8 +1599,8 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	"{collection_name}",
-	MatchKeyword("color", "red"),
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("color", "red"),
 	limit: 1,
 	payloadSelector: true
 );
@@ -1729,7 +1732,11 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.CountAsync("{collection_name}", MatchKeyword("color", "red"), exact: true);
+await client.CountAsync(
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("color", "red"),
+	exact: true
+);
 ```
 
 Returns number of counts matching given filtering conditions:

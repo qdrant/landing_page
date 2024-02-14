@@ -97,7 +97,7 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.CreatePayloadIndexAsync("{collection_name}", "name_of_the_field_to_index");
+await client.CreatePayloadIndexAsync(collectionName: "{collection_name}", fieldName: "name_of_the_field_to_index");
 ```
 
 Available field types are:
@@ -242,9 +242,9 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreatePayloadIndexAsync(
-	"{collection_name}",
-	"name_of_the_field_to_index",
-	PayloadSchemaType.Text,
+	collectionName: "{collection_name}",
+	fieldName: "name_of_the_field_to_index",
+	schemaType: PayloadSchemaType.Text,
 	indexParams: new PayloadIndexParams
 	{
 		TextIndexParams = new TextIndexParams

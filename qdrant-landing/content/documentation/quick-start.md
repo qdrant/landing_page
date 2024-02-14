@@ -121,11 +121,10 @@ client.createCollectionAsync("test_collection",
 ```csharp
 using Qdrant.Client.Grpc;
 
-await client.CreateCollectionAsync("test_collection", new VectorParams
-{
-    Size = 4,
-    Distance = Distance.Dot
-});
+await client.CreateCollectionAsync(
+	collectionName: "test_collection",
+	vectorsConfig: new VectorParams { Size = 4, Distance = Distance.Dot }
+);
 ```
 
 <aside role="status">TypeScript, Rust examples use async/await syntax, so should be used in an async block.</aside>
@@ -243,8 +242,8 @@ System.out.println(operationInfo);
 using Qdrant.Client.Grpc;
 
 var operationInfo = await client.UpsertAsync(
-	"test_collection",
-	new List<PointStruct>
+	collectionName: "test_collection",
+	points: new List<PointStruct>
 	{
 		new()
 		{
@@ -361,7 +360,7 @@ System.out.println(searchResult);
 
 ```csharp
 var searchResult = await client.SearchAsync(
-	"test_collection",
+	collectionName: "test_collection",
 	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	limit: 3,
 	payloadSelector: true
@@ -594,7 +593,7 @@ System.out.println(searchResult);
 using static Qdrant.Client.Grpc.Conditions;
 
 var searchResult = await client.SearchAsync(
-	"test_collection",
+	collectionName: "test_collection",
 	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	filter: MatchKeyword("city", "London"),
 	limit: 3,
