@@ -1,0 +1,73 @@
+$neutral-10: #090E1A;
+$neutral-20: #161E33;
+$neutral-30: #28324D;
+$neutral-40: #3D4866;
+$neutral-50: #576280;
+$neutral-60: #717C99;
+$neutral-70: #8F98B2;
+$neutral-80: #B4BACC;
+$neutral-90: #D4D9E6;
+$neutral-94: #E1E5F0;
+$neutral-98: #F0F3FA;
+$neutral-100: #FFFFFF;
+
+$primary-10: #40000E;
+$primary-20: #67001B;
+$primary-30: #91012A;
+$primary-40: #BE003A;
+$primary-50: #DC244C;
+$primary-60: #FF516B;
+$primary-70: #FF8792;
+$primary-80: #FFB2B7;
+$primary-90: #FFDADB;
+
+$secondary-blue-10: #001848;
+$secondary-blue-30: #0040A1;
+$secondary-blue-50: #2F6FF0;
+$secondary-blue-70: #89A9FF;
+$secondary-blue-90: #D9E2FE;
+
+$secondary-violet-10: #24005B;
+$secondary-violet-30: #5700C9;
+$secondary-violet-50: #8547FF;
+$secondary-violet-70: #B99AFF;
+$secondary-violet-90: #EADDFF;
+
+$secondary-teal-10: #002020;
+$secondary-teal-30: #004F4F;
+$secondary-teal-50: #038585;
+$secondary-teal-70: #77E5E5;
+$secondary-teal-90: #C0F0F0;
+
+$success-10: #00210F;
+$success-30: #00522F;
+$success-50: #008A53;
+$success-70: #50BF83;
+$success-90: #BEFAD6;
+
+$warning-10: #311300;
+$warning-30: #733501;
+$warning-50: #E0700D;
+$warning-70: #FF8D39;
+$warning-90: #FFDBC7;
+
+$error-10: #410002;
+$error-30: #93000D;
+$error-50: #E02828;
+$error-70: #FE897F;
+$error-90: #FFDAD6;
+
+$theme-colors: (
+        "primary":    $primary-50,
+        "secondary":  $secondary-blue-50,
+        "success":    $success-50,
+        "info":       $secondary-blue-70,
+        "warning":    $warning-50,
+        "danger":     $error-50,
+        "light":      $neutral-100,
+        "dark":       $neutral-10
+);
+
+$body-bg: $neutral-98;
+
+$font-family-base: 'Satoshi-Medium', 'Helvetica Neue', Arial, sans-serif;
