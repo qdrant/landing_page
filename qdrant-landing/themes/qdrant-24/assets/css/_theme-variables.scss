@@ -1,86 +1,85 @@
 @use 'helpers/functions' as *;
 
-$neutral-10: #090E1A;
-$neutral-20: #161E33;
-$neutral-30: #28324D;
-$neutral-40: #3D4866;
+$neutral-10: #090e1a;
+$neutral-20: #161e33;
+$neutral-30: #28324d;
+$neutral-40: #3d4866;
 $neutral-50: #576280;
-$neutral-60: #717C99;
-$neutral-70: #8F98B2;
-$neutral-80: #B4BACC;
-$neutral-90: #D4D9E6;
-$neutral-94: #E1E5F0;
-$neutral-98: #F0F3FA;
-$neutral-100: #FFFFFF;
+$neutral-60: #717c99;
+$neutral-70: #8f98b2;
+$neutral-80: #b4bacc;
+$neutral-90: #d4d9e6;
+$neutral-94: #e1e5f0;
+$neutral-98: #f0f3fa;
+$neutral-100: #ffffff;
 
-$primary-10: #40000E;
-$primary-20: #67001B;
-$primary-30: #91012A;
-$primary-40: #BE003A;
-$primary-50: #DC244C;
-$primary-60: #FF516B;
-$primary-70: #FF8792;
-$primary-80: #FFB2B7;
-$primary-90: #FFDADB;
+$primary-10: #40000e;
+$primary-20: #67001b;
+$primary-30: #91012a;
+$primary-40: #be003a;
+$primary-50: #dc244c;
+$primary-60: #ff516b;
+$primary-70: #ff8792;
+$primary-80: #ffb2b7;
+$primary-90: #ffdadb;
 
 $secondary-blue-10: #001848;
-$secondary-blue-30: #0040A1;
-$secondary-blue-50: #2F6FF0;
-$secondary-blue-70: #89A9FF;
-$secondary-blue-90: #D9E2FE;
+$secondary-blue-30: #0040a1;
+$secondary-blue-50: #2f6ff0;
+$secondary-blue-70: #89a9ff;
+$secondary-blue-90: #d9e2fe;
 
-$secondary-violet-10: #24005B;
-$secondary-violet-30: #5700C9;
-$secondary-violet-50: #8547FF;
-$secondary-violet-70: #B99AFF;
-$secondary-violet-90: #EADDFF;
+$secondary-violet-10: #24005b;
+$secondary-violet-30: #5700c9;
+$secondary-violet-50: #8547ff;
+$secondary-violet-70: #b99aff;
+$secondary-violet-90: #eaddff;
 
 $secondary-teal-10: #002020;
-$secondary-teal-30: #004F4F;
+$secondary-teal-30: #004f4f;
 $secondary-teal-50: #038585;
-$secondary-teal-70: #77E5E5;
-$secondary-teal-90: #C0F0F0;
+$secondary-teal-70: #77e5e5;
+$secondary-teal-90: #c0f0f0;
 
-$success-10: #00210F;
-$success-30: #00522F;
-$success-50: #008A53;
-$success-70: #50BF83;
-$success-90: #BEFAD6;
+$success-10: #00210f;
+$success-30: #00522f;
+$success-50: #008a53;
+$success-70: #50bf83;
+$success-90: #befad6;
 
 $warning-10: #311300;
 $warning-30: #733501;
-$warning-50: #E0700D;
-$warning-70: #FF8D39;
-$warning-90: #FFDBC7;
+$warning-50: #e0700d;
+$warning-70: #ff8d39;
+$warning-90: #ffdbc7;
 
 $error-10: #410002;
-$error-30: #93000D;
-$error-50: #E02828;
-$error-70: #FE897F;
-$error-90: #FFDAD6;
+$error-30: #93000d;
+$error-50: #e02828;
+$error-70: #fe897f;
+$error-90: #ffdad6;
 
 $grays: (
-        "100": $neutral-94,
-        "200": $neutral-90,
-        "300": $neutral-80,
-        "400": $neutral-60,
-        "500": $neutral-50,
-        "600": $neutral-40,
-        "700": $neutral-30,
-        "800": $neutral-20,
-        "900": $neutral-10
+  '100': $neutral-94,
+  '200': $neutral-90,
+  '300': $neutral-80,
+  '400': $neutral-60,
+  '500': $neutral-50,
+  '600': $neutral-40,
+  '700': $neutral-30,
+  '800': $neutral-20,
+  '900': $neutral-10,
 );
 
-
 $theme-colors: (
-        "primary":    $primary-50,
-        "secondary":  $secondary-blue-50,
-        "success":    $success-50,
-        "info":       $secondary-blue-70,
-        "warning":    $warning-50,
-        "danger":     $error-50,
-        "light":      $neutral-100,
-        "dark":       $neutral-10
+  'primary': $primary-50,
+  'secondary': $secondary-blue-50,
+  'success': $success-50,
+  'info': $secondary-blue-70,
+  'warning': $warning-50,
+  'danger': $error-50,
+  'light': $neutral-100,
+  'dark': $neutral-10,
 );
 
 $body-bg: $neutral-98;
@@ -89,51 +88,54 @@ $body-bg: $neutral-98;
 //
 // Font, line-height, and color for body text, headings, and more.
 
-$font-family-sans-serif:      "Satoshi", "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-$font-family-monospace:       "Azeret Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-sans-serif: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
+  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+$font-family-monospace: 'Azeret Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+  monospace;
 // stylelint-enable value-keyword-case
-$font-family-base:           'Satoshi', "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-$font-family-code:            "Azeret Mono", SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+$font-family-base: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+$font-family-code: 'Azeret Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 
 // $font-size-root affects the value of `rem`, which is used for as well font sizes, paddings, and margins
 // $font-size-base affects the font size of the body text
-$font-size-root:              null !default;
-$font-size-base:              1rem !default; // Assumes the browser default, typically `16px`
-$font-size-sm:                rem(12);
-$font-size-lg:                rem(18);
+$font-size-root: null !default;
+$font-size-base: 1rem !default; // Assumes the browser default, typically `16px`
+$font-size-sm: rem(12);
+$font-size-lg: rem(18);
 
-$font-weight-base:            $font-weight-medium;
+$font-weight-base: $font-weight-medium;
 
-$line-height-base:            2;
-$line-height-sm:              rem(21);
-$line-height-lg:              rem(27);
+$line-height-base: 2;
+$line-height-sm: rem(21);
+$line-height-lg: rem(27);
 
-$h1-font-size:                rem(64);
-$h2-font-size:                rem(56);
-$h3-font-size:                rem(48);
-$h4-font-size:                rem(40);
-$h5-font-size:                rem(32);
-$h6-font-size:                rem(24);
+$h1-font-size: rem(64);
+$h2-font-size: rem(56);
+$h3-font-size: rem(48);
+$h4-font-size: rem(40);
+$h5-font-size: rem(32);
+$h6-font-size: rem(24);
 
 $font-sizes: (
-        1: rem(64),
-        2: rem(56),
-        3: rem(48),
-        4: rem(40),
-        5: rem(32),
-        6: rem(24)
+  1: rem(64),
+  2: rem(56),
+  3: rem(48),
+  4: rem(40),
+  5: rem(32),
+  6: rem(24),
 );
 
-$headings-font-weight:        700;
-$headings-line-height:        1.2;
+$headings-font-weight: 700;
+$headings-line-height: 1.2;
 
 $display-font-sizes: (
-        1: rem(80),
-        //2: 4.5rem,
-        //3: 4rem,
-        //4: 3.5rem,
-        //5: 3rem,
-        //6: 2.5rem
+  1: rem(80),
+  //2: 4.5rem,
+  //3: 4rem,
+  //4: 3.5rem,
+  //5: 3rem,
+  //6: 2.5rem
 );
 
 $display-font-weight: 700;
