@@ -115,8 +115,20 @@ import io.qdrant.client.QdrantGrpcClient;
 QdrantClient client = new QdrantClient(
     QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client.createCollectionAsync("test_collection",
-        VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
+client.createCollectionAsync("{collection_name}",
+        VectorParams.newBuilder().setDistance(Distance.Cosine).setSize(100).build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 100, Distance = Distance.Cosine }
+);
 ```
 
 In addition to the required options, you can also specify custom values for the following collection options:
@@ -254,6 +266,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 100, Distance = Distance.Cosine },
+	initFromCollection: "{from_collection_name}"
+);
+```
+
 ### Collection with multiple vectors
 
 *Available as of v0.10.0*
@@ -388,6 +413,25 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParamsMap
+	{
+		Map =
+		{
+			["image"] = new VectorParams { Size = 4, Distance = Distance.Dot },
+			["text"] = new VectorParams { Size = 8, Distance = Distance.Cosine },
+		}
+	}
+);
+```
+
 For rare use cases, it is possible to create a collection without any vector storage.
 
 *Available as of v1.1.1*
@@ -516,6 +560,18 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	sparseVectorsConfig: ("text", new SparseVectorParams())
+);
+```
+
 Outside of a unique name, there are no required configuration parameters for sparse vectors.
 
 The distance function for sparse vectors is always `Dot` and does not need to be specified.
@@ -552,6 +608,14 @@ QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client.deleteCollectionAsync("{collection_name}").get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeleteCollectionAsync("{collection_name}");
 ```
 
 ### Update collection parameters
@@ -626,6 +690,18 @@ client.updateCollectionAsync(
         .setOptimizersConfig(
             OptimizersConfigDiff.newBuilder().setIndexingThreshold(10000).build())
         .build());
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+	collectionName: "{collection_name}",
+	optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 10000 }
+);
 ```
 
 The following parameters can be updated:
@@ -924,6 +1000,40 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+	collectionName: "{collection_name}",
+	hnswConfig: new HnswConfigDiff { EfConstruct = 123 },
+	vectorsConfig: new VectorParamsDiffMap
+	{
+		Map =
+		{
+			{
+				"my_vector",
+				new VectorParamsDiff
+				{
+					HnswConfig = new HnswConfigDiff { M = 3, EfConstruct = 123 }
+				}
+			}
+		}
+	},
+	quantizationConfig: new QuantizationConfigDiff
+	{
+		Scalar = new ScalarQuantization
+		{
+			Type = QuantizationType.Int8,
+			Quantile = 0.8f,
+			AlwaysRam = true
+		}
+	}
+);
+```
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
@@ -1008,6 +1118,10 @@ client.getCollectionInfoAsync("{collection_name}").get();
 <br/>
 
 
+
+```csharp
+await client.GetCollectionInfoAsync("{collection_name}");
+```
 
 If you insert the vectors into the collection, the `status` field may become
 `yellow` whilst it is optimizing. It will become `green` once all the points are
@@ -1133,6 +1247,10 @@ client.create_alias("example_collection", "production_collection").await?;
 client.createAliasAsync("production_collection", "example_collection").get();
 ```
 
+```csharp
+await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
+```
+
 ### Remove alias
 
 ```bash
@@ -1191,6 +1309,10 @@ client.delete_alias("production_collection").await?;
 
 ```java
 client.deleteAliasAsync("production_collection").get();
+```
+
+```csharp
+await client.DeleteAliasAsync("production_collection");
 ```
 
 ### Switch collection
@@ -1280,6 +1402,10 @@ client.deleteAliasAsync("production_collection").get();
 client.createAliasAsync("production_collection", "example_collection").get();
 ```
 
+```csharp
+await client.DeleteAliasAsync("production_collection");
+await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
+```
 ### List collection aliases
 
 ```http
@@ -1322,6 +1448,14 @@ QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client.listCollectionAliasesAsync("{collection_name}").get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListCollectionAliasesAsync("{collection_name}");
 ```
 
 ### List all aliases
@@ -1369,6 +1503,14 @@ QdrantClient client =
 client.listAliasesAsync().get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListAliasesAsync();
+```
+
 ### List all collections
 
 ```http
@@ -1412,4 +1554,12 @@ QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client.listCollectionsAsync().get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListCollectionsAsync();
 ```

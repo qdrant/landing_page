@@ -6,7 +6,7 @@ aliases:
 ---
 # Quickstart
 
-In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query. 
+In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query.
 
 <aside role="status">Before you start, please make sure Docker is installed and running on your system.</aside>
 
@@ -26,14 +26,15 @@ docker run -p 6333:6333 -p 6334:6334 \
     qdrant/qdrant
 ```
 
-Under the default configuration all data will be stored in the `./qdrant_storage` directory. This will also be the only directory that both the Container and the host machine can both see. 
+Under the default configuration all data will be stored in the `./qdrant_storage` directory. This will also be the only directory that both the Container and the host machine can both see.
 
 Qdrant is now accessible:
+
 - REST API: [localhost:6333](http://localhost:6333)
 - Web UI: [localhost:6333/dashboard](http://localhost:6333/dashboard)
 - GRPC API: [localhost:6334](http://localhost:6334)
 
-## Initialize the client 
+## Initialize the client
 
 ```python
 from qdrant_client import QdrantClient
@@ -58,15 +59,23 @@ let client = QdrantClient::from_url("http://localhost:6334").build()?;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 
+// The Java client uses Qdrant's GRPC interface
 QdrantClient client = new QdrantClient(
     QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+```
+
+```csharp
+using Qdrant.Client;
+
+// The C# client uses Qdrant's GRPC interface
+var client = new QdrantClient("localhost", 6334);
 ```
 
 <aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
 
 ## Create a collection
 
-You will be storing all of your vector data in a Qdrant collection. Let's call it `test_collection`. This collection will be using a dot product distance metric to compare vectors. 
+You will be storing all of your vector data in a Qdrant collection. Let's call it `test_collection`. This collection will be using a dot product distance metric to compare vectors.
 
 ```python
 from qdrant_client.http.models import Distance, VectorParams
@@ -107,6 +116,15 @@ import io.qdrant.client.grpc.Collections.VectorParams;
 
 client.createCollectionAsync("test_collection",
         VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+
+await client.CreateCollectionAsync(
+	collectionName: "test_collection",
+	vectorsConfig: new VectorParams { Size = 4, Distance = Distance.Dot }
+);
 ```
 
 <aside role="status">TypeScript, Rust examples use async/await syntax, so should be used in an async block.</aside>
@@ -220,6 +238,38 @@ UpdateResult operationInfo =
 System.out.println(operationInfo);
 ```
 
+```csharp
+using Qdrant.Client.Grpc;
+
+var operationInfo = await client.UpsertAsync(
+	collectionName: "test_collection",
+	points: new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new float[] { 0.05f, 0.61f, 0.76f, 0.74f },
+			Payload = { ["city"] = "Berlin" }
+		},
+		new()
+		{
+			Id = 2,
+			Vectors = new float[] { 0.19f, 0.81f, 0.75f, 0.11f },
+			Payload = { ["city"] = "London" }
+		},
+		new()
+		{
+			Id = 3,
+			Vectors = new float[] { 0.36f, 0.55f, 0.47f, 0.94f },
+			Payload = { ["city"] = "Moscow" }
+		},
+		// Truncated
+	}
+);
+
+Console.WriteLine(operationInfo);
+```
+
 **Response:**
 
 ```python
@@ -245,7 +295,12 @@ operation_id: 0
 status: Completed
 ```
 
+```csharp
+{ "operationId": "0", "status": "Completed" }
+```
+
 ## Run a query
+
 Let's ask a basic question - Which of our stored vectors are most similar to the query vector `[0.2, 0.1, 0.9, 0.7]`?
 
 ```python
@@ -301,6 +356,17 @@ List<ScoredPoint> searchResult =
         .get();
       
 System.out.println(searchResult);
+```
+
+```csharp
+var searchResult = await client.SearchAsync(
+	collectionName: "test_collection",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	limit: 3,
+	payloadSelector: true
+);
+
+Console.WriteLine(searchResult);
 ```
 
 **Response:**
@@ -409,6 +475,47 @@ version: 1
 ]
 ```
 
+```csharp
+[
+  {
+    "id": {
+      "num": "4"
+    },
+    "payload": {
+      "city": {
+        "stringValue": "New York"
+      }
+    },
+    "score": 1.362,
+    "version": "7"
+  },
+  {
+    "id": {
+      "num": "1"
+    },
+    "payload": {
+      "city": {
+        "stringValue": "Berlin"
+      }
+    },
+    "score": 1.273,
+    "version": "7"
+  },
+  {
+    "id": {
+      "num": "3"
+    },
+    "payload": {
+      "city": {
+        "stringValue": "Moscow"
+      }
+    },
+    "score": 1.208,
+    "version": "7"
+  }
+]
+```
+
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
 See [payload and vector in the result](../concepts/search#payload-and-vector-in-the-result) on how to enable it.
 
@@ -482,6 +589,20 @@ List<ScoredPoint> searchResult =
 System.out.println(searchResult);
 ```
 
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+var searchResult = await client.SearchAsync(
+	collectionName: "test_collection",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	filter: MatchKeyword("city", "London"),
+	limit: 3,
+	payloadSelector: true
+);  
+
+Console.WriteLine(searchResult);
+```
+
 **Response:**
 
 ```python
@@ -546,14 +667,31 @@ version: 1
 ]
 ```
 
+```csharp
+[
+  {
+    "id": {
+      "num": "2"
+    },
+    "payload": {
+      "city": {
+        "stringValue": "London"
+      }
+    },
+    "score": 0.871,
+    "version": "7"
+  }
+]
+```
+
 <aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="../concepts/indexing/#payload-index">payload indexes</a>!</aside>
 
 You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score.
 
 ## Next steps
 
-Now you know how Qdrant works. Getting started with [Qdrant Cloud](../cloud/quickstart-cloud/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates. 
+Now you know how Qdrant works. Getting started with [Qdrant Cloud](../cloud/quickstart-cloud/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates.
 
-To move onto some more complex examples of vector search, read our [Tutorials](../tutorials/) and create your own app with the help of our [Examples](../examples/). 
+To move onto some more complex examples of vector search, read our [Tutorials](../tutorials/) and create your own app with the help of our [Examples](../examples/).
 
 **Note:** There is another way of running Qdrant locally. If you are a Python developer, we recommend that you try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup.

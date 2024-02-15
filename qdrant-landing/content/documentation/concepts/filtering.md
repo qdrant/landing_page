@@ -135,10 +135,23 @@ client
             .setFilter(
                 Filter.newBuilder()
                     .addAllMust(
-                        List.of(matchKeyword("city", "London"), matchKeyword("color", "Red")))
+                        List.of(matchKeyword("city", "London"), matchKeyword("color", "red")))
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+// & operator combines two conditions in an AND conjunction(must)
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("city", "London") & MatchKeyword("color", "red")
+);
 ```
 
 Filtered points would be:
@@ -230,10 +243,23 @@ client
             .setFilter(
                 Filter.newBuilder()
                     .addAllShould(
-                        List.of(matchKeyword("city", "London"), matchKeyword("color", "Red")))
+                        List.of(matchKeyword("city", "London"), matchKeyword("color", "red")))
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+// | operator combines two conditions in an OR disjunction(should)
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("city", "London") | MatchKeyword("color", "red")
+);
 ```
 
 Filtered points would be:
@@ -325,10 +351,23 @@ client
             .setFilter(
                 Filter.newBuilder()
                     .addAllMustNot(
-                        List.of(matchKeyword("city", "London"), matchKeyword("color", "Red")))
+                        List.of(matchKeyword("city", "London"), matchKeyword("color", "red")))
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+// The ! operator negates the condition(must not)
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: !(MatchKeyword("city", "London") & MatchKeyword("color", "red"))
+);
 ```
 
 Filtered points would be:
@@ -423,10 +462,22 @@ client
             .setFilter(
                 Filter.newBuilder()
                     .addMust(matchKeyword("city", "London"))
-                    .addMustNot(matchKeyword("color", "Red"))
+                    .addMustNot(matchKeyword("color", "red"))
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("city", "London") & !MatchKeyword("color", "red")
+);
 ```
 
 Filtered points would be:
@@ -507,7 +558,7 @@ client
         collection_name: "{collection_name}".to_string(),
         filter: Some(Filter::must_not([Filter::must([
             Condition::matches("city", "London".to_string()),
-            Condition::matches("color", "Red".to_string()),
+            Condition::matches("color", "red".to_string()),
         ])
         .into()])),
         ..Default::default()
@@ -536,11 +587,24 @@ client
                                 .addAllMust(
                                     List.of(
                                         matchKeyword("city", "London"),
-                                        matchKeyword("color", "Red")))
+                                        matchKeyword("color", "red")))
                                 .build()))
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: new Filter { MustNot = { MatchKeyword("city", "London") & MatchKeyword("color", "red") } }
+);
 ```
 
 Filtered points would be:
@@ -590,7 +654,13 @@ Condition::matches("color", "red".to_string())
 ```
 
 ```java
-matchKeyword("color", "Red");
+matchKeyword("color", "red");
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+MatchKeyword("color", "red");
 ```
 
 For the other types, the match condition will look exactly the same, except for the type used:
@@ -626,6 +696,12 @@ Condition::matches("count", 0)
 import static io.qdrant.client.ConditionFactory.match;
 
 match("count", 0);
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+Match("count", 0);
 ```
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
@@ -673,7 +749,13 @@ Condition::matches("color", vec!["black".to_string(), "yellow".to_string()])
 ```java
 import static io.qdrant.client.ConditionFactory.matchKeywords;
 
-matchKeywords("color", List.of("black", "yellow"))
+matchKeywords("color", List.of("black", "yellow"));
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+Match("color", ["black", "yellow"]);
 ```
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
@@ -727,6 +809,12 @@ Condition::matches(
 import static io.qdrant.client.ConditionFactory.matchExceptKeywords;
 
 matchExceptKeywords("color", List.of("black", "yellow"));
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+Match("color", ["black", "yellow"]);
 ```
 
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
@@ -861,6 +949,16 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(collectionName: "{collection_name}", filter: MatchKeyword("country.name", "Germany"));
+```
+
 You can also search through arrays by projecting inner values using the `[]` syntax.
 
 ```http
@@ -956,6 +1054,18 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: Range("country.cities[].population", new Qdrant.Client.Grpc.Range { Gte = 9.0 })
+);
+```
+
 This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
 
 And the leaf nested field can also be an array.
@@ -1034,6 +1144,18 @@ client
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("country.cities[].sightseeing", "Germany")
+);
 ```
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
@@ -1164,6 +1286,18 @@ client
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: MatchKeyword("diet[].food", "meat") & Match("diet[].likes", true)
+);
 ```
 
 This happens because both points are matching the two conditions:
@@ -1307,6 +1441,18 @@ client
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: Nested("diet", MatchKeyword("food", "meat") & Match("likes", true))
+);
 ```
 
 The matching logic is modified to be applied at the level of an array element within the payload.
@@ -1459,6 +1605,19 @@ client
     .get();
 ```
 
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(
+	collectionName: "{collection_name}",
+	filter: Nested("diet", MatchKeyword("food", "meat") & Match("likes", true)) & HasId(1)
+);
+```
+
 ### Full Text Match
 
 *Available as of v0.10.0*
@@ -1504,6 +1663,12 @@ Condition::matches("description", "good cheap".to_string())
 import static io.qdrant.client.ConditionFactory.matchText;
 
 matchText("description", "good cheap");
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+MatchText("description", "good cheap");
 ```
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
@@ -1564,6 +1729,12 @@ import static io.qdrant.client.ConditionFactory.range;
 import io.qdrant.client.grpc.Points.Range;
 
 range("price", Range.newBuilder().setGte(100.0).setLte(450).build());
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+Range("price", new Qdrant.Client.Grpc.Range { Gte = 100.0, Lte = 450 });
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -1652,6 +1823,12 @@ import static io.qdrant.client.ConditionFactory.geoBoundingBox;
 geoBoundingBox("location", 52.520711, 13.403683, 52.495862, 13.455868);
 ```
 
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+GeoBoundingBox("location", 52.520711, 13.403683, 52.495862, 13.455868);
+```
+
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 #### Geo Radius
@@ -1712,6 +1889,12 @@ Condition::geo_radius(
 import static io.qdrant.client.ConditionFactory.geoRadius;
 
 geoRadius("location", 52.520711, 13.403683, 1000.0f);
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+GeoRadius("location", 52.520711, 13.403683, 1000.0f);
 ```
 
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
@@ -1951,6 +2134,39 @@ geoPolygon(
             .build()));
 ```
 
+```csharp
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+GeoPolygon(
+	field: "location",
+	exterior: new GeoLineString
+	{
+		Points =
+		{
+			new GeoPoint { Lat = -70.0, Lon = -70.0 },
+			new GeoPoint { Lat = 60.0, Lon = -70.0 },
+			new GeoPoint { Lat = 60.0, Lon = 60.0 },
+			new GeoPoint { Lat = -70.0, Lon = 60.0 },
+			new GeoPoint { Lat = -70.0, Lon = -70.0 }
+		}
+	},
+	interiors: [
+		new()
+		{
+			Points =
+			{
+				new GeoPoint { Lat = -65.0, Lon = -65.0 },
+				new GeoPoint { Lat = 0.0, Lon = -65.0 },
+				new GeoPoint { Lat = 0.0, Lon = 0.0 },
+				new GeoPoint { Lat = -65.0, Lon = 0.0 },
+				new GeoPoint { Lat = -65.0, Lon = -65.0 }
+			}
+		}
+	]
+);
+```
+
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
 
 If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset. 
@@ -2012,6 +2228,13 @@ import io.qdrant.client.grpc.Points.ValuesCount;
 valuesCount("comments", ValuesCount.newBuilder().setGt(2).build());
 ```
 
+```csharp
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+ValuesCount("comments", new ValuesCount { Gt = 2 });
+```
+
 The result would be:
 
 ```json
@@ -2057,6 +2280,13 @@ import static io.qdrant.client.ConditionFactory.isEmpty;
 isEmpty("reports");
 ```
 
+```csharp
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+IsEmpty("reports");
+```
+
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
@@ -2096,6 +2326,13 @@ Condition::is_null("reports")
 import static io.qdrant.client.ConditionFactory.isNull;
 
 isNull("reports");
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+IsNull("reports");
 ```
 
 This condition will match all records where the field `reports` exists and has `NULL` value.
@@ -2172,6 +2409,15 @@ client
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(collectionName: "{collection_name}", filter: HasId([1, 3, 5, 7, 9, 11]));
 ```
 
 Filtered points would be:

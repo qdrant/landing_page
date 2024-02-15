@@ -184,6 +184,22 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	filter: MatchKeyword("city", "London"),
+	searchParams: new SearchParams { Exact = false, HnswEf = 128 },
+	limit: 3
+);
+```
+
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
 Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
@@ -296,6 +312,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	vectorName: "image",
+	limit: 3
+);
+```
+
 Search is processing only among vectors with the same name.
 
 *Available as of v1.7.0*
@@ -406,6 +435,20 @@ client
 .get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 2.0f, 1.0f },
+	vectorName: "text",
+	limit: 3,
+	sparseIndices: new uint[] { 1, 7 }
+);
+```
+
 ### Filtering results by score
 
 In addition to payload filtering, it might be useful to filter out results with a low similarity score.
@@ -491,6 +534,20 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	payloadSelector: true,
+	vectorsSelector: true,
+	limit: 3
+);
+```
+
 You can use `with_payload` to scope to or filter a specific payload subset. 
 You can even specify an array of items to include, such as `city`, 
 `village`, and `town`:
@@ -564,6 +621,26 @@ client
             .setLimit(3)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	payloadSelector: new WithPayloadSelector
+	{
+		Include = new PayloadIncludeSelector
+		{
+			Fields = { new string[] { "city", "village", "town" } }
+		}
+	},
+	limit: 3
+);
 ```
 
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
@@ -653,6 +730,23 @@ client
             .setLimit(3)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	payloadSelector: new WithPayloadSelector
+	{
+		Exclude = new PayloadExcludeSelector { Fields = { new string[] { "city" } } }
+	},
+	limit: 3
+);
 ```
 
 It is possible to target nested fields using a dot notation:
@@ -838,6 +932,34 @@ List<SearchPoints> searches =
 client.searchBatchAsync("{collection_name}", searches, null).get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+var filter = MatchKeyword("city", "London");
+
+var searches = new List<SearchPoints>
+{
+	new()
+	{
+		Vector = { new float[] { 0.2f, 0.1f, 0.9f, 0.7f } },
+		Filter = filter,
+		Limit = 3
+	},
+	new()
+	{
+		Vector = { new float[] { 0.5f, 0.3f, 0.2f, 0.3f } },
+		Filter = filter,
+		Limit = 3
+	}
+};
+
+await client.SearchBatchAsync(collectionName: "{collection_name}", searches: searches);
+```
+
 The result of this API contains one array per search requests.
 
 ```json
@@ -949,6 +1071,21 @@ client
             .setOffset(100)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	"{collection_name}",
+	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	payloadSelector: true,
+	vectorsSelector: true,
+	limit: 10,
+	offset: 100
+);
 ```
 
 Is equivalent to retrieving the 11th page with 10 records per page.
@@ -1095,6 +1232,20 @@ client
             .setGroupSize(2)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchGroupsAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 1.1f },
+	groupBy: "document_id",
+	limit: 4,
+	groupSize: 2
+);
 ```
 
 The output of a ***groups*** call looks like this:
@@ -1272,6 +1423,30 @@ client
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchGroupsAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 1.0f },
+	groupBy: "document_id",
+	limit: 2,
+	groupSize: 2,
+	withLookup: new WithLookup
+	{
+		Collection = "documents",
+		WithPayload = new WithPayloadSelector
+		{
+			Include = new PayloadIncludeSelector { Fields = { new string[] { "title", "text" } } }
+		},
+		WithVectors = false
+	}
+);
 ```
 
 For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.
