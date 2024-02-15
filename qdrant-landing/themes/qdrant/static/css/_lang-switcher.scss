@@ -66,6 +66,12 @@ $tabs-font-color-hover: var(--neutral-n-600);
         mask-image: url("/css/assets/lang-switcher/java.svg");
       }
     }
+    &_csharp {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/csharp.svg");
+        mask-image: url("/css/assets/lang-switcher/csharp.svg");
+      }
+    }
 
     &:not(.active):hover {
       background: $tabs-bg-color-hover;
