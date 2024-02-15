@@ -279,8 +279,8 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.RecommendAsync(
 	collectionName: "{collection_name}",
-	positive: new List<ulong> { 100, 231 },
-	negative: new List<ulong> { 718 },
+	positive: new ulong[] { 100, 231 },
+	negative: new ulong[] { 718 },
 	usingVector: "image",
 	limit: 10
 );
@@ -394,8 +394,8 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.RecommendAsync(
 	collectionName: "{collection_name}",
-	positive: new List<ulong> { 100, 231 },
-	negative: new List<ulong> { 718 },
+	positive: new ulong[] { 100, 231 },
+	negative: new ulong[] { 718 },
 	usingVector: "image",
 	limit: 10,
 	lookupFrom: new LookupLocation
@@ -600,31 +600,25 @@ var filter = MatchKeyword("city", "london");
 
 await client.RecommendBatchAsync(
 	collectionName: "{collection_name}",
-	recommendSearches: new List<RecommendPoints>
-	{
+	recommendSearches:
+	[
 		new()
 		{
 			CollectionName = "{collection_name}",
-			Positive =
-			{
-				new List<PointId> { 100, 231 }
-			},
-			Negative = { new List<PointId> { 718 } },
+			Positive = { new PointId[] { 100, 231 } },
+			Negative = { new PointId[] { 718 } },
 			Limit = 3,
 			Filter = filter,
 		},
 		new()
 		{
 			CollectionName = "{collection_name}",
-			Positive =
-			{
-				new List<PointId> { 200, 67 }
-			},
-			Negative = { new List<PointId> { 300 } },
+			Positive = { new PointId[] { 200, 67 } },
+			Negative = { new PointId[] { 300 } },
 			Limit = 3,
 			Filter = filter,
 		}
-	}
+	]
 );
 ```
 
@@ -849,8 +843,8 @@ await client.DiscoverAsync(
 	{
 		Single = new VectorExample { Vector = new float[] { 0.2f, 0.1f, 0.9f, 0.7f }, }
 	},
-	context: new List<ContextExamplePair>
-	{
+	context:
+	[
 		new()
 		{
 			Positive = new VectorExample { Id = 100 },
@@ -861,7 +855,7 @@ await client.DiscoverAsync(
 			Positive = new VectorExample { Id = 200 },
 			Negative = new VectorExample { Id = 300 }
 		}
-	},
+	],
 	limit: 10
 );
 ```
