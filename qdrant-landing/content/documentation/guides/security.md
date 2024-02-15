@@ -79,16 +79,6 @@ const client = new QdrantClient({
 });
 ```
 
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient(
-  "xyz-example.eu-central.aws.cloud.qdrant.io",
-  https: true,
-  apiKey: "<paste-your-api-key-here>"
-);
-```
-
 ```rust
 use qdrant_client::client::QdrantClient;
 
@@ -110,6 +100,17 @@ QdrantClient client =
             .withApiKey("<paste-your-api-key-here>")
             .build());
 ```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient(
+  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
+  https: true,
+  apiKey: "<paste-your-api-key-here>"
+);
+```
+
 <aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
 ### Read-only API key

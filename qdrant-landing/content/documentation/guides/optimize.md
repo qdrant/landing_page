@@ -161,6 +161,23 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	quantizationConfig: new QuantizationConfig
+	{
+		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }
+	}
+);
+```
+
 `mmmap_threshold` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
 
 Optionally, you can disable rescoring with search `params`, which will reduce the number of disk reads even further, but potentially slightly decrease the precision.
@@ -257,6 +274,23 @@ client
             .setLimit(3)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	searchParams: new SearchParams
+	{
+		Quantization = new QuantizationSearchParams { Rescore = false }
+	},
+	limit: 3
+);
 ```
 
 ## Prefer high precision with low memory footprint
@@ -375,6 +409,20 @@ client
             .setHnswConfig(HnswConfigDiff.newBuilder().setOnDisk(true).build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	hnswConfig: new HnswConfigDiff { OnDisk = true }
+);
 ```
 
 In this scenario you can increase the precision of the search by increasing the `ef` and `m` parameters of the HNSW index, even with limited RAM.
@@ -538,6 +586,23 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	quantizationConfig: new QuantizationConfig
+	{
+		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }
+	}
+);
+```
+
 There are also some search-time parameters you can use to tune the search accuracy and speed:
 
 ```http
@@ -623,6 +688,20 @@ client
             .setLimit(3)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	searchParams: new SearchParams { HnswEf = 128, Exact = false },
+	limit: 3
+);
 ```
 
 - `hnsw_ef` - controls the number of neighbors to visit during search. The higher the value, the more accurate and slower the search will be. Recommended range is 32-512.
@@ -740,6 +819,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { DefaultSegmentNumber = 16 }
+);
+```
+
 To prefer throughput, you can set up Qdrant to use as many cores as possible for processing multiple requests in parallel.
 To do that, you can configure qdrant to use minimal number of segments, which is usually 2.
 Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. But at the same time require more time to build index.
@@ -845,3 +937,15 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+	optimizersConfig: new OptimizersConfigDiff { DefaultSegmentNumber = 2 }
+);
+```
