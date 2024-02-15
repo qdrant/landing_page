@@ -4,7 +4,7 @@ draft: false
 slug: qdrant-n8n
 short_description: Integration demo
 description: Building a RAG-based chatbot using Qdrant and N8N to chat with a codebase on GitHub
-preview_image: /blog/qdrant-n8n/preview/preview.jpg
+preview_image: /blog/qdrant-n8n/preview.jpg
 date: 2024-01-06T04:09:05+05:30
 author: Anush Shetty
 featured: false

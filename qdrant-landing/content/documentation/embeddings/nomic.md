@@ -7,8 +7,10 @@ weight: 1100
 
 The `nomic-embed-text-v1` model is an open source [8192 context length](https://github.com/nomic-ai/contrastors) text encoder.
 While you can find it on the [Hugging Face Hub](https://huggingface.co/nomic-ai/nomic-embed-text-v1), 
-you may have more success through the [Nomic Text Embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
+you may find it easier to obtain them through the [Nomic Text Embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
 Once installed, you can configure it with the official Python client or through direct HTTP requests.
+
+<aside role="status">Using Nomic Text Embeddings requires configuring the Nomic API token</aside>
 
 You can use Nomic embeddings directly in Qdrant client calls. There is a difference in the way the embeddings
 are obtained for documents and queries. The `task_type` parameter defines the embeddings that you get.

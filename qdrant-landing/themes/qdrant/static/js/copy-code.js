@@ -15,7 +15,7 @@
     copyBtn.dataset.content = 'Text copied!'
 
     copyBtn.innerHTML = '<button class="copy-code__btn lead ml-2" data-clipboard-target="#' + id + '" title="Copy code">' +
-      '<i class="flaticon-copy d-flex"></i>' +
+      '<i class="d-flex"></i>' +
       '</button>'
     block.after(copyBtn);
 

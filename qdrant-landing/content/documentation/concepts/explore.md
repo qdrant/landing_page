@@ -272,6 +272,20 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.RecommendAsync(
+	collectionName: "{collection_name}",
+	positive: new List<ulong> { 100, 231 },
+	negative: new List<ulong> { 718 },
+	usingVector: "image",
+	limit: 10
+);
+```
+
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
 ### Lookup vectors from another collection
@@ -370,6 +384,26 @@ client
                     .build())
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.RecommendAsync(
+	collectionName: "{collection_name}",
+	positive: new List<ulong> { 100, 231 },
+	negative: new List<ulong> { 718 },
+	usingVector: "image",
+	limit: 10,
+	lookupFrom: new LookupLocation
+	{
+		CollectionName = "{external_collection_name}",
+		VectorName = "{external_vector_name}",
+	}
+);
 ```
 
 Vectors are retrieved from the external collection by ids provided in the `positive` and `negative` lists. 
@@ -553,6 +587,45 @@ List<RecommendPoints> recommendQueries =
             .build());
 
 client.recommendBatchAsync("{collection_name}", recommendQueries, null).get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+var filter = MatchKeyword("city", "london");
+
+await client.RecommendBatchAsync(
+	collectionName: "{collection_name}",
+	recommendSearches: new List<RecommendPoints>
+	{
+		new()
+		{
+			CollectionName = "{collection_name}",
+			Positive =
+			{
+				new List<PointId> { 100, 231 }
+			},
+			Negative = { new List<PointId> { 718 } },
+			Limit = 3,
+			Filter = filter,
+		},
+		new()
+		{
+			CollectionName = "{collection_name}",
+			Positive =
+			{
+				new List<PointId> { 200, 67 }
+			},
+			Negative = { new List<PointId> { 300 } },
+			Limit = 3,
+			Filter = filter,
+		}
+	}
+);
 ```
 
 The result of this API contains one array per recommendation requests.
@@ -762,6 +835,35 @@ client
             .setLimit(10)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DiscoverAsync(
+	collectionName: "{collection_name}",
+	target: new TargetVector
+	{
+		Single = new VectorExample { Vector = new float[] { 0.2f, 0.1f, 0.9f, 0.7f }, }
+	},
+	context: new List<ContextExamplePair>
+	{
+		new()
+		{
+			Positive = new VectorExample { Id = 100 },
+			Negative = new VectorExample { Id = 718 }
+		},
+		new()
+		{
+			Positive = new VectorExample { Id = 200 },
+			Negative = new VectorExample { Id = 300 }
+		}
+	},
+	limit: 10
+);
 ```
 
 <aside role="status">

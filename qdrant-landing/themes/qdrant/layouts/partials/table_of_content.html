@@ -9,7 +9,7 @@
         <div class="divider mb-2"></div>
         <ul class="tableOfContent__footer">
             <li>
-                <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ .File.Path }}" target="_blank">
+                <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
                     <i class="fab fa-github"></i> Edit on GitHub
                 </a>
             </li>

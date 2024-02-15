@@ -319,6 +319,45 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
+	{
+		new PointStruct
+		{
+			Id = 1,
+			Vectors = new[] { 0.05f, 0.61f, 0.76f, 0.74f },
+			Payload = { ["city"] = "Berlin", ["price"] = 1.99 }
+		},
+		new PointStruct
+		{
+			Id = 2,
+			Vectors = new[] { 0.19f, 0.81f, 0.75f, 0.11f },
+			Payload = { ["city"] = new[] { "Berlin", "London" } }
+		},
+		new PointStruct
+		{
+			Id = 3,
+			Vectors = new[] { 0.36f, 0.55f, 0.47f, 0.94f },
+			Payload =
+			{
+				["city"] = new[] { "Berlin", "Moscow" },
+				["price"] = new Value
+				{
+					ListValue = new ListValue { Values = { new Value[] { 1.99, 2.99 } } }
+				}
+			}
+		}
+	}
+);
+```
+
 ## Update payload
 
 ### Set payload
@@ -403,6 +442,19 @@ client
         null,
         null)
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SetPayloadAsync(
+	collectionName: "{collection_name}",
+	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+	ids: new ulong[] { 0, 3, 10 }
+);
 ```
 
 You don't need to know the ids of the points you want to modify. The alternative
@@ -508,6 +560,20 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SetPayloadAsync(
+	collectionName: "{collection_name}",
+	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+	filter: MatchKeyword("color", "red")
+);
+```
+
 ### Overwrite payload
 
 Fully replace any existing payload with the given one.
@@ -591,6 +657,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.OverwritePayloadAsync(
+	collectionName: "{collection_name}",
+	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+	ids: new ulong[] { 0, 3, 10 }
+);
+```
+
 Like [set payload](#set-payload), you don't need to know the ids of the points
 you want to modify. The alternative is to use filters.
 
@@ -649,6 +728,14 @@ import static io.qdrant.client.PointIdFactory.id;
 client
     .clearPayloadAsync("{collection_name}", List.of(id(0), id(3), id(100)), true, null, null)
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ClearPayloadAsync(collectionName: "{collection_name}", ids: new ulong[] { 0, 3, 100 });
 ```
 
 <aside role="status">
@@ -718,6 +805,19 @@ client
         null,
         null)
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeletePayloadAsync(
+	collectionName: "{collection_name}",
+	keys: ["color", "price"],
+	ids: new ulong[] { 0, 3, 100 }
+);
+
 ```
 
 Alternatively, you can use filters to delete payload keys from the points.
@@ -806,6 +906,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeletePayloadAsync(
+	collectionName: "{collection_name}",
+	keys: ["color", "price"],
+	filter: MatchKeyword("color", "red")
+);
+```
+
 ## Payload indexing
 
 To search more efficiently with filters, Qdrant allows you to create indexes for payload fields by specifying the name and type of field it is intended to be.
@@ -869,6 +982,17 @@ client.createPayloadIndexAsync(
     true,
     null,
     null);
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync(
+	collectionName: "{collection_name}",
+	fieldName: "name_of_the_field_to_index"
+);
 ```
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).

@@ -4,11 +4,7 @@ draft: false
 slug: dust-and-qdrant 
 #short_description: 
 description: Using AI to Unlock Company Knowledge and Drive Employee Productivity
-preview_image: /case-studies/dust/preview.png # Change this
-
-social_preview_image: /case-studies/dust/preview.png # Optional image used for link previews
-title_preview_image: /case-studies/dust/preview.png # Optional image used for blog post title
-small_preview_image: /case-studies/dust/preview.png # Optional image used for small preview in the list of blog posts
+preview_image: /case-studies/dust/preview.png
 date: 2024-02-06T07:03:26-08:00
 author: Manuel Meyer
 featured: false

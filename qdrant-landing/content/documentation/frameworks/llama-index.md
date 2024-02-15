@@ -28,7 +28,9 @@ client = qdrant_client.QdrantClient(
     api_key="<qdrant-api-key>", # For Qdrant Cloud, None for local instance
 )
 
-index = QdrantVectorStore(client=client, collection_name="documents")
+vector_store = QdrantVectorStore(client=client, collection_name="documents")
+index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
+
 ```
 
 The library [comes with a notebook](https://github.com/jerryjliu/llama_index/blob/main/docs/examples/vector_stores/QdrantIndexDemo.ipynb) 

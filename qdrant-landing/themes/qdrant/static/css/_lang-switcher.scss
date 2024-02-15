@@ -1,26 +1,116 @@
-.highlight {
-    position: relative;
-}
-.highlight + .highlight {
-    display: none;
-}
-.highlight > pre {
-    padding: 10px 12px;
-}
+$tabs-bg-color: var(--neutral-n-100);
+$tabs-bg-color-active: var(--neutral-n-50);
+$tabs-bg-color-hover: var(--neutral-n-200);
+$tabs-font-color: var(--neutral-n-500);
+$tabs-font-color-active: var(--neutral-n-700);
+$tabs-font-color-hover: var(--neutral-n-600);
+
 .lang-tabs {
-    display: block;
-    min-height: 26px;
-}
-.lang-tabs__button {
-    padding: 2px 4px 5px;
-    background: #dcdcdc;
-    color: inherit;
-    cursor: pointer;
-}
-.lang-tabs__button.active {
-    background: #8d8d8d;
-    color: #fff;
-}
-.lang-tabs__button:not(:last-of-type) {
-    border-right: 1px solid #fff;
+  display: flex;
+  align-items: flex-start;
+  align-self: stretch;
+  background: $tabs-bg-color;
+  border-top: 1px solid $tabs-bg-color;
+  border-left: 1px solid $tabs-bg-color;
+  border-right: 1px solid $tabs-bg-color;
+
+  &__button {
+    display: flex;
+    padding: 10px 20px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    color: $tabs-font-color;
+    position: relative;
+    text-indent: -9999px;
+    flex-wrap: wrap;
+
+    @include media-breakpoint-up(md) {
+      text-indent: unset;
+    }
+
+    &:before {
+      content: "";
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      background-color: $tabs-font-color;
+      mask-size: contain;
+      mask-repeat: no-repeat;
+      mask-position: center;
+      -webkit-mask-image: url("/css/assets/lang-switcher/http.svg");
+      mask-image: url("/css/assets/lang-switcher/http.svg");
+    }
+
+    &_python {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/python.svg");
+        mask-image: url("/css/assets/lang-switcher/python.svg");
+      }
+    }
+    &_typescript {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/typescript.svg");
+        mask-image: url("/css/assets/lang-switcher/typescript.svg");
+      }
+    }
+    &_rust {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/rust.svg");
+        mask-image: url("/css/assets/lang-switcher/rust.svg");
+      }
+    }
+    &_java {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/java.svg");
+        mask-image: url("/css/assets/lang-switcher/java.svg");
+      }
+    }
+
+    &:not(.active):hover {
+      background: $tabs-bg-color-hover;
+      color: $tabs-font-color-hover;
+      cursor: pointer;
+      &:before {
+        background-color: $tabs-font-color-hover;
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        right: 0;
+        height: 1px;
+        background: $tabs-bg-color-hover;
+        z-index: 1;
+      }
+
+      & .lang-tabs__icon {
+        background-color: $tabs-font-color-hover;
+      }
+    }
+
+    &.active {
+      background: $tabs-bg-color-active;
+      color: $tabs-font-color-active;
+      &:before {
+        background-color: $tabs-font-color-active;
+      }
+      &:after {
+        content: "";
+        position: absolute;
+        bottom: -1px;
+        left: 0;
+        width: 100%;
+        height: 1px;
+        background: $tabs-bg-color-active;
+        z-index: 1;
+      }
+
+      & .lang-tabs__icon {
+        background-color: $tabs-font-color-active;
+      }
+    }
+
+  }
 }

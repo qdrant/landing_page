@@ -81,6 +81,14 @@ QdrantClient client =
 client.createSnapshotAsync("{collection_name}").get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateSnapshotAsync("{collection_name}");
+```
+
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
 
 ### Delete snapshot
@@ -127,6 +135,14 @@ QdrantClient client =
 client.deleteSnapshotAsync("{collection_name}", "{snapshot_name}").get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeleteSnapshotAsync(collectionName: "{collection_name}", snapshotName: "{snapshot_name}");
+```
+
 ## List snapshot
 
 List of snapshots for a collection:
@@ -167,6 +183,14 @@ QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client.listSnapshotAsync("{collection_name}").get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListSnapshotsAsync("{collection_name}");
 ```
 
 ## Retrieve snapshot
@@ -368,6 +392,14 @@ QdrantClient client =
 client.createFullSnapshotAsync().get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateFullSnapshotAsync();
+```
+
 ### Delete full storage snapshot
 
 *Available as of v1.0.0*
@@ -410,6 +442,14 @@ QdrantClient client =
 client.deleteFullSnapshotAsync("{snapshot_name}").get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeleteFullSnapshotAsync("{snapshot_name}");
+```
+
 ### List full storage snapshots
 
 ```http
@@ -448,6 +488,14 @@ QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client.listFullSnapshotAsync().get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListFullSnapshotsAsync();
 ```
 
 ### Download full storage snapshot

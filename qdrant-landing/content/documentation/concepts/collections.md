@@ -38,16 +38,6 @@ specify collections named  `test_collection1` through `test_collection4`.
 
 ## Create a collection
 
-```bash
-curl -X PUT http://localhost:6333/collections/test_collection1 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-      "size": 300,
-      "distance": "Cosine"
-    } 
-  }'
-```
 
 ```http
 PUT /collections/{collection_name}
@@ -57,6 +47,17 @@ PUT /collections/{collection_name}
       "distance": "Cosine"
     }
 }
+```
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    } 
+  }'
 ```
 
 ```python
@@ -114,8 +115,20 @@ import io.qdrant.client.QdrantGrpcClient;
 QdrantClient client = new QdrantClient(
     QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client.createCollectionAsync("test_collection",
-        VectorParams.newBuilder().setDistance(Distance.Dot).setSize(4).build()).get();
+client.createCollectionAsync("{collection_name}",
+        VectorParams.newBuilder().setDistance(Distance.Cosine).setSize(100).build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 100, Distance = Distance.Cosine }
+);
 ```
 
 In addition to the required options, you can also specify custom values for the following collection options:
@@ -150,19 +163,6 @@ This might be useful for experimenting quickly with different configurations for
 Make sure the vectors have the same `size` and `distance` function when setting up the vectors configuration in the new collection. If you used the previous sample
 code, `"size": 300` and `"distance": "Cosine"`.
 
-```bash
-curl -X PUT http://localhost:6333/collections/test_collection2 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-      "size": 300,
-      "distance": "Cosine"
-    },
-    "init_from": {
-       "collection": "test_collection1"
-    }
-  }'
-```
 
 ```http
 PUT /collections/{collection_name}
@@ -175,6 +175,20 @@ PUT /collections/{collection_name}
        "collection": "{from_collection_name}"
     }
 }
+```
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection2 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 300,
+      "distance": "Cosine"
+    },
+    "init_from": {
+       "collection": "test_collection1"
+    }
+  }'
 ```
 
 ```python
@@ -252,6 +266,19 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams { Size = 100, Distance = Distance.Cosine },
+	initFromCollection: "{from_collection_name}"
+);
+```
+
 ### Collection with multiple vectors
 
 *Available as of v0.10.0*
@@ -260,6 +287,23 @@ It is possible to have multiple vectors per record.
 This feature allows for multiple vector storages per collection. 
 To distinguish vectors in one record, they should have a unique name defined when creating the collection.
 Each named vector in this mode has its distance and size:
+
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+        "image": {
+            "size": 4,
+            "distance": "Dot"
+        },
+        "text": {
+            "size": 8,
+            "distance": "Cosine"
+        }
+    }
+}
+```
 
 ```bash
 curl -X PUT http://localhost:6333/collections/test_collection3 \
@@ -276,22 +320,6 @@ curl -X PUT http://localhost:6333/collections/test_collection3 \
         }
       }
     }'
-```
-
-```http
-PUT /collections/{collection_name}
-{
-    "vectors": {
-        "image": {
-            "size": 4,
-            "distance": "Dot"
-        },
-        "text": {
-            "size": 8,
-            "distance": "Cosine"
-        }
-    }
-}
 ```
 
 ```python
@@ -385,6 +413,25 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParamsMap
+	{
+		Map =
+		{
+			["image"] = new VectorParams { Size = 4, Distance = Distance.Dot },
+			["text"] = new VectorParams { Size = 8, Distance = Distance.Cosine },
+		}
+	}
+);
+```
+
 For rare use cases, it is possible to create a collection without any vector storage.
 
 *Available as of v1.1.1*
@@ -417,6 +464,15 @@ Collections can contain sparse vectors as additional [named vectors](#collection
 Unlike dense vectors, sparse vectors must be named.
 And additionally, sparse vectors and dense vectors must have different names within a collection.
 
+```http
+PUT /collections/{collection_name}
+{
+    "sparse_vectors": {
+        "text": { },
+    }
+}
+```
+
 ```bash
 curl -X PUT http://localhost:6333/collections/test_collection4 \
   -H 'Content-Type: application/json' \
@@ -427,14 +483,6 @@ curl -X PUT http://localhost:6333/collections/test_collection4 \
   }'
 ```
 
-```http
-PUT /collections/{collection_name}
-{
-    "sparse_vectors": {
-        "text": { },
-    }
-}
-```
 
 ```python
 from qdrant_client import QdrantClient
@@ -512,6 +560,18 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	sparseVectorsConfig: ("text", new SparseVectorParams())
+);
+```
+
 Outside of a unique name, there are no required configuration parameters for sparse vectors.
 
 The distance function for sparse vectors is always `Dot` and does not need to be specified.
@@ -520,12 +580,12 @@ However, there are optional parameters to tune the underlying [sparse vector ind
 
 ### Delete collection
 
-```bash
-curl -X DELETE http://localhost:6333/collections/test_collection4 
-```
-
 ```http
 DELETE http://localhost:6333/collections/test_collection4 
+```
+
+```bash
+curl -X DELETE http://localhost:6333/collections/test_collection4 
 ```
 
 ```python
@@ -550,6 +610,14 @@ QdrantClient client =
 client.deleteCollectionAsync("{collection_name}").get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DeleteCollectionAsync("{collection_name}");
+```
+
 ### Update collection parameters
 
 Dynamic parameter updates may be helpful, for example, for more efficient initial loading of vectors.
@@ -557,6 +625,16 @@ For example, you can disable indexing during the upload process, and enable it i
 As a result, you will not waste extra computation resources on rebuilding the index.
 
 The following command enables indexing for segments that have more than 10000 kB of vectors stored:
+
+
+```http
+PATCH /collections/{collection_name}
+{
+    "optimizers_config": {
+        "indexing_threshold": 10000
+    }
+}
+```
 
 ```bash
 curl -X PATCH http://localhost:6333/collections/test_collection1 \
@@ -566,15 +644,6 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
         "indexing_threshold": 10000
     }
   }'
-```
-
-```http
-PATCH /collections/{collection_name}
-{
-    "optimizers_config": {
-        "indexing_threshold": 10000
-    }
-}
 ```
 
 ```python
@@ -623,6 +692,18 @@ client.updateCollectionAsync(
         .build());
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+	collectionName: "{collection_name}",
+	optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 10000 }
+);
+```
+
 The following parameters can be updated:
 
 * `optimizers_config` - see [optimizer](../optimizer/) for details.
@@ -651,17 +732,6 @@ automatically be rebuilt in the background to match updated parameters.
 To put vector data on disk for a collection that **does not have** named vectors,
 use `""` as name:
 
-```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "vectors": {
-        "": { 
-            "on_disk": true 
-      }
-    }
-  }'
-```
 
 ```http
 PATCH /collections/{collection_name}
@@ -674,9 +744,34 @@ PATCH /collections/{collection_name}
 }
 ```
 
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+        "": { 
+            "on_disk": true 
+      }
+    }
+  }'
+```
+
+
 To put vector data on disk for a collection that **does have** named vectors:
 
 Note: To create a vector name, follow the procedure from our [Points](/documentation/concepts/points/#create-vector-name).
+
+
+```http
+PATCH /collections/{collection_name}
+{
+    "vectors": {
+        "my_vector": {
+            "on_disk": true
+        }
+    }
+}
+```
 
 ```bash
 curl -X PATCH http://localhost:6333/collections/test_collection1 \
@@ -690,19 +785,40 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
   }'
 ```
 
+In the following example the HNSW index and quantization parameters are updated,
+both for the whole collection, and for `my_vector` specifically:
+
+
 ```http
 PATCH /collections/{collection_name}
 {
     "vectors": {
         "my_vector": {
+            "hnsw_config": {
+                "m": 32,
+                "ef_construct": 123
+            },
+            "quantization_config": {
+                "product": {
+                    "compression": "x32",
+                    "always_ram": true
+                }
+            },
             "on_disk": true
+        }
+    },
+    "hnsw_config": {
+        "ef_construct": 123
+    },
+    "quantization_config": {
+        "scalar": {
+            "type": "int8",
+            "quantile": 0.8,
+            "always_ram": false
         }
     }
 }
 ```
-
-In the following example the HNSW index and quantization parameters are updated,
-both for the whole collection, and for `my_vector` specifically:
 
 ```bash
 curl -X PATCH http://localhost:6333/collections/test_collection1 \
@@ -734,37 +850,6 @@ curl -X PATCH http://localhost:6333/collections/test_collection1 \
         }
     }
 }'
-```
-
-```http
-PATCH /collections/{collection_name}
-{
-    "vectors": {
-        "my_vector": {
-            "hnsw_config": {
-                "m": 32,
-                "ef_construct": 123
-            },
-            "quantization_config": {
-                "product": {
-                    "compression": "x32",
-                    "always_ram": true
-                }
-            },
-            "on_disk": true
-        }
-    },
-    "hnsw_config": {
-        "ef_construct": 123
-    },
-    "quantization_config": {
-        "scalar": {
-            "type": "int8",
-            "quantile": 0.8,
-            "always_ram": false
-        }
-    }
-}
 ```
 
 ```python
@@ -915,63 +1000,73 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+	collectionName: "{collection_name}",
+	hnswConfig: new HnswConfigDiff { EfConstruct = 123 },
+	vectorsConfig: new VectorParamsDiffMap
+	{
+		Map =
+		{
+			{
+				"my_vector",
+				new VectorParamsDiff
+				{
+					HnswConfig = new HnswConfigDiff { M = 3, EfConstruct = 123 }
+				}
+			}
+		}
+	},
+	quantizationConfig: new QuantizationConfigDiff
+	{
+		Scalar = new ScalarQuantization
+		{
+			Type = QuantizationType.Int8,
+			Quantile = 0.8f,
+			AlwaysRam = true
+		}
+	}
+);
+```
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
 distributed and indexed.
 
-```bash
-curl -X GET http://localhost:6333/collections/test_collection1 \
-  -H 'Content-Type: application/json' \
-  --data-raw '{
-    "result": {
-        "status": "green",
-        "optimizer_status": "ok",
-        "vectors_count": 1068786,
-        "indexed_vectors_count": 1024232,
-        "points_count": 1068786,
-        "segments_count": 31,
-        "config": {
-            "params": {
-                "vectors": {
-                    "size": 384,
-                    "distance": "Cosine"
-                },
-                "shard_number": 1,
-                "replication_factor": 1,
-                "write_consistency_factor": 1,
-                "on_disk_payload": false
-            },
-            "hnsw_config": {
-                "m": 16,
-                "ef_construct": 100,
-                "full_scan_threshold": 10000,
-                "max_indexing_threads": 0
-            },
-            "optimizer_config": {
-                "deleted_threshold": 0.2,
-                "vacuum_min_vector_number": 1000,
-                "default_segment_number": 0,
-                "max_segment_size": null,
-                "memmap_threshold": null,
-                "indexing_threshold": 20000,
-                "flush_interval_sec": 5,
-                "max_optimization_threads": 1
-            },
-            "wal_config": {
-                "wal_capacity_mb": 32,
-                "wal_segments_ahead": 0
-            }
-        },
-        "payload_schema": {}
-    },
-    "status": "ok",
-    "time": 0.00010143
-}'
-```
-
 ```http
 GET /collections/test_collection1
+```
+
+```bash
+curl -X GET http://localhost:6333/collections/test_collection1
+```
+
+```python
+client.get_collection(collection_name="{collection_name}")
+```
+
+```typescript
+client.getCollection("{collection_name}");
+```
+
+```rust
+client.collection_info("{collection_name}").await?;
+```
+
+```java
+client.getCollectionInfoAsync("{collection_name}").get();
+```
+
+<details>
+<summary>Expected result</summary>
+
+```json
 {
     "result": {
         "status": "green",
@@ -1019,20 +1114,13 @@ GET /collections/test_collection1
 }
 ```
 
-```python
-client.get_collection(collection_name="{collection_name}")
-```
+</details>
+<br/>
 
-```typescript
-client.getCollection("{collection_name}");
-```
 
-```rust
-client.collection_info("{collection_name}").await?;
-```
 
-```java
-client.getCollectionInfoAsync("{collection_name}").get();
+```csharp
+await client.GetCollectionInfoAsync("{collection_name}");
 ```
 
 If you insert the vectors into the collection, the `status` field may become
@@ -1097,6 +1185,20 @@ Since all changes of aliases happen atomically, no concurrent requests will be a
 
 ### Create alias
 
+```http
+POST /collections/aliases
+{
+    "actions": [
+        {
+            "create_alias": {
+                "collection_name": "test_collection1",
+                "alias_name": "production_collection"
+            }
+        }
+    ]
+}
+```
+
 ```bash
 curl -X POST http://localhost:6333/collections/aliases \
   -H 'Content-Type: application/json' \
@@ -1110,20 +1212,6 @@ curl -X POST http://localhost:6333/collections/aliases \
         }
     ]
 }'
-```
-
-```http
-POST /collections/aliases
-{
-    "actions": [
-        {
-            "create_alias": {
-                "collection_name": "test_collection1",
-                "alias_name": "production_collection"
-            }
-        }
-    ]
-}
 ```
 
 ```python
@@ -1157,6 +1245,10 @@ client.create_alias("example_collection", "production_collection").await?;
 
 ```java
 client.createAliasAsync("production_collection", "example_collection").get();
+```
+
+```csharp
+await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
 ```
 
 ### Remove alias
@@ -1219,10 +1311,33 @@ client.delete_alias("production_collection").await?;
 client.deleteAliasAsync("production_collection").get();
 ```
 
+```csharp
+await client.DeleteAliasAsync("production_collection");
+```
+
 ### Switch collection
 
 Multiple alias actions are performed atomically.
 For example, you can switch underlying collection with the following command:
+
+```http
+POST /collections/aliases
+{
+    "actions": [
+        {
+            "delete_alias": {
+                "alias_name": "production_collection"
+            }
+        },
+        {
+            "create_alias": {
+                "collection_name": "test_collection2",
+                "alias_name": "production_collection"
+            }
+        }
+    ]
+}
+```
 
 ```bash
 curl -X POST http://localhost:6333/collections/aliases \
@@ -1242,25 +1357,6 @@ curl -X POST http://localhost:6333/collections/aliases \
         }
     ]
 }'
-```
-
-```http
-POST /collections/aliases
-{
-    "actions": [
-        {
-            "delete_alias": {
-                "alias_name": "production_collection"
-            }
-        },
-        {
-            "create_alias": {
-                "collection_name": "test_collection2",
-                "alias_name": "production_collection"
-            }
-        }
-    ]
-}
 ```
 
 ```python
@@ -1306,14 +1402,18 @@ client.deleteAliasAsync("production_collection").get();
 client.createAliasAsync("production_collection", "example_collection").get();
 ```
 
-### List collection aliases
-
-```bash
-curl -X GET http://localhost:6333/collections/test_collection2/aliases
+```csharp
+await client.DeleteAliasAsync("production_collection");
+await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
 ```
+### List collection aliases
 
 ```http
 GET /collections/test_collection2/aliases
+```
+
+```bash
+curl -X GET http://localhost:6333/collections/test_collection2/aliases
 ```
 
 ```python
@@ -1350,15 +1450,24 @@ QdrantClient client =
 client.listCollectionAliasesAsync("{collection_name}").get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListCollectionAliasesAsync("{collection_name}");
+```
+
 ### List all aliases
+
+```http
+GET /aliases
+```
 
 ```bash
 curl -X GET http://localhost:6333/aliases
 ```
 
-```http
-GET /aliases
-```
 
 ```python
 from qdrant_client import QdrantClient
@@ -1394,15 +1503,24 @@ QdrantClient client =
 client.listAliasesAsync().get();
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListAliasesAsync();
+```
+
 ### List all collections
+
+```http
+GET /collections
+```
 
 ```bash
 curl -X GET http://localhost:6333/collections
 ```
 
-```http
-GET /collections
-```
 
 ```python
 from qdrant_client import QdrantClient
@@ -1436,4 +1554,12 @@ QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client.listCollectionsAsync().get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ListCollectionsAsync();
 ```
