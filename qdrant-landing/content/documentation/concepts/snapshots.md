@@ -294,7 +294,7 @@ If you wish instead to overwrite an existing collection, use the `--force_snapsh
 ### Snapshot priority
 
 When recovering a snapshot to a non-empty node, there may be conflicts between the snapshot data and the existing data. The "priority" setting controls how Qdrant handles these conflicts. The priority setting is important because different priorities can give very
-different end results. The default priority may not be best for all sitations.
+different end results. The default priority may not be best for all situations.
 
 The available snapshot recovery priorities are:
 
