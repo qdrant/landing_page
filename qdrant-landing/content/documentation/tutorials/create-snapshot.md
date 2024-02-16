@@ -8,7 +8,7 @@ weight: 14
 | Time: 20 min | Level: Beginner |  |    |
 |--------------|-----------------|--|----|
 
-A collection is a basic unit of data storage in Qdrant. It contains vectors, their IDs, and payloads. However, keeping the search efficient requires additional data structures to be built on top of the data. Building these data structures may take a while, especially for large collections. 
+A collection is a basic unit of data storage in Qdrant. It contains vectors, their IDs, and payloads. However, keeping the search efficient requires additional data structures to be built on top of the data. Building these data structures may take a while, especially for large collections.
 That's why using snapshots is the best way to export and import Qdrant collections, as they contain all the bits and pieces required to restore the entire collection efficiently.
 
 This tutorial will show you how to create a snapshot of a collection and restore it. Since working with snapshots in a distributed environment might be thought to be a bit more complex, we will use a 3-node Qdrant cluster. However, the same approach applies to a single-node setup.
@@ -23,7 +23,7 @@ Once the cluster is running, let's install the required dependencies:
 
 ```shell
 pip install qdrant-client datasets
-```  
+```
 
 ### Establish a connection to Qdrant
 
@@ -81,7 +81,7 @@ A single payload looks like this:
 
 ```json
 {
-  'title': 'Dynamics of partially localized brane systems', 
+  'title': 'Dynamics of partially localized brane systems',
   'DOI': '1109.1415'
 }
 ```
@@ -89,7 +89,7 @@ A single payload looks like this:
 
 ### Create a collection
 
-First things first, we need to create our collection. We're not going to play with the configuration of it, but it makes sense do it right now. 
+First things first, we need to create our collection. We're not going to play with the configuration of it, but it makes sense to do it right now.
 The configuration is also a part of the collection snapshot.
 
 ```python
@@ -113,11 +113,11 @@ ids, vectors, payloads = [], [], []
 for payload in dataset:
     id = payload.pop("id")
     vector = payload.pop("vector")
-    
+
     ids.append(id)
     vectors.append(vector)
     payloads.append(payload)
-    
+
     # We are going to upload only 1000 vectors
     if len(ids) == 1000:
         break
@@ -140,11 +140,11 @@ If you already have a collection, you can skip the previous step and start by [c
 
 ## Create and download snapshots
 
-Qdrant exposes HTTP endpoint to request creating a snapshot, but we can also call it with the Python SDK.
+Qdrant exposes an HTTP endpoint to request creating a snapshot, but we can also call it with the Python SDK.
 Our setup consists of 3 nodes, so we need to call the endpoint **on each of them** and create a snapshot on each node. While using Python SDK, that means creating a separate client instance for each node.
 
 
-<aside role="status">You may get a timeout error, if the collection size is big. You can trigger snapshot process in the background, without awaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
+<aside role="status">You may get a timeout error, if the collection size is big. You can trigger the snapshot process in the background, without awaiting for the result, by using <code>wait=false</code> parameter. You can always <a href="/documentation/concepts/snapshots/#list-snapshot">list all the snapshots through the API</a> later on.</aside>
 
 
 ```python
@@ -152,7 +152,7 @@ snapshot_urls = []
 for node_url in QDRANT_NODES:
     node_client = QdrantClient(node_url, api_key=QDRANT_API_KEY)
     snapshot_info = node_client.create_snapshot(collection_name="test_collection")
-    
+
     snapshot_url = f"{node_url}/collections/test_collection/snapshots/{snapshot_info.name}"
     snapshot_urls.append(snapshot_url)
 ```
@@ -200,7 +200,7 @@ local_snapshot_paths = []
 for snapshot_url in snapshot_urls:
     snapshot_name = os.path.basename(snapshot_url)
     local_snapshot_path = os.path.join("snapshots", snapshot_name)
-    
+
     response = requests.get(
         snapshot_url, headers={"api-key": QDRANT_API_KEY}
     )
@@ -210,6 +210,8 @@ for snapshot_url in snapshot_urls:
 
     local_snapshot_paths.append(local_snapshot_path)
 ```
+
+Alternatively, you can use the `wget` command:
 
 ```bash
 wget https://node-0.my-cluster.com:6333/collections/test_collection/snapshots/test_collection-559032209313046-2024-01-03-13-20-11.snapshot \
@@ -233,7 +235,7 @@ Our brand-new snapshot is ready to be restored. Typically, it is used to move a 
 It is just going to have a different name, `test_collection_import`. We do not need to create a collection first, as it is going to be created automatically.
 
 Restoring collection is also done separately on each node, but our Python SDK does not support it yet. We are going to use the HTTP API instead,
-and send a request to each node using `requests` library. Alternatively, you can use the `curl` command.
+and send a request to each node using `requests` library.
 
 ```python
 for node_url, snapshot_path in zip(QDRANT_NODES, local_snapshot_paths):
@@ -246,6 +248,8 @@ for node_url, snapshot_path in zip(QDRANT_NODES, local_snapshot_paths):
         files={"snapshot": (snapshot_name, open(snapshot_path, "rb"))},
     )
 ```
+
+Alternatively, you can use the `curl` command:
 
 ```bash
 curl -X POST 'https://node-0.my-cluster.com:6333/collections/test_collection_import/snapshots/upload?priority=snapshot' \
@@ -266,5 +270,3 @@ curl -X POST 'https://node-2.my-cluster.com:6333/collections/test_collection_imp
 
 
 **Important:** We selected `priority=snapshot` to make sure that the snapshot is preferred over the data stored on the node. You can read mode about the priority in the [documentation](/documentation/concepts/snapshots/#snapshot-priority).
-
-
