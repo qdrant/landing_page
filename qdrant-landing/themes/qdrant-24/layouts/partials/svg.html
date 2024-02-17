@@ -1,0 +1,3 @@
+{{ $path := "icons/outline/" }}
+{{ $filename := . }}
+{{ readFile (printf "%s%s" $path $filename) | safeHTML }}
