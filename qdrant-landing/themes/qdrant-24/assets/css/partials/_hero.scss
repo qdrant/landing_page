@@ -1,3 +1,5 @@
+@use "../helpers/functions" as *;
+
 .hero {
   padding-top: $spacer * 5;
   background-image: url("../img/Hero-Home-Illustration.svg");
@@ -6,9 +8,9 @@
     background-repeat: no-repeat;
 
   &__content {
-    padding-bottom: 397px + 48px;
+    padding-bottom: rem(331);
     text-align: center;
-    max-width: 920px;
+    max-width: rem(920);
     margin: 0 auto;
   }
 
@@ -23,14 +25,23 @@
     color: $neutral-70;
     text-align: center;
     font-size: map-get($font-sizes-text, 'xl');
-    max-width: 640px;
+    max-width: rem(640);
     margin: 0 auto $spacer * 2;
   }
 
   &__buttons {
     display: flex;
     justify-content: center;
-    gap: $spacer * 1.25;
+    gap: $spacer * 1.5;
     margin-bottom: $spacer * 5;
+  }
+
+  &__badges {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacer * 1.25;
+    padding-bottom: $spacer * 1.75;
+    padding-right: $spacer * 1.5;
+    padding-left: $spacer * 1.5;
   }
 }
