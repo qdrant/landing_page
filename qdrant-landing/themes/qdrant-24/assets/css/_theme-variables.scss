@@ -99,6 +99,14 @@ $font-size-md: rem(16);
 $font-size-l: rem(18);
 $font-size-xl: rem(20);
 
+$font-sizes-text: (
+    'xs': $font-size-xs,
+    's': $font-size-s,
+    'md': $font-size-md,
+    'l': $font-size-l,
+    'xl': $font-size-xl,
+);
+
 // bootstrap
 $font-size-sm: $font-size-s;
 $font-size-lg: $font-size-l;
