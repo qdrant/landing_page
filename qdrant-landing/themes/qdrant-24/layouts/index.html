@@ -3,13 +3,14 @@
 {{ partial "head.html" . }}
 <body>
 <main>
-    <header>
-        {{ partial "top-banner" . }}
+    <header class="main-header">
+        {{ with (.Site.GetPage "section" "top-banner") }}
+            {{ partial "top-banner" . }}
+        {{ end }}
         {{ partial "menu" . }}
+
+        {{ partial "hero" . }}
     </header>
-    <div class="pt-5">
-        
-    </div>
 </main>
 {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
 <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>

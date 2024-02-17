@@ -1,0 +1,36 @@
+.hero {
+  padding-top: $spacer * 5;
+  background-image: url("../img/Hero-Home-Illustration.svg");
+  background-size: 100%;
+    background-position: center bottom;
+    background-repeat: no-repeat;
+
+  &__content {
+    padding-bottom: 397px + 48px;
+    text-align: center;
+    max-width: 920px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    color: $neutral-98;
+    text-align: center;
+    margin-bottom: $spacer;
+    font-size: map-get($font-sizes, 1);
+  }
+
+  &__subtitle {
+    color: $neutral-70;
+    text-align: center;
+    font-size: map-get($font-sizes-text, 'xl');
+    max-width: 640px;
+    margin: 0 auto $spacer * 2;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: $spacer * 1.25;
+    margin-bottom: $spacer * 5;
+  }
+}
