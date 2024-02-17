@@ -2,7 +2,7 @@
 
 .button {
   // VARIABLES
-  $gradient: linear-gradient(180deg, #dc244c, #be003a);
+  $gradient: linear-gradient(180deg, $primary-50, $primary-40);
 
   $height: (
           sm: 36px,
@@ -45,24 +45,25 @@
 
     &:hover {
       background: $primary-50;
-      box-shadow: 0 2px 1px 0 #FF8792 inset;
+      box-shadow: 0 2px 1px 0 $primary-70 inset;
     }
 
     &:active {
       background: $primary-50;
-      box-shadow: 0 2px 1px 0 #FF516B inset, 0 0 0 2px rgba(220, 36, 76, 0.40);
+      box-shadow: 0 2px 1px 0 $primary-60 inset,
+      0 0 0 2px rgba(220, 36, 76, 0.40);
     }
 
     &.button_disabled,
     &:disabled {
-      background: var(--Primary-P70, #FF8792);
+      background: $primary-70;
       box-shadow: none;
     }
   }
 
   &_outlined {
     background: none;
-    box-shadow: 0 0 0 1px var(--Neutral-N60, #717C99);
+    box-shadow: 0 0 0 1px $neutral-60;
     box-sizing: border-box;
 
     &:hover {
@@ -70,12 +71,12 @@
     }
 
     &:active {
-      box-shadow: 0 0 0 2px var(--Neutral-N98, #F0F3FA);
+      box-shadow: 0 0 0 2px $neutral-98;
     }
 
     &.button_disabled,
     &:disabled {
-      box-shadow: 0 0 0 1px var(--Neutral-N60, #717C99);
+      box-shadow: 0 0 0 1px $neutral-60;
       opacity: 0.2;
     }
   }
