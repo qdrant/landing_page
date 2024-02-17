@@ -1,7 +1,14 @@
-@use "sass:math";
+@use 'sass:math';
 
-@mixin base($height, $itemWidth: 200px, $total-marquee-items: 6, $visible-marquee-items: 6, $item-padding: 20px, $pauseOnHover: false, $speed: 25s) {
-
+@mixin base(
+  $height,
+  $itemWidth: 200px,
+  $total-marquee-items: 6,
+  $visible-marquee-items: 6,
+  $item-padding: 20px,
+  $pauseOnHover: false,
+  $speed: 25s
+) {
   $inner-width: math.div($total-marquee-items, $visible-marquee-items) * 2 * 100%;
 
   max-width: 100%;
@@ -22,7 +29,7 @@
     margin: 0 auto;
 
     &:before {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       top: 0;
@@ -33,7 +40,7 @@
       z-index: 1;
     }
     &:after {
-      content: "";
+      content: '';
       display: block;
       position: absolute;
       top: 0;
@@ -70,7 +77,7 @@
     display: inline-flex;
     margin: 0 $item-padding;
     float: left;
-    transition: all .2s ease-out;
+    transition: all 0.2s ease-out;
     align-items: center;
 
     img {

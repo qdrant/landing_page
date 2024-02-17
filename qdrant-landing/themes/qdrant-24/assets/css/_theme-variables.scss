@@ -84,7 +84,6 @@ $theme-colors: (
 
 $body-bg: $neutral-98;
 
-
 $font-family-sans-serif: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
   'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 $font-family-monospace: 'Azeret Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
@@ -100,11 +99,11 @@ $font-size-l: rem(18);
 $font-size-xl: rem(20);
 
 $font-sizes-text: (
-    'xs': $font-size-xs,
-    's': $font-size-s,
-    'md': $font-size-md,
-    'l': $font-size-l,
-    'xl': $font-size-xl,
+  'xs': $font-size-xs,
+  's': $font-size-s,
+  'md': $font-size-md,
+  'l': $font-size-l,
+  'xl': $font-size-xl,
 );
 
 // bootstrap
