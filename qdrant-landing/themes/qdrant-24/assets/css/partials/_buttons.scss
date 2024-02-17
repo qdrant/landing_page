@@ -16,10 +16,6 @@
           lg: 0 rem(28)
   );
 
-  $font: (
-          sm: rem(14)
-  );
-
   // STYLES
 
   display: inline-flex;
@@ -35,6 +31,7 @@
   height: map-get($height, md);
   padding: map-get($padding, md);
   font-weight: 700;
+  font-size: map-get($font-sizes-text, md);
 
 
   // VARIANTS
@@ -100,5 +97,6 @@
   &_lg {
     height: map-get($height, lg);
     padding: map-get($padding, lg);
+    font-size: map-get($font-sizes-text, l);
   }
 }

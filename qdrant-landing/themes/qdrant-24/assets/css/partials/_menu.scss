@@ -1,3 +1,15 @@
+@use "../mixins/mixins" as mixins;
+
+.menu-link {
+  text-decoration: none;
+  color: $neutral-98;
+  cursor: pointer;
+
+  &:hover {
+    color: $primary-50;
+  }
+}
+
 .main-menu {
   display: flex;
   align-items: center;
@@ -11,13 +23,9 @@
 
   &__links {
     display: flex;
-    align-items: flex-start;
-    flex-wrap: nowrap;
-    flex-shrink: 0;
     gap: 8px;
     position: relative;
-    width: 537px;
-    z-index: 15;
+    margin-bottom: 0;
   }
 
   &__item {
@@ -31,6 +39,15 @@
     color: $neutral-98; // ?
     line-height: 1.5;
     white-space: nowrap;
-    cursor: pointer;
+    @include mixins.transitionAll(300ms);
+  }
+
+  &__buttons {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    flex-shrink: 0;
+    gap: $spacer;
   }
 }
