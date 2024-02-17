@@ -5,6 +5,11 @@
 
   {{ with resources.Get "css/main.scss" | toCSS $opts | minify | fingerprint }}
   <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
-  {{ end }} {{ $pageSearchCss := resources.Get "/css/qdrant-page-search.css" | resources.Fingerprint "sha512" }}
+  {{ end }}
+  {{ $pageSearchCss := resources.Get "/css/qdrant-page-search.css" | resources.Fingerprint "sha512" }}
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
+
+  <!-- todo -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400&display=swap" />
 </head>

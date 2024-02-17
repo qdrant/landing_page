@@ -1,8 +1,14 @@
 <!doctype html>
 <html lang="en">
-  {{ partial "head.html" . }}
-  <body>
-    {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
-    <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
-  </body>
+{{ partial "head.html" . }}
+<body>
+<main>
+    <header>
+        {{ partial "top-banner" . }}
+        {{ partial "menu" . }}
+    </header>
+</main>
+{{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
+<script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+</body>
 </html>

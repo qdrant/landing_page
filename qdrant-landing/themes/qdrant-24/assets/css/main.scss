@@ -2,6 +2,7 @@
 @import 'satoshi-font';
 @import 'bootstrap-custom';
 
-body {
-  background: $neutral-90;
-}
+@import "partials/logo";
+@import "partials/top-banner";
+@import "partials/menu";
+@import "partials/buttons";

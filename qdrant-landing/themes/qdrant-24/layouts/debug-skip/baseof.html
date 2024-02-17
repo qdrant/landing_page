@@ -1,18 +1,23 @@
 <!doctype html>
 <html lang="en">
-  {{ partial "head.html" . }}
+{{ partial "head.html" . }}
 
-  <body>
+<body>
+<div class="container">
     {{ block "main" . }}{{ end }}
 
-    <details>
-      <summary>Resources</summary>
-      {{ range resources.Match "**/*.*" }}
-      <p>{{ .RelPermalink }}</p>
-      {{ end }}
-    </details>
+    <div class="row pt-5">
+        <div class="col-12">
+            <details>
+                <summary>Resources</summary>
+                {{ range resources.Match "**/*.*" }}
+                <p>{{ .RelPermalink }}</p>
+                {{ end }}
+            </details>
+        </div>
+    </div>
 
     {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
-  </body>
+</body>
 </html>

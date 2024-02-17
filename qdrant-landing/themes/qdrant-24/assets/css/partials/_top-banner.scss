@@ -1,0 +1,21 @@
+.top-banner {
+  display: flex;
+  height: 40px;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  border-bottom: 1px solid var(--Neutral-N20, #161E33);
+  background: var(--Neutral-N10, #090E1A);
+
+  &__icon {
+    color: $secondary-blue-50;
+  }
+  &__text {
+    color: $neutral-94;
+    font-size: $font-size-s;
+  }
+  &__link {
+    color: $primary-60;
+    font-size: $font-size-s;
+  }
+}
