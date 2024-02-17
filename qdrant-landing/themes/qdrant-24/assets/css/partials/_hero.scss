@@ -1,11 +1,11 @@
-@use "../helpers/functions" as *;
+@use '../helpers/functions' as *;
 
 .hero {
   padding-top: $spacer * 5;
-  background-image: url("../img/Hero-Home-Illustration.svg");
+  background-image: url('../img/Hero-Home-Illustration.svg');
   background-size: 100%;
-    background-position: center bottom;
-    background-repeat: no-repeat;
+  background-position: center bottom;
+  background-repeat: no-repeat;
 
   &__content {
     padding-bottom: rem(331);

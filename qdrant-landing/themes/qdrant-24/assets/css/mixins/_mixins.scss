@@ -1,4 +1,4 @@
-@use "../helpers/functions" as lib;
+@use '../helpers/functions' as lib;
 
 @mixin content-image {
   img {
@@ -27,20 +27,20 @@
 }
 
 @mixin fixed-height-img($height, $width: auto) {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    max-width: $width;
-    min-width:$width;
-    height: $width;
-    overflow: hidden;
-    margin-bottom: 0;
-    & > img {
-      flex-shrink: 0;
-      width: auto;
-      min-width: 100%;
-      min-height: 100%;
-      max-width: none;
-      max-height: 100%;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: $width;
+  min-width: $width;
+  height: $width;
+  overflow: hidden;
+  margin-bottom: 0;
+  & > img {
+    flex-shrink: 0;
+    width: auto;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: none;
+    max-height: 100%;
+  }
 }
