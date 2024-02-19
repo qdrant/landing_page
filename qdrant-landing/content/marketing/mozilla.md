@@ -41,9 +41,6 @@ customersSection:
         - image: /content/images/logos/flipkart-logo-mono.png
           name: Flipkart
           weight: 10
-        - image: /content/images/logos/glg-logo-mono.png
-          name: GLG
-          weight: 10
         - image: /content/images/logos/hp-enterprise-logo-mono.png
           name: HP Enterprise
           weight: 10
