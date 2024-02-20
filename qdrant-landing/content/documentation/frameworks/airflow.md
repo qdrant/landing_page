@@ -11,12 +11,13 @@ Qdrant is available as a [provider](https://airflow.apache.org/docs/apache-airfl
 
 ## Prerequisites
 
-1. A Qdrant instance to connect to. You can get a free cloud instance at [cloud.qdrant.io](https://cloud.qdrant.io/).
+1. A Qdrant instance to connect to. You can refer to our [installation guide](https://qdrant.tech/documentation/guides/installation).
+
 2. A running Airflow instance. You can find the installation instructions [here](https://airflow.apache.org/docs/apache-airflow/stable/start.html).
 
 ## Setting up a connection
 
-Open the `Admin->Connections` section of the UI. Click the `Create` link to create a new [connection](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/connections.html).
+Open the `Admin->Connections` section of the Airflow UI. Click the `Create` link to create a new [Qdrant connection](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/connections.html).
 
 
 ![Qdrant connection](/documentation/frameworks/airflow/connection.png)
