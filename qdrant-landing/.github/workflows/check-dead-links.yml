@@ -16,12 +16,12 @@ jobs:
         with:
           hugo-version: "latest"
       - name: Run hugo
-        run: cd qdrant-landing && hugo -b 'https://qdrant.tech/'
+        run: hugo -b 'https://qdrant.tech/'
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v1.9.1
         with:
-          args: 'qdrant-landing/public'
+          args: 'public'
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
 
