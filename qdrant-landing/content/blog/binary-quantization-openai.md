@@ -1,20 +1,24 @@
 ---
 title: "Enhance OpenAI Embeddings with Qdrant's Binary Quantization"
 draft: false
-slug: openai-embeddings-binary-quantization
-#short_description: 
-description: Using AI to Unlock Company Knowledge and Drive Employee Productivity
-preview_image: /case-studies/dust/preview.png
-date: 2024-02-06T07:03:26-08:00
-author: Manuel Meyer
-featured: false
-tags: 
-  - Dust
-  - case_study
-weight: 0 
----
+slug: binary-quantization-openai
+short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
+description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
+preview_image: /blog/openai/Article-Image.png # Change this
 
-# Enhance OpenAI Embeddings with Qdrant's Binary Quantization
+# social_preview_image: /blog/openai/Article-Image.png # Optional image used for link previews
+# title_preview_image: /blog/openai/Article-Image.png # Optional image used for blog post title
+# small_preview_image: /blog/openai/Article-Image.png # Optional image used for small preview in the list of blog posts
+
+date: 2024-02-20T13:12:08-08:00
+author: Nirant Kasliwal
+featured: false
+tags:
+  - OpenAI
+  - binary quantization
+  - embeddings
+weight: 0 # Change this weight to change order of posts
+---
 
 OpenAI Ada-003 embeddings are a powerful tool for natural language processing (NLP). However, the size of the embeddings are a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings.
 
@@ -50,17 +54,17 @@ The efficiency gains from Binary Quantization are as follows:
 - Enhanced speed of data retrieval: Smaller data sizes generally leads to faster searches. 
 - Accelerated search process: It is based on simplified distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
 
-![](Accuracy_Models.png)
+![](/blog/openai/Accuracy_Models.png)
 
-# Experiment Setup: OpenAI Embeddings in Focus
+## Experiment Setup: OpenAI Embeddings in Focus
 
 To identify Binary Quantization's impact on search efficiency and accuracy, we designed our experiment on OpenAI text-embedding models. These models, which capture nuanced linguistic features and semantic relationships, are the backbone of our analysis. We then delve deep into the potential enhancements offered by Qdrant's Binary Quantization feature.
 
-## Dataset
+### Dataset
 
 We use 100K random samples from the [OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) dataset. We select 100 records at random from the dataset. We then use the embeddings of the queries to search for the nearest neighbors in the dataset. 
 
-### Parameters: Oversampling, Rescoring, and Search Limits
+#### Parameters: Oversampling, Rescoring, and Search Limits
 
 For each record, we run a parameter sweep over the number of oversampling, rescoring, and search limits. We can then understand the impact of these parameters on search accuracy and efficiency. Our experiment was designed to assess the impact of Binary Quantization under various conditions, based on the following parameters: 
 
@@ -76,13 +80,13 @@ For each record, we run a parameter sweep over the number of oversampling, resco
 
 Through this detailed setup, our experiment sought to shed light on the nuanced interplay between Binary Quantization and the high-quality embeddings produced by OpenAI's models. By meticulously adjusting and observing the outcomes under different conditions, we aimed to uncover actionable insights that could empower users to harness the full potential of Qdrant in combination with OpenAI's embeddings, regardless of their specific application needs.
 
-## Results: Binary Quantization's Impact on OpenAI Embeddings
+### Results: Binary Quantization's Impact on OpenAI Embeddings
 
 To analyze the impact of rescoring (`True` or `False), we compared results across different model configurations and search limits. Rescoring sets up a more precise search, based on results from an initial query.
 
-### Rescoring
+#### Rescoring
 
-![Graph that measures the impact of rescoring](Rescoring_Impact.png)
+![Graph that measures the impact of rescoring](/blog/openai/Rescoring_Impact.png)
 
 Here are some key observations, which analyzes the impact of rescoring (`True` or `False`):
 
@@ -156,17 +160,21 @@ for combination in dataset_combinations:
     print(acc)
 ```
 
-## Impact of Oversampling
+### Impact of Oversampling
 
-Oversampling is a technique often employed in machine learning to counteract imbalances in datasets, particularly when one class significantly outnumbers others. This imbalance can skew the performance of models, leading them to favor the majority class at the expense of minority classes. By creating additional samples from the minority classes, oversampling aims to equalize the representation of classes in the training dataset, thus enabling more fair and accurate modeling of real-world scenarios.
+You can use oversampling in machine learning to counteract imbalances in datasets.
+It works well when one class significantly outnumbers others. This imbalance
+can skew the performance of models, which favors the majority class at the
+expense of others. By creating additional samples from the minority classes,
+oversampling helps equalize the representation of classes in the training dataset, thus enabling more fair and accurate modeling of real-world scenarios.
 
-The included visualization (Oversampling_Impact.png) likely showcases the effect oversampling has on model performance metrics. While the actual metrics aren't specified here, we might expect to see improvements in measures such as precision, recall, or F1-score for minority classes post-oversampling. These improvements would illustrate the effectiveness of oversampling in creating a more balanced dataset, which in turn allows the model to learn a better representation of all classes, not just the dominant one.
+The screenshot showcases the effect of oversampling on model performance metrics. While the actual metrics aren't shown, we expect to see improvements in measures such as precision, recall, or F1-score. These improvements illustrate the effectiveness of oversampling in creating a more balanced dataset. It allows the model to learn a better representation of all classes, not just the dominant one.
 
-Without an explicit code snippet or output to discuss, the focus remains on underscoring the critical role of oversampling in enhancing model fairness and performance. Through graphical representation, it's possible to convey complex before-and-after comparisons in an accessible manner that highlights oversampling's contribution to machine learning projects, especially in scenarios with imbalanced datasets.
+Without an explicit code snippet or output, we focus on the role of oversampling in model fairness and performance. Through graphical representation, you can set up before-and-after comparisons. These comparisons illustrate the contribution to machine learning projects.
 
-![](Oversampling_Impact.png)
+![Measuring the impact of oversampling](/blog/openai/Oversampling_Impact.png)
 
-## Leveraging Binary Quantization: Best Practices
+### Leveraging Binary Quantization: Best Practices
 
 We recommend the following best practices for leveraging Binary Quantization to enhance OpenAI embeddings:
 
