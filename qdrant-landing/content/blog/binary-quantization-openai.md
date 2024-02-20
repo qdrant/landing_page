@@ -6,9 +6,9 @@ short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
 description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
 preview_image: /blog/openai/Article-Image.png # Change this
 
-# social_preview_image: /blog/openai/Article-Image.png # Optional image used for link previews
-# title_preview_image: /blog/openai/Article-Image.png # Optional image used for blog post title
-# small_preview_image: /blog/openai/Article-Image.png # Optional image used for small preview in the list of blog posts
+social_preview_image: /blog/openai/Article-Image.png # Optional image used for link previews
+title_preview_image: /blog/openai/Article-Image.png # Optional image used for blog post title
+small_preview_image: /blog/openai/Article-Image.png # Optional image used for small preview in the list of blog posts
 
 date: 2024-02-20T13:12:08-08:00
 author: Nirant Kasliwal
