@@ -172,9 +172,9 @@ qdrant.recreate_collection(
 Tell the database to upload `documents` to the `my_books` collection. This will give each record an id and a payload. The payload is just the metadata from the dataset.
 
 ```python
-qdrant.upload_records(
+qdrant.upload_points(
     collection_name="my_books",
-    records=[
+    points=[
         models.Record(
             id=idx, vector=encoder.encode(doc["description"]).tolist(), payload=doc
         )
