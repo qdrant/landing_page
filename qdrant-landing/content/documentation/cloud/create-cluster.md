@@ -57,7 +57,7 @@ The features included with this paid cluster are:
 - Horizontal and vertical scaling
 - Monitoring and log management
 
-To learn more about this paid feature, contact us at <FILL IN BLANK>.
+Learn more about these features in the [Qdrant Cloud dashboard](https://cloud.qdrant.io/).
 
 ## Next steps
 
