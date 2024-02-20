@@ -3,26 +3,27 @@ title: Apache Airflow
 weight: 2100
 ---
 
-# Airflow
+# Apache Airflow
 
-[Airflow](https://airflow.apache.org/) is an open-source platform for authoring, scheduling and monitoring data and computing workflows. Airflow uses Python to create workflows that can be easily scheduled and monitored.
+[Apache Airflow](https://airflow.apache.org/) is an open-source platform for authoring, scheduling and monitoring data and computing workflows. Airflow uses Python to create workflows that can be easily scheduled and monitored.
 
 Qdrant is available as a [provider](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html) in Airflow to interface with the database.
 
 ## Prerequisites
 
-1. A Qdrant instance to connect to. You can refer to our [installation guide](https://qdrant.tech/documentation/guides/installation).
+Before configuring Airflow, you need:
 
-2. A running Airflow instance. You can find the installation instructions [here](https://airflow.apache.org/docs/apache-airflow/stable/start.html).
+1. A Qdrant instance to connect to. You can set one up in our [installation guide](https://qdrant.tech/documentation/guides/installation).
+
+2. A running Airflow instance. You can use their [Quick Start Guide](https://airflow.apache.org/docs/apache-airflow/stable/start.html).
 
 ## Setting up a connection
 
-Open the `Admin->Connections` section of the Airflow UI. Click the `Create` link to create a new [Qdrant connection](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/connections.html).
-
+Open the `Admin-> Connections` section of the Airflow UI. Click the `Create` link to create a new [Qdrant connection](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/connections.html).
 
 ![Qdrant connection](/documentation/frameworks/airflow/connection.png)
 
-A connection can also be set up using [environment variables](https://airflow.apache.org/docs/apache-airflow/stable/howto/connection.html#environment-variables-connections) or an [external secret backend](https://airflow.apache.org/docs/apache-airflow/stable/security/secrets/secrets-backend/index.html).
+You can also set up a connection using [environment variables](https://airflow.apache.org/docs/apache-airflow/stable/howto/connection.html#environment-variables-connections) or an [external secret backend](https://airflow.apache.org/docs/apache-airflow/stable/security/secrets/secrets-backend/index.html).
 
 ## Qdrant hook
 
