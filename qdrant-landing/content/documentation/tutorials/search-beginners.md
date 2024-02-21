@@ -175,7 +175,7 @@ Tell the database to upload `documents` to the `my_books` collection. This will 
 qdrant.upload_points(
     collection_name="my_books",
     points=[
-        models.Record(
+        models.PointStruct(
             id=idx, vector=encoder.encode(doc["description"]).tolist(), payload=doc
         )
         for idx, doc in enumerate(documents)
