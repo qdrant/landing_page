@@ -33,8 +33,12 @@ pip install -U sentence-transformers
 Once encoded, this data needs to be kept somewhere. Qdrant lets you store data as embeddings. You can also use Qdrant to run search queries against this data. This means that you can ask the engine to give you relevant answers that go way beyond keyword matching.
 
 ```bash
-pip install qdrant-client
+pip install -U qdrant-client
 ```
+
+<aside role="status">
+This tutorial requires qdrant-client version 1.7.1 or higher.
+</aside>
 
 ### Import the models 
 
@@ -172,10 +176,10 @@ qdrant.recreate_collection(
 Tell the database to upload `documents` to the `my_books` collection. This will give each record an id and a payload. The payload is just the metadata from the dataset.
 
 ```python
-qdrant.upload_records(
+qdrant.upload_points(
     collection_name="my_books",
-    records=[
-        models.Record(
+    points=[
+        models.PointStruct(
             id=idx, vector=encoder.encode(doc["description"]).tolist(), payload=doc
         )
         for idx, doc in enumerate(documents)
