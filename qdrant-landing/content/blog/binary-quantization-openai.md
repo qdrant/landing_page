@@ -34,7 +34,7 @@ In this post, we discuss:
 
 As the technology of embedding models has advanced, demand has grown. Users are looking more for powerful and efficient text-embedding models. OpenAI's Ada-003 embeddings offer state-of-the-art performance on a wide range of NLP tasks, including those noted in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). 
 
-### Multi-lingual Support
+### Multilingual Support
 
 OpenAI text-embedding-3-large is a multi-lingual model that can encode text in 100+ languages.
 
