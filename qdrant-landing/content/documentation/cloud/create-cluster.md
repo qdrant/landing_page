@@ -48,9 +48,9 @@ A custom cluster includes the following resources. The values in the table are m
 | Disk space | 2 TB        |
 | Nodes      | 10          |  
 
-### Included features
+### Included features (paid)
 
-The features included with this paid cluster are:
+The features included with this cluster are:
 
 - Dedicated resources
 - Backup and disaster recovery
