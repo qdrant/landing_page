@@ -48,7 +48,7 @@ Here, we show how the accuracy of binary quantization is quite good across diffe
 
 ## Enhanced Performance and Efficiency with Binary Quantization
 
-By drastically reducing the storage needs, applications can scale to larger sizes without incurring prohibitive costs, addressing a critical challenge posed by the original embedding sizes. Beyond storage efficiency, Binary Quantization significantly speeds up the search process. It simplifies the complex distance calculations between vectors into more manageable bitwise operations, thus facilitating faster, and potentially real-time, search functionalities across vast datasets. 
+By reducing storage needs, you can scale applications with lower costs. This addresses a critical challenge posed by the original embedding sizes. Binary Quantization also speeds the search process. It simplifies the complex distance calculations between vectors into more manageable bitwise operations, which supports potentially real-time searches across vast datasets. 
 
 The accompanying graph illustrates the promising accuracy levels achievable with binary quantization across different model sizes, showcasing its practicality without severely compromising on performance. This dual advantage of storage reduction and accelerated search capabilities underscores the transformative potential of Binary Quantization in deploying OpenAI embeddings more effectively across various real-world applications.
 
