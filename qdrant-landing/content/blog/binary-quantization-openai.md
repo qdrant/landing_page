@@ -12,6 +12,8 @@ small_preview_image: /blog/openai/Article-Image.png # Optional image used for sm
 
 date: 2024-02-20T13:12:08-08:00
 author: Nirant Kasliwal
+author_link: https://www.linkedin.com/in/nirant/
+
 featured: false
 tags:
   - OpenAI
@@ -30,17 +32,15 @@ In this post, we discuss:
 - Implications of these findings for real-world applications
 - Best practices for leveraging Binary Quantization to enhance OpenAI embeddings
 
+You can also try out these techniques with the following Jupyter notebook: [OpenAI Embeddings with Qdrant's Binary Quantization](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/analysis/01_analysis.ipynb)
+
 ## New OpenAI Embeddings: Performance and Changes
 
 As the technology of embedding models has advanced, demand has grown. Users are looking more for powerful and efficient text-embedding models. OpenAI's Ada-003 embeddings offer state-of-the-art performance on a wide range of NLP tasks, including those noted in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). 
 
-### Multilingual Support
+ A notable feature of these models is their multi-lingual support, enabling encoding in over 100 languages, which addresses the needs of applications with diverse language requirements. Impressively, the transition from text-embedding-ada-002 to text-embedding-3-large has observed a significant jump in performance scores (from 31.4% to 54.9% on MIRACL), reflecting substantial advancements.
 
-OpenAI text-embedding-3-large is a multi-lingual model that can encode text in 100+ languages.
-
-As noted on MIRACL, text-embeeding-3-large is a significant improvement on text-embedding-ada-002. The average MTEB score has increased from 31.4% to 54.9%
-
-### Matryoshka Representation Learning
+#### Matryoshka Representation Learning
 
 The new OpenAI models have been trained with a novel approach called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions). In this post, we use small and large variants. Developers can select embeddings which balances accuracy and size.
 
@@ -48,21 +48,27 @@ Here, we show how the accuracy of binary quantization is quite good across diffe
 
 ## Enhanced Performance and Efficiency with Binary Quantization
 
+By drastically reducing the storage needs, applications can scale to larger sizes without incurring prohibitive costs, addressing a critical challenge posed by the original embedding sizes. Beyond storage efficiency, Binary Quantization significantly speeds up the search process. It simplifies the complex distance calculations between vectors into more manageable bitwise operations, thus facilitating faster, and potentially real-time, search functionalities across vast datasets. 
+
+The accompanying graph illustrates the promising accuracy levels achievable with binary quantization across different model sizes, showcasing its practicality without severely compromising on performance. This dual advantage of storage reduction and accelerated search capabilities underscores the transformative potential of Binary Quantization in deploying OpenAI embeddings more effectively across various real-world applications.
+
+![](/blog/openai/Accuracy_Models.png)
+
 The efficiency gains from Binary Quantization are as follows: 
 
 - Reduced storage footprint: It helps with large-scale datasets. It also saves on memory, and scales up to 30x at the same cost. 
 - Enhanced speed of data retrieval: Smaller data sizes generally leads to faster searches. 
 - Accelerated search process: It is based on simplified distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
 
-![](/blog/openai/Accuracy_Models.png)
-
-## Experiment Setup: OpenAI Embeddings in Focus
+### Experiment Setup: OpenAI Embeddings in Focus
 
 To identify Binary Quantization's impact on search efficiency and accuracy, we designed our experiment on OpenAI text-embedding models. These models, which capture nuanced linguistic features and semantic relationships, are the backbone of our analysis. We then delve deep into the potential enhancements offered by Qdrant's Binary Quantization feature.
 
-### Dataset
+This approach not only leverages the high-caliber OpenAI embeddings but also provides a broad basis for evaluating the search mechanism under scrutiny.
 
-We use 100K random samples from the [OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) dataset. We select 100 records at random from the dataset. We then use the embeddings of the queries to search for the nearest neighbors in the dataset. 
+#### Dataset
+
+ The research employs 100K random samples from the [OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) 1M dataset, focusing on 100 randomly selected records. These records serve as queries in the experiment, aiming to assess how Binary Quantization influences search efficiency and precision within the dataset. We then use the embeddings of the queries to search for the nearest neighbors in the dataset. 
 
 #### Parameters: Oversampling, Rescoring, and Search Limits
 
@@ -102,10 +108,15 @@ In contrast, for lower dimension models (such as text-embedding-3-small with 512
 
 In summary, enabling rescoring dramatically improves search accuracy across all tested configurations. It is crucial feature for applications where precision is paramount. The consistent performance boost provided by rescoring underscores its value in refining search results, particularly when working with complex, high-dimensional data like OpenAI embeddings. This enhancement is critical for applications that demand high accuracy, such as semantic search, content discovery, and recommendation systems, where the quality of search results directly impacts user experience and satisfaction.
 
+### Dataset Combinations
 
-```python
-import pandas as pd
-```
+For those exploring the integration of text embedding models with Qdrant, it's crucial to consider various model configurations for optimal performance. The dataset combinations defined above illustrate different configurations to test against Qdrant. These combinations vary by two primary attributes:
+
+1. **Model Name**: Signifying the specific text embedding model variant, such as "text-embedding-3-large" or "text-embedding-3-small". This distinction correlates with the model's capacity, with "large" models offering more detailed embeddings at the cost of increased computational resources.
+
+2. **Dimensions**: This refers to the size of the vector embeddings produced by the model. Options range from 512 to 3072 dimensions. Higher dimensions could lead to more precise embeddings but might also increase the search time and memory usage in Qdrant.
+
+Optimizing these parameters is a balancing act between search accuracy and resource efficiency. Testing across these combinations allows users to identify the configuration that best meets their specific needs, considering the trade-offs between computational resources and the quality of search results.
 
 
 ```python
@@ -136,9 +147,17 @@ dataset_combinations = [
     },
 ]
 ```
+#### Exploring Dataset Combinations and Their Impacts on Model Performance 
 
+The code snippet iterates through predefined dataset and model combinations. For each combination, characterized by the model name and its dimensions, the corresponding experiment's results are loaded. These results, which are stored in JSON format, include performance metrics like accuracy under different configurations: with and without oversampling, and with and without a rescore step.
+
+Following the extraction of these metrics, the code computes the average accuracy across different settings, excluding extreme cases of very low limits (specifically, limits of 1 and 5). This computation groups the results by oversampling, rescore presence, and limit, before calculating the mean accuracy for each subgroup.
+
+After gathering and processing this data, the average accuracies are organized into a pivot table. This table is indexed by the limit (the number of top results considered), and columns are formed based on combinations of oversampling and rescoring.
 
 ```python
+import pandas as pd
+
 for combination in dataset_combinations:
     model_name = combination["model_name"]
     dimensions = combination["dimensions"]
@@ -156,7 +175,7 @@ for combination in dataset_combinations:
     print(acc)
 ```
 
-### Impact of Oversampling
+#### Impact of Oversampling
 
 You can use oversampling in machine learning to counteract imbalances in datasets.
 It works well when one class significantly outnumbers others. This imbalance
@@ -179,3 +198,5 @@ We recommend the following best practices for leveraging Binary Quantization to 
 3. Oversampling: Use an oversampling factor of 3 for the best balance between accuracy and efficiency. This factor is suitable for a wide range of applications.
 4. Rescoring: Enable rescoring to improve the accuracy of search results.
 5. RAM: Store the full vectors and payload on disk. Limit what you load from memory to the binary quantization index. This helps reduce the memory footprint and improve the overall efficiency of the system. The incremental latency from the disk read is negligible compared to the latency savings from the binary scoring in Qdrant, which uses SIMD instructions where possible.
+
+Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) Read the documentation: [Binary Quantization.](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp)
