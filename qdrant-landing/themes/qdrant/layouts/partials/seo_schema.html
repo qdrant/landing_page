@@ -146,10 +146,11 @@
     {{ $image := .Params.preview_image }}
 {{ end }}
 
+{{ $slug := .Params.slug }}
 
 <!-- Check image exist in `static` path -->
 {{ with .File }}
-    {{ $preview_image_base :=  path.Join "static" .File.Dir .File.ContentBaseName }}
+    {{ $preview_image_base :=  path.Join "static" .Dir $slug }}
     {{ $preview_image := printf "%s-social-preview.png" $preview_image_base }}
     {{ $preview_image_exists := fileExists $preview_image }}
 
@@ -158,20 +159,43 @@
         {{ $preview_image_exists = fileExists $preview_image }}
     {{ end }}
 
+
     {{ if not $preview_image_exists }}
-        {{ $preview_image =  path.Join "static" .File.Dir .File.ContentBaseName "preview" "social_preview.jpg" }}
+        {{ $preview_image =  path.Join "static" .Dir $slug "preview" "social_preview.jpg" }}
         {{ $preview_image_exists = fileExists $preview_image }}
     {{ end }}
 
     {{ if not $preview_image_exists }}
-        {{ $preview_image =  path.Join "static" .File.Dir .File.ContentBaseName "preview" "social_preview.png" }}
+        {{ $preview_image =  path.Join "static" .Dir $slug "preview" "social_preview.png" }}
         {{ $preview_image_exists = fileExists $preview_image }}
     {{ end }}
+
+    {{ if not $preview_image_exists }}
+        {{ $preview_image =  path.Join "static" .Dir .ContentBaseName "preview" "social_preview.jpg" }}
+        {{ $preview_image_exists = fileExists $preview_image }}
+    {{ end }}
+
+    {{ if not $preview_image_exists }}
+        {{ $preview_image =  path.Join "static" .Dir .ContentBaseName "preview" "social_preview.png" }}
+        {{ $preview_image_exists = fileExists $preview_image }}
+    {{ end }}
+
+    {{ if not $preview_image_exists }}
+        {{ $preview_image_base =  path.Join "static" .Dir .ContentBaseName }}
+        {{ $preview_image = printf "%s-social-preview.png" $preview_image_base }}
+        {{ $preview_image_exists = fileExists $preview_image }}
+    {{ end}}
+
+    {{ if not $preview_image_exists }}
+        {{ $preview_image = printf "%s-social-preview.jpg" $preview_image_base }}
+        {{ $preview_image_exists = fileExists $preview_image }}
+    {{ end }}
+
 
 
     {{ if not $preview_image_exists }}
         <!-- If there are no image for document, check preview for the section -->
-        {{ $preview_image_base =  path.Join "static" .File.Dir }}
+        {{ $preview_image_base =  path.Join "static" .Dir }}
         {{ $preview_image =  path.Join $preview_image_base "social-preview.png" }}
         {{ $preview_image_exists = fileExists $preview_image }}
     {{ end }}

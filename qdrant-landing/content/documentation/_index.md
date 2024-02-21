@@ -11,7 +11,7 @@ weight: 10
 There are three ways to use Qdrant:
 
 1. [**Run a Docker image**](quick-start/) if you don't have a Python development environment. Setup a local Qdrant server and storage in a few moments. 
-2. [**Get the Python client**](https://github.com/qdrant/qdrant-client) if you're familiar with Python. Just `pip install qdrant-client`. The client uses an in-memory database.
+2. [**Get the Python client**](https://github.com/qdrant/qdrant-client) if you're familiar with Python. Just `pip install qdrant-client`. The client also supports an in-memory database.
 3. [**Spin up a Qdrant Cloud cluster:**](cloud/) the recommended method to run Qdrant in production. Read [Quickstart](cloud/quickstart-cloud/) to setup your first instance.
 
 ### Recommended Workflow:
