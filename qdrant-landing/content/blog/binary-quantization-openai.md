@@ -78,7 +78,7 @@ Through this detailed setup, our experiment sought to shed light on the nuanced 
 
 ### Results: Binary Quantization's Impact on OpenAI Embeddings
 
-To analyze the impact of rescoring (`True` or `False), we compared results across different model configurations and search limits. Rescoring sets up a more precise search, based on results from an initial query.
+To analyze the impact of rescoring (`True` or `False`), we compared results across different model configurations and search limits. Rescoring sets up a more precise search, based on results from an initial query.
 
 #### Rescoring
 
