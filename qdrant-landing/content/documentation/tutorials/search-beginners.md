@@ -37,9 +37,7 @@ pip install -U qdrant-client
 ```
 
 <aside role="status">
-
-- This tutorial requires qdrant-client version 1.7.1 or higher.
-
+This tutorial requires qdrant-client version 1.7.1 or higher.
 </aside>
 
 ### Import the models 
