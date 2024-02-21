@@ -33,8 +33,14 @@ pip install -U sentence-transformers
 Once encoded, this data needs to be kept somewhere. Qdrant lets you store data as embeddings. You can also use Qdrant to run search queries against this data. This means that you can ask the engine to give you relevant answers that go way beyond keyword matching.
 
 ```bash
-pip install qdrant-client
+pip install -U qdrant-client
 ```
+
+<aside role="status">
+
+- This tutorial requires qdrant-client version 1.7.1 or higher.
+
+</aside>
 
 ### Import the models 
 
