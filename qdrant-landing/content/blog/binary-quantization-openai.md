@@ -32,7 +32,7 @@ In this post, we discuss:
 - Implications of these findings for real-world applications
 - Best practices for leveraging Binary Quantization to enhance OpenAI embeddings
 
-You can also try out these techniques with the following Jupyter notebook: [OpenAI Embeddings with Qdrant's Binary Quantization](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/analysis/01_analysis.ipynb)
+You can also try out these techniques as described in [Binary Quantization OpenAI](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/README.md), which includes Jupyter notebooks.
 
 ## New OpenAI Embeddings: Performance and Changes
 
