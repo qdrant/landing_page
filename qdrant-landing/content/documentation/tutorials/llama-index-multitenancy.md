@@ -43,7 +43,8 @@ of `QdrantClient`.
 
 ```python
 from qdrant_client import QdrantClient
-from llama_index.vector_stores import QdrantVectorStore
+from llama_index.vector_stores.qdrant import QdrantVectorStore
+
 
 client = QdrantClient("http://localhost:6333")
 
@@ -62,19 +63,21 @@ LlamaIndex application. We can also use it to set up an embedding model - in our
 set up
 
 ```python
-from llama_index import ServiceContext
+from llama_index.core import ServiceContext
 
 service_context = ServiceContext.from_defaults(
     embed_model="local:BAAI/bge-small-en-v1.5",
 )
 ```
+*Note*, in case you are using Large Language Model different from OpenAI's ChatGPT, you should specify
+`llm` parameter for `ServiceContext`.
 
 We can also control how our documents are split into chunks, or nodes using LLamaIndex's terminology.
 The `SimpleNodeParser` splits documents into fixed length chunks with an overlap. The defaults are
 reasonable, but we can also adjust them if we want to. Both values are defined in tokens.
 
 ```python
-from llama_index.node_parser import SimpleNodeParser
+from llama_index.core.node_parser import SimpleNodeParser
 
 node_parser = SimpleNodeParser.from_defaults(chunk_size=512, chunk_overlap=32)
 ```
@@ -97,7 +100,7 @@ The last missing piece, before we can start indexing, is the `VectorStoreIndex`.
 `ServiceContext` to be initialized.
 
 ```python
-from llama_index import VectorStoreIndex
+from llama_index.core import VectorStoreIndex
 
 index = VectorStoreIndex.from_vector_store(
     vector_store=vector_store, service_context=service_context
@@ -112,7 +115,7 @@ some documents manually and insert them into Qdrant collection. Our documents ar
 a single metadata attribute - a library name they belong to.
 
 ```python
-from llama_index.schema import Document
+from llama_index.core.schema import Document
 
 documents = [
     Document(
@@ -180,7 +183,7 @@ relevant nodes for a given query. Our `VectorStoreIndex` can be used as a retrie
 constraints - in our case value of the `library` metadata attribute.
 
 ```python
-from llama_index.vector_stores.types import MetadataFilters, ExactMatchFilter
+from llama_index.core.vector_stores.types import MetadataFilters, ExactMatchFilter
 
 qdrant_retriever = index.as_retriever(
     filters=MetadataFilters(
