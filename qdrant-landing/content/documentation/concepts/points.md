@@ -26,12 +26,12 @@ If the API is called with the `&wait=false` parameter, or if it is not explicitl
 
 ```json
 {
-    "result": {
-        "operation_id": 123,
-        "status": "acknowledged"
-    },
-    "status": "ok",
-    "time": 0.000206061
+  "result": {
+    "operation_id": 123,
+    "status": "acknowledged"
+  },
+  "status": "ok",
+  "time": 0.000206061
 }
 ```
 
@@ -46,12 +46,12 @@ In this case, the API will return the result only after the operation is finishe
 
 ```json
 {
-    "result": {
-        "operation_id": 0,
-        "status": "completed"
-    },
-    "status": "ok",
-    "time": 0.000206061
+  "result": {
+    "operation_id": 0,
+    "status": "completed"
+  },
+  "status": "ok",
+  "time": 0.000206061
 }
 ```
 
@@ -61,9 +61,9 @@ Qdrant supports using both `64-bit unsigned integers` and `UUID` as identifiers 
 
 Examples of UUID string representations:
 
-* simple: `936DA01F9ABD4d9d80C702AF85C822A8`
-* hyphenated: `550e8400-e29b-41d4-a716-446655440000`
-* urn: `urn:uuid:F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4`
+- simple: `936DA01F9ABD4d9d80C702AF85C822A8`
+- hyphenated: `550e8400-e29b-41d4-a716-446655440000`
+- urn: `urn:uuid:F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4`
 
 That means that in every request UUID string could be used instead of numerical id.
 Example:
@@ -628,7 +628,7 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
-[*Available as of v0.10.0*](#create-vector-name)
+[_Available as of v0.10.0_](#create-vector-name)
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
@@ -803,18 +803,18 @@ await client.UpsertAsync(
 );
 ```
 
-*Available as of v1.2.0*
+_Available as of v1.2.0_
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
 For example, you can upload one point with only the `image` vector and a second
 one with only the `text` vector.
 
-When uploading a point with an existing ID, the existing point is deleted first, 
-then it is inserted with just the specified vectors. In other words, the entire 
-point is replaced, and any unspecified vectors are set to null. To keep existing 
+When uploading a point with an existing ID, the existing point is deleted first,
+then it is inserted with just the specified vectors. In other words, the entire
+point is replaced, and any unspecified vectors are set to null. To keep existing
 vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
 
-*Available as of v1.7.0*
+_Available as of v1.7.0_
 
 Points can contain dense and sparse vectors.
 
@@ -1046,7 +1046,7 @@ ways to do this.
 
 ### Update vectors
 
-*Available as of v1.2.0*
+_Available as of v1.2.0_
 
 This method updates the specified vectors on the given points. Unspecified
 vectors are kept unchanged. All given points must exist.
@@ -1194,7 +1194,7 @@ points](#upload-points).
 
 ### Delete vectors
 
-*Available as of v1.2.0*
+_Available as of v1.2.0_
 
 This method deletes just the specified vectors from the given points. Other
 vectors are kept unchanged. Points are never deleted.
@@ -1479,7 +1479,7 @@ await client.RetrieveAsync(
 );
 ```
 
-This method has additional parameters `with_vectors` and `with_payload`. 
+This method has additional parameters `with_vectors` and `with_payload`.
 Using these parameters, you can select parts of the point you want as a result.
 Excluding helps you not to waste traffic transmitting useless data.
 
@@ -1609,19 +1609,19 @@ Returns all point with `color` = `red`.
 
 ```json
 {
-    "result": {
-        "next_page_offset": 1,
-        "points": [
-            {
-                "id": 0,
-                "payload": {
-                    "color": "red"
-                }
-            }
-        ]
-    },
-    "status": "ok",
-    "time": 0.0001
+  "result": {
+    "next_page_offset": 1,
+    "points": [
+      {
+        "id": 0,
+        "payload": {
+          "color": "red"
+        }
+      }
+    ]
+  },
+  "status": "ok",
+  "time": 0.0001
 }
 ```
 
@@ -1635,9 +1635,9 @@ If the value of the `next_page_offset` field is `null` - the last page is reache
 
 _Available as of v1.8_
 
-When using the [`scroll`](#scroll-points) API, it is possible to sort the results by the contents of a payload field. This is useful when you want to retrieve points in a specific order, for example, by a timestamp, for chronological order.
+When using the [`scroll`](#scroll-points) API, you can sort the results by a payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, like it is shown in the following code:
 
-<aside role="status">Without an appropriate index, custom ordering would be a very expensive operation. For this reason, in Qdrant, it is a requirement to have an index capable of <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field you want to `order_by`. Once the index is set up, these ordering operations can be really cheap.</aside>
+<aside role="status">Without an appropriate index, custom ordering would create costly queries. Qdrant therefore requires a payload index which supports <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
 
 ```http
 POST /collections/{collection_name}/points/scroll
@@ -1712,28 +1712,28 @@ order_by: Some(OrderBy {
 })
 ```
 
-Be mindful that, for array-like payloads, each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
+Note: for payloads with more than one value (like arrays), the same point may pop up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
 
-<aside role="alert">Pagination is disabled when using the `order_by` parameter. </aside>
+<aside role="alert">When you use the <code>order_by</code> parameter, pagination is disabled.</aside>
 
-As you may expect, pagination does not work exactly the same way than when the order is an ID, which is unique. Right now, pagination is not explicitly enabled when ordering by a payload key, so the `next_page_offset` field will not be present in the response. However, there is a trick you can do to achieve pagination:
+An ID offset does not work when the order is based on a non-unique value. Since pagination is not explicitly enabled when using `order_by`, you will not see the `next_page_offset` field in the response. However, you can use the following steps to set up pagination:
 
-1. For each page, store the last value of the `order_by` field.
-2. Accumulate all ids which have the same "last value" in their `order_by` `key`.
-3. Make a `has_id` filter with all the ids you have accumulated.
-4. Use this filter and the "last value" as the `start_from` in the next request.
+1. For each page, store the last value of the `order_by` field.  
+1. Accumulate all IDs with the same "last value" in their `order_by` `key`.  
+1. Create a `has_id` filter with accumulated IDs.  
+1. Use this filter and the "last value" as the `start_from` in the next request.  
 
 ## Counting points
 
-*Available as of v0.8.4*
+_Available as of v0.8.4_
 
 Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
 
-Among others, for example, we can highlight the following scenarios: 
+Among others, for example, we can highlight the following scenarios:
 
-* Evaluation of results size for faceted search
-* Determining the number of pages for pagination
-* Debugging the query execution speed
+- Evaluation of results size for faceted search
+- Determining the number of pages for pagination
+- Debugging the query execution speed
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/count_points)):
 
@@ -1827,13 +1827,13 @@ Returns number of counts matching given filtering conditions:
 
 ```json
 {
-    "count": 3811
+  "count": 3811
 }
 ```
 
 ## Batch update
 
-*Available as of v1.5.0*
+_Available as of v1.5.0_
 
 You can batch multiple point update operations. This includes inserting,
 updating and deleting points, vectors and payload.
