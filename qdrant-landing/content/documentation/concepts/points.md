@@ -369,7 +369,6 @@ client.upsert("{collection_name}", {
 });
 ```
 
-
 or record-oriented equivalent:
 
 ```http
@@ -897,7 +896,7 @@ client.upsert(
             vector={
                 "text": models.SparseVector(
                     indices=[1, 2, 3, 4, 5],
-                    values= [0.1, 0.2, 0.3, 0.4, 0.5],
+                    values=[0.1, 0.2, 0.3, 0.4, 0.5],
                 )
             },
         ),
@@ -913,7 +912,7 @@ client.upsert("{collection_name}", {
       vector: {
         text: {
           indices: [6, 7],
-          values: [1.0, 2.0]
+          values: [1.0, 2.0],
         },
       },
     },
@@ -921,8 +920,8 @@ client.upsert("{collection_name}", {
       id: 2,
       vector: {
         text: {
-          indices=[1, 2, 3, 4, 5],
-          values= [0.1, 0.2, 0.3, 0.4, 0.5],
+          indices: [1, 2, 3, 4, 5],
+          values: [0.1, 0.2, 0.3, 0.4, 0.5],
         },
       },
     },
@@ -1632,12 +1631,97 @@ All resulting points are sorted by ID. To query the next page it is necessary to
 For convenience, this ID is also returned in the field `next_page_offset`.
 If the value of the `next_page_offset` field is `null` - the last page is reached.
 
-<!-- 
-Python client:
+### Order points by a payload key
+
+_Available as of v1.8_
+
+When using the [`scroll`](#scroll-points) API, it is possible to sort the results by the contents of a payload field. This is useful when you want to retrieve points in a specific order, for example, by a timestamp, for chronological order.
+
+<aside role="status">Without an appropriate index, custom ordering would be a very expensive operation. For this reason, in Qdrant, it is a requirement to have an index capable of <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field you want to `order_by`. Once the index is set up, these ordering operations can be really cheap.</aside>
+
+```http
+POST /collections/{collection_name}/points/scroll
+{
+    "limit": 15,
+    "order_by": "timestamp", // <-- this!
+}
+```
 
 ```python
+client.scroll(
+    collection_name="{collection_name}",
+    limit=15,
+    order_by="timestamp", # <-- this!
+)
 ```
- -->
+
+```typescript
+client.scroll("{collection_name}", {
+  limit: 15,
+  order_by: "timestamp", // <-- this!
+});
+```
+
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints, OrderBy};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        limit: Some(15),
+        order_by: Some(OrderBy {
+            key: "timestamp".to_string(),  // <-- this!
+            ..Default::default(),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
+The `order_by` `key` parameter specifies the payload key to order the results by, but there are also other fields that can be set to control the ordering, like `direction` and `start_from`:
+
+```http
+"order_by": {
+    "key": "timestamp",
+    "direction": "desc" // default is "asc"
+    "start_from": 123, // start from this value
+}
+```
+
+```python
+order_by=models.OrderBy(
+    key="timestamp",
+    direction="desc",  # default is "asc"
+    start_from=123,  # start from this value
+)
+```
+
+```typescript
+order_by: {
+    key: "timestamp",
+    direction: "desc", // default is "asc"
+    start_from: 123, // start from this value
+}
+```
+
+```rust
+order_by: Some(OrderBy {
+    key: "timestamp".to_string(),
+    direction: Some(Direction::Desc) // default is Direction::Asc
+    start_from: Some(123),
+})
+```
+
+Be mindful that, for array-like payloads, each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
+
+<aside role="alert">Pagination is disabled when using the `order_by` parameter. </aside>
+
+As you may expect, pagination does not work exactly the same way than when the order is an ID, which is unique. Right now, pagination is not explicitly enabled when ordering by a payload key, so the `next_page_offset` field will not be present in the response. However, there is a trick you can do to achieve pagination:
+
+1. For each page, store the last value of the `order_by` field.
+2. Accumulate all ids which have the same "last value" in their `order_by` `key`.
+3. Make a `has_id` filter with all the ids you have accumulated.
+4. Use this filter and the "last value" as the `start_from` in the next request.
 
 ## Counting points
 
