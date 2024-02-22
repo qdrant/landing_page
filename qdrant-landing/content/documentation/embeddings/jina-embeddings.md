@@ -8,7 +8,7 @@ aliases: [ ../integrations/jina-embeddings/ ]
 
 Qdrant can also easily work with [Jina embeddings](https://jina.ai/embeddings/) which allow for model input lengths of up to 8192 tokens.
 
-To call their endpoint, all you need is an API key obtainable [here](https://jina.ai/embeddings/).
+To call their endpoint, all you need is an API key obtainable [here](https://jina.ai/embeddings/). By the way, our friends from **Jina AI** provided us with a code (**QDRANT20**) that will grant you a **20% dicsount** if you decide using Jina embeddings in production.
 
 ```python
 import qdrant_client
