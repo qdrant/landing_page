@@ -4,11 +4,12 @@ draft: false
 slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
 description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
-preview_image: /blog/openai/Article-Image.png # Change this
+preview_image: /articles-data/openai/Article-Image.png # Change this
 
-social_preview_image: /blog/openai/Article-Image.png # Optional image used for link previews
-title_preview_image: /blog/openai/Article-Image.png # Optional image used for blog post title
-small_preview_image: /blog/openai/Article-Image.png # Optional image used for small preview in the list of blog posts
+social_preview_image: /articles-data/openai/Article-Image.png # Optional image used for link previews
+title_preview_image: /articles-data/openai/Article-Image.png # Optional image used for blog post title
+small_preview_image: /articles-data/openai/Article-Image.png # Optional image used for small preview in the list of blog posts
+preview_dir: /articles-data/openai
 
 date: 2024-02-20T13:12:08-08:00
 author: Nirant Kasliwal
@@ -19,7 +20,9 @@ tags:
   - OpenAI
   - binary quantization
   - embeddings
-weight: 0 # Change this weight to change order of posts
+weight: -130
+
+aliases: [ /blog/binary-quantization-openai/ ]
 ---
 
 OpenAI Ada-003 embeddings are a powerful tool for natural language processing (NLP). However, the size of the embeddings are a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings.
