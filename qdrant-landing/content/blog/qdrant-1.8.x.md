@@ -4,10 +4,10 @@ draft: false
 slug: qdrant-1.8.x 
 short_description: "Look at what's new in Qdrant 1.8.0!"
 description: "Improved cloud deployments, integrations with Apache Airflow, AWS Bedrock,Nomic, Unstructured, N8N and more!
-preview_image: /blog/qdrant-1.8.x/Article-Image.png # Change this
+preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 
-title_preview_image: /blog/qdrant-1.8.x/Article-Image.png # Optional image used for blog post title
-small_preview_image: /blog/qdrant-1.8.x/Article-Image.png # Optional image used for small preview in the list of blog posts
+title_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
+small_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 
 date: 2024-02-22T11:12:00-08:00
 author: Mike Jang
