@@ -9,10 +9,11 @@ aliases:
 
 *Available as of v0.8.4*
 
-Snapshots are created individually for each node in a collection, resulting in a `tar` archive file that holds the data needed to restore that collection at the snapshot time. In a distributed setup, when you have multiple nodes in your cluster, you must create snapshots for each node separately when dealing with a single collection. 
-Therefore, in a distributed deployment, a snapshot of a collection consists of multiple `tar` archive files, with one file for each collection node.
+Snapshots are `tar` archive files that contain data and configuration of a specific collection on a specific node at a specific time. In a distributed setup, when you have multiple nodes in your cluster, you must create snapshots for each node separately when dealing with a single collection.
 
-This feature can be used to archive data or easily replicate an existing deployment. For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
+This feature can be used to archive data or easily replicate an existing deployment. For disaster recovery, Qdrant Cloud users may prefer to use [Backups](/documentation/cloud/backups/) instead, which are physical disk-level copies of your data.
+
+For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
 
 ## Store snapshots
 
@@ -28,7 +29,7 @@ storage:
 
 *Available as of v1.3.0*
 
-While a snapshot is being created, temporary files are by default placed in the configured storage directory. 
+While a snapshot is being created, temporary files are by default placed in the configured storage directory.
 This location may have limited capacity or be on a slow network-attached disk. You may specify a separate location for temporary files:
 
 ```yaml
@@ -39,7 +40,7 @@ storage:
 
 ## Create snapshot
 
-<aside role="status">If you work with a distributed deployment, you have to create snapshots for each node separately. A single snapshot will contain only the data coming from the node on which the snapshot was created.</aside>
+<aside role="status">If you work with a distributed deployment, you have to create snapshots for each node separately. A single snapshot will contain only the data stored on the node on which the snapshot was created.</aside>
 
 To create a new snapshot for an existing collection:
 
@@ -203,44 +204,32 @@ To download a specified snapshot from a collection as a file:
 GET /collections/{collection_name}/snapshots/{snapshot_name}
 ```
 
-## Restore snapshot
-
-<aside role="status">Restoration of snapshots is limited to Qdrant clusters sharing the same minor version. For instance, a snapshot captured in v1.4.1 is exclusive to restoration in clusters of version v1.4.x, where x is equal to or greater than 1.</aside>
-
-There is a difference in recovering snapshots in single-deployment node and distributed deployment mode.
-
-### Recover during start-up
-
-<aside role="alert">This method cannot be used in a cluster deployment.</aside>
-
-Single deployment is simpler, you can recover any collection on the start-up and it will be immediately available in the service.
-Restoring snapshots is done through the Qdrant CLI at startup time.
-
-The main entry point is the `--snapshot` argument which accepts a list of pairs `<snapshot_file_path>:<target_collection_name>`
-
-For example:
-
-```bash
-./qdrant --snapshot /snapshots/test-collection-archive.snapshot:test-collection --snapshot /snapshots/test-collection-archive.snapshot:test-copy-collection 
+```shell
+curl 'http://{qdrant-url}:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.snapshot' \
+    -H 'api-key: ********' \
+    --output 'filename.snapshot'
 ```
 
-The target collection **must** be absent otherwise the program will exit with an error.
+## Restore snapshot
 
-If you wish instead to overwrite an existing collection, use the `--force_snapshot` flag with caution.
+<aside role="status">Snapshots generated in one Qdrant cluster can only be restored to other Qdrant clusters that share the same minor version. For instance, a snapshot captured from a v1.4.1 cluster can only be restored to clusters running version v1.4.x, where x is equal to or greater than 1.</aside>
 
-### Recover via API
+Snapshots can be restored in three possible ways:
+
+1. [Recovering from a URL or local file](#recover-from-a-url-or-local-file) (useful for restoring a snapshot file that is on a remote server or already stored on the node)
+3. [Recovering from an uploaded file](#recover-from-an-uploaded-file) (useful for migrating data to a new cluster)
+3. [Recovering during start-up](#recover-during-start-up) (useful when running a self-hosted single-node Qdrant instance)
+
+Regardless of the method used, Qdrant will extract the shard data from the snapshot and properly register shards in the cluster.
+If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node by default to maintain data consistency.
+
+### Recover from a URL or local file
 
 *Available as of v0.11.3*
 
-<aside role="status">You can use this method for both single-node and cluster setups.</aside>
+This method of recovery requires the snapshot file to be downloadable from a URL or exist as a local file on the node (like if you [created the snapshot](#create-snapshot) on this node previously). If instead you need to upload a snapshot file, see the next section.
 
-Recovering in cluster mode is more sophisticated, as Qdrant should maintain consistency across peers even during the recovery process.
-As the information about created collections is stored in the consensus, even a newly attached cluster node will automatically create collections.
-Recovering non-existing collections with snapshots won't make this collection known to the consensus.
-
-<aside role="status">It is recommended to explicitly set a <a href="#snapshot-priority">snapshot priority</a> during recovery to prevent unexpected results.</aside>
-
-To recover snapshot via API one can use snapshot recovery endpoint:
+To recover from a URL or local file use the [snapshot recovery endpoint](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/recover_from_snapshot). This endpoint accepts either a URL like `https://example.com` or a [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) like `file:///tmp/snapshot-2022-10-10.snapshot`. If the target collection does not exist, it will be created.
 
 ```http
 PUT /collections/{collection_name}/snapshots/recover
@@ -266,26 +255,46 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.recoverSnapshot("{collection_name}", {
-  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  location: "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
 });
 ```
 
-The recovery snapshot can also be uploaded as a file to the Qdrant server:
+<aside role="status">When recovering from a URL, the URL must be reachable by the Qdrant node that you are restoring. In Qdrant Cloud, restoring via URL is not supported since all outbound traffic is blocked for security purposes. You may still restore via file URI or via an uploaded file.</aside>
+
+### Recover from an uploaded file
+
+The snapshot file can also be uploaded as a file and restored using the [recover from uploaded snapshot](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/recover_from_uploaded_snapshot). This endpoint accepts the raw snapshot data in the request body. If the target collection does not exist, it will be created.
 
 ```bash
-curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload' \
+curl -X POST 'http://{qdrant-url}:6333/collections/{collection_name}/snapshots/upload?priority=snapshot' \
+    -H 'api-key: ********' \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
 ```
 
-Qdrant will extract shard data from the snapshot and properly register shards in the cluster.
-If there are other active replicas of the recovered shards in the cluster, Qdrant will replicate them to the newly recovered node by default to maintain data consistency.
+This method is typically used to migrate data from one cluster to another, so we recommend setting the [priority](#snapshot-priority) to "snapshot" for that use-case.
+
+### Recover during start-up
+
+<aside role="alert">This method cannot be used in a multi-node deployment and cannot be used in Qdrant Cloud.</aside>
+
+If you have a single-node deployment, you can recover any collection at start-up and it will be immediately available.
+Restoring snapshots is done through the Qdrant CLI at start-up time via the `--snapshot` argument which accepts a list of pairs such as `<snapshot_file_path>:<target_collection_name>`
+
+For example:
+
+```bash
+./qdrant --snapshot /snapshots/test-collection-archive.snapshot:test-collection --snapshot /snapshots/test-collection-archive.snapshot:test-copy-collection
+```
+
+The target collection **must** be absent otherwise the program will exit with an error.
+
+If you wish instead to overwrite an existing collection, use the `--force_snapshot` flag with caution.
 
 ### Snapshot priority
 
-When recovering a snapshot, you can specify what source of data is prioritized
-during recovery. It is important because different priorities can give very
-different end results. The default priority is probably not what you expect.
+When recovering a snapshot to a non-empty node, there may be conflicts between the snapshot data and the existing data. The "priority" setting controls how Qdrant handles these conflicts. The priority setting is important because different priorities can give very
+different end results. The default priority may not be best for all situations.
 
 The available snapshot recovery priorities are:
 
@@ -293,8 +302,8 @@ The available snapshot recovery priorities are:
 - `snapshot`: prefer snapshot data over existing data.
 - `no_sync`: restore snapshot without any additional synchronization.
 
-To recover a new collection from a snapshot on a Qdrant cluster, you need to set
-the `snapshot` priority. With `snapshot` priority, all data from the snapshot
+To recover a new collection from a snapshot, you need to set
+the priority to `snapshot`. With `snapshot` priority, all data from the snapshot
 will be recovered onto the cluster. With `replica` priority _(default)_, you'd
 end up with an empty collection because the collection on the cluster did not
 contain any points and that source was preferred.
@@ -304,7 +313,7 @@ managing shards and transferring shards between clusters manually without any
 additional synchronization. Using it incorrectly will leave your cluster in a
 broken state.
 
-To recover from an URL you specify a request parameter:
+To recover from a URL, you specify an additional parameter in the request body:
 
 ```http
 PUT /collections/{collection_name}/snapshots/recover
@@ -321,7 +330,7 @@ client = QdrantClient("qdrant-node-2", port=6333)
 
 client.recover_snapshot(
     "{collection_name}",
-    "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+    "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
     priority=models.SnapshotPriority.SNAPSHOT,
 )
 ```
@@ -332,15 +341,14 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.recoverSnapshot("{collection_name}", {
-  location: "http://qdrant-node-1:6333/collections/collection_name/snapshots/snapshot-2022-10-10.shapshot",
+  location: "http://qdrant-node-1:6333/collections/{collection_name}/snapshots/snapshot-2022-10-10.shapshot",
   priority: "snapshot"
 });
 ```
 
-To upload a multipart file you specify it as URL parameter:
-
 ```bash
-curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/upload?priority=snapshot' \
+curl -X POST 'http://qdrant-node-1:6333/collections/{collection_name}/snapshots/upload?priority=snapshot' \
+    -H 'api-key: ********' \
     -H 'Content-Type:multipart/form-data' \
     -F 'snapshot=@/path/to/snapshot-2022-10-10.shapshot'
 ```
@@ -350,7 +358,9 @@ curl -X POST 'http://qdrant-node-1:6333/collections/collection_name/snapshots/up
 *Available as of v0.8.5*
 
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
-Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collecton_name`:
+Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collection_name`.
+
+<aside role="status">Whole storage snapshots can be created and downloaded from Qdrant Cloud, but you cannot restore a Qdrant Cloud cluster from a whole storage snapshot since that requires use of the Qdrant CLI. You can use <a href="/documentation/cloud/backups/">Backups</a> instead.</aside>
 
 ### Create full storage snapshot
 
@@ -508,10 +518,10 @@ GET /snapshots/{snapshot_name}
 
 ## Restore full storage snapshot
 
-Restoring snapshots is done through the Qdrant CLI at startup time.
+Restoring snapshots can only be done through the Qdrant CLI at startup time.
 
 For example:
 
 ```bash
-./qdrant --storage-snapshot /snapshots/full-snapshot-2022-07-18-11-20-51.snapshot 
+./qdrant --storage-snapshot /snapshots/full-snapshot-2022-07-18-11-20-51.snapshot
 ```
