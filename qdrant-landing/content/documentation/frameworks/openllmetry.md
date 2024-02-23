@@ -9,6 +9,7 @@ OpenLLMetry from [Traceloop](https://www.traceloop.com/) is a set of extensions 
 
 OpenLLMetry supports instrumenting the `qdrant_client` Python library and exporting the traces to various observability platforms, as described in their [Integrations catalog](https://www.traceloop.com/docs/openllmetry/integrations/introduction#the-integrations-catalog).
 
+This page assumes you're using `qdrant-client` version 1.7.3 or above.
 ## Usage
 
 To set up OpenLLMetry, follow these steps:
