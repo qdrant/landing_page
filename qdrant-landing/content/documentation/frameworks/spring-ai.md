@@ -15,12 +15,12 @@ To acquire Spring AI artifacts, declare the Spring Snapshot repository in your `
 
 ```xml
 <repository>
-	<id>spring-snapshots</id>
-	<name>Spring Snapshots</name>
-	<url>https://repo.spring.io/snapshot</url>
-	<releases>
-		<enabled>false</enabled>
-	</releases>
+   <id>spring-snapshots</id>
+   <name>Spring Snapshots</name>
+   <url>https://repo.spring.io/snapshot</url>
+   <releases>
+      <enabled>false</enabled>
+   </releases>
 </repository>
 ```
 
@@ -28,11 +28,9 @@ Add the `spring-ai-qdrant` package.
 
 ```xml
 <dependency>
-	<groupId>org.springframework.ai</groupId>
-	<artifactId>spring-ai-qdrant</artifactId>
-	<version>
-		<!-- VERSION -->
-	</version>
+    <groupId>org.springframework.ai</groupId>
+    <artifactId>spring-ai-qdrant</artifactId>
+    <version>VERSION</version>
 </dependency>
 ```
 
@@ -45,11 +43,10 @@ You can set up the Qdrant vector store with the `QdrantVectorStoreConfig` option
 public QdrantVectorStoreConfig qdrantVectorStoreConfig() {
 
     return QdrantVectorStoreConfig.builder()
-        .withHost("<YOUR_QDRANT_HOST>")
-        .withPort("<YOUR_QDRANT_GRPC_PORT>")
-        .withCollectionName("<YOUR_COLLECTION_NAME>")
-        .withApiKey("<YOUR_API_KEY">)
-        .withTls(true)
+        .withHost("<QDRANT_HOSTNAME>")
+        .withPort(<QDRANT_GRPC_PORT>)
+        .withCollectionName("<QDRANT_COLLECTION_NAME>")
+        .withApiKey("<QDRANT_API_KEY>")
         .build();
 }
 ```
