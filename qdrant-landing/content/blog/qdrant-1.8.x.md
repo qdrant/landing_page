@@ -28,38 +28,10 @@ tags:
 weight: 0 # Change this weight to change order of posts
 ---
 
-draft: false
-
-title_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
-small_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
-
-date: 2024-02-22T11:12:00-08:00
-author: Mike Jang
-featured: false 
-tags:
-  - jina integration
-  - docarray
-categories:
-  - News
-
-Today, we are excited to announce the release of [Qdrant 1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0).
+Today, we are pleased to announce the release of [Qdrant 1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0).
 We've expanded how you can deploy Qdrant in the cloud. We've added support for
 Azure, as well as better features for backups.
 
-  - vector search
-  - new features
-  - azure
-  - cloud
-  - multitenancy
-  - custom sharding
-  - GCP
-  - n8n
-  - unstructured
-  - bedrock
-  - nomic
-  - Apache airflow
-  - Spring AI
-  - OpenLLMetry
 We've also added frameworks and embeddings that can help you integrate Qdrant
 with a variety of AI systems.
 
