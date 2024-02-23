@@ -4,14 +4,13 @@ draft: false
 slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
 description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
+preview_dir: /articles_data/openai/preview
 preview_image: /articles-data/openai/Article-Image.png # Change this
+small_preview_image: /articles_data/openai/icon.svg
+social_preview_image: /articles-data/openai/preview/social-preview.png
+title_preview_image: /articles-data/openai/preview/preview.webp # Optional image used for blog post title
 
-social_preview_image: /articles-data/openai/Article-Image.png # Optional image used for link previews
-title_preview_image: /articles-data/openai/Article-Image.png # Optional image used for blog post title
-small_preview_image: /articles-data/openai/Article-Image.png # Optional image used for small preview in the list of blog posts
-preview_dir: /articles-data/openai
-
-date: 2024-02-20T13:12:08-08:00
+date: 2024-02-21T13:12:08-08:00
 author: Nirant Kasliwal
 author_link: https://www.linkedin.com/in/nirant/
 
@@ -202,4 +201,6 @@ We recommend the following best practices for leveraging Binary Quantization to 
 4. Rescoring: Enable rescoring to improve the accuracy of search results.
 5. RAM: Store the full vectors and payload on disk. Limit what you load from memory to the binary quantization index. This helps reduce the memory footprint and improve the overall efficiency of the system. The incremental latency from the disk read is negligible compared to the latency savings from the binary scoring in Qdrant, which uses SIMD instructions where possible.
 
-Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) Read the documentation: [Binary Quantization.](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp)
+Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
+
+Learn more about how to boost your vector search speed and accuracy while reducing costs: [Binary Quantization.](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp)
