@@ -78,9 +78,9 @@ So for all of our supported cloud providers (AWS, GCP, and Azure), you can now
   Console within seconds and scale your resources as needed.
 - Billion vector scale: Seamlessly grow and handle large-scale datasets with
   billions of vectors. Leverage Qdrant features like horizontal scaling and
-  binary quantization with Microsoft Azure’s scalable infrastructure.
+  binary quantization with the scalable Microsoft Azure infrastructure.
 
-Get started by [signing up for a Qdrant Cloud account](https://cloud.qdrant.io).i
+Get started by [signing up for a Qdrant Cloud account](https://cloud.qdrant.io).
 And learn more about Qdrant Cloud in our [docs](/documentation/cloud/).
 
 #### Automatic backups
