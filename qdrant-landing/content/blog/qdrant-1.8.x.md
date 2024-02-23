@@ -3,7 +3,7 @@ title: "Welcome to Qdrant 1.8.0!"
 draft: false
 slug: qdrant-1.8.x 
 short_description: "Look at what's new in Qdrant 1.8.0!"
-description: "Improved cloud deployments, support for Azure, better cloud backups. Also supports integrations with Spring AI, openLLMetry, Apache Airflow, n8n, Unstructured,	 AWS Bedrock, and Nomic!
+description: "Improved cloud deployments, support for Azure, better cloud backups. Also supports integrations with Spring AI, openLLMetry, Apache Airflow, n8n, Unstructured, AWS Bedrock, and Nomic!"
 preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 title_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 small_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
