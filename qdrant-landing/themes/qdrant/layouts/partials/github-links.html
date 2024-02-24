@@ -1,0 +1,19 @@
+{{ if .Site.Params.github_links.enable }}
+
+<div class="github-links d-print-none">
+    <ul>
+        <li>
+            <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}"
+                target="_blank">
+                <i class="fab fa-github"></i> Edit on GitHub
+            </a>
+        </li>
+        <li>
+            <a class="text-brand-p" href="{{ .Site.Params.githubIssueLink }}" target="_blank">
+                <i class="fa fa-bug"></i> Create an Issue
+            </a>
+        </li>
+    </ul>
+</div>
+
+{{ end }}

@@ -1,8 +1,23 @@
 {{ define "main" }}
-<article class="documentation__article col-12 col-md-9 col-lg-8 pt-4 pt-lg-0 pb-5">
 
-    {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
-    {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+<div class="col-12 col-md-9 col-lg-8 pt-4 pt-lg-0 pb-5">
 
-</article>
+    <article class="documentation__article">
+        {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
+        {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+    </article>
+
+    {{ if (and (not .Params.hide_github_links) (.Site.Params.github_links.enable)) }}
+        <div class="divider mb-2"></div>
+
+        {{ partial "github-links.html" . -}}
+    {{ end }}
+
+    {{ if (and (not .Params.hide_feedback) (.Site.Params.feedback.enable) (.Site.GoogleAnalytics)) }}
+        <div class="divider pt-2 mb-3"></div>
+
+        {{ partial "feedback.html" . -}}
+    {{ end }}
+
+</div>
 {{ end }}

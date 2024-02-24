@@ -7,5 +7,17 @@
         {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
     </article>
 
+    {{ if (and (not .Params.hide_github_links) (.Site.Params.github_links.enable)) }}
+        <div class="divider mb-2"></div>
+
+        {{ partial "github-links.html" . -}}
+    {{ end }}
+
+    {{ if (and (not .Params.hide_feedback) (.Site.Params.feedback.enable) (.Site.GoogleAnalytics)) }}
+        <div class="divider pt-2 mb-3"></div>
+
+        {{ partial "feedback.html" . -}}
+    {{ end }}
+
 </div>
 {{ end }}
