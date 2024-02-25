@@ -7,8 +7,8 @@ description: Use Qdrant's Binary Quantization to enhance the performance and eff
 preview_dir: /articles_data/openai/preview
 preview_image: /articles-data/openai/Article-Image.png # Change this
 small_preview_image: /articles_data/openai/icon.svg
-social_preview_image: /articles-data/openai/preview/social-preview.png
-title_preview_image: /articles-data/openai/preview/preview.webp # Optional image used for blog post title
+social_preview_image: /articles_data/openai/preview/social-preview.png
+title_preview_image: /articles_data/openai/preview/preview.webp # Optional image used for blog post title
 
 date: 2024-02-21T13:12:08-08:00
 author: Nirant Kasliwal
