@@ -1317,29 +1317,27 @@ The key should point to an array of objects and can be used with or without the 
 POST /collections/{collection_name}/points/scroll
 {
     "filter": {
-        "must": [
+        "must": [{
             "nested": {
-                {
-                    "key": "diet",
-                    "filter":{
-                        "must": [
-                            {
-                                "key": "food",
-                                "match": {
-                                    "value": "meat"
-                                }
-                            },
-                            {
-                                "key": "likes",
-                                "match": {
-                                    "value": true
-                                }
+                "key": "diet",
+                "filter":{
+                    "must": [
+                        {
+                            "key": "food",
+                            "match": {
+                                "value": "meat"
                             }
-                        ]
-                    }
+                        },
+                        {
+                            "key": "likes",
+                            "match": {
+                                "value": true
+                            }
+                        }
+                    ]
                 }
             }
-        ]
+        }]
     }
 }
 ```
