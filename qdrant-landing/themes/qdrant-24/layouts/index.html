@@ -8,7 +8,7 @@
         {{ partial "hero" . }}
       </header>
     </main>
-    
+    TEST
     {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
