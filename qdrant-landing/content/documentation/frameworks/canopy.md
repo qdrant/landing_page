@@ -11,7 +11,7 @@ Qdrant is supported as a knowledge base within Canopy for context retrieval and 
 
 ## Usage
 
-Install the SDK with the Qdrant extra.
+Install the SDK with the Qdrant extra as described in the [Canopy README](https://github.com/pinecone-io/canopy?tab=readme-ov-file#extras).
 
 ```bash
 pip install canopy-sdk[qdrant]
@@ -27,7 +27,7 @@ kb = QdrantKnowledgeBase(collection_name="<YOUR_COLLECTION_NAME>")
 
 <aside role="status">The constructor accepts additional <a href="https://github.com/qdrant/qdrant-client/blob/eda201a1dbf1bbc67415f8437a5619f6f83e8ac6/qdrant_client/qdrant_client.py#L36-L61">options</a> to customize your connection to Qdrant.</aside>
 
-To create a new Qdrant collection and connect it to the knowledge base, you can use the `create_canopy_collection` method:
+To create a new Qdrant collection and connect it to the knowledge base, use the `create_canopy_collection` method:
 
 ```python
 kb.create_canopy_collection()
@@ -39,7 +39,7 @@ You can always verify the connection to the collection with the `verify_index_co
 kb.verify_index_connection()
 ```
 
-Learn more about customizing the knowledge base and its inner components [here](https://github.com/pinecone-io/canopy/blob/main/docs/library.md#understanding-knowledgebase-workings).
+Learn more about customizing the knowledge base and its inner components [in the Canopy library](https://github.com/pinecone-io/canopy/blob/main/docs/library.md#understanding-knowledgebase-workings).
 
 ### Adding data to the knowledge base
 
