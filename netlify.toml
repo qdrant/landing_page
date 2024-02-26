@@ -2,6 +2,9 @@
 publish = "qdrant-landing/public"
 command = "cd qdrant-landing ; hugo --gc --minify"
 
+[build.environment]
+HUGO_VERSION = "0.123.0"
+
 [context.production.environment]
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
