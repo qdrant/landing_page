@@ -14,9 +14,12 @@ Qdrant is available as a storage backend in MemGPT for storing and semantically 
 
 ## Usage
 
-You can configure MemGPT to use either a Qdrant server or an in-memory instance via the `memgpt configure` command.
+You can configure MemGPT to use either a Qdrant server or an in-memory instance with the `memgpt configure` command.
 
-#### Configuring the Qdrant server.
+#### Configuring the Qdrant server
+
+When you run `memgpt configure`, go through the prompts as described in the [MemGPT configuration documentation](https://memgpt.readme.io/docs/config).
+After you address several `memgpt` questions, you come to the following `memgpt` prompts:
 
 ```console
 ? Select storage backend for archival data: qdrant
@@ -26,7 +29,7 @@ You can configure MemGPT to use either a Qdrant server or an in-memory instance 
 
 You can set an API key for authentication using the `QDRANT_API_KEY` environment variable.
 
-#### Configuring an in-memory instance.
+#### Configuring an in-memory instance
 
 ```console
 ? Select storage backend for archival data: qdrant
