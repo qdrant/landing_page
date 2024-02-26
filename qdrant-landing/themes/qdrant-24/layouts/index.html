@@ -7,6 +7,7 @@
         {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ partial "menu" . }}
         {{ partial "hero" . }}
       </header>
+      TEST
     </main>
     {{ $pageSearchScrollJs := resources.Get "/js/qdrant-page-search-scroll.min.js" | resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
