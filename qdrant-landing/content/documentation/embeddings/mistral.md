@@ -5,15 +5,13 @@ weight: 710
 
 # Mistral
 
-<!-- Use content from Gemini -->
+Qdrant is compatible with the [Mistral AI embedding model](https://docs.mistral.ai/platform/endpoints/#mistral-ai-embedding-model)
+API and its official Python SDK, You can install it as follows:
 
-Qdrant is compatible with Gemini Embedding Model API and its official Python SDK that can be installed as any other package:
-
-
-```python
-# !pip install -U huggingface_hub datasets qdrant-client seaborn
+```bash
+pip install -U huggingface_hub datasets qdrant-client seaborn
 ```
-
+test
 
 ```python
 import os
