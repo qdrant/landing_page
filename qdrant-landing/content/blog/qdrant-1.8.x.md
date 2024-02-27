@@ -70,4 +70,33 @@ Avoid binary search while loading
 
 ## Dynamic CPU saturation internals
 
-how many CPUs (threads) to allocate for an optimization job.
+We continue to optimize our search to minimize the load on your hardware. One
+part of that is on CPUs. On a typical system, loads on each CPU is relatively
+low, which is a waste of resources.
+
+With dynamic CPU saturation, we set an `optimizer_cpu_budget` to drive the
+number of CPUs to saturate with optimization tasks. Specifically, if the
+value is:
+
+- `0`: Qdrant keeps one or more CPUs unallocated
+- A negative number: Qdrant subtracts this from the number of available CPUs
+- A positive number: Qdrant assigns this exact number of CPUs to your configuration
+
+The default value for `optimizer_cpu_budget` is `0`.
+
+With our [Collections](/documentation/concepts/collections/) API, you can 
+configure how Qdrant saturates the CPUs in your configuration. 
+
+As shown in our API documenmtation, `max_indexing_threads` is a part of the
+`hnsw_config` parameter. For more information see our 
+[Create collection](ihttps://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/create_collection) REST call.
+
+The `max_indexing_threads` is the number of parallel threads used by Qdrant
+to build your index in the background. The options are:
+
+- `null`: No limit. Dynamically saturate your CPUs
+- `0`: Automatically select between 8 and 16 CPUs, to minimize the chance of
+  building broken or inefficient HNSW graphs.
+
+If you have "small" CPUs, Qdrant uses fewer threads.
+
