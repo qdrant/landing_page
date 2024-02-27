@@ -2,7 +2,7 @@
 title: RAG is Dead. Long Live RAG! 
 short_description: Why are vector databases needed for RAG? We debunk claims of increased LLM accuracy and look into drawbacks of large context windows. 
 description: Why are vector databases needed for RAG? We debunk claims of increased LLM accuracy and look into drawbacks of large context windows. 
-social_preview_image: /articles_data/rag-is-dead/social_preview.jpg 
+social_preview_image: /articles_data/rag-is-dead/preview/social_preview.jpg 
 small_preview_image: /articles_data/rag-is-dead/icon.svg 
 preview_dir: /articles_data/rag-is-dead/preview 
 weight: -131
