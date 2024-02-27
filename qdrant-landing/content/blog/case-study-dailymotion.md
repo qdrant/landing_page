@@ -81,49 +81,49 @@ Samuel Leonardo Gracio - Sr Machine Learning Engineer , Dailymotion
 Looking at the complexity, scale and adaptability of the desired solution, the team decided to leverage Qdrant’s vector database to implement a content-based video recommendation that undoubtedly offered several advantages over other methods: 
 
 
-1. Efficiency in High-Dimensional Data Handling:
+**1. Efficiency in High-Dimensional Data Handling:**
 
    Video content is inherently high-dimensional, comprising various features such as audio, visual, textual, and contextual elements.  
    Qdrant excels in efficiently handling high-dimensional data and out-of-the-box support for all the models with up to 65536 dimensions, making it well-suited for representing and processing complex video features with choice of any embedding model. 
 
 
-2. Scalability:
+**2. Scalability:**
    
-    As the volume of video content and user interactions grows, scalability becomes paramount. Qdrant is meticulously designed to scale vertically as well as horizontally, allowing for seamless expansion to accommodate large volumes of data and user interactions without compromising performance. 
+   As the volume of video content and user interactions grows, scalability becomes paramount. Qdrant is meticulously designed to scale vertically as well as horizontally, allowing for seamless expansion to accommodate large volumes of data and user interactions without compromising performance. 
 
 
-4. Fast and Accurate Similarity Search: 
+**3. Fast and Accurate Similarity Search:** 
 
    Efficient video recommendation systems rely on identifying similarities between videos to make relevant recommendations. Qdrant leverages advanced HNSW indexing and similarity search algorithms to support fast and accurate retrieval of similar videos based on their feature representations nearly instantly (20ms for this use case)
 
 
-4. Flexibility in vector representation with metadata through payloads:
+**4. Flexibility in vector representation with metadata through payloads:**
 
    Qdrant offers flexibility in storing vectors with metadata in form of payloads and offers support for  advanced metadata filtering during the similarity search to incorporate custom logic. 
 
 
-5. Reduced Dimensionality and Storage Requirements:
+**5. Reduced Dimensionality and Storage Requirements:**
 
    Vector representations in Qdrant offer various Quantization and memory mapping techniques to efficiently store and retrieve vectors, leading to reduced storage requirements and computational overhead compared to alternative methods such as content-based filtering or collaborative filtering. 
 
 
-6. Impressive Benchmarks:
+**6. Impressive Benchmarks:**
 
    [Qdrant’s benchmarks](https://qdrant.tech/benchmarks/) has definitely been one of the key motivations for the Dailymotion’s team to try the solution and the team comments that the performance has been only better than the benchmarks. 
 
 
-7. Ease of usage:
+**7. Ease of usage:**
 
    Qdrant API’s have been immensely easy to get started with as compared to Google Vertex Matching Engine (which was Dailymotion’s initial choice) and the support from the team has been of a huge value to us.
 
 
-8. Being able to fetch data by id: 
+**8. Being able to fetch data by id:** 
    Qdrant allows to retrieve vector point / videos by ids while the Vertex Matching Engine requires a vector input to be able to search for other vectors which was another really important feature for Dailymotion
    
    
 
 
-**Data Processing pipeline **
+### Data Processing pipeline
 
 ![data-processing](/case-studies/dailymotion/data-processing-pipeline.png)
 
