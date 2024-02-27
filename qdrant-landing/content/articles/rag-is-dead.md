@@ -78,10 +78,8 @@ Conversely, the only up-front investment with vector databases is the indexing (
 
 Julien Simon from HuggingFace says it best:
 
-> *RAG is not a workaround for limited context size. For mission-critical enterprise use cases, RAG is a way to leverage high-value, proprietary company knowledge that will never be found in public datasets used for LLM training. At the moment, the best place to index and query this knowledge is some sort of vector index. 
+> RAG is not a workaround for limited context size. For mission-critical enterprise use cases, RAG is a way to leverage high-value, proprietary company knowledge that will never be found in public datasets used for LLM training. At the moment, the best place to index and query this knowledge is some sort of vector index. In addition, RAG downgrades the LLM to a writing assistant. Since built-in knowledge becomes much less important, a nice small 7B open-source model usually does the trick at a fraction of the cost of a huge generic model.
 
-In addition, RAG downgrades the LLM to a writing assistant. Since built-in knowledge becomes much less important, a nice small 7B open-source model usually does the trick at a fraction of the cost of a huge generic model.*
-> 
 
 ## Long Live RAG
 
