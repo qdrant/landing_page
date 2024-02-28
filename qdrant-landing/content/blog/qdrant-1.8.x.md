@@ -66,23 +66,24 @@ points show the highest frequency.
 
 While this is a two-dimensional graph, the dataset represents over 100 dimensions! 
 
-## Dynamic CPU saturation internals
+## Optimized CPU use
 
 We continue to optimize our search to minimize the load on your hardware. One
-part of that is on CPUs. On a typical system, loads on each CPU is relatively
+part of that is on CPUs. On a typical system, the loads on each CPU is 
 low, which is a waste of resources.
 
-With dynamic CPU saturation, we set an `optimizer_cpu_budget` to drive the
-number of CPU _cores_ to saturate with optimization tasks. Specifically, if the
-value is:
+We optimize how we use CPUs. With dynamic CPU saturation, we set an 
+`optimizer_cpu_budget` to drive the number of CPU _cores_ to saturate with
+optimization tasks. Specifically, if the value is:
 
-- `0`: Qdrant keeps one or more CPU cores unallocated
+- `0`: Qdrant keeps one or more CPU cores unallocated (default)
 - A negative number: Qdrant subtracts this from the number of available CPU cores
 - A positive number: Qdrant assigns this exact number of CPU cores to your configuration
 
-The default value for `optimizer_cpu_budget` is `0`. For most users, the default
-works well. It allocates most CPUs for building indexes, while saving some CPUs
-to handle searches.
+<!-- Question: where do we set the `optimizer_cpu_budget, and how does that relate to `max_indexing_threads` -->
+
+For most users, the default works well. It allocates most CPUs for building
+indexes, while reserving CPUs to handle searches.
 
 With our [Collections](/documentation/concepts/collections/) API, you can 
 configure how Qdrant saturates the CPUs in your configuration. 
@@ -94,9 +95,9 @@ As shown in our API documenmtation, `max_indexing_threads` is a part of the
 The `max_indexing_threads` is the number of parallel threads used by Qdrant
 to build your index in the background. The options are:
 
-- `null`: No limit. Dynamically saturate your CPUs
-- `0`: Automatically select between 8 and 16 CPUs, to minimize the chance of
-  building broken or inefficient HNSW graphs.
+- `null`: No limit. Dynamically saturates your CPUs
+- `0`: Automatically selects between 8 and 16 CPUs, to minimize the risk of
+  broken or inefficient HNSW graphs.
 
 If you have more CPUs, you could try different configurations. For example:
 
@@ -108,6 +109,7 @@ cores for indexing and optimization.
 for searches.
 
 ## Optimize RAM with immutable text fields
+<!-- I'd like more info -->
 
 We have optimized the required RAM with immutable text fields. We minimize
 what is stored. Based on our tests, we've reduced by the amount of required
@@ -121,3 +123,9 @@ Mutable documents require additional RAM.
 To improve search performance we have optimized the way we load documents for searches. We also minimize the load on RAM. 
 
 To set this up, we load documents mostly sequentially, in increasing order.
+
+## Release notes
+<!-- The link won't work until we create v1.8.0 release notes -->
+
+For more information, see [our release notes](https://github.com/qdrant/qdrant/releases/tag/v1.8.0). 
+Qdrant is an open source project. We welcome your contributions, as [issues](https://github.com/qdrant/qdrant/issues), or even better, as [pull requests](https://github.com/qdrant/qdrant/pulls)!
