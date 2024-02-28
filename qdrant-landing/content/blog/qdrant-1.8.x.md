@@ -65,10 +65,7 @@ latency per query dimension count:
 The colors within the scatter plot show the frequency of the results. The "red"
 points show the highest frequency.
 
-While this is a two-dimensional graph, the dataset represents over 100 dimensions! As expected, we see an inverse relationship between posting list length and
-the number of dimensions:
-
-![Graph with posting list length distribution](/blog/qdrant-1.8.x/neurIPS_posting_len_example.png)
+While this is a two-dimensional graph, the dataset represents over 100 dimensions! 
 
 ## Optimize RAM with immutable text fields
 
@@ -91,14 +88,16 @@ part of that is on CPUs. On a typical system, loads on each CPU is relatively
 low, which is a waste of resources.
 
 With dynamic CPU saturation, we set an `optimizer_cpu_budget` to drive the
-number of CPUs to saturate with optimization tasks. Specifically, if the
+number of CPU _cores_ to saturate with optimization tasks. Specifically, if the
 value is:
 
-- `0`: Qdrant keeps one or more CPUs unallocated
-- A negative number: Qdrant subtracts this from the number of available CPUs
-- A positive number: Qdrant assigns this exact number of CPUs to your configuration
+- `0`: Qdrant keeps one or more CPU cores unallocated
+- A negative number: Qdrant subtracts this from the number of available CPU cores
+- A positive number: Qdrant assigns this exact number of CPU cores to your configuration
 
-The default value for `optimizer_cpu_budget` is `0`.
+The default value for `optimizer_cpu_budget` is `0`. For most users, the default
+works well. It allocates most CPUs for building indexes, while saving some CPUs
+to handle searches.
 
 With our [Collections](/documentation/concepts/collections/) API, you can 
 configure how Qdrant saturates the CPUs in your configuration. 
@@ -114,5 +113,11 @@ to build your index in the background. The options are:
 - `0`: Automatically select between 8 and 16 CPUs, to minimize the chance of
   building broken or inefficient HNSW graphs.
 
-If you have "small" CPUs, Qdrant uses fewer threads.
+If you have more CPUs, you could try different configurations. For example:
 
+- Assume you have 128 CPU cores. You have also set up 4 Qdrant instances. If
+you set `max_indexing_threads` to 32, you've allocated 25% of available CPU
+cores for indexing and optimization. 
+- If you need to reserve CPUs for important ongoing searches, you can set
+`max_indexing_threads` to a negative value. Qdrant then reserves those cores
+for searches.
