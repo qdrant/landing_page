@@ -108,19 +108,18 @@ cores for indexing and optimization.
 for searches.
 
 ## Optimize RAM with immutable text fields
-<!-- I'd like more info -->
 
-We have optimized the required RAM with immutable text fields. We minimize
-what is stored. Based on our tests of a system with 64GB of RAM, 
-we've reduced by the amount of required RAM by around 10%. We expect greater
-improvements on systems with less RAM.
+We have optimized the required RAM with immutable text fields. We have set up
+a field index which helps minimize what is stored.
+
+Based on our tests of a system with 64GB of RAM, we've reduced by the amount of 
+required RAM by around 10%. We expect greater improvements on systems with less RAM.
 
 Mutable documents require additional RAM.
 
 ## Increase search performance
-<!-- I'd like to describe how much, but I can't find / derive any numbers. The PR suggests this comes at a modest cost in (I assume document) loading speed -->
 
-To improve search performance we have optimized the way we load documents for searches. We also minimize the load on RAM. 
+To improve search performance we have optimized the way we load documents for searches with a text field index. This also minimizes the load on RAM. 
 
 To set this up, we load documents mostly sequentially, in increasing order.
 
