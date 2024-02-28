@@ -13,7 +13,6 @@ featured: false
 tags:
   - vector search
   - new features
-  - shard diff transfer
   - sparse vector performance
   - text immutability
   - text loading optimization
@@ -26,9 +25,9 @@ We've optimized performance in a number of ways. We've addressed issues with:
 
 <!-- Shard deltas (deferred to v1.9) -->
 - Sparse vectors
+- Dynamic CPU saturation
 - Text immutability
 - Text loading optimization
-- Dynamic CPU saturation
 
 We've also added <!-- TBD -->.
 
@@ -66,20 +65,6 @@ The colors within the scatter plot show the frequency of the results. The "red"
 points show the highest frequency.
 
 While this is a two-dimensional graph, the dataset represents over 100 dimensions! 
-
-## Optimize RAM with immutable text fields
-
-We have optimized the required RAM with immutable text fields. We minimize
-what is stored. Based on our tests, we've reduced by the amount of required
-RAM by around 10%. 
-
-Mutable documents require additional RAM.
-
-## Optimized text field loading
-
-Insertion in increasing order 
-
-Avoid binary search while loading
 
 ## Dynamic CPU saturation internals
 
@@ -121,3 +106,18 @@ cores for indexing and optimization.
 - If you need to reserve CPUs for important ongoing searches, you can set
 `max_indexing_threads` to a negative value. Qdrant then reserves those cores
 for searches.
+
+## Optimize RAM with immutable text fields
+
+We have optimized the required RAM with immutable text fields. We minimize
+what is stored. Based on our tests, we've reduced by the amount of required
+RAM by around 10%. 
+
+Mutable documents require additional RAM.
+
+## Increase search performance
+<!-- I'd like to describe how much, but I can't find / derive any numbers. The PR suggests this comes at a modest cost in (I assume document) loading speed -->
+
+To improve search performance we have optimized the way we load documents for searches. We also minimize the load on RAM. 
+
+To set this up, we load documents mostly sequentially, in increasing order.
