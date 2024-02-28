@@ -18,10 +18,10 @@ The simplest way to get started is by downloading pre-packaged JAR file releases
 
 ### Building from Source
 
-If you prefer to build the JAR from source, you'll need [JDK 17](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) and [Maven](https://maven.apache.org/) installed on your system. Once you have the prerequisites in place, navigate to the project's root directory and run the following command:
+If you prefer to build the JAR from source, you'll need [JDK 8](https://www.azul.com/downloads/#zulu) and [Maven](https://maven.apache.org/) installed on your system. Once you have the prerequisites in place, navigate to the project's root directory and run the following command:
 
 ```bash
-mvn package -P assembly
+mvn package
 ```
 This command will compile the source code and generate a fat JAR, which will be stored in the `target` directory by default.
 
@@ -33,7 +33,7 @@ For Java and Scala projects, you can also obtain the Qdrant-Spark Connector from
 <dependency>
     <groupId>io.qdrant</groupId>
     <artifactId>spark</artifactId>
-    <version>1.12</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -50,7 +50,7 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.config(
         "spark.jars",
-        "spark-1.0-assembly.jar",  # Specify the downloaded JAR file
+        "spark-2.0.jar",  # Specify the downloaded JAR file
     )
     .master("local[*]")
     .appName("qdrant")
@@ -61,7 +61,7 @@ spark = SparkSession.builder.config(
 import org.apache.spark.sql.SparkSession
 
 val spark = SparkSession.builder
-  .config("spark.jars", "spark-1.0-assembly.jar") // Specify the downloaded JAR file
+  .config("spark.jars", "spark-2.0.jar") // Specify the downloaded JAR file
   .master("local[*]")
   .appName("qdrant")
   .getOrCreate()
@@ -73,7 +73,7 @@ import org.apache.spark.sql.SparkSession;
 public class QdrantSparkJavaExample {
     public static void main(String[] args) {
         SparkSession spark = SparkSession.builder()
-                .config("spark.jars", "spark-1.0-assembly.jar") // Specify the downloaded JAR file
+                .config("spark.jars", "spark-2.0.jar") // Specify the downloaded JAR file
                 .master("local[*]")
                 .appName("qdrant")
                 .getOrCreate();
@@ -92,7 +92,7 @@ Here's how you can use the Qdrant-Spark Connector to upsert data:
 <YourDataFrame>
     .write
     .format("io.qdrant.spark.Qdrant")
-    .option("qdrant_url", <QDRANT_URL>)  # REST URL of the Qdrant instance
+    .option("qdrant_url", <QDRANT_GRPC_URL>)  # REST URL of the Qdrant instance
     .option("collection_name", <QDRANT_COLLECTION_NAME>)  # Name of the collection to write data into
     .option("embedding_field", <EMBEDDING_FIELD_NAME>)  # Name of the field holding the embeddings
     .option("schema", <YourDataFrame>.schema.json())  # JSON string of the dataframe schema
@@ -104,7 +104,7 @@ Here's how you can use the Qdrant-Spark Connector to upsert data:
 <YourDataFrame>
     .write
     .format("io.qdrant.spark.Qdrant")
-    .option("qdrant_url", QDRANT_URL) // REST URL of the Qdrant instance
+    .option("qdrant_url", QDRANT_GRPC_URL) // REST URL of the Qdrant instance
     .option("collection_name", QDRANT_COLLECTION_NAME) // Name of the collection to write data into
     .option("embedding_field", EMBEDDING_FIELD_NAME) // Name of the field holding the embeddings
     .option("schema", <YourDataFrame>.schema.json()) // JSON string of the dataframe schema
@@ -117,7 +117,7 @@ Here's how you can use the Qdrant-Spark Connector to upsert data:
 <YourDataFrame>
     .write()
     .format("io.qdrant.spark.Qdrant")
-    .option("qdrant_url", QDRANT_URL) // REST URL of the Qdrant instance
+    .option("qdrant_url", QDRANT_GRPC_URL) // REST URL of the Qdrant instance
     .option("collection_name", QDRANT_COLLECTION_NAME) // Name of the collection to write data into
     .option("embedding_field", EMBEDDING_FIELD_NAME) // Name of the field holding the embeddings
     .option("schema", <YourDataFrame>.schema().json()) // JSON string of the dataframe schema
@@ -129,7 +129,7 @@ Here's how you can use the Qdrant-Spark Connector to upsert data:
 You can use the `qdrant-spark` connector as a library in [Databricks](https://www.databricks.com/) to ingest data into Qdrant.
 - Go to the `Libraries` section in your cluster dashboard.
 - Select `Install New` to open the library installation modal.
-- Search for `io.qdrant:spark:1.12` in the Maven packages and click `Install`.
+- Search for `io.qdrant:spark:2.0.0` in the Maven packages and click `Install`.
 
 ![Databricks](/documentation/frameworks/spark/databricks.png)
 
@@ -141,16 +141,17 @@ Qdrant supports all the Spark data types, and the appropriate data types are map
 
 The Qdrant-Spark Connector provides a range of options to fine-tune your data integration process. Here's a quick reference:
 
-| Option            | Description                                                                  | DataType               | Required |
-| :---------------- | :--------------------------------------------------------------------------- | :--------------------- | :------- |
-| `qdrant_url`      | REST URL of the Qdrant instance                                              | `StringType`           | ✅       |
-| `collection_name` | Name of the collection to write data into                                    | `StringType`           | ✅       |
-| `embedding_field` | Name of the field holding the embeddings                                     | `ArrayType(FloatType)` | ✅       |
-| `schema`          | JSON string of the dataframe schema                                          | `StringType`           | ✅       |
-| `mode`            | Write mode of the dataframe                                                  | `StringType`           | ✅       |
-| `id_field`        | Name of the field holding the point IDs. Default: A random UUID is generated | `StringType`           | ❌       |
-| `batch_size`      | Max size of the upload batch. Default: 100                                   | `IntType`              | ❌       |
-| `retries`         | Number of upload retries. Default: 3                                         | `IntType`              | ❌       |
-| `api_key`         | Qdrant API key for authenticated requests. Default: null                     | `StringType`           | ❌       |
+| Option            | Description                                                               | DataType               | Required |
+| :---------------- | :------------------------------------------------------------------------ | :--------------------- | :------- |
+| `qdrant_url`      | GRPC URL of the Qdrant instance. Eg: <http://localhost:6334>                                       | `StringType`           | ✅       |
+| `collection_name` | Name of the collection to write data into                                 | `StringType`           | ✅       |
+| `embedding_field` | Name of the field holding the embeddings                                  | `ArrayType(FloatType)` | ✅       |
+| `schema`          | JSON string of the dataframe schema                                       | `StringType`           | ✅       |
+| `id_field`        | Name of the field holding the point IDs. Default: Generates a random UUId | `StringType`           | ❌       |
+| `batch_size`      | Max size of the upload batch. Default: 100                                | `IntType`              | ❌       |
+| `retries`         | Number of upload retries. Default: 3                                      | `IntType`              | ❌       |
+| `api_key`         | Qdrant API key to be sent in the header. Default: null                    | `StringType`           | ❌       |
+| `vector_name`         | Name of the vector in the collection. Default: null                    | `StringType`           | ❌  
+
 
 For more information, be sure to check out the [Qdrant-Spark GitHub repository](https://github.com/qdrant/qdrant-spark). The Apache Spark guide is available [here](https://spark.apache.org/docs/latest/quick-start.html). Happy data processing!
