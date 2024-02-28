@@ -40,27 +40,43 @@ welcome your contributions, especially in our [Discord community](https://qdrant
 The primary focus of Qdrant is performance. It's why we build our work in Rust.
 We also want to optimze performance in "real-world" situations.
 
-We've optimized our search to improve throughput by a factor of 16.
+We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html). We've optimized our search to improve throughput by a factor of 16.
+<!-- a factor of 16 was a goal stated internally. I don't know if we got there. -->
 
-We set up test benchmarks in our [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For our benchmarks, we use Azure
-instances with separate clients and servers:
+We set up test benchmarks in our [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For our benchmarks, we use
+moderately-sized Azure instances with separate clients and servers:
+<!-- Arnaud isn't sure we should include these details. I think they're useful for our readers. (I've removed the Azure configuration bits described elsewhere.)  -->
 
-| System | Azure configuration | vCPU | RAM (GB) |
-|--------|---------------------|------|----------|
-| Server | Standard D8ds v5    | 8    | 32       |
-| Client | Standard D4s v3     | 4    | 16       |
+| System | vCPU | RAM (GB) |
+|--------|------|----------|
+| Server | 8    | 32       |
+| Client | 4    | 16       |
 
 We created the test collection with:
 
-- 8 segments
+- 8 Sparse NeruIPS segments
 - `index.on_disk=false`
 
+Based on those datasets, we found the following two-dimentional histogram of
+latency per query dimension count:
 
-## Immutable text fields
+![Histogram with increasing latency for higher query dimensions](/blog/qdrant-1.8.x/neurIPS_bench_example.png)
 
-Immutability with filters reduces required amount of data
+The colors within the scatter plot show the frequency of the results. The "red"
+points show the highest frequency.
 
-Optimized RAM by avoiding `point_to_docs`
+While this is a two-dimensional graph, the dataset represents over 100 dimensions! As expected, we see an inverse relationship between posting list length and
+the number of dimensions:
+
+![Graph with posting list length distribution](/blog/qdrant-1.8.x/neurIPS_posting_len_example.png)
+
+## Optimize RAM with immutable text fields
+
+We have optimized the required RAM with immutable text fields. We minimize
+what is stored. Based on our tests, we've reduced by the amount of required
+RAM by around 10%. 
+
+Mutable documents require additional RAM.
 
 ## Optimized text field loading
 
