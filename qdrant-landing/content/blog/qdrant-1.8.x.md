@@ -3,7 +3,7 @@ title: "Welcome to Qdrant 1.8.0!"
 draft: false
 slug: qdrant-1.8.x 
 short_description: "Look at what's new in Qdrant 1.8.0!"
-description: "Shard transfer deltas, Sparse vector performance, Text index loading optimization, Text immutability, Dynamic CPU saturation" 
+description: "Sparse vector performance, Text index loading optimization, Text immutability, Dynamic CPU saturation" 
 preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 title_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 small_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
@@ -14,9 +14,9 @@ tags:
   - vector search
   - new features
   - sparse vector performance
+  - dymamic CPU saturation
   - text immutability
   - text loading optimization
-  - dymamic CPU saturation
 weight: 0 # Change this weight to change order of posts
 ---
 
@@ -40,7 +40,6 @@ The primary focus of Qdrant is performance. It's why we build our work in Rust.
 We also want to optimze performance in "real-world" situations.
 
 We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html). We've optimized our search to improve throughput by a factor of 16.
-<!-- a factor of 16 was a goal stated internally. I don't know if we got there. -->
 
 We set up test benchmarks in our [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For our benchmarks, we use
 moderately-sized Azure instances with separate clients and servers:
@@ -112,8 +111,9 @@ for searches.
 <!-- I'd like more info -->
 
 We have optimized the required RAM with immutable text fields. We minimize
-what is stored. Based on our tests, we've reduced by the amount of required
-RAM by around 10%. 
+what is stored. Based on our tests of a system with 64GB of RAM, 
+we've reduced by the amount of required RAM by around 10%. We expect greater
+improvements on systems with less RAM.
 
 Mutable documents require additional RAM.
 
