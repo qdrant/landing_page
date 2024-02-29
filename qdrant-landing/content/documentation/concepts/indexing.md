@@ -328,7 +328,7 @@ To optimize your search, you should reduce the number of vectors that need to be
 
 This sample configuration enables on-disk storage for immutable segments. It also sets a full scan threshold for queries inspecting less than 5000 vectors.
 
-```
+```http
 PUT /collections/{collection_name}
 {
     "sparse_vectors": {
