@@ -37,7 +37,7 @@ welcome your contributions, especially in our [Discord community](https://qdrant
 ## Improved sparse vector performance
 
 The primary focus of Qdrant is performance. It's why we build our work in Rust.
-We also want to optimze performance in "real-world" situations.
+We also want to optimize performance in "real-world" situations.
 
 We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html). We've optimized our search to improve throughput by a factor of 16.
 
