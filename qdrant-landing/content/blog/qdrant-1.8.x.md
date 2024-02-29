@@ -48,8 +48,8 @@ the full query dataset againt a system with 8 CPUs.
 
 <!-- Not sure if we need the details of how we created the test collection -->
 
-Based on our tests, we found the following two-dimentional histogram of
-latency per query dimension count:
+Based on our tests, you can expect significant performance improvements. 
+The performance that we see is shown on the following two-dimensional histogram:
 
 ![Histogram with increasing latency for higher query dimensions](/blog/qdrant-1.8.x/neurIPS_bench_example.png)
 
