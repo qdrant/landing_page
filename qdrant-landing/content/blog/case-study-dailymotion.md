@@ -4,7 +4,7 @@ draft: false
 slug: case-study-dailymotion # Change this slug to your page slug if needed
 short_description:  Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Database
 description: Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Database
-preview_image: /case-studies/dailymotion/Dailymotion-Case-Study.jpg # Change this
+preview_image: /case-studies/dailymotion/preview-dailymotion.png # Change this
 
 # social_preview_image: /blog/Article-Image.png # Optional image used for link previews
 # title_preview_image: /blog/Article-Image.png # Optional image used for blog post title
