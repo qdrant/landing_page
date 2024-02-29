@@ -41,21 +41,12 @@ We also want to optimze performance in "real-world" situations.
 
 We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html). We've optimized our search to improve throughput by a factor of 16.
 
-We set up test benchmarks in our [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For our benchmarks, we use
-moderately-sized Azure instances with separate clients and servers:
-<!-- Arnaud isn't sure we should include these details. I think they're useful for our readers. (I've removed the Azure configuration bits described elsewhere.)  -->
+We set up test benchmarks in our [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For our benchmarks, we ran
+the full query dataset againt a system with 8 CPUs.
 
-| System | vCPU | RAM (GB) |
-|--------|------|----------|
-| Server | 8    | 32       |
-| Client | 4    | 16       |
+<!-- Not sure if we need the details of how we created the test collection -->
 
-We created the test collection with:
-
-- 8 Sparse NeruIPS segments
-- `index.on_disk=false`
-
-Based on those datasets, we found the following two-dimentional histogram of
+Based on our tests, we found the following two-dimentional histogram of
 latency per query dimension count:
 
 ![Histogram with increasing latency for higher query dimensions](/blog/qdrant-1.8.x/neurIPS_bench_example.png)
@@ -63,49 +54,16 @@ latency per query dimension count:
 The colors within the scatter plot show the frequency of the results. The "red"
 points show the highest frequency.
 
-While this is a two-dimensional graph, the dataset represents over 100 dimensions! 
-
 ## Optimized CPU use
 
-We continue to optimize our search to minimize the load on your hardware. One
-part of that is on CPUs. On a typical system, the loads on each CPU is 
-low, which is a waste of resources.
-
-We optimize how we use CPUs. With dynamic CPU saturation, we set an 
-`optimizer_cpu_budget` to drive the number of CPU _cores_ to saturate with
-optimization tasks. Specifically, if the value is:
-
-- `0`: Qdrant keeps one or more CPU cores unallocated (default)
-- A negative number: Qdrant subtracts this from the number of available CPU cores
-- A positive number: Qdrant assigns this exact number of CPU cores to your configuration
-
-<!-- Question: where do we set the `optimizer_cpu_budget, and how does that relate to `max_indexing_threads` -->
+We continue to optimize our search. With dynamic CPU saturation we've increased
+indexing speed, with no impact on search requests. Our default sets `optimizer_cpu_budget: 0`. 
 
 For most users, the default works well. It allocates most CPUs for building
 indexes, while reserving CPUs to handle searches.
 
 With our [Collections](/documentation/concepts/collections/) API, you can 
 configure how Qdrant saturates the CPUs in your configuration. 
-
-As shown in our API documenmtation, `max_indexing_threads` is a part of the
-`hnsw_config` parameter. For more information see our 
-[Create collection](ihttps://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/create_collection) REST call.
-
-The `max_indexing_threads` is the number of parallel threads used by Qdrant
-to build your index in the background. The options are:
-
-- `null`: No limit. Dynamically saturates your CPUs
-- `0`: Automatically selects between 8 and 16 CPUs, to minimize the risk of
-  broken or inefficient HNSW graphs.
-
-If you have more CPUs, you could try different configurations. For example:
-
-- Assume you have 128 CPU cores. You have also set up 4 Qdrant instances. If
-you set `max_indexing_threads` to 32, you've allocated 25% of available CPU
-cores for indexing and optimization. 
-- If you need to reserve CPUs for important ongoing searches, you can set
-`max_indexing_threads` to a negative value. Qdrant then reserves those cores
-for searches.
 
 ## Optimize RAM with immutable text fields
 
