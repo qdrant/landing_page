@@ -59,9 +59,9 @@ points show the highest frequency.
 We continue to optimize our search. With dynamic CPU saturation we've increased
 indexing speed, with no impact on search requests.
 
-For most users, the default `optimizer_cpu_budget` works well. It allocates
-more CPU resources for building indexes, while reserving resources to handle
-searches.
+This version introduces an `optimizer_cpu_budget` parameter to control the maximum number of CPUs used
+for indexing. For most users, the default `optimizer_cpu_budget` works well. It allocates more CPU resources
+for building indexes faster, while reserving resources to handle searches.
 
 With our [Collections](/documentation/concepts/collections/) API, you can 
 configure how Qdrant saturates the CPUs in your configuration. 
