@@ -50,7 +50,7 @@ They aim to boost a dynamic visual dialogue, breaking echo chambers and fosterin
 
 ### Background / Journey
 
-The quest of Dailymotion to deliver an intelligent video recommendation engine to deliver a curated selection of videos to its users started with a need to present more relevant videos to the first-time users of the platform (cold start problem) and implement an ideal home feed experience to allow users to watch videos that are expected to be relevant, diverse, explainable, and easily tunable. \
+The quest of Dailymotion to deliver an intelligent video recommendation engine providing a curated selection of videos to its users started with a need to present more relevant videos to the first-time users of the platform (cold start problem) and implement an ideal home feed experience to allow users to watch videos that are expected to be relevant, diverse, explainable, and easily tunable. \
 This goal accounted for their efforts focused on[ Optimizing Video Recommender for Dailymotion's Home Feed ](https://medium.com/dailymotion/optimizing-video-feed-recommendations-with-diversity-machine-learning-first-steps-4cf9abdbbffd)back in the time.
 
 They continued their work in [Optimising the recommender engine with vector databases and opinion mining](https://medium.com/dailymotion/reinvent-your-recommender-system-using-vector-database-and-opinion-mining-a4fadf97d020) later with emphasis on ranking videos based on features like freshness, real views ratio, watch ratio, and aspect ratio to enhance user engagement and optimise watch time per user on the home feed. Furthermore, the team continued to focus on diversifying user interests by grouping videos based on interest and using stratified sampling to ensure a balanced experience for users.
