@@ -6,7 +6,6 @@ weight: 20
 # Qdrant Web UI
 
 You can manage both local and cloud Qdrant deployments through the Web UI.
-Navigate to the URL for your deployment and add port `6333`.
 
 If you've set up a deployment locally with the Qdrant [Quickstart](/documentation/quick-start/),
 navigate to http://localhost:6333/dashboard.
