@@ -43,7 +43,7 @@ They aim to boost a dynamic visual dialogue, breaking echo chambers and fosterin
 - **Improve video recommendations** across all 3 applications of Dailymotion (mobile app, website and embedded video player on all major French and International sites) as it is the main driver of audience engagement and revenue stream of the platform.
 - Traditional [collaborative recommendation model](https://en.wikipedia.org/wiki/Collaborative_filtering) tends to recommend only popular videos, fresh and niche videos suffer due to zero or minimal interaction
 - Video content based recommendation system required processing all the video embedding at scale and in real time, as soon as they are added to the platform
-- Exact neighbour search at the scale and keeping them up to date with new video updates in real time at Dailymotion was unreasonable and unrealistic
+- Exact neighbor search at the scale and keeping them up to date with new video updates in real time at Dailymotion was unreasonable and unrealistic
 - Precomputed [KNN](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm) would be expensive and may not work due to video updates every hour
 - Platform needs fast recommendations ~ &lt; 100ms
 - Needed fast ANN search on a vector search engine which could support the scale and performance requirements of the platform
