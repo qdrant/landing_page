@@ -19,7 +19,7 @@ Their necessity is determined by the [optimizer](../optimizer/) settings and dep
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
 This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
 
-The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search/#query-planning) choose a search strategy.
+The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
@@ -114,11 +114,11 @@ Payload index may occupy some additional memory, so it is recommended to only us
 If you need to filter by many fields and the memory limits does not allow to index all of them, it is recommended to choose the field that limits the search result the most.
 As a rule, the more different values a payload value has, the more efficiently the index will be used.
 
-### Full-text index
+## Full-text index
 
 *Available as of v0.10.0*
 
-Qdrant supports full-text search for string payload.
+Qdrant supports full-text search for string payloads.
 Full-text index allows you to filter points by the presence of a word or a phrase in the payload field.
 
 Full-text index configuration is a bit more complex than other indexes, as you can specify the tokenization parameters.
@@ -315,29 +315,20 @@ performance.
 
 *Available as of v1.7.0*
 
-### Key Features of Sparse Vector Index
-- **Support for Sparse Vectors:** Qdrant supports sparse vectors, characterized by a high proportion of zeroes.
-- **Efficient Indexing:** Utilizes an inverted index structure to store vectors for each non-zero dimension, optimizing memory and search speed.
+Qdrant supports a separate index for Sparse Vectors. Each data point in Qdrant can have both dense and sparse vectors. Therefore, you can still use the same collection for both vector types.  The indexing process is highly efficient, whereby an inverted index structure stores vectors for each non-zero dimension. This approach reduces memory usage and increases search speeds, particularly for high-dimensional data. 
 
-### Search Mechanism
-- **Index Usage:** The index identifies vectors with non-zero values in query dimensions during a search.
-- **Scoring Method:** Vectors are scored using the dot product.
+During search, the index identifies vectors with non-zero values in query dimensions. They are scored using the dot product method. You may also use filtering to search through sparse vectors. Just as with dense vectors, filtering is done by payload.
 
-### Optimizations
-- **Reducing Vectors to Score:** Implementations are in place to minimize the number of vectors scored, especially for dimensions with numerous vectors.
+**Optimization Methods**
 
-### Filtering and Configuration
-- **Filtering Support:** Similar to dense vectors, supports filtering by payload fields.
-- **`full_scan_threshold` Configuration:** Allows control over when to switch search from the payload index to minimize scoring vectors.
-- **Threshold for Sparse Vectors:** Specifies the threshold in terms of the number of matching vectors found by the query planner.
+The index resides in memory for appendable segments, ensuring fast search and update operations.
+For immutable segments, the sparse index can either stay in memory or be mapped to disk with the `on_disk` flag.
 
-### Index Storage and Management
-- **Memory-Based Index:** The index resides in memory for appendable segments, ensuring fast search and update operations.
-- **Handling Immutable Segments:** For immutable segments, the sparse index can either stay in memory or be mapped to disk with the `on_disk` flag.
+To optimize your search, you should reduce the number of vectors that need to be scored. To do this, you need to switch your search from the payload index to the sparse vector index. The `full_scan_threshold` variable configures the switch. It specifies the threshold in terms of the number of matching vectors found by the query planner.
 
-**Example Configuration:** To enable on-disk storage for immutable segments and full scan for queries inspecting less than 5000 vectors:
+This sample configuration enables on-disk storage for immutable segments. It also sets a full scan threshold for queries inspecting less than 5000 vectors.
 
-```http
+```
 PUT /collections/{collection_name}
 {
     "sparse_vectors": {
@@ -350,7 +341,6 @@ PUT /collections/{collection_name}
     }
 }
 ```
-
 
 ## Filtrable Index
 
