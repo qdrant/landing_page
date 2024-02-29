@@ -117,7 +117,8 @@ Looking at the complexity, scale and adaptability of the desired solution, the t
    Qdrant API’s have been immensely easy to get started with as compared to Google Vertex Matching Engine (which was Dailymotion’s initial choice) and the support from the team has been of a huge value to us.
 
 
-**8. Being able to fetch data by id:** 
+**8. Being able to fetch data by id** 
+
    Qdrant allows to retrieve vector point / videos by ids while the Vertex Matching Engine requires a vector input to be able to search for other vectors which was another really important feature for Dailymotion
    
    
