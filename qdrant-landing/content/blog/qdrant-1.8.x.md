@@ -39,7 +39,9 @@ welcome your contributions, especially in our [Discord community](https://qdrant
 The primary focus of Qdrant is performance. It's why we build our work in Rust.
 We also want to optimize performance in "real-world" situations.
 
-We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html). We've optimized our search to improve throughput by a factor of 16.
+We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html) which are a standard to evaluate vector search algorithms.
+
+We optimized our search to improve throughput by a factor of 16.
 
 We set up test benchmarks in our [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For our benchmarks, we ran
 the full query dataset againt a system with 8 CPUs.
