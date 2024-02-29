@@ -43,7 +43,7 @@ We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.htm
 
 We optimized our search to improve throughput by a factor of 16.
 
-We set up test benchmarks in our [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For our benchmarks, we ran
+This is based on our test benchmarks in this [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For those benchmarks, we ran
 the full query dataset againt a system with 8 CPUs.
 
 <!-- Not sure if we need the details of how we created the test collection -->
