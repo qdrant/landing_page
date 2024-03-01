@@ -34,7 +34,7 @@ We've also added <!-- TBD -->.
 Did we miss something? We rely on your feedback to drive our development. We
 welcome your contributions, especially in our [Discord community](https://qdrant.to/discord). Join us, introduce yourself, and help us build the best vector search engine!
 
-## Improved sparse vector performance
+## Improved sparse vector search performance
 
 The primary focus of Qdrant is performance. It's why we build our work in Rust.
 It helps us optimize performance in "real-world" situations.
