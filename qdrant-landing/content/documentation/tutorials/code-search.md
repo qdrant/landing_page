@@ -32,10 +32,6 @@ have an out-of-the-box support for Brainfuck or Befunge, but [Mojo](https://www.
 deal). Regarding `all-MiniLM-L6-v2`, we will perform some additional data preprocessing to convert the code to more 
 natural language like text.
 
-Our indexing pipeline will look as following:
-
-TODO: add image on how the data will be indexed
-
 ## Data preparation
 
 Chunking the application sources into smaller parts is non-trivial task on its own. If you follow good coding practices, 
@@ -48,7 +44,7 @@ for chunks. They are big enough to contain some meaningful information, but smal
 models with a limited context window. Also, docstrings, comments, and other metadata can be used to enrich the chunks
 with additional information.
 
-TODO: add an image to illustrate chunking on one of the classes and its methods
+![Code chunking strategy](/documentation/tutorials/code-search/chunking.png)
 
 ### Parsing the codebase
 
@@ -189,13 +185,16 @@ Function Await ready for timeout that does Return true if ready false if timed o
 
 ## Ingestion pipeline
 
+The next steps to build the code search engine are vectorizing the data and setting up a semantic search mechanism for 
+both embedding models.
+
 ### Natural language embeddings
 
 Our text representations might be easily encoded through the `all-MiniLM-L6-v2` model from the `sentence-transformers`.
-Let's install the library first:
+There are some additional dependencies required by our second model, so let's install them all at once first:
 
 ```shell
-pip install sentence-transformers
+pip install sentence-transformers optimum onnx
 ```
 
 Then we can use the model to encode the text representations:
@@ -213,8 +212,9 @@ nlp_embeddings = nlp_model.encode(
 
 The `jina-embeddings-v2-base-code` model is a good candidate for this task. It is also available through the 
 `sentence-transformers` library, but you have to accept the conditions in order to be able to access it. Please visit 
-https://huggingface.co/jinaai/jina-embeddings-v2-base-code to accept the rules and generate the access token in your 
-[account settings](https://huggingface.co/settings/tokens). Once you have the token, you can use the model as follows:
+[the model page](https://huggingface.co/jinaai/jina-embeddings-v2-base-code) to accept the rules and generate the access 
+token in your[account settings](https://huggingface.co/settings/tokens). Once you have the token, you can use the model 
+as follows:
 
 ```python
 HF_TOKEN = "THIS_IS_YOUR_TOKEN"
