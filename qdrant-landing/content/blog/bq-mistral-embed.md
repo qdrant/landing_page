@@ -517,13 +517,13 @@ import pandas as pd
 results = pd.read_json("results.json", lines=True)
 ```
 
-### Introduction to Experimenting with Query Parameters
+### Experimenting with Query Parameters
 
 In this exploratory analysis, various query parameters are manipulated to understand their impact on the accuracy of results retrieved from a vector database using Python. The primary focus revolves around adjusting oversampling, rescoring limits, and the limit parameter itself, which dictates the number of results returned. This setup is crucial for experimental benchmarks in information retrieval tasks where precision and recall can significantly influence the outcome of search or recommendation systems.
 
 The aim is to discern how different configurations affect the accuracy of the queries, providing insights for optimizing searches in large datasets. Such optimizations are essential for applications in machine learning, data retrieval, and AI-driven search engines which rely on finely-tuned parameters for efficient and effective querying.
 
-### Analyzing the Effects of Different Parameters on Accuracy
+### Analysis of Varying Parameters on Accuracy
 
 The Python snippet below demonstrates the process of filtering, grouping, and analyzing the collective data to observe how variations in the parameters influence accuracy. The dataset, presumably containing results from multiple query experiments with varying configurations, is streamlined to exclude certain 'limit' values (1 and 5 in this case), which do not contribute to the intended analysis. This exclusion is followed by grouping the data based on the 'oversampling', 'rescore', and 'limit' columns to average the accuracy scores.
 
@@ -544,7 +544,7 @@ acc
 Here is a simplified version of our results:
 
 |   limit | (oversampling=3, rescore=True) |
-|--------:|------------:|
+|:--------:|:------------:|
 |      10 |    0.941111 |
 |      20 |    0.927778 |
 |      50 |    0.940889 |
