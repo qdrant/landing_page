@@ -39,7 +39,9 @@ welcome your contributions, especially in our [Discord community](https://qdrant
 The primary focus of Qdrant is performance. It's why we build our work in Rust.
 It helps us optimize performance in "real-world" situations.
 
-We used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html) which are a standard to evaluate vector search algorithms.
+For our v1.7.0 release we introduced sparse vectors. As noted in our [Qdrant v.1.7.0 release announcement](https://qdrant.tech/articles/qdrant-1.7.x/#sparse-vectors), we store sparse vectors differently and keep the non-zero dimensions.
+
+As an additional improvement, we used the [NeurIPS 2023 datasets](https://big-ann-benchmarks.com/neurips23.html) which are a standard to evaluate vector search algorithms.
 
 We optimized our search to improve throughput by a factor of 16.
 
