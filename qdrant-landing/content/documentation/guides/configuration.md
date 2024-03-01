@@ -3,6 +3,7 @@ title: Configuration
 weight: 160
 aliases:
   - ../configuration
+  - /guides/configuration/
 ---
 
 # Configuration

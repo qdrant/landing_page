@@ -1,6 +1,8 @@
 ---
 title: Interfaces
 weight: 14
+aliases:
+  - /documentation/interfaces/
 ---
 
 # Interfaces

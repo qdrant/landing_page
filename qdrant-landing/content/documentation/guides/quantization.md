@@ -3,6 +3,8 @@ title: Quantization
 weight: 120
 aliases:
   - ../quantization
+  - /articles/dedicated-service/documentation/guides/quantization/
+  - /guides/quantization/
 ---
 
 # Quantization

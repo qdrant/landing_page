@@ -1,6 +1,8 @@
 ---
 title: Qdrant vs. Alternatives
 weight: 2
+aliases:
+  - /documentation/overview/qdrant-alternatives/overview/
 ---
 
 # Comparing Qdrant with alternatives

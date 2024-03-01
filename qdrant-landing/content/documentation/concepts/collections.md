@@ -3,6 +3,8 @@ title: Collections
 weight: 30
 aliases:
   - ../collections
+  - /concepts/collections/
+  - /documentation/frameworks/fondant/documentation/concepts/collections/
 ---
 
 # Collections

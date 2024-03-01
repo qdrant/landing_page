@@ -1,7 +1,9 @@
 ---
 title: Haystack
 weight: 400
-aliases: [ ../integrations/haystack/ ]
+aliases:
+  - ../integrations/haystack/
+  - /documentation/overview/integrations/haystack/
 ---
 
 # Haystack
