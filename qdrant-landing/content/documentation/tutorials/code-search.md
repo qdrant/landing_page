@@ -139,32 +139,6 @@ import re
 from typing import Dict, Any
 
 def textify(chunk: Dict[str, Any]) -> str:
-    """
-    Convert the code structure into natural language like representation.
-
-    Args:
-        chunk (dict): Dictionary-like representation of the code structure
-            Example: {
-                "name":"await_ready_for_timeout",
-                "signature":"fn await_ready_for_timeout (& self , timeout : Duration) -> bool",
-                "code_type":"Function",
-                "docstring":"= \" Return `true` if ready, `false` if timed out.\"",
-                "line":44,
-                "line_from":43,
-                "line_to":51,
-                "context":{
-                    "module":"common",
-                    "file_path":"lib/collection/src/common/is_ready.rs",
-                    "file_name":"is_ready.rs",
-                    "struct_name":"IsReady",
-                    "snippet":"    /// Return `true` if ready, `false` if timed out.\n    pub fn await_ready_for_timeout(&self, timeout: Duration) -> bool {\n        let mut is_ready = self.value.lock();\n        if !*is_ready {\n            !self.condvar.wait_for(&mut is_ready, timeout).timed_out()\n        } else {\n            true\n        }\n    }\n"
-                }
-            }
-
-    Returns:
-        str: A simplified natural language like description of the structure with some context info
-            Example: "Function Await ready for timeout that does Return true if ready false if timed out defined as Fn await ready for timeout self timeout duration bool defined in struct Isready module common file is_ready rs"
-    """
     # Get rid of all the camel case / snake case
     # - inflection.underscore changes the camel case to snake case
     # - inflection.humanize converts the snake case to human readable form
