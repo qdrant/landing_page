@@ -1,5 +1,5 @@
 ---
-title: Code search
+title: Semantic code search
 weight: 22
 ---
 
@@ -312,7 +312,7 @@ query = "How do I count points in a collection?"
 hits = client.search(
     "qdrant-sources",
     query_vector=(
-        "text", nlp_model.encode(query).tolist()
+        "text", nlp_model.encode(textify(query)).tolist()
     ),
     limit=5,
 )
@@ -361,7 +361,7 @@ results = client.search_batch(
         models.SearchRequest(
             vector=models.NamedVector(
                 name="text",
-                vector=nlp_model.encode(query).tolist()
+                vector=nlp_model.encode(textify(query)).tolist()
             ),
             with_payload=True,
             limit=5,
@@ -431,6 +431,7 @@ Using the grouping feature, we were able to get more diverse results.
 ## Summary
 
 In this tutorial, we have shown how to use Qdrant to navigate a project's codebase. If you want to see an end-to-end
-implementation of the presented approach, you can check the [code search notebook]().
+implementation of the presented approach, you can check the [code search 
+notebook](https://githubtocolab.com/qdrant/examples/blob/example/code-search/code-search/code-search.ipynb).
 
-TODO: add link to Google Colab notebook
+[//]: # (TODO: update the Colab link to master branch, once it's merged)
