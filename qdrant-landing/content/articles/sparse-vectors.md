@@ -7,7 +7,7 @@ small_preview_image: /articles_data/sparse-vectors/sparse-vectors-icon.svg
 preview_dir: /articles_data/sparse-vectors/preview
 weight: -100
 author: Nirant Kasliwal
-author_link: 
+author_link: https://nirantk.com/about 
 date: 2023-12-09T13:00:00+03:00
 draft: false
 keywords:
