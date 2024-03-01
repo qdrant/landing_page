@@ -1718,6 +1718,8 @@ order_by: Some(OrderBy {
 
 An ID offset does not work when the order is based on a non-unique value. Since pagination is not explicitly enabled when using `order_by`, you will not see the `next_page_offset` field in the response. However, you can use a combination of `"order_by": { "start_from": ... }` and a `{ "must_not": [{ "has_id": [...] }] }` filter to achieve the same effect.
 
+When sorting is based on a non-unique value, it is not possible to rely on an ID offset. Thus, next_page_offset is not returned within the response. However, you can still do pagination by combining `"order_by": { "start_from": ... }` with a `{ "must_not": [{ "has_id": [...] }] }` filter.
+
 ## Counting points
 
 _Available as of v0.8.4_
