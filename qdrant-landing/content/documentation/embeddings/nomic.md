@@ -10,7 +10,7 @@ While you can find it on the [Hugging Face Hub](https://huggingface.co/nomic-ai/
 you may find it easier to obtain them through the [Nomic Text Embeddings](https://docs.nomic.ai/reference/endpoints/nomic-embed-text).
 Once installed, you can configure it with the official Python client, FastEmbed or through direct HTTP requests.
 
-<aside role="status">Using Nomic Text Embeddings requires configuring the Nomic API token</aside>
+<aside role="status">Using Nomic Embeddings via the Nomic API/SDK requires configuring the <a href="https://atlas.nomic.ai/cli-login">Nomic API token</a>.</aside>
 
 You can use Nomic embeddings directly in Qdrant client calls. There is a difference in the way the embeddings
 are obtained for documents and queries.
