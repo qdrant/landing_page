@@ -1637,7 +1637,7 @@ _Available as of v1.8_
 
 When using the [`scroll`](#scroll-points) API, you can sort the results by a payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, like it is shown in the following code:
 
-<aside role="status">Without an appropriate index, custom ordering would create costly queries. Qdrant therefore requires a payload index which supports <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
+<aside role="status">Without an appropriate index, payload-based ordering would create too much load on the system for each request. Qdrant therefore requires a payload index which supports <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
 
 ```http
 POST /collections/{collection_name}/points/scroll
@@ -1712,16 +1712,11 @@ order_by: Some(OrderBy {
 })
 ```
 
-Note: for payloads with more than one value (like arrays), the same point may pop up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
+**Note:** for payloads with more than one value (like arrays), the same point may pop up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
 
 <aside role="alert">When you use the <code>order_by</code> parameter, pagination is disabled.</aside>
 
-An ID offset does not work when the order is based on a non-unique value. Since pagination is not explicitly enabled when using `order_by`, you will not see the `next_page_offset` field in the response. However, you can use the following steps to set up pagination:
-
-1. For each page, store the last value of the `order_by` field.  
-1. Accumulate all IDs with the same "last value" in their `order_by` `key`.  
-1. Create a `has_id` filter with accumulated IDs.  
-1. Use this filter and the "last value" as the `start_from` in the next request.  
+An ID offset does not work when the order is based on a non-unique value. Since pagination is not explicitly enabled when using `order_by`, you will not see the `next_page_offset` field in the response. However, you can use a combination of `"order_by": { "start_from": ... }` and a `{ "must_not": [{ "has_id": [...] }] }` filter to achieve the same effect.
 
 ## Counting points
 
