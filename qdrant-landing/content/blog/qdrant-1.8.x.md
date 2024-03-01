@@ -90,8 +90,6 @@ To set this up, we load documents mostly sequentially, in increasing order.
 
 Beyond these enhancements, Qdrant v1.8.0 adds and improves several features:
 
-### New features
-
 <!-- Requires merging https://github.com/qdrant/landing_page/pull/631 -->
 1. Order results by payload value with the Scroll API. For more information,
    see how you can [Order points by a payload key](/documentation/concepts/points/#order-points-by-a-payload-key).
@@ -101,9 +99,6 @@ Beyond these enhancements, Qdrant v1.8.0 adds and improves several features:
    true/false response to verify if a collection is there ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
 1. Include `min_should` match feature for a condition to be `true` ([PR#3331](https://github.com/qdrant/qdrant/pull/3466/)).
 1. Improve `set_payload` API, adds ability to modify nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548).
-
-### Improvements
-
 
 ## Release notes
 <!-- The link won't work until we create v1.8.0 release notes -->
