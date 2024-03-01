@@ -14,6 +14,8 @@ tags:
   - blog
   - binary quantization
 ---
+| Time: 60 min | Level: Advanced | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/binary-quantization-mistral/Mistral-Embed.ipynb)   |
+| --- | ----------- | ----------- |
 
 Mistral Embed offers state-of-the-art semantic for extracting representation of text extracts. However, the size of the embeddings are a challenge, especially with real-time search and retrieval. In this article, we explore how you can use Qdrant’s Binary Quantization to enhance the performance and efficiency of MistralAI embeddings.
 
@@ -27,7 +29,7 @@ In this study, we will:
 - discuss the implications of these findings for real-world applications
 
 By the end of this blog, you should be familiar with best practices for leveraging Binary Quantization to enhance your embeddings.
-You can also try out these techniques as described in our Jupyter notebook.
+You can also try out these techniques as described in our [Jupyter notebook](https://github.com/qdrant/examples/blob/master/binary-quantization-mistral/Mistral-Embed.ipynb).
 
 ## Setting up the Environment
 
@@ -105,9 +107,6 @@ dataset = dataset.map(lambda x: {"combined_text": f"{x['title']}\n{x['text']}"})
 
 No direct output is shown for this code, but its significance lies in its impact on the dataset's structure and subsequent processing steps. By enriching the dataset in this manner, we lay a robust foundation for generating high-quality vector embeddings, which are instrumental in various natural language processing (NLP) tasks, including document similarity searches and topic classification.
 
-```python
-dataset = dataset.map(lambda x: {"combined_text": f"{x['title']}\n{x['text']}"})
-```
 
 ---
 
