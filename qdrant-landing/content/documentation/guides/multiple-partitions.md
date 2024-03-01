@@ -3,6 +3,7 @@ title: Multitenancy
 weight: 12
 aliases:
   - ../tutorials/multiple-partitions
+  - /tutorials/multiple-partitions/
 ---
 # Configure Multitenancy
 

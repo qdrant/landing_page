@@ -1,7 +1,9 @@
 ---
 title: LangChain
 weight: 100
-aliases: [ ../integrations/langchain/ ]
+aliases:
+  - ../integrations/langchain/
+  - /documentation/overview/integrations/langchain/
 ---
 
 # LangChain
