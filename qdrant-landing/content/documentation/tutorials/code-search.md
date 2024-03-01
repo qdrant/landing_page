@@ -44,7 +44,7 @@ for chunks. They are big enough to contain some meaningful information, but smal
 models with a limited context window. Also, docstrings, comments, and other metadata can be used to enrich the chunks
 with additional information.
 
-![Code chunking strategy](/documentation/tutorials/code-search/chunking.png)
+![Code chunking strategy](/documentation/tutorials/code-search/data-chunking.png)
 
 ### Parsing the codebase
 
