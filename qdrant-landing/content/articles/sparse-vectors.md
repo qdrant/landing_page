@@ -506,7 +506,7 @@ For those who want to dive deeper, here are the top papers on the topic most of 
 
 **Why just read when you try it out?**
 
-We've packed an easy-to-use Colab for you on how to make a Sparse Vector: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
+We've packed an easy-to-use Colab for you on how to make a Sparse Vector: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/drive/1wa2Yr5BCOgV0MTOFFTude99BOXCLHXky?usp=sharing). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
 
 ## Conclusion
 
