@@ -6,7 +6,7 @@ aliases: [ ../integrations/spark/ ]
 
 # Apache Spark
 
-[Apache Spark](https://spark.apache.org/) is a distributed computing framework designed for big data processing and analytics. This connector enables [Qdrant](https://qdrant.tech/) to be a storage destination in Spark.
+[Spark](https://spark.apache.org/) is a distributed computing framework designed for big data processing and analytics. The [Qdrant-Spark connector](https://github.com/qdrant/qdrant-spark) enables Qdrant to be a storage destination in Spark.
 
 ## Installation
 
@@ -14,7 +14,7 @@ You can set up the Qdrant-Spark Connector in a few different ways, depending on 
 
 ### GitHub Releases
 
-The simplest way to get started is by downloading pre-packaged JAR file releases from the [Qdrant-Spark GitHub releases page](https://github.com/qdrant/qdrant-spark/releases). These JAR files come with all the necessary dependencies to get you going.
+The simplest way to get started is by downloading pre-packaged JAR file releases from the [GitHub releases page](https://github.com/qdrant/qdrant-spark/releases). These JAR files come with all the necessary dependencies.
 
 ### Building from Source
 
@@ -30,13 +30,13 @@ This command will compile the source code and generate a fat JAR, which will be 
 
 For use with Java and Scala projects, the package can be found [here](https://central.sonatype.com/artifact/io.qdrant/spark).
 
-## Getting Started
+## Usage
 
-After successfully installing the Qdrant-Spark Connector, you can start integrating Qdrant with your Spark applications. Below, we'll walk through the basic steps of creating a Spark session with Qdrant support and loading data into Qdrant.
+Below, we'll walk through the steps of creating a Spark session with Qdrant support and loading data into Qdrant.
 
 ### Creating a single-node Spark session with Qdrant Support
 
-To begin, import the necessary libraries and create a Spark session with Qdrant support. Here's how:
+To begin, import the necessary libraries and create a Spark session with Qdrant support:
 
 ```python
 from pyspark.sql import SparkSession
@@ -214,9 +214,9 @@ The connector supports ingesting multiple named/unnamed, dense/sparse vectors.
 
 ## Databricks
 
-You can use the `qdrant-spark` connector as a library in [Databricks](https://www.databricks.com/) to ingest data into Qdrant.
+You can use the `qdrant-spark` connector as a library in [Databricks](https://www.databricks.com/).
 
-- Go to the `Libraries` section in your cluster dashboard.
+- Go to the `Libraries` section in your Databricks cluster dashboard.
 - Select `Install New` to open the library installation modal.
 - Search for `io.qdrant:spark:VERSION` in the Maven packages and click `Install`.
 
@@ -226,7 +226,7 @@ You can use the `qdrant-spark` connector as a library in [Databricks](https://ww
 
 Qdrant supports all the Spark data types, and the appropriate data types are mapped based on the provided schema.
 
-## Options and Spark types 🛠️
+## Configuration Options
 
 | Option                       | Description                                                         | Column DataType               | Required |
 | :--------------------------- | :------------------------------------------------------------------ | :---------------------------- | :------- |
