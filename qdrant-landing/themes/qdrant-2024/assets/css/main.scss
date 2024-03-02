@@ -1,0 +1,13 @@
+@use 'sass:math';
+@import 'satoshi-font';
+@import 'bootstrap-custom';
+
+@import 'partials/logo';
+@import 'partials/top-banner';
+@import 'partials/menu';
+@import 'partials/buttons';
+@import 'partials/hero';
+
+.main-header {
+  background: $neutral-10;
+}

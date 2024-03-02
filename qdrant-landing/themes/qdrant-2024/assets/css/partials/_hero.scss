@@ -1,0 +1,47 @@
+@use '../helpers/functions' as *;
+
+.hero {
+  padding-top: $spacer * 5;
+  background-image: url('/img/hero-home-illustration.svg');
+  background-size: 100%;
+  background-position: center bottom;
+  background-repeat: no-repeat;
+
+  &__content {
+    padding-bottom: rem(331);
+    text-align: center;
+    max-width: rem(920);
+    margin: 0 auto;
+  }
+
+  &__title {
+    color: $neutral-98;
+    text-align: center;
+    margin-bottom: $spacer;
+    font-size: map-get($font-sizes, 1);
+  }
+
+  &__subtitle {
+    color: $neutral-70;
+    text-align: center;
+    font-size: map-get($font-sizes-text, 'xl');
+    max-width: rem(640);
+    margin: 0 auto $spacer * 2;
+  }
+
+  &__buttons {
+    display: flex;
+    justify-content: center;
+    gap: $spacer * 1.5;
+    margin-bottom: $spacer * 5;
+  }
+
+  &__badges {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacer * 1.25;
+    padding-bottom: $spacer * 1.75;
+    padding-right: $spacer * 1.5;
+    padding-left: $spacer * 1.5;
+  }
+}

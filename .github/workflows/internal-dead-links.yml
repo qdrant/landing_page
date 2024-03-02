@@ -16,8 +16,12 @@ jobs:
         uses: peaceiris/actions-hugo@v2
         with:
           hugo-version: "latest"
+      - name: Install npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
       - name: Run hugo
-        run: cd qdrant-landing && hugo -b 'https://qdrant.tech/'
+        run: bash -x ./install-and-build.sh
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v1.8.0

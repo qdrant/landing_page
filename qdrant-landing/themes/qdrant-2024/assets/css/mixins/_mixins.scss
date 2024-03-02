@@ -1,0 +1,46 @@
+@use '../helpers/functions' as lib;
+
+@mixin content-image {
+  img {
+    max-width: 100%;
+    height: auto;
+    margin: 0 auto;
+    border-radius: lib.rem(14);
+  }
+}
+
+@mixin transitionAll($ms) {
+  -webkit-transition: all $ms ease;
+  -ms-transition: all $ms ease;
+  -o-transition: all $ms ease;
+  -moz-transition: all $ms ease;
+  transition: all $ms ease;
+}
+
+@mixin font-styles($size, $weight, $line-height, $color, $font-family) {
+  font-family: $font-family;
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: $line-height;
+  color: $color;
+}
+
+@mixin fixed-height-img($height, $width: auto) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: $width;
+  min-width: $width;
+  height: $width;
+  overflow: hidden;
+  margin-bottom: 0;
+  & > img {
+    flex-shrink: 0;
+    width: auto;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: none;
+    max-height: 100%;
+  }
+}
