@@ -1,0 +1,61 @@
+@use '../helpers/functions' as *;
+
+.customers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacer * 3;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  padding-right: $spacer * 1.5;
+  padding-left: $spacer * 1.5;
+
+  &__title {
+    color: $neutral-70;
+    text-align: center;
+    font-size: map-get($font-sizes-text, 'l');
+    max-width: rem(640);
+    margin: 0 auto $spacer * 2;
+  }
+
+  &__link {
+    color: $primary-60;
+    font-size: map-get($font-sizes-text, 'l');
+    text-decoration: none;
+  }
+
+  &__logos-wrapper {
+    overflow-x: scroll;
+    max-width: calc(100% - $spacer * 9 * 2);
+    margin-right: $spacer * 9;
+    margin-left: $spacer * 9;
+    position: relative;
+  }
+
+  &__logos-content {
+    display: flex;
+    gap: $spacer * 6.5;
+
+    svg {
+      min-width: 120px;
+      min-height: 64px;
+    }
+  }
+
+  &__logos-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    max-width: $spacer * 10.5;
+    background: linear-gradient(to right, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
+  }
+
+  &__logos-overlay:last-of-type {
+    right: 0;
+    left: unset;
+    background: linear-gradient(to left, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
+  }
+}

@@ -7,5 +7,9 @@ startFree:
 learnMore:
   text: Learn More
   url: /
+customerStories:
+  text: Qdrant Powers Thousands of Top AI Solutions.
+  textLink: Customer Stories
+  url: /
 sitemapExclude: true
 ---

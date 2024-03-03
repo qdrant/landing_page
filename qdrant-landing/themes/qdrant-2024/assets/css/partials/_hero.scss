@@ -35,13 +35,4 @@
     gap: $spacer * 1.5;
     margin-bottom: $spacer * 5;
   }
-
-  &__badges {
-    display: flex;
-    justify-content: flex-end;
-    gap: $spacer * 1.25;
-    padding-bottom: $spacer * 1.75;
-    padding-right: $spacer * 1.5;
-    padding-left: $spacer * 1.5;
-  }
 }

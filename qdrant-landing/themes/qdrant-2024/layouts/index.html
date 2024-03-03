@@ -6,7 +6,8 @@
     <main>
       <header class="main-header">
         {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ partial "menu" . }}
-        {{ with (.Site.GetPage "hero") }} {{ partial "hero" . }} {{ end }}
+        {{ with (.Site.GetPage "hero") }} {{ partial "hero" . }} {{ end }} {{ with (.Site.GetPage "customers") }} {{
+        partial "customers" . }} {{ end }}
       </header>
     </main>
 
