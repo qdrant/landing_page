@@ -19,9 +19,17 @@ pip install mistralai
 
 ```python
 from mistralai.client import MistralClient
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import PointStruct, VectorParams, Distance
+collection_name = "example_collection"
 
-api_key = os.environ["MISTRAL_API_KEY"]
-client = MistralClient(api_key=api_key)
+MISTRAL_API_KEY = "your_mistral_api_key"
+search_client = QdrantClient(":memory:")
+mistral_client = MistralClient(api_key=MISTRAL_API_KEY)
+texts = [
+    "Qdrant is the best vector search engine!",
+    "Loved by Enterprises and everyone building for low latency, high performance, and scale.",
+]
 ```
 
 Let's see how to use the Embedding Model API to embed a document for retrieval. 
@@ -31,31 +39,49 @@ The following example shows how to embed a document with the `models/embedding-0
 ## Embedding a document
 
 ```python
-import pathlib
-from mistralai.client import MistralClient
-import qdrant_client
-
-MISTRAL_API_KEY = "YOUR MISTRAL API KEY"  # add your key here
-
-mistral_client = MistralClient(api_key=MISTRAL_API_KEY)
-
 result = mistral_client.embeddings(
-        model="mistral-embed", input=["Qdrant is the best vector search engine to use with Mistral"]
-    )
+    model="mistral-embed",
+    input=texts,
+)
 ```
 
-The returned result is a dictionary with a key: `embedding`. The value of this key is a list of floats representing the embedding of the document.
+The returned result has a data field with a key: `embedding`. The value of this key is a list of floats representing the embedding of the document.
+
+### Converting this into Qdrant Points
+
+```python
+points = [
+    PointStruct(
+        id=idx,
+        vector=response.embedding,
+        payload={"text": text},
+    )
+    for idx, (response, text) in enumerate(zip(result.data, texts))
+]
+```
+
+## Create a collection and Insert the documents
+
+```python
+search_client.create_collection(collection_name, vectors_config=
+    VectorParams(
+        size=1024,
+        distance=Distance.COSINE,
+    )
+)
+search_client.upsert(collection_name, points)
+```
 
 ## Searching for documents with Qdrant
 
 Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
 
 ```python
-qdrant_client.search(
-    collection_name="MistralCollection",
-    query=client.embeddings(
-        model="mistral-embed", input=["What is the best to use with Mistral?"]
-    )["embedding"],
+search_client.search(
+    collection_name=collection_name,
+    query_vector=mistral_client.embeddings(
+        model="mistral-embed", input=["What is the best to use for vector search scaling?"]
+    ).data[0].embedding,
 )
 ```
 
