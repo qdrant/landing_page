@@ -17,6 +17,8 @@ Qdrant is compatible with the new released Mistral Embed and its official Python
 pip install mistralai
 ```
 
+And then we set this up:
+
 ```python
 from mistralai.client import MistralClient
 from qdrant_client import QdrantClient
@@ -91,6 +93,6 @@ You can use Mistral Embedding Models with [Binary Quantization](/articles/binary
 
 At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
 
-![](/static/documentation/embeddings/mistral-binary-quantization.png)
+![](/documentation/embeddings/mistral-binary-quantization.png)
 
 That's it! You can now use Mistral Embedding Models with Qdrant!
