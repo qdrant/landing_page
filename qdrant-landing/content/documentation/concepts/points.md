@@ -1678,6 +1678,21 @@ client
     .await?;
 ```
 
+```java
+import io.qdrant.client.grpc.Points.OrderBy;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client.scrollAsync(ScrollPoints.newBuilder()
+  .setCollectionName("{collection_name}")
+  .setLimit(15)
+  .setOrderBy(OrderBy.newBuilder().setKey("timestamp").build())
+  .build()).get();
+```
+
+```csharp
+await client.ScrollAsync("{collection_name}", limit: 15, orderBy: "timestamp");
+```
+
 The `order_by` `key` parameter specifies the payload key to order the results by, but there are also other fields that can be set to control the ordering, like `direction` and `start_from`:
 
 ```http
@@ -1710,6 +1725,31 @@ order_by: Some(OrderBy {
     direction: Some(Direction::Desc) // default is Direction::Asc
     start_from: Some(123),
 })
+```
+
+```java
+import io.qdrant.client.grpc.Points.Direction;
+import io.qdrant.client.grpc.Points.OrderBy;
+import io.qdrant.client.grpc.Points.StartFrom;
+
+OrderBy.newBuilder()
+  .setKey("timestamp")
+  .setDirection(Direction.Desc)
+  .setStartFrom(StartFrom.newBuilder()
+    .setInteger(123)
+    .build())
+  .build();
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+
+new OrderBy
+{
+ Key = "timestamp",
+ Direction = Direction.Desc,
+ StartFrom = 123
+};
 ```
 
 **Note:** for payloads with more than one value (like arrays), the same point may pop up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
