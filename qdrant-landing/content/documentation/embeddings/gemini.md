@@ -103,7 +103,7 @@ search_client.search(
     collection_name=collection_name,
     query_vector=gemini_client.embed_content(
         model="models/embedding-001",
-        content="What is the best vector database to use with Gemini?",
+        content="Is Qdrant compatible with Gemini?",
         task_type="retrieval_query",
     )["embedding"],
 )
