@@ -210,7 +210,7 @@ If you're working with OpenAI or Cohere embeddings, we recommend the following o
 
 |Method|Dimensionality|Test Dataset|Recall|Oversampling|
 |-|-|-|-|-|
-|**Recommended** OpenAI text-embedding-3-large|3072|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) | 0.9966|3x|
+|OpenAI text-embedding-3-large|3072|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) | 0.9966|3x|
 |OpenAI text-embedding-3-small|1536|[DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)| 0.9847|3x|
 |OpenAI text-embedding-3-large|1536|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M)| 0.9826|3x|
 |Cohere AI embed-english-v2.0|4096|[Wikipedia](https://huggingface.co/datasets/nreimers/wikipedia-22-12-large/tree/main) 1M|0.98|2x|
