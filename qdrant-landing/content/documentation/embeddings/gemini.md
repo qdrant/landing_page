@@ -77,6 +77,8 @@ points = [
 ]
 ```
 
+### Create Collection
+
 ```python
 search_client.create_collection(collection_name, vectors_config=
     VectorParams(
@@ -84,6 +86,11 @@ search_client.create_collection(collection_name, vectors_config=
         distance=Distance.COSINE,
     )
 )
+```
+
+### Add these into the collection
+
+```python
 search_client.upsert(collection_name, points)
 ```
 
