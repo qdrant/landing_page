@@ -1,0 +1,21 @@
+<section class="core-features">
+  <h2 class="core-features__title">{{ .Params.title }}</h2>
+  <p class="core-features__description">{{ .Params.description }}</p>
+  <a class="core-features__link" href="{{ .Params.link.url }}">
+    <span>{{ .Params.link.text }}</span>
+    <span class="customers__link-icon">{{ partial "svg" "Arrow-Right-Sm.svg" }}</span>
+  </a>
+  <div class="core-features__cards">
+    {{ range .Params.featureCards }}
+    <div class="core-features__card">
+      {{ .icon | safeHTML }}
+      <h6 class="core-features__card-title">{{ .title }}</h6>
+      <p class="core-features__card-content">{{ .content }}</p>
+      <a class="core-features__card-link" href="{{ .link.url }}">
+        <span>{{ .link.text }}</span>
+        <span class="customers__card-link-icon">{{ partial "svg" "Arrow-Right-Black.svg" }}</span>
+      </a>
+    </div>
+    {{ end }}
+  </div>
+</section>

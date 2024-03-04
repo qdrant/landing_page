@@ -1,0 +1,79 @@
+@use '../helpers/functions' as *;
+
+.core-features {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 6.5;
+  padding-bottom: $spacer * 6.5;
+  padding-left: $spacer * 1.5;
+  padding-right: $spacer * 1.5;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    font-size: map-get($font-sizes, 2);
+    line-height: rem(67);
+    margin-bottom: $spacer * 1.5;
+    max-width: rem(920);
+  }
+
+  &__description {
+    font-size: map-get($font-sizes-text, 'xl');
+    line-height: rem(30);
+    margin-bottom: $spacer * 1.5;
+    max-width: rem(920);
+    text-align: center;
+  }
+
+  &__link {
+    color: $primary-60;
+    font-size: map-get($font-sizes-text, 'l');
+    text-decoration: none;
+  }
+
+  &__cards {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: $spacer * 3;
+    margin-top: $spacer * 5;
+  }
+
+  &__card {
+    background-color: $neutral-98;
+    padding-top: $spacer * 3;
+    padding-bottom: $spacer * 1.8;
+    padding-left: $spacer * 3;
+    padding-right: $spacer * 3;
+    max-width: rem(480);
+    border-radius: calc($spacer / 2);
+    border: 1px solid $neutral-90;
+
+    svg {
+      max-width: rem(48);
+      max-height: rem(48);
+    }
+  }
+
+  &__card-title {
+    color: $neutral-20;
+    margin-top: $spacer * 1.5;
+    margin-bottom: $spacer;
+    line-height: rem(34);
+  }
+
+  &__card-content {
+    color: $neutral-30;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__card-link {
+    color: $neutral-20;
+    font-size: map-get($font-sizes-text, 'm');
+    text-decoration: none;
+  }
+}

@@ -38,8 +38,8 @@
     gap: $spacer * 6.5;
 
     svg {
-      min-width: 120px;
-      min-height: 64px;
+      min-width: rem(120);
+      min-height: rem(64);
     }
   }
 
