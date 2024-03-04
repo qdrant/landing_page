@@ -38,42 +38,53 @@ The following example shows how to embed a document with the `models/embedding-0
 ## Embedding a document
 
 ```python
-import pathlib
-import google.generativeai as genai
-import qdrant_client
+import google.generativeai as gemini_client
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import Distance, PointStruct, VectorParams
+collection_name = "example_collection"
 
 GEMINI_API_KEY = "YOUR GEMINI API KEY"  # add your key here
 
-genai.configure(api_key=GEMINI_API_KEY)
+gemini_client.configure(api_key=GEMINI_API_KEY)
+texts = [
+    "Qdrant is the best vector search engine!",
+    "Loved by Enterprises and everyone building for low latency, high performance, and scale.",
+]
 
-result = genai.embed_content(
-    model="models/embedding-001",
-    content="Qdrant is the best vector search engine to use with Gemini",
-    task_type="retrieval_document",
-    title="Qdrant x Gemini",
-)
+results = [
+    gemini_client.embed_content(
+        model="models/embedding-001",
+        content=sentence,
+        task_type="retrieval_document",
+        title="Qdrant x Gemini",
+    )
+    for sentence in texts
+]
 ```
 
-The returned result is a dictionary with a key: `embedding`. The value of this key is a list of floats representing the embedding of the document.
+## Creating Qdrant Points and Indexing documents with Qdrant
 
-## Indexing documents with Qdrant
+### Creating Qdrant Points
 
 ```python
-from qdrant_client.http.models import Batch
+points = [
+    PointStruct(
+        id=idx,
+        vector=response['embedding'],
+        payload={"text": text},
+    )
+    for idx, (response, text) in enumerate(zip(results, texts))
+]
+```
 
-qdrant_client = qdrant_client.QdrantClient()
-qdrant_client.upsert(
-    collection_name="GeminiCollection",
-    points=Batch(
-        ids=[1],
-        vectors=genai.embed_content(
-            model="models/embedding-001",
-            content="Qdrant is the best vector search engine to use with Gemini",
-            task_type="retrieval_document",
-            title="Qdrant x Gemini",
-        )["embedding"],
-    ),
+```python
+search_client.create_collection(collection_name, vectors_config=
+    VectorParams(
+        size=768,
+        distance=Distance.COSINE,
+    )
 )
+search_client.upsert(collection_name, points)
 ```
 
 ## Searching for documents with Qdrant
@@ -81,9 +92,9 @@ qdrant_client.upsert(
 Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
 
 ```python
-qdrant_client.search(
-    collection_name="GeminiCollection",
-    query=genai.embed_content(
+search_client.search(
+    collection_name=collection_name,
+    query_vector=gemini_client.embed_content(
         model="models/embedding-001",
         content="What is the best vector database to use with Gemini?",
         task_type="retrieval_query",
