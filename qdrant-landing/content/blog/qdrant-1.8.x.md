@@ -7,7 +7,7 @@ description: "Sparse vector performance, Text index loading optimization, Text i
 preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 title_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
 small_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
-date: 2024-02-26T11:12:00-08:00
+date: 2024-03-03T11:12:00-08:00
 author: Mike Jang
 featured: false 
 tags:
@@ -29,7 +29,7 @@ We've optimized performance in a number of ways. We've addressed issues with:
 - Text immutability
 - Text loading optimization
 
-We've also added <!-- TBD -->.
+We've also included [minor improvements](#minor-improvements-and-new-features] to our APIs. In addition, we no longer need to convert dates to UNIX timestamps. 
 
 Did we miss something? We rely on your feedback to drive our development. We
 welcome your contributions, especially in our [Discord community](https://qdrant.to/discord). Join us, introduce yourself, and help us build the best vector search engine!
@@ -47,8 +47,6 @@ We optimized our search to improve throughput by a factor of 16.
 
 This is based on our test benchmarks in this [Sparse vectors benchmark](https://github.com/qdrant/sparse-vectors-benchmark) repository. For those benchmarks, we ran
 the full query dataset againt a system with 8 CPUs.
-
-<!-- Not sure if we need the details of how we created the test collection -->
 
 Based on our tests, you can expect significant performance improvements. 
 The performance that we see is shown on the following two-dimensional histogram:
@@ -100,7 +98,7 @@ Beyond these enhancements, Qdrant v1.8.0 adds and improves several features:
 1. Add `/exists` to the `/collections/{collection_name}` endpoint for a 
    true/false response to verify if a collection is there ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
 1. Include `min_should` match feature for a condition to be `true` ([PR#3331](https://github.com/qdrant/qdrant/pull/3466/)).
-1. Improve `set_payload` API, adds ability to modify nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548).
+1. Improve `set_payload` API, adds ability to modify nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548)).
 
 ## Release notes
 <!-- The link won't work until we create v1.8.0 release notes -->
