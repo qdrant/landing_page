@@ -218,8 +218,6 @@ If you're working with OpenAI or Cohere embeddings, we recommend the following o
 |Gemini|768|No Open Data| 0.9563|3x|
 |Mistral Embed|768|No Open Data| 0.9445 |3x|
 
-NA indicates that the dataset was not released.
-
 If you determine that binary quantization is appropriate for your datasets and queries then we suggest the following:
 - Binary Quantization with always_ram=True 
 - Vectors stored on disk

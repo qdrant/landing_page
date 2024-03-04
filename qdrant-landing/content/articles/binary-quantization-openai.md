@@ -217,5 +217,5 @@ Binary quantization is exceptional if you need to work with large volumes of dat
 
 Learn more about how to boost your vector search speed and accuracy while reducing costs: [Quantization](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp).
 
-The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding the data](/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [creating your indices](/documentation/tutorials/optimize/). 
+The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/tutorials/optimize/). 
 Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
