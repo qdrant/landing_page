@@ -13,11 +13,11 @@ In the latest models, an additional parameter, `task_type`, can be passed to the
 
 The Embedding Model API supports various task types, outlined as follows:
 
-1. `retrieval_query`: Specifies the given text is a query in a search/retrieval setting.
-2. `retrieval_document`: Specifies the given text is a document from the corpus being searched.
-3. `semantic_similarity`: Specifies the given text will be used for Semantic Text Similarity.
-4. `classification`: Specifies that the given text will be classified.
-5. `clustering`: Specifies that the embeddings will be used for clustering.
+1. `retrieval_query`: query in a search/retrieval setting
+2. `retrieval_document`: document from the corpus being searched
+3. `semantic_similarity`: semantic text similarity
+4. `classification`: classification
+5. `clustering`: the generated embeddings will be used for clustering
 6. `task_type_unspecified`: Unset value, which will default to one of the other values.
 
 
