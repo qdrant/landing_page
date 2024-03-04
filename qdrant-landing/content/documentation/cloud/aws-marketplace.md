@@ -39,4 +39,4 @@ Now that you have signed up via AWS Marketplace, please read our instructions to
 
 2. Learn how to [authenticate and access your cluster](../../cloud/authentication/).
 
-3. Additional open source [documentation](../../troubleshooting/).
+3. Additional open source [documentation](/documentation/guides/common-errors/).

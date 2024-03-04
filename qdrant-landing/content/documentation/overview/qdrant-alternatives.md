@@ -67,7 +67,7 @@ There are also various community-driven projects aimed to provide the support fo
 maintained, thus not mentioned here. However, it is still possible to interact with both engines through the HTTP REST or gRPC API. 
 That makes it easy to integrate with any technology of your choice.
 
-If you are a Python user, then both tools are well-integrated with the most popular libraries like [LangChain](../integrations/langchain/), [LlamaIndex](../integrations/llama-index/), [Haystack](../integrations/haystack/), and more. 
+If you are a Python user, then both tools are well-integrated with the most popular libraries like [LangChain](/documentation/frameworks/langchain/), [LlamaIndex](/documentation/frameworks/llama-index/), [Haystack](/documentation/frameworks/haystack/), and more. 
 Using any of those libraries makes it easier to experiment with different vector databases, as the transition should be seamless.
 
 ## Planning to migrate?
@@ -92,6 +92,6 @@ Migrating from Pinecone to Qdrant involves a series of well-planned steps to ens
 
 1. If you aren't ready yet, [try out Qdrant locally](/documentation/quick-start/) or sign up for [Qdrant Cloud](https://cloud.qdrant.io/).
 
-2. For more basic information on Qdrant read our [Overview](overview/) section or learn more about Qdrant Cloud's [Free Tier](documentation/cloud/).
+2. For more basic information on Qdrant read our [Overview](/documentation/overview/) section or learn more about Qdrant Cloud's [Free Tier](/documentation/cloud/).
 
 3. If ready to migrate, please consult our [Comprehensive Guide](https://github.com/NirantK/qdrant_tools) for further details on migration steps.

@@ -199,8 +199,8 @@ Here are some terms that are added: "Berlin", and "founder" - despite having no 
 
 If you're interested in using the higher-performance approach, check out the following models:
 
-1. [naver/efficient-splade-VI-BT-large-doc](huggingface.co/naver/efficient-splade-vi-bt-large-doc)
-2. [naver/efficient-splade-VI-BT-large-query](huggingface.co/naver/efficient-splade-vi-bt-large-doc)
+1. [naver/efficient-splade-VI-BT-large-doc](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
+2. [naver/efficient-splade-VI-BT-large-query](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
 
 ## Why SPLADE works? Term Expansion
 

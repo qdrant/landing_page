@@ -114,7 +114,7 @@ In the open-source world, you pay for the resources you use, not the number of d
 Resources depend more on the optimal solution for each use case.
 As a result, running a dedicated vector search engine can be even cheaper, as it allows optimization specifically for vector search use cases.
 
-For instance, Qdrant implements a number of [quantization techniques](documentation/guides/quantization/) that can significantly reduce the memory footprint of embeddings.
+For instance, Qdrant implements a number of [quantization techniques](/documentation/guides/quantization/) that can significantly reduce the memory footprint of embeddings.
 
 In terms of data transfer costs, on most cloud providers, network use within a region is usually free. As long as you put the original source data and the vector store in the same region, there are no added data transfer costs.
 
