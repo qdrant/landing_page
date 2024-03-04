@@ -5,10 +5,10 @@ slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
 description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
 preview_dir: /articles_data/binary-quantization-openai/preview
-preview_image: /articles-data/binary-quantization-openai/Article-Image.png # Change this
+preview_image: /articles-data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
 social_preview_image: /articles_data/binary-quantization-openai/preview/social-preview.png
-title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp # Optional image used for blog post title
+title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp
 
 date: 2024-02-21T13:12:08-08:00
 author: Nirant Kasliwal
@@ -178,6 +178,14 @@ for combination in dataset_combinations:
     )
     print(acc)
 ```
+
+Here is a selected slice of these results, with `rescore=True`:
+
+|Method|Dimensionality|Test Dataset|Recall|Oversampling|
+|-|-|-|-|-|
+|**Recommended** OpenAI text-embedding-3-large|3072|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) | 0.9966|3x|
+|OpenAI text-embedding-3-small|1536|[DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)| 0.9847|3x|
+|OpenAI text-embedding-3-large|1536|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M)| 0.9826|3x|
 
 #### Impact of Oversampling
 

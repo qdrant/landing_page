@@ -124,8 +124,6 @@ client.recreate_collection(
 
 We're setting `indexing_threshold` to 0 i.e. disabling the indexing to zero. This allows faster uploads of vectors and payloads. We will turn it back on down below, once all the data is loaded
 
-We're changing the `default_segment_number` to 5. Segment numbers influence the number of graph nodes in the underlying HNSW index, thereby indirectly influencing the memory efficiency. 
-
 #### Next, we upload our vectors to this and then enable indexing: 
 
 ```python
@@ -137,7 +135,7 @@ client.upload_collection(
     payload=[
         {"text": x} for x in dataset["text"]
     ],
-    parallel=10,
+    parallel=10, # based on the machine
 )
 ```
 
@@ -153,7 +151,7 @@ client.update_collection(
 ```
 #### Configure the search parameters:
 
-When setting search parameters, we specify that we want to use `oversampling` and `rescore`. 
+When setting search parameters, we specify that we want to use `oversampling` and `rescore`. Here is an example snippet:
 
 ```python
 client.search(
@@ -212,8 +210,15 @@ If you're working with OpenAI or Cohere embeddings, we recommend the following o
 
 |Method|Dimensionality|Test Dataset|Recall|Oversampling|
 |-|-|-|-|-|
-|OpenAI text-embedding-ada-002|1536|[DbPedia](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) 1M|0.98|4x|
+|**Recommended** OpenAI text-embedding-3-large|3072|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) | 0.9966|3x|
+|OpenAI text-embedding-3-small|1536|[DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)| 0.9847|3x|
+|OpenAI text-embedding-3-large|1536|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M)| 0.9826|3x|
 |Cohere AI embed-english-v2.0|4096|[Wikipedia](https://huggingface.co/datasets/nreimers/wikipedia-22-12-large/tree/main) 1M|0.98|2x|
+|OpenAI text-embedding-ada-002|1536|[DbPedia 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) |0.98|4x|
+|Gemini|768|No Open Data| 0.9563|3x|
+|Mistral Embed|768|No Open Data| 0.9445 |3x|
+
+NA indicates that the dataset was not released.
 
 If you determine that binary quantization is appropriate for your datasets and queries then we suggest the following:
 - Binary Quantization with always_ram=True 
