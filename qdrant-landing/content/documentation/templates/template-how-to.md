@@ -1,4 +1,4 @@
-<!-- Before committing, remove these comment brackets `<!--` and `-->`
+<!-- Before committing, remove the comment brackets on lines 1 and 8 
 ---
 title: Here goes the title of the page #required
 weight: 10 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
