@@ -20,10 +20,9 @@ jobs:
         run: cd qdrant-landing && hugo -b ''
       - name: Link Checker
         id: lychee
-        working-directory: qdrant-landing/public
         uses: lycheeverse/lychee-action@v1.8.0
         with:
-          args: --offline --base . .
+          args: --offline --base qdrant-landing/public qdrant-landing/public
           fail: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
