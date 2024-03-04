@@ -47,8 +47,8 @@ GEMINI_API_KEY = "YOUR GEMINI API KEY"  # add your key here
 
 gemini_client.configure(api_key=GEMINI_API_KEY)
 texts = [
-    "Qdrant is the best vector search engine!",
-    "Loved by Enterprises and everyone building for low latency, high performance, and scale.",
+    "Qdrant is a vector database that is compatible with Gemini.",
+    "Gemini is a new family of Google PaLM models, released in December 2023.",
 ]
 
 results = [
