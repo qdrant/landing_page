@@ -21,7 +21,7 @@ weight: 0 # Change this weight to change order of posts
 ---
 
 Today, we are pleased to announce the release of [Qdrant 1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0).
-We've optimized performance in a number of ways. We've addressed issues with:
+You'll see significant performance improvements. We've addressed issues with:
 
 <!-- Shard deltas (deferred to v1.9) -->
 - Sparse vectors
@@ -29,7 +29,7 @@ We've optimized performance in a number of ways. We've addressed issues with:
 - Text immutability
 - Text loading optimization
 
-We've also included [minor improvements](#minor-improvements-and-new-features] to our APIs. In addition, we no longer need to convert dates to UNIX timestamps. 
+We've also made [minor improvements](#minor-improvements-and-new-features] to our APIs. In addition, we no longer need to convert dates to UNIX timestamps. 
 
 Did we miss something? We rely on your feedback to drive our development. We
 welcome your contributions, especially in our [Discord community](https://qdrant.to/discord). Join us, introduce yourself, and help us build the best vector search engine!
