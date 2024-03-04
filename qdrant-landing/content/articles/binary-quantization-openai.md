@@ -12,7 +12,7 @@ title_preview_image: /articles_data/binary-quantization-openai/preview/preview.w
 
 date: 2024-02-21T13:12:08-08:00
 author: Nirant Kasliwal
-author_link: https://www.linkedin.com/in/nirant/
+author_link: https://nirantk.com/about/
 
 featured: false
 tags:
@@ -33,6 +33,8 @@ In this post, we discuss:
 - Results of an experiment that highlights improvements in search efficiency and accuracy
 - Implications of these findings for real-world applications
 - Best practices for leveraging Binary Quantization to enhance OpenAI embeddings
+
+If you're new to Binary Quantization, consider reading our article which walks you through the concept and [how to use it with Qdrant](https://qdrant.tech/articles/binary-quantization/)
 
 You can also try out these techniques as described in [Binary Quantization OpenAI](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/README.md), which includes Jupyter notebooks.
 
@@ -203,4 +205,4 @@ We recommend the following best practices for leveraging Binary Quantization to 
 
 Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
 
-Learn more about how to boost your vector search speed and accuracy while reducing costs: [Binary Quantization.](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp)
+Learn more about how to boost your vector search speed and accuracy while reducing costs: [Binary Quantization](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp).

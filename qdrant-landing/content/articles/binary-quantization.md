@@ -7,7 +7,7 @@ small_preview_image: /articles_data/binary-quantization/binary-quantization-icon
 preview_dir: /articles_data/binary-quantization/preview
 weight: -40
 author: Nirant Kasliwal
-author_link: 
+author_link: https://nirantk.com/about/ 
 date: 2023-09-18T13:00:00+03:00
 draft: false
 keywords:
