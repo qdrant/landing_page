@@ -17,6 +17,8 @@ Qdrant is compatible with the new released Mistral Embed and its official Python
 pip install mistralai
 ```
 
+And then we set this up:
+
 ```python
 from mistralai.client import MistralClient
 from qdrant_client import QdrantClient
