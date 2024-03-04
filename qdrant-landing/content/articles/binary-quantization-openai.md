@@ -215,7 +215,6 @@ We recommend the following best practices for leveraging Binary Quantization to 
 
 Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
 
-Learn more about how to boost your vector search speed and accuracy while reducing costs: [Quantization](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp).
-
 The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/tutorials/optimize/). 
+
 Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 

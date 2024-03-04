@@ -228,6 +228,6 @@ If you determine that binary quantization is appropriate for your datasets and q
 
 Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
 
-The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding the data](/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [creating your indices](/documentation/tutorials/optimize/). 
+The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [more quantization methods](/documentation/tutorials/optimize/).
 
 If you have any feedback, drop us a note on Twitter or LinkedIn to tell us about your results. [Join our lively Discord Server](https://discord.gg/Qy6HCJK9Dc) if you want to discuss BQ with like-minded people!
