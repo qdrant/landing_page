@@ -3,6 +3,9 @@ title: Mistral
 weight: 700
 ---
 
+| Time: 10 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/mistral-getting-started/mistral-embed-getting-started/mistral_qdrant_getting_started.ipynb)   |
+| --- | ----------- | ----------- |
+
 # Mistral
 Qdrant is compatible with the new released Mistral Embed and its official Python SDK that can be installed as any other package:
 
