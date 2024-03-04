@@ -16,7 +16,7 @@ The Embedding Model API supports various task types, outlined as follows:
 1. `retrieval_query`: query in a search/retrieval setting
 2. `retrieval_document`: document from the corpus being searched
 3. `semantic_similarity`: semantic text similarity
-4. `classification`: classification
+4. `classification`: embeddings to be used for text classification
 5. `clustering`: the generated embeddings will be used for clustering
 6. `task_type_unspecified`: Unset value, which will default to one of the other values.
 
