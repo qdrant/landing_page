@@ -38,7 +38,7 @@ more time shipping features and fixing bugs.
 bloop’s mission is to make software engineers autonomous and semantic code search is the cornerstone 
 of that vision. The project is maintained by a group of Rust and Typescript engineers and ML researchers. 
 It leverages many prominent nascent technologies, such as [Tauri](http://tauri.app), [tantivy](https://docs.rs/tantivy), 
-[Qdrant](http://qdrant.tech) and [Anthropic](https://www.anthropic.com/).
+[Qdrant](https://qdrant.tech) and [Anthropic](https://www.anthropic.com/).
 
 ## About Qdrant
 
