@@ -67,6 +67,8 @@ This version introduces an `optimizer_cpu_budget` parameter to control the maxim
 for indexing. For most users, the default `optimizer_cpu_budget` works well. It allocates more CPU resources
 for building indexes faster, while reserving resources to handle searches.
 
+![Allocation of CPU resources](/blog/qdrant-1.8.x/cpu-management.png)
+
 With our [Collections](/documentation/concepts/collections/) API, you can 
 configure how Qdrant saturates the CPUs in your configuration. 
 
