@@ -1747,6 +1747,90 @@ Comparisons that can be used:
 
 Can be applied to [float](../payload/#float) and [integer](../payload/#integer) payloads.
 
+### Datetime Range
+
+_Available as of v1.8.0_
+
+```json
+{
+  "key": "date",
+  "range": {
+    "gt": "2023-02-08T10:49:00Z"
+    "gte": null,
+    "lt": null,
+    "lte": "2024-01-31 10:14:31Z"
+  }
+}
+```
+
+```python
+models.FieldCondition(
+    key="date",
+    range=models.DatetimeRange(
+        gt="2023-02-08T10:49:00Z",
+        gte=None,
+        lt=None,
+        lte="2024-01-31T10:14:31Z",
+    ),
+)
+```
+
+```typescript
+{
+    key: 'date',
+    range: {
+        gt: '2023-02-08T10:49:00Z',
+        gte: null,
+        lt: null,
+        lte: '2024-01-31T10:14:31Z'
+    }
+}
+```
+
+```rust
+Condition::datetime_range(
+    "date",
+    DatetimeRange {
+        gt: Some(Timestamp::date_time(2023, 2, 8, 10, 49, 0).unwrap()),
+        gte: None,
+        lt: None,
+        lte: Some(Timestamp::date_time(2024, 1, 31, 10, 14, 31).unwrap()),
+    },
+)
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.datetimeRange;
+
+import com.google.protobuf.Timestamp;
+import io.qdrant.client.grpc.Points.DatetimeRange;
+import java.time.Instant;
+
+long gt = Instant.parse("2023-02-08T10:49:00Z").getEpochSecond();
+long lte = Instant.parse("2024-01-31T10:14:31Z").getEpochSecond();
+
+datetimeRange("date",
+    DatetimeRange.newBuilder()
+        .setGt(Timestamp.newBuilder().setSeconds(gt))
+        .setLte(Timestamp.newBuilder().setSeconds(lte))
+        .build());
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+using System;
+
+Conditions.DatetimeRange(
+    field: "date",
+    gt: new DateTime(2023, 2, 8, 10, 49, 0, DateTimeKind.Utc),
+    lte: new DateTime(2024, 1, 31, 10, 14, 31, DateTimeKind.Utc),
+);
+```
+
+Datetime range is a special case of the range condition, which is used for [datetime](../payload/#datetime) payloads.
+It shares the same field names as the range condition.
+During comparison, timestamps are parsed and converted to UTC.
+
 ### Geo
 
 #### Geo Bounding Box
