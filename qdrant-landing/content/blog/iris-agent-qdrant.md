@@ -2,8 +2,8 @@
 title: "IrisAgent and Qdrant: Redefining Customer Support with AI" 
 draft: false
 slug: iris-agent-qdrant
-short_description:  This is a blog post # Change this
-description: This is a blog post # Change this
+short_description: Pushing the boundaries of AI in customer support
+description: IrisAgent now integrates Qdrant into their AI pipeline
 preview_image: /case-studies/iris/irisagent-qdrant.png
 
 date: 2024-03-05T07:45:34-08:00
