@@ -5,7 +5,6 @@ slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
 description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
 preview_dir: /articles_data/binary-quantization-openai/preview
-preview_image: /articles-data/binary-quantization-openai/Article-Image.png # Change this
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
 social_preview_image: /articles_data/binary-quantization-openai/preview/social-preview.png
 title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp # Optional image used for blog post title
