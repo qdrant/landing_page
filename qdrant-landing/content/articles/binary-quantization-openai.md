@@ -5,13 +5,14 @@ slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
 description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
 preview_dir: /articles_data/binary-quantization-openai/preview
+preview_image: /articles-data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
 social_preview_image: /articles_data/binary-quantization-openai/preview/social-preview.png
-title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp # Optional image used for blog post title
+title_preview_image: /articles_data/binary-quantization-openai/preview/preview.webp
 
 date: 2024-02-21T13:12:08-08:00
 author: Nirant Kasliwal
-author_link: https://www.linkedin.com/in/nirant/
+author_link: https://nirantk.com/about/
 
 featured: false
 tags:
@@ -32,6 +33,8 @@ In this post, we discuss:
 - Results of an experiment that highlights improvements in search efficiency and accuracy
 - Implications of these findings for real-world applications
 - Best practices for leveraging Binary Quantization to enhance OpenAI embeddings
+
+If you're new to Binary Quantization, consider reading our article which walks you through the concept and [how to use it with Qdrant](https://qdrant.tech/articles/binary-quantization/)
 
 You can also try out these techniques as described in [Binary Quantization OpenAI](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/README.md), which includes Jupyter notebooks.
 
@@ -101,7 +104,7 @@ Here are some key observations, which analyzes the impact of rescoring (`True` o
    - For the `text-embedding-3-large` model with 3072 dimensions, rescoring boosts the accuracy from an average of about 76-77% without rescoring to 97-99% with rescoring, depending on the search limit and oversampling rate.
     - The accuracy improvement with increased oversampling is more pronounced when rescoring is enabled, indicating a better utilization of the additional binary codes in refining search results.
    - With the `text-embedding-3-small` model at 512 dimensions, accuracy increases from around 53-55% without rescoring to 71-91% with rescoring, highlighting the significant impact of rescoring, especially at lower dimensions.
-   - For higher dimension models (such as text-embedding-3-large with 3072 dimensions), <NEED MORE INFO>
+
 In contrast, for lower dimension models (such as text-embedding-3-small with 512 dimensions), the incremental accuracy gains from increased oversampling levels are less significant, even with rescoring enabled. This suggests a diminishing return on accuracy improvement with higher oversampling in lower dimension spaces.
 
 3. **Influence of Search Limit**:
@@ -176,6 +179,14 @@ for combination in dataset_combinations:
     print(acc)
 ```
 
+Here is a selected slice of these results, with `rescore=True`:
+
+|Method|Dimensionality|Test Dataset|Recall|Oversampling|
+|-|-|-|-|-|
+|OpenAI text-embedding-3-large (highest MTEB score from the table) |3072|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-3072-1M) | 0.9966|3x|
+|OpenAI text-embedding-3-small|1536|[DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)| 0.9847|3x|
+|OpenAI text-embedding-3-large|1536|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M)| 0.9826|3x|
+
 #### Impact of Oversampling
 
 You can use oversampling in machine learning to counteract imbalances in datasets.
@@ -200,6 +211,10 @@ We recommend the following best practices for leveraging Binary Quantization to 
 4. Rescoring: Enable rescoring to improve the accuracy of search results.
 5. RAM: Store the full vectors and payload on disk. Limit what you load from memory to the binary quantization index. This helps reduce the memory footprint and improve the overall efficiency of the system. The incremental latency from the disk read is negligible compared to the latency savings from the binary scoring in Qdrant, which uses SIMD instructions where possible.
 
-Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
+## What's next?
 
-Learn more about how to boost your vector search speed and accuracy while reducing costs: [Binary Quantization.](https://qdrant.tech/documentation/guides/quantization/?selector=aHRtbCA%2BIGJvZHkgPiBkaXY6bnRoLW9mLXR5cGUoMSkgPiBzZWN0aW9uID4gZGl2ID4gZGl2ID4gZGl2Om50aC1vZi10eXBlKDIpID4gYXJ0aWNsZSA%2BIGgyOm50aC1vZi10eXBlKDIp)
+Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
+
+The article gives examples of data sets and configuration you can use to get going. Our documentation covers [adding large datasets to Qdrant](/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [more quantization methods](https://qdrant.tech/documentation/guides/quantization/). 
+
+Want to discuss these findings and learn more about Binary Quantization? [Join our Discord community.](https://discord.gg/qdrant) 
