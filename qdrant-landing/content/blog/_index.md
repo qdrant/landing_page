@@ -1,7 +1,7 @@
 ---
 title: Qdrant Blog
 subtitle: Check out our latest posts
-aliases:
+aliases: # There is no need to add aliases for future new tags and categories!
   - /tags
   - /tags/case-study
   - /tags/dailymotion
