@@ -9,6 +9,8 @@ canonifyURLs = true
 
 keywords = "search engine, vector database, neural network, matching, filter, SaaS, approximate nearest neighbor search, image search, recommender system, vectors, knn algorithm, hnsw, vector search, embeddings, similarity"
 
+disableKinds = ["taxonomy", "term"]
+
 [params]
   description = "Qdrant is an Open-Source Vector Database and Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
   keywords = ["vector search engine", "neural network", "matching", "SaaS",
@@ -89,6 +91,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   negative = "No"
   on_yes = "Thanks! 🙏"
   on_no = "Sorry! 😔"
+
 
 [taxonomies]
     tag = "tags"
