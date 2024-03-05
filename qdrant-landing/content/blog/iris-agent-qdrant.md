@@ -7,7 +7,7 @@ description: Learn how IrisAgent leverages Qdrant for RAG to automate support, a
 preview_image: /case-studies/iris/irisagent-qdrant.png
 
 date: 2024-03-05T07:45:34-08:00
-author: Manuel Mayer
+author: Manuel Meyer
 featured: false
 tags:
   - news
