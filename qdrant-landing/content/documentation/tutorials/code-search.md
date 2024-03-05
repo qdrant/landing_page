@@ -5,7 +5,7 @@ weight: 22
 
 # Use semantic search to navigate your codebase
 
-| Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/example/code-search/code-search/code-search.ipynb) |    |
+| Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/master/code-search/code-search.ipynb) |    |
 |--------------|---------------------|--|----|
 
 You too can enrich your applications with Qdrant semantic search. In this
@@ -319,7 +319,7 @@ query = "How do I count points in a collection?"
 hits = client.search(
     "qdrant-sources",
     query_vector=(
-        "text", nlp_model.encode(textify(query)).tolist()
+        "text", nlp_model.encode(query).tolist()
     ),
     limit=5,
 )
@@ -369,7 +369,7 @@ results = client.search_batch(
         models.SearchRequest(
             vector=models.NamedVector(
                 name="text",
-                vector=nlp_model.encode(textify(query)).tolist()
+                vector=nlp_model.encode(query).tolist()
             ),
             with_payload=True,
             limit=5,
@@ -441,6 +441,4 @@ With the grouping feature, we get more diverse results.
 
 This tutorial demonstrates how to use Qdrant to navigate a codebase. For an
 end-to-end implementation, review the [code search 
-notebook](https://githubtocolab.com/qdrant/examples/blob/example/code-search/code-search/code-search.ipynb).
-
-[//]: # (TODO: update the Colab link to master branch, once it's merged)
+notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/code-search/code-search.ipynb).
