@@ -3,7 +3,7 @@ title: "IrisAgent and Qdrant: Redefining Customer Support with AI"
 draft: false
 slug: iris-agent-qdrant
 short_description: Pushing the boundaries of AI in customer support
-description: IrisAgent now integrates Qdrant into their AI pipeline
+description: Learn how IrisAgent leverages Qdrant for RAG to automate support, and improve resolution times, transforming customer service
 preview_image: /case-studies/iris/irisagent-qdrant.png
 
 date: 2024-03-05T07:45:34-08:00
@@ -38,7 +38,7 @@ Since IrisAgent built out a lot of their AI related processes in-house with prop
 
 ![Quote from CEO of IrisAgent](/blog/iris-agent-qdrant/iris_ceo_quote.png)
 
-“We were looking at a lot of vector databases in the market and one of our core requirements was that the solution needed to be open source because we have a strong emphasis on data privacy and security,” Bhatia says. Also, performance played a key role for IrisAgent during their evaluation as Bhatia mentions: “Despite it being a relatively new project at the time we tested Qdrant, the performance was really good.” Additional evaluation criteria were the ease of ability to deployment, future maintainability, and the quality of available documentation. Ultimately, IrisAgent decided to build with Qdrant as their vector database of choice, given these three reasons:
+“We were looking at a lot of vector databases in the market and one of our core requirements was that the solution needed to be open source because we have a strong emphasis on data privacy and security,” Bhatia says. Also, performance played a key role for IrisAgent during their evaluation as Bhatia mentions: “Despite it being a relatively new project at the time we tested Qdrant, the performance was really good.” Additional evaluation criteria were the ease of ability to deployment, future maintainability, and the quality of available documentation. Ultimately, IrisAgent decided to build with Qdrant as their vector database of choice, given these reasons:
 
 * **Open Source and Flexibility**: IrisAgent required a solution that was open source, to align with their data security needs and preference for self-hosting. Qdrant's open-source nature allowed IrisAgent to deploy it on their cloud infrastructure seamlessly.
 * **Performance**: Early on, IrisAgent recognized Qdrant's superior performance, despite its relative newness in the market. This performance aspect was crucial for handling large volumes of data efficiently.
