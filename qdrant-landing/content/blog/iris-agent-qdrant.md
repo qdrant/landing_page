@@ -4,11 +4,7 @@ draft: false
 slug: iris-agent-qdrant
 short_description:  This is a blog post # Change this
 description: This is a blog post # Change this
-preview_image: /blog/iris-agent-qdrant/iris-agent-qdrant.png
-
-social_preview_image: /blog/iris-agent-qdrant/iris-agent-qdrant.png 
-title_preview_image: /blog/iris-agent-qdrant/iris-agent-qdrant.png
-small_preview_image: /blog/iris-agent-qdrant/iris-agent-qdrant.png
+preview_image: /case-studies/iris/irisagent-qdrant.png
 
 date: 2024-03-05T07:45:34-08:00
 author: Manuel Mayer
@@ -21,8 +17,6 @@ tags:
 weight: 0 # Change this weight to change order of posts
 # For more guidance, see https://github.com/qdrant/landing_page?tab=readme-ov-file#blog
 ---
-
-# IrisAgent and Qdrant: Redefining Customer Support with AI
 
 Artificial intelligence is evolving customer support, offering unprecedented capabilities for automating interactions, understanding user needs, and enhancing the overall customer experience. [IrisAgent](https://irisagent.com/), founded by former Google product manager [Palak Dalal Bhatia](https://www.linkedin.com/in/palakdalal/), demonstrates the concrete impact of AI on customer support with its AI-powered customer support automation platform. 
 
