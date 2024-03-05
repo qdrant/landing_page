@@ -10,8 +10,9 @@
         partial "customers" . }} {{ end }}
       </header>
     </main>
-    {{ with (.Site.GetPage "core-features") }} {{ partial "core-features" . }} {{ end }} {{ $pageSearchScrollJs :=
-    resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+    {{ with (.Site.GetPage "core-features") }} {{ partial "core-features" . }} {{ end }} {{ with (.Site.GetPage
+    "customer-stories") }} {{ partial "customer-stories" . }} {{ end }} {{ $pageSearchScrollJs := resources.Get
+    "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
 </html>

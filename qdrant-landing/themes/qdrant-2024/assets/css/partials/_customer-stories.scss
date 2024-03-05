@@ -1,0 +1,95 @@
+@use '../helpers/functions' as *;
+
+.customer-stories {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 2.5;
+  padding-left: $spacer * 1.5;
+  padding-right: $spacer * 1.5;
+  padding-bottom: $spacer * 8;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: rem(1110);
+    width: 100%;
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__title {
+    font-size: map-get($font-sizes, 3);
+    line-height: rem(57);
+    margin: 0;
+  }
+
+  &__link {
+    color: $primary-60;
+    font-size: map-get($font-sizes-text, 'l');
+    text-decoration: none;
+  }
+
+  &__cards {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: $spacer * 2;
+  }
+
+  &__card {
+    background-color: $neutral-98;
+    padding-top: $spacer * 2;
+    padding-bottom: $spacer * 2;
+    padding-left: $spacer * 2;
+    padding-right: $spacer * 2;
+
+    max-width: rem(350);
+    min-height: rem(407);
+
+    border-radius: calc($spacer / 2);
+    border: 1px solid $neutral-90;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    svg {
+      max-width: rem(120);
+      max-height: rem(64);
+    }
+  }
+
+  &__card-footer {
+    display: flex;
+    gap: $spacer;
+    justify-content: space-between;
+
+    svg {
+      min-width: rem(48);
+      min-height: rem(48);
+    }
+  }
+
+  &__card-author p {
+    margin: 0;
+  }
+
+  &__card-author-name {
+    font-weight: bold;
+    color: $neutral-20;
+    font-size: map-get($font-sizes-text, 's');
+  }
+
+  &__card-author-position {
+    color: $neutral-60;
+    font-size: map-get($font-sizes-text, 's');
+  }
+
+  &__card:last-of-type svg {
+    min-width: rem(80);
+  }
+}
