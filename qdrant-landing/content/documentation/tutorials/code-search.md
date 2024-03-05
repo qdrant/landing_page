@@ -18,7 +18,7 @@ source code itself, which is mostly written in Rust.
 ## The approach
 
 We want to search codebases using natural semantic queries, and searching for
-code based on similar logic You can set up these tasks with embeddings: 
+code based on similar logic. You can set up these tasks with embeddings: 
 
 1. General usage neural encoder for natural-like queries, in our case `all-MiniLM-L6-v2`
    from the
@@ -28,7 +28,8 @@ code based on similar logic You can set up these tasks with embeddings:
 
 To prepare our code for `all-MiniLM-L6-v2`, we preprocess the code to text that
 more closely resembles natural language. The Jina embeddings model supports a
-variety of standard programming languages. 
+variety of standard programming languages, so there is no need to preprocess the
+snippets. We can use the code as is.
 
 ## Data preparation
 
