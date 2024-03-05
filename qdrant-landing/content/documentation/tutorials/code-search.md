@@ -5,67 +5,64 @@ weight: 22
 
 # Use semantic search to navigate your codebase
 
-| Time: 45 min | Level: Intermediate |  |    |
+| Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/example/code-search/code-search/code-search.ipynb) |    |
 |--------------|---------------------|--|----|
 
-Engineers can enrich their applications with semantic search experience using Qdrant, but they might be not only the 
-creators but also the beneficiaries of this technology. In this tutorial, we will show how to use Qdrant to navigate a 
-project's codebase, so you can find the relevant code snippets easier, even if you have never contributed to the project
-before. As an example, we will use the [Qdrant](https://github.com/qdrant/qdrant) source code itself, which is mostly
-written in Rust.
+You too can enrich your applications with Qdrant semantic search. In this
+tutorial, we describe how you can use Qdrant to navigate a codebase, to help
+you find relevant code snippets. As an example, we will use the [Qdrant](https://github.com/qdrant/qdrant) 
+source code itself, which is mostly written in Rust.
+
+<aside role="status">This tutorial might not work on code bases that are not disciplined or structured. For good code search, you may need to refactor the project first.</aside>
 
 ## The approach
 
-There are at least two ways in which we would like to search the codebase. Navigating an unknown project is easier if
-we can search for the code by its semantics, using natural-like queries. On the other hand, we might want to find the
-code that is similar to the one we already have, in terms of the logic they both perform. Both of these tasks can be 
-solved with the help of embeddings, but may require different means:
+We want to search codebases using natural semantic queries, and searching for
+code based on similar logic You can set up these tasks with embeddings: 
 
-1. General usage neural encoder for natural-like queries, in our case `all-MiniLM-L6-v2` from the
+1. General usage neural encoder for natural-like queries, in our case `all-MiniLM-L6-v2`
+   from the
    [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html) library.
-2. Specialized embeddings for code-to-code similarity search. The `jina-embeddings-v2-base-code` model is a good
-   candidate for this task.
+2. Specialized embeddings for code-to-code similarity search. We use the
+   `jina-embeddings-v2-base-code` model.
 
-The latter model supports multiple programming languages and should also be able to generalize to unknown languages, of 
-course, if they are not too [esoteric](https://en.wikipedia.org/wiki/Esoteric_programming_language) (do not expect to 
-have an out-of-the-box support for Brainfuck or Befunge, but [Mojo](https://www.modular.com/max/mojo) shouldn't be a big 
-deal). Regarding `all-MiniLM-L6-v2`, we will perform some additional data preprocessing to convert the code to more 
-natural language like text.
+To prepare our code for `all-MiniLM-L6-v2`, we preprocess the code to text that
+more closely resembles natural language. The Jina embeddings model supports a
+variety of standard programming languages. 
 
 ## Data preparation
 
-Chunking the application sources into smaller parts is non-trivial task on its own. If you follow good coding practices, 
-you might have a well-structured codebase, what makes chunking way easier. If you don't, splitting the codebase into 
-smaller parts might be a challenge itself. **The presented approach might not work if all you have is a spaghetti code. 
-In that case please consider refactoring the project first.**
-
-In general, functions, class methods, structs, enums, and all the other language-specific constructs are good candidates 
-for chunks. They are big enough to contain some meaningful information, but small enough to be processed by embedding
-models with a limited context window. Also, docstrings, comments, and other metadata can be used to enrich the chunks
-with additional information.
+Chunking the application sources into smaller parts is a non-trivial task. In
+general, functions, class methods, structs, enums, and all the other language-specific 
+constructs are good candidates for chunks. They are big enough to
+contain some meaningful information, but small enough to be processed by
+embedding models with a limited context window. You can also use docstrings,
+comments, and other metadata can be used to enrich the chunks with additional
+information.
 
 ![Code chunking strategy](/documentation/tutorials/code-search/data-chunking.png)
 
 ### Parsing the codebase
 
-Rust is our main focus here, but the same approach can be applied to any other language. Parsing the code is easiest
-with a [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) (**LSP**) compatible tool. It 
-can build a graph of the codebase, which can be used to extract the chunks. We are not going to cover the LSP part here, 
-but our experiments were done with the help of the [rust-analyzer](https://rust-analyzer.github.io/). We exported the
-parsed codebase into the [LSIF](https://microsoft.github.io/language-server-protocol/specifications/lsif/0.4.0/specification/) 
-format, which is a standard for code intelligence data like the ones implemented in your favorite IDE. Then, we used
-the created LSIF dump to navigate the codebase and extract the chunks. This process is implemented in our [code search 
-demo](https://github.com/qdrant/demo-code-search) if you want to see the details.
+While our example uses Rust, you can use our approach with any other language.
+You can parse code with a [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) (**LSP**)
+compatible tool. You can use an LSP to build a graph of the codebase, and then extract chunks. 
+We did our work with the [rust-analyzer](https://rust-analyzer.github.io/).
+We exported the parsed codebase into the [LSIF](https://microsoft.github.io/language-server-protocol/specifications/lsif/0.4.0/specification/) 
+format, a standard for code intelligence data. Next, we used the LSIF data to
+navigate the codebase and extract the chunks. For details, see our [code search 
+demo](https://github.com/qdrant/demo-code-search).
 
 <aside role="status">
-If you want to implement code search for your own non-Rust project, you can use the same approach. There is 
+For other languages, you can use the same approach. There are 
 <a href="https://microsoft.github.io/language-server-protocol/implementors/servers/">plenty of implementations available
-</a>, so you should be able to find a proper one, no matter the language of your choice.
+</a>.
 </aside>
 
-As a result of that whole process we exported the chunks into JSON documents with not only the code itself, but also
-broader context to know where the code is located in the project. For example, here is how the description of the 
-`await_ready_for_timeout` function from the `IsReady` struct in the `common` module looks like:
+We then exported the chunks into JSON documents with not only the code itself,
+but also context with the location of the code in the project. For example, see
+the description of the `await_ready_for_timeout` function from the `IsReady`
+struct in the `common` module:
 
 ```json
 {
@@ -86,15 +83,15 @@ broader context to know where the code is located in the project. For example, h
 }
 ```
 
-All the Qdrant structures, parsed to JSON, are stored as lines in the [`structures.jsonl` 
-file](https://storage.googleapis.com/tutorial-attachments/code-search/structures.jsonl) on our Google Cloud Storage 
-bucket. Let's download it and use it as a source of data for our code search.
+You can examine the Qdrant structures, parsed in JSON, in the [`structures.jsonl` 
+file](https://storage.googleapis.com/tutorial-attachments/code-search/structures.jsonl)
+in our Google Cloud Storage bucket. Download it and use it as a source of data for our code search.
 
 ```shell
 wget https://storage.googleapis.com/tutorial-attachments/code-search/structures.jsonl
 ```
 
-As a next step, we are going to load the file and parse all the lines into a list of dictionaries:
+Next, load the file and parse the lines into a list of dictionaries:
 
 ```python
 import json
@@ -108,10 +105,11 @@ with open("structures.jsonl", "r") as fp:
 
 ### Code to *natural language* conversion
 
-Each programming language has its own syntax which is not a part of the natural language. Thus, a general-purpose model
-probably won't be able to understand the code as it is. We can, however, do something that data scientists were doing
-for a long time - perform some normalization, by getting rid of the code specifics and including some additional 
-context, such as module, class, function, and file name. Here are the steps we are going to take:
+Each programming language has its own syntax which is not a part of the natural
+language. Thus, a general-purpose model probably does not understand the code
+as is. We can, however, normalize the data by removing code specifics and
+including additional context, such as module, class, function, and file name.
+We took the following steps:
 
 1. Extract the signature of the function, method, or other code construct.
 2. Divide camel case and snake case names into separate words.
@@ -119,14 +117,15 @@ context, such as module, class, function, and file name. Here are the steps we a
 4. Build a sentence from the extracted data using a predefined template.
 5. Remove the special characters and replace them with spaces.
 
-As an input, we are going to expect dictionaries with the same structure as above. Let's define a `textify` function
-that will do the conversion for us. We'll use an `inflection` library to convert with different naming conventions.
+As input, expect dictionaries with the same structure. Define a `textify`
+function to do the conversion. We'll use an `inflection` library to convert
+with different naming conventions.
 
 ```shell
 pip install inflection
 ```
 
-Once all the dependencies are installed, we can finally define the `textify` function:
+Once all dependencies are installed, we define the `textify` function:
 
 ```python
 import inflection
@@ -171,13 +170,13 @@ def textify(chunk: Dict[str, Any]) -> str:
     return " ".join(tokens)
 ```
 
-Now we can use the `textify` function to convert all the chunks into text representations:
+Now we can use `textify` to convert all chunks into text representations:
 
 ```python
 text_representations = list(map(textify, structures))
 ```
 
-This is how the `await_ready_for_timeout` function description looks like:
+This is how the `await_ready_for_timeout` function description appears:
 
 ```text
 Function Await ready for timeout that does Return true if ready false if timed out defined as Fn await ready for timeout self timeout duration bool defined in struct Is ready module common file is_ready rs
@@ -185,13 +184,14 @@ Function Await ready for timeout that does Return true if ready false if timed o
 
 ## Ingestion pipeline
 
-The next steps to build the code search engine are vectorizing the data and setting up a semantic search mechanism for 
-both embedding models.
+Next, we build the code search engine to vectorizing data and set up a semantic
+search mechanism for both embedding models.
 
 ### Natural language embeddings
 
-Our text representations might be easily encoded through the `all-MiniLM-L6-v2` model from the `sentence-transformers`.
-There are some additional dependencies required by our second model, so let's install them all at once first:
+We can encode text representations through the `all-MiniLM-L6-v2` model from
+`sentence-transformers`. With the following command, we install `sentence-transformers`
+with dependencies:
 
 ```shell
 pip install sentence-transformers optimum onnx
@@ -210,11 +210,11 @@ nlp_embeddings = nlp_model.encode(
 
 ### Code embeddings
 
-The `jina-embeddings-v2-base-code` model is a good candidate for this task. It is also available through the 
-`sentence-transformers` library, but you have to accept the conditions in order to be able to access it. Please visit 
-[the model page](https://huggingface.co/jinaai/jina-embeddings-v2-base-code) to accept the rules and generate the access 
-token in your[account settings](https://huggingface.co/settings/tokens). Once you have the token, you can use the model 
-as follows:
+The `jina-embeddings-v2-base-code` model is a good candidate for this task.
+You can also get it from the `sentence-transformers` library, with conditions. 
+Visit [the model page](https://huggingface.co/jinaai/jina-embeddings-v2-base-code),
+accept the rules, and generate the access token in your [account settings](https://huggingface.co/settings/tokens). 
+Once you have the token, you can use the model as follows:
 
 ```python
 HF_TOKEN = "THIS_IS_YOUR_TOKEN"
@@ -235,29 +235,34 @@ code_embeddings = code_model.encode(
 )
 ```
 
-Do not forget to set the `trust_remote_code` parameter to `True`. Otherwise, the model will still produce some vectors, 
-but they won't be meaningful.
+Remember to set the `trust_remote_code` parameter to `True`. Otherwise, the
+model does not produce meaningful vectors. Setting this parameter allows the
+library to download and possibly launch some code on your machine, so be sure
+to trust the source.
 
-Now, when we have both the natural language and code embeddings, we can store them in the Qdrant collection.
+With both the natural language and code embeddings, we can build and store them
+in the Qdrant collection.
 
 ### Building Qdrant collection
 
-We are going to use the `qdrant-client` library to interact with the Qdrant server. Let's install it first:
+We use the `qdrant-client` library to interact with the Qdrant server. Let's
+install that client:
 
 ```shell
 pip install qdrant-client
 ```
 
-Of course, we need to have a running Qdrant server for vector search. If you don't have one, you can [use a local Docker 
-container](https://qdrant.tech/documentation/quick-start/) or deploy it using the [Qdrant Cloud](https://cloud.qdrant.io/). 
-There is a free tier 1GB cluster available, so you can use it to follow this tutorial. Let's configure the connection parameters:
+Of course, we need a running Qdrant server for vector search. If you need one,
+you can [use a local Docker container](https://qdrant.tech/documentation/quick-start/)
+or deploy it using the [Qdrant Cloud](https://cloud.qdrant.io/). 
+You can use either to follow this tutorial. Configure the connection parameters:
 
 ```python
 QDRANT_URL = "https://my-cluster.cloud.qdrant.io:6333" # http://localhost:6333 for local instance
 QDRANT_API_KEY = "THIS_IS_YOUR_API_KEY" # None for local instance
 ```
 
-Then we can use the library to create a collection:
+Then use the library to create a collection:
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -298,13 +303,14 @@ points = [
 client.upload_points("qdrant-sources", points=points, batch_size=64)
 ```
 
-Uploaded points are immediately available for search. Let's move to the next step and query the collection to find some
-relevant code snippets.
+The uploaded points are immediately available for search. Next, query the
+collection to find relevant code snippets.
 
 ## Querying the codebase
 
-In the simplest case, we can use one of the models to search the collection. Let's start with text embeddings and check 
-what are the results for the query "*How do I count points in a collection?*":
+We use one of the models to search the collection. Start with text embeddings.
+Run the following query "*How do I count points in a collection?*". Review the
+results.
 
 ```python
 query = "How do I count points in a collection?"
@@ -350,9 +356,10 @@ Output:
 | map_index     | mod.rs                     | 0.7124739  | ` fn count_indexed_points (& self) -> usize ` |
 | fixtures      | payload_context_fixture.rs | 0.706204   | ` fn total_point_count (& self) -> usize `    |
 
-Scores retrieved by different models are not comparable, but we can see that the results are different. It seems that 
-code and text embeddings are able to capture different aspects of the codebase. We can use both models to query the
-collection and then combine the results to get the most relevant code snippets. All that, in a single batch request.
+While the scores retrieved by different models are not comparable, but we can
+see that the results are different. Code and text embeddings can capture
+different aspects of the codebase. We can use both models to query the collection
+and then combine the results to get the most relevant code snippets, from a single batch request.
 
 ```python
 results = client.search_batch(
@@ -394,15 +401,16 @@ Output:
 | fixtures           | payload_context_fixture.rs | 0.706204   | ` fn total_point_count (& self) -> usize `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
 
 
-This is just a naive example of using different models and combining the results. In a real-world scenario, you might
-want to perform some reranking and deduplication, as well as some additional processing of the results. 
+This is one example of how you can use different models and combine the results.
+In a real-world scenario, you might run some reranking and deduplication, as
+well as additional processing of the results. 
 
 ### Grouping the results
 
-One interesting technique to improve the search results, provided by Qdrant, is to group the results by the payload
-properties. In our case, it may be useful to group the results by the module, as we see there are multiple results from
-the `map_index` module, if we use the code embeddings. Let's group the results and assume just a single result per
-module:
+You can improve the search results, by grouping them by payload properties.
+In our case, we can group the results by the module. If we use code embeddings,
+we can see multiple results from the `map_index` module. Let's group the
+results and assume a single result per module:
 
 ```python
 results = client.search_groups(
@@ -426,12 +434,12 @@ Output:
 | fixtures      | payload_context_fixture.rs | 0.706204   | ` fn total_point_count (& self) -> usize `    |
 | hnsw_index    | graph_links.rs             | 0.6998417  | ` fn num_points (& self) -> usize `           |
 
-Using the grouping feature, we were able to get more diverse results.
+With the grouping feature, we get more diverse results.
 
 ## Summary
 
-In this tutorial, we have shown how to use Qdrant to navigate a project's codebase. If you want to see an end-to-end
-implementation of the presented approach, you can check the [code search 
+This tutorial demonstrates how to use Qdrant to navigate a codebase. For an
+end-to-end implementation, review the [code search 
 notebook](https://githubtocolab.com/qdrant/examples/blob/example/code-search/code-search/code-search.ipynb).
 
 [//]: # (TODO: update the Colab link to master branch, once it's merged)
