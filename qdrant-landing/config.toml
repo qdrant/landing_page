@@ -74,7 +74,7 @@ disableKinds = ["taxonomy", "term"]
   githubDocPrefix = "https://github.com/qdrant/landing_page/tree/master/qdrant-landing/content/"
   githubIssueLink = "https://github.com/qdrant/landing_page/issues/new/choose"
 
-  docVersion = "v1.7.x"
+  docVersion = "v1.8.x"
   cloudDocVersion = "v0.1.x"
 
   googleTagManager = "GTM-KRLCXD5"
