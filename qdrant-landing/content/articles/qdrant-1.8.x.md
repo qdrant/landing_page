@@ -63,7 +63,7 @@ This isn't mandatory, as Qdrant is by default tuned to strike the right balance 
 
 This version introduces a `optimizer_cpu_budget` parameter to control the maximum number of CPUs used for indexing. 
 
-> Read more about `config.yaml` in the [Configuration document](https://qdrant.tech/documentation/guides/configuration/).
+> Read more about `config.yaml` in the [configuration file](https://qdrant.tech/documentation/guides/configuration/).
 
 ```yaml
     # CPU budget, how many CPUs (threads) to allocate for an optimization job.
