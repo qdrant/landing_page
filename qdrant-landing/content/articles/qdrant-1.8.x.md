@@ -29,7 +29,7 @@ This time around, we have focused on Qdrant's internals. Our goal was to optimiz
 
 ## Faster search with sparse vectors
 
-Search throughput is now up to 16 times faster for sparse vectors. If you are [using Qdrant for hybrid search](https://qdrant.tech/articles/sparse-vectors/), this means that you can now handle up to sixteen times as many queries. This improvement comes from extensive backend optimizations aimed at increasing efficiency and capacity. Our goal was to make sure that you can handle up to 10M vectors in a realistic scenario.
+Search throughput is now up to 16 times faster for sparse vectors. If you are [using Qdrant for hybrid search](https://qdrant.tech/articles/sparse-vectors/), this means that you can now handle up to sixteen times as many queries. This improvement comes from extensive backend optimizations aimed at increasing efficiency and capacity. 
 
 What this means for your setup:
 
