@@ -1631,11 +1631,11 @@ All resulting points are sorted by ID. To query the next page it is necessary to
 For convenience, this ID is also returned in the field `next_page_offset`.
 If the value of the `next_page_offset` field is `null` - the last page is reached.
 
-### Order points by a payload key
+### Order points by payload key
 
 _Available as of v1.8.0_
 
-When using the [`scroll`](#scroll-points) API, you can sort the results by a payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, like it is shown in the following code:
+When using the [`scroll`](#scroll-points) API, you can sort the results by payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, as is shown from the example below:
 
 <aside role="status">Without an appropriate index, payload-based ordering would create too much load on the system for each request. Qdrant therefore requires a payload index which supports <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
 
@@ -1693,7 +1693,7 @@ client.scrollAsync(ScrollPoints.newBuilder()
 await client.ScrollAsync("{collection_name}", limit: 15, orderBy: "timestamp");
 ```
 
-Use the `order_by` `key` parameter to specify the payload key. You can then add other fields to control the ordering, like `direction` and `start_from`:
+You need to use the `order_by` `key` parameter to specify the payload key. Then you can add other fields to control the ordering, such as `direction` and `start_from`:
 
 ```http
 "order_by": {
@@ -1752,7 +1752,7 @@ new OrderBy
 };
 ```
 
-**Note:** for payloads with more than one value (like arrays), the same point may pop up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
+**Note:** for payloads with more than one value (such as arrays), the same point may show up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
 
 <aside role="alert">When you use the <code>order_by</code> parameter, pagination is disabled.</aside>
 
