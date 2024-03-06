@@ -5,9 +5,9 @@ slug: qdrant-x.y.z # required; subtitute version number
 short_description: "Headline-like description."
 description: "Headline with more detail. Suggested limit: 140 characters. " 
 # Follow instructions in https://github.com/qdrant/landing_page?tab=readme-ov-file#articles to create preview images
-social_preview_image: /articles_data/<slug>/social_preview.jpg # This image will be used in social media previews, should be 1200x600px. Required.
-small_preview_image: /articles_data/<slug>/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
-preview_dir: /articles_data/<slug>/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
+# social_preview_image: /articles_data/<slug>/social_preview.jpg # This image will be used in social media previews, should be 1200x600px. Required.
+# small_preview_image: /articles_data/<slug>/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
+# preview_dir: /articles_data/<slug>/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
 weight: 10 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list. Negative numbers OK.
 author: <name> # Author of the article. Required.
 author_link: https://medium.com/@yusufsarigoz # Link to the author's page. Not required.
