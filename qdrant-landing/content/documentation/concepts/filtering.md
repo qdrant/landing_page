@@ -1747,6 +1747,88 @@ Comparisons that can be used:
 
 Can be applied to [float](../payload/#float) and [integer](../payload/#integer) payloads.
 
+### Datetime Range
+
+The datetime range is a unique range condition, used for [datetime](../payload/#datetime) payloads, which supports RFC 3339 formats. 
+You do not need to convert dates to UNIX timestaps. During comparison, timestamps are parsed and converted to UTC.
+
+_Available as of v1.8.0_
+
+```json
+{
+  "key": "date",
+  "range": {
+    "gt": "2023-02-08T10:49:00Z"
+    "gte": null,
+    "lt": null,
+    "lte": "2024-01-31 10:14:31Z"
+  }
+}
+```
+
+```python
+models.FieldCondition(
+    key="date",
+    range=models.DatetimeRange(
+        gt="2023-02-08T10:49:00Z",
+        gte=None,
+        lt=None,
+        lte="2024-01-31T10:14:31Z",
+    ),
+)
+```
+
+```typescript
+{
+    key: 'date',
+    range: {
+        gt: '2023-02-08T10:49:00Z',
+        gte: null,
+        lt: null,
+        lte: '2024-01-31T10:14:31Z'
+    }
+}
+```
+
+```rust
+Condition::datetime_range(
+    "date",
+    DatetimeRange {
+        gt: Some(Timestamp::date_time(2023, 2, 8, 10, 49, 0).unwrap()),
+        gte: None,
+        lt: None,
+        lte: Some(Timestamp::date_time(2024, 1, 31, 10, 14, 31).unwrap()),
+    },
+)
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.datetimeRange;
+
+import com.google.protobuf.Timestamp;
+import io.qdrant.client.grpc.Points.DatetimeRange;
+import java.time.Instant;
+
+long gt = Instant.parse("2023-02-08T10:49:00Z").getEpochSecond();
+long lte = Instant.parse("2024-01-31T10:14:31Z").getEpochSecond();
+
+datetimeRange("date",
+    DatetimeRange.newBuilder()
+        .setGt(Timestamp.newBuilder().setSeconds(gt))
+        .setLte(Timestamp.newBuilder().setSeconds(lte))
+        .build());
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+
+Conditions.DatetimeRange(
+    field: "date",
+    gt: new DateTime(2023, 2, 8, 10, 49, 0, DateTimeKind.Utc),
+    lte: new DateTime(2024, 1, 31, 10, 14, 31, DateTimeKind.Utc)
+);
+```
+
 ### Geo
 
 #### Geo Bounding Box

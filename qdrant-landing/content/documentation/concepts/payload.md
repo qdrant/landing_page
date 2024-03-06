@@ -137,6 +137,35 @@ Example of single and multiple `geo` values:
 
 Coordinate should be described as an object containing two fields: `lon` - for longitude, and `lat` - for latitude.
 
+### Datetime
+
+*Available as of v1.8.0*
+
+`datetime` - date and time in [RFC 3339] format.
+
+See the following examples of single and multiple `datetime` values:
+
+```json
+{
+    "created_at": "2023-02-08T10:49:00Z",
+    "updated_at": [
+        "2023-02-08T13:52:00Z",
+        "2023-02-21T21:23:00Z"
+    ]
+}
+```
+
+The following formats are supported:
+- `"2023-02-08T10:49:00Z"` ([RFC 3339], UTC)
+- `"2023-02-08T11:49:00+01:00"` ([RFC 3339], with timezone)
+- `"2023-02-08T10:49:00"` (without timezone, UTC is assumed)
+- `"2023-02-08T10:49"` (without timezone and seconds)
+- `"2023-02-08"` (only date, midnight is assumed)
+
+The `T` and `Z` symbols are case-insensitive, and `T` can be replaced with a space.
+
+[RFC 3339]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.6
+
 ## Create point with payload
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/upsert_points))
 

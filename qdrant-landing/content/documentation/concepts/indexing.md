@@ -105,8 +105,9 @@ Available field types are:
 * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
 * `integer` - for [integer](../payload/#integer) payload, affects [Match](../filtering/#match) and [Range](../filtering/#range) filtering conditions.
 * `float` - for [float](../payload/#float) payload, affects [Range](../filtering/#range) filtering conditions.
-* `bool` - for [bool](../payload/#bool) payload, affects [Match](../filtering/#match) filtering conditions (available as of 1.4.0).
+* `bool` - for [bool](../payload/#bool) payload, affects [Match](../filtering/#match) filtering conditions (available as of v1.4.0).
 * `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
+* `datetime` - for [datetime](../payload/#datetime) payload, affects [Range](../filtering/#range) filtering conditions (available as of v1.8.0).
 * `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
 
 Payload index may occupy some additional memory, so it is recommended to only use index for those fields that are used in filtering conditions.
