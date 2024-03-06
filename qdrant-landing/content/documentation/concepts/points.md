@@ -1633,7 +1633,7 @@ If the value of the `next_page_offset` field is `null` - the last page is reache
 
 ### Order points by a payload key
 
-_Available as of v1.8_
+_Available as of v1.8.0_
 
 When using the [`scroll`](#scroll-points) API, you can sort the results by a payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, like it is shown in the following code:
 
