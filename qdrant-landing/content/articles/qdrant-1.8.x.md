@@ -3,12 +3,13 @@ title: "Qdrant 1.8.0 - Major Performance Enhancements"
 draft: false
 slug: qdrant-1.8.x 
 short_description: "New features and updates in Qdrant 1.8.0."
-description: "Sparse vector performance, Text index loading optimization, Text immutability, Dynamic CPU saturation" 
-preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
-title_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
-small_preview_image: /blog/qdrant-1.8.x/qdrant-1.8.0.png
-date: 2024-02-26T11:12:00-08:00
-author: David Myriel
+description: "Much faster sparse vectors, optimized indexation of text fields and optional CPU resource management configuration. " 
+social_preview_image: /articles_data/qdrant-1.8.x/social_preview.png
+small_preview_image: /articles_data/qdrant-1.8.x/icon.svg
+preview_dir: /articles_data/qdrant-1.8.x/preview
+weight: -140
+date: 2024-03-06T00:00:00-08:00
+author: David Myriel, Mike Jang
 featured: false 
 tags:
   - vector search
@@ -17,25 +18,24 @@ tags:
   - hybrid search
   - CPU resource management
   - text field index
-weight: 0 
 ---
 
 [Qdrant 1.8.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.8.0).
-This time around, we have focused on Qdrant's internals. Our goal was to optimize performance, so that your existing setup can run faster and save on compute. 
+This time around, we have focused on Qdrant's internals. Our goal was to optimize performance, so that your existing setup can run faster and save on compute. Here is what we've been up to:
 
-- **Faster search with sparse vectors:** Hybrid search is even faster than before!
-- **CPU resource management:** Allocate dedicated CPU threads for faster indexing. 
-- **Better indexing performance for text data:** Text indexing is more efficient on the backend.
+- **Faster sparse vectors:** Hybrid search is up to 16x faster now!
+- **CPU resource management:** You can allocate CPU threads for faster indexing. 
+- **Better indexing performance:** We optimized text indexing on the backend.
 
 ## Faster search with sparse vectors
 
-Search throughput is now up to 16 times faster for sparse vectors. If you are using our hybrid search, this means that Qdrant can now handle up to sixteen times as many queries. This improvement comes from extensive backend optimizations aimed at increasing efficiency and capacity. Our goal was to make sure that you can handle up to 10M vectors in a realistic scenario.
+Search throughput is now up to 16 times faster for sparse vectors. If you are [using Qdrant for hybrid search](https://qdrant.tech/articles/sparse-vectors/), this means that you can now handle up to sixteen times as many queries. This improvement comes from extensive backend optimizations aimed at increasing efficiency and capacity. Our goal was to make sure that you can handle up to 10M vectors in a realistic scenario.
 
 What this means for your setup:
 
-- **Query Speed:** The time it takes to run a search query has been significantly reduced. 
-- **Search Capacity:** Qdrant can now handle a much larger volume of search requests.
-- **User Experience:** Results will appear faster, leading to a smoother experience for the user.
+- **Query speed:** The time it takes to run a search query has been significantly reduced. 
+- **Search capacity:** Qdrant can now handle a much larger volume of search requests.
+- **User experience:** Results will appear faster, leading to a smoother experience for the user.
 - **Scalability:** You can easily accomodate rapidly growing users or an expanding dataset.
 
 ### Sparse vectors benchmark
@@ -49,13 +49,13 @@ Latency (y-axis) has dropped significantly for queries. You can see the before/a
 ![dropping latency](/blog/qdrant-1.8.x/benchmark.png)
 **Figure 1:** Dropping latency in sparse vector search queries across versions 1.7-1.8.
 
-The colors within the scatter plot show the frequency of the results. Frequency is highest where the red dots are. This tells us that latency for sparse vectors queries dropped by a factor of 16. Therefore, the time it takes to retrieve an answer with Qdrant is that much shorter. 
+The colors within both scatter plots show the frequency of results. The red dots show that the highest concentration is around 2200ms (before) and 135ms (after). This tells us that latency for sparse vectors queries dropped by about a factor of 16. Therefore, the time it takes to retrieve an answer with Qdrant is that much shorter. 
 
 This performance increase can have a dramatic effect on hybrid search implementations. [Read more about how to set this up.](https://qdrant.tech/articles/sparse-vectors/)
 
-FYI, sparse vectors were released in [Qdrant v.1.7.0](https://qdrant.tech/articles/qdrant-1.7.x/#sparse-vectors). They are stored using a different index, so first check out the documentation if you want to try an implementation.
+FYI, sparse vectors were released in [Qdrant v.1.7.0](https://qdrant.tech/articles/qdrant-1.7.x/#sparse-vectors). They are stored using a different index, so first [check out the documentation](https://qdrant.tech/documentation/concepts/indexing/#sparse-vector-index) if you want to try an implementation.
 
-## CPU Resource Management
+## CPU resource management
 
 Indexing is Qdrant’s most resource-intensive process. Now you can account for this by allocating compute use specifically to indexing. You can assign a number CPU resources towards indexing and leave the rest for search. As a result, indexes will build faster, and search quality will remain unaffected.
 
@@ -68,18 +68,19 @@ This version introduces a `optimizer_cpu_budget` parameter to control the maximu
 ```yaml
     # CPU budget, how many CPUs (threads) to allocate for an optimization job.
     optimizer_cpu_budget: 0
+```
+
 - If left at 0, Qdrant will keep 1 or more CPUs unallocated - depending on CPU size.
 - If the setting is positive, Qdrant will use this exact number of CPUs for indexing.
 - If the setting is negative, Qdrant will subtract this number of CPUs from the available CPUs for indexing.
 
 For most users, the default `optimizer_cpu_budget` setting will work well. We only recommend you use this if your indexing load is significant.
 
-![CPU management](/blog/qdrant-1.8.x/cpu-management.png)
-**Figure 2:** Allocating additional resources towards indexing.
+Our backend leverages dynamic CPU saturation to increase indexing speed. For that reason, the impact on search query performance ends up being minimal. Ultimately, you will be able to strike a the best possible balance between indexing times and search performance.
 
-Our backend leverages dynamic CPU saturation to increase indexing speed. For that reason, there will be absolutely no impact on search query performance.
+This configuration can be done at any time, but it requires a restart of Qdrant. Changing it affects both existing and new collections. 
 
-This configuration can be done at any time, but it requires a restart of Qdrant. Changing it affects both existing and new collections. Note that it cannot be changed on Qdrant Cloud, because users don't have access to the configuration.
+> **Note:** This feature is not available on [Qdrant Cloud](https://qdrant.to/cloud).
 
 ## Better indexing for text data
 
@@ -94,14 +95,14 @@ This approach ensures stability in the vector search index, with faster and more
 
 ## Minor improvements and new features
 
-Beyond these enhancements, Qdrant v1.8.0 adds and improves several features:
+Beyond these enhancements, [Qdrant v1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0) adds and improves on several smaller features:
 
-1. You can now use Scroll API to [order points by payload key](/documentation/concepts/points/#order-points-by-a-payload-key).
-2. We have implemented [date / time support for the payload index](https://github.com/qdrant/qdrant/issues/3320). 
-Prior to this, if users wanted to search for specific data / time range, Qdrant had to convert dates to UNIX timestamps.
-3. Added `/exists` to the `/collections/{collection_name}` endpoint for a true/false response to verify if a collection is there ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
-4. Included `min_should` match feature for a condition to be `true` ([PR#3331](https://github.com/qdrant/qdrant/pull/3466/)).
-5. Improved `set_payload` API, adding the ability to modify nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548).
+1. **Order points by payload:** In addition to searching for semantic results, you might want to retrieve results by specific metadata (such as price). You can now use Scroll API to [order points by payload key](/documentation/concepts/points/#order-points-by-a-payload-key). 
+2. **Date/time support:** We have implemented [date/time support for the payload index](https://github.com/qdrant/qdrant/issues/3320). 
+Prior to this, if you wanted to search for a specific date/time range, Qdrant had to convert dates to UNIX timestamps.
+3. **Check collection existence:** You can check whether a collection exists via the `/exists` endpoint to the `/collections/{collection_name}`. You will get a true/false response. ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
+4. **Find points** whose payloads match more than the minimal amount of conditions. We included the `min_should` match feature for a condition to be `true` ([PR#3331](https://github.com/qdrant/qdrant/pull/3466/)).
+5. **Modify nested fields:** We have improved the `set_payload` API, adding the ability to update nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548)).
 
 ## Release notes
 
