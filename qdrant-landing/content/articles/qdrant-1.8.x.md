@@ -80,7 +80,7 @@ Our backend leverages dynamic CPU saturation to increase indexing speed. For tha
 
 This configuration can be done at any time, but it requires a restart of Qdrant. Changing it affects both existing and new collections. 
 
-> **Note:** This feature is not available on [Qdrant Cloud](https://qdrant.to/cloud).
+> **Note:** This feature is not configurable on [Qdrant Cloud](https://qdrant.to/cloud).
 
 ## Better indexing for text data
 
