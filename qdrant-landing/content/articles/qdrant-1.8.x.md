@@ -97,7 +97,7 @@ This approach ensures stability in the vector search index, with faster and more
 
 Beyond these enhancements, [Qdrant v1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0) adds and improves on several smaller features:
 
-1. **Order points by payload:** In addition to searching for semantic results, you might want to retrieve results by specific metadata (such as price). You can now use Scroll API to [order points by payload key](/documentation/concepts/points/#order-points-by-a-payload-key). 
+1. **Order points by payload:** In addition to searching for semantic results, you might want to retrieve results by specific metadata (such as price). You can now use Scroll API to [order points by payload key](/documentation/concepts/points/#order-points-by-payload-key). 
 2. **Date/time support:** We have implemented [date/time support for the payload index](https://github.com/qdrant/qdrant/issues/3320). 
 Prior to this, if you wanted to search for a specific date/time range, Qdrant had to convert dates to UNIX timestamps.
 3. **Check collection existence:** You can check whether a collection exists via the `/exists` endpoint to the `/collections/{collection_name}`. You will get a true/false response. ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
