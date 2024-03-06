@@ -68,6 +68,7 @@ This version introduces a `optimizer_cpu_budget` parameter to control the maximu
 ```yaml
 # CPU budget, how many CPUs (threads) to allocate for an optimization job.
 optimizer_cpu_budget: 0
+```
 
 - If left at 0, Qdrant will keep 1 or more CPUs unallocated - depending on CPU size.
 - If the setting is positive, Qdrant will use this exact number of CPUs for indexing.
@@ -97,8 +98,7 @@ This approach ensures stability in the vector search index, with faster and more
 Beyond these enhancements, [Qdrant v1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0) adds and improves on several smaller features:
 
 1. **Order points by payload:** In addition to searching for semantic results, you might want to retrieve results by specific metadata (such as price). You can now use Scroll API to [order points by payload key](/documentation/concepts/points/#order-points-by-payload-key). 
-2. **Date/time support:** We have implemented [date/time support for the payload index](https://github.com/qdrant/qdrant/issues/3320). 
-Prior to this, if you wanted to search for a specific date/time range, Qdrant had to convert dates to UNIX timestamps.
+2. **Datetime support:** We have implemented [datetime support for the payload index](https://qdrant.tech/documentation/concepts/filtering/#datetime-range). Prior to this, if you wanted to search for a specific datetime range, Qdrant had to convert dates to UNIX timestamps. ([PR#3320](https://github.com/qdrant/qdrant/issues/3320)) 
 3. **Check collection existence:** You can check whether a collection exists via the `/exists` endpoint to the `/collections/{collection_name}`. You will get a true/false response. ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
 4. **Find points** whose payloads match more than the minimal amount of conditions. We included the `min_should` match feature for a condition to be `true` ([PR#3331](https://github.com/qdrant/qdrant/pull/3466/)).
 5. **Modify nested fields:** We have improved the `set_payload` API, adding the ability to update nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548)).
