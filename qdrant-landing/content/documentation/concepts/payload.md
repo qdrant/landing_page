@@ -156,13 +156,20 @@ See the following examples of single and multiple `datetime` values:
 ```
 
 The following formats are supported:
+
 - `"2023-02-08T10:49:00Z"` ([RFC 3339], UTC)
 - `"2023-02-08T11:49:00+01:00"` ([RFC 3339], with timezone)
 - `"2023-02-08T10:49:00"` (without timezone, UTC is assumed)
 - `"2023-02-08T10:49"` (without timezone and seconds)
 - `"2023-02-08"` (only date, midnight is assumed)
 
-The `T` and `Z` symbols are case-insensitive, and `T` can be replaced with a space.
+Notes about the format:
+
+- `T` can be replaced with a space.
+- The `T` and `Z` symbols are case-insensitive.
+- UTC is always assumed when the timezone is not specified.
+- Timezone can have the following formats: `±HH:MM`, `±HHMM`, `±HH`, or `Z`.
+- Seconds can have up to 6 decimals, so the finest granularity for `datetime` is microseconds.
 
 [RFC 3339]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.6
 
