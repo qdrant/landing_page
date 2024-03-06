@@ -143,7 +143,7 @@ Coordinate should be described as an object containing two fields: `lon` - for l
 
 `datetime` - date and time in [RFC 3339] format.
 
-Example of single and multiple `datetime` values:
+See the following examples of single and multiple `datetime` values:
 
 ```json
 {
