@@ -9,7 +9,7 @@ docs. We probably can also use this in our articles and blog posts.
 
 This first feature relates to progressive disclosure. When we have a "lot" of content, 
 many readers may want to skip over content such as descriptions of HNSW that they
-already know.
+already know. (Tip, click on the right facing arrow.)
 
 
 {{% expand "More info on HNSW" %}}
