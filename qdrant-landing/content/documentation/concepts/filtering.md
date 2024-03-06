@@ -1829,10 +1829,6 @@ Conditions.DatetimeRange(
 );
 ```
 
-Datetime range is a special case of the range condition, which is used for [datetime](../payload/#datetime) payloads.
-It shares the same field names as the range condition.
-During comparison, timestamps are parsed and converted to UTC.
-
 ### Geo
 
 #### Geo Bounding Box
