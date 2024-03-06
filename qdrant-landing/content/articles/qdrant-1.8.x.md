@@ -86,7 +86,7 @@ This configuration can be done at any time, but it requires a restart of Qdrant.
 
 In order to minimize your RAM expenditure, we have developed a new way to index specific types of data. Please keep in mind that this is a backend improvement, and you won't need to configure anything. 
 
-> Going forward, if you are indexing immutable text fields, we estimate a 10% reduction in RAM loads. Our benchmark result is based on a system that uses 64GB of RAM. If you are using less than that, indexing might be faster than 10%.
+> Going forward, if you are indexing immutable text fields, we estimate a 10% reduction in RAM loads. Our benchmark result is based on a system that uses 64GB of RAM. If you are using less RAM, this reduction might be higher than 10%.
 
 Immutable text fields are static and do not change once they are added to Qdrant. These entries usually represent some type of an attribute, description or a tag. Vectors associated with them can be indexed more efficiently, since you don’t need to re-index them anymore. Conversely, mutable fields are dynamic and can be modified after their initial creation. Please keep in mind that they will continue to require additional RAM.
 
@@ -98,7 +98,7 @@ This approach ensures stability in the vector search index, with faster and more
 Beyond these enhancements, [Qdrant v1.8.0](https://github.com/qdrant/qdrant/releases/tag/v1.8.0) adds and improves on several smaller features:
 
 1. **Order points by payload:** In addition to searching for semantic results, you might want to retrieve results by specific metadata (such as price). You can now use Scroll API to [order points by payload key](/documentation/concepts/points/#order-points-by-payload-key). 
-2. **Datetime support:** We have implemented [datetime support for the payload index](https://qdrant.tech/documentation/concepts/filtering/#datetime-range). Prior to this, if you wanted to search for a specific datetime range, Qdrant had to convert dates to UNIX timestamps. ([PR#3320](https://github.com/qdrant/qdrant/issues/3320)) 
+2. **Datetime support:** We have implemented [datetime support for the payload index](https://qdrant.tech/documentation/concepts/filtering/#datetime-range). Prior to this, if you wanted to search for a specific datetime range, you would have had to convert dates to UNIX timestamps. ([PR#3320](https://github.com/qdrant/qdrant/issues/3320)) 
 3. **Check collection existence:** You can check whether a collection exists via the `/exists` endpoint to the `/collections/{collection_name}`. You will get a true/false response. ([PR#3472](https://github.com/qdrant/qdrant/pull/3472)).
 4. **Find points** whose payloads match more than the minimal amount of conditions. We included the `min_should` match feature for a condition to be `true` ([PR#3331](https://github.com/qdrant/qdrant/pull/3466/)).
 5. **Modify nested fields:** We have improved the `set_payload` API, adding the ability to update nested fields ([PR#3548](https://github.com/qdrant/qdrant/pull/3548)).
