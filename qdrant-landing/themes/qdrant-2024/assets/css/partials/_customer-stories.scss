@@ -27,12 +27,6 @@
     margin: 0;
   }
 
-  &__link {
-    color: $primary-60;
-    font-size: map-get($font-sizes-text, 'l');
-    text-decoration: none;
-  }
-
   &__cards {
     display: flex;
     justify-content: center;

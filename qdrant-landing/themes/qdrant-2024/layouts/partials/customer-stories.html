@@ -1,10 +1,7 @@
 <section class="customer-stories">
   <div class="customer-stories__header">
     <h3 class="customer-stories__title">{{ .Params.title }}</h3>
-    <a class="customer-stories__link" href="{{ .Params.link.url }}">
-      <span>{{ .Params.link.text }}</span>
-      <span class="customer-stories__link-icon">{{ partial "svg" "Arrow-Right-Sm.svg" }}</span>
-    </a>
+    {{ partial "link" . }}
   </div>
   <div class="customer-stories__cards">
     {{ range .Params.storyCards }}

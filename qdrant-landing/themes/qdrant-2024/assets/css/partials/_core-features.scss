@@ -16,6 +16,7 @@
   &__title {
     font-size: map-get($font-sizes, 2);
     line-height: rem(67);
+    text-align: center;
     margin-bottom: $spacer * 1.5;
     max-width: rem(920);
   }
@@ -26,12 +27,6 @@
     margin-bottom: $spacer * 1.5;
     max-width: rem(920);
     text-align: center;
-  }
-
-  &__link {
-    color: $primary-60;
-    font-size: map-get($font-sizes-text, 'l');
-    text-decoration: none;
   }
 
   &__cards {

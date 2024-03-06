@@ -15,8 +15,6 @@
     font-size: $font-size-s;
   }
   &__link {
-    color: $primary-60;
-    font-size: $font-size-s;
-    text-decoration: none;
+    font-size: $font-size-s !important;
   }
 }
