@@ -1693,7 +1693,7 @@ client.scrollAsync(ScrollPoints.newBuilder()
 await client.ScrollAsync("{collection_name}", limit: 15, orderBy: "timestamp");
 ```
 
-The `order_by` `key` parameter specifies the payload key to order the results by, but there are also other fields that can be set to control the ordering, like `direction` and `start_from`:
+Use the `order_by` `key` parameter to specify the payload key. You can then add other fields to control the ordering, like `direction` and `start_from`:
 
 ```http
 "order_by": {
