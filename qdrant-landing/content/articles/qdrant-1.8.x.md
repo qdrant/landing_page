@@ -46,7 +46,7 @@ A real-life simulation of sparse vector queries was run against the [NeurIPS 202
 
 Latency (y-axis) has dropped significantly for queries. You can see the before/after here:
 
-![dropping latency](/blog/qdrant-1.8.x/benchmark.png)
+![dropping latency](/articles_data/qdrant-1.8.x/benchmark.png)
 **Figure 1:** Dropping latency in sparse vector search queries across versions 1.7-1.8.
 
 The colors within both scatter plots show the frequency of results. The red dots show that the highest concentration is around 2200ms (before) and 135ms (after). This tells us that latency for sparse vectors queries dropped by about a factor of 16. Therefore, the time it takes to retrieve an answer with Qdrant is that much shorter. 
