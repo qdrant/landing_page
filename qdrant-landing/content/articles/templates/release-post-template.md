@@ -1,9 +1,9 @@
 ---
-title: Qdrant x.y.0 - <include headline> #required; update version and headline
+title: "Qdrant x.y.0 - <include headline> #required; update version and headline"
 draft: false # If true, the article will not be published
 slug: qdrant-x.y.z # required; subtitute version number
-short_description: Short headline #required
-description: Headline with a little more detail. Suggested limit: 140 characters. #required
+short_description: "Headline-like description."
+description: "Headline with more detail. Suggested limit: 140 characters. " 
 # Follow instructions in https://github.com/qdrant/landing_page?tab=readme-ov-file#articles to create preview images
 social_preview_image: /articles_data/<slug>/social_preview.jpg # This image will be used in social media previews, should be 1200x600px. Required.
 small_preview_image: /articles_data/<slug>/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
