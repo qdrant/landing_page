@@ -2,7 +2,7 @@
 title: "Qdrant 1.8.0 - Major Performance Enhancements"
 draft: false
 slug: qdrant-1.8.x 
-short_description: "New features and updates in Qdrant 1.8.0."
+short_description: "Faster sparse vectors.Optimized indexation. Optional CPU resource management."
 description: "Much faster sparse vectors, optimized indexation of text fields and optional CPU resource management configuration. " 
 social_preview_image: /articles_data/qdrant-1.8.x/social_preview.png
 small_preview_image: /articles_data/qdrant-1.8.x/icon.svg
