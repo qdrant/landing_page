@@ -66,9 +66,8 @@ This version introduces a `optimizer_cpu_budget` parameter to control the maximu
 > Read more about `config.yaml` in the [configuration file](https://qdrant.tech/documentation/guides/configuration/).
 
 ```yaml
-    # CPU budget, how many CPUs (threads) to allocate for an optimization job.
-    optimizer_cpu_budget: 0
-```
+# CPU budget, how many CPUs (threads) to allocate for an optimization job.
+optimizer_cpu_budget: 0
 
 - If left at 0, Qdrant will keep 1 or more CPUs unallocated - depending on CPU size.
 - If the setting is positive, Qdrant will use this exact number of CPUs for indexing.
