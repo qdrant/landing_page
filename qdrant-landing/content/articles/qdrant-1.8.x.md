@@ -70,7 +70,7 @@ This version introduces a `optimizer_cpu_budget` parameter to control the maximu
 optimizer_cpu_budget: 0
 ```
 
-- If left at 0, Qdrant will keep 1 or more CPUs unallocated - depending on CPU size.
+- If setting is left at 0, Qdrant will keep 1 or more CPUs unallocated - depending on CPU size.
 - If the setting is positive, Qdrant will use this exact number of CPUs for indexing.
 - If the setting is negative, Qdrant will subtract this number of CPUs from the available CPUs for indexing.
 
