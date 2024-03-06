@@ -11,6 +11,22 @@ aliases:
 Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
+## How many Qdrant nodes should I run?
+
+The ideal number of Qdrant nodes depends on how much you value resilience, performance/scalability, and cost-saving in relation to each other.
+
+If you need to save on costs above all else, you can run a single Qdrant node. The downsides are that your cluster will experience downtime during node restarts, performance is limited to the resources of a single server, and the full loss of one node cannot be recovered from without backups. Single-node clusters are generally only recommended for non-production workloads.
+
+If you need to ensure your cluster does not experience downtime during maintenance, you can run two or more Qdrant nodes with replicated shards. Running only two nodes means your cluster will still respond to most read and write requests even when one node goes down, but not operations on collections. Creating, editing, and deleting collections must flow through the consensus protocol, so you need at least two healthy nodes to perform collection operations. Since collection operations are rarely needed, two-node clusters are a good balance between resilience and cost.
+
+If you need to increase performance or scalability, you can run two or more Qdrant nodes without replicating shards to every node. By not replicating shards, you gain the ability to scale beyond a single node, and you gain performance benefits without having to use up as much RAM or disk space. The downside is that resilience suffers, since non-replicated shards cannot be served when the node holding that shard is down.
+
+If you need to maximize resilience and performance/scalability, you can run three or more Qdrant nodes, with each shard replicated to at least two nodes. Running three nodes means all operations continue to work when one node is down, and you gain the increased performance/scalability from the multiple nodes.
+
+In summary, single-node clusters are best for non-production workloads, replicated two-node clusters strike a good balance, but replicated 3+ node clusters are the gold standard.
+
+## Enabling distributed mode in self-hosted Qdrant
+
 To enable distributed deployment - enable the cluster mode in the [configuration](../configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
 
 ```yaml
@@ -105,6 +121,18 @@ Example result:
   "time": 5.731e-06
 }
 ```
+
+## Enabling distributed mode in Qdrant Cloud
+
+In Qdrant Cloud, when you click "Scale Up" to increase your cluster size to >1, the distributed mode settings are set automatically, resulting in a new empty node starting up. For best results, ensure your cluster is running Qdrant v1.7.4 or higher.
+
+## Making use of a new distributed Qdrant cluster
+
+When you enable distributed mode and scale up to 2 or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, you will have to do one of the following:
+
+* You can replicate your existing data to the new node by [creating new shard replicas](#creating-new-shard-replicas)
+* You can create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more (can only be set at creation time)
+* You can move data (without replicating it) onto the new node by [moving shards](#moving-shards)
 
 ## Raft
 
@@ -819,6 +847,17 @@ Use the [Collection Snapshot Recovery API](../../concepts/snapshots/#recover-in-
 The service will download the specified snapshot of the collection and recover shards with data from it.
 
 Once all shards of the collection are recovered, the collection will become operational again.
+
+### Temporary node failure
+
+If properly configured, running Qdrant in distributed mode can make your cluster resistent to outages when one node is down temporarily.
+
+Here is how differently-configured Qdrant clusters respond to one node going down temporarily:
+
+* 1-node clusters: All operations will time out or fail for a few second to a few minutes, depending on how long it takes to restart and load data from disk.
+* 2-node clusters where shards ARE NOT replicated: All operations will time out or fail for a few second to a few minutes, depending on how long it takes to restart and load data from disk.
+* 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections will continue to work during the outage.
+* 3+-node clusters where all shards are replicated to at least 2 nodes: All requests will continue to work during the outage.
 
 ## Consistency guarantees
 
