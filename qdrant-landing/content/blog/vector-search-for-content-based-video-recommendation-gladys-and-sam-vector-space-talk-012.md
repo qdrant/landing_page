@@ -10,7 +10,7 @@ description: Diving into the realm of chatbots, Sourabh Agrawal sheds light on
 preview_image: /blog/from_cms/sourabh-agrawal-bp-cropped.png
 date: 2024-03-07T18:57:43.704Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - Vector Space Talks
   - LLM
