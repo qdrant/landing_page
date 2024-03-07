@@ -325,11 +325,38 @@ hits = client.search(
 )
 ```
 
-Output:
+Now, review the results. The following bullets list the module, the file name and score. Each
+module has a signature.
+
+- module = `toc`, file name = `point_ops.rs`, score = 0.59448624
+  - Signature:
+    ```rust
+    async fn count (& self,
+                    collection_name: & str,
+                    request: CountRequestInternal,
+                    read_consistency: Option<ReadConsistency>,
+                    shard_selection: ShardSelectorInternal,
+    ) -> Result<CountResult, StorageError> 
+    ```
+
+| Module | file_name    | score      |
+|--------|--------------|------------|
+| toc    | point_ops.rs | 0.59448624 |
+
+- Signature:
+  ```rust
+  async fn count (& self,
+                  collection_name: & str,
+                  request: CountRequestInternal,
+                  read_consistency: Option<ReadConsistency>,
+                  shard_selection: ShardSelectorInternal,
+  ) -> Result<CountResult, StorageError> 
+  ```
 
 | module             | file_name           | score      | signature                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        |
 |--------------------|---------------------|------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| toc                | point_ops.rs        | 0.59448624 | ` async fn count (& self , collection_name : & str , request : CountRequestInternal , read_consistency : Option < ReadConsistency > , shard_selection : ShardSelectorInternal ,) -> Result < CountResult , StorageError > `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
+| toc                | point_ops.rs        | 0.59448624 | async fn count (& self,<br>    collection_name
+) -> Result<CountResult, StorageError> { |
 | operations         | types.rs            | 0.5493385  | ` # [doc = " Count Request"] # [doc = " Counts the number of points which satisfy the given filter."] # [doc = " If filter is not provided, the count of all points in the collection will be returned."] # [derive (Debug , Deserialize , Serialize , JsonSchema , Validate)] # [serde (rename_all = "snake_case")] pub struct CountRequestInternal { # [doc = " Look only for points which satisfies this conditions"] # [validate] pub filter : Option < Filter > , # [doc = " If true, count exact number of points. If false, count approximate number of points faster."] # [doc = " Approximate count might be unreliable during the indexing process. Default: true"] # [serde (default = "default_exact_count")] pub exact : bool , } ` |
 | collection_manager | segments_updater.rs | 0.5121002  | ` fn upsert_points < 'a , T > (segments : & SegmentHolder , op_num : SeqNumberType , points : T ,) -> CollectionResult < usize > where T : IntoIterator < Item = & 'a PointStruct > , `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
 | collection         | point_ops.rs        | 0.5063539  | ` async fn count (& self , request : CountRequestInternal , read_consistency : Option < ReadConsistency > , shard_selection : & ShardSelectorInternal ,) -> CollectionResult < CountResult > `                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   |
