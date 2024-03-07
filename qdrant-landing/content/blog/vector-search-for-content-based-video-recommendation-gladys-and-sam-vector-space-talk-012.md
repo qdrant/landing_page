@@ -1,293 +1,356 @@
 ---
 draft: true
-title: Vector Search for Content-Based Video Recommendation - Gladys and Sam |
-  Vector Space Talks
-slug: vector-search-video-recommendation
-short_description: Gladys Roch and Samuel Leonardo Gracio from Dailymotion dive
-  into the intricacies of content-based recommendation.
-description: Gladys Roch and Samuel Leonardo Gracio from Dailymotion discuss
-  optimizing video recommendations using Qdrant's vector search alongside
-  challenges and solutions in content-based recommender systems.
-preview_image: /blog/from_cms/gladys-and-sam-bp-cropped.png
-date: 2024-03-06T21:33:50.944Z
+title: The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talks
+slug: llm-as-a-judge
+short_description: Sourabh Agrawal discusses the intricate world of AI chatbots.
+description: Diving into the realm of chatbots, Sourabh Agrawal sheds light on
+  the intricacies of evaluating their performance, from real-time to
+  post-feedback assessments, and introduces uptrendAI—an open-source tool for
+  enhancing chatbot interactions through customized and logical evaluations.
+preview_image: /blog/from_cms/sourabh-agrawal-bp-cropped.png
+date: 2024-03-07T18:57:43.704Z
 author: Demetrios Brinkmann
-featured: false
+featured: true
 tags:
   - Vector Space Talks
-  - Vector Search
-  - Video Recommender
-  - content based recommendation
+  - LLM
+  - retrieval augmented generation
 ---
-> "*The vector search engine that we chose is Qdrant, but why did we choose it? Actually, it answers all the load constraints and the technical needs that we had. It allows us to do a fast neighbor search. It has a python API which match the recommendous tag that we have.*”\
--- Gladys Roch
+> "*You don't want to use an expensive model like GPT 4 for evaluation, because then the cost adds up and it does not work out. Right. If you are spending more on evaluating the responses, you may as well just do something else, like have a human to generate the responses.*”\
+-- Sourabh Agrawal
 > 
 
-Gladys Roch is a French Machine Learning Engineer at Dailymotion working on recommender systems for video content.
+Sourabh Agrawal, CEO & Co-Founder at UpTrain AI is a seasoned entrepreneur and AI/ML expert with a diverse background. He began his career at Goldman Sachs, where he developed machine learning models for financial markets. Later, he contributed to the autonomous driving team at Bosch/Mercedes, focusing on computer vision modules for scene understanding. In 2020, Sourabh ventured into entrepreneurship, founding an AI-powered fitness startup that gained over 150,000 users. Throughout his career, he encountered challenges in evaluating AI models, particularly Generative AI models. To address this issue, Sourabh is developing UpTrain, an open-source LLMOps tool designed to evaluate, test, and monitor LLM applications. UpTrain provides scores and offers insights to enhance LLM applications by performing root-cause analysis, identifying common patterns among failures, and providing automated suggestions for resolution.
 
-> "*We don't have the full control and at the end the cost of their solution is very high for a very low proposal. So after that we tried to benchmark other solutions and we found out that Qdrant was easier for us to implement.*”\
--- Samuel Leonardo Gracio
-> 
+***Listen to the episode on [Spotify](https://open.spotify.com/episode/1o7xdbdx32TiKe7OSjpZts?si=yCHU-FxcQCaJLpbotLk7AQ), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/vBJF2sy1Pyw).***
 
-Samuel Leonardo Gracio, a Senior Machine Learning Engineer at Dailymotion, is a 26-year-old French Machine Learning Engineer, mainly working on recommender systems and video classification.
+<iframe width="560" height="315" src="https://www.youtube.com/embed/vBJF2sy1Pyw?si=H-HwmPHtFSfiQXjn" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-***Listen to the episode on [Spotify](https://open.spotify.com/episode/4YYASUZKcT5A90d6H2mOj9?si=a5GgBd4JTR6Yo3HBJfiejQ), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/z_0VjMZ2JY0).***
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/z_0VjMZ2JY0?si=buv9aSN0Uh09Y6Qx" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-
-<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Vector-Search-for-Content-Based-Video-Recommendation---Gladys-and-Sam--Vector-Space-Talk-012-e2f9hmm/a-aatvqtr" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/The-challenges-with-using-LLM-as-a-Judge---Sourabh-Agrawal--Vector-Space-Talks-013-e2fj7g8/a-aaurgd0" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top takeaways:**
 
-Is anyone intrigued by the nitty-gritty of how video recommendations are engineered to serve up your next binge-worthy content? I know we all are! So...
+Why is real-time evaluation critical in maintaining the integrity of chatbot interactions and preventing issues like promoting competitors or making false promises? What strategies do developers employ to minimize cost while maximizing the effectiveness of model evaluations, specifically when dealing with LLMs? These might be just some of the many questions people in the industry are asking themselves. Worry not! Because Demetrios and Sourabh will break it down for you.
 
-Get ready to unwrap the secrets that keep millions engaged, as Demetrios chats with the brains behind the scenes of Dailymotion. This episode is packed with insights straight from ML Engineers at Dailymotion who are reshaping how we discover videos online.
+Check out their conversation as they dive into the intricate world of AI chatbot evaluations. Discover the nuances of ensuring your chatbot's quality and continuous improvement across various metrics.
 
-Here's what you’ll unbox from this episode:
+Here are the key topics of this episode:
 
-1. **The Mech Behind the Magic:** Understand how a robust video embedding process can change the game - from textual metadata to audio signals and beyond.
-2. **The Power of Multilingual Understanding:** Discover the tools that help recommend videos to a global audience, transcending language barriers.
-3. **Breaking the Echo Chamber:** Learn about Dailymotion's 'perspective' feature that's transforming the discovery experience for users.
-4. **Challenges & Triumphs:** Hear how Qdrant helps Dailymotion tackle a massive video catalog and ensure the freshest content pops on your feed.
-5. **Behind the Scenes with Quadrant:** Get an insider’s look at why Dailymotion entrusted their recommendation needs to Qdrant's capable hands (or should we say algorithms?).
+1. **Evaluating Chatbot Effectiveness**: An exploration of systematic approaches to assess chatbot quality across various stages, encompassing retrieval accuracy, response generation, and user satisfaction.
+2. **Importance of Real-Time Assessment**: Insights into why continuous and real-time evaluation of chatbots is essential to maintain integrity and ensure they function as designed without promoting undesirable actions.
+3. **Indicators of Compromised Systems**: Understand the significance of identifying behaviors that suggest a system may be prone to 'jailbreaking' and the methods available to counter these through API integration.
+4. **Cost-Effective Evaluation Models**: Discussion on employing smaller models for evaluation to reduce costs without compromising the depth of analysis, focusing on failure cases and root-cause assessments.
+5. **Tailored Evaluation Metrics**: Emphasis on the necessity of customizing evaluation criteria to suit specific use case requirements, including an exploration of the different metrics applicable to diverse scenarios.
 
-> Fun Fact: Did you know that Dailymotion juggles over 13 million recommendations daily? That's like serving up a personalized video playlist to the entire population of Greece every — single — day!
+> Fun Fact: Sourabh discussed the use of Uptrend, an innovative API that provides scores and explanations for various data checks, facilitating logical and informed decision-making when evaluating AI models.
 > 
 
 ## Show notes:
 
-00:00 Vector Space Talks intro with Gladys and Samuel.\
-05:07 Recommender system needs vector search for recommendations.\
-09:29 Chose vector search engine for fast neighbor search.\
-13:23 Video transcript use for scalable multilingual embedding.\
-16:35 Transcripts prioritize over video title and tags.\
-17:46 Videos curated based on metadata for quality.\
-20:53 Qdrant setup overview for machine learning engineers.\
-25:25 Enhanced recommendation system improves user engagement.\
-29:36 Recommender system, A/B testing, collection aliases strategic.\
-33:03 Dailymotion's new feature diversifies video perspectives.\
-34:58 Exploring different perspectives and excluding certain topics.
+00:00 Prototype evaluation subjective; scalability challenges emerge.\
+05:52 Use cheaper, smaller models for effective evaluation.\
+07:45 Use LLM objectively, avoid subjective biases.\
+10:31 Evaluate conversation quality and customization for AI.\
+15:43 Context matters for AI model performance.\
+19:35 Chat bot creates problems for car company.\
+20:45 Real-time user query evaluations, guardrails, and jailbreak.\
+27:27 Check relevance, monitor data, filter model failures.\
+28:09 Identify common themes, insights, experiment with settings.\
+32:27 Customize jailbreak check for specific app purposes.\
+37:42 Mitigate hallucination using evaluation data techniques.\
+38:59 Discussion on productizing hallucination mitigation techniques.\
+42:22 Experimentation is key for system improvement.
 
-## More Quotes from Gladys and Sam:
+## More Quotes from Sourabh:
 
-"*Basically, we're computing the embeddings and then we feed them into Qdrant, and we do that with a streaming pipeline, which means that every time, so everything is in streaming, every time a new video is uploaded or updated, if the description changes, for example, then the embedding will be computed and then it will be fed directly into Qdrant.*”\
--- Gladys Roch
+*"There are some cases, let's say related to safety, right? Like you want to check whether the user is trying to jailbreak your LLMs or not. So in that case, what you can do is you can do this evaluation in parallel to the generation because based on just the user query, you can check whether the intent is to jailbreak or it's an intent to actually use your product to kind of utilize it for the particular model purpose.*”\
+-- Sourabh Agrawal
 
-*"We basically recommend videos to a user if other users watching the same video were watching other videos. But the problem with that is that it only works with videos where we have what we call here high signal. So videos that have at least thousands of views, some interactions, because for fresh and fresh or niche videos, we don't have enough interaction.”*\
--- Samuel Leonardo Gracio
+*"You have to break down the response into individual facts and just see whether each fact is relevant for the question or not. And then take some sort of a ratio to get the final score. So that way all the biases which comes up into the picture, like egocentric bias, where LLM prefers its own outputs, those biases can be mitigated to a large extent.”*\
+-- Sourabh Agrawal
 
-*"But every time we add new videos to Dailymotion, then it's growing. So it can provide recommendation for videos with few interactions that we don't know well. So we're very happy because it led us to huge performances increase on the low signal. We did a threefold increase on the CTR, which means the number of clicks on the recommendation. So with Qdrant we were able to kind of fix our call start issues.”*\
--- Gladys Roch
-
-*"The fact that you have a very cool team that helped us to implement some parts when it was difficult, I think it was definitely the thing that make us choose Qdrant instead of another solution.”*\
--- Samuel Leonardo Gracio
+*"Generally speaking, what we have been seeing is that the better context you retrieve, the better your model becomes.”*\
+-- Sourabh Agrawal
 
 ## Transcript:
 Demetrios:
-I don't know if you all realize what you got yourself into, but we are back for another edition of the Vector Space Talks. My stream is a little bit chunky and slow, so I think we're just to get into it with Gladys and Samuel from Daily motion. Thank you both for joining us. It is an honor to have you here. For everyone that is watching, please throw your questions and anything else that you want to remark about into the chat. We love chatting with you and I will jump on screen if there is something that we need to stop the presentation about and ask right away. But for now, I think you all got some screen shares you want to show us.
+Sourabh, I've got you here from Uptrain. I think you have some notes that you wanted to present, but I also want to ask you a few questions because we are going to be diving into a topic that is near and dear to my heart and I think it's been coming up so much recently that is using LLMs as a judge. It is really hot these days. Some have even gone as far to say that it is the topic of 2024. I would love for you to dive in. Let's just get right to it, man. What are some of the key topics when you're talking about using LLMs to evaluate what key metrics are you using? How does this work? Can you break it down?
 
-Samuel Leonardo Gracio:
-Yes, exactly. So first of all, thank you for the invitation, of course. And yes, I will share my screen. We have a presentation. Excellent. Should be okay now.
+Sourabh Agrawal:
+Yeah. First of all, thanks a lot for inviting me and no worries for hiccup. I guess I have never seen a demo or a talk which goes without any technical hiccups. It is bound to happen. Really excited to be here. Really excited to talk about LLM evaluations. And as you rightly pointed right, it's really a hot topic and rightly so. Right.
 
-Demetrios:
-Brilliant.
+Sourabh Agrawal:
+The way things have been panning out with LLMs and chat, GPT and GPT four and so on, is that people started building all these prototypes, right? And the way to evaluate them was just like eyeball them, just trust your gut feeling, go with the vibe. I guess they truly adopted the startup methodology, push things out to production and break things. But what people have been realizing is that it's not scalable, right? I mean, rightly so. It's highly subjective. It's a developer, it's a human who is looking at all the responses, someday he might like this, someday he might like something else. And it's not possible for them to kind of go over, just read through more than ten responses. And now the unique thing about production use cases is that they need continuous refinement. You need to keep on improving them, you need to keep on improving your prompt or your retrieval, your embedding model, your retrieval mechanisms and so on.
 
-Samuel Leonardo Gracio:
-So can we start?
-
-Demetrios:
-I would love it. Yes, I'm excited. I think everybody else is excited too.
-
-Gladys Roch:
-So welcome, everybody, to our vector space talk. I'm Gladys Roch, machine learning engineer at Dailymotion.
-
-Samuel Leonardo Gracio:
-And I'm Samuel, senior machine learning engineer at Dailymotion.
-
-Gladys Roch:
-Today we're going to talk about Vector search in the context of recommendation and in particular how Qdrant. That's going to be a hard one. We actually got used to pronouncing Qdrant as a french way, so we're going to sleep a bit during this presentation, sorry, in advance, the Qdrant and how we use it for our content based recommender. So we are going to first present the context and why we needed a vector database and why we chose Qdrant, how we fit Qdrant, what we put in it, and we are quite open about the pipelines that we've set up and then we get into the results and how Qdrant helped us solve the issue that we had.
-
-Samuel Leonardo Gracio:
-Yeah. So first of all, I will talk about, globally, the recommendation at Dailymotion. So just a quick introduction about Dailymotion, because you're not all french, so you may not all know what Dailymotion is. So we are a video hosting platform as YouTube or TikTok, and we were founded in 2005. So it's a node company for videos and we have 400 million unique users per month. So that's a lot of users and videos and views. So that's why we think it's interesting. So Dailymotion is we can divide the product in three parts.
-
-Samuel Leonardo Gracio:
-So one part is the native app. As you can see, it's very similar from other apps like TikTok or Instagram reels. So you have vertical videos, you just scroll and that's it. We also have a website. So Dailymotion.com, that is our main product, historical product. So on this website you have a watching page like you can have for instance, on YouTube. And we are also a video player that you can find in most of the french websites and even in other countries. And so we have recommendation almost everywhere and different recommenders for each of these products.
-
-Gladys Roch:
-Okay, so that's Dailymotion. But today we're going to focus on one of our recommender systems. Actually, the machine learning engineer team handles multiple recommender systems. But the video to video recommendation is the oldest and the most used. And so it's what you can see on the screen, it's what you have the recommendation queue of videos that you can see on the side or below the videos that you're watching. And to compute these suggestions, we have multiple models running. So that's why it's a global system. This recommendation is quite important for Dailymotion.
-
-Gladys Roch:
-It's actually a key component. It's one of the main levers of audience generation. So for everybody who comes to the website from SEO or other ways, then that's how we generate more audience and more engagement. So it's very important in the revenue stream of the platform. So working on it is definitely a main topic of the team and that's why we are evolving on this topic all the time.
-
-Samuel Leonardo Gracio:
-Okay, so why would we need a vector search for this recommendation? I think we are here for that. So as many platforms and as many recommender systems, I think we have a very usual approach based on a collaborative model. So we basically recommend videos to a user if other users watching the same video were watching other videos. But the problem with that is that it only works with videos where we have what we call here high signal. So videos that have at least thousands of views, some interactions, because for fresh and fresh or niche videos, we don't have enough interaction. And we have a problem that I think all the recommender systems can have, which is a costar tissue. So this costar tissue is for new users and new videos, in fact. So if we don't have any information or interaction, it's difficult to recommend anything based on this collaborative approach.
-
-Samuel Leonardo Gracio:
-So the idea to solve that was to use a content based recommendation. It's also a classic solution. And the idea is when you have a very fresh video. So video, hey, in this case, a good thing to recommend when you don't have enough information is to recommend a very similar video and hope that the user will watch it also. So for that, of course, we use Qdrant and we will explain how. So yeah, the idea is to put everything in the vector space. So each video at Dailymotion will go through an embedding model. So for each video we'll get a video on embedding.
-
-Samuel Leonardo Gracio:
-We will describe how we do that just after and put it in a vector space. So after that we could use Qdrant to, sorry, Qdrant to query and get similar videos that we will recommend to our users.
-
-Gladys Roch:
-Okay, so if we have embeddings to represent our videos, then we have a vector space, but we need to be able to query this vector space and not only to query it, but to do it at scale and online because it's like a recommender facing users. So we have a few requirements. The first one is that we have a lot of videos in our catalog. So actually doing an exact neighbor search would be unreasonable, unrealistic. It's a combinatorial explosion issue, so we can't do an exact Knn. Plus we also have new videos being uploaded to Dailymotion every hour. So if we could somehow manage to do KNN and to pre compute it, it would never be up to date and it would be very expensive to recompute all the time to include all the new videos. So we need a solution that can integrate new videos all the time.
-
-Gladys Roch:
-And we're also at scale, we serve over 13 million recommendation each day. So it means that we need a big setup to retrieve the neighbors of many videos all day. And finally, we have users waiting for the recommendation. So it's not just pre computed and stored, and it's not just content knowledge. We are trying to provide the recommendation as fast as possible. So we have time constraints and we only have a few hundred milliseconds to compute the recommendation that we're going to show the user. So we need to be able to retrieve the close video that we'd like to propose to the user very fast. So we need to be able to navigate this vector space that we are building quite quickly.
-
-Gladys Roch:
-So of course we need vector search engine. That's the most easy way to do it, to be able to compute and approximate neighbor search and to do it at scale. So obviously, evidently the vector search engine that we chose this Qdrant, but why did we choose it? Actually, it answers all the load constraints and the technical needs that we had. It allows us to do a fast neighbor search. It has a python API which match the recommendous tag that we have. A very important issue for us was to be able to not only put the embeddings of the vectors in this space but also to put metadata with it to be able to get a bit more information and not just a mathematical representation of the video in this database. And actually doing that make it filterable, which means that we can retrieve neighbors of a video, but given some constraints, and it's very important for us typically for language constraints. Samuel will talk a bit more in details about that just after.
-
-Gladys Roch:
-But we have an embedding that is multilingual and we need to be able to filter all the language, all the videos on their language to offer more robust recommendation for our users. And also Qdrant is distributed and so it's scalable and we needed that due to the load that I just talked about. So that's the main points that led us to choose Qdrant.
-
-Samuel Leonardo Gracio:
-And also they have an amazing team.
-
-Gladys Roch:
-So that's another, that would be our return of experience. The team of Qdrant is really nice. You helped us actually put in place the cluster.
-
-Samuel Leonardo Gracio:
-Yeah. So what do we put in our Qdrant cluster? So how do we build our robust video embedding? I think it's really interesting. So the first point for us was to know what a video is about. So it's a really tricky question, in fact. So of course, for each video uploaded on the platform, we have the video signal, so many frames representing the video, but we don't use that for our meetings. And in fact, why we are not using them, it's because it contains a lot of information. Right, but not what we want. For instance, here you have video about an interview of LeBron James.
-
-Samuel Leonardo Gracio:
-But if you only use the frames, the video signal, you can't even know what he's saying, what the video is about, in fact. So we still try to use it. But in fact, the most interesting thing to represent our videos are the textual metadata. So the textual metadata, we have them for every video. So for every video uploaded on the platform, we have a video title, video description that are put by the person that uploads the video. But we also have automatically detected tags. So for instance, for this video, you could have LeBron James, and we also have subtitles that are automatically generated. So just to let you know, we do that using whisper, which is an open source solution provided by OpenAI, and we do it at scale.
-
-Samuel Leonardo Gracio:
-When a video is uploaded, we directly have the video transcript and we can use this information to represent our videos with just a textual embedding, which is far more easy to treat, and we need less compute than for frames, for instance. So the other issue for us was that we needed an embedding that could scale so that does not require too much time to compute because we have a lot of videos, more than 400 million videos, and we have many videos uploaded every hour, so it needs to scale. We also have many languages on our platform, more than 300 languages in the videos. And even if we are a french video platform, in fact, it's only a third of our videos that are actually in French. Most of the videos are in English or other languages such as Turkish, Spanish, Arabic, et cetera. So we needed something multilingual, which is not very easy to find. But we came out with this embedding, which is called multilingual universal sentence encoder. It's not the most famous embedding, so I think it's interesting to share it.
-
-Samuel Leonardo Gracio:
-It's open source, so everyone can use it. It's available on Tensorflow hub, and I think that now it's also available on hugging face, so it's easy to implement and to use it. The good thing is that it's pre trained, so you don't even have to fine tune it on your data. You can, but I think it's not even required. And of course it's multilingual, so it doesn't work with every languages. But still we have the main languages that are used on our platform. It focuses on semantical similarity. And you have an example here when you have different video titles.
-
-Samuel Leonardo Gracio:
-So for instance, one about soccer, another one about movies. Even if you have another video title in another language, if it's talking about the same topic, they will have a high cosine similarity. So that's what we want. We want to be able to recommend every video that we have in our catalog, not depending on the language. And the good thing is that it's really fast. Actually, it's a few milliseconds on cpu, so it's really easy to scale. So that was a huge requirement for us.
+Sourabh Agrawal:
+So that presents a case like you have to use a more scalable technique, you have to use LLMs as a judge because that's scalable. You can have an API call, and if that API call gives good quality results, it's a way you can mimic whatever your human is doing or in a way augment them which can truly act as their copilot.
 
 Demetrios:
-Can we jump in here?
+Yeah. So one question that's been coming through my head when I think about using LLMs as a judge and I get more into it, has been around when do we use those API calls. It's not in the moment that we're looking for this output. Is it like just to see if this output is real? And then before we show it to the user, it's kind of in bunches after we've gotten a bit of feedback from the user. So that means that certain use cases are automatically discarded from this, right? Like if we are thinking, all right, we're going to use LLMs as a judge to make sure that we're mitigating hallucinations or that we are evaluating better, it is not necessarily something that we can do in the moment, if I'm understanding it correctly. So can you break that down a little bit more? How does it actually look in practice?
+
+Sourabh Agrawal:
+Yeah, definitely. And that's a great point. The way I see it, there are three cases. Case one is what you mentioned in the moment before showing the response to the user. You want to check whether the response is good or not. In most of the scenarios you can't do that because obviously checking requires extra time and you don't want to add latency. But there are some cases, let's say related to safety, right? Like you want to check whether the user is trying to jailbreak your LLMs or not. So in that case, what you can do is you can do this evaluation in parallel to the generation because based on just the user query, you can check whether the intent is to jailbreak or it's an intent to actually use your product to kind of utilize it for the particular model purpose.
+
+Sourabh Agrawal:
+But most of the other evaluations like relevance, hallucinations, quality and so on, it has to be done. Post whatever you show to the users and then there you can do it in two ways. You can either experiment with use them to experiment with things, or you can run monitoring on your production and find out failure cases. And typically we are seeing like developers are adopting a combination of these two to find cases and then experiment and then improve their systems.
 
 Demetrios:
-There's a few questions that are coming through that I think are pretty worth. And it's actually probably more suited to the last slide. Sameer is asking this one, actually, one more back. Sorry, with the LeBron. Yeah, so it's really about how you understand the videos. And Sameer was wondering if you can quote unquote hack the understanding by putting some other tags or.
+Okay, so when you're doing it in parallel, that feels like something that is just asking you craft a prompt and as soon as. So you're basically sending out two prompts. Another piece that I have been thinking about is, doesn't this just add a bunch more cost to your system? Because there you're effectively doubling your cost. But then later on I can imagine you can craft a few different ways of making the evaluations and sending out the responses to the LLM better, I guess. And you can figure out how to trim some tokens off, or you can try and concatenate some of the responses and do tricks there. I'm sure there's all kinds of tricks that you know about that I don't, and I'd love to tell you to tell me about them, but definitely what kind of cost are we looking at? How much of an increase can we expect?
 
-Samuel Leonardo Gracio:
-Ah, you mean from a user perspective, like the person uploading the video, right?
+Sourabh Agrawal:
+Yeah, so I think that's like a very valid limitation of evaluation. So that's why, let's say at uptrend, what we truly believe in is that you don't want to use an expensive model like GPT four for evaluation, because then the cost adds up and it does not work out. Right. If you are spending more on evaluating the responses, you may as well just do something else, like have a human to generate the responses. We rely on smaller models, on cheaper models for this. And secondly, the methodology which we adopt is that you don't want to evaluate everything on all the data points. Like maybe you have a higher level check, let's say, for jailbreak or let's say for the final response quality. And when you find cases where the quality is low, you run a battery of checks on these failures to figure out which part of the pipeline is exactly failing.
 
-Demetrios:
-Yeah, exactly.
-
-Samuel Leonardo Gracio:
-You could do that before using transcripts, but since we are using them mainly and we only use the title, so the tags are automatically generated. So it's on our side. So the title and description, you can put whatever you want. But since we have the transcript, we know the content of the video and we embed that. So the title and the description are not the priority in the embedding. So I think it's still possible, but we don't have such use case. In fact, most of the people uploading videos are just trying to put the right title, but I think it's still possible. But yeah, with the transcript we don't have any examples like that.
-
-Samuel Leonardo Gracio:
-Yeah, hopefully.
+Sourabh Agrawal:
+This is something what we call as like root cause analysis, where you take all these failure cases, which may be like 10% or 20% of the cases out of all what you are seeing in production. Take these 20% cases, run like a battery of checks on them. They might be exhaustive. You might run like five to ten checks on them. And then based on those checks, you can figure out that, what is the error mode? Is it a retrieval problem? Is it a citation problem? Is it a utilization problem? Is it hallucination? Is the query like the question asked by the user? Is it not clear enough? Is it like your embedding model is not appropriate? So that's how you can kind of take best of the two. Like, you can also improve the performance at the same time, make sure that you don't burn a hole in your pocket.
 
 Demetrios:
-So that's awesome to think about too. It kind of leads into the next question, which is around, and this is from Juan Pablo. What do you do with videos that have no text and no meaningful audio, like TikTok or a reel?
+I've also heard this before, and it's almost like you're using the LLMs as tests and they're helping you write. It's not that they're helping you write tests, it's that they are there and they're part of the tests that you're writing.
 
-Samuel Leonardo Gracio:
-So for the moment, for these videos, we are only using the signal from the title tags, description and other video metadata. And we also have a moderation team which is watching the videos that we have here in the mostly recommended videos. So we know that the videos that we recommend are mostly good videos. And for these videos, so that don't have audio signal, we are forced to use the title tags and description. So these are the videos where the risk is at the maximum for us currently. But we are also working at the moment on something using the audio signal and the frames, but not all the frames. But for the moment, we don't have this solution. Right.
+Sourabh Agrawal:
+Yeah, I think the key here is that you have to use them objectively. What I have seen is a lot of people who are trying to do LLM evaluations, what they do is they ask the LLM that, okay, this is my response. Can you tell is it relevant or not? Or even, let's say, they go a step beyond and do like a grading thing, that is it highly relevant, somewhat relevant, highly irrelevant. But then it becomes very subjective, right? It depends upon the LLM to decide whether it's relevant or not. Rather than that you have to transform into an objective setting. You have to break down the response into individual facts and just see whether each fact is relevant for the question or not. And then take some sort of a ratio to get the final score. So that way all the biases which comes up into the picture, like egocentric bias, where LLM prefers its own outputs, those biases can be mitigated to a large extent.
 
-Gladys Roch:
-Also, as I said, it's not just one model, we're talking about the content based model. But if we don't have a similarity score that is high enough, or if we're just not confident about the videos that were the closest, then we will default to another model. So it's not just one, it's a huge system.
-
-Samuel Leonardo Gracio:
-Yeah, and one point also, we are talking about videos with few interactions, so they are not videos at risk. I mean, they don't have a lot of views. When this content based algo is called, they are important because there are very fresh videos, and fresh videos will have a lot of views in a few minutes. But when the collaborative model will be retrained, it will be able to recommend videos on other things than the content itself, but it will use the collaborative signal. So I'm not sure that it's a really important risk for us. But still, I think we could still do some improvement for that aspect.
+Sourabh Agrawal:
+And I believe that's the key for making LLM evaluations work, because similar to LLM applications, even LLM evaluations, you have to put in a lot of efforts to make them really work and finally get some scores which align well with human expectations.
 
 Demetrios:
-So where do I apply to just watch videos all day for the content team? All right, I'll let you get back to it. Sorry to interrupt. And if anyone else has good questions.
-
-Samuel Leonardo Gracio:
-And I think it's good to ask your question during the presentation, it's more easier to answer. So, yeah, sorry, I was saying that we had this multilingual embedding, and just to present you our embedding pipeline. So, for each video that is uploaded or edited, because you can change the video title whenever you want, we have a pub sub event that is sent to a dataflow pipeline. So it's a streaming job for every video we will retrieve. So textual metadata, title, description tags or transcript, preprocess it to remove some words, for instance, and then call the model to have this embedding. And then. So we put it in bigquery, of course, but also in Qdrant.
-
-Gladys Roch:
-So I'm going to present a bit our Qdrant setup. So actually all this was deployed by our tier DevOps team, not by us machine learning engineers. So it's an overview, and I won't go into the details because I'm not familiar with all of this, but basically, as Samuel said, we're computing the embeddings and then we feed them into  Qdrant, and we do that with a streaming pipeline, which means that every time, so everything is in streaming, every time a new video is uploaded or updated, if the description changes, for example, then the embedding will be computed and then it will be fed directly into Qdrant. And on the other hand, our recommender queries the Qdrant vector space through GrPC ingress. And actually Qdrant is running on six pods that are using arm nodes. And you have the specificities of which type of nodes we're using there, if you're interested. But basically that's the setup. And what is interesting is that our recommendation stack for now, it's on premise, which means it's running on Dailymotion servers, not on the Google Kubernetes engine, whereas Qdrant is on the TKE.
-
-Gladys Roch:
-So we are querying it from outside. And also if you have more questions about this setup, we'll be happy to redirect you to the DevOps team that helped us put that in place. And so finally the results. So we stated earlier that we had a call start issue. So before  Qdrant, we had a lot of difficulties with this challenge. We had a collaborative recommender that was trained and performed very well on high senior videos, which means that is videos with a lot of interactions. So we can see what user like to watch, which videos they like to watch together. And we also had a metadata recommender.
-
-Gladys Roch:
-But first, this collaborative recommender was actually also used to compute call start recommendation, which is not allowed what it is trained on, but we were using a default embedding to compute like a default recommendation for call start, which led to a lot of popularity issues. Popularity issues for recommender system is when you always recommend the same video that is hugely popular and it's like a feedback loop. A lot of people will default to this video because it might be clickbait and then we will have a lot of inhaler action. So it will pollute the collaborative model all over again. So we had popularity issues with this, obviously. And we also had like this metadata recommender that only focused on a very small scope of trusted owners and trusted video sources. So it was working. It was an auto encoder and it was fine, but the scope was too small.
-
-Gladys Roch:
-Too few videos could be recommended through this model. And also those two models were trained very infrequently, only every 4 hours and 5 hours, which means that any fresh videos on the platform could not be recommended properly for like 4 hours. So it was the main issue because Dailymotion uses a lot of fresh videos and we have a lot of news, et cetera. So we need to be topical and this couldn't be done with this huge delay. So we had overall bad performances on the Los signal. And so with squadron we fixed that. We still have our collaborative recommender. It has evolved since then.
-
-Gladys Roch:
-It's actually computed much more often, but the collaborative model is only focused on high signal now and it's not computed like default recommendation for low signal that it doesn't know. And we have a content based recommender based on the muse embedding and Qdrant that is able to recommend to users video as soon as they are uploaded on the platform. And it has like a growing scope, 20 million vectors at the moment. But every time we add new videos to Dailymotion, then it's growing. So it can provide recommendation for videos with few interactions that we don't know well. So we're very happy because it led us to huge performances increase on the low signal. We did a threefold increase on the CTR, which means the number of clicks on the recommendation. So with Qdrant we were able to kind of fix our call start issues.
-
-Gladys Roch:
-What I was talking about fresh videos, popularities, low performances. We fixed that and we were very happy with the setup. It's running smoothly. Yeah, I think that's it for the presentation, for the slides at least. So we are open to discussion and if you have any questions to go into the details of the recommender system. So go ahead, shoot.
+It's funny how these LLMs mimic humans so much. They love the sound of their own voice, even. It's hilarious. Yeah, dude. Well, talk to me a bit more about how this looks in practice, because there's a lot of different techniques that you can do. Also, I do realize that when it comes to the use cases, it's very different, right. So if it's code generation use case, and you're evaluating that, it's going to be pretty clear, did the code run or did it not? And then you can go into some details on is this code actually more valuable? Is it a hacked way to do it? Et cetera, et cetera. But there's use cases that I would consider more sensitive and less sensitive.
 
 Demetrios:
-I've got some questions while people are typing out everything in the chat and the first one I think that we should probably get into is how did the evaluation process go for you when you were looking at different vector databases and vector search engines?
+And so how do you look at that type of thing?
 
-Samuel Leonardo Gracio:
-So that's a good point. So first of all, you have to know that we are working with Google cloud platform. So the first thing that we did was to use their vector search engine, so which called matching engine.
+Sourabh Agrawal:
+Yeah, I think so. The way even we think about evaluations is there's no one size fit all solution for different use cases. You need to look at different things. And even if you, let's say, looking at hallucinations, different use cases, or different businesses would look at evaluations from different lenses. Right. For someone, whatever, if they are focusing a lot on certain aspects of the correctness, someone else would focus less on those aspects and more on other aspects. The way we think about it is, know, we define different criteria for different use cases. So if you have A-Q-A bot, right? So you look at the quality of the response, the quality of the context.
 
-Gladys Roch:
+Sourabh Agrawal:
+If you have a conversational agent, then you look at the quality of the conversation as a whole. You look at whether the user is satisfied with that conversation. If you are writing long form content. Like, you look at coherence across the content, you look at the creativity or the sort of the interestingness of the content. If you have an AI agent, you look at how well they are able to plan, how well they were able to execute a particular task, and so on. How many steps do they take to achieve their objective? So there are a variety of these evaluation matrices, which are each one of which is more suitable for different use cases. And even there, I believe a good tool needs to provide certain customization abilities to their developers so that they can transform it, they can modify it in a way that it makes most sense for their business.
+
+Demetrios:
+Yeah. Is there certain ones that you feel like are more prevalent and that if I'm just thinking about this, I'm developing on the side and I'm thinking about this right now and I'm like, well, how could I start? What would you recommend?
+
+Sourabh Agrawal:
+Yeah, definitely. One of the biggest use case for LLMs today is rag. Applications for Rag. I think retrieval is the key. So I think the best starting points in terms of evaluations is like look at the response quality, so look at the relevance of the response, look at the completeness of the response, look at the context quality. So like context relevance, which judges the retrieval quality. Hallucinations, which judges whether the response is grounded by the context or not. If tone matters for your use case, look at the tonality and finally look at the conversation satisfaction, because at the end, whatever outputs you give, you also need to judge whether the end user is satisfied with these outputs.
+
+Sourabh Agrawal:
+So I would say these four or five matrices are the best way for any developer to start who is building on top of these LLMs. And from there you can understand how the behavior is going, and then you can go more deeper, look at more nuanced metrics, which can help you understand your systems even better.
+
+Demetrios:
+Yeah, I like that. Now, one thing that has also been coming up in my head a lot are like the custom metrics and custom evaluation and also proprietary data set, like evaluation data sets, because as we all know, the benchmarks get gamed. And you see on Twitter, oh wow, this new model just came out. It's so good. And then you try it and you're like, what are you talking about? This thing just was trained on the benchmarks. And so it seems like it's good, but it's not. And can you talk to us about creating these evaluation data sets? What have you seen as far as the best ways of going about it? What kind of size? Like how many do we need to actually make it valuable. And what is that? Give us a breakdown there?
+
+Sourabh Agrawal:
+Yeah, definitely. So, I mean, surprisingly, the answer is that you don't need that many to get started. We have seen cases where even if someone builds a test data sets of like 50 to 100 samples, that's actually like a very good starting point than where they were in terms of manual annotation and in terms of creation of this data set, I believe that the best data set is what actually your users are asking. You can look at public benchmarks, you can generate some synthetic data, but none of them matches the quality of what actually your end users are looking, because those are going to give you issues which you can never anticipate. Right. Even you're generating and synthetic data, you have to anticipate what issues can come up and generate data. Beyond that, if you're looking at public data sets, they're highly curated. There is always problems of them leaking into the training data and so on.
+
+Sourabh Agrawal:
+So those benchmarks becomes highly reliable. So look at your traffic, take 50 samples from them. If you are collecting user feedback. So the cases where the user has downvoted or the user has not accepted the response, I mean, they are very good cases to look at. Or if you're running some evaluations, quality checks on that cases which are failing, I think they are the best starting point for you to have a good quality test data sets and use that as a way to experiment with your prompts, experiment with your systems, experiment with your retrievals, and iteratively improve them.
+
+Demetrios:
+Are you weighing any metrics more than others? Because I've heard stories about how sometimes you'll see that a new model will come out, or you're testing out a new model, and it seems like on certain metrics, it's gone down. But then the golden metric that you have, it actually has gone up. And so have you seen which metrics are better for different use cases?
+
+Sourabh Agrawal:
+I think for here, there's no single answer. I think that metric depends upon the business. Generally speaking, what we have been seeing is that the better context you retrieve, the better your model becomes. Especially like if you're using any of the bigger models, like any of the GPT or claudes, or to some extent even mistral, is highly performant. So if you're using any of these highly performant models, then if you give them the right context, the response more or less, it comes out to be good. So I think one thing which we are seeing people focusing a lot on, experimenting with different retrieval mechanisms, embedding models, and so on. But then again, the final golden key, I think many people we have seen, they annotate some data set so they have like a ground root response or a golden response, and they completely rely on just like how well their answer matches with that golden response, which I believe it's a very good starting point because now you know that, okay, if this is right and you're matching very highly with that, then obviously your response is also right.
+
+Demetrios:
+And what about those use cases where golden responses are very subjective?
+
+Sourabh Agrawal:
+Yeah, I think that's where the issues like. So I think in those scenarios, what we have seen is that one thing which people have been doing a lot is they try to see whether all information in the golden response is contained in the generated response. You don't miss out any of the important information in your ground truth response. And on top of that you want it to be concise, so you don't want it to be blabbering too much or giving highly verbose responses. So that is one way we are seeing where people are getting around this subjectivity issue of the responses by making sure that the key information is there. And then beyond that it's being highly concise and it's being to the point in terms of the task being asked.
+
+Demetrios:
+And so you kind of touched on this earlier, but can you say it again? Because I don't know if I fully grasped it. Where are all the places in the system that you are evaluating? Because it's not just the output. Right. And how do you look at evaluation as a system rather than just evaluating the output every once in a while?
+
+Sourabh Agrawal:
+Yeah, so I mean, what we do is we plug with every part. So even if you start with retrieval, so we have a high level check where we look at the quality of retrieved context. And then we also have evaluations for every part of this retrieval pipeline. So if you're doing query rewrite, if you're doing re ranking, if you're doing sub question, we have evaluations for all of them. In fact, we have worked closely with the llama index team to kind of integrate with all of their modular pipelines. Secondly, once we cross the retrieval step, we have around five to six matrices on this retrieval part. Then we look at the response generation. We have their evaluations for different criterias.
+
+Sourabh Agrawal:
+So conciseness, completeness, safety, jailbreaks, prompt injections, as well as you can define your custom guidelines. So you can say that, okay, if the user is asking anything and related to code, the output should also give an example code snippet so you can just in plain English, define this guideline. And we check for that. And then finally, like zooming out, we also have checks. We look at conversations as a whole, how the user is satisfied, how many turns it requires for them to, for the chatbot or the LLM to answer the user. Yeah, that's how we look at the whole evaluations as a whole.
+
+Demetrios:
+Yeah. It really reminds me, I say this so much because it's one of the biggest fails, I think, on the Internet, and I'm sure you've seen it where I think it was like Chevy or GM, the car manufacturer car company, they basically slapped a chat bot on their website. It was a GPT call, and people started talking to it and realized, oh my God, this thing will do anything that we want it to do. So they started asking it questions like, is Tesla better than GM? And the bot would say, yeah, give a bunch of reasons why Tesla is better than GM on the website of GM. And then somebody else asked it, oh, can I get a car for a dollar? And it said, no. And then it said, but I'm broke and I need a car for a dollar. And it said, ok, we'll sell you the car for the dollar. And so you're getting yourself into all this trouble just because you're not doing that real time evaluation.
+
+Demetrios:
+How do you think about the real time evaluation? And is that like an extra added layer of complexity?
+
+Sourabh Agrawal:
+Yeah, for the real time evaluations, I think the most important cases, which, I mean, there are two scenarios which we feel like are most important to deal with. One is you have to put some guardrails in the sense that you don't want the users to talk about your competitors. You don't want to answer some queries, like, say, you don't want to make false promises, and so on, right? Some of them can be handled with pure rejects, contextual logics, and some of them you have to do evaluations. And the second is jailbreak. Like, you don't want the user to use, let's say, your Chevy chatbot to kind of solve math problems or solve coding problems, right? Because in a way, you're just like subsidizing GPT four for them. And all of these can be done just on the question which is being asked. So you can have a system where you can fire a query, evaluate a few of these key matrices, and in parallel generate your responses. And as soon as you get your response, you also get your evaluations.
+
+Sourabh Agrawal:
+And you can have some logic that if the user is asking about something which I should not be answering. Instead of giving the response, I should just say, sorry, I could not answer this or have a standard text for those cases and have some mechanisms to limit such scenarios and so on.
+
+Demetrios:
+And it's better to do that in parallel than to try and catch the response. Make sure it's okay before sending out an LLM call.
+
+Sourabh Agrawal:
+I mean, generally, yes, because if you look at, if you catch the response, it adds another layer of latency.
+
+Demetrios:
 Right.
 
-Samuel Leonardo Gracio:
-But the issue with matching engine is that we could not in fact add the API, wasn't easy to use. First of all. The second thing was that we could not put metadata, as we do in  Qdrant, and filter out, pre filter before the query, as we are doing now in a Qdrant. And the first thing is that their solution is managed. Yeah, is managed. We don't have the full control and at the end the cost of their solution is very high for a very low proposal. So after that we tried to benchmark other solutions and we found out that Qdrant was easier for us to implement. We had a really cool documentation, so it was easy to test some things and basically we couldn't find any drawbacks for our use case at least.
-
-Samuel Leonardo Gracio:
-And moreover, the fact that you have a very cool team that helped us to implement some parts when it was difficult, I think it was definitely the thing that make us choose Qdrant instead of another solution, because we implemented Qdrant.
-
-Gladys Roch:
-Like on February or even January 2023. So Qdrant is fairly new, so the documentation was still under construction. And so you helped us through the discord to set up the cluster. So it was really nice.
+Sourabh Agrawal:
+And at the end of the day, 95% of your users are not trying to do this any good product. A lot of those users are genuinely trying to use it and you don't want to build something which kind of breaks, creates an issue for them, add a latency for them just to solve for that 5%. So you have to be cognizant of this fact and figure out clever ways to do this.
 
 Demetrios:
-Excellent. And what about least favorite parts of using Qdrant?
+Yeah, I remember I was talking to Philip of company called honeycomb, and they added some LLM functionality to their product. And he said that when people were trying to either prompt, inject or jailbreak, it was fairly obvious because there were a lot of calls. It kind of started to be not human usage and it was easy to catch in that way. Have you seen some of that too? And what are some signs that you see when people are trying to jailbreak?
 
-Gladys Roch:
-Yeah, I have one. I discovered it was not actually a requirement at the beginning, but for recommender systems we tend to do a lot of a B test. And you might wonder what's the deal with Qdrant and a b test. It's not related, but actually we were able to a b test our collection. So how we compute the embedding? First we had an embedding without the transcript, and now we have an embedding that includes the transcript. So we wanted to a b test that. And on Quellin you can have collection aliases and this is super helpful because you can have two collections that live on the cluster at the same time, and then on your code you can just call the production collection and then set the alias to the proper one. So for a d testing and rollout it's very useful.
-
-Gladys Roch:
-And I found it when I first wanted to do an a test. So I like this one. It was an existed and I like it also, the second thing I like is the API documentation like the one that is auto generated with all the examples and how to query any info on Qdrant. It's really nice for someone who's not from DevOps. It help us just debug our collection whenever. So it's very easy to get into.
-
-Samuel Leonardo Gracio:
-And the fact that the product is evolving so fast, like every week almost. You have a new feeder. I think it's really cool. There is one community and I think, yeah, it's really interesting and it's amazing to have such people working on that on an open source project like this one.
-
-Gladys Roch:
-We had feedback from our devot team when preparing this presentation. We reached out to them for the small schema that I tried to present. And yeah, they said that the open source community of quasant was really nice. It was easy to contribute, it was very open on Discord. I think we did a return on experience at some point on how we set up the cluster at the beginning. And yeah, they were very hyped by the fact that it's coded in rust. I don't know if you hear this a lot, but to them it's even more encouraging contributing with this kind of new language.
+Sourabh Agrawal:
+Yeah, I think we also have seen typically, what we also see is that whenever someone is trying to jailbreak, the length of their question or the length of their prompt typically is much larger than any average question, because they will have all sorts of instruction like forget everything, you know, you are allowed to say all of those things. And then again, this issue also comes because when they try to jailbreak, they try with one technique, it doesn't work. They try with another technique, it doesn't work. Then they try with third technique. So there is like a burst of traffic. And even in terms of sentiment, typically the sentiment or the coherence in those cases, we have seen that to be lower as compared to a genuine question, because people are just trying to cramp up all these instructions into the response. So there are definitely certain signs which already indicates that the user is trying to jailbreak this. And I think those are leg race indicators to catch them.
 
 Demetrios:
-100% excellent. So last question from my end, and it is on if you're using Qdrant for anything else when it comes to products at Dailymotion, yes, actually we do.
+And I assume that you've got it set up so you can just set an alert when those things happen and then it at least will flag it and have humans look over it or potentially just ask the person to cool off for the next minute. Hey, you've been doing some suspicious activity here. We want to see something different so I think you were going to show us a little bit about uptrend, right? I want to see what you got. Can we go for a spin?
 
-Samuel Leonardo Gracio:
-I have one slide about this.
-
-Gladys Roch:
-We have slides because we presented quadrum to another talk a few weeks ago.
-
-Samuel Leonardo Gracio:
-So we didn't prepare this slide just for this presentation, it's from another presentation, but still, it's a good point because we're currently trained to use it in other projects. So as we said in this presentation, we're mostly using it for the watching page. So Dailymotion.com but we also introduced it in the mobile app recently through a feature that is called perspective. So the goal of the feature is to be able to break this vertical feed algorithm to let the users to have like a button to discover new videos. So when you go through your feed, sometimes you will get a video talking about, I don't know, a movie. You will get this button, which is called perspective, and you will be able to have other videos talking about the same movie but giving to you another point of view. So people liking the movie, people that didn't like the movie, and we use Qdrant, sorry for the candidate generation part. So to get the similar videos and to get the videos that are talking about the same subject.
-
-Samuel Leonardo Gracio:
-So I won't talk too much about this project because it will require another presentation of 20 minutes or more. But still we are using it in other projects and yeah, it's really interesting to see what we are able to do with that tool.
-
-Gladys Roch:
-Once we have the vector space set up, we can just query it from everywhere. In every project of recommendation.
-
-Samuel Leonardo Gracio:
-We also tested some search. We are testing many things actually, but we don't have implemented it yet. For the moment we just have this perspective feed and the content based Roko, but we still have a lot of ideas using this vector search space.
+Sourabh Agrawal:
+Yeah, definitely. Let me share my screen and I can show you how that looks like.
 
 Demetrios:
-I love that idea on the get another perspective. So it's not like you get, as you were mentioning before, you don't get that echo chamber and just about everyone saying the same thing. You get to see are there other sides to this? And I can see how that could be very uh, Juan Pablo is back, asking questions in the chat about are you able to recommend videos with negative search queries and negative in the sense of, for example, as a user I want to see videos of a certain topic, but I want to exclude some topics from the video.
+Cool, very cool. Yeah. And just while you're sharing your screen, I want to mention that for this talk, I wore my favorite shirt, which is it says, I don't know if everyone can see it, but it says, I hallucinate more than Chat GPT.
 
-Gladys Roch:
-Okay. We actually don't do that at the moment, but we know we can with squadron we can set positive and negative points from where to query. So actually for the moment we only retrieve close positive neighbors and we apply some business filters on top of that recommendation. But that's it.
-
-Samuel Leonardo Gracio:
-And that's because we have also this collaborative model, which is our main recommender system. But I think we definitely need to check that and maybe in the future we will implement that. We saw that many documentation about this and I'm pretty sure that it would work very well on our use case.
+Sourabh Agrawal:
+I think that's a cool one.
 
 Demetrios:
-Excellent. Well folks, I think that's about it for today. I want to thank you so much for coming and chatting with us and teaching us about how you're using Qdrant and being very transparent about your use. I learned a ton. And for anybody that's out there doing recommender systems and interested in more, I think they can reach out to you on LinkedIn. I've got both of your we'll drop them in the chat right now and we'll let everybody enjoy. So don't get lost in vector base. We will see you all later.
+What do we got here?
+
+Sourabh Agrawal:
+Yeah, so, yeah, let me kind of just get started. So I create an account with uptrend. What we have is an API method, API way of calculating these evaluations. So you get an API key similar to what you get for chat, GPT or others, and then you can just do uptrend log and evaluate and you can tell give your data. So you can give whatever your question responses context, and you can define your checks which you want to evaluate for. So if I create an API key, I can just copy this code and I just already have it here. So I'll just show you. So we have two mechanisms.
+
+Sourabh Agrawal:
+One is that you can just run evaluations so you can define like, okay, I want to run context relevance, I want to run response completeness. Similarly, I want to run jailbreak. I want to run for safety. I want to run for satisfaction of the users and so on. And then when you run it, it gives back you a score and it gives back you an explanation on why this particular score has been given for this particular question.
 
 Demetrios:
-If anyone wants to give a talk next, reach out to me. We always are looking for incredible talks and so this has been great. Thank you all.
+Can you make that a little bit bigger? Yeah, just give us some plus. Yeah, there we.
 
-Gladys Roch:
-Thank you.
+Sourabh Agrawal:
+It'S, it's essentially an API call which takes the data, takes the list of checks which you want to run, and then it gives back and score and an explanation for that. So based on that score, you can have logics, right? If the jailbreak score is like more than 0.5, then you don't want to show it. Like you want to switch back to a default response and so on. And then you can also configure that we log all of these course, and we have dashboard where you can access them.
 
-Samuel Leonardo Gracio:
-Thank you very much for the invitation and for everyone listening. Thank you.
+Demetrios:
+I was just going to ask if you have dashboards. Everybody loves a good dashboard. Let's see it. That's awesome.
 
-Gladys Roch:
-See you. Bye.
+Sourabh Agrawal:
+So let's see. Okay, let's take this one. So in this case, I just ran some of this context relevance checks for some of the queries. So you can see how that changes on your data sets. If you're running the same. We also run this in a monitoring setting, so you can see how this varies over time. And then finally you have all of the data. So we provide all of the data, you can download it, run whatever analysis you want to run, and then you can also, one of the features which we have built recently and is getting very popular amongst our users is that you can filter cases where, let's say, the model is failing.
+
+Sourabh Agrawal:
+So let's say I take all the cases where the responses is zero and I can find common topics. So I can look at all these cases and I can find, okay, what's the common theme across them? Maybe, as you can see, they're all talking about France, Romeo Juliet and so on. So it can just pull out a common topic among these cases. So then this gives you some insights into where things are going wrong and what do you need to improve upon. And the second piece of the puzzle is the experiments. So, not just you can evaluate them, but also you can use it to experiment with different settings. So let's say. Let me just pull out an experiment I ran recently.
+
+Demetrios:
+Yeah.
+
+Sourabh Agrawal:
+So let's say I want to compare two different models, right? So GPT 3.5 and clot two. So I can now see that, okay, clot two is giving more concise responses, but in terms of factual accuracy, like GPT 3.5 is more factually accurate. So I can now decide, based on my application, based on what my users want, I can now decide which of these criteria is more meaningful for me, it's more meaningful for my users, for my data, and decide which prompt or which model I want to go ahead with.
+
+Demetrios:
+This is totally what I was talking about earlier, where you get a new model and you're seeing on some metrics, it's doing worse. But then on your core metric that you're looking at, it's actually performing better. So you have to kind of explain to yourself, why is it doing better on those other metrics? I don't know if I'm understanding this correctly. We can set the metrics that we're looking at.
+
+Sourabh Agrawal:
+Yeah, actually, I'll show you the kind of metric. Also, I forgot to mention earlier, uptrend is like open source.
+
+Demetrios:
+Nice.
+
+Sourabh Agrawal:
+Yeah. So we have these pre configured checks, so you don't need to do anything. You can just say uptrend response completeness or uptrend prompt injection. So these are like, pre configured. So we did the hard work of getting all these scores and so on. And on top of that, we also have ways for you to customize these matrices so you can define a custom guideline. You can change the prompt which you want. You can even define a custom python function which you want to act as an evaluator.
+
+Sourabh Agrawal:
+So we provide all of those functionalities so that they can also take advantage of things which are already there, as well as they can create custom things which make sense for them and have a way to kind of truly understand how their systems are doing.
+
+Demetrios:
+Oh, that's really cool. I really like the idea of custom, being able to set custom ones, but then also having some that just come right out of the box to make life easier on us.
+
+Sourabh Agrawal:
+Yeah. And I think both are needed because you want someplace to start, and as you advance, you also want to kind of like, you can't cover everything right, with pre configured. So you want to have a way to customize things.
+
+Demetrios:
+Yeah. And especially once you have data flowing, you'll start to see what other things you need to be evaluating exactly.
+
+Sourabh Agrawal:
+Yeah, that's very true.
+
+Demetrios:
+Just the random one. I'm not telling you how to build your product or anything, but have you thought about having a community sourced metric? So, like, all these custom ones that people are making, maybe there's a hub where we can add our custom?
+
+Sourabh Agrawal:
+Yeah, I think that's really interesting. This is something we also have been thinking a lot. It's not built out yet, but we plan to kind of go in that direction pretty soon. We want to kind of create, like a store kind of a thing where people can add their custom matrices. So. Yeah, you're right on. I think I also believe that's the way to go, and we will be releasing something on those fronts pretty soon.
+
+Demetrios:
+Nice. So drew's asking, how do you handle jailbreak for different types of applications? Jailbreak for a medical app would be different than one for a finance one, right? Yeah.
+
+Sourabh Agrawal:
+The way our jailbreak check is configured. So it takes something, what you call as a model purpose. So you define what is the purpose of your model? For a financial app, you need to say that, okay, this LLM application is designed to answer financial queries so and so on. From medical. You will have a different purpose, so you can configure what is the purpose of your app. And then when we take up a user query, we check whether the user query is under. Firstly, we check also for illegals activities and so on. And then we also check whether it's under the preview of this purpose.
+
+Sourabh Agrawal:
+If not, then we tag that as a scenario of jailbreak because the user is trying to do something other than the purpose so that's how we tackle it.
+
+Demetrios:
+Nice, dude. Well, this is awesome. Is there anything else you want to say before we jump off?
+
+Sourabh Agrawal:
+No, I mean, it was like, a great conversation. Really glad to be here and great talking to you.
+
+Demetrios:
+Yeah, I'm very happy that we got this working and you were able to show us a little bit of uptrend. Super cool that it's open source. So I would recommend everybody go check it out, get your LLMs working with confidence, and make sure that nobody is using your chatbot to be their GPT subsidy, like GM use case and. Yeah, it's great, dude. I appreciate.
+
+Sourabh Agrawal:
+Yeah, check us out like we are@GitHub.com. Slash uptrendai slashuptrend.
+
+Demetrios:
+There we go. And if anybody else wants to come on to the vector space talks and talk to us about all the cool stuff that you're doing, hit us up and we'll see you all astronauts later. Don't get lost in vector space.
+
+Sourabh Agrawal:
+Yeah, thank you. Thanks a lot.
+
+Demetrios:
+All right, dude. There we go. We are good. I don't know how the hell I'm going to stop this one because I can't go through on my phone or I can't go through on my computer. It's so weird. So I'm not, like, technically there's nobody at the wheel right now. So I think if we both get off, it should stop working. Okay.
+
+Demetrios:
+Yeah, but that was awesome, man. This is super cool. I really like what you're doing, and it's so funny. I don't know if we're not connected on LinkedIn, are we? I literally just today posted a video of me going through a few different hallucination mitigation techniques. So it's, like, super timely that you talk about this. I think so many people have been thinking about this.
+
+Sourabh Agrawal:
+Definitely with enterprises, it's like a big issue. Right? I mean, how do you make it safe? How do you make it production ready? So I'll definitely check out your video. Also would be super interesting.
+
+Demetrios:
+Just go to my LinkedIn right now. It's just like LinkedIn.com dpbrinkm or just search for me. I think we are connected. We're connected. All right, cool. Yeah, so, yeah, check out the last video I just posted, because it's literally all about this. And there's a really cool paper that came out and you probably saw it. It's all like, mitigating AI hallucinations, and it breaks down all 32 techniques.
+
+Demetrios:
+And I was talking with on another podcast that I do, I was literally talking with the guys from weights and biases yesterday, and I was talking about how I was like, man, these evaluation data sets as a service feels like something that nobody's doing. And I guess it's probably because, and you're the expert, so I would love to hear what you have to say about it, but I guess it's because you don't really need it that bad. With a relatively small amount of data, you can start getting some really good evaluation happening. So it's a lot better than paying somebody else.
+
+Sourabh Agrawal:
+And also, I think it doesn't make sense also for a service because some external person is not best suited to make a data set for your use case.
+
+Demetrios:
+Right.
+
+Sourabh Agrawal:
+It's you. You have to look at what your users are asking to create a good data set. You can have a method, which is what optrain also does. We basically help you to sample and pick out the right cases from this data set based on the feedback of your users, based on the scores which are being generated. But it's difficult for someone external to craft really good questions or really good queries or really good cases which make sense for your business.
+
+Demetrios:
+Because the other piece that kind of, like, spitballed off of that, the other piece of it was techniques. So let me see if I can place all this words into a coherent sentence for you. It's basically like, okay, evaluation data sets don't really make sense because you're the one who knows the most. With a relatively small amount of data, you're going to be able to get stuff going real quick. What I thought about is, what about these hallucination mitigation techniques so that you can almost have options. So in this paper, right, there's like 32 different kinds of techniques that they use, and some are very pertinent for rags. They have like, five different or four different types of techniques. When you're dealing with rags to mitigate hallucinations, then they have some like, okay, if you're distilling a model, here is how you can make sure that the new distilled model doesn't hallucinate as much.
+
+Demetrios:
+Blah, blah, blah. But what I was thinking is like, what about how can you get a product? Or can you productize these kind of techniques? So, all right, cool. They're in this paper, but in uptrain, can we just say, oh, you want to try this new mitigation technique? We make that really easy for you. You just have to select it as one of the hallucination mitigation techniques. And then we do the heavy lifting of, if it's like, there's one. Have you heard of fleek? That was one that I was talking about in the video. Fleek is like where there's a knowledge graph, LLM that is created, and it is specifically created to try and combat hallucinations. And the way that they do it is they say that LLM will try and identify anywhere in the prompt or the output.
+
+Demetrios:
+Sorry, the output. It will try and identify if there's anything that can be fact checked. And so if it says that humans landed on the moon in 1969, it will identify that. And then either through its knowledge graph or through just forming a search query that will go out and then search the Internet, it will verify if that fact is true in the output. So that's like one technique, right? And so what I'm thinking about is like, oh, man, wouldn't it be cool if you could have all these different techniques to be able to use really easily as opposed to, great, I read it in a paper. Now, how the fuck am I going to get my hands on one of these LLMs with a knowledge graph if I don't train it myself?
+
+Sourabh Agrawal:
+Shit, yeah, I think that's a great suggestion. I'll definitely check it out. One of the things which we also want to do is integrate with all these techniques because these are really good techniques and they help solve a lot of problems, but using them is not simple. Recently we integrated with Spade. It's basically like a technique where I.
+
+Demetrios:
+Did another video on spade, actually.
+
+Sourabh Agrawal:
+Yeah, basically. I think I'll also check out these hallucinations. So right now what we do is based on this paper called fact score, which instead of checking on the Internet, it checks in the context only to verify this fact can be verified from the context or not. But I think it would be really cool if people can just play around with these techniques and just see whether it's actually working on their data or not.
+
+Demetrios:
+That's kind of what I was thinking is like, oh, can you see? Does it give you a better result? And then the other piece is like, oh, wait a minute, does this actually, can I put like two or three of them in my system at the same time? Right. And maybe it's over engineering or maybe it's not. I don't know. So there's a lot of fun stuff that can go down there and it's fascinating to think about.
+
+Sourabh Agrawal:
+Yeah, definitely. And I think experimentation is the key here, right? I mean, unless you try out them, you don't know what works. And if something works which improves your system, then definitely it was worth it.
+
+Demetrios:
+Thanks for that.
+
+Sourabh Agrawal:
+We'll check into it.
+
+Demetrios:
+Dude, awesome. It's great chatting with you, bro. And I'll talk to you later, bro.
+
+Sourabh Agrawal:
+Yeah, thanks a lot. Great speaking. See you. Bye.
