@@ -241,8 +241,8 @@ model does not produce meaningful vectors. Setting this parameter allows the
 library to download and possibly launch some code on your machine, so be sure
 to trust the source.
 
-With both the natural language and code embeddings, we can build and store them
-in the Qdrant collection.
+With both the natural language and code embeddings, we can store them in the 
+Qdrant collection.
 
 ### Building Qdrant collection
 
