@@ -517,7 +517,7 @@ version: 1
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
-See [payload and vector in the result](../concepts/search#payload-and-vector-in-the-result) on how to enable it.
+See [payload and vector in the result](../concepts/search/#payload-and-vector-in-the-result) on how to enable it.
 
 ## Add a filter
 

@@ -514,6 +514,6 @@ Alright, folks, let's wrap it up. Better search isn't a 'nice-to-have,' it's a g
 
 Got questions? Our [Discord community](https://qdrant.to/discord?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) is teeming with answers. 
 
-If you enjoyed reading this, why not sign up for our [newsletter](https://qdrant.tech/subscribe/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) to stay ahead of the curve. 
+If you enjoyed reading this, why not sign up for our [newsletter](/subscribe/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) to stay ahead of the curve. 
 
 And, of course, a big thanks to you, our readers, for pushing us to make ranking better for everyone.

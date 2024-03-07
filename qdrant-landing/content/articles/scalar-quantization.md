@@ -130,7 +130,7 @@ performance. As usual, we performed some benchmarks to support this statement!
 
 ## Benchmarks
 
-We simply used the same approach as we use in all [the other benchmarks we publish](/benchmarks).
+We simply used the same approach as we use in all [the other benchmarks we publish](/benchmarks/).
 Both [Arxiv-titles-384-angular-no-filters](https://github.com/qdrant/ann-filtering-benchmark-datasets) 
 and [Gist-960](https://github.com/erikbern/ann-benchmarks/) datasets were chosen to make 
 the comparison between non-quantized and quantized vectors. The results are summarized
@@ -280,7 +280,7 @@ And another group with more strict memory limits:
 
 In those experiments, throughput was mainly defined by the number of disk reads, and quantization efficiently reduces it by allowing more vectors in RAM.
 Read more about on-disk storage in Qdrant and how we measure its performance in our article: [Minimal RAM you need to serve a million vectors
-](https://qdrant.tech/articles/memory-consumption/).
+](/articles/memory-consumption/).
 
 The mechanism of Scalar Quantization with rescoring disabled pushes the limits of low-end 
 machines even further. It seems like handling lots of requests does not require an 
@@ -288,6 +288,6 @@ expensive setup if you can agree to a small decrease in the search precision.
 
 ### Good practices
 
-Qdrant documentation on [Scalar Quantization](https://qdrant.tech/documentation/quantization/#setting-up-quantization-in-qdrant)
+Qdrant documentation on [Scalar Quantization](/documentation/quantization/#setting-up-quantization-in-qdrant)
 is a great resource describing different scenarios and strategies to achieve up to 4x 
 lower memory footprint and even up to 2x performance increase.

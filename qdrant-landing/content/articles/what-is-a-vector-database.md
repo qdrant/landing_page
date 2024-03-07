@@ -94,14 +94,14 @@ This way, finding similar images becomes a quick hop across related groups, inst
 ![](/articles_data/what-is-a-vector-database/Indexing.jpg)
 
 
-Different indexing methods exist, each with its strengths. [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) balances speed and accuracy like a well-connected network of shortcuts in the crowd. Others, like IVF or Product Quantization, focus on specific tasks or memory efficiency.
+Different indexing methods exist, each with its strengths. [HNSW](/articles/filtrable-hnsw/) balances speed and accuracy like a well-connected network of shortcuts in the crowd. Others, like IVF or Product Quantization, focus on specific tasks or memory efficiency.
 
 
 #### What is Binary Quantization?
 
 Quantization is a technique used for reducing the total size of the database. It works by compressing vectors into a more compact representation at the cost of accuracy.
 
-[Binary Quantization](https://qdrant.tech/articles/binary-quantization/) is a fast indexing and data compression method used by Qdrant. It supports vector comparisons, which can dramatically speed up query processing times (up to 40x faster!).
+[Binary Quantization](/articles/binary-quantization/) is a fast indexing and data compression method used by Qdrant. It supports vector comparisons, which can dramatically speed up query processing times (up to 40x faster!).
 
 Think of each data point as a ruler. Binary quantization splits this ruler in half at a certain point, marking everything above as "1" and everything below as "0". This [binarization](https://deepai.org/machine-learning-glossary-and-terms/binarization) process results in a string of bits, representing the original vector.
 
@@ -115,9 +115,9 @@ This "quantized" code is much smaller and easier to compare. Especially for Open
 
 ### What is Similarity Search?
 
-[Similarity search](https://qdrant.tech/documentation/concepts/search/) allows you to search not by keywords but by meaning. This way you can do searches such as similar songs that evoke the same mood, finding images that match your artistic vision, or even exploring emotional patterns in text.
+[Similarity search](/documentation/concepts/search/) allows you to search not by keywords but by meaning. This way you can do searches such as similar songs that evoke the same mood, finding images that match your artistic vision, or even exploring emotional patterns in text.
 
-The way it works is, when the user queries the database, this query is also converted into a vector (the query vector). The [vector search](https://qdrant.tech/documentation/overview/vector-search/) starts at the top layer of the HNSW index, where the algorithm quickly identifies the area of the graph likely to contain vectors closest to the query vector. The algorithm compares your query vector to all the others, using metrics like "distance" or "similarity" to gauge how close they are.
+The way it works is, when the user queries the database, this query is also converted into a vector (the query vector). The [vector search](/documentation/overview/vector-search/) starts at the top layer of the HNSW index, where the algorithm quickly identifies the area of the graph likely to contain vectors closest to the query vector. The algorithm compares your query vector to all the others, using metrics like "distance" or "similarity" to gauge how close they are.
 
 The search then moves down progressively narrowing down to more closely related vectors. The goal is to narrow down the dataset to the most relevant items. The image below illustrates this.
 
@@ -178,11 +178,11 @@ A vector database is made of multiple different entities and relations. Here's a
 ![](/articles_data/what-is-a-vector-database/Architecture-of-a-Vector-Database.jpg)
 
 
-**Collections**: [Collections](https://qdrant.tech/documentation/concepts/collections/) are a named set of data points, where each point is a vector with an associated payload. All vectors within a collection must have the same dimensionality and be comparable using a single metric.
+**Collections**: [Collections](/documentation/concepts/collections/) are a named set of data points, where each point is a vector with an associated payload. All vectors within a collection must have the same dimensionality and be comparable using a single metric.
 
 **Distance Metrics**: These metrics are used to measure the similarity between vectors. The choice of distance metric is made when creating a collection. It depends on the nature of the vectors and how they were generated, considering the neural network used for the encoding.
 
-**Points**: Each [point](https://qdrant.tech/documentation/concepts/points/) consists of a **vector** and can also include an optional **identifier** (ID) and **[payload](https://qdrant.tech/documentation/concepts/payload/)**. The vector represents the high-dimensional data and the payload carries metadata information in a JSON format, giving the data point more context or attributes.
+**Points**: Each [point](/documentation/concepts/points/) consists of a **vector** and can also include an optional **identifier** (ID) and **[payload](/documentation/concepts/payload/)**. The vector represents the high-dimensional data and the payload carries metadata information in a JSON format, giving the data point more context or attributes.
 
 **Storage Options**: There are two primary storage options. The in-memory storage option keeps all vectors in RAM, which allows for the highest speed in data access since disk access is only required for persistence. 
 
@@ -206,13 +206,13 @@ Here’s some examples on how to take advantage of using vector databases:
 
 There are many other use cases like for **fraud detection and anomaly analysis** used in sectors like finance and cybersecurity, to detect anomalies and potential fraud. And **Content-Based Image Retrieval (CBIR)** for images by comparing vector representations rather than metadata or tags. 
 
-Those are just a few examples. The ability of vector databases to “match” data with queries makes them essential for multiple types of applications. Here are some more [use cases examples](https://qdrant.tech/use-cases/) you can take a look at.
+Those are just a few examples. The ability of vector databases to “match” data with queries makes them essential for multiple types of applications. Here are some more [use cases examples](/use-cases/) you can take a look at.
 
 
 ### Starting Your First Vector Database Project
 
-Now that you're familiar with the core concepts around vector databases, it’s time to get our hands dirty. [Start by building your own semantic search engine](https://qdrant.tech/documentation/tutorials/search-beginners/) for science fiction books in just about 5 minutes with the help of Qdrant. You can also watch our [video tutorial](https://www.youtube.com/watch?v=AASiqmtKo54).
+Now that you're familiar with the core concepts around vector databases, it’s time to get our hands dirty. [Start by building your own semantic search engine](/documentation/tutorials/search-beginners/) for science fiction books in just about 5 minutes with the help of Qdrant. You can also watch our [video tutorial](https://www.youtube.com/watch?v=AASiqmtKo54).
 
-Feeling ready to dive into a more complex project? Take the next step and get started building an actual [Neural Search Service with a complete API and a dataset](https://qdrant.tech/documentation/tutorials/neural-search/).
+Feeling ready to dive into a more complex project? Take the next step and get started building an actual [Neural Search Service with a complete API and a dataset](/documentation/tutorials/neural-search/).
 
 Let’s get into action! 

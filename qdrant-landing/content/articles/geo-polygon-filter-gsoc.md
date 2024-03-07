@@ -75,4 +75,4 @@ Being selected for Google Summer of Code 2023 and collaborating with Arnaud and 
 
 Without a doubt, I'm eager to continue growing alongside this community and contribute to new features and enhancements that elevate the product. I've also become an advocate for Qdrant, introducing this project to numerous coworkers and friends in the tech industry. I'm excited to witness new users and contributors emerge from within my own network!
 
-If you want to try out my work, read the [documentation](https://qdrant.tech/documentation/concepts/filtering/#geo-polygon) and then, either sign up for a free [cloud account](https://cloud.qdrant.io) or download the [Docker image](https://hub.docker.com/r/qdrant/qdrant). I look forward to seeing how people are using my work in their own applications!
+If you want to try out my work, read the [documentation](/documentation/concepts/filtering/#geo-polygon) and then, either sign up for a free [cloud account](https://cloud.qdrant.io) or download the [Docker image](https://hub.docker.com/r/qdrant/qdrant). I look forward to seeing how people are using my work in their own applications!

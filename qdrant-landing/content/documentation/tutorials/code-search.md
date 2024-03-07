@@ -254,7 +254,7 @@ pip install qdrant-client
 ```
 
 Of course, we need a running Qdrant server for vector search. If you need one,
-you can [use a local Docker container](https://qdrant.tech/documentation/quick-start/)
+you can [use a local Docker container](/documentation/quick-start/)
 or deploy it using the [Qdrant Cloud](https://cloud.qdrant.io/). 
 You can use either to follow this tutorial. Configure the connection parameters:
 

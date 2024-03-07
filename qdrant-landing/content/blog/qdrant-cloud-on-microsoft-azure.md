@@ -28,7 +28,7 @@ What this means for you:
 
 **"With Qdrant, we found the missing piece to develop our own provider independent multimodal generative AI platform at enterprise scale."** -- Jeremy Teichmann (AI Squad Technical Lead & Generative AI Expert), Daly Singh (AI Squad Lead & Product Owner) - Bosch Digital.
 
-Get started by [signing up for a Qdrant Cloud account](https://cloud.qdrant.io). And learn more about Qdrant Cloud in our [docs](https://qdrant.tech/documentation/cloud/).
+Get started by [signing up for a Qdrant Cloud account](https://cloud.qdrant.io). And learn more about Qdrant Cloud in our [docs](/documentation/cloud/).
 
 <video autoplay="true" loop="true" width="100%" controls><source src="/blog/qdrant-cloud-on-azure/azure-cluster-deployment-short.mp4" type="video/mp4"></video>
 

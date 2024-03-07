@@ -43,7 +43,7 @@ export QDRANT__SERVICE__API_KEY=your_secret_api_key_here
 <aside role="alert"><a href="#tls">TLS</a> must be used to prevent leaking the API key over an unencrypted connection.</aside>
 
 For using API key based authentication in Qdrant cloud see the cloud
-[Authentication](https://qdrant.tech/documentation/cloud/authentication)
+[Authentication](/documentation/cloud/authentication/)
 section.
 
 The API key then needs to be present in all REST or gRPC requests to your instance.

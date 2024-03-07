@@ -82,8 +82,8 @@ billing and increase security by having the instance live within the same VPC.
 2. **Scale and optimize:** As the load grew, Dust started to take advantage of Qdrant’s
 features to tune the setup for optimization and scale. They started to look into
 how they map and cache data, as well as applying some of Qdrant’s [built-in
-compression features](https://qdrant.tech/documentation/guides/quantization/). In particular, Dust leveraged the control of the [MMAP
-payload threshold](https://qdrant.tech/documentation/concepts/storage/#configuring-memmap-storage) as well as [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/), which enabled Dust to manage
+compression features](/documentation/guides/quantization/). In particular, Dust leveraged the control of the [MMAP
+payload threshold](/documentation/concepts/storage/#configuring-memmap-storage) as well as [Scalar Quantization](/articles/scalar-quantization/), which enabled Dust to manage
 the balance between storing vectors on disk and keeping quantized vectors in RAM,
 more effectively. “This allowed us to scale smoothly from there,” Polu says.
 

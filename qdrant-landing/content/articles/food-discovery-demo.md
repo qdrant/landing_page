@@ -24,7 +24,7 @@ so you can easily deploy it on your own and play with it. If you prefer to dive 
 Otherwise, read on to learn more about the demo and how it works!
 
 In general, our application consists of three parts: a [FastAPI](https://fastapi.tiangolo.com/) backend, a [React](https://react.dev/) frontend, and 
-a [Qdrant](https://qdrant.tech/) instance. The architecture diagram below shows how these components interact with each other:
+a [Qdrant](/) instance. The architecture diagram below shows how these components interact with each other:
 
 ![Archtecture diagram](/articles_data/food-discovery-demo/architecture-diagram.png)
 
@@ -91,7 +91,7 @@ in the vector space.
 ![Random points selection](/articles_data/food-discovery-demo/textual-search.png)
 
 This is implemented as [a group search query to Qdrant](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L44). 
-We didn't use a simple search, but performed grouping by the restaurant to get more diverse results. [Search groups](https://qdrant.tech/documentation/concepts/search/#search-groups) 
+We didn't use a simple search, but performed grouping by the restaurant to get more diverse results. [Search groups](/documentation/concepts/search/#search-groups) 
 is a mechanism similar to `GROUP BY` clause in SQL, and it's useful when you want to get a specific number of result per group (in our case just one). 
 
 ```python
@@ -120,7 +120,7 @@ and the demo will update the search results accordingly.
 
 #### Negative feedback only
 
-Qdrant [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) needs at least one positive example to work. However, in our demo
+Qdrant [Recommendation API](/documentation/concepts/search/#recommendation-api) needs at least one positive example to work. However, in our demo
 we want to be able to provide only negative examples. This is because we want to be able to say “I don’t like this dish” without having to like anything first.
 To achieve this, we use a trick. We negate the vectors of the disliked dishes and use their mean as a query. This way, the disliked dishes will be pushed away 
 from the search results. **This works because the cosine distance is based on the angle between two vectors, and the angle between a vector and its negation is 180 degrees.**
@@ -128,8 +128,8 @@ from the search results. **This works because the cosine distance is based on th
 ![CLIP model](/articles_data/food-discovery-demo/negated-vector.png)
 
 Food Discovery Demo [implements that trick](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L122)
-by calling Qdrant twice. Initially, we use the [Scroll API](https://qdrant.tech/documentation/concepts/points/#scroll-points) to find disliked items, 
-and then calculate a negated mean of all their vectors. That allows using the [Search Groups API](https://qdrant.tech/documentation/concepts/search/#search-groups)
+by calling Qdrant twice. Initially, we use the [Scroll API](/documentation/concepts/points/#scroll-points) to find disliked items, 
+and then calculate a negated mean of all their vectors. That allows using the [Search Groups API](/documentation/concepts/search/#search-groups)
 to find the nearest neighbors of the negated mean vector.
 
 ```python
@@ -162,7 +162,7 @@ response = client.search_groups(
 
 #### Positive and negative feedback
 
-Since the [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) requires at least one positive example, we can use it only when 
+Since the [Recommendation API](/documentation/concepts/search/#recommendation-api) requires at least one positive example, we can use it only when 
 the user has liked at least one dish. We could theoretically use the same trick as above and negate the disliked dishes, but it would be a bit weird, as Qdrant has
 that feature already built-in, and we can call it just once to do the job. It's always better to perform the search server-side. Thus, in this case [we just call 
 the Qdrant server with a list of positive and negative examples](https://github.com/qdrant/demo-food-discovery/blob/6b49e11cfbd6412637d527cdd62fe9b9f74ac699/backend/discovery.py#L166), 
@@ -184,7 +184,7 @@ From the user perspective nothing changes comparing to the previous case.
 
 Last but not least, location plays an important role in the food discovery process. You are definitely looking for something you can find nearby, not on the other
 side of the globe. Therefore, your current location can be toggled as a filtering condition. You can enable it by clicking on “Find near me” icon
-in the top right. This way you can find the best pizza in your neighborhood, not in the whole world. Qdrant [geo radius filter](https://qdrant.tech/documentation/concepts/filtering/#geo-radius) is a perfect choice for this. It lets you
+in the top right. This way you can find the best pizza in your neighborhood, not in the whole world. Qdrant [geo radius filter](/documentation/concepts/filtering/#geo-radius) is a perfect choice for this. It lets you
 filter the results by distance from a given point. 
 
 ```python
@@ -207,7 +207,7 @@ query_filter = models.Filter(
 )
 ```
 
-Such a filter needs [a payload index](https://qdrant.tech/documentation/concepts/indexing/#payload-index) to work efficiently, and it was created on a collection
+Such a filter needs [a payload index](/documentation/concepts/indexing/#payload-index) to work efficiently, and it was created on a collection
 we used to create the snapshot. When you import it into your instance, the index will be already there.
 
 ## Using the demo

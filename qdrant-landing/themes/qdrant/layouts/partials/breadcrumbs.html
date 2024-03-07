@@ -5,7 +5,7 @@
     {{ $len := sub (len $paths) 2 }}
     {{ range first $len $paths }}
     {{ if gt (len . ) 0 }}
-    {{ $rellink = printf "%s/%s" $rellink . }}
+    {{ $rellink = printf "%s/%s/" $rellink . }}
     <li class="breadcrumbs__crumb">/</li>
     <li class="breadcrumbs__crumb"><a href="{{$rellink}}">{{ humanize . }}</a></li>
     {{ end }}

@@ -46,10 +46,10 @@ This process is called query planning.
 The strategy selection process relies heavily on heuristics and can vary from release to release.
 However, the general principles are:
 
-* planning is performed for each segment independently (see [storage](../storage) for more information about segments)
+* planning is performed for each segment independently (see [storage](../storage/) for more information about segments)
 * prefer a full scan if the amount of points is below a threshold
 * estimate the cardinality of a filtered result before selecting a strategy
-* retrieve points using payload index (see [indexing](../indexing)) if cardinality is below threshold
+* retrieve points using payload index (see [indexing](../indexing/)) if cardinality is below threshold
 * use filterable vector index if the cardinality is above a threshold
 
 You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
@@ -211,7 +211,7 @@ Currently, it could be:
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
-See details of possible filters and their work in the [filtering](../filtering) section.
+See details of possible filters and their work in the [filtering](../filtering/) section.
 
 Example result of this API would be
 

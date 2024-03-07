@@ -17,7 +17,7 @@ For a step-by-step guide on how to use snapshots, see our [tutorial](/documentat
 
 ## Store snapshots
 
-The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
+The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration/) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
 
 You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
 

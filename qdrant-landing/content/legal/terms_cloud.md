@@ -78,7 +78,7 @@ You accept these conditions and agree not to use the Solution or its content for
 
 ### 5. Financial terms
 
-The prices applicable at the date of subscription to the Solution are accessible through the following [link](https://qdrant.com/pricing).
+The prices applicable at the date of subscription to the Solution are accessible through the following [link](/pricing/).
 
 Unless otherwise stated, prices are in dollars and exclusive of any applicable taxes.
 
@@ -179,7 +179,7 @@ In the event of a violation of any provision of these T&Cs or, more generally, i
 
 In the context of the use of the Solution and the Website, Qdrant may collect and process certain personal data, including your name, surname, email address, banking information, address, telephone number, IP address, connection, and navigation data and data recorded in cookies (the “Data”).
 
-Qdrant ensures that the Data is collected and processed in compliance with the provisions of German law and in accordance with its Privacy Policy, available at the following [link](https://qdrant.tech/legal/privacy-policy).
+Qdrant ensures that the Data is collected and processed in compliance with the provisions of German law and in accordance with its Privacy Policy, available at the following [link](/legal/privacy-policy/).
 
 The Privacy Policy is an integral part of the T&Cs.
 

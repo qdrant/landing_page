@@ -66,7 +66,7 @@ Qdrant server.
 These currently provide the most basic status response, returning HTTP 200 if
 Qdrant is started and ready to be used.
 
-Regardless of whether an [API key](../security#authentication) is configured,
+Regardless of whether an [API key](../security/#authentication) is configured,
 the endpoints are always accessible.
 
 You can read more about Kubernetes health endpoints

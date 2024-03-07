@@ -16,12 +16,12 @@ keywords:
   - vector database
 ---
 
-We are seeing the topics of [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/) and [distributed deployment](https://qdrant.tech/documentation/guides/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
+We are seeing the topics of [multitenancy](/documentation/guides/multiple-partitions/) and [distributed deployment](/documentation/guides/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
 
 Whether you are building a bank fraud-detection system, RAG for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
 In the world of SaaS and enterprise apps, this setup is the norm. It will considerably increase your application's performance and lower your hosting costs. 
 
-We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](https://qdrant.tech/documentation/guides/distributed_deployment/#user-defined-sharding). 
+We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](/documentation/guides/multiple-partitions/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](/documentation/guides/distributed_deployment/#user-defined-sharding). 
 
 Combining these two will result in an efficiently-partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
 
@@ -36,7 +36,7 @@ Qdrant is built to excel in a single collection with a vast number of tenants. Y
 
 ## Sharding your database
 
-With Qdrant, you can also specify a shard for each vector individually. This feature is useful if you want to [control where your data is kept in the cluster](https://qdrant.tech/documentation/guides/distributed_deployment/#sharding). For example, one set of vectors can be assigned to one shard on its own node, while another set can be on a completely different node.
+With Qdrant, you can also specify a shard for each vector individually. This feature is useful if you want to [control where your data is kept in the cluster](/documentation/guides/distributed_deployment/#sharding). For example, one set of vectors can be assigned to one shard on its own node, while another set can be on a completely different node.
 
 During vector search, your operations will be able to hit only the subset of shards they actually need. In massive-scale deployments, __this can significantly improve the performance of operations that do not require the whole collection to be scanned__.
 
@@ -44,7 +44,7 @@ This works in the other direction as well. Whenever you search for something, yo
 
 ### Common use cases
 
-A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations. To do this, however, you will need to [move your shards between nodes](https://qdrant.tech/documentation/guides/distributed_deployment/#moving-shards).  
+A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations. To do this, however, you will need to [move your shards between nodes](/documentation/guides/distributed_deployment/#moving-shards).  
 
 **Figure 2:** Users can both upsert and query shards that are relevant to them, all within the same collection. Regional sharding can help avoid cross-continental traffic. 
 ![Qdrant Multitenancy](/articles_data/multitenancy/shards.png)
@@ -74,7 +74,7 @@ client.create_shard_key("{tenant_data}", "germany")
 ```
 In this example, your cluster is divided between Germany and Canada. Canadian and German law differ when it comes to international data transfer. Let's say you are creating a RAG application that supports the healthcare industry. Your Canadian customer data will have to be clearly separated for compliance purposes from your German customer. 
 
-Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Distributed Deployments](https://qdrant.tech/documentation/guides/distributed_deployment/) documentation and [Qdrant Client specification](https://python-client.qdrant.tech).
+Even though it is part of the same collection, data from each shard is isolated from other shards and can be retrieved as such. For additional examples on shards and retrieval, consult [Distributed Deployments](/documentation/guides/distributed_deployment/) documentation and [Qdrant Client specification](https://python-client.qdrant.tech).
 
 ## Configure a multitenant setup for users
 
@@ -177,7 +177,7 @@ client.create_payload_index(
 
 ## Next steps
 
-Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our vector database is right for you, try the [quickstart tutorial](https://qdrant.tech/documentation/quick-start/) or read our [docs and tutorials](https://qdrant.tech/documentation/).
+Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our vector database is right for you, try the [quickstart tutorial](/documentation/quick-start/) or read our [docs and tutorials](/documentation/).
 
 To spin up a free instance of Qdrant, sign up for [Qdrant Cloud](https://qdrant.to/cloud) - no strings attached.
 

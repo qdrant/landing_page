@@ -12,14 +12,14 @@ A key feature of Qdrant is the effective combination of vector and traditional i
 The indexes in the segments exist independently, but the parameters of the indexes themselves are configured for the whole collection.
 
 Not all segments automatically have indexes.
-Their necessity is determined by the [optimizer](../optimizer) settings and depends, as a rule, on the number of stored points.
+Their necessity is determined by the [optimizer](../optimizer/) settings and depends, as a rule, on the number of stored points.
 
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
 This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
 
-The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search#query-planning) choose a search strategy.
+The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search/#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
@@ -299,7 +299,7 @@ storage:
 
 ```
 
-And so in the process of creating a [collection](../collections). The `ef` parameter is configured during [the search](../search) and by default is equal to `ef_construct`.
+And so in the process of creating a [collection](../collections/). The `ef` parameter is configured during [the search](../search/) and by default is equal to `ef_construct`.
 
 HNSW is chosen for several reasons.
 First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
