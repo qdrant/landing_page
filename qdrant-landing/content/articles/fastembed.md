@@ -139,7 +139,7 @@ If anything changes, you'll see a new version number pop up, like going from 0.0
 
 ## Usage with Qdrant
 
-Qdrant is a Vector Store, offering a comprehensive, efficient, and scalable solution for modern machine learning and AI applications. Whether you are dealing with billions of data points, require a low latency performant vector solution, or specialized quantization methods – [Qdrant is engineered](https://qdrant.tech/documentation/overview/) to meet those demands head-on.
+Qdrant is a Vector Store, offering a comprehensive, efficient, and scalable solution for modern machine learning and AI applications. Whether you are dealing with billions of data points, require a low latency performant vector solution, or specialized quantization methods – [Qdrant is engineered](/documentation/overview/) to meet those demands head-on.
 
 The fusion of FastEmbed with Qdrant’s vector store capabilities enables a transparent workflow for seamless embedding generation, storage, and retrieval. This simplifies the API design — while still giving you the flexibility to make significant changes e.g. you can use FastEmbed to make your own embedding other than the DefaultEmbedding and use that with Qdrant.
 
@@ -237,7 +237,7 @@ If you're curious about how FastEmbed and Qdrant can make your search tasks a br
 
 1. **Cloud**:  Get started with a free plan on the [Qdrant Cloud](https://qdrant.to/cloud?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
 
-2. **Docker Container**: If you're the DIY type, you can set everything up on your own machine. Here's a quick guide to help you out: [Quick Start with Docker](https://qdrant.tech/documentation/quick-start/?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
+2. **Docker Container**: If you're the DIY type, you can set everything up on your own machine. Here's a quick guide to help you out: [Quick Start with Docker](/documentation/quick-start/?utm_source=qdrant&utm_medium=website&utm_campaign=fastembed&utm_content=article).
 
 So, go ahead, take it for a test drive. We're excited to hear what you think!
 

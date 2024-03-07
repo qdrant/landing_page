@@ -20,7 +20,7 @@ Let's go through the process of building a workflow. We'll build a chat with a c
 
 ## Prerequisites
 
-- A running Qdrant instance. If you need one, use our [Quick start guide](https://qdrant.tech/documentation/quick-start/) to set it up.
+- A running Qdrant instance. If you need one, use our [Quick start guide](/documentation/quick-start/) to set it up.
 - An OpenAI API Key. Retrieve your key from the [OpenAI API page](https://platform.openai.com/account/api-keys) for your account.
 - A GitHub access token. If you need to generate one, start at the [GitHub Personal access tokens page](https://github.com/settings/tokens/).
 

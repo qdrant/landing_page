@@ -43,7 +43,7 @@ similar files for given query.
 There are two things you need to set up before you start:
 
 1. You need to have a Qdrant instance running. If you want to launch it locally,
-   [Docker is the fastest way to do that](https://qdrant.tech/documentation/quick_start/#installation).
+   [Docker is the fastest way to do that](/documentation/quick_start/#installation).
 2. You need to have a registered [Aleph Alpha account](https://app.aleph-alpha.com/). 
 3. Upon registration, create an API key (see: [API Tokens](https://app.aleph-alpha.com/profile)).
 

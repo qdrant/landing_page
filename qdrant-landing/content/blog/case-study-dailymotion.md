@@ -106,7 +106,7 @@ Looking at the complexity, scale and adaptability of the desired solution, the t
 
 **6. Impressive Benchmarks:**
 
-   [Qdrant’s benchmarks](https://qdrant.tech/benchmarks/) has definitely been one of the key motivations for the Dailymotion’s team to try the solution and the team comments that the performance has been only better than the benchmarks. 
+   [Qdrant’s benchmarks](/benchmarks/) has definitely been one of the key motivations for the Dailymotion’s team to try the solution and the team comments that the performance has been only better than the benchmarks. 
 
 
 **7. Ease of usage:**
@@ -167,7 +167,7 @@ They aim to work on Perspective feed next and say
 ![perspective-feed-with-qdrant](/case-studies/dailymotion/perspective-feed-qdrant.jpg)
 
 
-The team is also interested in leveraging advanced features like [Qdrant’s Discovery API](https://qdrant.tech/documentation/concepts/explore/#recommendation-api) to promote exploration of content to enable finding not only similar but dissimilar content too by using positive and negative vectors in the queries and making it work with the existing collaborative recommendation model.
+The team is also interested in leveraging advanced features like [Qdrant’s Discovery API](/documentation/concepts/explore/#recommendation-api) to promote exploration of content to enable finding not only similar but dissimilar content too by using positive and negative vectors in the queries and making it work with the existing collaborative recommendation model.
 
 ### References
 

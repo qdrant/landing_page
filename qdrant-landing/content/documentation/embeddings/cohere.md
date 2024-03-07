@@ -36,7 +36,7 @@ qdrant_client.upsert(
 ```
 
 If you are interested in seeing an end-to-end project created with co.embed API and Qdrant, please check out the
-"[Question Answering as a Service with Cohere and Qdrant](https://qdrant.tech/articles/qa-with-cohere-and-qdrant/)" article.
+"[Question Answering as a Service with Cohere and Qdrant](/articles/qa-with-cohere-and-qdrant/)" article.
 
 ## Embed v3
 

@@ -49,7 +49,7 @@ Until now, Qdrant has not been able to handle sparse vectors natively. Some were
 
 Things have changed since then, as so many of you wanted a single tool for sparse and dense vectors. And responding to this [popular](https://github.com/qdrant/qdrant/issues/1678) [demand](https://github.com/qdrant/qdrant/issues/1135), we've now introduced sparse vectors!
 
-If you're coming across the topic of sparse vectors for the first time, our [Brief History of Search](https://qdrant.tech/documentation/overview/vector-search/) explains the difference between sparse and dense vectors.
+If you're coming across the topic of sparse vectors for the first time, our [Brief History of Search](/documentation/overview/vector-search/) explains the difference between sparse and dense vectors.
 
 Check out the [sparse vectors article](../sparse-vectors/) and [sparse vectors index docs](/documentation/concepts/indexing/#sparse-vector-index) for more details on what this new index means for Qdrant users.
 

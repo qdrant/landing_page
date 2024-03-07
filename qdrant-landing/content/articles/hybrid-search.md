@@ -14,7 +14,7 @@ date: 2023-02-15T10:48:00.000Z
 There is not a single definition of hybrid search. Actually, if we use more than one search algorithm, it 
 might be described as some sort of hybrid. Some of the most popular definitions are:
 
-1. A combination of vector search with [attribute filtering](https://qdrant.tech/documentation/filtering/). 
+1. A combination of vector search with [attribute filtering](/documentation/filtering/). 
    We won't dive much into details, as we like to call it just filtered vector search.
 2. Vector search with keyword-based search. This one is covered in this article.
 3. A mix of dense and sparse vectors. That strategy will be covered in the upcoming article.

@@ -180,7 +180,7 @@ client.search_groups(
 
 We are excited to announce a more user-friendly way to organize and work with your collections inside of Qdrant. Our dashboard's design is simple, but very intuitive and easy to access.
 
-Try it out now! If you have Docker running, you can [quickstart Qdrant](https://qdrant.tech/documentation/quick-start/) and access the Dashboard locally from [http://localhost:6333/dashboard](http://localhost:6333/dashboard). You should see this simple access point to Qdrant:
+Try it out now! If you have Docker running, you can [quickstart Qdrant](/documentation/quick-start/) and access the Dashboard locally from [http://localhost:6333/dashboard](http://localhost:6333/dashboard). You should see this simple access point to Qdrant:
 
 ![Qdrant Web UI](/articles_data/qdrant-1.3.x/web-ui.png)
 

@@ -13,7 +13,7 @@ Qdrant is available as a [provider](https://airflow.apache.org/docs/apache-airfl
 
 Before configuring Airflow, you need:
 
-1. A Qdrant instance to connect to. You can set one up in our [installation guide](https://qdrant.tech/documentation/guides/installation).
+1. A Qdrant instance to connect to. You can set one up in our [installation guide](/documentation/guides/installation).
 
 2. A running Airflow instance. You can use their [Quick Start Guide](https://airflow.apache.org/docs/apache-airflow/stable/start.html).
 

@@ -30,7 +30,7 @@ We've compared how Qdrant performs against the other vector search engines to gi
 
 Since the last time we ran our benchmarks, we received a bunch of suggestions on how to run other engines more efficiently, and we applied them. 
 
-This has resulted in significant improvements across all engines. As a result, we have achieved an impressive improvement of nearly four times in certain cases. You can view the previous benchmark results [here](https://qdrant.tech/benchmarks/single-node-speed-benchmark-2022/).
+This has resulted in significant improvements across all engines. As a result, we have achieved an impressive improvement of nearly four times in certain cases. You can view the previous benchmark results [here](/benchmarks/single-node-speed-benchmark-2022/).
 
 #### Introducing a New Dataset
 
@@ -65,7 +65,7 @@ We use the same benchmark datasets as the [ann-benchmarks](https://github.com/er
 
 ### Detailed Report and Access
 
-For an in-depth look at our latest benchmark results, we invite you to read the [detailed report](https://qdrant.tech/benchmarks).
+For an in-depth look at our latest benchmark results, we invite you to read the [detailed report](/benchmarks).
 
 
 If you're interested in testing the benchmark yourself or want to contribute to its development, head over to our [benchmark repository](https://github.com/qdrant/vector-db-benchmark). We appreciate your support and involvement in improving the performance of vector databases.

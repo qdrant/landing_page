@@ -7,7 +7,7 @@ aliases:
 
 # Introduction
 
-![qdrant](https://qdrant.tech/images/logo_with_text.png)
+![qdrant](/images/logo_with_text.png)
 
 Vector databases are a relatively new way for interacting with abstract data representations 
 derived from opaque machine learning models such as deep learning architectures. These 

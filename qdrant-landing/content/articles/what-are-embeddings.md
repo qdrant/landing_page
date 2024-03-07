@@ -58,7 +58,7 @@ This capability is crucial for creating search systems, recommendation engines, 
 
 ## How do embeddings work?
 
-Embeddings are created through neural networks. They capture complex relationships and semantics into [dense vectors](https://www1.se.cuhk.edu.hk/~seem5680/lecture/semantics-with-dense-vectors-2018.pdf) which are more suitable for machine learning and data processing applications. They can then project these vectors into a proper **high-dimensional** space, specifically, a [Vector Database](https://qdrant.tech/articles/what-is-a-vector-database/). 
+Embeddings are created through neural networks. They capture complex relationships and semantics into [dense vectors](https://www1.se.cuhk.edu.hk/~seem5680/lecture/semantics-with-dense-vectors-2018.pdf) which are more suitable for machine learning and data processing applications. They can then project these vectors into a proper **high-dimensional** space, specifically, a [Vector Database](/articles/what-is-a-vector-database/). 
 
 
 
@@ -130,7 +130,7 @@ The model creates a vector embedding for "biophilic design" that encapsulates th
 
 ### Integration with Embedding APIs
 
-Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](https://qdrant.tech/documentation/embeddings/cohere/), [Gemini](https://qdrant.tech/documentation/embeddings/gemini/), [Jina Embeddings](https://qdrant.tech/documentation/embeddings/jina-embeddings/), [OpenAI](https://qdrant.tech/documentation/embeddings/openai/), [Aleph Alpha](https://qdrant.tech/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](https://qdrant.tech/documentation/embeddings/bedrock/). 
+Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](/documentation/embeddings/bedrock/). 
 
 If you’re looking for NLP and rapid prototyping, including language translation, question-answering, and text generation, OpenAI is a great choice. Gemini is ideal for image search, duplicate detection, and clustering tasks. 
 
@@ -140,7 +140,7 @@ We plan to go deeper into selecting the best model based on performance, cost, i
 
 ## Create a Neural Search Service with Fastembed
 
-Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](https://qdrant.tech/documentation/tutorials/neural-search-fastembed/)?
+Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials/neural-search-fastembed/)?
 
 Tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant's vector database, constructing a search API, and finally deploying your solution with FastAPI.
 

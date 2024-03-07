@@ -49,7 +49,7 @@ We don’t think 60-80% is good enough. The LLM might retrieve enough relevant f
 
 > The whole point of vector search is to circumvent this process by efficiently picking the information your app needs to generate the best response. A vector database keeps the compute load low and the query response fast. You don’t need to wait for the LLM at all.
 
-Qdrant’s benchmark results are strongly in favor of accuracy and efficiency. We recommend that you consider them before deciding that an LLM is enough. Take a look at our [open-source benchmark reports](https://qdrant.tech/benchmarks/) and [try out the tests](https://github.com/qdrant/vector-db-benchmark) yourself. 
+Qdrant’s benchmark results are strongly in favor of accuracy and efficiency. We recommend that you consider them before deciding that an LLM is enough. Take a look at our [open-source benchmark reports](/benchmarks/) and [try out the tests](https://github.com/qdrant/vector-db-benchmark) yourself. 
 
 ## Vector search in compound systems
 
@@ -74,7 +74,7 @@ That’s a buck a question.
 
 > According to our estimations, vector search queries are **at least** 100 million times cheaper than queries made by LLMs.
 
-Conversely, the only up-front investment with vector databases is the indexing (which requires more compute). After this step, everything else is a breeze. Once setup, Qdrant easily scales via [features like Multitenancy and Sharding](https://qdrant.tech/articles/multitenancy/). This lets you scale up your reliance on the vector retrieval process and minimize your use of the compute-heavy LLMs. As an optimization  measure, Qdrant is irreplaceable. 
+Conversely, the only up-front investment with vector databases is the indexing (which requires more compute). After this step, everything else is a breeze. Once setup, Qdrant easily scales via [features like Multitenancy and Sharding](/articles/multitenancy/). This lets you scale up your reliance on the vector retrieval process and minimize your use of the compute-heavy LLMs. As an optimization  measure, Qdrant is irreplaceable. 
 
 Julien Simon from HuggingFace says it best:
 
@@ -89,4 +89,4 @@ Our customers remind us of this fact every day. As a product, our vector databas
 
 We want to keep Qdrant compact, efficient and with a focused purpose. This purpose is to empower our customers to use it however they see fit. 
 
-When large enterprises release their generative AI into production, they need to keep costs under control, while retaining the best possible quality of responses. Qdrant has the tools to do just that. Whether through [RAG, Semantic Search, Dissimilarity Search, Recommendations or Multimodality](https://qdrant.tech/articles/vector-similarity-beyond-search/) - Qdrant will continue to journey on.
+When large enterprises release their generative AI into production, they need to keep costs under control, while retaining the best possible quality of responses. Qdrant has the tools to do just that. Whether through [RAG, Semantic Search, Dissimilarity Search, Recommendations or Multimodality](/articles/vector-similarity-beyond-search/) - Qdrant will continue to journey on.
