@@ -17,7 +17,7 @@ This tutorial will show you how to create a snapshot of a collection and restore
 
 ## Prerequisites
 
-Let's assume you already have a running Qdrant instance or a cluster. If not, you can follow the [installation guide](/documentation/guides/installation) to set up a local Qdrant instance or use [Qdrant Cloud](https://cloud.qdrant.io/) to create a cluster in a few clicks.
+Let's assume you already have a running Qdrant instance or a cluster. If not, you can follow the [installation guide](/documentation/guides/installation/) to set up a local Qdrant instance or use [Qdrant Cloud](https://cloud.qdrant.io/) to create a cluster in a few clicks.
 
 Once the cluster is running, let's install the required dependencies:
 

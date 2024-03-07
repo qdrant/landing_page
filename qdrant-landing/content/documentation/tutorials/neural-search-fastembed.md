@@ -129,7 +129,7 @@ qdrant_client.recreate_collection(
 
 Note, that we use `get_fastembed_vector_params` to get the vector size and distance function from the model.
 This method automatically generates configuration, compatible with the model you are using.
-Without fastembed integration, you would need to specify the vector size and distance function manually. Read more about it [here](/documentation/tutorials/neural-search).
+Without fastembed integration, you would need to specify the vector size and distance function manually. Read more about it [here](/documentation/tutorials/neural-search/).
 
 Additionally, you can specify extended configuration for our vectors, like `quantization_config` or `hnsw_config`.
 

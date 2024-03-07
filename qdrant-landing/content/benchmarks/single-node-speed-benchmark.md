@@ -15,7 +15,7 @@ Unlisted: false
 
 ## Observations
 
-Most of the engines have improved since [our last run](/benchmarks/single-node-speed-benchmark-2022). Both life and software have trade-offs but some clearly do better:
+Most of the engines have improved since [our last run](/benchmarks/single-node-speed-benchmark-2022/). Both life and software have trade-offs but some clearly do better:
 
 * **`Qdrant` achives highest RPS and lowest latencies in almost all the scenarios, no matter the precision threshold and the metric we choose.** It has also shown 4x RPS gains on one of the datasets.
 * `Elasticsearch` has become considerably fast for many cases but it's very slow in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)

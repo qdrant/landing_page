@@ -130,7 +130,7 @@ performance. As usual, we performed some benchmarks to support this statement!
 
 ## Benchmarks
 
-We simply used the same approach as we use in all [the other benchmarks we publish](/benchmarks).
+We simply used the same approach as we use in all [the other benchmarks we publish](/benchmarks/).
 Both [Arxiv-titles-384-angular-no-filters](https://github.com/qdrant/ann-filtering-benchmark-datasets) 
 and [Gist-960](https://github.com/erikbern/ann-benchmarks/) datasets were chosen to make 
 the comparison between non-quantized and quantized vectors. The results are summarized

@@ -23,7 +23,7 @@ Before you use the following code sample, customize the following values for you
 
 - `YOUR_QDRANT_REST_URL`: If you've set up Qdrant using the [Quick Start](/documentation/quick-start/) guide,
   set this value to `http://localhost:6333`.
-- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections) guide to create or
+- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections/) guide to create or
   list collections.
 
 ```go
