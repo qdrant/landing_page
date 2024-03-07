@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: The Bitter Lesson of Retrieval in Generative Language Model Workflows -
   Mikko Lehtimäki | Vector Space Talks
 slug: bitter-lesson-generative-language-model
