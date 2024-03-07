@@ -1,0 +1,14 @@
+<section class="docker-deploy">
+  <div class="docker-deploy__left">
+    <h3 class="docker-deploy__title">{{ .Params.title }}</h3>
+    <p class="docker-deploy__description">
+      Get started with our
+      <a class="docker-deploy__link" href="{{ .Params.quickStartLink.url }}">{{ .Params.quickStartLink.text }}</a>, or
+      our main GitHub repository
+      <a class="docker-deploy__link" href="{{ .Params.repositoryLink.url }}">{{ .Params.repositoryLink.text }}</a>.
+    </p>
+  </div>
+  <div class="docker-deploy__right">
+    <img src="/img/docker-illustration.svg" alt="{{ .Params.title }}" />
+  </div>
+</section>

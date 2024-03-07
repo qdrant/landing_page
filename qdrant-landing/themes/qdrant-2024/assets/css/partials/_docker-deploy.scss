@@ -1,0 +1,44 @@
+@use '../helpers/functions' as *;
+
+.docker-deploy {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  padding-left: $spacer * 1.5;
+  padding-right: $spacer * 1.5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacer * 5;
+
+  &__title {
+    font-size: map-get($font-sizes, 3);
+    line-height: rem(57);
+    color: $neutral-20;
+    margin: 0;
+  }
+
+  &__description {
+    font-size: map-get($font-sizes-text, 'xl');
+    line-height: rem(30);
+    margin-top: $spacer * 1.5;
+    margin-bottom: 0;
+  }
+
+  &__link {
+    color: $primary-60;
+    font-size: $font-size-xl;
+    text-decoration: none;
+  }
+
+  &__left {
+    max-width: rem(445);
+  }
+
+  &__right img {
+    max-width: rem(584);
+    max-height: rem(400);
+  }
+}

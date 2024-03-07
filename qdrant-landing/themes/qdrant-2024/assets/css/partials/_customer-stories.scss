@@ -24,6 +24,7 @@
   &__title {
     font-size: map-get($font-sizes, 3);
     line-height: rem(57);
+    color: $neutral-20;
     margin: 0;
   }
 
