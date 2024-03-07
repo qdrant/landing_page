@@ -52,7 +52,7 @@ disableKinds = ["taxonomy", "term"]
   quick_start = "/documentation/quick-start/"
   tutorial = "/articles/neural-search-tutorial/"
   benchmarks = "/benchmarks/"
-  demos = "/demo"
+  demos = "/demo/"
   cloud = "https://qdrant.to/cloud"
 
   linkedin = "https://qdrant.to/linkedin"
