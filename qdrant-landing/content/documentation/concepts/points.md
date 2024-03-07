@@ -8,10 +8,10 @@ aliases:
 # Points
 
 The points are the central entity that Qdrant operates with.
-A point is a record consisting of a vector and an optional [payload](../payload).
+A point is a record consisting of a vector and an optional [payload](../payload/).
 
-You can search among the points grouped in one [collection](../collections) based on vector similarity.
-This procedure is described in more detail in the [search](../search) and [filtering](../filtering) sections.
+You can search among the points grouped in one [collection](../collections/) based on vector similarity.
+This procedure is described in more detail in the [search](../search/) and [filtering](../filtering/) sections.
 
 This section explains how to create and manage vectors.
 

@@ -8,7 +8,7 @@ aliases:
 # Filtering
 
 With Qdrant, you can set conditions when searching or retrieving points.
-For example, you can impose conditions on both the [payload](../payload) and the `id` of the point.
+For example, you can impose conditions on both the [payload](../payload/) and the `id` of the point.
 
 Setting additional conditions is important when it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.

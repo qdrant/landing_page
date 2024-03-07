@@ -7,7 +7,7 @@ aliases:
 
 # Explore the data
 
-After mastering the concepts in [search](../search), you can start exploring your data in other ways. Qdrant provides a stack of APIs that allow you to find similar vectors in a different fashion, as well as to find the most dissimilar ones. These are useful tools for recommendation systems, data exploration, and data cleaning.
+After mastering the concepts in [search](../search/), you can start exploring your data in other ways. Qdrant provides a stack of APIs that allow you to find similar vectors in a different fashion, as well as to find the most dissimilar ones. These are useful tools for recommendation systems, data exploration, and data cleaning.
 
 ## Recommendation API
 

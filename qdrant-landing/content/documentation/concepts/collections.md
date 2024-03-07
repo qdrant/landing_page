@@ -137,8 +137,8 @@ In addition to the required options, you can also specify custom values for the 
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
 * `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
-* `optimizers_config` - see [optimizer](../optimizer) for details.
-* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../../guides/distributed_deployment#sharding) section for details.
+* `optimizers_config` - see [optimizer](../optimizer/) for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../../guides/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
 * `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
 
@@ -1167,7 +1167,7 @@ _Note: these numbers may be removed in a future version of Qdrant._
 ### Indexing vectors in HNSW
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
-depends on the [optimizer configuration](../optimizer). A new index segment is built if the size of non-indexed vectors is higher than the
+depends on the [optimizer configuration](../optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
 value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.
 
