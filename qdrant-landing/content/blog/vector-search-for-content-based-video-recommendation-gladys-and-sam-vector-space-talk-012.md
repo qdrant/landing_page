@@ -1,7 +1,7 @@
 ---
 draft: true
-title: "Vector Search for Content-Based Video Recommendation - Gladys and Sam |
-  Vector Space Talk #012"
+title: Vector Search for Content-Based Video Recommendation - Gladys and Sam |
+  Vector Space Talks
 slug: vector-search-video-recommendation
 short_description: Gladys Roch and Samuel Leonardo Gracio from Dailymotion dive
   into the intricacies of content-based recommendation.
