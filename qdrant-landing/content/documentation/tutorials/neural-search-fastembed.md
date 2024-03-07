@@ -19,7 +19,7 @@ Fastembed natively integrates with Qdrant client, so you can easily upload the d
 
 <aside role="status">
 There is a version of this tutorial that uses <a href="https://www.sbert.net/">SentenceTransformers</a> model inference engine instead of Fastembed.
-Check it out <a href="/documentation/tutorials/neural-search/">here</a>.
+Check it out <a href="/documentation/tutorials/neural-search">here</a>.
 </aside>
 
 
