@@ -13,6 +13,7 @@
   justify-content: center;
 
   &__content {
+    position: relative;
     background-color: $neutral-10;
 
     display: flex;
@@ -44,5 +45,18 @@
     margin-top: $spacer * 1.5;
     margin-bottom: $spacer * 1.5;
     max-width: rem(640);
+  }
+
+  &__planet-icon {
+    position: absolute;
+    top: $spacer * 1.5;
+    left: $spacer * 2.5;
+  }
+
+  &__duo-planet-icon {
+    border-radius: 0 0 16px 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
   }
 }

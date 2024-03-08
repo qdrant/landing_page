@@ -15,7 +15,7 @@
   }
 
   &__icon {
-    margin-right: $spacer / 4;
+    margin-right: calc($spacer / 4);
   }
 
   &__link {

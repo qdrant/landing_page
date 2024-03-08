@@ -6,5 +6,10 @@
       <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
       <a href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg">{{ .Params.learnMore.text }}</a>
     </div>
+    <button type="button" class="hero__stars">
+      {{ .Params.githubLogo | safeHTML }}
+      <span class="hero__stars-text">Star us</span>
+      <span class="hero__stars-count"> {{ .Params.starLogo | safeHTML }} 15.2K </span>
+    </button>
   </div>
 </section>

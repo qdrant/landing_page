@@ -6,6 +6,7 @@
   background-size: 100%;
   background-position: center bottom;
   background-repeat: no-repeat;
+  position: relative;
 
   &__content {
     padding-bottom: rem(331);
@@ -36,5 +37,58 @@
     justify-content: center;
     gap: $spacer * 1.5;
     margin-bottom: $spacer * 5;
+  }
+
+  &__stars {
+    position: absolute;
+    right: $spacer * 1.5;
+    bottom: $spacer * 1.5;
+    border-radius: 8px;
+
+    border: none;
+    outline: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: calc($spacer / 2);
+    padding-bottom: calc($spacer / 2);
+    padding-left: rem(20);
+    padding-right: rem(20);
+
+    background-color: rgba($neutral-20, 0.24);
+  }
+
+  &__stars svg {
+    max-width: rem(24);
+    max-height: rem(24);
+  }
+
+  &__stars-text {
+    color: $neutral-98;
+    margin-right: calc($spacer / 2);
+    margin-left: calc($spacer / 2);
+    font-size: map-get($font-sizes-text, 's');
+    line-height: rem(21);
+    font-weight: 500;
+  }
+
+  &__stars-count {
+    border-radius: 6px;
+    border: 1px solid $neutral-30;
+    color: $neutral-98;
+    padding-left: calc($spacer / 2);
+    padding-right: calc($spacer / 2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc($spacer / 4);
+
+    height: rem(25);
+
+    font-size: map-get($font-sizes-text, 's');
+    line-height: rem(21);
   }
 }
