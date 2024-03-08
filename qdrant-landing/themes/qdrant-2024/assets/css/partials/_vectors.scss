@@ -22,7 +22,7 @@
     color: $neutral-98;
   }
 
-  &__description {
+  &__subtitle {
     font-size: map-get($font-sizes-text, 'xl');
     line-height: rem(30);
     max-width: rem(726);

@@ -1,0 +1,10 @@
+<section class="integrations">
+  <h2 class="integrations__title">{{ .Params.title }}</h2>
+  <p class="integrations__subtitle">
+    Qdrant integrates with all leading
+    <a class="integrations__link" href="{{ .Params.embedLink.url }}">{{ .Params.embedLink.text }}</a>, or and
+    <a class="integrations__link" href="{{ .Params.frameworkLink.url }}">{{ .Params.frameworkLink.text }}</a>.
+  </p>
+  {{ partial "link" . }}
+  <img class="integrations__preview" src="/img/integrations.svg" alt="{{ .Params.title }}" />
+</section>

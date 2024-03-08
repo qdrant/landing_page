@@ -5,15 +5,17 @@
   <body>
     <main>
       <header class="main-header">
-        {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ partial "menu" . }}
-        {{ with (.Site.GetPage "hero") }} {{ partial "hero" . }} {{ end }} {{ with (.Site.GetPage "customers") }} {{
-        partial "customers" . }} {{ end }}
+        {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ with (.Site.GetPage
+        "menu") }} {{ partial "menu" . }} {{ end }} {{ with (.Site.GetPage "hero") }} {{ partial "hero" . }} {{ end }}
+        {{ with (.Site.GetPage "customers") }} {{ partial "customers" . }} {{ end }}
       </header>
     </main>
     {{ with (.Site.GetPage "core-features") }} {{ partial "core-features" . }} {{ end }} {{ with (.Site.GetPage
-    "customer-stories") }} {{ partial "customer-stories" . }} {{ end }} {{ with (.Site.GetPage "docker-deploy") }} {{
-    partial "docker-deploy" . }} {{ end }} {{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{
-    $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+    "customer-stories") }} {{ partial "customer-stories" . }} {{ end }} {{ with (.Site.GetPage "integrations") }} {{
+    partial "integrations" . }} {{ end }} {{ with (.Site.GetPage "docker-deploy") }} {{ partial "docker-deploy" . }} {{
+    end }} {{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{ with (.Site.GetPage
+    "get-started") }} {{ partial "get-started" . }} {{ end }} {{ $pageSearchScrollJs := resources.Get
+    "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
 </html>

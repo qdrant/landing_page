@@ -1,6 +1,6 @@
 ---
 title: Vectors in Action
-description: Turn embeddings or neural network encoders into full-fledged applications for matching, searching, recommending, and more.
+subtitle: Turn embeddings or neural network encoders into full-fledged applications for matching, searching, recommending, and more.
 featureCards:
   - id: 0
     title: Advanced Search

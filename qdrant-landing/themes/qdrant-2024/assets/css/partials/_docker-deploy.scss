@@ -20,7 +20,7 @@
     margin: 0;
   }
 
-  &__description {
+  &__subtitle {
     font-size: map-get($font-sizes-text, 'xl');
     line-height: rem(30);
     margin-top: $spacer * 1.5;

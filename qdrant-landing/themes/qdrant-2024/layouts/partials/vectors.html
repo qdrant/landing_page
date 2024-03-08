@@ -1,6 +1,6 @@
 <section class="vectors">
   <h2 class="vectors__title">{{ .Params.title }}</h2>
-  <p class="vectors__description">{{ .Params.description }}</p>
+  <p class="vectors__subtitle">{{ .Params.subtitle }}</p>
   <div class="vectors__cards">
     {{ range $index, $element := .Params.featureCards }}
     <div {{ if mod $index 2 | eq 0 }} class="vectors__card" {{ else }} class="vectors__card--reversed" {{ end }}>

@@ -1,19 +1,23 @@
+@use '../helpers/functions' as *;
+
 .top-banner {
   display: flex;
-  height: 40px;
+  height: rem(40);
   justify-content: center;
   align-items: center;
-  gap: 24px;
+  gap: $spacer * 1.5;
   border-bottom: 1px solid var(--Neutral-N20, #161e33);
   background: var(--Neutral-N10, #090e1a);
 
-  &__icon {
-    color: $secondary-blue-50;
-  }
   &__text {
     color: $neutral-94;
     font-size: $font-size-s;
   }
+
+  &__icon {
+    margin-right: $spacer / 4;
+  }
+
   &__link {
     font-size: $font-size-s !important;
   }
