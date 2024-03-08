@@ -411,6 +411,14 @@ This is one example of how you can use different models and combine the results.
 In a real-world scenario, you might run some reranking and deduplication, as
 well as additional processing of the results.
 
+Our [Code search demo](https://github.com/qdrant/code-search-demo) uses
+both models. In the screenshot, we search for `flush of wal`. The result
+shows relevant code, merged from both models. Note the highlighted
+code in lines 621-629. It's where both models agree.
+
+![Results from both models, with overlap](/documentation/tutorials/code-search/code-search-demo-example.png)
+
+Now you see semantic code intelligence, in action.
 ### Grouping the results
 
 You can improve the search results, by grouping them by payload properties.
