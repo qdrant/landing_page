@@ -411,6 +411,15 @@ This is one example of how you can use different models and combine the results.
 In a real-world scenario, you might run some reranking and deduplication, as
 well as additional processing of the results.
 
+For example, our [code-search-demo](https://github.com/qdrant/code-search-demo) 
+extracts the method signature using the sentence transformer and highlights a 
+particular piece of code inside it, if the code specific model chooses it as 
+relevant as well.
+
+![](/documentation/tutorials/code-search/code-search-demo-example.png)
+
+Here it is - semantic code intelligence in action, in context!
+
 ### Grouping the results
 
 You can improve the search results, by grouping them by payload properties.
