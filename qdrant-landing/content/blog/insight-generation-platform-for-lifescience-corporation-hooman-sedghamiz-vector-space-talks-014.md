@@ -1,208 +1,243 @@
 ---
 draft: true
-title: "Insight Generation Platform for LifeScience Corporation - Hooman
-  Sedghamiz | Vector Space Talks #014"
-slug: insight-generation-platform
-short_description: Hooman Sedghamiz explores the untapped potential of large
-  language models in creating cutting-edge applications.
-description: Hooman Sedghamiz unfolds the potential of AI in life sciences, from
-  custom knowledge applications to improving crop yield predictions, while
-  teasing apart the nuances of in-house AI deployment for multi-faceted
-  enterprise efficiency.
-preview_image: /blog/from_cms/hooman-sedghamiz-bp-cropped.png
+title: Production-scale RAG for Real-Time News Distillation - Robert Caulk |
+  Vector Space Talks
+slug: real-time-news-distillation-rag
+short_description: Robert Caulk, founder of Emergent Methods, tackles the
+  challenges and innovations in open source AI and news article modeling.
+description: Robert Caulk, founder of Emergent Methods, discusses the
+  intricacies of context engineering, the power of Newscatcher API for broader
+  news access, and the sophisticated use of tools like Qdrant for improved
+  recommendation systems, all while emphasizing the importance of efficiency and
+  modularity in technology stacks for real-time data management.
+preview_image: /blog/from_cms/robert-caulk-bp-cropped.png
 date: 2024-03-08T09:45:59.753Z
 author: Demetrios Brinkmann
 featured: false
 tags:
   - Vector Space Talks
+  - Vector Search
   - Retrieval Augmented Generation
-  - Insight Generation Platform
+  - LLM
 ---
-> *"So there is this really great vector db comparison that came out recently. I saw there are like maybe more than 40 vector stores in 2024. When we started back in 2023 was only a few. And what I see, which is really lacking in this pipeline of retrieval augmented generation is major innovation around data pipeline.”*\
--- Hooman Sedghamiz
+> *"We've got a lot of fun challenges ahead of us in the industry, I think, and the industry is establishing best practices. Like you said, everybody's just trying to figure out what's going on. And some of these base layer tools like Qdrant really enable products and enable companies and they enable us.”*\
+-- Robert Caulk
 > 
 
-Hooman Sedghamiz**,** Sr. Director AI/ML - Insights at Bayer AG is a distinguished figure in AI and ML in the life sciences field. With a wealth of experience, he has led teams and projects that have greatly advanced medical products, including implantable and wearable devices. Notably, he served as the Generative AI product owner and senior director at Bayer Pharmaceuticals, where he played a pivotal role in developing a GPT-based central platform for precision medicine. In 2023, he assumed the role of Co-Chair for the EMNLP 2023 GEM industrial track, furthering his contributions to the field. Hooman has also been an AI/ML advisor and scientist at the University of California, San Diego, leveraging his expertise in deep learning to drive biomedical research and innovation. His strengths lie in guiding data science initiatives from inception to commercialization and bridging the gap between medical and healthcare applications through MLOps, LlmOps, and deep learning product management. Engaging with research institutions and collaborating closely with Dr. Nemati at Harvard University and UCSD, Hooman continues to be a dynamic and influential figure in the data science community.
+Robert, Founder of Emergent Methods is a scientist by trade, dedicating his career to a variety of open-source projects that range from large-scale artificial intelligence to discrete element modeling. He is currently working with a team at Emergent Methods to adaptively model over 1 million news articles per day, with a goal of reducing media bias and improving news awareness.
 
-***Listen to the episode on [Spotify](https://open.spotify.com/episode/2oj2ne5l9qrURQSV0T1Hft?si=DMJRTAt7QXibWiQ9CEKTJw), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/yfzLaH5SFX0).***
+***Listen to the episode on [Spotify](https://open.spotify.com/episode/7lQnfv0v2xRtFksGAP6TUW?si=Vv3B9AbjQHuHyKIrVtWL3Q), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/0ORi9QJlud0).***
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/yfzLaH5SFX0?si=I8dw5QddKbPzPVOB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/0ORi9QJlud0?si=rpSOnS2kxTFXiVBq" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Charting-New-Frontiers-Creating-a-Pioneering-Insight-Generation-Platform-for-a-Major-Life-Science-Corporation---Hooman-Sedghamiz--Vector-Space-Talks-014-e2fqnnc/a-aavffjd" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/Production-scale-RAG-for-Real-Time-News-Distillation---Robert-Caulk--Vector-Space-Talks-015-e2g6464/a-ab0c1sq" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top takeaways:**
 
-Why is real-time evaluation critical in maintaining the integrity of chatbot interactions and preventing issues like promoting competitors or making false promises? What strategies do developers employ to minimize cost while maximizing the effectiveness of model evaluations, specifically when dealing with LLMs? These might be just some of the many questions people in the industry are asking themselves. Worry not! Because Demetrios and Sourabh will break it down for you.
+How do Robert Caulk and Emergent Methods contribute to the open-source community, particularly in AI systems and news article modeling?
 
-Check out their conversation as they dive into the intricate world of AI chatbot evaluations. Discover the nuances of ensuring your chatbot's quality and continuous improvement across various metrics.
+In this episode, we're getting under the hood of open-source projects that are reshaping how we interact with AI systems and news article modeling. Robert takes us on a deep dive into the evolving landscape of news distribution and the tech making it more efficient and balanced.
 
-Here are the key topics of this episode:
+Here are some takeaways from this episode:
 
-1. **Evaluating Chatbot Effectiveness**: An exploration of systematic approaches to assess chatbot quality across various stages, encompassing retrieval accuracy, response generation, and user satisfaction.
-2. **Importance of Real-Time Assessment**: Insights into why continuous and real-time evaluation of chatbots is essential to maintain integrity and ensure they function as designed without promoting undesirable actions.
-3. **Indicators of Compromised Systems**: Understand the significance of identifying behaviors that suggest a system may be prone to 'jailbreaking' and the methods available to counter these through API integration.
-4. **Cost-Effective Evaluation Models**: Discussion on employing smaller models for evaluation to reduce costs without compromising the depth of analysis, focusing on failure cases and root-cause assessments.
-5. **Tailored Evaluation Metrics**: Emphasis on the necessity of customizing evaluation criteria to suit specific use case requirements, including an exploration of the different metrics applicable to diverse scenarios.
+1. **Context Matters**: Discover the importance of context engineering in news and how it ensures a diversified and consumable information flow.
+2. **Introducing Newscatcher API**: Get the lowdown on how this tool taps into 50,000 news sources for more thorough and up-to-date reporting.
+3. **The Magic of Embedding**: Learn about article summarization and semantic search, and how they're crucial for discovering content that truly resonates.
+4. **Quadrant & Cloud**: Explore how Qdrant's cloud offering and its single responsibility principle support a robust, modular approach to managing news data.
+5. **Startup Superpowers**: Find out why startups have an edge in implementing new tech solutions and how incumbents are tied down by legacy products.
 
-> Fun Fact: Sourabh discussed the use of Uptrend, an innovative API that provides scores and explanations for various data checks, facilitating logical and informed decision-making when evaluating AI models.
+> Fun Fact: Did you know that startups' lack of established practices is actually a superpower in the face of new tech paradigms? Legacy products can't keep up!
 > 
 
 ## Show notes:
 
-00:00 Introduction to Bayer AG\
-05:15 Drug discovery, trial prediction, medical virtual assistants.\
-10:35 New language models like Llama rival GPT 3.5.\
-12:46 Large language model solving, efficient techniques, open source.\
-16:12 Scaling applications for diverse, individualized models.\
-19:02 Open source offers multilingual embedding.\
-25:06 Stability improved, reliable function calling capabilities emerged.\
-27:19 Platform aims for efficiency, measures impact.\
-31:01 Build knowledge discovery tool, measure value\
-33:10 Wrap up
+00:00 Intro to Robert and Emergent Methods.\
+05:22 Crucial dedication to scaling context engineering.\
+07:07 Optimizing embedding for semantic similarity in search.\
+13:07 New search technology boosts efficiency and speed.\
+14:17 Reliable cloud provider with privacy and scalability.\
+17:46 Efficient data movement and resource management.\
+22:39 GoLang for services, Rust for security.\
+27:34 Logistics organized; Newscatcher provides up-to-date news.\
+30:27 Tested Weaviate and another in Rust.\
+32:01 Filter updates by starring and user preferences.
 
-## More Quotes from Hooman:
+## More Quotes from Robert:
 
-*"I think there has been concentration around vector stores. So a lot of startups that have appeared around vector store idea, but I think what really is lacking are tools that you have a lot of sources of knowledge, information.*”\
--- Hooman Sedghamiz
+*"Web search is powerful, but it's slow and ultimately inaccurate. What we're building is real time indexing and we couldn't do that without Qdrant*”\
+-- Robert Caulk
 
-*"You can now kind of take a look and see that the performance of them is really, really getting close, if not better than GPT 3.5 already at same level and really approaching step by step to GPT 4.”*\
--- Hooman Sedghamiz in advancements in language models
+*"You need to start thinking about persistence and search and making sure those services are robust. That's where Qdrant comes into play. And we found that the all in one solutions kind of sacrifice performance for convenience, or sacrifice accuracy for convenience, but it really wasn't for us. We'd rather just orchestrate it ourselves and let Qdrant do what Qdrant does, instead of kind of just hope that an all in one solution is handling it for us and that allows for modularity performance.”*\
+-- Robert Caulk
 
-*"I think the biggest, I think the untapped potential, it goes back to when you can do scientific discovery and all those sort of applications which are more challenging, not just around the efficiency and all those sort of things.”*\
--- Hooman Sedghamiz
+*"Anyone riding the Qdrant wave is just reaping benefits. It seems monthly, like two months ago, sparse vector support got added. There's just constantly new massive features that enable products.”*\
+-- Robert Caulk
 
 ## Transcript:
 Demetrios:
-We are here and I couldn't think of a better way to spend my Valentine's Day than with you humen this is absolutely incredible. I'm so excited for this talk that you're going to bring and I want to let everyone that is out there listening know what caliber of of speaker we have with us today because you have done a lot of stuff. Folks out there do not let this man's young look fool you. You look like you are not in your. When it comes to your bio, it looks like you should be in your very excited. You've got a lot of experience running data science projects, ML projects, LLM projects, all that fun stuff. You're working at Bayern Munich, sorry, not Bayern Munich, Bayer AG. And you're the senior director of AI and ML.
+Robert, it's great to have you here for the vector space talks. I don't know if you're familiar with some of this fun stuff that we do here, but we get to talk with all kinds of experts like yourself on what they're doing when it comes to the vector space and how you've overcome challenges, how you're working through things, because this is a very new field and it is not the most intuitive, as you will tell us more in this upcoming talk. I really am excited because you've been a scientist by trade. Now, you're currently founder at emergent Methods and you've dedicated your career to a variety of open source projects that range from the large scale AI systems to the discrete element modeling. Now at emergent methods, you are adaptively modeling over 1 million news articles per day. That sounds like a whole lot of news articles. And you've been talking and working through production grade rag, which is basically everyone's favorite topic these days. So I know you got to talk for us, man.
 
 Demetrios:
-And I think that there is a ton of other stuff that you've done when it comes to machine learning, artificial intelligence. You've got both like the traditional ML background, I think, and then you've also got this new generative AI background and so you can leverage both. But you also think about things in data engineering way. You understand the whole lifecycle. And so today we get to talk all about some of this fun. I know you've got some slides prepared for us. I'll let you throw those on and I'll let anyone else in the chat. Feel free to ask questions while humin is going through the presentation and I'll jump in and stop them when needed.
+I'm going to hand it over to you. I'll bring up your screen right now, and when someone wants to answer or ask a question, feel free to throw it in the chat and I'll jump out at Robert and stop him if needed.
+
+Robert Caulk:
+Sure.
 
 Demetrios:
-But also we can have a little discussion after a few minutes of slides. So for everyone looking, we're going to be watching this and then we're going to be checking out like really talking about what 2024 AI in the enterprise looks like and what is needed to really take advantage of that. So human, I'm dropping off to you, man, and I'll jump in when needed.
+Great to have you here, man. I'm excited for this one.
 
-Hooman Sedghamiz:
-Thanks a lot for the introduction. Let me get started. Do you have my screen already?
+Robert Caulk:
+Thanks for having me, Demetrius. Yeah, it's a great opportunity. I love talking about vector spaces, parameter spaces. So to talk on the show is great. We've got a lot of fun challenges ahead of us in the industry, I think, and the industry is establishing best practices. Like you said, everybody's just trying to figure out what's going on. And some of these base layer tools like Qdrant really enable products and enable companies and they enable us. So let me start.
 
-Demetrios:
-Yeah, we see it.
+Robert Caulk:
+Yeah, like you said, I'm Robert and I'm a founder of emergent methods. Our background, like you said, we are really committed to free and open source software. We started with a lot of narrow AI. Freak AI was one of our original projects, which is AI ML for algo trading very narrow AI, but we came together and built flowdapt. It's a really nice cluster orchestration software, and I'll talk a little bit about that during this presentation. But some of our background goes into, like you said, large scale deep learning for supercomputers. Really cool, interesting stuff. We have some cloud experience.
 
-Hooman Sedghamiz:
-Okay, perfect. All right, so hopefully I can change the slides. Yes, as you said, first, thanks a lot for spending your day with me. I know it's Valentine's Day, at least here in the US people go crazy when it gets Valentine's. But I know probably a lot of you are in love with large language models, semantic search and all those sort of things, so it's great to have you here. Let me just start with the. I have a lot of slides, by the way, but maybe I can start with kind of some introduction about the company I work for, what these guys are doing and what we are doing at a life science company like Bayer, which is involved in really major humanity needs, right? So health and the food chain and like agriculture, we do three major kind of products or divisions in the company, mainly consumer halls, over the counter medication that probably a lot of you have taken, aspirin, all those sort of good stuff. And we have crop science division that works on ensuring that the yield is high for crops and the food chain is performing as it should, and also pharmaceutical side which is around treatment and prevention.
+Robert Caulk:
+We really like configuration, so let's dive into it. Why do we actually need to engineer context in the news? There's a lot of reasons why news is important and why it needs to be distributed in a way that's balanced and diversified, but also consumable. Right, let's look at Chat GPT on the left. This is Chat GPT plus it's kind of hanging out searching for Gaza news on Bing, trying to find the top three articles live. Web search is powerful, but it's slow and ultimately inaccurate. What we're building is real time indexing and we couldn't do that without Qdrant, and there's a lot of reasons which I'll be perfectly happy to dive into, but eventually Chappa Chi PT will pull something together here. There it is. And the first thing it reports is 25 day old article with 25 day old nudes.
 
-Hooman Sedghamiz:
-So now you can imagine via is really important to us because it has the potential of unlocking a future where good health is a reality and hunger is a memory. So I maybe start about maybe giving you a hint of what are really the numerous use cases that AI or challenges that AI could help out with. In life science industry. You can think of adverse event detection when patients are taking a medication, too much of it. The patients might report adverse events, stomach bleeding and go to social media post about it. A few years back, it was really difficult to process automatically all this sort of natural text in a kind of scalable manner. But nowadays, thanks to large language models, it's possible to automate this and identify if there is a medication or anything that might have negatively an adverse event on a patient population. Similarly, you can now create a lot of marketing content using these large language models for products.
+Robert Caulk:
+Old news. So it's just inaccurate. So it's borderline dangerous, what's happening here. Right, so this is a very delicate topic. Engineering context in news properly, which takes a lot of energy, a lot of time and dedication and focus, and not every company really has this sort of resource. So we're talking about enforcing journalistic standards, right? OpenAI and Chachipt, they just don't have the time and energy to build a dedicated prompt for this sort of thing. It's fine, they're doing great stuff, they're helping you code. But someone needs to step in and really do enforce some journalistic standards here.
 
-Hooman Sedghamiz:
-At the same time, drug discovery is making really big strides when it comes to identifying new compounds. You can essentially describe these compounds using formats like smiles, which could be represented as really text. And these large language models can be trained on them and they can predict the sequences. At the same time, you have this clinical trial outcome prediction, which is huge for pharmaceutical companies. If you could predict what will be the outcome of a trial, it would be a huge time and resource saving for a lot of companies. And of course, a lot of us already see in the market a lot of medical virtual assistants using large language models that can answer medical inquiries and give consultations around them. And there is really, I believe the biggest potential here is around real world data, like most of us nowadays, have some sort of sensor or watch that's measuring our health maybe at a minute by minute level, or it's measuring our heart rate. You go to the hospital, you have all your medical records recorded there, and these large language models have their capacity to process this complex data, and you will be able to drive better insights for individualized insights for patients.
+Robert Caulk:
+And that includes enforcing diversity, languages, regions and sources. If I'm going to read about Gaza, what's happening over there, you can bet I want to know what Egypt is saying and what France is saying and what Algeria is saying. So let's do this right. That's kind of what we're suggesting, and the only way to do that is to parse a lot of articles. That's how you avoid outdated, stale reporting. And that's a real danger, which is kind of what we saw on that first slide. Everyone here knows hallucination is a problem and it's something you got to minimize, especially when you're talking about the news. It's just a really high cost if you get it wrong.
 
-Hooman Sedghamiz:
-And our company is also in crop science, as I mentioned, and crop yield prediction. If you could help farmers improve their crop yield, it means that they can produce better products faster with higher quality. So maybe I could start with maybe a history in 2023, what happened? How companies like ours were looking at large language models and opportunities. They bring, I think in 2023, everyone was excited to bring these efficiency games, right? Everyone wanted to use them for creating content, drafting emails, all these really low hanging fruit use cases. That was around. And one of the earlier really nice architectures that came up that I really like was from a 16 z enterprise that was, I think, back in really, really early 2023. LangChain was new, we had land chain and we had all this. Of course, Kudran been there for a long time, but it was the first time that you could see vector store products could be integrated into applications.
+Robert Caulk:
+And so you need people dedicated to this. And if you're going to dedicate a ton of resources and ton of people, you might as well scale that properly. So that's kind of where this comes into. We call this context engineering news context engineering, to be precise, before llama two, which also is enabling products left and right. As we all know, the traditional pipeline was chunk it up, take 512 tokens, put it through a translator, put it through distillbart, do some sentence extraction, and maybe text classification, if you're lucky, get some sentiment out of it and it works. It gets you something. But after we're talking about reading full articles, getting real rich, context, flexible output, translating, summarizing, really deciding that custom extraction on the fly as your product evolves, that's something that the traditional pipeline really just doesn't support. Right.
 
-Hooman Sedghamiz:
-Really at large scale. There are different components. It's quite complex architecture. So on the right side you see how you can host large language models. On the top you see how you can augment them using external data. Of course, we had these plugins, right? So you can connect these large language models with Google search APIs, all those sort of things, and some validation that are in the middle that you could use to validate the responses fast forward. Maybe I can kind of spend, let me check out the time. Maybe I can spend a few minutes about the components of LLM APIs and hosting because that I think has a lot of potential in terms of applications that need to be really scalable.
+Robert Caulk:
+We're talking being able to on the fly say, you know what, actually we want to ask this very particular question of all articles and get this very particular field out. And it's really just a prompt modification. This all is based on having some very high quality, base level, diversified news. And so we'll talk a little bit more. But newscatchers is one of the sources that we're using, which opens up 50,000 different sources. So check them out. That's newscatcherapi.com. They even give free access to researchers if you're doing research in this.
 
-Hooman Sedghamiz:
-Just to give you some kind of maybe summary about my company, we have around 100,000 people in almost all over the world. Like the languages that people speak are so diverse. So it makes it really difficult to build an application that will serve 200,000 people. And it's kind of efficient. It's not really costly and all those sort of things. So maybe I can spend a few minutes talking about what that means and how kind of larger scale companies might be able to tackle that efficiently. So we have, of course, out of the box solutions, right? So you have Chat GPT already for enterprise, you have other copilots and for example from Microsoft and other companies that are offering, but normally they are seat based, right? So you kind of pay a subscription fee, like Spotify, you pay like $20 per month, $30 on average, somewhere between $20 to $60. And for a company, like, I was like, just if you calculate that for 3000 people, that means like 180,000 per month in subscription fees.
+Robert Caulk:
+So I don't want to dive too much into the direct rag stuff. We can go deep, but I'm happy to talk about some examples of how to optimize this and how we've optimized it. Here on the right, you can see the diagram where we're trying to follow along the process of summarizing and embedding. And I'll talk a bit more about that in a moment. It's here to support after we've summarized those articles and we're ready to embed that. Embedding is really important to get that right because like the name of the show suggests you have to have a clean cluster vector space if you're going to be doing any sort of really rich semantic similarity searches. And if you're going to be able to dive deep into extracting important facts out of all 1 million articles a day, you're going to need to do this right. So having a user query which is not equivalent to the embedded page where this is the data, the enriched data that the embedding that we really want to be able to do search on.
 
-Hooman Sedghamiz:
-And we know that most of the users won't use that. We know that it's a usage based application. You just probably go there. Depending on your daily work, you probably use it. Some people don't use it heavily. I kind of did some calculation. If you build it in house using APIs that you can access yourself, and large language models that corporations can deploy internally and locally, that cost saving could be huge, really magnitudes cheaper, maybe 30 to 20 to 30 times cheaper. So looking, comparing 2024 to 2023, a lot of things have changed.
+Robert Caulk:
+And then how do we connect the dots here? Of course, there are many ways to go about it. One way which is interesting and fun to talk about is ide. So that's basically a hypothetical document embedding. And what you do is you use the LLM directly to generate a fake article. And that's what we're showing here on the right. So let's say if the user says, what's going on in New York City government, well, you could say, hey, write me just a hypothetical summary based, it could completely fake and use that to create a fake embedding page and use that for the search. Right. So then you're getting a lot closer to where you want to go.
 
-Hooman Sedghamiz:
-Like if you look at the open source large language models that came out really great models from Mistral, now we have models like Llama, two based model, all of these models came out. You can now kind of take a look and see that the performance of them is really, really getting close, if not better than GPT 3.5 already at same level and really approaching step by step to GPT four. And looking at the price on the right side and speed or throughput, you can see that like for example, Mixtrawl seven eight B could be a really cheap option to deploy. And also the performance of it gets really close to GPT 3.5 for many use cases in the enterprise companies. I think two of the big things this year, end of last year that came out that make this kind of really a reality are really a few large language models. I don't know if I can call them large language models. They are like 7 billion to 13 billion compared to GPT four, GT 3.5. I don't think they are really large.
+Robert Caulk:
+There's some limitations to this, to it's, there's a computational cost also, it's not updated. It's based on whatever. It's basically diving into what it knows about the New York City government and just creating keywords for you. So there's definitely optimizations here as well. When you talk about ambiguity, well, what if the user follows up and says, well, why did they change the rules? Of course, that's where you can start prompt engineering a little bit more and saying, okay, given this historic conversation and the current question, give me some explicit question without ambiguity, and then do the high de, if that's something you want to do. The real goal here is to stay in a single parameter space, a single vector space. Stay as close as possible when you're doing your search as when you do your embedding. So we're talking here about production scale of stuff.
 
-Hooman Sedghamiz:
-But one was Nexus, Raven. We know that applications, if they want to be robust, they really need function calling. We are seeing this paradigm of function calling, which essentially you ask a language model to generate structured output, you give it a function signature, right? You ask it to generate an output, structured output argument for that function. Next was Raven came out last year, that, as you can see here, really is getting really close to GPT four, right? And GPT four being magnitude bigger than this model. This model only being 13 billion parameters really provides really less hallucination, but at the same time really high quality of function calling. So this makes me really excited for the open source and also the companies that want to build their own applications that requires function calling. That was really lacking maybe just five months ago. At the same time, we have really dedicated large language models to programming languages or scripting like SQL, that we are also seeing like SQL coder that's already beating GPT four.
+Robert Caulk:
+So I really am happy to geek out about the stack, the open source stack that we're relying on, which includes Qdrant here. But let's start with Vllm. I don't know if you guys have heard of it. This is a really great new project, and their focus on continuous batching and page detention. And if I'm being completely honest with you, it's really above my pay grade in the technicals and how they're actually implementing all of that inside the GPU memory. But what we do is we outsource that to that project and we really like what they're doing, and we've seen really good results. It's increasing throughput. So when you're talking about trying to parse through a million articles, you're going to need a lot of throughput.
 
-Hooman Sedghamiz:
-So maybe we can now quickly take a look at how model solving will look like for a large company like ours, like companies that have a lot of people across the globe again, in this aspect also, the community has made really big progress, right? So we have text generation inference from hugging face is open source for most purposes, can be used and it's the choice of mine and probably my group prefers this option. But we have Olama, which is great, a lot of people are using it. We have llama CPP which really optimizes the large language models for local deployment as well, and edge devices. I was really amazed seeing Raspberry PI running a large language model, right? Using Llama CPP. And you have this text generation inference that offers quantization support, continuous patching, all those sort of things that make these large LLMs more quantized or more compressed and also more suitable for deployment to large group of people. Maybe I can kind of give you kind of a quick summary of how, if you decide to deploy these large language models, what techniques you could use to make them more efficient, cost friendly and more scalable. So we have a lot of great open source projects like we have Lite LLM which essentially creates an open AI kind of signature on top of your large language models that you have deployed. Let's say you want to use Azure to host or to access GPT four gypty 3.5 or OpenAI to access OpenAI API.
+Robert Caulk:
+The other is text embedding inference. This is a great server. A lot of vector databases will say, okay, we'll do all the embedding for you and we'll do all everything. But when you move to production scale, I'll talk a bit about this later. You need to be using micro service architecture, so it's not super smart to have your database bogged down with doing sorting out the embeddings and sorting out other things. So honestly, I'm a real big fan of single responsibility principle, and that's what Tei does for you. And it also does dynamic batching, which is great in this world where everything is heterogeneous lengths of what's coming in and what's going out. So it's great.
 
-Hooman Sedghamiz:
-To access those, you could put them behind Lite LLM. You could have models using hugging face that are deployed internally, you could put lightlm in front of those, and then your applications could just use OpenAI, Python SDK or anything to call them naturally. And then you could simply do load balancing between those. Of course, we have also, as I mentioned, a lot of now serving opportunities for deploying those models that you can accelerate. Semantic caching is another opportunity for saving cost. Like for example, if you have cute rent, you are storing the conversations. You could semantically check if the user has asked similar questions and if that question is very similar to the history, you could just return that response instead of calling the large language model that can create costs. And of course you have line chain that you can summarize conversations, all those sort of things.
+Robert Caulk:
+It really simplifies the process and allows you to isolate resources. But now the star of the show Qdrant, it's really come into its own. Anyone riding the Qdrant wave is just reaping benefits. It seems monthly, like two months ago, sparse vector support got added. There's just constantly new massive features that enable products. Right. So for us, we're doing so much up Cert, we really need to minimize client connections and networking overhead. So you got that batch up cert.
 
-Hooman Sedghamiz:
-And we have techniques like prompt compression. So as I mentioned, this really load balancing can offer a lot of opportunities for scaling this large language model. As you know, a lot of offerings from OpenAI APIs or Microsoft Azure, they have rate limits, right? So you can't call those models extensively. So what you could do, you could have them in multiple regions, you can have multiple APIs, local TGI deployed models using hugging face TGI or having Azure endpoints and OpenAI endpoints. And then you could use light LLM to load balance between these models. Once the users get in. Right. User one, you send the user one to one deployment, you send the user two requests to the other deployment.
+Robert Caulk:
+The filters are huge. We're talking about real time filtering. We can't be searching on news articles from a month ago, two months ago, if the user is asking for a question that's related to the last 24 hours. So having that timestamp filtering and having it be efficient, which is what it is in Qdrant, is huge. Keyword filtering really opens up a massive realm of product opportunities for us. And then the sparse vectors, we hopped on this train immediately and are just seeing benefits. I don't want to say replacement of elasticsearch, but elasticsearch is using sparse vectors as well. So you can add splade into elasticsearch, and splade is great.
 
-Hooman Sedghamiz:
-So this way you can really scale your application to large amount of users. And of course, we have these opportunities for applications called Lorex that use Lora. Probably a lot of you have heard of like very efficient way of fine tuning these models with fewer number of parameters that we could leverage to have really individualized models for a lot of applications. And you can see the costs are just not comparable if you wanted to use, right. So at GPT 3.5, even in terms of performance and all those sort of things, because you can use really small hardware GPU to deploy thousands of Lora weights or adapters, and then you will be able to serve a diverse set of models to your users. I think one really important part of these kind of applications is the part that you add contextual data, you add augmentation to make them smarter and to make them more up to date. So, for example, in healthcare domain, a lot of Americans already don't have high trust in AI when it comes to decision making in healthcare. So that's why augmentation of data or large language models is really, really important for bringing trust and all those sort of state of the art knowledge to this large language model.
+Robert Caulk:
+It's a really great alternative to BM 25. It's based on that Burt architecture, and that really opens up a lot of opportunities for filtering out keywords that are kind of useless to the search when the user uses the and a, and then there, these words that are less important splays a bit of a hybrid into semantics, but sparse retrieval. So it's really interesting. And then the idea of hybrid search with semantic and a sparse vector also opens up the ability to do ranking, and you got a higher quality product at the end, which is really the goal, right, especially in production. Point number four here, I would say, is probably one of the most important to us, because we're dealing in a world where latency is king, and being able to deploy Qdrant inside of the same cluster as all the other services. So we're just talking through the switch. That's huge. We're never getting bogged down by network.
 
-Hooman Sedghamiz:
-For example, if you ask about cancer or rededicated questions that need to build on top of scientific knowledge, it's very important to use those. Augmented or retrieval augmented generation. No, sorry, go next. Jumped on one. But let me see. I think I'm missing a slide, but yeah, I have it here. So going through this kind of, let's say retrieval augmented generation, different parts of it. You have, of course, these vector stores that in 2024, I see explosion of vector stores.
+Robert Caulk:
+We're never worried about a cloud provider potentially getting overloaded or noisy neighbor problems, stuff like that, completely removed. And then you got high privacy, right. All the data is completely isolated from the external world. So this point number four, I'd say, is one of the biggest value adds for us. But then distributing deployment is huge because high availability is important, and deep storage, which when you're in the business of news archival, and that's one of our main missions here, is archiving the news forever. That's an ever growing database, and so you need a database that's going to be able to grow with you as your data grows. So what's the TLDR to this context? Engineering? Well, service orchestration is really just based on service orchestration in a very heterogeneous and parallel event driven environment. On the right side, we've got the user requests coming in.
 
-Hooman Sedghamiz:
-Right. So there is this really great vector DB comparison that came out recently. I saw there are like maybe more than 40 vector stores in 2024. When we started back in 2023 was only a few. And what I see, which is really lacking in this pipeline of retrieval augmented generation is major innovation around data pipeline. And I think we were talking before this talk together that ETL is not something that is taken seriously. So far. We have a lot of embedding models that are coming out probably on a weekly basis.
+Robert Caulk:
+They're hitting all the same services, which every five minutes or every two minutes, whatever you've scheduled the scrape workflow on, also hitting the same services, this requires some orchestration. So that's kind of where I want to move into discussing the real production, scaling, orchestration of the system and how we're doing that. Provide some diagrams to show exactly why we're using the tools we're using here. This is an overview of our Kubernetes cluster with the services that we're using. So it's a bit of a repaint of the previous diagram, but a better overview about showing kind of how these things are connected and why they're connected. I'll go through one by one on these services to just give a little deeper dive into each one. But the goal here is for us, in our opinion, microservice orchestration is key. Sticking to single responsibility principle.
 
-Hooman Sedghamiz:
-We have great embedding models that are open source, BgEM. Three is one that is multilingual, 100 plus languages. You could embed text in those languages. We have a lot of vector stores, but we don't have really ETL tools, right? So we have maybe a few airbytes, right? How can you reindex data efficiently? How can you parse scientific articles? Like imagine I have an image here, we have these articles or archive or on a pubmed, all those sort of things that have images and complex structure that our parsers are not able to parse them efficiently and make sense of them so that you can embed them really well. And really doing this Internet level, scientific level retrieval is really difficult. And no one I think is still doing it at scale. I just jumped, I have a love slide, maybe I can jump to my last and then we can pause there and take in some questions. Where I see 2014 and beyond, beyond going for large language models for enterprises, I see assistance, right? I see assistance for personalized assistance, for use cases coming out, right? So these have probably four components.
+Robert Caulk:
+Open source projects like Qdrant, like Tei, like VLLM and Kubernetes, it's huge. Kubernetes is opening up doors for security and for latency. And of course, if you're going to be getting involved in this game, you got to find the strong DevOps. There's no escaping that. So let's step through kind of piece by piece and talk about flow Dapp. So that's our project. That's our open source project. We've spent about two years building this for our needs, and we're really excited because we did a public open sourcing maybe last week or the week before.
 
-Hooman Sedghamiz:
-You have even a personalized large language model that can learn from the history of your conversation, not just augmented. Maybe you can fine tune that using Laura and all those techniques. You have the knowledge that probably needs to be customized for your assistant and integrated using vector stores and all those sort of things, technologies that we have out, you know, plugins that bring a lot of plugins, some people call them skills, and also they can cover a lot of APIs that can bring superpowers to the large language model and multi agent setups. Right? We have autogen, a lot of cool stuff that is going on. The agent technology is getting really mature now as we go forward. We have langraph from Langchain that is bringing a lot of more stabilized kind of agent technology. And then you can think of that as for companies building all these kind of like App Stores or assistant stores that use cases, store there. And the colleagues can go there, search.
+Robert Caulk:
+So finally, after all of our testing and rewrites and refactors, we're open. We're open for business. And it's running asknews app right now, and we're really excited for where it's going to go and how it's going to help other people orchestrate their clusters. Our goal and our priorities were highly paralyzed compute and we were running tests using all sorts of different executors, comparing them. So when you use Flowdapt, you can choose ray or dask. And that's key. Especially with vanilla Python, zero code changes, you don't need to know how ray or dask works. In the back end, floatapt is vanilla Python.
 
-Hooman Sedghamiz:
-I'm looking for this application. That application is customized for them, or even they can have their own assistant which is customized to them, their own large language model, and they could use that to bring value. And then even a nontechnical person could create their own assistant. They could attach the documents they like, they could select the plugins they like, they'd like to be connected to, for example, archive, or they need to be connected to API and how many agents you like. You want to build a marketing campaign, maybe you need an agent that does market research, one manager. And then you build your application which is customized to you. And then based on your feedback, the large language model can learn from your feedback as well. Going forward, maybe I pause here and then we can it was a bit longer than I expected, but yeah, it's all good, man.
+Robert Caulk:
+That was a key goal for us to ensure that we're optimizing how data is moving around the cluster. Automatic resource management this goes back to Ray and dask. They're helping manage the resources of the cluster, allocating a GPU to a task, or allocating multiple tasks to one GPU. These can come in very, very handy when you're dealing with very heterogeneous workloads like the ones that we discussed in those previous slides. For us, the biggest priority was ensuring rapid prototyping and debugging locally. When you're dealing with clusters of 1015 servers, 40 or 5100 with ray, honestly, ray just scales as far as you want. So when you're dealing with that big of a cluster, it's really imperative that what you see on your laptop is also what you are going to see once you deploy. And being able to debug anything you see in the cluster is big for us, we really found the need for easy cluster wide data sharing methods between tasks.
 
-Demetrios:
-Yeah, this is cool. Very cool. I appreciate you going through this, and I also appreciate you coming from the past, from 2014 and talking about what we're going to do in 2024. That's great. So one thing that I want to dive into right away is the idea of ETL and why you feel like that is a bit of a blocker and where you think we can improve there.
+Robert Caulk:
+So essentially what we've done is made it very easy to get and put values. And so this makes it extremely easy to move data and share data between tasks and make it highly available and stay in cluster memory or persist it to disk, so that when you do the inevitable version update or debug, you're reloading from a persisted state in the real time. News business scheduling is huge. Scheduling, making sure that various workflows are scheduled at different points and different periods or frequencies rather, and that they're being scheduled correctly, and that their triggers are triggering exactly what you need when you need it. Huge for real time. And then one of our biggest selling points, if you will, for this project is Kubernetes style. Everything. Our goal is everything's Kubernetes style, so that if you're coming from Kubernetes, everything's familiar, everything's resource oriented.
 
-Hooman Sedghamiz:
-Yeah. So I think there has been concentration around vector stores. Right. So a lot of startups that have appeared around vector store idea, but I think what really is lacking tools that you have a lot of sources of knowledge, information. You have your Gmail, if you use outlook, if you use scientific knowledge, like sources like archive. We really don't have any startup that I hear that. Okay. I have a platform that offers real time retrieval from archive papers.
+Robert Caulk:
+We even have our own flow ectyl, which would be the Kubectl style command schemas. A lot of what we've done is ensuring deployment cycle efficiency here. So the goal is that flowdapt can schedule everything and manage all these services for you, create workflows. But why these services? For this particular use case, I'll kind of skip through quickly. I know I'm kind of running out of time here, but of course you're going to need some proprietary remote models. That's just how it works. You're going to of course share that load with on premise llms to reduce cost and to have some reasoning engine on premise. But there's obviously advantages and disadvantages to these.
 
-Hooman Sedghamiz:
-And you want to ask a question, for example, about transformers. It can do retrieval, augmented generation over all archive papers in real time as they get added for you and brings back the answer to you. We don't have that. We don't have these syncing tools. You can of course, with tricks you can maybe build some smart solutions, but I haven't seen many kind of initiatives around that. And at the same time, we have this paywall knowledge. So we have these nature medicine amazing papers which are paywall. We can access them.
+Robert Caulk:
+I'm not going to go through them. I'm happy to make these slides available, and you're welcome to kind of parse through the details. Yeah, for sure. You need to start thinking about persistence and search and making sure those services are robust. That's where Qdrant comes into play. And we found that the all in one solutions kind of sacrifice performance for convenience, or sacrifice accuracy for convenience, but it really wasn't for us. We'd rather just orchestrate it ourselves and let Qdrant do what Qdrant does, instead of kind of just hope that an all in one solution is handling it for us and that allows for modularity performance. And we'll dump Qdrant if we want to.
 
-Hooman Sedghamiz:
-Right. So we can build rag around them yet, but maybe some startups can start coming up with strategies, work with this kind of publishing companies to build these sort of things.
+Robert Caulk:
+Probably we won't. Or we'll dump minio if we need to, or we'll swap out for whatever replaces bllm. Trying to keep things modular so that future engineers are able to adapt with the tech that's just blowing up and exploding right now. Right. The last thing to talk about here in a production scale environment is really minimizing the latency. I touched on this with Kubernetes ensuring that these services are sitting on the same network, and that is huge. But that talks about decommunication latency. But when you start talking about getting hit with a ton of traffic, production scale, tons of people asking a question all simultaneously, and you needing to go hit a variety of services, well, this is where you really need to isolate that to an asynchronous environment.
 
-Demetrios:
-Yeah, it's almost like you're seeing it not as the responsibility of nature or.
+Robert Caulk:
+And of course, if you could write this all in Golang, that's probably going to be your best bet for us. We have some services written in Golang, but predominantly, especially the endpoints that the ML engineers need to work with. We're using fast API on pydantic and honestly, it's powerful. Pydantic V 2.0 now runs on Rust, and as anyone in the Qdrant community knows, Rust is really valuable when you're dealing with highly parallelized environments that require high security and protections for immutability and atomicity. Forgive me for the pronunciation, that kind of sums up the production scale talk, and I'm happy to answer questions. I love diving into this sort of stuff. I do have some just general thoughts on why startups are so much more well positioned right now than some of these incumbents, and I'll just do kind of a quick run through, less than a minute just to kind of get it out there. We can talk about it, see if we agree or disagree.
 
-Hooman Sedghamiz:
-Maybe they can do it.
+Robert Caulk:
+But you touched on it, Demetrius, in the introduction, which was the best practices have not been established. That's it. That is why startups have such a big advantage. And the reason they're not established is because, well, the new paradigm of technology is just underexplored. We don't really know what the limits are and how to properly handle these things. And that's huge. Meanwhile, some of these incumbents, they're dealing with all sorts of limitations and resistance to change and stuff, and then just market expectations for incumbents maintaining these kind of legacy products and trying to keep them hobbling along on this old tech. In my opinion, startups, you got your reasoning engine building everything around a reasoning engine, using that reasoning engine for every aspect of your system to really open up the adaptivity of your product.
 
-Demetrios:
-Yeah, they can potentially, but maybe that's not their bread and butter and so they don't want to. And so how do startups get in there and take some of this paywalled information and incorporate it into their product? And there is another piece that you mentioned on, just like when it comes to using agents, I wonder, have you played around with them a lot? Have you seen their reliability get better? Because I'm pretty sure a lot of us out there have tried to mess around with agents and maybe just like blown a bunch of money on GPT, four API calls. And it's like this thing isn't that stable. What's going on? So do you know something that we don't?
-
-Hooman Sedghamiz:
-I think they have become much, much more stable. If you look back in 2023, like June, July, they were really new, like auto GPT. We had all these new projects came out, really didn't work out as you say, they were not stable. But I would say by the end of 2023, we had really stable frameworks, for example, customized solutions around agent function calling. I think when function calling came out, the capability that you could provide signature or dot string of, I don't know, a function and you could get back the response really reliably. I think that changed a lot. And Langchen has this OpenAI function calling agent that works with some measures. I mean, of course I wouldn't say you could automate 100% something, but for a knowledge, kind of.
-
-Hooman Sedghamiz:
-So for example, if you have an agent that has access to data sources, all those sort of things, and you ask it to go out there, see what are the latest clinical trial design trends, it can call these tools, it can reliably now get you answer out of ten times, I would say eight times, it works. Now it has become really stable. And what I'm excited about is the latest multi agent scenarios and we are testing them. They are very promising. Right? So you have autogen from Microsoft platform, which is open source, and also you have landgraph from Langchain, which I think the frameworks are becoming really stable. My prediction is between the next few months is lots of, lots of applications will rely on agents.
+Robert Caulk:
+And okay, I won't put elasticsearch in the incumbent world. I'll keep elasticsearch in the middle. I understand it still has a lot of value, but some of these vendor lock ins, not a huge fan of. But anyway, that's it. That's kind of all I have to say. But I'm happy to take questions or chat a bit.
 
 Demetrios:
-So you also mentioned how to recognize if a project is winning or losing type thing. And considering there are so many areas that you can plug in AI, especially when you're looking at buyer and all the different places that you can say, oh yeah, we could add some AI to this. How are you setting up metrics so, you know, what is worth it to continue investing into versus what maybe sounded like a better idea, but in practice it wasn't actually that good of an idea.
-
-Hooman Sedghamiz:
-Yeah, depends on the platform that you're building. Right? So where we started back in 2023, the platform was aiming for efficiency, right? So how can you make our colleagues more efficient? They can be faster in their daily work, like really delegate this boring stuff, like if you want to summarize or you want to create a presentation, all those sort of things, and you have measures in place that, for example, you could ask, okay, now you're using this platform for months. Let us know how many hours you're saving during your daily work. And really we could see the shift, right? So we did a questionnaire and I think we could see a lot of shift in terms of saving hours, daily work, all those sort of things that is measurable. And it's like you could then convert it, of course, to the value that brings for the enterprise on the company. And I think the biggest, I think the untapped potential, it goes back to when you can do scientific discovery and all those sort of applications which are more challenging, not just around the efficiency and all those sort of things. And then you need to really, if you're building a product, if it's not the general product. And for example, let's say if you're building a natural language to SQL, let's say you have a database.
-
-Hooman Sedghamiz:
-It was a relational database. You want to build an application that searches cars in the background. The customers go there and ask, I'm looking for a BMW 2013. It uses qudrant in the back, right. It kind of does semantic search, all these cool things and returns the response. I think then you need to have really good measures to see how satisfied your customers are when you're integrating a kind of generative application on top of your website that's selling cars. So measuring this in a kind of, like, cyclic manner, people are not going to be happy because you start that there are a lot of things that you didn't count for. You measure all those kind of metrics and then you go forward, you improve your platform.
+Dude, I've got so much to ask you and thank you for breaking down that stack. That is like the exact type of talk that I love to see because you open the kimono full on. And I was just playing around with asknews app. And so I think it's probably worth me sharing my screen just to show everybody what exactly that is and how that looks at the moment. So you should be able to see it now. Right? And super cool props to you for what you've built. Because I went, and intuitively I was able to say like, oh, cool, I can change, I can see positive news, and I can go by the region that I'm looking at. I want to make sure that I'm checking out all the stuff in Europe or all the stuff in America categories.
 
 Demetrios:
-Well, there's also something else that you mentioned, and it brought up this thought in my mind, which is undoubtedly you have these low hanging fruit problems, and it's mainly based on efficiency gains. Right. And so it's helping people extract data from pdfs or what be it, and you're saving time there. You're seeing that you're saving time, and it's a fairly easy setup. Right. But then you have moonshots, I would imagine, like creating a whole new type of aspirin or tylenol or whatever it is, and that is a lot more of an investment of time and energy and infrastructure and everything along those lines. How do you look at both of these and say, we want to make sure that we make headway in both directions. And I'm not sure if you have unlimited resources to be able to just do everything or if you have to recognize what the trade offs are and how you measure those types of metrics.
+I can look at sports, blah blah blah, like as if you were flipping the old newspaper and you could go to the sports section or the finance section, and then you cite the sources and you see like, oh, what's the trend in the coverage here? What kind of coverage are we getting? Where are we at in the coverage cycle? Probably something like that. And then, wait, although I was on the happy news, I thought murder, she wrote. So anyway, what we do is we.
+
+Robert Caulk:
+Actually sort it from we take the poll and we actually just sort most positive to the least positive. But you're right, we were talking the other day, we're like, let's just only show the positive. But yeah, that's a good point.
 
 Demetrios:
-Again, in seeing where do we invest and where do we cut ties with different initiatives.
+There you go.
 
-Hooman Sedghamiz:
-Yeah. So that's a great question. So for product development, like the example that you made, there are really a lot of stages involved. Right. So you start from scientific discovery stage. So I can imagine that you can have multiple products along the way to help out. So if you have a product already out there that you want to generate insights and see. Let's say you have aspirin out there.
-
-Hooman Sedghamiz:
-You want to see if it is also helpful for cardiovascular problems that patients might have. So you could build a sort of knowledge discovery tool that could search for you, give it a name of your product, it will go out there, look into pubmed, all these articles that are being published, brings you back the results. Then you need to have really clear metrics to see if this knowledge discovery platform, after a few months is able to bring value to the customers or the stakeholders that you build the platform for. We have these experts that are really experts in their own field. Takes them really time to go read these articles to make conclusions or answer questions about really complex topic. I think it's really difficult based on the initial feedback we see, it helps, it helps save them time. But really I think it goes back again to the ETL problem that we still don't have your paywall. We can't access a lot of scientific knowledge yet.
-
-Hooman Sedghamiz:
-And these guys get a little bit discouraged at the beginning because they expect that a lot of people, especially non technical, say like you go to Chat GPT, you ask and it brings you the answer, right? But it's not like that. It doesn't work like that. But we can measure it, we can see improvements, they can access knowledge faster, but it's not comprehensive. That's the problem. It's not really deep knowledge. And I think the companies are still really encouraging developing these platforms and they can see that that's a developing field. Right. So it's very hard to give you a short answer, very hard to come up with metrics that gives you success of failure in a short term time period.
+Robert Caulk:
+Murder, she wrote.
 
 Demetrios:
-Yeah, I like the creativity that you're talking about there though. That is like along this multistepped, very complex product creation. There are potential side projects that you can do that show and prove value along the way, and they don't necessarily need to be as complex as that bigger project.
+But the one thing that I was actually literally just yesterday talking to someone about was how you update things inside of your vector database. So I can imagine that news, as you mentioned, news cycles move very fast and the news that happened 2 hours ago is very different. The understanding of what happened in a very big news event is very different 2 hours ago than it is right now. So how do you make sure that you're always pulling the most current and up to date information?
 
-Hooman Sedghamiz:
-True.
-
-Demetrios:
-Sweet, man. Well, this has been awesome. I really appreciate you coming on here to the vector space talks for anyone that would like to join us and you have something cool to present. We're always open to suggestions. Just hit me up and we will make sure to send you some shirt or whatever kind of swag is on hand. Remember, all you astronauts out there, don't get lost in vector space. This has been another edition of the Qdrant vector space talks with Hooman, my man, on Valentine's Day. I can't believe you decided to spend it with me.
+Robert Caulk:
+This is another logistical point that we think needs to get sorted properly and there's a few layers to it. So for us, as we're parsing that data coming in from Newscatcher, so newscatcher is doing a good job of always feeding the latest buckets to us. Sometimes one will be kind of arrive, but generally speaking, it's always the latest news. So we're taking five minute buckets, and then with those buckets, we're going through and doing all of our enrichment on that, adding it to Qdrant. And that is the point where we use that timestamp filtering, which is such an important point. So in the metadata of Qdrant, we're using the range filter, which is where we call that the timestamp filter, but it's really range filter, and that helps. So when we're going back to update things, we're sorting and ensuring that we're filtering out only what we haven't seen.
 
 Demetrios:
-I appreciate it.
+Okay, that makes complete sense. And basically you could generalize this to something like what I was talking to with people yesterday about, which was, hey, I've got an HR policy that gets updated every other month or every quarter, and I want to make sure that if my HR chat bot is telling people what their vacation policy is, it's pulling from the most recent HR policy. So how do I make sure and do that? And how do I make sure that my vector database isn't like a landmine where it's pulling any information, but we don't necessarily have that control to be able to pull the correct information? And this comes down to that retrieval evaluation, which is such a hot topic, too.
 
-Hooman Sedghamiz:
-Thank you. Take care.
+Robert Caulk:
+That's true. No, I think that's a key piece of the puzzle. Now, in that particular example, maybe you actually want to go in and start cleansing a bit, your database, just to make sure if it's really something you're never going to need again. You got to get rid of it. This is a piece I didn't add to the presentation, but it's tangential. You got to keep multiple databases and you got to making sure to isolate resources and cleaning out a database, especially in real time. So ensuring that your database is representative of what you want to be searching on. And you can do this with collections too, if you want.
+
+Robert Caulk:
+But we find there's sometimes a good opportunity to isolate resources in that sense, 100%.
+
+Demetrios:
+So, another question that I had for you was, I noticed Mongo was in the stack. Why did you not just use the Mongo vector option? Is it because of what you were mentioning, where it's like, yeah, you have these all in one options, but you sacrifice that performance for the convenience?
+
+Robert Caulk:
+We didn't test that, to be honest, I can't say. All I know is we tested weavyt, we tested one other, and I just really like. Although I was going to say I like that it's written in rust, although I believe Mongo is also written in rust, if I'm not mistaken. But for us, the document DB is more of a representation of state and what's happening, especially for our configurations and workflows. Meanwhile, we really like keeping and relying on Qdrant and all the features. Qdrant is updating, so, yeah, I'd say single responsibility principle is key to that. But I saw some chat in Qdrant discord about this, which I think the only way to use vector is actually to use their cloud offering, if I'm not mistaken. Do you know about this?
+
+Demetrios:
+Yeah, I think so, too.
+
+Robert Caulk:
+This would also be a piece that we couldn't do.
+
+Demetrios:
+Yeah. Where it's like it's open source, but not open source, so that makes sense. Yeah. This has been excellent, man. So I encourage anyone who is out there listening, check out again this is asknews app, and stay up to date with the most relevant news in your area and what you like. And I signed in, so I'm guessing that when I sign in, it's going to tweak my settings. Am I going to be able.
+
+Robert Caulk:
+Good question.
+
+Demetrios:
+Catch this next time.
+
+Robert Caulk:
+Well, at the moment, if you star a story, a narrative that you find interesting, then you can filter on the star and whatever the latest updates are, you'll get it for that particular story. Okay. It brings up another point about Qdrant, which is at the moment we're not doing it yet, but we have plans to use the recommendation system for letting a user kind of create their profile by just saying what they like, what they don't like, and then using the recommender to start recommending stories that they may or may not like. And that's us outsourcing the Qdrant almost entirely. Right. It's just us building around it. So that's nice.
+
+Demetrios:
+Yeah. That makes life a lot easier, especially knowing recommender systems. Yeah, that's excellent.
+
+Robert Caulk:
+Thanks. I appreciate that. For sure. And I'll try to make the slides available. I don't know if I can send them to the two Qdrant or something. They could post them in the discord maybe, for sure.
+
+Demetrios:
+And we can post them in the link in the description of this talk. So this has been excellent. Rob, I really appreciate you coming on here and chatting with me about this, and thanks for breaking down everything that you're doing. I also love the VllM project. It's blowing up. It's cool to see so much usage and all the good stuff that you're doing with it. And yeah, man, for anybody that wants to follow along on your journey, we'll drop a link to your LinkedIn so that they can connect with you and.
+
+Robert Caulk:
+Cool.
+
+Demetrios:
+Thank you.
+
+Robert Caulk:
+Thanks for having me. Demetrios, talk to you later.
+
+Demetrios:
+Catch you later, man. Take care.
