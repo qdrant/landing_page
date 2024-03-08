@@ -12,8 +12,8 @@
     </main>
     {{ with (.Site.GetPage "core-features") }} {{ partial "core-features" . }} {{ end }} {{ with (.Site.GetPage
     "customer-stories") }} {{ partial "customer-stories" . }} {{ end }} {{ with (.Site.GetPage "docker-deploy") }} {{
-    partial "docker-deploy" . }} {{ end }} {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build |
-    minify | resources.Fingerprint "sha512" }}
+    partial "docker-deploy" . }} {{ end }} {{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{
+    $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
 </html>
