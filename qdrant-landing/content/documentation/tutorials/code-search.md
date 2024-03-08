@@ -20,8 +20,8 @@ source code itself, which is mostly written in Rust.
 We want to search codebases using natural semantic queries, and searching for
 code based on similar logic. You can set up these tasks with embeddings: 
 
-1. General usage neural encoder for natural-like queries, in our case `all-MiniLM-L6-v2`
-   from the
+1. General usage neural encoder for Natural Language Processing (NLP), in our case
+   `all-MiniLM-L6-v2` from the
    [sentence-transformers](https://www.sbert.net/docs/pretrained_models.html) library.
 2. Specialized embeddings for code-to-code similarity search. We use the
    `jina-embeddings-v2-base-code` model.
@@ -30,6 +30,24 @@ To prepare our code for `all-MiniLM-L6-v2`, we preprocess the code to text that
 more closely resembles natural language. The Jina embeddings model supports a
 variety of standard programming languages, so there is no need to preprocess the
 snippets. We can use the code as is.
+
+## The process
+
+Once configured, our code search demo uses the following process:
+
+1. The user sends a query.
+1. Both models vectorize that query simultaneously. We get two different vectors.
+1. Both vectors are used in parallel to find relevant snippets.
+1. Once we retrieve results for both vectors, we merge them in one of the 
+   following scenarios: 
+   1. If both methods return different results, we display <!-- some of --> those results.
+   1. If there is an overlap between the search results, we merge overlapping
+      snippets.
+
+NLP-based search is based on function signatures, but code search may return
+smaller pieces, such as loops. So, if we receive a particular function signature
+from the NLP model and part of its implementation from the code model, we merge
+the results and highlight the overlap.
 
 ## Data preparation
 
