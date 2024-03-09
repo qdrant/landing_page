@@ -93,14 +93,13 @@ You can use Mistral Embedding Models with [Binary Quantization](/articles/binary
 
 At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
 
-| oversampling |         | 1        | 1        | 2        | 2        | 3        | 3            |
+| Oversampling |         | 1        | 1        | 2        | 2        | 3        | 3            |
 |--------------|---------|----------|----------|----------|----------|----------|--------------|
-| limit        |         |          |          |          |          |          |              |
-|              | rescore | False    | True     | False    | True     | False    | True         |
+|              | **Rescore** | False    | True     | False    | True     | False    | True         |
+| **Limit**    |         |          |          |          |          |          |              |
 | 10           |         | 0.53444  | 0.857778 | 0.534444 | 0.918889 | 0.533333 | 0.941111     |
 | 20           |         | 0.508333 | 0.837778 | 0.508333 | 0.903889 | 0.508333 | 0.927778     |
 | 50           |         | 0.492222 | 0.834444 | 0.492222 | 0.903556 | 0.492889 | 0.940889     |
 | 100          |         | 0.499111 | 0.845444 | 0.498556 | 0.918333 | 0.497667 | **0.944556** |
-
 
 That's it! You can now use Mistral Embedding Models with Qdrant!
