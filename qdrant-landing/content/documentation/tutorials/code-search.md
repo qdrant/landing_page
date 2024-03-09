@@ -411,7 +411,7 @@ This is one example of how you can use different models and combine the results.
 In a real-world scenario, you might run some reranking and deduplication, as
 well as additional processing of the results.
 
-Our [Code search demo](https://github.com/qdrant/code-search-demo) uses
+Our [Code search demo](https://github.com/qdrant/demo-code-search) uses
 both models. In the screenshot, we search for `flush of wal`. The result
 shows relevant code, merged from both models. Note the highlighted
 code in lines 621-629. It's where both models agree.
@@ -456,4 +456,4 @@ This tutorial demonstrates how to use Qdrant to navigate a codebase. For an
 end-to-end implementation, review the [code search 
 notebook](https://colab.research.google.com/github/qdrant/examples/blob/master/code-search/code-search.ipynb) and the 
 [code-search-demo](https://github.com/qdrant/demo-code-search). You can also check out [a running version of the code 
-search demo](https://code-search-demo.qdrant.tech/), which exposes Qdrant codebase for search with a web interface.
+search demo](https://code-search.qdrant.tech/) which exposes Qdrant codebase for search with a web interface.
