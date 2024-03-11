@@ -26,7 +26,7 @@ productMenu:
   items:
     - id: 0
       name: Use Cases
-      url: /
+      url: /use-cases
     - id: 1
       name: Benchmarks
       url: /

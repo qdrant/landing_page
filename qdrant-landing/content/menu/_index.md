@@ -9,7 +9,7 @@ menuItems:
     url: /
   - id: 1
     name: Use Cases
-    url: /
+    url: /use-cases
   - id: 2
     name: Developers
     url: /
