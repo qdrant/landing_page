@@ -120,10 +120,10 @@ In this table, you can see the results of the search with the `models/embedding-
 
 At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
 
-| oversampling |         | 1        | 1        | 2        | 2        | 3        | 3        |
+| Oversampling |         | 1        | 1        | 2        | 2        | 3        | 3        |
 |--------------|---------|----------|----------|----------|----------|----------|----------|
-| limit        |         |          |          |          |          |          |          |
-|              | rescore | False    | True     | False    | True     | False    | True     |
+|              | **Rescore** | False    | True     | False    | True     | False    | True     |
+| **Limit**    |         |          |          |          |          |          |          |
 | 10           |         | 0.523333 | 0.831111 | 0.523333 | 0.915556 | 0.523333 | 0.950000 |
 | 20           |         | 0.510000 | 0.836667 | 0.510000 | 0.912222 | 0.510000 | 0.937778 |
 | 50           |         | 0.489111 | 0.841556 | 0.489111 | 0.913333 | 0.488444 | 0.947111 |
