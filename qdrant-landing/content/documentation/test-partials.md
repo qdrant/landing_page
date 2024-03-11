@@ -3,6 +3,7 @@ title: POC - Test documentation for partials
 draft: true
 weight: 10000
 hideInSidebar: true
+draft: true
 ---
 
 This is a POC of features that we already have, and possibly others from Hugo
