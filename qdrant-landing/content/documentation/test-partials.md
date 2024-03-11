@@ -1,6 +1,7 @@
 ---
 title: POC - Test documentation for partials
-weight: 1
+draft: true
+weight: 10000
 hideInSidebar: true
 ---
 
