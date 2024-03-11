@@ -274,26 +274,3 @@ From the root of the project:
 ```bash
 sass --watch --style=compressed ./qdrant-landing/themes/qdrant/static/css/pages/marketing-landing.scss ./qdrant-landing/themes/qdrant/static/css/marketing-landing.css
 ```
-
-## SEO Help: Progressive disclosure (accordions)
-
-Minimize what readers see. Documentation like FAQs can seem overwhelming to readers. We can
-incorporate an "accordion" with a forward-pointing triangle which allows users to read more about
-a topic.
-
-Proper use of the accordion enhances SEO.
-
-Example: the following code sets up an accordion for the content contained therein:
-
-```markdown
-<details>
-  <summary>"More info on HNSW"</summary>
-  Once we have a canonical Qdrant definition for HNSW, we can add it here.
-</details>
-```
-
-From this code, all the user sees in the build is:
-
-`> More info on HNSW`
-
-When the user selects (clicks) on the forward triangle, the user sees additional information.
