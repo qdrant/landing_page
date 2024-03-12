@@ -13,17 +13,22 @@ In this mode, multiple Qdrant services communicate with each other to distribute
 
 ## How many Qdrant nodes should I run?
 
-The ideal number of Qdrant nodes depends on how much you value resilience, performance/scalability, and cost-saving in relation to each other.
+The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.
 
-If you need to save on costs above all else, you can run a single Qdrant node. The downsides are that your cluster will experience downtime during node restarts, performance is limited to the resources of a single server, and the full loss of one node cannot be recovered from without backups. Single-node clusters are generally only recommended for non-production workloads.
+- **Prioritizing cost-saving**: If cost is most important to you, run a single Qdrant node. This is not recommended for production environments. Drawbacks:
+  - Resilience: Users will experience downtime during node restarts, and recovery is not possible unless you have backups or snapshots.
+  - Performance: Limited to the resources of a single server.
 
-If you need to ensure your cluster does not experience downtime during maintenance, you can run two or more Qdrant nodes with replicated shards. Running only two nodes means your cluster will still respond to most read and write requests even when one node goes down, but not operations on collections. Creating, editing, and deleting collections must flow through the consensus protocol, so you need at least two healthy nodes to perform collection operations. Since collection operations are rarely needed, two-node clusters are a good balance between resilience and cost.
+- **Prioritizing resilience**: If resilience is most important to you, run a Qdrant cluster with three or more nodes and two or more shard replicas. Clusters with three or more nodes and replication can perform all operations even while one node is down. Additionally, they gain performance benefits from load-balancing and they can recover from the permanent loss of one node without the need for backups or snapshots (but backups are still strongly recommended). This is most recommended for production environments. Drawbacks:
+   - Cost: Larger clusters are be more costly than smaller clusters, which is the only drawback of this configuration.
 
-If you need to increase performance or scalability, you can run two or more Qdrant nodes without replicating shards to every node. By not replicating shards, you gain the ability to scale beyond a single node, and you gain performance benefits without having to use up as much RAM or disk space. The downside is that resilience suffers, since non-replicated shards cannot be served when the node holding that shard is down.
+- **Balancing cost, resilience, and performance**: Running a two-node Qdrant cluster with replicated shards allows the cluster to respond to most read/write requests even when one node is down, such as during maintenance events. Having two nodes also means greater performance than a single-node cluster while still being cheaper than a three-node cluster. Drawbacks:
+   - Resilience (uptime): The cluster cannot perform operations on collections when one node is down. Those operations require >50% of nodes to be running, so this is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many user find this drawback to be negligible.
+   - Resilience (data integrity): If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
+   - Cost: Replicating your shards requires storing two copies of your data.
+   - Performance: The maximum performance of a Qdrant cluster increases as you add more nodes.
 
-If you need to maximize resilience and performance/scalability, you can run three or more Qdrant nodes, with each shard replicated to at least two nodes. Running three nodes means all operations continue to work when one node is down, and you gain the increased performance/scalability from the multiple nodes.
-
-In summary, single-node clusters are best for non-production workloads, replicated two-node clusters strike a good balance, but replicated 3+ node clusters are the gold standard.
+In summary, single-node clusters are best for non-production workloads, replicated 3+ node clusters are the gold standard, and replicated 2-node clusters strike a good balance.
 
 ## Enabling distributed mode in self-hosted Qdrant
 
