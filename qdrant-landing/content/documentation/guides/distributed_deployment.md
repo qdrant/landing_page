@@ -819,10 +819,11 @@ Let's walk through them from best to worst.
 
 **Recover with replicated collection**
 
-If the number of failed nodes is less than the replication factor of the collection, then no data is lost.
-Your cluster should still be able to perform read, search and update queries.
+If the number of failed nodes is less than the replication factor of the collection, then your cluster should still be able to perform read, search and update queries.
 
 Now, if the failed node restarts, consensus will trigger the replication process to update the recovering node with the newest updates it has missed.
+
+If the failed node never restarts, you can recover the lost shards if you have a 3+ node cluster. You cannot recover lost shards in smaller clusters because recovery operations go through [raft](#raft) which requires >50% of the nodes to be healthy.
 
 **Recreate node with replicated collections**
 
