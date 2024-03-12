@@ -14,6 +14,13 @@ Transitioning from on-premise to the cloud version of Qdrant does not require ch
 
 The transition is even easier if you use the official client libraries. For example, the [Python Client](https://github.com/qdrant/qdrant-client) has the support of the API key already built-in, so you only need to provide it once, when the QdrantClient instance is created.
 
+*Available as of v1.8.2*
+
+You can also attach your own infrastructure as a private region on the Qdrant
+Cloud. Once attached, you can control this cloud using the same tools and UI
+that you use for other cloud providers. For details, see our 
+[Hybrid Cloud](/documentation/cloud/hybrid-cloud/) documentation.
+
 ### Cluster configuration
 
 Each instance comes pre-configured with the following tools, features and support services:
