@@ -25,7 +25,6 @@
       "email": "info@qdrant.com",
       "@id": "https://qdrant.tech",
       "logo": "https://qdrant.tech/images/logo_with_text.png",
-      "headline" : "{{ .Title }}",
       "description" : "{{ .Site.Params.description }}",
       "keywords" : [ {{ range .Site.Params.Keywords }}"{{ . }}", {{ end }} "Qdrant" ],
       "foundingDate": "2021",
@@ -74,8 +73,18 @@
 {{ else if .Params.seo_schema }}
 <!--    todo: use as default option -->
 <script type="application/ld+json">
-    {{ .Params.seo_schema }}
+    {{ .Params.seo_schema | jsonify | unmarshal }}
 </script>
+
+{{ else if .Params.seo_schema_json }}
+
+{{ $template := resources.Get .Params.seo_schema_json }}
+{{ $schema := $template | resources.ExecuteAsTemplate "schema.json" . }}
+
+<script type="application/ld+json">
+    {{ $schema | unmarshal }}
+</script>
+
 {{ else if and (eq .Section "articles") .IsPage }}
 <script type="application/ld+json">
     {
