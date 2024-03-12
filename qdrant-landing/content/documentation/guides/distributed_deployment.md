@@ -127,17 +127,23 @@ Example result:
 }
 ```
 
+Note that enabling distributed mode does not automatically replicate your data. See the section on [making use of a new distributed Qdrant cluster](#making-use-of-a-new-distributed-qdrant-cluster) for the next steps.
+
 ## Enabling distributed mode in Qdrant Cloud
 
-In Qdrant Cloud, when you click "Scale Up" to increase your cluster size to >1, the distributed mode settings are set automatically, resulting in a new empty node starting up. For best results, ensure your cluster is running Qdrant v1.7.4 or higher.
+For best results, first ensure your cluster is running Qdrant v1.7.4 or higher. Older versions of Qdrant do support distributed mode, but improvements in v1.7.4 make distributed clusters more resilient during outages.
+
+In the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Up" to increase your cluster size to >1. Qdrant Cloud configures the distributed mode settings automatically.
+
+After the scale-up process completes, you will have a new empty node running alongside your existing node(s). To replicate data into this new empty node, see the next section.
 
 ## Making use of a new distributed Qdrant cluster
 
-When you enable distributed mode and scale up to 2 or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, you will have to do one of the following:
+When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
 
-* You can replicate your existing data to the new node by [creating new shard replicas](#creating-new-shard-replicas)
-* You can create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more (can only be set at creation time)
-* You can move data (without replicating it) onto the new node by [moving shards](#moving-shards)
+* Replicate your existing data to the new node by [creating new shard replicas](#creating-new-shard-replicas)
+* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more (can only be set at creation time)
+* Move data (without replicating it) onto the new node by [moving shards](#moving-shards)
 
 ## Raft
 
@@ -855,14 +861,14 @@ Once all shards of the collection are recovered, the collection will become oper
 
 ### Temporary node failure
 
-If properly configured, running Qdrant in distributed mode can make your cluster resistent to outages when one node is down temporarily.
+If properly configured, running Qdrant in distributed mode can make your cluster resistant to outages when one node fails temporarily.
 
-Here is how differently-configured Qdrant clusters respond to one node going down temporarily:
+Here is how differently-configured Qdrant clusters respond:
 
-* 1-node clusters: All operations will time out or fail for a few second to a few minutes, depending on how long it takes to restart and load data from disk.
-* 2-node clusters where shards ARE NOT replicated: All operations will time out or fail for a few second to a few minutes, depending on how long it takes to restart and load data from disk.
-* 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections will continue to work during the outage.
-* 3+-node clusters where all shards are replicated to at least 2 nodes: All requests will continue to work during the outage.
+* 1-node clusters: All operations time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
+* 2-node clusters where shards ARE NOT replicated: All operations will time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
+* 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections continue to work during the outage.
+* 3+-node clusters where all shards are replicated to at least 2 nodes: All requests continue to work during the outage.
 
 ## Consistency guarantees
 
