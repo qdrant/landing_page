@@ -9,6 +9,8 @@
     </p>
   </div>
   <div class="docker-deploy__right">
-    <img src="/img/docker-illustration.svg" alt="{{ .Params.title }}" />
+    <div class="docker-deploy__preview" style="background-image: url(/img/docker-illustration.png)">
+      <code>{{ .Params.command | safeHTML }}</code>
+    </div>
   </div>
 </section>

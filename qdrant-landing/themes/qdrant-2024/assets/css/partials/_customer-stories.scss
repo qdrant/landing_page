@@ -28,10 +28,17 @@
     margin: 0;
   }
 
+  &__cards-wrapper {
+    overflow-y: scroll;
+    max-width: rem(1110);
+  }
+
+  &__cards-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
   &__cards {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
     gap: $spacer * 2;
   }
 
@@ -42,6 +49,7 @@
     padding-left: $spacer * 2;
     padding-right: $spacer * 2;
 
+    min-width: rem(350);
     max-width: rem(350);
     min-height: rem(407);
 
@@ -52,7 +60,7 @@
     flex-direction: column;
     justify-content: space-between;
 
-    svg {
+    img {
       max-width: rem(120);
       max-height: rem(64);
     }
@@ -61,9 +69,8 @@
   &__card-footer {
     display: flex;
     gap: $spacer;
-    justify-content: space-between;
 
-    svg {
+    img {
       min-width: rem(48);
       min-height: rem(48);
     }
@@ -84,7 +91,7 @@
     font-size: map-get($font-sizes-text, 's');
   }
 
-  &__card:last-of-type svg {
+  &__card:last-of-type img {
     min-width: rem(80);
   }
 }

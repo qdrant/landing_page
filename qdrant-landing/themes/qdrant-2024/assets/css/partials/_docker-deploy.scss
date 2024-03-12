@@ -37,8 +37,18 @@
     max-width: rem(445);
   }
 
-  &__right img {
-    max-width: rem(584);
-    max-height: rem(400);
+  &__preview {
+    width: rem(584);
+    height: rem(400);
+    background-size: contain;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+
+  &__preview code {
+    color: $neutral-98;
+    position: absolute;
+    top: rem(95);
+    left: rem(107);
   }
 }

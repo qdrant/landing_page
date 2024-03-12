@@ -2,12 +2,25 @@
   <h2 class="core-features__title">{{ .Params.title }}</h2>
   <p class="core-features__subtitle">{{ .Params.description }}</p>
   {{ partial "link" . }}
+  <div class="core-features__cloud-native">
+    <div>
+      <h4 class="core-features__card-title">{{ .Params.cloudFeature.title }}</h4>
+      <p class="core-features__card-content">{{ .Params.cloudFeature.content }}</p>
+      <a class="core-features__card-link" href="{{ .Params.cloudFeature.link.url }}">
+        <span>{{ .Params.cloudFeature.link.text }}</span>
+        <span>{{ partial "svg" "Arrow-Right-Black.svg" }}</span>
+      </a>
+    </div>
+    <div class="core-features__cloud-native-image"></div>
+  </div>
   <div class="core-features__cards">
     {{ range .Params.featureCards }}
     <div class="core-features__card">
-      {{ .icon | safeHTML }}
-      <h6 class="core-features__card-title">{{ .title }}</h6>
-      <p class="core-features__card-content">{{ .content }}</p>
+      <div>
+        {{ .icon | safeHTML }}
+        <h6 class="core-features__card-title">{{ .title }}</h6>
+        <p class="core-features__card-content">{{ .content }}</p>
+      </div>
       <a class="core-features__card-link" href="{{ .link.url }}">
         <span>{{ .link.text }}</span>
         <span>{{ partial "svg" "Arrow-Right-Black.svg" }}</span>

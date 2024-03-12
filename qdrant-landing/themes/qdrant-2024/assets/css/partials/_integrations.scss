@@ -37,5 +37,8 @@
 
   &__preview {
     margin-top: $spacer * 5;
+    width: rem(920);
+    height: rem(440);
+    background-image: url('/img/integrations.svg');
   }
 }

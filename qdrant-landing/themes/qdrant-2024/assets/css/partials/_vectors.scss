@@ -60,8 +60,9 @@
     margin-top: $spacer * 2;
   }
 
-  &__card img {
-    max-width: rem(540);
+  &__card-image {
+    width: rem(540);
+    height: rem(360);
   }
 
   &__card-description {

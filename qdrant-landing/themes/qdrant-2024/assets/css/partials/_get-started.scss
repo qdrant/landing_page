@@ -51,6 +51,10 @@
     position: absolute;
     top: $spacer * 1.5;
     left: $spacer * 2.5;
+    width: rem(94);
+    height: rem(83);
+    background-position: top;
+    background-repeat: no-repeat;
   }
 
   &__duo-planet-icon {
@@ -58,5 +62,8 @@
     position: absolute;
     bottom: 0;
     right: 0;
+    width: rem(281);
+    height: rem(151);
+    background-repeat: no-repeat;
   }
 }
