@@ -3,6 +3,7 @@ title: Configuration
 weight: 160
 aliases:
   - ../configuration
+  - /guides/configuration/
 ---
 
 # Configuration
@@ -17,7 +18,7 @@ production mode, you could also choose to overwrite `config/production.yaml`.
 See [ordering](#order-and-priority) for details on how configurations are
 loaded.
 
-The [Installation](../installation) guide contains examples of how to set up Qdrant with a custom configuration for the different deployment methods.
+The [Installation](../installation/) guide contains examples of how to set up Qdrant with a custom configuration for the different deployment methods.
 
 ## Order and priority
 

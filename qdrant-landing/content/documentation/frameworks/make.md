@@ -25,7 +25,7 @@ Before you start, make sure you have the following:
 Navigate to your scenario on the Make dashboard and select a Qdrant app module to start a connection.
 ![Qdrant Make connection](/documentation/frameworks/make/connection.png)
 
-You can now establish a connection to Qdrant using your [instance credentials](https://qdrant.tech/documentation/cloud/authentication/).
+You can now establish a connection to Qdrant using your [instance credentials](/documentation/cloud/authentication/).
 
 ![Qdrant Make form](/documentation/frameworks/make/connection-form.png)
 

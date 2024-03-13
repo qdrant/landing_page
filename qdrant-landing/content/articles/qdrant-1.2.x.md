@@ -35,7 +35,7 @@ feedback, and we tried to include the features most requested by our community.
 The primary focus of Qdrant was always performance. That's why we built it in Rust, but we were 
 always concerned about making vector search affordable. From the very beginning, Qdrant offered 
 support for disk-stored collections, as storage space is way cheaper than memory. That's also 
-why we have introduced the [Scalar Quantization](/articles/scalar-quantization) mechanism recently, 
+why we have introduced the [Scalar Quantization](/articles/scalar-quantization/) mechanism recently, 
 which makes it possible to reduce the memory requirements by up to four times.
 
 Today, we are bringing a new quantization mechanism to life. A separate article on [Product 

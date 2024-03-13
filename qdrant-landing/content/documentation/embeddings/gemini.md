@@ -3,6 +3,9 @@ title: Gemini
 weight: 700
 ---
 
+| Time: 10 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/gemini-getting-started/gemini-getting-started/gemini-getting-started.ipynb)   |
+| --- | ----------- | ----------- |
+
 # Gemini
 
 Qdrant is compatible with Gemini Embedding Model API and its official Python SDK that can be installed as any other package:
@@ -13,11 +16,11 @@ In the latest models, an additional parameter, `task_type`, can be passed to the
 
 The Embedding Model API supports various task types, outlined as follows:
 
-1. `retrieval_query`: Specifies the given text is a query in a search/retrieval setting.
-2. `retrieval_document`: Specifies the given text is a document from the corpus being searched.
-3. `semantic_similarity`: Specifies the given text will be used for Semantic Text Similarity.
-4. `classification`: Specifies that the given text will be classified.
-5. `clustering`: Specifies that the embeddings will be used for clustering.
+1. `retrieval_query`: query in a search/retrieval setting
+2. `retrieval_document`: document from the corpus being searched
+3. `semantic_similarity`: semantic text similarity
+4. `classification`: embeddings to be used for text classification
+5. `clustering`: the generated embeddings will be used for clustering
 6. `task_type_unspecified`: Unset value, which will default to one of the other values.
 
 
@@ -38,42 +41,60 @@ The following example shows how to embed a document with the `models/embedding-0
 ## Embedding a document
 
 ```python
-import pathlib
-import google.generativeai as genai
-import qdrant_client
+import google.generativeai as gemini_client
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import Distance, PointStruct, VectorParams
+collection_name = "example_collection"
 
 GEMINI_API_KEY = "YOUR GEMINI API KEY"  # add your key here
 
-genai.configure(api_key=GEMINI_API_KEY)
+gemini_client.configure(api_key=GEMINI_API_KEY)
+texts = [
+    "Qdrant is a vector database that is compatible with Gemini.",
+    "Gemini is a new family of Google PaLM models, released in December 2023.",
+]
 
-result = genai.embed_content(
-    model="models/embedding-001",
-    content="Qdrant is the best vector search engine to use with Gemini",
-    task_type="retrieval_document",
-    title="Qdrant x Gemini",
+results = [
+    gemini_client.embed_content(
+        model="models/embedding-001",
+        content=sentence,
+        task_type="retrieval_document",
+        title="Qdrant x Gemini",
+    )
+    for sentence in texts
+]
+```
+
+## Creating Qdrant Points and Indexing documents with Qdrant
+
+### Creating Qdrant Points
+
+```python
+points = [
+    PointStruct(
+        id=idx,
+        vector=response['embedding'],
+        payload={"text": text},
+    )
+    for idx, (response, text) in enumerate(zip(results, texts))
+]
+```
+
+### Create Collection
+
+```python
+search_client.create_collection(collection_name, vectors_config=
+    VectorParams(
+        size=768,
+        distance=Distance.COSINE,
+    )
 )
 ```
 
-The returned result is a dictionary with a key: `embedding`. The value of this key is a list of floats representing the embedding of the document.
-
-## Indexing documents with Qdrant
+### Add these into the collection
 
 ```python
-from qdrant_client.http.models import Batch
-
-qdrant_client = qdrant_client.QdrantClient()
-qdrant_client.upsert(
-    collection_name="GeminiCollection",
-    points=Batch(
-        ids=[1],
-        vectors=genai.embed_content(
-            model="models/embedding-001",
-            content="Qdrant is the best vector search engine to use with Gemini",
-            task_type="retrieval_document",
-            title="Qdrant x Gemini",
-        )["embedding"],
-    ),
-)
+search_client.upsert(collection_name, points)
 ```
 
 ## Searching for documents with Qdrant
@@ -81,11 +102,11 @@ qdrant_client.upsert(
 Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
 
 ```python
-qdrant_client.search(
-    collection_name="GeminiCollection",
-    query=genai.embed_content(
+search_client.search(
+    collection_name=collection_name,
+    query_vector=gemini_client.embed_content(
         model="models/embedding-001",
-        content="What is the best vector database to use with Gemini?",
+        content="Is Qdrant compatible with Gemini?",
         task_type="retrieval_query",
     )["embedding"],
 )
@@ -99,10 +120,10 @@ In this table, you can see the results of the search with the `models/embedding-
 
 At an oversampling of 3 and a limit of 100, we've a 95% recall against the exact nearest neighbors with rescore enabled.
 
-| oversampling |         | 1        | 1        | 2        | 2        | 3        | 3        |
+| Oversampling |         | 1        | 1        | 2        | 2        | 3        | 3        |
 |--------------|---------|----------|----------|----------|----------|----------|----------|
-| limit        |         |          |          |          |          |          |          |
-|              | rescore | False    | True     | False    | True     | False    | True     |
+|              | **Rescore** | False    | True     | False    | True     | False    | True     |
+| **Limit**    |         |          |          |          |          |          |          |
 | 10           |         | 0.523333 | 0.831111 | 0.523333 | 0.915556 | 0.523333 | 0.950000 |
 | 20           |         | 0.510000 | 0.836667 | 0.510000 | 0.912222 | 0.510000 | 0.937778 |
 | 50           |         | 0.489111 | 0.841556 | 0.489111 | 0.913333 | 0.488444 | 0.947111 |

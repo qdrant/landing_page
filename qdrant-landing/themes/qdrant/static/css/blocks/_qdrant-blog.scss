@@ -322,8 +322,11 @@ $blog-text-color: var.$blog-text-color;
 
   iframe {
     width: 100%;
-    height: auto;
-    aspect-ratio: 1.7 / 1;
+    margin-bottom: 1.7rem;
+    &[title="YouTube video player"] {
+      aspect-ratio: 1.7 / 1;
+      height: auto;
+    }
   }
 }
 

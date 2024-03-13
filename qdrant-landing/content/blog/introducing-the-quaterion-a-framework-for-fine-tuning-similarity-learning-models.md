@@ -32,7 +32,7 @@ To develop Quaterion, we utilized PyTorch Lightning, leveraging a high-performin
 
 ![quaterion](/blog/from_cms/new-cmp-demo.gif)
 
-This framework empowers vector search [solutions](https://qdrant.tech/solutions/), such as semantic search, anomaly detection, and others, by advanced coaching mechanism, specially designed head layers for pre-trained models, and high flexibility in terms of customization according to large-scale training pipelines and other features.
+This framework empowers vector search [solutions](/solutions/), such as semantic search, anomaly detection, and others, by advanced coaching mechanism, specially designed head layers for pre-trained models, and high flexibility in terms of customization according to large-scale training pipelines and other features.
 
 Here you can read why similarity learning is preferable to the traditional machine learning approach and how Quaterion can help benefit <https://quaterion.qdrant.tech/getting_started/why_quaterion.html#why-quaterion>   
 

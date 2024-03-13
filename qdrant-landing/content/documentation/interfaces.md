@@ -1,6 +1,8 @@
 ---
 title: Interfaces
 weight: 14
+aliases:
+  - /documentation/interfaces/
 ---
 
 # Interfaces
@@ -52,26 +54,6 @@ docker run -p 6333:6333 -p 6334:6334 \
 ```
 
 **When to use gRPC:** The choice between gRPC and the REST API is a trade-off between convenience and speed. gRPC is a binary protocol and can be more challenging to debug. We recommend using gRPC if you are already familiar with Qdrant and are trying to optimize the performance of your application.
-
-## Qdrant Web UI
-
-Qdrant's Web UI is an intuitive and efficient graphic interface for your Qdrant Collections, REST API and data points.
-
-In the **Console**, you may use the REST API to interact with Qdrant, while in **Collections**, you can manage all the collections and upload Snapshots. 
-
-![Qdrant Web UI](/articles_data/qdrant-1.3.x/web-ui.png)
-
-### Accessing the Web UI
-
-First, run the Docker container:
-
-```bash
-docker run -p 6333:6333 -p 6334:6334 \
-    -v $(pwd)/qdrant_storage:/qdrant/storage:z \
-    qdrant/qdrant
-```
-
-The GUI is available at `http://localhost:6333/dashboard`
 
 
 

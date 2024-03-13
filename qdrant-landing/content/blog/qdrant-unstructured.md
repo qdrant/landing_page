@@ -18,7 +18,7 @@ In this blog post, we'll demonstrate how to load data into Qdrant from the chann
 
 ### Prerequisites
 
-- A running Qdrant instance. Refer to our [Quickstart guide](https://qdrant.tech/documentation/quick-start/) to set up an instance.
+- A running Qdrant instance. Refer to our [Quickstart guide](/documentation/quick-start/) to set up an instance.
 - A Discord bot token. Generate one [here](https://discord.com/developers/applications) after adding the bot to your server.
 - Unstructured CLI with the required extras. For more information, see the Discord [Getting Started guide](https://discord.com/developers/docs/getting-started). Install it with the following command:
 

@@ -17,15 +17,15 @@ does exist, and recommendation systems are a great example. Recommendations migh
 to find items close to positive and far from negative examples. This use of vector databases has many applications, including 
 recommendation systems for e-commerce, content, or even dating apps.
 
-Qdrant has provided the [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) for a while, and with the latest release, [Qdrant 1.6](https://github.com/qdrant/qdrant/releases/tag/v1.6.0), 
+Qdrant has provided the [Recommendation API](/documentation/concepts/search/#recommendation-api) for a while, and with the latest release, [Qdrant 1.6](https://github.com/qdrant/qdrant/releases/tag/v1.6.0), 
 we're glad to give you more flexibility and control over the Recommendation API. 
 Here, we'll discuss some internals and show how they may be used in practice.
 
 ### Recap of the old recommendations API
 
-The previous [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api) in Qdrant came with some limitations. First of all, it was required to pass vector IDs for 
+The previous [Recommendation API](/documentation/concepts/search/#recommendation-api) in Qdrant came with some limitations. First of all, it was required to pass vector IDs for 
 both positive and negative example points. If you wanted to use vector embeddings directly, you had to either create a new point 
-in a collection or mimic the behaviour of the Recommendation API by using the [Search API](https://qdrant.tech/documentation/concepts/search/#search-api).
+in a collection or mimic the behaviour of the Recommendation API by using the [Search API](/documentation/concepts/search/#search-api).
 Moreover, in the previous releases of Qdrant, you were always asked to provide at least one positive example. This requirement 
 was based on the algorithm used to combine multiple samples into a single query vector. It was a simple, yet effective approach. 
 However, if the only information you had was that your user dislikes some items, you couldn't use it directly.
@@ -61,7 +61,7 @@ negative examples.
 
 ## HNSW ANN example and strategy
 
-Let’s start with an example to help you understand the [HNSW graph](https://qdrant.tech/articles/filtrable-hnsw/). Assume you want 
+Let’s start with an example to help you understand the [HNSW graph](/articles/filtrable-hnsw/). Assume you want 
 to travel to a small city on another continent:
 
 1. You start from your hometown and take a bus to the local airport.
@@ -142,11 +142,11 @@ significantly lower. However, if the best negative score is higher than the best
 further away from the negatives. That procedure effectively **pulls the traversal procedure away from the negative examples**.
 
 If you want to know more about the internals of HNSW, you can check out the article about the 
-[Filtrable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) that covers the topic thoroughly.
+[Filtrable HNSW](/articles/filtrable-hnsw/) that covers the topic thoroughly.
 
 ## Food Discovery demo
 
-Our [Food Discovery demo](https://qdrant.tech/articles/food-discovery-demo/) is an application built on top of the new [Recommendation API](https://qdrant.tech/documentation/concepts/search/#recommendation-api). 
+Our [Food Discovery demo](/articles/food-discovery-demo/) is an application built on top of the new [Recommendation API](/documentation/concepts/search/#recommendation-api). 
 It allows you to find a meal based on liked and disliked photos. There are some updates, enabled by the new Qdrant release:
 
 * **Ability to include multiple textual queries in the recommendation request.** Previously, we only allowed passing a single 

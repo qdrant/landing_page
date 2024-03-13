@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: "Qdrant x Dust: How Vector Search helps make work work better - Stan Polu
   | Vector Space Talks"
 slug: qdrant-x-dust-vector-search

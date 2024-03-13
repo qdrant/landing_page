@@ -27,7 +27,7 @@ So Andrey looked around at what younger languages would fit the challenge. After
 
 This early decision has been validated time and again. When first learning Rust, the compiler’s error messages are very helpful (and have only improved in the meantime). It’s easy to keep memory profile low when one doesn’t have to wrestle a garbage collector and has complete control over stack and heap. Apart from the much advertised memory safety, many footguns one can run into when writing C++ have been meticulously designed out. And it’s much easier to parallelize a task if one doesn’t have to fear data races.
 
-With Qdrant written in Rust, we can offer cloud services that don’t keep us awake at night, thanks to Rust’s famed robustness. A current qdrant docker container comes in at just a bit over 50MB — try that for size. As for performance… have some [benchmarks](https://qdrant.tech/benchmarks).
+With Qdrant written in Rust, we can offer cloud services that don’t keep us awake at night, thanks to Rust’s famed robustness. A current qdrant docker container comes in at just a bit over 50MB — try that for size. As for performance… have some [benchmarks](/benchmarks/).
 
 And we don’t have to compromise on ergonomics either, not for us nor for our users. Of course, there are downsides: Rust compile times are usually similar to C++’s, and though the learning curve has been considerably softened in the last years, it’s still no match for easy-entry languages like Python or Go. But learning it is a one-time cost. Contrast this with Go, where you may find [the apparent simplicity is only skin-deep](https://fasterthanli.me/articles/i-want-off-mr-golangs-wild-ride).
 

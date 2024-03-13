@@ -638,7 +638,7 @@ if __name__ == "__main__":
 ```
 
 We stored our collection of answer embeddings in memory and perform search directly in Python. 
-For production purposes, it's better to use some sort of vector search engine like [Qdrant](https://qdrant.tech/).
+For production purposes, it's better to use some sort of vector search engine like [Qdrant](https://github.com/qdrant/qdrant).
 It provides durability, speed boost, and a bunch of other features.
 
 So far, we've implemented a whole training process, prepared model for serving and even applied a 

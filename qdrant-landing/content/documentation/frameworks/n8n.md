@@ -24,7 +24,7 @@ You can now configure the vectorstore node according to your workflow requiremen
 
 ![Qdrant Config](/documentation/frameworks/n8n/config.png)
 
-Create a connection to Qdrant using your [instance credentials](https://qdrant.tech/documentation/cloud/authentication/).
+Create a connection to Qdrant using your [instance credentials](/documentation/cloud/authentication/).
 
 ![Qdrant Credentials](/documentation/frameworks/n8n/credentials.png)
 

@@ -3,6 +3,7 @@ title: Distributed Deployment
 weight: 100
 aliases:
   - ../distributed_deployment
+  - /guides/distributed_deployment
 ---
 
 # Distributed deployment
@@ -10,7 +11,7 @@ aliases:
 Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
-To enable distributed deployment - enable the cluster mode in the [configuration](../configuration) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
+To enable distributed deployment - enable the cluster mode in the [configuration](../configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
 
 ```yaml
 cluster:
@@ -528,7 +529,7 @@ on the size and state of a shard.
 Available shard transfer methods are:
 
 - `stream_records`: _(default)_ transfer shard by streaming just its records to the target node in batches.
-- `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots) automatically.
+- `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
 
 Each has pros, cons and specific requirements, which are:
 
@@ -578,7 +579,7 @@ the above cons are acceptable in your use case. If your cluster is unstable and
 out of resources, it's probably best to use the `stream_records` transfer
 method, because it is unlikely to fail.
 
-The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots) to
+The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots/) to
 transfer a shard. A snapshot is created automatically. It is then transferred
 and restored on the target node. After this is done, the snapshot is removed
 from both nodes. While the snapshot/transfer/restore operation is happening, the
