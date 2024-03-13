@@ -21,9 +21,9 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 
 1. Choose your data center region. If you have latency concerns or other topology-related requirements, [**let us know**](mailto:cloud@qdrant.io).
 1. Configure RAM for each node (2 GB to 64 GB). 
-   >  For more informtion, see our [**Capacity and Sizing**](/documentation/cloud/capacity-sizing/) guidance. If you need more capacity per node, [**let us know**](mailto:cloud@qdrant.io).
+   >  For more information, see our [**Capacity and Sizing**](/documentation/cloud/capacity-sizing/) guidance. If you need more capacity per node, [**let us know**](mailto:cloud@qdrant.io).
 1. Choose the number of vCPUs per node (0.5 core to 16 cores). If you add more
-   RAM, the menu provides differnet options for vCPUs.
+   RAM, the menu provides different options for vCPUs.
 1. Select the number of nodes you want the cluster to be deployed on. 
 
    > Each node is automatically attached with a disk space offering enough space for your data if you decide to put the metadata or even the index on the disk storage.
