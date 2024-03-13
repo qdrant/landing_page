@@ -68,7 +68,7 @@ But in some cases, we might be able to help you with that through manual interve
 
 ### Do you support downgrade?
 
-We does not support cluster downgrade. This applies to both cloud and core product.
+We does not support cluster downgrade. This applies to both cloud and core products. Deploying a newer version of Qdrant will automatically migrate your data to the newer storage format, which is not reversible.
 
 ### How do I avoid issues when updating to the latest version?
 
