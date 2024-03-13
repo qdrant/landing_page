@@ -1,40 +1,26 @@
 ---
-title: Cloud Quickstart
+title: Quickstart
 weight: 10
 aliases:
   - ../cloud-quick-start
   - cloud-quick-start
 ---
 
-# Cloud Quickstart
+# Quickstart
 This page shows you how to use the Qdrant Cloud Console to create a free tier cluster and then connect to it with Qdrant Client. 
 
-## Create a Free Tier cluster
+## Step 1: Create a Free Tier cluster
 
 1. Start in the **Overview** section of the [Cloud Dashboard](https://cloud.qdrant.io). 
-1. Find the dashboard menu in the left-hand pane. If you do not see it, select
-   the icon with three horizonal lines in the upper-left of the screen
-1. Select **Clusters**. On the Clusters page, select **Create**.
-1. In the **Create a Cluster** page, select **Free**
-1. Scroll down. Confirm your cluster configuration, and select **Create**.
+2. Under **Set a Cluster Up** enter a **Cluster name**.
+3. Click **Create Free Tier** and then **Continue**.
+4. Under **Get an API Key**, select the cluster and click **Get API Key**.
+5. Save the API key, as you won't be able to request it again. Click **Continue**. 
+6. Save the code snippet provided to access your cluster. Click **Complete** to finish setup.
 
-You should now see your new free tier cluster in the **Clusters** menu.
+![Embeddings](/docs/cloud/quickstart-cloud.png)
 
-A free tier cluster includes the following resources:
-
-| Resource   | Value |
-|------------|-------|
-| RAM        | 1 GB  |
-| vCPU       | 0.5   |
-| Disk space | 4 GB  |
-| Nodes      | 1     |
-
-## Get an API key
-
-To use your cluster, you need an API key. Read our documentation on [Cloud
-Authentication](/documentation/cloud/authentication) for the process. 
-
-## Test cluster access
+## Step 2: Test cluster access
 
 After creation, you will receive a code snippet to access your cluster. Your generated request should look very similar to this one:
 
@@ -46,17 +32,14 @@ curl \
 Open Terminal and run the request. You should get a response that looks like this:
 
 ```bash
-{"title":"qdrant - vector search engine","version":"1.7.4"}
+{"title":"qdrant - vector search engine","version":"1.4.1"}
 ```
-> **Note:** You need to include the API key in the request header for every
-> request over REST or gRPC.
+> **Note:** The API key needs to be present in the request header every time you make a request via Rest or gRPC interface.
 
-## Authenticate via SDK
+## Step 3: Authenticate via SDK
 
-Now that you have created your first cluster and API key, you can access the
-Qdrant Cloud from within your application.
-Our official Qdrant clients for Python, TypeScript, Go, Rust, and .NET all
-support the API key parameter. 
+Now that you have created your first cluster and key, you might want to access Qdrant Cloud from within your application.
+Our official Qdrant clients for Python, TypeScript, Go, Rust, and .NET all support the API key parameter. 
 
 ```python
 from qdrant_client import QdrantClient
