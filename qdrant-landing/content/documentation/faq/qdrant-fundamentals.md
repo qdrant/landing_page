@@ -66,6 +66,10 @@ But in some cases, we might be able to help you with that through manual interve
 
 ## Versioning
 
+### Do you support downgrade?
+
+We does not support cluster downgrade. This applies to both cloud and core product.
+
 ### How do I avoid issues when updating to the latest version?
 
 We only guarantee compatibility if you update between consequent versions. You would need to upgrade versions one at a time: `1.1 -> 1.2`, then `1.2 -> 1.3`, then `1.3 -> 1.4`.
