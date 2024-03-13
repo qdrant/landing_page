@@ -73,6 +73,13 @@ $tabs-font-color-hover: var(--neutral-n-600);
       }
     }
 
+    &_go {
+      &:before {
+        -webkit-mask-image: url("/css/assets/lang-switcher/go.svg");
+        mask-image: url("/css/assets/lang-switcher/go.svg");
+      }
+    }
+
     &:not(.active):hover {
       background: $tabs-bg-color-hover;
       color: $tabs-font-color-hover;
