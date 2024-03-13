@@ -20,7 +20,7 @@ tags:
 
 > *"Building AI applications doesn't have to be complicated. You can leverage pre-trained models and support complex pipelines with a few lines of code. LangChain provides a unified interface, so that you can avoid writing boilerplate code and focus on the value you want to bring."* Kacper Lukawski, Developer Advocate, Qdrant
 
-## Long-Term Memory for GenAI 
+## Long-Term Memory for Your GenAI App
 
 Qdrant's vector database quickly grew due to its ability to make Generative AI more effective. On its own, an LLM can be used to build a process-altering invention. With Qdrant, you can turn this invention into a production-level app that brings real business value.
 
