@@ -14,7 +14,7 @@ Qdrant is available as a [TestContainers module](https://testcontainers.com/modu
 ```java
 import org.testcontainers.qdrant.QdrantContainer;
 
-QdrantContainer qdrantContainer = new QdrantContainer("qdrant/qdrant:v1.8.1");
+QdrantContainer qdrantContainer = new QdrantContainer("qdrant/qdrant");
 ```
 
 ```go
@@ -23,23 +23,24 @@ import (
     "github.com/testcontainers/testcontainers-go/modules/qdrant"
 )
 
-qdrantContainer, err := qdrant.RunContainer(ctx, testcontainers.WithImage("qdrant/qdrant:v1.8.1"))
+qdrantContainer, err := qdrant.RunContainer(ctx, testcontainers.WithImage("qdrant/qdrant"))
 ```
 
 ```typescript
 import { QdrantContainer } from "@testcontainers/qdrant";
 
-const qdrantContainer = await new QdrantContainer("qdrant/qdrant:v1.8.1").start();
+const qdrantContainer = await new QdrantContainer("qdrant/qdrant").start();
 ```
 
 ```python
 from testcontainers.qdrant import QdrantContainer
 
-qdrant_container = QdrantContainer("qdrant/qdrant:v1.8.1").start()
+qdrant_container = QdrantContainer("qdrant/qdrant").start()
 ```
 
-The container modules
+TestContainers modules provide options/methods to configure ENVs, volumes and virtually everything you can configure in a Docker container.
 
 ## Further reading
 
 - [TestContainers Guides](https://testcontainers.com/guides/)
+- [TesContainers Qdrant Module](https://testcontainers.com/modules/qdrant/)
