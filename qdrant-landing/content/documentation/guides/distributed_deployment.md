@@ -23,7 +23,7 @@ The ideal number of Qdrant nodes depends on how much you value cost-saving, resi
    - Cost: Larger clusters are be more costly than smaller clusters, which is the only drawback of this configuration.
 
 - **Balancing cost, resilience, and performance**: Running a two-node Qdrant cluster with replicated shards allows the cluster to respond to most read/write requests even when one node is down, such as during maintenance events. Having two nodes also means greater performance than a single-node cluster while still being cheaper than a three-node cluster. Drawbacks:
-   - Resilience (uptime): The cluster cannot perform operations on collections when one node is down. Those operations require >50% of nodes to be running, so this is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many user find this drawback to be negligible.
+   - Resilience (uptime): The cluster cannot perform operations on collections when one node is down. Those operations require >50% of nodes to be running, so this is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many users find this drawback to be negligible.
    - Resilience (data integrity): If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
    - Cost: Replicating your shards requires storing two copies of your data.
    - Performance: The maximum performance of a Qdrant cluster increases as you add more nodes.
