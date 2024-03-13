@@ -3,7 +3,7 @@ draft: false
 title: "Integrating Qdrant and LangChain for Advanced Vector Similarity Search"
 short_description: Discover how Qdrant and LangChain can be integrated to enhance AI applications.
 description: Discover how Qdrant and LangChain can be integrated to enhance AI applications with advanced vector similarity search technology.
-preview_image: /blog/qdrant-and-langchain/qdrant-langchain-cropped.png
+preview_image: /blog/qdrant-and-langchain/qdrant-langchain.png
 date: 2024-03-12T09:00:00Z
 author: David Myriel
 featured: false
@@ -101,7 +101,7 @@ Now that you know how Qdrant and LangChain can elevate your setup - it's time to
 
 - For best integration with LangChain, read the [official LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant/). 
 
-- For all other cases, [Qdrant documentation](https://qdrant.tech/documentation/integrations/langchain/) is the best place to get thebe.
+- For all other cases, [Qdrant documentation](https://qdrant.tech/documentation/integrations/langchain/) is the best place to get there.
 
 > We offer additional support tailored to your business needs. [Contact us](https://qdrant.to/contact-us) to learn more about implementation strategies and integrations that suit your company.
 
