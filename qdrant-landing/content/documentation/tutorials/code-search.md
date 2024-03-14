@@ -418,7 +418,7 @@ well as additional processing of the results.
 
 ## Code search demo
 
-Our [Code search demo](https://github.com/qdrant/demo-code-search) uses the following process:
+Our [Code search demo](https://code-search.qdrant.tech/) uses the following process:
 
 1. The user sends a query.
 1. Both models vectorize that query simultaneously. We get two different 
@@ -439,8 +439,6 @@ code in lines 621-629. It's where both models agree.
 ![Results from both models, with overlap](/documentation/tutorials/code-search/code-search-demo-example.png)
 
 Now you see semantic code intelligence, in action.
-
-Our demo is available online
 
 ### Grouping the results
 
