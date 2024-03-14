@@ -416,7 +416,7 @@ This is one example of how you can use different models and combine the results.
 In a real-world scenario, you might run some reranking and deduplication, as
 well as additional processing of the results.
 
-## Code search demo
+### Code search demo
 
 Our [Code search demo](https://code-search.qdrant.tech/) uses the following process:
 
