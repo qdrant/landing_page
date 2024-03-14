@@ -42,7 +42,7 @@ Retrieval Augmented Generation is not without its challenges and limitations. On
 
 > Qdrant is one of the **top supported vector stores** on LangChain, with [extensive documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant) and [examples](https://python.langchain.com/docs/integrations/retrievers/self_query/qdrant_self_query).
 
-**How it Works:** LangChain receives a query, dispatches it to a vector database such as Qdrant, retrieves relevant documents, and then sends both the query and the retrieved documents into the large language model to generate an answer.
+**How it Works:** LangChain receives a query and retrieves the query vector from an embedding model. Then, it dispatches the vector to a vector database, retrieving relevant documents. Finally, both the query and the retrieved documents are sent to the large language model to generate an answer.
 
 ![qdrant-langchain-rag](/blog/qdrant-and-langchain/flow-diagram.png)
 
