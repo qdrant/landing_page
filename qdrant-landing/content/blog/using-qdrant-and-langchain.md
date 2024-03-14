@@ -3,7 +3,7 @@ draft: false
 title: "Integrating Qdrant and LangChain for Advanced Vector Similarity Search"
 short_description: Discover how Qdrant and LangChain can be integrated to enhance AI applications.
 description: Discover how Qdrant and LangChain can be integrated to enhance AI applications with advanced vector similarity search technology.
-preview_image: /blog/qdrant-and-langchain/qdrant-langchain.png
+preview_image: /blog/using-qdrant-and-langchain/qdrant-langchain.png
 date: 2024-03-12T09:00:00Z
 author: David Myriel
 featured: false
@@ -44,7 +44,7 @@ Retrieval Augmented Generation is not without its challenges and limitations. On
 
 **How it Works:** LangChain receives a query and retrieves the query vector from an embedding model. Then, it dispatches the vector to a vector database, retrieving relevant documents. Finally, both the query and the retrieved documents are sent to the large language model to generate an answer.
 
-![qdrant-langchain-rag](/blog/qdrant-and-langchain/flow-diagram.png)
+![qdrant-langchain-rag](/blog/using-qdrant-and-langchain/flow-diagram.png)
 
 When supported by LangChain, Qdrant can help you set up effective question-answer systems, detection systems and chatbots that leverage RAG to its full potential. When it comes to long-term memory storage, developers can use LangChain to easily add relevant documents, chat history memory & rich user data to LLM app prompts via Qdrant. 
 
