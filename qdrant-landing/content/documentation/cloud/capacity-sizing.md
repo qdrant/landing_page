@@ -51,3 +51,21 @@ In this case you can estimate required memory size as follows:
 ```text
 memory_size = number_of_active_vectors * vector_dimension * 4 bytes * 1.5
 ```
+
+## Disk space
+
+Clusters that support vector search require significant disk space. If you're
+running low on disk space in your cluster, you can use the UI at
+[cloud.qdrant.io](https://cloud.qdrant.io/) to  **Scale Up** your cluster. 
+
+<aside role="status">If you use the Qdrant UI to increase the disk space in your cluster, you
+cannot decrease that allocation later.</aside>
+
+If you're running low on disk space, consider the following advantages:
+
+- Larger Datasets: Supports larger datasets. With vector search,
+larger datasets can improve the relevance and quality of search results.
+- Improved Indexing: Supports the use of indexing strategies such as 
+HNSW (Hierarchical Navigable Small World).
+- Caching: Improves speed when you cache frequently accessed data on disk.
+- Backups and Redundancy: Perhaps the most important advantage.
