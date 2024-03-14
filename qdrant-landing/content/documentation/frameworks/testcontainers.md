@@ -5,9 +5,9 @@ weight: 2700
 
 # Testcontainers
 
-[Testcontainers](https://testcontainers.com/) is an open source framework for providing throwaway, lightweight instances of databases, message brokers, web browsers, or just about anything that can run in a Docker container.
+Qdrant is available as a [Testcontainers module](https://testcontainers.com/modules/qdrant/) in multiple languages. It  facilitates the spawning of a Qdrant instance for end-to-end testing.
 
-Qdrant is available as a [Testcontainers module](https://testcontainers.com/modules/qdrant/) in multiple languages facilitating the spawning of a Qdrant instance for end-to-end testing.
+As noted by [Testcontainers](https://testcontainers.com/), it "is an open source framework for providing throwaway, lightweight instances of databases, message brokers, web browsers, or just about anything that can run in a Docker container."
 
 ## Usage
 
@@ -38,9 +38,9 @@ from testcontainers.qdrant import QdrantContainer
 qdrant_container = QdrantContainer("qdrant/qdrant").start()
 ```
 
-TestContainers modules provide options/methods to configure ENVs, volumes and virtually everything you can configure in a Docker container.
+Testcontainers modules provide options/methods to configure ENVs, volumes and virtually everything you can configure in a Docker container.
 
 ## Further reading
 
 - [Testcontainers Guides](https://testcontainers.com/guides/)
-- [Tescontainers Qdrant Module](https://testcontainers.com/modules/qdrant/)
+- [Testcontainers Qdrant Module](https://testcontainers.com/modules/qdrant/)
