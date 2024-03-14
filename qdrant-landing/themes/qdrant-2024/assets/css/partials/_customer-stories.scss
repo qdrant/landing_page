@@ -14,11 +14,47 @@
 
   &__header {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
     max-width: rem(1110);
     width: 100%;
     margin-bottom: $spacer * 2.5;
+  }
+
+  &__header-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__controls {
+    display: flex;
+    gap: $spacer * 2.5;
+  }
+
+  &__button {
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid $neutral-80;
+    background-color: transparent;
+    width: rem(64);
+    height: rem(64);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__button-prev svg {
+    transform: rotate(180deg);
+  }
+
+  &__button svg {
+    width: rem(24);
+    height: rem(24);
+  }
+
+  &__button:disabled {
+    opacity: 0.5;
   }
 
   &__title {
