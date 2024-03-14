@@ -18,6 +18,7 @@ exceptions:
   - gRPC
   - HNSW
   - Hugging Face
+  - Hybrid Cloud
   - I
   - IDs
   - JAR
