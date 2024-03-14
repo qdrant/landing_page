@@ -31,19 +31,6 @@ more closely resembles natural language. The Jina embeddings model supports a
 variety of standard programming languages, so there is no need to preprocess the
 snippets. We can use the code as is.
 
-## The process
-
-Once configured, our code search demo uses the following process:
-
-1. The user sends a query.
-1. Both models vectorize that query simultaneously. We get two different vectors.
-1. Both vectors are used in parallel to find relevant snippets.
-1. Once we retrieve results for both vectors, we merge them in one of the 
-   following scenarios: 
-   1. If both methods return different results, we display <!-- some of --> those results.
-   1. If there is an overlap between the search results, we merge overlapping
-      snippets.
-
 NLP-based search is based on function signatures, but code search may return
 smaller pieces, such as loops. So, if we receive a particular function signature
 from the NLP model and part of its implementation from the code model, we merge
@@ -429,14 +416,32 @@ This is one example of how you can use different models and combine the results.
 In a real-world scenario, you might run some reranking and deduplication, as
 well as additional processing of the results.
 
-Our [Code search demo](https://github.com/qdrant/demo-code-search) uses
-both models. In the screenshot, we search for `flush of wal`. The result
+## Code search demo
+
+Our [Code search demo](https://github.com/qdrant/demo-code-search) uses the following process:
+
+1. The user sends a query.
+1. Both models vectorize that query simultaneously. We get two different 
+   vectors.
+1. Both vectors are used in parallel to find relevant snippets. We expect 
+   5 examples from the NLP search and 20 examples from the code search.
+1. Once we retrieve results for both vectors, we merge them in one of the 
+   following scenarios: 
+   1. If both methods return different results, we prefer the results from 
+      the general usage model (NLP).
+   1. If there is an overlap between the search results, we merge overlapping
+      snippets.
+
+In the screenshot, we search for `flush of wal`. The result
 shows relevant code, merged from both models. Note the highlighted
 code in lines 621-629. It's where both models agree.
 
 ![Results from both models, with overlap](/documentation/tutorials/code-search/code-search-demo-example.png)
 
 Now you see semantic code intelligence, in action.
+
+Our demo is available online
+
 ### Grouping the results
 
 You can improve the search results, by grouping them by payload properties.
