@@ -68,4 +68,5 @@ larger datasets can improve the relevance and quality of search results.
 - Improved Indexing: Supports the use of indexing strategies such as 
 HNSW (Hierarchical Navigable Small World).
 - Caching: Improves speed when you cache frequently accessed data on disk.
-- Backups and Redundancy: Perhaps the most important advantage.
+- Backups and Redundancy: Perhaps the most important advantage. More disk
+space supports more frequent backups.
