@@ -24,7 +24,7 @@ Add the Qdrant boot starter package.
 
 ## Usage
 
-Qdrant can be configured via Spring Boot’s `application.properties`.
+Configure Qdrant with Spring Boot’s `application.properties`.
 
 ```
 spring.ai.vectorstore.qdrant.host=<host of your qdrant instance>
