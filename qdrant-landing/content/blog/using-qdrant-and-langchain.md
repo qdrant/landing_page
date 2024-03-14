@@ -56,11 +56,11 @@ Integrating Qdrant and LangChain can revolutionize your AI applications. Let's t
 LangChain is great for developing question-answering **chatbots**, where Qdrant is used to contextualize and retrieve results for the LLM. We cover this in [our article](https://qdrant.tech/articles/langchain-integration/), and in OpenAI's [cookbook examples](https://cookbook.openai.com/examples/vector_databases/qdrant/qa_with_langchain_qdrant_and_openai) that use LangChain and GPT to process natural language.
 
 *Improve Recommendation Systems:*
-Food delivery services thrive on indecisive customers. The necessity for a multi-aim search process, where customers seek recommendations led to the development of [Recommendation API](https://qdrant.tech/documentation/concepts/explore/#recommendation-api), which is an alternative to regular vector search. With LangChain you can build systems for **e-commerce, content sharing, or even dating apps**.
+Food delivery services thrive on indecisive customers. Businesses need to accomodate a multi-aim search process, where customers seek recommendations though semantic search. With LangChain you can build systems for **e-commerce, content sharing, or even dating apps**.
 
-*Advance Data Analysis and Insights:* Sometimes you just want to browse results that are not necessarily closest, but still relevant. Qdrant's [Discovery API](https://qdrant.tech/articles/discovery-search/#discovery-search) is useful for **online stores**, where users are don't exactly know what they are looking for, but require constrained space in which a search is performed. 
+*Advance Data Analysis and Insights:* Sometimes you just want to browse results that are not necessarily closest, but still relevant. Semantic search helps user discover products in **online stores**. Customers don't exactly know what they are looking for, but require constrained space in which a search is performed. 
 
-*Offer Content Similarity Analysis:* Ever been stuck seeing the same recommendations on your **music streaming service**? You may be held in a similarity bubble! As inputs get more complex, diversity becomes scarce, and it becomes harder to force the system to show something different. LangChain developers can use [Context API](https://qdrant.tech/articles/discovery-search/#context-search) for such cases.
+*Offer Content Similarity Analysis:* Ever been stuck seeing the same recommendations on your **local news portal**? You may be held in a similarity bubble! As inputs get more complex, diversity becomes scarce, and it becomes harder to force the system to show something different. LangChain developers can use semantic search to develop further context.
 
 ## Building a Chatbot with LangChain
 
