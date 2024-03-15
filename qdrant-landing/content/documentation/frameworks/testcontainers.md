@@ -38,7 +38,7 @@ from testcontainers.qdrant import QdrantContainer
 qdrant_container = QdrantContainer("qdrant/qdrant").start()
 ```
 
-Testcontainers modules provide options/methods to configure ENVs, volumes and virtually everything you can configure in a Docker container.
+Testcontainers modules provide options/methods to configure ENVs, volumes, and virtually everything you can configure in a Docker container.
 
 ## Further reading
 
