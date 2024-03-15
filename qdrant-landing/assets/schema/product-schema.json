@@ -19,7 +19,7 @@
       {
         "@type": "Offer",
         "priceSpecification": {
-          "@type": "UnitPriceSpecification",
+          "@type": "PriceSpecification",
           "price": "free",
           "priceCurrency": "USD",
           "name": "Community",
@@ -34,7 +34,7 @@
       {
         "@type": "Offer",
         "priceSpecification": {
-          "@type": "UnitPriceSpecification",
+          "@type": "PriceSpecification",
           "price": "from 25$",
           "priceCurrency": "USD",
           "name": "Managed Cloud",
@@ -49,7 +49,7 @@
       {
         "@type": "Offer",
         "priceSpecification": {
-          "@type": "UnitPriceSpecification",
+          "@type": "PriceSpecification",
           "price": "on request",
           "priceCurrency": "USD",
           "name": "Enterprise",

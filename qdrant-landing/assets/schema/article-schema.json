@@ -1,4 +1,19 @@
 {
   "@type": "Article",
-  "headline": "{{ .Params.title | htmlEscape }}"
+  "headline": "{{- .Params.title | htmlEscape -}}",
+  "image": [
+    "{{- if .Params.social_preview_image -}}{{- .Params.social_preview_image | absURL -}}{{- end -}}"
+  ],
+  "abstract": "{{- .Params.description | trim '\n' -}}",
+  "datePublished": "{{ .Params.date }}",
+  "dateModified": "{{ .Params.date }}",{{- if .Params.author -}}
+  "author": {
+    "@type": "Person",
+    "name": "{{- .Params.author | htmlEscape -}}"
+  }{{- else -}}
+  "author": {
+    "@type": "Organization",
+    "name": "Qdrant",
+    "url": "https://qdrant.tech/"
+  }{{- end -}}
 }
