@@ -14,72 +14,15 @@
 <meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }}, {{ end }} qdrant">
 {{ end }}
 
-{{ if .IsHome }}
+{{ if .Params.seo_schema }} <!-- if schema is defined in front matter -->
 <script type="application/ld+json">
-  {
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "Qdrant",
-      "legalName" : "Qdrant Solutions GmbH",
-      "url": "https://qdrant.tech",
-      "email": "info@qdrant.com",
-      "@id": "https://qdrant.tech",
-      "logo": "https://qdrant.tech/images/logo_with_text.png",
-      "description" : "{{ .Site.Params.description }}",
-      "keywords" : [ {{ range .Site.Params.Keywords }}"{{ . }}", {{ end }} "Qdrant" ],
-      "foundingDate": "2021",
-      "founders": [
-          {
-              "@type": "Person",
-              "name": "{{ .Site.Params.Author }}"
-          }, {
-              "@type": "Person",
-              "name": "Andre Zayarni"
-          }
-      ],
-      "location": "Berlin, Germany",
-      "address": {
-          "@type": "PostalAddress",
-          "streetAddress": "Chausseestraße 86",
-          "addressLocality": "Berlin",
-          "addressRegion": "Berlin",
-          "postalCode": "10115",
-          "addressCountry": "DE"
-      },
-      "contactPoint": {
-          "@type": "ContactPoint",
-          "contactType": "customer support",
-          "telephone": "+49 3040797694",
-          "email": "info@qdrant.com"
-      },
-      "sameAs": [
-          {{ .Site.Params.github }},
-          {{ .Site.Params.twitter }},
-          {{ .Site.Params.linkedin }},
-          {{ .Site.Params.discord }}
-      ],
-      "mainEntityOfPage": {
-          "@type": "SoftwareApplication",
-          "name": "Qdrant",
-          "applicationCategory": "Vector Search Engine",
-          "operatingSystem": "linux, macOS",
-          "downloadUrl": "https://github.com/qdrant/qdrant",
-          "installUrl": "https://hub.docker.com/r/qdrant/qdrant",
-          "abstract": "{{ .Site.Params.description }}",
-          "image": "https://qdrant.tech/images/logo_with_text.png"
-      }
-  }
-</script>
-{{ else if .Params.seo_schema }}
-<!--    todo: use as default option -->
-<script type="application/ld+json">
-    {{ .Params.seo_schema | unmarshal }}
+    {{ .Params.seo_schema | jsonify | unmarshal }}
 </script>
 
-{{ else if .Params.seo_schema_json }}
+{{ else if .Params.seo_schema_json }} <!-- if schema is defined in front matter as a list of  json files -->
 <script type="application/ld+json">
     {
-        "@context": "http://schema.org",
+        "@context": "https://schema.org",
         "@graph":
         [
             {{- $context := . -}}
@@ -94,38 +37,54 @@
     }
 </script>
 
-{{ else if and (eq .Section "articles") .IsPage }}
+{{ else if .IsHome }}
+{{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
+{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "organization.json" . }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "{{ .Params.title }}",
-        "image": [
-            {{ .Params.social_preview_image  | absURL }},
-        ],
-        "abstract": {{ .Params.description }},
-        "datePublished": {{ .Params.date }},
-        "dateModified": {{ .Params.date }},
-        "author": [{
-            "@type": "Person",
-            "name": {{ .Params.author }},
-        }]
+        "@graph": [
+            {{ $organizationSchema | unmarshal }}
+        ]
     }
 </script>
-{{ else if and (eq .Section "case-studies") .IsPage }}
+
+
+{{ else if or (in (slice "documentation" "benchmarks") .Section) (and (in (slice "blog" "articles") .Section) .IsPage) }}
+
+{{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
+{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "organization.json" . }}
+
+{{ $articleTemplate := resources.Get "schema/article-schema.json" }}
+{{ $articleTarget := printf "schema-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+{{ $articleSchema := $articleTemplate | resources.ExecuteAsTemplate $articleTarget . }}
+<script type="application/ld+json">
+    {
+    "@context": "https://schema.org",
+    "@graph": [
+          {{ $articleSchema | unmarshal }},
+          {{ $organizationSchema | unmarshal }}
+        ]
+    }
+</script>
+
+{{ else }}
+
+{{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
+{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "organization.json" . }}
+
+{{ $productTemplate := resources.Get "schema/product-schema.json" }}
+{{ $productSchema := $productTemplate | resources.ExecuteAsTemplate "product.json" . }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "Article",
-        "headline": "{{ .Params.title }}",
-        "image": [
-            {{ .Params.social_preview_image  | absURL }},
-        ],
-        "abstract": {{ .Params.description }},
-        "datePublished": {{ .Params.date }},
-        "dateModified": {{ .Params.date }}
+        "@graph": [
+            {{ $organizationSchema | unmarshal }},
+            {{ $productSchema | unmarshal }}
+        ]
     }
 </script>
+
 {{ end }}
 
 {{ $url := urls.Parse .Site.BaseURL }}
