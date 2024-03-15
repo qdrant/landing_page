@@ -9,25 +9,58 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 
 > **Prerequisite:** Please make sure you have provided billing information before creating a custom cluster. 
 
-1. Start in the **Clusters** section of the [Cloud Dashboard](https://cloud.qdrant.io). 
-2. Select **Clusters** and then click **+ Create**.
-3. A window will open. Enter a cluster **Name**.
-4. Currently, you can deploy to AWS, GCP, or Azure. 
-5. Choose your data center region. If you have latency concerns or other topology-related requirements, [**let us know**](mailto:cloud@qdrant.io).
-6. Configure RAM size for each node (1GB to 64GB). 
-> Please read [**Capacity and Sizing**](../../cloud/capacity-sizing/) to make the right choice. If you need more capacity per node, [**let us know**](mailto:cloud@qdrant.io).
-7. Choose the number of CPUs per node (0.5 core to 16 cores). The max/min number of CPUs is coupled to the chosen RAM size. 
-8. Select the number of nodes you want the cluster to be deployed on. 
-> Each node is automatically attached with a disk space offering enough space for your data if you decide to put the metadata or even the index on the disk storage.
-9. Click **Create** and wait for your cluster to be provisioned.
+1. Start in the **Clusters** section of the [Cloud Dashboard](https://cloud.qdrant.io/). 
+1. Select **Clusters** and then click **+ Create**.
+1. In the **Create a cluster** screen select **Free** or **Standard**
+   For more information on a free cluster, see the [Cloud quickstart](/documentation/cloud/quickstart-cloud/). The remaining steps assume you want a standard cluster.
+1. Select a provider. Currently, you can deploy to:
 
-Your cluster will be reachable on port 443 and 6333 (Rest) and 6334 (gRPC).
+   - Amazon Web Services (AWS)
+   - Google Cloud Platform (GCP)
+   - Microsoft Azure 
 
-![Embeddings](/docs/cloud/create-cluster.png)
+1. Choose your data center region. If you have latency concerns or other topology-related requirements, [**let us know**](mailto:cloud@qdrant.io).
+1. Configure RAM for each node (2 GB to 64 GB). 
+   >  For more information, see our [**Capacity and Sizing**](/documentation/cloud/capacity-sizing/) guidance. If you need more capacity per node, [**let us know**](mailto:cloud@qdrant.io).
+1. Choose the number of vCPUs per node (0.5 core to 16 cores). If you add more
+   RAM, the menu provides different options for vCPUs.
+1. Select the number of nodes you want the cluster to be deployed on. 
+
+   > Each node is automatically attached with a disk space offering enough space for your data if you decide to put the metadata or even the index on the disk storage.
+1. Select the disk space for your deployment. You can choose from 8 GB to 2 TB.
+1. Review your cluster configuration and pricing.
+1. When you're ready, select **Create**. It takes some time to provision your cluster.
+
+Once provisioned, you can access your cluster on ports 443 and 6333 (REST)
+and 6334 (gRPC).
+
+![Cluster configured in the UI](/docs/cloud/create-cluster-test.png)
+
+You should now see the new cluster in the **Clusters** menu.
+
+A custom cluster includes the following resources. The values in the table are maximums.
+
+| Resource   | Value (max) |
+|------------|-------------|
+| RAM        | 64 GB       |
+| vCPU       | 16 vCPU     |
+| Disk space | 2 TB        |
+| Nodes      | 10          |  
+
+### Included features (paid)
+
+The features included with this cluster are:
+
+- Dedicated resources
+- Backup and disaster recovery
+- Horizontal and vertical scaling
+- Monitoring and log management
+
+Learn more about these features in the [Qdrant Cloud dashboard](https://cloud.qdrant.io/).
 
 ## Next steps
 
-You will need to connect to your new Qdrant Cloud cluster. Follow [**Authentication**](../../cloud/authentication/) to create one or more API keys. 
+You will need to connect to your new Qdrant Cloud cluster. Follow [**Authentication**](/documentation/cloud/authentication/) to create one or more API keys. 
 
-Your new cluster is highly available and responsive to your application requirements and resource load. Read more in [**Cluster Scaling**](../../cloud/cluster-scaling/).
+Your new cluster is highly available and responsive to your application requirements and resource load. Read more in [**Cluster Scaling**](/documentation/cloud/cluster-scaling/).
 
