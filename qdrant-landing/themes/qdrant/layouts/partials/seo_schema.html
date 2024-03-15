@@ -73,16 +73,25 @@
 {{ else if .Params.seo_schema }}
 <!--    todo: use as default option -->
 <script type="application/ld+json">
-    {{ .Params.seo_schema | jsonify | unmarshal }}
+    {{ .Params.seo_schema | unmarshal }}
 </script>
 
 {{ else if .Params.seo_schema_json }}
-
-{{ $template := resources.Get .Params.seo_schema_json }}
-{{ $schema := $template | resources.ExecuteAsTemplate "schema.json" . }}
-
 <script type="application/ld+json">
-    {{ $schema | unmarshal }}
+    {
+        "@context": "http://schema.org",
+        "@graph":
+        [
+            {{- $context := . -}}
+            {{- range $index, $element := .Params.seo_schema_json -}}
+              {{- $template := resources.Get $element -}}
+              {{- $schema := $template | resources.ExecuteAsTemplate (printf "schema%d.json" $index) $context -}}
+              {{ $schema | unmarshal }}
+              {{- if not (eq $index (sub (len $.Params.seo_schema_json) 1)) -}},
+              {{- end -}}
+            {{- end -}}
+        ]
+    }
 </script>
 
 {{ else if and (eq .Section "articles") .IsPage }}
@@ -100,7 +109,6 @@
         "author": [{
             "@type": "Person",
             "name": {{ .Params.author }},
-            "url": {{ .Params.author_link }}
         }]
     }
 </script>

@@ -1,0 +1,99 @@
+{
+  "@type": "Organization",
+  "name": "Qdrant",
+  "legalName" : "Qdrant Solutions GmbH",
+  "url": "https://qdrant.tech",
+  "email": "info@qdrant.com",
+  "@id": "https://qdrant.tech",
+  "logo": "https://qdrant.tech/images/logo_with_text.png",
+  "description" : "{{- if.Params.description -}}{{- .Params.description -}}{{- else if .Site.Params.description -}}{{- .Site.Params.description -}}{{- end -}}",
+  "keywords" : [ {{- if .Params.Keywords -}}{{- range .Params.Keywords -}}"{{ . }}", {{- end -}}{{- else if .Site.Params.Keywords -}}{{- range .Site.Params.Keywords -}}"{{ . }}", {{- end -}}{{- end -}} "Qdrant" ],
+  "foundingDate": "2021",
+  "founders": [
+    {
+      "@type": "Person",
+      "name": "{{ .Site.Params.Author }}"
+    }, {
+      "@type": "Person",
+      "name": "Andre Zayarni"
+    }
+  ],
+  "location": "Berlin, Germany",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Chausseestraße 86",
+    "addressLocality": "Berlin",
+    "addressRegion": "Berlin",
+    "postalCode": "10115",
+    "addressCountry": "DE"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "telephone": "+49 3040797694",
+    "email": "info@qdrant.com"
+  },
+  "sameAs": [
+    "{{ .Site.Params.github }}",
+    "{{ .Site.Params.twitter }}",
+    "{{ .Site.Params.linkedin }}",
+    "{{ .Site.Params.discord }}"
+  ],
+  "mainEntityOfPage": {
+    "@type": "SoftwareApplication",
+    "name": "Qdrant",
+    "applicationCategory": "Vector Search Database",
+    "operatingSystem": "linux, macOS, windows",
+    "downloadUrl": "https://github.com/qdrant/qdrant",
+    "installUrl": "https://hub.docker.com/r/qdrant/qdrant",
+    "abstract": "{{ .Site.Params.description }}",
+    "image": "https://qdrant.tech/images/logo_with_text.png",
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "free",
+          "priceCurrency": "USD",
+          "name": "Community",
+          "url": "https://qdrant.tech/documentation/quick-start/",
+          "referenceQuantity": {
+            "@type": "QuantitativeValue",
+            "value": "1",
+            "unitCode": "MON"
+          }
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "from 25$",
+          "priceCurrency": "USD",
+          "name": "Managed Cloud",
+          "url": "https://qdrant.to/cloud",
+          "referenceQuantity": {
+            "@type": "QuantitativeValue",
+            "value": "1",
+            "unitCode": "MON"
+          }
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceSpecification": {
+          "@type": "UnitPriceSpecification",
+          "price": "on request",
+          "priceCurrency": "USD",
+          "name": "Enterprise",
+          "url": "https://qdrant.to/contact-us",
+          "referenceQuantity": {
+            "@type": "QuantitativeValue",
+            "value": "1",
+            "unitCode": "MON"
+          }
+        }
+      }
+    ]
+  }
+}
