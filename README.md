@@ -274,3 +274,48 @@ From the root of the project:
 ```bash
 sass --watch --style=compressed ./qdrant-landing/themes/qdrant/static/css/pages/marketing-landing.scss ./qdrant-landing/themes/qdrant/static/css/marketing-landing.css
 ```
+
+## SEO
+
+### Structured data (Schema.org, JSON-LD)
+
+Structured data is a standardized format for providing information about a page and classifying the page content. It is used by search engines to understand the content of the page and to display rich snippets in search results.
+
+We use JSON-LD format for structured data. Data is stored in JSON files in the `/assets/schema` directory. If no specific schema is provided for a page, the default schema is used based on the page type as defined in the `qdrant-landing/themes/qdrant/layouts/partials/seo_schema.html` file.
+
+To add specific schema to a specific page, use the `seo_schema` or `seo_schema_json` parameter in the front matter of content markdown files (directory `content`).
+
+To add json directly to the page, use the `seo_schema` parameter. The value should be a JSON object.
+
+Example:
+
+```yaml
+seo_schema: {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "Qdrant",
+    "url": "https://qdrant.io",
+    "logo": "https://qdrant.io/images/logo.png",
+    "sameAs": [
+      "https://www.linkedin.com/company/qdrant",
+      "https://twitter.com/qdrant"
+    ]
+  }
+```
+
+To add a path to a JSON files with schema data, use the `seo_schema_json` parameter. This parameter should contain a list of paths to JSON files.
+The path should be relative to the `qdrant-landing/assets` directory.
+
+Example:
+
+```yaml
+seo_schema_json:
+  - schema/schema-organization.json
+  - schema/product-schema.json
+```
+
+If you want to add a new schema, create a new JSON file in the `qdrant-landing/assets/schema` directory and add the path to the `seo_schema_json` parameter.
+
+When use `seo_schema` and `seo_schema_json` together, `seo_schema` will be used additionally to `seo_schema_json` adding the second <script> tag with the `seo_schema` value.
+
+Use `seo_schema_json` if you want to reuse the same schema for multiple pages to avoid duplication and make it easier to maintain.

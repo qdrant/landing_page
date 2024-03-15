@@ -1,14 +1,4 @@
 {
   "@type": "Article",
-  "headline": "{{ .Params.title }}",
-  "image": [
-    "{{ .Params.social_preview_image  | absURL }}"
-  ],
-  "abstract": "{{ .Params.description }}",
-  "datePublished": "{{ .Params.date }}",
-  "dateModified": "{{ .Params.date }}"{{- if .Params.author -}},
-  "author": {
-    "@type": "Person",
-    "name": "{{ .Params.author }}"
-  }{{- end -}}
+  "headline": "{{ .Params.title | htmlEscape }}"
 }

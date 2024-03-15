@@ -14,12 +14,7 @@
 <meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }}, {{ end }} qdrant">
 {{ end }}
 
-{{ if .Params.seo_schema }} <!-- if schema is defined in front matter -->
-<script type="application/ld+json">
-    {{ .Params.seo_schema | jsonify | unmarshal }}
-</script>
-
-{{ else if .Params.seo_schema_json }} <!-- if schema is defined in front matter as a list of  json files -->
+{{ if .Params.seo_schema_json }} <!-- if schema is defined in front matter as a list of  json files -->
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -85,6 +80,12 @@
     }
 </script>
 
+{{ end }}
+
+{{ if .Params.seo_schema }} <!-- if schema is defined in front matter -->
+<script type="application/ld+json">
+    {{ .Params.seo_schema | jsonify | unmarshal }}
+</script>
 {{ end }}
 
 {{ $url := urls.Parse .Site.BaseURL }}
