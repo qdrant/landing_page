@@ -155,7 +155,7 @@ Make sure to select your hybrid cloud as the target region.
 
 ### Authentication at your Qdrant clusters
 
-### Exposing Qdrant Clusters to your client applications
+### Exposing Qdrant clusters to your client applications
 
 ## Operator configuration
 
