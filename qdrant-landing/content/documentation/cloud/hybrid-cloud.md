@@ -64,7 +64,7 @@ You can also mirror the images and charts to your own registry.
 
 ### Required artifacts
 
-To set up your cloud, you need the following:
+To set up your cloud, you need the following artifacts:
 
 Container images
 
@@ -73,7 +73,7 @@ Container images
 - `registry.cloud.qdrant.io/qdrant/qdrant-operator`
 - `registry.cloud.qdrant.io/qdrant/qdrant-cloud-cluster-manager`
 
-OCI Helm charts
+Open Containers Initiative (OCI) Helm charts
 
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent`
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-operator`
@@ -115,11 +115,14 @@ message:
 ### Hybrid Cloud regions
 
 Once you create a Hybrid Cloud Region, you can review what you just configured.
-You can also review the:
+In the UI, you can also review the:
 
-- Hybrid Cloud ID, which you can use in Kubernetes commands
-- Operator Pod State <!-- Need more info --> 
-- Agent Pod State <!-- Need more info -->
+- Hybrid Cloud ID: For use in Kubernetes commands
+- Operator Pod State: Typically `Unknown` or `Ready` 
+- Agent Pod State: Typically `Unknown` or `Ready`
+
+Until you run the Hybrid Cloud installation commands shown in this page, the
+state of the Operator and Agent Pods are typically unknown.
 
 ### Generate Installation Command
 
@@ -130,7 +133,7 @@ This includes several commands which:
 - Adds credentials to the Docker registry, labeled `qdrant-registry-creds`
 - Sets up a secret key based on an API key, labeled `access-key`. 
 - Signs into the Helm registry at `registry.cloud.qdrant.io`.
-- Installs a Helm chart <!-- Need more info -->
+- Installs a Helm chart from the OCI registry.
 
 These commands create the necessary API keys for the registry and the Qdrant
 Cloud API. It also generates the `kubectl` and `helm install` commands to install
