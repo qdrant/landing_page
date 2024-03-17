@@ -21,8 +21,8 @@
     align-items: center;
     justify-content: center;
 
-    min-width: rem(1110);
-    min-height: rem(165);
+    min-width: 100%;
+    min-height: rem(615);
 
     border-radius: 16px;
 
@@ -31,9 +31,10 @@
   }
 
   &__title {
-    font-size: map-get($font-sizes, 3);
-    line-height: rem(57);
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
     color: $neutral-98;
+    text-align: center;
     margin: 0;
   }
 
@@ -44,7 +45,6 @@
     color: $neutral-90;
     margin-top: $spacer * 1.5;
     margin-bottom: $spacer * 1.5;
-    max-width: rem(640);
   }
 
   &__planet-icon {
@@ -65,5 +65,22 @@
     width: rem(281);
     height: rem(151);
     background-repeat: no-repeat;
+  }
+
+  @media only screen and (min-width: 1024px) {
+    &__content {
+      min-width: rem(1110);
+      min-height: rem(165);
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, 3);
+      line-height: rem(57);
+      max-width: unset;
+    }
+
+    &__subtitle {
+      max-width: rem(640);
+    }
   }
 }

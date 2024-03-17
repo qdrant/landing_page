@@ -3,7 +3,7 @@
 .integrations {
   background-color: $neutral-10;
 
-  padding-top: $spacer * 6.5;
+  padding-top: $spacer * 4;
   padding-left: $spacer * 1.5;
   padding-right: $spacer * 1.5;
 
@@ -13,18 +13,18 @@
   justify-content: center;
 
   &__title {
-    font-size: map-get($font-sizes, 2);
-    line-height: rem(67);
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
     text-align: center;
     margin-bottom: $spacer * 1.5;
-    max-width: rem(726);
+    max-width: 100%;
     color: $neutral-98;
   }
 
   &__subtitle {
     color: $neutral-70;
-    font-size: map-get($font-sizes-text, 'xl');
-    line-height: rem(30);
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
     margin-bottom: $spacer * 1.5;
     text-align: center;
   }
@@ -32,13 +32,38 @@
   &__link {
     color: $primary-60;
     font-size: $font-size-xl;
-    text-decoration: none;
+    text-decoration: underline;
   }
 
   &__preview {
-    margin-top: $spacer * 5;
-    width: rem(920);
+    margin-top: $spacer * 3;
+    width: 100%;
     height: rem(440);
-    background-image: url('/img/integrations.svg');
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('/img/mobile/integrations.svg');
+  }
+
+  @media only screen and (min-width: 1024px) {
+    padding-top: $spacer * 6.5;
+
+    &__title {
+      font-size: map-get($font-sizes, 2);
+      line-height: rem(67);
+      max-width: rem(726);
+    }
+
+    &__subtitle {
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: rem(30);
+    }
+
+    &__preview {
+      margin-top: $spacer * 5;
+      width: rem(920);
+      height: rem(440);
+      background-image: url('/img/integrations.svg');
+    }
   }
 }

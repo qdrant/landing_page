@@ -1,16 +1,14 @@
 <section class="docker-deploy">
-  <div class="docker-deploy__left">
+  <div class="docker-deploy__top">
     <h3 class="docker-deploy__title">{{ .Params.title }}</h3>
     <p class="docker-deploy__subtitle">
       Get started with our
       <a class="docker-deploy__link" href="{{ .Params.quickStartLink.url }}">{{ .Params.quickStartLink.text }}</a>, or
-      our main GitHub repository
+      our main
       <a class="docker-deploy__link" href="{{ .Params.repositoryLink.url }}">{{ .Params.repositoryLink.text }}</a>.
     </p>
   </div>
-  <div class="docker-deploy__right">
-    <div class="docker-deploy__preview" style="background-image: url(/img/docker-illustration.png)">
-      <code>{{ .Params.command | safeHTML }}</code>
-    </div>
+  <div class="docker-deploy__preview" style="background-image: url(/img/docker-illustration.png)">
+    <code>{{ .Params.command | safeHTML }}</code>
   </div>
 </section>

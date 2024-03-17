@@ -29,6 +29,10 @@
     position: relative;
   }
 
+  &__logos-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
   &__logos-content {
     display: flex;
     gap: $spacer * 6.5;

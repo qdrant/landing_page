@@ -3,28 +3,31 @@
 .docker-deploy {
   background-color: $neutral-94;
 
-  padding-top: $spacer * 5;
-  padding-bottom: $spacer * 5;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
   padding-left: $spacer * 1.5;
   padding-right: $spacer * 1.5;
 
   display: flex;
   align-items: center;
+  flex-direction: column;
   justify-content: center;
-  gap: $spacer * 5;
+  gap: rem(40);
 
   &__title {
-    font-size: map-get($font-sizes, 3);
-    line-height: rem(57);
+    font-size: rem(32);
+    line-height: rem(38);
     color: $neutral-20;
+    text-align: center;
     margin: 0;
   }
 
   &__subtitle {
-    font-size: map-get($font-sizes-text, 'xl');
-    line-height: rem(30);
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
     margin-top: $spacer * 1.5;
     margin-bottom: 0;
+    text-align: center;
   }
 
   &__link {
@@ -33,22 +36,65 @@
     text-decoration: none;
   }
 
-  &__left {
-    max-width: rem(445);
+  &__top {
+    max-width: 100%;
   }
 
   &__preview {
-    width: rem(584);
-    height: rem(400);
+    width: 100%;
+    height: rem(229);
+    max-width: rem(335);
     background-size: contain;
     background-repeat: no-repeat;
+    background-position: center;
     position: relative;
   }
 
   &__preview code {
     color: $neutral-98;
     position: absolute;
-    top: rem(95);
-    left: rem(107);
+    top: rem(54);
+    left: rem(50);
+
+    font-size: rem(9);
+    line-height: rem(14);
+  }
+
+  @media only screen and (min-width: 1024px) {
+    flex-direction: row;
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+    gap: $spacer * 5;
+
+    &__top {
+      max-width: rem(445);
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, 3);
+      line-height: rem(57);
+      text-align: left;
+    }
+
+    &__subtitle {
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: rem(30);
+      text-align: left;
+    }
+
+    &__preview {
+      width: rem(584);
+      height: rem(400);
+      max-width: rem(584);
+    }
+
+    &__preview code {
+      top: rem(94);
+      left: rem(107);
+      transform: unset;
+
+      font-size: rem(15);
+      line-height: rem(24);
+    }
   }
 }
