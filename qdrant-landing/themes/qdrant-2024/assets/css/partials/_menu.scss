@@ -25,6 +25,16 @@
   background: linear-gradient(180deg, #090d19, rgba(9, 13, 25, 0));
   z-index: 1;
 
+  &__trigger {
+    outline: none;
+    border: none;
+    width: rem(40);
+    height: rem(40);
+    border-radius: 8px;
+    z-index: 1;
+    background: linear-gradient($neutral-20, #0e1424);
+  }
+
   &__links {
     display: none;
     gap: calc($spacer / 2);
@@ -69,6 +79,10 @@
 
     &__buttons {
       display: flex;
+    }
+
+    &__trigger {
+      display: none;
     }
   }
 }

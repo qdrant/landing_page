@@ -1,5 +1,6 @@
 <div class="main-menu">
   {{ partial "logo.html" . }}
+  <button type="button" class="main-menu__trigger">{{ partial "svg" "Hamburger-Menu-White.svg" }}</button>
   <ul class="main-menu__links">
     {{ range .Params.menuItems }}
     <li class="main-menu__item">
