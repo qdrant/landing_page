@@ -14,7 +14,14 @@
     text-align: center;
     font-size: map-get($font-sizes-text, 'l');
     max-width: rem(640);
-    margin: 0 auto $spacer * 2;
+    margin: 0 auto calc($spacer / 2);
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 rem(20);
   }
 
   &__link {
@@ -57,5 +64,16 @@
     right: 0;
     left: unset;
     background: linear-gradient(to left, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
+  }
+
+  @media only screen and (min-width: 1024px) {
+    &__title {
+      margin: 0 auto $spacer * 2;
+    }
+
+    &__description {
+      align-items: flex-start;
+      padding: 0;
+    }
   }
 }
