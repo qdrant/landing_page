@@ -68,12 +68,14 @@
 
   @media only screen and (min-width: 1024px) {
     &__title {
-      margin: 0 auto $spacer * 2;
+      margin: 0;
     }
 
     &__description {
+      flex-direction: row;
       align-items: flex-start;
       padding: 0;
+      gap: calc($spacer / 2);
     }
   }
 }
