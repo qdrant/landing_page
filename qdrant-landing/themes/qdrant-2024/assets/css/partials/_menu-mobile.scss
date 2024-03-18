@@ -86,11 +86,16 @@
   }
 
   &__subitems {
+    display: none;
     list-style: none;
     padding: 0;
     margin: 0;
     background-color: $neutral-90;
     padding: $spacer rem(20);
+  }
+
+  &__subitems a {
+    text-decoration: none;
   }
 
   &__subitem {
@@ -104,18 +109,37 @@
     color: $neutral-20;
   }
 
+  &__subitem span {
+    width: rem(16);
+    height: rem(16);
+    margin-right: $spacer;
+  }
+
   &__expand {
     outline: none;
     border: none;
     padding: rem(5);
-    max-width: rem(34);
-    max-height: rem(34);
+    width: rem(34);
+    height: rem(34);
     background-color: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   &__expand svg {
     height: rem(16);
     width: rem(16);
+  }
+}
+
+.menu-mobile__item--active {
+  .menu-mobile__subitems {
+    display: block;
+  }
+
+  .menu-mobile__expand svg {
     transform: rotate(180deg);
   }
 }

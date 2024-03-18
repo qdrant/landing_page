@@ -5,15 +5,21 @@
   </div>
   <ul class="menu-mobile__items">
     {{ range .Params.menuItems }}
-    <li class="menu-mobile__item">
+    <li class="menu-mobile__item" data-path="{{ .id }}" onclick="toggleMenu('{{ .id }}')">
       <div class="menu-mobile__item-content">
-        {{ .name }}
+        {{ .name }} {{ if .subMenuItems }}
         <button type="button" class="menu-mobile__expand">{{ partial "svg" "Arrow-SM-Down.svg" }}</button>
+        {{ end }}
       </div>
       {{ if .subMenuItems }}
       <ul class="menu-mobile__subitems">
         {{ range .subMenuItems }}
-        <li class="menu-mobile__subitem">{{ .name }}</li>
+        <a href="{{ .url }}">
+          <li class="menu-mobile__subitem">
+            <span style="background-image: url(/img/menu/{{.icon}})"> </span>
+            {{ .name }}
+          </li>
+        </a>
         {{ end }}
       </ul>
       {{ end }}
@@ -38,4 +44,10 @@
   closeBtn.addEventListener('click', () => {
     menu.classList.remove('menu-mobile--visible');
   });
+  function toggleMenu(id) {
+    const menuItem = document.querySelector(`[data-path=${id}]`);
+    if (menuItem) {
+      menuItem.classList.toggle('menu-mobile__item--active');
+    }
+  }
 </script>
