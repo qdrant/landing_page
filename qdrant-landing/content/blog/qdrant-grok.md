@@ -18,7 +18,7 @@ weight: 0
 
 [Grok-1](https://x.ai/blog/grok-os) is a powerful Large Language Model (LLM) trained from scratch by xAI. It is currently used to power the [Grok Chatbot](https://grok.x.ai/), an early access alternative to ChatGPT.
 
-xAI kept their promise and open-sourced the model yesterday. We are more than happy to see Qdrant among the two repositories forked under xAI's GitHub organization. Having kept a close watch on our documentation's traffic, we knew something was going on - but it's still exciting to see our product making a huge difference.
+xAI kept their promise and open-sourced the model yesterday. We are more than happy to see Qdrant among the two repositories forked under [xAI's GitHub organization](https://github.com/xai-org). Having kept a close watch on our documentation's traffic, we knew something was going on - but it's still exciting to see our product making a huge difference.
 
 ![qdrant-grok-repo](/blog/qdrant-grok/qdrant-grok-repo.png)
 
