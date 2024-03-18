@@ -66,7 +66,7 @@
     background: linear-gradient(to left, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
   }
 
-  @media only screen and (min-width: 1024px) {
+  @include media-breakpoint-up(xl) {
     &__title {
       margin: 0;
     }

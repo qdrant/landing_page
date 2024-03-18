@@ -66,7 +66,7 @@
   }
 }
 
-@media only screen and (min-width: 1024px) {
+@include media-breakpoint-up(xl) {
   .main-menu {
     padding-top: $spacer * 2;
     padding-bottom: $spacer * 2;

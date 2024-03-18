@@ -129,7 +129,7 @@
     min-width: rem(80);
   }
 
-  @media only screen and (min-width: 1024px) {
+  @include media-breakpoint-up(xl) {
     padding-top: $spacer * 2.5;
     padding-bottom: $spacer * 8;
 

@@ -60,7 +60,7 @@
     line-height: rem(14);
   }
 
-  @media only screen and (min-width: 1024px) {
+  @include media-breakpoint-up(xl) {
     flex-direction: row;
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;

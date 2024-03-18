@@ -67,7 +67,7 @@
     background-repeat: no-repeat;
   }
 
-  @media only screen and (min-width: 1024px) {
+  @include media-breakpoint-up(xl) {
     &__content {
       min-width: rem(1110);
       min-height: rem(165);
