@@ -1065,6 +1065,10 @@ client.collection_info("{collection_name}").await?;
 client.getCollectionInfoAsync("{collection_name}").get();
 ```
 
+```csharp
+await client.GetCollectionInfoAsync("{collection_name}");
+```
+
 <details>
 <summary>Expected result</summary>
 
@@ -1118,12 +1122,6 @@ client.getCollectionInfoAsync("{collection_name}").get();
 
 </details>
 <br/>
-
-
-
-```csharp
-await client.GetCollectionInfoAsync("{collection_name}");
-```
 
 If you insert the vectors into the collection, the `status` field may become
 `yellow` whilst it is optimizing. It will become `green` once all the points are
