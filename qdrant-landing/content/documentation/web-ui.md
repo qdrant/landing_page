@@ -11,7 +11,7 @@ If you've set up a deployment locally with the Qdrant [Quickstart](/documentatio
 navigate to http://localhost:6333/dashboard.
 
 If you've set up a deployment in a cloud cluster, find your Cluster URL in your
-cloud dashboard, at https://cloud.qudrant.io. Add `:6333/dashboard` to the end
+cloud dashboard, at https://cloud.qdrant.io. Add `:6333/dashboard` to the end
 of the URL. 
 
 ## Access the Web UI
