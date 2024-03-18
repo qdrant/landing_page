@@ -1,4 +1,5 @@
-<a href="">
-  <span class="link-primary">Primary link</span>
-  <span class="link__icon"></span>
+{{ $defaultClass := "link" }} {{ $cssClass := .Scratch.Get "cssClass" }}
+<a class='{{ printf "%s %s" $defaultClass $cssClass }}' href="{{ .Params.link.url }}">
+  <span>{{ .Params.link.text }}</span>
+  <span class="link-icon">{{ partial "svg" "Arrow-Right-Sm.svg" }}</span>
 </a>

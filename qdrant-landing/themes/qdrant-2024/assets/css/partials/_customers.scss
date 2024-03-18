@@ -1,0 +1,81 @@
+@use '../helpers/functions' as *;
+
+.customers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacer * 3;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  &__title {
+    color: $neutral-70;
+    text-align: center;
+    font-size: map-get($font-sizes-text, 'l');
+    max-width: rem(640);
+    margin: 0 auto calc($spacer / 2);
+  }
+
+  &__description {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 rem(20);
+  }
+
+  &__link {
+    color: $primary-60;
+    font-size: map-get($font-sizes-text, 'l');
+    text-decoration: none;
+  }
+
+  &__logos-wrapper {
+    overflow-x: scroll;
+    max-width: 100%;
+    position: relative;
+  }
+
+  &__logos-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__logos-content {
+    display: flex;
+    gap: $spacer * 6.5;
+
+    svg {
+      min-width: rem(120);
+      min-height: rem(64);
+    }
+  }
+
+  &__logos-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    max-width: $spacer * 10.5;
+    background: linear-gradient(to right, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
+  }
+
+  &__logos-overlay:last-of-type {
+    right: 0;
+    left: unset;
+    background: linear-gradient(to left, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__title {
+      margin: 0;
+    }
+
+    &__description {
+      flex-direction: row;
+      align-items: flex-start;
+      padding: 0;
+      gap: calc($spacer / 2);
+    }
+  }
+}

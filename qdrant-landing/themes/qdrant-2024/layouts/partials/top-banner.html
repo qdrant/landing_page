@@ -3,8 +3,5 @@
     <span class="top-banner__icon"> {{ .Params.icon | safeHTML }} </span>
     <span class="top-banner__text"> {{ .Params.text }} </span>
   </div>
-  <a class="top-banner__link" href="{{ .Params.link.url}}">
-    <span>{{ .Params.link.text }}</span>
-    <span class="top-banner__link-icon">{{ partial "svg" "Arrow-Right-Sm.svg" }}</span>
-  </a>
+  {{ .Scratch.Set "cssClass" "top-banner__link" }} {{ partial "link" . }}
 </section>

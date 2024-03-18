@@ -1,0 +1,11 @@
+{{- partial "head.html" . -}}
+
+<main>
+  <header class="main-header">
+    {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ with (.Site.GetPage
+    "menu") }} {{ partial "menu" . }} {{ end }}
+  </header>
+</main>
+
+{{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{ with (.Site.GetPage "get-started") }} {{
+partial "get-started" . }} {{ end }} {{ with (.Site.GetPage "footer") }} {{ partial "footer" . }} {{ end }}

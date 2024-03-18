@@ -1,4 +1,5 @@
 @use '../mixins/mixins' as mixins;
+@use '../helpers/functions' as *;
 
 .menu-link {
   text-decoration: none;
@@ -17,13 +18,26 @@
   flex-wrap: nowrap;
   flex-shrink: 0;
   position: relative;
-  padding: 32px 40px 32px 40px;
+  padding-top: rem(12);
+  padding-bottom: rem(12);
+  padding-left: rem(20);
+  padding-right: rem(20);
   background: linear-gradient(180deg, #090d19, rgba(9, 13, 25, 0));
   z-index: 1;
 
+  &__trigger {
+    outline: none;
+    border: none;
+    width: rem(40);
+    height: rem(40);
+    border-radius: 8px;
+    z-index: 1;
+    background: linear-gradient($neutral-20, #0e1424);
+  }
+
   &__links {
-    display: flex;
-    gap: 8px;
+    display: none;
+    gap: calc($spacer / 2);
     position: relative;
     margin-bottom: 0;
   }
@@ -34,20 +48,41 @@
     justify-content: center;
     flex-wrap: nowrap;
     flex-shrink: 0;
-    padding: 0 16px;
+    padding: 0 $spacer;
     position: relative;
-    color: $neutral-98; // ?
+    color: $neutral-98;
     line-height: 1.5;
     white-space: nowrap;
     @include mixins.transitionAll(300ms);
   }
 
   &__buttons {
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: flex-end;
     flex-wrap: nowrap;
     flex-shrink: 0;
     gap: $spacer;
+  }
+}
+
+@include media-breakpoint-up(xl) {
+  .main-menu {
+    padding-top: $spacer * 2;
+    padding-bottom: $spacer * 2;
+    padding-left: $spacer * 1.5;
+    padding-right: $spacer * 1.5;
+
+    &__links {
+      display: flex;
+    }
+
+    &__buttons {
+      display: flex;
+    }
+
+    &__trigger {
+      display: none;
+    }
   }
 }

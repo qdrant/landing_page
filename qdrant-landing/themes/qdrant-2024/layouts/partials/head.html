@@ -1,18 +1,17 @@
 {{ $opts := dict "transpiler" "dartsass" "enableSourceMap" (not hugo.IsProduction) }}
 <head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui"
+  />
   <meta charset="UTF-8" />
   <title>Title</title>
 
-  {{ $opts := dict
-    "transpiler" "dartsass"
-    "includePaths" (slice "node_modules")
-  }}
-
-  {{ with resources.Get "css/main.scss" | toCSS $opts | minify | fingerprint }}
+  {{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }} {{ with resources.Get
+  "css/main.scss" | toCSS $opts | minify | fingerprint }}
   <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
-  {{ end }}
-  
-  {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  {{ end }} {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint
+  "sha512" }}
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 
   <!-- todo -->
