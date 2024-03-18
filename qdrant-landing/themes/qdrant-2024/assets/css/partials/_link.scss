@@ -1,5 +1,52 @@
+@use "../helpers/functions" as *;
+
 .link {
-  color: $primary-60;
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: baseline;
+  color: $primary-50;
   font-size: $font-size-l;
   text-decoration: none;
+  position: relative;
+
+  &:after {
+    display: block;
+    content: '';
+    width: rem(16);
+    margin-left: 6px;
+    height: calc(1em * 0.625);
+    transition: all 0.3s ease-in-out 0s;
+    mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center center;
+    mask-size: contain;
+    background: $primary-50;
+  }
+
+  &:hover {
+    &:after {
+      width: rem(26);
+      margin-left: 2px;
+      mask: url("../../icons/outline/Arrow-Right-Color.svg") no-repeat center right;
+      mask-size: contain;
+    }
+  }
+
+  // todo: add modifiers
+  // sizes
+  // inherit font-size - and should it be default?
+  &_dark {
+    color: $neutral-20;
+  }
+  &_light {
+    color: $primary-60;
+    &:after {
+      background: $primary-60;
+    }
+  }
+  &_disabled, &:disabled {
+    color: $neutral-60;
+    cursor: not-allowed;
+    &:after {
+      background: $neutral-60;
+    }
+  }
 }
