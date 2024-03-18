@@ -42,7 +42,9 @@ LLMs shouldn't operate in a vacuum. They are best used within [compound systems]
 
 This is something we call Retrieval Augmented Generation (RAG). It is a method of empowering AI applications with additional memory that can be continuously added in real-time. Grok's chatbot is currently one of the most prominent use cases of RAG. However, [we see RAG becoming a mainstay](https://qdrant.tech/articles/rag-is-dead/) in the AI/ML space.
 
-For massive businesses like X, RAG can have enormous benefits in terms of efficiency, scale and cost. On their own, even the most powerful LLMs can only [achieve 60-80% accuracy](https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf). 
+For massive businesses like X, RAG can have enormous benefits in terms of efficiency, scale and cost. On their own, even the most powerful LLMs can only [achieve 60-80% accuracy](https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf). This is far separated from extreme levels of retrieval accuracy offered by vector search engines.
+
+Additionally, vector seach is dramatically cheaper and it helps users retrieve results without relying on [compute-hungry context windows](https://qdrant.tech/articles/rag-is-dead/) offered by LLMs.
 
 > "*According to our estimations, vector search queries are at least 100 million times cheaper than queries made by LLMs.*" Andrey Vasnetsov, CTO and cofounder of Qdrant.
 
