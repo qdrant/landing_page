@@ -1,2 +1,1 @@
-
-import "qdrant-page-search/dist/js/scroll.min.js"
+import 'qdrant-page-search/dist/js/scroll.min.js';

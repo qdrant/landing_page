@@ -1,15 +1,23 @@
 <!doctype html>
 <html lang="en">
   {{ partial "head.html" . }}
+
   <body>
     <main>
       <header class="main-header">
-        {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ partial "menu" . }}
-        {{ partial "hero" . }}
+        {{ with (.Site.GetPage "section" "top-banner") }} {{ partial "top-banner" . }} {{ end }} {{ with (.Site.GetPage
+        "menu") }} {{ partial "menu" . }} {{ end }} {{ with (.Site.GetPage "menu-mobile") }} {{ partial "menu-mobile" .
+        }} {{ end }} {{ with (.Site.GetPage "hero") }} {{ partial "hero" . }} {{ end }} {{ with (.Site.GetPage
+        "customers") }} {{ partial "customers" . }} {{ end }}
       </header>
     </main>
-    
-    {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+    {{ with (.Site.GetPage "core-features") }} {{ partial "core-features" . }} {{ end }} {{ with (.Site.GetPage
+    "customer-stories") }} {{ partial "customer-stories" . }} {{ end }} {{ with (.Site.GetPage "integrations") }} {{
+    partial "integrations" . }} {{ end }} {{ with (.Site.GetPage "docker-deploy") }} {{ partial "docker-deploy" . }} {{
+    end }} {{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{ with (.Site.GetPage
+    "get-started") }} {{ partial "get-started" . }} {{ end }} {{ with (.Site.GetPage "footer") }} {{ partial "footer" .
+    }} {{ end }} {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify |
+    resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
 </html>

@@ -1,0 +1,53 @@
+<div class="menu-mobile">
+  <div class="menu-mobile__header">
+    {{ partial "logo.html" . }}
+    <button type="button" class="menu-mobile__close">{{ partial "svg" "Close.svg" }}</button>
+  </div>
+  <ul class="menu-mobile__items">
+    {{ range .Params.menuItems }}
+    <li class="menu-mobile__item" data-path="{{ .id }}" onclick="toggleMenu('{{ .id }}')">
+      <div class="menu-mobile__item-content">
+        {{ .name }} {{ if .subMenuItems }}
+        <button type="button" class="menu-mobile__expand">{{ partial "svg" "Arrow-SM-Down.svg" }}</button>
+        {{ end }}
+      </div>
+      {{ if .subMenuItems }}
+      <ul class="menu-mobile__subitems">
+        {{ range .subMenuItems }}
+        <a href="{{ .url }}">
+          <li class="menu-mobile__subitem">
+            <span style="background-image: url(/img/menu/{{.icon}})"> </span>
+            {{ .name }}
+          </li>
+        </a>
+        {{ end }}
+      </ul>
+      {{ end }}
+    </li>
+    {{ end }}
+  </ul>
+  <div class="menu-mobile__controls">
+    <a href="{{ .Params.logIn.url }}" class="button button_outlined button_lg menu-mobile__login"
+      >{{ .Params.logIn.text }}</a
+    >
+    <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
+  </div>
+</div>
+
+<script>
+  const closeBtn = document.querySelector('.menu-mobile__close');
+  const menuTrigger = document.querySelector('.main-menu__trigger');
+  const menu = document.querySelector('.menu-mobile');
+  menuTrigger.addEventListener('click', () => {
+    menu.classList.add('menu-mobile--visible');
+  });
+  closeBtn.addEventListener('click', () => {
+    menu.classList.remove('menu-mobile--visible');
+  });
+  function toggleMenu(id) {
+    const menuItem = document.querySelector(`[data-path=${id}]`);
+    if (menuItem) {
+      menuItem.classList.toggle('menu-mobile__item--active');
+    }
+  }
+</script>
