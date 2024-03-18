@@ -1,0 +1,14 @@
+<section class="customers">
+  <div class="customers__logos-wrapper">
+    <div class="customers__logos-overlay"></div>
+    <div class="customers__logos-content">{{ range .Params.customers }} {{ .logo | safeHTML }} {{ end }}</div>
+    <div class="customers__logos-overlay"></div>
+  </div>
+  <div class="customers__description">
+    <span class="customers__title">{{ .Params.customerStories.text }}</span>
+    <a class="customers__link" href="{{ .Params.customerStories.url }}">
+      <span>{{ .Params.customerStories.textLink }}</span>
+      <span class="customers__link-icon">{{ partial "svg" "Arrow-Right-Sm.svg" }}</span>
+    </a>
+  </div>
+</section>

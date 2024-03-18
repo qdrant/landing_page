@@ -1,1 +1,1 @@
-import "qdrant-page-search/dist/js/search.min.js"
+import 'qdrant-page-search/dist/js/search.min.js';

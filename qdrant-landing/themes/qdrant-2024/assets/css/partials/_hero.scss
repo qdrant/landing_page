@@ -1,16 +1,16 @@
 @use '../helpers/functions' as *;
 
 .hero {
-  padding-top: $spacer * 5;
+  padding-top: $spacer * 2.5;
   background-image: url('/img/hero-home-illustration.svg');
-  background-size: 100%;
-  background-position: center bottom;
+  background-position: bottom;
   background-repeat: no-repeat;
+  position: relative;
 
   &__content {
-    padding-bottom: rem(331);
     text-align: center;
-    max-width: rem(920);
+    padding: 0 rem(20) rem(344);
+    max-width: 100%;
     margin: 0 auto;
   }
 
@@ -18,30 +18,119 @@
     color: $neutral-98;
     text-align: center;
     margin-bottom: $spacer;
-    font-size: map-get($font-sizes, 1);
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
   }
 
   &__subtitle {
     color: $neutral-70;
     text-align: center;
-    font-size: map-get($font-sizes-text, 'xl');
-    max-width: rem(640);
-    margin: 0 auto $spacer * 2;
+    font-size: rem(18);
+    line-height: rem(27);
+    max-width: 100%;
+    margin: 0 auto $spacer * 1.5;
   }
 
   &__buttons {
     display: flex;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     gap: $spacer * 1.5;
     margin-bottom: $spacer * 5;
   }
 
-  &__badges {
+  &__buttons a {
+    min-width: rem(200);
+  }
+
+  &__stars {
+    position: absolute;
+    right: $spacer;
+    bottom: $spacer;
+    border-radius: 8px;
+
+    border: none;
+    outline: none;
+
     display: flex;
-    justify-content: flex-end;
-    gap: $spacer * 1.25;
-    padding-bottom: $spacer * 1.75;
-    padding-right: $spacer * 1.5;
-    padding-left: $spacer * 1.5;
+    align-items: center;
+    justify-content: center;
+
+    padding-top: calc($spacer / 2);
+    padding-bottom: calc($spacer / 2);
+    padding-left: rem(20);
+    padding-right: rem(20);
+
+    background-color: rgba($neutral-20, 0.24);
+  }
+
+  &__stars svg {
+    max-width: rem(24);
+    max-height: rem(24);
+  }
+
+  &__stars-text {
+    color: $neutral-98;
+    margin-right: calc($spacer / 2);
+    margin-left: calc($spacer / 2);
+    font-size: map-get($font-sizes-text, 's');
+    line-height: rem(21);
+    font-weight: 500;
+  }
+
+  &__stars-count {
+    border-radius: 6px;
+    border: 1px solid $neutral-30;
+    color: $neutral-98;
+    padding-left: calc($spacer / 2);
+    padding-right: calc($spacer / 2);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: calc($spacer / 4);
+
+    height: rem(25);
+
+    font-size: map-get($font-sizes-text, 's');
+    line-height: rem(21);
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+    background-size: 100%;
+    background-position: center bottom;
+
+    &__content {
+      padding: 0 0 rem(331) 0;
+      max-width: rem(920);
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, 1);
+      line-height: rem(76);
+    }
+
+    &__subtitle {
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: rem(30);
+      max-width: rem(640);
+      margin: 0 auto $spacer * 2;
+    }
+
+    &__buttons {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    &__buttons a {
+      min-width: auto;
+    }
+
+    &__stars {
+      right: $spacer * 1.5;
+      bottom: $spacer * 1.5;
+    }
   }
 }

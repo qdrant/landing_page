@@ -1,0 +1,86 @@
+@use '../helpers/functions' as *;
+
+.get-started {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 5;
+  padding-bottom: $spacer * 5;
+  padding-left: $spacer * 1.5;
+  padding-right: $spacer * 1.5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__content {
+    position: relative;
+    background-color: $neutral-10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 100%;
+    min-height: rem(615);
+
+    border-radius: 16px;
+
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+  }
+
+  &__title {
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
+    color: $neutral-98;
+    text-align: center;
+    margin: 0;
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
+    text-align: center;
+    color: $neutral-90;
+    margin-top: $spacer * 1.5;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__planet-icon {
+    position: absolute;
+    top: $spacer * 1.5;
+    left: $spacer * 2.5;
+    width: rem(94);
+    height: rem(83);
+    background-position: top;
+    background-repeat: no-repeat;
+  }
+
+  &__duo-planet-icon {
+    border-radius: 0 0 16px 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: rem(281);
+    height: rem(151);
+    background-repeat: no-repeat;
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__content {
+      min-width: rem(1110);
+      min-height: rem(165);
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, 3);
+      line-height: rem(57);
+      max-width: unset;
+    }
+
+    &__subtitle {
+      max-width: rem(640);
+    }
+  }
+}

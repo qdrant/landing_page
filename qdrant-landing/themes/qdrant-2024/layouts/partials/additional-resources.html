@@ -1,0 +1,18 @@
+<section class="additional-resources">
+  <h2 class="additional-resources__title">{{ .Params.title }}</h2>
+  <div class="additional-resources__cards">
+    {{ range .Params.resourceCards }}
+    <div class="additional-resources__card">
+      <div>
+        {{ .icon | safeHTML }}
+        <h6 class="additional-resources__card-title">{{ .title }}</h6>
+        <p class="additional-resources__card-content">{{ .content }}</p>
+      </div>
+      <a class="additional-resources__card-link" href="{{ .link.url }}">
+        <span>{{ .link.text }}</span>
+        <span>{{ partial "svg" "Arrow-Right-White.svg" }}</span>
+      </a>
+    </div>
+    {{ end }}
+  </div>
+</section>
