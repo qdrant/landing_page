@@ -22,14 +22,11 @@ tags:
 
 ---
 
-# What is RAG? (Retrieval-Augmented Generation)
-
-
 > Retrieval-augmented generation (RAG) integrates external information retrieval into the process of generating responses by Large Language Models (LLMs). It searches a database for information beyond its pre-trained knowledge base, significantly improving the accuracy and relevance of the generated responses.
 
 Language models have exploded on the internet ever since ChatGPT came out, and rightfully so. They can write essays, code entire programs, and even make memes (though we’re still deciding on whether that's a good thing).
 
-As brilliant as these chatbots become, they have limitations in tasks requiring external knowledge and factual information. Yes, it can describe the honeybee's waggle dance in excruciating detail. But it becomes far more valuable you can also generate insights from my own data rather than just from its original training data.
+But as brilliant as these chatbots become, they still have limitations in tasks requiring external knowledge and factual information. Yes, it can describe the honeybee's waggle dance in excruciating detail. But it becomes far more valuable for us if it can also generate insights from any data that we want rather than just from its original training data.
 
 
 ![How a RAG works](/articles_data/what-is-rag-in-ai/how-rag-works.jpg)
@@ -114,11 +111,7 @@ This allows the retriever to match based on semantic understanding rather than j
 However, neither keyword search nor this type of semantic vector search is perfect. Keyword search may miss relevant information expressed differently, while vector search can sometimes struggle with specificity or neglect important statistical word patterns. Hybrid methods aim to combine the strengths of different techniques.
 
 
-
-<p id="gdcalert5" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image5.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert6">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image5.png "image_tooltip")
+![Hybrid search overview](/articles_data/what-is-rag-in-ai/hybrid-search.jpg)
 
 
 Some common hybrid approaches include:
@@ -143,10 +136,7 @@ So the generator takes not only the query as input but also the relevant documen
 
 
 
-<p id="gdcalert6" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image6.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert7">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image6.png "image_tooltip")
+![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.jpg)
 
 
 There are two main ways the generator can incorporate this retrieved-context:
@@ -184,7 +174,7 @@ The retriever and generator don't operate in isolation - they are connected modu
 <p id="gdcalert7" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image7.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert8">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
 
 
-![alt_text](images/image7.png "image_tooltip")
+![The entire architecture of a RAG system](/articles_data/what-is-rag-in-ai/rag-system.jpg)
 
 
 
@@ -194,10 +184,7 @@ While dense vector retrieval provides powerful semantic matching capabilities, i
 
 
 
-<p id="gdcalert8" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image8.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert9">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image8.png "image_tooltip")
+![Qdrant used for similarity search](/articles_data/what-is-rag-in-ai/rag-at-scale.jpg)
 
 
 
@@ -251,17 +238,7 @@ Are you ready to create your own RAG chatbot from the ground up? Daniel Romero�
 
 After building your RAG chatbot, you'll be able to evaluate its performance against that of a chatbot powered solely by a Large Language Model (LLM). This comparison will highlight the improvements and advantages your RAG chatbot offers.
 
-
-
-<p id="gdcalert9" ><span style="color: red; font-weight: bold">>>>>>  gd2md-html alert: inline image link here (to images/image9.png). Store image on your image server and adjust path/filename/extension if necessary. </span><br>(<a href="#">Back to top</a>)(<a href="#gdcalert10">Next alert</a>)<br><span style="color: red; font-weight: bold">>>>>> </span></p>
-
-
-![alt_text](images/image9.png "image_tooltip")
-
-
-[to embed]
-
-[https://www.youtube.com/watch?v=O60-KuZZeQA&t=2s](https://www.youtube.com/watch?v=O60-KuZZeQA&t=2s)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/O60-KuZZeQA?si=jkDsyJ52qA4ivXUy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 
 ## What’s next?
