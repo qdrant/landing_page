@@ -568,19 +568,20 @@ on the size and state of a shard.
 
 Available shard transfer methods are:
 
-- `stream_records`: _(default)_ transfer shard by streaming just its records to the target node in batches.
-- `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
+- `stream_records`: _(default)_ transfer by streaming just its records to the target node in batches.
+- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
+- `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL](../../concepts/storage/#versioning) difference; the operations that were missed.
 
 Each has pros, cons and specific requirements, which are:
 
-| Method: | Stream records | Snapshot |
-|:---|:---|:---|
-| **Version** | <ul><li>Available as of v0.8.0</li></ul> | <ul><li>Available as of v1.7.0</li></ul> |
-| **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
-| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Ordering** | <ul><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Ordered updates on target node[^ordered]</li></ul> |
-| **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
+| Method: | Stream records | Snapshot | WAL delta |
+|:---|:---|:---|:---|
+| **Version** | <ul><li>Available as of v0.8.0</li></ul> | <ul><li>Available as of v1.7.0</li></ul> | <ul><li>Available as of v1.8.0</li></ul> |
+| **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> |
+| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> | <ul><li>Doesn't transfer index</li><li>May reindex on target node if big</li></ul> |
+| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> | <ul><li>Doesn't transfer quantized data</li><li>May re-quantize on target node if big</li></ul> |
+| **Ordering** | <ul><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Ordered updates on target node[^ordered]</li></ul> | <ul><li>Ordered updates on target node[^ordered]</li></ul> |
+| **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> | <ul><li>No extra disk space required</li></ul> |
 
 [^unordered]: Weak ordering for updates: All records are streamed to the target node in order.
     New updates are received on the target node in parallel, while the transfer
