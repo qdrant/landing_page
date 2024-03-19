@@ -1,15 +1,15 @@
 ---
-draft: true
-title: Vector Search for Content-Based Video Recommendation - Gladys and Sam |
-  Vector Space Talks
+draft: false
+title: Vector Search for Content-Based Video Recommendation - Gladys and Samuel
+  from Dailymotion
 slug: vector-search-vector-recommendation
-short_description: Gladys Roch and Samuel Leonardo Gracio dive into the
-  intricacies of content-based recommendation.
+short_description: Gladys Roch and Samuel Leonardo Gracio join us in this
+  episode to share their knowledge on content-based recommendation.
 description: Gladys Roch and Samuel Leonardo Gracio from Dailymotion, discussed
   optimizing video recommendations using Qdrant's vector search alongside
   challenges and solutions in content-based recommender systems.
 preview_image: /blog/from_cms/gladys-and-sam-bp-cropped.png
-date: 2024-03-07T19:10:23.811Z
+date: 2024-03-19T14:08:00.190Z
 author: Demetrios Brinkmann
 featured: false
 tags:
@@ -18,17 +18,17 @@ tags:
   - Video Recommender
   - content based recommendation
 ---
-> "*The vector search engine that we chose is Qdrant, but why did we choose it? Actually, it answers all the load constraints and the technical needs that we had. It allows us to do a fast neighbor search. It has a python API which match the recommendous tag that we have.*”\
+> "*The vector search engine that we chose is Qdrant, but why did we choose it? Actually, it answers all the load constraints and the technical needs that we had. It allows us to do a fast neighbor search. It has a python API which matches the recommender tag that we have.*”\
 -- Gladys Roch
 > 
 
 Gladys Roch is a French Machine Learning Engineer at Dailymotion working on recommender systems for video content.
 
-> "*We don't have the full control and at the end the cost of their solution is very high for a very low proposal. So after that we tried to benchmark other solutions and we found out that Qdrant was easier for us to implement.*”\
+> "*We don't have full control and at the end the cost of their solution is very high for a very low proposal. So after that we tried to benchmark other solutions and we found out that Qdrant was easier for us to implement.*”\
 -- Samuel Leonardo Gracio
 > 
 
-Samuel Leonardo Gracio, a Senior Machine Learning Engineer at Dailymotion, is a 26-year-old French Machine Learning Engineer, mainly working on recommender systems and video classification.
+Samuel Leonardo Gracio, a Senior Machine Learning Engineer at Dailymotion, mainly works on recommender systems and video classification.
 
 ***Listen to the episode on [Spotify](https://open.spotify.com/episode/4YYASUZKcT5A90d6H2mOj9?si=a5GgBd4JTR6Yo3HBJfiejQ), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/z_0VjMZ2JY0).***
 
@@ -38,7 +38,7 @@ Samuel Leonardo Gracio, a Senior Machine Learning Engineer at Dailymotion, is a 
 
 ## **Top takeaways:**
 
-Is anyone intrigued by the nitty-gritty of how video recommendations are engineered to serve up your next binge-worthy content? We all are intrigued! So...
+Are you captivated by the finer details of how video recommendations are engineered to serve up your next binge-worthy content? I definitely am.
 
 Get ready to unwrap the secrets that keep millions engaged, as Demetrios chats with the brains behind the scenes of Dailymotion. This episode is packed with insights straight from ML Engineers at Dailymotion who are reshaping how we discover videos online.
 
@@ -48,9 +48,9 @@ Here's what you’ll unbox from this episode:
 2. **The Power of Multilingual Understanding:** Discover the tools that help recommend videos to a global audience, transcending language barriers.
 3. **Breaking the Echo Chamber:** Learn about Dailymotion's 'perspective' feature that's transforming the discovery experience for users.
 4. **Challenges & Triumphs:** Hear how Qdrant helps Dailymotion tackle a massive video catalog and ensure the freshest content pops on your feed.
-5. **Behind the Scenes with Quadrant:** Get an insider’s look at why Dailymotion entrusted their recommendation needs to Qdrant's capable hands (or should we say algorithms?).
+5. **Behind the Scenes with Qdrant:** Get an insider’s look at why Dailymotion entrusted their recommendation needs to Qdrant's capable hands (or should we say algorithms?).
 
-> Fun Fact: Did you know that Dailymotion juggles over 13 million recommendations daily? That's like serving up a personalized video playlist to the entire population of Greece every — single — day!
+> Fun Fact: Did you know that Dailymotion juggles over 13 million recommendations daily? That's like serving up a personalized video playlist to the entire population of Greece. Every single day!
 > 
 
 ## Show notes:
