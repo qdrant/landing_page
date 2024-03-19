@@ -575,6 +575,7 @@ Each has pros, cons and specific requirements, which are:
 
 | Method: | Stream records | Snapshot |
 |:---|:---|:---|
+| **Version** | <ul><li>Available as of v0.8.0</li></ul> | <ul><li>Available as of v1.7.0</li></ul> |
 | **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
 | **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
 | **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
