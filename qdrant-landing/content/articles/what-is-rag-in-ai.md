@@ -63,7 +63,7 @@ As shown in the image above, here’s the process:
 
 * Start with a _loader_ that gathers _documents_ containing your data. These documents could be anything from articles and books to web pages and social media posts. 
 * Next, a _splitter_ divides the documents into smaller chunks, typically sentences or paragraphs. 
-* This is because RAG models work better with smaller pieces of text. In the diagram, these are_ document snippets_.
+* This is because RAG models work better with smaller pieces of text. In the diagram, these are _document snippets_.
 * Each text chunk is then fed into an _embedding machine_. This machine uses complex algorithms to convert the text into [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/).
 
 All the generated vector embeddings are stored in a knowledge base of indexed information. This supports efficient retrieval of similar pieces of information when needed.
