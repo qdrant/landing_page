@@ -2,8 +2,8 @@
 title: "What is RAG: Understanding Retrieval-Augmented Generation"
 draft: false
 slug: what-is-rag-in-ai? 
-short_description:  What are Vector Embeddings? 
-description: Explore the key functionalities of vector embeddings and learn how they convert complex data into a format that machines can understand.
+short_description:  What is RAG? 
+description: Explore how RAG enables LLMs to retrieve and utilize relevant external data when generating responses, rather than being limited to their original training data alone.
 preview_dir: /articles_data/what-is-rag-in-ai/preview
 weight: -150
 social_preview_image: /articles_data/what-is-rag-in-ai/preview/social_preview.jpg
@@ -231,7 +231,8 @@ Are you ready to create your own RAG chatbot from the ground up? Daniel Romeroâ€
 
 After building your RAG chatbot, you'll be able to evaluate its performance against that of a chatbot powered solely by a Large Language Model (LLM). This comparison will highlight the improvements and advantages your RAG chatbot offers.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/O60-KuZZeQA?si=jkDsyJ52qA4ivXUy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<div style="max-width: 640px; margin: 0 auto;"> <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/O60-KuZZeQA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> </div> </div>
+
 
 
 ### Whatâ€™s next?
