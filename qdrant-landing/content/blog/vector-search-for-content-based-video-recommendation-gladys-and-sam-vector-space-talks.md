@@ -38,7 +38,7 @@ Samuel Leonardo Gracio, a Senior Machine Learning Engineer at Dailymotion, mainl
 
 ## **Top takeaways:**
 
-Are you captivated by the finer details of how video recommendations are engineered to serve up your next binge-worthy content? I definitely am.
+Are you captivated by how video recommendations that are engineered to serve up your next binge-worthy content? We definitely are.
 
 Get ready to unwrap the secrets that keep millions engaged, as Demetrios chats with the brains behind the scenes of Dailymotion. This episode is packed with insights straight from ML Engineers at Dailymotion who are reshaping how we discover videos online.
 
