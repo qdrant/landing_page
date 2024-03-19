@@ -6,6 +6,9 @@
   padding-left: $spacer * 1.5;
   padding-right: $spacer * 1.5;
 
+  position: relative;
+  overflow: hidden;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -44,6 +47,10 @@
     background-image: url('/img/mobile/integrations.svg');
   }
 
+  &__overlay {
+    display: none;
+  }
+
   @include media-breakpoint-up(xl) {
     background: url('/img/stars-pattern.png') $neutral-10;
     padding-top: $spacer * 6.5;
@@ -64,6 +71,18 @@
       width: rem(920);
       height: rem(440);
       background-image: url('/img/integrations.svg');
+    }
+
+    &__overlay {
+      display: block;
+      width: 100%;
+      height: rem(240);
+
+      position: absolute;
+      bottom: rem(-255);
+      left: 0;
+      filter: blur(60px);
+      background: linear-gradient(90deg, #dc244c 7%, #2567eb 30%, #f54c71 50%, #7335f0 70%, #bb3987 100%);
     }
   }
 }
