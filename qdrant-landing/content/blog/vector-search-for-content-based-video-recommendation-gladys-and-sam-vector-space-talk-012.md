@@ -1,14 +1,14 @@
 ---
-draft: true
+draft: false
 title: The challenges in using LLM-as-a-Judge - Sourabh Agrawal | Vector Space Talks
 slug: llm-as-a-judge
-short_description: Sourabh Agrawal discusses the intricate world of AI chatbots.
-description: Diving into the realm of chatbots, Sourabh Agrawal sheds light on
-  the intricacies of evaluating their performance, from real-time to
-  post-feedback assessments, and introduces uptrendAI—an open-source tool for
-  enhancing chatbot interactions through customized and logical evaluations.
+short_description: Sourabh Agrawal explores the world of AI chatbots.
+description: Everything you need to know about chatbots, Sourabh Agrawal goes in
+  to detail on evaluating their performance, from real-time to post-feedback
+  assessments, and introduces uptrendAI—an open-source tool for enhancing
+  chatbot interactions through customized and logical evaluations.
 preview_image: /blog/from_cms/sourabh-agrawal-bp-cropped.png
-date: 2024-03-07T18:57:43.704Z
+date: 2024-03-19T15:05:02.986Z
 author: Demetrios Brinkmann
 featured: false
 tags:
@@ -16,7 +16,7 @@ tags:
   - LLM
   - retrieval augmented generation
 ---
-> "*You don't want to use an expensive model like GPT 4 for evaluation, because then the cost adds up and it does not work out. Right. If you are spending more on evaluating the responses, you may as well just do something else, like have a human to generate the responses.*”\
+> "*You don't want to use an expensive model like GPT 4 for evaluation, because then the cost adds up and it does not work out. If you are spending more on evaluating the responses, you might as well just do something else, like have a human to generate the responses.*”\
 -- Sourabh Agrawal
 > 
 
@@ -30,9 +30,9 @@ Sourabh Agrawal, CEO & Co-Founder at UpTrain AI is a seasoned entrepreneur and A
 
 ## **Top takeaways:**
 
-Why is real-time evaluation critical in maintaining the integrity of chatbot interactions and preventing issues like promoting competitors or making false promises? What strategies do developers employ to minimize cost while maximizing the effectiveness of model evaluations, specifically when dealing with LLMs? These might be just some of the many questions people in the industry are asking themselves. Worry not! Because Demetrios and Sourabh will break it down for you.
+Why is real-time evaluation critical in maintaining the integrity of chatbot interactions and preventing issues like promoting competitors or making false promises? What strategies do developers employ to minimize cost while maximizing the effectiveness of model evaluations, specifically when dealing with LLMs? These might be just some of the many questions people in the industry are asking themselves. Fear, not! Sourabh will break it down for you.
 
-Check out their conversation as they dive into the intricate world of AI chatbot evaluations. Discover the nuances of ensuring your chatbot's quality and continuous improvement across various metrics.
+Check out the full conversation as they dive into the intricate world of AI chatbot evaluations. Discover the nuances of ensuring your chatbot's quality and continuous improvement across various metrics.
 
 Here are the key topics of this episode:
 
