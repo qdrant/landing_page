@@ -71,22 +71,22 @@ All the generated vector embeddings are stored in a knowledge base of indexed in
 
 #### Query vectorization
 
-Once you have vectorized your knowledge base you can do the same to the user query. When the model sees a new query, it converts this query into a vector using a similar process.
-
-We use the same preprocessing and embedding techniques. This ensures that the query vector is compatible with the document vectors in the index.
+Once you have vectorized your knowledge base you can do the same to the user query. When the model sees a new query, it uses the same preprocessing and embedding techniques. This ensures that the query vector is compatible with the document vectors in the index.
 
 ![How retrieval works](/articles_data/what-is-rag-in-ai/how-retrieval-works.jpg)
 
 #### Retrieval of relevant documents
 
-Using the query vector, the system then starts the search to find the most relevant document snippets or passages. We can use the following techniques to find relevant information:
+When the system needs to find the most relevant documents or passages to answer a query, it utilizes vector similarity techniques. **Vector similarity** is a fundamental concept in machine learning and natural language processing (NLP) that quantifies the resemblance between vectors, which are mathematical representations of data points.
+
+The system can employ different vector similarity strategies depending on the type of vectors used to represent the data:
 
 
 ##### Sparse vector representations
 
 A sparse vector is characterized by a high dimensionality, with most of its elements being zero.
 
-The classic approach is keyword search, which is scanning documents for the exact words or phrases in the query. The search creates sparse vector representations of documents by counting word occurrences and inversely weighting common words. Queries with rarer words get prioritized.
+The classic approach is **keyword search**, which scans documents for the exact words or phrases in the query. The search creates sparse vector representations of documents by counting word occurrences and inversely weighting common words. Queries with rarer words get prioritized.
 
 
 ![Sparse vector representation](/articles_data/what-is-rag-in-ai/sparse-vectors.jpg)
@@ -99,14 +99,14 @@ If you’re interested in going deeper, refer to our article on [Sparse Vectors]
 
 ##### Dense vector embeddings
 
-This approach uses large language models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) to encode the query and passages into dense vector embeddings. These models are compact numerical representations that capture semantic meaning. Vector databases like Qdrant store these embeddings, allowing retrieval based on semantic similarity rather than just keywords using distance metrics like cosine similarity.
+This approach uses large language models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) to encode the query and passages into dense vector embeddings. These models are compact numerical representations that capture semantic meaning. Vector databases like Qdrant store these embeddings, allowing retrieval based on **semantic similarity** rather than just keywords using distance metrics like cosine similarity.
 
 This allows the retriever to match based on semantic understanding rather than just keywords. So if I ask about "compounds that cause BO," it can retrieve relevant info about "molecules that create body odor" even if those exact words weren't used. We explain more about it in our [What are Vector Embeddings](https://qdrant.tech/articles/what-are-embeddings/) article.
 
 
 #### Hybrid search 
 
-However, neither keyword search nor this type of semantic vector search is perfect. Keyword search may miss relevant information expressed differently, while vector search can sometimes struggle with specificity or neglect important statistical word patterns. Hybrid methods aim to combine the strengths of different techniques.
+However, neither keyword search nor vector search are always perfect. Keyword search may miss relevant information expressed differently, while vector search can sometimes struggle with specificity or neglect important statistical word patterns. Hybrid methods aim to combine the strengths of different techniques.
 
 
 ![Hybrid search overview](/articles_data/what-is-rag-in-ai/hybrid-search.jpg)
@@ -126,116 +126,54 @@ When you combine the powers of different search methods in a complementary way, 
 
 ### The Generator
 
-With the top relevant passages retrieved, it's now the generator's job to produce a final answer by synthesizing and expressing that information in natural language. The generator is typically a large pre-trained language model like GPT, BART or T5.
+With the top relevant passages retrieved, it's now the generator's job to produce a final answer by synthesizing and expressing that information in natural language. 
 
-These models have been trained on massive datasets to understand and generate human-like text. However, to answer questions, they need some additional context beyond just the original query to formulate a meaningful response.
-
-So the generator takes not only the query as input but also the relevant documents or passages that the retriever identified as potentially containing the answer.
+The LLM is typically a model like GPT, BART or T5, trained on massive datasets to understand and generate human-like text. It now takes not only the query (or question) as input but also the relevant documents or passages that the retriever identified as potentially containing the answer to generate its response.
 
 
-
-![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.jpg)
-
-
-There are two main ways the generator can incorporate this retrieved-context:
+![How a Generator works](/articles_data/what-is-rag-in-ai/how-generation-works.png)
 
 
-#### Sequence-to-sequence (Seq2Seq) approach
-
-Imagine you have the query "What causes body odor?" and the retriever returns a relevant passage about compounds that create smell. In the seq2seq approach, the generator is given the query and the full retrieved passage together as a single long string of text as input.
-
-For example: Input = "What causes body odor? &lt;passage> Certain compounds like isovaleric acid produced by bacteria can lead to body odor. These compounds are ..."
-
-The generator then treats this as a standard seq2seq task - taking the whole input sequence and generating the output answer sequence token-by-token from start to end.
-
-
-#### Token-by-token approach 
-
-In this method, the query and retrieved passages are kept separate. Every time the model generates an answer, the model can examine different portions of the retrieved passages as relevant context.
-
-For example, when a model generates an answer for "Body odor is caused by...", it may start with the passage mentioning "compounds". For the next word, it may look at the passage portion explaining the "bacteria" aspect.
-
-So rather than considering the full retrieved-context at once, it can flexibly pick and choose different sections of the evidence at each generation step.
-
-The key difference between each approach is:
-
-**Seq2Seq**: The full retrieved evidence is input as one sequence
-
-**Token-by-Token**: The model attends to different retrieved evidence at each generated token
-
-The token-by-token approach allows more flexible referencing of the evidence, but the seq2seq method is often more straightforward to implement.
-
-The retriever and generator don't operate in isolation - they are connected modules where the output of one feeds into the other to produce the final generated response. The image above shows how they’re integrated.
+The retriever and generator don't operate in isolation. The image bellow shows how the output of the retrieval feeds the generator to produce the final generated response.
 
 
 ![The entire architecture of a RAG system](/articles_data/what-is-rag-in-ai/rag-system.jpg)
 
 
-### RAG at scale
-
-While dense vector retrieval provides powerful semantic matching capabilities, it also comes with computational challenges when working with large knowledge bases. This is where specialized vector database engines like Qdrant play a key role in optimizing the retrieval process for RAG architectures.
-
-
-
-![Qdrant used for similarity search](/articles_data/what-is-rag-in-ai/rag-at-scale.jpg)
-
-
-
-#### Vector Indexing and Compression
-
-Qdrant employs advanced indexing data structures and vector compression algorithms to efficiently store and search through billions of dense embeddings. Methods like Hierarchical Navigable Small World (HNSW) graphs and [quantization techniques](https://qdrant.tech/documentation/guides/quantization/) for rapid nearest neighbor search over the high-dimensional vector space.
-
-[Binary Quantization](https://qdrant.tech/articles/binary-quantization/), for example, saves on memory, and scales up to 30x at the same cost by compressing the raw embeddings into highly compact representations. Combining these indexing and quantization methods allows Qdrant to perform similarity searches over large vector datasets with extremely low latencies even with large-scale datasets. 
-
-
-#### Filtering and Reranking
-
-Real-world retrieval often requires filtering by structured metadata like sources, timestamps, etc. Qdrant supports filtering searches by arbitrary key-value metadata properties associated with each vector embedding.
-
-You can then exploit approximate nearest neighbor search capabilities to further refine and re-rank the candidates based on precise distance calculations.
-
-
-#### Distributed Scalability 
-
-As the number of vectors and query volumes scale, Qdrant provides a distributed clustered architecture with automated sharding and replication mechanisms. This enables high availability and horizontal scaling to handle extremely large vector workloads across multiple nodes.
-
-Whether dealing with millions or billions of vectors spanning diverse knowledge sources, such optimized vector similarity engines are critical for RAG models to quickly retrieve the most relevant evidence from their broad knowledge bases in a performant manner.
-
-
 ## Where is RAG being used?
 
-Because of their more knowledgeable and contextual responses, RAG models are finding widespread application across various domains today, especially when factual accuracy and depth of knowledge are required. 
+Because of their more knowledgeable and contextual responses, we can find RAG models being applied in many areas today, especially those who need factual accuracy and knowledge depth. 
 
 
 ### Real-World Applications:
 
-Question answering: This is perhaps the most prominent use case for RAG models. They power advanced question-answering systems that can retrieve relevant information from large knowledge bases and then generate fluent answers. Example applications include: For example, AI assistants and chatbots for customer support, research, tutoring, and more.
+**Question answering:** This is perhaps the most prominent use case for RAG models. They power advanced question-answering systems that can retrieve relevant information from large knowledge bases and then generate fluent answers.
 
-Language generation: RAG allows language models to augment their pre-trained knowledge with relevant information retrieved on the fly. This enables more factual and contextualized text generation for contextualized text summarization from multiple sources
+**Language generation:** RAG enables more factual and contextualized text generation for contextualized text summarization from multiple sources
 
-Data-to-text generation: By retrieving relevant structured data, RAG models can generate rich descriptions, reports, and narratives grounded in that data. Generating product/business intelligence reports from databases or describing insights from data visualizations and charts
+**Data-to-text generation:** By retrieving relevant structured data, RAG models can generate product/business intelligence reports from databases or describing insights from data visualizations and charts
 
-Multimedia understanding: RAG isn't limited to text - it can retrieve multimodal information like images, video, and audio to enhance understanding. Answering questions about images/videos by retrieving relevant textual context.
+**Multimedia understanding:** RAG isn't limited to text - it can retrieve multimodal information like images, video, and audio to enhance understanding. Answering questions about images/videos by retrieving relevant textual context.
 
 
 ## Creating your first RAG chatbot with Langchain, Groq, and OpenAI
 
-Are you ready to create your own RAG chatbot from the ground up? Daniel Romero’s instructional video is the perfect starting point. It guides you through:
+Are you ready to create your own RAG chatbot from the ground up? We have a video explaining everything from the beginning. Daniel Romero’s will guide you through:
 
 
 
-* Setting up your chatbot from the beginning.
-* Preprocessing and organizing data for your chatbot's use.
-* Applying vector similarity search algorithms.
-* Enhancing your chatbot's efficiency and response quality.
+* Setting up your chatbot
+* Preprocessing and organizing data for your chatbot's use
+* Applying vector similarity search algorithms
+* Enhancing the efficiency and response quality
 
-After building your RAG chatbot, you'll be able to evaluate its performance against that of a chatbot powered solely by a Large Language Model (LLM). This comparison will highlight the improvements and advantages your RAG chatbot offers.
+After building your RAG chatbot, you'll be able to evaluate its performance against that of a chatbot powered solely by a Large Language Model (LLM).
 
-<div style="max-width: 640px; margin: 0 auto;"> <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/O60-KuZZeQA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> </div> </div>
+<div style="max-width: 640px; margin: 0 auto; padding-bottom: 1em"> <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/O60-KuZZeQA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> </div> </div>
 
 
 
-### What’s next?
+## What’s next?
 
 Have a RAG project you want to bring to life? Join our [Discord community](discord.gg/qdrant) where we’re always sharing tips and answering questions on vector search and retrieval.
 
