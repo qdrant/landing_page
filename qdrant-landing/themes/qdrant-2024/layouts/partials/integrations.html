@@ -5,6 +5,7 @@
     <a class="integrations__link" href="{{ .Params.embedLink.url }}">{{ .Params.embedLink.text }}</a>, or and
     <a class="integrations__link" href="{{ .Params.frameworkLink.url }}">{{ .Params.frameworkLink.text }}</a>.
   </p>
+  {{ .Scratch.Set "cssClass" "link_light link_xl"}}
   {{ partial "link" . }}
-  <div class="integrations__preview" />
+  <div class="integrations__preview"></div>
 </section>

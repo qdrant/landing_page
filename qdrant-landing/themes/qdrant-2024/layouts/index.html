@@ -20,4 +20,23 @@
     resources.Fingerprint "sha512" }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
+  <script>
+    (function() {
+      let debounceLinkHover;
+
+      document.querySelectorAll('.link').forEach((link) => {
+        link.addEventListener('mouseover', function() {
+          clearTimeout(debounceLinkHover);
+          this.classList.add('hover');
+        });
+
+        link.addEventListener('mouseout', function() {
+          clearTimeout(debounceLinkHover);
+          debounceLinkHover = setTimeout(() => {
+            this.classList.remove('hover');
+          }, 200);
+        });
+      });
+    })();
+  </script>
 </html>

@@ -8,9 +8,8 @@
       <div class="vectors__card-description">
         <h4 class="vectors__card-title">{{ .title }}</h4>
         <p class="vectors__card-content">{{ .content }}</p>
-        <a class="vectors__card-link" href="{{ .link.url }}">
-          <span>{{ .link.text }}</span>
-          <span>{{ partial "svg" "Arrow-Right-Sm.svg" }}</span>
+        <a class="link link_light link_md" href="{{ .link.url }}">
+          {{ .link.text }}
         </a>
       </div>
       <div class="vectors__card-image" style="background-image: url(/img/vectors/vector-{{$index}}.svg)"></div>

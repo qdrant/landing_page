@@ -1,52 +1,157 @@
 @use "../helpers/functions" as *;
 
 .link {
+  $icon-width: rem(24);
+  $icon-height: calc(1em * 0.625);
+  $link-color: $primary-50;
+  $link-font-size: $font-size-l;
+  $icon-top: calc(1em - $icon-height);
+
   display: inline-flex;
   justify-content: flex-start;
   align-items: baseline;
-  color: $primary-50;
-  font-size: $font-size-l;
+  color: $link-color;
+  font-size: $link-font-size;
   text-decoration: none;
   position: relative;
+  line-height: 1.2;
+  transition: all 0.3s linear;
+  padding-right: $icon-width;
+
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    width: $icon-width;
+    height: $icon-height;
+    margin-left: 2px;
+    -webkit-mask: url("../../icons/outline/Arrow-Hand.svg") no-repeat center right;
+    mask: url("../../icons/outline/Arrow-Hand.svg") no-repeat center right;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    background: linear-gradient(to right, $link-color 50%, transparent 50%);
+    background-size: 200% 100%;
+    background-position: -100% 0;
+    right: 5px;
+    top: $icon-top;
+  }
 
   &:after {
     display: block;
     content: '';
     width: rem(16);
     margin-left: 6px;
-    height: calc(1em * 0.625);
-    transition: all 0.3s ease-in-out 0s;
+    height: $icon-height;
+    -webkit-mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center center;
     mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center center;
+    -webkit-mask-size: contain;
     mask-size: contain;
-    background: $primary-50;
+    background: $link-color;
+    transition: all 0.3s linear;
+
+    position: absolute;
+    top: $icon-top;
+    right: 0;
   }
 
-  &:hover {
+  &.hover {
+    padding-right: calc($icon-width + 6px);
     &:after {
-      width: rem(26);
-      margin-left: 2px;
-      mask: url("../../icons/outline/Arrow-Right-Color.svg") no-repeat center right;
+      width: rem(22);
+      -webkit-mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
+      mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
+      -webkit-mask-size: contain;
       mask-size: contain;
     }
+
+    &:before {
+      animation: dash 0.3s ease-in-out forwards;
+    }
   }
 
-  // todo: add modifiers
-  // sizes
-  // inherit font-size - and should it be default?
+  &:not(.hover) {
+    &:before {
+      animation: dash-revert 0.3s ease-in-out forwards;
+    }
+  }
+
+  @keyframes dash {
+    to {
+      right: 1px;
+      background-position: 0 0;
+    }
+  }
+
+  @keyframes dash-revert {
+    from {
+      right: 1px;
+      background-position: 0 0;
+    }
+    to {
+      right: 5px;
+      background-position: -100% 0;
+    }
+  }
+
+  // MODIFIERS
   &_dark {
-    color: $neutral-20;
+    $link-color: $neutral-20;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+
+    &:after {
+      background: $link-color;
+    }
   }
+
   &_light {
-    color: $primary-60;
+    $link-color: $primary-60;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+
     &:after {
-      background: $primary-60;
+      background: $link-color;
     }
   }
+
   &_disabled, &:disabled {
-    color: $neutral-60;
-    cursor: not-allowed;
-    &:after {
-      background: $neutral-60;
+    $link-color: $neutral-60;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
     }
+
+    &:after {
+      background: $link-color;
+    }
+  }
+
+  // font-size
+  &_inherit {
+    font-size: inherit;
+  }
+  &_sm {
+    font-size: $font-size-s;
+  }
+
+  &_md {
+   font-size: $font-size-md;
+  }
+
+  &_xl {
+    font-size: $font-size-xl;
   }
 }
