@@ -6,8 +6,6 @@
   justify-content: center;
   align-items: center;
   gap: $spacer * 1.5;
-  padding-top: rem(60);
-  box-sizing: content-box;
   border-bottom: 1px solid var(--Neutral-N20, #161e33);
   background: var(--Neutral-N10, #090e1a);
 
@@ -22,10 +20,5 @@
 
   &__link {
     font-size: $font-size-s !important;
-  }
-
-  @include media-breakpoint-up(xl) {
-    padding-top: 0;
-    box-sizing: border-box;
   }
 }

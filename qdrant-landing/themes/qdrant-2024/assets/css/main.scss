@@ -21,4 +21,8 @@
 
 .main-header {
   background: $neutral-10;
+
+  @include media-breakpoint-up(xl) {
+    background: url('/img/stars-pattern.png') $neutral-10;
+  }
 }
