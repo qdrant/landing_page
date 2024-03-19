@@ -268,6 +268,112 @@ Available tokenizers are:
 
 See [Full Text match](../filtering/#full-text-match) for examples of querying with full-text index.
 
+### Parameterized index
+
+*Available as of v1.8.0*
+
+We've added a parameterized variant to the `integer` index, which allows
+you to fine-tune indexing and search performance.
+
+Both the regular and parameterized `integer` indexes use the following flags:
+
+- `lookup`: enables support for direct lookup using
+  [Match](/documentation/concepts/filtering/#match) filters.
+- `range`: enables support for
+  [Range](/documentation/concepts/filtering/#range) filters.
+
+The regular `integer` index assumes both `lookup` and `range` are `true`. In
+contrast, to configure a parameterized index, you would set only one of these
+filters to `true`:
+
+| `lookup` | `range` | Result                      |
+|----------|---------|-----------------------------|
+| `true`   | `true`  | Regular integer index       |
+| `true`   | `false` | Parameterized integer index |
+| `false`  | `true`  | Parameterized integer index |
+| `false`  | `false` | No integer index            |
+
+The parameterized index can enhance performance in collections with millions
+of points. We encourage you to try it out. If it does not enhance performance
+in your use case, you can always restore the regular `integer` index.
+
+Note: If you set `"lookup": true` with a range filter, that may lead to
+significant performance issues.
+
+For example, the following code sets up a parameterized integer index which
+supports only range filters:
+
+```http
+PUT /collections/{collection_name}/index
+{
+    "field_name": "name_of_the_field_to_index",
+    "field_schema": {
+        "type": "integer",
+        "lookup": false,
+        "range": true
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient
+from qdrant_client.http import models
+
+client = QdrantClient(host="localhost", port=6333)
+
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema=models.IntegerIndexParams(
+        type="integer",
+        lookup=False,
+        range=True,
+    ),
+)
+```
+
+```typescript
+import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createPayloadIndex("{collection_name}", {
+  field_name: "name_of_the_field_to_index",
+  field_schema: {
+    type: "integer",
+    lookup: false,
+    range: true,
+  },
+});
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        payload_index_params::IndexParams, FieldType, PayloadIndexParams,
+        IntegerIndexParams, TokenizerType,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        FieldType::Integer,
+        Some(&PayloadIndexParams {
+            index_params: Some(IndexParams::IntegerIndexParams(IntegerIndexParams {
+                lookup: false,
+                range: true,
+            })),
+        }),
+        None,
+    )
+    .await?;
+```
+
 ## Vector Index
 
 A vector index is a data structure built on vectors through a specific mathematical model.
