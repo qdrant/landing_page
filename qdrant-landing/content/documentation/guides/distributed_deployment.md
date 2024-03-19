@@ -634,8 +634,22 @@ degradation in performance at the end of the transfer. Especially on large
 shards, this can give a huge performance improvement. 2. The ordering guarantees
 can be `strong`[^ordered], required for some applications.
 
+The `wal_delta` transfer method only transfers the difference between two
+shards. More specifically, it transfers all operations that were missed in the
+target shard. The write-ahead log of both shards is used to resolve this. There
+are two important benefits: 1. This method will be very fast, because it only
+transfers the difference rather than all data. While the transfer operation is
+happening, any newly incoming operations are included in the difference that is
+transferred. 2. The consistency and ordering guarantees can be
+`strong`[^ordered], required for some applications. A disadvantage is that:
+applicability is limited, because the write-ahead logs normally don't hold more
+than 64MB of recent operations. If a delta cannot be resolved, this method
+automatically falls back to `stream_records` which equals to transferring the
+full shard.
+
 The `stream_records` method is currently used as default. This may change in the
-future.
+future. As of Qdrant 1.9.0 `wal_delta` is used for automatic shard replications
+to recover dead shards.
 
 ## Replication
 
