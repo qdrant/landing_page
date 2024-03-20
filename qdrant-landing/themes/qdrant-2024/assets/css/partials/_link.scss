@@ -48,7 +48,6 @@
     mask-size: contain;
     background: $link-color;
     transition: all 0.3s linear;
-
     position: absolute;
     top: $icon-top;
     right: 0;
@@ -106,6 +105,21 @@
 
     &:after {
       background: $link-color;
+    }
+
+    &.hover {
+      $link-color: $primary-50;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &:after {
+        background: $link-color;
+      }
     }
   }
 
