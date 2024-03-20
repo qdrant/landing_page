@@ -11,32 +11,31 @@ Qdrant is available as supported vector database for use within your Spring AI p
 
 ## Installation
 
-To acquire Spring AI artifacts, declare the Spring Snapshot repository in your `pom.xml`.
+You can find the Spring AI installation instructions [here](https://docs.spring.io/spring-ai/reference/getting-started.html).
 
-```xml
-<repository>
-   <id>spring-snapshots</id>
-   <name>Spring Snapshots</name>
-   <url>https://repo.spring.io/snapshot</url>
-   <releases>
-      <enabled>false</enabled>
-   </releases>
-</repository>
-```
-
-Add the `spring-ai-qdrant` package.
+Add the Qdrant boot starter package.
 
 ```xml
 <dependency>
-    <groupId>org.springframework.ai</groupId>
-    <artifactId>spring-ai-qdrant</artifactId>
-    <version>VERSION</version>
+ <groupId>org.springframework.ai</groupId>
+ <artifactId>spring-ai-qdrant-store-spring-boot-starter</artifactId>
 </dependency>
 ```
 
 ## Usage
 
-You can set up the Qdrant vector store with the `QdrantVectorStoreConfig` options.
+Configure Qdrant with Spring Boot’s `application.properties`.
+
+```
+spring.ai.vectorstore.qdrant.host=<host of your qdrant instance>
+spring.ai.vectorstore.qdrant.port=<the GRPC port of your qdrant instance>
+spring.ai.vectorstore.qdrant.api-key=<your api key>
+spring.ai.vectorstore.qdrant.collection-name=<The name of the collection to use in Qdrant>
+```
+
+Learn more about these options in the [configuration reference](https://docs.spring.io/spring-ai/reference/api/vectordbs/qdrant.html#qdrant-vectorstore-properties).
+
+Or you can set up the Qdrant vector store with the `QdrantVectorStoreConfig` options.
 
 ```java
 @Bean
@@ -51,8 +50,6 @@ public QdrantVectorStoreConfig qdrantVectorStoreConfig() {
 }
 ```
 
-<aside role="status">You'll need to <a href="/documentation/concepts/collections/#create-a-collection">create a collection</a> with the appropriate vector dimensions and configurations in advance.</aside>
-
 Build the vector store using the config and any of the support [Spring AI embedding providers](https://docs.spring.io/spring-ai/reference/api/embeddings.html#available-implementations).
 
 ```java
@@ -64,6 +61,9 @@ public VectorStore vectorStore(QdrantVectorStoreConfig config, EmbeddingClient e
 
 You can now use the `VectorStore` instance backed by Qdrant as a vector store in the Spring AI APIs.
 
-## Further Reading
+<aside role="status">If the collection is not <a href="/documentation/concepts/collections/#create-a-collection">created in advance</a>, <code>QdrantVectorStore</code> will attempt to create one using cosine similarity and the dimension of the configured <code>EmbeddingClient</code>.</aside>
 
-- 📚 Spring AI [reference](https://docs.spring.io/spring-ai/reference/index.html)
+## 📚 Further Reading
+
+- Spring AI [Qdrant reference](https://docs.spring.io/spring-ai/reference/api/vectordbs/qdrant.html)
+- Spring AI [API reference](https://docs.spring.io/spring-ai/reference/index.html)
