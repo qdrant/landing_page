@@ -26,6 +26,7 @@ import (
 qdrantContainer, err := qdrant.RunContainer(ctx, testcontainers.WithImage("qdrant/qdrant"))
 ```
 
+<!--
 ```typescript
 import { QdrantContainer } from "@testcontainers/qdrant";
 
@@ -37,6 +38,7 @@ from testcontainers.qdrant import QdrantContainer
 
 qdrant_container = QdrantContainer("qdrant/qdrant").start()
 ```
+-->
 
 Testcontainers modules provide options/methods to configure ENVs, volumes, and virtually everything you can configure in a Docker container.
 
