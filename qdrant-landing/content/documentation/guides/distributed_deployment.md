@@ -576,13 +576,13 @@ Each has pros, cons and specific requirements, some of which are:
 
 | Method: | Stream records | Snapshot | WAL delta |
 |:---|:---|:---|:---|
-| **Version** | <ul><li>Available as of v0.8.0</li></ul> | <ul><li>Available as of v1.7.0</li></ul> | <ul><li>Available as of v1.8.0</li></ul> |
-| **Target** | <ul><li>New or existing shard</li></ul> | <ul><li>New or existing shard</li></ul> | <ul><li>Existing shard</li></ul> |
-| **Connectivity** | <ul><li>Internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>REST API <small>(port 6333)</small></li><li>Internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Internal gRPC API <small>(port 6335)</small></li></ul> |
-| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> | <ul><li>Doesn't transfer index</li><li>May reindex on target node if big</li></ul> |
-| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> | <ul><li>Doesn't transfer quantized data</li><li>May re-quantize on target node if big</li></ul> |
-| **Ordering** | <ul><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Ordered updates on target node[^ordered]</li></ul> | <ul><li>Ordered updates on target node[^ordered]</li></ul> |
-| **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> | <ul><li>No extra disk space required</li></ul> |
+| **Version** | Available as of v0.8.0 | Available as of v1.7.0 | Available as of v1.8.0 |
+| **Target** | New or existing shard | New or existing shard | Existing shard |
+| **Connectivity** | Internal gRPC API <small>(port 6335)</small> | REST API <small>(port 6333)</small><br>Internal gRPC API <small>(port 6335)</small> | Internal gRPC API <small>(port 6335)</small> |
+| **HNSW index** | Doesn't transfer index.<br>Will reindex on target node. | Index is transferred with a snapshot.<br>Immediately ready on target node. | Doesn't transfer index.<br>May reindex on target node if big. |
+| **Quantization** | Doesn't transfer quantized data.<br>Will re-quantize on target node. | Quantized data is transferred with a snapshot.<br>Immediately ready on target node. | Doesn't transfer quantized data.<br>May re-quantize on target node if big. |
+| **Ordering** | Unordered updates on target node[^unordered] | Ordered updates on target node[^ordered] | Ordered updates on target node[^ordered] |
+| **Disk space** | No extra disk space required | Extra disk space required for snapshot on both nodes | No extra disk space required |
 
 [^unordered]: Weak ordering for updates: All records are streamed to the target node in order.
     New updates are received on the target node in parallel, while the transfer
