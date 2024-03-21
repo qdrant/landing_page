@@ -77,22 +77,13 @@
   }
 
   &__card {
-    background-color: $neutral-98;
     padding-top: $spacer * 2;
     padding-bottom: $spacer * 2;
     padding-left: $spacer * 2;
     padding-right: $spacer * 2;
 
     min-width: rem(350);
-    max-width: 100%;
     min-height: rem(407);
-
-    border-radius: calc($spacer / 2);
-    border: 1px solid $neutral-90;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
 
     img {
       max-width: rem(120);
@@ -131,7 +122,7 @@
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 2.5;
-    padding-bottom: $spacer * 8;
+    padding-bottom: $spacer * 6.5;
 
     &__title {
       font-size: map-get($font-sizes, 3);
@@ -149,6 +140,7 @@
     }
 
     &__cards-wrapper {
+      padding-bottom: $spacer * 1.5;
       overflow-y: scroll;
       max-width: rem(1110);
     }

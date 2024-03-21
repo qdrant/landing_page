@@ -83,6 +83,10 @@ $theme-colors: (
 );
 
 $body-bg: $neutral-98;
+$link-color: $primary-50;
+$link-hover-color: $primary-50;
+$link-decoration: none;
+// don't use underline for links hover by default
 
 $font-family-sans-serif: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
   'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
