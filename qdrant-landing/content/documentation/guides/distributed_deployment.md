@@ -570,7 +570,7 @@ Available shard transfer methods are:
 
 - `stream_records`: _(default)_ transfer by streaming just its records to the target node in batches.
 - `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
-- `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL](../../concepts/storage/#versioning) difference; the operations that were missed.
+- `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL] difference; the operations that were missed.
 
 Each has pros, cons and specific requirements, which are:
 
@@ -635,21 +635,22 @@ shards, this can give a huge performance improvement. 2. The ordering guarantees
 can be `strong`[^ordered], required for some applications.
 
 The `wal_delta` transfer method only transfers the difference between two
-shards. More specifically, it transfers all operations that were missed in the
-target shard. The write-ahead log of both shards is used to resolve this. There
-are two important benefits: 1. This method will be very fast, because it only
-transfers the difference rather than all data. While the transfer operation is
-happening, any newly incoming operations are included in the difference that is
-transferred. 2. The consistency and ordering guarantees can be
-`strong`[^ordered], required for some applications. A disadvantage is that:
-applicability is limited, because the write-ahead logs normally don't hold more
-than 64MB of recent operations. If a delta cannot be resolved, this method
-automatically falls back to `stream_records` which equals to transferring the
-full shard.
+shards. More specifically, it transfers all operations that were missed to the
+target shard. The [WAL] of both shards is used to resolve this. There are two
+benefits: 1. it will be very fast, because it only transfers the difference
+rather than all data. 2. The ordering guarantees can be `strong`[^ordered],
+required for some applications. Two disadvantages are: 1. it can only be used to
+transfer to a shard that already exists on the other node. 2. applicability is
+limited because the WALs normally don't hold more than 64MB of recent
+operations. But that should be enough for a node that quickly restarts, to
+upgrade for example. If a delta cannot be resolved, this method automatically
+falls back to `stream_records` which equals to transferring the full shard.
 
 The `stream_records` method is currently used as default. This may change in the
 future. As of Qdrant 1.9.0 `wal_delta` is used for automatic shard replications
 to recover dead shards.
+
+[WAL]: ../../concepts/storage/#versioning
 
 ## Replication
 
