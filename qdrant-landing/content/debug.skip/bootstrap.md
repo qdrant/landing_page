@@ -90,7 +90,7 @@ slug: bootstrap
 <h1 class="display-6">Display 6</h1>
 
 <p class="lead">
-  This is a lead paragraph. It stands out from regular paragraphs.
+  This is a lead paragraph. It stands out from regular paragraphs. <a href="#">Some link</a>
 </p>
 
 <p>You can use the mark tag to <mark>highlight</mark> text.</p>
@@ -104,6 +104,7 @@ slug: bootstrap
 
 <p><abbr title="attribute">attr</abbr></p>
 <p><abbr title="HyperText Markup Language" class="initialism">HTML</abbr></p>
+<p><a href="#">This is a link</a></p>
 
 <blockquote class="blockquote">
   <p>A well-known quote, contained in a blockquote element.</p>
