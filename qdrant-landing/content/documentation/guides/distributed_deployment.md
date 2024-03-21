@@ -576,13 +576,13 @@ Each has pros, cons and specific requirements, some of which are:
 
 | Method: | Stream records | Snapshot | WAL delta |
 |:---|:---|:---|:---|
-| **Version** | Available as of v0.8.0 | Available as of v1.7.0 | Available as of v1.8.0 |
-| **Target** | New or existing shard | New or existing shard | Existing shard |
-| **Connectivity** | Internal gRPC API <small>(port 6335)</small> | REST API <small>(port 6333)</small><br>Internal gRPC API <small>(port 6335)</small> | Internal gRPC API <small>(port 6335)</small> |
-| **HNSW index** | Doesn't transfer index.<br>Will reindex on target node. | Index is transferred with a snapshot.<br>Immediately ready on target node. | Doesn't transfer index.<br>May reindex on target node if big. |
-| **Quantization** | Doesn't transfer quantized data.<br>Will re-quantize on target node. | Quantized data is transferred with a snapshot.<br>Immediately ready on target node. | Doesn't transfer quantized data.<br>May re-quantize on target node if big. |
-| **Ordering** | Unordered updates on target node[^unordered] | Ordered updates on target node[^ordered] | Ordered updates on target node[^ordered] |
-| **Disk space** | No extra disk space required | Extra disk space required for snapshot on both nodes | No extra disk space required |
+| **Version** | v0.8.0+ | v1.7.0+ | v1.8.0+ |
+| **Target** | New/existing shard | New/existing shard | Existing shard |
+| **Connectivity** | Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> | REST API <small>(<abbr title="port">6333</abbr>)</small><br>Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> | Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> |
+| **HNSW index** | Doesn't transfer, will reindex on target. | Does transfer, immediately ready on target. | Doesn't transfer, may index on target. |
+| **Quantization** | Doesn't  transfer, will requantize on target. | Does transfer, immediately ready on target. | Doesn't transfer, may quantize on target. |
+| **Ordering** | Unordered updates on target[^unordered] | Ordered updates on target[^ordered] | Ordered updates on target[^ordered] |
+| **Disk space** | No extra required | Extra required for snapshot on both nodes | No extra required |
 
 [^unordered]: Weak ordering for updates: All records are streamed to the target node in order.
     New updates are received on the target node in parallel, while the transfer
