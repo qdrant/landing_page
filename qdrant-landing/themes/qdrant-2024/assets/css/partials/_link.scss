@@ -1,21 +1,20 @@
 @use "../helpers/functions" as *;
 
 .link {
-  $icon-width: rem(24);
-  $icon-height: calc(1em * 0.625);
+  $icon-width: rem(20);
+  $icon-height: calc(1em * 0.62);
   $link-color: $primary-50;
   $link-font-size: $font-size-l;
   $icon-top: calc(1em - $icon-height);
 
   display: inline-flex;
   justify-content: flex-start;
-  align-items: baseline;
   color: $link-color;
   font-size: $link-font-size;
   text-decoration: none;
   position: relative;
   line-height: 1.2;
-  transition: all 0.3s linear;
+  transition: all 0.3s ease-in-out, color 0.1s linear;
   padding-right: $icon-width;
 
   &:before {
@@ -24,7 +23,6 @@
     position: absolute;
     width: $icon-width;
     height: $icon-height;
-    margin-left: 2px;
     -webkit-mask: url("../../icons/outline/Arrow-Hand.svg") no-repeat center right;
     mask: url("../../icons/outline/Arrow-Hand.svg") no-repeat center right;
     -webkit-mask-size: contain;
@@ -32,35 +30,29 @@
     background: linear-gradient(to right, $link-color 50%, transparent 50%);
     background-size: 200% 100%;
     background-position: -100% 0;
-    right: 5px;
+    right: 0;
     top: $icon-top;
   }
 
   &:after {
     display: block;
     content: '';
-    width: rem(16);
-    margin-left: 6px;
+    width: $icon-width;
     height: $icon-height;
-    -webkit-mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center center;
-    mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center center;
+    -webkit-mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
+    mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
     -webkit-mask-size: contain;
     mask-size: contain;
     background: $link-color;
-    transition: all 0.3s linear;
     position: absolute;
     top: $icon-top;
     right: 0;
   }
 
-  &.hover {
+  &:hover {
     padding-right: calc($icon-width + 6px);
     &:after {
-      width: rem(22);
-      -webkit-mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
-      mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
-      -webkit-mask-size: contain;
-      mask-size: contain;
+      animation: dash 0.3s ease-in-out forwards;
     }
 
     &:before {
@@ -68,7 +60,7 @@
     }
   }
 
-  &:not(.hover) {
+  &:not(:hover) {
     &:before {
       animation: dash-revert 0.3s ease-in-out forwards;
     }
@@ -76,18 +68,15 @@
 
   @keyframes dash {
     to {
-      right: 1px;
       background-position: 0 0;
     }
   }
 
   @keyframes dash-revert {
     from {
-      right: 1px;
       background-position: 0 0;
     }
     to {
-      right: 5px;
       background-position: -100% 0;
     }
   }
@@ -107,7 +96,7 @@
       background: $link-color;
     }
 
-    &.hover {
+    &:hover {
       $link-color: $primary-50;
       color: $link-color;
 
