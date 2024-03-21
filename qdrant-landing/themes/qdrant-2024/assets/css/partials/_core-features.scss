@@ -54,6 +54,19 @@
     flex-direction: column;
     justify-content: space-between;
 
+    &:hover {
+      border-radius: 8px;
+      border-top: 1px solid $neutral-100;
+      background: $neutral-98;
+      box-shadow: 0 10px 20px 0 rgba(22, 30, 51, 0.10), 0 1px 2px 0 rgba(22, 30, 51, 0.10);
+      & .link {
+        color: $primary-50;
+        &:after {
+          background-color: $primary-50;
+        }
+      }
+    }
+
     svg {
       max-width: rem(48);
       max-height: rem(48);
