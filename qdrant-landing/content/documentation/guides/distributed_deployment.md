@@ -560,11 +560,11 @@ Another use-case would be to have shards that track the data chronologically, so
 
 *Available as of v1.7.0*
 
-There are different methods for transferring, such as moving or replicating, a
-shard to another node. Depending on what performance and guarantees you'd like
-to have and how you'd like to manage your cluster, you likely want to choose a
-specific method. Each method has its own pros and cons. Which is fastest depends
-on the size and state of a shard.
+There are different methods for transferring a shard, such as moving or
+replicating, to another node. Depending on what performance and guarantees you'd
+like to have and how you'd like to manage your cluster, you likely want to
+choose a specific method. Each method has its own pros and cons. Which is
+fastest depends on the size and state of a shard.
 
 Available shard transfer methods are:
 
