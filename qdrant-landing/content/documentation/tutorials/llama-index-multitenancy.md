@@ -17,7 +17,7 @@ This tutorial assumes that you have already installed Qdrant and LlamaIndex. If 
 following commands:
 
 ```bash
-pip install qdrant-client llama-index
+pip install llama-index llama-index-vector-stores-qdrant
 ```
 
 We are going to use a local Docker-based instance of Qdrant. If you want to use a remote instance, please
