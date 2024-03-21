@@ -12,10 +12,10 @@ Llama Index acts as an interface between your external data and Large Language M
 private data and augment LLMs with it. LlamaIndex simplifies data ingestion and indexing, integrating Qdrant as a vector index.
 
 Installing Llama Index is straightforward if we use pip as a package manager. Qdrant is not installed by default, so we need to 
-install it separately. The integration of both tools also comes as a separate package:
+install it separately. The integration of both tools also comes as another package.
 
 ```bash
-pip install llama-index qdrant-client llama-index-vector-stores-qdrant
+pip install llama-index llama-index-vector-stores-qdrant
 ```
 
 Llama Index requires providing an instance of `QdrantClient`, so it can interact with Qdrant server.
