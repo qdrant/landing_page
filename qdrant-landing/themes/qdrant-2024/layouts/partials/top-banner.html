@@ -2,6 +2,6 @@
   <div>
     <span class="top-banner__icon"> {{ .Params.icon | safeHTML }} </span>
     <span class="top-banner__text"> {{ .Params.text }} </span>
+    <a class="link link_light link_sm" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
   </div>
-  {{ .Scratch.Set "cssClass" "top-banner__link" }} {{ partial "link" . }}
 </section>

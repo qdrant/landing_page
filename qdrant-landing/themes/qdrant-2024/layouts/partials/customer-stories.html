@@ -2,7 +2,9 @@
   <div class="customer-stories__header">
     <h3 class="customer-stories__title">{{ .Params.title }}</h3>
     <div class="customer-stories__header-content">
-      {{ partial "link" . }}
+      <span class="d-flex flex-column align-self-end">
+        {{ .Scratch.Set "cssClass" "link_xl" }} {{ partial "link" . }}
+      </span>
       <div class="customer-stories__controls">
         <button type="button" disabled class="customer-stories__button customer-stories__button-prev">
           <span>{{ partial "svg" "Angle-Right.svg" }}</span>
