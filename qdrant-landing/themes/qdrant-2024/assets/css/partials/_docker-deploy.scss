@@ -31,9 +31,13 @@
   }
 
   &__link {
-    color: $primary-60;
+    color: $primary-50;
     font-size: $font-size-xl;
     text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__top {

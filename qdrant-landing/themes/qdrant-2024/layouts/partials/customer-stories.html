@@ -18,7 +18,7 @@
   <div class="customer-stories__cards-wrapper">
     <div class="customer-stories__cards">
       {{ range .Params.storyCards }}
-      <div class="customer-stories__card">
+      <div class="card customer-stories__card">
         <div>
           <img src="{{.icon}}" alt="{{.brand}}" />
           <p class="customer-stories__card-content">{{ .content | safeHTML }}</p>
