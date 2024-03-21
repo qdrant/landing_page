@@ -1,4 +1,4 @@
-@use "../helpers/functions" as *;
+@use '../helpers/functions' as *;
 
 .link {
   $icon-width: rem(20);
@@ -13,7 +13,9 @@
   font-size: $link-font-size;
   text-decoration: none;
   position: relative;
-  transition: all 0.3s ease-in-out, color 0.1s linear;
+  transition:
+    all 0.3s ease-in-out,
+    color 0.1s linear;
   padding-right: $icon-width;
 
   &:before {
@@ -22,8 +24,8 @@
     position: absolute;
     width: $icon-width;
     height: $icon-height;
-    -webkit-mask: url("../../icons/outline/Arrow-Hand.svg") no-repeat center right;
-    mask: url("../../icons/outline/Arrow-Hand.svg") no-repeat center right;
+    -webkit-mask: url('../../icons/outline/Arrow-Hand.svg') no-repeat center right;
+    mask: url('../../icons/outline/Arrow-Hand.svg') no-repeat center right;
     -webkit-mask-size: contain;
     mask-size: contain;
     background: linear-gradient(to right, $link-color 50%, transparent 50%);
@@ -38,8 +40,8 @@
     content: '';
     width: $icon-width;
     height: $icon-height;
-    -webkit-mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
-    mask: url("../../icons/outline/Angle-Right-Color.svg") no-repeat center right;
+    -webkit-mask: url('../../icons/outline/Angle-Right-Color.svg') no-repeat center right;
+    mask: url('../../icons/outline/Angle-Right-Color.svg') no-repeat center right;
     -webkit-mask-size: contain;
     mask-size: contain;
     background: $link-color;
@@ -126,7 +128,8 @@
     }
   }
 
-  &_disabled, &:disabled {
+  &_disabled,
+  &:disabled {
     $link-color: $neutral-60;
     color: $link-color;
 
@@ -150,7 +153,7 @@
   }
 
   &_md {
-   font-size: $font-size-md;
+    font-size: $font-size-md;
   }
 
   &_xl {
