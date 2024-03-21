@@ -577,14 +577,14 @@ Each has pros, cons and specific requirements, which are:
 | **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
 | **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
 | **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Consistency** | <ul><li>Weak data consistency</li><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Strong data consistency</li><li>Ordered updates on target node[^ordered]</li></ul> |
+| **Ordering** | <ul><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Ordered updates on target node[^ordered]</li></ul> |
 | **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
 
-[^unordered]: Weak data consistency and unordered updates: All records are streamed to the target node in order.
+[^unordered]: Weak ordering for updates: All records are streamed to the target node in order.
     New updates are received on the target node in parallel, while the transfer
     of records is still happening. We therefore have `weak` ordering, regardless
     of what [ordering](#write-ordering) is used for updates.
-[^ordered]: Strong data consistency and ordered updates: A snapshot of the shard
+[^ordered]: Strong ordering for updates: A snapshot of the shard
     is created, it is transferred and recovered on the target node. That ensures
     the state of the shard is kept consistent. New updates are queued on the
     source node, and transferred in order to the target node. Updates therefore
@@ -611,15 +611,15 @@ transferred all of them, keeping both shards in sync. It will also make sure the
 transferred shard indexing process is keeping up before performing a final
 switch. The method has two common disadvantages: 1. It does not transfer index
 or quantization data, meaning that the shard has to be optimized again on the
-new node, which can be very expensive. 2. The consistency and ordering
-guarantees are `weak`[^unordered], which is not suitable for some applications.
-Because it is so simple, it's also very robust, making it a reliable choice if
-the above cons are acceptable in your use case. If your cluster is unstable and
-out of resources, it's probably best to use the `stream_records` transfer
-method, because it is unlikely to fail.
+new node, which can be very expensive. 2. The ordering guarantees are
+`weak`[^unordered], which is not suitable for some applications. Because it is
+so simple, it's also very robust, making it a reliable choice if the above cons
+are acceptable in your use case. If your cluster is unstable and out of
+resources, it's probably best to use the `stream_records` transfer method,
+because it is unlikely to fail.
 
-The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots/) to
-transfer a shard. A snapshot is created automatically. It is then transferred
+The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots/)
+to transfer a shard. A snapshot is created automatically. It is then transferred
 and restored on the target node. After this is done, the snapshot is removed
 from both nodes. While the snapshot/transfer/restore operation is happening, the
 source node queues up all new operations. All queued updates are then sent in
@@ -628,8 +628,8 @@ are two important benefits: 1. It transfers index and quantization data, so that
 the shard does not have to be optimized again on the target node, making them
 immediately available. This way, Qdrant ensures that there will be no
 degradation in performance at the end of the transfer. Especially on large
-shards, this can give a huge performance improvement. 2. The consistency and
-ordering guarantees can be `strong`[^ordered], required for some applications.
+shards, this can give a huge performance improvement. 2. The ordering guarantees
+can be `strong`[^ordered], required for some applications.
 
 The `stream_records` method is currently used as default. This may change in the
 future.
