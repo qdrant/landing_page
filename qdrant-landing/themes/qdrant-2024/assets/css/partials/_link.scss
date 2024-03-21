@@ -5,15 +5,14 @@
   $icon-height: calc(1em * 0.62);
   $link-color: $primary-50;
   $link-font-size: $font-size-l;
-  $icon-top: calc(1em - $icon-height);
 
   display: inline-flex;
   justify-content: flex-start;
+  align-items: center;
   color: $link-color;
   font-size: $link-font-size;
   text-decoration: none;
   position: relative;
-  line-height: 1.2;
   transition: all 0.3s ease-in-out, color 0.1s linear;
   padding-right: $icon-width;
 
@@ -31,7 +30,7 @@
     background-size: 200% 100%;
     background-position: -100% 0;
     right: 0;
-    top: $icon-top;
+    margin-bottom: -2px;
   }
 
   &:after {
@@ -45,8 +44,8 @@
     mask-size: contain;
     background: $link-color;
     position: absolute;
-    top: $icon-top;
     right: 0;
+    margin-bottom: -2px;
   }
 
   &:hover {
