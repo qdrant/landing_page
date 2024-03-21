@@ -6,9 +6,6 @@
   </div>
   <div class="customers__description">
     <span class="customers__title">{{ .Params.customerStories.text }}</span>
-    <a class="customers__link" href="{{ .Params.customerStories.url }}">
-      <span>{{ .Params.customerStories.textLink }}</span>
-      <span class="customers__link-icon">{{ partial "svg" "Arrow-Right-Sm.svg" }}</span>
-    </a>
+    <a class="link link_xl" href="{{ .Params.customerStories.url }}"> {{ .Params.customerStories.textLink }} </a>
   </div>
 </section>

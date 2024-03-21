@@ -1,14 +1,13 @@
 <section class="core-features">
   <h2 class="core-features__title">{{ .Params.title }}</h2>
   <p class="core-features__subtitle">{{ .Params.description }}</p>
-  {{ partial "link" . }}
+  <a class="link link_xl" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
   <div class="core-features__cloud-native">
     <div>
       <h4 class="core-features__card-title">{{ .Params.cloudFeature.title }}</h4>
       <p class="core-features__card-content">{{ .Params.cloudFeature.content }}</p>
-      <a class="core-features__card-link" href="{{ .Params.cloudFeature.link.url }}">
-        <span>{{ .Params.cloudFeature.link.text }}</span>
-        <span>{{ partial "svg" "Arrow-Right-Black.svg" }}</span>
+      <a class="link link_dark link_md" href="{{ .Params.cloudFeature.link.url }}">
+        {{ .Params.cloudFeature.link.text }}
       </a>
     </div>
     <div class="core-features__cloud-native-image"></div>
@@ -21,10 +20,7 @@
         <h6 class="core-features__card-title">{{ .title }}</h6>
         <p class="core-features__card-content">{{ .content }}</p>
       </div>
-      <a class="core-features__card-link" href="{{ .link.url }}">
-        <span>{{ .link.text }}</span>
-        <span>{{ partial "svg" "Arrow-Right-Black.svg" }}</span>
-      </a>
+      <a class="link link_dark link_md align-self-start" href="{{ .link.url }}"> {{ .link.text }} </a>
     </div>
     {{ end }}
   </div>
