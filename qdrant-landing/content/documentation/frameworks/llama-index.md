@@ -6,21 +6,22 @@ aliases:
   - /documentation/overview/integrations/llama-index/
 ---
 
-# LlamaIndex (GPT Index)
+# LlamaIndex
 
-LlamaIndex (formerly GPT Index) acts as an interface between your external data and Large Language Models. So you can bring your 
+Llama Index acts as an interface between your external data and Large Language Models. So you can bring your 
 private data and augment LLMs with it. LlamaIndex simplifies data ingestion and indexing, integrating Qdrant as a vector index.
 
-Installing LlamaIndex is straightforward if we use pip as a package manager. Qdrant is not installed by default, so we need to 
-install it separately:
+Installing Llama Index is straightforward if we use pip as a package manager. Qdrant is not installed by default, so we need to 
+install it separately. The integration of both tools also comes as a separate package:
 
 ```bash
-pip install llama-index qdrant-client
+pip install llama-index qdrant-client llama-index-vector-stores-qdrant
 ```
 
-LlamaIndex requires providing an instance of `QdrantClient`, so it can interact with Qdrant server.
+Llama Index requires providing an instance of `QdrantClient`, so it can interact with Qdrant server.
 
 ```python
+from llama_index.core.indices.vector_store.base import VectorStoreIndex
 from llama_index.vector_stores.qdrant import QdrantVectorStore
 
 import qdrant_client
@@ -35,5 +36,5 @@ index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
 
 ```
 
-The library [comes with a notebook](https://github.com/jerryjliu/llama_index/blob/main/docs/examples/vector_stores/QdrantIndexDemo.ipynb) 
+The library [comes with a notebook](https://github.com/run-llama/llama_index/blob/main/docs/examples/vector_stores/QdrantIndexDemo.ipynb) 
 that shows an end-to-end example of how to use Qdrant within LlamaIndex.
