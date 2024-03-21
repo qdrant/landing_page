@@ -16,11 +16,18 @@
     background: $neutral-98;
     box-shadow: 0 10px 20px 0 rgba(22, 30, 51, 0.10), 0 1px 2px 0 rgba(22, 30, 51, 0.10);
 
-    & .link {
-      color: $primary-50;
+    .link.link_dark {
+      $link-color: $primary-50;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
 
       &:after {
-        background-color: $primary-50;
+        background: $link-color;
       }
     }
   }
