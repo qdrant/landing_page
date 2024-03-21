@@ -9,7 +9,7 @@ title: Components
 <button class="button button_outlined">Text</button>
 <button class="button button_contained" disabled>Text</button>
 
-# Variants
+### Variants
 <div class="row">
 <div class="col-4 p-4">
 
@@ -52,3 +52,9 @@ title: Components
 </div>
 
 </div>
+
+## Links
+
+**.link**
+
+<a href="#" class="link">Text</a>

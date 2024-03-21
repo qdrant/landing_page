@@ -14,14 +14,11 @@
   &__text {
     color: $neutral-94;
     font-size: $font-size-s;
+    margin-right: $spacer * 0.5;
   }
 
   &__icon {
     margin-right: calc($spacer / 4);
-  }
-
-  &__link {
-    font-size: $font-size-s !important;
   }
 
   @include media-breakpoint-up(xl) {

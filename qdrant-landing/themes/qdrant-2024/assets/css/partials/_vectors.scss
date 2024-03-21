@@ -80,12 +80,6 @@
     line-height: rem(24);
   }
 
-  &__card-link {
-    color: $primary-60;
-    font-size: map-get($font-sizes-text, 'm');
-    text-decoration: none;
-  }
-
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 10;
