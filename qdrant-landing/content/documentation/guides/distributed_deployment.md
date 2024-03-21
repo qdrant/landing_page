@@ -1191,6 +1191,8 @@ sequentially.
 - `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change.
 - `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down.
 
+<aside role="status">Some <a href="#shard-transfer-method">shard transfer methods</a> may affect ordering guarantees.</aside>
+
 ```http
 PUT /collections/{collection_name}/points?ordering=strong
 {
