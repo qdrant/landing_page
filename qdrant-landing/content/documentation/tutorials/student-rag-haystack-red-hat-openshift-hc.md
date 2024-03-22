@@ -480,7 +480,7 @@ curl -X 'POST' \
 }'
 ```
 
-The response should be similar to the one we got in the Python code before:
+The response should be similar to the one we got in the Python before:
 
 ```json
 {
