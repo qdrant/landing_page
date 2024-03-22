@@ -1,18 +1,34 @@
 @use '../helpers/functions' as *;
+@use "sass:math";
 
 .hero {
   padding-top: $spacer * 2.5;
-  background-image: url('/img/hero-home-illustration.svg');
   background-position: bottom;
   background-repeat: no-repeat;
   position: relative;
 
   &__content {
     text-align: center;
-    padding: 0 rem(20) rem(344);
+    padding: 0; // rem(20) rem(344);
     max-width: 100%;
     margin: 0 auto;
   }
+
+  &__image {
+    width: 100%;
+    margin: 0 auto;
+    background: url('/img/hero-home-illustration.svg') no-repeat center top;
+    background-size: cover;
+    min-height: rem(480);
+    margin-top: rem(-142);
+
+    @include media-breakpoint-up(md) {
+      aspect-ratio: 2.46 / 1;
+      $height: math.div(-100vw, 2.46);
+      margin-top: calc(#{$height} * 0.34);
+    }
+  }
+
 
   &__title {
     color: $neutral-98;
@@ -103,7 +119,7 @@
     background-position: center bottom;
 
     &__content {
-      padding: 0 0 rem(331) 0;
+      padding: 0;
       max-width: rem(920);
     }
 
