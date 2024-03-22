@@ -119,8 +119,6 @@ export QDRANT_API_KEY="your-api-key"
 ```
 
 ```python
-import os
-
 os.environ["QDRANT_URL"] = "https://qdrant.example.com"
 os.environ["QDRANT_API_KEY"] = "your-api-key"
 ```
@@ -348,7 +346,6 @@ Language Model to generate it. That will be the final component of our second pi
 create a prompt that will take the documents and put it into the context sent to the LLM. Haystack has all it covered:
 
 ```python
-import os
 from haystack.components.builders.prompt_builder import PromptBuilder
 from haystack.components.generators import HuggingFaceTGIGenerator
 
