@@ -132,3 +132,13 @@
     }
   }
 }
+
+.vectors__card:first-child {
+  .vectors__card-image {
+    height: rem(256);
+
+    @include media-breakpoint-up(xl) {
+      height: rem(392);
+    }
+  }
+}
