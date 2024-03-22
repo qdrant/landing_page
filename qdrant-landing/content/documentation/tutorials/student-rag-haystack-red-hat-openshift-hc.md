@@ -380,7 +380,7 @@ search_pipeline.connect("prompt_builder.prompt", "llm.prompt")
 The `PromptBuilder` is a Jinja2 template that will be filled with the documents and the query. The 
 `HuggingFaceTGIGenerator` connects to the LLM service and generates the answer. Let's run the pipeline again:
 
-```python[search-pipeline.yaml](..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2F..%2Ftmp%2Fsearch-pipeline.yaml)
+```python
 query = "How to install an application using the OpenShift web console?"
 
 response = search_pipeline.run(data={
