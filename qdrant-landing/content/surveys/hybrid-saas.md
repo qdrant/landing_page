@@ -1,9 +1,9 @@
 ---
-title: Join the waiting list for the Qdrant Hybrid SaaS solution.
-section_title: Request early access to the Qdrant Hybrid SaaS
+title: Join the waiting list for the Qdrant Hybrid Cloud solution.
+section_title: Request early access to the Qdrant Hybrid Cloud
 form:
   - id: 0
-    header: "Get <span style='color: var(--brand-primary);'>Early Access</span> to Qdrant Hybrid SaaS"
+    header: "Get <span style='color: var(--brand-primary);'>Early Access</span> to Qdrant Hybrid Cloud"
     label: All right! 😊 What is your e-mail? *
     placeholder: name@example.com
     type: email
