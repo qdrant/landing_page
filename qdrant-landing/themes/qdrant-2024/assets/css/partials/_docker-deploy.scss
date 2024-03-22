@@ -52,14 +52,14 @@
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
+    padding-top: rem(54);
+    padding-left: rem(50);
+    padding-bottom: rem(80);
+    padding-right: rem(50);
   }
 
   &__preview code {
     color: $neutral-98;
-    position: absolute;
-    top: rem(54);
-    left: rem(50);
-
     font-size: rem(9);
     line-height: rem(14);
   }
@@ -90,13 +90,13 @@
       width: rem(584);
       height: rem(400);
       max-width: rem(584);
+      padding-top: rem(94);
+      padding-left: rem(107);
+      padding-bottom: rem(80);
+      padding-right: rem(80);
     }
 
     &__preview code {
-      top: rem(94);
-      left: rem(107);
-      transform: unset;
-
       font-size: rem(15);
       line-height: rem(24);
     }
