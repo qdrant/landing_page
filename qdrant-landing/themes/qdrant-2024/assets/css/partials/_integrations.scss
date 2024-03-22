@@ -1,8 +1,7 @@
 @use '../helpers/functions' as *;
 
 .integrations {
-  background-color: $neutral-10;
-
+  background: $neutral-10;
   padding-top: $spacer * 4;
   padding-left: $spacer * 1.5;
   padding-right: $spacer * 1.5;
@@ -49,6 +48,7 @@
   }
 
   @include media-breakpoint-up(xl) {
+    background: url('/img/stars-pattern.png') $neutral-10;
     padding-top: $spacer * 6.5;
 
     &__title {
