@@ -9,6 +9,10 @@
     </p>
   </div>
   <div class="docker-deploy__preview" style="background-image: url(/img/docker-illustration.png)">
-    <code>{{ .Params.command | safeHTML }}</code>
+    <code>
+    {{ range $index, $command := .Params.commands }}
+      <span class="no-copy">{{ add $index 1 }}&nbsp;</span>{{ $command | safeHTML }}<br>
+    {{ end }}
+    </code>
   </div>
 </section>
