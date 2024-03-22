@@ -5,7 +5,7 @@ weight: 2900
 
 # Pandas-AI
 
-PandasAI is a Python library that uses a generative AI model to interpret natural language queries and translate them into python code to interact with the data and return the results to the user.
+Pandas-AI is a Python library that uses a generative AI model to interpret natural language queries and translate them into Python code to interact with the data and return the results to the user.
 
 ## Installation
 
@@ -15,9 +15,9 @@ pip install pandasai[qdrant]
 
 ## Usage
 
-You can begin a conversation by instantiating an `Agent` instance based on your Pandas dataframe. The default Pandas-AI LLM requires an [API key](https://pandabi.ai.).
+You can begin a conversation by instantiating an `Agent` instance based on your Pandas data frame. The default Pandas-AI LLM requires an [API key](https://pandabi.ai.).
 
-You can find the list of all supported LLM's [here](https://docs.pandas-ai.com/en/latest/LLMs/llms/)
+You can find the list of all supported LLMs [here](https://docs.pandas-ai.com/en/latest/LLMs/llms/)
 
 ```python
 import os
@@ -52,9 +52,9 @@ agent.chat("Which are the top 5 countries by sales?")
 
 ## Qdrant support
 
-You can train Pandas-AI to understand your data better and to improve its performance.
+You can train Pandas-AI to understand your data better and improve result quality.
 
-Qdrant can be configured as a vectorstore to ingest training data and retrieve semantically relevant content.
+Qdrant can be configured as a vector store to ingest training data and retrieve semantically relevant content.
 
 ```python
 from pandasai.ee.vectorstores.qdrant import Qdrant
@@ -72,7 +72,7 @@ agent = Agent(df, vector_store=qdrant)
 agent.train(docs="The fiscal year starts in April")
 
 # Train the q/a pairs of code snippets
-query = "What is the total sales for the current fiscal year?"
+query = "What are the total sales for the current fiscal year?"
 response = """
 import pandas as pd
 
