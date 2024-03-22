@@ -32,6 +32,7 @@
   padding: map-get($padding, md);
   font-weight: 700;
   font-size: map-get($font-sizes-text, md);
+  z-index: 1;
 
   // VARIANTS
   &_contained {

@@ -14,6 +14,7 @@
 
   &__content {
     position: relative;
+    overflow: hidden;
     background-color: $neutral-10;
 
     display: flex;
@@ -27,6 +28,8 @@
     border-radius: 16px;
 
     padding-top: $spacer * 5;
+    padding-left: $spacer * 3.5;
+    padding-right: $spacer * 3.5;
     padding-bottom: $spacer * 5;
   }
 
@@ -36,6 +39,7 @@
     color: $neutral-98;
     text-align: center;
     margin: 0;
+    z-index: 1;
   }
 
   &__subtitle {
@@ -67,10 +71,39 @@
     background-repeat: no-repeat;
   }
 
+  &__overlay-top {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: rem(250);
+    height: rem(250);
+    background-image: url('/img/blurred/blurred-light-2.png');
+    background-position: top;
+    background-size: cover;
+  }
+
+  &__overlay-middle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/img/blurred/blurred-light.png');
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__overlay-bottom {
+    display: none;
+  }
+
   @include media-breakpoint-up(xl) {
     &__content {
       min-width: rem(1110);
       min-height: rem(165);
+
+      padding-left: 0;
+      padding-right: 0;
     }
 
     &__title {
@@ -81,6 +114,22 @@
 
     &__subtitle {
       max-width: rem(640);
+    }
+
+    &__overlay-middle {
+      display: none;
+    }
+
+    &__overlay-bottom {
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 50%;
+      height: 100%;
+      background-image: url('/img/blurred/blurred-light-3.png');
+      background-position: right;
+      background-size: cover;
     }
   }
 }

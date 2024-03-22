@@ -14,7 +14,9 @@
   &:hover {
     border-top: 1px solid $neutral-100;
     background: $neutral-98;
-    box-shadow: 0 10px 20px 0 rgba(22, 30, 51, 0.10), 0 1px 2px 0 rgba(22, 30, 51, 0.10);
+    box-shadow:
+      0 10px 20px 0 rgba(22, 30, 51, 0.1),
+      0 1px 2px 0 rgba(22, 30, 51, 0.1);
 
     .link.link_dark {
       $link-color: $primary-50;
