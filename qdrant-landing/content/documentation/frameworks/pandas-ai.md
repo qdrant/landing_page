@@ -5,7 +5,7 @@ weight: 2900
 
 # Pandas-AI
 
-Pandas-AI is a Python library that uses a generative AI model to interpret natural language queries and translate them into Python code to interact with the data and return the results to the user.
+Pandas-AI is a Python library that uses a generative AI model to interpret natural language queries and translate them into Python code to interact with pandas data frames and return the final results to the user.
 
 ## Installation
 
@@ -52,7 +52,7 @@ agent.chat("Which are the top 5 countries by sales?")
 
 ## Qdrant support
 
-You can train Pandas-AI to understand your data better and improve result quality.
+You can train Pandas-AI to understand your data better and improve the quality of the results.
 
 Qdrant can be configured as a vector store to ingest training data and retrieve semantically relevant content.
 
