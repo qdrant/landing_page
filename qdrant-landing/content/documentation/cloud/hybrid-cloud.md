@@ -5,43 +5,39 @@ weight: 90
 
 # Hybrid Cloud
 
-*Available as of v1.8.2*
-
-The Qdrant Hybrid Cloud allows you to attach your own infrastructure as a private
+Qdrant Hybrid Cloud allows you to attach your own infrastructure as a private
 region of the Qdrant Cloud. You can use Qdrant Cloud to manage your clusters, and
 run them in your own infrastructure.
 
 ## How it works
 
-When you onboard a Kubernetes cluster as a hybrid cloud region, you can deploy
+When you onboard a Kubernetes cluster as a Hybrid Cloud region, you can deploy
 the Qdrant Kubernetes Operator into this cluster. This operator manages the
-Qdrant databases within your Kubernetes cluster. The operator connects to the 
-Qdrant cloud as `cloud.qdrant.io` on port `443`. You can then have the same
+Qdrant databases within your Kubernetes cluster. The operator creates an outgoing
+connection to the Qdrant cloud at `cloud.qdrant.io` on port `443`. You can then have the same
 cloud management features and transport telemetry as is available with any 
-Qdrant-managed cloud provider.
+managed Qdrant Cloud cluster.
 
-The Qdrant Cloud does not need access to the API of your Kubernetes cluster, 
+Qdrant Cloud does not need access to the API of your Kubernetes cluster, 
 or to any cloud provider, or other platform APIs. 
 
 The Qdrant databases operate solely within your network, using your storage and
 compute resources.
 
-<!-- Do we still need this section after release? -->
 ## Signing up for Hybrid Cloud
 
-The Qdrant Hybrid Cloud is currently in private beta. To sign up and join the waiting
-list, [contact us](https://qdrant.tech/surveys/hybrid-saas/).
+To activate Hybrid Cloud, go to the Hybrid Cloud regions section, enter you company and billing information and request access.
 
 ## Creating a Hybrid Cloud region
 
-The following sections specify prerequisites and required artifacts. You can then
-set up a Qdrant cluster in your private region.
+The following sections specify prerequisites and required artifacts to
+set up a Qdrant cluster in your Hybrid Cloud region.
 
 ### Prerequisites
 
-To create a hybrid cloud region, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/)
-Kubernetes cluster. You can run this cluster can run in any SaaS or local environment,
-with tools that range from AWS EKS to VMWare vSphere.
+To create a Hybrid Cloud region, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/)
+Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment,
+with distributions that range from AWS EKS to VMWare vSphere.
 
 For storage, you need to set up the Kubernetes cluster with a Container Storage
 Interface (CSI) driver that provides block storage. For vertical scaling, the
@@ -51,20 +47,20 @@ driver needs to support CSI snapshots and restores.
 <aside role="status">Network storage systems like NFS or object storage systems 
 such as S3 are not supported.</aside>
 
-For access, you also need a `cluster-admin` user. <!-- does a root user work? 
-what about a user with cluster-admin privileges? -->
+To install the Qdrant Kubernetes Operator you need to have `cluster-admin` access in your Kubernetes cluster.
 
-For networks, your cluster needs to connect to the Qdrant Cloud. In other words,
-the Qdrant Cloud Agent creates an outgoing connection to `cloud.qdrant.io` on
-port `443`.
+The Qdrant Kubernetes operator in your cluster needs to be able to connect to the Qdrant Cloud. It will create
+an outgoing connection to `cloud.qdrant.io` on port `443`.
 
 By default, the Qdrant Cloud Agent and Operator pulls Helm charts and container
-images from `registry.cloud.qdrant.io`. The Qdrant database pulls from `docker.io`.
-You can also mirror the images and charts to your own registry.
+images from `registry.cloud.qdrant.io`. The Qdrant database container image is pulled
+from `docker.io`.
+
+You can also mirror these images and charts into your own registry and pull them from there.
 
 ### Required artifacts
 
-To set up your cloud, you need the following artifacts:
+To set up Hybrid Cloud, you need the following artifacts:
 
 Container images
 
@@ -80,14 +76,14 @@ Open Containers Initiative (OCI) Helm charts
 
 ## Installation
 
-To set up your Hybrid Cloud, open the Qdrant Cloud Console at
+To set up Hybrid Cloud, open the Qdrant Cloud Console at
 [cloud.qdrant.io](https://cloud.qdrant.io). On the dashboard, select
 **Hybrid Cloud Regions**, and then select **Create**.
 
 You can then enter:
 
-- Name: The Kubernetes namespace for the operator and agent. Once you select a
-  name, you can't change it.
+- Name: A name for the Private Region
+- Kubernetes Namespace: The Kubernetes namespace for the operator and agent. Once you select a namespace, you can't change it.
 - Agent version: The version of the Qdrant cloud agent.
 - Operator version: Version of the Kubernetes operator.
 
@@ -104,54 +100,31 @@ If you have special requirements for any of the following, activate the
 - Helm chart repository URL for the Qdrant Operator and Agent. The default is
   <oci://registry.cloud.qdrant.io/qdrant-charts>.
 - CA certificate
+- Log level for the operator and agent
 
-Once complete, select Create. If successful, you'll briefly see the following
-message: 
+Once complete, select Create.
 
-> Successfully created the Hybrid Cloud Region
-
-<!-- Question: does Actions > Edit allow uses to edit anything but the name? -->
-
-### Hybrid Cloud regions
-
-Once you create a Hybrid Cloud Region, you can review what you just configured.
-In the UI, you can also review the:
-
-- Hybrid Cloud ID: For use in Kubernetes commands
-- Operator Pod State: Typically `Unknown` or `Ready` 
-- Agent Pod State: Typically `Unknown` or `Ready`
-
-Until you run the Hybrid Cloud installation commands shown in this page, the
-state of the Operator and Agent Pods are typically unknown.
+All settings but the Kubernetes namespace can be changed later.
 
 ### Generate Installation Command
 
-After reviewing your configuration, select **Generate Installation Command**.
-This includes several commands which:
+After creating your Hybrid Cloud, select **Generate Installation Command** to 
+generate a script that you can run in your Kubernetes cluster which will perform the initial
+installation of the Kubernetes operator and agent. It will:
 
-- Creates a Kubernetes namespace
-- Adds credentials to the Docker registry, labeled `qdrant-registry-creds`
-- Sets up a secret key based on an API key, labeled `access-key`. 
-- Signs into the Helm registry at `registry.cloud.qdrant.io`.
-- Installs a Helm chart from the OCI registry.
-
-These commands create the necessary API keys for the registry and the Qdrant
-Cloud API. It also generates the `kubectl` and `helm install` commands to install
-the Qdrant Cloud Agent and Operator into your cluster.
+- Create the Kubernetes namespace
+- Set up the necessary secrets with credentials to access the Qdrant container registry and the Qdrant Cloud API.
+- Sign in to the Helm registry at `registry.cloud.qdrant.io`
+- Install the Qdrant cloud agent and Kubernetes operator chart
 
 You need this command only for the initial installation. After that, you can
 update the agent and operator using the Qdrant Cloud Console.
 
-Requirements:
-
-- Your docker server needs access to registry.cloud.qdrant.io
-- 
-
 ## Creating a Qdrant cluster
 
-Once you have created a hybrid cloud region, you can create a Qdrant cluster in
+Once you have created a Hybrid Cloud region, you can create a Qdrant cluster in
 that region. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). 
-Make sure to select your hybrid cloud as the target region.
+Make sure to select your Hybrid Cloud as the target region.
 
 ### Authentication at your Qdrant clusters
 
@@ -163,5 +136,89 @@ You should configure the Qdrant Operator with the configuration for the hybrid
 cloud. Use the following options, in YAML format:
 
 ```yaml
+# Configuration for the Qdrant operator
 settings:
+  # Does the operator run inside of a Kubernetes cluster (kubernetes) or outside (local)
+  app_environment: kubernetes
+  # Retention for the backup history of Qdrant clusters
+  backupHistoryRetentionDays: 2
+  # Timeout configuration for the Qdrant operator operations
+  operationTimeout: 7200 # 2 hours
+  handlerTimeout: 21600 # 6 hours
+  backupTimeout: 12600 # 3.5 hours
+  # Incremental backoff configuration for the Qdrant operator operations
+  backOff:
+    minDelay: 5
+    maxDelay: 300
+    increment: 5
+  # Cluster-manager configuration for a Qdrant cluster (experimental)
+  clusterManager:
+    image:
+      repository: qdrant/qdrant-cloud-cluster-manager
+      tag: 0.1.2
+    pullInterval: 10
+    logSize: 10
+    debug: false
+    # node_selector: {}
+    # tolerations: []
+  # Default ingress configuration for a Qdrant cluster
+  ingress:
+    enabled: false
+    provider: KubernetesIngress # or NginxIngress
+#    kubernetesIngress:
+#      ingressClassName: ""
+  # Default storage configuration for a Qdrant cluster
+#  storage:
+#    # Default VolumeSnapshotClass for a Qdrant cluster
+#    snapshot_class: "csi-snapclass"
+#    # Default StorageClass for a Qdrant cluster, uses cluster default StorageClass if not set
+#    default_storage_class_names:
+#      # StorageClass for DB volumes
+#      db: ""
+#      # StorageClass for snapshot volumes
+#      snapshot: ""
+  # Default scheduling configuration for a Qdrant cluster
+#  scheduling:
+#    default_topology_spread_constraints: []
+#    default_pod_disruption_budget: {}
+  qdrant:
+    # Default security context for Qdrant cluster
+#    securityContext:
+#      enabled: false
+#      user: ""
+#      fsGroup: ""
+#      group: ""
+    # Default Qdrant image configuration
+#    image:
+#      pull_secret: ""
+#      pull_policy: IfNotPresent
+#      repository: qdrant/qdrant
+    # Default Qdrant log_level
+#    log_level: INFO
+    # Default network policies to create for a qdrant cluster
+    networkPolicies:
+#      ingress:
+#        - from:
+#            - podSelector:
+#                matchLabels:
+#                  app.kubernetes.io/name: traefik
+#              namespaceSelector:
+#                matchLabels:
+#                  kubernetes.io/metadata.name: kube-system
+#          ports:
+#            - protocol: TCP
+#              port: 6333
+#            - protocol: TCP
+#              port: 6334
+#            - protocol: TCP
+#              port: 6335
+      # Allow DNS resolution from qdrant pods at Kubernetes internal DNS server
+      egress:
+        - to:
+            - namespaceSelector:
+                matchLabels:
+                  kubernetes.io/metadata.name: kube-system
+          ports:
+            - protocol: UDP
+              port: 53
 ```
