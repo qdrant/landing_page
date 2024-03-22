@@ -7,7 +7,7 @@ short_description: Hooman Sedghamiz explores the untapped potential of large
   language models in creating cutting-edge applications.
 description: Hooman Sedghamiz unfolds the potential of AI in life sciences, from
   custom knowledge applications to improving crop yield predictions, while
-  teasing apart the nuances of in-house AI deployment for multi-faceted
+  tearing apart the nuances of in-house AI deployment for multi-faceted
   enterprise efficiency.
 preview_image: /blog/from_cms/hooman-sedghamiz-bp-cropped.png
 date: 2024-03-08T09:45:59.753Z
@@ -22,7 +22,9 @@ tags:
 -- Hooman Sedghamiz
 > 
 
-Hooman Sedghamiz**,** Sr. Director AI/ML - Insights at Bayer AG is a distinguished figure in AI and ML in the life sciences field. With a wealth of experience, he has led teams and projects that have greatly advanced medical products, including implantable and wearable devices. Notably, he served as the Generative AI product owner and senior director at Bayer Pharmaceuticals, where he played a pivotal role in developing a GPT-based central platform for precision medicine. In 2023, he assumed the role of Co-Chair for the EMNLP 2023 GEM industrial track, furthering his contributions to the field. Hooman has also been an AI/ML advisor and scientist at the University of California, San Diego, leveraging his expertise in deep learning to drive biomedical research and innovation. His strengths lie in guiding data science initiatives from inception to commercialization and bridging the gap between medical and healthcare applications through MLOps, LlmOps, and deep learning product management. Engaging with research institutions and collaborating closely with Dr. Nemati at Harvard University and UCSD, Hooman continues to be a dynamic and influential figure in the data science community.
+Hooman Sedghamiz**,** Sr. Director AI/ML - Insights at Bayer AG is a distinguished figure in AI and ML in the life sciences field. With a wealth of experience, he has led teams and projects that have greatly advanced medical products, including implantable and wearable devices. Notably, he served as the Generative AI product owner and senior director at Bayer Pharmaceuticals, where he played a pivotal role in developing a GPT-based central platform for precision medicine. 
+
+In 2023, he assumed the role of Co-Chair for the EMNLP 2023 GEM industrial track, furthering his contributions to the field. Hooman has also been an AI/ML advisor and scientist at the University of California, San Diego, leveraging his expertise in deep learning to drive biomedical research and innovation. His strengths lie in guiding data science initiatives from inception to commercialization and bridging the gap between medical and healthcare applications through MLOps, LLMOps, and deep learning product management. Engaging with research institutions and collaborating closely with Dr. Nemati at Harvard University and UCSD, Hooman continues to be a dynamic and influential figure in the data science community.
 
 ***Listen to the episode on [Spotify](https://open.spotify.com/episode/2oj2ne5l9qrURQSV0T1Hft?si=DMJRTAt7QXibWiQ9CEKTJw), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/yfzLaH5SFX0).***
 
@@ -32,7 +34,7 @@ Hooman Sedghamiz**,** Sr. Director AI/ML - Insights at Bayer AG is a distinguish
 
 ## **Top takeaways:**
 
-Why is real-time evaluation critical in maintaining the integrity of chatbot interactions and preventing issues like promoting competitors or making false promises? What strategies do developers employ to minimize cost while maximizing the effectiveness of model evaluations, specifically when dealing with LLMs? These might be just some of the many questions people in the industry are asking themselves. Worry not! Because Demetrios and Sourabh will break it down for you.
+Why is real-time evaluation critical in maintaining the integrity of chatbot interactions and preventing issues like promoting competitors or making false promises? What strategies do developers employ to minimize cost while maximizing the effectiveness of model evaluations, specifically when dealing with LLMs? These might be just some of the many questions people in the industry are asking themselves. We aim to cover most of it in this talk.
 
 Check out their conversation as they dive into the intricate world of AI chatbot evaluations. Discover the nuances of ensuring your chatbot's quality and continuous improvement across various metrics.
 
@@ -44,7 +46,7 @@ Here are the key topics of this episode:
 4. **Cost-Effective Evaluation Models**: Discussion on employing smaller models for evaluation to reduce costs without compromising the depth of analysis, focusing on failure cases and root-cause assessments.
 5. **Tailored Evaluation Metrics**: Emphasis on the necessity of customizing evaluation criteria to suit specific use case requirements, including an exploration of the different metrics applicable to diverse scenarios.
 
-> Fun Fact: Sourabh discussed the use of Uptrend, an innovative API that provides scores and explanations for various data checks, facilitating logical and informed decision-making when evaluating AI models.
+
 > 
 
 ## Show notes:
@@ -73,7 +75,7 @@ Here are the key topics of this episode:
 
 ## Transcript:
 Demetrios:
-We are here and I couldn't think of a better way to spend my Valentine's Day than with you humen this is absolutely incredible. I'm so excited for this talk that you're going to bring and I want to let everyone that is out there listening know what caliber of of speaker we have with us today because you have done a lot of stuff. Folks out there do not let this man's young look fool you. You look like you are not in your. When it comes to your bio, it looks like you should be in your very excited. You've got a lot of experience running data science projects, ML projects, LLM projects, all that fun stuff. You're working at Bayern Munich, sorry, not Bayern Munich, Bayer AG. And you're the senior director of AI and ML.
+We are here and I couldn't think of a better way to spend my Valentine's Day than with you Hooman this is absolutely incredible. I'm so excited for this talk that you're going to bring and I want to let everyone that is out there listening know what caliber of of speaker we have with us today because you have done a lot of stuff. Folks out there do not let this man's young look fool you. You look like you are not in your. When it comes to your bio, it looks like you should be in your very excited. You've got a lot of experience running data science projects, ML projects, LLM projects, all that fun stuff. You're working at Bayern Munich, sorry, not Bayern Munich, Bayer AG. And you're the senior director of AI and ML.
 
 Demetrios:
 And I think that there is a ton of other stuff that you've done when it comes to machine learning, artificial intelligence. You've got both like the traditional ML background, I think, and then you've also got this new generative AI background and so you can leverage both. But you also think about things in data engineering way. You understand the whole lifecycle. And so today we get to talk all about some of this fun. I know you've got some slides prepared for us. I'll let you throw those on and I'll let anyone else in the chat. Feel free to ask questions while humin is going through the presentation and I'll jump in and stop them when needed.
