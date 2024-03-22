@@ -7,7 +7,7 @@ weight: 1200
 
 Qdrant supports working with [Nvidia embeddings](https://build.nvidia.com/explore/retrieval).
 
-You can generate an API key to authenticate the requests from the (Nvidia Playground)(<https://build.nvidia.com/nvidia/embed-qa-4>).
+You can generate an API key to authenticate the requests from the [Nvidia Playground](<https://build.nvidia.com/nvidia/embed-qa-4>).
 
 ### Setting up the Qdrant client and Nvidia session
 
