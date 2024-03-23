@@ -1,69 +1,73 @@
 <footer class="footer">
-  <div class="footer__top">
-    <div class="footer__top-content">
-      <div class="footer__social">
-        <div>
-          <img class="footer__logo" src="/img/logo-white.png" alt="Qdrant" />
-          <p class="footer__subtitle">{{ .Params.subtitle }}</p>
-        </div>
-        <div class="footer__social-media-platforms">
-          {{ range .Params.socialMedia }}
-          <a class="footer__social-media-link" href="{{ .url }}"> {{ .icon | safeHTML }} </a>
-          {{ end }}
-        </div>
-      </div>
-      <div class="footer__menu">
-        <div class="footer__menu-section">
-          <p class="footer__menu-section-title">{{ .Params.productMenu.title }}</p>
-          <ul class="footer__menu-items">
-            {{ range .Params.productMenu.items }}
-            <li class="footer__menu-item">
-              <a href="{{ .url }}">{{ .name }}</a>
-            </li>
+  <div class="container">
+    <div class="footer__top">
+      <div class="footer__top-content">
+        <div class="footer__social">
+          <div>
+            <img class="footer__logo" src="/img/logo-white.png" alt="Qdrant" />
+            <p class="footer__subtitle">{{ .Params.subtitle }}</p>
+          </div>
+          <div class="footer__social-media-platforms">
+            {{ range .Params.socialMedia }}
+            <a class="footer__social-media-link" href="{{ .url }}"> {{ .icon | safeHTML }} </a>
             {{ end }}
-          </ul>
+          </div>
         </div>
-        <div class="footer__menu-section">
-          <p class="footer__menu-section-title">{{ .Params.developerMenu.title }}</p>
-          <ul class="footer__menu-items">
-            {{ range .Params.developerMenu.items }}
-            <li class="footer__menu-item">
-              <a href="{{ .url }}">{{ .name }}</a>
-            </li>
-            {{ end }}
-          </ul>
-        </div>
-        <div class="footer__menu-section">
-          <p class="footer__menu-section-title">{{ .Params.companyMenu.title }}</p>
-          <ul class="footer__menu-items">
-            {{ range .Params.companyMenu.items }}
-            <li class="footer__menu-item">
-              <a href="{{ .url }}">{{ .name }}</a>
-            </li>
-            {{ end }}
-          </ul>
+        <div class="footer__menu">
+          <div class="footer__menu-section">
+            <p class="footer__menu-section-title">{{ .Params.productMenu.title }}</p>
+            <ul class="footer__menu-items">
+              {{ range .Params.productMenu.items }}
+              <li class="footer__menu-item">
+                <a href="{{ .url }}">{{ .name }}</a>
+              </li>
+              {{ end }}
+            </ul>
+          </div>
+          <div class="footer__menu-section">
+            <p class="footer__menu-section-title">{{ .Params.developerMenu.title }}</p>
+            <ul class="footer__menu-items">
+              {{ range .Params.developerMenu.items }}
+              <li class="footer__menu-item">
+                <a href="{{ .url }}">{{ .name }}</a>
+              </li>
+              {{ end }}
+            </ul>
+          </div>
+          <div class="footer__menu-section">
+            <p class="footer__menu-section-title">{{ .Params.companyMenu.title }}</p>
+            <ul class="footer__menu-items">
+              {{ range .Params.companyMenu.items }}
+              <li class="footer__menu-item">
+                <a href="{{ .url }}">{{ .name }}</a>
+              </li>
+              {{ end }}
+            </ul>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="footer__middle">
-    <div class="footer__middle-content">
-      <div class="footer__middle-newsletter">
-        <p class="footer__middle-title">{{ .Params.joinTitle }}</p>
-        <p class="footer__middle-subtitle">{{ .Params.joinSubtitle }}</p>
-      </div>
-      <div class="footer__middle-subscribe">
-        <input type="text" placeholder="Enter your email" />
-        <a href="{{ .Params.subscribe.url }}" class="button button_contained button_lg">{{ .Params.subscribe.text }}</a>
+    <div class="footer__middle">
+      <div class="footer__middle-content">
+        <div class="footer__middle-newsletter">
+          <p class="footer__middle-title">{{ .Params.joinTitle }}</p>
+          <p class="footer__middle-subtitle">{{ .Params.joinSubtitle }}</p>
+        </div>
+        <div class="footer__middle-subscribe">
+          <input type="text" placeholder="Enter your email" />
+          <a href="{{ .Params.subscribe.url }}" class="button button_contained button_lg"
+            >{{ .Params.subscribe.text }}</a
+          >
+        </div>
       </div>
     </div>
-  </div>
-  <div class="footer__bottom">
-    <div class="footer__bottom-content">
-      <span>{{ .Params.copyright }}</span>
-      <div class="footer__bottom-links">
-        <a href="{{ .Params.termsLink.url }}">{{ .Params.termsLink.text }}</a>
-        <a href="{{ .Params.privacyLink.url }}">{{ .Params.privacyLink.text }}</a>
+    <div class="footer__bottom">
+      <div class="footer__bottom-content">
+        <span>{{ .Params.copyright }}</span>
+        <div class="footer__bottom-links">
+          <a href="{{ .Params.termsLink.url }}">{{ .Params.termsLink.text }}</a>
+          <a href="{{ .Params.privacyLink.url }}">{{ .Params.privacyLink.text }}</a>
+        </div>
       </div>
     </div>
   </div>

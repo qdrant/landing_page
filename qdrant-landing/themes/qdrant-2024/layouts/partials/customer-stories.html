@@ -1,37 +1,39 @@
 <section class="customer-stories">
-  <div class="customer-stories__header">
-    <h3 class="customer-stories__title">{{ .Params.title }}</h3>
-    <div class="customer-stories__header-content">
-      <span class="d-flex flex-column align-self-end">
-        {{ .Scratch.Set "cssClass" "link_xl" }} {{ partial "link" . }}
-      </span>
-      <div class="customer-stories__controls">
-        <button type="button" disabled class="customer-stories__button customer-stories__button-prev">
-          <span>{{ partial "svg" "Angle-Right.svg" }}</span>
-        </button>
-        <button type="button" class="customer-stories__button">
-          <span>{{ partial "svg" "Angle-Right.svg" }}</span>
-        </button>
+  <div class="container">
+    <div class="customer-stories__header">
+      <h3 class="customer-stories__title mx-auto">{{ .Params.title }}</h3>
+      <div class="customer-stories__header-content">
+        <span class="d-flex flex-column align-self-end">
+          {{ .Scratch.Set "cssClass" "link_xl" }} {{ partial "link" . }}
+        </span>
+        <div class="customer-stories__controls">
+          <button type="button" disabled class="customer-stories__button customer-stories__button-prev">
+            <span>{{ partial "svg" "Angle-Right.svg" }}</span>
+          </button>
+          <button type="button" class="customer-stories__button">
+            <span>{{ partial "svg" "Angle-Right.svg" }}</span>
+          </button>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="customer-stories__cards-wrapper">
-    <div class="customer-stories__cards">
-      {{ range .Params.storyCards }}
-      <div class="card customer-stories__card">
-        <div>
-          <img src="{{.icon}}" alt="{{.brand}}" />
-          <p class="customer-stories__card-content">{{ .content | safeHTML }}</p>
-        </div>
-        <div class="customer-stories__card-footer">
-          <img src="{{.author.avatar}}" alt="{{.author.fullName}}" />
-          <div class="customer-stories__card-author">
-            <p class="customer-stories__card-author-name">{{ .author.fullName }}</p>
-            <p class="customer-stories__card-author-position">{{ .author.position }}</p>
+    <div class="customer-stories__cards-wrapper row-4 row-xl-12">
+      <div class="customer-stories__cards">
+        {{ range .Params.storyCards }}
+        <div class="card customer-stories__card col-4 col-xl-12">
+          <div>
+            <img src="{{.icon}}" alt="{{.brand}}" />
+            <p class="customer-stories__card-content">{{ .content | safeHTML }}</p>
+          </div>
+          <div class="customer-stories__card-footer">
+            <img src="{{.author.avatar}}" alt="{{.author.fullName}}" />
+            <div class="customer-stories__card-author">
+              <p class="customer-stories__card-author-name">{{ .author.fullName }}</p>
+              <p class="customer-stories__card-author-position">{{ .author.position }}</p>
+            </div>
           </div>
         </div>
+        {{ end }}
       </div>
-      {{ end }}
     </div>
   </div>
 </section>

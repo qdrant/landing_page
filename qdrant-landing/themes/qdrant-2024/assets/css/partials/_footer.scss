@@ -222,7 +222,6 @@
     &__top-content {
       padding: 0;
       flex-direction: row;
-      max-width: rem(1100);
       gap: 0;
     }
 
@@ -230,7 +229,6 @@
       padding: 0;
       flex-direction: row;
       align-items: center;
-      max-width: rem(1100);
     }
 
     &__middle-newsletter {
@@ -253,7 +251,6 @@
     &__bottom-content {
       gap: 0;
       flex-direction: row;
-      max-width: rem(1100);
     }
   }
 }

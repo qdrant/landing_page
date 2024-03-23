@@ -13,15 +13,15 @@
     color: $neutral-70;
     text-align: center;
     font-size: map-get($font-sizes-text, 'l');
-    max-width: rem(640);
     margin: 0 auto calc($spacer / 2);
   }
 
   &__description {
     display: flex;
+    width: 100%;
     flex-direction: column;
     align-items: center;
-    padding: 0 rem(20);
+    padding: 0 rem(12);
   }
 
   &__link {
