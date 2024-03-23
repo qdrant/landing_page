@@ -21,7 +21,6 @@
   &__top-content {
     display: flex;
     width: 100%;
-    padding: 0 rem(20);
     flex-direction: column;
     justify-content: space-between;
     gap: $spacer * 3;
@@ -113,7 +112,6 @@
     flex-direction: column;
     max-width: 100%;
     justify-content: space-between;
-    padding: 0 rem(20);
   }
 
   &__middle-newsletter {
