@@ -71,7 +71,7 @@
   &__cards {
     display: flex;
     flex-direction: column;
-    gap: $spacer * 2;
+    row-gap: $spacer * 2;
   }
 
   &__card {
@@ -144,10 +144,6 @@
 
     &__cards {
       flex-direction: row;
-    }
-
-    &__card {
-      max-width: rem(350);
     }
   }
 }
