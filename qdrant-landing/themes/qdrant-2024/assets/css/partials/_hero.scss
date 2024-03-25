@@ -20,15 +20,15 @@
     overflow: hidden;
 
     @include media-breakpoint-up(md) {
-      $height: math.div(-100vw, 2.46);
+      $height: math.div(-100vw, 2.46); // image's aspect ratio 2.46 / 1
       margin-top: calc(#{$height} * 0.34);
     }
 
     img {
       display: block;
-      width: 200%;
+      width: 250%;
       height: auto;
-      margin-left: -50%;
+      margin-left: -75%;
 
       @include media-breakpoint-up(md) {
         width: 100%;
