@@ -28,7 +28,7 @@ To maintain complete data isolation, we need to limit ourselves to open-source t
 The [Haystack](https://haystack.deepset.ai/) framework leverages two pipelines, which combine our components sequentially to process data. 
 
 1. The **Indexing Pipeline** will run offline in batches, when new data is added or updated. 
-2. The **Search Pipeline** will retrieves information from Qdrant and uses an LLM to produce an answer.
+2. The **Search Pipeline** will retrieve information from Qdrant and use an LLM to produce an answer.
 
 > **Note:** We will define the pipelines in Python and then export them to YAML format, so that [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) can run them as a web service.
 
