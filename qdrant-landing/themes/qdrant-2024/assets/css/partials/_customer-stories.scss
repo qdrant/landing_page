@@ -5,6 +5,8 @@
 
   padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
+  padding-left: $spacer * 0.5;
+  padding-right: $spacer * 0.5;
 
   display: flex;
   flex-direction: column;
@@ -80,7 +82,6 @@
     padding-left: $spacer * 2;
     padding-right: $spacer * 2;
 
-    min-width: rem(350);
     min-height: rem(407);
 
     img {
@@ -144,6 +145,15 @@
 
     &__cards {
       flex-direction: row;
+    }
+
+    &__cards {
+      margin-left: rem(-15);
+      margin-right: rem(-15);
+    }
+
+    &__cards > div {
+      padding: 0 rem(15);
     }
   }
 }
