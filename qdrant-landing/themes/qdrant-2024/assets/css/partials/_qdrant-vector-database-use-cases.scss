@@ -29,14 +29,14 @@
   &__title {
     font-size: $spacer * 2;
     line-height: rem(38);
-    margin-bottom: 24px;
+    margin-bottom: $spacer * 1.5;
     color: $neutral-98;
   }
 
   &__description {
     font-size: $spacer;
     line-height: $spacer * 1.5;
-    margin-bottom: 24px;
+    margin-bottom: $spacer * 1.5;
     color: $neutral-70;
   }
 
