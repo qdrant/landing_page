@@ -10,7 +10,7 @@ description: Hooman Sedghamiz discloses the potential of AI in life sciences,
   tearing apart the nuances of in-house AI deployment for multi-faceted
   enterprise efficiency.
 preview_image: /blog/from_cms/hooman-sedghamiz-bp-cropped.png
-date: 2024-03-08T09:45:59.753Z
+date: 2024-03-25T08:46:28.227Z
 author: Demetrios Brinkmann
 featured: false
 tags:
