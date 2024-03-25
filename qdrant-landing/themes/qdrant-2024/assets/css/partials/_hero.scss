@@ -1,5 +1,5 @@
 @use '../helpers/functions' as *;
-@use "sass:math";
+@use 'sass:math';
 
 .hero {
   padding-top: $spacer * 2.5;
@@ -30,13 +30,12 @@
       height: auto;
       margin-left: -50%;
 
-        @include media-breakpoint-up(md) {
-          width: 100%;
-          margin-left: 0;
-        }
+      @include media-breakpoint-up(md) {
+        width: 100%;
+        margin-left: 0;
+      }
     }
   }
-
 
   &__title {
     color: $neutral-98;

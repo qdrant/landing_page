@@ -7,6 +7,32 @@ startFree:
 learnMore:
   text: Learn More
   url: /
+heroImageSources:
+  - minWidth: 2881px
+    srcset: /img/hero-home-illustration-x3.webp
+    type: image/webp
+  - minWidth: 2881px
+    srcset: /img/hero-home-illustration-x3.png
+    type: image/png
+  - minWidth: 1441px
+    srcset: /img/hero-home-illustration-x2.webp
+    type: image/webp
+  - minWidth: 1441px
+    srcset: /img/hero-home-illustration-x2.png
+    type: image/png
+  - minWidth: 721px
+    srcset: /img/hero-home-illustration-x1.webp
+    type: image/webp
+  - minWidth: 721px
+    srcset: /img/hero-home-illustration-x1.png
+    type: image/png
+  - srcset: /img/hero-home-illustration-x05.webp
+    type: image/webp
+  - srcset: /img/hero-home-illustration-x05.png
+    type: image/png
+fallbackHeroImage:
+  src: /img/hero-home-illustration-x05.png
+  alt: 'Hero image: an astronaut looking at dark hole from the planet surface.'
 customerStories:
   text: Qdrant Powers Thousands of Top AI Solutions.
   textLink: Customer Stories
