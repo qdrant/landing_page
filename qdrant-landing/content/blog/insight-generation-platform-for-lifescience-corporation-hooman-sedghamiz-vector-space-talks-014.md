@@ -22,7 +22,7 @@ tags:
 -- Hooman Sedghamiz
 > 
 
-Hooman Sedghamiz**,** Sr. Director AI/ML - Insights at Bayer AG is a distinguished figure in AI and ML in the life sciences field. With years of experience, he has led teams and projects that have greatly advanced medical products, including implantable and wearable devices. Notably, he served as the Generative AI product owner and Senior Director at Bayer Pharmaceuticals, where he played a pivotal role in developing a GPT-based central platform for precision medicine. 
+Hooman Sedghamiz, Sr. Director AI/ML - Insights at Bayer AG is a distinguished figure in AI and ML in the life sciences field. With years of experience, he has led teams and projects that have greatly advanced medical products, including implantable and wearable devices. Notably, he served as the Generative AI product owner and Senior Director at Bayer Pharmaceuticals, where he played a pivotal role in developing a GPT-based central platform for precision medicine. 
 
 In 2023, he assumed the role of Co-Chair for the EMNLP 2023 GEM industrial track, furthering his contributions to the field. Hooman has also been an AI/ML advisor and scientist at the University of California, San Diego, leveraging his expertise in deep learning to drive biomedical research and innovation. His strengths lie in guiding data science initiatives from inception to commercialization and bridging the gap between medical and healthcare applications through MLOps, LLMOps, and deep learning product management. Engaging with research institutions and collaborating closely with Dr. Nemati at Harvard University and UCSD, Hooman continues to be a dynamic and influential figure in the data science community.
 
