@@ -3,7 +3,7 @@ title: AI Meets Advanced Vector Search
 description: The leading open source vector database and similarity search engine designed to handle high-dimensional vectors for performance and massive-scale AI applications.
 link:
   text: All features
-  url: /
+  url: /qdrant-vector-database
 cloudFeature:
   title: Cloud-Native Scalability & High-Availability
   content: Enterprise-grade Managed Cloud. Vertical and horizontal scaling and zero-downtime upgrades.
