@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Production-scale RAG for Real-Time News Distillation - Robert Caulk |
   Vector Space Talks
 slug: real-time-news-distillation-rag
@@ -11,7 +11,7 @@ description: Robert Caulk, founder of Emergent Methods, discusses the
   recommendation systems, all while emphasizing the importance of efficiency and
   modularity in technology stacks for real-time data management.
 preview_image: /blog/from_cms/robert-caulk-bp-cropped.png
-date: 2024-03-08T10:07:45.278Z
+date: 2024-03-25T08:49:22.422Z
 author: Demetrios Brinkmann
 featured: false
 tags:
