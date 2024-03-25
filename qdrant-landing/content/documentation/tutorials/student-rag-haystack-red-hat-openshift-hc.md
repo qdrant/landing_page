@@ -1,89 +1,44 @@
 ---
-title: Personalizing the learning experience with RAG
+title: Private Chatbot for Interactive Learning
 weight: 23 
 ---
 
-# Personalizing the learning experience with RAG
+# Private Chatbot for Interactive Learning
 
-Online courses became the preferred way of learning some new things for many people. The main reason is that they are 
-flexible and can be done at your own pace. However, if you finished a couple of them already, and do not remember all
-the details, you might want to have a tool that can remind you certain concepts or even suggest the best action to take
-in the current situation. Being able to chat with the course becomes easier with Large Language Models (LLMs), but since 
-they were not trained on the course material, they will be never able to use the knowledge from it. The power of 
-Retrieval Augmented Generation(RAG) is to bring external relevant knowledge to the conversation, so the LLM may use it 
-to answer your questions.
+| Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/) |
+| --- | ----------- | ----------- |----------- |
 
-[Red Hat Interactive Learning Portal](https://developers.redhat.com/learn) is an excellent resource for boosting your 
-software development career. If you, for example, would like to learn about the basics of [Red Hat 
-OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift), you can easily find a course that covers
-the foundations:
+Having already completed their online training, corporate employees might want to refer back old course materials. Most of this information is proprietary to the company, and manually searching through an entire library of materials takes time. However, a chatbot built on this knowledge can respond in the blink of an eye. 
 
-![](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/red-hat-foundations-of-openshift.png)
+With a simple RAG pipeline, you can build a private chatbot. In this tutorial, you will combine open source tools inside of a closed infrastructure and tie them together with a reliable framework. This custom solution lets you run a chatbot without public internet access. You will be able to keep sensitive data secure without compromising privacy.
 
-Online trainings are also quite common in corporate environments. The employees are often required to take a number of
-courses to keep their knowledge up to date. The same problem arises here: **the employees might not remember all the
-details from the courses they took**. The RAG model can be used to help them find the information they need. Since 
-internal company documents, including trainings, are not available to the public, it might be required to be able to 
-host everything on the company's infrastructure. Mature companies often use [Red Hat 
-OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) for building and deploying their 
-applications already. This tutorial will show you how to create a RAG pipeline using permissive open-source tools and 
-deploy it on Red Hat OpenShift with Qdrant also running there, thanks to the Hybrid Cloud offering. With that setup, 
-**not a single datapoint leaves your infrastructure**!
+![OpenShift](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/openshift-diagram.png)
+**Figure 1:** The LLM and Qdrant Hybrid Cloud are containerized as separate services. Haystack combines them into a RAG pipeline and exposes the API via Hayhooks.
 
-[//]: # (TODO: add links to Qdrant Hybrid Cloud)
+## Components
+To maintain complete data isolation, we need to limit ourselves to open-source tools and use them in a private environment, such as [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift). The pipeline will run internally and will be inaccessible from the internet.
 
-## Target system
+- **Dataset:** [Red Hat Interactive Learning Portal](https://developers.redhat.com/learn), an online library of RedHat course materials.
+- **LLM:** `mistralai/Mistral-7B-Instruct-v0.1`, deployed as a standalone service on OpenShift.
+- **Embedding Model:** `BAAI/bge-m3`, lightweight LLM deployed from within the Haystack pipeline.
+- **Vector DB:** [Qdrant Hybrid Cloud](https://qdrant.tech) running on OpenShift.
+- **Framework:** [Haystack 2.x](https://haystack.deepset.ai/) to connect all and [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) to serve the app through HTTP endpoints.
 
-We are going to implement a system that will be able to answer questions based on the courses. The system will be hosted
-completely on our own infrastructure with all the components securely running even without internet access.
+### Procedure
+The [Haystack](https://haystack.deepset.ai/) framework leverages two pipelines, which combine our components sequentially to process data. 
 
-Such a RAG-based application needs a few components:
+1. The **Indexing Pipeline** will run offline in batches, when new data is added or updated. 
+2. The **Search Pipeline** will retrieve information from Qdrant and use an LLM to produce an answer.
 
-- Large Language Model, in our case `mistralai/Mistral-7B-Instruct-v0.1`
-- An embedding model, such as `BAAI/bge-m3`
-- Retrieval mechanism, obviously built with [Qdrant](https://qdrant.tech) running in Hybrid Cloud
-- [Haystack 2.x](https://haystack.deepset.ai/) to orchestrate all the components and 
-  [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) for serving the application through HTTP endpoints
+> **Note:** We will define the pipelines in Python and then export them to YAML format, so that [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) can run them as a web service.
 
-[//]: # (TODO: link "Hybrid Cloud" to the corresponding docs)
+## Prerequisites
 
-TODO: visualize the flow between the components
+### Deploy the LLM to OpenShift
 
-### Processes in the system
+Follow the steps in [Chapter 6. Serving large language models](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.5/html/working_on_data_science_projects/serving-large-language-models_serving-large-language-models#doc-wrapper). This will download the LLM from the [HuggingFace](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1), and deploy it to OpenShift using a *single model serving platform*. 
 
-Building any semantic search system requires at least two processes to be implemented: indexing the data and searching
-over it. The indexing process is usually done offline, as a batch job that we run every time we have new data to index,
-or if the data changes. [Haystack](https://haystack.deepset.ai/) has a concept of a pipeline, which is a directed graph
-of components that process the data in a specific order. Pipelines might be defined as code or as a YAML file. In our
-case, we will use the code to define the pipelines, and then export once of them to YAML so 
-[Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) can run it as a web service.
-
-## Building up a system
-
-There are a few components that we need to bring to life before our application can be launched. 
-
-### Large Language Model
-
-Large Language Models are the core of the RAG pipeline. They are responsible for generating the answers and should not 
-be launched within the web service, as they need a lot of resources to run. Instead, we usually prefer to expose them as
-a separate service, which can be queried by the main application. The model we are going to use is an open source
-`mistralai/Mistral-7B-Instruct-v0.1`, which is a 7B parameter model licensed under the Apache 2.0 license. We can get
-it from the [Hugging Face model hub](https://huggingface.co/mistralai/Mistral-7B-Instruct-v0.1), and deploy it on Red 
-Hat OpenShift using a *single model serving platform*, as described in the Red Hat documentation: [Chapter 6. Serving 
-large language models](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.5/html/working_on_data_science_projects/serving-large-language-models_serving-large-language-models#doc-wrapper).
-
-<aside role="status">Please follow all the steps from the linked documentation before you go further</aside>
-
-The platform is based on [KServe](https://kserve.github.io/website/0.11/), a Kubernetes model inference platform, and 
-[Caikit-TGIS](https://github.com/opendatahub-io/caikit-tgis-serving) runtime, which includes a fork of the Hugging Face 
-[Text Generation Inference](https://github.com/huggingface/text-generation-inference) server.
-
-![KServe layer](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/kserve-layer.png)
-
-*Source: https://kserve.github.io/website/0.11/*
-
-After the model is deployed, we need to know the URL of the service, so we can use it in our code. The URL might be
-stored in an environment variable, so we can use it in the code and change it from the outside. 
+Your LLM service will have a URL, which you need to store as an environment variable.
 
 ```shell
 export INFERENCE_ENDPOINT_URL="http://mistral-service.default.svc.cluster.local"
@@ -95,23 +50,11 @@ import os
 os.environ["INFERENCE_ENDPOINT_URL"] = "http://mistral-service.default.svc.cluster.local"
 ```
 
-### Embedding model
+### Launch Qdrant Hybrid Cloud
 
-Theoretically, we could also host an embedding model as another web service, similarly to the Large Language Model. 
-However, we will deploy it as a part of the Haystack pipeline, as it is not as resource-intensive as the LLM. Let's skip
-this part for now, as we will cover it in the next sections.
+Complete **How to Set Up Qdrant on RedHat OpenShift**. When in Hybrid Cloud, your Qdrant instance is private and and its nodes run on the same OpenShift infrastructure as your other components.  
 
-### Qdrant Hybrid Cloud
-
-We don't want our vectors and learning materials to be stored in a publicly available database, so we will use Qdrant in 
-a Hybrid Cloud mode, with all the nodes running on our Red Hat OpenShift infrastructure. The process of setting it up is 
-described in the Hybrid Cloud documentation, so please follow it to get your Qdrant up and running.
-
-TODO: add a link to the corresponding documentation page
-
-At the end of the process, you should have a running Qdrant instance available under a specific URL. Make sure to
-retrieve the API key, as it will be required to interact with the database. Our configuration might be again stored in 
-the environment variables:
+Retrieve your Qdrant URL and API key and store them as environment variables:
 
 ```shell
 export QDRANT_URL="https://qdrant.example.com"
@@ -122,12 +65,11 @@ export QDRANT_API_KEY="your-api-key"
 os.environ["QDRANT_URL"] = "https://qdrant.example.com"
 os.environ["QDRANT_API_KEY"] = "your-api-key"
 ```
+## Implementation
 
-## Implementing the pipelines
-
-Search does not make much sense without a proper set of documents to search over. For that reason, we will start with 
-the indexing pipeline first, and then move to the search pipeline. We can implement both of them in Python, either 
-script or notebook, as eventually we will export them to YAML files either way.
+We will first create an indexing pipeline to add documents to the system. 
+Then, the search pipeline will retrieve relevant data from our documents.
+After the pipelines are tested, we will export them to YAML files.
 
 ### Indexing pipeline
 
@@ -242,7 +184,7 @@ indexing_pipeline.draw("indexing_pipeline.png")
 
 ![Structure of the indexing pipeline](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/indexing_pipeline.png)
 
-#### Testing the pipeline end-to-end
+#### Test the entire pipeline 
 
 We can finally run it on a list of URLs to index the content in Qdrant. We have a bunch of URLs to all the Red Hat
 OpenShift Foundations course lessons, so let's use them:
@@ -281,7 +223,7 @@ the standard output:
 
 ### Search pipeline
 
-Our documents are now indexed, and ready for searching over. The next pipeline is a bit simpler, but still requires a
+Our documents are now indexed, and ready for search. The next pipeline is a bit simpler, but still requires a
 few components to be defined. Let's start again with an empty pipeline:
 
 ```python
@@ -309,7 +251,7 @@ search_pipeline.add_component("retriever", retriever)
 search_pipeline.connect("query_embedder.embedding", "retriever.query_embedding")
 ```
 
-#### Retrieving search results
+#### Run a test query
 
 If our goal was to just retrieve the relevant documents, we could stop here. Let's try the current pipeline on a simple
 query:
@@ -418,12 +360,14 @@ search_pipeline.draw("search_pipeline.png")
 
 ![Structure of the search pipeline](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/search_pipeline.png)
 
-## Deploying the application
+## Deployment
 
-The pipelines are now ready, and we can export them to YAML files. These files might be used by Hayhooks to run the
-pipelines as HTTP endpoints. Setting up the services is pretty straightforward, as we just need to provide the paths to
-the YAML files and the environment variables. Actually, the indexing pipeline might be run inside your ETL tool, but
-search should be definitely exposed as an HTTP endpoint. Let's run it on the local machine:
+The pipelines are now ready, and we can export them to YAML. Hayhooks will use these files to run the
+pipelines as HTTP endpoints. To do this, specify both file paths and your environment variables. 
+
+> Note: The indexing pipeline might be run inside your ETL tool, but search should be definitely exposed as an HTTP endpoint. 
+
+Let's run it on the local machine:
 
 ```shell
 pip install hayhooks
