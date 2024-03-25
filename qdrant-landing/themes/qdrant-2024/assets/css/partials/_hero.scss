@@ -9,23 +9,31 @@
 
   &__content {
     text-align: center;
-    padding: 0; // rem(20) rem(344);
     max-width: 100%;
     margin: 0 auto;
   }
 
   &__image {
     width: 100%;
-    margin: 0 auto;
-    background: url('/img/hero-home-illustration.svg') no-repeat center top;
-    background-size: cover;
     min-height: rem(480);
-    margin-top: rem(-142);
+    margin: rem(-142) auto 0;
+    overflow: hidden;
 
     @include media-breakpoint-up(md) {
-      aspect-ratio: 2.46 / 1;
       $height: math.div(-100vw, 2.46);
       margin-top: calc(#{$height} * 0.34);
+    }
+
+    img {
+      display: block;
+      width: 200%;
+      height: auto;
+      margin-left: -50%;
+
+        @include media-breakpoint-up(md) {
+          width: 100%;
+          margin-left: 0;
+        }
     }
   }
 

@@ -12,5 +12,17 @@
       <span class="hero__stars-count"> {{ .Params.starLogo | safeHTML }} 15.2K </span>
     </button>
   </div>
-  <div class="hero__image"></div>
+  <div class="hero__image">
+      <picture>
+        <source media="(min-width: 2881px)" srcset="/img/hero-home-illustration-x3.webp" type="image/webp">
+        <source media="(min-width: 2881px)" srcset="/img/hero-home-illustration-x3.png" type="image/png">
+        <source media="(min-width: 1441px)" srcset="/img/hero-home-illustration-x2.webp" type="image/webp">
+        <source media="(min-width: 1441px)" srcset="/img/hero-home-illustration-x2.png" type="image/png">
+        <source media="(min-width: 721px)" srcset="/img/hero-home-illustration-x1.webp" type="image/webp">
+        <source media="(min-width: 721px)" srcset="/img/hero-home-illustration-x1.png" type="image/png">
+        <source srcset="/img/hero-home-illustration-x05.webp" type="image/webp">
+        <source srcset="/img/hero-home-illustration-x05.png" type="image/png">
+        <img src="/img/hero-home-illustration-x05.png" alt="Hero image: an astronaut" draggable="false">
+      </picture>
+    </div>
 </section>
