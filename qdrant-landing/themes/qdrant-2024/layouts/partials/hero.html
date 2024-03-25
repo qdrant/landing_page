@@ -12,4 +12,22 @@
       <span class="hero__stars-count"> {{ .Params.starLogo | safeHTML }} 15.2K </span>
     </button>
   </div>
+  <div class="hero__image">
+    <picture>
+      {{ range .Params.heroImageSources }}
+      <source
+        {{
+        if
+        .minWidth
+        }}media="(min-width: {{ .minWidth }})"
+        {{
+        end
+        }}
+        srcset="{{ .srcset }}"
+        type="{{ .type }}"
+      />
+      {{ end }}
+      <img src="{{ .Params.fallbackHeroImage.src }}" alt="{{ .Params.fallbackHeroImage.alt }}" draggable="false" />
+    </picture>
+  </div>
 </section>
