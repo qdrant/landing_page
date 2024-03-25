@@ -18,7 +18,7 @@ tags:
   - Retrieval Augmented Generation
   - Insight Generation Platform
 ---
-> *"There is this really great vector db comparison that came out recently. I saw there are like maybe more than 40 vector stores in 2024. When we started back in 2023 was only a few. What I see, which is really lacking in this pipeline of retrieval augmented generation is major innovation around data pipeline.”*\
+> *"There is this really great vector db comparison that came out recently. I saw there are like maybe more than 40 vector stores in 2024. When we started back in 2023, there were only a few. What I see, which is really lacking in this pipeline of retrieval augmented generation is major innovation around data pipeline.”*\
 -- Hooman Sedghamiz
 > 
 
