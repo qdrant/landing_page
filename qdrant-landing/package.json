@@ -8,6 +8,7 @@
       "@babel/preset-env": "qdrant-2024",
       "copy-webpack-plugin": "qdrant-2024",
       "prettier": "qdrant-2024",
+      "prettier-plugin-go-template": "qdrant-2024",
       "webpack": "qdrant-2024",
       "webpack-cli": "qdrant-2024"
     }
@@ -20,6 +21,7 @@
     "@babel/preset-env": "^7.23.9",
     "copy-webpack-plugin": "^12.0.2",
     "prettier": "^3.2.5",
+    "prettier-plugin-go-template": "^0.0.15",
     "webpack": "^5.90.1",
     "webpack-cli": "^5.1.4"
   },
