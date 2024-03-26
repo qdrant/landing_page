@@ -10,14 +10,15 @@
         }} {{ end }} {{ with (.Site.GetPage "hero") }} {{ partial "hero" . }} {{ end }} {{ with (.Site.GetPage
         "customers") }} {{ partial "customers" . }} {{ end }}
       </header>
+      {{ with (.Site.GetPage "core-features") }} {{ partial "core-features" . }} {{ end }} {{ with (.Site.GetPage
+      "customer-stories") }} {{ partial "customer-stories" . }} {{ end }} {{ with (.Site.GetPage "integrations") }} {{
+      partial "integrations" . }} {{ end }} {{ with (.Site.GetPage "docker-deploy") }} {{ partial "docker-deploy" . }}
+      {{ end }} {{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{ with (.Site.GetPage
+      "get-started") }} {{ partial "get-started" . }} {{ end }} {{ with (.Site.GetPage "footer") }} {{ partial "footer"
+      . }} {{ end }}
     </main>
-    {{ with (.Site.GetPage "core-features") }} {{ partial "core-features" . }} {{ end }} {{ with (.Site.GetPage
-    "customer-stories") }} {{ partial "customer-stories" . }} {{ end }} {{ with (.Site.GetPage "integrations") }} {{
-    partial "integrations" . }} {{ end }} {{ with (.Site.GetPage "docker-deploy") }} {{ partial "docker-deploy" . }} {{
-    end }} {{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{ with (.Site.GetPage
-    "get-started") }} {{ partial "get-started" . }} {{ end }} {{ with (.Site.GetPage "footer") }} {{ partial "footer" .
-    }} {{ end }} {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify |
-    resources.Fingerprint "sha512" }}
+    {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512"
+    }}
     <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
   </body>
 </html>

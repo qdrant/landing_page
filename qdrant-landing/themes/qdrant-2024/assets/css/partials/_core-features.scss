@@ -5,8 +5,8 @@
 
   padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
-  padding-left: $spacer * 1.5;
-  padding-right: $spacer * 1.5;
+  padding-left: $spacer * 0.5;
+  padding-right: $spacer * 0.5;
 
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
   &__title {
     font-size: rem(40);
     line-height: rem(48);
-    text-align: center;
+    text-align: start;
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
   }
@@ -26,16 +26,17 @@
     line-height: rem(27);
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
-    text-align: center;
+    text-align: start;
   }
 
   &__cards {
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: rem(30);
-    margin-top: rem(30);
+    row-gap: rem(32);
+    min-width: 100%;
+    margin-top: rem(32);
   }
 
   &__card-title {
@@ -51,7 +52,7 @@
     padding-bottom: $spacer * 2.5;
     padding-left: $spacer * 1.5;
     padding-right: $spacer * 1.5;
-    width: 100%;
+    min-width: 100%;
     max-width: 100%;
     min-height: rem(475);
     border-radius: calc($spacer / 2);
@@ -109,6 +110,7 @@
 
     &__title {
       font-size: map-get($font-sizes, 2);
+      text-align: center;
       line-height: rem(67);
       max-width: rem(920);
     }
@@ -117,6 +119,16 @@
       font-size: map-get($font-sizes-text, 'xl');
       line-height: rem(30);
       max-width: rem(920);
+      text-align: center;
+    }
+
+    &__cards {
+      margin-left: rem(-15);
+      margin-right: rem(-15);
+    }
+
+    &__cards > div {
+      padding: 0 rem(15);
     }
 
     &__card {
@@ -124,7 +136,6 @@
       padding-bottom: $spacer * 2.5;
       padding-left: $spacer * 2.5;
       padding-right: $spacer * 2.5;
-      max-width: rem(350);
       min-height: rem(390);
 
       svg {

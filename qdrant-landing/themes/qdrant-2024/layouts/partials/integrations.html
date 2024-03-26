@@ -1,11 +1,13 @@
 <section class="integrations">
-  <h2 class="integrations__title">{{ .Params.title }}</h2>
-  <p class="integrations__subtitle">
-    Qdrant integrates with all leading
-    <a class="integrations__link" href="{{ .Params.embedLink.url }}">{{ .Params.embedLink.text }}</a>, or and
-    <a class="integrations__link" href="{{ .Params.frameworkLink.url }}">{{ .Params.frameworkLink.text }}</a>.
-  </p>
-  {{ .Scratch.Set "cssClass" "link_light link_xl"}} {{ partial "link" . }}
-  <div class="integrations__preview"></div>
-  <div class="integrations__overlay"></div>
+  <div class="container">
+    <h2 class="integrations__title mx-auto">{{ .Params.title }}</h2>
+    <p class="integrations__subtitle">
+      Qdrant integrates with all leading
+      <a class="integrations__link" href="{{ .Params.embedLink.url }}">{{ .Params.embedLink.text }}</a>, or and
+      <a class="integrations__link" href="{{ .Params.frameworkLink.url }}">{{ .Params.frameworkLink.text }}</a>.
+    </p>
+    <div class="text-center">{{ .Scratch.Set "cssClass" "link_light link_xl"}} {{ partial "link" . }}</div>
+    <div class="integrations__preview mx-auto"></div>
+    <div class="integrations__overlay"></div>
+  </div>
 </section>
