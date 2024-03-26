@@ -1,0 +1,90 @@
+@use '../helpers/functions' as *;
+
+.qdrant-vector-database-use-cases {
+  padding-top: $spacer * 3;
+  padding-bottom: $spacer * 4;
+  padding-left: $spacer * 0.5;
+  padding-right: $spacer * 0.5;
+
+  background-color: $neutral-10;
+
+  &__wrapper {
+    justify-content: center;
+  }
+
+  &__cases {
+    gap: $spacer * 5;
+  }
+
+  &__text {
+    order: 1;
+
+    .link {
+      font-size: rem(20);
+      line-height: rem(30);
+      margin-bottom: $spacer * 2.5;
+    }
+  }
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: $spacer;
+    line-height: $spacer * 1.5;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-70;
+  }
+
+  &__preview {
+    order: 2;
+    height: 0;
+    padding-bottom: 67%;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 10;
+
+    &__wrapper {
+      max-width: rem(1134);
+    }
+
+    &__cases {
+      gap: $spacer * 10;
+    }
+
+    &__text {
+      order: initial;
+    }
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: rem(57);
+    }
+
+    &__description {
+      font-size: rem(18);
+      line-height: rem(27);
+    }
+
+    &__preview {
+      width: rem(540);
+      height: rem(360);
+      padding-bottom: 0;
+      order: initial;
+
+      img {
+        width: 100%;
+      }
+    }
+  }
+}
