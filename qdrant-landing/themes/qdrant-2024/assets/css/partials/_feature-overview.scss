@@ -4,16 +4,15 @@
   background-color: $neutral-94;
 
   padding-top: $spacer * 4;
-  padding-bottom: $spacer * 2.5;
-  padding-left: rem(12);
-  padding-right: rem(12);
+  padding-bottom: $spacer * 3;
+  padding-left: $spacer * 0.5;
+  padding-right: $spacer * 0.5;
 
   display: flex;
   flex-direction: column;
   align-items: center;
 
   &__header {
-    max-width: rem(1110);
     margin-bottom: $spacer * 3;
   }
 
@@ -27,10 +26,6 @@
     margin: 0;
     font-size: rem(18);
     line-height: rem(27);
-  }
-
-  &__cards-wrapper {
-    max-width: rem(1110);
   }
 
   &__cards {
@@ -56,7 +51,11 @@
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 7.5;
+    padding-bottom: $spacer * 2.5;
+
+    &__content {
+      max-width: rem(1134);
+    }
 
     &__header {
       display: grid;
