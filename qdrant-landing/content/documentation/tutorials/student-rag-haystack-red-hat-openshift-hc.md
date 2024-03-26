@@ -449,6 +449,9 @@ The response should be similar to the one we got in the Python before:
 
 ## Next steps
 
-Haystack's documentation describes [how to deploy the Hayhooks service in a Kubernetes 
-environment](https://docs.haystack.deepset.ai/docs/kubernetes), so you can easily move it to your own infrastructure
-based on Red Hat OpenShift and enjoy all the components running in a secure and private environment.
+- In this example, [RedHat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is the infrastructure of choice for proprietary chatbots. [Read more](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8) about how to host AI projects in their [extensive documentation](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8).
+
+- [Haystack's documentation](https://docs.haystack.deepset.ai/docs/kubernetes) describes [how to deploy the Hayhooks service in a Kubernetes 
+environment](https://docs.haystack.deepset.ai/docs/kubernetes), so you can easily move it to your own OpenShift infrastructure.
+
+- If you are just getting started and need more guidance on Qdrant, read the [quickstart](https://qdrant.tech/documentation/quick-start/) or try out our [beginner tutorial](https://qdrant.tech/documentation/tutorials/neural-search/).
