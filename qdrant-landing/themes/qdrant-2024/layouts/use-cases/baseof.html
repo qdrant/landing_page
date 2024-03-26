@@ -12,6 +12,8 @@
   </header>
 </main>
 
-{{ with (.Site.GetPage "vectors") }}{{ partial "vectors" . }}{{ end }}
+{{ with (.Site.GetPage "vectors-use-case") }}
+  {{ .Scratch.Set "cssClass" "vectors-use-case" }}{{ partial "vectors" . }}
+{{ end }}
 {{ with (.Site.GetPage "get-started") }}{{ partial "get-started" . }}{{ end }}
 {{ with (.Site.GetPage "footer") }}{{ partial "footer" . }}{{ end }}

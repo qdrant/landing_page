@@ -3,7 +3,6 @@
 .vectors {
   background-color: $neutral-10;
 
-  padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
   padding-left: $spacer * 0.5;
   padding-right: $spacer * 0.5;
@@ -13,6 +12,12 @@
   align-items: center;
   justify-content: center;
 
+  &__header {
+    width: 100%;
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 5;
+  }
+
   &__title {
     font-size: map-get($font-sizes, 4);
     line-height: rem(48);
@@ -20,15 +25,34 @@
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
     color: $neutral-98;
+    padding-right: calc(1.5rem * 0.5);
+    padding-left: calc(1.5rem * 0.5);
   }
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
     line-height: rem(27);
-    max-width: 100%;
     text-align: center;
     color: $neutral-70;
-    margin-bottom: $spacer * 3;
+
+    padding-right: calc(1.5rem * 0.5);
+    padding-left: calc(1.5rem * 0.5);
+
+    @include media-breakpoint-up(sm) {
+      max-width: 540px;
+    }
+
+    @include media-breakpoint-up(md) {
+      max-width: 720px;
+    }
+
+    @include media-breakpoint-up(lg) {
+      max-width: 960px;
+    }
+
+    @include media-breakpoint-up(xl) {
+      max-width: 1134px;
+    }
   }
 
   &__cards {
@@ -81,8 +105,9 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 10;
+    &__header {
+      padding-bottom: $spacer * 7.5;
+    }
 
     &__title {
       font-size: map-get($font-sizes, 2);
@@ -94,7 +119,6 @@
       font-size: map-get($font-sizes-text, 'xl');
       line-height: rem(30);
       max-width: rem(726);
-      margin-bottom: $spacer * 10;
     }
 
     &__cards {
@@ -139,6 +163,41 @@
 
     @include media-breakpoint-up(xl) {
       height: rem(392);
+    }
+  }
+}
+
+.vectors-use-case {
+  .vectors__header {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 7;
+  }
+
+  .vectors__title {
+    max-width: 100%;
+  }
+
+  .vectors__cards {
+    gap: $spacer * 7.5;
+  }
+
+  @include media-breakpoint-up(xl) {
+    .vectors__header {
+      padding-top: $spacer * 5;
+      background: url('/img/stars-pattern.png') $neutral-10;
+    }
+
+    .vectors__title {
+      font-size: map-get($font-sizes, 1);
+      line-height: rem(76);
+    }
+
+    .vectors__subtitle {
+      max-width: rem(944);
+    }
+
+    .vectors__cards {
+      gap: $spacer * 10;
     }
   }
 }

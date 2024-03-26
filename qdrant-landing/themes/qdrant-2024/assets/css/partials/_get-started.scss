@@ -3,8 +3,8 @@
 .get-started {
   background-color: $neutral-94;
 
-  padding-top: $spacer * 5;
-  padding-bottom: $spacer * 5;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
   padding-left: $spacer * 0.5;
   padding-right: $spacer * 0.5;
 
@@ -98,8 +98,10 @@
   }
 
   @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 6.5;
+    padding-bottom: $spacer * 6.5;
+
     &__content {
-      min-width: rem(1110);
       min-height: rem(165);
 
       padding-left: 0;
