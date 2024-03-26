@@ -4,7 +4,7 @@
   background-color: $neutral-94;
 
   padding-top: $spacer * 4;
-  padding-bottom: $spacer * 2.5;
+  padding-bottom: $spacer * 3;
   padding-left: $spacer * 0.5;
   padding-right: $spacer * 0.5;
 
@@ -51,7 +51,7 @@
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 7.5;
+    padding-bottom: $spacer * 2.5;
 
     &__content {
       max-width: rem(1134);

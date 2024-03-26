@@ -7,7 +7,7 @@ startFree:
 contactUs:
   text: Contact us
   url: /
-icon:
+image:
   src: /img/qdrant-vector-database-hero.svg
   srcMobile: /img/mobile/qdrant-vector-database-hero.svg
   alt: Qdrant Vector Database

@@ -1,7 +1,7 @@
 ---
 items:
 - id: 0
-  icon:
+  image:
     src: /img/qdrant-vector-database-use-cases/built-for-performance.svg
     alt: Benchmark
   title: Built for Performance
@@ -11,7 +11,7 @@ items:
     url: /
   odd: true
 - id: 1
-  icon:
+  image:
     src: /img/qdrant-vector-database-use-cases/fully-managed.svg
     alt: Qdrant Cloud
   title: Fully Managed
@@ -21,7 +21,7 @@ items:
     url: /
   odd: false
 - id: 2
-  icon:
+  image:
     src: /img/qdrant-vector-database-use-cases/run-anywhere.svg
     alt: Enterprise Solutions
   title: Run Anywhere
