@@ -3,9 +3,9 @@
   <button type="button" class="main-menu__trigger">{{ partial "svg" "Hamburger-Menu-White.svg" }}</button>
   <ul class="main-menu__links">
     {{ range .Params.menuItems }}
-    <li class="main-menu__item">
-      <a class="menu-link" href="{{ .url }}">{{ .name }}</a>
-    </li>
+      <li class="main-menu__item">
+        <a class="menu-link" href="{{ .url }}">{{ .name }}</a>
+      </li>
     {{ end }}
   </ul>
   <div class="main-menu__buttons">

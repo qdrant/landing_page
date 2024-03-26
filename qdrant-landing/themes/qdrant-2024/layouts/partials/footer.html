@@ -9,7 +9,7 @@
           </div>
           <div class="footer__social-media-platforms">
             {{ range .Params.socialMedia }}
-            <a class="footer__social-media-link" href="{{ .url }}"> {{ .icon | safeHTML }} </a>
+              <a class="footer__social-media-link" href="{{ .url }}"> {{ .icon | safeHTML }} </a>
             {{ end }}
           </div>
         </div>
@@ -18,9 +18,9 @@
             <p class="footer__menu-section-title">{{ .Params.productMenu.title }}</p>
             <ul class="footer__menu-items">
               {{ range .Params.productMenu.items }}
-              <li class="footer__menu-item">
-                <a href="{{ .url }}">{{ .name }}</a>
-              </li>
+                <li class="footer__menu-item">
+                  <a href="{{ .url }}">{{ .name }}</a>
+                </li>
               {{ end }}
             </ul>
           </div>
@@ -28,9 +28,9 @@
             <p class="footer__menu-section-title">{{ .Params.developerMenu.title }}</p>
             <ul class="footer__menu-items">
               {{ range .Params.developerMenu.items }}
-              <li class="footer__menu-item">
-                <a href="{{ .url }}">{{ .name }}</a>
-              </li>
+                <li class="footer__menu-item">
+                  <a href="{{ .url }}">{{ .name }}</a>
+                </li>
               {{ end }}
             </ul>
           </div>
@@ -38,9 +38,9 @@
             <p class="footer__menu-section-title">{{ .Params.companyMenu.title }}</p>
             <ul class="footer__menu-items">
               {{ range .Params.companyMenu.items }}
-              <li class="footer__menu-item">
-                <a href="{{ .url }}">{{ .name }}</a>
-              </li>
+                <li class="footer__menu-item">
+                  <a href="{{ .url }}">{{ .name }}</a>
+                </li>
               {{ end }}
             </ul>
           </div>
