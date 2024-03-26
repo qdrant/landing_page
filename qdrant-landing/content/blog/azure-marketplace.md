@@ -41,7 +41,7 @@ Ready to experience the benefits of Qdrant on Azure Marketplace? Getting started
 
 1. **Visit the Azure Marketplace**: Navigate to [Qdrant's Marketplace listing](https://azuremarketplace.microsoft.com/en-en/marketplace/apps/qdrantsolutionsgmbh1698769709989.qdrant-db).
 2. **Deploy Qdrant**: Follow the simple deployment instructions to set up your instance.
-3. **Start Using Qdrant**: Once deployed, start exploring the features and capabilities of Qdrant on Azure.
+3. **Start Using Qdrant**: Once deployed, start exploring the [features and capabilities of Qdrant](https://qdrant.tech/documentation/concepts/) on Azure.
 4. **Read Documentation**: Read Qdrant's [Documentation](https://qdrant.tech/documentation/) and build demo apps using [Tutorials](https://qdrant.tech/documentation/tutorials/). 
 
 ## Join Us on this Exciting Journey:
