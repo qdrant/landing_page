@@ -4,9 +4,9 @@
   background-color: $neutral-94;
 
   padding-top: $spacer * 4;
-  padding-left: $spacer * 1.5;
-  padding-right: $spacer * 1.5;
   padding-bottom: $spacer * 4;
+  padding-left: $spacer * 0.5;
+  padding-right: $spacer * 0.5;
 
   display: flex;
   flex-direction: column;
@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     max-width: rem(1110);
-    width: 100%;
+    min-width: 100%;
     margin-bottom: $spacer * 2.5;
   }
 
@@ -73,7 +73,7 @@
   &__cards {
     display: flex;
     flex-direction: column;
-    gap: $spacer * 2;
+    row-gap: $spacer * 2;
   }
 
   &__card {
@@ -82,7 +82,6 @@
     padding-left: $spacer * 2;
     padding-right: $spacer * 2;
 
-    min-width: rem(350);
     min-height: rem(407);
 
     img {
@@ -142,15 +141,19 @@
     &__cards-wrapper {
       padding-bottom: $spacer * 1.5;
       overflow-y: scroll;
-      max-width: rem(1110);
     }
 
     &__cards {
       flex-direction: row;
     }
 
-    &__card {
-      max-width: rem(350);
+    &__cards {
+      margin-left: rem(-15);
+      margin-right: rem(-15);
+    }
+
+    &__cards > div {
+      padding: 0 rem(15);
     }
   }
 }

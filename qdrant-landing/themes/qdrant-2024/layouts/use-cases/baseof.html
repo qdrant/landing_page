@@ -7,6 +7,6 @@
   </header>
 </main>
 
-{{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{ with (.Site.GetPage
-"feature-overview") }} {{ partial "feature-overview" . }} {{ end }} {{ with (.Site.GetPage "get-started") }} {{
-partial "get-started" . }} {{ end }} {{ with (.Site.GetPage "footer") }} {{ partial "footer" . }} {{ end }}
+{{ with (.Site.GetPage "vectors") }} {{ partial "vectors" . }} {{ end }} {{ with (.Site.GetPage "feature-overview") }}
+{{ partial "feature-overview" . }} {{ end }} {{ with (.Site.GetPage "get-started") }} {{ partial "get-started" . }} {{
+end }} {{ with (.Site.GetPage "footer") }} {{ partial "footer" . }} {{ end }}
