@@ -8,7 +8,7 @@ weight: 23
 | Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/) |
 | --- | ----------- | ----------- |----------- |
 
-Having already completed their online training, corporate employees might want to refer back old course materials. Most of this information is proprietary to the company, and manually searching through an entire library of materials takes time. However, a chatbot built on this knowledge can respond in the blink of an eye. 
+With chatbots, companies can scale their training programs to accommodate a large workforce, delivering consistent and standardized learning experiences across departments, locations, and time zones. Furthermore, having already completed their online training, corporate employees might want to refer back old course materials. Most of this information is proprietary to the company, and manually searching through an entire library of materials takes time. However, a chatbot built on this knowledge can respond in the blink of an eye. 
 
 With a simple RAG pipeline, you can build a private chatbot. In this tutorial, you will combine open source tools inside of a closed infrastructure and tie them together with a reliable framework. This custom solution lets you run a chatbot without public internet access. You will be able to keep sensitive data secure without compromising privacy.
 
@@ -99,10 +99,10 @@ indexing_pipeline = Pipeline()
 
 #### Data fetching and conversion
 
-Our goal is to have a tool that will accept a list of URLs, download the content from them and store in Qdrant to enable
-searching over it. We also don't want to store the raw HTML, but extract the text content from each webpage. Also, the
-documents might be pretty long, so it's better to divide them into digestible chunks. We can achieve all of that with
-the components provided by Haystack. First of all, let's focus on the data fetching and conversion to text:
+In this step, we will use Haystack's `LinkContentFetcher` to download course content from a list of URLs and store it in Qdrant for retrieval. 
+As we don't want to store raw HTML, this tool will extract text content from each webpage. Then, the fetcher will divide them into digestible chunks, since the documents might be pretty long. 
+
+Let's start with data fetching and text conversion:
 
 ```python
 from haystack.components.fetchers import LinkContentFetcher
@@ -131,11 +131,12 @@ following parameters:
 
 #### Chunking and creating the embeddings
 
-The `HTMLToDocument` component was used to convert the HTML sources into `Document` instances of Haystack, which is a
-base class containing some data to be queried. Still, a single document might be too long to be processed by the 
-embedding model, and it also carries way too much information to make the search relevant. We need to split the document
-into smaller parts and convert them into embeddings. For that purpose, we will use the `DocumentSplitter` and
-`HuggingFaceTEIDocumentEmbedder` pointed to our `BAAI/bge-m3` model:
+We used `HTMLToDocument` to convert the HTML sources into `Document` instances of Haystack, which is a
+base class containing some data to be queried. However, a single document might be too long to be processed by the 
+embedding model, and it also carries way too much information to make the search relevant. 
+
+Therefore, we need to split the document into smaller parts and convert them into embeddings. 
+For this, we will use the `DocumentSplitter` and `HuggingFaceTEIDocumentEmbedder` pointed to our `BAAI/bge-m3` model:
 
 ```python
 from haystack.components.preprocessors import DocumentSplitter
@@ -154,7 +155,9 @@ indexing_pipeline.connect("splitter.documents", "embedder.documents")
 #### Writing data to Qdrant
 
 The splitter will be producing chunks with a maximum length of 5 sentences, with an overlap of 2 sentences. Then, these
-smaller portions will be converted into embeddings. The last missing piece is the storage of the embeddings in Qdrant.
+smaller portions will be converted into embeddings. 
+
+Finally, we need to store our embeddings in Qdrant.
 
 ```python
 from haystack.utils import Secret
@@ -214,8 +217,7 @@ indexing_pipeline.run(data={
 ```
 
 The execution might take a while, as the model needs to process all the documents. After the process is finished, we
-should have all the documents stored in Qdrant, ready to be searched over and a short summary should be displayed on
-the standard output:
+should have all the documents stored in Qdrant, ready for search. You should see a short summary of processed documents:
 
 ```shell
 {'writer': {'documents_written': 381}}
@@ -223,16 +225,16 @@ the standard output:
 
 ### Search pipeline
 
-Our documents are now indexed, and ready for search. The next pipeline is a bit simpler, but still requires a
-few components to be defined. Let's start again with an empty pipeline:
+Our documents are now indexed and ready for search. The next pipeline is a bit simpler, but we still need to define a
+few components. Let's start again with an empty pipeline:
 
 ```python
 search_pipeline = Pipeline()
 ```
 
-Our second process takes user's input, converts it into embeddings, and then searches for the most relevant documents
-using the query embedding. Up to this point, it may look similar, but here we don't work with `Document` instances 
-anymore, but just raw text sent as a query. Thus, some of the components will be different, especially the embedder,
+Our second process takes user input, converts it into embeddings and then searches for the most relevant documents
+using the query embedding. This might look familiar, but we arent working with `Document` instances 
+anymore, since the query only accepts raw text. Thus, some of the components will be different, especially the embedder,
 as it has to accept a single string as an input and produce a single embedding as an output:
 
 ```python
@@ -266,8 +268,7 @@ search_pipeline.run(data={
 })
 ```
 
-We set the `top_k` parameter to 3, so the retriever should return the three most relevant documents. The output should
-look as follows:
+We set the `top_k` parameter to 3, so the retriever should return the three most relevant documents. Your output should look like this:
 
 ```text
 {
@@ -283,9 +284,10 @@ look as follows:
 
 #### Generating the answer
 
-We don't want just the documents, but also an exact answer to our question. For that purpose, we need to use the Large
-Language Model to generate it. That will be the final component of our second pipeline, but there is also a need to 
-create a prompt that will take the documents and put it into the context sent to the LLM. Haystack has all it covered:
+Retrieval should serve more than just documents. Therefore, we will need to use an LLM to generate exact answers to our question. 
+This is the final component of our second pipeline. 
+
+Haystack will create a prompt which adds your documents to the model's context.
 
 ```python
 from haystack.components.builders.prompt_builder import PromptBuilder
