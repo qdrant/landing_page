@@ -5,25 +5,26 @@
   </div>
   <ul class="menu-mobile__items">
     {{ range .Params.menuItems }}
-    <li class="menu-mobile__item" data-path="{{ .id }}" onclick="toggleMenu('{{ .id }}')">
-      <div class="menu-mobile__item-content">
-        {{ .name }} {{ if .subMenuItems }}
-        <button type="button" class="menu-mobile__expand">{{ partial "svg" "Arrow-SM-Down.svg" }}</button>
+      <li class="menu-mobile__item" data-path="{{ .id }}" onclick="toggleMenu('{{ .id }}')">
+        <div class="menu-mobile__item-content">
+          {{ .name }}
+          {{ if .subMenuItems }}
+            <button type="button" class="menu-mobile__expand">{{ partial "svg" "Arrow-SM-Down.svg" }}</button>
+          {{ end }}
+        </div>
+        {{ if .subMenuItems }}
+          <ul class="menu-mobile__subitems">
+            {{ range .subMenuItems }}
+              <a href="{{ .url }}">
+                <li class="menu-mobile__subitem">
+                  <span style="background-image: url(/img/menu/{{ .icon }})"> </span>
+                  {{ .name }}
+                </li>
+              </a>
+            {{ end }}
+          </ul>
         {{ end }}
-      </div>
-      {{ if .subMenuItems }}
-      <ul class="menu-mobile__subitems">
-        {{ range .subMenuItems }}
-        <a href="{{ .url }}">
-          <li class="menu-mobile__subitem">
-            <span style="background-image: url(/img/menu/{{.icon}})"> </span>
-            {{ .name }}
-          </li>
-        </a>
-        {{ end }}
-      </ul>
-      {{ end }}
-    </li>
+      </li>
     {{ end }}
   </ul>
   <div class="menu-mobile__controls">

@@ -25,17 +25,15 @@
   <div class="hero__image">
     <picture>
       {{ range .Params.heroImageSources }}
-      <source
-        {{
-        if
-        .minWidth
-        }}media="(min-width: {{ .minWidth }})"
-        {{
-        end
-        }}
-        srcset="{{ .srcset }}"
-        type="{{ .type }}"
-      />
+        <source
+          {{ if
+            .minWidth
+          }}
+            media="(min-width: {{ .minWidth }})"
+          {{ end }}
+          srcset="{{ .srcset }}"
+          type="{{ .type }}"
+        />
       {{ end }}
       <img src="{{ .Params.fallbackHeroImage.src }}" alt="{{ .Params.fallbackHeroImage.alt }}" draggable="false" />
     </picture>

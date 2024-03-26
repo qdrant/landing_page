@@ -1,33 +1,35 @@
 <section class="qdrant-vector-database-use-cases">
   <div class="qdrant-vector-database-use-cases__wrapper container">
     <div class="qdrant-vector-database-use-cases__cases row">
-      {{ range $index, $element := .Params.items }} {{ if eq (mod $index 2) 0 }}
-      <div class="col-12">
-        <div class="row justify-content-xl-between align-items-lg-center">
-          <div class="qdrant-vector-database-use-cases__text col-12 col-xl-5">
-            <h3 class="qdrant-vector-database-use-cases__title">{{ .title }}</h3>
-            <p class="qdrant-vector-database-use-cases__description">{{ .description }}</p>
-            <a class="link link_light link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
+      {{ range $index, $element := .Params.items }}
+        {{ if eq (mod $index 2) 0 }}
+          <div class="col-12">
+            <div class="row justify-content-xl-between align-items-lg-center">
+              <div class="qdrant-vector-database-use-cases__text col-12 col-xl-5">
+                <h3 class="qdrant-vector-database-use-cases__title">{{ .title }}</h3>
+                <p class="qdrant-vector-database-use-cases__description">{{ .description }}</p>
+                <a class="link link_light link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
+              </div>
+              <div class="qdrant-vector-database-use-cases__preview col-12 col-xl-6">
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              </div>
+            </div>
           </div>
-          <div class="qdrant-vector-database-use-cases__preview col-12 col-xl-6">
-            <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+        {{ else }}
+          <div class="col-12">
+            <div class="row justify-content-xl-between align-items-lg-center">
+              <div class="qdrant-vector-database-use-cases__preview col-12 col-xl-6">
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              </div>
+              <div class="qdrant-vector-database-use-cases__text col-12 col-xl-5">
+                <h3 class="qdrant-vector-database-use-cases__title">{{ .title }}</h3>
+                <p class="qdrant-vector-database-use-cases__description">{{ .description }}</p>
+                <a class="link link_light link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      {{ else }}
-      <div class="col-12">
-        <div class="row justify-content-xl-between align-items-lg-center">
-          <div class="qdrant-vector-database-use-cases__preview col-12 col-xl-6">
-            <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
-          </div>
-          <div class="qdrant-vector-database-use-cases__text col-12 col-xl-5">
-            <h3 class="qdrant-vector-database-use-cases__title">{{ .title }}</h3>
-            <p class="qdrant-vector-database-use-cases__description">{{ .description }}</p>
-            <a class="link link_light link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
-          </div>
-        </div>
-      </div>
-      {{ end }} {{ end }}
+        {{ end }}
+      {{ end }}
     </div>
   </div>
 </section>
