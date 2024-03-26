@@ -1,3 +1,5 @@
-{{ define "main" }} {{ range .Data.Pages }}
-<h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
-{{ end }} {{ end }}
+{{ define "main" }}
+  {{ range .Data.Pages }}
+    <h2><a href="{{ .Permalink }}">{{ .Title }}</a></h2>
+  {{ end }}
+{{ end }}
