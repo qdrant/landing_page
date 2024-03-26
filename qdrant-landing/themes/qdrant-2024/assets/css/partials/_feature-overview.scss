@@ -79,10 +79,10 @@
     &__cards {
       display: grid;
       grid-template-areas:
-        "A A A B B B"
-        "C C D D E E"
-        "F F F F G G"
-        "H H I I J J";
+        'A A A B B B'
+        'C C D D E E'
+        'F F F F G G'
+        'H H I I J J';
       gap: rem(30);
     }
 
