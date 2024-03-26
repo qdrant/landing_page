@@ -1,15 +1,43 @@
 <section class="hero">
-  <div class="hero__content">
-    <h1 class="hero__title">{{ .Params.title }}</h1>
-    <p class="hero__subtitle">{{ .Params.subtitle }}</p>
-    <div class="hero__buttons">
-      <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">{{ .Params.startFree.text }}</a>
-      <a href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg">{{ .Params.learnMore.text }}</a>
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="hero__content">
+          <h1 class="hero__title">{{ .Params.title }}</h1>
+          <p class="hero__subtitle">{{ .Params.subtitle }}</p>
+          <div class="hero__buttons">
+            <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg"
+              >{{ .Params.startFree.text }}</a
+            >
+            <a href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg"
+              >{{ .Params.learnMore.text }}</a
+            >
+          </div>
+        </div>
+      </div>
     </div>
     <button type="button" class="hero__stars">
       {{ .Params.githubLogo | safeHTML }}
       <span class="hero__stars-text">Star us</span>
       <span class="hero__stars-count"> {{ .Params.starLogo | safeHTML }} 15.2K </span>
     </button>
+  </div>
+  <div class="hero__image">
+    <picture>
+      {{ range .Params.heroImageSources }}
+      <source
+        {{
+        if
+        .minWidth
+        }}media="(min-width: {{ .minWidth }})"
+        {{
+        end
+        }}
+        srcset="{{ .srcset }}"
+        type="{{ .type }}"
+      />
+      {{ end }}
+      <img src="{{ .Params.fallbackHeroImage.src }}" alt="{{ .Params.fallbackHeroImage.alt }}" draggable="false" />
+    </picture>
   </div>
 </section>
