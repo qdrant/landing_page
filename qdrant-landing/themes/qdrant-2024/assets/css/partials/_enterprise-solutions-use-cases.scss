@@ -1,10 +1,10 @@
 @use '../helpers/functions' as *;
 
-.qdrant-vector-database-use-cases {
-  background-color: $neutral-10;
+.enterprise-solutions-use-cases {
+  background-color: $neutral-94;
 
   padding-top: $spacer * 3;
-  padding-bottom: $spacer * 4;
+  padding-bottom: $spacer * 3;
   padding-left: $spacer * 0.5;
   padding-right: $spacer * 0.5;
 
@@ -12,35 +12,39 @@
     justify-content: center;
   }
 
+  &__title {
+    margin-bottom: $spacer * 5;
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    text-align: center;
+  }
+
   &__cases {
     gap: $spacer * 5;
   }
 
   &__case {
-    &-text .link {
-      font-size: rem(20);
-      line-height: rem(30);
-      margin-bottom: $spacer * 2.5;
+    &-text {
+      .link {
+        font-size: rem(20);
+        line-height: rem(30);
+        margin-bottom: $spacer * 2.5;
+      }
     }
 
     &-title {
       font-size: $spacer * 2;
       line-height: rem(38);
       margin-bottom: $spacer * 1.5;
-      color: $neutral-98;
     }
 
     &-description {
       font-size: $spacer;
       line-height: $spacer * 1.5;
       margin-bottom: $spacer * 1.5;
-      color: $neutral-70;
     }
 
     &-preview {
-      height: 0;
-      padding-bottom: 67%;
-
       img {
         width: 100%;
       }
@@ -55,8 +59,20 @@
       max-width: rem(1134);
     }
 
+    &__title {
+      margin-bottom: $spacer * 7.5;
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+    }
+
     &__cases {
-      gap: $spacer * 10;
+      gap: $spacer * 7.5;
+
+      & > div:last-of-type {
+        img {
+          padding-left: rem(50);
+        }
+      }
     }
 
     &__case {
@@ -83,8 +99,12 @@
 
       &-preview {
         width: rem(564);
-        height: rem(360);
-        padding-bottom: 0;
+        text-align: left;
+        order: initial;
+
+        img {
+          width: auto;
+        }
       }
     }
   }
