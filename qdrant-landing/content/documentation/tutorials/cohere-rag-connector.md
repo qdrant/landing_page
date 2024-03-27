@@ -15,8 +15,8 @@ source and let the Cohere LLM know how to access it. Obviously, vector search go
 search over your data is a typical case.
 
 The connectors have to implement a specific interface and expose the data source as HTTP REST API. Cohere documentation
-[describes a general process of creating a connector](https://docs.cohere.com/docs/creating-and-deploying-a-connector) 
-in a generic case. This tutorial guides you step by step on building such a service around Qdrant.
+[describes a general process of creating a connector](https://docs.cohere.com/docs/creating-and-deploying-a-connector). 
+This tutorial guides you step by step on building such a service around Qdrant.
 
 ## Qdrant connector
 
