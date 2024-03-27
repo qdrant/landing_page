@@ -35,7 +35,7 @@ Francesco Saverio Zuppichini is a Senior Full Stack Machine Learning Engineer at
 
 Curious about transforming YouTube content into searchable elements? Francesco Zuppichini unpacks the journey of coding a RAG by using subtitles as input, harnessing technologies like YouTube DL, Hugging Face, and Qdrant, while debating framework reliance and the fine art of selecting the right software tools.
 
-Here are some insights from this great episode:
+Here are some insights from this episode:
 
 1. **Behind the Code**: Francesco unravels how to create a RAG using YouTube videos. Get ready to geek out on the nuts and bolts that make this magic happen.
 2. **Vector Voodoo**: Ever wonder how embedding vectors carry out their similarity searches? Francesco's got you covered with his brilliant explanation of vector databases and the mind-bending distance method that seeks out those matches.
