@@ -4,11 +4,7 @@
 <main>
   <header class="main-header">
     {{ with (.Site.GetPage "section" "top-banner") }}{{ partial "top-banner" . }}{{ end }}
-    {{ with (.Site.GetPage
-      "menu")
-    }}
-      {{ partial "menu" . }}
-    {{ end }}
+    {{ with (.Site.GetPage "menu") }}{{ partial "menu" . }}{{ end }}
   </header>
 </main>
 

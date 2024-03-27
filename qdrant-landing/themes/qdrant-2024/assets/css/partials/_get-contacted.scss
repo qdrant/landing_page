@@ -1,0 +1,59 @@
+@use '../helpers/functions' as *;
+
+.get-contacted {
+  background-color: $neutral-94;
+
+  padding-left: $spacer * 0.5;
+  padding-right: $spacer * 0.5;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $spacer * 2.5;
+    background: linear-gradient($neutral-20, #0e1424);
+    border-radius: $spacer * 0.5;
+
+    p {
+      margin-bottom: $spacer * 2;
+      font-size: rem(20);
+      line-height: rem(30);
+      text-align: center;
+      color: $neutral-98;
+    }
+  }
+
+  &__button {
+    display: none;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 2.5;
+
+    &__wrapper {
+      max-width: rem(1134);
+    }
+
+    &__content {
+      flex-direction: row;
+      justify-content: space-between;
+      padding: $spacer * 2.5 $spacer * 4;
+
+      p {
+        max-width: rem(350);
+        margin-bottom: 0;
+        font-size: $spacer * 1.5;
+        line-height: rem(34);
+        text-align: left;
+      }
+    }
+
+    &__button {
+      display: inline-flex;
+    }
+
+    &__button-mobile {
+      display: none;
+    }
+  }
+}

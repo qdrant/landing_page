@@ -1,6 +1,6 @@
 @use '../helpers/functions' as *;
 
-.qdrant-vector-database-hero {
+.enterprise-solutions-hero {
   padding-top: $spacer * 2.5;
   padding-left: $spacer * 0.5;
   padding-right: $spacer * 0.5;
@@ -29,7 +29,6 @@
     align-items: center;
     justify-content: center;
     gap: $spacer * 1.5;
-    margin-bottom: $spacer * 2.5;
 
     .button {
       min-width: $spacer * 12.5;
@@ -38,6 +37,7 @@
 
   &__preview-mobile {
     width: 100%;
+    padding: 0 rem(12);
   }
 
   &__preview {
@@ -45,6 +45,8 @@
   }
 
   @include media-breakpoint-up(xl) {
+    padding-left: 0;
+    padding-right: 0;
     padding-top: $spacer * 5;
 
     &__wrapper {
@@ -65,7 +67,6 @@
 
     &__buttons {
       flex-direction: row;
-      margin-bottom: $spacer * 4;
 
       .button {
         min-width: auto;
@@ -79,6 +80,7 @@
     &__preview {
       display: block;
       width: 100%;
+      padding: 0;
     }
   }
 }

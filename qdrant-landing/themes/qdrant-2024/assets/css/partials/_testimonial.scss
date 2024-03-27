@@ -1,0 +1,101 @@
+@use '../helpers/functions' as *;
+
+.testimonial {
+  position: relative;
+  overflow: hidden;
+  background-color: $neutral-10;
+
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  padding-left: $spacer * 0.5;
+  padding-right: $spacer * 0.5;
+
+  &__wrapper {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__cards {
+    flex-direction: column;
+    gap: $spacer * 1.5;
+  }
+
+  &__content {
+    padding: $spacer * 2 $spacer * 2.5;
+    background: linear-gradient($neutral-20, #0e1424);
+    border-radius: $spacer * 0.5;
+  }
+
+  &__review {
+    margin-bottom: $spacer * 2.5;
+    font-size: rem(20);
+    line-height: rem(30);
+    color: $neutral-98;
+  }
+
+  &__employees {
+    display: flex;
+    flex-direction: column;
+
+    &-avatar {
+      margin-bottom: $spacer;
+      height: $spacer * 3;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    &-position {
+      p {
+        margin-bottom: 0;
+      }
+
+      p:first-of-type {
+        color: $neutral-94;
+      }
+
+      p:last-of-type {
+        font-size: rem(14);
+        line-height: rem(21);
+        color: $neutral-60;
+      }
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacer * 2;
+    background: linear-gradient($neutral-20, #0e1424);
+    border-radius: $spacer * 0.5;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__wrapper {
+      max-width: rem(1134);
+    }
+
+    &__cards {
+      flex-direction: row;
+      gap: 0;
+    }
+
+    &__employees {
+      flex-direction: row;
+
+      &-avatar {
+        margin-bottom: 0;
+        margin-right: $spacer;
+      }
+    }
+
+    &__logo {
+      height: 100%;
+    }
+  }
+}
