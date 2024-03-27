@@ -1,4 +1,6 @@
 @use 'sass:math';
+@use '../helpers/functions' as *;
+@use '../bootstrap-custom' as bs;
 
 @mixin base(
   $height,
@@ -17,6 +19,33 @@
 
   &__container {
     overflow: hidden;
+    position: relative;
+
+    &:before,
+    &:after {
+      content: '';
+      display: none;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: rem(100);
+      z-index: 1;
+
+      @include bs.media-breakpoint-up(md) {
+        display: block;
+      }
+      @include bs.media-breakpoint-up(lg) {
+        width: rem(165);
+      }
+    }
+    &:before {
+      left: 0;
+      background: linear-gradient(90deg, #090e1a 0.5%, #090e1a 38.79%, rgba(9, 14, 26, 0) 100%);
+    }
+    &:after {
+      right: 0;
+      background: linear-gradient(270deg, #090e1a 38.79%, rgba(9, 14, 26, 0) 100%);
+    }
   }
 
   &__block {
@@ -27,29 +56,6 @@
     box-sizing: border-box;
     position: relative;
     margin: 0 auto;
-
-    &:before {
-      content: '';
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 0;
-      box-shadow: 0 0 30px 30px white;
-      z-index: 1;
-    }
-    &:after {
-      content: '';
-      display: block;
-      position: absolute;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      width: 0;
-      box-shadow: 0 0 30px 30px white;
-      z-index: 1;
-    }
   }
 
   &__inner {

@@ -1,9 +1,11 @@
 <section class="customers">
-  <div class="customers__logos-wrapper">
-    <div class="customers__logos-overlay"></div>
-    <div class="customers__logos-content">{{ range .Params.customers }}{{ .logo | safeHTML }}{{ end }}</div>
-    <div class="customers__logos-overlay"></div>
-  </div>
+  {{ $context := slice }}
+  {{ range .Params.customers }}
+    {{ $context = $context | append (dict "svg" .logo "name" .name) }}
+  {{ end }}
+  {{ partial "marquee.html" (dict "context" $context "marqueeClass" "customers__logos") }}
+
+
   <div class="customers__description">
     <span class="customers__title">{{ .Params.customerStories.text }}</span>
     <a class="link link_xl" href="{{ .Params.customerStories.url }}"> {{ .Params.customerStories.textLink }} </a>
