@@ -1,4 +1,5 @@
 @use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
 
 .customers {
   display: flex;
@@ -8,6 +9,7 @@
   gap: $spacer * 3;
   padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
+  background: $neutral-10;
 
   &__title {
     color: $neutral-70;
@@ -31,40 +33,8 @@
     text-decoration: none;
   }
 
-  &__logos-wrapper {
-    overflow-x: scroll;
-    max-width: 100%;
-    position: relative;
-  }
-
-  &__logos-wrapper::-webkit-scrollbar {
-    display: none;
-  }
-
-  &__logos-content {
-    display: flex;
-    gap: $spacer * 6.5;
-
-    svg {
-      min-width: rem(120);
-      min-height: rem(64);
-    }
-  }
-
-  &__logos-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    max-width: $spacer * 10.5;
-    background: linear-gradient(to right, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
-  }
-
-  &__logos-overlay:last-of-type {
-    right: 0;
-    left: unset;
-    background: linear-gradient(to left, #090e1a, #090e1a 39%, rgb(9, 14, 26, 0) 100%);
+  .customers__logos {
+    @include marquee.base(64px, 224px, 15, 15, 52px, false, 50s);
   }
 
   @include media-breakpoint-up(xl) {
