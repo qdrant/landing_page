@@ -1,16 +1,16 @@
 ---
-draft: true
+draft: false
 title: "VirtualBrain: Best RAG to unleash the real power of AI - Guillaume
   Marquis | Vector Space Talks"
 slug: virtualbrain-best-rag
-short_description: Let's explore the complex world of information retrieval with
-  Guillaume Marquis, CTO & Co-founder at VirtualBrain.
-description: Guillaume Marquis, CTO & Co-founder at VirtualBrain, reveals the
+short_description: Let's explore information retrieval with Guillaume Marquis,
+  CTO & Co-Founder at VirtualBrain.
+description: Guillaume Marquis, CTO & Co-Founder at VirtualBrain, reveals the
   mechanics of advanced document retrieval with RAG technology, discussing the
   challenges of scalability, up-to-date information, and navigating user
   feedback to enhance the productivity of knowledge workers.
 preview_image: /blog/from_cms/guillaume-marquis-2-cropped.png
-date: 2024-03-11T08:35:54.200Z
+date: 2024-03-27T12:41:51.859Z
 author: Demetrios Brinkmann
 featured: false
 tags:
@@ -23,7 +23,7 @@ tags:
 —  Guillaume Marquis
 > 
 
-Guillaume Marquis, a dedicated Engineer and AI enthusiast, serves as the Chief Technology Officer and Co-founder of VirtualBrain, an innovative AI company. He is committed to exploring novel approaches to integrating artificial intelligence into everyday life, driven by a passion for advancing the field and its applications.
+Guillaume Marquis, a dedicated Engineer and AI enthusiast, serves as the Chief Technology Officer and Co-Founder of VirtualBrain, an innovative AI company. He is committed to exploring novel approaches to integrating artificial intelligence into everyday life, driven by a passion for advancing the field and its applications.
 
 ***Listen to the episode on [Spotify](https://open.spotify.com/episode/20iFzv2sliYRSHRy1QHq6W?si=xZqW2dF5QxWsAN4nhjYGmA), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/v85HqNqLQcI?feature=shared).***
 
@@ -69,7 +69,7 @@ Here are some key insight from this episode you need to look out for:
 *"We only exclusively use open source tools because of security aspects and stuff like that. That's why also we are using Qdrant one of the important point on that. So we have a system, we are using this serverless stuff to ingest document over time.”*\
 —  Guillaume Marquis
 
-*"One of the challenging part was the scalability of the system. We have clients that come with terra octave of data and want to be parsed really fast and so you have the ingestion, but even after the semantic search, even on a large data set can be slow. And today Chat GPT answer really fast. So your users, even if the question is way more complicated to answer than a basic Chat GPT question, they want to have their answer in seconds. So you have also this challenge that is really you have to take care.”*\
+*"One of the challenging part was the scalability of the system. We have clients that come with terra octave of data and want to be parsed really fast and so you have the ingestion, but even after the semantic search, even on a large data set can be slow. And today ChatGPT answers really fast. So your users, even if the question is way more complicated to answer than a basic ChatGPT question, they want to have their answer in seconds. So you have also this challenge that you really have to take care.”*\
 —  Guillaume Marquis
 
 *"Our AI is not trained to write you a speech based on Shakespeare and with the style of Martin Luther King. It's not the purpose of the tool. So if you ask something that is out of the box, he will just say like, okay, I don't know how to answer that. And that's an important point. That's a feature by itself to be able to not go outside of the box.”*\
