@@ -8,11 +8,14 @@
 
 
 <section class="{{ printf "%s %s" $defaultClass $cssClass }}">
-  <div class="vectors__header">
-    <h2 class="vectors__title mx-auto">{{ .Params.title }}</h2>
-    <p class="vectors__subtitle mx-auto">{{ .Params.subtitle }}</p>
-  </div>
+  <div class="vectors__header-overlay"></div>
   <div class="container">
+    <div class="vectors__header row">
+      <div class="col-12 z-1">
+        <h2 class="vectors__title mx-auto">{{ .Params.title }}</h2>
+        <p class="vectors__subtitle mx-auto">{{ .Params.subtitle }}</p>
+      </div>
+    </div>
     <div class="vectors__cards row">
       {{ range $index, $element := .Params.featureCards }}
         <div class="col-12">

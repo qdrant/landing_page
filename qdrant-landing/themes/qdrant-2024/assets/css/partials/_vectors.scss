@@ -11,11 +11,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   &__header {
-    width: 100%;
+    z-index: 1;
     padding-top: $spacer * 4;
     padding-bottom: $spacer * 5;
+  }
+
+  &__header-overlay {
+    display: none;
   }
 
   &__title {
@@ -25,8 +30,6 @@
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
     color: $neutral-98;
-    padding-right: calc(1.5rem * 0.5);
-    padding-left: calc(1.5rem * 0.5);
   }
 
   &__subtitle {
@@ -34,25 +37,6 @@
     line-height: rem(27);
     text-align: center;
     color: $neutral-70;
-
-    padding-right: calc(1.5rem * 0.5);
-    padding-left: calc(1.5rem * 0.5);
-
-    @include media-breakpoint-up(sm) {
-      max-width: 540px;
-    }
-
-    @include media-breakpoint-up(md) {
-      max-width: 720px;
-    }
-
-    @include media-breakpoint-up(lg) {
-      max-width: 960px;
-    }
-
-    @include media-breakpoint-up(xl) {
-      max-width: 1134px;
-    }
   }
 
   &__cards {
@@ -184,6 +168,16 @@
   @include media-breakpoint-up(xl) {
     .vectors__header {
       padding-top: $spacer * 5;
+    }
+
+    .vectors__header-overlay {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      max-height: rem(398);
       background: url('/img/stars-pattern.png') $neutral-10;
     }
 
