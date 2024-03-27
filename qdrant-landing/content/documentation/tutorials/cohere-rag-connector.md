@@ -1,5 +1,5 @@
 ---
-title: Implement custom connector for Cohere RAG
+title: Implement Cohere RAG connector
 weight: 24
 ---
 
