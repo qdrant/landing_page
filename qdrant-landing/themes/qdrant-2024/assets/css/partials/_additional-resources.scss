@@ -71,28 +71,6 @@
     text-decoration: none;
   }
 
-  &__overlay-top {
-    position: absolute;
-    right: 0;
-    top: 0;
-    width: rem(323);
-    height: rem(320);
-    background-image: url('/img/blurred/blurred-light-4-mobile.png');
-    background-position: top;
-    background-size: cover;
-  }
-
-  &__overlay-bottom {
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    width: rem(375);
-    height: rem(377);
-    background-image: url('/img/blurred/blurred-light-5-mobile.png');
-    background-position: bottom;
-    background-size: cover;
-  }
-
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 7.5;
@@ -110,27 +88,15 @@
     &__cards {
       justify-content: space-between;
       gap: 0;
-      padding: 0 rem(12);
     }
 
     &__card {
-      max-width: rem(255);
-      padding: 0;
+      width: calc(25% - 4.5px);
 
       &-info {
         width: 100%;
         min-height: rem(333);
       }
-    }
-
-    &__overlay-top {
-      background-image: url('/img/blurred/blurred-light-4.png');
-    }
-
-    &__overlay-bottom {
-      width: rem(637);
-      height: rem(376);
-      background-image: url('/img/blurred/blurred-light-5.png');
     }
   }
 }
