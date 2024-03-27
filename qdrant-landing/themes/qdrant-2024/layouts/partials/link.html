@@ -1,4 +1,5 @@
-{{ $defaultClass := "link" }} {{ $cssClass := "" }}
+{{ $defaultClass := "link" }}
+{{ $cssClass := "" }}
 {{ if .Scratch.Get "cssClass" }}
   {{ $cssClass = .Scratch.Get
     "cssClass"
