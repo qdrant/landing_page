@@ -156,7 +156,6 @@ class Document(BaseModel):
     title: str
     text: str
 
-
 class SearchResults(BaseModel):
     results: List[Document]
 ```
@@ -179,7 +178,6 @@ app = FastAPI()
 
 def qdrant_client() -> QdrantClient:
     return QdrantClient(config.QDRANT_URL, api_key=config.QDRANT_API_KEY)
-
 
 def cohere_client() -> cohere.Client:
     return cohere.Client(api_key=config.COHERE_API_KEY)
