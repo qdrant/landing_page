@@ -1,16 +1,16 @@
 ---
-draft: true
+draft: false
 title: Talk with YouTube without paying a cent - Francesco Saverio Zuppichini |
   Vector Space Talks
 slug: youtube-without-paying-cent
-short_description: Dive Sneek peek into the tech world as Francesco shares his
-  insights and processes on coding innovative solutions.
+short_description: A sneak peek into the tech world as Francesco shares his
+  ideas and processes on coding innovative solutions.
 description: Francesco Zuppichini outlines the process of converting YouTube
   video subtitles into searchable vector databases, leveraging tools like
   YouTube DL and Hugging Face, and addressing the challenges of coding without
   conventional frameworks in machine learning engineering.
 preview_image: /blog/from_cms/francesco-saverio-zuppichini-bp-cropped.png
-date: 2024-03-08T10:12:59.752Z
+date: 2024-03-27T12:37:55.643Z
 author: Demetrios Brinkmann
 featured: false
 tags:
