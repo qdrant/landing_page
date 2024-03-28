@@ -3,7 +3,6 @@
 .vectors {
   background-color: $neutral-10;
 
-  padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
   padding-left: $spacer * 0.5;
   padding-right: $spacer * 0.5;
@@ -12,6 +11,17 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  position: relative;
+
+  &__header {
+    z-index: 1;
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 5;
+  }
+
+  &__header-overlay {
+    display: none;
+  }
 
   &__title {
     font-size: map-get($font-sizes, 4);
@@ -25,10 +35,8 @@
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
     line-height: rem(27);
-    max-width: 100%;
     text-align: center;
     color: $neutral-70;
-    margin-bottom: $spacer * 3;
   }
 
   &__cards {
@@ -81,8 +89,9 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 10;
+    &__header {
+      padding-bottom: $spacer * 7.5;
+    }
 
     &__title {
       font-size: map-get($font-sizes, 2);
@@ -94,7 +103,6 @@
       font-size: map-get($font-sizes-text, 'xl');
       line-height: rem(30);
       max-width: rem(726);
-      margin-bottom: $spacer * 10;
     }
 
     &__cards {
@@ -139,6 +147,51 @@
 
     @include media-breakpoint-up(xl) {
       height: rem(392);
+    }
+  }
+}
+
+.vectors-use-case {
+  .vectors__header {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 7;
+  }
+
+  .vectors__title {
+    max-width: 100%;
+  }
+
+  .vectors__cards {
+    gap: $spacer * 7.5;
+  }
+
+  @include media-breakpoint-up(xl) {
+    .vectors__header {
+      padding-top: $spacer * 5;
+    }
+
+    .vectors__header-overlay {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      max-height: rem(398);
+      background: url('/img/stars-pattern.png') $neutral-10;
+    }
+
+    .vectors__title {
+      font-size: map-get($font-sizes, 1);
+      line-height: rem(76);
+    }
+
+    .vectors__subtitle {
+      max-width: rem(944);
+    }
+
+    .vectors__cards {
+      gap: $spacer * 10;
     }
   }
 }
