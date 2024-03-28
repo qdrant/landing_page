@@ -10,7 +10,7 @@
 
         {{ partial "menu" . }}
         {{ partial "menu-mobile" . }}
-        {{ with (.Site.GetPage "hero") }}{{ partial "hero" . }}{{ end }}
+        {{ partial "hero" . }}
         {{ with (.Site.GetPage
           "customers")
         }}

@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "enterprise-solutions-hero") }}
 <section class="enterprise-solutions-hero">
   <div class="enterprise-solutions-hero__wrapper container">
     <div class="row">
@@ -22,3 +23,4 @@
     alt="{{ .Params.image.alt }}"
   />
 </section>
+{{ end }}

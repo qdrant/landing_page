@@ -6,10 +6,7 @@
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
-    {{ with (.Site.GetPage "qdrant-vector-database-hero") }}
-      {{ partial
-        "qdrant-vector-database-hero" .
-      }}
+    {{ partial "qdrant-vector-database-hero" . }}
     {{ end }}
   </header>
 </main>
