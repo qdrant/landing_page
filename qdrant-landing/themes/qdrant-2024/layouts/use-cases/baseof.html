@@ -3,7 +3,7 @@
 
 <main>
   <header class="main-header">
-    {{ with (.Site.GetPage "section" "top-banner") }}{{ partial "top-banner" . }}{{ end }}
+    {{ partial "top-banner" . }}
     {{ with (.Site.GetPage
       "menu")
     }}
