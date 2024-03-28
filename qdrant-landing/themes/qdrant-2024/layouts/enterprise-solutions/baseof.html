@@ -3,15 +3,16 @@
 
 <main>
   <header class="main-header">
-    {{ with (.Site.GetPage "section" "top-banner") }}{{ partial "top-banner" . }}{{ end }}
-    {{ with (.Site.GetPage "menu") }}{{ partial "menu" . }}{{ end }}
-    {{ with (.Site.GetPage "enterprise-solutions-hero") }}{{ partial "enterprise-solutions-hero" . }}{{ end }}
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+    {{ partial "enterprise-solutions-hero" . }}
   </header>
 </main>
 
-{{ with (.Site.GetPage "enterprise-solutions-use-cases") }}{{ partial "enterprise-solutions-use-cases" . }}{{ end }}
-{{ with (.Site.GetPage "testimonial") }}{{ partial "testimonial" . }}{{ end }}
-{{ with (.Site.GetPage "enterprise-benefits") }}{{ partial "enterprise-benefits" . }}{{ end }}
-{{ with (.Site.GetPage "get-contacted") }}{{ partial "get-contacted" . }}{{ end }}
-{{ with (.Site.GetPage "get-started") }}{{ partial "get-started" . }}{{ end }}
-{{ with (.Site.GetPage "footer") }}{{ partial "footer" . }}{{ end }}
+{{ partial "enterprise-solutions-use-cases" . }}
+{{ partial "testimonial" . }}
+{{ partial "enterprise-benefits" . }}
+{{ partial "get-contacted" . }}
+{{ partial "get-started" . }}
+{{ partial "footer" . }}
