@@ -1,7 +1,7 @@
 <div class="menu-mobile">
   <div class="menu-mobile__header">
     {{ partial "logo.html" . }}
-    <button type="button" class="menu-mobile__close">{{ partial "svg" "Close.svg" }}</button>
+    <button type="button" class="menu-mobile__close">{{ partial "svg" "close.svg" }}</button>
   </div>
   <ul class="menu-mobile__items">
     {{ range .Params.menuItems }}
@@ -9,7 +9,7 @@
         <div class="menu-mobile__item-content">
           {{ .name }}
           {{ if .subMenuItems }}
-            <button type="button" class="menu-mobile__expand">{{ partial "svg" "Arrow-SM-Down.svg" }}</button>
+            <button type="button" class="menu-mobile__expand">{{ partial "svg" "arrow-sm-down.svg" }}</button>
           {{ end }}
         </div>
         {{ if .subMenuItems }}
