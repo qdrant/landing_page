@@ -4,7 +4,7 @@
 <main>
   <header class="main-header">
     {{ partial "top-banner" . }}
-    {{ with (.Site.GetPage "menu") }}{{ partial "menu" . }}{{ end }}
+    {{ partial "menu" . }}
     {{ with (.Site.GetPage "enterprise-solutions-hero") }}{{ partial "enterprise-solutions-hero" . }}{{ end }}
   </header>
 </main>

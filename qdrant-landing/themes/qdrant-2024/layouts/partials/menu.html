@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "menu")}}
 <div class="main-menu">
   <a href="/">
     {{ partial "logo.html" . }}
@@ -15,3 +16,4 @@
     <button class="button button_contained button_sm">{{ .Params.tryFree }}</button>
   </div>
 </div>
+{{ end }}
