@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "customers")}}
 <section class="customers">
   {{ $context := slice }}
   {{ range .Params.customers }}
@@ -11,3 +12,4 @@
     <a class="link link_xl" href="{{ .Params.customerStories.url }}"> {{ .Params.customerStories.textLink }} </a>
   </div>
 </section>
+{{ end }}

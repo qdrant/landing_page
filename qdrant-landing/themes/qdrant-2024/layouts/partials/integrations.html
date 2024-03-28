@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "integrations") }}
 <section class="integrations">
   <div class="container">
     <h2 class="integrations__title mx-auto">{{ .Params.title }}</h2>
@@ -11,3 +12,4 @@
     <div class="integrations__overlay"></div>
   </div>
 </section>
+{{ end }}

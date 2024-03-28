@@ -11,32 +11,19 @@
         {{ partial "menu" . }}
         {{ partial "menu-mobile" . }}
         {{ partial "hero" . }}
-        {{ with (.Site.GetPage
-          "customers")
-        }}
-          {{ partial "customers" . }}
-        {{ end }}
+        {{ partial "customers" . }}
       </header>
-      {{ with (.Site.GetPage "core-features") }}{{ partial "core-features" . }}{{ end }}
-      {{ with (.Site.GetPage
-        "customer-stories")
-      }}
-        {{ partial "customer-stories" . }}
-      {{ end }}
-      {{ with (.Site.GetPage "integrations") }}{{ partial "integrations" . }}{{ end }}
-      {{ with (.Site.GetPage "docker-deploy") }}
-        {{ partial "docker-deploy" . }}
-      {{ end }}
+      {{ partial "core-features" . }}
+      {{ partial "customer-stories" . }}
+      {{ partial "integrations" . }}
+      {{ partial "docker-deploy" . }}
+
       {{ with (.Site.GetPage "vectors") }}{{ partial "vectors" . }}{{ end }}
-      {{ with (.Site.GetPage
-        "get-started")
-      }}
-        {{ partial "get-started" . }}
-      {{ end }}
+
+      {{ partial "get-started" . }}
+
       {{ with (.Site.GetPage "footer") }}
-        {{ partial "footer"
-          .
-        }}
+        {{ partial "footer" . }}
       {{ end }}
     </main>
     {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
