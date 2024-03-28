@@ -9,7 +9,6 @@
   "url": "{{- .Permalink -}}",
   "description": {{ $description := printf "%s" (.Params.description | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $description -}}",
   "abstract": {{- $abstract := .Summary -}}{{- if .Params.description -}}{{- $abstract = .Params.description -}}{{- end -}}{{ $processedAbstract := printf "%s" ($abstract | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $processedAbstract -}}",
-  "articleBody": {{ $body := printf "%s" (.Content | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $body -}}",
   "wordCount": "{{- .WordCount -}}",
   "datePublished": "{{ .Date }}" ,
   "dateModified": "{{ .Date }}",{{- if .Params.author -}}
