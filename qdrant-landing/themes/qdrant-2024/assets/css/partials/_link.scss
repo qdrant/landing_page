@@ -24,8 +24,8 @@
     position: absolute;
     width: $icon-width;
     height: $icon-height;
-    -webkit-mask: url('../../icons/outline/Arrow-Hand.svg') no-repeat center right;
-    mask: url('../../icons/outline/Arrow-Hand.svg') no-repeat center right;
+    -webkit-mask: url('../../icons/outline/arrow-hand.svg') no-repeat center right;
+    mask: url('../../icons/outline/arrow-hand.svg') no-repeat center right;
     -webkit-mask-size: contain;
     mask-size: contain;
     background: linear-gradient(to right, $link-color 50%, transparent 50%);
@@ -40,8 +40,8 @@
     content: '';
     width: $icon-width;
     height: $icon-height;
-    -webkit-mask: url('../../icons/outline/Angle-Right-Color.svg') no-repeat center right;
-    mask: url('../../icons/outline/Angle-Right-Color.svg') no-repeat center right;
+    -webkit-mask: url('../../icons/outline/angle-right-color.svg') no-repeat center right;
+    mask: url('../../icons/outline/angle-right-color.svg') no-repeat center right;
     -webkit-mask-size: contain;
     mask-size: contain;
     background: $link-color;
