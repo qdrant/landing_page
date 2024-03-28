@@ -156,3 +156,5 @@ $container-max-widths: (
   xl: 1134px,
   xxl: 1134px,
 );
+
+$container-padding-x: $grid-gutter-width + $spacer * 0.5;
