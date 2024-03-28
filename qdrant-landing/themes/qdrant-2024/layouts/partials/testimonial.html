@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "testimonial") }}
 <section class="testimonial">
   <div class="testimonial__wrapper container">
     <div class="testimonial__cards row">
@@ -24,3 +25,4 @@
   </div>
   {{ partial "top-and-bottom-overlay" (dict "context" . "class" "testimonial") }}
 </section>
+{{ end }}

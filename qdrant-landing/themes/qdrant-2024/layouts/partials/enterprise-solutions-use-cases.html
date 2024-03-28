@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "enterprise-solutions-use-cases") }}
 <section class="enterprise-solutions-use-cases">
   <div class="enterprise-solutions-use-cases__wrapper container">
     <h2 class="enterprise-solutions-use-cases__title">{{ .Params.title }}</h2>
@@ -19,3 +20,4 @@
     </div>
   </div>
 </section>
+{{ end }}
