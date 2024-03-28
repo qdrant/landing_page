@@ -167,8 +167,8 @@ deploy the app. There are various properties we need to fill in:
 | `description_for_model` | Description of the purpose of the plugin, so ChatGPT knows in what cases it should be using it to answer a question. | *Plugin for searching through the Qdrant documentation to find answers to questions and retrieve relevant information. Use it whenever a user asks something that might be related to Qdrant vector database or semantic vector search* |
 | `description_for_human` | Short description of the plugin, also to be displayed in the ChatGPT UI.                                             | *Search through Qdrant docs*                                                                                                                                                                                                            |
 | `auth`                  | Authorization scheme used by the application. By default, the bearer token has to be configured.                     | ```{"type": "user_http", "authorization_type": "bearer"}```                                                                                                                                                                             |
-| `api.url`               | Link to the OpenAPI schema definition. Please adjust based on your application URL.                                  | *https://your-application-name.fly.dev/.well-known/openapi.yaml*                                                                                                                                                                        |
-| `logo_url`              | Link to the application logo. Please adjust based on your application URL.                                           | *https://your-application-name.fly.dev/.well-known/logo.png*                                                                                                                                                                            |
+| `api.url`               | Link to the OpenAPI schema definition. Please adjust based on your application URL.                                  | `https://your-application-name.fly.dev/.well-known/openapi.yaml`                                                                                                                                                                        |
+| `logo_url`              | Link to the application logo. Please adjust based on your application URL.                                           | `https://your-application-name.fly.dev/.well-known/logo.png`                                                                                                                                                                            |
 
 A complete file may look as follows:
 
@@ -263,7 +263,7 @@ Finally, we need to provide the Bearer token again:
 
 Our plugin is now ready to be tested. Since there is no data inside the knowledge base, 
 extracting any facts is impossible, but we’re going to put some data using the Swagger UI 
-exposed by our service at https://your-application-name.fly.dev/docs. We need to authorize 
+exposed by our service at `https://your-application-name.fly.dev/docs`. We need to authorize 
 first, and then call the upsert method with some docs. For the demo purposes, we can just 
 put a single document extracted from the Qdrant documentation to see whether integration 
 works properly:
