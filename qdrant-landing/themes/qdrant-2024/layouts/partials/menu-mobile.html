@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "menu-mobile") }}
 <div class="menu-mobile">
   <div class="menu-mobile__header">
     {{ partial "logo.html" . }}
@@ -52,3 +53,4 @@
     }
   }
 </script>
+{{ end }}

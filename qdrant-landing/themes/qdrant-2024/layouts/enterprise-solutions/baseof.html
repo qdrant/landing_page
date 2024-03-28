@@ -5,6 +5,7 @@
   <header class="main-header">
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
     {{ with (.Site.GetPage "enterprise-solutions-hero") }}{{ partial "enterprise-solutions-hero" . }}{{ end }}
   </header>
 </main>
