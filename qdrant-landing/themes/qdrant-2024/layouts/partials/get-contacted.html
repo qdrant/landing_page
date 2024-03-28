@@ -1,15 +1,15 @@
 {{ with (.Site.GetPage "/headless/get-contacted") }}
-<section class="get-contacted">
-  <div class="get-contacted__wrapper container">
-    <div class="get-contacted__content col-12">
-      <p>{{ .Params.content }}</p>
-      <a href="{{ .Params.contactUs.url }}" class="get-contacted__button-mobile button button_outlined button_lg">
-        {{ .Params.contactUs.text }}
-      </a>
-      <a href="{{ .Params.contactUs.url }}" class="get-contacted__button button button_contained">
-        {{ .Params.contactUs.text }}
-      </a>
+  <section class="get-contacted">
+    <div class="get-contacted__wrapper container">
+      <div class="get-contacted__content col-12">
+        <p>{{ .Params.content }}</p>
+        <a href="{{ .Params.contactUs.url }}" class="get-contacted__button-mobile button button_outlined button_lg">
+          {{ .Params.contactUs.text }}
+        </a>
+        <a href="{{ .Params.contactUs.url }}" class="get-contacted__button button button_contained">
+          {{ .Params.contactUs.text }}
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 {{ end }}

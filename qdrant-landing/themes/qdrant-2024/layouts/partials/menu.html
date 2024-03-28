@@ -1,19 +1,19 @@
-{{ with (.Site.GetPage "/headless/menu")}}
-<div class="main-menu">
-  <a href="/">
-    {{ partial "logo.html" . }}
-  </a>
-  <button type="button" class="main-menu__trigger">{{ partial "svg" "hamburger-menu-white.svg" }}</button>
-  <ul class="main-menu__links">
-    {{ range .Params.menuItems }}
-      <li class="main-menu__item">
-        <a class="menu-link" href="{{ .url }}">{{ .name }}</a>
-      </li>
-    {{ end }}
-  </ul>
-  <div class="main-menu__buttons">
-    <a href="{{ .Params.logIn.url }}" class="menu-link mx-3">{{ .Params.logIn.text }}</a>
-    <a href="{{ .Params.startFree.url }}" class="button button_contained button_sm">{{ .Params.startFree.text }}</a>
+{{ with (.Site.GetPage "/headless/menu") }}
+  <div class="main-menu">
+    <a href="/">
+      {{ partial "logo.html" . }}
+    </a>
+    <button type="button" class="main-menu__trigger">{{ partial "svg" "hamburger-menu-white.svg" }}</button>
+    <ul class="main-menu__links">
+      {{ range .Params.menuItems }}
+        <li class="main-menu__item">
+          <a class="menu-link" href="{{ .url }}">{{ .name }}</a>
+        </li>
+      {{ end }}
+    </ul>
+    <div class="main-menu__buttons">
+      <a href="{{ .Params.logIn.url }}" class="menu-link mx-3">{{ .Params.logIn.text }}</a>
+      <a href="{{ .Params.startFree.url }}" class="button button_contained button_sm">{{ .Params.startFree.text }}</a>
+    </div>
   </div>
-</div>
 {{ end }}

@@ -1,10 +1,10 @@
-  {{ $defaultClass := "vectors" }}
-  {{ $cssClass := "" }}
-  {{ if .Scratch.Get "cssClass" }}
-    {{ $cssClass = .Scratch.Get
-      "cssClass"
-    }}
-  {{ end }}
+{{ $defaultClass := "vectors" }}
+{{ $cssClass := "" }}
+{{ if .Scratch.Get "cssClass" }}
+  {{ $cssClass = .Scratch.Get
+    "cssClass"
+  }}
+{{ end }}
 
 
 <section class="{{ printf "%s %s" $defaultClass $cssClass }}">
