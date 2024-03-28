@@ -1,0 +1,43 @@
+{
+  "@type": "Organization",
+  "@id": "{{- .Permalink -}}#organization",
+  "name": "Qdrant",
+  "legalName" : "Qdrant Solutions GmbH",
+  "url": "https://qdrant.tech",
+  "email": "info@qdrant.com",
+  "logo": "https://qdrant.tech/images/logo_with_text.png",
+  "description" : "{{- .Site.Params.description | htmlEscape -}}",
+  "keywords" : [ {{- if .Params.Keywords -}}{{- range .Params.Keywords -}}"{{ . }}", {{- end -}}{{- else if .Site.Params.Keywords -}}{{- range .Site.Params.Keywords -}}"{{ . }}", {{- end -}}{{- end -}} "Qdrant" ],
+  "foundingDate": "2021",
+  "founders": [
+    {
+      "@type": "Person",
+      "name": "{{ .Site.Params.Author }}"
+    }, {
+      "@type": "Person",
+      "name": "Andre Zayarni"
+    }
+  ],
+  "location": "Berlin, Germany",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Chausseestraße 86",
+    "addressLocality": "Berlin",
+    "addressRegion": "Berlin",
+    "postalCode": "10115",
+    "addressCountry": "DE"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "telephone": "+49 3040797694",
+    "email": "info@qdrant.com"
+  },
+  "sameAs": [
+    "{{ .Site.Params.github }}",
+    "{{ .Site.Params.discord }}",
+    "{{ .Site.Params.youtube }}",
+    "https://www.linkedin.com/company/qdrant/",
+    "https://twitter.com/qdrant_engine"
+  ]
+}
