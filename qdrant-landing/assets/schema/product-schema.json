@@ -1,14 +1,15 @@
 {
   "@type": "Product",
+  "@id": "{{- .Permalink -}}#product",
   "brand": {
     "@id": "https://qdrant.tech",
     "@type": "Organization",
-    "name": "Qdrant Search Engine"
+    "name": "Qdrant Vector Database"
   },
-  "description" : "{{- if.Params.description -}}{{- .Params.description | htmlEscape -}}{{- else if .Site.Params.description -}}{{- .Site.Params.description | htmlEscape -}}{{- end -}}",
+  "description" : "{{- .Site.Params.description | htmlEscape -}}",
   "keywords" : [ {{- if .Params.Keywords -}}{{- range .Params.Keywords -}}"{{ . }}", {{- end -}}{{- else if .Site.Params.Keywords -}}{{- range .Site.Params.Keywords -}}"{{ . }}", {{- end -}}{{- end -}} "Qdrant" ],
-  "name": "",
-  "image": "",
+  "name": "Qdrant",
+  "image": "{{- if .Params.social_preview_image -}}{{- .Params.social_preview_image | absURL -}}{{- end -}}",
   "offers": {
     "@type": "AggregateOffer",
     "highPrice": "on request",
@@ -23,12 +24,7 @@
           "price": "free",
           "priceCurrency": "USD",
           "name": "Community",
-          "url": "https://qdrant.tech/documentation/quick-start/",
-          "referenceQuantity": {
-            "@type": "QuantitativeValue",
-            "value": "1",
-            "unitCode": "MON"
-          }
+          "url": "https://qdrant.tech/documentation/quick-start/"
         }
       },
       {
@@ -38,12 +34,7 @@
           "price": "from 25$",
           "priceCurrency": "USD",
           "name": "Managed Cloud",
-          "url": "https://qdrant.to/cloud",
-          "referenceQuantity": {
-            "@type": "QuantitativeValue",
-            "value": "1",
-            "unitCode": "MON"
-          }
+          "url": "https://qdrant.to/cloud"
         }
       },
       {
@@ -53,12 +44,7 @@
           "price": "on request",
           "priceCurrency": "USD",
           "name": "Enterprise",
-          "url": "https://qdrant.to/contact-us",
-          "referenceQuantity": {
-            "@type": "QuantitativeValue",
-            "value": "1",
-            "unitCode": "MON"
-          }
+          "url": "https://qdrant.to/contact-us"
         }
       }
     ]

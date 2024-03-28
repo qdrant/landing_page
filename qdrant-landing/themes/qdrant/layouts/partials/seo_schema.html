@@ -33,25 +33,30 @@
 </script>
 
 {{ else if .IsHome }}
+
 {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
-{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "organization.json" . }}
+{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "schema-organization-home.json" . }}
+
+{{ $productTemplate := resources.Get "schema/product-schema.json" }}
+{{ $productSchema := $productTemplate | resources.ExecuteAsTemplate "schema-product-home.json" . }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
         "@graph": [
-            {{ $organizationSchema | unmarshal }}
+            {{ $organizationSchema | unmarshal }},
+            {{ $productSchema | unmarshal }}
         ]
     }
 </script>
 
-
 {{ else if or (in (slice "documentation" "benchmarks") .Section) (and (in (slice "blog" "articles") .Section) .IsPage) }}
 
 {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
-{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "organization.json" . }}
+{{ $organizationTarget := printf "schema-org-1-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}
 
 {{ $articleTemplate := resources.Get "schema/article-schema.json" }}
-{{ $articleTarget := printf "schema-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+{{ $articleTarget := printf "schema-art-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
 {{ $articleSchema := $articleTemplate | resources.ExecuteAsTemplate $articleTarget . }}
 <script type="application/ld+json">
     {
@@ -66,10 +71,12 @@
 {{ else }}
 
 {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
-{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "organization.json" . }}
+{{ $organizationTarget := printf "schema-org-2-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}
 
 {{ $productTemplate := resources.Get "schema/product-schema.json" }}
-{{ $productSchema := $productTemplate | resources.ExecuteAsTemplate "product.json" . }}
+{{ $productTarget := printf "schema-prod-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+{{ $productSchema := $productTemplate | resources.ExecuteAsTemplate $productTarget . }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",

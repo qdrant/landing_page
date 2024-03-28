@@ -1,12 +1,18 @@
 {
   "@type": "Article",
+  "@id": "{{- .Permalink -}}#article",
+  "name": "{{- .Params.title | htmlEscape -}}",
   "headline": "{{- .Params.title | htmlEscape -}}",
   "image": [
     "{{- if .Params.social_preview_image -}}{{- .Params.social_preview_image | absURL -}}{{- end -}}"
   ],
-  "abstract": "{{- .Params.description | trim '\n' -}}",
-  "datePublished": "{{ .Params.date }}",
-  "dateModified": "{{ .Params.date }}",{{- if .Params.author -}}
+  "url": "{{- .Permalink -}}",
+  "description": {{ $description := printf "%s" (.Params.description | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $description -}}",
+  "abstract": {{- $abstract := .Summary -}}{{- if .Params.description -}}{{- $abstract = .Params.description -}}{{- end -}}{{ $processedAbstract := printf "%s" ($abstract | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $processedAbstract -}}",
+  "articleBody": {{ $body := printf "%s" (.Content | plainify | replaceRE "(\n)" "" | replaceRE "[^\\w\\s:\\[\\]{}\"]" "" | htmlEscape ) -}}"{{- $body -}}",
+  "wordCount": "{{- .WordCount -}}",
+  "datePublished": "{{ .Date }}" ,
+  "dateModified": "{{ .Date }}",{{- if .Params.author -}}
   "author": {
     "@type": "Person",
     "name": "{{- .Params.author | htmlEscape -}}"
