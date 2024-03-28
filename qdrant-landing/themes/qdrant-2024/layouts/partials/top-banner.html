@@ -1,4 +1,4 @@
-{{ with (.Site.GetPage "section" "top-banner") }}
+{{ with (.Site.GetPage "/headless/top-banner") }}
   <section class="top-banner">
     <div>
       <span class="top-banner__icon"> {{ .Params.icon | safeHTML }} </span>

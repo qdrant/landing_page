@@ -1,4 +1,4 @@
-{{ with (.Site.GetPage "customers")}}
+{{ with (.Site.GetPage "/headless/main/customers")}}
 <section class="customers">
   {{ $context := slice }}
   {{ range .Params.customers }}

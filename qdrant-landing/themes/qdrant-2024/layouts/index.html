@@ -18,7 +18,9 @@
       {{ partial "integrations" . }}
       {{ partial "docker-deploy" . }}
 
-      {{ with (.Site.GetPage "vectors") }}{{ partial "vectors" . }}{{ end }}
+      {{ with (.Site.GetPage "/headless/main/vectors") }}
+        {{ partial "vectors" . }}
+      {{ end }}
 
       {{ partial "get-started" . }}
 
