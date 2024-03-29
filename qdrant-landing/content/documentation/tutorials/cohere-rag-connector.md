@@ -257,7 +257,7 @@ connector_response = cohere_client.connectors.create(
 )
 ```
 
-The `connector_response.connector` will be a descriptor, with `id` being one of the parameters. We'll use this 
+The `connector_response.connector` will be a descriptor, with `id` being one of the attributes. We'll use this 
 identifier for our interactions like this:
 
 ```python
