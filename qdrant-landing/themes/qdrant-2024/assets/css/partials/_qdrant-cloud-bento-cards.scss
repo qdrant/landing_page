@@ -1,0 +1,87 @@
+@use '../helpers/functions' as *;
+
+.qdrant-cloud-bento-cards {
+  background-color: $neutral-94;
+  padding-bottom: $spacer * 4;
+
+  &__cards {
+    gap: $spacer * 2;
+
+    & > div:nth-of-type(1),
+    & > div:nth-of-type(3) {
+      img {
+        max-width: rem(255);
+      }
+    }
+  }
+
+  &__card {
+    padding-bottom: 0;
+
+    &-title {
+      font-size: $spacer * 1.5;
+      line-height: rem(34);
+      margin-bottom: rem(12);
+    }
+
+    &-description {
+      margin-bottom: 0;
+      color: $neutral-40;
+    }
+
+    img {
+      margin: $spacer auto 0 auto;
+      width: 100%;
+    }
+
+    a {
+      margin-top: rem(12);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer * 5;
+
+    &__wrapper {
+      max-width: rem(1134);
+    }
+
+    &__cards {
+      justify-content: space-between;
+      column-gap: 0;
+
+      & > div:nth-of-type(1),
+      & > div:nth-of-type(3) {
+        width: calc(25% - 3px);
+
+        img {
+          max-width: 100%;
+        }
+      }
+
+      & > div:nth-of-type(2) {
+        width: calc(50% - 6px);
+      }
+
+      & > div:nth-of-type(4),
+      & > div:nth-of-type(5) {
+        width: calc(50% - 3px);
+      }
+    }
+
+    &__card {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-bottom: 0;
+
+      img {
+        flex-grow: 1;
+      }
+
+      a {
+        margin-top: rem(12);
+      }
+    }
+  }
+}

@@ -1,0 +1,17 @@
+@use '../helpers/functions' as *;
+
+.qdrant-features-link {
+  background-color: $neutral-94;
+  padding-bottom: $spacer * 2.5;
+  text-align: center;
+
+  &__content {
+    margin-bottom: $spacer;
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__wrapper {
+      max-width: rem(1134);
+    }
+  }
+}
