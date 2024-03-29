@@ -1,0 +1,13 @@
+@use '../helpers/functions' as *;
+@use '../mixins/get-started-small' as get-started-small;
+
+.get-started-small-rocket {
+  @include get-started-small.base(
+    80px,
+    24px,
+    120px,
+    40px,
+    linear-gradient(#161e33, #0e1424),
+    linear-gradient(to left, #161e33, #0e1424)
+  );
+}

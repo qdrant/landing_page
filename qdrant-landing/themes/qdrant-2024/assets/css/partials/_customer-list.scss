@@ -1,0 +1,17 @@
+@use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
+
+.customer-list {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__logos {
+    @include marquee.base(64px, 224px, 15, 15, 52px, $neutral-94, false, 50s);
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+  }
+}

@@ -1,0 +1,13 @@
+@use '../helpers/functions' as *;
+@use '../mixins/get-started-small' as get-started-small;
+
+.get-started-small-database {
+  @include get-started-small.base(
+    80px,
+    24px,
+    80px,
+    40px,
+    url('/img/stars-pattern.png') $neutral-10,
+    url('/img/stars-pattern.png') $neutral-10
+  );
+}

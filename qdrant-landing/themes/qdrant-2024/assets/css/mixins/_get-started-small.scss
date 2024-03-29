@@ -1,19 +1,20 @@
+@use 'sass:math';
 @use '../helpers/functions' as *;
+@use '../bootstrap-custom' as bs;
 
-.get-started-small {
-  background-color: $neutral-94;
-
-  padding-top: $spacer * 1.5;
-  padding-bottom: $spacer * 2.5;
+@mixin base($paddingTop, $paddingTopMobile, $paddingBottom, $paddingBottomMobile, $background, $backgroundMobile) {
+  padding-top: $paddingTopMobile;
+  padding-bottom: $paddingBottomMobile;
+  background-color: #e1e5f0;
 
   &__content {
     position: relative;
-    background: linear-gradient($neutral-20, #0e1424);
-    border-radius: $spacer * 0.5;
+    background: $background;
+    border-radius: rem(8);
     overflow: hidden;
 
     a {
-      margin-bottom: $spacer * 2.5;
+      margin-bottom: rem(40);
     }
 
     img {
@@ -30,12 +31,12 @@
   }
 
   &__title {
-    padding: $spacer * 2.5 $spacer * 1.5 0 $spacer * 1.5;
-    margin-bottom: $spacer * 1.5;
-    font-size: $spacer * 1.5;
+    padding: rem(40) rem(24) 0 rem(24);
+    margin-bottom: rem(24);
+    font-size: rem(24);
     line-height: rem(34);
     text-align: center;
-    color: $neutral-98;
+    color: #f0f3fa;
   }
 
   &__overlay-top {
@@ -44,21 +45,21 @@
     top: 0;
     width: rem(220);
     height: rem(220);
-    background-image: url('/img/blurred/blurred-light-6-mobile.png');
+    background-image: url('/img/blurred/blurred-light-6.png');
     background-position: top;
     background-size: cover;
   }
 
-  @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 5;
-    padding-bottom: $spacer * 7.5;
+  @include bs.media-breakpoint-up(xl) {
+    padding-top: $paddingTop;
+    padding-bottom: $paddingBottom;
 
     &__wrapper {
       max-width: rem(1134);
     }
 
     &__content {
-      background: linear-gradient(to left, $neutral-20, #0e1424);
+      background: $backgroundMobile;
 
       img {
         padding: 0;
@@ -67,12 +68,14 @@
       }
 
       a {
+        height: rem(40);
+        padding: 0 rem(22);
         margin-bottom: 0;
       }
     }
 
     &__title {
-      font-size: $spacer * 2;
+      font-size: rem(32);
       line-height: rem(38);
       text-align: left;
       padding: 0;
@@ -80,16 +83,11 @@
 
     &__text {
       align-items: flex-start;
-      padding-left: rem(76);
+      margin-left: rem(56);
     }
 
     &__image {
       text-align: right;
-    }
-
-    &__overlay-top {
-      height: rem(210);
-      background-image: url('/img/blurred/blurred-light-6.png');
     }
   }
 }

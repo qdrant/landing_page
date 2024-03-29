@@ -22,7 +22,8 @@
 @import 'partials/feature-overview';
 @import 'partials/qdrant-vector-database-hero';
 @import 'partials/qdrant-vector-database-use-cases';
-@import 'partials/get-started-small';
+@import 'partials/get-started-small-rocket';
+@import 'partials/get-started-small-database';
 @import 'partials/enterprise-solutions-hero';
 @import 'partials/enterprise-solutions-use-cases';
 @import 'partials/testimonial';
@@ -33,6 +34,7 @@
 @import 'partials/qdrant-cloud-bento-cards';
 @import 'partials/marketplaces';
 @import 'partials/qdrant-features-link';
+@import 'partials/customer-list';
 
 .main-header {
   background: $neutral-10;
