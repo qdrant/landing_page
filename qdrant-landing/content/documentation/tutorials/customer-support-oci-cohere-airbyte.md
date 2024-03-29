@@ -137,7 +137,7 @@ progress of the synchronization in the UI.
 ## RAG connector
 
 One of our previous tutorials, guides you step-by-step on [implementing custom connector for Cohere 
-RAG](../tutorials/cohere-rag-connector/) with Cohere Embed v3 and Qdrant. You can just point it to use your Hybrid Cloud
+RAG](../cohere-rag-connector/) with Cohere Embed v3 and Qdrant. You can just point it to use your Hybrid Cloud
 Qdrant instance running on OCI. Created connector might be deployed to Oracle Cloud in various ways, even in a 
 [Serverless](https://developer.oracle.com/learn/use-cases.html#serverless) manner using [Oracle Cloud Infrastructure 
 Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm#top).
