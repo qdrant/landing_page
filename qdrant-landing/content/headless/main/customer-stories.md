@@ -7,7 +7,7 @@ storyCards:
   - id: 0
     icon: /img/brands/bayer.svg
     brand: Bayer
-    content: Vectorstores are definitely here to stay, the objects in the world around us from image, sound, video and text become easily universal and searchable thanks to the embedding models and vectorstores. I personally recommend Qdrant. we have been using it for awhile and couldn't be happier.
+    content: “VectorStores are definitely here to stay, the objects in the world around us from image, sound, video and text become easily universal and searchable thanks to the embedding models. I personally recommend Qdrant. We have been using it for a while and couldn't be happier.“
     author:
       avatar: '/img/customers/hooman-sedghamiz.svg'
       fullName: Hooman Sedghamiz

@@ -1,21 +1,23 @@
-<section class="enterprise-solutions-use-cases">
-  <div class="enterprise-solutions-use-cases__wrapper container">
-    <h2 class="enterprise-solutions-use-cases__title">{{ .Params.title }}</h2>
-    <div class="enterprise-solutions-use-cases__cases row">
-      {{ range $index, $element := .Params.items }}
-        <div class="col-12">
-          <div class="row enterprise-solutions-use-cases__case {{ if mod $index 2 | eq 1 }}case-reversed{{ end }}">
-            <div class="enterprise-solutions-use-cases__case-text col-12 col-xl-5">
-              <h3 class="enterprise-solutions-use-cases__case-title">{{ .title }}</h3>
-              <p class="enterprise-solutions-use-cases__case-description">{{ .description }}</p>
-              <a class="link link_light link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
-            </div>
-            <div class="enterprise-solutions-use-cases__case-preview col-12 col-xl-6">
-              <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+{{ with (.Site.GetPage "enterprise-solutions/enterprise-solutions-use-cases") }}
+  <section class="enterprise-solutions-use-cases">
+    <div class="enterprise-solutions-use-cases__wrapper container">
+      <h2 class="enterprise-solutions-use-cases__title">{{ .Params.title }}</h2>
+      <div class="enterprise-solutions-use-cases__cases row">
+        {{ range $index, $element := .Params.items }}
+          <div class="col-12">
+            <div class="row enterprise-solutions-use-cases__case {{ if mod $index 2 | eq 1 }}case-reversed{{ end }}">
+              <div class="enterprise-solutions-use-cases__case-text col-12 col-xl-5">
+                <h3 class="enterprise-solutions-use-cases__case-title">{{ .title }}</h3>
+                <p class="enterprise-solutions-use-cases__case-description">{{ .description }}</p>
+                <a class="link link_light link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
+              </div>
+              <div class="enterprise-solutions-use-cases__case-preview col-12 col-xl-6">
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              </div>
             </div>
           </div>
-        </div>
-      {{ end }}
+        {{ end }}
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+{{ end }}
