@@ -1,0 +1,135 @@
+@use '../helpers/functions' as *;
+
+.demos {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    font-size: rem(40);
+    line-height: rem(48);
+    text-align: start;
+    margin-bottom: $spacer * 1.5;
+    max-width: 100%;
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
+    margin: 0;
+    max-width: 100%;
+    text-align: start;
+  }
+
+  &__cards {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    min-width: 100%;
+    row-gap: $spacer * 2;
+    margin-top: ($spacer * 4);
+  }
+
+  &__card-title {
+    color: $neutral-20;
+    margin-top: calc($spacer / 2);
+    margin-bottom: $spacer * 1.5;
+    font-size: rem(24);
+    line-height: rem(34);
+  }
+
+  &__card-description {
+    color: $neutral-30;
+    font-size: rem(16);
+    line-height: rem(24);
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__card-description p {
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__card-description p:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &__card-image {
+    width: 100%;
+    height: 100%;
+    margin-top: $spacer * 2.5;
+    aspect-ratio: 1.46;
+    background-size: contain;
+    background-color: $neutral-98;
+    background-repeat: no-repeat;
+    background-position: center;
+    box-shadow: 0px 5.13px 10.25px 0px rgba(22, 30, 51, 0.1);
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 10;
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, 2);
+      line-height: rem(67);
+      max-width: rem(445);
+      margin-bottom: 0;
+    }
+
+    &__subtitle {
+      font-size: map-get($font-sizes-text, 'xl');
+      max-width: rem(540);
+      line-height: rem(30);
+    }
+
+    &__cards {
+      margin-top: $spacer * 7.5;
+      row-gap: $spacer * 2.5;
+    }
+
+    &__card {
+      flex-direction: row;
+
+      padding-top: $spacer * 4;
+      padding-left: $spacer * 5;
+      padding-bottom: $spacer * 4;
+      padding-right: 0;
+    }
+
+    &__card-content {
+      max-width: rem(400);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    &__card-title {
+      margin-top: 0;
+      font-size: rem(32);
+      line-height: rem(38);
+    }
+
+    &__card-description {
+      font-size: rem(16);
+      line-height: rem(24);
+    }
+
+    &__card-image {
+      margin-top: 0;
+      max-width: rem(560);
+    }
+  }
+}
