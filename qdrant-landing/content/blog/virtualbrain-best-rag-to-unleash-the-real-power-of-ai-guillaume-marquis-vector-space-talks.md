@@ -1,16 +1,16 @@
 ---
-draft: true
+draft: false
 title: "VirtualBrain: Best RAG to unleash the real power of AI - Guillaume
   Marquis | Vector Space Talks"
 slug: virtualbrain-best-rag
-short_description: Delve into the complex world of information retrieval with
-  Guillaume Marquis, CTO & Co-founder at VirtualBrain.
-description: Guillaume Marquis, CTO & Co-founder at VirtualBrain, reveals the
+short_description: Let's explore information retrieval with Guillaume Marquis,
+  CTO & Co-Founder at VirtualBrain.
+description: Guillaume Marquis, CTO & Co-Founder at VirtualBrain, reveals the
   mechanics of advanced document retrieval with RAG technology, discussing the
   challenges of scalability, up-to-date information, and navigating user
   feedback to enhance the productivity of knowledge workers.
 preview_image: /blog/from_cms/guillaume-marquis-2-cropped.png
-date: 2024-03-11T08:35:54.200Z
+date: 2024-03-27T12:41:51.859Z
 author: Demetrios Brinkmann
 featured: false
 tags:
@@ -23,19 +23,19 @@ tags:
 —  Guillaume Marquis
 > 
 
-Guillaume Marquis, a dedicated Engineer and AI enthusiast, serves as the Chief Technology Officer and Co-founder of VirtualBrain, an innovative AI company. He is committed to exploring novel approaches to integrating artificial intelligence into everyday life, driven by a passion for advancing the field and its applications.
+Guillaume Marquis, a dedicated Engineer and AI enthusiast, serves as the Chief Technology Officer and Co-Founder of VirtualBrain, an innovative AI company. He is committed to exploring novel approaches to integrating artificial intelligence into everyday life, driven by a passion for advancing the field and its applications.
 
-***Listen to the episode on Spotify, Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on YouTube.***
+***Listen to the episode on [Spotify](https://open.spotify.com/episode/20iFzv2sliYRSHRy1QHq6W?si=xZqW2dF5QxWsAN4nhjYGmA), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/v85HqNqLQcI?feature=shared).***
 
-[embed YouTube video here]
+<iframe width="560" height="315" src="https://www.youtube.com/embed/v85HqNqLQcI?si=hjUiIhWxsDVO06-H" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-[embed anchor.fm podcast here]
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/VirtualBrain-Best-RAG-to-unleash-the-real-power-of-AI---Guillaume-Marquis--Vector-Space-Talks-017-e2grbfg/a-ab22dgt" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top takeaways:**
 
-Who knew that document retrieval could be creative? Guillaume and VirtualBrain help draft sales proposals using past reports. Fascinating how tech aids deep work beyond basic search tasks.
+Who knew that document retrieval could be creative? Guillaume and VirtualBrain help draft sales proposals using past reports. It's fascinating how tech aids deep work beyond basic search tasks.
 
-Delving into document retrieval and AI assistance, Guillaume furthermore unpacks the intricacies of sifting through vast data using a scoring system, the virtue of RAG for deep work, and combating the 'illusion of work', enhancing insights for knowledge workers while confronting the challenges of scalability and user feedback on hallucinations.
+Tackling document retrieval and AI assistance, Guillaume furthermore unpacks the ins and outs of searching through vast data using a scoring system, the virtue of RAG for deep work, and going through the 'illusion of work', enhancing insights for knowledge workers while confronting the challenges of scalability and user feedback on hallucinations.
 
 Here are some key insight from this episode you need to look out for:
 
@@ -51,7 +51,7 @@ Here are some key insight from this episode you need to look out for:
 
 ## Show notes:
 
-00:00 Hosts’ and guest recommendations.\
+00:00 Hosts and guest recommendations.\
 09:01 Leveraging past knowledge to create new proposals.\
 12:33 Ingesting and parsing documents for context retrieval.\
 14:26 Creating and storing data, performing advanced searches.\
@@ -69,7 +69,7 @@ Here are some key insight from this episode you need to look out for:
 *"We only exclusively use open source tools because of security aspects and stuff like that. That's why also we are using Qdrant one of the important point on that. So we have a system, we are using this serverless stuff to ingest document over time.”*\
 —  Guillaume Marquis
 
-*"One of the challenging part was the scalability of the system. We have clients that come with terra octave of data and want to be parsed really fast and so you have the ingestion, but even after the semantic search, even on a large data set can be slow. And today Chat GPT answer really fast. So your users, even if the question is way more complicated to answer than a basic Chat GPT question, they want to have their answer in seconds. So you have also this challenge that is really you have to take care.”*\
+*"One of the challenging part was the scalability of the system. We have clients that come with terra octave of data and want to be parsed really fast and so you have the ingestion, but even after the semantic search, even on a large data set can be slow. And today ChatGPT answers really fast. So your users, even if the question is way more complicated to answer than a basic ChatGPT question, they want to have their answer in seconds. So you have also this challenge that you really have to take care.”*\
 —  Guillaume Marquis
 
 *"Our AI is not trained to write you a speech based on Shakespeare and with the style of Martin Luther King. It's not the purpose of the tool. So if you ask something that is out of the box, he will just say like, okay, I don't know how to answer that. And that's an important point. That's a feature by itself to be able to not go outside of the box.”*\
@@ -80,7 +80,7 @@ Demetrios:
 So, dude, I'm excited for this talk. Before we get into it, I want to make sure that we have some pre conversation housekeeping items that go out, one of which being, as always, we're doing these vector space talks and everyone is encouraged and invited to join in. Ask your questions, let us know where you're calling in from, let us know what you're up to, what your use case is, and feel free to drop any questions that you may have in the chat. We will be monitoring it like a hawk. Today I am joined by none other than Sabrina. How are you doing, Sabrina?
 
 Sabrina Aquino:
-What's up, dementias? I'm doing great. Excited to be here. I just love seeing what amazing stuff people are building with Qdrant and. Yeah, let's get into it.
+What's up, Demetrios? I'm doing great. Excited to be here. I just love seeing what amazing stuff people are building with Qdrant and. Yeah, let's get into it.
 
 Demetrios:
 Yeah. So I think I see Sabrina's wearing a special shirt which is don't get lost in vector space shirt. If anybody wants a shirt like that. There we go. Well, we got you covered, dude. You will get one at your front door soon enough. If anybody else wants one, come on here. Present at the next vector space talks.
@@ -89,7 +89,7 @@ Demetrios:
 We're excited to have you. And we've got one last thing that I think is fun that we can talk about before we jump into the tech piece of the conversation. And that is I told Sabrina to get ready with some recommendations. Know vector databases, they can be used occasionally for recommendation systems, but nothing's better than getting that hidden gem from your friend. And right now what we're going to try and do is give you a few hidden gems so that the next time the recommendation engine is working for you, it's working in your favor. And Sabrina, I asked you to give me one music that you can recommend, one show and one rando. So basically one random thing that you can recommend to us.
 
 Sabrina Aquino:
-So I've picked. I thought about this. Okay, I give it some thought. The movie would be catch me if you can by Leo DiCaprio and tone Hanks. Have you guys watched it? Really good movie. The song would be oh, children by knee cave and the bad scenes. Also very good song. And the random recommendation is my favorite scented candle, which is citrus notes, sea salt and cedar.
+So I've picked. I thought about this. Okay, I give it some thought. The movie would be Catch Me If You Can by Leo DiCaprio and Tom Hanks. Have you guys watched it? Really good movie. The song would be oh, children by knee cave and the bad scenes. Also very good song. And the random recommendation is my favorite scented candle, which is citrus notes, sea salt and cedar.
 
 Sabrina Aquino:
 So there you go.
@@ -98,13 +98,13 @@ Demetrios:
 A scented candle as a recommendation. I like it. I think that's cool. I didn't exactly tell you to get ready with that. So I'll go next, then you can have some more time to think. So for anybody that's joining in, we're just giving a few recommendations to help your own recommendation engines at home. And we're going to get into this conversation about rags in just a moment. But my song is with.
 
 Demetrios:
-Oh, my God. I've been listening to it because I didn't think that they had it on Spotify, but I found it this morning and I was so happy that they did. And it is Bill Evans and Chet Baker. Basically, their whole album, the legendary sessions, is just like, incredible. But the first song on that album is called alone together. And when Chet Baker starts playing his little trombone, my God, it is like you can feel emotion. You can touch it. That is what I would recommend.
+Oh, my God. I've been listening to it because I didn't think that they had it on Spotify, but I found it this morning and I was so happy that they did. And it is Bill Evans and Chet Baker. Basically, their whole album, the legendary sessions, is just like, incredible. But the first song on that album is called Alone Together. And when Chet Baker starts playing his little trombone, my God, it is like you can feel emotion. You can touch it. That is what I would recommend.
 
 Demetrios:
 Anyone out there? I'll drop a link in the chat if you like it. The film or series. This fool, if you speak Spanish, it's even better. It is amazing series. Get that, do it. And as the rando thing, I've been having Rishi mushroom powder in my coffee in the mornings. I highly recommend it. All right, last one, let's get into your recommendations and then we'll get into this rag chat.
 
 Guillaume Marquis:
-So, yeah, I sucked a little bit. So for the song, I think I will give something like, because I'm french, I think you can hear it. So I will choose get lucky of daft Punk and because I am a little bit sad of the end of their collaboration. So, yeah, just like, I cannot forget it. And it's a really good music. Like, miss them as a movie, maybe something like I really enjoy. So we have a lot of french movies that are really nice, but something more international maybe, and more mainstream. Jungle of Tarantino, that is really a good movie and really enjoy it.
+So, yeah, I sucked a little bit. So for the song, I think I will give something like, because I'm french, I think you can hear it. So I will choose Get Lucky of Daft Punk and because I am a little bit sad of the end of their collaboration. So, yeah, just like, I cannot forget it. And it's a really good music. Like, miss them as a movie, maybe something like I really enjoy. So we have a lot of french movies that are really nice, but something more international maybe, and more mainstream. Jungle of Tarantino, that is really a good movie and really enjoy it.
 
 Guillaume Marquis:
 I watched it several times and still a good movie to watch. And random thing, maybe a city. A city to go to visit. I really enjoyed. It's hard to choose. Really hard to choose a place in general. Okay, Florence, like in Italy.
@@ -140,10 +140,10 @@ Demetrios:
 I have the million dollar question that I think is probably coming through everyone's head is like, you're retrieving so many documents, how are you evaluating your retrieval?
 
 Guillaume Marquis:
-That's definitely the $1 million question. It's a toss task to do, to be honest. To be fair. Currently what we are doing is that we monitor every tasks of the process, so we have the output of every tasks. On each tasks we use a scoring system to evaluate if it's relevant to the initial question or the initial task of the user. And we have a global scoring system on all the system. So it's quite od, it's a little bit empiric, but it works for now. And it really help us to also improve over time all the tasks and all the processes that are done by the tool.
+That's definitely the $1 million question. It's a toss task to do, to be honest. To be fair. Currently what we are doing is that we monitor every tasks of the process, so we have the output of every tasks. On each tasks we use a scoring system to evaluate if it's relevant to the initial question or the initial task of the user. And we have a global scoring system on all the system. So it's quite odd, it's a little bit empiric, but it works for now. And it really help us to also improve over time all the tasks and all the processes that are done by the tool.
 
 Guillaume Marquis:
-So it's really important. And for instance, you have this kind of framework that is called ragtriad. That is a way to evaluate rag on the accuracy of the context you retrieve on the link with the initial question and so on, several parameters. And you can really have a first way to evaluate the quality of answers and the quality of everything on each steps.
+So it's really important. And for instance, you have this kind of framework that is called RAGtriad. That is a way to evaluate rag on the accuracy of the context you retrieve on the link with the initial question and so on, several parameters. And you can really have a first way to evaluate the quality of answers and the quality of everything on each steps.
 
 Sabrina Aquino:
 I love it. Can you go more into the tech that you use for each one of these steps in architecture?
@@ -158,7 +158,7 @@ Guillaume Marquis:
 So basically we are creating unbelieving, we are storing it into Qdrant. We are performing similarity search to retrieve documents based on title summary filtering, on tags, on the semantic context. And we have also some keyword search, but it's more for specific tasks, like when we know that we need a specific document, at some point we are searching it with a keyword search. So it's like a kind of ebrid system that is using deterministic approach with filtering with tags, and a probabilistic approach with selecting document with this ebot search, and doing a scoring system after that to get what is the most relevant document and to select how much content we will take from each document. It's a little bit techy, but it's really cool to create and we have a way to evolve it and to improve it.
 
 Demetrios:
-That's what we like around here, man. We want the techie stuff. That's what I think everybody signed up for. So that's very cool. One question that definitely comes up a lot when it comes to rags and when you're ingesting documents, and then when you're retrieving documents and updating documents, how do you make sure that the documents that you are, let's say, I know there's probably a hypothetical HR scenario where the company has a certain policy and they say you can have european style holidays, you get like three months of holidays a year, or even french style holidays. Basically, you just don't work. And whenever you want, you can work, you don't work. And then all of a sudden a US company comes and takes it over and they say, no, you guys don't get holidays.
+That's what we like around here, man. We want the techie stuff. That's what I think everybody signed up for. So that's very cool. One question that definitely comes up a lot when it comes to rags and when you're ingesting documents, and then when you're retrieving documents and updating documents, how do you make sure that the documents that you are, let's say, I know there's probably a hypothetical HR scenario where the company has a certain policy and they say you can have European style holidays, you get like three months of holidays a year, or even French style holidays. Basically, you just don't work. And whenever you want, you can work, you don't work. And then all of a sudden a US company comes and takes it over and they say, no, you guys don't get holidays.
 
 Demetrios:
 Even when you do get holidays, you're not working or you are working and so you have to update all the HR documents, right? So now when you have this knowledge worker that is creating something, or when you have anyone that is getting help, like this copilot help, how do you make sure that the information that person is getting is the most up to date information possible?
@@ -170,7 +170,7 @@ Demetrios:
 I'm coming with the hits today. I don't know what you were looking for.
 
 Guillaume Marquis:
-That's a really good question. So basically you have several possibilities on that. First one you have like this PowerPoint presentation, v one, v two, vf vf one, vf two, et cetera. That's a mess in the knowledge bases and sometimes you just want to use the most updated up to date documents. So basically we can filter on the created ad and the date of the documents. Sometimes you want to also compare the evolution of the process over time. So that's another use case. Basically we base.
+That's a really good question. So basically you have several possibilities on that. First one you have like this PowerPoint presentation. That's a mess in the knowledge bases and sometimes you just want to use the most updated up to date documents. So basically we can filter on the created ad and the date of the documents. Sometimes you want to also compare the evolution of the process over time. So that's another use case. Basically we base.
 
 Guillaume Marquis:
 So during the ingestion we are analyzing if date is inside the document, because sometimes in documentation you have like the date at the end of the document or at the beginning of the document. That's a first way to do it. We have the date of the creation of the document, but it's not a source of truth because sometimes you created it after or you duplicated it and the date is not the same, depending if you are working on Windows, Microsoft, stuff like that. It's definitely a mess. And also we compare documents. So when we retry the documents and documents are really similar one to each other, we keep it in mind and we try to give more information as possible. Sometimes it's not possible, so it's not 100%, it's not bulletproof, but it's a real question of that. So it's a partial answer of your question, but it's like some way we are today filtering and answering on this special topic.
@@ -185,13 +185,13 @@ Sabrina Aquino:
 Challenging.
 
 Guillaume Marquis:
-One of the challenging part was the scalability of the system. We have clients that come with terra octave of data and want to be parsed really fast and so you have the ingestion, but even after the semantic search, even on a large data set can be slow. And today chgptpt answer really fast. So your users, even if the question is way more complicated to answer than a basic Chat GPT question, they want to have their answer in seconds. So you have also this challenge that is really you have to take care. So it's quite challenging and it's like this industrial supply chain. So when you upgrade something, you have to be sure that everything is working well on the other side. And that's a real challenge to handle.
+One of the challenging part was the scalability of the system. We have clients that come with terra octave of data and want to be parsed really fast and so you have the ingestion, but even after the semantic search, even on a large data set can be slow. And today Chat GPT answer really fast. So your users, even if the question is way more complicated to answer than a basic Chat GPT question, they want to have their answer in seconds. So you have also this challenge that is really you have to take care. So it's quite challenging and it's like this industrial supply chain. So when you upgrade something, you have to be sure that everything is working well on the other side. And that's a real challenge to handle.
 
 Guillaume Marquis:
 And we are still on it because we are still evolving and getting more data. And at the end of the day, you have to be sure that everything is working well in terms of LLM, but in terms of research and in terms also a few weeks to give some insight to the user of what is working under the hood, to give them the possibility to wait a few seconds more, but starting to give them pieces of answer.
 
 Demetrios:
-Yeah, it's funny you say that because I remember talking to somebody that was working@u.com and they were saying how there's like the actual time. So they were calling it something like perceived time and real, like actual time. So you as an end user, if you get asked a question or maybe there's like a trivia quiz while the question is coming up, then it seems like it's not actually taking as long as it is. Even if it takes 5 seconds, it's a little bit cooler. Or as you were mentioning, I remember reading some paper, I think, on how people are a lot less anxious if they see the words starting to pop up like that and they see like, okay, it's not just I'm waiting and then the whole answer gets spit back out at me. It's like I see the answer forming as it is in real time. And so that can calm people's nerves too.
+Yeah, it's funny you say that because I remember talking to somebody that was working at you.com and they were saying how there's like the actual time. So they were calling it something like perceived time and real, like actual time. So you as an end user, if you get asked a question or maybe there's like a trivia quiz while the question is coming up, then it seems like it's not actually taking as long as it is. Even if it takes 5 seconds, it's a little bit cooler. Or as you were mentioning, I remember reading some paper, I think, on how people are a lot less anxious if they see the words starting to pop up like that and they see like, okay, it's not just I'm waiting and then the whole answer gets spit back out at me. It's like I see the answer forming as it is in real time. And so that can calm people's nerves too.
 
 Guillaume Marquis:
 Yeah, definitely. Human's brain is like marvelous on that. And you have a lot of stuff. Like, one of my favorites is the illusion of work. Do you know it? It's the total opposite. If you have something that seems difficult to do, adding more time of processing. So the user will imagine that it's really an OD task to do. And so that's really funny.
@@ -200,7 +200,7 @@ Demetrios:
 So funny like that.
 
 Guillaume Marquis:
-Yeah. Yes. It's the opposite of what you will think if you create a product, but that's real stuff. And sometimes just to output them that you are performing toss tasks in the background, it helps them to. Oh, yes. My question was really like a complex question, like you have a lot of work to do. It's Axx word like. If you answer too fast, they will not trust the answer.
+Yeah. Yes. It's the opposite of what you will think if you create a product, but that's real stuff. And sometimes just to output them that you are performing toss tasks in the background, it helps them to. Oh, yes. My question was really like a complex question, like you have a lot of work to do. It's Axe word like. If you answer too fast, they will not trust the answer.
 
 Guillaume Marquis:
 And it's the opposite if you answer too slow. You can have this. Okay. But it should be dumb because it's really slow. So it's a dumb AI or stuff like that. So that's really funny. My co founder actually was a product guy, so really focused on product, and he really loves this kind of stuff.
@@ -218,7 +218,7 @@ Demetrios:
 Some tell me more. Yeah.
 
 Guillaume Marquis:
-So we tried the classic postgre page vectors, that is, I think we tried it like 30 minutes, and we realized really fast that it was really not good for our use case. We tried wavyt, we tried Milvus, we tried Qdrant, we tried a lot. We prefer use open source because of security issues. We tried Pinecone initially, we were on Pinecone at the beginning of the company. And so the most important point, so we have the speed of the tool, we have the scalability we have also, maybe it's a little bit dumb to say that, but we have also the API. I remember using Pinecone and trying just to get all vectors and it was not possible somehow, and you have this dumb stuff that are sometimes really strange. And if you have a tool that is 100% made for your use case with people that are working on it, really dedicated on that, and that are aligned with your vision of what is the evolution of this. I think it's like the best tool you have to choose.
+So we tried the classic postgres page vectors, that is, I think we tried it like 30 minutes, and we realized really fast that it was really not good for our use case. We tried Weaviate, we tried Milvus, we tried Qdrant, we tried a lot. We prefer use open source because of security issues. We tried Pinecone initially, we were on Pinecone at the beginning of the company. And so the most important point, so we have the speed of the tool, we have the scalability we have also, maybe it's a little bit dumb to say that, but we have also the API. I remember using Pinecone and trying just to get all vectors and it was not possible somehow, and you have this dumb stuff that are sometimes really strange. And if you have a tool that is 100% made for your use case with people that are working on it, really dedicated on that, and that are aligned with your vision of what is the evolution of this. I think it's like the best tool you have to choose.
 
 Demetrios:
 So one thing that I would love to hear about too, is when you're looking at your system and you're looking at just the product in general, what are some of the key metrics that you are constantly monitoring, and how do you know that you're hitting them or you're not? And then if you're not hitting them, what are some ways that you debug the situation?
@@ -290,7 +290,7 @@ Sabrina Aquino:
 Yeah, I think I'm just very interesting to know from a user perspective, from a virtual brain, how are traditional models worse or what kind of errors virtual brain fixes in their structure, that users find it better that way.
 
 Guillaume Marquis:
-I think in this particular, so we talked about hallucinations, I think it's like one of the main issues people have on classic elements. We really think that when you create a one size fit all tool, you have some chole because you have to manage different approaches, like when you are creating copilot as Microsoft, you have to under the use cases of, and I really think so. Our AI is not trained to write you a speech based on Shakespeare and with the style of Martin Luther Luther King. It's not the purpose of the tool. So if you ask something that is out of the box, he will just say like, okay, I don't know how to answer that. And that's an important point. That's a feature by itself to be able to not go outside of the box. And so we did this choice of putting the AI inside the box, the box that is containing basically all the knowledge of your company, all the retrieved knowledge.
+I think in this particular, so we talked about hallucinations, I think it's like one of the main issues people have on classic elements. We really think that when you create a one size fit all tool, you have some chole because you have to manage different approaches, like when you are creating copilot as Microsoft, you have to under the use cases of, and I really think so. Our AI is not trained to write you a speech based on Shakespeare and with the style of Martin Luther King. It's not the purpose of the tool. So if you ask something that is out of the box, he will just say like, okay, I don't know how to answer that. And that's an important point. That's a feature by itself to be able to not go outside of the box. And so we did this choice of putting the AI inside the box, the box that is containing basically all the knowledge of your company, all the retrieved knowledge.
 
 Guillaume Marquis:
 Actually we do not have a lot of hallucination, I will not say like 0%, but it's close to zero. Because we analyze a question, we put the AI in a box, we enforce the AI to think about the answer before answering, and we analyze also the answer to know if the answer is relevant. And that's an important point that we are fixing and we fix for our user and we prefer yes, to give like non answers and a bad answer.

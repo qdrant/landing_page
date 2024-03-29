@@ -244,5 +244,6 @@ Qdrant supports all the Spark data types, and the appropriate data types are map
 | `sparse_vector_index_fields` | Comma-separated names of columns holding the sparse vector indices. | `ArrayType(IntegerType)`      | ❌       |
 | `sparse_vector_value_fields` | Comma-separated names of columns holding the sparse vector values.  | `ArrayType(FloatType)`        | ❌       |
 | `sparse_vector_names`        | Comma-separated names of the sparse vectors in the collection.      | -                             | ❌       |
+| `shard_key_selector`         | Comma-separated names of custom shard keys to use during upsert.    | -                             | ❌       |
 
 For more information, be sure to check out the [Qdrant-Spark GitHub repository](https://github.com/qdrant/qdrant-spark). The Apache Spark guide is available [here](https://spark.apache.org/docs/latest/quick-start.html). Happy data processing!
