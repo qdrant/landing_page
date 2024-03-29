@@ -3,24 +3,16 @@
 
 <main>
   <header class="main-header">
-    {{ with (.Site.GetPage "section" "top-banner") }}{{ partial "top-banner" . }}{{ end }}
-    {{ with (.Site.GetPage
-      "menu")
-    }}
-      {{ partial "menu" . }}
-    {{ end }}
-    {{ with (.Site.GetPage "menu-mobile") }}{{ partial "menu-mobile" . }}{{ end }}
-    {{ with (.Site.GetPage "qdrant-vector-database-hero") }}
-      {{ partial
-        "qdrant-vector-database-hero" .
-      }}
-    {{ end }}
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+    {{ partial "qdrant-vector-database-hero" . }}
   </header>
 </main>
 
-{{ with (.Site.GetPage "qdrant-vector-database-use-cases") }}{{ partial "qdrant-vector-database-use-cases" . }}{{ end }}
-{{ with (.Site.GetPage "feature-overview") }}{{ partial "feature-overview" . }}{{ end }}
-{{ with (.Site.GetPage "get-started-small") }}{{ partial "get-started-small" . }}{{ end }}
-{{ with (.Site.GetPage "additional-resources") }}{{ partial "additional-resources" . }}{{ end }}
-{{ with (.Site.GetPage "get-started") }}{{ partial "get-started" . }}{{ end }}
-{{ with (.Site.GetPage "footer") }}{{ partial "footer" . }}{{ end }}
+{{ partial "qdrant-vector-database-use-cases" . }}
+{{ partial "feature-overview" . }}
+{{ partial "get-started-small" . }}
+{{ partial "additional-resources" . }}
+{{ partial "get-started" . }}
+{{ partial "footer" . }}
