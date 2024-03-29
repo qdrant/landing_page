@@ -1,6 +1,6 @@
 ---
 title: Automate customer support
-weight: 24
+weight: 26
 ---
 
 # Unleash your customer support from repetitive tasks
