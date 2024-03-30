@@ -65,6 +65,10 @@
     width: 100%;
     height: 100%;
     margin-top: $spacer * 2.5;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: rem(287);
+    max-height: rem(197);
     aspect-ratio: 1.46;
     background-size: contain;
     background-color: $neutral-98;
@@ -128,8 +132,9 @@
     }
 
     &__card-image {
-      margin-top: 0;
+      margin: 0;
       max-width: rem(560);
+      max-height: rem(384);
     }
   }
 }
