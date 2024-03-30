@@ -34,12 +34,19 @@
     }
   }
 
+  &__square-grid-overlay {
+    display: none;
+  }
+
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 7.5;
+    position: relative;
 
     &__wrapper {
       max-width: rem(1134);
+      position: relative;
+      z-index: 2;
     }
 
     &__title {
@@ -58,6 +65,20 @@
       & > div {
         width: calc(100% / 3 - 34px);
       }
+    }
+
+    &__square-grid-overlay {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: 120px;
+      width: 100%;
+      height: rem(400);
+      background-image: url('/img/square-grid.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 1;
     }
   }
 }
