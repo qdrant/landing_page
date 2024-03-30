@@ -1,0 +1,64 @@
+@use '../helpers/functions' as *;
+
+.hybrid-cloud-cases {
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__cards {
+    flex-direction: column;
+    gap: $spacer * 2;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+    }
+
+    &-title {
+      margin-bottom: 0;
+      font-size: rem(20);
+      line-height: rem(30);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 6.5;
+
+    &__wrapper {
+      max-width: rem(1134);
+    }
+
+    &__cards {
+      flex-direction: row;
+      justify-content: space-between;
+      column-gap: 0;
+
+      & > div:nth-of-type(1),
+      & > div:nth-of-type(2) {
+        width: calc(50% - 3px);
+      }
+
+      & > div:nth-of-type(3),
+      & > div:nth-of-type(4),
+      & > div:nth-of-type(5) {
+        width: calc((100% / 3) - 4px);
+      }
+    }
+
+    &__card {
+      justify-content: flex-start;
+    }
+  }
+}

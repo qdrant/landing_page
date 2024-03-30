@@ -1,0 +1,97 @@
+@use '../helpers/functions' as *;
+
+.hybrid-cloud-features {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    text-align: center;
+    color: $neutral-20;
+  }
+
+  &__cards {
+    gap: rem(30);
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: $spacer;
+
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: rem(18);
+      line-height: rem(27);
+      color: $neutral-20;
+    }
+  }
+
+  &__link {
+    text-align: center;
+
+    p {
+      font-size: rem(18);
+      line-height: rem(27);
+      color: $neutral-20;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__wrapper {
+      max-width: rem(1134);
+    }
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: rem(57);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__cards {
+      column-gap: 0;
+      margin-bottom: $spacer * 5;
+
+      & > div {
+        width: calc(25% - 4.5px);
+      }
+    }
+
+    &__link {
+      position: relative;
+
+      p {
+        font-size: rem(20);
+        line-height: rem(30);
+      }
+
+      &:before,
+      &:after {
+        content: '';
+        position: absolute;
+        top: rem(22);
+        width: rem(166);
+        height: rem(1);
+        background-color: $neutral-80;
+      }
+
+      &:before {
+        left: 0;
+      }
+
+      &:after {
+        right: 0;
+      }
+    }
+  }
+}

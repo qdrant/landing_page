@@ -19,7 +19,7 @@ items:
   description: Bring your own Kubernetes clusters from any cloud provider, on-premise infrastructure, or edge locations and connect them to the managed cloud.
   link:
     text: Learn More
-    url: /
+    url: /hybrid-cloud
   odd: false
 - id: 2
   image:
