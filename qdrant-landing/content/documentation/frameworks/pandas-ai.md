@@ -15,7 +15,7 @@ pip install pandasai[qdrant]
 
 ## Usage
 
-You can begin a conversation by instantiating an `Agent` instance based on your Pandas data frame. The default Pandas-AI LLM requires an [API key](https://pandabi.ai.).
+You can begin a conversation by instantiating an `Agent` instance based on your Pandas data frame. The default Pandas-AI LLM requires an [API key](https://pandabi.ai).
 
 You can find the list of all supported LLMs [here](https://docs.pandas-ai.com/en/latest/LLMs/llms/)
 
