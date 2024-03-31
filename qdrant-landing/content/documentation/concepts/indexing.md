@@ -36,7 +36,7 @@ PUT /collections/{collection_name}/index
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_payload_index(
     collection_name="{collection_name}",
@@ -141,10 +141,9 @@ PUT /collections/{collection_name}/index
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_payload_index(
     collection_name="{collection_name}",
@@ -316,16 +315,15 @@ PUT /collections/{collection_name}/index
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="name_of_the_field_to_index",
     field_schema=models.IntegerIndexParams(
-        type="integer",
+        type=models.IntegerIndexType.INTEGER,
         lookup=False,
         range=True,
     ),
