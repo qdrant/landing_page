@@ -35,11 +35,11 @@ actions to perform.
 ```python
 from qdrant_client import QdrantClient, models
 
-qdrant_client = QdrantClient(
+client = QdrantClient(
     "https://my-cluster.cloud.qdrant.io:6333", 
     api_key="my-api-key",
 )
-qdrant_client.create_collection(
+client.create_collection(
     collection_name="personal-notes",
     vectors_config=models.VectorParams(
         size=1024,
@@ -113,7 +113,7 @@ response = cohere_client.embed(
     input_type="search_document",
 )
 
-qdrant_client.upload_points(
+client.upload_points(
     collection_name="personal-notes",
     points=[
         models.PointStruct(
@@ -176,7 +176,7 @@ from typing import Annotated
 
 app = FastAPI()
 
-def qdrant_client() -> QdrantClient:
+def client() -> QdrantClient:
     return QdrantClient(config.QDRANT_URL, api_key=config.QDRANT_API_KEY)
 
 def cohere_client() -> cohere.Client:
@@ -185,7 +185,7 @@ def cohere_client() -> cohere.Client:
 @app.post("/search")
 def search(
     query: SearchQuery,
-    qdrant_client: Annotated[QdrantClient, Depends(qdrant_client)],
+    client: Annotated[QdrantClient, Depends(client)],
     cohere_client: Annotated[cohere.Client, Depends(cohere_client)],
 ) -> SearchResults:
     response = cohere_client.embed(
@@ -193,7 +193,7 @@ def search(
         model="embed-multilingual-v3.0",
         input_type="search_query",
     )
-    results = qdrant_client.search(
+    results = client.search(
         collection_name="personal-notes",
         query_vector=response.embeddings[0],
         limit=2,

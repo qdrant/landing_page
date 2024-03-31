@@ -106,7 +106,7 @@ Now you need to write a script to upload all startup data and vectors into the s
 # Import client library
 from qdrant_client import QdrantClient
 
-qdrant_client = QdrantClient("http://localhost:6333")
+client = QdrantClient("http://localhost:6333")
 ```
 
 3. Select model to encode your data.
@@ -114,16 +114,16 @@ qdrant_client = QdrantClient("http://localhost:6333")
 You will be using a pre-trained model called `sentence-transformers/all-MiniLM-L6-v2`.
 
 ```python
-qdrant_client.set_model("sentence-transformers/all-MiniLM-L6-v2")
+client.set_model("sentence-transformers/all-MiniLM-L6-v2")
 ```
 
 
 4. Related vectors need to be added to a collection. Create a new collection for your startup vectors.
 
 ```python
-qdrant_client.recreate_collection(
+client.recreate_collection(
     collection_name="startups",
-    vectors_config=qdrant_client.get_fastembed_vector_params(),
+    vectors_config=client.get_fastembed_vector_params(),
 )
 ```
 
