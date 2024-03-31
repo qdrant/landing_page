@@ -22,11 +22,12 @@ And then we set this up:
 ```python
 from mistralai.client import MistralClient
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import PointStruct, VectorParams, Distance
+from qdrant_client.models import PointStruct, VectorParams, Distance
+
 collection_name = "example_collection"
 
 MISTRAL_API_KEY = "your_mistral_api_key"
-search_client = QdrantClient(":memory:")
+client = QdrantClient(":memory:")
 mistral_client = MistralClient(api_key=MISTRAL_API_KEY)
 texts = [
     "Qdrant is the best vector search engine!",
@@ -65,13 +66,12 @@ points = [
 ## Create a collection and Insert the documents
 
 ```python
-search_client.create_collection(collection_name, vectors_config=
-    VectorParams(
+client.create_collection(collection_name, vectors_config=VectorParams(
         size=1024,
         distance=Distance.COSINE,
     )
 )
-search_client.upsert(collection_name, points)
+client.upsert(collection_name, points)
 ```
 
 ## Searching for documents with Qdrant
@@ -79,7 +79,7 @@ search_client.upsert(collection_name, points)
 Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
 
 ```python
-search_client.search(
+client.search(
     collection_name=collection_name,
     query_vector=mistral_client.embeddings(
         model="mistral-embed", input=["What is the best to use for vector search scaling?"]

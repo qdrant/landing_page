@@ -24,7 +24,7 @@ openai_client = openai.Client(
     api_key="<YOUR_API_KEY>"
 )
 
-qdrant_client = qdrant_client.QdrantClient(":memory:")
+client = qdrant_client.QdrantClient(":memory:")
 
 texts = [
     "Qdrant is the best vector search engine!",
@@ -39,13 +39,13 @@ The following example shows how to embed a document with the `text-embedding-3-s
 ```python
 embedding_model = "text-embedding-3-small"
 
-result = openai_client.embeddings.create(input= texts, model=embedding_model)
+result = openai_client.embeddings.create(input=texts, model=embedding_model)
 ```
 
 ### Converting the model outputs to Qdrant points
 
 ```python
-from qdrant_client.http.models import PointStruct
+from qdrant_client.models import PointStruct
 
 points = [
     PointStruct(
@@ -60,18 +60,18 @@ points = [
 ### Creating a collection to insert the documents
 
 ```python
-from qdrant_client.http.models import VectorParams, Distance
+from qdrant_client.models import VectorParams, Distance
 
 collection_name = "example_collection"
 
-qdrant_client.create_collection(
+client.create_collection(
     collection_name,
     vectors_config=VectorParams(
         size=1536,
         distance=Distance.COSINE,
     ),
 )
-qdrant_client.upsert(collection_name, points)
+client.upsert(collection_name, points)
 ```
 
 ## Searching for documents with Qdrant
@@ -79,7 +79,7 @@ qdrant_client.upsert(collection_name, points)
 Once the documents are indexed, you can search for the most relevant documents using the same model.
 
 ```python
-qdrant_client.search(
+client.search(
     collection_name=collection_name,
     query_vector=openai_client.embeddings.create(
         input=["What is the best to use for vector search scaling?"],

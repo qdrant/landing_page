@@ -43,11 +43,13 @@ The following example shows how to embed a document with the `models/embedding-0
 ```python
 import google.generativeai as gemini_client
 from qdrant_client import QdrantClient
-from qdrant_client.http.models import Distance, PointStruct, VectorParams
+from qdrant_client.models import Distance, PointStruct, VectorParams
+
 collection_name = "example_collection"
 
 GEMINI_API_KEY = "YOUR GEMINI API KEY"  # add your key here
 
+client = QdrantClient(url="http://localhost:6333")
 gemini_client.configure(api_key=GEMINI_API_KEY)
 texts = [
     "Qdrant is a vector database that is compatible with Gemini.",
@@ -83,7 +85,7 @@ points = [
 ### Create Collection
 
 ```python
-search_client.create_collection(collection_name, vectors_config=
+client.create_collection(collection_name, vectors_config=
     VectorParams(
         size=768,
         distance=Distance.COSINE,
@@ -94,7 +96,7 @@ search_client.create_collection(collection_name, vectors_config=
 ### Add these into the collection
 
 ```python
-search_client.upsert(collection_name, points)
+client.upsert(collection_name, points)
 ```
 
 ## Searching for documents with Qdrant
@@ -102,7 +104,7 @@ search_client.upsert(collection_name, points)
 Once the documents are indexed, you can search for the most relevant documents using the same model with the `retrieval_query` task type:
 
 ```python
-search_client.search(
+client.search(
     collection_name=collection_name,
     query_vector=gemini_client.embed_content(
         model="models/embedding-001",

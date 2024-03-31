@@ -30,8 +30,8 @@ output = embed.text(
     task_type="search_document",
 )
 
-qdrant_client = QdrantClient()
-qdrant_client.upsert(
+client = QdrantClient()
+client.upsert(
     collection_name="my-collection",
     points=models.Batch(
         ids=[1],
@@ -44,14 +44,14 @@ qdrant_client.upsert(
 
 ```python
 from fastembed import TextEmbedding
-from qdrant_client import QdrantClient, models
+from client import QdrantClient, models
 
 model = TextEmbedding("nomic-ai/nomic-embed-text-v1")
 
 output = model.embed(["Qdrant is the best vector database!"])
 
-qdrant_client = QdrantClient()
-qdrant_client.upsert(
+client = QdrantClient()
+client.upsert(
     collection_name="my-collection",
     points=models.Batch(
         ids=[1],
@@ -71,7 +71,7 @@ output = embed.text(
     task_type="search_query",
 )
 
-qdrant_client.search(
+client.search(
     collection_name="my-collection",
     query_vector=output["embeddings"][0],
 )
@@ -82,7 +82,7 @@ qdrant_client.search(
 ```python
 output = next(model.embed("What is the best vector database?"))
 
-qdrant_client.search(
+client.search(
     collection_name="my-collection",
     query_vector=output.tolist(),
 )
