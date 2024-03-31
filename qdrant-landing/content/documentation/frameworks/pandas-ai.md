@@ -62,7 +62,8 @@ from pandasai.ee.vectorstores.qdrant import Qdrant
 qdrant = Qdrant(
     collection_name="<SOME_COLLECTION>",
     embedding_model="sentence-transformers/all-MiniLM-L6-v2",
-    location="http://localhost:6334",
+    url="http://localhost:6333",
+    grpc_port=6334,
     prefer_grpc=True
 )
 
