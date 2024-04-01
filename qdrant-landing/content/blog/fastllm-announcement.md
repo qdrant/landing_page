@@ -23,7 +23,7 @@ Developed to seamlessly integrate with Qdrant, **FastLLM** represents a signific
 
 However, what sets FastLLM apart is its optimized architecture, making it the ideal choice for RAG applications. With minimal effort, you can combine FastLLM and Qdrant to launch applications that process vast amounts of data. Leveraging the power of Qdrant's scalability features, FastLLM promises to revolutionize how enterprise AI applications generate and retrieve content at massive scale.
 
-> *“First we introduced [FastEmbed](https://github.com/qdrant/fastembed*). But then we thought - why stop there? Embedding is useful and all, but our users should do everything from within the Qdrant ecosystem. FastLLM is just the natural progression towards a large-scale consolidation of AI tools.” Andre Zayarni, President & CEO, Qdrant*
+> *“First we introduced [FastEmbed](https://github.com/qdrant/fastembed). But then we thought - why stop there? Embedding is useful and all, but our users should do everything from within the Qdrant ecosystem. FastLLM is just the natural progression towards a large-scale consolidation of AI tools.” Andre Zayarni, President & CEO, Qdrant*
 > 
 
 ## Going Big: Quality & Quantity
