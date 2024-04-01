@@ -1,12 +1,13 @@
 @use '../helpers/functions' as *;
 
-.qdrant-features-link {
+.qdrant-cloud-features-link {
   background-color: $neutral-94;
   padding-bottom: $spacer * 2.5;
   text-align: center;
 
   &__content {
     margin-bottom: $spacer;
+    color: $neutral-20;
   }
 
   @include media-breakpoint-up(xl) {
