@@ -1,22 +1,26 @@
+@use 'sass:math';
 @use '../helpers/functions' as *;
+@use '../bootstrap-custom' as bs;
 
-.get-contacted {
-  background-color: $neutral-94;
+@mixin base($paddingTop, $paddingTopMobile, $paddingBottom, $paddingBottomMobile, $contentWidth) {
+  padding-top: $paddingTopMobile;
+  padding-bottom: $paddingBottomMobile;
+  background-color: #e1e5f0;
 
   &__content {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: $spacer * 2.5;
-    background: linear-gradient($neutral-20, #0e1424);
-    border-radius: $spacer * 0.5;
+    padding: rem(40);
+    background: linear-gradient(#161e33, #0e1424);
+    border-radius: rem(16);
 
     p {
-      margin-bottom: $spacer * 2;
+      margin-bottom: rem(32);
       font-size: rem(20);
       line-height: rem(30);
       text-align: center;
-      color: $neutral-98;
+      color: #f0f3fa;
     }
   }
 
@@ -24,8 +28,9 @@
     display: none;
   }
 
-  @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 2.5;
+  @include bs.media-breakpoint-up(lg) {
+    padding-top: $paddingTop;
+    padding-bottom: $paddingBottom;
 
     &__wrapper {
       max-width: rem(1134);
@@ -34,12 +39,12 @@
     &__content {
       flex-direction: row;
       justify-content: space-between;
-      padding: $spacer * 2.5 $spacer * 4;
+      padding: rem(40) rem(64);
 
       p {
-        max-width: rem(350);
+        max-width: $contentWidth;
         margin-bottom: 0;
-        font-size: $spacer * 1.5;
+        font-size: rem(24);
         line-height: rem(34);
         text-align: left;
       }

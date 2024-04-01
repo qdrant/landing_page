@@ -1,0 +1,13 @@
+{{ with (.Site.GetPage "/private-cloud/private-cloud-about") }}
+  <section class="private-cloud-about">
+    <div class="private-cloud-about__wrapper container">
+      <div class="row">
+        <div class="private-cloud-about__content col-12">
+          <h6 class="private-cloud-about__title">{{ .Params.title }}</h6>
+          <img class="private-cloud-about__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+          <p class="private-cloud-about__description">{{ .Params.description }}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

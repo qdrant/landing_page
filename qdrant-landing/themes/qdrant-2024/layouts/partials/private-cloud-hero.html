@@ -1,0 +1,17 @@
+{{ with (.Site.GetPage "/private-cloud/private-cloud-hero") }}
+  <section class="private-cloud-hero">
+    <div class="private-cloud-hero__wrapper container">
+      <div class="row justify-content-xl-between align-items-xl-end">
+        <div class="col-12 col-xl-6">
+          <h3 class="private-cloud-hero__title">{{ .Params.title }}</h3>
+        </div>
+        <div class="private-cloud-hero__content col-12 col-xl-6">
+          <div class="private-cloud-hero__description">{{ .Params.description }}</div>
+          <a href="{{ .Params.contactUs.url }}" class="private-cloud-hero__button button button_contained button_lg">
+            {{ .Params.contactUs.text }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

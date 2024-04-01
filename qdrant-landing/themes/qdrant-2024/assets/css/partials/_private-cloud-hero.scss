@@ -1,0 +1,48 @@
+@use '../helpers/functions' as *;
+
+.private-cloud-hero {
+  padding-top: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-20;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__description {
+    font-size: rem(18);
+    line-height: rem(27);
+    color: $neutral-30;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__button {
+    min-width: $spacer * 10;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+
+    &__wrapper {
+      max-width: rem(1134);
+    }
+
+    &__title {
+      width: rem(540);
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+      margin-bottom: 0;
+    }
+
+    &__content {
+      width: rem(465);
+    }
+
+    &__description {
+      font-size: rem(20);
+      line-height: rem(30);
+    }
+  }
+}
