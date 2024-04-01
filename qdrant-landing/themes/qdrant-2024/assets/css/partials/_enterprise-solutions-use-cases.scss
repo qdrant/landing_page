@@ -14,6 +14,7 @@
     margin-bottom: $spacer * 5;
     font-size: $spacer * 2.5;
     line-height: $spacer * 3;
+    color: $neutral-20;
     text-align: center;
   }
 
@@ -34,12 +35,14 @@
       font-size: $spacer * 2;
       line-height: rem(38);
       margin-bottom: $spacer * 1.5;
+      color: $neutral-20;
     }
 
     &-description {
       font-size: $spacer;
       line-height: $spacer * 1.5;
       margin-bottom: $spacer * 1.5;
+      color: $neutral-40;
     }
 
     &-preview {
