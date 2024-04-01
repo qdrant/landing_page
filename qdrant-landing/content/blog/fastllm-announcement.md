@@ -30,7 +30,7 @@ However, what sets FastLLM apart is its optimized architecture, making it the id
 
 Very soon, an LLM will come out with a context window so wide, it will completely eliminate any value a measly vector database can add. 
 
-***We know this. That’s why we trained our own LLM to completely eliminate the competition. Also, in case vector databases go under, at least we'll have an LLM left!*** 
+***We know this. That’s why we trained our own LLM to obliterate the competition. Also, in case vector databases go under, at least we'll have an LLM left!*** 
 
 As soon as we entered Series A, we knew it was time to ramp up our training efforts. FLLM was trained on 300,000 NVIDIA H100s connected by 5Tbps Infiniband. It took weeks to fully train the model, but our unified efforts produced the most powerful LLM known to human…..or LLM.
 
