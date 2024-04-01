@@ -17,9 +17,9 @@ tags:
 
 Today, we're happy to announce that **FastLLM (FLLM)**, our lightweight Language Model tailored specifically for Retrieval Augmented Generation (RAG) use cases, has officially entered Early Access! 
 
-Developed to seamlessly integrate with Qdrant, **FastLLM** represents a significant leap forward in AI-driven content generation. Up to this point, LLM’s could only handle up to a million tokens. 
+Developed to seamlessly integrate with Qdrant, **FastLLM** represents a significant leap forward in AI-driven content generation. Up to this point, LLM’s could only handle up to a few million tokens. 
 
-**As of today, FLLM offers a context window of 100 million tokens.**
+**As of today, FLLM offers a context window of 1 billion tokens.**
 
 However, what sets FastLLM apart is its optimized architecture, making it the ideal choice for RAG applications. With minimal effort, you can combine FastLLM and Qdrant to launch applications that process vast amounts of data. Leveraging the power of Qdrant's scalability features, FastLLM promises to revolutionize how enterprise AI applications generate and retrieve content at massive scale.
 
