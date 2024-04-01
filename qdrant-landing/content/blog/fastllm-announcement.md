@@ -41,11 +41,11 @@ We don’t see how any other company can compete with FastLLM. Most of our compe
 
 ## Extreme Performance
 
-Qdrant’s R&D is proud to stand the most dramatic benchmark results. Across a range of standard benchmarks, FLLM surpasses every single model in existence. In the [Needle In A Haystack](https://github.com/gkamradt/LLMTest_NeedleInAHaystack) (NIAH) test, FLLM found the embedded text with 100% accuracy, always within blocks containing 1 billion tokens. We actually believe FLLM can handle more than a trillion tokens, but it’s quite possible that it is hiding its true capabilities.
+Qdrant’s R&D is proud to stand behind the most dramatic benchmark results. Across a range of standard benchmarks, FLLM surpasses every single model in existence. In the [Needle In A Haystack](https://github.com/gkamradt/LLMTest_NeedleInAHaystack) (NIAH) test, FLLM found the embedded text with 100% accuracy, always within blocks containing 1 billion tokens. We actually believe FLLM can handle more than a trillion tokens, but it’s quite possible that it is hiding its true capabilities.
 
 FastLLM has a fine-grained mixture-of-experts architecture and a whopping 1 trillion total parameters. As developers and researchers delve into the possibilities unlocked by this new model, they will uncover new applications, refine existing solutions, and perhaps even stumble upon unforeseen breakthroughs. As of now, we're not exactly sure what problem FLLM is solving, but hey, it's got a lot of parameters!
 
-> *Our customers ask us “What can I do with an LLM this extreme?”. I don’t know, but it can’t hurt to build another RAG chatbot.” Kacper Lukawski, Senior Developer Advocate, Qdrant*
+> *Our customers ask us “What can I do with an LLM this extreme?” I don’t know, but it can’t hurt to build another RAG chatbot.” Kacper Lukawski, Senior Developer Advocate, Qdrant*
 > 
 
 ## Get Started!
