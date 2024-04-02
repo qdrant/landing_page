@@ -1,0 +1,32 @@
+{{ with (.Site.GetPage "/headless/tutorials") }}
+  <section class="tutorials">
+    <div class="container">
+      <div class="tutorials__content row">
+        <div class="tutorials__overlay-top"></div>
+        <div class="tutorials__overlay-bottom"></div>
+        <div class="col-12 col-xl-5">
+          <div class="tutorials__description">
+            <h3 class="tutorials__title">{{ .Params.title }}</h3>
+            <p class="tutorials__subtitle">
+              {{ .Params.description }}
+            </p>
+            <div class="tutorials__link">
+              {{ partial "link" . }}
+            </div>
+          </div>
+        </div>
+        <div class="col-12 col-xl-7">
+          <div class="tutorials__preview">
+            <div class="tutorials__image" style="background-image: url(/img/become-a-partner.png)">
+              <code>
+                {{ range $index, $command := .Params.commands }}
+                  {{ $command | safeHTML }}<br />
+                {{ end }}
+              </code>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
