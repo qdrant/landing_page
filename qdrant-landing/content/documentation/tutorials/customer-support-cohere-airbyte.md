@@ -1,26 +1,18 @@
 ---
-title: Automate customer support
+title: Automate customer support tasks
 weight: 26
 ---
 
-# Unleash your customer support from repetitive tasks
+# Automate customer support tasks
 
 | Time: 120 min | Level: Advanced |  |
 | --- | ----------- | ----------- |----------- |
 
-Maintaining a proper level of service plays an important role in the success of any business. The customer support team 
-is the first line of defense when it comes to addressing customer queries and concerns. However, as the business grows, 
-the volume of customer queries also increases, making it difficult for the support team to handle them efficiently. On
-the other hand, the majority of the queries is repetitive and if someone in the team has already answered a similar 
-question, automating the response can save a lot of time and effort. In times of Large Language Models that does not 
-sound like a science fiction anymore.
+Maintaining top-notch customer service is vital to business success. As your operation expands, so does the influx of customer queries. Many of these queries are repetitive, making automation a time-saving solution. 
+Your support team's expertise is typically kept private, but you can still use AI to automate responses securely. 
+In this tutorial we will setup a private AI service that answers customer support queries with high accuracy and effectiveness.
 
-The know-how of the customer support team is usually a proprietary knowledge base that is not available to the public.
-You never want this data to leave your infrastructure. However, you can still leverage the power of AI to automate the
-responses, thanks to private deployments of the state-of-the-art tools. Cohere’s powerful models [might be deployed to 
-AWS](https://cohere.com/deployment-options/aws) and used together with Qdrant Hybrid Cloud to build a fully private 
-customer support system. One missing piece is the data synchronization, and this is where 
-[Airbyte](https://airbyte.com/) comes into play.
+By leveraging Cohere's powerful models (deployed to [AWS](https://cohere.com/deployment-options/aws)) with Qdrant Hybrid Cloud, you can create a fully private customer support system. Data synchronization, facilitated by [Airbyte](https://airbyte.com/), will complete the setup.
 
 [//]: # (TODO: add a link to the corresponding Qdrant Hybrid Cloud documentation: deployment on AWS)
 
@@ -43,8 +35,8 @@ an ingestion pipeline and then a Retrieval Augmented Generation application that
 - **RAG:** Cohere [RAG](https://docs.cohere.com/docs/retrieval-augmented-generation-rag) using our knowledge base 
   through a custom connector
 
-All the selected components might only run on [AWS](https://aws.amazon.com/) infrastructure. Thanks to the Cohere 
-models' availability, you can build a fully private customer support system that does not require any data to leave your 
+All the selected components are compatible with the [AWS](https://aws.amazon.com/) infrastructure. Thanks to Cohere 
+models' availability, you can build a fully private customer support system completely isolates data within your 
 infrastructure. Also, if you have AWS credits, you can now use them without spending additional money on the models or 
 semantic search layer.
 
@@ -79,7 +71,7 @@ you use, so we'll just cover the general idea here and build a simple CLI tool.
 
 ### Cohere models on AWS
 
-One of the possible ways to deploy Cohere models on AWS is to use AWS SageMaker. Cohere website provides [a detailed
+One of the possible ways to deploy Cohere models on AWS is to use AWS SageMaker. Cohere's website has [a detailed
 guide on how to deploy the models in that way](https://docs.cohere.com/docs/amazon-sagemaker-setup-guide), so you can 
 follow the steps described there to set up your own instance.
 
