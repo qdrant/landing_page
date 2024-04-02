@@ -48,10 +48,6 @@
   }
 
   @include media-breakpoint-up(xl) {
-    &__wrapper {
-      max-width: rem(1134);
-    }
-
     &__title {
       font-size: $spacer * 3;
       line-height: rem(57);

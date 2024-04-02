@@ -36,10 +36,6 @@
     padding-top: $spacer * 2.5;
     padding-bottom: $spacer * 6.5;
 
-    &__wrapper {
-      max-width: rem(1134);
-    }
-
     &__cards {
       flex-direction: row;
       justify-content: space-between;

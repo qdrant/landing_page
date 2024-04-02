@@ -3,10 +3,7 @@
 .hybrid-cloud-hero {
   padding-top: $spacer * 2.5;
   padding-bottom: $spacer * 4;
-
-  &__wrapper {
-    text-align: center;
-  }
+  text-align: center;
 
   &__title {
     font-size: $spacer * 2.5;
@@ -74,11 +71,7 @@
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 7.5;
-
-    &__wrapper {
-      max-width: rem(1134);
-      text-align: left;
-    }
+    text-align: left;
 
     &__content {
       width: rem(524);

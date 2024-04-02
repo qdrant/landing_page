@@ -1,24 +1,20 @@
 {{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-features") }}
   <section class="hybrid-cloud-features">
-    <div class="hybrid-cloud-features__wrapper container">
-      <div class="row">
-        <div class="col-12">
-          <h3 class="hybrid-cloud-features__title">{{ .Params.title }}</h3>
-          <div class="hybrid-cloud-features__cards row justify-content-xl-between">
-            {{ range .Params.cards }}
-              <div class="col-12 col-xl-3">
-                <div class="card hybrid-cloud-features__card">
-                  <img class="hybrid-cloud-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
-                  <p class="hybrid-cloud-features__card-description">{{ .description }}</p>
-                </div>
-              </div>
-            {{ end }}
+    <div class="container">
+      <h3 class="hybrid-cloud-features__title">{{ .Params.title }}</h3>
+      <div class="hybrid-cloud-features__cards row justify-content-xl-between">
+        {{ range .Params.cards }}
+          <div class="col-12 col-xl-3">
+            <div class="card hybrid-cloud-features__card">
+              <img class="hybrid-cloud-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <p class="hybrid-cloud-features__card-description">{{ .description }}</p>
+            </div>
           </div>
-          <div class="hybrid-cloud-features__link">
-            <p>{{ .Params.link.content }}</p>
-            <a class="link link_xl align-self-start" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
-          </div>
-        </div>
+        {{ end }}
+      </div>
+      <div class="hybrid-cloud-features__link">
+        <p>{{ .Params.link.content }}</p>
+        <a class="link link_xl align-self-start" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
       </div>
     </div>
   </section>

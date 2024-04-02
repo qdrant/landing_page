@@ -2,10 +2,7 @@
 
 .qdrant-vector-database-hero {
   padding-top: $spacer * 2.5;
-
-  &__wrapper {
-    text-align: center;
-  }
+  text-align: center;
 
   &__title {
     font-size: $spacer * 2.5;
@@ -44,10 +41,6 @@
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 5;
-
-    &__wrapper {
-      max-width: rem(1134);
-    }
 
     &__title {
       font-size: $spacer * 4;

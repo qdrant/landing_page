@@ -55,10 +55,6 @@
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 2.5;
 
-    &__content {
-      max-width: rem(1134);
-    }
-
     &__header {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
