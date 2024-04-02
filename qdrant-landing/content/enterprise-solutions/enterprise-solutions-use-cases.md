@@ -29,7 +29,7 @@ items:
   description: Experience maximum control and security by deploying Qdrant in your own infrastructure or edge locations.
   link:
     text: Learn More
-    url: /
+    url: /private-cloud
   odd: true
 sitemapExclude: true
 ---
