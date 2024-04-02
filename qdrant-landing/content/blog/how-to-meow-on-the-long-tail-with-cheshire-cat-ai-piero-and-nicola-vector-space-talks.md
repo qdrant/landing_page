@@ -45,11 +45,11 @@ It’s time to learn how to meow! Piero in this episode of Vector Space Talks di
 
 Here are the highlights from this episode:
 
-1. The Art of Embedding: Discover how Cheshire Cat uses collections with an embedder, fine-tuning them through scalar quantization and other methods to enhance accuracy and performance.
-2. Vectors in Harmony: Get the lowdown on storing quantized vectors in a hybrid mode – it's all about saving memory without compromising on speed.
-3. Memory Matters: Scoop on managing different types of memory within Qdrant, the go-to vector DB for Cheshire Cat.
-4. Community Chronicles: Talking about the growing community that's shaping the evolution of Cheshire Cat - from enthusiasts to core contributors!
-5. Looking Ahead: They've got grand plans brewing for a cloud version of Cheshire Cat. Imagine a marketplace buzzing with user-generated plugins. This is the future they're painting!
+1. **The Art of Embedding:** Discover how Cheshire Cat uses collections with an embedder, fine-tuning them through scalar quantization and other methods to enhance accuracy and performance.
+2. **Vectors in Harmony:** Get the lowdown on storing quantized vectors in a hybrid mode – it's all about saving memory without compromising on speed.
+3. **Memory Matters:** Scoop on managing different types of memory within Qdrant, the go-to vector DB for Cheshire Cat.
+4. **Community Chronicles:** Talking about the growing community that's shaping the evolution of Cheshire Cat - from enthusiasts to core contributors!
+5. **Looking Ahead:** They've got grand plans brewing for a cloud version of Cheshire Cat. Imagine a marketplace buzzing with user-generated plugins. This is the future they're painting!
 
 > Fun Fact: The Cheshire Cat community on Discord plays a crucial role in the development and user support of the framework, described humorously by Piero as "a mess" due to its large and active nature.
 > 
