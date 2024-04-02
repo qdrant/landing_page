@@ -1,12 +1,12 @@
 {{ with (.Site.GetPage "/qdrant-vector-database/feature-overview") }}
   <section class="feature-overview">
-    <div class="feature-overview__content container">
+    <div class="container">
       <div class="row">
-        <div class="feature-overview__header col-12 mx-auto">
+        <div class="feature-overview__header col-12">
           <h3 class="feature-overview__title">{{ .Params.title }}</h3>
           <p class="feature-overview__description">{{ .Params.description }}</p>
         </div>
-        <div class="feature-overview__cards-wrapper col-12 mx-auto">
+        <div class="feature-overview__cards-wrapper col-12">
           <div class="feature-overview__cards">
             {{ range $index, $element := .Params.cards }}
               <div class="card feature-overview__card">
