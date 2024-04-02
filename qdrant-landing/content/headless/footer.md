@@ -32,10 +32,10 @@ productMenu:
       url: /
     - id: 2
       name: Demos
-      url: /
+      url: /demos-and-tutorials
     - id: 3
       name: Enterprise Solutions
-      url: /
+      url: /enterprise-solutions
     - id: 4
       name: Case Studies
       url: /
