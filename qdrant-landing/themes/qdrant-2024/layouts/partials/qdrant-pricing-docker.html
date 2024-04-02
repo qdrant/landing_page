@@ -1,0 +1,24 @@
+{{ with (.Site.GetPage "/qdrant-pricing/qdrant-pricing-docker") }}
+  <section class="qdrant-pricing-docker">
+    <div class="container">
+      <div class="row justify-content-xl-between align-items-xl-center">
+        <div class="qdrant-pricing-docker__content col-12 col-xl-5">
+          <h3 class="qdrant-pricing-docker__title">{{ .Params.title }}</h3>
+          <p class="qdrant-pricing-docker__description">
+            <span>{{ .Params.descriptionFirstPart }}</span>
+            <a href="{{ .Params.guideLink.url }}">
+              {{ .Params.guideLink.text | safeHTML }}
+            </a>
+            <span>{{ .Params.descriptionSecondPart }}</span>
+            <a href="{{ .Params.githubLink.url }}">
+              {{ .Params.githubLink.text | safeHTML }}
+            </a>
+          </p>
+        </div>
+        <div class="qdrant-pricing-docker__preview col-12 col-xl-7">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

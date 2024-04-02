@@ -123,6 +123,6 @@ menuItems:
         url: /
   - id: menu-5
     name: Pricing
-    url: /
+    url: /qdrant-pricing
 sitemapExclude: true
 ---

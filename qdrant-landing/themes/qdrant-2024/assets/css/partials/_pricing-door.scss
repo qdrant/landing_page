@@ -1,0 +1,128 @@
+@use '../helpers/functions' as *;
+
+.pricing-door {
+  position: relative;
+  height: 100%;
+  padding: rem(47) $spacer * 2 $spacer * 3 $spacer * 2;
+  border-radius: rem(12);
+  border-top: rem(1) solid $neutral-40;
+  background: linear-gradient($neutral-20, #0e1424);
+  color: $neutral-80;
+  z-index: 1;
+
+  &.active,
+  &:hover {
+    padding: rem(47) rem(31);
+    border: rem(1) solid $primary-40;
+
+    .pricing-door__popular {
+      left: rem(31);
+    }
+  }
+
+  &__popular {
+    position: absolute;
+    top: -11px;
+    left: $spacer * 2;
+    padding: rem(2) rem(12);
+    font-size: rem(12);
+    line-height: rem(18);
+    text-transform: uppercase;
+    border-radius: rem(6);
+    background-color: $primary-50;
+    color: $neutral-98;
+  }
+
+  &__top-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(220);
+    height: rem(192);
+    background-image: url('/img/blurred/blurred-light-9.png');
+    background-position: top;
+    background-size: cover;
+    border-radius: 0 rem(12) 0 0;
+  }
+
+  &__title {
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__price {
+    margin-bottom: $spacer * 0.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: rem(14);
+    line-height: rem(21);
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__button {
+    width: 100%;
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__feature {
+    padding-top: $spacer;
+    border-top: rem(1) solid $neutral-40;
+
+    &-description {
+      margin-bottom: $spacer * 1.5;
+
+      a {
+        color: $neutral-80;
+        border-bottom: rem(1) solid $neutral-80;
+      }
+    }
+
+    &-list {
+      display: flex;
+      flex-direction: column;
+      gap: $spacer;
+    }
+
+    &-item {
+      position: relative;
+      margin-bottom: 0;
+      padding-left: $spacer * 1.5;
+      font-size: rem(14);
+      line-height: rem(21);
+
+      &:before {
+        content: ('');
+        display: block;
+        position: absolute;
+        top: rem(4);
+        left: 0;
+        height: $spacer;
+        width: $spacer;
+        background-image: url('/icons/fill/check-white.svg');
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size: cover;
+      }
+    }
+
+    &-min-price {
+      display: flex;
+      align-items: flex-start;
+      gap: $spacer * 0.5;
+      margin-bottom: 0;
+      font-size: rem(14);
+      line-height: rem(21);
+
+      span {
+        display: block;
+        width: $spacer;
+        font-size: rem(20);
+        line-height: rem(30);
+        text-align: center;
+        color: $secondary-blue-50;
+      }
+    }
+  }
+}
