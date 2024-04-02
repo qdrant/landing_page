@@ -117,6 +117,7 @@ menuItems:
       - id: subMenu-4-2
         name: About us
         icon: about-us.svg
+        url: /about-us
       - id: subMenu-4-3
         name: Careers
         icon: careers.svg

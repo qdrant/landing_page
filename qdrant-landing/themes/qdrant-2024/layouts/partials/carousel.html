@@ -1,0 +1,9 @@
+{{ with (.Site.GetPage "/headless/carousel") }}
+  <section class="carousel">
+    <div class="carousel__content">
+      {{ range $index, $element := .Params.photoCards }}
+        <div class="carousel__image" style="background-image: url(/img/carousel/carousel-{{ $index }}.png)"></div>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

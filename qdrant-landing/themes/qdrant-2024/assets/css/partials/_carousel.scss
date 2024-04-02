@@ -1,0 +1,31 @@
+@use '../helpers/functions' as *;
+
+.carousel {
+  min-height: rem(240);
+  overflow-x: scroll;
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
+  scroll-behavior: smooth;
+  background-color: $neutral-94;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(30);
+
+    width: fit-content;
+  }
+
+  &__image {
+    min-width: rem(400);
+    aspect-ratio: 5 / 3;
+    height: 100%;
+    background-position: center;
+    background-size: contain;
+  }
+}
