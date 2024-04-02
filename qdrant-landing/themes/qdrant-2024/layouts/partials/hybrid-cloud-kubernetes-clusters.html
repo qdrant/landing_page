@@ -1,0 +1,16 @@
+{{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-kubernetes-clusters") }}
+  <section class="hybrid-cloud-kubernetes-clusters">
+    <div class="container">
+      <div class="row justify-content-xl-between align-items-xl-center">
+        <div class="hybrid-cloud-kubernetes-clusters__content col-12 col-xl-6">
+          <h1 class="hybrid-cloud-kubernetes-clusters__title">{{ .Params.title }}</h1>
+          <p class="hybrid-cloud-kubernetes-clusters__description">{{ .Params.descriptionFirstPart }}</p>
+          <p class="hybrid-cloud-kubernetes-clusters__description">{{ .Params.descriptionSecondPart }}</p>
+        </div>
+        <div class="hybrid-cloud-kubernetes-clusters__preview col-12 col-xl-6">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
