@@ -43,8 +43,6 @@ an ingestion pipeline and then a Retrieval Augmented Generation application that
 - **RAG:** Cohere [RAG](https://docs.cohere.com/docs/retrieval-augmented-generation-rag) using our knowledge base 
   through a custom connector
 
-[//]: # (TODO: the dataset has to be published somewhere)
-
 All the selected components might be running on [Oracle Cloud](https://www.oracle.com/cloud/) infrastructure only. Thanks to the availability of 
 the Cohere models on OCI, you can build a fully private customer support system that does not require any data to leave
 your infrastructure.
@@ -118,18 +116,18 @@ use the following connectors:
 Airbyte UI will guide you through the process of setting up the source and destination and connecting them. Here is how
 the configuration of the source might look like:
 
-![Airbyte source configuration](/documentation/tutorials/customer-support-oci-cohere-airbyte/airbyte-excel-source.png)
+![Airbyte source configuration](/documentation/tutorials/customer-support-cohere-airbyte/airbyte-excel-source.png)
 
 Qdrant is our target destination, so we need to set up the connection to it. We need to specify which fields should be
 included to generate the embeddings. In our case it makes complete sense to embed just the questions, as we are going
 to look for similar questions asked in the past and provide the answers. 
 
-![Airbyte destination configuration](/documentation/tutorials/customer-support-oci-cohere-airbyte/airbyte-qdrant-destination.png)
+![Airbyte destination configuration](/documentation/tutorials/customer-support-cohere-airbyte/airbyte-qdrant-destination.png)
 
 Once we have the destination set up, we can finally configure a connection. The connection will define the schedule
 of the data synchronization. 
 
-![Airbyte connection configuration](/documentation/tutorials/customer-support-oci-cohere-airbyte/airbyte-connection.png)
+![Airbyte connection configuration](/documentation/tutorials/customer-support-cohere-airbyte/airbyte-connection.png)
 
 Airbyte should now be ready to accept any data updates from the source and load them into Qdrant. You can monitor the
 progress of the synchronization in the UI.
