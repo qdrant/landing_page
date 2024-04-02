@@ -1,0 +1,9 @@
+{{ with (.Site.GetPage "/headless/customer-list") }}
+  <section class="customer-list">
+    {{ $context := slice }}
+    {{ range .Params.customers }}
+      {{ $context = $context | append (dict "svg" .logo "name" .name) }}
+    {{ end }}
+    {{ partial "marquee.html" (dict "context" $context "marqueeClass" "customer-list__logos") }}
+  </section>
+{{ end }}
