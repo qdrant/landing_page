@@ -1,6 +1,6 @@
 {{ with (.Site.GetPage "/headless/marketplaces") }}
   <section class="marketplaces">
-    <div class="marketplaces__wrapper container">
+    <div class="container">
       <h2 class="marketplaces__title">{{ .Params.title }}</h2>
       <div class="marketplaces__cards row">
         {{ range $index, $element := .Params.items }}
