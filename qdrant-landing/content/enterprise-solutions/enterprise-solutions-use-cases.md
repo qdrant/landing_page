@@ -9,7 +9,7 @@ items:
   description: Qdrant Cloud provides optimal flexibility and offers a suite of features focused on efficient and scalable vector search - fully managed. Available on AWS, Google Cloud, and Azure.
   link:
     text: Learn More
-    url: /
+    url: /qdrant-cloud
   odd: true
 - id: 1
   image:

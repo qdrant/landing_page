@@ -1,0 +1,3 @@
+{{ with (.Site.GetPage "/headless/get-started-small-database") }}
+  {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
+{{ end }}
