@@ -31,11 +31,11 @@ Piero Savastano is the Founder and Maintainer of the open-source project, Cheshi
 
 Nicola Procopio has more than 10 years of experience in data science and has worked in different sectors and markets from Telco to Healthcare. At the moment he works in the Media market, specifically on semantic search, vector spaces, and LLM applications. He has worked in the R&D area on data science projects and he has been and is currently a contributor to some open-source projects like Cheshire Cat. He is the author of popular science articles about data science on specialized blogs.
 
-***Listen to the episode on Spotify, Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on YouTube.***
+***Listen to the episode on [Spotify](https://open.spotify.com/episode/2d58Xui99QaUyXclIE1uuH?si=68c5f1ae6073472f), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/K40DIG9ZzAU?feature=shared).***
 
-[embed YouTube video here]
+<iframe width="560" height="315" src="https://www.youtube.com/embed/K40DIG9ZzAU?si=rK0EVXmvNJ5OSZa4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-[embed anchor.fm podcast here]
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/How-to-meow-on-the-long-tail-with-Cheshire-Cat-AI----Piero-and-Nicola--Vector-Space-Talks-018-e2h7k59/a-ab31teu" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top takeaways:**
 
