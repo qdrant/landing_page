@@ -1,0 +1,19 @@
+{{ with (.Site.GetPage "/headless/marketplaces") }}
+  <section class="marketplaces">
+    <div class="container">
+      <h2 class="marketplaces__title">{{ .Params.title }}</h2>
+      <div class="marketplaces__cards row">
+        {{ range $index, $element := .Params.items }}
+          <div class="col-12 col-xl-4">
+            <div class="card marketplaces__card">
+              <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              <h5>{{ .title }}</h5>
+              <a class="link link_md" href="{{ .link.url }}">{{ .link.text }}</a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+    <div class="marketplaces__square-grid-overlay"></div>
+  </section>
+{{ end }}

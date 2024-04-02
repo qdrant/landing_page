@@ -1,0 +1,141 @@
+@use '../helpers/functions' as *;
+
+.qdrant-cloud-hero {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 5;
+  position: relative;
+  overflow: hidden;
+  text-align: center;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: rem(18);
+    line-height: rem(27);
+    margin-bottom: $spacer * 2;
+    color: $neutral-70;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 1.5;
+    margin-bottom: $spacer * 2.5;
+
+    .button {
+      min-width: $spacer * 12.5;
+    }
+  }
+
+  &__content {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 0.5;
+    margin-bottom: $spacer * 1.5;
+    padding: rem(4) $spacer;
+    border-radius: rem(100);
+    background-color: $neutral-20;
+
+    img {
+      width: $spacer;
+      height: $spacer;
+    }
+
+    p {
+      margin-bottom: 0;
+      font-size: rem(14);
+      line-height: rem(21);
+      color: $neutral-90;
+    }
+  }
+
+  &__video {
+    position: relative;
+    z-index: 1;
+
+    video {
+      width: 100%;
+      border-radius: $spacer * 0.5;
+    }
+
+    button {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacer * 0.5;
+
+      img {
+        height: rem(18);
+        width: rem(18);
+      }
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -9px;
+    width: 100%;
+    height: rem(114);
+    background-image: url('/img/blurred/blurred-light-10.png');
+    background-position: center;
+    background-size: cover;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 3.5;
+
+    &__title {
+      font-size: $spacer * 4;
+      line-height: rem(71);
+    }
+
+    &__description {
+      max-width: rem(730);
+      font-size: rem(20);
+      line-height: rem(30);
+      margin: 0 auto $spacer * 2 auto;
+    }
+
+    &__buttons {
+      flex-direction: row;
+      margin-bottom: $spacer * 3.5;
+
+      .button {
+        min-width: auto;
+      }
+    }
+
+    &__video {
+      button {
+        gap: rem(12);
+        height: $spacer * 3;
+        padding: 0 rem(28);
+        font-size: rem(18);
+        line-height: rem(27);
+
+        img {
+          height: rem(22);
+          width: rem(22);
+        }
+      }
+    }
+
+    &__overlay {
+      bottom: 0;
+    }
+  }
+}

@@ -1,0 +1,10 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-features-link") }}
+  <section class="qdrant-cloud-features-link">
+    <div class="container">
+      <h6 class="qdrant-cloud-features-link__content">{{ .Params.content }}</h6>
+      <a class="qdrant-cloud-features-link__link link link_xl" href="{{ .Params.link.url }}">
+        {{ .Params.link.text }}
+      </a>
+    </div>
+  </section>
+{{ end }}
