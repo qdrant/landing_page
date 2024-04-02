@@ -18,11 +18,11 @@ sound like a science fiction anymore.
 The know-how of the customer support team is usually a proprietary knowledge base that is not available to the public.
 You never want this data to leave your infrastructure. However, you can still leverage the power of AI to automate the
 responses, thanks to private deployments of the state-of-the-art tools. Cohere’s powerful models [might be deployed to 
-Oracle Cloud](https://cohere.com/deployment-options/oracle) and used together with Qdrant Hybrid Cloud to build a fully 
-private customer support system. One missing piece is the data synchronization, and this is where 
+AWS](https://cohere.com/deployment-options/aws) and used together with Qdrant Hybrid Cloud to build a fully private 
+customer support system. One missing piece is the data synchronization, and this is where 
 [Airbyte](https://airbyte.com/) comes into play.
 
-[//]: # (TODO: add a link to the corresponding Qdrant Hybrid Cloud documentation: deployment on OCI)
+[//]: # (TODO: add a link to the corresponding Qdrant Hybrid Cloud documentation: deployment on AWS)
 
 TODO: add a diagram presenting all the components
 
@@ -43,9 +43,12 @@ an ingestion pipeline and then a Retrieval Augmented Generation application that
 - **RAG:** Cohere [RAG](https://docs.cohere.com/docs/retrieval-augmented-generation-rag) using our knowledge base 
   through a custom connector
 
-All the selected components might be running on [Oracle Cloud](https://www.oracle.com/cloud/) infrastructure only. Thanks to the availability of 
-the Cohere models on OCI, you can build a fully private customer support system that does not require any data to leave
-your infrastructure.
+All the selected components might only run on [AWS](https://aws.amazon.com/) infrastructure. Thanks to the Cohere 
+models' availability, you can build a fully private customer support system that does not require any data to leave your 
+infrastructure. Also, if you have AWS credits, you can now use them without spending additional money on the models or 
+semantic search layer.
+
+[//]: # (TODO: Command-R is not available on AWS yet, but should be ready before 16th April)
 
 ### Data ingestion
 
@@ -74,13 +77,19 @@ you use, so we'll just cover the general idea here and build a simple CLI tool.
 
 ## Prerequisites
 
-### Qdrant Hybrid Cloud on OCI
+### Cohere models on AWS
 
-Our documentation covers the deployment of Qdrant on Oracle Cloud, so you can follow the steps described there to set up
-your own instance. The deployment process is quite straightforward, and you can have your Qdrant cluster up and running
-in a few minutes.
+One of the possible ways to deploy Cohere models on AWS is to use AWS SageMaker. Cohere website provides [a detailed
+guide on how to deploy the models in that way](https://docs.cohere.com/docs/amazon-sagemaker-setup-guide), so you can 
+follow the steps described there to set up your own instance.
 
-[//]: # (TODO: refer to the documentation on how to deploy Qdrant on Oracle Cloud)
+### Qdrant Hybrid Cloud on AWS
+
+Our documentation covers the deployment of Qdrant on AWS in your private region, so you can follow the steps described 
+there to set up your own instance. The deployment process is quite straightforward, and you can have your Qdrant cluster 
+up and running in a few minutes.
+
+[//]: # (TODO: refer to the documentation on how to deploy Qdrant on AWS)
 
 Once you perform all the steps, your Qdrant cluster should be running on a specific URL. You will need this URL and the 
 API key to interact with Qdrant, so let's store them both in the environment variables:
@@ -101,7 +110,7 @@ os.environ["QDRANT_API_KEY"] = "your-api-key"
 
 Airbyte is an open-source data integration platform that helps you replicate your data in your warehouses, lakes, and
 databases. You can install it on your infrastructure and use it to load the data into Qdrant. The installation process
-for Oracle Cloud is described in the [official documentation](https://docs.airbyte.com/deploying-airbyte/on-oci-vm).
+for AWS EC2 is described in the [official documentation](https://docs.airbyte.com/deploying-airbyte/on-aws-ec2).
 Please follow the instructions to set up your own instance.
 
 #### Setting up the connection
@@ -136,22 +145,22 @@ progress of the synchronization in the UI.
 
 One of our previous tutorials, guides you step-by-step on [implementing custom connector for Cohere 
 RAG](../cohere-rag-connector/) with Cohere Embed v3 and Qdrant. You can just point it to use your Hybrid Cloud
-Qdrant instance running on OCI. Created connector might be deployed to Oracle Cloud in various ways, even in a 
-[Serverless](https://developer.oracle.com/learn/use-cases.html#serverless) manner using [Oracle Cloud Infrastructure 
-Functions](https://docs.oracle.com/en-us/iaas/Content/Functions/home.htm#top).
+Qdrant instance running on AWS. Created connector might be deployed to Amazon Web Services in various ways, even in a 
+[Serverless](https://aws.amazon.com/serverless/) manner using [AWS 
+Lambda](https://aws.amazon.com/lambda/?c=ser&sec=srv).
 
 In general, RAG connector has to expose a single endpoint that will accept POST requests with `query` parameter and 
 return the matching documents as JSON document with a specific structure. Our FastAPI implementation created [in the
 related tutorial](../tutorials/cohere-rag-connector/) is a perfect fit for this task. The only difference is that you
-should point it to the Cohere models and Qdrant running on Oracle Cloud infrastructure.
+should point it to the Cohere models and Qdrant running on AWS infrastructure.
 
 > Our connector is a lightweight web service that exposes a single endpoint and glues the Cohere embedding model with 
 > our Qdrant Hybrid Cloud instance. Thus, it perfectly fits the serverless architecture, requiring no additional 
 > infrastructure to run.
 
-You can also run the connector as another service within your [Kubernetes cluster running on Oracle Cloud 
-(OKE)](https://www.oracle.com/cloud/cloud-native/container-engine-kubernetes/). This step is dependent on the way you
-deploy your other services, so we'll leave it to you to decide how to run the connector.
+You can also run the connector as another service within your [Kubernetes cluster running on AWS 
+(EKS)](https://aws.amazon.com/eks/), or by launching an [EC2](https://aws.amazon.com/ec2/) compute instance. This step 
+is dependent on the way you deploy your other services, so we'll leave it to you to decide how to run the connector.
 
 Eventually, the web service should be available under a specific URL, and it's a good practice to store it in the
 environment variable, so the other services can easily access it.
@@ -164,13 +173,10 @@ export RAG_CONNECTOR_URL="https://rag-connector.example.com/search"
 os.environ["RAG_CONNECTOR_URL"] = "https://rag-connector.example.com/search"
 ```
 
-[//]: # (TODO: refer to the tutorial on a custom RAG connector for Cohere)
-[//]: # (See: https://github.com/qdrant/landing_page/pull/761)
-
 ## Customer interface
 
 At this part we have all the data loaded into Qdrant, and the RAG connector is ready to serve the relevant context. The 
-last missing piece is the customer interface, that will call the Command-R model to create the answer. Such a system
+last missing piece is the customer interface, that will call the Command model to create the answer. Such a system
 should be built specifically for the platform you use and integrated into its workflow, but we will build the strong 
 foundation for it and show how to use it in a simple CLI tool.
 
@@ -181,7 +187,7 @@ First of all, we have to create a connection to Cohere services through the Cohe
 ```python
 import cohere
 
-# Create a Cohere client pointing to the Oracle Cloud instance
+# Create a Cohere client pointing to the AWS instance
 cohere_client = cohere.Client(...)
 ```
 
@@ -233,5 +239,5 @@ confidence is too low, we should not send the answer automatically but present i
 ## Wrapping up
 
 This tutorial shows how to build a fully private customer support system using Cohere models, Qdrant Hybrid Cloud, and 
-Airbyte, which runs on Oracle Cloud infrastructure. You can ensure your data does not leave your premises and focus on 
-providing the best customer support experience without bothering your team with repetitive tasks. 
+Airbyte, which runs on AWS infrastructure. You can ensure your data does not leave your premises and focus on providing 
+the best customer support experience without bothering your team with repetitive tasks. 
