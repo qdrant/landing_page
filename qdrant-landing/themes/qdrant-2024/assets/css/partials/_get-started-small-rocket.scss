@@ -1,0 +1,12 @@
+@use '../mixins/get-started-small' as get-started-small;
+
+.get-started-small-rocket {
+  @include get-started-small.base(
+    $spacer * 5,
+    $spacer * 1.5,
+    $spacer * 7.5,
+    $spacer * 2.5,
+    linear-gradient($neutral-20, #0e1424),
+    linear-gradient(to left, $neutral-20, #0e1424)
+  );
+}
