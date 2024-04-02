@@ -1,0 +1,17 @@
+{{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-cases") }}
+  <section class="hybrid-cloud-cases">
+    <div class="container">
+      <div class="hybrid-cloud-cases__cards row">
+        {{ range .Params.cards }}
+          <div class="col-12 col-xl-6">
+            <div class="card hybrid-cloud-cases__card">
+              <img class="hybrid-cloud-cases__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h3 class="hybrid-cloud-cases__card-title">{{ .title }}</h3>
+              <p class="hybrid-cloud-cases__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
