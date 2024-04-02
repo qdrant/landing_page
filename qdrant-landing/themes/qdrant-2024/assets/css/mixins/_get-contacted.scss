@@ -32,10 +32,6 @@
     padding-top: $paddingTop;
     padding-bottom: $paddingBottom;
 
-    &__wrapper {
-      max-width: rem(1134);
-    }
-
     &__content {
       flex-direction: row;
       justify-content: space-between;

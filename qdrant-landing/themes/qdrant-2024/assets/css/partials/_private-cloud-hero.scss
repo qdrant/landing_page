@@ -25,10 +25,6 @@
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
 
-    &__wrapper {
-      max-width: rem(1134);
-    }
-
     &__title {
       width: rem(540);
       font-size: $spacer * 3.5;

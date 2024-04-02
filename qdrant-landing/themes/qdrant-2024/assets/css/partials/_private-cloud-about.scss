@@ -23,10 +23,6 @@
   @include media-breakpoint-up(xl) {
     padding-bottom: 0;
 
-    &__wrapper {
-      max-width: rem(1134);
-    }
-
     &__content {
       position: relative;
 
