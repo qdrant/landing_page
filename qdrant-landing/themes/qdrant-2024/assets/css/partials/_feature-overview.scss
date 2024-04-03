@@ -18,12 +18,14 @@
     margin-bottom: rem(30);
     font-size: $spacer * 2.5;
     line-height: $spacer * 3;
+    color: $neutral-20;
   }
 
   &__description {
     margin: 0;
     font-size: rem(18);
     line-height: rem(27);
+    color: $neutral-30;
   }
 
   &__cards {
@@ -41,19 +43,17 @@
     font-size: rem(20);
     line-height: rem(30);
     font-weight: bold;
+    color: $neutral-20;
   }
 
   &__card-content {
     margin-bottom: $spacer;
+    color: $neutral-30;
   }
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 2.5;
-
-    &__content {
-      max-width: rem(1134);
-    }
 
     &__header {
       display: grid;

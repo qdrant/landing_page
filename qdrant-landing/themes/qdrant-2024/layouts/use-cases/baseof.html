@@ -10,7 +10,7 @@
 </main>
 
 {{ with (.Site.GetPage "vectors-use-case") }}
-  {{ .Scratch.Set "cssClass" "/use-case/vectors-use-case" }}{{ partial "vectors" . }}
+  {{ .Scratch.Set "cssClass" "vectors-use-case" }}{{ partial "vectors" . }}
 {{ end }}
 
 {{ partial "get-started" . }}

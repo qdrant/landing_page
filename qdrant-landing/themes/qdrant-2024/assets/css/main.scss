@@ -22,11 +22,11 @@
 @import 'partials/feature-overview';
 @import 'partials/qdrant-vector-database-hero';
 @import 'partials/qdrant-vector-database-use-cases';
-@import 'partials/get-started-small';
+@import 'partials/get-started-small-rocket';
+@import 'partials/get-started-small-database';
 @import 'partials/enterprise-solutions-hero';
 @import 'partials/enterprise-solutions-use-cases';
 @import 'partials/testimonial';
-@import 'partials/get-contacted';
 @import 'partials/enterprise-benefits';
 @import 'partials/top-and-bottom-overlay';
 @import 'partials/qdrant-pricing-hero';
@@ -35,6 +35,22 @@
 @import 'partials/qdrant-pricing-doors-a';
 @import 'partials/qdrant-pricing-doors-b';
 @import 'partials/pricing-door';
+@import 'partials/get-contacted-with-question';
+@import 'partials/private-cloud-hero';
+@import 'partials/private-cloud-about';
+@import 'partials/private-cloud-get-contacted';
+@import 'partials/hybrid-cloud-hero';
+@import 'partials/hybrid-cloud-kubernetes-clusters';
+@import 'partials/hybrid-cloud-cases';
+@import 'partials/hybrid-cloud-how-it-works';
+@import 'partials/hybrid-cloud-features';
+@import 'partials/qdrant-cloud-hero';
+@import 'partials/qdrant-cloud-bento-cards';
+@import 'partials/marketplaces';
+@import 'partials/qdrant-cloud-features-link';
+@import 'partials/customer-list';
+@import 'partials/demos';
+@import 'partials/tutorials';
 
 .main-header {
   background: $neutral-10;
