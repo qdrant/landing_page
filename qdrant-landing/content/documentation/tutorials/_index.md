@@ -28,4 +28,5 @@ These tutorials demonstrate different ways you can build vector search into your
 | [Measure retrieval quality](../tutorials/retrieval-quality/)                    | Measure and fine-tune the retrieval quality                       | Qdrant, Python, datasets                    |
 | [Use semantic search to navigate your codebase](../tutorials/code-search/)      | Implement semantic search application for code search task        | Qdrant, Python, sentence-transformers, Jina |
 | [Implement custom connector for Cohere RAG](../tutorials/cohere-rag-connector/) | Bring data stored in Qdrant to Cohere RAG                         | Qdrant, Cohere, FastAPI                     |
+| [](../tutorials/contract-management-stackit-aleph-alpha/)                       |                                                                   | Qdrant, Aleph Alpha, Stackit                |
 | [Troubleshooting](../tutorials/common-errors/)                                  | Solutions to common errors and fixes                              | Qdrant                                      |
