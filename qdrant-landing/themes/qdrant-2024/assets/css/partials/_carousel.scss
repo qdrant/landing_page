@@ -28,4 +28,8 @@
     background-position: center;
     background-size: contain;
   }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer * 5;
+  }
 }
