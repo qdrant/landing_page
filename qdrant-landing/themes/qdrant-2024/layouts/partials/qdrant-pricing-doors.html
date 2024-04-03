@@ -1,0 +1,12 @@
+{{ $class := .class }}
+<section class="{{ $class }}">
+  <div class="container">
+    <div class="{{ $class }}__doors">
+      {{ range $index, $element := .context.Params.cards }}
+        <div class="{{ $class }}__door">
+          {{ partial "pricing-door" (dict "context" .) }}
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>

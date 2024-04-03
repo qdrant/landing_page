@@ -10,8 +10,15 @@
 </main>
 
 {{ partial "qdrant-pricing-hero" . }}
-<!--{{ partial "qdrant-pricing-doors-a" . }}-->
-{{ partial "qdrant-pricing-doors-b" . }}
+
+<!--{{ with (.Site.GetPage "/qdrant-pricing/qdrant-pricing-doors-a") }}-->
+<!--  {{ partial "qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-a") }}-->
+<!--{{ end }}-->
+
+{{ with (.Site.GetPage "/qdrant-pricing/qdrant-pricing-doors-b") }}
+  {{ partial "qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-b") }}
+{{ end }}
+
 {{ partial "qdrant-pricing-calculator" . }}
 {{ partial "get-started-small-database" . }}
 
