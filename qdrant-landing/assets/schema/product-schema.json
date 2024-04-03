@@ -12,8 +12,7 @@
   "image": "{{- if .Params.social_preview_image -}}{{- .Params.social_preview_image | absURL -}}{{- end -}}",
   "offers": {
     "@type": "AggregateOffer",
-    "highPrice": "on request",
-    "lowPrice": "free",
+    "lowPrice": "0",
     "offerCount": "3",
     "priceCurrency": "USD",
     "offers": [
