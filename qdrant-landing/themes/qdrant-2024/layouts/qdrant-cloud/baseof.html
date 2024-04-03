@@ -13,7 +13,11 @@
 {{ partial "get-started-small-database" . }}
 {{ partial "qdrant-cloud-bento-cards" . }}
 {{ partial "qdrant-cloud-features-link" . }}
-{{ partial "marketplaces" . }}
+
+{{ with (.Site.GetPage "/headless/marketplaces") }}
+  {{ partial "marketplaces" (dict "context" . "class" "qdrant-cloud-marketplaces") }}
+{{ end }}
+
 {{ partial "additional-resources" . }}
 {{ partial "get-started" . }}
 {{ partial "footer" . }}

@@ -6,7 +6,10 @@
   background-color: $neutral-10;
 
   &__doors {
+    display: flex;
+    flex-direction: column;
     gap: rem(30);
+    width: 100%;
   }
 
   @include media-breakpoint-up(xl) {
@@ -14,12 +17,12 @@
     padding-top: $spacer * 5;
 
     &__doors {
+      flex-direction: row;
       justify-content: center;
-      gap: rem(6);
     }
 
     &__door {
-      width: rem(424);
+      width: rem(400);
       height: rem(896);
 
       .pricing-door__feature-description a {

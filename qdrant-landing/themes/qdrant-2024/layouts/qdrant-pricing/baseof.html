@@ -13,5 +13,15 @@
 <!--{{ partial "qdrant-pricing-doors-a" . }}-->
 {{ partial "qdrant-pricing-doors-b" . }}
 {{ partial "qdrant-pricing-calculator" . }}
+{{ partial "get-started-small-database" . }}
+
+{{ with (.Site.GetPage "/headless/marketplaces") }}
+  {{ partial "marketplaces" (dict "context" . "class" "qdrant-pricing-marketplaces") }}
+{{ end }}
+
+{{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+  {{ partial "get-contacted" (dict "context" . "class" "qdrant-pricing-get-contacted") }}
+{{ end }}
+
 {{ partial "qdrant-pricing-docker" . }}
 {{ partial "footer" . }}
