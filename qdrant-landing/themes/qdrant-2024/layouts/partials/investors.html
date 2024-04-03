@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "/headless/investors") }}
+  <section class="investors">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="investors__title mx-auto">{{ .Params.title }}</h2>
+        </div>
+      </div>
+      <div class="row investors__logos">
+        {{ range .Params.investors }}
+          <div class="col-12 col-xl-3">
+            <div class="investors__logo" style="background-image: url({{ .logo }})"></div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
