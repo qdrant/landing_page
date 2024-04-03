@@ -326,7 +326,7 @@ curl -X PUT http://localhost:6333/collections/test_collection3 \
 from qdrant_client import QdrantClient, models
 
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
