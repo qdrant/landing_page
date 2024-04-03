@@ -1128,6 +1128,7 @@ The following color statuses are possible:
 
 - 🟢 `green`: collection is ready
 - 🟡 `yellow`: collection is optimizing
+- ⚫ `grey`: collection is pending optimization
 - 🔴 `red`: an error occurred which the engine could not recover from
 
 ### Approximate point and vector counts
