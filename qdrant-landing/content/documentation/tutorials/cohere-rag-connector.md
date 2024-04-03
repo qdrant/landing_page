@@ -14,6 +14,13 @@ models can now speak to the external tools and extract meaningful data on their 
 source and let the Cohere LLM know how to access it. Obviously, vector search goes well with LLMs, and enabling semantic 
 search over your data is a typical case.
 
+Cohere RAG has lots of interesting features, such as inline citations, which help you to refer to the specific parts of
+the documents used to generate the response.
+
+![Cohere RAG citations](/documentation/tutorials/cohere-rag-connector/cohere-rag-citations.png)
+
+*Source: https://docs.cohere.com/docs/retrieval-augmented-generation-rag*
+
 The connectors have to implement a specific interface and expose the data source as HTTP REST API. Cohere documentation
 [describes a general process of creating a connector](https://docs.cohere.com/docs/creating-and-deploying-a-connector). 
 This tutorial guides you step by step on building such a service around Qdrant.
@@ -211,6 +218,11 @@ Our app might be launched locally for the development purposes, given we have th
 ```shell
 uvicorn main:app
 ```
+
+FastAPI exposes an interactive documentation at `http://localhost:8000/docs`, where we can test our endpoint. The 
+`/search` endpoint is available there.
+
+![FastAPI documentation](/documentation/tutorials/cohere-rag-connector/fastapi-openapi.png)
 
 We can interact with it and check the documents that will be returned for a specific query. For example, we want to know
 recall what we are supposed to do regarding the infrastructure for your projects.
