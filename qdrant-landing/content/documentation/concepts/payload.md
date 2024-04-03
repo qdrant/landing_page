@@ -200,10 +200,9 @@ PUT /collections/{collection_name}/points
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.upsert(
     collection_name="{collection_name}",
@@ -768,9 +767,7 @@ POST /collections/{collection_name}/points/payload/clear
 ```python
 client.clear_payload(
     collection_name="{collection_name}",
-    points_selector=models.PointIdsList(
-        points=[0, 3, 100],
-    ),
+    points_selector=[0, 3, 100],
 )
 ```
 

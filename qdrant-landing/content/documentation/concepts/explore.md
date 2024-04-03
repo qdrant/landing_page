@@ -36,10 +36,9 @@ POST /collections/{collection_name}/points/recommend
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.recommend(
     collection_name="{collection_name}",
@@ -455,12 +454,11 @@ POST /collections/{collection_name}/points/recommend/batch
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
-filter = models.Filter(
+filter_ = models.Filter(
     must=[
         models.FieldCondition(
             key="city",
@@ -473,9 +471,9 @@ filter = models.Filter(
 
 recommend_queries = [
     models.RecommendRequest(
-        positive=[100, 231], negative=[718], filter=filter, limit=3
+        positive=[100, 231], negative=[718], filter=filter_, limit=3
     ),
-    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter, limit=3),
+    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter_, limit=3),
 ]
 
 client.recommend_batch(collection_name="{collection_name}", requests=recommend_queries)
@@ -703,10 +701,9 @@ POST /collections/{collection_name}/points/discover
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 discover_queries = [
     models.DiscoverRequest(
@@ -906,10 +903,9 @@ POST /collections/{collection_name}/points/discover
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 discover_queries = [
     models.DiscoverRequest(

@@ -146,13 +146,13 @@ Now you need to write a script to upload all startup data and vectors into the s
 from qdrant_client import QdrantClient
 from qdrant_client.models import VectorParams, Distance
 
-qdrant_client = QdrantClient("http://localhost:6333")
+client = QdrantClient("http://localhost:6333")
 ```
 
 3. Related vectors need to be added to a collection. Create a new collection for your startup vectors.
 
 ```python
-qdrant_client.recreate_collection(
+client.recreate_collection(
     collection_name="startups",
     vectors_config=VectorParams(size=384, distance=Distance.COSINE),
 )
@@ -186,7 +186,7 @@ vectors = np.load("./startup_vectors.npy")
 5. Upload the data
 
 ```python
-qdrant_client.upload_collection(
+client.upload_collection(
     collection_name="startups",
     vectors=vectors,
     payload=payload,

@@ -21,7 +21,7 @@ NVIDIA_API_KEY = "<YOUR_API_KEY>"
 
 nvidia_session = requests.Session()
 
-qdrant_client = QdrantClient(":memory:")
+client = QdrantClient(":memory:")
 
 headers = {
     "Authorization": f"Bearer {NVIDIA_API_KEY}",
@@ -89,7 +89,7 @@ let response_body = await response.json()
 ### Converting the model outputs to Qdrant points
 
 ```python
-from qdrant_client.http.models import PointStruct
+from qdrant_client.models import PointStruct
 
 points = [
     PointStruct(
@@ -120,14 +120,14 @@ from qdrant_client.models import VectorParams, Distance
 
 collection_name = "example_collection"
 
-qdrant_client.create_collection(
+client.create_collection(
     collection_name,
     vectors_config=VectorParams(
         size=1024,
         distance=Distance.COSINE,
     ),
 )
-qdrant_client.upsert(collection_name, points)
+client.upsert(collection_name, points)
 ```
 
 ```typescript
@@ -161,7 +161,7 @@ response_body = nvidia_session.post(
     NVIDIA_BASE_URL, headers=headers, json=payload
 ).json()
 
-qdrant_client.search(
+client.search(
     collection_name=collection_name,
     query_vector=response_body["data"][0]["embedding"],
 )

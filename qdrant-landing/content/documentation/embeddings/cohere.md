@@ -18,8 +18,7 @@ The embeddings returned by co.embed API might be used directly in the Qdrant cli
 ```python
 import cohere
 import qdrant_client
-
-from qdrant_client.http.models import Batch
+from qdrant_client.models import Batch
 
 cohere_client = cohere.Client("<< your_api_key >>")
 qdrant_client = qdrant_client.QdrantClient()
@@ -55,12 +54,11 @@ documents with the Embed v3 model:
 ```python
 import cohere
 import qdrant_client
-
-from qdrant_client.http.models import Batch
+from qdrant_client.models import Batch
 
 cohere_client = cohere.Client("<< your_api_key >>")
-qdrant_client = qdrant_client.QdrantClient()
-qdrant_client.upsert(
+client = qdrant_client.QdrantClient()
+client.upsert(
     collection_name="MyCollection",
     points=Batch(
         ids=[1],
@@ -76,9 +74,9 @@ qdrant_client.upsert(
 Once the documents are indexed, you can search for the most relevant documents using the Embed v3 model:
 
 ```python
-qdrant_client.search(
+client.search(
     collection_name="MyCollection",
-    query=cohere_client.embed(
+    query_vector=cohere_client.embed(
         model="embed-english-v3.0",  # New Embed v3 model
         input_type="search_query",  # Input type for search queries
         texts=["The best vector database"],
