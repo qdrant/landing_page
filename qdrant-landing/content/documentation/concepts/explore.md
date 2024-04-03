@@ -36,8 +36,7 @@ POST /collections/{collection_name}/points/recommend
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
@@ -459,7 +458,7 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
-recommend_filter = models.Filter(
+filter_ = models.Filter(
     must=[
         models.FieldCondition(
             key="city",
@@ -472,9 +471,9 @@ recommend_filter = models.Filter(
 
 recommend_queries = [
     models.RecommendRequest(
-        positive=[100, 231], negative=[718], filter=recommend_filter, limit=3
+        positive=[100, 231], negative=[718], filter=filter_, limit=3
     ),
-    models.RecommendRequest(positive=[200, 67], negative=[300], filter=recommend_filter, limit=3),
+    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter_, limit=3),
 ]
 
 client.recommend_batch(collection_name="{collection_name}", requests=recommend_queries)
