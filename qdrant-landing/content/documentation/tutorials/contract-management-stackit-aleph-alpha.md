@@ -1,43 +1,29 @@
 ---
-title: Ease contract management in your organization
+title: Region-Specific Contract Management System
 weight: 28
 ---
 
-# Ease contract management in your organization
+# Region-Specific Contract Management System
 
 | Time: 90 min | Level: Advanced |  |
 | --- | ----------- | ----------- |----------- |
 
-The flow of the documents in the organization might be chaotic if you don't use a proper tool to manage them. Knowing 
-all the contracts and agreements by heart is impossible, so having an established system to store and search over them 
-would be best. However, simple retrieval is not enough in times of Large Language Models. An ability to ask questions 
-about the documents and get the answers is a game-changer for any business. On the other hand, you want granular access 
-control to the documents so that only the authorized team members can access them.
+Contract management benefits greatly from Retrieval Augmented Generation (RAG), streamlining the handling of lengthy business contract texts. With AI assistance, complex questions can be asked and well-informed answers generated, facilitating efficient document management. This proves invaluable for businesses with extensive relationships, like shipping companies, construction firms, and consulting practices. Access to such contracts is often restricted to authorized team members due to security and regulatory requirements, such as GDPR in Europe, necessitating secure storage practices.
 
-Storing sensitive information requires fulfilling the security requirements restricted by your organization's policies 
-and local law regulations. If you operate in Europe, you might need to comply with GDPR, which requires storing personal 
-data securely. The physical location of the data is essential, so choosing the right cloud provider is crucial. The same 
-applies to the other components of the system, including the Large Language Model. You don't want to send your data 
-anywhere. You want it to be kept and processed within specific geographical boundaries.
-
-In this tutorial, we will guide you through the process of setting up a contract management system using [Aleph 
-Alpha](https://aleph-alpha.com/) embeddings and LLM. We will use [Stackit](https://www.stackit.de/), the German business 
-cloud, to run Qdrant Hybrid Cloud and the all the application processes. This setup will ensure that your data is stored
-and processed in Germany, and nowhere else.
+Companies want their data to be kept and processed within specific geographical boundaries. For that reason, this RAG-centric tutorial focuses on dealing with a region-specific cloud provider. You will set up a contract management system using [Aleph Alpha's](https://aleph-alpha.com/) embeddings and LLM. You will host everything on [Stackit](https://www.stackit.de/), a German business cloud provider. On this platform, you will run Qdrant Hybrid Cloud as well as the rest of your RAG application. This setup will ensure that your data is stored and processed in Germany.
 
 [//]: # (TODO: add link to Qdrant Hybrid Cloud above)
 
 TODO: add a system diagram with all the components
 
-## Target system scope
+## Components
 
-A contract management platform is not a simple CLI tool, but an application that should be available to all the team
-members. It should have an interface to upload, search, and manage the documents. Perfectly, the system should be 
-integrated with an existing organization's stack, and the permissions and access control inherited from LDAP or Active 
-Directory. We are going to build a solid foundation for such a system in this tutorial, but leave the integration 
-details to the reader, as that really depends on the organization's specifics.
+A contract management platform is not a simple CLI tool, but an application that should be available to all team
+members. It needs an interface to upload, search, and manage the documents. Ideally, the system should be 
+integrated with org's existing stack, and the permissions/access controls inherited from LDAP or Active 
+Directory. 
 
-There is a couple of moving parts in the system:
+> **Note:** In this tutorial, we are going to build a solid foundation for such a system. However, it is up to your organization's setup to implement the entire solution.
 
 [//]: # (TODO: upload the dataset to GCP and link it below)
 
@@ -57,13 +43,9 @@ interacts with the system with some set of permissions, and can only access the 
 
 ## Prerequisites
 
-There are a couple of things you need to have in place before starting the tutorial:
-
 ### Aleph Alpha account
 
-Our tutorial relies on the Aleph Alpha models, so it is essential to have an account there. You can [sign 
-up](https://app.aleph-alpha.com/signup) at their playground and start with generating the API token in the [User 
-Profile](https://app.aleph-alpha.com/profile). Once you have it generated, let's store it in the environment variable:
+Since you will be using Aleph Alpha's models, [sign up](https://app.aleph-alpha.com/signup) with their managed service and  generate an API token in the [User Profile](https://app.aleph-alpha.com/profile). Once you have it ready, store it as an environment variable:
 
 ```shell
 export ALEPH_ALPHA_API_KEY="<your-token>"
@@ -92,13 +74,11 @@ os.environ["QDRANT_URL"] = "https://qdrant.example.com"
 os.environ["QDRANT_API_KEY"] = "your-api-key"
 ```
 
-## Building the application
+## Implementation
 
-We could build our application with just the official SDKs of Aleph Alpha and Qdrant, but let's do not reinvent the
-wheel and use [Langchain](https://python.langchain.com/docs/get_started/introduction) to streamline the process. 
-Langchain is already integrated with both services, so we can focus on the business logic. Moreover, it also 
+To build the application, we can use the official SDKs of Aleph Alpha and Qdrant. However, to streamline the process but let's use [Langchain](https://python.langchain.com/docs/get_started/introduction). This framework is already integrated with both services, so we can focus our efforts on developing business logic. 
 
-### Setting up Qdrant collection
+### Qdrant collection
 
 Aleph Alpha embeddings are high dimensional vectors by default, with a dimensionality of 5120. Qdrant can store such
 vector easily, but that also sounds like a good idea to enable [Binary 
@@ -140,21 +120,15 @@ client.create_payload_index(
 )
 ```
 
-Since we use Langchain, the `roles` field is a nested field of the `metadata`, so we had to define it as 
+Since we use Langchain, the `roles` field is a nested field of the `metadata`, so we have to define it as 
 `metadata.roles`. The schema says that the field is a keyword, which means it is a string or an array of strings. We are
 going to use the name of the customers as the roles, so the access control will be based on the customer name.
 
 ### Ingestion pipeline
 
-Every single semantic search system starts with good quality data. In our case, the data is a set of documents in 
-different formats. Thanks to the [Unstructured integration of 
-Langchain](https://python.langchain.com/docs/integrations/providers/unstructured), we can easily ingest PDFs, Microsoft
-Word files or even PowerPoint presentations, so things are fairly simple. We have to take care of the text splitting, so 
-we do not try to convert a single document into a vector, but rather divide it into meaningful chunks. Finally, the 
-extracted documents have to be converted into vectors using the Aleph Alpha embeddings and stored in the Qdrant 
-collection.
+Semantic search systems rely on high-quality data as their foundation. With the [unstructured integration of Langchain](https://python.langchain.com/docs/integrations/providers/unstructured), ingestion of various document formats like PDFs, Microsoft Word files, and PowerPoint presentations becomes effortless. However, it's crucial to split the text intelligently to avoid converting entire documents into vectors; instead, they should be divided into meaningful chunks. Subsequently, the extracted documents are converted into vectors using Aleph Alpha embeddings and stored in the Qdrant collection.
 
-Let's start with defining the components and connecting them together:
+Let's start by defining the components and connecting them together:
 
 ```python
 embeddings = AlephAlphaAsymmetricSemanticEmbedding(
