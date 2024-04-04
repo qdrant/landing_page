@@ -267,7 +267,7 @@ retrieval_qa = RetrievalQA.from_chain_type(
     chain_type_kwargs={"prompt": prompt},
 )
 
-response = retrieval_qa.invoke({"query": "What is the purpose of the contract?"})
+response = retrieval_qa.invoke({"query": "What are the rules of performing the audit?"})
 print(response["result"])
 ```
 
