@@ -61,7 +61,6 @@
 
   &__preview {
     margin-top: -$spacer;
-    padding: 0;
 
     img {
       width: 100%;
@@ -74,7 +73,7 @@
     text-align: left;
 
     &__content {
-      width: rem(524);
+      width: rem(500);
     }
 
     &__title {
@@ -103,9 +102,8 @@
     }
 
     &__preview {
-      width: rem(574);
+      width: rem(550);
       margin-top: -$spacer * 5;
-      padding: 0 rem(12);
     }
   }
 }

@@ -9,6 +9,7 @@
   padding-bottom: $spacer * 4;
 
   &__cards {
+    display: flex;
     position: relative;
     flex-direction: column;
     gap: $spacer * 1.5;
@@ -73,7 +74,11 @@
 
     &__cards {
       flex-direction: row;
-      gap: 0;
+      justify-content: space-between;
+    }
+
+    &__content {
+      width: rem(825);
     }
 
     &__employees {
@@ -86,7 +91,7 @@
     }
 
     &__logo {
-      height: 100%;
+      width: calc(100% - 849px);
     }
   }
 }

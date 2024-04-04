@@ -59,11 +59,13 @@
     &__cards {
       justify-content: space-between;
       column-gap: 0;
+
+      & > div {
+        width: calc(50% - 3px);
+      }
     }
 
     &__card {
-      width: calc(50% - 3px);
-
       &-info {
         padding-bottom: $spacer * 3;
       }

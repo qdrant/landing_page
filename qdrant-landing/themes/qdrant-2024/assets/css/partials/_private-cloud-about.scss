@@ -21,7 +21,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-bottom: 0;
+    padding-bottom: $spacer;
 
     &__content {
       position: relative;

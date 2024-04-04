@@ -1,25 +1,21 @@
 {{ with (.Site.GetPage "/enterprise-solutions/testimonial") }}
   <section class="testimonial">
     <div class="container">
-      <div class="testimonial__cards row">
-        <div class="col-12 col-xl-9">
-          <div class="testimonial__content">
-            <p class="testimonial__review">{{ .Params.review }}</p>
-            <div class="testimonial__employees">
-              <div class="testimonial__employees-avatar">
-                <img src="{{ .Params.avatar.src }}" alt="{{ .Params.avatar.alt }}" />
-              </div>
-              <div class="testimonial__employees-position">
-                <p>{{ .Params.names }}</p>
-                <p>{{ .Params.positions }}</p>
-              </div>
+      <div class="testimonial__cards">
+        <div class="testimonial__content">
+          <p class="testimonial__review">{{ .Params.review }}</p>
+          <div class="testimonial__employees">
+            <div class="testimonial__employees-avatar">
+              <img src="{{ .Params.avatar.src }}" alt="{{ .Params.avatar.alt }}" />
+            </div>
+            <div class="testimonial__employees-position">
+              <p>{{ .Params.names }}</p>
+              <p>{{ .Params.positions }}</p>
             </div>
           </div>
         </div>
-        <div class="col-12 col-xl-3">
-          <div class="testimonial__logo">
-            <img src="{{ .Params.logo.src }}" alt="{{ .Params.logo.alt }}" />
-          </div>
+        <div class="testimonial__logo">
+          <img src="{{ .Params.logo.src }}" alt="{{ .Params.logo.alt }}" />
         </div>
       </div>
     </div>
