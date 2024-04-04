@@ -101,7 +101,7 @@ of size 1024, and we have to specify that when creating the collection.
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(
-    location=os.environ["QDRANT_URL"],
+    location=os.environ.get("QDRANT_URL"),
     api_key=os.environ.get("QDRANT_API_KEY"),
 )
 client.create_collection(
@@ -165,12 +165,6 @@ documents to the collection.
 
 ```python
 from langchain.vectorstores.qdrant import Qdrant
-from qdrant_client import QdrantClient
-
-client = QdrantClient(
-    location=os.environ.get("QDRANT_URL"),
-    api_key=os.environ.get("QDRANT_API_KEY"),
-)
 
 qdrant = Qdrant(
     client=client,
