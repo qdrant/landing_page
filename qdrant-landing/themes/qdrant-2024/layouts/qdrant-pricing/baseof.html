@@ -30,5 +30,8 @@
   {{ partial "get-contacted" (dict "context" . "class" "qdrant-pricing-get-contacted") }}
 {{ end }}
 
-{{ partial "qdrant-pricing-docker" . }}
+{{ with (.Site.GetPage "/headless/main/docker-deploy") }}
+  {{ partial "docker-deploy" (dict "context" . "class" " qdrant-pricing-docker-deploy")}}
+{{ end }}
+
 {{ partial "footer" . }}
