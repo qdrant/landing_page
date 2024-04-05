@@ -1,0 +1,41 @@
+{{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-partners") }}
+
+  {{ $context1 := .Params.partnersFirstPart }}
+  {{ $context2 := .Params.partnersSecondPart }}
+
+  <section class="hybrid-cloud-partners">
+    <div class="container">
+      <h5 class="hybrid-cloud-partners__title">{{ .Params.title }}</h5>
+    </div>
+
+    <div class="hybrid-cloud-partners__content">
+      <div class="hybrid-cloud-partners__cards__container">
+        <div class="hybrid-cloud-partners__cards__block">
+          <div class="hybrid-cloud-partners__cards__inner hybrid-cloud-partners__cards__inner_to-left">
+        <span>
+          {{ partial "hybrid-cloud-partners-cards" (dict "context" $context1) }}
+        </span>
+            <span>
+          {{ partial "hybrid-cloud-partners-cards" (dict "context" $context1) }}
+        </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hybrid-cloud-partners__cards__container">
+        <div class="hybrid-cloud-partners__cards__block">
+          <div class="hybrid-cloud-partners__cards__inner hybrid-cloud-partners__cards__inner_to-right">
+        <span>
+          {{ partial "hybrid-cloud-partners-cards" (dict "context" $context2) }}
+        </span>
+            <span>
+          {{ partial "hybrid-cloud-partners-cards" (dict "context" $context2) }}
+        </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hybrid-cloud-partners__square-grid-overlay"></div>
+    </div>
+  </section>
+{{ end }}

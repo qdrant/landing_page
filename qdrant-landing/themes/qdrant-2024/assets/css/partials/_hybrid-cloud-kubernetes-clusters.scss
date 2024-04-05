@@ -38,10 +38,6 @@
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
 
-    &__content {
-      width: rem(544);
-    }
-
     &__title {
       font-size: $spacer * 3;
       line-height: rem(57);
@@ -57,7 +53,6 @@
     }
 
     &__preview {
-      width: rem(564);
       margin-top: 0;
     }
   }
