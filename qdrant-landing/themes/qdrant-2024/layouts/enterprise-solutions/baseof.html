@@ -13,7 +13,11 @@
 {{ partial "enterprise-solutions-use-cases" . }}
 {{ partial "testimonial" . }}
 {{ partial "enterprise-benefits" . }}
-{{ partial "get-contacted-with-question" . }}
+
+{{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+  {{ partial "get-contacted" (dict "context" . "class" "get-contacted-with-question") }}
+{{ end }}
+
 {{ partial "get-started" . }}
 {{ partial "customer-list" . }}
 {{ partial "footer" . }}
