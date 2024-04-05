@@ -1,8 +1,8 @@
 {{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-hero") }}
   <section class="hybrid-cloud-hero">
     <div class="container">
-      <div class="row justify-content-xl-between">
-        <div class="hybrid-cloud-hero__content col-12 col-xl-6">
+      <div class="d-flex flex-column flex-xl-row justify-content-xl-between">
+        <div class="hybrid-cloud-hero__content">
           <h1 class="hybrid-cloud-hero__title">{{ .Params.title }}</h1>
           <div class="hybrid-cloud-hero__features">
             {{ range .Params.features }}
@@ -23,7 +23,7 @@
           </div>
         </div>
 
-        <div class="hybrid-cloud-hero__preview col-12 col-xl-6">
+        <div class="hybrid-cloud-hero__preview">
           <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
         </div>
       </div>

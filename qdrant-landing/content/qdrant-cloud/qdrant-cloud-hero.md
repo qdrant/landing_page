@@ -12,7 +12,7 @@ icon:
   alt: Lightning
 content: "Learn how to get up and running in minutes:"
 video:
-  src: 
+  src: /
   button: Watch Demo
   icon: 
     src: /icons/outline/play-white.svg

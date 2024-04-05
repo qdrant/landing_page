@@ -13,6 +13,15 @@
 {{ partial "hybrid-cloud-kubernetes-clusters" . }}
 {{ partial "hybrid-cloud-cases" . }}
 {{ partial "hybrid-cloud-how-it-works" . }}
+{{ partial "hybrid-cloud-video" . }}
+{{ partial "get-started-small-database" . }}
 {{ partial "hybrid-cloud-features" . }}
+{{ partial "hybrid-cloud-partners" . }}
+
+{{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+  {{ partial "get-contacted" (dict "context" . "class" "hybrid-cloud-get-contacted") }}
+{{ end }}
+
 {{ partial "get-started" . }}
+{{ partial "customer-list" . }}
 {{ partial "footer" . }}

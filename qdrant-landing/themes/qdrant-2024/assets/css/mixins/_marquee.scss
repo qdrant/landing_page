@@ -10,7 +10,8 @@
   $item-padding: 20px,
   $background-color: #090e1a,
   $pauseOnHover: false,
-  $speed: 25s
+  $speed: 25s,
+  $pseudoElementDisplay: block
 ) {
   $inner-width: math.div($total-marquee-items, $visible-marquee-items) * 2 * 100%;
 
@@ -24,6 +25,7 @@
 
     &:before,
     &:after {
+      display: $pseudoElementDisplay;
       content: '';
       position: absolute;
       top: 0;
