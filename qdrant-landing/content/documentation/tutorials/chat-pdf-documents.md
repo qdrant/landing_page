@@ -145,9 +145,7 @@ index = VectorStoreIndex.from_documents(
 ```
 
 ### Prepare a prompt
-Here we will create a custom prompt template. This prompt asks the LLM to use only the context information retrieved from Qdrant.
-
-When querying with hybrid mode, we can set `similarity_top_k` and `sparse_top_k` separately:
+Here we will create a custom prompt template. This prompt asks the LLM to use only the context information retrieved from Qdrant. When querying with hybrid mode, we can set `similarity_top_k` and `sparse_top_k` separately:
 
 - `sparse_top_k` represents how many nodes will be retrieved from each dense and sparse query.
 - `similarity_top_k` controls the final number of returned nodes. In the above setting, we end up with 10 nodes.
