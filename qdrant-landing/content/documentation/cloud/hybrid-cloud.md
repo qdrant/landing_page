@@ -241,11 +241,25 @@ qdrant:
         protocol: TCP      
 ```
 
-## Log levels
+## Logging
+
+You can access the logs with kubectl or the Kubernetes log management tool of your choice.
+
+Example:
+
+```bash
+kubectl -n qdrant-namespace logs -l app=qdrant,cluster-id=9a9f48c7-bb90-4fb2-816f-418a46a74b24
+```
+
+### Log levels
 
 You can configure log levels for the databases individually in the configuration section of the Qdrant Cluster detail page.
 
 The log level for the Qdrant Cloud Agent and Operator can be set in the Hybrid Cloud region configuration.
+
+## Monitoring
+
+The Qdrant Cloud console provides you access to basic metrics about CPU, memory and disk usage of your Qdrant clusters. You can also access the Prometheus metrics endpoint of the Qdrant databases. And use the Kubernetes workload monitoring tool of your choice to monitor your Qdrant clusters.
 
 ## Operator configuration
 
