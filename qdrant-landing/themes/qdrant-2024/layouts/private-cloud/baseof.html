@@ -11,5 +11,9 @@
 
 {{ partial "private-cloud-hero" . }}
 {{ partial "private-cloud-about" . }}
-{{ partial "private-cloud-get-contacted" . }}
+
+{{ with (.Site.GetPage "/private-cloud/private-cloud-get-contacted") }}
+  {{ partial "get-contacted" (dict "context" . "class" "private-cloud-get-contacted") }}
+{{ end }}
+
 {{ partial "footer" . }}
