@@ -15,10 +15,10 @@ We'll cover the essential steps required to build your system, including data in
 
 ## Components
 
-- **Embeddings:** Jina Embeddings, served via the ![Jina Embeddings API](https://jina.ai/embeddings/#apiform)
+- **Embeddings:** Jina Embeddings, served via the [Jina Embeddings API](https://jina.ai/embeddings/#apiform)
 - **Database:** Qdrant, which you can first try in [local mode](https://qdrant.tech/documentation/quick-start/) and the deploy via [Qdrant Hybrid Cloud]()
 - **LLM:** [Mixtral-8x7B-Instruct-v0.1](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) language model on HuggingFace
-- **Framework:** [LlamaIndex](https://www.llamaindex.ai/) for extended RAG functionality and [Hybrid Search support(https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid/)].
+- **Framework:** [LlamaIndex](https://www.llamaindex.ai/) for extended RAG functionality and [Hybrid Search support](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid/).
 
 ### Procedure
 
@@ -62,7 +62,7 @@ load_dotenv('./.env')
 
 ### Connect Jina Embeddings and Mixtral LLM
 
-LlamaIndex provides built-in support for the Jina Embeddings API. To use it, you need to initialize the `JinaEmbedding` object with your API Key and model name.
+LlamaIndex provides built-in support for the [Jina Embeddings API](https://jina.ai/embeddings/#apiform). To use it, you need to initialize the `JinaEmbedding` object with your API Key and model name.
 
 For the LLM, you need wrap it in a subclass of `llama_index.llms.CustomLLM` to make it compatible with LlamaIndex.
 
