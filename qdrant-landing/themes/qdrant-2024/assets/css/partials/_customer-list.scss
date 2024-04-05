@@ -7,7 +7,7 @@
   background-color: $neutral-94;
 
   &__logos {
-    @include marquee.base(64px, 224px, 15, 15, 52px, $neutral-94, false, 50s);
+    @include marquee.base(64px, 224px, 15, 15, 52px, $neutral-94, false, 50s, block);
   }
 
   @include media-breakpoint-up(xl) {

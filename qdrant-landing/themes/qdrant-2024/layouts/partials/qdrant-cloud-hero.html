@@ -19,13 +19,7 @@
             <p>{{ .Params.content }}</p>
           </div>
 
-          <div class="qdrant-cloud-hero__video">
-            <button class="button button_outlined button_sm">
-              <img src="{{ .Params.video.icon.src }}" alt="{{ .Params.video.icon.alt }}" />
-              {{ .Params.video.button }}
-            </button>
-            <video src="" poster="{{ .Params.video.preview }}"></video>
-          </div>
+          {{ partial "video" (dict "context" .) }}
         </div>
       </div>
     </div>

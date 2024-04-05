@@ -80,11 +80,13 @@
     &__cards {
       justify-content: space-between;
       gap: 0;
+
+      & > div {
+        width: calc(25% - 4.5px);
+      }
     }
 
     &__card {
-      width: calc(25% - 4.5px);
-
       &-info {
         width: 100%;
         min-height: rem(333);
