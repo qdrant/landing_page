@@ -1,0 +1,37 @@
+{{- partial "head.html" . -}}
+
+
+<main>
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+  </header>
+</main>
+
+{{ partial "qdrant-pricing-hero" . }}
+
+<!--{{ with (.Site.GetPage "/qdrant-pricing/qdrant-pricing-doors-a") }}-->
+<!--  {{ partial "qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-a") }}-->
+<!--{{ end }}-->
+
+{{ with (.Site.GetPage "/qdrant-pricing/qdrant-pricing-doors-b") }}
+  {{ partial "qdrant-pricing-doors" (dict "context" . "class" "qdrant-pricing-doors-b") }}
+{{ end }}
+
+{{ partial "qdrant-pricing-calculator" . }}
+{{ partial "get-started-small-database" . }}
+
+{{ with (.Site.GetPage "/headless/marketplaces") }}
+  {{ partial "marketplaces" (dict "context" . "class" "qdrant-pricing-marketplaces") }}
+{{ end }}
+
+{{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+  {{ partial "get-contacted" (dict "context" . "class" "qdrant-pricing-get-contacted") }}
+{{ end }}
+
+{{ with (.Site.GetPage "/headless/main/docker-deploy") }}
+  {{ partial "docker-deploy" (dict "context" . "class" " qdrant-pricing-docker-deploy")}}
+{{ end }}
+
+{{ partial "footer" . }}

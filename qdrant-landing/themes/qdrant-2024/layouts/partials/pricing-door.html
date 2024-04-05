@@ -1,0 +1,38 @@
+<div class="pricing-door">
+  <div class="pricing-door__top-overlay"></div>
+  {{ if .context.popular }}
+    <div class="pricing-door__popular">popular</div>
+  {{ end }}
+  <h6 class="pricing-door__title">{{ .context.title }}</h6>
+  <h5 class="pricing-door__price">{{ .context.price }}</h5>
+  <p class="pricing-door__description">{{ .context.description }}</p>
+  <a
+    href="{{ .context.button.url }}"
+    class="pricing-door__button button {{ if .context.button.contained }}
+      button_contained
+    {{ else }}
+      button_outlined
+    {{ end }}"
+  >
+    {{ .context.button.text }}
+  </a>
+  <div class="pricing-door__feature">
+    <p class="pricing-door__feature-description">
+      {{ .context.featureDescription }}
+      {{ if .context.featureLink }}
+        <a href="{{ .context.featureLink.url }}">
+          {{ .context.featureLink.text }}
+        </a>
+      {{ end }}
+    </p>
+
+    <div class="pricing-door__feature-list">
+      {{ range $index, $element := .context.features }}
+        <p class="pricing-door__feature-item">{{ .content }}</p>
+      {{ end }}
+      {{ if .context.minPrice }}
+        <p class="pricing-door__feature-min-price">{{ .context.minPrice | safeHTML }}</p>
+      {{ end }}
+    </div>
+  </div>
+</div>
