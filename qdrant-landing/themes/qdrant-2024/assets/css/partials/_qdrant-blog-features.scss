@@ -58,7 +58,7 @@
       }
 
       &:hover {
-        .post-preview {
+        .post-preview > div {
           transform: none;
         }
       }

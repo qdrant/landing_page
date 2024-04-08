@@ -21,7 +21,9 @@
       <div class="qdrant-blog-features__articles">
         <article class="qdrant-blog-features__articles-main post">
           <a class="post-link" href="{{ .Params.mainPost.link }}">
-            <div class="post-preview" style="background-image: url({{ .Params.mainPost.previewUrl }})"></div>
+            <div class="post-preview">
+              <div style="background-image: url({{ .Params.mainPost.previewUrl }})"></div>
+            </div>
             <h5 class="post-title">{{ .Params.mainPost.title }}</h5>
             <div class="post-about">
               <p>{{ .Params.mainPost.author }}</p>
