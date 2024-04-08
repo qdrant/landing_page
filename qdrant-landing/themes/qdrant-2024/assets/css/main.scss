@@ -6,8 +6,8 @@
 @import 'partials/logo';
 @import 'partials/top-banner';
 @import 'partials/customers';
+@import 'partials/menu-mobile';
 @import 'partials/menu';
-@import 'components/buttons';
 @import 'partials/hero';
 @import 'partials/link';
 @import 'partials/core-features';
@@ -18,7 +18,6 @@
 @import 'partials/get-started';
 @import 'partials/footer';
 @import 'partials/additional-resources';
-@import 'partials/menu-mobile';
 @import 'partials/feature-overview';
 @import 'partials/qdrant-vector-database-hero';
 @import 'partials/qdrant-vector-database-use-cases';
@@ -40,14 +39,9 @@
 @import 'partials/private-cloud-hero';
 @import 'partials/private-cloud-about';
 @import 'partials/private-cloud-get-contacted';
-@import 'partials/hybrid-cloud-hero';
-@import 'partials/hybrid-cloud-kubernetes-clusters';
-@import 'partials/hybrid-cloud-cases';
-@import 'partials/hybrid-cloud-how-it-works';
-@import 'partials/hybrid-cloud-features';
-@import 'partials/hybrid-cloud-video';
-@import 'partials/hybrid-cloud-get-contacted';
-@import 'partials/hybrid-cloud-partners';
+
+
+
 @import 'partials/qdrant-cloud-hero';
 @import 'partials/qdrant-cloud-bento-cards';
 @import 'partials/qdrant-cloud-marketplaces';
@@ -57,11 +51,3 @@
 @import 'partials/customer-list';
 @import 'partials/demos';
 @import 'partials/tutorials';
-
-.main-header {
-  background: $neutral-10;
-
-  @include media-breakpoint-up(xl) {
-    background: url('/img/stars-pattern.png') $neutral-10;
-  }
-}

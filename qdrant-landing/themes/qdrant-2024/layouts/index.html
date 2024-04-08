@@ -1,6 +1,4 @@
-<!doctype html>
-<html lang="en">
-  {{ partial "head.html" . }}
+{{ partial "head.html" . }}
 
 
   <body>
@@ -28,8 +26,3 @@
       {{ partial "get-started" . }}
 
       {{ partial "footer" . }}
-    </main>
-    {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-    <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
-  </body>
-</html>

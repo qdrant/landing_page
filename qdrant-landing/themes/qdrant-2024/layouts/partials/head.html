@@ -1,3 +1,5 @@
+<!doctype html>
+<html lang="en">
 {{ $opts := dict "transpiler" "dartsass" "enableSourceMap" (not hugo.IsProduction) }}
 <head>
   <meta
@@ -8,10 +10,28 @@
   <title>Title</title>
 
   {{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
+
+  {{ if .IsHome }}
+  {{ end }}
+
+
+  {{ if eq .Section "hybrid-cloud" }}
   {{ with resources.Get
-    "css/main.scss" | toCSS $opts | minify | fingerprint
+  (printf "css/%s.scss" .Section) | toCSS $opts | minify | fingerprint
   }}
-    <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  {{ end }}
+  {{ else }}
+  {{ with resources.Get
+  "css/main.scss" | toCSS $opts | minify | fingerprint
+  }}
+  <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  {{ end }}
+
+  {{ with resources.Get
+  "css/main.scss" | toCSS $opts | minify | fingerprint
+  }}
+  <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
   {{ end }}
   {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint
     "sha512"
@@ -20,5 +40,7 @@
 
   <!-- todo -->
   <link rel="preconnect" href="https://fonts.gstatic.com" />
+  {{ end }}
+
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400&display=swap" />
 </head>
