@@ -160,7 +160,7 @@ We will use `documents` to encode the data into vectors.
 6. Encode and upload data.
 
 ```python
-limit = 3_000  # Limit the number of documents to encode
+limit = 5_000  # Limit the number of documents to encode
 client.add(
     collection_name="startups",
     documents=documents[:limit],
@@ -170,7 +170,7 @@ client.add(
 ```
 
 <aside role="status">
-Generating sparse vectors with SPLADE might be time-consuming. We are limiting the number of documents to encode to 3000. In order to use the whole dataset, you can remove the limit or download already processed data below the spoiler.
+Generating sparse vectors with SPLADE might be time-consuming. We are limiting the number of documents to encode to 5000. In order to use the whole dataset, you can remove the limit or download already processed data below the spoiler.
 </aside>
 
 <details>
