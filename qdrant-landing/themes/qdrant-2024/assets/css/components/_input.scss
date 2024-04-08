@@ -3,13 +3,13 @@
 .input {
   // VARIABLES
   $height: (
-    md: 40px,
-    lg: 48px,
+    md: $spacer * 2.5,
+    lg: $spacer * 3,
   );
 
   $padding: (
     md: rem(12) $spacer,
-    lg: rem(8) $spacer,
+    lg: $spacer * 0.5 $spacer,
   );
 
   // STYLES
