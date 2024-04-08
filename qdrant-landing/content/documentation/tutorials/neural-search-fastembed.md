@@ -148,7 +148,7 @@ with open(payload_path) as fd:
         metadata.append(obj)
 ```
 
-In this block of code, we read data we read data from `startups_demo.json` file and split it into 2 lists: `documents` and `metadata`.
+In this block of code, we read data from `startups_demo.json` file and split it into 2 lists: `documents` and `metadata`.
 Documents are the raw text descriptions of startups. Metadata is the payload associated with each startup, such as the name, location, and picture.
 We will use `documents` to encode the data into vectors.
 
