@@ -1,3 +1,17 @@
 {{ with (.Site.GetPage "/headless/open-roles") }}
-  <section class="open-roles"></section>
+  <section class="open-roles">
+    <div class="container">
+      <div class="open-roles__content">
+        <div class="open-roles__overlay"></div>
+        <div class="open-roles__summary">
+          <h5 class="open-roles__title">{{ .Params.title }}</h5>
+          <p class="open-roles__subtitle">{{ .Params.subtitle }}</p>
+          <a href="{{ .Params.seeOpenRoles.url }}" class="button button_contained button_md"
+            >{{ .Params.seeOpenRoles.text }}</a
+          >
+        </div>
+        <div class="open-roles__image" style="background-image: url(/img/astronaut.png)"></div>
+      </div>
+    </div>
+  </section>
 {{ end }}
