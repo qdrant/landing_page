@@ -165,19 +165,19 @@ client.add(
     collection_name="startups",
     documents=documents[:limit],
     metadata=metadata[:limit],
-    # parallel=0,  # Turn on data-parallelism instead of builtin ONNX parallelism, use all cores
+    # parallel=0,  # Use all available CPU cores
 )
 ```
 
 <aside role="status">
-Generating sparse vectors with SPLADE might be time-consuming. We are limiting the number of documents to encode to 5000. In order to use the whole dataset, you can remove the limit or download already processed data below the spoiler.
+Generating sparse vectors with SPLADE might be time-consuming. We are limiting the number of documents to encode to 5000. In order to use the whole dataset, you can remove the limit or download already processed data (the code is available under the spoiler).
 </aside>
 
 <details>
     <summary>Upload processed data</summary>
 
-Download and unpack the processed data from [here](https://storage.googleapis.com/...).
-    
+Download and unpack the processed data from [here](https://storage.googleapis.com/...) or use the following script:
+
 ```bash
 wget https://storage.googleapis.com/.../startups_hybrid_search_processed_sample.tar.gz
 tar -xvf startups_hybrid_search_processed_sample.tar.gz
@@ -215,7 +215,7 @@ def named_vectors(vectors: list[float], sparse_vectors: list[models.SparseVector
 The `add` method will encode the documents and upload them to Qdrant.
 This is one of two fastembed-specific methods, that combines encoding and uploading into a single step.
 
-The `parallel` parameter controls the number of CPU cores used to encode data.
+The `parallel` parameter enables data-parallelism instead of built-in ONNX parallelism.
 
 Additionally, you can specify ids for each document, if you want to use them later to update or delete documents.
 If you don't specify ids, they will be generated automatically and returned as a result of the `add` method.
@@ -237,7 +237,7 @@ client.add(
 
 Now that all the preparations are complete, let's start building a hybrid search class.
 
-In order to process incoming requests, hybrid search will need 3 things: 1) models to convert the query into a vector, 2) the Qdrant client to perform search queries, 3) fusion function to re-rank dense and sparse search results.
+In order to process incoming requests, the hybrid search class will need 3 things: 1) models to convert the query into a vector, 2) the Qdrant client to perform search queries, 3) fusion function to re-rank dense and sparse search results.
 Fastembed integration into qdrant client combines encoding, search and fusion into a single method call.
 Fastembed leverages reciprocal rank fusion ((RRF)[https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf]) for combining the results.
 
@@ -245,7 +245,6 @@ Fastembed leverages reciprocal rank fusion ((RRF)[https://plg.uwaterloo.ca/~gvco
 1. Create a file named `hybrid_searcher.py` and specify the following.
 
 ```python
-from typing import Optional
 from qdrant_client import QdrantClient
 
 class HybridSearcher:
@@ -253,7 +252,6 @@ class HybridSearcher:
     SPARSE_MODEL = "prithivida/Splade_PP_en_v1"
     def __init__(self, collection_name):
         self.collection_name = collection_name
-        # initialize Qdrant client
         self.qdrant_client = QdrantClient("http://localhost:6333")
         self.qdrant_client.set_model(self.DENSE_MODEL)
         self.qdrant_client.set_sparse_model(self.SPARSE_MODEL)
@@ -279,10 +277,10 @@ def search(self, text: str, hybrid: bool = True):
         collection_name=self.collection_name,
         query_text=text,
         query_filter=None,  # If you don't want any filters for now
-        limit=5,  # 5 the closest results are enough
+        limit=5,  # return 5 closest results
     )
     # `search_result` contains found vector ids with similarity scores along with the stored payload
-    # In this function you are interested in payload only
+    # In this function we are interested in payload only
     metadata = [hit.metadata for hit in search_result]
     return metadata
 ```
@@ -293,21 +291,16 @@ With Qdrant it is also feasible to add some conditions to the search.
 For example, if you wanted to search for startups in a certain city, the search query could look like this:
 
 ```python
-from qdrant_client.models import Filter
+from qdrant_client import models
 
     ...
 
     city_of_interest = "Berlin"
 
     # Define a filter for cities
-    city_filter = Filter(**{
-        "must": [{
-            "key": "city", # Store city information in a field of the same name 
-            "match": { # This condition checks if payload field has the requested value
-                "value": "city_of_interest"
-            }
-        }]
-    })
+    city_filter = models.Filter(
+        must=[models.FieldCondition(key="city", match=models.MatchValue(value=city_of_interest))]
+    )
 
     search_result = self.qdrant_client.query(
         collection_name=self.collection_name,
