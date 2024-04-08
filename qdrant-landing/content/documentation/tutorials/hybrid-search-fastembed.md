@@ -245,22 +245,36 @@ Fastembed leverages reciprocal rank fusion ((RRF)[https://plg.uwaterloo.ca/~gvco
 1. Create a file named `hybrid_searcher.py` and specify the following.
 
 ```python
+from typing import Optional
 from qdrant_client import QdrantClient
 
-
 class HybridSearcher:
+    DENSE_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
+    SPARSE_MODEL = "prithivida/Splade_PP_en_v1"
     def __init__(self, collection_name):
         self.collection_name = collection_name
         # initialize Qdrant client
         self.qdrant_client = QdrantClient("http://localhost:6333")
-        self.qdrant_client.set_model("sentence-transformers/all-MiniLM-L6-v2")
-        self.qdrant_client.set_sparse_model("prithivida/Splade_PP_en_v1")
+        self.qdrant_client.set_model(self.DENSE_MODEL)
+        self.qdrant_client.set_sparse_model(self.SPARSE_MODEL)
+    
+    # methods to enable or disable sparse search
+    def set_sparse_model(self) -> None:
+        self.qdrant_client.set_sparse_model(self.SPARSE_MODEL)
+
+    def reset_sparse_model(self) -> None:
+        self.qdrant_client.set_sparse_model(None)
 ```
 
 2. Write the search function.
 
 ```python
-def search(self, text: str):
+def search(self, text: str, hybrid: bool = True):
+    if hybrid:
+        self.set_sparse_model()
+    else:
+        self.reset_sparse_model()
+        
     search_result = self.qdrant_client.query(
         collection_name=self.collection_name,
         query_text=text,
@@ -304,7 +318,7 @@ from qdrant_client.models import Filter
     ...
 ```
 
-You have now created a class for neural search queries. Now wrap it up into a service.
+You have now created a class for hybrid search queries. Now wrap it up into a service.
 
 ## Deploy the search with FastAPI
 
@@ -337,8 +351,8 @@ hybrid_searcher = HybridSearcher(collection_name="startups")
 
 
 @app.get("/api/search")
-def search_startup(q: str):
-    return {"result": hybrid_searcher.search(text=q)}
+def search_startup(q: str, hybrid: bool = True):
+    return {"result": hybrid_searcher.search(text=q, hybrid=hybrid)}
 
 
 if __name__ == "__main__":
@@ -359,6 +373,7 @@ You should be able to see a debug interface for your service.
 
 ![FastAPI Swagger interface](/docs/fastapi_neural_search.png)
 
-Feel free to play around with it, make queries regarding the companies in our corpus, and check out the results.
+Feel free to play around with it, make queries regarding the companies in our corpus, enabling and disabling hybrid search with `set_sparse_model` and `reset_sparse_model` methods, and check out the results.
+
 
 Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, publish other examples of neural networks and neural search applications.
