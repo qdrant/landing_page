@@ -1,0 +1,68 @@
+@use '../helpers/functions' as *;
+
+.input {
+  // VARIABLES
+  $height: (
+    md: 40px,
+    lg: 48px,
+  );
+
+  $padding: (
+    md: rem(12) $spacer,
+    lg: rem(8) $spacer,
+  );
+
+  // STYLES
+  width: 100%;
+  height: map-get($height, md);
+  padding: map-get($padding, md);
+  border: rem(1) solid $neutral-50;
+  border-radius: $spacer * 0.5;
+  background-color: transparent;
+  color: $neutral-94;
+
+  &::placeholder {
+    color: $neutral-70;
+  }
+
+  &:focus {
+    border: rem(1) solid $neutral-100;
+  }
+
+  &:active,
+  &:focus,
+  &:focus-visible {
+    outline: 0;
+  }
+
+  // VARIANTS
+  &_dark-bg {
+    border-color: $neutral-50;
+
+    &:focus {
+      border-color: $neutral-100;
+      color: $neutral-94;
+    }
+  }
+
+  &_light-bg {
+    border-color: $neutral-70;
+
+    &:focus {
+      border-color: $neutral-20;
+      color: $neutral-20;
+    }
+  }
+
+  // SIZE
+  &_md {
+    height: map-get($height, md);
+    padding: map-get($padding, md);
+  }
+
+  &_lg {
+    height: map-get($height, lg);
+    padding: map-get($padding, lg);
+    font-size: map-get($font-sizes-text, l);
+  }
+}

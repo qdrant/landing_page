@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/qdrant-blog/qdrant-blog-posts") }}
+  <section class="qdrant-blog-posts">
+    <div class="container">
+      <div class="qdrant-blog-posts__articles post">
+        {{ range $index, $element := .Params.posts }}
+          <article class="qdrant-blog-posts__article post">
+            <a class="post-link" href="{{ .link }}">
+              <div class="post-preview" style="background-image: url({{ .previewUrl }})"></div>
+              <h6 class="post-title">{{ .title }}</h6>
+              <p class="post-description">{{ .description }}</p>
+              <div class="post-about">
+                <p>{{ .author }}</p>
+                <span>&middot;</span>
+                <p>{{ .date }}</p>
+              </div>
+            </a>
+          </article>
+        {{ end }}
+      </div>
+
+      <div class="row">
+        <div class="qdrant-blog-posts__pagination col-12">
+          {{ partial "pagination" . }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

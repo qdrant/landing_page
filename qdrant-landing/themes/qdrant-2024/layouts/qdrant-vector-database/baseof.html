@@ -12,7 +12,11 @@
 
 {{ partial "qdrant-vector-database-use-cases" . }}
 {{ partial "feature-overview" . }}
-{{ partial "get-started-small-rocket" . }}
+
+{{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+  {{ partial "get-started-small" (dict "context" . "class" "get-started-small-rocket") }}
+{{ end }}
+
 {{ partial "additional-resources" . }}
 {{ partial "get-started" . }}
 {{ partial "footer" . }}

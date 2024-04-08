@@ -2,14 +2,22 @@
 @use '../helpers/functions' as *;
 @use '../bootstrap-custom' as bs;
 
-@mixin base($paddingTop, $paddingTopMobile, $paddingBottom, $paddingBottomMobile, $background, $backgroundMobile) {
+@mixin base(
+  $paddingTop,
+  $paddingTopMobile,
+  $paddingBottom,
+  $paddingBottomMobile,
+  $mainBackground,
+  $blockBackground,
+  $blockBackgroundMobile
+) {
   padding-top: $paddingTopMobile;
   padding-bottom: $paddingBottomMobile;
-  background-color: #e1e5f0;
+  background-color: $mainBackground;
 
   &__content {
     position: relative;
-    background: $background;
+    background: $blockBackground;
     border-radius: rem(8);
     overflow: hidden;
 
@@ -55,7 +63,7 @@
     padding-bottom: $paddingBottom;
 
     &__content {
-      background: $backgroundMobile;
+      background: $blockBackgroundMobile;
 
       img {
         padding: 0;
