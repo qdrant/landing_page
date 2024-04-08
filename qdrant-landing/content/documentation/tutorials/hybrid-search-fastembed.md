@@ -91,10 +91,10 @@ All data uploaded to Qdrant is saved inside the `./qdrant_storage` directory and
 1. Install the official Python client to best interact with Qdrant.
 
 ```bash
-pip install qdrant-client[fastembed]
+pip install "qdrant-client[fastembed]>=1.8.2"
 ```
+> **Note:** This tutorial requires fastembed of version >=0.2.6.
 
-Note, that you need to install the `fastembed` extra to enable Fastembed integration.
 At this point, you should have startup records in the `startups_demo.json` file and Qdrant running on a local machine.
 
 Now you need to write a script to upload all startup data and vectors into the search engine.
