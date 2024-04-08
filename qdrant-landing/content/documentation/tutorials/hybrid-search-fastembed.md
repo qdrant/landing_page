@@ -1,6 +1,6 @@
 ---
 title: Hybrid Search with Fastembed
-weight: 2
+weight: 3
 ---
 
 # Create a Hybrid Search Service with Fastembed
@@ -165,7 +165,7 @@ client.add(
     collection_name="startups",
     documents=documents[:limit],
     metadata=metadata[:limit],
-    parallel=0,  # Use all available CPU cores to encode data
+    # parallel=0,  # Turn on data-parallelism instead of builtin ONNX parallelism, use all cores
 )
 ```
 
@@ -186,22 +186,28 @@ tar -xvf startups_hybrid_search_processed_sample.tar.gz
 Then you can upload the data to Qdrant.
 
 ```python
+import json
 import numpy as np
+from qdrant_client import models
 
-def named_vectors(vectors, sparse_vectors):
+
+def named_vectors(vectors: list[float], sparse_vectors: list[models.SparseVector]) -> dict:
     dense_vector_name = client.get_vector_field_name()
     sparse_vector_name = client.get_sparse_vector_field_name()
     for vector, sparse_vector in zip(vectors, sparse_vectors):
         yield {
             dense_vector_name: vector,
-            sparse_vector_name: sparse_vector,
-        }    
-with open('vectors.npy', 'rb') as f, open('sparse_vectors.npy', 'rb') as g, ('metadata.json', 'r') as h:
-    vectors = np.load(f)
-    sparse_vectors = np.load(f)
-    metadata = json.load(f)
+            sparse_vector_name: models.SparseVector(**sparse_vector),
+        } 
 
-client.upload_collection("startups", vectors=named_vectors(vectors, sparse_vectors), metadata=metadata, parallel=0)
+    with open("dense_vectors.npy", "rb") as f, open("sparse_vectors.json", "r") as g, open("payload.json", "r",) as h:
+        vectors = np.load(f)
+        sparse_vectors = json.load(g)
+        payload = json.load(h)
+
+    client.upload_collection(
+        "startups", vectors=named_vectors(vectors, sparse_vectors), payload=payload
+    )
 ```
 </details>
 
