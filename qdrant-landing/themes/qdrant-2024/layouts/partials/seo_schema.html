@@ -1,20 +1,21 @@
 <!-- we suppose that if a page is excluded from the site map it also shouldn't be indexed by any robots -->
-{{ if .Params.sitemapExclude}}
-<meta name="robots" content="noindex">
+{{ if .Params.sitemapExclude }}
+  <meta name="robots" content="noindex" />
 {{ end }}
 {{ if .Params.description }}
-<meta name="description" content="{{ .Params.Description }}">
+  <meta name="description" content="{{ .Params.Description }}" />
 {{ else }}
-<meta name="description" content="{{ .Site.Params.Description }}">
+  <meta name="description" content="{{ .Site.Params.Description }}" />
 {{ end }}
 
 {{ if .Params.keywords }}
-<meta name="keywords" content="{{ range .Params.Keywords }}{{ . }}, {{ end }} qdrant">
+  <meta name="keywords" content="{{ range .Params.Keywords }}{{ . }},{{ end }} qdrant" />
 {{ else }}
-<meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }}, {{ end }} qdrant">
+  <meta name="keywords" content="{{ range .Site.Params.Keywords }}{{ . }},{{ end }} qdrant" />
 {{ end }}
 
-{{ if .Params.seo_schema_json }} <!-- if schema is defined in front matter as a list of  json files -->
+{{ if .Params.seo_schema_json }}
+  <!-- if schema is defined in front matter as a list of  json files -->
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -31,14 +32,12 @@
         ]
     }
 </script>
-
 {{ else if .IsHome }}
+  {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
+  {{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "schema-organization-home.json" . }}
 
-{{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
-{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate "schema-organization-home.json" . }}
-
-{{ $productTemplate := resources.Get "schema/product-schema.json" }}
-{{ $productSchema := $productTemplate | resources.ExecuteAsTemplate "schema-product-home.json" . }}
+  {{ $productTemplate := resources.Get "schema/product-schema.json" }}
+  {{ $productSchema := $productTemplate | resources.ExecuteAsTemplate "schema-product-home.json" . }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -48,16 +47,14 @@
         ]
     }
 </script>
-
 {{ else if or (in (slice "documentation" "benchmarks") .Section) (and (in (slice "blog" "articles") .Section) .IsPage) }}
+  {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
+  {{ $organizationTarget := printf "schema-org-1-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+  {{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}
 
-{{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
-{{ $organizationTarget := printf "schema-org-1-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
-{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}
-
-{{ $articleTemplate := resources.Get "schema/article-schema.json" }}
-{{ $articleTarget := printf "schema-art-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
-{{ $articleSchema := $articleTemplate | resources.ExecuteAsTemplate $articleTarget . }}
+  {{ $articleTemplate := resources.Get "schema/article-schema.json" }}
+  {{ $articleTarget := printf "schema-art-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+  {{ $articleSchema := $articleTemplate | resources.ExecuteAsTemplate $articleTarget . }}
 <script type="application/ld+json">
     {
     "@context": "https://schema.org",
@@ -67,16 +64,14 @@
         ]
     }
 </script>
-
 {{ else }}
+  {{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
+  {{ $organizationTarget := printf "schema-org-2-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+  {{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}
 
-{{ $organizationTemplate := resources.Get "schema/organization-schema.json" }}
-{{ $organizationTarget := printf "schema-org-2-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
-{{ $organizationSchema := $organizationTemplate | resources.ExecuteAsTemplate $organizationTarget . }}
-
-{{ $productTemplate := resources.Get "schema/product-schema.json" }}
-{{ $productTarget := printf "schema-prod-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
-{{ $productSchema := $productTemplate | resources.ExecuteAsTemplate $productTarget . }}
+  {{ $productTemplate := resources.Get "schema/product-schema.json" }}
+  {{ $productTarget := printf "schema-prod-%s.json" (replaceRE "(\\s)" "" .Params.title) }}
+  {{ $productSchema := $productTemplate | resources.ExecuteAsTemplate $productTarget . }}
 <script type="application/ld+json">
     {
         "@context": "https://schema.org",
@@ -86,10 +81,10 @@
         ]
     }
 </script>
-
 {{ end }}
 
-{{ if .Params.seo_schema }} <!-- if schema is defined in front matter -->
+{{ if .Params.seo_schema }}
+  <!-- if schema is defined in front matter -->
 <script type="application/ld+json">
     {{ .Params.seo_schema | jsonify | unmarshal }}
 </script>
@@ -101,118 +96,117 @@
 {{ $title := .Title }}
 {{ if and ($.IsNode) (eq $.Section "") }}
 {{ else }}
-    {{ $title = printf "%s - Qdrant" $title }}
+  {{ $title = printf "%s - Qdrant" $title }}
 {{ end }}
+
 
 <!-- Facebook Meta Tags -->
-<meta property="og:url" content="{{ .Permalink }}">
-<meta property="og:type" content="website">
-<meta property="og:title" content="{{ $title }}">
+<meta property="og:url" content="{{ .Permalink }}" />
+<meta property="og:type" content="website" />
+<meta property="og:title" content="{{ $title }}" />
 
 <!-- Twitter Meta Tags -->
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:domain" content="{{ $domain }}">
-<meta name="twitter:url" content="{{ .Permalink }}">
-<meta name="twitter:title" content="{{ $title }}">
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:domain" content="{{ $domain }}" />
+<meta name="twitter:url" content="{{ .Permalink }}" />
+<meta name="twitter:title" content="{{ $title }}" />
 
 {{ if .Params.description }}
-<meta property="og:description" content="{{ .Params.description }}">
-<meta name="twitter:description" content="{{ .Params.description }}">
+  <meta property="og:description" content="{{ .Params.description }}" />
+  <meta name="twitter:description" content="{{ .Params.description }}" />
 {{ else }}
-<meta property="og:description" content="{{ .Site.Params.description }}">
-<meta name="twitter:description" content="{{ .Site.Params.description }}">
+  <meta property="og:description" content="{{ .Site.Params.description }}" />
+  <meta name="twitter:description" content="{{ .Site.Params.description }}" />
 {{ end }}
+
 
 <!-- Preview Image -->
 {{ $image := index (.Site.Params.preview_images | shuffle ) 0 }}
 
 {{ if .Params.preview_image }}
-    {{ $image := .Params.preview_image }}
+  {{ $image := .Params.preview_image }}
 {{ end }}
 
 {{ $slug := .Params.slug }}
 
+
 <!-- Check image exist in `static` path -->
 {{ with .File }}
-    {{ $preview_image_base :=  path.Join "static" .Dir $slug }}
-    {{ $preview_image := printf "%s-social-preview.png" $preview_image_base }}
-    {{ $preview_image_exists := fileExists $preview_image }}
+  {{ $preview_image_base :=  path.Join "static" .Dir $slug }}
+  {{ $preview_image := printf "%s-social-preview.png" $preview_image_base }}
+  {{ $preview_image_exists := fileExists $preview_image }}
 
-    {{ if not $preview_image_exists }}
-        {{ $preview_image = printf "%s-social-preview.jpg" $preview_image_base }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end }}
+  {{ if not $preview_image_exists }}
+    {{ $preview_image = printf "%s-social-preview.jpg" $preview_image_base }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
+  {{ if not $preview_image_exists }}
+    {{ $preview_image =  path.Join "static" .Dir $slug "preview" "social_preview.jpg" }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
-    {{ if not $preview_image_exists }}
-        {{ $preview_image =  path.Join "static" .Dir $slug "preview" "social_preview.jpg" }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end }}
+  {{ if not $preview_image_exists }}
+    {{ $preview_image =  path.Join "static" .Dir $slug "preview" "social_preview.png" }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
-    {{ if not $preview_image_exists }}
-        {{ $preview_image =  path.Join "static" .Dir $slug "preview" "social_preview.png" }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end }}
+  {{ if not $preview_image_exists }}
+    {{ $preview_image =  path.Join "static" .Dir .ContentBaseName "preview" "social_preview.jpg" }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
-    {{ if not $preview_image_exists }}
-        {{ $preview_image =  path.Join "static" .Dir .ContentBaseName "preview" "social_preview.jpg" }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end }}
+  {{ if not $preview_image_exists }}
+    {{ $preview_image =  path.Join "static" .Dir .ContentBaseName "preview" "social_preview.png" }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
-    {{ if not $preview_image_exists }}
-        {{ $preview_image =  path.Join "static" .Dir .ContentBaseName "preview" "social_preview.png" }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end }}
+  {{ if not $preview_image_exists }}
+    {{ $preview_image_base =  path.Join "static" .Dir .ContentBaseName }}
+    {{ $preview_image = printf "%s-social-preview.png" $preview_image_base }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
-    {{ if not $preview_image_exists }}
-        {{ $preview_image_base =  path.Join "static" .Dir .ContentBaseName }}
-        {{ $preview_image = printf "%s-social-preview.png" $preview_image_base }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end}}
+  {{ if not $preview_image_exists }}
+    {{ $preview_image = printf "%s-social-preview.jpg" $preview_image_base }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
-    {{ if not $preview_image_exists }}
-        {{ $preview_image = printf "%s-social-preview.jpg" $preview_image_base }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end }}
+  {{ if not $preview_image_exists }}
+    <!-- If there are no image for document, check preview for the section -->
+    {{ $preview_image_base =  path.Join "static" .Dir }}
+    {{ $preview_image =  path.Join $preview_image_base "social-preview.png" }}
+    {{ $preview_image_exists = fileExists $preview_image }}
+  {{ end }}
 
-
-
-    {{ if not $preview_image_exists }}
-        <!-- If there are no image for document, check preview for the section -->
-        {{ $preview_image_base =  path.Join "static" .Dir }}
-        {{ $preview_image =  path.Join $preview_image_base "social-preview.png" }}
-        {{ $preview_image_exists = fileExists $preview_image }}
-    {{ end }}
-
-    {{ if $preview_image_exists }}
-        {{ $preview_image = strings.TrimPrefix "static/" $preview_image }}
-        {{ $preview_image = strings.TrimPrefix "/static" $preview_image }}
-        {{ $image = $preview_image }}
-
-    {{ end }}
+  {{ if $preview_image_exists }}
+    {{ $preview_image = strings.TrimPrefix "static/" $preview_image }}
+    {{ $preview_image = strings.TrimPrefix "/static" $preview_image }}
+    {{ $image = $preview_image }}
+  {{ end }}
 {{ end }}
-
 
 {{ if .Params.social_preview_image }}
-    {{ $image = .Params.social_preview_image }}
+  {{ $image = .Params.social_preview_image }}
 {{ end }}
 
 
-<meta name="image" property="og:image" content="{{ $image | absURL }}">
-<meta name="image" property="og:image:secure_url" content="{{ $image | absURL }}">
+<meta name="image" property="og:image" content="{{ $image | absURL }}" />
+<meta name="image" property="og:image:secure_url" content="{{ $image | absURL }}" />
 <meta property="og:image:type" content="image/jpeg" />
 <meta property="og:image:width" content="1200" />
 <meta property="og:image:height" content="630" />
-<meta name="twitter:image:src" content="{{ $image | absURL }}">
+<meta name="twitter:image:src" content="{{ $image | absURL }}" />
 
 <!-- Author -->
 {{ if .Params.author }}
-<meta name="author" content="{{ .Params.author }}">
+  <meta name="author" content="{{ .Params.author }}" />
 {{ end }}
+
 
 <!-- Canonical URL -->
 {{ if .Params.canonicalUrl }}
-<link rel="canonical" href="{{ .Params.canonicalUrl }}">
+  <link rel="canonical" href="{{ .Params.canonicalUrl }}" />
 {{ else }}
-<link rel="canonical" href="{{ .Permalink }}">
+  <link rel="canonical" href="{{ .Permalink }}" />
 {{ end }}
