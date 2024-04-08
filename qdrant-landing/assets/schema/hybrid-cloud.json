@@ -1,0 +1,51 @@
+{
+  "@type": "Product",
+  "@id": "",
+  "brand": {
+    "@id": "https://qdrant.tech",
+    "@type": "Organization",
+    "name": "Qdrant Vector Database"
+  },
+  "description" : "",
+  "keywords" : "",
+  "name": "Qdrant Hybrid Cloud",
+  "image": "",
+  "offers": {
+    "@type": "AggregateOffer",
+    "lowPrice": "0",
+    "offerCount": "3",
+    "priceCurrency": "USD",
+    "offers": [
+      {
+        "@type": "Offer",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "price": "free",
+          "priceCurrency": "USD",
+          "name": "Community",
+          "url": "https://qdrant.tech/documentation/quick-start/"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "price": "from 25$",
+          "priceCurrency": "USD",
+          "name": "Managed Cloud",
+          "url": "https://qdrant.to/cloud"
+        }
+      },
+      {
+        "@type": "Offer",
+        "priceSpecification": {
+          "@type": "PriceSpecification",
+          "price": "on request",
+          "priceCurrency": "USD",
+          "name": "Enterprise",
+          "url": "https://qdrant.to/contact-us"
+        }
+      }
+    ]
+  }
+}
