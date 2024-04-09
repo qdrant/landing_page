@@ -14,7 +14,7 @@ steps:
   title: Privacy and Security
   description: The architecture guarantees database isolation. The Qdrant Cloud only receives telemetry through an outgoing connection. No access to databases or your Kubernetes API is necessary to maintain the highest level of data security and privacy.
 image:
-  src: /img/how-it-works-scheme.png
+  src: /img/how-it-works-scheme.svg
   alt: How it works scheme
 sitemapExclude: true
 ---

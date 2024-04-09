@@ -24,7 +24,7 @@ contactUs:
   text: Contact us
   url: /
 image:
-  src: /img/hybrid-cloud-graphic.png
+  src: /img/hybrid-cloud-graphic.svg
   alt: Enterprise-solutions
 sitemapExclude: true
 ---

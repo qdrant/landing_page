@@ -1,0 +1,28 @@
+{{ $opts := dict "transpiler" "dartsass" "includePaths" (slice "node_modules") }}
+
+{{ if .IsHome }}
+{{ end }}
+
+{{ if eq .Section "hybrid-cloud" }}
+  {{ with resources.Get
+    (printf "css/%s.scss" .Section) | toCSS $opts | minify | fingerprint
+  }}
+    <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  {{ end }}
+{{ else }}
+  {{ with resources.Get
+    "css/main.scss" | toCSS $opts | minify | fingerprint
+  }}
+    <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  {{ end }}
+
+  {{ with resources.Get
+    "css/main.scss" | toCSS $opts | minify | fingerprint
+  }}
+    <link href="{{ .RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  {{ end }}
+  {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint
+    "sha512"
+  }}
+  <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
+{{ end }}
