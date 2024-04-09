@@ -1,30 +1,24 @@
 {{ partial "head.html" . }}
+<header class="main-header">
+  {{ partial "top-banner" . }}
 
+  {{ partial "menu" . }}
+  {{ partial "menu-mobile" . }}
+  {{ partial "hero" . }}
+  {{ partial "customers" . }}
+</header>
+{{ partial "core-features" . }}
+{{ partial "customer-stories" . }}
+{{ partial "integrations" . }}
 
-<body>
-  <main>
-    <header class="main-header">
-      {{ partial "top-banner" . }}
+{{ with (.Site.GetPage "/headless/main/docker-deploy") }}
+  {{ partial "docker-deploy" (dict "context" . "class" "") }}
+{{ end }}
 
-      {{ partial "menu" . }}
-      {{ partial "menu-mobile" . }}
-      {{ partial "hero" . }}
-      {{ partial "customers" . }}
-    </header>
-    {{ partial "core-features" . }}
-    {{ partial "customer-stories" . }}
-    {{ partial "integrations" . }}
+{{ with (.Site.GetPage "/headless/main/vectors") }}
+  {{ partial "vectors" . }}
+{{ end }}
 
-    {{ with (.Site.GetPage "/headless/main/docker-deploy") }}
-      {{ partial "docker-deploy" (dict "context" . "class" "") }}
-    {{ end }}
+{{ partial "get-started" . }}
 
-    {{ with (.Site.GetPage "/headless/main/vectors") }}
-      {{ partial "vectors" . }}
-    {{ end }}
-
-    {{ partial "get-started" . }}
-
-    {{ partial "footer" . }}
-  </main>
-</body>
+{{ partial "footer" . }}
