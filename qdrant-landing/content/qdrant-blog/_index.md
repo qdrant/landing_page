@@ -1,6 +1,6 @@
 ---
-title: private-cloud
-description: private-cloud
+title: qdrant-blog
+description: qdrant-blog
 build:
   render: always
 cascade:
