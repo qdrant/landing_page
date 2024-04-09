@@ -1,14 +1,12 @@
 {{- partial "head.html" . -}}
 
 
-<main>
   <header class="main-header">
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
     {{ partial "qdrant-cloud-hero" . }}
   </header>
-</main>
 
 {{ with (.Site.GetPage "/headless/get-started-small-database") }}
   {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
