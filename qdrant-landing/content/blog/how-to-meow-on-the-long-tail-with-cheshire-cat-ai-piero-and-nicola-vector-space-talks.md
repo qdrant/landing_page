@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: How to meow on the long tail with Cheshire Cat AI? - Piero and Nicola |
   Vector Space Talks
 slug: meow-with-cheshire-cat
