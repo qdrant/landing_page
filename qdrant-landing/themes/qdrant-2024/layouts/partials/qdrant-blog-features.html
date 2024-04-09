@@ -1,0 +1,52 @@
+{{ with (.Site.GetPage "/qdrant-blog/qdrant-blog-features") }}
+  <section class="qdrant-blog-features">
+    <div class="container">
+      <div class="qdrant-blog-features__header row">
+        <h2 class="qdrant-blog-features__title col-12 col-xl-6">{{ .Params.title }}</h2>
+        <form class="qdrant-blog-features__form col-12 col-xl-6">
+          <div class="qdrant-blog-features__form-search-block">
+            <input
+              class="input input_md input_light-bg"
+              type="text"
+              name="search"
+              value=""
+              placeholder="{{ .Params.placeholder }}"
+              required=""
+            />
+            <button class="qdrant-blog-features__form-button" type="submit"></button>
+          </div>
+        </form>
+      </div>
+
+      <div class="qdrant-blog-features__articles">
+        <article class="qdrant-blog-features__articles-main post">
+          <a class="post-link" href="{{ .Params.mainPost.link }}">
+            <div class="post-preview">
+              <div style="background-image: url({{ .Params.mainPost.previewUrl }})"></div>
+            </div>
+            <h5 class="post-title">{{ .Params.mainPost.title }}</h5>
+            <div class="post-about">
+              <p>{{ .Params.mainPost.author }}</p>
+              <span>&middot;</span>
+              <p>{{ .Params.mainPost.date }}</p>
+            </div>
+          </a>
+        </article>
+        <div class="qdrant-blog-features__articles-secondary">
+          {{ range $index, $element := .Params.posts }}
+            <article class="post">
+              <a class="post-link" href="{{ .link }}">
+                <h6 class="post-title">{{ .title }}</h6>
+                <div class="post-about">
+                  <p>{{ .author }}</p>
+                  <span>&middot;</span>
+                  <p>{{ .date }}</p>
+                </div>
+              </a>
+            </article>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
