@@ -5,9 +5,9 @@
         {{ range $index, $element := .Params.posts }}
           <article class="qdrant-blog-posts__article post col-12 col-xl-4">
             <a class="post-link" href="{{ .link }}">
-             <div class="post-preview">
-               <div style="background-image: url({{ .previewUrl }})"></div>
-             </div>
+              <div class="post-preview">
+                <div style="background-image: url({{ .previewUrl }})"></div>
+              </div>
               <h6 class="post-title">{{ .title }}</h6>
               <p class="post-description">{{ .description }}</p>
               <div class="post-about">

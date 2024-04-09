@@ -1,11 +1,11 @@
 {{- partial "head.html" . -}}
 
 
-  <header class="main-header">
-    {{ partial "top-banner" . }}
-    {{ partial "menu" . }}
-    {{ partial "menu-mobile" . }}
-  </header>
+<header class="main-header">
+  {{ partial "top-banner" . }}
+  {{ partial "menu" . }}
+  {{ partial "menu-mobile" . }}
+</header>
 
 {{ with (.Site.GetPage "vectors-use-case") }}
   {{ .Scratch.Set "cssClass" "vectors-use-case" }}{{ partial "vectors" . }}
