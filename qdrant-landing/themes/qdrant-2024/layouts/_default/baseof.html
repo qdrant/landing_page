@@ -5,9 +5,7 @@
 <main>
   {{ block "main" . }}{{ end }}
 </main>
-
 {{ partial "footer" . }}
-</main>
 {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 </body>
