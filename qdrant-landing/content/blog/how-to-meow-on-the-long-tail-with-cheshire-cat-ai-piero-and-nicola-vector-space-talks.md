@@ -1,15 +1,15 @@
 ---
-draft: true
+draft: false
 title: How to meow on the long tail with Cheshire Cat AI? - Piero and Nicola |
   Vector Space Talks
 slug: meow-with-cheshire-cat
-short_description: Piero Savastano and Nicola Procopio discuss on the ins and
+short_description: Piero Savastano and Nicola Procopio discusses the ins and
   outs of Cheshire Cat AI.
 description: Cheshire Cat AI's Piero Savastano and Nicola Procopio discusses the
   framework's vector space complexities, community growth, and future
   cloud-based expansions.
 preview_image: /blog/from_cms/piero-and-nicola-bp-cropped.png
-date: 2024-03-18T11:00:13.338Z
+date: 2024-04-09T12:12:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
@@ -19,7 +19,7 @@ tags:
   - Vector Search
   - Vector database
 ---
-> *"Yes, we love Qdrant. It is our default DB. We support it in three different forms, file based, container based, and cloud based also.”*\
+> *"We love Qdrant! It is our default DB. We support it in three different forms, file based, container based, and cloud based as well.”*\
 — Piero Savastano
 > 
 
