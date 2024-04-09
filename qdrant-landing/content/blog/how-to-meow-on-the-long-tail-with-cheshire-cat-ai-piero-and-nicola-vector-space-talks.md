@@ -9,7 +9,7 @@ description: Cheshire Cat AI's Piero Savastano and Nicola Procopio discusses the
   framework's vector space complexities, community growth, and future
   cloud-based expansions.
 preview_image: /blog/from_cms/piero-and-nicola-bp-cropped.png
-date: 2024-04-09T19:03:00.000Z
+date: 2024-04-09T19:00:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
