@@ -1,16 +1,17 @@
 ---
-draft: true
+draft: false
 title: Teaching Vector Databases at Scale - Alfredo Deza | Vector Space Talks
 slug: teaching-vector-db-at-scale
 short_description: Alfredo Deza tackles AI teaching, the intersection of
   technology and academia, and the value of consistent learning.
 description: Alfredo Deza discusses the practicality of machine learning
   operations, highlighting how personal interest in topics like wine datasets
-  enhances engagement, while reflecting on the synergies between his athletic
-  discipline and the persistent, straightforward approach required for
-  effectively educating on vector databases and large language models.
+  enhances engagement, while reflecting on the synergies between his
+  professional sportsman discipline and the persistent, straightforward approach
+  required for effectively educating on vector databases and large language
+  models.
 preview_image: /blog/from_cms/alfredo-deza-bp-cropped.png
-date: 2024-04-02T23:04
+date: 2024-04-09T12:19:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
