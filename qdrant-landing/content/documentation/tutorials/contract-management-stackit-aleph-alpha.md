@@ -10,7 +10,7 @@ weight: 28
 
 Contract management benefits greatly from Retrieval Augmented Generation (RAG), streamlining the handling of lengthy business contract texts. With AI assistance, complex questions can be asked and well-informed answers generated, facilitating efficient document management. This proves invaluable for businesses with extensive relationships, like shipping companies, construction firms, and consulting practices. Access to such contracts is often restricted to authorized team members due to security and regulatory requirements, such as GDPR in Europe, necessitating secure storage practices.
 
-Companies want their data to be kept and processed within specific geographical boundaries. For that reason, this RAG-centric tutorial focuses on dealing with a region-specific cloud provider. You will set up a contract management system using [Aleph Alpha's](https://aleph-alpha.com/) embeddings and LLM. You will host everything on [Stackit](https://www.stackit.de/), a German business cloud provider. On this platform, you will run Qdrant Hybrid Cloud as well as the rest of your RAG application. This setup will ensure that your data is stored and processed in Germany.
+Companies want their data to be kept and processed within specific geographical boundaries. For that reason, this RAG-centric tutorial focuses on dealing with a region-specific cloud provider. You will set up a contract management system using [Aleph Alpha's](https://aleph-alpha.com/) embeddings and LLM. You will host everything on [STACKIT](https://www.stackit.de/), a German business cloud provider. On this platform, you will run Qdrant Hybrid Cloud as well as the rest of your RAG application. This setup will ensure that your data is stored and processed in Germany.
 
 [//]: # (TODO: add link to Qdrant Hybrid Cloud above)
 
@@ -34,7 +34,7 @@ Directory.
   model](https://docs.aleph-alpha.com/docs/introduction/model-card/), but you can play with a different one from the 
   Luminous family
 - **Qdrant Hybrid Cloud** - a knowledge base to store the vectors and search over the documents
-- **Stackit** - a [German business cloud](https://www.stackit.de) to run the Qdrant Hybrid Cloud and the application 
+- **STACKIT** - a [German business cloud](https://www.stackit.de) to run the Qdrant Hybrid Cloud and the application 
   processes
 
 We will implement the process of uploading the documents, converting them into vectors, and storing them in Qdrant. 
@@ -57,9 +57,9 @@ import os
 os.environ["ALEPH_ALPHA_API_KEY"] = "<your-token>"
 ```
 
-### Qdrant Hybrid Cloud on Stackit
+### Qdrant Hybrid Cloud on STACKIT
 
-Please refer to our documentation to see how to deploy Qdrant Hybrid Cloud on Stackit. Once you finish the deployment,
+Please refer to our documentation to see how to deploy Qdrant Hybrid Cloud on STACKIT. Once you finish the deployment,
 you will have the API endpoint to interact with the Qdrant server. Let's store it in the environment variable as well:
 
 [//]: # (TODO: refer to the documentation on how to deploy Qdrant on Stackit)
@@ -190,7 +190,7 @@ for document_path, roles in documents.items():
 
 Our collection is filled with data, and we can start searching over it. In a real-world scenario, the ingestion process
 should be automated and triggered by the new documents uploaded to the system. Since we already use Qdrant Hybrid Cloud
-running on Kubernetes, we can easily deploy the ingestion pipeline as a job to the same environment. On Stackit, you
+running on Kubernetes, we can easily deploy the ingestion pipeline as a job to the same environment. On STACKIT, you
 probably use the [STACKIT Kubernetes Engine (SKE)](https://www.stackit.de/en/product/kubernetes/) and launch it in a 
 container. The [Compute Engine](https://www.stackit.de/en/product/stackit-compute-engine/) is also an option, but 
 everything depends on the specifics of your organization.
@@ -288,7 +288,7 @@ search operation. The default is `similarity`, which is just vector search, but 
 Maximal Marginal Relevance. It is a technique to diversify the search results, so the user gets the most relevant
 documents, but also the most diverse ones. The `mmr` search is slower, but might be more user-friendly.
 
-Our search application is ready, and we can deploy it to the same environment as the ingestion pipeline on Stackit. The
+Our search application is ready, and we can deploy it to the same environment as the ingestion pipeline on STACKIT. The
 same rules apply here, so you can use the SKE or the Compute Engine, depending on the specifics of your organization.
 
 ## Next steps
