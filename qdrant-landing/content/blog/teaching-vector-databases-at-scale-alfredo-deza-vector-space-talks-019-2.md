@@ -11,7 +11,7 @@ description: Alfredo Deza discusses the practicality of machine learning
   required for effectively educating on vector databases and large language
   models.
 preview_image: /blog/from_cms/alfredo-deza-bp-cropped.png
-date: 2024-04-09T12:19:00.000Z
+date: 2024-04-09T19:00:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
