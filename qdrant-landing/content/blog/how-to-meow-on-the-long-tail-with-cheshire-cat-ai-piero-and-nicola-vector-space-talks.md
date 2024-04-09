@@ -11,7 +11,7 @@ description: Cheshire Cat AI's Piero Savastano and Nicola Procopio discusses the
 preview_image: /blog/from_cms/piero-and-nicola-bp-cropped.png
 date: 2024-04-09T12:12:00.000Z
 author: Demetrios Brinkmann
-featured: true
+featured: false
 tags:
   - LLM
   - Qdrant
