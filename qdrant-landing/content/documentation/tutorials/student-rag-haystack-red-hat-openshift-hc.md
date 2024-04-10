@@ -20,7 +20,7 @@ To maintain complete data isolation, we need to limit ourselves to open-source t
 
 - **Dataset:** [Red Hat Interactive Learning Portal](https://developers.redhat.com/learn), an online library of RedHat course materials.
 - **LLM:** `mistralai/Mistral-7B-Instruct-v0.1`, deployed as a standalone service on OpenShift.
-- **Embedding Model:** `BAAI/bge-m3`, lightweight LLM deployed from within the Haystack pipeline.
+- **Embedding Model:** `BAAI/bge-m3`, lightweight embedding model deployed from within the Haystack pipeline.
 - **Vector DB:** [Qdrant Hybrid Cloud](https://qdrant.tech) running on OpenShift.
 - **Framework:** [Haystack 2.x](https://haystack.deepset.ai/) to connect all and [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) to serve the app through HTTP endpoints.
 
