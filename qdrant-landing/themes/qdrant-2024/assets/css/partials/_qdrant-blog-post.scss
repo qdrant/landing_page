@@ -67,6 +67,10 @@
       margin-bottom: $spacer * 2;
     }
 
+    a:hover {
+      text-decoration: underline;
+    }
+
     h2 {
       font-size: $spacer * 1.5;
       line-height: rem(34);
@@ -110,7 +114,7 @@
 
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(57);
+      line-height: rem(67);
     }
 
     &__body {
