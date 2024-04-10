@@ -144,8 +144,10 @@ metadata:
 spec:
   type: LoadBalancer
   ports:
-  - port: 6333
-  - port: 6334
+  - name: http
+    port: 6333
+  - name: grpc
+    port: 6334
   selector:
     app: qdrant
     cluster-id: 9a9f48c7-bb90-4fb2-816f-418a46a74b24
