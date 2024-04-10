@@ -27,16 +27,6 @@
     text-align: start;
   }
 
-  &__cards {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: rem(32);
-    min-width: 100%;
-    margin-top: rem(32);
-  }
-
   &__card-title {
     color: $neutral-20;
     margin-top: $spacer * 1.5;
@@ -60,10 +50,6 @@
 
     display: flex;
     justify-content: space-between;
-
-    > div {
-      max-width: rem(400);
-    }
 
     .core-features__card-title {
       font-size: rem(24);

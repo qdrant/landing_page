@@ -6,7 +6,7 @@
       <div class="text-start text-lg-center">
         <a class="link link_xl" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
       </div>
-      <div class="row">
+      <div class="row gy-4">
         <div class="col-12">
           <div class="card core-features__cloud-native">
             <div>
@@ -19,8 +19,6 @@
             <div class="core-features__cloud-native-image"></div>
           </div>
         </div>
-      </div>
-      <div class="core-features__cards row">
         {{ range .Params.featureCards }}
           <div class="col-12 col-xl-4">
             <div class="card core-features__card">
