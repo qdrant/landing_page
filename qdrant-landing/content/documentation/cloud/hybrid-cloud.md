@@ -5,11 +5,11 @@ weight: 90
 
 # Hybrid Cloud
 
-Qdrant Hybrid Cloud allows you to attach your own infrastructure as a private region of the Qdrant Cloud. You can use Qdrant Cloud to manage your clusters, and run them in your own infrastructure.
+Qdrant Hybrid Cloud allows you to attach your own infrastructure as a private environment to the Qdrant Cloud. You can use Qdrant Cloud to manage your clusters, and run them in your own infrastructure.
 
 ## How it works
 
-When you onboard a Kubernetes cluster as a Hybrid Cloud region, you can deploy the Qdrant Kubernetes Operator into this cluster. This operator manages the Qdrant databases within your Kubernetes cluster. The operator creates an outgoing connection to the Qdrant cloud at `cloud.qdrant.io` on port `443`. You can then have the same cloud management features and transport telemetry as is available with any managed Qdrant Cloud cluster.
+When you onboard a Kubernetes cluster as a Hybrid Cloud Environment, you can deploy the Qdrant Kubernetes Operator into this cluster. This operator manages the Qdrant databases within your Kubernetes cluster. The operator creates an outgoing connection to the Qdrant cloud at `cloud.qdrant.io` on port `443`. You can then have the same cloud management features and transport telemetry as is available with any managed Qdrant Cloud cluster.
 
 Qdrant Cloud does not need access to the API of your Kubernetes cluster, or to any cloud provider, or other platform APIs. 
 
@@ -17,15 +17,15 @@ The Qdrant databases operate solely within your network, using your storage and 
 
 ## Signing up for Hybrid Cloud
 
-To activate Hybrid Cloud, go to the Hybrid Cloud regions section, enter you company and billing information and request access.
+To activate Hybrid Cloud, go to the Hybrid Cloud section, enter you company and billing information and request access.
 
-## Creating a Hybrid Cloud region
+## Creating a Hybrid Cloud Environment
 
-The following sections specify prerequisites and required artifacts to set up a Qdrant cluster in your Hybrid Cloud region.
+The following sections specify prerequisites and required artifacts to set up a Qdrant cluster in your Hybrid Cloud Environment.
 
 ### Prerequisites
 
-To create a Hybrid Cloud region, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/)Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere.
+To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/)Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere.
 
 For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. For backups and restores, the driver needs to support CSI snapshots and restores.
 
@@ -57,11 +57,11 @@ Open Containers Initiative (OCI) Helm charts
 
 ## Installation
 
-To set up Hybrid Cloud, open the Qdrant Cloud Console at [cloud.qdrant.io](https://cloud.qdrant.io). On the dashboard, select **Hybrid Cloud Regions**, and then select **Create**.
+To set up Hybrid Cloud, open the Qdrant Cloud Console at [cloud.qdrant.io](https://cloud.qdrant.io). On the dashboard, select **Hybrid Cloud**, and then select **Create**.
 
 You can then enter:
 
-- Name: A name for the Private Region
+- Name: A name for the Hybrid Cloud Environment
 - Kubernetes Namespace: The Kubernetes namespace for the operator and agent. Once you select a namespace, you can't change it.
 - Agent version: The version of the Qdrant cloud agent.
 - Operator version: Version of the Kubernetes operator.
@@ -93,7 +93,7 @@ You need this command only for the initial installation. After that, you can upd
 
 ## Creating a Qdrant cluster
 
-Once you have created a Hybrid Cloud region, you can create a Qdrant cluster in that region. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). Make sure to select your Hybrid Cloud as the target region.
+Once you have created a Hybrid Cloud Environment, you can create a Qdrant cluster in that enviroment. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). Make sure to select your Hybrid Cloud Environment as the target.
 
 ### Authentication at your Qdrant clusters
 
@@ -255,7 +255,7 @@ kubectl -n qdrant-namespace logs -l app=qdrant,cluster-id=9a9f48c7-bb90-4fb2-816
 
 You can configure log levels for the databases individually in the configuration section of the Qdrant Cluster detail page.
 
-The log level for the Qdrant Cloud Agent and Operator can be set in the Hybrid Cloud region configuration.
+The log level for the Qdrant Cloud Agent and Operator can be set in the Hybrid Cloud Environment configuration.
 
 ## Monitoring
 
@@ -268,7 +268,7 @@ You should configure the Qdrant Operator with the configuration for the hybrid c
 ```yaml
 # Configuration for the Qdrant operator
 settings:
-  # Does the operator run inside of a Kubernetes cluster (kubernetes) or outside (local)
+  # Does the operator run inside a Kubernetes cluster (kubernetes) or outside (local)
   app_environment: kubernetes
   # Retention for the backup history of Qdrant clusters
   backupHistoryRetentionDays: 2
