@@ -49,22 +49,26 @@ Container images
 - `registry.cloud.qdrant.io/qdrant/qdrant-cloud-agent`
 - `registry.cloud.qdrant.io/qdrant/qdrant-operator`
 - `registry.cloud.qdrant.io/qdrant/qdrant-cloud-cluster-manager`
+- `registry.cloud.qdrant.io/qdrant/prometheus`
+- `registry.cloud.qdrant.io/qdrant/prometheus-config-reloader`
+- `registry.cloud.qdrant.io/qdrant/kube-state-metrics`
 
 Open Containers Initiative (OCI) Helm charts
 
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent`
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-operator`
-
+- `registry.cloud.qdrant.io/qdrant-charts/prometheus`
+- 
 ## Installation
 
-To set up Hybrid Cloud, open the Qdrant Cloud Console at [cloud.qdrant.io](https://cloud.qdrant.io). On the dashboard, select **Hybrid Cloud**, and then select **Create**.
+To set up Hybrid Cloud, open the Qdrant Cloud Console at [cloud.qdrant.io](https://cloud.qdrant.io). On the dashboard, select **Hybrid Cloud**.
+
+Before creating your first Hybrid Cloud Environment, you have to provide billing information and accept the Hybrid Cloud license agreement. The installation wizard will guide you through the process. You will only be charged for the Qdrant cluster you create in a Hybrid Cloud Environment, not for the environment itself.
 
 You can then enter:
 
 - Name: A name for the Hybrid Cloud Environment
 - Kubernetes Namespace: The Kubernetes namespace for the operator and agent. Once you select a namespace, you can't change it.
-- Agent version: The version of the Qdrant cloud agent.
-- Operator version: Version of the Kubernetes operator.
 
 You can then enter the YAML configuration for your Kubernetes operator. Qdrant supports a specific list of configuration options, as described in the [Operator Configuration](#operator-configuration) section.
 
@@ -353,10 +357,15 @@ settings:
               port: 53
 ```
 
+## Deleting a Hybrid Cloud Environment
+
+To delete a Hybrid Cloud Environment, first delete all Qdrant database clusters in it, then open a support ticket with the id of the environment you want to delete.
+
 ## Roadmap
 
 We plan to introduce the following configuration options directly in the Qdrant Cloud Console in the future. If you need any of them beforehand, please contact our Support team.
 
+* Self-service environment deletion
 * Node selectors
 * Tolerations
 * Affinities and anti-affinities
