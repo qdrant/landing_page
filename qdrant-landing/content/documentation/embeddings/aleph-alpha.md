@@ -17,6 +17,7 @@ be done in the following way:
 
 ```python
 import qdrant_client
+from qdrant_client.models import Batch
 
 from aleph_alpha_client import (
     Prompt,
@@ -25,7 +26,6 @@ from aleph_alpha_client import (
     SemanticRepresentation,
     ImagePrompt
 )
-from qdrant_client.http.models import Batch
 
 aa_token = "<< your_token >>"
 model = "luminous-base"

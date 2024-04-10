@@ -14,6 +14,13 @@ models can now speak to the external tools and extract meaningful data on their 
 source and let the Cohere LLM know how to access it. Obviously, vector search goes well with LLMs, and enabling semantic 
 search over your data is a typical case.
 
+Cohere RAG has lots of interesting features, such as inline citations, which help you to refer to the specific parts of
+the documents used to generate the response.
+
+![Cohere RAG citations](/documentation/tutorials/cohere-rag-connector/cohere-rag-citations.png)
+
+*Source: https://docs.cohere.com/docs/retrieval-augmented-generation-rag*
+
 The connectors have to implement a specific interface and expose the data source as HTTP REST API. Cohere documentation
 [describes a general process of creating a connector](https://docs.cohere.com/docs/creating-and-deploying-a-connector). 
 This tutorial guides you step by step on building such a service around Qdrant.
@@ -35,11 +42,11 @@ actions to perform.
 ```python
 from qdrant_client import QdrantClient, models
 
-qdrant_client = QdrantClient(
+client = QdrantClient(
     "https://my-cluster.cloud.qdrant.io:6333", 
     api_key="my-api-key",
 )
-qdrant_client.create_collection(
+client.create_collection(
     collection_name="personal-notes",
     vectors_config=models.VectorParams(
         size=1024,
@@ -113,7 +120,7 @@ response = cohere_client.embed(
     input_type="search_document",
 )
 
-qdrant_client.upload_points(
+client.upload_points(
     collection_name="personal-notes",
     points=[
         models.PointStruct(
@@ -176,7 +183,7 @@ from typing import Annotated
 
 app = FastAPI()
 
-def qdrant_client() -> QdrantClient:
+def client() -> QdrantClient:
     return QdrantClient(config.QDRANT_URL, api_key=config.QDRANT_API_KEY)
 
 def cohere_client() -> cohere.Client:
@@ -185,7 +192,7 @@ def cohere_client() -> cohere.Client:
 @app.post("/search")
 def search(
     query: SearchQuery,
-    qdrant_client: Annotated[QdrantClient, Depends(qdrant_client)],
+    client: Annotated[QdrantClient, Depends(client)],
     cohere_client: Annotated[cohere.Client, Depends(cohere_client)],
 ) -> SearchResults:
     response = cohere_client.embed(
@@ -193,7 +200,7 @@ def search(
         model="embed-multilingual-v3.0",
         input_type="search_query",
     )
-    results = qdrant_client.search(
+    results = client.search(
         collection_name="personal-notes",
         query_vector=response.embeddings[0],
         limit=2,
@@ -211,6 +218,11 @@ Our app might be launched locally for the development purposes, given we have th
 ```shell
 uvicorn main:app
 ```
+
+FastAPI exposes an interactive documentation at `http://localhost:8000/docs`, where we can test our endpoint. The 
+`/search` endpoint is available there.
+
+![FastAPI documentation](/documentation/tutorials/cohere-rag-connector/fastapi-openapi.png)
 
 We can interact with it and check the documents that will be returned for a specific query. For example, we want to know
 recall what we are supposed to do regarding the infrastructure for your projects.
