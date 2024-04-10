@@ -82,10 +82,9 @@ PUT /collections/{collection_name}/points
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.upsert(
     collection_name="{collection_name}",
@@ -1212,9 +1211,7 @@ POST /collections/{collection_name}/points/vectors/delete
 ```python
 client.delete_vectors(
     collection_name="{collection_name}",
-    points_selector=models.PointIdsList(
-        points=[0, 3, 100],
-    ),
+    points=[0, 3, 100],
     vectors=["text", "image"],
 )
 ```
@@ -1955,7 +1952,7 @@ POST /collections/{collection_name}/points/batch
 
 ```python
 client.batch_update_points(
-    collection_name=collection_name,
+    collection_name="{collection_name}",
     update_operations=[
         models.UpsertOperation(
             upsert=models.PointsList(

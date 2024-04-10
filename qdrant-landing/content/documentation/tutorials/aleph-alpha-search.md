@@ -70,7 +70,7 @@ from aleph_alpha_client import (
 from glob import glob
 
 ids, vectors, payloads = [], [], []
-async with AsyncClient(token=aa_token) as client:
+async with AsyncClient(token=aa_token) as aa_client:
     for i, image_path in enumerate(glob("./val2017/*.jpg")):
         # Convert the JPEG file into the embedding by calling
         # Aleph Alpha API
@@ -82,7 +82,7 @@ async with AsyncClient(token=aa_token) as client:
             "compress_to_size": 128,
         }
         query_request = SemanticEmbeddingRequest(**query_params)
-        query_response = await client.semantic_embed(request=query_request, model=model)
+        query_response = await aa_client.semantic_embed(request=query_request, model=model)
 
         # Finally store the id, vector and the payload
         ids.append(i)
@@ -96,17 +96,17 @@ Add all created embeddings, along with their ids and payloads into the `COCO` co
 
 ```python
 import qdrant_client
-from qdrant_client.http.models import Batch, VectorParams, Distance
+from qdrant_client.models import Batch, VectorParams, Distance
 
-qdrant_client = qdrant_client.QdrantClient()
-qdrant_client.recreate_collection(
+client = qdrant_client.QdrantClient()
+client.recreate_collection(
     collection_name="COCO",
     vectors_config=VectorParams(
         size=len(vectors[0]),
         distance=Distance.COSINE,
     ),
 )
-qdrant_client.upsert(
+client.upsert(
     collection_name="COCO",
     points=Batch(
         ids=ids,
@@ -126,7 +126,7 @@ text queries and reverse image search. Assume you want to find images similar to
 With the following code snippet create its vector embedding and then perform the lookup in Qdrant:
 
 ```python
-async with AsyncCliet(token=aa_token) as client:
+async with AsyncCliet(token=aa_token) as aa_client:
     prompt = ImagePrompt.from_file("query.jpg")
     prompt = Prompt.from_image(prompt)
 
@@ -136,9 +136,9 @@ async with AsyncCliet(token=aa_token) as client:
         "compress_to_size": 128,
     }
     query_request = SemanticEmbeddingRequest(**query_params)
-    query_response = await client.semantic_embed(request=query_request, model=model)
+    query_response = await aa_client.semantic_embed(request=query_request, model=model)
 
-    results = qdrant.search(
+    results = client.search(
         collection_name="COCO",
         query_vector=query_response.embedding,
         limit=3,
@@ -156,16 +156,16 @@ and Spanish. Your search is not only multimodal, but also multilingual, without 
 ```python
 text = "Surfing"
 
-async with AsyncClient(token=aa_token) as client:
+async with AsyncClient(token=aa_token) as aa_client:
     query_params = {
         "prompt": Prompt.from_text(text),
         "representation": SemanticRepresentation.Symmetric,
         "compres_to_size": 128,
     }
     query_request = SemanticEmbeddingRequest(**query_params)
-    query_response = await client.semantic_embed(request=query_request, model=model)
+    query_response = await aa_client.semantic_embed(request=query_request, model=model)
 
-    results = qdrant.search(
+    results = client.search(
         collection_name="COCO",
         query_vector=query_response.embedding,
         limit=3,

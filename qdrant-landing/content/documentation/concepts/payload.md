@@ -200,10 +200,9 @@ PUT /collections/{collection_name}/points
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.upsert(
     collection_name="{collection_name}",
@@ -610,6 +609,49 @@ await client.SetPayloadAsync(
 );
 ```
 
+_Available as of v1.8.0_
+
+It is possible to modify only a specific key of the payload by using the `key` parameter.
+
+For instance, given the following payload JSON object on a point:
+
+```json
+{
+    "property1": {
+        "nested_property": "foo",
+    },
+    "property2": {
+        "nested_property": "bar",
+    }
+}
+```
+
+You can modify the `nested_property` of `property1` with the following request:
+
+```http
+POST /collections/{collection_name}/points/payload
+{
+    "payload": {
+        "nested_property": "qux",
+    },
+    "key": "property1",
+    "points": [1]
+}
+```
+
+Resulting in the following payload:
+
+```json
+{
+    "property1": {
+        "nested_property": "qux",
+    },
+    "property2": {
+        "nested_property": "bar",
+    }
+}
+```
+
 ### Overwrite payload
 
 Fully replace any existing payload with the given one.
@@ -725,9 +767,7 @@ POST /collections/{collection_name}/points/payload/clear
 ```python
 client.clear_payload(
     collection_name="{collection_name}",
-    points_selector=models.PointIdsList(
-        points=[0, 3, 100],
-    ),
+    points_selector=[0, 3, 100],
 )
 ```
 

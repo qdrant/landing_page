@@ -105,10 +105,10 @@ after receiving the response from the `upsert` endpoint. **As long as the indexi
 the exact search**. We have to wait until the indexing is finished to be sure that the approximate search is performed.
 
 ```python
-client.upload_records(
+client.upload_points(  # upload_points is available as of qdrant-client v1.7.1
     collection_name="arxiv-titles-instructorxl-embeddings",
-    records=[
-        models.Record(
+    points=[
+        models.PointStruct(
             id=item["id"],
             vector=item["vector"],
             payload=item,

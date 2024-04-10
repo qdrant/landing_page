@@ -37,7 +37,7 @@ PUT /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -78,7 +78,7 @@ PATCH /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.update_collection(
     collection_name="{collection_name}",
@@ -138,7 +138,7 @@ PUT /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
