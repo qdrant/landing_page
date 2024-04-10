@@ -14,7 +14,7 @@ Companies want their data to be kept and processed within specific geographical 
 
 [//]: # (TODO: add link to Qdrant Hybrid Cloud above)
 
-TODO: add a system diagram with all the components
+![Architecture diagram](/documentation/tutorials/contract-management-stackit-aleph-alpha/architecture-diagram.png)
 
 ## Components
 
@@ -25,9 +25,7 @@ Directory.
 
 > **Note:** In this tutorial, we are going to build a solid foundation for such a system. However, it is up to your organization's setup to implement the entire solution.
 
-[//]: # (TODO: upload the dataset to GCP and link it below)
-
-- **Dataset** - a collection of documents, using different formats, such as PDF or DOCx
+- **Dataset** - a collection of documents, using different formats, such as PDF or DOCx, scraped from internet
 - **Asymmetric semantic embeddings** - [Aleph Alpha embedding](https://docs.aleph-alpha.com/api/semantic-embed/) to 
   convert the queries and the documents into vectors
 - **Large Language Model** - the [Luminous-extended-control 
@@ -154,6 +152,10 @@ documents = {
     "data/langchain-terms-of-service.pdf": ["langchain"],
 }
 ```
+
+This is how the documents might look like:
+
+![Example of the indexed document](/documentation/tutorials/contract-management-stackit-aleph-alpha/indexed-document.png)
 
 Each has to be split into chunks first; there is no silver bullet. Our chunking algorithm will be simple and based on 
 recursive splitting, with the maximum chunk size of 500 characters and the overlap of 100 characters. 
