@@ -7,7 +7,7 @@ weight: 14
 
 Asynchronous programming is being broadly adopted in the Python ecosystem. Tools such as FastAPI [have embraced this new 
 paradigm](https://fastapi.tiangolo.com/async/), but it is also becoming a standard for ML models served as SaaS. For example, the Cohere SDK
-[provides an async client](https://cohere-sdk.readthedocs.io/en/latest/cohere.html#asyncclient) next to its synchronous counterpart.
+[provides an async client](https://github.com/cohere-ai/cohere-python/blob/856a4c3bd29e7a75fa66154b8ac9fcdf1e0745e0/src/cohere/client.py#L189) next to its synchronous counterpart.
 
 Databases are often launched as separate services and are accessed via a network. All the interactions with them are IO-bound and can 
 be performed asynchronously so as not to waste time actively waiting for a server response. In Python, this is achieved by 

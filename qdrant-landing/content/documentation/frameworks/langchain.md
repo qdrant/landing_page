@@ -68,7 +68,8 @@ client is destroyed - usually at the end of your script/notebook.
 
 ```python
 qdrant = Qdrant.from_documents(
-    docs, embeddings, 
+    docs, 
+    embeddings, 
     location=":memory:",  # Local mode with in-memory storage only
     collection_name="my_documents",
 )
@@ -80,7 +81,8 @@ Local mode, without using the Qdrant server, may also store your vectors on disk
 
 ```python
 qdrant = Qdrant.from_documents(
-    docs, embeddings, 
+    docs, 
+    embeddings, 
     path="/tmp/local_qdrant",
     collection_name="my_documents",
 )

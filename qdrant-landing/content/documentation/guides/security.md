@@ -63,8 +63,7 @@ curl \
 from qdrant_client import QdrantClient
 
 client = QdrantClient(
-    url="https://localhost",
-    port=6333,
+    url="https://localhost:6333",
     api_key="your_secret_api_key_here",
 )
 ```
@@ -186,8 +185,7 @@ curl -X GET https://localhost:6333
 from qdrant_client import QdrantClient
 
 client = QdrantClient(
-    url="https://localhost",
-    port=6333,
+    url="https://localhost:6333",
 )
 ```
 

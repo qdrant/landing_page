@@ -35,7 +35,7 @@ bedrock_client = session.client(
     aws_secret_access_key="<YOUR_AWS_SECRET_KEY>",
 )
 
-qdrant_client = QdrantClient(location="http://localhost:6333")
+qdrant_client = QdrantClient(url="http://localhost:6333")
 
 qdrant_client.create_collection(
     "{collection_name}",
