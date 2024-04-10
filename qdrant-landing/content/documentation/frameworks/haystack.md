@@ -27,7 +27,7 @@ Scalar Quantization, you'd make that in the following way:
 
 ```python
 from qdrant_haystack.document_stores import QdrantDocumentStore
-from qdrant_client.http import models
+from qdrant_client import models
 
 document_store = QdrantDocumentStore(
     ":memory:",

@@ -1,15 +1,15 @@
 ---
-draft: true
+draft: false
 title: How to meow on the long tail with Cheshire Cat AI? - Piero and Nicola |
   Vector Space Talks
 slug: meow-with-cheshire-cat
-short_description: Piero Savastano and Nicola Procopio discuss on the ins and
+short_description: Piero Savastano and Nicola Procopio discusses the ins and
   outs of Cheshire Cat AI.
 description: Cheshire Cat AI's Piero Savastano and Nicola Procopio discusses the
   framework's vector space complexities, community growth, and future
   cloud-based expansions.
 preview_image: /blog/from_cms/piero-and-nicola-bp-cropped.png
-date: 2024-03-18T11:00:13.338Z
+date: 2024-04-09T03:05:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
@@ -19,7 +19,7 @@ tags:
   - Vector Search
   - Vector database
 ---
-> *"Yes, we love Qdrant. It is our default DB. We support it in three different forms, file based, container based, and cloud based also.”*\
+> *"We love Qdrant! It is our default DB. We support it in three different forms, file based, container based, and cloud based as well.”*\
 — Piero Savastano
 > 
 
@@ -31,11 +31,11 @@ Piero Savastano is the Founder and Maintainer of the open-source project, Cheshi
 
 Nicola Procopio has more than 10 years of experience in data science and has worked in different sectors and markets from Telco to Healthcare. At the moment he works in the Media market, specifically on semantic search, vector spaces, and LLM applications. He has worked in the R&D area on data science projects and he has been and is currently a contributor to some open-source projects like Cheshire Cat. He is the author of popular science articles about data science on specialized blogs.
 
-***Listen to the episode on Spotify, Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on YouTube.***
+***Listen to the episode on [Spotify](https://open.spotify.com/episode/2d58Xui99QaUyXclIE1uuH?si=68c5f1ae6073472f), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/K40DIG9ZzAU?feature=shared).***
 
-[embed YouTube video here]
+<iframe width="560" height="315" src="https://www.youtube.com/embed/K40DIG9ZzAU?si=rK0EVXmvNJ5OSZa4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-[embed anchor.fm podcast here]
+<iframe src="https://podcasters.spotify.com/pod/show/qdrant-vector-space-talk/embed/episodes/How-to-meow-on-the-long-tail-with-Cheshire-Cat-AI----Piero-and-Nicola--Vector-Space-Talks-018-e2h7k59/a-ab31teu" height="102px" width="400px" frameborder="0" scrolling="no"></iframe>
 
 ## **Top takeaways:**
 
@@ -45,11 +45,11 @@ It’s time to learn how to meow! Piero in this episode of Vector Space Talks di
 
 Here are the highlights from this episode:
 
-1. The Art of Embedding: Discover how Cheshire Cat uses collections with an embedder, fine-tuning them through scalar quantization and other methods to enhance accuracy and performance.
-2. Vectors in Harmony: Get the lowdown on storing quantized vectors in a hybrid mode – it's all about saving memory without compromising on speed.
-3. Memory Matters: Scoop on managing different types of memory within Qdrant, the go-to vector DB for Cheshire Cat.
-4. Community Chronicles: Talking about the growing community that's shaping the evolution of Cheshire Cat - from enthusiasts to core contributors!
-5. Looking Ahead: They've got grand plans brewing for a cloud version of Cheshire Cat. Imagine a marketplace buzzing with user-generated plugins. This is the future they're painting!
+1. **The Art of Embedding:** Discover how Cheshire Cat uses collections with an embedder, fine-tuning them through scalar quantization and other methods to enhance accuracy and performance.
+2. **Vectors in Harmony:** Get the lowdown on storing quantized vectors in a hybrid mode – it's all about saving memory without compromising on speed.
+3. **Memory Matters:** Scoop on managing different types of memory within Qdrant, the go-to vector DB for Cheshire Cat.
+4. **Community Chronicles:** Talking about the growing community that's shaping the evolution of Cheshire Cat - from enthusiasts to core contributors!
+5. **Looking Ahead:** They've got grand plans brewing for a cloud version of Cheshire Cat. Imagine a marketplace buzzing with user-generated plugins. This is the future they're painting!
 
 > Fun Fact: The Cheshire Cat community on Discord plays a crucial role in the development and user support of the framework, described humorously by Piero as "a mess" due to its large and active nature.
 > 
@@ -109,10 +109,10 @@ Piero Savastano:
 Dark team, you can do a lot of stuff with the framework. This is how it presents itself. We have a blog with tutorials, but going back to our numbers, it is open source, GPL licensed. We have some good numbers. We are mostly active in Italy and in a good part of Europe, East Europe, and also a little bit of our communities in the United States. There are a lot of contributors already and our docker image has been downloaded quite a few times, so it's really easy to start up and running because you just docker run and you're good to go. We have also a discord server with thousands of members. If you want to join us, it's going to be fun.
 
 Piero Savastano:
-We like meme, we like to build culture around code, so it is not just the code, these are the main components of the cat. You have a chat as usual. The rabbitol is our module dedicated to document ingestion. You can extend all of these parts. We have an agent manager. Meddetter is the module to manage plugins. We have a vectordb which is Qdrant natively, by the way. We use both the file based Qdrant, the container version, and also we support the cloud version.
+We like meme, we like to build culture around code, so it is not just the code, these are the main components of the cat. You have a chat as usual. The rabbit hole is our module dedicated to document ingestion. You can extend all of these parts. We have an agent manager. Meddetter is the module to manage plugins. We have a vectordb which is Qdrant natively, by the way. We use both the file based Qdrant, the container version, and also we support the cloud version.
 
 Piero Savastano:
-So if you are using Qdrant, we support the whole stack. Right now with the framework we have an embedder and a large language model coming to the embedder and language models. You can use any language model or embedded you want, closed source API, open Olama, self hosted anything. These are the main features. So the first feature of the cat is that he's ready to fight. It is already dogrized. It's model agnostic. One command in the terminal and you can meow.
+So if you are using Qdrant, we support the whole stack. Right now with the framework we have an embedder and a large language model coming to the embedder and language models. You can use any language model or embedded you want, closed source API, open Ollama, self hosted anything. These are the main features. So the first feature of the cat is that he's ready to fight. It is already dogsized. It's model agnostic. One command in the terminal and you can meow.
 
 Piero Savastano:
 The other aspect is that there is not only a retrieval augmented generation system, but there is also an action agent. This is all customizable. You can plug in any script you want as an agent, or you can customize the ready default presence default agent. And one of our specialty is that we do retrieve augmented generation, not only on documents as everybody's doing, but we do also augmented generation over conversations. I can hear your keyboard. We do augmented generation over conversations and over procedures. So also our tools and form conversational forms are embedded into the DB. We have a big plugin system.
@@ -145,10 +145,10 @@ Nicola Procopio:
 This collection with the name of the embedder used. When the user changed the embedder, we check if the embedder has the same dimension. If has the same dimension, we check also the aliases. If the aliases is the same we don't change nothing. Otherwise we create another collection and this is the drunken cut effect. The first feature that we use in the cat. Another feature is the quantization because with this Qdrant feature we improve the accuracy at the performance. We use the scalar quantitation because we are model agnostic and other quantitation like the binary quantitation.
 
 Nicola Procopio:
-If you read on the Qdrant documents are experimented on not to all embedder but also for OpenAI and Coer. If I remember well with this discover quantitation and the scour quantization is used in the storage step. The vector are quantizzed and stored in a hybrid mode, the original vector on disk, the quantized vector in RAm and with this procedure we procedure we can use less memory. In case of Qdrant scalar quantization, the flat 32 elements is converted to int eight on a single number on a single element needs 75% less memory. In case of big embeddings like I don't know Gina embeddings or mistral embeddings with more than 1000 elements. This is big improvements. The second part is the retriever step. We use a quantizement query at the quantized vector to calculate causing similarity and we have the top n results like a simple semantic search pipeline.
+If you read on the Qdrant documents are experimented on not to all embedder but also for OpenAI and Coer. If I remember well with this discover quantitation and the scour quantization is used in the storage step. The vector are quantized and stored in a hybrid mode, the original vector on disk, the quantized vector in RAM and with this procedure we procedure we can use less memory. In case of Qdrant scalar quantization, the flat 32 elements is converted to int eight on a single number on a single element needs 75% less memory. In case of big embeddings like I don't know Gina embeddings or mistral embeddings with more than 1000 elements. This is big improvements. The second part is the retriever step. We use a quantizement query at the quantized vector to calculate causing similarity and we have the top n results like a simple semantic search pipeline.
 
 Nicola Procopio:
-But if we want a top end results in quantiz mod, the quantity mod has less quality on the information and we use the oversampling. The oversampling is a simple multiplication. If we want top n with n ten with oversampling with a score like one five, we have 15 results, quantities results. When we have these 15 quantities results, we retrieve also the same 15 unquanted vectors. And on these unquanted vectors we rescale busset on the query and filter the best ten. This is an improvement because the retrieve step is so fast. Yes, because using these tip and tricks, the cheshire capped vectors achieve up.
+But if we want a top end results in quantize mod, the quantity mod has less quality on the information and we use the oversampling. The oversampling is a simple multiplication. If we want top n with n ten with oversampling with a score like one five, we have 15 results, quantities results. When we have these 15 quantities results, we retrieve also the same 15 unquanted vectors. And on these unquanted vectors we rescale busset on the query and filter the best ten. This is an improvement because the retrieve step is so fast. Yes, because using these tip and tricks, the Cheshire capped vectors achieve up.
 
 Piero Savastano:
 Four.
@@ -172,7 +172,7 @@ Demetrios:
 Then we do that, we can get the full program. How cool is that? Well, let's see, I'll give it another minute, let anyone from the chat ask any questions. This was really cool and I appreciate you all breaking down. Not only the space and what you're doing, but the different ways that you're using Qdrant and the challenges and the architecture behind it. I would love to know while people are typing in their questions, especially for you, Nicola, what have been some of the challenges that you've faced when you're dealing with just trying to get Cheshire Cat to be more reliable and be more able to execute with confidence?
 
 Nicola Procopio:
-The challenges are in particular to mix a lot of Qdrant feature with the user needs. Because I'm a researcher, a data scientist, I like to play with strange features like binary quantization, but we need to maintain the focus on the user needs, on the user behavior. And sometimes we cut some feature on the Chichircat because it's not important now for for the user and we can introduce some bug, or rather misunderstanding for the user.
+The challenges are in particular to mix a lot of Qdrant feature with the user needs. Because I'm a researcher, a data scientist, I like to play with strange features like binary quantization, but we need to maintain the focus on the user needs, on the user behavior. And sometimes we cut some feature on the Cheshire cat because it's not important now for for the user and we can introduce some bug, or rather misunderstanding for the user.
 
 Demetrios:
 Can you hear me? Yeah. All right, good. Now I'm seeing a question come through in the chat that is asking if you are thinking about cloud version of the cat. Like a SaaS, it's going to come. It's in the works.
@@ -190,7 +190,7 @@ Demetrios:
 Yeah, that's the best. That is really cool. Simone is asking if there's companies that are already using Cheshire cat, and if you can mention a few.
 
 Piero Savastano:
-Yeah, okay. In Italy, there are at least 1015 companies distributed along education, customer care, typical chatbot usage. Also, one of them in particular is trying to build for public administration, which is really hard to do on the international level. We are seeing something in Germany, like web agencies starting to use the cat a little on the USA. Mostly they are trying to build agents using the cat and Olama as a runner. And a company in particular presented in a conference in Vegas a pitch about a 3d avatar. Inside the avatar, there is the cat as a linguistic device.
+Yeah, okay. In Italy, there are at least 1015 companies distributed along education, customer care, typical chatbot usage. Also, one of them in particular is trying to build for public administration, which is really hard to do on the international level. We are seeing something in Germany, like web agencies starting to use the cat a little on the USA. Mostly they are trying to build agents using the cat and Ollama as a runner. And a company in particular presented in a conference in Vegas a pitch about a 3d avatar. Inside the avatar, there is the cat as a linguistic device.
 
 Demetrios:
 Oh, nice.
@@ -199,7 +199,7 @@ Piero Savastano:
 To be honest, we have a little problem tracking companies because we still have no telemetry. We decided to be no telemetry for the moment. So I hope companies will contribute and make themselves happen. If that does not, we're going to track a little more. But companies using the cat are at least in the 50, 60, 70.
 
 Demetrios:
-Yeah, nice. So if anybody out there is using the cat, and you have not talked to Piro yet, let him know so that he can have a good idea of what you're doing and how you're doing it. There's also another question coming through about the market analysis. Are there some competitors?
+Yeah, nice. So if anybody out there is using the cat, and you have not talked to Piero yet, let him know so that he can have a good idea of what you're doing and how you're doing it. There's also another question coming through about the market analysis. Are there some competitors?
 
 Piero Savastano:
 There are many competitors. When you go down to what distinguishes the cat from many other frameworks that are coming out, we decided since the beginning to go for a plugin based operational agent. And at the moment, most frameworks are retrieval augmented generation frameworks. We have both retrieval augmented generation. We have tooling, we have forms. The tools and the forms are also embedded. So the cat can have 20,000 tools, because we also embed the tools and we make a recall over the function calling. So we scaled up both documents, conversation and tools, conversational forms, and I've not seen anybody doing that till now.

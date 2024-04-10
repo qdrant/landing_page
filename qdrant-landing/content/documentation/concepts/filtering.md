@@ -52,10 +52,9 @@ POST /collections/{collection_name}/points/scroll
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.scroll(
     collection_name="{collection_name}",
@@ -729,7 +728,7 @@ Example:
 ```
 
 ```python
-FieldCondition(
+models.FieldCondition(
     key="color",
     match=models.MatchAny(any=["black", "yellow"]),
 )
@@ -785,7 +784,7 @@ Example:
 ```
 
 ```python
-FieldCondition(
+models.FieldCondition(
     key="color",
     match=models.MatchExcept(**{"except": ["black", "yellow"]}),
 )

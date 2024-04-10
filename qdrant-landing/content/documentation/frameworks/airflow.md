@@ -69,7 +69,7 @@ ids = [32, 21, "b626f6a9-b14d-4af9-b7c3-43d8deb719a6"]
 payload = [{"meta": "data"}, {"meta": "data_2"}, {"meta": "data_3", "extra": "data"}]
 
 QdrantIngestOperator(
-    conn_id="qdrant_connection"
+    conn_id="qdrant_connection",
     task_id="qdrant_ingest",
     collection_name="<COLLECTION_NAME>",
     vectors=vectors,

@@ -63,10 +63,9 @@ curl -X PUT http://localhost:6333/collections/test_collection1 \
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -195,9 +194,8 @@ curl -X PUT http://localhost:6333/collections/test_collection2 \
 
 ```python
 from qdrant_client import QdrantClient
-from qdrant_client.http import models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -325,10 +323,10 @@ curl -X PUT http://localhost:6333/collections/test_collection3 \
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -487,10 +485,9 @@ curl -X PUT http://localhost:6333/collections/test_collection4 \
 
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -1419,7 +1416,7 @@ curl -X GET http://localhost:6333/collections/test_collection2/aliases
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.get_collection_aliases(collection_name="{collection_name}")
 ```
@@ -1472,7 +1469,7 @@ curl -X GET http://localhost:6333/aliases
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.get_aliases()
 ```
@@ -1525,7 +1522,7 @@ curl -X GET http://localhost:6333/collections
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.get_collections()
 ```

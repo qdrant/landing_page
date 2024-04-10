@@ -175,6 +175,6 @@ After building your RAG chatbot, you'll be able to evaluate its performance agai
 
 ## What’s next?
 
-Have a RAG project you want to bring to life? Join our [Discord community](discord.gg/qdrant) where we’re always sharing tips and answering questions on vector search and retrieval.
+Have a RAG project you want to bring to life? Join our [Discord community](https://discord.gg/qdrant) where we’re always sharing tips and answering questions on vector search and retrieval.
 
 Learn more about how to properly evaluate your RAG responses: [Evaluating Retrieval Augmented Generation - a framework for assessment](https://superlinked.com/vectorhub/evaluating-retrieval-augmented-generation-a-framework-for-assessment).

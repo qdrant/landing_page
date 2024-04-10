@@ -75,9 +75,9 @@ We used the streaming mode, so the dataset is not loaded into memory. Instead, w
 
 ```python
 for payload in dataset:
-    id = payload.pop("id")
+    id_ = payload.pop("id")
     vector = payload.pop("vector")
-    print(id, vector, payload)
+    print(id_, vector, payload)
 ```
 
 A single payload looks like this:
@@ -114,10 +114,10 @@ Calculating the embeddings is usually a bottleneck of the vector search pipeline
 ```python
 ids, vectors, payloads = [], [], []
 for payload in dataset:
-    id = payload.pop("id")
+    id_ = payload.pop("id")
     vector = payload.pop("vector")
 
-    ids.append(id)
+    ids.append(id_)
     vectors.append(vector)
     payloads.append(payload)
 
