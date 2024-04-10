@@ -1,8 +1,8 @@
 ---
-title: Get started for free
+title: Get started today
 subtitle: Turn embeddings or neural network encoders into full-fledged applications for matching, searching, recommending, and more.
 startFree:
-  text: Start Free
+  text: Get Started
   url: /
 sitemapExclude: true
 ---
