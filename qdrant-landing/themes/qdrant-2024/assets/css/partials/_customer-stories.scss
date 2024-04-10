@@ -10,6 +10,8 @@
   flex-direction: column;
   align-items: center;
 
+  position: relative;
+
   &__header {
     display: flex;
     flex-direction: column;
@@ -28,6 +30,9 @@
   &__controls {
     display: none;
     gap: $spacer * 2.5;
+    position: absolute;
+    top: -85px;
+    right: 0;
   }
 
   &__button {
@@ -77,8 +82,7 @@
   &__card {
     padding-top: $spacer * 2;
     padding-bottom: $spacer * 2;
-    padding-left: $spacer * 2;
-    padding-right: $spacer * 2;
+    margin-bottom: $spacer * 2;
 
     min-height: rem(407);
 
@@ -119,7 +123,7 @@
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 2.5;
-    padding-bottom: $spacer * 6.5;
+    padding-bottom: $spacer * 6;
 
     &__title {
       font-size: map-get($font-sizes, 3);
@@ -134,11 +138,11 @@
     &__header-content {
       justify-content: space-between;
       margin-top: 0;
+      height: rem(64);
     }
 
     &__cards-wrapper {
       padding-bottom: $spacer * 1.5;
-      overflow-y: scroll;
     }
 
     &__cards {
@@ -148,10 +152,6 @@
     &__cards {
       margin-left: rem(-15);
       margin-right: rem(-15);
-    }
-
-    &__cards > div {
-      padding: 0 rem(15);
     }
   }
 }
