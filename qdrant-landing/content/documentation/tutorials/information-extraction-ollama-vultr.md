@@ -23,7 +23,7 @@ this setup as a knowledge base providing the relevant pieces of documents for a 
 Hybrid Cloud mode on Vultr. The last missing piece, the DSPy application will be also running in the same environment. 
 If you work in a regulated industry, or just need to keep your data private, this tutorial is for you.
 
-TODO: add architecture diagram to describe the setup
+![Architecture diagram](/documentation/tutorials/information-extraction-ollama-vultr/architecture-diagram.png)
 
 ## Configuring the environment
 
@@ -114,7 +114,7 @@ documents = [
 We'll be able to ask general questions, for example, about topics we are interested in or events happening in a specific 
 location, but expect the results to be returned in a structured format. 
 
-[//]: # (TODO: add a visual to describe what we want to extract)
+![An example of extracted information](/documentation/tutorials/information-extraction-ollama-vultr/extracted-information.png)
 
 Indexing in Qdrant is a single call if we have the documents defined:
 
