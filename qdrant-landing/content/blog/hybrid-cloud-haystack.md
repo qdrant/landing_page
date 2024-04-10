@@ -12,7 +12,7 @@ tags:
   - Vector Database
 ---
 
-## Qdrant Hybrid Cloud and Haystack by deepset: A Winning Combination for Enterprise-Scale RAG
+**Qdrant Hybrid Cloud and Haystack by deepset: A Winning Combination for Enterprise-Scale RAG**
 
 We’re excited to share that Qdrant and Haystack are continuing to expand their seamless integration to the new Qdrant Hybrid Cloud offering, allowing developers to deploy a managed vector database in their own environment of choice. Earlier this year, both Qdrant and Haystack, started to address their user’s growing need for production-ready retrieval-augmented-generation (RAG) deployments. The ability to build and deploy AI apps anywhere now allows for complete data sovereignty and control. This gives large enterprise customers the peace of mind they need before they expand AI functionalities throughout their operations.
 
@@ -22,7 +22,7 @@ With Haystack and Qdrant Hybrid Cloud, the path to production has never been cle
 
 “We hope that with Haystack 2.0 and our growing partnerships such as what we have here with Qdrant Hybrid Cloud, engineers are able to build AI systems with full autonomy. Both in how their pipelines are designed, and how their data are managed.” Tuana Çelik, Developer Relations Lead, deepset.
 
-## Simplifying RAG Deployment: Qdrant Hybrid Cloud and Haystack 2.0 Integration
+**Simplifying RAG Deployment: Qdrant Hybrid Cloud and Haystack 2.0 Integration**
 
 Building apps with Qdrant Hybrid Cloud and deepset’s framework has become even simpler with Haystack 2.0. Both products are completely optimized for RAG in production scenarios. Here are some key advantages:
 
@@ -32,7 +32,7 @@ Building apps with Qdrant Hybrid Cloud and deepset’s framework has become even
 
 **Flexible & Customizable:** The open-source nature of Qdrant and Haystack’s 2.0 makes it easy to extend the capabilities of both products through customization. When tailoring vector RAG systems to their own needs, users can develop custom components and plug them into both Qdrant Hybrid Cloud and Haystack for maximum modularity. [Creating custom components](https://docs.haystack.deepset.ai/docs/custom-components) is a core functionality.
 
-## Learn How to Build a Production-Level RAG Service With Qdrant and deepset
+**Learn How to Build a Production-Level RAG Service With Qdrant and deepset**
 
 ![hybrid-cloud-haystack-tutorial](/blog/hybrid-cloud-haystack/hybrid-cloud-haystack-tutorial.png)
 
@@ -42,12 +42,12 @@ To get you started, we created a comprehensive tutorial that shows how to build 
 
 Learn how to develop a tutor chatbot from online course materials. You will create a Retrieval Augmented Generation (RAG) pipeline with Haystack for enhanced generative AI capabilities and Qdrant Hybrid Cloud for vector search. By deploying every tool on RedHat OpenShift, you will ensure complete privacy and data sovereignty, whereby no course content leaves your cloud.
 
-**> Try the Tutorial**
+[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
 
 **Documentation: Deploy Qdrant in a few clicks**
 
 Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your hosting platform of choice in just a few steps. Learn how in our documentation.
 
-**> View Documentation**
+[Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
 Read more about Qdrant Hybrid Cloud in our official release blog. To deploy your first cluster in a few clicks, begin by creating a Qdrant Cloud account. Our Hybrid Cloud docs will help you with the rest.

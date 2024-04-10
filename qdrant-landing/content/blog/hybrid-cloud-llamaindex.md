@@ -12,7 +12,7 @@ tags:
   - Vector Database
 ---
 
-## Unlock New RAG Opportunities with Qdrant Hybrid Cloud and LlamaIndex
+**Unlock New RAG Opportunities with Qdrant Hybrid Cloud and LlamaIndex**
 
 We're happy to announce the collaboration between LlamaIndex and Qdrant’s new Hybrid Cloud launch, aimed at empowering engineers and scientists worldwide to swiftly and securely develop and scale their GenAI applications. By leveraging LlamaIndex's robust framework, users can maximize the potential of vector search and create stable and effective AI products. Qdrant Hybrid Cloud offers the same Qdrant functionality on a Kubernetes-based architecture, which further expands the ability of LlamaIndex to support any user on any environment.
 
@@ -22,7 +22,7 @@ While LLMs are trained on a great deal of data, they are not trained on user-spe
 
 // Possibility to insert quote from LlamaIndex
 
-## Reap the Benefits of Advanced Integration Features With Qdrant and LlamaIndex
+**Reap the Benefits of Advanced Integration Features With Qdrant and LlamaIndex**
 
 Building apps with Qdrant Hybrid Cloud and LlamaIndex comes with several key advantages:
 
@@ -32,7 +32,7 @@ Building apps with Qdrant Hybrid Cloud and LlamaIndex comes with several key adv
 
 **Advanced Search Features:** LlamaIndex comes with built-in Qdrant Hybrid Search functionality, which combines search results from sparse and dense vectors. As a highly sought-after use case, hybrid search is easily accessible from within the LlamaIndex ecosystem. Deploying this particular type vector search on Hybrid Cloud is a matter of a few lines of code.
 
-## Start Building With LlamaIndex and Qdrant Hybrid Cloud: Hybrid Search in Complex PDF Documentation Use Cases
+**Start Building With LlamaIndex and Qdrant Hybrid Cloud: Hybrid Search in Complex PDF Documentation Use Cases**
 
 ![hybrid-cloud-llamaindex-tutorial](/blog/hybrid-cloud-llamaindex/hybrid-cloud-llamaindex-tutorial.png)
 
@@ -42,12 +42,12 @@ To get you started, we created a comprehensive tutorial that shows how to build 
 
 Use this end-to-end tutorial to create a system that retrieves information from complex user manuals in PDF format to enhance user experience for companies that sell household appliances. You will build a RAG pipeline with LlamaIndex leveraging Qdrant Hybrid Cloud for enhanced generative AI capabilities. The LlamaIndex integration shows how complex tables inside of items’ PDF documents can be processed via hybrid vector search with no additional configuration.
 
-**> Try the Tutorial**
+[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
 
 **Documentation: Deploy Qdrant in a few clicks**
 
 Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your hosting platform of choice in just a few steps. Learn how in our documentation.
 
-**> View Documentation**
+[Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
 Read more about Qdrant Hybrid Cloud in our official release blog. To deploy your first cluster in a few clicks, begin by creating a Qdrant Cloud account. Our Hybrid Cloud docs will help you with the rest.

@@ -12,7 +12,7 @@ tags:
   - Vector Database
 ---
 
-## Elevate Your Data Performance With Airbyte and Qdrant Hybrid Cloud
+**Elevate Your Data Performance With Airbyte and Qdrant Hybrid Cloud**
 
 In their mission to support large-scale AI innovation, Airbyte and Qdrant are collaborating on the launch of Qdrant’s new offering - Qdrant Hybrid Cloud. This collaboration allows users to leverage the synergistic capabilities of both Airbyte and Qdrant within a private infrastructure. Qdrant’s new offering represents the first managed vector database that can be deployed in any environment. Businesses optimizing their data infrastructure with Airbyte are now able to host a vector database either on premise, or on a public cloud of their choice - while still reaping the benefits of a managed database product.
 
@@ -20,9 +20,7 @@ This is a major step forward in offering enterprise customers incredible synergy
 
 In a major benefit to Generative AI, businesses can leverage Airbyte's data replication capabilities to ensure that their data in Qdrant Hybrid Cloud is always up to date. This empowers all users of Retrieval Augmented Generation (RAG) applications with effective analysis and decision-making potential, all based on the latest information. Furthermore, by combining Airbyte's platform and Qdrant's hybrid cloud infrastructure, users can optimize their data operations while keeping costs under control via flexible pricing models tailored to individual usage requirements.
 
-// Insert quote from Airbyte
-
-## Optimizing Your GenAI Data Stack With Airbyte and Qdrant Hybrid Cloud
+**Optimizing Your GenAI Data Stack With Airbyte and Qdrant Hybrid Cloud**
 
 By integrating Airbyte with Qdrant Hybrid Cloud, you can achieve seamless data ingestion from diverse sources into Qdrant's powerful indexing system. This integration enables you to derive valuable insights from your data. Here are some key advantages:
 
@@ -34,7 +32,7 @@ By integrating Airbyte with Qdrant Hybrid Cloud, you can achieve seamless data i
 
 **Open-Source Compatibility:** Airbyte and Qdrant pride themselves on maintaining a reliable and mature integration that brings peace of mind to those prototyping and deploying large-scale AI solutions. Extensive open-source documentation and code samples help users of all skill levels in leveraging highly advanced features of data ingestion and vector search.
 
-## Build a Modern GenAI Application With Qdrant Hybrid Cloud and Airbyte
+**Build a Modern GenAI Application With Qdrant Hybrid Cloud and Airbyte**
 
 ![hybrid-cloud-airbyte-tutorial](/blog/hybrid-cloud-airbyte/hybrid-cloud-airbyte-tutorial.png)
 
@@ -44,12 +42,12 @@ We put together an end-to-end tutorial to show you how to build a GenAI applicat
 
 Learn how to set up a private AI service that addresses customer support issues with high accuracy and effectiveness. By leveraging Airbyte’s data pipelines with Qdrant Hybrid Cloud, you will create a customer support system that is always synchronized with up-to-date knowledge.
 
-**> Try the Tutorial**
+[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
 
 **Documentation: Deploy Qdrant in a few clicks**
 
 Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your hosting platform of choice in just a few steps. Learn how in our documentation.
 
-**> View Documentation**
+[Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
 Read more about Qdrant Hybrid Cloud in our official release blog. To deploy your first cluster in a few clicks, begin by creating a Qdrant Cloud account. Our Hybrid Cloud docs will help you with the rest.
