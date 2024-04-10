@@ -1,18 +1,18 @@
-{{ with (.Site.GetPage "/headless/get-started-small") }}
-  <section class="get-started-small">
-    <div class="get-started-small__wrapper container">
-      <div class="get-started-small__content col-12">
-        <div class="row justify-content-xl-between align-items-lg-center">
-          <div class="get-started-small__text col-12 col-xl-7">
-            <h3 class="get-started-small__title">{{ .Params.title }}</h3>
-            <a href="{{ .Params.startFree.url }}" class="button button_contained">{{ .Params.getStarted.text }}</a>
-          </div>
-          <div class="get-started-small__image col-12 col-xl-4">
-            <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
-          </div>
+<section class="{{ .class }}">
+  <div class="container">
+    <div class="{{ .class }}__content">
+      <div class="row justify-content-xl-between align-items-xl-center">
+        <div class="{{ .class }}__text col-12 col-xl-7">
+          <h3 class="{{ .class }}__title">{{ .context.Params.title }}</h3>
+          <a href="{{ .context.Params.startFree.url }}" class="button button_contained">
+            {{ .context.Params.getStarted.text }}
+          </a>
         </div>
-        <div class="get-started-small__overlay-top"></div>
+        <div class="{{ .class }}__image col-12 col-xl-4">
+          <img src="{{ .context.Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
       </div>
+      <div class="{{ .class }}__overlay-top"></div>
     </div>
-  </section>
-{{ end }}
+  </div>
+</section>

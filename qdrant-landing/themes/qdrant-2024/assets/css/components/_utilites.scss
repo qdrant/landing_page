@@ -2,5 +2,8 @@
   user-select: none;
   -webkit-user-select: none;
 }
+.no-events {
+  pointer-events: none;
+}
 
 // add more utility classes here

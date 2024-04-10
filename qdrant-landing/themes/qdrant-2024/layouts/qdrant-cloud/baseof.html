@@ -1,0 +1,24 @@
+{{- partial "head.html" . -}}
+
+
+<header class="main-header">
+  {{ partial "top-banner" . }}
+  {{ partial "menu" . }}
+  {{ partial "menu-mobile" . }}
+  {{ partial "qdrant-cloud-hero" . }}
+</header>
+
+{{ with (.Site.GetPage "/headless/get-started-small-database") }}
+  {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
+{{ end }}
+
+{{ partial "qdrant-cloud-bento-cards" . }}
+{{ partial "qdrant-cloud-features-link" . }}
+
+{{ with (.Site.GetPage "/headless/marketplaces") }}
+  {{ partial "marketplaces" (dict "context" . "class" "qdrant-cloud-marketplaces") }}
+{{ end }}
+
+{{ partial "additional-resources" . }}
+{{ partial "get-started" . }}
+{{ partial "footer" . }}

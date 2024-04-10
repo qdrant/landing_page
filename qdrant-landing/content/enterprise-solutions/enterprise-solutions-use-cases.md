@@ -9,7 +9,7 @@ items:
   description: Qdrant Cloud provides optimal flexibility and offers a suite of features focused on efficient and scalable vector search - fully managed. Available on AWS, Google Cloud, and Azure.
   link:
     text: Learn More
-    url: /
+    url: /qdrant-cloud
   odd: true
 - id: 1
   image:
@@ -19,7 +19,7 @@ items:
   description: Bring your own Kubernetes clusters from any cloud provider, on-premise infrastructure, or edge locations and connect them to the managed cloud.
   link:
     text: Learn More
-    url: /
+    url: /hybrid-cloud
   odd: false
 - id: 2
   image:
@@ -29,7 +29,7 @@ items:
   description: Experience maximum control and security by deploying Qdrant in your own infrastructure or edge locations.
   link:
     text: Learn More
-    url: /
+    url: /private-cloud
   odd: true
 sitemapExclude: true
 ---

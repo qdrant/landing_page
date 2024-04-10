@@ -1,0 +1,35 @@
+@use '../helpers/functions' as *;
+
+.qdrant-cloud-features-link {
+  background-color: $neutral-94;
+  padding-bottom: $spacer * 2.5;
+  text-align: center;
+
+  &__content {
+    margin-bottom: $spacer;
+    color: $neutral-20;
+  }
+
+  @include media-breakpoint-up(xl) {
+    position: relative;
+
+    &:before,
+    &:after {
+      content: ('');
+      display: block;
+      position: absolute;
+      top: rem(25);
+      height: rem(1);
+      width: calc((100% - 820px) / 2);
+      background-color: $neutral-90;
+    }
+
+    &:before {
+      left: 0;
+    }
+
+    &:after {
+      right: 0;
+    }
+  }
+}

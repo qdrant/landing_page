@@ -6,8 +6,8 @@
 @import 'partials/logo';
 @import 'partials/top-banner';
 @import 'partials/customers';
+@import 'partials/menu-mobile';
 @import 'partials/menu';
-@import 'components/buttons';
 @import 'partials/hero';
 @import 'partials/link';
 @import 'partials/core-features';
@@ -18,30 +18,46 @@
 @import 'partials/get-started';
 @import 'partials/footer';
 @import 'partials/additional-resources';
-@import 'partials/menu-mobile';
 @import 'partials/feature-overview';
 @import 'partials/qdrant-vector-database-hero';
 @import 'partials/qdrant-vector-database-use-cases';
-@import 'partials/get-started-small';
+@import 'partials/get-started-small-rocket';
+@import 'partials/get-started-small-database';
+@import 'partials/get-started-blogs';
 @import 'partials/enterprise-solutions-hero';
 @import 'partials/enterprise-solutions-use-cases';
 @import 'partials/testimonial';
-@import 'partials/get-contacted';
 @import 'partials/enterprise-benefits';
 @import 'partials/top-and-bottom-overlay';
+@import 'partials/qdrant-pricing-hero';
+@import 'partials/qdrant-pricing-calculator';
+@import 'partials/qdrant-pricing-docker-deploy';
+@import 'partials/qdrant-pricing-doors-a';
+@import 'partials/qdrant-pricing-doors-b';
+@import 'partials/qdrant-pricing-marketplaces';
+@import 'partials/pricing-door';
+@import 'partials/get-contacted-with-question';
+@import 'partials/private-cloud-hero';
+@import 'partials/private-cloud-about';
+@import 'partials/private-cloud-get-contacted';
+@import 'partials/qdrant-cloud-hero';
+@import 'partials/qdrant-cloud-bento-cards';
+@import 'partials/qdrant-cloud-marketplaces';
+@import 'partials/qdrant-pricing-get-contacted';
+@import 'partials/qdrant-cloud-features-link';
+@import 'partials/video';
+@import 'partials/customer-list';
 @import 'partials/demos';
 @import 'partials/tutorials';
+@import 'partials/qdrant-blog-features';
+@import 'partials/qdrant-blog-posts';
+@import 'partials/qdrant-blog-hero';
+@import 'partials/pagination';
+@import 'partials/newsletter';
+@import 'partials/qdrant-blog-post';
 @import 'partials/carousel';
 @import 'partials/leadership';
 @import 'partials/open-roles';
 @import 'partials/investors';
 @import 'partials/mission';
 @import 'partials/our-story';
-
-.main-header {
-  background: $neutral-10;
-
-  @include media-breakpoint-up(xl) {
-    background: url('/img/stars-pattern.png') $neutral-10;
-  }
-}

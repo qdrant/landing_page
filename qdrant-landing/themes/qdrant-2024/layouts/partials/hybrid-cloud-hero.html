@@ -1,0 +1,37 @@
+{{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-hero") }}
+  <section class="hybrid-cloud-hero">
+    <div class="container">
+      <div class="d-flex flex-column flex-xl-row justify-content-xl-between">
+        <div class="hybrid-cloud-hero__content">
+          <h1 class="hybrid-cloud-hero__title">{{ .Params.title }}</h1>
+          <div class="hybrid-cloud-hero__features">
+            {{ range .Params.features }}
+              <div class="d-flex align-items-center">
+                <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+                <p>{{ .content }}</p>
+              </div>
+            {{ end }}
+          </div>
+          <p class="hybrid-cloud-hero__description">{{ .Params.description }}</p>
+          <div class="hybrid-cloud-hero__buttons">
+            <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
+              {{ .Params.startFree.text }}
+            </a>
+            <a href="{{ .Params.contactUs.url }}" class="button button_outlined button_lg">
+              {{ .Params.contactUs.text }}
+            </a>
+          </div>
+        </div>
+
+        <div class="hybrid-cloud-hero__preview">
+          <img
+            src="{{ .Params.image.src }}"
+            alt="{{ .Params.image.alt }}"
+            class="no-copy no-events"
+            draggable="false"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

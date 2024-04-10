@@ -1,0 +1,82 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
+
+.hybrid-cloud-partners {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    margin: 0 auto $spacer * 2.5;
+    font-size: $spacer * 1.5;
+    line-height: rem(34);
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+    padding: rem(92) 0;
+    z-index: 2;
+  }
+
+  &__cards {
+    @include marquee.base(96px, 264px, 10, 10, 12px, $neutral-94, false, 50s, none);
+
+    &__container {
+      z-index: 2;
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      gap: $spacer;
+      padding: $spacer 0 $spacer $spacer;
+      background-color: $neutral-98;
+      border-radius: rem(12);
+
+      img {
+        width: $spacer * 4;
+        height: $spacer * 4;
+      }
+
+      p {
+        margin-bottom: 0;
+        font-weight: bold;
+      }
+    }
+  }
+
+  &__square-grid-overlay {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: rem(400);
+    background-image: url('/img/square-grid.png');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      width: rem(920);
+      font-size: $spacer * 2;
+      line-height: rem(38);
+    }
+
+    &__square-grid-overlay {
+      background-size: contain;
+    }
+  }
+}

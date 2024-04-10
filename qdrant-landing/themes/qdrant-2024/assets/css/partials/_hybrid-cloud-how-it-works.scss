@@ -1,0 +1,131 @@
+@use '../helpers/functions' as *;
+
+.hybrid-cloud-how-it-works {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-98;
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__steps {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__step {
+    position: relative;
+    padding-left: $spacer * 3.5;
+
+    &:not(:last-of-type) {
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: rem(15);
+        bottom: -4px;
+        width: rem(2);
+        height: calc(100% - 52px);
+        background-color: $neutral-40;
+      }
+    }
+
+    &-number {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      left: -4px;
+      top: -4.5px;
+      height: rem(45);
+      width: $spacer * 2.4;
+      background-image: url('/img/hybrid-cloud-steps-cube/cube.png');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      z-index: 2;
+
+      &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        left: -32px;
+        top: -30px;
+        width: $spacer * 6.5;
+        height: rem(108.5);
+        background-image: url('/img/hybrid-cloud-steps-cube/cube-blur.png');
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: cover;
+        z-index: 1;
+      }
+
+      span {
+        font-size: rem(20);
+        line-height: rem(30);
+        color: $neutral-98;
+        z-index: 2;
+      }
+    }
+
+    &-title {
+      margin-bottom: $spacer;
+      font-size: $spacer * 1.5;
+      line-height: $spacer * 2;
+      color: $neutral-98;
+    }
+
+    &-description {
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-70;
+    }
+  }
+
+  &__preview img {
+    width: 100%;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 9;
+    padding-bottom: $spacer * 9;
+
+    &__content {
+      margin-bottom: $spacer * 7.5;
+    }
+
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+    }
+
+    &__steps {
+      gap: $spacer * 3;
+      margin-bottom: 0;
+    }
+
+    &__step {
+      &:not(:last-of-type) {
+        &:before {
+          bottom: -28px;
+          width: rem(2);
+          height: calc(100% - 28px);
+        }
+      }
+
+      &-description {
+        font-size: rem(18);
+        line-height: rem(27);
+      }
+    }
+
+    &__preview {
+      margin: 0 auto;
+    }
+  }
+}

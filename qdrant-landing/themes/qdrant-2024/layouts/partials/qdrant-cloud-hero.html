@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/qdrant-cloud/qdrant-cloud-hero") }}
+  <section class="qdrant-cloud-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h3 class="qdrant-cloud-hero__title">{{ .Params.title }}</h3>
+          <div class="qdrant-cloud-hero__description">{{ .Params.description }}</div>
+          <div class="qdrant-cloud-hero__buttons">
+            <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
+              {{ .Params.startFree.text }}
+            </a>
+            <a href="{{ .Params.contactUs.url }}" class="button button_outlined button_lg">
+              {{ .Params.contactUs.text }}
+            </a>
+          </div>
+
+          <div class="qdrant-cloud-hero__content">
+            <img src="{{ .Params.icon.src }}" alt="{{ .Params.icon.alt }}" />
+            <p>{{ .Params.content }}</p>
+          </div>
+
+          {{ partial "video" (dict "context" .) }}
+        </div>
+      </div>
+    </div>
+    <div class="qdrant-cloud-hero__overlay"></div>
+  </section>
+{{ end }}
