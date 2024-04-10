@@ -130,7 +130,7 @@ model = ChatOpenAI(temperature=0, model="gpt-4-1106-preview")
 
 It is here that we configure both the Embeddings and LLM. You can replace this with your own models using Ollama or other services. Scaleway has some great [GPU Instances](https://www.scaleway.com/en/gpu-instances/) too - including H100 on the higher end, and soon L4 for everything small.
 
-### Tree Construction
+## Tree Construction
 
 The clustering approach in tree construction includes a few interesting ideas.
 
@@ -532,7 +532,7 @@ vectorstore = Qdrant.from_texts(all_texts, embd, location=":memory:", collection
 retriever = vectorstore.as_retriever()
 ```
 
-### Question
+## Trying it out
 
 ```python
 
@@ -557,9 +557,7 @@ rag_chain = (
 rag_chain.invoke("How to use Qdrant with LangChain? Give a Python code snippet.")
 ```
 
-### Deploying the Langchain pipeline
+## Deploying the Langchain Application on Scaleway
 Scaleway has serverless [Functions](https://www.scaleway.com/en/serverless-functions/) and serverless [Jobs](https://www.scaleway.com/en/serverless-jobs/) -- ideal for embedding creation when doing a bulk operation.
 
-Scaleway gives us a lot of power and flexibility in terms of deploying the applications. Their French deployment regions e.g.[Render with P100](https://www.scaleway.com/en/gpu-render-instances/) mean it's excellent for network latency and data sovereignty.
-
-The deployment is as simple as running any other Python application.
+Their French deployment regions e.g. France are excellent for network latency and data sovereignty. Need a GPU? [Render with P100](https://www.scaleway.com/en/gpu-render-instances/) is there for you.
