@@ -15,7 +15,7 @@ In this tutorial we will setup a private AI service that answers customer suppor
 
 [//]: # (TODO: add a link to the corresponding Qdrant Hybrid Cloud documentation: deployment on AWS)
 
-TODO: add a diagram presenting all the components
+![Architecture diagram](/documentation/tutorials/customer-support-cohere-airbyte/architecture-diagram.png)
 
 ## System design
 
@@ -38,8 +38,6 @@ All the selected components are compatible with the [AWS](https://aws.amazon.com
 models' availability, you can build a fully private customer support system completely isolates data within your 
 infrastructure. Also, if you have AWS credits, you can now use them without spending additional money on the models or 
 semantic search layer.
-
-[//]: # (TODO: Command-R is not available on AWS yet, but should be ready before 16th April)
 
 ### Data ingestion
 
