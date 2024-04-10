@@ -30,7 +30,7 @@ RAG applications often rely on sensitive or proprietary internal data, emphasizi
 
 We created a tutorial that guides you through setting up and leveraging Qdrant Hybrid Cloud on Scaleway for a RAG application, providing insights into efficiently managing data within a secure, sovereign framework. It highlights practical steps to integrate vector search with LLMs, optimizing the generation of high-quality, relevant AI content, while ensuring data sovereignty is maintained throughout.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
+[Try the Tutorial](/documentation/tutorials/rag-chabot-scaleway/
 
 **The Benefits of Running Qdrant Hybrid Cloud on Scaleway**
 

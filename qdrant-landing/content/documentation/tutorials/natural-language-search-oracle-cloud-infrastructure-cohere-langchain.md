@@ -1,9 +1,9 @@
 ---
-title: Speak to your website
+title: RAG System for Employee Onboarding
 weight: 30
 ---
 
-# Speak to your website
+# RAG System for Employee Onboarding
 
 Public websites are a great way to share information with a wide audience. However, finding the right information can be
 challenging, if you are not familiar with the website's structure or the terminology used. That's what the search bar is

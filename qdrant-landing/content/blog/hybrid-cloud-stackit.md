@@ -32,7 +32,7 @@ Qdrant Hybrid Cloud is the first managed vector database that can be deployed in
 
 To demonstrate the power of Qdrant Hybrid Cloud on STACKIT, we’ve developed a comprehensive tutorial showcasing how to build secure, AI-driven applications focusing on data sovereignty. This tutorial specifically shows how to build a contract management platform that enables users to upload documents (PDF or DOCx), which are then segmented for searchable access. Designed with multitenancy, users can only access their team or organization's documents. It also features custom sharding for location-specific document storage. Beyond search, the application offers rephrasing of document excerpts for clarity to those without context.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
+[Try the Tutorial](/documentation/tutorials/rag-contract-management-stackit-aleph-alpha/)
 
 **Start Using Qdrant with STACKIT**
 

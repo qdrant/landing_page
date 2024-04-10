@@ -42,7 +42,7 @@ We put together an end-to-end tutorial to show you how to build a GenAI applicat
 
 Learn how to set up a private AI service that addresses customer support issues with high accuracy and effectiveness. By leveraging Airbyte’s data pipelines with Qdrant Hybrid Cloud, you will create a customer support system that is always synchronized with up-to-date knowledge.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
+[Try the Tutorial](/documentation/tutorials/rag-customer-support-cohere-airbyte-aws/)
 
 **Documentation: Deploy Qdrant in a few clicks**
 

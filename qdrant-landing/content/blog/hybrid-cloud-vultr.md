@@ -43,7 +43,7 @@ We've compiled an in-depth guide for leveraging Qdrant Hybrid Cloud on Vultr to 
 
 This tutorial outlines creating a personalized AI assistant using Qdrant Hybrid Cloud on Vultr, incorporating advanced vector search to power dynamic, interactive experiences. We will develop a RAG pipeline powered by DSPy and detail how to maintain data privacy within your Vultr environment.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
+[Try the Tutorial](/documentation/tutorials/rag-chatbot-vultr-dspy-ollama/)
 
 **Documentation: Effortless Deployment with Qdrant**
 

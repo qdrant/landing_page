@@ -33,7 +33,7 @@ Through the seamless integration between Qdrant Hybrid Cloud and OVHcloud, devel
 
 To show how Qdrant Hybrid Cloud deployed on OVHcloud allows developers to leverage the benefits of an AI use case that is completely run within the existing infrastructure, we put together a comprehensive use case tutorial. This tutorial guides you through creating a recommendation system using collaborative filtering and sparse vectors with Qdrant Hybrid Cloud on OVHcloud. It employs the Movielens dataset for practical application, providing insights into building efficient, scalable recommendation engines suitable for developers and data scientists looking to leverage advanced vector search technologies within a secure, GDPR-compliant European cloud infrastructure.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
+[Try the Tutorial](/documentation/tutorials/recommendation-system-ovhcloud/
 
 **Get started today and leverage the benefits of Qdrant Hybrid Cloud**
 

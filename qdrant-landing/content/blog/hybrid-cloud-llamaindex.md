@@ -42,7 +42,7 @@ To get you started, we created a comprehensive tutorial that shows how to build 
 
 Use this end-to-end tutorial to create a system that retrieves information from complex user manuals in PDF format to enhance user experience for companies that sell household appliances. You will build a RAG pipeline with LlamaIndex leveraging Qdrant Hybrid Cloud for enhanced generative AI capabilities. The LlamaIndex integration shows how complex tables inside of items’ PDF documents can be processed via hybrid vector search with no additional configuration.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
+[Try the Tutorial](/documentation/tutorials/hybrid-search-llamaindex-jinaai/
 
 **Documentation: Deploy Qdrant in a few clicks**
 

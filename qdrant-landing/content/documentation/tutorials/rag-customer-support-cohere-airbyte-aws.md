@@ -1,9 +1,9 @@
 ---
-title: Automate customer support tasks
+title: Question-Answering System for AI Customer Support
 weight: 26
 ---
 
-# Build a RAG system to answer customer support queries
+# Question-Answering System for AI Customer Support
 
 | Time: 120 min | Level: Advanced |  |
 | --- | ----------- | ----------- |----------- |

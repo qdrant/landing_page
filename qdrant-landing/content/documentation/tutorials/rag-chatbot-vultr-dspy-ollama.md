@@ -1,9 +1,9 @@
 ---
-title: Information extraction with DSPy and Ollama
+title: Private RAG Information Extraction Engine
 weight: 32
 ---
 
-# Information extraction with DSPy and Ollama
+# Private RAG Information Extraction Engine
 
 | Time: 90 min | Level: Advanced |  |    |
 |--------------|-----------------|--|----|

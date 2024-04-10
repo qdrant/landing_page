@@ -42,7 +42,7 @@ To get you started, we created a comprehensive tutorial that shows how to build 
 
 Learn how to develop a tutor chatbot from online course materials. You will create a Retrieval Augmented Generation (RAG) pipeline with Haystack for enhanced generative AI capabilities and Qdrant Hybrid Cloud for vector search. By deploying every tool on RedHat OpenShift, you will ensure complete privacy and data sovereignty, whereby no course content leaves your cloud.
 
-[Try the Tutorial](/documentation/tutorials/hybrid-cloud/)
+[Try the Tutorial](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/)
 
 **Documentation: Deploy Qdrant in a few clicks**
 
