@@ -27,16 +27,6 @@
     text-align: start;
   }
 
-  &__cards {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    row-gap: rem(32);
-    min-width: 100%;
-    margin-top: rem(32);
-  }
-
   &__card-title {
     color: $neutral-20;
     margin-top: $spacer * 1.5;
@@ -45,24 +35,24 @@
   }
 
   &__cloud-native {
-    background-color: $neutral-98;
-    padding-top: $spacer * 2.5;
-    padding-bottom: $spacer * 2.5;
-    padding-left: $spacer * 1.5;
-    padding-right: $spacer * 1.5;
-    min-width: 100%;
-    max-width: 100%;
-    min-height: rem(475);
-    border-radius: calc($spacer / 2);
-    border: 1px solid $neutral-90;
-    margin-top: rem(40);
-    position: relative;
+    @include media-breakpoint-up(xl) {
+      flex-direction: row;
+    }
 
-    display: flex;
-    justify-content: space-between;
+    &.card {
+      padding-top: 0;
+      padding-right: 0;
+      padding-bottom: 0;
+    }
 
-    > div {
-      max-width: rem(400);
+    & div:first-child {
+      padding-right: $spacer * 2;
+      padding-top: $spacer * 2;
+
+      @include media-breakpoint-up(xl) {
+        padding-right: rem(122);
+        padding-top: $spacer * 5;
+      }
     }
 
     .core-features__card-title {
@@ -80,15 +70,15 @@
   }
 
   &__cloud-native-image {
-    position: absolute;
-    right: 0;
-    bottom: 0;
+    margin-top: $spacer;
+    background: url('/img/qdrant-cloud.png') right bottom no-repeat;
     background-size: contain;
-    background-image: url('/img/qdrant-cloud.png');
     max-width: 100% !important;
-    width: rem(310);
+    width: rem(372);
     height: rem(214);
     border-radius: 0 0 calc($spacer / 2) 0;
+    aspect-ratio: 1.45/1;
+    align-self: end;
   }
 
   &__card-content {
