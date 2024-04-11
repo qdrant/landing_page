@@ -11,7 +11,7 @@ description: Syed Asad unfolds the challenges of developing multimodal RAG
   Mixtral to enhance family tree apps and financial chatbots while navigating
   the hurdles of data privacy and infrastructure demands.
 preview_image: /blog/from_cms/syed-asad-cropped.png
-date: 2024-04-11T16:37:00.000Z
+date: 2024-04-10T17:00:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
