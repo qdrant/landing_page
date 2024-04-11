@@ -1,22 +1,12 @@
-@use 'sass:math';
-@import 'satoshi-font';
-@import 'bootstrap-custom';
-
-@import 'components';
-@import 'partials/logo';
-@import 'partials/top-banner';
+@import "base";
 @import 'partials/customers';
-@import 'partials/menu-mobile';
-@import 'partials/menu';
 @import 'partials/hero';
-@import 'partials/link';
 @import 'partials/core-features';
 @import 'partials/customer-stories';
 @import 'partials/docker-deploy';
 @import 'partials/vectors';
 @import 'partials/integrations';
 @import 'partials/get-started';
-@import 'partials/footer';
 @import 'partials/additional-resources';
 @import 'partials/feature-overview';
 @import 'partials/qdrant-vector-database-hero';
