@@ -25,7 +25,7 @@ the API key only once, when the QdrantClient instance is created.
 You can also attach your own infrastructure as a private region on the Hybrid
 Cloud. Once attached, you can control this cloud using the same tools and UI
 that you use for other cloud providers. For details, see our 
-[Hybrid Cloud](/documentation/cloud/hybrid-cloud/) documentation.
+[Hybrid Cloud](/documentation/hybrid-cloud/) documentation.
 
 ## Cluster configuration
 
