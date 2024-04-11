@@ -1,12 +1,11 @@
 {{ define "main" }}
-
-<header class="main-header">
+  <header class="main-header">
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
-</header>
+  </header>
 
-{{ partial "demos" . }}
-{{ partial "tutorials" . }}
-{{ partial "get-started" . }}
+  {{ partial "demos" . }}
+  {{ partial "tutorials" . }}
+  {{ partial "get-started" . }}
 {{ end }}
