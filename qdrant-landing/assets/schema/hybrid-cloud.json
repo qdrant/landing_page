@@ -1,49 +1,29 @@
 {
   "@type": "Product",
-  "@id": "",
+  "@id": "https://hybrid-cloud.qdrant.tech#product",
   "brand": {
     "@id": "https://qdrant.tech",
     "@type": "Organization",
     "name": "Qdrant Vector Database"
   },
-  "description" : "",
-  "keywords" : "",
+  "description" : "Qdrant Hybrid Cloud is a solution that allows you to run clusters in your own infrastructure, including your own cloud, infrastructure, or edge. It provides all the benefits of Qdrant Cloud, and you can use the Managed Cloud Central Cluster Management. A premium support plan option is available.",
+  "keywords" : "hybrid cloud, qdrant, qdrant hybrid cloud, vector search, hybrid cloud features",
   "name": "Qdrant Hybrid Cloud",
-  "image": "",
+  "image": "https://hybrid-cloud.qdrant.tech/social-preview.png",
   "offers": {
     "@type": "AggregateOffer",
-    "lowPrice": "0",
-    "offerCount": "3",
+    "lowPrice": "99",
+    "offerCount": "1",
     "priceCurrency": "USD",
     "offers": [
       {
         "@type": "Offer",
         "priceSpecification": {
           "@type": "PriceSpecification",
-          "price": "free",
+          "price": "from 99",
           "priceCurrency": "USD",
-          "name": "Community",
-          "url": "https://qdrant.tech/documentation/quick-start/"
-        }
-      },
-      {
-        "@type": "Offer",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "price": "from 25$",
-          "priceCurrency": "USD",
-          "name": "Managed Cloud",
-          "url": "https://qdrant.to/cloud"
-        }
-      },
-      {
-        "@type": "Offer",
-        "priceSpecification": {
-          "@type": "PriceSpecification",
-          "price": "on request",
-          "priceCurrency": "USD",
-          "name": "Enterprise",
-          "url": "https://qdrant.to/contact-us"
+          "name": "Qdrant Hybrid Cloud",
+          "url": "https://hybrid-cloud.qdrant.tech"
         }
       }
     ]
