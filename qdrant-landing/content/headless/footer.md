@@ -81,10 +81,10 @@ companyMenu:
 copyright: © 2024 Qdrant. All Rights Reserved
 termsLink:
   text: Terms
-  url: /
+  url: https://qdrant.to/cloud-terms
 privacyLink:
   text: Privacy Policy
-  url: /
+  url: https://qdrant.to/cloud-privacy
 joinTitle: Join our newsletter
 joinSubtitle: We will update you on new features and news regarding Qdrant and Vector Similarity Search.
 subscribe:
