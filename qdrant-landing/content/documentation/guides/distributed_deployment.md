@@ -427,6 +427,8 @@ In this mode, the `shard_number` means the number of shards per shard key, where
 
 Then you will have `1 * 10 * 2 = 20` total physical shards in the collection.
 
+Physical shards require a large amount of resources, so make sure your custom sharding key has a low cardinality.
+
 To specify the shard for each point, you need to provide the `shard_key` field in the upsert request:
 
 ```http
