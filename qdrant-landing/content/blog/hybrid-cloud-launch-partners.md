@@ -5,7 +5,7 @@ slug: hybrid-cloud-launch-partners
 short_description: 
 description:
 preview_image: /blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners.png
-social_preview_image: /blog/hybrid-cloud/hybrid-cloud-launch-partners.png
+social_preview_image: /blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners.png
 date: 2024-04-10T00:09:00Z
 author: Manuel Meyer
 featured: false
