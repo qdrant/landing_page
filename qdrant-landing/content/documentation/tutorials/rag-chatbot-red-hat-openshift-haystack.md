@@ -5,7 +5,7 @@ weight: 23
 
 # Private Chatbot for Interactive Learning
 
-| Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/) |
+| Time: 120 min | Level: Advanced |  |
 | --- | ----------- | ----------- |----------- |
 
 With chatbots, companies can scale their training programs to accommodate a large workforce, delivering consistent and standardized learning experiences across departments, locations, and time zones. Furthermore, having already completed their online training, corporate employees might want to refer back old course materials. Most of this information is proprietary to the company, and manually searching through an entire library of materials takes time. However, a chatbot built on this knowledge can respond in the blink of an eye. 
