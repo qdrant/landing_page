@@ -1,6 +1,6 @@
 ---
 title: Qdrant Cloud
-weight: 20
+weight: 14
 aliases:
   - /documentation/overview/qdrant-alternatives/documentation/cloud/
 ---

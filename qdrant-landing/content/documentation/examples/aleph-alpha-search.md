@@ -1,6 +1,8 @@
 ---
 title: Aleph Alpha Search
 weight: 16
+aliases:
+  - /documentation/tutorials/aleph-alpha-search/
 ---
 
 # Multimodal Semantic Search with Aleph Alpha

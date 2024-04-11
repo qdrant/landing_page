@@ -1,6 +1,8 @@
 ---
 title: Region-Specific Contract Management System
 weight: 28
+aliases:
+  - /documentation/tutorials/rag-contract-management-stackit-aleph-alpha/
 ---
 
 # Region-Specific Contract Management System

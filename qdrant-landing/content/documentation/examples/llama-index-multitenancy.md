@@ -1,6 +1,8 @@
 ---
 title: Multitenancy with LlamaIndex
 weight: 18
+aliases:
+  - /documentation/tutorials/llama-index-multitenancy/
 ---
 
 # Multitenancy with LlamaIndex
