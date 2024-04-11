@@ -1,10 +1,10 @@
 ---
 logIn:
   text: Log in
-  url:  https://cloud.qdrant.io/login /
+  url:  https://cloud.qdrant.io/login
 startFree:
   text: Start Free
-  url:  https://cloud.qdrant.io/login /
+  url:  https://cloud.qdrant.io/login
 menuItems:
   - id: menu-0
     name: Product
