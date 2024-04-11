@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "Cohere and Qdrant Hybrid Cloud"
-short_description: "Qdrant Hybrid Cloud and Cohere Collaborate to Support Enterprise GenAI Solutions." 
-description: "Qdrant Hybrid Cloud and Cohere Collaborate to Support Enterprise GenAI Solutions."
+title: "Qdrant Hybrid Cloud and Cohere Support Enterprise AI"
+short_description: "Next gen enterprise software will rely on revolutionary technologies by Qdrant Hybrid Cloud and Cohere." 
+description: "Next gen enterprise software will rely on revolutionary technologies by Qdrant Hybrid Cloud and Cohere."
 preview_image: /blog/hybrid-cloud-cohere/hybrid-cloud-cohere.png
 date: 2024-04-10T00:01:00Z
 author: Qdrant

@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "OVHcloud and Qdrant Hybrid Cloud"
-short_description: "Qdrant and OVHcloud Collaborate To Bring Vector Search to Startups and Enterprises in Europe With A Strong Focus on Data Control and Privacy." 
-description: "Qdrant and OVHcloud Collaborate To Bring Vector Search to Startups and Enterprises in Europe With A Strong Focus on Data Control and Privacy."
+title: "Qdrant and OVHcloud Bring Vector Search to All Enterprises"
+short_description: "Collaborating to support startups and enterprises in Europe with a strong focus on data control and privacy." 
+description: "Collaborating to support startups and enterprises in Europe with a strong focus on data control and privacy."
 preview_image: /blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud.png
 date: 2024-04-10T00:05:00Z
 author: Qdrant

@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "Vultr and Qdrant Hybrid Cloud"
-short_description: "Qdrant Hybrid Cloud and Vultr Provide A Flexible Platform For High-Performance Vector Search For Next-Gen AI Workloads." 
-description: "Qdrant Hybrid Cloud and Vultr Provide A Flexible Platform For High-Performance Vector Search For Next-Gen AI Workloads."
+title: "Vultr and Qdrant Hybrid Cloud Support Next-Gen AI Projects"
+short_description: "Providing a flexible platform for high-performance vector search in next-gen AI workloads." 
+description: "Providing a flexible platform for high-performance vector search in next-gen AI workloads."
 preview_image: /blog/hybrid-cloud-vultr/hybrid-cloud-vultr.png
 date: 2024-04-10T00:08:00Z
 author: Qdrant

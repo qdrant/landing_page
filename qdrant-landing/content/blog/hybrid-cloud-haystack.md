@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "deepset and Qdrant Hybrid Cloud"
-short_description: "Qdrant Hybrid Cloud and Haystack by deepset: A Winning Combination for Enterprise-Scale RAG." 
-description: "Qdrant Hybrid Cloud and Haystack by deepset: A Winning Combination for Enterprise-Scale RAG."
+title: "Qdrant Hybrid Cloud and Haystack for Enterprise RAG"
+short_description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database." 
+description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database."
 preview_image: /blog/hybrid-cloud-haystack/hybrid-cloud-haystack.png
 date: 2024-04-10T00:02:00Z
 author: Qdrant

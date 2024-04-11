@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "Jina AI and Qdrant Hybrid Cloud"
-short_description: "Develop Cutting-Edge GenAI Apps with Jina AI and Qdrant Hybrid Cloud." 
-description: "Develop Cutting-Edge GenAI Apps with Jina AI and Qdrant Hybrid Cloud."
+title: "Cutting-Edge GenAI with Jina AI and Qdrant Hybrid Cloud"
+short_description: "Build your most successful app with Jina AI embeddings and on Qdrant Hybrid Cloud." 
+description: "Build your most successful app with Jina AI embeddings and on Qdrant Hybrid Cloud."
 preview_image: /blog/hybrid-cloud-jinaai/hybrid-cloud-jinaai.png
 date: 2024-04-10T00:03:00Z
 author: Qdrant

@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "LlamaIndex and Qdrant Hybrid Cloud"
-short_description: "Unlock New RAG Opportunities with Qdrant Hybrid Cloud and LlamaIndex." 
-description: "Unlock New RAG Opportunities with Qdrant Hybrid Cloud and LlamaIndex."
+title: "New RAG Horizons with Qdrant Hybrid Cloud and LlamaIndex."
+short_description: "Unlock the most advanced RAG opportunities with Qdrant Hybrid Cloud and LlamaIndex." 
+description: "Unlock the most advanced RAG opportunities with Qdrant Hybrid Cloud and LlamaIndex."
 preview_image: /blog/hybrid-cloud-llamaindex/hybrid-cloud-llamaindex.png
 date: 2024-04-10T00:04:00Z
 author: Qdrant

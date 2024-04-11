@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "STACKIT and Qdrant Hybrid Cloud"
-short_description: "Empowering German AI Development with a Data Privacy-First Platform." 
-description: "Empowering German AI Development with a Data Privacy-First Platform."
+title: "STACKIT and Qdrant Hybrid Cloud for Best Data Privacy"
+short_description: "Empowering German AI development with a data privacy-first platform." 
+description: "Empowering German AI development with a data privacy-first platform."
 preview_image: /blog/hybrid-cloud-stackit/hybrid-cloud-stackit.png
 date: 2024-04-10T00:07:00Z
 author: Qdrant

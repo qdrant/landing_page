@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Announcing Qdrant Hybrid Cloud"
+title: "Qdrant Hybrid Cloud: the First Managed Vector Database You Can Run Anywhere"
 slug: hybrid-cloud
 short_description: 
 description:

@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "Scaleway and Qdrant Hybrid Cloud"
-short_description: "Qdrant and Scaleway Empower Innovation in AI with Launch of Hybrid Cloud Vector Search for Startups and Developers." 
-description: "Qdrant and Scaleway Empower Innovation in AI with Launch of Hybrid Cloud Vector Search for Startups and Developers."
+title: "Qdrant Hybrid Cloud and Scaleway Empower GenAI"
+short_description: "Supporting innovation in AI with the launch of a revolutionary managed database for startups and enterprises." 
+description: "Supporting innovation in AI with the launch of a revolutionary managed database for startups and enterprises."
 preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway.png
 date: 2024-04-10T00:06:00Z
 author: Qdrant

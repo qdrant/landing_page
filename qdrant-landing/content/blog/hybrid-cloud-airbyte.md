@@ -1,8 +1,8 @@
 ---
 draft: false
-title: "Airbyte and Qdrant Hybrid Cloud"
-short_description: "Elevate Your Data Performance With Airbyte and Qdrant Hybrid Cloud." 
-description: "Elevate Your Data Performance With Airbyte and Qdrant Hybrid Cloud."
+title: "Elevate Your Data With Airbyte and Qdrant Hybrid Cloud"
+short_description: "Leverage Airbyte and Qdrant Hybrid Cloud for best-in-class data performance." 
+description: "Leverage Airbyte and Qdrant Hybrid Cloud for best-in-class data performance."
 preview_image: /blog/hybrid-cloud-airbyte/hybrid-cloud-airbyte.png
 date: 2024-04-10T00:00:00Z
 author: Qdrant
