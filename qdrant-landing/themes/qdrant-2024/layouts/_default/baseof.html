@@ -8,5 +8,21 @@
 {{ partial "footer" . }}
 {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+{{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $cookit.RelPermalink }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.cookit({
+      messageText: "{{ .Site.Params.gdpr }}",
+      linkText: "Learn more",
+      linkUrl: "https://qdrant.to/cloud-terms",
+      buttonText: "I accept",
+      backgroundColor: '#F0F3FA',
+      messageColor: '#161E33',
+      linkColor: '#DC244C',
+      buttonColor: '#DC244C'
+    });
+  });
+  </script>
 </body>
 </html>
