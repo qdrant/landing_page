@@ -7,17 +7,26 @@ aliases:
 
 # Monitoring
 
-Qdrant exposes its metrics in a Prometheus format, so you can integrate them easily
-with the compatible tools and monitor Qdrant with your own monitoring system. You can 
+Qdrant exposes its metrics in [Prometheus](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format)/[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) format, so you can integrate them easily
+with the compatible tools and monitor Qdrant with your own monitoring system. You can
 use the `/metrics` endpoint and configure it as a scrape target.
 
 Metrics endpoint: <http://localhost:6333/metrics>
 
-The integration with Qdrant is easy to 
-[configure](https://prometheus.io/docs/prometheus/latest/getting_started/#configure-prometheus-to-monitor-the-sample-targets) 
+The integration with Qdrant is easy to
+[configure](https://prometheus.io/docs/prometheus/latest/getting_started/#configure-prometheus-to-monitor-the-sample-targets)
 with Prometheus and Grafana.
 
-## Exposed metric
+## Monitoring multi-node clusters
+
+When scraping metrics from multi-node Qdrant clusters, it is important to scrape from
+each node individually instead of using a load-balanced URL. Otherwise, your metrics will appear inconsistent after each scrape.
+
+## Monitoring in Qdrant Cloud
+
+To scrape metrics from a Qdrant cluster running in Qdrant Cloud, note that an [API key](/documentation/cloud/authentication/) is required to access `/metrics`. Qdrant Cloud also supports supplying the API key as a [Bearer token](https://www.rfc-editor.org/rfc/rfc6750.html), which may be required by some providers.
+
+## Exposed metrics
 
 Each Qdrant server will expose the following metrics.
 
