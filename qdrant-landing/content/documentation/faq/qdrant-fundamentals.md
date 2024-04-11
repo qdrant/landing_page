@@ -35,10 +35,12 @@ What Qdrant can do:
 - Search with full-text filters
 - Apply full-text filters to the vector search (i.e., perform vector search among the records with specific words or phrases)
 - Do prefix search and semantic [search-as-you-type](../../../articles/search-as-you-type/)
+- Sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
 
 What Qdrant plans to introduce in the future:
 
-- Support for sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
+- ColBERT and other late-interruction models
+- Fusion of the multiple searches
 
 What Qdrant doesn't plan to support:
 
