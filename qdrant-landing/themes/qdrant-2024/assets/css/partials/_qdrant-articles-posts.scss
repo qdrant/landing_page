@@ -6,28 +6,14 @@
   background-color: $neutral-98;
 
   &__articles {
-    display: flex;
-    flex-direction: column;
-    gap: $spacer * 3;
     margin-bottom: $spacer * 5;
   }
 
-  &__article {
-    width: 100%;
+  .post-preview {
+    padding-bottom: 27.36%;
   }
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
-
-    &__articles {
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      gap: $spacer * 4 rem(30);
-    }
-
-    &__article {
-      width: calc(50% - 15px);
-    }
   }
 }
