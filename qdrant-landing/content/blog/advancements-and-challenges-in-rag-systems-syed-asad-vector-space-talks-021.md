@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Advancements and Challenges in RAG Systems - Syed Asad | Vector Space Talks
 slug: rag-advancements-challenges
 short_description: Syed Asad talked about advanced rag systems and multimodal AI
@@ -11,7 +11,7 @@ description: Syed Asad unfolds the challenges of developing multimodal RAG
   Mixtral to enhance family tree apps and financial chatbots while navigating
   the hurdles of data privacy and infrastructure demands.
 preview_image: /blog/from_cms/syed-asad-cropped.png
-date: 2024-04-10T17:00:00.000Z
+date: 2024-04-12T18:21:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
@@ -65,13 +65,13 @@ Here are the highlights from this episode:
 
 ## More Quotes from Syed:
 
-*"Qdrant is having the ease of use. And it, I have, I have trained people in my team who specialize with Qdrant, and they were initially using Weaviate and Pinecone.”*\
+*"Qdrant has the ease of use. I have trained people in my team who specializes with Qdrant, and they were initially using Weaviate and Pinecone.”*\
 — Syed Asad
 
-*"So what is happening nowadays is that the clients or the projects in which I am particularly working on are having more of multimedia or multimodal approach. So that is what is happening. So they want their apps or their LLM apps to be more engaging rather than a mere chatbot.”*\
+*"What's happening nowadays is that the clients or the projects in which I am particularly working on are having more of multimedia or multimodal approach. They want their apps or their LLM apps to be more engaging rather than a mere chatbot.”*\
 — Syed Asad
 
-*"So that is where the accuracy matters the most. Accurate. And in this case, Qdrant has proved just commendable in giving excellent search results.”*\
+*"That is where the accuracy matters the most. And in this case, Qdrant has proved just commendable in giving excellent search results.”*\
 — Syed Asad in Advancements in Medical Imaging Search
 
 ## Transcript:
