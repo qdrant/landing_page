@@ -134,9 +134,9 @@ Both API keys can be used simultaneously.
 
 *Available as of v1.9.0*
 
-For more complex cases, Qdrant supports granular access control with [JSON Web Tokens (JWT)](https://jwt.io/). This allows you to have Role-Based Access Control (RBAC) integrated into the system. In this way, you can define roles and permissions for users and restrict access to sensitive endpoints.
+For more complex cases, Qdrant supports granular access control with [JSON Web Tokens (JWT)](https://jwt.io/). This allows you to have [Role-based access control (RBAC)](https://en.wikipedia.org/wiki/Role-based_access_control) integrated into the system. In this way, you can define roles and permissions for users and restrict access to sensitive endpoints.
 
-To enable JWT based authentication in your own Qdrant instance you need to specify the `api-key` and enable the `jwt_rbac` feature in the configuration:
+To enable JWT-based authentication in your own Qdrant instance you need to specify the `api-key` and enable the `jwt_rbac` feature in the configuration:
 
 ```yaml
 service:
@@ -151,18 +151,18 @@ export QDRANT__SERVICE__API_KEY=your_secret_api_key_here
 export QDRANT__SERVICE__JWT_RBAC=true
 ```
 
-The `api_key` you set will be used to encode and decode the JWT tokens, so –needless to say– keep it secure.
+The `api_key` you set in the configuration will be used to encode and decode the JWTs, so –needless to say– keep it secure. If your `api_key` changes, all existing tokens will be invalid.
 
-To use JWT-based authentication, you need to provide it as a bearer token in the `Authorization` header of your requests.
+To use JWT-based authentication, you need to provide it as a bearer token in the `Authorization` header, or as an key in the `Api-Key` header of your requests.
 ```json
 { "Authorization": "Bearer <JWT>" }
+// or 
+{ "Api-Key": "<JWT>" }
 ```
-
-The token should be signed with the `api_key` you set in the configuration.
 
 #### Generating JSON Web Tokens
 
-Anyone who knows the `api_key` can generate JWT tokens.
+Anyone who knows the `api_key` can generate tokens.
 
 - **JWT Header** - Qdrant uses the `HS256` algorithm to decode the tokens.
 
@@ -173,12 +173,12 @@ Anyone who knows the `api_key` can generate JWT tokens.
   }
   ```
 
-- **JWT Payload** - There are some [claims available](#jwt-payload-claims) to use in the payload. Keep reading for more info on each one.
+- **JWT Payload** - You can include any combination of the [claims available](#jwt-payload-claims) in the payload. Keep reading for more info on each one.
 
   ```json
   {
     "exp": 1640995200, // Expiration time
-    "value_exists": ..., // Validate this token by looking for a payload value
+    "value_exists": ..., // Validate this token by looking for a point with a payload value
     "access": "r", // Define the access level.
   }
   ```
@@ -220,7 +220,7 @@ Anyone who knows the `api_key` can generate JWT tokens.
   
   This is useful when you need stateful tokens which can be invalidated independently.
 
-- **`access`** - This claim defines the access level of the token. If this claim is present, Qdrant will check if the token has the required access level to perform the operation. If this claim is **not** present, **manage** access is assumed.
+- **`access`** - This claim defines the [access level](#table-of-access) of the token. If this claim is present, Qdrant will check if the token has the required access level to perform the operation. If this claim is **not** present, **manage** access is assumed.
 
   It can provide global access with `r` for read-only, or `m` for manage. For example:
 
@@ -231,7 +231,7 @@ Anyone who knows the `api_key` can generate JWT tokens.
   ```
 
   It can also be specific to one or more collections. The `access` level for each collection is `r` for read-only, or `rw` for read-write, like this:
-  
+
   ```json
   {
     "access": [
@@ -262,6 +262,77 @@ Anyone who knows the `api_key` can generate JWT tokens.
   This `payload` claim will be used to implicitly filter the points in the collection, so that they only see their user, for example.
 
 <!-- TODO: add access table -->
+
+### Table of access
+
+Check out this table to see which actions are allowed or denied based on the access level.
+
+This is also applicable to using api keys instead of tokens. In that case, `api_key` maps to **manage**, while `read_only_api_key` maps to **read-only**.
+
+<div style="text-align: right"> <strong>Symbols:</strong> ✅ Allowed | ❌ Denied | 🎟️ Allowed, but filtered </div>
+
+
+
+| Action | manage | read-only | collection read-write | collection read-only | collection with payload claim (r / rw) |
+|--------|--------|-----------|----------------------|-----------------------|------------------------------------|
+| list collections | ✅ | ✅ | 🎟️ | 🎟️ | 🎟️ |  
+| get collection info | ✅ | ✅ | ✅ | ✅ | ❌ |
+| create collection | ✅ | ❌ | ❌ | ❌ | ❌ |
+| delete collection | ✅ | ❌ | ❌ | ❌ | ❌ |
+| update collection params | ✅ | ❌ | ❌ | ❌ | ❌ |
+| get collection cluster info | ✅ | ✅ | ✅ | ✅ | ❌ |
+| collection exists | ✅ | ✅ | ✅ | ✅ | ✅ |
+| update collection cluster setup | ✅ | ❌ | ❌ | ❌ | ❌ |
+| update aliases | ✅ | ❌ | ❌ | ❌ | ❌ |
+| list collection aliases | ✅ | ✅ | 🎟️ | 🎟️ | 🎟️ |
+| list aliases | ✅ | ✅ | 🎟️ | 🎟️ | 🎟️ |
+| create shard key | ✅ | ❌ | ❌ | ❌ | ❌ |
+| delete shard key | ✅ | ❌ | ❌ | ❌ | ❌ |
+| create payload index | ✅ | ❌ | ✅ | ❌ | ❌ |
+| delete payload index | ✅ | ❌ | ✅ | ❌ | ❌ |
+| list collection snapshots | ✅ | ✅ | ✅ | ✅ | ❌ |
+| create collection snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
+| delete collection snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
+| download collection snapshot | ✅ | ✅ | ✅ | ✅ | ❌ |
+| upload collection snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
+| recover collection snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
+| list shard snapshots | ✅ | ✅ | ✅ | ✅ | ❌ |
+| create shard snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
+| delete shard snapshot | ✅ | ❌ | ✅ | ❌ | ❌ |
+| download shard snapshot | ✅ | ✅ | ✅ | ✅ | ❌ |
+| upload shard snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
+| recover shard snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
+| list full snapshots | ✅ | ✅ | ❌ | ❌ | ❌ |
+| create full snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
+| delete full snapshot | ✅ | ❌ | ❌ | ❌ | ❌ |
+| download full snapshot | ✅ | ✅ | ❌ | ❌ | ❌ |
+| get cluster info | ✅ | ✅ | ❌ | ❌ | ❌ |
+| recover raft state | ✅ | ❌ | ❌ | ❌ | ❌ |
+| delete peer | ✅ | ❌ | ❌ | ❌ | ❌ |
+| get point | ✅ | ✅ | ✅ | ✅ | ❌ |
+| get points | ✅ | ✅ | ✅ | ✅ | ❌ |
+| upsert points | ✅ | ❌ | ✅ | ❌ | ❌ |
+| update points batch | ✅ | ❌ | ✅ | ❌ | ❌ |
+| delete points | ✅ | ❌ | ✅ | ❌ | ❌ / 🎟️ |
+| update vectors | ✅ | ❌ | ✅ | ❌ | ❌ |
+| delete vectors | ✅ | ❌ | ✅ | ❌ | ❌ / 🎟️ |
+| set payload | ✅ | ❌ | ✅ | ❌ | ❌ |
+| overwrite payload | ✅ | ❌ | ✅ | ❌ | ❌ |
+| delete payload | ✅ | ❌ | ✅ | ❌ | ❌ |
+| clear payload | ✅ | ❌ | ✅ | ❌ | ❌ |
+| scroll points | ✅ | ✅ | ✅ | ✅ | 🎟️ |
+| search points | ✅ | ✅ | ✅ | ✅ | 🎟️ |
+| search groups | ✅ | ✅ | ✅ | ✅ | 🎟️ |
+| recommend points | ✅ | ✅ | ✅ | ✅ | ❌ |
+| recommend groups | ✅ | ✅ | ✅ | ✅ | ❌ |
+| discover points | ✅ | ✅ | ✅ | ✅ | ❌ |
+| count points | ✅ | ✅ | ✅ | ✅ | 🎟️ |
+| version | ✅ | ✅ | ✅ | ✅ | ✅ |
+| readyz, healthz, livez | ✅ | ✅ | ✅ | ✅ | ✅ |
+| telemetry | ✅ | ✅ | ❌ | ❌ | ❌ |
+| metrics | ✅ | ✅ | ❌ | ❌ | ❌ |
+| update locks | ✅ | ❌ | ❌ | ❌ | ❌ |
+| get locks | ✅ | ✅ | ❌ | ❌ | ❌ |
 
 ## TLS
 
