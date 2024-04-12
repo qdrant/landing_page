@@ -194,7 +194,7 @@ Now that all the preparations are complete, let's start building a neural search
 In order to process incoming requests, the hybrid search class will need 3 things: 1) models to convert the query into a vector, 2) the Qdrant client to perform search queries, 3) fusion function to re-rank dense and sparse search results.
 
 Fastembed integration encapsulates query encoding, search and fusion into a single method call.
-Fastembed leverages (reciprocal rank fusion)[https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf]) in order combine the results.
+Fastembed leverages [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf]) in order combine the results.
 
 
 1. Create a file named `neural_searcher.py` and specify the following.
