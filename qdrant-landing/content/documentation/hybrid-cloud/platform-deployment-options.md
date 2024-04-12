@@ -9,7 +9,7 @@ weight: 4
 
 ## Akamai (Linode)
 
-[The Linode Kubernetes Engine (LKE)](https://www.linode.com/products/kubernetes/) is a managed container orchestration engine built on top of Kubernetes. LKE enables you to quickly deploy and manage your containerized applications without needing to build (and maintain) your own Kubernetes cluster. All LKE instances are equipped with a fully-managed control plane at no additional cost.
+[The Linode Kubernetes Engine (LKE)](https://www.linode.com/products/kubernetes/) is a managed container orchestration engine built on top of Kubernetes. LKE enables you to quickly deploy and manage your containerized applications without needing to build (and maintain) your own Kubernetes cluster. All LKE instances are equipped with a fully managed control plane at no additional cost.
 
 ### More on Linode Kubernetes Engine
 
@@ -33,7 +33,7 @@ weight: 4
 
 ## Digital Ocean
 
-DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains, integrate natively with DigitalOcean Load Balancers and volumes.
+DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
 
 ### More on DigitalOcean Kubernetes
 
@@ -47,7 +47,7 @@ DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you dep
 
 [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) is a managed Kubernetes service that you can use to deploy and operate containerized applications at scale using Google's infrastructure. GKE provides the operational power of Kubernetes while managing many of the underlying components, such as the control plane and nodes, for you.
 
-### More on Google Kubernetes Engine
+### More on the Google Kubernetes Engine
 
 - [Getting Started with GKE](https://cloud.google.com/kubernetes-engine/docs/quickstart)
 - [GKE Tutorials](https://cloud.google.com/kubernetes-engine/docs/tutorials)
@@ -63,7 +63,7 @@ With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products
 
 - [Getting Started with AKS](https://learn.microsoft.com/en-us/azure/architecture/reference-architectures/containers/aks-start-here)
 - [AKS Documentation](https://learn.microsoft.com/en-in/azure/aks/)
-- [Best Practises with AKS](https://learn.microsoft.com/en-in/azure/aks/best-practices)
+- [Best Practices with AKS](https://learn.microsoft.com/en-in/azure/aks/best-practices)
 
 ![Oracle Cloud Infrastructure](/documentation/cloud/cloud-providers/oracle.jpg)
 
@@ -81,7 +81,7 @@ With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products
 
 ## OVHcloud
 
-[Service Managed Kubernetes](https://www.ovhcloud.com/en-in/public-cloud/kubernetes/), powered by OVH Public Cloud instances, a leading European cloud provider.  With OVHcloud Load Balancers and disks built in. OVHcloud Managed Kubernetes provides high availability, compliance, and CNCF conformance, allowing you to focus on your containerized software layers with total reversibility.
+[Service Managed Kubernetes](https://www.ovhcloud.com/en-in/public-cloud/kubernetes/), powered by OVH Public Cloud Instances, a leading European cloud provider. With OVHcloud Load Balancers and disks built in. OVHcloud Managed Kubernetes provides high availability, compliance, and CNCF conformance, allowing you to focus on your containerized software layers with total reversibility.
 
 ### More on Service Managed Kubernetes by OVHcloud
 
@@ -137,4 +137,4 @@ With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products
 - [VKE Documentation](https://docs.vultr.com/)
 - [Frequently Asked Questions on VKE](https://docs.vultr.com/vultr-kubernetes-engine#frequently-asked-questions)
 
-Once you've got a Kubernetes cluster deployed on a platform of your choosing, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.
+Once you've got a Kubernetes cluster deployed on a platform of your choosing, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) for instructions.
