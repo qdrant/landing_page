@@ -26,9 +26,7 @@ We are excited to have trusted industry players support the launch of Qdrant Hyb
 
 #### Tutorials and Use Cases That Leverage Qdrant Hybrid Cloud and Trusted Partner Technologies
 
-// Visual for Tutorials Partner Tutorials (Qdrant Hybrid Cloud )
-
----
+![Hybrid Cloud Launch Partners Tutorials](/blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners-tutorials.png)
 
 Together with our launch partners, we created in-depth tutorials and use cases for production-ready vector search that explain how developers can leverage Qdrant Hybrid Cloud alongside the best-in-class solutions of our launch partners. This provies to have the most flexible foundation to build modern, customer-centric AI applications with endless deployment options and full data sovereignty. Let’s dive right in:
 

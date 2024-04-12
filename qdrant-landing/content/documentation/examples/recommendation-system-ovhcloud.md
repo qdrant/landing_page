@@ -5,7 +5,7 @@ aliases:
   - /documentation/tutorials/recommendation-system-ovhcloud/
 ---
 
-# Movie Recommendation System on OVHcloud
+# Movie Recommendation System 
 
 | Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/infoslack/qdrant-example/blob/main/HC-demo/HC-OVH.ipynb) |
 | --- | ----------- | ----------- |----------- |

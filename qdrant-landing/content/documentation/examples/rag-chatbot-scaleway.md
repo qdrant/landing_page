@@ -5,7 +5,7 @@ aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/
 ---
 
-# Blog-Reading RAG Chatbot on Scaleway
+# Blog-Reading RAG Chatbot 
 
 | Time: 90 min | Level: Advanced |[GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb)|    |
 |--------------|-----------------|--|----|
