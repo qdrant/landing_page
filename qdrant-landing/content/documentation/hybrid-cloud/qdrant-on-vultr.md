@@ -15,4 +15,4 @@ weight: 11
 - [VKE Documentation](https://docs.vultr.com/)
 - [Frequently Asked Questions on VKE](https://docs.vultr.com/vultr-kubernetes-engine#frequently-asked-questions)
 
-Once you've got a Kubernetes cluster deployed on Vultr, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on Vultr, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

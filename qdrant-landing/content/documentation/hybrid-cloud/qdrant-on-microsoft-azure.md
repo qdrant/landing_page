@@ -15,4 +15,4 @@ With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products
 - [AKS Documentation](https://learn.microsoft.com/en-in/azure/aks/)
 - [Best Practises with AKS](https://learn.microsoft.com/en-in/azure/aks/best-practices)
 
-Once you've got a Kubernetes cluster deployed on Azure, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on Azure, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

@@ -15,4 +15,4 @@ weight: 6
 - [Frequently Asked Questions on OCI](https://www.oracle.com/in/cloud/cloud-native/container-engine-kubernetes/faq/)
 - [OCI Product Updates](https://docs.oracle.com/en-us/iaas/releasenotes/services/conteng/)
 
-Once you've got a Kubernetes cluster deployed on Oracle Cloud Infrastructure, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on Oracle Cloud Infrastructure, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

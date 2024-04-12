@@ -15,4 +15,4 @@ weight: 2
 - [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html)
 - [Amazon EKS API Reference](https://docs.aws.amazon.com/eks/latest/APIReference/Welcome.html)
 
-Once you've got a Kubernetes cluster deployed on AWS, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on AWS, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

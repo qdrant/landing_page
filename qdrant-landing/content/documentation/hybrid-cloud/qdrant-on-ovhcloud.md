@@ -15,4 +15,4 @@ weight: 7
 - [OVH Managed Kubernetes Documentation](https://help.ovhcloud.com/csm/en-in-documentation-public-cloud-containers-orchestration-managed-kubernetes-k8s)
 - [OVH Managed Kubernetes Tutorials](https://help.ovhcloud.com/csm/en-in-documentation-public-cloud-containers-orchestration-managed-kubernetes-k8s-tutorials)
 
-Once you've got a Kubernetes cluster deployed on OVHcloud, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on OVHcloud, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

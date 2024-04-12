@@ -15,4 +15,4 @@ weight: 1
 - [LKE Guides](https://www.linode.com/docs/products/compute/kubernetes/guides/)
 - [LKE API Reference](https://www.linode.com/docs/api/)
 
-Once you've got a Kubernetes cluster deployed on Akamai (Linode), you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on Akamai (Linode), you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

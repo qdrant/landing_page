@@ -15,4 +15,4 @@ DigitalOcean Kubernetes (DOKS) is a managed Kubernetes service that lets you dep
 - [DOKS - How To Guides](https://docs.digitalocean.com/products/kubernetes/how-to/)
 - [DOKS - Reference Manual](https://docs.digitalocean.com/products/kubernetes/reference/)
 
-Once you've got a Kubernetes cluster deployed on DigitalOcean, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on DigitalOcean, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

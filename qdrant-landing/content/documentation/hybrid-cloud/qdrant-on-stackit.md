@@ -15,4 +15,4 @@ weight: 10
 - [SKE Tutorials](https://docs.stackit.cloud/stackit/en/tutorials-ske-66683162.html)
 - [Frequently Asked Questions on SKE](https://docs.stackit.cloud/stackit/en/faq-known-issues-of-ske-28476393.html)
 
-Once you've got a Kubernetes cluster deployed on the STACKIT Kubernetes Engine, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on the STACKIT Kubernetes Engine, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

@@ -15,4 +15,4 @@ weight: 4
 - [GKE Tutorials](https://cloud.google.com/kubernetes-engine/docs/tutorials)
 - [GKE Documentation](https://cloud.google.com/kubernetes-engine/docs/)
 
-Once you've got a Kubernetes cluster deployed on Google Cloud Platform, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on Google Cloud Platform, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.

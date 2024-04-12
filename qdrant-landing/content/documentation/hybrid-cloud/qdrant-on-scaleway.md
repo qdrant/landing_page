@@ -15,4 +15,4 @@ weight: 9
 - [Scaleway Kubernetes Documentation](https://www.scaleway.com/en/docs/containers/kubernetes/)
 - [Frequently Asked Questions on Scaleway Kubernetes](https://www.scaleway.com/en/docs/faq/kubernetes/)
 
-Once you've got a Kubernetes cluster deployed on Scaleway, you can begin setting up Qdrant hybrid cloud. Head over to our [Qdrant Hybrid Cloud](/documentation/cloud/hybrid-cloud/) guide to know more.
+Once you've got a Kubernetes cluster deployed on Scaleway, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) guide to know more.
