@@ -1,5 +1,5 @@
 ---
-draft: false
+draft: true
 title: Gen AI and Vector Search - Iveta Lohovska | Vector Space Talks
 slug: gen-ai-and-vector-search
 short_description: Iveta talks about the importance of trustworthy AI,
