@@ -5,7 +5,7 @@ weight: 2
 
 # Qdrant Operator configuration
 
-You should configure the Qdrant Operator with the configuration for Hybrid Cloud. 
+You should configure the Qdrant Operator with the configuration for Hybrid Cloud.
 Use the following options, in YAML format:
 
 ```yaml

@@ -11,6 +11,7 @@ This section list all the requirements needed to setup a Qdrant cluster in your 
 
 - **Kubernetes cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere.
 - **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. For backups and restores, the driver needs to support CSI snapshots and restores.
+
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
 
 - **Permissions:** To install the Qdrant Kubernetes Operator you need to have `cluster-admin` access in your Kubernetes cluster.
@@ -22,6 +23,7 @@ This section list all the requirements needed to setup a Qdrant cluster in your 
 ### Required artifacts
 
 Container images:
+
 - `docker.io/qdrant/qdrant`
 - `registry.cloud.qdrant.io/qdrant/qdrant-cloud-agent`
 - `registry.cloud.qdrant.io/qdrant/qdrant-operator`
@@ -31,6 +33,7 @@ Container images:
 - `registry.cloud.qdrant.io/qdrant/kube-state-metrics`
 
 Open Containers Initiative (OCI) Helm charts:
+
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent`
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-operator`
 - `registry.cloud.qdrant.io/qdrant-charts/prometheus`
@@ -39,7 +42,7 @@ Open Containers Initiative (OCI) Helm charts:
 
 1. To set up Hybrid Cloud, open the Qdrant Cloud Console at [cloud.qdrant.io](https://cloud.qdrant.io). On the dashboard, select **Hybrid Cloud**.
 
-2. Before creating your first Hybrid Cloud Environment, you have to provide billing information and accept the Hybrid Cloud license agreement. The installation wizard will guide you through the process. 
+2. Before creating your first Hybrid Cloud Environment, you have to provide billing information and accept the Hybrid Cloud license agreement. The installation wizard will guide you through the process.
 
 > **Note:** You will only be charged for the Qdrant cluster you create in a Hybrid Cloud Environment, but not for the environment itself.
 
@@ -93,7 +96,7 @@ With this command the secret name would be `qdrant-api-key` and the key would be
 
 ### Exposing Qdrant clusters to your client applications
 
-You can expose your Qdrant clusters to your client applications using Kubernetes services and ingresses. By default, a `ClusterIP` service is created for each Qdrant cluster. 
+You can expose your Qdrant clusters to your client applications using Kubernetes services and ingresses. By default, a `ClusterIP` service is created for each Qdrant cluster.
 
 Within your Kubernetes cluster, you can access the Qdrant cluster using the service name and port:
 
