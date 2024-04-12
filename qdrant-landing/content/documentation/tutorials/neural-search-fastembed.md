@@ -164,7 +164,7 @@ client.add(
     collection_name="startups",
     documents=documents,
     metadata=metadata,
-    parallel=0,  # Use all available CPU cores to encode data
+    parallel=0,  # Use all available CPU cores to encode data. Requires wrapping code into if __name__ == '__main__' block
 )
 ```
 
@@ -241,7 +241,7 @@ Fastembed integration encapsulates query encoding, search and fusion into a sing
 Fastembed leverages [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) in order combine the results.
 
 
-1. Create a file named `neural_searcher.py` and specify the following.
+1. Create a file named `hybrid_searcher.py` and specify the following.
 
 ```python
 from qdrant_client import QdrantClient
