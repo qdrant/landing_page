@@ -10,7 +10,7 @@ aliases:
 | Time: 90 min | Level: Advanced |[GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb)|    |
 |--------------|-----------------|--|----|
 
-In this tutorial, you will build a RAG system that combines web scraping with the capabilities of semantic search. RAG enhances the generation of answers by retrieving relevant documents to aid the question-answering process. This setup showcases the integration of advanced search and AI language processing to improve information retrieval and generation tasks.
+In this tutorial, you will build a RAG system that combines blog content ingestino with the capabilities of semantic search. RAG enhances the generation of answers by retrieving relevant documents to aid the question-answering process. This setup showcases the integration of advanced search and AI language processing to improve information retrieval and generation tasks.
 
 A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb).
 
