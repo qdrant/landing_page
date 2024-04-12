@@ -9,7 +9,7 @@ description: Nick Khami discuss Trieve's work with Qdrant's Open API spec for
   on real-world applications, technical specifics, and the potential for
   improved user experiences.
 preview_image: /blog/from_cms/nick-khami-cropped.png
-date: 2024-04-12T18:27:00.000Z
+date: 2024-04-12T22:13:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
