@@ -22,7 +22,7 @@ startFree:
   url:  https://cloud.qdrant.io/login
 contactUs:
   text: Contact us
-  url: https://us1.list-manage.com/contact-form?u=69617d79374ac6280dd2230b2&form_id=cce004c91b038a38e5ef1ece5318fd1e
+  url: https://share-eu1.hsforms.com/1t0nI6kE2Rs2LwkM8s-9gLA2b46ng
 image:
   src: /img/hybrid-cloud-graphic.svg
   alt: Enterprise-solutions
