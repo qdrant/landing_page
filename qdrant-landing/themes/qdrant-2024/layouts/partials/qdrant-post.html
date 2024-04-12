@@ -1,19 +1,24 @@
-<section class="qdrant-blog-post">
+<section class="qdrant-post">
   <div class="container">
-    <div class="qdrant-blog-post__header">
-      <h2 class="qdrant-blog-post__title">{{ .Params.title }}</h2>
-      <div class="qdrant-blog-post__about">
+    <div class="qdrant-post__header">
+      <h2 class="qdrant-post__title">{{ .Params.title }}</h2>
+      <div class="qdrant-post__about">
         <p>{{ .Params.author }}</p>
         <span>&middot;</span>
         <p>{{ time.Format "January 02, 2006" .Date }}</p>
       </div>
-      <img class="qdrant-blog-post__preview" src="{{ .Params.preview_image }}" alt="Preview">
+      {{ if .Params.preview_image }}
+        <img class="qdrant-post__preview" src="{{ .Params.preview_image }}" alt="Preview">
+      {{ end }}
+      {{ if .Params.preview_dir }}
+        <img class="qdrant-post__preview" src="{{ .Params.preview_dir }}/title.jpg" alt="Preview">
+      {{ end }}
     </div>
 
-    <div class="qdrant-blog-post__body">
-      <div class="qdrant-blog-post__social">
-        <p class="qdrant-blog-post__social-title">Share</p>
-        <div class="qdrant-blog-post__social-links">
+    <div class="qdrant-post__body">
+      <div class="qdrant-post__social">
+        <p class="qdrant-post__social-title">Share</p>
+        <div class="qdrant-post__social-links">
           <a href="/">
             <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M10.8423 15.5895L4.40655 22.938H0.841797L9.1773 13.416L10.8423 15.5895Z" fill="#161E33"/>
@@ -32,11 +37,11 @@
                 </clipPath>
               </defs>
             </svg>
-
           </a>
         </div>
       </div>
-      <div class="qdrant-blog-post__content">
+
+      <div class="qdrant-post__content">
         {{ $reAltTitleIn := "<img src=\"([^\"]+)\" alt=\"([^\"]*)\" title=\"([^\"]+)\">" }}
         {{ $reAltTitleOut := "<figure><img src=\"$1\" alt=\"$2\" title=\"$3\"><figcaption>$3</figcaption></figure>" }}
         {{ $contentWithImgCaptures := .Content | replaceRE $reAltTitleIn $reAltTitleOut | safeHTML }}

@@ -1,24 +1,22 @@
-{{ with (.Site.GetPage "/qdrant-blog/qdrant-blog-hero") }}
-  <section class="qdrant-blog-hero">
-    <div class="container">
-      <div class="row">
-        <h1 class="qdrant-blog-hero__title col-12 col-xl-6">{{ .Params.title }}</h1>
-        <div class="qdrant-blog-hero__content col-12 col-xl-6">
-          <p class="qdrant-blog-hero__description">{{ .Params.description }}</p>
-          <form class="qdrant-blog-hero__form">
-            <input
-              class="input input_lg input_dark-bg"
-              type="email"
-              name="email"
-              value=""
-              placeholder="{{ .Params.placeholder }}"
-              required=""
-            />
-            <button class="button button_contained button_lg" type="submit">{{ .Params.button }}</button>
-          </form>
-        </div>
+<section class="qdrant-blog-hero">
+  <div class="container">
+    <div class="row">
+      <h1 class="qdrant-blog-hero__title col-12 col-xl-6">{{ .Params.title }}</h1>
+      <div class="qdrant-blog-hero__content col-12 col-xl-6">
+        <p class="qdrant-blog-hero__description">{{ .Params.description }}</p>
+        <form class="qdrant-blog-hero__form">
+          <input
+            class="input input_lg input_dark-bg"
+            type="email"
+            name="email"
+            value=""
+            placeholder="{{ .Params.email_placeholder }}"
+            required=""
+          />
+          <button class="button button_contained button_lg" type="submit">{{ .Params.subscribe_button }}</button>
+        </form>
       </div>
     </div>
-    <div class="qdrant-blog-hero__overlay"></div>
-  </section>
-{{ end }}
+  </div>
+  <div class="qdrant-blog-hero__overlay"></div>
+</section>
