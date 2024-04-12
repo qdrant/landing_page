@@ -1,11 +1,28 @@
 ---
 title: Examples
-weight: 25
+weight: 34
 # If the index.md file is empty, the link to the section will be hidden from the sidebar
 is_empty: false
 ---
+# Examples
 
-# Sample Use Cases 
+| End-to-End Code Samples                                                                   | Description                                                       | Stack                                       |   
+|---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
+| [Aleph Alpha Search](../examples/aleph-alpha-search/)                          | Build a multimodal search that combines text and image data.      | Qdrant, Aleph Alpha                         | 
+| [Mighty Semantic Search](../examples/mighty/)                                  | Build a simple semantic search with an on-demand NLP service.     | Qdrant, Mighty                              | 
+| [Multitenancy with LlamaIndex](../examples/llama-index-multitenancy/)          | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex                  |
+| [Implement custom connector for Cohere RAG](../examples/cohere-rag-connector/) | Bring data stored in Qdrant to Cohere RAG                         | Qdrant, Cohere, FastAPI                     |
+| [Chatbot for Interactive Learning](../examples/rag-chatbot-red-hat-openshift-haystack/)                                 | Build a Private RAG Chatbot for Interactive Learning              | Qdrant, Haystack, OpenShift                                      |  
+| [Information Extraction Engine](../examples/rag-chatbot-vultr-dspy-ollama/)                                 | Build a Private RAG Information Extraction Engine               | Qdrant, Vultr, DSPy, Ollama                                      |  
+| [System for Employee Onboarding](../examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)                                 | Build a RAG System for Employee Onboarding               | Qdrant, Cohere, LangChain                                      |  
+| [System for Contract Management](../examples/rag-contract-management-stackit-aleph-alpha/)                                 | Build a Region-Specific RAG System for Contract Management              | Qdrant, Aleph Alpha, STACKIT                                      |  
+| [Question-Answering System for Customer Support](../examples/rag-customer-support-cohere-airbyte-aws/)                                 | Build a RAG System for AI Customer Support               | Qdrant, Cohere, Airbyte, AWS                                      |  
+| [Hybrid Search on PDF Documents](../examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
+| [Build a RAG-based Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop Build a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LlamaIndex, Jina AI   
+| [Movie Recommendation System](../examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant, LlamaIndex, Jina AI   
+
+
+## Notebooks
 
 Our Notebooks offer complex instructions that are supported with a throrough explanation. Follow along by trying out the code and get the most out of each example.
 

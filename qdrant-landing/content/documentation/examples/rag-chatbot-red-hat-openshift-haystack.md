@@ -1,6 +1,8 @@
 ---
 title: Private Chatbot for Interactive Learning
 weight: 23 
+aliases:
+  - /documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/
 ---
 
 # Private Chatbot for Interactive Learning

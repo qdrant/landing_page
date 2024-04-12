@@ -1,6 +1,8 @@
 ---
 title: RAG System for Employee Onboarding
 weight: 30
+aliases:
+  - /documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/
 ---
 
 # RAG System for Employee Onboarding

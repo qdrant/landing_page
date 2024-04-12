@@ -1,6 +1,8 @@
 ---
 title: Chat With Product PDF Manuals Using Hybrid Search 
 weight: 27
+aliases:
+  - /documentation/tutorials/hybrid-search-llamaindex-jinaai/
 ---
 
 # Chat With Product PDF Manuals Using Hybrid Search 

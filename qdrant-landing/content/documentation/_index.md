@@ -9,7 +9,7 @@ weight: 10
 ## Product Release: Announcing Qdrant Hybrid Cloud!
 ***<p style="text-align: center;">Now you can attach your own infrastructure to [Qdrant Cloud](/documentation/cloud/)!</p>***
 
-[![Hybrid Cloud](/docs/homepage/hybrid-cloud-get-started.png)](https://qdrant.to/cloud)
+[![Hybrid Cloud](/docs/homepage/hybrid-cloud-cta.png)](https://qdrant.to/cloud)
 Build the best private environment that suits your needs. Use our Cloud to manage your clusters, but continue to run them within your own private infrastructure. **Get the most out of Qdrant: scalability, flexibility and data sovereignty!**
 
 ## First-Time Users:

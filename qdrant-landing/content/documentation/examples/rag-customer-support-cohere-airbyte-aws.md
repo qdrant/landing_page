@@ -1,6 +1,8 @@
 ---
 title: Question-Answering System for AI Customer Support
 weight: 26
+aliases:
+  - /documentation/tutorials/rag-customer-support-cohere-airbyte-aws/
 ---
 
 # Question-Answering System for AI Customer Support

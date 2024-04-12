@@ -1,6 +1,8 @@
 ---
 title: Private RAG Information Extraction Engine
 weight: 32
+aliases:
+  - /documentation/tutorials/rag-chatbot-vultr-dspy-ollama/
 ---
 
 # Private RAG Information Extraction Engine
