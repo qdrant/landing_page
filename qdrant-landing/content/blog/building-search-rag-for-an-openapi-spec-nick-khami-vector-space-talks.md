@@ -1,5 +1,5 @@
 ---
-draft: true
+draft: false
 title: Building Search/RAG for an OpenAPI spec - Nick Khami | Vector Space Talks
 slug: building-search-rag-open-api
 short_description: Nick Khami, Founder and Engineer of Trieve, dives into the
