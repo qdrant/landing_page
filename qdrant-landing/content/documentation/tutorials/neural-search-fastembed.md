@@ -122,7 +122,7 @@ client.set_sparse_model("prithivida/Splade_PP_en_v1")  # comment out to switch t
 client.recreate_collection(
     collection_name="startups",
     vectors_config=client.get_fastembed_vector_params(),
-    sparse_config=client.get_fastembed_sparse_vector_params(),  # comment out to switch to a dense vector search
+    sparse_vectors_config=client.get_fastembed_sparse_vector_params(),  # comment out to switch to a dense vector search
 )
 ```
 
@@ -139,6 +139,8 @@ Additionally, you can specify extended configuration for your vectors, like `qua
 5. Read data from the file.
 
 ```python
+import json
+
 payload_path = "startups_demo.json"
 metadata = []
 documents = []
