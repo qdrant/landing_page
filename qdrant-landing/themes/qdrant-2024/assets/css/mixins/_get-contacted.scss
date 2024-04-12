@@ -25,7 +25,7 @@
   }
 
   &__button {
-    display: none;
+    display: none !important;
   }
 
   @include bs.media-breakpoint-up(lg) {
@@ -47,11 +47,13 @@
     }
 
     &__button {
-      display: inline-flex;
-    }
+      display: inline-flex !important;
 
-    &__button-mobile {
-      display: none;
+      &-mobile {
+        display: none !important;
+      }
+
+      // todo: add mobile modificator to the button styles in components/_buttons.scss
     }
   }
 }

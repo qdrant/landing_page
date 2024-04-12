@@ -19,10 +19,10 @@ features:
 description: Seamlessly deploy and manage the vector database across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
 startFree:
   text: Get Started
-  url: /
+  url:  https://cloud.qdrant.io/login
 contactUs:
   text: Contact us
-  url: /
+  url: https://share-eu1.hsforms.com/1t0nI6kE2Rs2LwkM8s-9gLA2b46ng
 image:
   src: /img/hybrid-cloud-graphic.svg
   alt: Enterprise-solutions
