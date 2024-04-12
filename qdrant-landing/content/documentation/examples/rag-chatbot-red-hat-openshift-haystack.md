@@ -7,14 +7,14 @@ aliases:
 
 # Private Chatbot for Interactive Learning
 
-| Time: 120 min | Level: Advanced | Output: [GitHub](https://github.com/qdrant/) |
+| Time: 120 min | Level: Advanced |  |
 | --- | ----------- | ----------- |----------- |
 
 With chatbots, companies can scale their training programs to accommodate a large workforce, delivering consistent and standardized learning experiences across departments, locations, and time zones. Furthermore, having already completed their online training, corporate employees might want to refer back old course materials. Most of this information is proprietary to the company, and manually searching through an entire library of materials takes time. However, a chatbot built on this knowledge can respond in the blink of an eye. 
 
 With a simple RAG pipeline, you can build a private chatbot. In this tutorial, you will combine open source tools inside of a closed infrastructure and tie them together with a reliable framework. This custom solution lets you run a chatbot without public internet access. You will be able to keep sensitive data secure without compromising privacy.
 
-![OpenShift](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/openshift-diagram.png)
+![OpenShift](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/openshift-diagram.png)
 **Figure 1:** The LLM and Qdrant Hybrid Cloud are containerized as separate services. Haystack combines them into a RAG pipeline and exposes the API via Hayhooks.
 
 ## Components
@@ -22,7 +22,8 @@ To maintain complete data isolation, we need to limit ourselves to open-source t
 
 - **Dataset:** [Red Hat Interactive Learning Portal](https://developers.redhat.com/learn), an online library of RedHat course materials.
 - **LLM:** `mistralai/Mistral-7B-Instruct-v0.1`, deployed as a standalone service on OpenShift.
-- **Embedding Model:** `BAAI/bge-m3`, lightweight embedding model deployed from within the Haystack pipeline.
+- **Embedding Model:** `BAAI/bge-base-en-v1.5`, lightweight embedding model deployed from within the Haystack pipeline
+  with [FastEmbed](https://github.com/qdrant/fastembed)
 - **Vector DB:** [Qdrant Hybrid Cloud](https://qdrant.tech) running on OpenShift.
 - **Framework:** [Haystack 2.x](https://haystack.deepset.ai/) to connect all and [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) to serve the app through HTTP endpoints.
 
@@ -80,14 +81,13 @@ HTML parsing, up to the vector storage. Before we start, there are a few Python 
 
 ```shell
 pip install haystack-ai \
-  qdrant-haystack \
-  transformers \
-  torch --index-url https://download.pytorch.org/whl/cpu
+    qdrant-client \
+    qdrant-haystack \
+    fastembed-haystack
 ```
 
 <aside role="status">
-We set the index URL for PyTorch to CPU, as we are going to run the indexing process, including the embedding model, on 
-the processor. If you have a compatible GPU, you can install the corresponding version of PyTorch (CUDA or ROCm).
+FastEmbed uses ONNX runtime and does not require a GPU for the embedding models while still providing a fast inference speed.
 </aside>
 
 Our environment is now ready, so we can jump right into the code. Let's define an empty pipeline and gradually add
@@ -127,7 +127,7 @@ Each component has a set of inputs and outputs which might be combined in a dire
 inputs and outputs are usually provided in the documentation of the component. The `LinkContentFetcher` has the 
 following parameters:
 
-![Parameters of the `LinkContentFetcher`](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/haystack-link-content-fetcher.png)
+![Parameters of the `LinkContentFetcher`](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/haystack-link-content-fetcher.png)
 
 *Source: https://docs.haystack.deepset.ai/docs/linkcontentfetcher*
 
@@ -137,15 +137,16 @@ We used `HTMLToDocument` to convert the HTML sources into `Document` instances o
 base class containing some data to be queried. However, a single document might be too long to be processed by the 
 embedding model, and it also carries way too much information to make the search relevant. 
 
-Therefore, we need to split the document into smaller parts and convert them into embeddings. 
-For this, we will use the `DocumentSplitter` and `HuggingFaceTEIDocumentEmbedder` pointed to our `BAAI/bge-m3` model:
+Therefore, we need to split the document into smaller parts and convert them into embeddings. For this, we will use the 
+`DocumentSplitter` and `FastembedDocumentEmbedder` pointed to our `BAAI/bge-base-en-v1.5` model:
 
 ```python
 from haystack.components.preprocessors import DocumentSplitter
-from haystack.components.embedders import HuggingFaceTEIDocumentEmbedder
+from haystack_integrations.components.embedders.fastembed import FastembedDocumentEmbedder
 
 splitter = DocumentSplitter(split_by="sentence", split_length=5, split_overlap=2)
-embedder = HuggingFaceTEIDocumentEmbedder(model="BAAI/bge-m3")
+embedder = FastembedDocumentEmbedder(model="BAAI/bge-base-en-v1.5")
+embedder.warm_up()
 
 indexing_pipeline.add_component("splitter", splitter)
 indexing_pipeline.add_component("embedder", embedder)
@@ -171,7 +172,7 @@ document_store = QdrantDocumentStore(
     api_key=Secret.from_env_var("QDRANT_API_KEY"),
     index="red-hat-learning", 
     return_embedding=True, 
-    embedding_dim=1024,
+    embedding_dim=768,
 )
 writer = DocumentWriter(document_store=document_store)
 
@@ -187,7 +188,7 @@ connections between the components. It is displayed in the Jupyter notebook, but
 indexing_pipeline.draw("indexing_pipeline.png")
 ```
 
-![Structure of the indexing pipeline](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/indexing_pipeline.png)
+![Structure of the indexing pipeline](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/indexing_pipeline.png)
 
 #### Test the entire pipeline 
 
@@ -240,10 +241,12 @@ anymore, since the query only accepts raw text. Thus, some of the components wil
 as it has to accept a single string as an input and produce a single embedding as an output:
 
 ```python
-from haystack.components.embedders import HuggingFaceTEITextEmbedder
+from haystack_integrations.components.embedders.fastembed import FastembedTextEmbedder
 from haystack_integrations.components.retrievers.qdrant import QdrantEmbeddingRetriever
 
-query_embedder = HuggingFaceTEITextEmbedder(model="BAAI/bge-m3")
+query_embedder = FastembedTextEmbedder(model="BAAI/bge-base-en-v1.5")
+query_embedder.warm_up()
+
 retriever = QdrantEmbeddingRetriever(
     document_store=document_store,  # The same document store as the one used for indexing
     top_k=3,  # Number of documents to return
@@ -274,13 +277,13 @@ We set the `top_k` parameter to 3, so the retriever should return the three most
 
 ```text
 {
-  'retriever': {
-    'documents': [
-      Document(id=d127499a751f01969e76874049de7bea2dae077184eed9129d98fc97844c4bf2, content: '  Enter the application’s name (Figure 8). Figure 8: Deleting an application using the OpenShift web...', meta: {'content_type': 'text/html', 'source_id': '2a0759f3ce4a37d9f5c2af9c0ffcc80879077c102fb8e41e576e04833c9d24ce', 'url': 'https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-linux-container-image-repository-using-openshift-web-console'}, score: 0.87855008),
-      Document(id=59095a8e45e656ec7ead299907407c9e63819813ec4a044fb33d953f79448437, content: 'For example, OpenShift lets you install a web application directly from source code or from a conta...', meta: {'content_type': 'text/html', 'source_id': '97f3aed6ff6712d980d6a501def31752317134eabc9897f900f9e2190fbbe186', 'url': 'https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:openshift-and-developer-sandbox'}, score: 0.8763400299999999),
-      Document(id=5204e1b6adf3cbd2a3984db7bc9768ac4f27e2786f1a2682745b33ab8f5f686e, content: ' You declared the URL of the application’s source code in GitHub, then instigated the build process ...', meta: {'content_type': 'text/html', 'source_id': 'a4c4cd62d07c0d9d240e3289d2a1cc0a3d1127ae70704529967f715601559089', 'url': 'https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-source-code-github-repository-using-openshift-web-console'}, score: 0.8730886)
-    ]
-  }
+    'retriever': {
+        'documents': [
+            Document(id=867b4aa4c37a91e72dc7ff452c47972c1a46a279a7531cd6af14169bcef1441b, content: 'Install a Node.js application from GitHub using the web console The following describes the steps r...', meta: {'content_type': 'text/html', 'source_id': 'f56e8f827dda86abe67c0ba3b4b11331d896e2d4f7b2b43c74d3ce973d07be0c', 'url': 'https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:work-databases-openshift-web-console'}, score: 0.9209432),
+            Document(id=0c74381c178597dd91335ebfde790d13bf5989b682d73bf5573c7734e6765af7, content: 'How to remove an application from OpenShift using the web console. In addition to providing the cap...', meta: {'content_type': 'text/html', 'source_id': '2a0759f3ce4a37d9f5c2af9c0ffcc80879077c102fb8e41e576e04833c9d24ce', 'url': 'https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-linux-container-image-repository-using-openshift-web-console'}, score: 0.9132109500000001),
+            Document(id=3e5f8923a34ab05611ef20783211e5543e880c709fd6534d9c1f63576edc4061, content: 'Path resource: Install an application from source code in a GitHub repository using the OpenShift w...', meta: {'content_type': 'text/html', 'source_id': 'a4c4cd62d07c0d9d240e3289d2a1cc0a3d1127ae70704529967f715601559089', 'url': 'https://developers.redhat.com/learning/learn:openshift:foundations-openshift/resource/resources:install-application-source-code-github-repository-using-openshift-web-console'}, score: 0.912748935)
+        ]
+    }
 }
 ```
 
@@ -346,14 +349,12 @@ for reply in response["llm"]["replies"]:
 In our case there is a single response, which should be the answer to the question:
 
 ```text
-Answer: To install an application using the OpenShift web console, you need to follow these steps:
+Answer: To install an application using the OpenShift web console, follow these steps:
 
-1. Enter the application’s name.
-2. Access the Deploy Image web page.
-3. Declare the URL for a container image hosted on a public container image repository.
-4. Click the Create button.
-5. OpenShift downloads the container image and creates a Linux container using that container image.
-6. View the application by using a URL that OpenShift creates.
+1. Select +Add on the left side of the web console.
+2. Identify the container image to install.
+3. Using your web browser, navigate to the Developer Sandbox for Red Hat OpenShift and select Start your Sandbox for free.
+4. Install an application from source code stored in a GitHub repository using the OpenShift web console.
 ```
 
 Our final search pipeline might also be visualized, so we can see how the components are glued together:
@@ -362,7 +363,7 @@ Our final search pipeline might also be visualized, so we can see how the compon
 search_pipeline.draw("search_pipeline.png")
 ```
 
-![Structure of the search pipeline](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/search_pipeline.png)
+![Structure of the search pipeline](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/search_pipeline.png)
 
 ## Deployment
 
@@ -400,7 +401,7 @@ hayhooks deploy search-pipeline.yaml
 Once it's finished, you should be able to see the OpenAPI documentation at 
 [http://localhost:1416/docs](http://localhost:1416/docs), and test the newly created endpoint.
 
-![Search pipeline in the OpenAPI documentation](/documentation/tutorials/student-rag-haystack-red-hat-openshift-hc/hayhooks-openapi.png)
+![Search pipeline in the OpenAPI documentation](/documentation/examples/student-rag-haystack-red-hat-openshift-hc/hayhooks-openapi.png)
 
 Our search is now accessible through the HTTP endpoint, so we can integrate it with any other service. We can even 
 control the other parameters, like the number of documents to return:
