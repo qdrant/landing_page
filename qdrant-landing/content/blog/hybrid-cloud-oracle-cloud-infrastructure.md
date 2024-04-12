@@ -1,8 +1,8 @@
 ---
-draft: true
-title: "Oracle Cloud Infrastructure and Qdrant Hybrid Cloud"
-short_description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database." 
-description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database."
+draft: false
+title: "OCI and Qdrant Hybrid Cloud for Maximum Data Sovereignty"
+short_description: "Qdrant Hybrid Cloud is now available for OCI customers as a managed vector search engine for data-sensitive AI apps." 
+description: "Qdrant Hybrid Cloud is now available for OCI customers as a managed vector search engine for data-sensitive AI apps."
 preview_image: /blog/hybrid-cloud-oracle-cloud-infrastructure/hybrid-cloud-oracle-cloud-infrastructure.png
 date: 2024-04-11T00:03:00Z
 author: Qdrant
@@ -12,7 +12,7 @@ tags:
   - Vector Database
 ---
 
-**Qdrant Hybrid Cloud is Now Available for OCI Customers: Managed Vector Search Engine for Data-Sensitive AI Applications**
+****
 
 Qdrant and Oracle Cloud Infrastructure (OCI) Cloud Engineering are thrilled to announce the ability to deploy Qdrant Hybrid Cloud as a managed service on OCI. This marks the next step in the collaboration between Qdrant and Oracle Cloud Infrastructure, which will enable enterprises to realize the benefits of artificial intelligence powered through scalable vector search. In 2023, OCI added Qdrant to its [Oracle Cloud Infrastructure solution portfolio](https://blogs.oracle.com/cloud-infrastructure/post/vecto-database-qdrant-support-oci-kubernetes). Qdrant Hybrid Cloud is the managed service of the Qdrant vector search engine that can be deployed and run in any existing OCI environment, allowing enterprises to run fully managed vector search workloads in their existing infrastructure. This is a milestone for leveraging a managed vector search engine for data-sensitive AI applications.
 

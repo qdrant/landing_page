@@ -2,11 +2,11 @@
 draft: false
 title: "Qdrant's Trusted Partners for Hybrid Cloud Deployment"
 slug: hybrid-cloud-launch-partners
-short_description: "With the launch of Qdrant Hybrid Cloud we provide developers the ability to deploy Qdrant as a managed vector database in any desired environment, be it in the cloud, on premise, or on the edge."
-description: "With the launch of Qdrant Hybrid Cloud we provide developers the ability to deploy Qdrant as a managed vector database in any desired environment, be it in the cloud, on premise, or on the edge."
+short_description: "With the launch of Qdrant Hybrid Cloud we provide developers the ability to deploy Qdrant as a managed vector database in any desired environment."
+description: "With the launch of Qdrant Hybrid Cloud we provide developers the ability to deploy Qdrant as a managed vector database in any desired environment."
 preview_image: /blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners.png
 social_preview_image: /blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners.png
-date: 2024-04-10T00:09:00Z
+date: 2024-04-11T00:05:00Z
 author: Manuel Meyer
 featured: false
 tags:

@@ -153,9 +153,10 @@ Personal ratings are converted into a sparse vector representation suitable for 
 
 Let's try to recommend something for ourselves:
 
+```
 1 = Like
 -1 = dislike
-
+```
 
 ```python
 # Search with movies[movies.title.str.contains("Matrix", case=False)].

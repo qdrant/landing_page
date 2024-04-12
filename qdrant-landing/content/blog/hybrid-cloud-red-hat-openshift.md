@@ -1,8 +1,8 @@
 ---
-draft: true
-title: "Red Hat OpenShift and Qdrant Hybrid Cloud"
-short_description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database." 
-description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database."
+draft: false
+title: "Red Hat OpenShift and Qdrant Hybrid Cloud Offer Seamless and Scalable AI"
+short_description: "Qdrant brings managed vector databases to Red Hat OpenShift for large-scale GenAI." 
+description: "Qdrant brings managed vector databases to Red Hat OpenShift for large-scale GenAI."
 preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift.png
 date: 2024-04-11T00:04:00Z
 author: Qdrant
@@ -11,8 +11,6 @@ tags:
   - Qdrant
   - Vector Database
 ---
-
-**Qdrant Brings Managed Vector Database to Red Hat OpenShift Environments: A More Seamless Integration for Scalable AI Applications**
 
 We’re excited about our collaboration with Red Hat to bring the Qdrant vector database to Red Hat OpenShift customers! With the release of Qdrant Hybrid Cloud, developers can now deploy and run the Qdrant vector database directly in their Red Hat OpenShift environment. This collaboration enables developers to scale more seamlessly, operate more consistently across hybrid cloud environments, and maintain complete control over their vector data. This is a big step forward in simplifying AI infrastructure and empowering data-driven projects, like retrieval augmented generation (RAG) use cases, advanced search scenarios, or recommendations systems.
 

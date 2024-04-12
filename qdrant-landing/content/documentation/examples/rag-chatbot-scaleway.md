@@ -1,11 +1,11 @@
 ---
-title: Blog-Reading Web Scraper Chatbot on Scaleway
+title: Blog-Reading RAG Chatbot on Scaleway
 weight: 35
 aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/
 ---
 
-# Blog-Reading Web Scraper Chatbot on Scaleway
+# Blog-Reading RAG Chatbot on Scaleway
 
 | Time: 90 min | Level: Advanced |[GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb)|    |
 |--------------|-----------------|--|----|
