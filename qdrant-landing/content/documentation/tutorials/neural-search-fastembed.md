@@ -185,24 +185,31 @@ tar -xvf startups_hybrid_search_processed_40k.tar.gz
 Then you can upload the data to Qdrant.
 
 ```python
+from typing import List
 import json
 import numpy as np
 from qdrant_client import models
 
 
-def named_vectors(vectors: list[float], sparse_vectors: list[models.SparseVector]) -> dict:
+def named_vectors(vectors: List[float], sparse_vectors: List[models.SparseVector]) -> dict:
+    # make sure to use the same client object as previously
+    # or `set_model_name` and `set_sparse_model_name` manually
     dense_vector_name = client.get_vector_field_name()
-    sparse_vector_name = client.get_sparse_vector_field_name()
+    sparse_vector_name = client.get_sparse_vector_field_name()  
     for vector, sparse_vector in zip(vectors, sparse_vectors):
         yield {
             dense_vector_name: vector,
             sparse_vector_name: models.SparseVector(**sparse_vector),
         } 
 
-with open("dense_vectors.npy", "rb") as f, open("sparse_vectors.json", "r") as g, open("payload.json", "r",) as h:
+with open("dense_vectors.npy", "rb") as f:
     vectors = np.load(f)
-    sparse_vectors = json.load(g)
-    payload = json.load(h)
+    
+with open("sparse_vectors.json", "r") as f:
+    sparse_vectors = json.load(f)
+    
+with open("payload.json", "r",) as f:
+    payload = json.load(f)
 
 client.upload_collection(
     "startups", vectors=named_vectors(vectors, sparse_vectors), payload=payload
