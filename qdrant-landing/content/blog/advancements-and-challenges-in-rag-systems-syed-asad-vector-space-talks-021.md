@@ -1,5 +1,5 @@
 ---
-draft: false
+draft: true
 title: Advancements and Challenges in RAG Systems - Syed Asad | Vector Space Talks
 slug: rag-advancements-challenges
 short_description: Syed Asad talked about advanced rag systems and multimodal AI
