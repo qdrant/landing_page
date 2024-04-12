@@ -176,8 +176,8 @@ Generating sparse vectors with SPLADE might be time-consuming. We are limiting t
 Download and unpack the processed data from [here](https://storage.googleapis.com/...) or use the following script:
 
 ```bash
-wget https://storage.googleapis.com/.../startups_hybrid_search_processed_sample.tar.gz
-tar -xvf startups_hybrid_search_processed_sample.tar.gz
+wget https://storage.googleapis.com/dataset-startup-search/startup-list-com/startups_hybrid_search_processed_40k.tar.gz
+tar -xvf startups_hybrid_search_processed_40k.tar.gz
 ```
 
 Then you can upload the data to Qdrant.
