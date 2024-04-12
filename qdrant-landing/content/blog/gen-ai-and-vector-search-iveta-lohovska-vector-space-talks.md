@@ -10,7 +10,7 @@ description: Iveta Lohovska discusses the importance of explainability and
   and climate data, and emphasizing the necessity for on-prem solutions and
   traceable vector databases to ensure data integrity and confidentiality.
 preview_image: /blog/from_cms/iveta-lohovska-bp-cropped.png
-date: 2024-04-12T18:15:00.000Z
+date: 2024-04-12T22:12:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
