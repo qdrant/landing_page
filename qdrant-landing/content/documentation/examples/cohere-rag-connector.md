@@ -1,6 +1,8 @@
 ---
 title: Implement Cohere RAG connector
 weight: 24
+aliases:
+  - /documentation/tutorials/cohere-rag-connector/
 ---
 
 # Implement custom connector for Cohere RAG

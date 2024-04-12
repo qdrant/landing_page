@@ -1,47 +1,68 @@
 ---
 title: Qdrant Cloud
-weight: 20
+weight: 14
 aliases:
   - /documentation/overview/qdrant-alternatives/documentation/cloud/
 ---
 
 # About Qdrant Cloud
 
-Qdrant Cloud is our SaaS (software-as-a-service) solution, providing managed Qdrant instances on the cloud.
-We provide you with the same fast and reliable similarity search engine, but without the need to maintain your own infrastructure.
+Qdrant Cloud is our SaaS (software-as-a-service) solution, providing managed 
+Qdrant instances on the cloud. We provide you the same fast and reliable 
+similarity search engine, but without the need to maintain your own infrastructure.
 
-Transitioning from on-premise to the cloud version of Qdrant does not require changing anything in the way you interact with the service. All you have to do is [create a Qdrant Cloud account](https://qdrant.to/cloud/) and [provide a new API key](/documentation/cloud/authentication/) to each request.
+Transitioning from on-premise to the cloud version of Qdrant does not change
+how you interact with the service. All you need is a [Qdrant Cloud account](https://qdrant.to/cloud/)
+and an [API key](/documentation/cloud/authentication/) for each request.
 
-The transition is even easier if you use the official client libraries. For example, the [Python Client](https://github.com/qdrant/qdrant-client/) has the support of the API key already built-in, so you only need to provide it once, when the QdrantClient instance is created.
+Our official [client libraries](/documentation/interfaces/#client-libraries/)
+can help. For example, if you use the [Python Client](https://github.com/qdrant/qdrant-client/)
+you can take advantage of the built-in API key. With that client, you provide
+the API key only once, when the QdrantClient instance is created.
 
-### Cluster configuration
+*Available as of v1.8.2* <!-- MUST CONFIRM -->
 
-Each instance comes pre-configured with the following tools, features and support services:
+You can also attach your own infrastructure as a private region on the Hybrid
+Cloud. Once attached, you can control this cloud using the same tools and UI
+that you use for other cloud providers. For details, see our 
+[Hybrid Cloud](/documentation/hybrid-cloud/) documentation.
 
-- Automatically created with the latest available version of Qdrant.
-- Upgradeable to later versions of Qdrant as they are released.
-- Equipped with monitoring and logging to observe the health of each cluster. 
-- Accessible through the Qdrant Cloud Console.
+## Cluster configuration
+
+Each instance comes pre-configured with the following tools, features, and 
+support services:
+
+- Uses the latest available version of Qdrant.
+- Supports upgrades to later versions of Qdrant as they are released.
+- Includes monitoring and logging to observe the health of each cluster.
+- Configurable through the Qdrant Cloud Console.
 - Vertically scalable.
-- Offered on AWS and GCP, with Azure currently in development. 
+- Available natively on AWS and GCP, and Azure. 
+- Available on other providers if you use the Hybrid Cloud.
 
-### Getting started with Qdrant Cloud
+## Getting started with Qdrant Cloud
 
-To use Qdrant Cloud, you will need to create at least one cluster. There are two ways to start:
+To use Qdrant Cloud, you need at least one cluster. You can create one in the
+following ways:
 
 1. [**Create a Free Tier cluster**](/documentation/cloud/quickstart-cloud/) with 
-   1 node and a default configuration (1 GB RAM, 0.5 CPU and 4 GB Disk). This
+   one node and a default configuration (1 GB RAM, 0.5 CPU and 4 GB Disk). This
    option is perfect for prototyping. You don't need a credit card to join.
-2. [**Configure a custom cluster**](/documentation/cloud/create-cluster/) with additional nodes and more resources. For this option, you will have to provide billing information.
+2. [**Configure a custom cluster**](/documentation/cloud/create-cluster/) with
+   additional nodes and resources. For this option, you need billing information.
+
+If you're testing Qdrant, We recommend the Free Tier cluster. The capacity
+should be enough to serve up to 1 M vectors of 768 dimensions. To calculate
+your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/).
 
 We recommend that you use the Free Tier cluster for testing purposes. The
 capacity should be enough to serve up to 1 M vectors of 768 dimensions. To
 calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/). 
 
-### Support & Troubleshooting
+## Support & Troubleshooting
 
 All Qdrant Cloud users are welcome to join our [Discord community](https://qdrant.to/discord/).
 Our Support Engineers are available to help you anytime.
 
-Additionally, paid customers can also contact support through channels provided during cluster
+Paid customers can also contact support through channels provided during cluster
 creation and/or on-boarding.
