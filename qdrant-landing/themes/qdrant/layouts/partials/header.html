@@ -5,6 +5,11 @@
     {{ partial "body_start.html" . }}
 
             <!-- Main Header-->
+    {{ if or .IsHome (or (in (slice "documentation" "pricing" "subscribe") .Section) (and (in (slice "articles") .Section) .IsPage)) }}
+    {{ partial "top-banner" (dict "context" . "classes" "") }}
+    {{ else }}
+    {{ partial "top-banner" (dict "context" . "classes" "top-banner_dark") }}
+    {{ end }}
 
             {{ if (eq $.Section "documentation") }}
             <header class="main-header position-static">
