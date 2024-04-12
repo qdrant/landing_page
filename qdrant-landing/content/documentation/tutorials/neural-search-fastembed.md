@@ -199,14 +199,14 @@ def named_vectors(vectors: list[float], sparse_vectors: list[models.SparseVector
             sparse_vector_name: models.SparseVector(**sparse_vector),
         } 
 
-    with open("dense_vectors.npy", "rb") as f, open("sparse_vectors.json", "r") as g, open("payload.json", "r",) as h:
-        vectors = np.load(f)
-        sparse_vectors = json.load(g)
-        payload = json.load(h)
+with open("dense_vectors.npy", "rb") as f, open("sparse_vectors.json", "r") as g, open("payload.json", "r",) as h:
+    vectors = np.load(f)
+    sparse_vectors = json.load(g)
+    payload = json.load(h)
 
-    client.upload_collection(
-        "startups", vectors=named_vectors(vectors, sparse_vectors), payload=payload
-    )
+client.upload_collection(
+    "startups", vectors=named_vectors(vectors, sparse_vectors), payload=payload
+)
 ```
 </details>
 
