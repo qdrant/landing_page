@@ -1,5 +1,5 @@
 ---
-title: Movie Recommendation System on OVHcloud
+title: Movie Recommendation System 
 weight: 34
 aliases:
   - /documentation/tutorials/recommendation-system-ovhcloud/

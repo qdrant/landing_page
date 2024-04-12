@@ -1,5 +1,5 @@
 ---
-title: Blog-Reading RAG Chatbot on Scaleway
+title: Blog-Reading RAG Chatbot 
 weight: 35
 aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/
