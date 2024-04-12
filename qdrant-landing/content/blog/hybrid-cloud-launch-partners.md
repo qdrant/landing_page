@@ -87,11 +87,11 @@ Additionally, we built comprehensive documentation tutorials on how to successfu
 - How to Deploy Qdrant Hybrid Cloud on AWS
 - How to Deploy Qdrant Hybrid Cloud on GCP
 - How to Deploy Qdrant Hybrid Cloud on Azure
-- How to Deploy Qdrant on Digital Ocean
+- How to Deploy Qdrant Hybrid Cloud on DigitalOcean
 - How to Deploy Qdrant on Oracle Cloud
 - How to Deploy Qdrant on Vultr
 - How to Deploy Qdrant on Scaleway
-- How to Deploy Qdrant on OVH Cloud
+- How to Deploy Qdrant on OVHcloud
 - How to Deploy Qdrant on STACKIT
 - How to Deploy Qdrant on Red Hat OpenShift
 - How to Deploy Qdrant on Linode

@@ -13,7 +13,7 @@ With Qdrant Hybrid Cloud you can bring your own cloud and manage it via Qdrant C
 
 **Accessing Hybrid Cloud:** First, you will need to sign up for Hybrid Cloud. To do so, create a [Qdrant Cloud account](https://cloud.qdrant.io/login). You should get access to the Qdrant Cloud console. To activate Hybrid Cloud, go to the **Hybrid Cloud** tab. You will need to enter your **Company** and **Billing Information**. Then, you can request access.
 
-**Setup instructions:** To begin using Qdrant Hybrid Cloud, [read our installation guide](/documentation/hybrid-cloud/hybrid-cloud-setup).
+**Setup instructions:** To begin using Qdrant Hybrid Cloud, [read our installation guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
 ## Upcoming roadmap items
 
