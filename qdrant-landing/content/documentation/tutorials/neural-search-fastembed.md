@@ -166,6 +166,48 @@ client.add(
 )
 ```
 
+<aside role="status">
+Generating sparse vectors with SPLADE might be time-consuming. We are limiting the number of documents to encode to 5000. In order to use the whole dataset, you can remove the limit or download already processed data (the code is available under the spoiler).
+</aside>
+
+<details>
+    <summary>Upload processed data</summary>
+
+Download and unpack the processed data from [here](https://storage.googleapis.com/...) or use the following script:
+
+```bash
+wget https://storage.googleapis.com/.../startups_hybrid_search_processed_sample.tar.gz
+tar -xvf startups_hybrid_search_processed_sample.tar.gz
+```
+
+Then you can upload the data to Qdrant.
+
+```python
+import json
+import numpy as np
+from qdrant_client import models
+
+
+def named_vectors(vectors: list[float], sparse_vectors: list[models.SparseVector]) -> dict:
+    dense_vector_name = client.get_vector_field_name()
+    sparse_vector_name = client.get_sparse_vector_field_name()
+    for vector, sparse_vector in zip(vectors, sparse_vectors):
+        yield {
+            dense_vector_name: vector,
+            sparse_vector_name: models.SparseVector(**sparse_vector),
+        } 
+
+    with open("dense_vectors.npy", "rb") as f, open("sparse_vectors.json", "r") as g, open("payload.json", "r",) as h:
+        vectors = np.load(f)
+        sparse_vectors = json.load(g)
+        payload = json.load(h)
+
+    client.upload_collection(
+        "startups", vectors=named_vectors(vectors, sparse_vectors), payload=payload
+    )
+```
+</details>
+
 The `add` method will encode all documents and upload them to Qdrant.
 This is one of the two fastembed-specific methods, that combines encoding and uploading into a single step.
 
@@ -194,7 +236,7 @@ Now that all the preparations are complete, let's start building a neural search
 In order to process incoming requests, the hybrid search class will need 3 things: 1) models to convert the query into a vector, 2) the Qdrant client to perform search queries, 3) fusion function to re-rank dense and sparse search results.
 
 Fastembed integration encapsulates query encoding, search and fusion into a single method call.
-Fastembed leverages [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf]) in order combine the results.
+Fastembed leverages [reciprocal rank fusion](https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf) in order combine the results.
 
 
 1. Create a file named `neural_searcher.py` and specify the following.
