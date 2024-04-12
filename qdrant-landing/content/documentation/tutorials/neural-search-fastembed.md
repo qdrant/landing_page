@@ -175,7 +175,7 @@ Vector generation process might be time-consuming. In order to save time, you ca
 <details>
     <summary>Upload processed data</summary>
 
-Download and unpack the processed data from [here](https://storage.googleapis.com/...) or use the following script:
+Download and unpack the processed data from [here](https://storage.googleapis.com/dataset-startup-search/startup-list-com/startups_hybrid_search_processed_40k.tar.gz) or use the following script:
 
 ```bash
 wget https://storage.googleapis.com/dataset-startup-search/startup-list-com/startups_hybrid_search_processed_40k.tar.gz
