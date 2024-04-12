@@ -1,5 +1,5 @@
 ---
-draft: false
+draft: true
 title: "Red Hat OpenShift and Qdrant Hybrid Cloud"
 short_description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database." 
 description: "A winning combination for enterprise-scale RAG consists of a strong framework and a scalable database."
