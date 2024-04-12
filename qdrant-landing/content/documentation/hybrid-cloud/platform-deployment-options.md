@@ -137,4 +137,4 @@ With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products
 - [VKE Documentation](https://docs.vultr.com/)
 - [Frequently Asked Questions on VKE](https://docs.vultr.com/vultr-kubernetes-engine#frequently-asked-questions)
 
-Once you've got a Kubernetes cluster deployed on a platform of your choosing, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup) for instructions.
+Once you've got a Kubernetes cluster deployed on a platform of your choosing, you can begin setting up Qdrant hybrid cloud. Head over to our Qdrant Hybrid Cloud [setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/) for instructions.
