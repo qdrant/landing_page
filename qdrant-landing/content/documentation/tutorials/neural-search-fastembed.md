@@ -169,7 +169,7 @@ client.add(
 ```
 
 <aside role="status">
-Generating sparse vectors with SPLADE might be time-consuming. We are limiting the number of documents to encode to 5000. In order to use the whole dataset, you can remove the limit or download already processed data (the code is available under the spoiler).
+Vector generation process might be time-consuming. In order to save time, you can skip this step by uploading already processed data (available under the spoiler).
 </aside>
 
 <details>
