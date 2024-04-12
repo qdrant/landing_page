@@ -1,8 +1,8 @@
 <section class="qdrant-articles-posts">
   <div class="container">
-    <div class="qdrant-articles-posts__articles">
+    <div class="row gx-4 gy-6">
       {{ range first 10 .Pages }}
-        <article class="qdrant-articles-posts__article post">
+        <article class="col-12 col-xl-6 post">
           <a class="post-link" href="/">
             <div class="post-preview">
               <div style="background-image: url({{ .Params.preview_dir }}/title.jpg)"></div>
