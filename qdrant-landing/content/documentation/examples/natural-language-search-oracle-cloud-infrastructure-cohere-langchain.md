@@ -42,7 +42,7 @@ OCI are accessible via the [OCI SDK](https://docs.oracle.com/en-us/iaas/tools/py
 necessary libraries:
 
 ```shell
-pip install langchain oci qdrant-client
+pip install langchain oci qdrant-client langchainhub
 ```
 
 #### Oracle Cloud
@@ -76,9 +76,7 @@ os.environ["COMPARTMENT_OCID"] = "<your-compartment-ocid>"
 
 Qdrant Hybrid Cloud running on Oracle Cloud helps you build a solution without sending your data to external services.
 Our documentation provides a step-by-step guide on how to [deploy Qdrant Hybrid Cloud on Oracle 
-Cloud](...).
-
-[//]: # (TODO: add a correct link to the documentation deployment guide)
+Cloud](/documentation/hybrid-cloud/platform-deployment-options/#oracle-cloud-infrastructure).
 
 Qdrant will be running on a specific URL and access will be restricted by the API key. Make sure to store them both as
 environment variables as well:
@@ -201,69 +199,76 @@ llm = OCIGenAI(
 ```
 
 Connection to Qdrant might be established in the same way as we did during the indexing process. We can use it to create
-an instance of `RetrievalQA`, which implements the question-answering process. 
+a retrieval chain, which implements the question-answering process. The retrieval chain also requires an additional
+chain that will combine retrieved documents before sending them to an LLM. 
 
 ```python
-from langchain.chains.retrieval_qa.base import RetrievalQA
+from langchain.chains.combine_documents import create_stuff_documents_chain
+from langchain.chains.retrieval import create_retrieval_chain
+from langchain import hub
 
 retriever = qdrant.as_retriever()
-
-retrieval_qa = RetrievalQA.from_chain_type(
+combine_docs_chain = create_stuff_documents_chain(
     llm=llm,
-    retriever=retriever,
-    return_source_documents=True,
+    # Default prompt is loaded from the hub, but we can also modify it
+    prompt=hub.pull("langchain-ai/retrieval-qa-chat"),
 )
-response = retrieval_qa.invoke({"query": "What is the Oracle Cloud Free Tier?"})
+retrieval_qa_chain = create_retrieval_chain(
+    retriever=retriever,
+    combine_docs_chain=combine_docs_chain,
+)
+response = retrieval_qa_chain.invoke({"input": "What is the Oracle Cloud Free Tier?"})
 ```
 
-The output of the `.invoke` method is a dictionary-like structure with the query and response, but we can also access
-the source documents used to generate the response. This might be useful for debugging or for further processing.
+The output of the `.invoke` method is a dictionary-like structure with the query and answer, but we can also access the 
+source documents used to generate the response. This might be useful for debugging or for further processing.
 
 ```python
-{
-    "query": "What is the Oracle Cloud Free Tier?", 
-    "result": " The Oracle Cloud Free Tier is a subscription that gives you access to Oracle Cloud's various services, including Always Free services and a Free Trial with $300 of free credit that can be used on all eligible Oracle Cloud Infrastructure services for up to 30 days. It is designed to allow users to learn, explore, build, and test in the Oracle Cloud environment for free. \n\nThis is particularly aimed at those who want to experiment with cloud capabilities, such as:\n- Developers who want to try building and deploying cloud-based applications before committing to a paid plan.\n- Students and academics who want to learn cloud computing and practice with hands-on exercises. \n\nThe Free Tier is initially available in most regions where commercial Oracle Cloud Infrastructure services are available; specific regions may vary during the sign-up process. You can use the $300 free credits for a limited time, and Always Free services are unlimited but without SLAs or Oracle Support. \n\nPlease note that I am an AI chatbot, and I do not have access to real-time information. My knowledge only covers details up to January 2023. If you want the most up-to-date information on the Oracle Cloud Free Tier, you can visit Oracle's official website for the latest details. ", 
-    "source_documents": [
+{   
+    'input': 'What is the Oracle Cloud Free Tier?',
+    'context': [   
         Document(
-            page_content="* Free Tier is generally available in regions where commercial Oracle Cloud Infrastructure service is available. See the data regions page for detailed service availability (the exact regions available for Free Tier may differ during the sign-up process). The US$300 cloud credit is available in", 
+            page_content='* Free Tier is generally available in regions where commercial Oracle Cloud Infrastructure service is available. See the data regions page for detailed service availability (the exact regions available for Free Tier may differ during the sign-up process). The US$300 cloud credit is available in', 
             metadata={
-                "language": "en-US", 
-                "source": "https://www.oracle.com/cloud/free/faq/", 
-                "title": "FAQ on Oracle's Cloud Free Tier", 
-                "_id": "a20bada5-def8-4e6e-af87-b7b5cbd08dc7", 
-                "_collection_name": "oracle-cloud-website"
+                'language': 'en-US', 
+                'source': 'https://www.oracle.com/cloud/free/faq/', 
+                'title': "FAQ on Oracle's Cloud Free Tier", 
+                '_id': 'c8cf98e0-4b88-4750-be42-4157495fed2c', 
+                '_collection_name': 'oracle-cloud-website'
             }
-        ), 
+        ),
         Document(
-            page_content="Oracle Cloud Free Tier allows you to sign up for an Oracle Cloud account which provides a number of Always Free services and a Free Trial with US$300 of free credit to use on all eligible Oracle Cloud Infrastructure services for up to 30 days. The Always Free services are available for an unlimited", 
+            page_content='Oracle Cloud Free Tier allows you to sign up for an Oracle Cloud account which provides a number of Always Free services and a Free Trial with US$300 of free credit to use on all eligible Oracle Cloud Infrastructure services for up to 30 days. The Always Free services are available for an unlimited', 
             metadata={
-                "language": "en-US", 
-                "source": "https://www.oracle.com/cloud/free/faq/", 
-                "title": "FAQ on Oracle's Cloud Free Tier", 
-                "_id": "bba5f27a-e41e-4b69-9c79-76140523f600", 
-                "_collection_name": "oracle-cloud-website"
+                'language': 'en-US', 
+                'source': 'https://www.oracle.com/cloud/free/faq/', 
+                'title': "FAQ on Oracle's Cloud Free Tier", 
+                '_id': 'dc291430-ff7b-4181-944a-39f6e7a0de69', 
+                '_collection_name': 'oracle-cloud-website'
             }
-        ), 
+        ),
         Document(
-            page_content="Oracle Cloud Free Tier does not include SLAs. Community support through our forums is available to all customers. Customers using only Always Free resources are not eligible for Oracle Support. Limited support is available for Oracle Cloud Free Tier with Free Trial credits. After you use all of", 
+            page_content='Oracle Cloud Free Tier does not include SLAs. Community support through our forums is available to all customers. Customers using only Always Free resources are not eligible for Oracle Support. Limited support is available for Oracle Cloud Free Tier with Free Trial credits. After you use all of', 
             metadata={
-                "language": "en-US", 
-                "source": "https://www.oracle.com/cloud/free/faq/", 
-                "title": "FAQ on Oracle's Cloud Free Tier", 
-                "_id": "e1873826-e6df-41b9-8dea-ec1de43bf633", 
-                "_collection_name": "oracle-cloud-website"
-            }), 
+                'language': 'en-US', 
+                'source': 'https://www.oracle.com/cloud/free/faq/', 
+                'title': "FAQ on Oracle's Cloud Free Tier", 
+                '_id': '9e831039-7ccc-47f7-9301-20dbddd2fc07', 
+                '_collection_name': 'oracle-cloud-website'
+            }
+        ),
         Document(
-            page_content="looking to test things before moving to cloud, a student wanting to learn, or an academic developing curriculum in the cloud, Oracle Cloud Free Tier enables you to learn, explore, build and test for free.", 
+            page_content='looking to test things before moving to cloud, a student wanting to learn, or an academic developing curriculum in the cloud, Oracle Cloud Free Tier enables you to learn, explore, build and test for free.', 
             metadata={
-                "language": "en-US", 
-                "source": "https://www.oracle.com/cloud/free/faq/", 
-                "title": "FAQ on Oracle's Cloud Free Tier", 
-                "_id": "73f17f07-c594-463b-9d55-663c7b7d54fc", 
-                "_collection_name": "oracle-cloud-website"
+                'language': 'en-US', 
+                'source': 'https://www.oracle.com/cloud/free/faq/', 
+                'title': "FAQ on Oracle's Cloud Free Tier", 
+                '_id': 'e2dc43e1-50ee-4678-8284-6df60a835cf5', 
+                '_collection_name': 'oracle-cloud-website'
             }
         )
-    ]
+    ],
+    'answer': ' Oracle Cloud Free Tier is a subscription that gives you access to Always Free services and a Free Trial with $300 of credit that can be used on all eligible Oracle Cloud Infrastructure services for up to 30 days. \n\nThrough this Free Tier, you can learn, explore, build, and test for free. It is aimed at those who want to experiment with cloud services before making a commitment, as wellTheir use cases range from testing prior to cloud migration to learning and academic curriculum development. '
 }
 ```
 
@@ -275,28 +280,15 @@ might still want to check it. Let's ask a question that is not directly answered
 
 ```python
 response = retrieval_qa.invoke({
-    "query": "Is Oracle Generative AI Service included in the free tier?"
+    "input": "Is Oracle Generative AI Service included in the free tier?"
 })
 ```
 
 Output:
 
-> Unfortunately, I don't know the answer to this, but it could be found on the company's website or in the provided text. 
-> 
-> I cannot search the internet since I lack an internet connection. If you would like, you are welcome to look for this 
-> answer and share it with me. 
-> 
-> Otherwise, we can interpret the context to try and guess the answer.
-> 
-> In general, it seems like the Oracle Cloud Free Tier includes a variety of free services that are available to use 
-> indefinitely, and then additionally a trial with credits that last for up to 30 days. It seems like in order to get 
-> continued support past the 30 days, you'd need to upgrade to a paid account. 
-> 
-> It is quite possible that Oracle Generative AI Service is included in the free tier for the 30 day trial period, but 
-> not indefinitely. 
-> 
-> Unfortunately, I don't have the context or knowledge required to give you a certain answer, and this is just my best 
-> guess based on what I have seen.
+> Oracle Generative AI Services are not specifically mentioned as being available in the free tier. As per the text, the 
+> $300 free credit can be used on all eligible services for up to 30 days. To confirm if Oracle Generative AI Services 
+> are included in the free credit offer, it is best to check the official Oracle Cloud website or contact their support.
 
 It seems that Cohere Command model could not find the exact answer in the provided documents, but it tried to interpret 
 the context and provide a reasonable answer, without making up the information. This is a good sign that the model is 
