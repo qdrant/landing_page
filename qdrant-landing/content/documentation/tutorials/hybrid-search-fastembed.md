@@ -118,7 +118,7 @@ Hybrid search implementation can be easily switched to a dense vector search by 
 
 ```python
 client.set_model("sentence-transformers/all-MiniLM-L6-v2")
-# comment out to switch to a dense vector search
+# comment this line to use dense vectors only
 client.set_sparse_model("prithivida/Splade_PP_en_v1")
 ```
 
@@ -128,7 +128,7 @@ client.set_sparse_model("prithivida/Splade_PP_en_v1")
 client.recreate_collection(
     collection_name="startups",
     vectors_config=client.get_fastembed_vector_params(),
-    # comment out to switch to a dense vector search
+    # comment this line to use dense vectors only
     sparse_vectors_config=client.get_fastembed_sparse_vector_params(),  
 )
 ```
@@ -270,7 +270,7 @@ class HybridSearcher:
         # initialize Qdrant client
         self.qdrant_client = QdrantClient("http://localhost:6333")
         self.qdrant_client.set_model(self.DENSE_MODEL)
-        # comment out to switch to a dense vector search
+        # comment this line to use dense vectors only
         self.qdrant_client.set_sparse_model(self.SPARSE_MODEL)
 ```
 
