@@ -25,7 +25,7 @@ this setup as a knowledge base providing the relevant pieces of documents for a 
 Hybrid Cloud mode on Vultr. The last missing piece, the DSPy application will be also running in the same environment. 
 If you work in a regulated industry, or just need to keep your data private, this tutorial is for you.
 
-![Architecture diagram](/documentation/tutorials/information-extraction-ollama-vultr/architecture-diagram.png)
+![Architecture diagram](/documentation/examples/information-extraction-ollama-vultr/architecture-diagram.png)
 
 ## Configuring the environment
 

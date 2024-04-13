@@ -16,7 +16,7 @@ Companies want their data to be kept and processed within specific geographical 
 
 [//]: # (TODO: add link to Qdrant Hybrid Cloud above)
 
-![Architecture diagram](/documentation/tutorials/contract-management-stackit-aleph-alpha/architecture-diagram.png)
+![Architecture diagram](/documentation/examples/contract-management-stackit-aleph-alpha/architecture-diagram.png)
 
 ## Components
 
@@ -157,7 +157,7 @@ documents = {
 
 This is how the documents might look like:
 
-![Example of the indexed document](/documentation/tutorials/contract-management-stackit-aleph-alpha/indexed-document.png)
+![Example of the indexed document](/documentation/examples/contract-management-stackit-aleph-alpha/indexed-document.png)
 
 Each has to be split into chunks first; there is no silver bullet. Our chunking algorithm will be simple and based on 
 recursive splitting, with the maximum chunk size of 500 characters and the overlap of 100 characters. 

@@ -29,7 +29,7 @@ Our application will consist of two main processes: indexing and searching. Lang
 as we will use a few components, including Cohere and Qdrant, as well as some OCI services. Here is a high-level
 overview of the architecture:
 
-![Architecture diagram of the target system](/documentation/tutorials/faq-oci-cohere-langchain/architecture-diagram.png)
+![Architecture diagram of the target system](/documentation/examples/faq-oci-cohere-langchain/architecture-diagram.png)
 
 ### Prerequisites
 
@@ -122,7 +122,7 @@ Service, so we can easily access the models.
 Our dataset will be fairly simple, as it will consist of the questions and answers from the [Oracle Cloud Free Tier
 FAQ page](https://www.oracle.com/cloud/free/faq/). 
 
-![Some examples of the Oracle Cloud FAQ](/documentation/tutorials/faq-oci-cohere-langchain/oracle-faq.png)
+![Some examples of the Oracle Cloud FAQ](/documentation/examples/faq-oci-cohere-langchain/oracle-faq.png)
 
 Questions and answers are presented in an HTML format, but we don't want to manually extract the text and adapt it for 
 each subpage. Instead, we will use the `WebBaseLoader` that just loads the HTML content from given URL and converts it 

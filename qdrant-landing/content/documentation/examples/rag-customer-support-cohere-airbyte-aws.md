@@ -17,7 +17,7 @@ In this tutorial we will setup a private AI service that answers customer suppor
 
 [//]: # (TODO: add a link to the corresponding Qdrant Hybrid Cloud documentation: deployment on AWS)
 
-![Architecture diagram](/documentation/tutorials/customer-support-cohere-airbyte/architecture-diagram.png)
+![Architecture diagram](/documentation/examples/customer-support-cohere-airbyte/architecture-diagram.png)
 
 ## System design
 
@@ -116,18 +116,18 @@ use the following connectors:
 Airbyte UI will guide you through the process of setting up the source and destination and connecting them. Here is how
 the configuration of the source might look like:
 
-![Airbyte source configuration](/documentation/tutorials/customer-support-cohere-airbyte/airbyte-excel-source.png)
+![Airbyte source configuration](/documentation/examples/customer-support-cohere-airbyte/airbyte-excel-source.png)
 
 Qdrant is our target destination, so we need to set up the connection to it. We need to specify which fields should be
 included to generate the embeddings. In our case it makes complete sense to embed just the questions, as we are going
 to look for similar questions asked in the past and provide the answers. 
 
-![Airbyte destination configuration](/documentation/tutorials/customer-support-cohere-airbyte/airbyte-qdrant-destination.png)
+![Airbyte destination configuration](/documentation/examples/customer-support-cohere-airbyte/airbyte-qdrant-destination.png)
 
 Once we have the destination set up, we can finally configure a connection. The connection will define the schedule
 of the data synchronization. 
 
-![Airbyte connection configuration](/documentation/tutorials/customer-support-cohere-airbyte/airbyte-connection.png)
+![Airbyte connection configuration](/documentation/examples/customer-support-cohere-airbyte/airbyte-connection.png)
 
 Airbyte should now be ready to accept any data updates from the source and load them into Qdrant. You can monitor the
 progress of the synchronization in the UI.
