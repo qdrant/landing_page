@@ -1,7 +1,7 @@
 ---
-title: Qdrant Hybrid Cloud
-description: Qdrant Hybrid Cloud is a solution that allows you to run clusters in your own infrastructure, including your own cloud, infrastructure, or edge. It provides all the benefits of Qdrant Cloud, and you can use the Managed Cloud Central Cluster Management. A premium support plan option is available.
-keywords: hybrid cloud, qdrant, qdrant hybrid cloud, vector search, hybrid cloud features
+title: 'Qdrant Hybrid Cloud: Flexible Deployment, Data Privacy, and Cost Efficiency'
+description: Qdrant's new Hybrid Cloud was created for seamless deployment and management of vector databases. Ensure privacy, data sovereignty, and cost efficiency for AI-driven applications. Learn more and get started today.
+keywords: hybrid cloud vector database, hybrid cloud management, kubernetes integration, hybrid cloud deployment
 build:
   render: always
 cascade:
