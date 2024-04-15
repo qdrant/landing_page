@@ -1,7 +1,7 @@
 ---
 title: "Learn how Qdrant Hybrid Cloud works:"
 video:
-  src: /
+  src: /hybrid-cloud/video.mp4
   button: Watch Demo
   icon:
     src: /icons/outline/play-white.svg
