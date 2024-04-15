@@ -30,7 +30,7 @@ Building apps with Qdrant Hybrid Cloud and deepset’s framework has become even
 
 **Flexible & Customizable:** The open-source nature of Qdrant and Haystack’s 2.0 makes it easy to extend the capabilities of both products through customization. When tailoring vector RAG systems to their own needs, users can develop custom components and plug them into both Qdrant Hybrid Cloud and Haystack for maximum modularity. [Creating custom components](https://docs.haystack.deepset.ai/docs/custom-components) is a core functionality.
 
-#### Learn How to Build a Production-Level RAG Service With Qdrant and Haystack
+#### Learn How to Build a Production-Level RAG Service with Qdrant and Haystack
 
 ![hybrid-cloud-haystack-tutorial](/blog/hybrid-cloud-haystack/hybrid-cloud-haystack-tutorial.png)
 
@@ -42,7 +42,7 @@ Learn how to develop a tutor chatbot from online course materials. You will crea
 
 [Try the Tutorial](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/)
 
-#### Documentation: Deploy Qdrant in a few clicks
+#### Documentation: Deploy Qdrant in a Few Clicks
 
 Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your hosting platform of choice in just a few steps. Learn how in our documentation.
 

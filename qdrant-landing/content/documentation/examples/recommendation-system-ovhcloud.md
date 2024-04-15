@@ -1,6 +1,7 @@
 ---
 title: Movie Recommendation System 
 weight: 34
+preview_image: /blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud-tutorial.png
 aliases:
   - /documentation/tutorials/recommendation-system-ovhcloud/
 ---
@@ -25,6 +26,13 @@ In this tutorial, you will build a mechanism that recommends movies based on def
 **Methodology:** We're adopting a collaborative filtering approach to construct a recommendation system from the dataset provided. Collaborative filtering works on the premise that if two users share similar tastes, they're likely to enjoy similar movies. Leveraging this concept, we'll identify users whose ratings align closely with ours, and explore the movies they liked but we haven't seen yet. To do this, we'll represent each user's ratings as a vector in a high-dimensional, sparse space. Using Qdrant, we'll index these vectors and search for users whose ratings vectors closely match ours. Ultimately, we will see which movies were enjoyed by users similar to us.
 
 ![](/documentation/examples/recommendation-system-ovhcloud/architecture-diagram.png)
+
+## Deploying Qdrant Hybrid Cloud on OVHcloud
+
+[Service Managed Kubernetes](https://www.ovhcloud.com/en-in/public-cloud/kubernetes/), powered by OVH Public Cloud Instances, a leading European cloud provider. With OVHcloud Load Balancers and disks built in. OVHcloud Managed Kubernetes provides high availability, compliance, and CNCF conformance, allowing you to focus on your containerized software layers with total reversibility.
+
+1. To start using managed Kubernetes on OVHcloud, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#ovhcloud).
+2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud/). 
 
 ## Prerequisites
 

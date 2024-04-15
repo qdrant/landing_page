@@ -18,6 +18,8 @@ This is a major step forward in offering enterprise customers incredible synergy
 
 In a major benefit to Generative AI, businesses can leverage Airbyte's data replication capabilities to ensure that their data in Qdrant Hybrid Cloud is always up to date. This empowers all users of Retrieval Augmented Generation (RAG) applications with effective analysis and decision-making potential, all based on the latest information. Furthermore, by combining Airbyte's platform and Qdrant's hybrid cloud infrastructure, users can optimize their data operations while keeping costs under control via flexible pricing models tailored to individual usage requirements.
 
+> *“The Qdrant product lineup is a great fit for the Airbyte community. Native Python support pairs extremely well with our recent PyAirbyte launch, and the Qdrant K8 and Cloud offerings make a great complement for Airbyte OSS and Airbyte Cloud users, respectively. We’re excited to be working with Qdrant to unlock new and exciting use cases for AI and Data.”* AJ Steers, Staff Engineer for AI, Airbyte    
+
 #### Optimizing Your GenAI Data Stack With Airbyte and Qdrant Hybrid Cloud
 
 By integrating Airbyte with Qdrant Hybrid Cloud, you can achieve seamless data ingestion from diverse sources into Qdrant's powerful indexing system. This integration enables you to derive valuable insights from your data. Here are some key advantages:
@@ -42,12 +44,12 @@ Learn how to set up a private AI service that addresses customer support issues 
 
 [Try the Tutorial](/documentation/tutorials/rag-customer-support-cohere-airbyte-aws/)
 
-#### Documentation: Deploy Qdrant in a few clicks
+#### Documentation: Deploy Qdrant in a Few Clicks
 
 Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your hosting platform of choice in just a few steps. Learn how in our documentation.
 
 [Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 

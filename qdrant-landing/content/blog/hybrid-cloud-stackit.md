@@ -21,7 +21,9 @@ Qdrant Hybrid Cloud is the first managed vector database that can be deployed in
 #### Key Features and Benefits of Qdrant on STACKIT:
 
 - **Seamless Integration and Deployment**: With Qdrant’s Kubernetes-native design, businesses can effortlessly connect their STACKIT cloud as a private region, enabling a one-step, scalable Qdrant deployment.
+
 - **Enhanced Data Privacy**: Leveraging STACKIT's German data centers ensures that all data processing complies with GDPR and other relevant European data protection standards, providing businesses with unparalleled control over their data.
+
 - **Scalable and Managed AI Solutions**: Deploying Qdrant on STACKIT provides a fully managed vector search engine with the ability to scale vertically and horizontally, with robust support for zero-downtime upgrades and disaster recovery, all within STACKIT's secure infrastructure.
 
 #### Use Case: AI-enabled Contract Management built with Qdrant Hybrid Cloud, STACKIT, and Aleph Alpha
@@ -37,13 +39,15 @@ To demonstrate the power of Qdrant Hybrid Cloud on STACKIT, we’ve developed a 
 Deploying Qdrant Hybrid Cloud on STACKIT is straightforward, thanks to the seamless integration facilitated by Kubernetes. Here are the steps to kickstart your journey:
 
 1. **Qdrant Hybrid Cloud Activation**: Start by activating ‘Hybrid Cloud’ in your [Qdrant Cloud account](https://cloud.qdrant.io/login).
+
 2. **Cluster Integration**: Add your STACKIT Kubernetes clusters as a private region in the Hybrid Cloud section.
+
 3. **Effortless Deployment**: Use the Qdrant Management Console to effortlessly create and manage your Qdrant clusters on STACKIT.
 
 We invite you to explore the detailed documentation on deploying Qdrant on STACKIT, designed to guide you through each step of the process seamlessly.
 
 [Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 

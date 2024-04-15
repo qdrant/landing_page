@@ -1,6 +1,7 @@
 ---
 title: Region-Specific Contract Management System
 weight: 28
+preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha-tutorial.png
 aliases:
   - /documentation/tutorials/rag-contract-management-stackit-aleph-alpha/
 ---
@@ -13,8 +14,6 @@ aliases:
 Contract management benefits greatly from Retrieval Augmented Generation (RAG), streamlining the handling of lengthy business contract texts. With AI assistance, complex questions can be asked and well-informed answers generated, facilitating efficient document management. This proves invaluable for businesses with extensive relationships, like shipping companies, construction firms, and consulting practices. Access to such contracts is often restricted to authorized team members due to security and regulatory requirements, such as GDPR in Europe, necessitating secure storage practices.
 
 Companies want their data to be kept and processed within specific geographical boundaries. For that reason, this RAG-centric tutorial focuses on dealing with a region-specific cloud provider. You will set up a contract management system using [Aleph Alpha's](https://aleph-alpha.com/) embeddings and LLM. You will host everything on [STACKIT](https://www.stackit.de/), a German business cloud provider. On this platform, you will run Qdrant Hybrid Cloud as well as the rest of your RAG application. This setup will ensure that your data is stored and processed in Germany.
-
-[//]: # (TODO: add link to Qdrant Hybrid Cloud above)
 
 ![Architecture diagram](/documentation/examples/contract-management-stackit-aleph-alpha/architecture-diagram.png)
 

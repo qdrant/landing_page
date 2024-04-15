@@ -35,22 +35,27 @@ We created a tutorial that guides you through setting up and leveraging Qdrant H
 Choosing Qdrant Hybrid Cloud and Scaleway for AI applications offers several key advantages:
 
 - **AI-Focused Resources:** Scaleway aims to be the cloud provider of choice for AI companies, offering the resources and infrastructure to power complex AI and machine learning workloads, helping to advance the development and deployment of AI technologies. This paired with Qdrant Hybrid Cloud provides a strong foundational platform for advanced AI applications.
+
 - **Scalable Vector Search:** Qdrant Hybrid Cloud provides a fully managed vector database that allows to effortlessly scale the setup through vertical or horizontal scaling. Deployed on Scaleway, this is a robust setup that is designed to meet the needs of businesses at every stage of growth, from startups to large enterprises, ensuring a full spectrum of solutions for various projects and workloads.
+
 - **European Roots and Focus**: With a strong presence in Europe and a commitment to supporting the European tech ecosystem, Scaleway is ideally positioned to partner with European-based companies like Qdrant, providing local expertise and infrastructure that aligns with European regulatory standards.
+
 - **Sustainability Commitment**: Scaleway leads with an eco-conscious approach, featuring adiabatic data centers that significantly reduce cooling costs and environmental impact. Scaleway prioritizes extending hardware lifecycle beyond industry norms to lessen our ecological footprint.
 
-#### Get Started In a Few Seconds
+#### Get Started in a Few Seconds
 
 Setting up Qdrant Hybrid Cloud on Scaleway is streamlined and quick, thanks to its Kubernetes-native architecture. Follow these simple three steps to launch:
 
 1. **Activate Hybrid Cloud**: First, log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and select ‘Hybrid Cloud’ to activate.
+
 2. **Integrate Your Clusters**: Navigate to the Hybrid Cloud settings and add your Scaleway Kubernetes clusters as a private region.
+
 3. **Simplified Management**: Use the Qdrant Management Console for easy creation and oversight of your Qdrant clusters on Scaleway.
 
 For more comprehensive guidance, our documentation provides step-by-step instructions for deploying Qdrant on Scaleway.
 
 [Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 

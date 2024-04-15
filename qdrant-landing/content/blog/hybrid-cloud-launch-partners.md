@@ -18,19 +18,19 @@ With the launch of Qdrant Hybrid Cloud we provide developers the ability to depl
 
 We are excited to have trusted industry players support the launch of Qdrant Hybrid Cloud, allowing developers to unlock best-in-class advantages for building production-ready AI applications:
 
-- **Deploy In Your Own Environment:** Deploy the Qdrant vector database as a managed service on the infrastructure of choice, such as our launch partner solutions **Oracle Cloud Infrastructure (OCI), Red Hat OpenShift, Vultr, DigitalOcean, OVHcloud, Scaleway, STACKIT**, and **Civo**
+- **Deploy In Your Own Environment:** Deploy the Qdrant vector database as a managed service on the infrastructure of choice, such as our launch partner solutions **Oracle Cloud Infrastructure (OCI)**, [Red Hat OpenShift](/blog/hybrid-cloud-red-hat-openshift/), [Vultr](/blog/hybrid-cloud-vultr/), [DigitalOcean](/blog/hybrid-cloud-digitalocean/), [OVHcloud](/blog/hybrid-cloud-ovhcloud/), [Scaleway](/blog/hybrid-cloud-scaleway/), and [STACKIT](/blog/hybrid-cloud-stackit/).
 
-- **Seamlessly Integrate with Every Key Component of the Modern AI Stack:** Our new hybrid cloud offering also allows you to integrate with all of the relevant solutions for building AI applications. These include partner frameworks like **LlamaIndex**, **Haystack by deepset**, and **Airbyte**, as well as large language models (LLMs) like **Cohere**, **JinaAI**, and **AlephAlpha**.
+- **Seamlessly Integrate with Every Key Component of the Modern AI Stack:** Our new hybrid cloud offering also allows you to integrate with all of the relevant solutions for building AI applications. These include partner frameworks like [LlamaIndex](/blog/hybrid-cloud-llamaindex/), **LangChain**, [Haystack by deepset](/blog/hybrid-cloud-haystack/), and [Airbyte](/blog/hybrid-cloud-airbyte/), as well as large language models (LLMs) like [JinaAI](/blog/hybrid-cloud-jinaai/) and [Aleph Alpha](/blog/hybrid-cloud-aleph-alpha/).
 
 - **Ensure Full Data Sovereignty and Privacy Control:** Qdrant Hybrid Cloud offers unparalleled data isolation and the flexibility to process workloads either in the cloud or on-premise, ensuring data privacy and sovereignty requirements - all while being fully managed.
 
-#### Tutorials and Use Cases That Leverage Qdrant Hybrid Cloud and Trusted Partner Technologies
+#### Try Qdrant Hybrid Cloud on Partner Platforms
 
 ![Hybrid Cloud Launch Partners Tutorials](/blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners-tutorials.png)
 
 Together with our launch partners, we created in-depth tutorials and use cases for production-ready vector search that explain how developers can leverage Qdrant Hybrid Cloud alongside the best-in-class solutions of our launch partners. This provies to have the most flexible foundation to build modern, customer-centric AI applications with endless deployment options and full data sovereignty. Let’s dive right in:
 
-**AI Customer Support Chatbot** with Qdrant Hybrid Cloud, Cohere, Airbyte, and AWS
+**AI Customer Support Chatbot** with Qdrant Hybrid Cloud, Airbyte, Cohere, and AWS
 
 > This tutorial shows how to build a private AI customer support system using Cohere's AI models on AWS, Airbyte, and Qdrant Hybrid Cloud for efficient and secure query automation.
 
@@ -82,22 +82,22 @@ Together with our launch partners, we created in-depth tutorials and use cases f
 
 Additionally, we built comprehensive documentation tutorials on how to successfully deploy Qdrant Hybrid Cloud on the right infrastructure of choice. For more information, please visit our documentation pages:
 
-- How to Deploy Qdrant Hybrid Cloud on AWS
-- How to Deploy Qdrant Hybrid Cloud on GCP
-- How to Deploy Qdrant Hybrid Cloud on Azure
-- How to Deploy Qdrant Hybrid Cloud on DigitalOcean
-- How to Deploy Qdrant on Oracle Cloud
-- How to Deploy Qdrant on Vultr
-- How to Deploy Qdrant on Scaleway
-- How to Deploy Qdrant on OVHcloud
-- How to Deploy Qdrant on STACKIT
-- How to Deploy Qdrant on Red Hat OpenShift
-- How to Deploy Qdrant on Linode
+- [How to Deploy Qdrant Hybrid Cloud on AWS](/documentation/hybrid-cloud/platform-deployment-options/#amazon-web-services-aws)
+- [How to Deploy Qdrant Hybrid Cloud on GCP](/documentation/hybrid-cloud/platform-deployment-options/#google-cloud-platform-gcp)
+- [How to Deploy Qdrant Hybrid Cloud on Azure](/documentation/hybrid-cloud/platform-deployment-options/#mircrosoft-azure)
+- [How to Deploy Qdrant Hybrid Cloud on DigitalOcean](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean)
+- [How to Deploy Qdrant on Oracle Cloud](/documentation/hybrid-cloud/platform-deployment-options/#oracle-cloud-infrastructure)
+- [How to Deploy Qdrant on Vultr](/documentation/hybrid-cloud/platform-deployment-options/#vultr)
+- [How to Deploy Qdrant on Scaleway](/documentation/hybrid-cloud/platform-deployment-options/#scaleway)
+- [How to Deploy Qdrant on OVHcloud](/documentation/hybrid-cloud/platform-deployment-options/#ovhcloud)
+- [How to Deploy Qdrant on STACKIT](/documentation/hybrid-cloud/platform-deployment-options/#stackit)
+- [How to Deploy Qdrant on Red Hat OpenShift](/documentation/hybrid-cloud/platform-deployment-options/#redhat-openshift)
+- [How to Deploy Qdrant on Linode](/documentation/hybrid-cloud/platform-deployment-options/#akamai-linode)
 
-#### Get started now!
+#### Get Started Now!
 
-We are convinced that Qdrant Hybrid Cloud marks a significant advancement in vector databases, offering the most flexible way to implement vector search. 
+Qdrant Hybrid Cloud marks a significant advancement in vector databases, offering the most flexible way to implement vector search. 
 
-You can test out Qdrant Hybrid Cloud today! Simply sign up for or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the Hybrid Cloud section. Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our Qdrant Hybrid Cloud website. For additional technical insights, please visit our documentation.
+You can test out Qdrant Hybrid Cloud today! Simply sign up for or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the **Hybrid Cloud** section. Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our Qdrant Hybrid Cloud website. For additional technical insights, please read our [documentation](/documentation/hybrid-cloud/).
 
 [![hybrid-cloud-get-started](/blog/hybrid-cloud-launch-partners/hybrid-cloud-get-started.png)](https://cloud.qdrant.io/login)

@@ -5,7 +5,9 @@ weight: 1
 
 # Creating a Hybrid Cloud Environment
 
-This section list all the requirements needed to setup a Qdrant cluster in your Hybrid Cloud Environment.
+The following instruction set will show you how to properly setup a **Qdrant cluster** in your **Hybrid Cloud Environment**. 
+
+To learn how Hybrid Cloud works, [read the overview document](/documentation/hybrid-cloud/). 
 
 ## Prerequisites
 
