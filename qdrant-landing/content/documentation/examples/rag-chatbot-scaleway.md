@@ -1,7 +1,7 @@
 ---
 title: Blog-Reading RAG Chatbot 
 weight: 35
-preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway-tutorial.png
+social_preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/
 ---

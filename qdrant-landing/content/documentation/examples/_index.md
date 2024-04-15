@@ -18,8 +18,8 @@ is_empty: false
 | [System for Contract Management](../examples/rag-contract-management-stackit-aleph-alpha/)                                 | Build a Region-Specific RAG System for Contract Management              | Qdrant, Aleph Alpha, STACKIT                                      |  
 | [Question-Answering System for Customer Support](../examples/rag-customer-support-cohere-airbyte-aws/)                                 | Build a RAG System for AI Customer Support               | Qdrant, Cohere, Airbyte, AWS                                      |  
 | [Hybrid Search on PDF Documents](../examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
-| [Build a RAG-based Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop Build a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LlamaIndex, Jina AI   
-| [Movie Recommendation System](../examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant, LlamaIndex, Jina AI   
+| [Build a RAG-based Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop Build a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-3.5   
+| [Movie Recommendation System](../examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |   
 
 
 ## Notebooks

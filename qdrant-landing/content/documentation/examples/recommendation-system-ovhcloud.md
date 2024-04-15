@@ -1,7 +1,7 @@
 ---
 title: Movie Recommendation System 
 weight: 34
-preview_image: /blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud-tutorial.png
+social_preview_image: /blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud-tutorial.png
 aliases:
   - /documentation/tutorials/recommendation-system-ovhcloud/
 ---

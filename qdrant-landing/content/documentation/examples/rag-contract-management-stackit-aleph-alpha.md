@@ -1,7 +1,7 @@
 ---
 title: Region-Specific Contract Management System
 weight: 28
-preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha-tutorial.png
+social_preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha-tutorial.png
 aliases:
   - /documentation/tutorials/rag-contract-management-stackit-aleph-alpha/
 ---
