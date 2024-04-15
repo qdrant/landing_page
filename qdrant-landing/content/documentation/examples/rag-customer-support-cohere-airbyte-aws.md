@@ -77,7 +77,7 @@ follow the steps described there to set up your own instance.
 
 ### Qdrant Hybrid Cloud on AWS
 
-Our documentation covers the deployment of Qdrant on AWS in your private region, so you can follow the steps described 
+Our documentation covers the deployment of Qdrant on AWS in your Hybrid Cloud Environment, so you can follow the steps described 
 there to set up your own instance. The deployment process is quite straightforward, and you can have your Qdrant cluster 
 up and running in a few minutes.
 

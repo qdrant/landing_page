@@ -36,7 +36,7 @@ To get Qdrant Hybrid Cloud setup on DigitalOcean, just follow these steps:
 
 - **Hybrid Cloud Setup**: Begin by logging into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and enable the 'Hybrid Cloud' feature.
 
-- **Cluster Configuration**: Go to the Hybrid Cloud settings and integrate your DigitalOcean Kubernetes clusters as a private region.
+- **Cluster Configuration**: Go to the Hybrid Cloud settings and integrate your DigitalOcean Kubernetes clusters as a Hybrid Cloud Environment.
 
 - **Simplified Deployment**: Use the Qdrant Management Console to effortlessly establish and oversee your Qdrant clusters on DigitalOcean.
 

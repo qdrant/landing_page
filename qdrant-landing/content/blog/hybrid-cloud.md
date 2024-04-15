@@ -70,7 +70,7 @@ We’ve made getting started with Qdrant Hybrid Cloud as simple as possible. The
 
 1. **Activate Hybrid Cloud**: Simply sign up for or log into your [Qdrant Cloud](https://cloud.qdrant.io/login) account and navigate to the **Hybrid Cloud** section.
 
-2. **Onboard your Kubernetes cluster**: Follow the onboarding wizard and add your Kubernetes cluster as a private region - be it in the cloud, on-premise, or at the edge.
+2. **Onboard your Kubernetes cluster**: Follow the onboarding wizard and add your Kubernetes cluster as a Hybrid Cloud Environment - be it in the cloud, on-premise, or at the edge.
 
 3. **Deploy Qdrant clusters securely, with confidence:** Now, you can effortlessly create and manage Qdrant clusters in your own environment, directly from the central Qdrant Management Console. This supports horizontal and vertical scaling, zero-downtime upgrades, and disaster recovery seamlessly, allowing you to deploy anywhere with confidence.
 

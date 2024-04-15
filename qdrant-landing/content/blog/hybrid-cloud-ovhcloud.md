@@ -42,7 +42,7 @@ Setting up Qdrant Hybrid Cloud on OVHcloud is straightforward and quick, thanks 
 
 - **Hybrid Cloud Activation**: Log into your Qdrant account and enable 'Hybrid Cloud'.
 
-- **Cluster Integration**: Add your OVHcloud Kubernetes clusters as a private region in the Hybrid Cloud settings.
+- **Cluster Integration**: Add your OVHcloud Kubernetes clusters as a Hybrid Cloud Environment in the Hybrid Cloud settings.
 
 - **Effortless Deployment**: Use the Qdrant Management Console for easy deployment and management of Qdrant clusters on OVHcloud.
 

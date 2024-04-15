@@ -48,7 +48,7 @@ Setting up Qdrant Hybrid Cloud on Scaleway is streamlined and quick, thanks to i
 
 1. **Activate Hybrid Cloud**: First, log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and select ‘Hybrid Cloud’ to activate.
 
-2. **Integrate Your Clusters**: Navigate to the Hybrid Cloud settings and add your Scaleway Kubernetes clusters as a private region.
+2. **Integrate Your Clusters**: Navigate to the Hybrid Cloud settings and add your Scaleway Kubernetes clusters as a Hybrid Cloud Environment.
 
 3. **Simplified Management**: Use the Qdrant Management Console for easy creation and oversight of your Qdrant clusters on Scaleway.
 

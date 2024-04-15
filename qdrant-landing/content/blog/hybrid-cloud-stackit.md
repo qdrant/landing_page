@@ -20,7 +20,7 @@ Qdrant Hybrid Cloud is the first managed vector database that can be deployed in
 
 #### Key Features and Benefits of Qdrant on STACKIT:
 
-- **Seamless Integration and Deployment**: With Qdrant’s Kubernetes-native design, businesses can effortlessly connect their STACKIT cloud as a private region, enabling a one-step, scalable Qdrant deployment.
+- **Seamless Integration and Deployment**: With Qdrant’s Kubernetes-native design, businesses can effortlessly connect their STACKIT cloud as a Hybrid Cloud Environment, enabling a one-step, scalable Qdrant deployment.
 
 - **Enhanced Data Privacy**: Leveraging STACKIT's German data centers ensures that all data processing complies with GDPR and other relevant European data protection standards, providing businesses with unparalleled control over their data.
 
@@ -40,7 +40,7 @@ Deploying Qdrant Hybrid Cloud on STACKIT is straightforward, thanks to the seaml
 
 1. **Qdrant Hybrid Cloud Activation**: Start by activating ‘Hybrid Cloud’ in your [Qdrant Cloud account](https://cloud.qdrant.io/login).
 
-2. **Cluster Integration**: Add your STACKIT Kubernetes clusters as a private region in the Hybrid Cloud section.
+2. **Cluster Integration**: Add your STACKIT Kubernetes clusters as a Hybrid Cloud Environment in the Hybrid Cloud section.
 
 3. **Effortless Deployment**: Use the Qdrant Management Console to effortlessly create and manage your Qdrant clusters on STACKIT.
 

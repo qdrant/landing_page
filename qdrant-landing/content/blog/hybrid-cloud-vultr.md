@@ -26,7 +26,7 @@ Recognizing this, Qdrant and Vultr have teamed up to offer developers unpreceden
 
 Together, Qdrant Hybrid Cloud and Vultr offer enhanced AI and ML development with streamlined benefits:
 
-- **Simple and Flexible Deployment:** Deploy Qdrant Hybrid Cloud on Vultr in a few minutes with a simple “one-click” installation by adding your Vutlr environment as a private region to Qdrant.
+- **Simple and Flexible Deployment:** Deploy Qdrant Hybrid Cloud on Vultr in a few minutes with a simple “one-click” installation by adding your Vutlr environment as a Hybrid Cloud Environment to Qdrant.
 
 - **Scalability and Customizability**: Qdrant’s efficient data handling and Vultr’s scalable infrastructure means projects can be adjusted dynamically to workload demands, optimizing costs without compromising performance or capabilities.
 

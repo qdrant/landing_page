@@ -22,7 +22,7 @@ In the past years, enterprises have been actively engaged in exploring AI applic
 
 Deploying Qdrant Hybrid Cloud on OCI facilitates vector search in production environments without altering existing setups, ideal for enterprises and developers leveraging OCI's services. Key benefits include:
 
-- **Seamless Deployment:** Qdrant Hybrid Cloud’s Kubernetes-native architecture allows to simply connect your OCI cluster as a private region and deploy Qdrant with a one-step installation ensuring a smooth and scalable setup.
+- **Seamless Deployment:** Qdrant Hybrid Cloud’s Kubernetes-native architecture allows to simply connect your OCI cluster as a Hybrid Cloud Environment and deploy Qdrant with a one-step installation ensuring a smooth and scalable setup.
 
 - **Seamless Integration with OCI Services:** The integration facilitates efficient resource utilization and enhances security provisions by leveraging OCI's comprehensive suite of services.
 
@@ -42,7 +42,7 @@ Deploying Qdrant Hybrid Cloud on Oracle Cloud Infrastructure only takes a few mi
 
 1. **Hybrid Cloud Activation**: Start by signing into your [Qdrant Cloud account](https://qdrant.to/cloud) and activate ‘Hybrid Cloud’.
 
-2. **Cluster Integration**: In the Hybrid Cloud section, add your OCI Kubernetes clusters as a private region.
+2. **Cluster Integration**: In the Hybrid Cloud section, add your OCI Kubernetes clusters as a Hybrid Cloud Environment.
 
 3. **Effortless Deployment**: Utilize the Qdrant Management Console to seamlessly create and manage your Qdrant clusters on OCI.
 
