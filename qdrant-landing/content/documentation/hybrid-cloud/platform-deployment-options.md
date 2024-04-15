@@ -5,6 +5,10 @@ weight: 4
 
 # Platform Deployment Options
 
+This page provides an overview of how to deploy Qdrant Hybrid Cloud on various managed Kubernetes platforms.
+
+For a general list of prerequisites and installation steps, see our [Hybrid Cloud setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
+
 ![Akamai](/documentation/cloud/cloud-providers/akamai.jpg)
 
 ## Akamai (Linode)
@@ -19,6 +23,8 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [LKE Guides](https://www.linode.com/docs/products/compute/kubernetes/guides/)
 - [LKE API Reference](https://www.linode.com/docs/api/)
 
+At the time of writing, Linode [does not support CSI Volume Snaphots](https://github.com/linode/linode-blockstorage-csi-driver/issues/107).
+
 ![AWS](/documentation/cloud/cloud-providers/aws.jpg)
 
 ## Amazon Web Services (AWS)
@@ -32,6 +38,39 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [Getting Started with Amazon EKS](https://docs.aws.amazon.com/eks/)
 - [Amazon EKS User Guide](https://docs.aws.amazon.com/eks/latest/userguide/what-is-eks.html)
 - [Amazon EKS API Reference](https://docs.aws.amazon.com/eks/latest/APIReference/Welcome.html)
+
+Your EKS cluster needs the EKS EBS CSI driver, or a similar storage driver:
+- [Amazon EBS CSI Driver](https://docs.aws.amazon.com/eks/latest/userguide/managing-ebs-csi.html)
+
+To allow vertical scaling, you need a StorageClass with volume expansion enabled:
+- [Amazon EBS CSI Volume Resizing](https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/examples/kubernetes/resizing/README.md)
+
+```yaml
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  annotations:
+    storageclass.kubernetes.io/is-default-class: "true"
+  name: ebs-sc
+provisioner: ebs.csi.aws.com
+reclaimPolicy: Delete
+volumeBindingMode: WaitForFirstConsumer
+allowVolumeExpansion: true
+```
+
+To allow backups and restores, your EKS cluster needs the CSI snaphost controller:
+- [Amazon EBS CSI Snapshot Controller](https://docs.aws.amazon.com/eks/latest/userguide/csi-snapshot-controller.html)
+
+And you need to create a VolumeSnapshotClass:
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+deletionPolicy: Delete
+driver: ebs.csi.aws.com
+```
 
 ![Digital Ocean](/documentation/cloud/cloud-providers/digital-ocean.jpg)
 
@@ -61,6 +100,18 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [GKE Tutorials](https://cloud.google.com/kubernetes-engine/docs/tutorials)
 - [GKE Documentation](https://cloud.google.com/kubernetes-engine/docs/)
 
+To allow backups and restores, your GKE cluster needs the CSI VolumeSnapshot controller and class:
+- [Google GKE Volume Snapshots](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/volume-snapshots)
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+deletionPolicy: Delete
+driver: pd.csi.storage.gke.io
+```
+
 ![Microsoft Azure](/documentation/cloud/cloud-providers/azure.jpg)
 
 ## Mircrosoft Azure
@@ -75,6 +126,18 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [AKS Documentation](https://learn.microsoft.com/en-in/azure/aks/)
 - [Best Practices with AKS](https://learn.microsoft.com/en-in/azure/aks/best-practices)
 
+To allow backups and restores, your AKS cluster needs the CSI VolumeSnapshot controller and class:
+- [Azure AKS Volume Snapshots](https://learn.microsoft.com/en-us/azure/aks/azure-disk-csi#create-a-volume-snapshot)
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+deletionPolicy: Delete
+driver: disk.csi.azure.com
+```
+
 ![Oracle Cloud Infrastructure](/documentation/cloud/cloud-providers/oracle.jpg)
 
 ## Oracle Cloud Infrastructure
@@ -88,6 +151,19 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [Getting Started with OCI](https://docs.oracle.com/en-us/iaas/Content/ContEng/home.htm)
 - [Frequently Asked Questions on OCI](https://www.oracle.com/in/cloud/cloud-native/container-engine-kubernetes/faq/)
 - [OCI Product Updates](https://docs.oracle.com/en-us/iaas/releasenotes/services/conteng/)
+
+To allow backups and restores, your OCI cluster needs the CSI VolumeSnapshot controller and class:
+- [Prerequisites for Creating Volume Snapshots
+](https://docs.oracle.com/en-us/iaas/Content/ContEng/Tasks/contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV.htm#contengcreatingpersistentvolumeclaim_topic-Provisioning_PVCs_on_BV-PV_From_Snapshot_CSI__section_volume-snapshot-prerequisites)
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+deletionPolicy: Delete
+driver: blockvolume.csi.oraclecloud.com
+```
 
 ![OVHcloud](/documentation/cloud/cloud-providers/ovh.jpg)
 
@@ -117,6 +193,12 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [Red Hat OpenShift Kubernetes Documentation](https://docs.openshift.com/container-platform/4.15/welcome/index.html)
 - [Installing on Container Platforms](https://access.redhat.com/documentation/en-us/openshift_container_platform/4.5/html/installing/index)
 
+Qdrant databases need a persistent storage solution. See [Openshift Storage Overview](https://docs.openshift.com/container-platform/4.15/storage/index.html).
+
+To allow vertical scaling, you need a StorageClass with [volume expansion enabled](https://docs.openshift.com/container-platform/4.15/storage/expanding-persistent-volumes.html).
+
+To allow backups and restores, your OpenShift cluster needs the [CSI snaphost controller](https://docs.openshift.com/container-platform/4.15/storage/container_storage_interface/persistent-storage-csi-snapshots.html), and you need to create a VolumeSnapshotClass.
+
 ![Scaleway](/documentation/cloud/cloud-providers/scaleway.jpg)
 
 ## Scaleway
@@ -145,6 +227,17 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [SKE Tutorials](https://docs.stackit.cloud/stackit/en/tutorials-ske-66683162.html)
 - [Frequently Asked Questions on SKE](https://docs.stackit.cloud/stackit/en/faq-known-issues-of-ske-28476393.html)
 
+o allow backups and restores, you need to create a VolumeSnapshotClass:
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+deletionPolicy: Delete
+driver: cinder.csi.openstack.org
+```
+
 ![Vultr](/documentation/cloud/cloud-providers/vultr.jpg)
 
 ## Vultr
@@ -153,12 +246,13 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 
 First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Vultr**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
-### More on Vulr Kubernetes Engine
+### More on Vultr Kubernetes Engine
 
 - [VKE Guide](https://docs.vultr.com/vultr-kubernetes-engine)
 - [VKE Documentation](https://docs.vultr.com/)
 - [Frequently Asked Questions on VKE](https://docs.vultr.com/vultr-kubernetes-engine#frequently-asked-questions)
 
+At the time of writing, Vultr does not support CSI Volume Snaphots.
 
 ## Next Steps
 

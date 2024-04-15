@@ -1,12 +1,13 @@
 ---
-title: Qdrant Operator configuration
+title: Advanced Qdrant Operator configuration
 weight: 2
 ---
 
-# Qdrant Operator configuration
+# Advanced Qdrant Operator configuration
 
-You should configure the Qdrant Operator with the configuration for Hybrid Cloud.
-Use the following options, in YAML format:
+The Qdrant Operator has several configuration options, which can be configured inthe advanced section of your Hybrid Cloud Environment.
+
+The following YAML shows all configuration options with their default values:
 
 ```yaml
 # Configuration for the Qdrant operator
@@ -70,21 +71,12 @@ settings:
 #    log_level: INFO
     # Default network policies to create for a qdrant cluster
     networkPolicies:
-#      ingress:
-#        - from:
-#            - podSelector:
-#                matchLabels:
-#                  app.kubernetes.io/name: traefik
-#              namespaceSelector:
-#                matchLabels:
-#                  kubernetes.io/metadata.name: kube-system
-#          ports:
-#            - protocol: TCP
-#              port: 6333
-#            - protocol: TCP
-#              port: 6334
-#            - protocol: TCP
-#              port: 6335
+      ingress:
+          ports:
+            - protocol: TCP
+              port: 6333
+            - protocol: TCP
+              port: 6334
       # Allow DNS resolution from qdrant pods at Kubernetes internal DNS server
       egress:
         - to:
