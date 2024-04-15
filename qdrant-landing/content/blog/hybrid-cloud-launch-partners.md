@@ -88,16 +88,16 @@ Additionally, we built comprehensive documentation tutorials on how to successfu
 - [How to Deploy Qdrant Hybrid Cloud on DigitalOcean](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean)
 - [How to Deploy Qdrant on Oracle Cloud](/documentation/hybrid-cloud/platform-deployment-options/#oracle-cloud-infrastructure)
 - [How to Deploy Qdrant on Vultr](/documentation/hybrid-cloud/platform-deployment-options/#vultr)
-- [How to Deploy Qdrant on Scaleway](/documentation/hybrid-cloud/platform-deployment-options/#redhat-openshift)
+- [How to Deploy Qdrant on Scaleway](/documentation/hybrid-cloud/platform-deployment-options/#scaleway)
 - [How to Deploy Qdrant on OVHcloud](/documentation/hybrid-cloud/platform-deployment-options/#ovhcloud)
 - [How to Deploy Qdrant on STACKIT](/documentation/hybrid-cloud/platform-deployment-options/#stackit)
 - [How to Deploy Qdrant on Red Hat OpenShift](/documentation/hybrid-cloud/platform-deployment-options/#redhat-openshift)
 - [How to Deploy Qdrant on Linode](/documentation/hybrid-cloud/platform-deployment-options/#akamai-linode)
 
-#### Get started now!
+#### Get Started Now!
 
-We are convinced that Qdrant Hybrid Cloud marks a significant advancement in vector databases, offering the most flexible way to implement vector search. 
+Qdrant Hybrid Cloud marks a significant advancement in vector databases, offering the most flexible way to implement vector search. 
 
-You can test out Qdrant Hybrid Cloud today! Simply sign up for or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the Hybrid Cloud section. Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our Qdrant Hybrid Cloud website. For additional technical insights, please visit our documentation.
+You can test out Qdrant Hybrid Cloud today! Simply sign up for or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the **Hybrid Cloud** section. Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our Qdrant Hybrid Cloud website. For additional technical insights, please read our [documentation](/documentation/hybrid-cloud/).
 
 [![hybrid-cloud-get-started](/blog/hybrid-cloud-launch-partners/hybrid-cloud-get-started.png)](https://cloud.qdrant.io/login)

@@ -86,21 +86,43 @@ Thank you to our launch partners - learn what they have to say about Qdrant Hybr
 #### Red Hat:
 > *“Red Hat is committed to driving transparency, flexibility and choice for organizations to more easily unlock the power of AI. By working with partners like Qdrant to enable streamlined integration experiences on Red Hat OpenShift for AI use cases, organizations can more effectively harness critical data and deliver real business outcomes,”* said Steven Huels, vice president and general manager, AI Business Unit, Red Hat. 
 
+Read more in our [official Red Hat Partner Blog](/blog/hybrid-cloud-red-hat-openshift/).
+
 #### Vultr: 
 > *"Our collaboration with Qdrant empowers developers to unlock the potential of vector search applications, such as RAG, by deploying Qdrant Hybrid Cloud with its high-performance search capabilities directly on Vultr's global, automated cloud infrastructure. This partnership creates a highly scalable and customizable platform, uniquely designed for deploying and managing AI workloads with unparalleled efficiency."* Kevin Cochrane, Vultr CMO.
 
-#### DigitalOcean
+Read more in our [official Vultr Partner Blog](/blog/hybrid-cloud-vultr/).
+
+#### DigitalOcean:
 > *“Qdrant, with its seamless integration and robust performance, equips businesses to develop cutting-edge applications that truly resonate with their users. Through applications such as semantic search, Q&A systems, recommendation engines, image search, and RAG, DigitalOcean customers can leverage their data to the fullest, ensuring privacy and driving innovation.“* - Bikram Gupta, Lead Product Manager, Kubernetes & App Platform, DigitalOcean.
 
+Read more in our [official DigitalOcean Partner Blog](/blog/hybrid-cloud-digitalocean/).
 
 #### Scaleway:
 > *"With our partnership with Qdrant, Scaleway reinforces its status as Europe's leading cloud provider for AI innovation. The integration of Qdrant's fast and accurate vector database enriches our expanding suite of AI solutions. This means you can build smarter, faster AI projects with us, worry-free about performance and security."* Frédéric Bardolle, Lead PM AI, Scaleway
 
+Read more in our [official Scaleway Partner Blog](/blog/hybrid-cloud-scaleway/).
+
 #### Airbyte:
 > *“The Qdrant product lineup is a great fit for the Airbyte community. Native Python support pairs extremely well with our recent PyAirbyte launch, and the Qdrant K8 and Cloud offerings make a great complement for Airbyte OSS and Airbyte Cloud users, respectively. We’re excited to be working with Qdrant to unlock new and exciting use cases for AI and Data.”* AJ Steers, Staff Engineer for AI, Airbyte  
+
+Read more in our [official Airbyte Partner Blog](/blog/hybrid-cloud-airbyte/).
 
 #### deepset:
 > *“We hope that with Haystack 2.0 and our growing partnerships such as what we have here with Qdrant Hybrid Cloud, engineers are able to build AI systems with full autonomy. Both in how their pipelines are designed, and how their data are managed.”* Tuana Çelik, Developer Relations Lead, deepset.
 
+Read more in our [official Haystack by deepset Partner Blog](/blog/hybrid-cloud-haystack/).
+
 #### LlamaIndex:
 > *“LlamaIndex is thrilled to partner with Qdrant on the launch of Qdrant Hybrid Cloud, which upholds Qdrant's core functionality within a Kubernetes-based architecture. This advancement enhances LlamaIndex's ability to support diverse user environments, facilitating the development and scaling of production-grade, context-augmented LLM applications.”* Jerry Liu, CEO and Co-Founder, LlamaIndex
+
+Read more in our [official LlamaIndex Partner Blog](/blog/hybrid-cloud-llamaindex/).
+
+#### ...and many more!
+
+We have launched Qdrant Hybrid Cloud with additional reputable partners around the world. Learn more from each of their blogs: 
+
+- **Aleph Alpha:** [Enhance AI Data Sovereignty with Aleph Alpha and Qdrant Hybrid Cloud](/blog/hybrid-cloud-aleph-alpha/)
+- **STACKIT:** [STACKIT and Qdrant Hybrid Cloud for Best Data Privacy](/blog/hybrid-cloud-stackit/)
+- **OVHcloud:** [Qdrant and OVHcloud Bring Vector Search to All Enterprises](/blog/hybrid-cloud-ovhcloud/)
+- **Jina AI:** [Cutting-Edge GenAI with Jina AI and Qdrant Hybrid Cloud](/blog/hybrid-cloud-jinaai/)
