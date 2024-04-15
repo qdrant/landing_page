@@ -24,6 +24,8 @@ In this tutorial, you will build a mechanism that recommends movies based on def
 
 **Methodology:** We're adopting a collaborative filtering approach to construct a recommendation system from the dataset provided. Collaborative filtering works on the premise that if two users share similar tastes, they're likely to enjoy similar movies. Leveraging this concept, we'll identify users whose ratings align closely with ours, and explore the movies they liked but we haven't seen yet. To do this, we'll represent each user's ratings as a vector in a high-dimensional, sparse space. Using Qdrant, we'll index these vectors and search for users whose ratings vectors closely match ours. Ultimately, we will see which movies were enjoyed by users similar to us.
 
+![](/documentation/examples/recommendation-system-ovhcloud/architecture-diagram.png)
+
 ## Prerequisites
 
 Download and unzip the MovieLens dataset:
@@ -67,17 +69,33 @@ import pandas as pd
 ```
 Load user data:
 ```python
-users = pd.read_csv('data/ml-1m/users.dat', sep='::', names=['user_id', 'gender', 'age', 'occupation', 'zip'], engine='*')
+users = pd.read_csv(
+    'data/ml-1m/users.dat', 
+    sep='::', 
+    names=['user_id', 'gender', 'age', 'occupation', 'zip'],
+    engine='*'
+)
 users.head()
 ```
 Add movies:
 ```python
-movies = pd.read_csv('data/ml-1m/movies.dat', sep='::', names=['movie_id', 'title', 'genres'], engine='*', encoding='latin-1')
+movies = pd.read_csv(
+    'data/ml-1m/movies.dat',
+    sep='::', 
+    names=['movie_id', 'title', 'genres'], 
+    engine='*', 
+    encoding='latin-1'
+)
 movies.head()
 ```
 Finally, add the ratings:
 ```python
-ratings = pd.read_csv( 'data/ml-1m/ratings.dat', sep='::', names=['user_id', 'movie_id', 'rating', 'timestamp'], engine='*')
+ratings = pd.read_csv( 
+    'data/ml-1m/ratings.dat', 
+    sep='::', 
+    names=['user_id', 'movie_id', 'rating', 'timestamp'], 
+    engine='*'
+)
 ratings.head()
 ```
 
@@ -228,9 +246,9 @@ for movie_id, score in top_movies[:5]:
     print(movies[movies.movie_id == movie_id].title.values[0], score)
 ```
 
-## Result
+Result:
 
-```shell
+```text
 Star Wars: Episode V - The Empire Strikes Back (1980) 20.02387858
 Star Wars: Episode VI - Return of the Jedi (1983) 16.443184379999998
 Princess Bride, The (1987) 15.840068229999996
