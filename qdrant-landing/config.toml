@@ -69,6 +69,8 @@ disableKinds = ["taxonomy", "term"]
 
   mailchimp_subscribe_id = "b_69617d79374ac6280dd2230b2_acb2b876fc"
 
+  prices_contact_form = "https://share-eu1.hsforms.com/1olUNSzuRRWWXxKJevWfxiA2b46ng"
+
   gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
   githubDocPrefix = "https://github.com/qdrant/landing_page/tree/master/qdrant-landing/content/"
