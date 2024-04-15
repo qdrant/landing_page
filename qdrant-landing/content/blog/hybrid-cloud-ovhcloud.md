@@ -28,7 +28,7 @@ Through the seamless integration between Qdrant Hybrid Cloud and OVHcloud, devel
 
 - **Cost efficient sector search:** By leveraging Qdrant's quantization for efficient data handling and pairing it with OVHcloud's eco-friendly, water-cooled infrastructure, known for its superior price/performance ratio, this collaboration provides a strong foundation for cost efficient vector search.
 
-#### Build a Recommendation System with Qdrant Hybrid Cloud and OVHcloud
+#### Build a RAG-Based System with Qdrant Hybrid Cloud and OVHcloud
 
 ![hybrid-cloud-ovhcloud-tutorial](/blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud-tutorial.png)
 

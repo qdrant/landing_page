@@ -36,11 +36,11 @@ Together, Qdrant Hybrid Cloud and Vultr offer enhanced AI and ML development wit
 
 #### Getting Started with Qdrant Hybrid Cloud and Vultr
 
-![hybrid-cloud-vultr-tutorial](/blog/hybrid-cloud-vultr/hybrid-cloud-vultr-tutorial.png)
-
 We've compiled an in-depth guide for leveraging Qdrant Hybrid Cloud on Vultr to kick off your journey into building cutting-edge AI solutions. For further insights into the deployment process, refer to our comprehensive documentation.
 
-#### Tutorial Crafting a Personalized AI Assistant with RAG
+![hybrid-cloud-vultr-tutorial](/blog/hybrid-cloud-vultr/hybrid-cloud-vultr-tutorial.png)
+
+#### Tutorial: Crafting a Personalized AI Assistant with RAG
 
 This tutorial outlines creating a personalized AI assistant using Qdrant Hybrid Cloud on Vultr, incorporating advanced vector search to power dynamic, interactive experiences. We will develop a RAG pipeline powered by DSPy and detail how to maintain data privacy within your Vultr environment.
 

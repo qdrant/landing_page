@@ -16,6 +16,8 @@ We’re excited about our collaboration with Red Hat to bring the Qdrant vector 
 
 In the rapidly evolving field of Artificial Intelligence and Machine Learning, the demand for being able to manage the modern AI stack within the existing infrastructure becomes increasingly relevant for businesses. As enterprises are launching new AI applications and use cases into production, they require the ability to maintain complete control over their data, since these new apps often work with sensitive internal and customer-centric data that needs to remain within the owned premises. This is why enterprises are increasingly looking for maximum deployment flexibility for their AI workloads.
 
+>*“Red Hat is committed to driving transparency, flexibility and choice for organizations to more easily unlock the power of AI. By working with partners like Qdrant to enable streamlined integration experiences on Red Hat OpenShift for AI use cases, organizations can more effectively harness critical data and deliver real business outcomes,”* said Steven Huels, Vice President and General Manager, AI Business Unit, Red Hat. 
+
 #### The Synergy of Qdrant Hybrid Cloud and Red Hat OpenShift
 
 Qdrant Hybrid Cloud is the first vector database that can be deployed anywhere, with complete database isolation, while still providing a fully managed cluster management. Running Qdrant Hybrid Cloud on Red Hat OpenShift allows enterprises to deploy and run a fully managed vector database in their own environment, ultimately allowing businesses to run managed vector search on their existing cloud and infrastructure environments, with full data sovereignty.
