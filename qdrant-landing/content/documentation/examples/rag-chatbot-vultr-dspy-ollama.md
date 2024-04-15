@@ -118,7 +118,7 @@ documents = [
 We'll be able to ask general questions, for example, about topics we are interested in or events happening in a specific 
 location, but expect the results to be returned in a structured format. 
 
-![An example of extracted information](/documentation/tutorials/information-extraction-ollama-vultr/extracted-information.png)
+![An example of extracted information](/documentation/examples/information-extraction-ollama-vultr/extracted-information.png)
 
 Indexing in Qdrant is a single call if we have the documents defined:
 
