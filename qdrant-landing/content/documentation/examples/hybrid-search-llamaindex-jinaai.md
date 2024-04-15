@@ -40,7 +40,7 @@ This method enables a language model to respond to questions and access informat
 Qdrant Hybrid Cloud is a flexible offer that gives you the effortless experience of a managed solution while keeping the 
 data on your premises. It might be launched on your Kubernetes cluster, such as DigitalOcean DOKS. A [detailed 
 description of running Qdrant Hybrid Cloud on DigitalOcean might be found in our 
-documentation](http://localhost:1313/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean). Once it's
+documentation](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean). Once it's
 deployed, you should have a running Qdrant cluster with an API key. 
 
 ### Development environment
