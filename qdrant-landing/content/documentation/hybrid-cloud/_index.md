@@ -7,9 +7,9 @@ weight: 15
 
 Seamlessly deploy and manage your vector database across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
 
-Qdrant Hybrid Cloud integrates Kubernetes clusters from any setting - cloud, on-premises, or edge - into a unified, enterprise-grade managed service.
+[Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) integrates Kubernetes clusters from any setting - cloud, on-premises, or edge - into a unified, enterprise-grade managed service.
 
-This lets you use Qdrant Cloud's UI to create and manager your database cluster, but they still remain within your infrastructure. **All Qdrant databases will operate solely within your network, using your storage and compute resources.**
+You can use [Qdrant Cloud's UI](/documentation/cloud/create-cluster/) to create and manage your database clusters, while they still remain within your infrastructure. **All Qdrant databases will operate solely within your network, using your storage and compute resources.**
 
 Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, and delivers cost savings, elevating standards for vector search and AI applications.
 
@@ -17,9 +17,11 @@ Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, a
 
 <aside role="status">Qdrant Cloud does not connect to the API of your Kubernetes cluster, cloud provider, or any other platform APIs.</aside>
 
-![hybrid-cloud-architecture](/blog/hybrid-cloud/hybrid-cloud-architecture.png)
-
 **Setup instructions:** To begin using Qdrant Hybrid Cloud, [read our installation guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
+
+## Hybrid Cloud architecture
+
+![hybrid-cloud-architecture](/blog/hybrid-cloud/hybrid-cloud-architecture.png)
 
 ## Upcoming roadmap items
 

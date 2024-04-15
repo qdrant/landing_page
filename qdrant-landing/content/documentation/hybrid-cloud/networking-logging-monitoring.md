@@ -2,8 +2,9 @@
 title: Networking, logging & monitoring
 weight: 3
 ---
+# Networking, logging & monitoring
 
-## Network policies
+## Configure network policies
 
 For security reasons, each database cluster is secured with network policies. By default, database pods only allow egress traffic between each and allow ingress traffic to ports 6333 (rest) and 6334 (grpc) from within the Kubernetes cluster.
 
