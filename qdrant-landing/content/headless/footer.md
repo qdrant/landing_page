@@ -68,7 +68,7 @@ companyMenu:
   items:
     - id: 0
       name: About Us
-      url: /
+      url: /about-us
     - id: 1
       name: Careers
       url: /

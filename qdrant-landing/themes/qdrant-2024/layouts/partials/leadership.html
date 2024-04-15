@@ -1,0 +1,24 @@
+{{ with (.Site.GetPage "/headless/leadership") }}
+  <section class="leadership">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="leadership__title mx-auto">{{ .Params.title }}</h2>
+        </div>
+      </div>
+      <div class="row leadership__cards">
+        {{ range .Params.teamMembers }}
+          <div class="col-6 col-xl-3">
+            <div class="card leadership__card">
+              <div class="leadership__card-image" style="background-image: url({{ .avatar }})"></div>
+              <div>
+                <p class="leadership__card-name">{{ .name }}</p>
+                <p class="leadership__card-position">{{ .position }}</p>
+              </div>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
