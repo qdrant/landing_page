@@ -1,0 +1,14 @@
+{{ with (.Site.GetPage "/headless/mission") }}
+  <section class="mission">
+    <div class="mission__overlay"></div>
+    <div class="container">
+      <div class="mission__content">
+        <a href="{{ .Params.link.url }}" class="mission__link">
+          <span class="mission__logo"></span>
+          {{ .Params.link.text }}
+        </a>
+        <h2 class="mission__title">{{ .Params.title }}</h2>
+      </div>
+    </div>
+  </section>
+{{ end }}

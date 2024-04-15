@@ -1,0 +1,109 @@
+@use '../helpers/functions' as *;
+
+.open-roles {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 1.5;
+  padding-bottom: $spacer * 2.5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  position: relative;
+
+  &__content {
+    position: relative;
+    overflow: hidden;
+    background-color: $neutral-10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+
+    min-width: 100%;
+
+    border-radius: 16px;
+
+    padding-top: $spacer * 2.5;
+    padding-left: $spacer * 1.5;
+    padding-right: $spacer * 1.5;
+  }
+
+  &__summary {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(250);
+    height: rem(250);
+    background-image: url('/img/blurred/blurred-light-9.png');
+    background-position: top;
+    background-size: cover;
+  }
+
+  &__title {
+    font-size: map-get($font-sizes, 5);
+    line-height: rem(38);
+    color: $neutral-98;
+    text-align: center;
+    margin: 0;
+    z-index: 1;
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'm');
+    line-height: rem(24);
+    text-align: center;
+    color: $neutral-80;
+    margin-top: $spacer;
+    margin-bottom: $spacer * 1.5;
+    z-index: 1;
+  }
+
+  &__image {
+    width: 100%;
+    min-height: rem(240);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: 0;
+    padding-bottom: $spacer * 6.5;
+
+    &__content {
+      flex-direction: row;
+
+      padding-top: rem(30);
+      padding-bottom: rem(30);
+      padding-left: $spacer * 4;
+      padding-right: 0;
+    }
+
+    &__summary {
+      min-width: rem(640);
+      align-items: flex-start;
+    }
+
+    &__title {
+      text-align: left;
+    }
+
+    &__subtitle {
+      max-width: rem(640);
+    }
+
+    &__image {
+      max-width: rem(300);
+    }
+  }
+}
