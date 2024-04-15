@@ -33,13 +33,13 @@ Let’s explore these aspects in more detail:
 
 #### Maximizing Deployment Flexibility: Enabling Applications to Run Across Any Environment
 
-![hybrid-cloud-environments](/blog/hybrid-cloud/hybrid-cloud-environments.png)
+![hybrid-cloud-environments](/blog/hybrid-cloud/hybrid-cloud-environments.png/)
 
 Qdrant Hybrid Cloud, powered by our seamless Kubernetes-native architecture, is the first managed vector database engineered for unparalleled deployment flexibility. This means that regardless of where you run your AI applications, you can now enjoy the benefits of a fully managed Qdrant vector database, simplifying operations across any cloud, on-premise, or edge locations. 
 
 For this launch of Qdrant Hybrid Cloud, we are proud to collaborate with key cloud providers, including [Oracle Cloud Infrastructure (OCI)](/documentation/hybrid-cloud/platform-deployment-options/#oracle-cloud-infrastructure), [Red Hat OpenShift](/blog/hybrid-cloud-red-hat-openshift/), [Vultr](/blog/hybrid-cloud-vultr/), [DigitalOcean](/blog/hybrid-cloud-digitalocean/), [OVHcloud](/blog/hybrid-cloud-ovhcloud/), [Scaleway](/blog/hybrid-cloud-scaleway/), [Civo](/documentation/hybrid-cloud/platform-deployment-options/#civo), and [STACKIT](/blog/hybrid-cloud-stackit/). These partnerships underscore our commitment to delivering a versatile and robust vector database solution that meets the complex deployment requirements of today's AI applications.
 
-In addition to our partnerships with key cloud providers, we are also launching in collaboration with renowned AI development tools and framework leaders, including [LlamaIndex](/blog/hybrid-cloud-llamaindex/), [LangChain](/blog/hybrid-cloud-langchain), [Airbyte](/blog/hybrid-cloud-airbyte/), [JinaAI](/blog/hybrid-cloud-jinaai/), [Haystack by deepset](/blog/hybrid-cloud-haystack/), and [Aleph Alpha](/blog/hybrid-cloud-aleph-alpha/). These launch partners are instrumental in ensuring our users can seamlessly integrate with essential technologies for their AI applications, enriching our offering and reinforcing our commitment to versatile and comprehensive deployment environments.
+In addition to our partnerships with key cloud providers, we are also launching in collaboration with renowned AI development tools and framework leaders, including [LlamaIndex](/blog/hybrid-cloud-llamaindex/), [LangChain](/blog/hybrid-cloud-langchain/), [Airbyte](/blog/hybrid-cloud-airbyte/), [JinaAI](/blog/hybrid-cloud-jinaai/), [Haystack by deepset](/blog/hybrid-cloud-haystack/), and [Aleph Alpha](/blog/hybrid-cloud-aleph-alpha/). These launch partners are instrumental in ensuring our users can seamlessly integrate with essential technologies for their AI applications, enriching our offering and reinforcing our commitment to versatile and comprehensive deployment environments.
 
 Together with our launch partners we have created detailed tutorials that show how to build cutting-edge AI applications with Qdrant Hybrid Cloud on the infrastructure of your choice. These tutorials are available in our [launch partner blog](/blog/hybrid-cloud-launch-partners/). Additionally, you can find expansive [documentation](/documentation/hybrid-cloud/) and instructions on how to [deploy Qdrant Hybrid Cloud](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
@@ -106,7 +106,7 @@ Read more in our [official DigitalOcean Partner Blog](/blog/hybrid-cloud-digital
 Read more in our [official Scaleway Partner Blog](/blog/hybrid-cloud-scaleway/).
 
 #### Airbyte:
-> *“The Qdrant product lineup is a great fit for the Airbyte community. Native Python support pairs extremely well with our recent PyAirbyte launch, and the Qdrant K8 and Cloud offerings make a great complement for Airbyte OSS and Airbyte Cloud users, respectively. We’re excited to be working with Qdrant to unlock new and exciting use cases for AI and Data.”* AJ Steers, Staff Engineer for AI, Airbyte  
+> *“The new Qdrant Hybrid Cloud is an exciting addition that offers peace of mind and flexibility, aligning perfectly with the needs of Airbyte Enterprise users who value the same balance. Being open-source at our core, both Qdrant and Airbyte prioritize giving users the flexibility to build and test locally—a significant advantage for data engineers and AI practitioners. We're enthusiastic about the Hybrid Cloud launch, as it mirrors our vision of enabling users to confidently transition from local development and local deployments to a managed solution, with both cloud and hybrid cloud deployment options.”* AJ Steers, Staff Engineer for AI, Airbyte  
 
 Read more in our [official Airbyte Partner Blog](/blog/hybrid-cloud-airbyte/).
 
