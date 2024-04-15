@@ -1,6 +1,6 @@
 @use '../helpers/functions' as *;
 
-.qdrant-blog-post {
+.qdrant-post {
   &__header {
     padding-top: $spacer * 2.5;
     padding-bottom: $spacer * 1.5;
@@ -107,7 +107,7 @@
 
   @include media-breakpoint-up(xl) {
     &__header {
-      max-width: rem(920);
+      width: rem(920);
       margin: 0 auto;
       padding-top: $spacer * 5;
       padding-bottom: $spacer * 5;
@@ -121,7 +121,7 @@
     &__body {
       flex-direction: row;
       gap: $spacer * 5;
-      max-width: rem(920);
+      width: rem(920);
       margin: 0 auto;
     }
 
@@ -130,8 +130,8 @@
       justify-content: flex-start;
       align-items: center;
       gap: $spacer * 1.5;
-      width: $spacer * 3;
-      margin-left: $spacer * 2;
+      width: $spacer * 5;
+      padding-left: $spacer * 2;
 
       &-links {
         flex-direction: column;
@@ -140,6 +140,8 @@
     }
 
     &__content {
+      width: calc(100% - 160px);
+
       p,
       li {
         font-size: rem(18);
