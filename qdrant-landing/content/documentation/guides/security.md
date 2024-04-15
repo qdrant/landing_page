@@ -199,7 +199,7 @@ For convenience, we have added a JWT generation tool the Qdrant Web UI under the
 
 These are the available claims you can use in the JWT payload to define its functionality.
 
-- **`exp`** - The expiration time of the token. This is a Unix timestamp in seconds. The token will be invalid after this time.
+- **`exp`** - The expiration time of the token. This is a Unix timestamp in seconds. The token will be invalid after this time. The check for this claim includes a 30-second leeway to account for clock skew.
 
   ```json
   {
