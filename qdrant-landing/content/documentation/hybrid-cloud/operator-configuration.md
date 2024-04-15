@@ -50,7 +50,7 @@ settings:
 #      # StorageClass for DB volumes
 #      db: ""
 #      # StorageClass for snapshot volumes
-#      snapshot: ""
+#      snapshots: ""
   # Default scheduling configuration for a Qdrant cluster
 #  scheduling:
 #    default_topology_spread_constraints: []
