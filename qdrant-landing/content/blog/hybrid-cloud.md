@@ -15,6 +15,8 @@ tags:
 
 We are excited to announce the official launch of **Qdrant Hybrid Cloud** today, a significant leap forward in the field of vector search and enterprise AI. Rooted in our open-source origin, we are committed to offering our users and customers unparalleled control and sovereignty over their data and vector search workloads. Qdrant Hybrid Cloud stands as the industry's first managed vector database that can be deployed in any environment - be it cloud, on-premise, or the edge. 
 
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/gWH2uhWgTvM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
+
 As the AI application landscape evolves, the industry is transitioning from prototyping innovative AI solutions to actively deploying AI applications into production (incl. GenAI, semantic search, or recommendation systems). In this new phase, **privacy**, **data sovereignty**, **deployment flexibility**, and **control** are at the top of developers’ minds. These factors are critical when developing, launching, and scaling new applications, whether they are customer-facing services like AI assistants or internal company solutions for knowledge and information retrieval or process automation.
 
 Qdrant Hybrid Cloud offers developers a vector database that can be deployed in any existing environment, ensuring data sovereignty and privacy control through complete database isolation - with the full capabilities of our managed cloud service.
