@@ -8,8 +8,8 @@
   );
 
   $padding: (
-    md: rem(12) $spacer,
-    lg: $spacer * 0.5 $spacer,
+    md: rem(7) $spacer,
+    lg: rem(11) $spacer,
   );
 
   // STYLES
@@ -63,6 +63,27 @@
   &_lg {
     height: map-get($height, lg);
     padding: map-get($padding, lg);
-    font-size: map-get($font-sizes-text, l);
+  }
+}
+
+.dropdown {
+  &__button {
+    position: relative;
+    padding: rem(7) $spacer * 2.5 rem(7) $spacer;
+    text-align: left;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: rem(12);
+      right: $spacer;
+      height: $spacer;
+      width: $spacer;
+      background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.33203 4.66666L7.9987 11.3333L14.6654 4.66666' stroke='%23D4D9E6' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
   }
 }

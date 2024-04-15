@@ -1,0 +1,74 @@
+<form action="" class="contact-form">
+  <div class="contact-form__top-overlay"></div>
+
+  <h6 class="contact-form__title">{{ .Params.form.title }}</h6>
+  {{ if .Params.form.description }}
+    <p class="contact-form__description">{{ .Params.form.description }}</p>
+  {{ end }}
+
+  <div class="contact-form__inputs">
+    <div class="contact-form__inputs-block">
+      <label for="firstName">{{ .Params.form.firstNameLabel }}</label>
+      <input class="input input_dark-bg" type="text" name="firstName" id="firstName" value="" />
+    </div>
+
+    <div class="contact-form__inputs-block">
+      <label for="lastName">{{ .Params.form.lastNameLabel }}</label>
+      <input class="input input_dark-bg" type="text" name="lastName" id="lastName" value="" />
+    </div>
+
+    <div class="contact-form__inputs-block">
+      <label for="workEmail">{{ .Params.form.workEmailLabel }}</label>
+      <input class="input input_dark-bg" type="text" name="workEmail" id="workEmail" value="" />
+    </div>
+
+    <div class="contact-form__inputs-block">
+      <label for="company">{{ .Params.form.companyLabel }}</label>
+      <input class="input input_dark-bg" type="text" name="company" id="company" value="" />
+    </div>
+
+    <div class="contact-form__inputs-block">
+      <label for="businessPhone">{{ .Params.form.businessPhoneLabel }}</label>
+      <input class="input input_dark-bg" type="text" name="businessPhone" id="businessPhone" value="" />
+    </div>
+
+    <div class="contact-form__inputs-block">
+      <label for="jobFunction">{{ .Params.form.jobFunctionLabel }}</label>
+      <input class="input input_dark-bg" type="text" name="jobFunction" id="jobFunction" value="" />
+    </div>
+
+    {{ if .Params.form.inquiryTypeLabel }}
+      <div class="contact-form__inputs-block">
+        <label for="inquiryType">{{ .Params.form.inquiryTypeLabel }}</label>
+        <div class="dropdown">
+          <button
+            class="dropdown__button input input_md input_dark-bg"
+            type="button"
+            name="inquiryType"
+            id="inquiryType"
+            value=""
+          >
+            Select
+          </button>
+          <!--<ul class="dropdown__list">
+            <li></li>
+          </ul>-->
+        </div>
+      </div>
+    {{ end }}
+
+
+    <div class="contact-form__inputs-block">
+      <label for="message">{{ .Params.form.messageLabel }}</label>
+      <textarea class="input input_dark-bg" name="message" id="message"></textarea>
+    </div>
+  </div>
+
+  <div class="contact-form__footer">
+    <p>
+      {{ .Params.form.info }}
+      <a href="{{ .Params.form.link.href }}"> {{ .Params.form.link.text }}</a>.
+    </p>
+    <button class="button button_contained" type="submit">{{ .Params.form.button }}</button>
+  </div>
+</form>

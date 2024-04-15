@@ -1,0 +1,74 @@
+@use '../helpers/functions' as *;
+
+.not-found {
+  position: relative;
+  min-height: calc(100vh - 104px);
+  padding-top: rem(130);
+  padding-bottom: $spacer * 5;
+  text-align: center;
+
+  &__image {
+    display: none;
+
+    &-mobile {
+      display: block;
+      width: 100%;
+      margin-bottom: $spacer * 3;
+    }
+  }
+
+  &__description {
+    font-size: rem(20);
+    line-height: rem(30);
+    color: $neutral-94;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: $spacer * 1.5;
+
+    .button {
+      width: rem(200);
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: rem(200);
+    background-image: url('/img/blurred/blurred-light-12.svg');
+    background-position: center;
+    background-size: cover;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: rem(120);
+    padding-bottom: rem(130);
+    min-height: calc(100vh - 140px);
+
+    &__image {
+      display: block;
+      width: 100%;
+      margin-bottom: $spacer * 2;
+
+      &-mobile {
+        display: none;
+      }
+    }
+
+    &__buttons {
+      flex-direction: row;
+
+      .button {
+        width: auto;
+      }
+    }
+  }
+}
