@@ -24,6 +24,13 @@ A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/
 - **LLM:** GPT-3.5, developed by OpenAI is utilized as the generator for producing answers.
 - **Framework:** [LangChain](https://www.langchain.com/) for extensive RAG capabilities.
 
+## Deploying Qdrant Hybrid Cloud on Scaleway
+
+[Scaleway Kapsule](https://www.scaleway.com/en/kubernetes-kapsule/) and [Kosmos](https://www.scaleway.com/en/kubernetes-kosmos/) are managed Kubernetes services from [Scaleway](https://www.scaleway.com/en/). They abstract away the complexities of managing and operating a Kubernetes cluster. The primary difference being, Kapsule clusters are composed solely of Scaleway Instances. Whereas, a Kosmos cluster is a managed multi-cloud Kubernetes engine that allows you to connect instances from any cloud provider to a single managed Control-Plane.
+
+1. To start using managed Kubernetes on Scaleway, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#scaleway).
+2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud). 
+
 ## Prerequisites
 
 To prepare the environment for working with Qdrant and related libraries, it's necessary to install all required Python packages. This can be done using Poetry, a tool for dependency management and packaging in Python. The code snippet imports various libraries essential for the tasks ahead, including `bs4` for parsing HTML and XML documents, `langchain` and its community extensions for working with language models and document loaders, and `Qdrant` for vector storage and retrieval. These imports lay the groundwork for utilizing Qdrant alongside other tools for natural language processing and machine learning tasks.

@@ -28,12 +28,13 @@ If you work in a regulated industry, or just need to keep your data private, thi
 
 ![Architecture diagram](/documentation/tutorials/information-extraction-ollama-vultr/architecture-diagram.png)
 
-## Configuring the environment
+## CDeploying Qdrant Hybrid Cloud on Vultr
 
 All the services we are going to use in this tutorial will be running on [Vultr Kubernetes 
-Engine](https://www.vultr.com/kubernetes/). That gives us a lot of flexibility in terms of scaling and managing the 
-resources. Before we go further, make sure you have a Vultr account and a Kubernetes cluster running. Please follow the
-[official documentation](https://docs.vultr.com/vultr-kubernetes-engine) to get everything up and running.
+Engine](https://www.vultr.com/kubernetes/). That gives us a lot of flexibility in terms of scaling and managing the resources. Vultr manages the control plane and worker nodes and provides integration with other managed services such as Load Balancers, Block Storage, and DNS.
+
+1. To start using managed Kubernetes on Vultr, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#vultr).
+2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud). 
 
 ### Installing the necessary packages
 

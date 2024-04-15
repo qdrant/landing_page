@@ -15,8 +15,6 @@ Contract management benefits greatly from Retrieval Augmented Generation (RAG), 
 
 Companies want their data to be kept and processed within specific geographical boundaries. For that reason, this RAG-centric tutorial focuses on dealing with a region-specific cloud provider. You will set up a contract management system using [Aleph Alpha's](https://aleph-alpha.com/) embeddings and LLM. You will host everything on [STACKIT](https://www.stackit.de/), a German business cloud provider. On this platform, you will run Qdrant Hybrid Cloud as well as the rest of your RAG application. This setup will ensure that your data is stored and processed in Germany.
 
-[//]: # (TODO: add link to Qdrant Hybrid Cloud above)
-
 ![Architecture diagram](/documentation/tutorials/contract-management-stackit-aleph-alpha/architecture-diagram.png)
 
 ## Components
