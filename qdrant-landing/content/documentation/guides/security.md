@@ -9,7 +9,7 @@ aliases:
 
 
 
-Please read this page carefully. Although there are various ways to secure your Qdrant instances, **they are unsecured by default**. 
+Please read this page carefully. Although there are various ways to secure your Qdrant instances, **they are unsecured by default**.
 You need to enable security measures before production use. Otherwise, they are completely open to anyone
 
 ## Authentication
@@ -229,3 +229,20 @@ tls:
   # Required if cluster.p2p.enable_tls is true.
   ca_cert: ./tls/cacert.pem
 ```
+
+## Hardening
+
+We recommend reducing the amount of permissions granted to Qdrant containers so that you can reduce the risk of exploitation. Here are some ways to reduce the permissions of a Qdrant container:
+
+* Run Qdrant as a non-root user. This can help mitigate the risk of future container breakout vulnerabilities. Qdrant does not need the privileges of the root user for any purpose.
+  - You can use the image `qdrant/qdrant:<version>-unprivileged` instead of the default Qdrant image.
+  - You can use the flag `--user=1000:2000` when running [`docker run`](https://docs.docker.com/reference/cli/docker/container/run/).
+  - You can set [`user: 1000`](https://docs.docker.com/compose/compose-file/05-services/#user) when using Docker Compose.
+  - You can set [`runAsUser: 1000`](https://kubernetes.io/docs/tasks/configure-pod-container/security-context) when running in Kubernetes (our [Helm chart](https://github.com/qdrant/qdrant-helm) does this by default).
+
+* Run Qdrant with a read-only root filesystem. This can help mitigate vulnerabilities that require the ability to modify system files, which is a permission Qdrant does not need. As long as the container uses mounted volumes for storage (`/qdrant/storage` and `/qdrant/snapshots` by default), Qdrant can continue to operate while being prevented from writing data outside of those volumes.
+  - You can use the flag `--read-only` when running [`docker run`](https://docs.docker.com/reference/cli/docker/container/run/).
+  - You can set [`read_only: true`](https://docs.docker.com/compose/compose-file/05-services/#read_only) when using Docker Compose.
+  - You can set [`readOnlyRootFilesystem: true`](https://kubernetes.io/docs/tasks/configure-pod-container/security-context) when running in Kubernetes (our [Helm chart](https://github.com/qdrant/qdrant-helm) does this by default).
+
+There are other techniques for reducing the permissions such as dropping [Linux capabilities](https://www.man7.org/linux/man-pages/man7/capabilities.7.html) depending on your deployment method, but running as a non-root user with a read-only root file system are the two most important.
