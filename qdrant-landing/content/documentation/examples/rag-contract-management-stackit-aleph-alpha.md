@@ -58,10 +58,9 @@ os.environ["ALEPH_ALPHA_API_KEY"] = "<your-token>"
 
 ### Qdrant Hybrid Cloud on STACKIT
 
-Please refer to our documentation to see how to deploy Qdrant Hybrid Cloud on STACKIT. Once you finish the deployment,
-you will have the API endpoint to interact with the Qdrant server. Let's store it in the environment variable as well:
-
-[//]: # (TODO: refer to the documentation on how to deploy Qdrant on Stackit)
+Please refer to our documentation to see [how to deploy Qdrant Hybrid Cloud on 
+STACKIT](/documentation/hybrid-cloud/platform-deployment-options/#stackit). Once you finish the deployment, you will 
+have the API endpoint to interact with the Qdrant server. Let's store it in the environment variable as well:
 
 ```shell
 export QDRANT_URL="https://qdrant.example.com"
@@ -75,14 +74,17 @@ os.environ["QDRANT_API_KEY"] = "your-api-key"
 
 ## Implementation
 
-To build the application, we can use the official SDKs of Aleph Alpha and Qdrant. However, to streamline the process but let's use [Langchain](https://python.langchain.com/docs/get_started/introduction). This framework is already integrated with both services, so we can focus our efforts on developing business logic. 
+To build the application, we can use the official SDKs of Aleph Alpha and Qdrant. However, to streamline the process 
+let's use [Langchain](https://python.langchain.com/docs/get_started/introduction). This framework is already integrated with both services, so we can focus our efforts on 
+developing business logic. 
 
 ### Qdrant collection
 
-Aleph Alpha embeddings are high dimensional vectors by default, with a dimensionality of 5120. Qdrant can store such
-vector easily, but that also sounds like a good idea to enable [Binary 
-Quantization](../../../documentation/guides/quantization/#binary-quantization) to save space and make the retrieval 
-faster. Let's create a collection with such settings:
+Aleph Alpha embeddings are high dimensional vectors by default, with a dimensionality of `5120`. However, a pretty 
+unique feature of that model is that they might be compressed to a size of `128`, with a small drop in accuracy 
+performance (4-6%, according to the docs). Qdrant can store even the original vectors easily, and this sounds like a 
+good idea to enable [Binary Quantization](/documentation/guides/quantization/#binary-quantization) to save space and 
+make the retrieval faster. Let's create a collection with such settings:
 
 ```python
 from qdrant_client import QdrantClient, models
@@ -251,11 +253,11 @@ from langchain.prompts import PromptTemplate
 from langchain.chains.retrieval_qa.base import RetrievalQA
 
 prompt_template = """
-### Instruction:
-{question} If there's no answer, say "Provided context does not clarify it".
-### Input:
-Text:{context}
-Question:{question}
+Question: {question}
+Answer the question using the Source. If there's no answer, say "NO ANSWER IN TEXT".
+
+Source: {context}
+
 ### Response:
 """
 prompt = PromptTemplate(
