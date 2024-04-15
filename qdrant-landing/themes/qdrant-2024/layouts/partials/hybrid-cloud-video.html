@@ -2,7 +2,10 @@
   <section class="hybrid-cloud-video">
     <div class="container">
       <h3 class="hybrid-cloud-video__title">{{ .Params.title }}</h3>
-      {{ partial "video" (dict "context" .) }}
+      <div class="video">
+        <iframe style="border-radius: .5rem; overflow: hidden; aspect-ratio: 9/5.1; max-width: 920px; width: 100%;"
+                src="https://www.youtube.com/embed/gWH2uhWgTvM?si=l9a27GwI9mpTknDa" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+      </div>
     </div>
   </section>
 {{ end }}
