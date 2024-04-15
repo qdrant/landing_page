@@ -5,13 +5,19 @@ weight: 15
 
 # Qdrant Hybrid Cloud
 
-With Qdrant Hybrid Cloud you can bring your own cloud and manage it via Qdrant Cloud. Specifically, you can attach your own infrastructure as a private environment to our managed service. This lets you use Qdrant Cloud's UI to oversee your clusters, but they still remain within your infrastructure. **All Qdrant databases will operate solely within your network, using your storage and compute resources.**
+Seamlessly deploy and manage your vector database across diverse environments, ensuring performance, security, and cost efficiency for AI-driven applications.
 
-**How it works:** When you onboard a Kubernetes cluster to a Hybrid Cloud Environment, you can deploy the Qdrant Kubernetes Operator into this cluster. This operator will manage Qdrant databases within your Kubernetes cluster. It will create an outgoing connection to the Qdrant Cloud at `cloud.qdrant.io` on port `443`. You can then benefit from the same cloud management features and transport telemetry as is available with any managed Qdrant Cloud cluster.
+Qdrant Hybrid Cloud integrates Kubernetes clusters from any setting - cloud, on-premises, or edge - into a unified, enterprise-grade managed service.
+
+This lets you use Qdrant Cloud's UI to create and manager your database cluster, but they still remain within your infrastructure. **All Qdrant databases will operate solely within your network, using your storage and compute resources.**
+
+Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, and delivers cost savings, elevating standards for vector search and AI applications.
+
+**How it works:** When you onboard a Kubernetes cluster as a Hybrid Cloud Environment, you can deploy the Qdrant Kubernetes Operator and Cloud Agent into this cluster. These will manage Qdrant databases within your Kubernetes cluster and establish an outgoing connection to Qdrant Cloud at `cloud.qdrant.io` on port `443`. You can then benefit from the same cloud management features and transport telemetry as is available with any managed Qdrant Cloud cluster.
 
 <aside role="status">Qdrant Cloud does not connect to the API of your Kubernetes cluster, cloud provider, or any other platform APIs.</aside>
 
-**Accessing Hybrid Cloud:** First, you will need to sign up for Hybrid Cloud. To do so, create a [Qdrant Cloud account](https://cloud.qdrant.io/login). You should get access to the Qdrant Cloud console. To activate Hybrid Cloud, go to the **Hybrid Cloud** tab. You will need to enter your **Company** and **Billing Information**. Then, you can request access.
+![hybrid-cloud-architecture](/blog/hybrid-cloud/hybrid-cloud-architecture.png)
 
 **Setup instructions:** To begin using Qdrant Hybrid Cloud, [read our installation guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
