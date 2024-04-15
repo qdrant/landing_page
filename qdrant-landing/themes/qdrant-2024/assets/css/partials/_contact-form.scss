@@ -1,0 +1,100 @@
+@use '../helpers/functions' as *;
+
+.contact-form {
+  position: relative;
+  width: 100%;
+  padding: $spacer * 2.5 $spacer * 1.5;
+  border-radius: $spacer * 0.5;
+  background: linear-gradient($neutral-20, #0e1424);
+  color: $neutral-98;
+
+  &__title {
+    margin-bottom: $spacer * 0.5;
+  }
+
+  &__description {
+    margin-bottom: 0;
+    font-size: rem(14);
+    line-height: rem(21);
+    color: $neutral-70;
+  }
+
+  &__inputs {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: rem(20);
+    margin: $spacer * 2 0;
+
+    &-block {
+      width: 100%;
+
+      label {
+        margin-bottom: rem(6);
+        font-size: rem(14);
+        line-height: rem(21);
+      }
+
+      textarea {
+        height: rem(77);
+        resize: none;
+      }
+    }
+  }
+
+  &__footer {
+    p {
+      margin-bottom: $spacer * 1.5;
+      font-size: rem(12);
+      line-height: rem(18);
+      color: $neutral-60;
+
+      a {
+        color: $neutral-80;
+        font-weight: 600;
+      }
+    }
+
+    button {
+      width: 100%;
+    }
+  }
+
+  &__top-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(220);
+    height: rem(192);
+    background-image: url('/img/blurred/blurred-light-9.png');
+    background-position: top;
+    background-size: cover;
+    border-radius: 0 rem(12) 0 0;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: $spacer * 3 $spacer * 2.5;
+
+    &__inputs {
+      &-block {
+        &:nth-of-type(1),
+        &:nth-of-type(2) {
+          width: calc(50% - 12px);
+        }
+      }
+    }
+
+    &__footer {
+      display: flex;
+      justify-content: space-between;
+
+      p {
+        width: rem(288);
+      }
+
+      button {
+        width: auto;
+      }
+    }
+  }
+}
