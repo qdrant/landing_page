@@ -13,7 +13,7 @@ tags:
   - Hybrid Cloud
 ---
 
-We are excited to announce the official launch of **Qdrant Hybrid Cloud** today, a significant leap forward in the field of vector search and enterprise AI. Rooted in our open-source origin, we are committed to offering our users and customers unparalleled control and sovereignty over their data and vector search workloads. Qdrant Hybrid Cloud stands as the industry's first managed vector database that can be deployed in any environment - be it cloud, on-premise, or the edge. 
+We are excited to announce the official launch of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) today, a significant leap forward in the field of vector search and enterprise AI. Rooted in our open-source origin, we are committed to offering our users and customers unparalleled control and sovereignty over their data and vector search workloads. Qdrant Hybrid Cloud stands as **the industry's first managed vector database that can be deployed in any environment** - be it cloud, on-premise, or the edge. 
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/gWH2uhWgTvM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
 
@@ -37,9 +37,9 @@ Let’s explore these aspects in more detail:
 
 Qdrant Hybrid Cloud, powered by our seamless Kubernetes-native architecture, is the first managed vector database engineered for unparalleled deployment flexibility. This means that regardless of where you run your AI applications, you can now enjoy the benefits of a fully managed Qdrant vector database, simplifying operations across any cloud, on-premise, or edge locations. 
 
-For this launch of Qdrant Hybrid Cloud, we are proud to collaborate with key cloud providers, including **Oracle Cloud Infrastructure (OCI)**, [Red Hat OpenShift](/blog/hybrid-cloud-red-hat-openshift/), [Vultr](/blog/hybrid-cloud-vultr/), [DigitalOcean](/blog/hybrid-cloud-digitalocean/), [OVHcloud](/blog/hybrid-cloud-ovhcloud/), [Scaleway](/blog/hybrid-cloud-scaleway/), and [STACKIT](/blog/hybrid-cloud-stackit/). These partnerships underscore our commitment to delivering a versatile and robust vector database solution that meets the complex deployment requirements of today's AI applications.
+For this launch of Qdrant Hybrid Cloud, we are proud to collaborate with key cloud providers, including [Oracle Cloud Infrastructure (OCI)](/documentation/hybrid-cloud/platform-deployment-options/#oracle-cloud-infrastructure), [Red Hat OpenShift](/blog/hybrid-cloud-red-hat-openshift/), [Vultr](/blog/hybrid-cloud-vultr/), [DigitalOcean](/blog/hybrid-cloud-digitalocean/), [OVHcloud](/blog/hybrid-cloud-ovhcloud/), [Scaleway](/blog/hybrid-cloud-scaleway/), [Civo](/documentation/hybrid-cloud/platform-deployment-options/#civo), and [STACKIT](/blog/hybrid-cloud-stackit/). These partnerships underscore our commitment to delivering a versatile and robust vector database solution that meets the complex deployment requirements of today's AI applications.
 
-In addition to our partnerships with key cloud providers, we are also launching in collaboration with renowned AI development tools and framework leaders, including [LlamaIndex](/blog/hybrid-cloud-llamaindex/), **LangChain**, [Airbyte](/blog/hybrid-cloud-airbyte/), [JinaAI](/blog/hybrid-cloud-jinaai/), [Haystack by deepset](/blog/hybrid-cloud-haystack/), and [Aleph Alpha](/blog/hybrid-cloud-aleph-alpha/). These launch partners are instrumental in ensuring our users can seamlessly integrate with essential technologies for their AI applications, enriching our offering and reinforcing our commitment to versatile and comprehensive deployment environments.
+In addition to our partnerships with key cloud providers, we are also launching in collaboration with renowned AI development tools and framework leaders, including [LlamaIndex](/blog/hybrid-cloud-llamaindex/), [LangChain](/blog/hybrid-cloud-langchain), [Airbyte](/blog/hybrid-cloud-airbyte/), [JinaAI](/blog/hybrid-cloud-jinaai/), [Haystack by deepset](/blog/hybrid-cloud-haystack/), and [Aleph Alpha](/blog/hybrid-cloud-aleph-alpha/). These launch partners are instrumental in ensuring our users can seamlessly integrate with essential technologies for their AI applications, enriching our offering and reinforcing our commitment to versatile and comprehensive deployment environments.
 
 Together with our launch partners we have created detailed tutorials that show how to build cutting-edge AI applications with Qdrant Hybrid Cloud on the infrastructure of your choice. These tutorials are available in our [launch partner blog](/blog/hybrid-cloud-launch-partners/). Additionally, you can find expansive [documentation](/documentation/hybrid-cloud/) and instructions on how to [deploy Qdrant Hybrid Cloud](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
@@ -80,7 +80,7 @@ Explore our [detailed documentation](/documentation/hybrid-cloud/) and [tutorial
 
 ## Launch Partners
 
-Thank you to our launch partners - learn what they have to say about Qdrant Hybrid Cloud:
+We launched Qdrant Hybrid Cloud with assistance and support of our trusted partners. Learn what they have to say about our latest offering:
 
 #### Oracle Cloud Infrastructure: 
 > *"We are excited to partner with Qdrant to bring their powerful vector search capabilities to Oracle Cloud Infrastructure. By offering Qdrant Hybrid Cloud as a managed service on OCI, we are empowering enterprises to harness the full potential of AI-driven applications while maintaining complete control over their data. This collaboration represents a significant step forward in making scalable vector search accessible and manageable for businesses across various industries, enabling them to drive innovation, enhance productivity, and unlock valuable insights from their data."* Dr. Sanjay Basu, Senior Director of Cloud Engineering, AI/GPU Infrastructure at Oracle
@@ -120,11 +120,17 @@ Read more in our [official Haystack by deepset Partner Blog](/blog/hybrid-cloud-
 
 Read more in our [official LlamaIndex Partner Blog](/blog/hybrid-cloud-llamaindex/).
 
-#### ...and many more!
+#### Jina AI:
+> *“The collaboration of Qdrant Hybrid Cloud with Jina AI’s embeddings gives every user the tools to craft a perfect search framework with unmatched accuracy and scalability. It’s a partnership that truly pays off!”* Nan Wang, CTO, Jina AI
 
-We have launched Qdrant Hybrid Cloud with additional reputable partners around the world. Learn more from each of their blogs: 
+Read more in our [official Jina AI Partner Blog](/blog/hybrid-cloud-jinaai/).
+
+#### OVHcloud:
+> *“In the European AI landscape, the partnership between OVHcloud and Qdrant Hybrid Cloud underscores our commitment to innovative, secure AI solutions, empowering startups and enterprises to navigate AI complexities confidently. By emphasizing data sovereignty and security, we enable businesses to leverage vector databases securely."* Yaniv Fdida, Chief Product and Technology Officer
+
+Read more in our [official OVHcloud Partner Blog](/blog/hybrid-cloud-ovhcloud/).
+
+We have also launched Qdrant Hybrid Cloud with the support of **Aleph Alpha** and **STACKIT**. Learn more about our valued partners: 
 
 - **Aleph Alpha:** [Enhance AI Data Sovereignty with Aleph Alpha and Qdrant Hybrid Cloud](/blog/hybrid-cloud-aleph-alpha/)
 - **STACKIT:** [STACKIT and Qdrant Hybrid Cloud for Best Data Privacy](/blog/hybrid-cloud-stackit/)
-- **OVHcloud:** [Qdrant and OVHcloud Bring Vector Search to All Enterprises](/blog/hybrid-cloud-ovhcloud/)
-- **Jina AI:** [Cutting-Edge GenAI with Jina AI and Qdrant Hybrid Cloud](/blog/hybrid-cloud-jinaai/)

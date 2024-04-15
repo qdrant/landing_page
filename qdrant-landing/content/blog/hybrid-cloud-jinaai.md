@@ -18,6 +18,8 @@ Retrieval Augmented Generation (RAG) is broadly adopted as the go-to Generative 
 
 With Qdrant Hybrid Cloud, users have the flexibility to deploy their vector database in an environment of their choice. By using container-based scalable deployments, global businesses can keep both products deployed in the same hosting architecture. By combining Jina AI’s models with Qdrant’s vector search capabilities, developers can create robust and scalable applications tailored to meet the demands of modern enterprises. This combination allows organizations to build strong and secure Generative AI solutions.
 
+> *“The collaboration of Qdrant Hybrid Cloud with Jina AI’s embeddings gives every user the tools to craft a perfect search framework with unmatched accuracy and scalability. It’s a partnership that truly pays off!”* Nan Wang, CTO, Jina AI
+
 #### Benefits of Qdrant’s Vector Search With Jina AI Embeddings in Enterprise RAG Scenarios
 
 Building apps with Qdrant Hybrid Cloud and Jina AI’s embeddings comes with several key advantages:

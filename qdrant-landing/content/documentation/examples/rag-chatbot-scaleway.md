@@ -65,7 +65,7 @@ Initialize the language model:
 llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
 ```
 
-It is here that we configure both the Embeddings and LLM. You can replace this with your own models using Ollama or other services. Scaleway has some great [GPU Instances](https://www.scaleway.com/en/gpu-instances/) too - including H100 on the higher end, and soon L4 for everything small.
+It is here that we configure both the Embeddings and LLM. You can replace this with your own models using Ollama or other services. Scaleway has some great [L4 GPU Instances](https://www.scaleway.com/en/l4-gpu-instance/) you can use for compute here.
 
 ## Download and parse data
 
@@ -140,7 +140,7 @@ We built a solid foundation for a simple chatbot, but there is still a lot to do
 system production-ready, you should consider implementing the mechanism into your existing stack. We recommend 
 
 Our vector database can easily be hosted on [Scaleway](https://www.scaleway.com/), our trusted [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/) partner. This means that Qdrant can be run from your Scaleway region, but the database itself can still be managed from within Qdrant Cloud's interface. Both products have been tested for compatibility and scalability, and we recommend their [managed Kubernetes](https://www.scaleway.com/en/kubernetes-kapsule/) service. 
-Their French deployment regions e.g. France are excellent for network latency and data sovereignty. For hosted GPUs, try [rendering with P100](https://www.scaleway.com/en/gpu-render-instances/).
+Their French deployment regions e.g. France are excellent for network latency and data sovereignty. For hosted GPUs, try [rendering with L4 GPU instances](https://www.scaleway.com/en/l4-gpu-instance/).
 
 If you have any questions, feel free to ask on our [Discord community](https://qdrant.to/discord).
 
