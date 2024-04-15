@@ -63,7 +63,8 @@
   }
 
   &__content {
-    p, li {
+    p,
+    li {
       margin-bottom: $spacer * 2;
     }
 
@@ -97,7 +98,7 @@
       margin-bottom: $spacer * 2;
       width: 100%;
 
-      &[title="YouTube video player"] {
+      &[title='YouTube video player'] {
         height: auto;
         aspect-ratio: 1.7 / 1;
       }
@@ -119,7 +120,7 @@
 
     &__body {
       flex-direction: row;
-      gap:  $spacer * 5;
+      gap: $spacer * 5;
       max-width: rem(920);
       margin: 0 auto;
     }
@@ -139,7 +140,8 @@
     }
 
     &__content {
-      p, li {
+      p,
+      li {
         font-size: rem(18);
         line-height: rem(27);
       }
@@ -162,7 +164,8 @@
         line-height: rem(34);
       }
 
-      img, iframe {
+      img,
+      iframe {
         margin: $spacer * 2 0;
       }
     }
