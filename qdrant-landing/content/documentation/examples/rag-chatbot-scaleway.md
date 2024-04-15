@@ -24,6 +24,10 @@ A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/
 - **LLM:** GPT-3.5, developed by OpenAI is utilized as the generator for producing answers.
 - **Framework:** [LangChain](https://www.langchain.com/) for extensive RAG capabilities.
 
+![Architecture diagram](/documentation/examples/rag-chatbot-scaleway/architecture-diagram.png)
+
+> Langchain [supports a wide range of LLMs](https://python.langchain.com/docs/integrations/chat/), and GPT-3.5 was chosen just for the purposes of this tutorial.  You can easily swap it out for your preferred model that might be launched on your premises to complete the fully private setup. For the sake of simplicity, we used the OpenAI APIs, but Langchain makes the transition seamless.
+
 ## Deploying Qdrant Hybrid Cloud on Scaleway
 
 [Scaleway Kapsule](https://www.scaleway.com/en/kubernetes-kapsule/) and [Kosmos](https://www.scaleway.com/en/kubernetes-kosmos/) are managed Kubernetes services from [Scaleway](https://www.scaleway.com/en/). They abstract away the complexities of managing and operating a Kubernetes cluster. The primary difference being, Kapsule clusters are composed solely of Scaleway Instances. Whereas, a Kosmos cluster is a managed multi-cloud Kubernetes engine that allows you to connect instances from any cloud provider to a single managed Control-Plane.
