@@ -140,7 +140,7 @@ We plan to go deeper into selecting the best model based on performance, cost, i
 
 ## Create a Neural Search Service with Fastembed
 
-Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials/neural-search-fastembed/)?
+Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials/neural-search/)?
 
 Tutorial guides you through a practical application of how to use Qdrant for document management based on descriptions of companies from [startups-list.com](https://www.startups-list.com/). From embedding data, integrating it with Qdrant's vector database, constructing a search API, and finally deploying your solution with FastAPI.
 

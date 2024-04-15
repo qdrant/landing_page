@@ -5,10 +5,15 @@ weight: 33
 is_empty: true
 ---
 
-| Embedding |
-|---|
-| [Gemini](./gemini/) | 
-| [Aleph Alpha](./aleph-alpha/) | 
-| [Cohere](./cohere/) | 
-| [Jina](./jina-emebddngs/) |
-| [OpenAI](./openai/) |
+| Embedding                     |
+| ----------------------------- |
+| [Aleph Alpha](./aleph-alpha/) |
+| [Bedrock](./bedrock/)         |
+| [Cohere](./cohere/)           |
+| [Gemini](./gemini/)           |
+| [Jina](./jina-emebddngs/)     |
+| [Mistral](./mistral/)         |
+| [Nomic](./nomic/)             |
+| [Nvidia](./nvidia/)           |
+| [OpenAI](./openai/)           |
+| [Voyage AI](./voyage/)        |

@@ -43,13 +43,17 @@ All Qdrant instances in a cluster must be able to:
 - Communicate with each other over these ports
 - Allow incoming connections to ports `6333` and `6334` from clients that use Qdrant.
 
+### Security
+
+The default configuration of Qdrant might not be secure enough for every situation. Please see [our security documentation](/documentation/guides/security/) for more information.
+
 ## Installation options
 
 Qdrant can be installed in different ways depending on your needs:
 
 For production, you can use our Qdrant Cloud to run Qdrant either fully managed in our infrastructure or with Hybrid Cloud in yours. 
 
-For testing or development setups, you can run the Qdrant container or as a binary executable. 
+For testing or development setups, you can run the Qdrant container or as a binary executable.
 
 If you want to run Qdrant in your own infrastructure, without any cloud connection, we recommend to install Qdrant in a Kubernetes cluster with our Helm chart, or to use our Qdrant Enterprise Operator
 
@@ -59,7 +63,7 @@ For production, we recommend that you configure Qdrant in the cloud, with Kubern
 
 ### Qdrant Cloud
 
-You can set up production with the [Qdrant Cloud](https://qdrant.to/cloud), which provides fully managed Qdrant databases. 
+You can set up production with the [Qdrant Cloud](https://qdrant.to/cloud), which provides fully managed Qdrant databases.
 It provides horizontal and vertical scaling, one click installation and upgrades, monitoring, logging, as well as backup and disaster recovery. For more information, see the [Qdrant Cloud documentation](/documentation/cloud/).
 
 ### Kubernetes
@@ -81,7 +85,7 @@ We provide a Qdrant Enterprise Operator for Kubernetes installations. For more i
 
 Usually, we recommend to run Qdrant in Kubernetes, or use the Qdrant Cloud for production setups. This makes setting up highly available and scalable Qdrant clusters with backups and disaster recovery a lot easier.
 
-However, you can also use Docker and Docker Compose to run Qdrant in production, by following the setup instructions in the [Docker](#docker) and [Docker Compose](#docker-compose) Development sections. 
+However, you can also use Docker and Docker Compose to run Qdrant in production, by following the setup instructions in the [Docker](#docker) and [Docker Compose](#docker-compose) Development sections.
 In addition, you have to make sure:
 
 * To use a performant [persistent storage](#storage) for your data
@@ -170,7 +174,7 @@ services:
 configs:
   qdrant_config:
     content: |
-      log_level: INFO  
+      log_level: INFO
 ```
 
 <aside role="status">Proving the inline <code>content</code> in the <a href="https://docs.docker.com/compose/compose-file/08-configs/">configs top-level element</a> requires <a href="https://docs.docker.com/compose/release-notes/#2231">Docker Compose v2.23.1</a> or above. This functionality is supported starting <a href="https://docs.docker.com/engine/release-notes/25.0/#2500">Docker Engine v25.0.0</a> and <a href="https://docs.docker.com/desktop/release-notes/#4260">Docker Desktop v4.26.0</a> onwards.</aside>

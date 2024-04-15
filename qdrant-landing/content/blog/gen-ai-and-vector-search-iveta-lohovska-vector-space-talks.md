@@ -1,8 +1,8 @@
 ---
-draft: true
+draft: false
 title: Gen AI and Vector Search - Iveta Lohovska | Vector Space Talks
 slug: gen-ai-and-vector-search
-short_description: Iveta emphasizes the importance of trustworthy AI,
+short_description: Iveta talks about the importance of trustworthy AI,
   particularly when implementing it within high-stakes enterprises like
   governments and security agencies
 description: Iveta Lohovska discusses the importance of explainability and
@@ -10,7 +10,7 @@ description: Iveta Lohovska discusses the importance of explainability and
   and climate data, and emphasizing the necessity for on-prem solutions and
   traceable vector databases to ensure data integrity and confidentiality.
 preview_image: /blog/from_cms/iveta-lohovska-bp-cropped.png
-date: 2024-04-04T21:28:00.000Z
+date: 2024-04-11T22:12:00.000Z
 author: Demetrios Brinkmann
 featured: false
 tags:
