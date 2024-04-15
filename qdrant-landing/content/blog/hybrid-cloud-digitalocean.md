@@ -27,19 +27,23 @@ User data is a critical asset for a business, and user privacy should always be 
 DigitalOcean customers can easily deploy Qdrant on their DigitalOcean Kubernetes (DOKS) clusters through a simple Kubernetis-native “One-line” installment. This simplicity allows businesses to start small and scale efficiently.
 
 - **Simple Deployment**: Leveraging Kubernetes, deploying Qdrant Hybrid Cloud on DigitalOcean is streamlined, making the management of vector search workloads in the own environment more efficient.
+
 - **Own Infrastructure**: Hosting the vector database on your own DigitalOcean infrastructure in a managed way, provides flexibility and allows you to manage the full AI stack in one place.
+
 - **Data Control**: Deploying within the own DigitalOcean environment ensures data control, keeping sensitive information within the own security perimeter.
 
 To get Qdrant Hybrid Cloud setup on DigitalOcean, just follow these steps:
 
 - **Hybrid Cloud Setup**: Begin by logging into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and enable the 'Hybrid Cloud' feature.
+
 - **Cluster Configuration**: Go to the Hybrid Cloud settings and integrate your DigitalOcean Kubernetes clusters as a private region.
+
 - **Simplified Deployment**: Use the Qdrant Management Console to effortlessly establish and oversee your Qdrant clusters on DigitalOcean.
 
 For a comprehensive guide, our documentation provides detailed instructions on setting up Qdrant on DigitalOcean.
 
 [Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 

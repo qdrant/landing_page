@@ -21,11 +21,14 @@ Deploying Qdrant Hybrid Cloud on OVHcloud's infrastructure represents a signific
 Through the seamless integration between Qdrant Hybrid Cloud and OVHcloud, developers and businesses are able to deploy the fully managed vector database within their existing OVHcloud setups in minutes, enabling faster, more accurate AI-driven insights.
 
 - **Simple setup:** With the seamless “one-click” installation, developers are able to deploy Qdrant’s fully managed vector database to their existing OVHcloud environment.
+
 - **Trust and data sovereignty**: Deploying Qdrant Hybrid Cloud on OVHcloud enables developers with vector search that prioritizes data sovereignty, a crucial aspect in today's AI landscape where data privacy and control are essential. True to its “Sovereign by design” DNA, OVHcloud guarantees that all the data stored are immune to extraterritorial laws and comply with the highest security standards.
+
 - **Open standards and open ecosystem**: OVHcloud’s commitment to open standards and an open ecosystem not only facilitates the easy integration of Qdrant Hybrid Cloud with OVHcloud’s AI services and GPU-powered instances but also ensures compatibility with a wide range of external services and applications, enabling seamless data workflows across the modern AI stack.
+
 - **Cost efficient sector search:** By leveraging Qdrant's quantization for efficient data handling and pairing it with OVHcloud's eco-friendly, water-cooled infrastructure, known for its superior price/performance ratio, this collaboration provides a strong foundation for cost efficient vector search.
 
-#### Build a Recommendation System with Collaborative Filtering Using Sparse Vectors with Qdrant Hybrid Cloud and OVHcloud
+#### Build a Recommendation System with Qdrant Hybrid Cloud and OVHcloud
 
 ![hybrid-cloud-ovhcloud-tutorial](/blog/hybrid-cloud-ovhcloud/hybrid-cloud-ovhcloud-tutorial.png)
 
@@ -33,16 +36,18 @@ To show how Qdrant Hybrid Cloud deployed on OVHcloud allows developers to levera
 
 [Try the Tutorial](/documentation/tutorials/recommendation-system-ovhcloud/)
 
-#### Get started today and leverage the benefits of Qdrant Hybrid Cloud
+#### Get Started Today and Leverage the Benefits of Qdrant Hybrid Cloud
 
 Setting up Qdrant Hybrid Cloud on OVHcloud is straightforward and quick, thanks to the intuitive integration with Kubernetes. Here's how:
 
 - **Hybrid Cloud Activation**: Log into your Qdrant account and enable 'Hybrid Cloud'.
+
 - **Cluster Integration**: Add your OVHcloud Kubernetes clusters as a private region in the Hybrid Cloud settings.
+
 - **Effortless Deployment**: Use the Qdrant Management Console for easy deployment and management of Qdrant clusters on OVHcloud.
 
 [Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 

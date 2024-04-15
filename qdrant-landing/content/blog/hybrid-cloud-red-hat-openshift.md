@@ -22,13 +22,18 @@ Qdrant Hybrid Cloud is the first vector database that can be deployed anywhere, 
 
 Red Hat OpenShift, the industry’s leading hybrid cloud application platform powered by Kubernetes, helps streamline the deployment of Qdrant Hybrid Cloud within an enterprise's secure premises. Red Hat OpenShift provides features like auto-scaling, load balancing, and advanced security controls that can help you manage and maintain your vector database deployments more effectively. In addition, Red Hat OpenShift supports deployment across multiple environments, including on-premises, public, private and hybrid cloud landscapes. This flexibility, coupled with Qdrant Hybrid Cloud, allows organizations to choose the deployment model that best suits their needs.
 
-#### Why run Qdrant Hybrid Cloud on Red Hat OpenShift?
+#### Why Run Qdrant Hybrid Cloud on Red Hat OpenShift?
 
 - **Scalability**: Red Hat OpenShift's container orchestration effortlessly scales Qdrant Hybrid Cloud components, accommodating fluctuating workload demands with ease.
+
 - **Portability**: The consistency across hybrid cloud environments provided by Red Hat OpenShift allows for smoother operation of Qdrant Hybrid Cloud across various infrastructures.
+
 - **Automation**: Deployment, scaling, and management tasks are automated, reducing operational overhead and simplifying the management of Qdrant Hybrid Cloud.
+
 - **Security**: Red Hat OpenShift provides built-in security features, including container isolation, network policies, and role-based access control (RBAC), enhancing the security posture of Qdrant Hybrid Cloud deployments.
+
 - **Flexibility:** Red Hat OpenShift supports a wide range of programming languages, frameworks, and tools, providing flexibility in developing and deploying Qdrant Hybrid Cloud applications.
+
 - **Integration:** Red Hat OpenShift can be integrated with various Red Hat and third-party tools, facilitating seamless integration of Qdrant Hybrid Cloud with other enterprise systems and services.
 
 
@@ -38,13 +43,15 @@ We're thrilled about our collaboration with Red Hat to help simplify AI infrastr
 
 To get started, we created a comprehensive tutorial that shows how to build next-gen AI applications with Qdrant Hybrid Cloud on Red Hat OpenShift. Additionally, you can find more details on the seamless deployment process in our documentation:
 
+![hybrid-cloud-red-hat-openshift-tutorial](/blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshift-tutorial.png)
+
 #### Tutorial: Private Chatbot for Interactive Learning
 
 Learn how to develop a Retrieval Augmented Generation (RAG) pipeline with Qdrant Hybrid Cloud on Red Hat OpenShift, leveraging Haystack for enhanced generative AI capabilities. This tutorial especially explores how this setup ensures that not a single data point leaves the environment.
 
 [Try the Tutorial](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/)
 
-#### Documentation: Deploy Qdrant in a few clicks
+#### Documentation: Deploy Qdrant in a Few Clicks
 
 > Our simple Kubernetes-native design allows you to deploy Qdrant Hybrid Cloud on your Red Hat OpenShift instance in just a few steps. Learn how in our documentation.
 
@@ -52,7 +59,7 @@ Learn how to develop a Retrieval Augmented Generation (RAG) pipeline with Qdrant
 
 This collaboration marks an important milestone in the quest for simplified AI infrastructure, offering a robust, scalable, and security-optimized solution for managing vector databases in a hybrid cloud environment. The combination of Qdrant's performance and Red Hat OpenShift's operational excellence opens new avenues for enterprises looking to leverage the power of AI and ML.
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 
 

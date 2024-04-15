@@ -18,19 +18,19 @@ With the launch of Qdrant Hybrid Cloud we provide developers the ability to depl
 
 We are excited to have trusted industry players support the launch of Qdrant Hybrid Cloud, allowing developers to unlock best-in-class advantages for building production-ready AI applications:
 
-- **Deploy In Your Own Environment:** Deploy the Qdrant vector database as a managed service on the infrastructure of choice, such as our launch partner solutions **Oracle Cloud Infrastructure (OCI), Red Hat OpenShift, Vultr, DigitalOcean, OVHcloud, Scaleway, STACKIT**, and **Civo**
+- **Deploy In Your Own Environment:** Deploy the Qdrant vector database as a managed service on the infrastructure of choice, such as our launch partner solutions **Oracle Cloud Infrastructure (OCI)**, [Red Hat OpenShift](/blog/hybrid-cloud-red-hat-openshift/), [Vultr](/blog/hybrid-cloud-vultr/), [DigitalOcean](/blog/hybrid-cloud-digitalocean/), [OVHcloud](/blog/hybrid-cloud-ovhcloud/), [Scaleway](/blog/hybrid-cloud-scaleway/), and [STACKIT](/blog/hybrid-cloud-stackit/).
 
-- **Seamlessly Integrate with Every Key Component of the Modern AI Stack:** Our new hybrid cloud offering also allows you to integrate with all of the relevant solutions for building AI applications. These include partner frameworks like **LlamaIndex**, **Haystack by deepset**, and **Airbyte**, as well as large language models (LLMs) like **Cohere**, **JinaAI**, and **AlephAlpha**.
+- **Seamlessly Integrate with Every Key Component of the Modern AI Stack:** Our new hybrid cloud offering also allows you to integrate with all of the relevant solutions for building AI applications. These include partner frameworks like [LlamaIndex](/blog/hybrid-cloud-llamaindex/), **LangChain**, [Haystack by deepset](/blog/hybrid-cloud-haystack/), and [Airbyte](/blog/hybrid-cloud-airbyte/), as well as large language models (LLMs) like [JinaAI](/blog/hybrid-cloud-jinaai/) and [Aleph Alpha](/blog/hybrid-cloud-aleph-alpha/).
 
 - **Ensure Full Data Sovereignty and Privacy Control:** Qdrant Hybrid Cloud offers unparalleled data isolation and the flexibility to process workloads either in the cloud or on-premise, ensuring data privacy and sovereignty requirements - all while being fully managed.
 
-#### Tutorials and Use Cases That Leverage Qdrant Hybrid Cloud and Trusted Partner Technologies
+#### Try Qdrant Hybrid Cloud on Partner Platforms
 
 ![Hybrid Cloud Launch Partners Tutorials](/blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners-tutorials.png)
 
 Together with our launch partners, we created in-depth tutorials and use cases for production-ready vector search that explain how developers can leverage Qdrant Hybrid Cloud alongside the best-in-class solutions of our launch partners. This provies to have the most flexible foundation to build modern, customer-centric AI applications with endless deployment options and full data sovereignty. Let’s dive right in:
 
-**AI Customer Support Chatbot** with Qdrant Hybrid Cloud, Cohere, Airbyte, and AWS
+**AI Customer Support Chatbot** with Qdrant Hybrid Cloud, Airbyte, Cohere, and AWS
 
 > This tutorial shows how to build a private AI customer support system using Cohere's AI models on AWS, Airbyte, and Qdrant Hybrid Cloud for efficient and secure query automation.
 

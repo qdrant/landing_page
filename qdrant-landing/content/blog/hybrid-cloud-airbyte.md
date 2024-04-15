@@ -42,12 +42,12 @@ Learn how to set up a private AI service that addresses customer support issues 
 
 [Try the Tutorial](/documentation/tutorials/rag-customer-support-cohere-airbyte-aws/)
 
-#### Documentation: Deploy Qdrant in a few clicks
+#### Documentation: Deploy Qdrant in a Few Clicks
 
 Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your hosting platform of choice in just a few steps. Learn how in our documentation.
 
 [Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 

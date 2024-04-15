@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "New RAG Horizons with Qdrant Hybrid Cloud and LlamaIndex."
+title: "New RAG Horizons with Qdrant Hybrid Cloud and LlamaIndex"
 short_description: "Unlock the most advanced RAG opportunities with Qdrant Hybrid Cloud and LlamaIndex." 
 description: "Unlock the most advanced RAG opportunities with Qdrant Hybrid Cloud and LlamaIndex."
 preview_image: /blog/hybrid-cloud-llamaindex/hybrid-cloud-llamaindex.png
@@ -40,12 +40,12 @@ Use this end-to-end tutorial to create a system that retrieves information from 
 
 [Try the Tutorial](/documentation/tutorials/hybrid-search-llamaindex-jinaai/)
 
-#### Documentation: Deploy Qdrant in a few clicks
+#### Documentation: Deploy Qdrant in a Few Clicks
 
 Our simple Kubernetes-native design lets you deploy Qdrant Hybrid Cloud on your hosting platform of choice in just a few steps. Learn how in our documentation.
 
 [Read Hybrid Cloud Documentation](/documentation/hybrid-cloud/)
 
-#### Ready to get started?
+#### Ready to Get Started?
 
 Create a [Qdrant Cloud account](https://cloud.qdrant.io/login) and deploy your first **Qdrant Hybrid Cloud** cluster in a few minutes. You can always learn more in the [official release blog](/blog/hybrid-cloud/). 
