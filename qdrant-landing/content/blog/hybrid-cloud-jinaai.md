@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-jinaai/hybrid-cloud-jinaai.png
 date: 2024-04-10T00:03:00Z
 author: Qdrant
 featured: false
+weight: 1008
 tags:
   - Qdrant
   - Vector Database

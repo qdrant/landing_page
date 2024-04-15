@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-digitalocean/hybrid-cloud-digitalocean.png
 date: 2024-04-11T00:02:00Z
 author: Qdrant
 featured: false
+weight: 1010
 tags:
   - Qdrant
   - Vector Database

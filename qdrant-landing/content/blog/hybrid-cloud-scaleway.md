@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway.png
 date: 2024-04-10T00:06:00Z
 author: Qdrant
 featured: false
+weight: 1002
 tags:
   - Qdrant
   - Vector Database

@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-aleph-alpha/hybrid-cloud-aleph-alpha.png
 date: 2024-04-11T00:01:00Z
 author: Qdrant
 featured: false
+weight: 1012
 tags:
   - Qdrant
   - Vector Database

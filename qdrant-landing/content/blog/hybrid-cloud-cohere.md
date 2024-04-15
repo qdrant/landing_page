@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-cohere/hybrid-cloud-cohere.png
 date: 2024-04-10T00:01:00Z
 author: Qdrant
 featured: false
+weight: 1011
 tags:
   - Qdrant
   - Vector Database

@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-haystack/hybrid-cloud-haystack.png
 date: 2024-04-10T00:02:00Z
 author: Qdrant
 featured: false
+weight: 1009
 tags:
   - Qdrant
   - Vector Database

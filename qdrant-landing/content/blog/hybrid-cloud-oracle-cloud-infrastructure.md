@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-oracle-cloud-infrastructure/hybrid-cloud-oracl
 date: 2024-04-11T00:03:00Z
 author: Qdrant
 featured: false
+weight: 1005
 tags:
   - Qdrant
   - Vector Database

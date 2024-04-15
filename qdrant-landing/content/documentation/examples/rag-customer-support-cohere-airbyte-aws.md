@@ -16,8 +16,6 @@ Your support team's expertise is typically kept private, but you can still use A
 
 In this tutorial we will setup a private AI service that answers customer support queries with high accuracy and effectiveness. By leveraging Cohere's powerful models (deployed to [AWS](https://cohere.com/deployment-options/aws)) with Qdrant Hybrid Cloud, you can create a fully private customer support system. Data synchronization, facilitated by [Airbyte](https://airbyte.com/), will complete the setup.
 
-[//]: # (TODO: add a link to the corresponding Qdrant Hybrid Cloud documentation: deployment on AWS)
-
 ![Architecture diagram](/documentation/examples/customer-support-cohere-airbyte/architecture-diagram.png)
 
 ## System design
@@ -37,9 +35,7 @@ an ingestion pipeline and then a Retrieval Augmented Generation application that
 - **RAG:** Cohere [RAG](https://docs.cohere.com/docs/retrieval-augmented-generation-rag) using our knowledge base 
   through a custom connector
 
-All the selected components are compatible with the [AWS](https://aws.amazon.com/) infrastructure. Thanks to Cohere 
-models' availability, you can build a fully private customer support system completely isolates data within your 
-infrastructure. Also, if you have AWS credits, you can now use them without spending additional money on the models or 
+All the selected components are compatible with the [AWS](https://aws.amazon.com/) infrastructure. Thanks to Cohere models' availability, you can build a fully private customer support system completely isolates data within your infrastructure. Also, if you have AWS credits, you can now use them without spending additional money on the models or 
 semantic search layer.
 
 ### Data ingestion

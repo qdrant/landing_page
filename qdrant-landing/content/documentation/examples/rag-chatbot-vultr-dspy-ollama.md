@@ -47,11 +47,7 @@ pip install dspy-ai[qdrant]
 
 ### Qdrant Hybrid Cloud
 
-Our documentation contains a comprehensive guide on how to set up Qdrant in the Hybrid Cloud mode on Vultr. Please
-follow it carefully to get your Qdrant instance up and running. Once it's done, we need to store the Qdrant URL and the
-API key in the environment variables. You can do it by running the following commands:
-
-[//]: # (TODO: add a link to the Qdrant Hybrid Cloud documentation above)
+Our [documentation](/documentation/hybrid-cloud/) contains a comprehensive guide on how to set up Qdrant in the Hybrid Cloud mode on Vultr. Please follow it carefully to get your Qdrant instance up and running. Once it's done, we need to store the Qdrant URL and the API key in the environment variables. You can do it by running the following commands:
 
 ```shell
 export QDRANT_URL="https://qdrant.example.com"

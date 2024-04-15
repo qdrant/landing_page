@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-red-hat-openshift/hybrid-cloud-red-hat-openshi
 date: 2024-04-11T00:04:00Z
 author: Qdrant
 featured: false
+weight: 1003
 tags:
   - Qdrant
   - Vector Database

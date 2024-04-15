@@ -21,7 +21,7 @@ With a simple RAG pipeline, you can build a private chatbot. In this tutorial, y
 ## Components
 To maintain complete data isolation, we need to limit ourselves to open-source tools and use them in a private environment, such as [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift). The pipeline will run internally and will be inaccessible from the internet.
 
-- **Dataset:** [Red Hat Interactive Learning Portal](https://developers.redhat.com/learn), an online library of RedHat course materials.
+- **Dataset:** [Red Hat Interactive Learning Portal](https://developers.redhat.com/learn), an online library of Red Hat course materials.
 - **LLM:** `mistralai/Mistral-7B-Instruct-v0.1`, deployed as a standalone service on OpenShift.
 - **Embedding Model:** `BAAI/bge-base-en-v1.5`, lightweight embedding model deployed from within the Haystack pipeline
   with [FastEmbed](https://github.com/qdrant/fastembed)
@@ -56,7 +56,7 @@ os.environ["INFERENCE_ENDPOINT_URL"] = "http://mistral-service.default.svc.clust
 
 ### Launch Qdrant Hybrid Cloud
 
-Complete **How to Set Up Qdrant on RedHat OpenShift**. When in Hybrid Cloud, your Qdrant instance is private and and its nodes run on the same OpenShift infrastructure as your other components.  
+Complete **How to Set Up Qdrant on Red Hat OpenShift**. When in Hybrid Cloud, your Qdrant instance is private and and its nodes run on the same OpenShift infrastructure as your other components.  
 
 Retrieve your Qdrant URL and API key and store them as environment variables:
 
@@ -453,7 +453,7 @@ The response should be similar to the one we got in the Python before:
 
 ## Next steps
 
-- In this example, [RedHat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is the infrastructure of choice for proprietary chatbots. [Read more](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8) about how to host AI projects in their [extensive documentation](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8).
+- In this example, [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) is the infrastructure of choice for proprietary chatbots. [Read more](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8) about how to host AI projects in their [extensive documentation](https://access.redhat.com/documentation/en-us/red_hat_openshift_ai_self-managed/2.8).
 
 - [Haystack's documentation](https://docs.haystack.deepset.ai/docs/kubernetes) describes [how to deploy the Hayhooks service in a Kubernetes 
 environment](https://docs.haystack.deepset.ai/docs/kubernetes), so you can easily move it to your own OpenShift infrastructure.

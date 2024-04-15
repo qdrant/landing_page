@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-stackit/hybrid-cloud-stackit.png
 date: 2024-04-10T00:07:00Z
 author: Qdrant
 featured: false
+weight: 1001
 tags:
   - Qdrant
   - Vector Database

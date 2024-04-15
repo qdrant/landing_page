@@ -7,6 +7,7 @@ preview_image: /blog/hybrid-cloud-langchain/hybrid-cloud-langchain.png
 date: 2024-04-14T00:04:00Z
 author: Qdrant
 featured: false
+weight: 1007
 tags:
   - Qdrant
   - Vector Database
