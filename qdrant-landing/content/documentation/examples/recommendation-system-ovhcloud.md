@@ -30,7 +30,7 @@ In this tutorial, you will build a mechanism that recommends movies based on def
 [Service Managed Kubernetes](https://www.ovhcloud.com/en-in/public-cloud/kubernetes/), powered by OVH Public Cloud Instances, a leading European cloud provider. With OVHcloud Load Balancers and disks built in. OVHcloud Managed Kubernetes provides high availability, compliance, and CNCF conformance, allowing you to focus on your containerized software layers with total reversibility.
 
 1. To start using managed Kubernetes on OVHcloud, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#ovhcloud).
-2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud). 
+2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud/). 
 
 ## Prerequisites
 

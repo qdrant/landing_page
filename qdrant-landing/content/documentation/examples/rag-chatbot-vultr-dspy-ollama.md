@@ -34,7 +34,7 @@ All the services we are going to use in this tutorial will be running on [Vultr 
 Engine](https://www.vultr.com/kubernetes/). That gives us a lot of flexibility in terms of scaling and managing the resources. Vultr manages the control plane and worker nodes and provides integration with other managed services such as Load Balancers, Block Storage, and DNS.
 
 1. To start using managed Kubernetes on Vultr, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#vultr).
-2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud). 
+2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud/). 
 
 ### Installing the necessary packages
 
