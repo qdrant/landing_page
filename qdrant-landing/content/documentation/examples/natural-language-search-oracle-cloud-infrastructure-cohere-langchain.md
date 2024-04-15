@@ -1,6 +1,7 @@
 ---
 title: RAG System for Employee Onboarding
 weight: 30
+preview_image: /blog/hybrid-oracle-cloud-infrastructure/hybrid-cloud-oracle-cloud-infrastructure-tutorial.png
 aliases:
   - /documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/
 ---
@@ -18,7 +19,7 @@ would with a colleague?
 
 Technological advancements have made it possible to interact with websites using natural language. This tutorial will 
 guide you through the process of integrating [Cohere](https://cohere.com/)'s language models with Qdrant to enable 
-natural language search on your documentation. We are going to use [Langchain](https://langchain.com/) as an 
+natural language search on your documentation. We are going to use [LangChain](https://langchain.com/) as an 
 orchestrator. Everything will be hosted on [Oracle Cloud Infrastructure (OCI)](https://www.oracle.com/cloud/), so you 
 can scale your application as needed, and do not send your data to third parties. That is especially important when you 
 are working with confidential or sensitive data.

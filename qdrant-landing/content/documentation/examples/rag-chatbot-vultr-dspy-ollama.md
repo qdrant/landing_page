@@ -1,6 +1,7 @@
 ---
 title: Private RAG Information Extraction Engine
 weight: 32
+preview_image: /blog/hybrid-cloud-vultr/hybrid-cloud-vultr-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-vultr-dspy-ollama/
 ---
