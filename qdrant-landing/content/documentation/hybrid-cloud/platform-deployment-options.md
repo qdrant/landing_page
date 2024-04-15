@@ -181,7 +181,7 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 
 ![Red Hat](/documentation/cloud/cloud-providers/redhat.jpg)
 
-## RedHat OpenShift
+## Red Hat OpenShift
 
 [Red Hat OpenShift Kubernetes Engine](https://www.redhat.com/en/technologies/cloud-computing/openshift/kubernetes-engine) provides you with the basic functionality of Red Hat OpenShift. It offers a subset of the features that Red Hat OpenShift Container Platform offers, like full access to an enterprise-ready Kubernetes environment and an extensive compatibility test matrix with many of the software elements that you might use in your datacenter.
 
@@ -213,6 +213,31 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [Scaleway Kubernetes Documentation](https://www.scaleway.com/en/docs/containers/kubernetes/)
 - [Frequently Asked Questions on Scaleway Kubernetes](https://www.scaleway.com/en/docs/faq/kubernetes/)
 
+![Civo](/documentation/cloud/cloud-providers/civo.jpg)
+
+## Civo
+
+[Civo Kubernetes](https://www.civo.com/kubernetes) is a robust, scalable, and managed Kubernetes service. Civo supplies a CNCF-compliant Kubernetes cluster, and makes it easy to provide standard Kubernetes applications and containerized workloads. User-defined Kubernetes clusters can be created as self-service without complications using the Civo Portal.
+
+First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Civo**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+
+### More on Civo Kubernetes
+
+- [Getting Started with Civo Kubernetes](https://www.civo.com/docs/kubernetes)
+- [Civo Tutorials](https://www.civo.com/learn)
+- [Frequently Asked Questions on Civo](https://www.civo.com/docs/faq)
+
+To allow backups and restores, you need to create a VolumeSnapshotClass:
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+deletionPolicy: Delete
+driver: csi.civo.com
+```
+
 ![STACKIT](/documentation/cloud/cloud-providers/stackit.jpg)
 
 ## STACKIT
@@ -227,7 +252,7 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [SKE Tutorials](https://docs.stackit.cloud/stackit/en/tutorials-ske-66683162.html)
 - [Frequently Asked Questions on SKE](https://docs.stackit.cloud/stackit/en/faq-known-issues-of-ske-28476393.html)
 
-o allow backups and restores, you need to create a VolumeSnapshotClass:
+To allow backups and restores, you need to create a VolumeSnapshotClass:
 
 ```yaml
 apiVersion: snapshot.storage.k8s.io/v1
@@ -253,6 +278,28 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [Frequently Asked Questions on VKE](https://docs.vultr.com/vultr-kubernetes-engine#frequently-asked-questions)
 
 At the time of writing, Vultr does not support CSI Volume Snaphots.
+
+![Kubernetes](/documentation/cloud/cloud-providers/kubernetes.jpg)
+
+## Generic Kubernetes Support (on-premises, cloud, edge)
+
+Qdrant Hybrid Cloud works with any Kubernetes cluster that meets the [standard compliance](https://www.cncf.io/training/certification/software-conformance/) requirements. 
+
+This includes for example:
+
+- [VMWare Tanzu](https://tanzu.vmware.com/kubernetes-grid)
+- [Red Hat OpenShift](https://www.openshift.com/)
+- [SUSE Rancher](https://www.rancher.com/)
+- [Canonical Kubernetes](https://ubuntu.com/kubernetes)
+- [RKE](https://rancher.com/docs/rke/latest/en/)
+- [RKE2](https://docs.rke2.io/)
+- [K3s](https://k3s.io/)
+
+Qdrant databases need persistent block storage. Most storage solutions provide a CSI driver that can be used with Kubernetes. See [CSI drivers](https://kubernetes-csi.github.io/docs/drivers.html) for more information.
+
+To allow vertical scaling, you need a StorageClass with volume expansion enabled. See [Volume Expansion](https://kubernetes.io/docs/concepts/storage/storage-classes/#allow-volume-expansion) for more information.
+
+To allow backups and restores, your CSI driver needs to support volume snapshots cluster needs the CSI VolumeSnapshot controller and class. See [CSI Volume Snapshots](https://kubernetes-csi.github.io/docs/snapshot-controller.html) for more information.
 
 ## Next Steps
 
