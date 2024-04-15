@@ -19,10 +19,13 @@ We'll cover the essential steps required to build your system, including data in
 ## Components
 
 - **Embeddings:** Jina Embeddings, served via the [Jina Embeddings API](https://jina.ai/embeddings/#apiform)
-- **Database:** [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/), deployed in an environment of your own choice
+- **Database:** [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/), deployed in a managed Kubernetes cluster on [DigitalOcean 
+  (DOKS)](https://www.digitalocean.com/products/kubernetes)
 - **LLM:** [Mixtral-8x7B-Instruct-v0.1](https://huggingface.co/mistralai/Mixtral-8x7B-Instruct-v0.1) language model on HuggingFace
 - **Framework:** [LlamaIndex](https://www.llamaindex.ai/) for extended RAG functionality and [Hybrid Search support](https://docs.llamaindex.ai/en/stable/examples/vector_stores/qdrant_hybrid/).
 - **Parser:** [LlamaParse](https://github.com/run-llama/llama_parse) as a way to parse complex documents with embedded objects such as tables and figures.
+
+![Architecture diagram](/documentation/examples/hybrid-search-llamaindex-jinaai/architecture-diagram.png)
 
 ### Procedure
 
@@ -31,7 +34,18 @@ Retrieval Augmented Generation (RAG) combines search with language generation. A
 This method enables a language model to respond to questions and access information from a much larger set of documents than it could see otherwise. The language model only looks at a few relevant sections of the documents when generating responses, which also helps to reduce inexplicable errors.
 
 ## Prerequisites
-First, install all dependencies:
+
+### Qdrant cluster
+
+Qdrant Hybrid Cloud is a flexible offer that gives you the effortless experience of a managed solution while keeping the 
+data on your premises. It might be launched on your Kubernetes cluster, such as DigitalOcean DOKS. A [detailed 
+description of running Qdrant Hybrid Cloud on DigitalOcean might be found in our 
+documentation](http://localhost:1313/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean). Once it's
+deployed, you should have a running Qdrant cluster with an API key. 
+
+### Development environment
+
+Then, install all dependencies:
 
 ```python
 !pip install -U  \
@@ -132,8 +146,8 @@ from llama_index.vector_stores.qdrant import QdrantVectorStore
 import qdrant_client
 
 client = qdrant_client.QdrantClient(
-    url = os.getenv("QDRANT_HOST"),
-    api_key = os.getenv("QDRANT_API_KEY")
+    url=os.getenv("QDRANT_HOST"),
+    api_key=os.getenv("QDRANT_API_KEY")
 )
 
 vector_store = QdrantVectorStore(
@@ -214,7 +228,7 @@ print(result.response)
 
 **Answer**
 
-```python
+```text
 The water temperature is set to 70 ˚C during the Eco Drum Clean cycle. You cannot change the water temperature. However, the temperature for other cycles is not specified in the context.
 ```
 
