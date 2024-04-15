@@ -72,7 +72,7 @@ We’ve made getting started with Qdrant Hybrid Cloud as simple as possible. The
 
 3. **Deploy Qdrant clusters securely, with confidence:** Now, you can effortlessly create and manage Qdrant clusters in your own environment, directly from the central Qdrant Management Console. This supports horizontal and vertical scaling, zero-downtime upgrades, and disaster recovery seamlessly, allowing you to deploy anywhere with confidence.
 
-Explore our [detailed documentation](/documentation/hybrid-cloud) and [tutorials](/documentation/examples/) to seamlessly deploy Qdrant Hybrid Cloud in your preferred environment, and don't miss our [launch partner blog post](/blog/hybrid-cloud-launch-partners/) for practical insights. Start leveraging the full potential of Qdrant Hybrid Cloud and [create your first Qdrant cluster today](https://cloud.qdrant.io/login), unlocking the flexibility and control essential for your AI and vector search workloads.
+Explore our [detailed documentation](/documentation/hybrid-cloud/) and [tutorials](/documentation/examples/) to seamlessly deploy Qdrant Hybrid Cloud in your preferred environment, and don't miss our [launch partner blog post](/blog/hybrid-cloud-launch-partners/) for practical insights. Start leveraging the full potential of Qdrant Hybrid Cloud and [create your first Qdrant cluster today](https://cloud.qdrant.io/login), unlocking the flexibility and control essential for your AI and vector search workloads.
 
 [![hybrid-cloud-get-started](/blog/hybrid-cloud/hybrid-cloud-get-started.png)](https://cloud.qdrant.io/login)
 

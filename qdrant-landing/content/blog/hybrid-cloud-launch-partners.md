@@ -82,17 +82,17 @@ Together with our launch partners, we created in-depth tutorials and use cases f
 
 Additionally, we built comprehensive documentation tutorials on how to successfully deploy Qdrant Hybrid Cloud on the right infrastructure of choice. For more information, please visit our documentation pages:
 
-- How to Deploy Qdrant Hybrid Cloud on AWS
-- How to Deploy Qdrant Hybrid Cloud on GCP
-- How to Deploy Qdrant Hybrid Cloud on Azure
-- How to Deploy Qdrant Hybrid Cloud on DigitalOcean
-- How to Deploy Qdrant on Oracle Cloud
-- How to Deploy Qdrant on Vultr
-- How to Deploy Qdrant on Scaleway
-- How to Deploy Qdrant on OVHcloud
-- How to Deploy Qdrant on STACKIT
-- How to Deploy Qdrant on Red Hat OpenShift
-- How to Deploy Qdrant on Linode
+- [How to Deploy Qdrant Hybrid Cloud on AWS](/documentation/hybrid-cloud/platform-deployment-options/#amazon-web-services-aws)
+- [How to Deploy Qdrant Hybrid Cloud on GCP](/documentation/hybrid-cloud/platform-deployment-options/#google-cloud-platform-gcp)
+- [How to Deploy Qdrant Hybrid Cloud on Azure](/documentation/hybrid-cloud/platform-deployment-options/#mircrosoft-azure)
+- [How to Deploy Qdrant Hybrid Cloud on DigitalOcean](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean)
+- [How to Deploy Qdrant on Oracle Cloud](/documentation/hybrid-cloud/platform-deployment-options/#oracle-cloud-infrastructure)
+- [How to Deploy Qdrant on Vultr](/documentation/hybrid-cloud/platform-deployment-options/#vultr)
+- [How to Deploy Qdrant on Scaleway](/documentation/hybrid-cloud/platform-deployment-options/#redhat-openshift)
+- [How to Deploy Qdrant on OVHcloud](/documentation/hybrid-cloud/platform-deployment-options/#ovhcloud)
+- [How to Deploy Qdrant on STACKIT](/documentation/hybrid-cloud/platform-deployment-options/#stackit)
+- [How to Deploy Qdrant on Red Hat OpenShift](/documentation/hybrid-cloud/platform-deployment-options/#redhat-openshift)
+- [How to Deploy Qdrant on Linode](/documentation/hybrid-cloud/platform-deployment-options/#akamai-linode)
 
 #### Get started now!
 
