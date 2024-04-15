@@ -1,52 +1,55 @@
-{{ with (.Site.GetPage "/qdrant-blog/qdrant-blog-features") }}
-  <section class="qdrant-blog-features">
-    <div class="container">
-      <div class="qdrant-blog-features__header row">
-        <h2 class="qdrant-blog-features__title col-12 col-xl-6">{{ .Params.title }}</h2>
-        <form class="qdrant-blog-features__form col-12 col-xl-6">
-          <div class="qdrant-blog-features__form-search-block">
-            <input
-              class="input input_md input_light-bg"
-              type="text"
-              name="search"
-              value=""
-              placeholder="{{ .Params.placeholder }}"
-              required=""
-            />
-            <button class="qdrant-blog-features__form-button" type="submit"></button>
-          </div>
-        </form>
-      </div>
+<section class="qdrant-blog-features">
+  <div class="container">
+    <div class="qdrant-blog-features__header row">
+      <h2 class="qdrant-blog-features__title col-12 col-xl-6">{{ .Params.features_title }}</h2>
+      <form class="qdrant-blog-features__form col-12 col-xl-6">
+        <div class="qdrant-blog-features__form-search-block">
+          <input
+            class="input input_md input_light-bg"
+            type="text"
+            name="search"
+            value=""
+            placeholder="{{ .Params.search_placeholder }}"
+            required=""
+          />
+          <button class="qdrant-blog-features__form-button" type="submit"></button>
+        </div>
+      </form>
+    </div>
 
-      <div class="qdrant-blog-features__articles">
+    {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
+
+    <div class="qdrant-blog-features__articles">
+      {{ range first 1 (where $all ".Params.featured" "=" true) }}
         <article class="qdrant-blog-features__articles-main post">
-          <a class="post-link" href="{{ .Params.mainPost.link }}">
+          <a class="post-link" href="/">
             <div class="post-preview">
-              <div style="background-image: url({{ .Params.mainPost.previewUrl }})"></div>
+              <img src="{{ .Params.preview_image }}" alt="Preview">
             </div>
-            <h5 class="post-title">{{ .Params.mainPost.title }}</h5>
+            <h5 class="post-title">{{ .Params.title }}</h5>
             <div class="post-about">
-              <p>{{ .Params.mainPost.author }}</p>
+              <p>{{ .Params.author }}</p>
               <span>&middot;</span>
-              <p>{{ .Params.mainPost.date }}</p>
+              <p>{{ time.Format "January 02, 2006" .Date }}</p>
             </div>
           </a>
         </article>
-        <div class="qdrant-blog-features__articles-secondary">
-          {{ range $index, $element := .Params.posts }}
-            <article class="post">
-              <a class="post-link" href="{{ .link }}">
-                <h6 class="post-title">{{ .title }}</h6>
-                <div class="post-about">
-                  <p>{{ .author }}</p>
-                  <span>&middot;</span>
-                  <p>{{ .date }}</p>
-                </div>
-              </a>
-            </article>
-          {{ end }}
-        </div>
+      {{ end }}
+
+      <div class="qdrant-blog-features__articles-secondary">
+        {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
+          <article class="post">
+            <a class="post-link" href="/">
+              <h6 class="post-title">{{ .Params.title }}</h6>
+              <div class="post-about">
+                <p>{{ .Params.author }}</p>
+                <span>&middot;</span>
+                <p>{{ time.Format "January 02, 2006" .Date }}</p>
+              </div>
+            </a>
+          </article>
+        {{ end }}
       </div>
     </div>
-  </section>
-{{ end }}
+  </div>
+</section>
