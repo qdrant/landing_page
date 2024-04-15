@@ -28,7 +28,7 @@ If you work in a regulated industry, or just need to keep your data private, thi
 
 ![Architecture diagram](/documentation/examples/information-extraction-ollama-vultr/architecture-diagram.png)
 
-## CDeploying Qdrant Hybrid Cloud on Vultr
+## Deploying Qdrant Hybrid Cloud on Vultr
 
 All the services we are going to use in this tutorial will be running on [Vultr Kubernetes 
 Engine](https://www.vultr.com/kubernetes/). That gives us a lot of flexibility in terms of scaling and managing the resources. Vultr manages the control plane and worker nodes and provides integration with other managed services such as Load Balancers, Block Storage, and DNS.
