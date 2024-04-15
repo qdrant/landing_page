@@ -15,7 +15,7 @@ For a general list of prerequisites and installation steps, see our [Hybrid Clou
 
 [The Linode Kubernetes Engine (LKE)](https://www.linode.com/products/kubernetes/) is a managed container orchestration engine built on top of Kubernetes. LKE enables you to quickly deploy and manage your containerized applications without needing to build (and maintain) your own Kubernetes cluster. All LKE instances are equipped with a fully managed control plane at no additional cost.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on LKE**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult Linode's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on LKE**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on Linode Kubernetes Engine
 
@@ -31,7 +31,7 @@ At the time of writing, Linode [does not support CSI Volume Snaphots](https://gi
 
 [Amazon Elastic Kubernetes Service (Amazon EKS)](https://aws.amazon.com/eks/) is a managed service to run Kubernetes in the AWS cloud and on-premises data centers which can then be paired with Qdrant's hybrid cloud. With Amazon EKS, you can take advantage of all the performance, scale, reliability, and availability of AWS infrastructure, as well as integrations with AWS networking and security services.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on AWS**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult AWS' managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on AWS**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on Amazon Elastic Kubernetes Service
 
@@ -72,13 +72,38 @@ deletionPolicy: Delete
 driver: ebs.csi.aws.com
 ```
 
+![Civo](/documentation/cloud/cloud-providers/civo.jpg)
+
+## Civo
+
+[Civo Kubernetes](https://www.civo.com/kubernetes) is a robust, scalable, and managed Kubernetes service. Civo supplies a CNCF-compliant Kubernetes cluster, and makes it easy to provide standard Kubernetes applications and containerized workloads. User-defined Kubernetes clusters can be created as self-service without complications using the Civo Portal.
+
+First, consult Civo's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Civo**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+
+### More on Civo Kubernetes
+
+- [Getting Started with Civo Kubernetes](https://www.civo.com/docs/kubernetes)
+- [Civo Tutorials](https://www.civo.com/learn)
+- [Frequently Asked Questions on Civo](https://www.civo.com/docs/faq)
+
+To allow backups and restores, you need to create a VolumeSnapshotClass:
+
+```yaml
+apiVersion: snapshot.storage.k8s.io/v1
+kind: VolumeSnapshotClass
+metadata:
+  name: csi-snapclass
+deletionPolicy: Delete
+driver: csi.civo.com
+```
+
 ![Digital Ocean](/documentation/cloud/cloud-providers/digital-ocean.jpg)
 
 ## Digital Ocean
 
 [DigitalOcean Kubernetes (DOKS)](https://www.digitalocean.com/products/kubernetes) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on DigitalOcean**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult Digital Ocean's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on DigitalOcean**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on DigitalOcean Kubernetes
 
@@ -92,7 +117,7 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 
 [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine) is a managed Kubernetes service that you can use to deploy and operate containerized applications at scale using Google's infrastructure. GKE provides the operational power of Kubernetes while managing many of the underlying components, such as the control plane and nodes, for you.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on GCP**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult GCP's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on GCP**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on the Google Kubernetes Engine
 
@@ -118,7 +143,7 @@ driver: pd.csi.storage.gke.io
 
 With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products/kubernetes-service), you can start developing and deploying cloud-native apps in Azure, datacenters, or at the edge. Get unified management and governance for on-premises, edge, and multicloud Kubernetes clusters. Interoperate with Azure security, identity, cost management, and migration services.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Azure**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult Azure's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Azure**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on Azure Kubernetes Service
 
@@ -144,7 +169,7 @@ driver: disk.csi.azure.com
 
 [Oracle Cloud Infrastructure Container Engine for Kubernetes (OKE)](https://www.oracle.com/in/cloud/cloud-native/container-engine-kubernetes/) is a managed Kubernetes solution that enables you to deploy Kubernetes clusters while ensuring stable operations for both the control plane and the worker nodes through automatic scaling, upgrades, and security patching. Additionally, OKE offers a completely serverless Kubernetes experience with virtual nodes.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on OCI**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult OCI's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on OCI**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on OCI Container Engine
 
@@ -171,7 +196,7 @@ driver: blockvolume.csi.oraclecloud.com
 
 [Service Managed Kubernetes](https://www.ovhcloud.com/en-in/public-cloud/kubernetes/), powered by OVH Public Cloud Instances, a leading European cloud provider. With OVHcloud Load Balancers and disks built in. OVHcloud Managed Kubernetes provides high availability, compliance, and CNCF conformance, allowing you to focus on your containerized software layers with total reversibility.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on OVHcloud**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult OVHcloud's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on OVHcloud**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on Service Managed Kubernetes by OVHcloud
 
@@ -185,7 +210,7 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 
 [Red Hat OpenShift Kubernetes Engine](https://www.redhat.com/en/technologies/cloud-computing/openshift/kubernetes-engine) provides you with the basic functionality of Red Hat OpenShift. It offers a subset of the features that Red Hat OpenShift Container Platform offers, like full access to an enterprise-ready Kubernetes environment and an extensive compatibility test matrix with many of the software elements that you might use in your datacenter.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Red Hat OpenShift**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult Red Hat's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Red Hat OpenShift**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on OpenShift Kubernetes Engine
 
@@ -205,7 +230,7 @@ To allow backups and restores, your OpenShift cluster needs the [CSI snaphost co
 
 [Scaleway Kapsule](https://www.scaleway.com/en/kubernetes-kapsule/) and [Kosmos](https://www.scaleway.com/en/kubernetes-kosmos/) are managed Kubernetes services from [Scaleway](https://www.scaleway.com/en/). They abstract away the complexities of managing and operating a Kubernetes cluster. The primary difference being, Kapsule clusters are composed solely of Scaleway Instances. Whereas, a Kosmos cluster is a managed multi-cloud Kubernetes engine that allows you to connect instances from any cloud provider to a single managed Control-Plane.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Scaleway**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult Scaleway's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Scaleway**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on Scaleway Kubernetes
 
@@ -213,38 +238,13 @@ First, consult your platform's managed Kubernetes instructions below. Then, **to
 - [Scaleway Kubernetes Documentation](https://www.scaleway.com/en/docs/containers/kubernetes/)
 - [Frequently Asked Questions on Scaleway Kubernetes](https://www.scaleway.com/en/docs/faq/kubernetes/)
 
-![Civo](/documentation/cloud/cloud-providers/civo.jpg)
-
-## Civo
-
-[Civo Kubernetes](https://www.civo.com/kubernetes) is a robust, scalable, and managed Kubernetes service. Civo supplies a CNCF-compliant Kubernetes cluster, and makes it easy to provide standard Kubernetes applications and containerized workloads. User-defined Kubernetes clusters can be created as self-service without complications using the Civo Portal.
-
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Civo**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
-
-### More on Civo Kubernetes
-
-- [Getting Started with Civo Kubernetes](https://www.civo.com/docs/kubernetes)
-- [Civo Tutorials](https://www.civo.com/learn)
-- [Frequently Asked Questions on Civo](https://www.civo.com/docs/faq)
-
-To allow backups and restores, you need to create a VolumeSnapshotClass:
-
-```yaml
-apiVersion: snapshot.storage.k8s.io/v1
-kind: VolumeSnapshotClass
-metadata:
-  name: csi-snapclass
-deletionPolicy: Delete
-driver: csi.civo.com
-```
-
 ![STACKIT](/documentation/cloud/cloud-providers/stackit.jpg)
 
 ## STACKIT
 
 [STACKIT Kubernetes Engine (SKE)](https://www.stackit.de/en/product/kubernetes/) is a robust, scalable, and managed Kubernetes service. SKE supplies a CNCF-compliant Kubernetes cluster, and makes it easy to provide standard Kubernetes applications and containerized workloads. User-defined Kubernetes clusters can be created as self-service without complications using the STACKIT Portal.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on STACKIT**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult STACKIT's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on STACKIT**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on STACKIT Kubernetes Engine
 
@@ -269,7 +269,7 @@ driver: cinder.csi.openstack.org
 
 [Vultr Kubernetes Engine (VKE)](https://www.vultr.com/kubernetes/) is a fully-managed product offering with predictable pricing that makes Kubernetes easy to use. Vultr manages the control plane and worker nodes and provides integration with other managed services such as Load Balancers, Block Storage, and DNS.
 
-First, consult your platform's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Vultr**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+First, consult Vultr's managed Kubernetes instructions below. Then, **to setup Qdrant Hybrid Cloud on Vultr**, follow our [step-by step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
 ### More on Vultr Kubernetes Engine
 
