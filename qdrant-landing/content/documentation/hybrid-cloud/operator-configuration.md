@@ -5,7 +5,7 @@ weight: 2
 
 # Advanced Qdrant Operator configuration
 
-The Qdrant Operator has several configuration options, which can be configured inthe advanced section of your Hybrid Cloud Environment.
+The Qdrant Operator has several configuration options, which can be configured in the advanced section of your Hybrid Cloud Environment.
 
 The following YAML shows all configuration options with their default values:
 
