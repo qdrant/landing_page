@@ -1,0 +1,11 @@
+{{ $classes := .classes }}
+{{ with (.context.Site.GetPage "/headless/top-banner") }}
+<section class="top-banner{{if $classes}} {{ $classes }}{{end}}">
+    <div class="d-flex flex-wrap align-items-center justify-content-between">
+        <span class="top-banner__icon"> {{ .Params.icon | safeHTML }} </span>
+        <span class="top-banner__text"> {{ .Params.text }}
+        </span>
+        <a href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
+    </div>
+</section>
+{{ end }}
