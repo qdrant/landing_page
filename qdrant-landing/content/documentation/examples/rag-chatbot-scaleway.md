@@ -39,6 +39,23 @@ A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/
 
 To prepare the environment for working with Qdrant and related libraries, it's necessary to install all required Python packages. This can be done using Poetry, a tool for dependency management and packaging in Python. The code snippet imports various libraries essential for the tasks ahead, including `bs4` for parsing HTML and XML documents, `langchain` and its community extensions for working with language models and document loaders, and `Qdrant` for vector storage and retrieval. These imports lay the groundwork for utilizing Qdrant alongside other tools for natural language processing and machine learning tasks.
 
+Qdrant will be running on a specific URL and access will be restricted by the API key. Make sure to store them both as environment variables as well:
+
+```shell
+export QDRANT_URL="https://qdrant.example.com"
+export QDRANT_API_KEY="your-api-key"
+```
+
+*Optional:* You can also configure LangSmith, which will help us trace, monitor and debug LangChain applications. You can sign up for LangSmith [here](https://smith.langchain.com/).
+
+```shell
+export LANGCHAIN_TRACING_V2=true
+export LANGCHAIN_API_KEY="your-api-key"
+export LANGCHAIN_PROJECT="your-project"  # if not specified, defaults to "default"
+```
+
+Now you can get started:
+
 ```python
 import getpass
 import os

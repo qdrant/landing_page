@@ -75,17 +75,24 @@ os.environ["COMPARTMENT_OCID"] = "<your-compartment-ocid>"
 
 #### Qdrant Hybrid Cloud
 
-Qdrant Hybrid Cloud running on Oracle Cloud helps you build a solution without sending your data to external services.
-Our documentation provides a step-by-step guide on how to [deploy Qdrant Hybrid Cloud on Oracle 
+Qdrant Hybrid Cloud running on Oracle Cloud helps you build a solution without sending your data to external services. Our documentation provides a step-by-step guide on how to [deploy Qdrant Hybrid Cloud on Oracle 
 Cloud](/documentation/hybrid-cloud/platform-deployment-options/#oracle-cloud-infrastructure).
 
-Qdrant will be running on a specific URL and access will be restricted by the API key. Make sure to store them both as
-environment variables as well:
+Qdrant will be running on a specific URL and access will be restricted by the API key. Make sure to store them both as environment variables as well:
 
 ```shell
 export QDRANT_URL="https://qdrant.example.com"
 export QDRANT_API_KEY="your-api-key"
 ```
+
+*Optional:* You can also configure LangSmith, which will help us trace, monitor and debug LangChain applications. You can sign up for LangSmith [here](https://smith.langchain.com/).
+
+```shell
+export LANGCHAIN_TRACING_V2=true
+export LANGCHAIN_API_KEY="your-api-key"
+export LANGCHAIN_PROJECT="your-project"  # if not specified, defaults to "default"
+```
+Now you can get started:
 
 ```python
 import os

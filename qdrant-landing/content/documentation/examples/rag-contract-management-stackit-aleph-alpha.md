@@ -72,10 +72,20 @@ os.environ["QDRANT_URL"] = "https://qdrant.example.com"
 os.environ["QDRANT_API_KEY"] = "your-api-key"
 ```
 
+Qdrant will be running on a specific URL and access will be restricted by the API key. Make sure to store them both as environment variables as well:
+
+*Optional:* You can also configure LangSmith, which will help us trace, monitor and debug LangChain applications. You can sign up for LangSmith [here](https://smith.langchain.com/).
+
+```shell
+export LANGCHAIN_TRACING_V2=true
+export LANGCHAIN_API_KEY="your-api-key"
+export LANGCHAIN_PROJECT="your-project"  # if not specified, defaults to "default"
+```
+
 ## Implementation
 
 To build the application, we can use the official SDKs of Aleph Alpha and Qdrant. However, to streamline the process 
-let's use [Langchain](https://python.langchain.com/docs/get_started/introduction). This framework is already integrated with both services, so we can focus our efforts on 
+let's use [LangChain](https://python.langchain.com/docs/get_started/introduction). This framework is already integrated with both services, so we can focus our efforts on 
 developing business logic. 
 
 ### Qdrant collection
