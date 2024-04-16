@@ -8,12 +8,12 @@
     {{ end }}
   </header>
 
-{{ partial "advanced-search-features" . }}
-{{ partial "advanced-search-use-cases" . }}
+  {{ partial "advanced-search-features" . }}
+  {{ partial "advanced-search-use-cases" . }}
 
-{{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
-  {{ partial "get-started-small" (dict "context" . "class" "advanced-search-get-started") }}
-{{ end }}
+  {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "get-started-small" (dict "context" . "class" "advanced-search-get-started") }}
+  {{ end }}
 
-{{ partial "get-started" . }}
+  {{ partial "get-started" . }}
 {{ end }}
