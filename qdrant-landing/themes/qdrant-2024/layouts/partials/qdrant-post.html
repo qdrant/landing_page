@@ -8,10 +8,10 @@
         <p>{{ time.Format "January 02, 2006" .Date }}</p>
       </div>
       {{ if .Params.preview_image }}
-        <img class="qdrant-post__preview" src="{{ .Params.preview_image }}" alt="Preview">
+        <img class="qdrant-post__preview" src="{{ .Params.preview_image }}" alt="Preview" />
       {{ end }}
       {{ if .Params.preview_dir }}
-        <img class="qdrant-post__preview" src="{{ .Params.preview_dir }}/title.jpg" alt="Preview">
+        <img class="qdrant-post__preview" src="{{ .Params.preview_dir }}/title.jpg" alt="Preview" />
       {{ end }}
     </div>
 
