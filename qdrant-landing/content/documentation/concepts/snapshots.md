@@ -360,7 +360,7 @@ curl -X POST 'http://qdrant-node-1:6333/collections/{collection_name}/snapshots/
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
 Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collection_name`.
 
-<aside role="alert">Full storage snapshots are only suitable for single node deployments. Distributed mode is not supported as it doesn't contain the necessary files for that.</aside>
+<aside role="alert">Full storage snapshots are only suitable for single node deployments. <a href="/documentation/guides/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
 
 <aside role="status">Full storage snapshots can be created and downloaded from Qdrant Cloud, but you cannot restore a Qdrant Cloud cluster from a whole storage snapshot since that requires use of the Qdrant CLI. You can use <a href="/documentation/cloud/backups/">Backups</a> instead.</aside>
 
