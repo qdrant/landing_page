@@ -96,6 +96,12 @@
       }
     }
 
+    .hs_submit {
+      @include media-breakpoint-up(lg) {
+        flex: 0 0 17%;
+      }
+    }
+
     &.style-two input,
     &.style-two button {
       border-radius: 0;
