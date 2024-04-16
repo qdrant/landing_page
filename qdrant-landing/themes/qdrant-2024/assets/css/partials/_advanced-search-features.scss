@@ -17,8 +17,8 @@
     margin-bottom: 0;
   }
 
-  &__cards {
-    margin-top: $spacer * 2.5;
+  &__header {
+    margin-bottom: $spacer * 2.5;
   }
 
   &__card {
@@ -59,6 +59,10 @@
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 5;
+
+    &__header {
+      margin-bottom: $spacer * 5;
+    }
 
     &__title {
       font-size: $spacer * 3;

@@ -1,11 +1,11 @@
 {{ with (.Site.GetPage "/advanced-search/advanced-search-features") }}
   <section class="advanced-search-features">
     <div class="container">
-      <div class="row">
+      <div class="advanced-search-features__header row">
         <h3 class="advanced-search-features__title col-12 col-xl-6">{{ .Params.title }}</h3>
         <p class="advanced-search-features__description col-12 col-xl-6">{{ .Params.description }}</p>
       </div>
-      <div class="advanced-search-features__cards row gy-4">
+      <div class="row g-4 gy-xl-3">
         {{ range $index, $element := .Params.features }}
         <div class="col-12 {{ if or (eq $index 0) (eq $index 3) }}col-xl-7{{ else }}col-xl-5{{ end}}">
           <div class="card advanced-search-features__card">
