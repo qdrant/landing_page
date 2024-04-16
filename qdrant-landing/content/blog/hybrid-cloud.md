@@ -85,6 +85,8 @@ We launched Qdrant Hybrid Cloud with assistance and support of our trusted partn
 #### Oracle Cloud Infrastructure: 
 > *"We are excited to partner with Qdrant to bring their powerful vector search capabilities to Oracle Cloud Infrastructure. By offering Qdrant Hybrid Cloud as a managed service on OCI, we are empowering enterprises to harness the full potential of AI-driven applications while maintaining complete control over their data. This collaboration represents a significant step forward in making scalable vector search accessible and manageable for businesses across various industries, enabling them to drive innovation, enhance productivity, and unlock valuable insights from their data."* Dr. Sanjay Basu, Senior Director of Cloud Engineering, AI/GPU Infrastructure at Oracle
 
+Read more in [OCI's latest Partner Blog](https://blogs.oracle.com/cloud-infrastructure/post/qdrant-hybrid-cloud-now-available-oci-customers).
+
 #### Red Hat:
 > *“Red Hat is committed to driving transparency, flexibility and choice for organizations to more easily unlock the power of AI. By working with partners like Qdrant to enable streamlined integration experiences on Red Hat OpenShift for AI use cases, organizations can more effectively harness critical data and deliver real business outcomes,”* said Steven Huels, vice president and general manager, AI Business Unit, Red Hat. 
 
@@ -94,6 +96,11 @@ Read more in our [official Red Hat Partner Blog](/blog/hybrid-cloud-red-hat-open
 > *"Our collaboration with Qdrant empowers developers to unlock the potential of vector search applications, such as RAG, by deploying Qdrant Hybrid Cloud with its high-performance search capabilities directly on Vultr's global, automated cloud infrastructure. This partnership creates a highly scalable and customizable platform, uniquely designed for deploying and managing AI workloads with unparalleled efficiency."* Kevin Cochrane, Vultr CMO.
 
 Read more in our [official Vultr Partner Blog](/blog/hybrid-cloud-vultr/).
+
+#### OVHcloud:
+> *“In the European AI landscape, the partnership between OVHcloud and Qdrant Hybrid Cloud underscores our commitment to innovative, secure AI solutions, empowering startups and enterprises to navigate AI complexities confidently. By emphasizing data sovereignty and security, we enable businesses to leverage vector databases securely."* Yaniv Fdida, Chief Product and Technology Officer, OVHcloud
+
+Read more in our [official OVHcloud Partner Blog](/blog/hybrid-cloud-ovhcloud/).
 
 #### DigitalOcean:
 > *“Qdrant, with its seamless integration and robust performance, equips businesses to develop cutting-edge applications that truly resonate with their users. Through applications such as semantic search, Q&A systems, recommendation engines, image search, and RAG, DigitalOcean customers can leverage their data to the fullest, ensuring privacy and driving innovation.“* - Bikram Gupta, Lead Product Manager, Kubernetes & App Platform, DigitalOcean.
@@ -130,12 +137,8 @@ Read more in our [official LangChain Partner Blog](/blog/hybrid-cloud-langchain/
 
 Read more in our [official Jina AI Partner Blog](/blog/hybrid-cloud-jinaai/).
 
-#### OVHcloud:
-> *“In the European AI landscape, the partnership between OVHcloud and Qdrant Hybrid Cloud underscores our commitment to innovative, secure AI solutions, empowering startups and enterprises to navigate AI complexities confidently. By emphasizing data sovereignty and security, we enable businesses to leverage vector databases securely."* Yaniv Fdida, Chief Product and Technology Officer
-
-Read more in our [official OVHcloud Partner Blog](/blog/hybrid-cloud-ovhcloud/).
-
-We have also launched Qdrant Hybrid Cloud with the support of **Aleph Alpha** and **STACKIT**. Learn more about our valued partners: 
+We have also launched Qdrant Hybrid Cloud with the support of **Aleph Alpha**, **STACKIT** and **Civo**. Learn more about our valued partners: 
 
 - **Aleph Alpha:** [Enhance AI Data Sovereignty with Aleph Alpha and Qdrant Hybrid Cloud](/blog/hybrid-cloud-aleph-alpha/)
 - **STACKIT:** [STACKIT and Qdrant Hybrid Cloud for Best Data Privacy](/blog/hybrid-cloud-stackit/)
+- **Civo:** [Deploy Qdrant Hybrid Cloud on Civo Kubernetes](/documentation/hybrid-cloud/platform-deployment-options/#civo)

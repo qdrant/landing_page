@@ -28,7 +28,7 @@ We are excited to have trusted industry players support the launch of Qdrant Hyb
 
 ![Hybrid Cloud Launch Partners Tutorials](/blog/hybrid-cloud-launch-partners/hybrid-cloud-launch-partners-tutorials.png)
 
-Together with our launch partners, we created in-depth tutorials and use cases for production-ready vector search that explain how developers can leverage Qdrant Hybrid Cloud alongside the best-in-class solutions of our launch partners. This provies to have the most flexible foundation to build modern, customer-centric AI applications with endless deployment options and full data sovereignty. Let’s dive right in:
+Together with our launch partners, we created in-depth tutorials and use cases for production-ready vector search that explain how developers can leverage Qdrant Hybrid Cloud alongside the best-in-class solutions of our launch partners. These tutorials demonstrate that Qdrant Hybrid Cloud is the most flexible foundation to build modern, customer-centric AI applications with endless deployment options and full data sovereignty. Let’s dive right in:
 
 **AI Customer Support Chatbot** with Qdrant Hybrid Cloud, Airbyte, Cohere, and AWS
 
@@ -44,7 +44,7 @@ Together with our launch partners, we created in-depth tutorials and use cases f
 
 **Hybrid Search for Product PDF Manuals** with Qdrant Hybrid Cloud, LlamaIndex, and JinaAI
 
-> Create a RAG-based chatbot that enhances customer support by parsing product PDF manuals using Qdrant Hybrid Cloud, LlamaIndex, and JinaAI. This tutorial will guide you through the setup and integration process, enabling your system to deliver precise, context-aware responses for household appliance inquiries.
+> Create a RAG-based chatbot that enhances customer support by parsing product PDF manuals using Qdrant Hybrid Cloud, LlamaIndex, and JinaAI, with DigitalOcean as the cloud host. This tutorial will guide you through the setup and integration process, enabling your system to deliver precise, context-aware responses for household appliance inquiries.
 
 [View Tutorial](/documentation/tutorials/hybrid-search-llamaindex-jinaai/)
 
@@ -74,7 +74,7 @@ Together with our launch partners, we created in-depth tutorials and use cases f
 
 **Private Chatbot for Interactive Learning** with Qdrant Hybrid Cloud and Red Hat OpenShift using Haystack.
 
-> In this tutorial, you will combine open source tools inside of a closed infrastructure and tie them together with a reliable framework. This custom solution lets you run a chatbot without public internet access. You will be able to keep sensitive data secure without compromising privacy.
+> In this tutorial, you will build a chatbot without public internet access. The goal is to keep sensitive data secure and isolated. Your RAG system will be built with Qdrant Hybrid Cloud on Red Hat OpenShift, leveraging Haystack for enhanced generative AI capabilities. This tutorial especially explores how this setup ensures that not a single data point leaves the environment.
 
 [View Tutorial](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/)
 
@@ -91,7 +91,7 @@ Additionally, we built comprehensive documentation tutorials on how to successfu
 - [How to Deploy Qdrant on Scaleway](/documentation/hybrid-cloud/platform-deployment-options/#scaleway)
 - [How to Deploy Qdrant on OVHcloud](/documentation/hybrid-cloud/platform-deployment-options/#ovhcloud)
 - [How to Deploy Qdrant on STACKIT](/documentation/hybrid-cloud/platform-deployment-options/#stackit)
-- [How to Deploy Qdrant on Red Hat OpenShift](/documentation/hybrid-cloud/platform-deployment-options/#redhat-openshift)
+- [How to Deploy Qdrant on Red Hat OpenShift](/documentation/hybrid-cloud/platform-deployment-options/#red-hat-openshift)
 - [How to Deploy Qdrant on Linode](/documentation/hybrid-cloud/platform-deployment-options/#akamai-linode)
 - [How to Deploy Qdrant on Civo](/documentation/hybrid-cloud/platform-deployment-options/#civo)
 

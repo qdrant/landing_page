@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-Qdrant and [Oracle Cloud Infrastructure (OCI) Cloud Engineering](https://www.oracle.com/cloud/) are thrilled to announce the ability to deploy Qdrant Hybrid Cloud as a managed service on OCI. This marks the next step in the collaboration between Qdrant and Oracle Cloud Infrastructure, which will enable enterprises to realize the benefits of artificial intelligence powered through scalable vector search. In 2023, OCI added Qdrant to its [Oracle Cloud Infrastructure solution portfolio](https://blogs.oracle.com/cloud-infrastructure/post/vecto-database-qdrant-support-oci-kubernetes). Qdrant Hybrid Cloud is the managed service of the Qdrant vector search engine that can be deployed and run in any existing OCI environment, allowing enterprises to run fully managed vector search workloads in their existing infrastructure. This is a milestone for leveraging a managed vector search engine for data-sensitive AI applications.
+Qdrant and [Oracle Cloud Infrastructure (OCI) Cloud Engineering](https://www.oracle.com/cloud/) are thrilled to announce the ability to deploy [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) as a managed service on OCI. This marks the next step in the collaboration between Qdrant and Oracle Cloud Infrastructure, which will enable enterprises to realize the benefits of artificial intelligence powered through scalable vector search. In 2023, OCI added Qdrant to its [Oracle Cloud Infrastructure solution portfolio](https://blogs.oracle.com/cloud-infrastructure/post/vecto-database-qdrant-support-oci-kubernetes). Qdrant Hybrid Cloud is the managed service of the Qdrant vector search engine that can be deployed and run in any existing OCI environment, allowing enterprises to run fully managed vector search workloads in their existing infrastructure. This is a milestone for leveraging a managed vector search engine for data-sensitive AI applications.
 
 In the past years, enterprises have been actively engaged in exploring AI applications to enhance their products and services or unlock internal company knowledge to drive the productivity of teams. These applications range from generative AI use cases, for example, powered by retrieval augmented generation (RAG), recommendation systems, or advanced enterprise search through semantic, similarity, or neural search. As these vector search applications continue to evolve and grow with respect to dimensionality and complexity, it will be increasingly relevant to have a scalable, manageable vector search engine, also called out by Gartner’s 2024 Impact Radar. In addition to scalability, enterprises also require flexibility in deployment options to be able to maximize the use of these new AI tools within their existing environment, ensuring interoperability and full control over their data.
 
@@ -35,13 +35,13 @@ Deploying Qdrant Hybrid Cloud on OCI facilitates vector search in production env
 
 ![hybrid-cloud-oracle-cloud-infrastructure-tutorial](/blog/hybrid-cloud-oracle-cloud-infrastructure/hybrid-cloud-oracle-cloud-infrastructure-tutorial.png)
 
-We created a comprehensive tutorial to show how to leverage the benefits of Qdrant Hybrid Cloud on OCI and build AI applications with a focus on data sovereignty. This use case is focused on building a RAG system for FAQ, leveraging the strengths of **Qdrant Hybrid Cloud**, [Oracle](https://www.linkedin.com/company/oracle/) Cloud Infrastructure (OCI), [Cohere](https://www.linkedin.com/company/cohere-ai/) models, and [Langchain](https://www.langchain.com/). This step-by-step guide illustrates how to route incoming customer questions efficiently - either trying to answer them directly or redirecting them for human intervention while keeping the sensitive data within your premises.
+We created a comprehensive tutorial to show how to leverage the benefits of Qdrant Hybrid Cloud on OCI and build AI applications with a focus on data sovereignty. This use case is focused on building a RAG system for FAQ, leveraging the strengths of Qdrant Hybrid Cloud for vector search, Oracle Cloud Infrastructure (OCI) as a managed Kubernetes provider, Cohere models for embedding, and LangChain as a framework. 
 
 [Try the Tutorial](/documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)
 
 Deploying Qdrant Hybrid Cloud on Oracle Cloud Infrastructure only takes a few minutes due to the seamless Kubernetes-native integration. You can get started by following these three steps:
 
-1. **Hybrid Cloud Activation**: Start by signing into your [Qdrant Cloud account](https://qdrant.to/cloud) and activate ‘Hybrid Cloud’.
+1. **Hybrid Cloud Activation**: Start by signing into your [Qdrant Cloud account](https://qdrant.to/cloud) and activate **Hybrid Cloud**.
 
 2. **Cluster Integration**: In the Hybrid Cloud section, add your OCI Kubernetes clusters as a Hybrid Cloud Environment.
 

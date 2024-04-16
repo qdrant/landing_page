@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-We’re excited about our collaboration with Red Hat to bring the Qdrant vector database to [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) customers! With the release of Qdrant Hybrid Cloud, developers can now deploy and run the Qdrant vector database directly in their Red Hat OpenShift environment. This collaboration enables developers to scale more seamlessly, operate more consistently across hybrid cloud environments, and maintain complete control over their vector data. This is a big step forward in simplifying AI infrastructure and empowering data-driven projects, like retrieval augmented generation (RAG) use cases, advanced search scenarios, or recommendations systems.
+We’re excited about our collaboration with Red Hat to bring the Qdrant vector database to [Red Hat OpenShift](https://www.redhat.com/en/technologies/cloud-computing/openshift) customers! With the release of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/), developers can now deploy and run the Qdrant vector database directly in their Red Hat OpenShift environment. This collaboration enables developers to scale more seamlessly, operate more consistently across hybrid cloud environments, and maintain complete control over their vector data. This is a big step forward in simplifying AI infrastructure and empowering data-driven projects, like retrieval augmented generation (RAG) use cases, advanced search scenarios, or recommendations systems.
 
 In the rapidly evolving field of Artificial Intelligence and Machine Learning, the demand for being able to manage the modern AI stack within the existing infrastructure becomes increasingly relevant for businesses. As enterprises are launching new AI applications and use cases into production, they require the ability to maintain complete control over their data, since these new apps often work with sensitive internal and customer-centric data that needs to remain within the owned premises. This is why enterprises are increasingly looking for maximum deployment flexibility for their AI workloads.
 
@@ -50,7 +50,7 @@ To get started, we created a comprehensive tutorial that shows how to build next
 
 #### Tutorial: Private Chatbot for Interactive Learning
 
-Learn how to develop a Retrieval Augmented Generation (RAG) pipeline with Qdrant Hybrid Cloud on Red Hat OpenShift, leveraging Haystack for enhanced generative AI capabilities. This tutorial especially explores how this setup ensures that not a single data point leaves the environment.
+In this tutorial, you will build a chatbot without public internet access. The goal is to keep sensitive data secure and isolated. Your RAG system will be built with Qdrant Hybrid Cloud on Red Hat OpenShift, leveraging Haystack for enhanced generative AI capabilities. This tutorial especially explores how this setup ensures that not a single data point leaves the environment.
 
 [Try the Tutorial](/documentation/tutorials/rag-chatbot-red-hat-openshift-haystack/)
 

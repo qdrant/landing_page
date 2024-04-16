@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-[LangChain](https://www.langchain.com/) and Qdrant are collaborating on the launch of Qdrant Hybrid Cloud, which is designed to empower engineers and scientists globally to easily and securely develop and scale their GenAI applications. Harnessing LangChain’s robust framework, users can unlock the full potential of vector search, enabling the creation of stable and effective AI products. Qdrant Hybrid Cloud extends the same powerful functionality of Qdrant onto a Kubernetes-based architecture, enhancing LangChain’s capability to cater to users across any environment.
+[LangChain](https://www.langchain.com/) and Qdrant are collaborating on the launch of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/), which is designed to empower engineers and scientists globally to easily and securely develop and scale their GenAI applications. Harnessing LangChain’s robust framework, users can unlock the full potential of vector search, enabling the creation of stable and effective AI products. Qdrant Hybrid Cloud extends the same powerful functionality of Qdrant onto a Kubernetes-based architecture, enhancing LangChain’s capability to cater to users across any environment.
 
 Qdrant Hybrid Cloud provides users with the flexibility to deploy their vector database in a preferred environment. Through container-based scalable deployments, companies can leverage cutting-edge frameworks like LangChain while maintaining compatibility with their existing hosting architecture for data sources, embedded models, and LLMs. This potent combination empowers organizations to develop robust and secure applications capable of text-based search, complex question-answering, recommendations and analysis.
 
@@ -39,7 +39,7 @@ To get you started, we’ve put together a tutorial that shows how to create nex
 
 #### Tutorial: Build a RAG System for Employee Onboarding
 
-We created a comprehensive tutorial to show how you can build a RAG-based system with Qdrant Hybrid Cloud, LangChain and Cohere’s embeddings. This use case is focused on building a question-answering system for employee onboarding. The step-by-step guide illustrates how to route incoming customer questions efficiently - either trying to answer them directly or redirecting them for human intervention while keeping the sensitive data within your premises.
+We created a comprehensive tutorial to show how you can build a RAG-based system with Qdrant Hybrid Cloud, LangChain and Cohere’s embeddings. This use case is focused on building a question-answering system for internal corporate employee onboarding. 
 
 [Try the Tutorial](/documentation/tutorials/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)
 
