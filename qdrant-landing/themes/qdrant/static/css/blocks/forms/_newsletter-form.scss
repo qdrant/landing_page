@@ -18,17 +18,17 @@
     position: relative;
 
     & > label {
-      position: absolute;
-      top: 0.85rem;
-      //top: -1.75rem;
       margin-left: 1.5rem;
       color: var(--brand-secondary);
+      position: absolute;
+      top: -1.75rem;
+      &:has( ~ .input > input) {
+        top: 0.85rem;
+      }
       &:has( ~ .input > input:focus),
       &:has( ~ .input > input:not([value=""])) {
         display: none;
       }
-      // todo: mobile styles
-      //todo: styles for old browsers only:
       input:-ms-input-placeholder {
         position: relative;
         color: var(--brand-gray);
@@ -88,9 +88,11 @@
 
         color: var(--brand-gray);
         font-size: 18px;
-        //top: -2rem;
-        top: 1rem;
+        top: -2rem;
         margin-left: 39px;
+        &:has( ~ .input > input) {
+          top: 1rem;
+        }
       }
     }
 
