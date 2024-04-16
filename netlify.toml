@@ -20,3 +20,8 @@ command = "cd qdrant-landing ; echo $HUGO_ENV ; hugo --gc --minify --buildFuture
     [headers.values]
         X-Content-Type-Options = "nosniff"
         X-Frame-Options = "DENY"
+
+[[redirects]]
+from = "/surveys/hybrid-saas/"
+to = "https://hybrid-cloud.qdrant.tech/"
+status = 301
