@@ -9,7 +9,7 @@ description: Bloop is a fast code-search engine that combines semantic search,
 preview_image: /case-studies/bloop/social_preview.png
 date: 2023-02-28T09:48:00.000Z
 author: Qdrant Team
-featured: true
+featured: false
 aliases:
   - /case-studies/bloop/
 ---

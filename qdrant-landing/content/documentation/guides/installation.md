@@ -51,7 +51,7 @@ The default configuration of Qdrant might not be secure enough for every situati
 
 Qdrant can be installed in different ways depending on your needs:
 
-For production, you can use our Qdrant Cloud to run Qdrant either fully managed in our infrastructure or with Hybrid SaaS in yours.
+For production, you can use our Qdrant Cloud to run Qdrant either fully managed in our infrastructure or with Hybrid Cloud in yours. 
 
 For testing or development setups, you can run the Qdrant container or as a binary executable.
 

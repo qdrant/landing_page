@@ -6,6 +6,13 @@ weight: 10
 
 **Qdrant (read: quadrant)** is a vector similarity search engine. Use our documentation to develop a production-ready service with a convenient API to store, search, and manage vectors with an additional payload. Qdrant's expanding features allow for all sorts of neural network or semantic-based matching, faceted search, and other applications.
 
+## Product Release: Announcing Qdrant Hybrid Cloud!
+***<p style="text-align: center;">Now you can attach your own infrastructure to Qdrant Cloud!</p>***
+
+[![Hybrid Cloud](/docs/homepage/hybrid-cloud-cta.png)](https://qdrant.to/cloud)
+
+Use [**Qdrant Hybrid Cloud**](https://hybrid-cloud.qdrant.tech/) to build the best private environment that suits your needs. Manage your own clusters via the [Qdrant Cloud UI](/documentation/cloud/), but continue to run them within your own private infrastructure for complete security and sovereignty. 
+
 ## First-Time Users:
 
 There are three ways to use Qdrant:

@@ -6,8 +6,7 @@ description: Discover how Qdrant and LangChain can be integrated to enhance AI a
 preview_image: /blog/using-qdrant-and-langchain/qdrant-langchain.png
 date: 2024-03-12T09:00:00Z
 author: David Myriel
-featured: false
-weight: 0 
+featured: true
 tags:
   - Qdrant
   - LangChain

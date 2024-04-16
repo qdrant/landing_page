@@ -9,7 +9,7 @@ description: Why Pienso chose Qdrant as a cornerstone for building
 preview_image: /case-studies/pienso/social_preview.png
 date: 2023-02-28T09:48:00.000Z
 author: Qdrant Team
-featured: true
+featured: false
 aliases:
   - /case-studies/pienso/
 ---
