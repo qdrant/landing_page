@@ -2,6 +2,42 @@
 @use '../../mixins/mixins' as mixins;
 
 .newsletter-form {
+  .hs_email {
+    flex: 1 0 auto;
+    //margin-top: 2rem;
+  }
+  .hs_submit {
+    flex: 0 0 28%;
+    //margin-top: 2rem;
+  }
+
+  .hs_email {
+    position: relative;
+
+    & > label {
+      position: absolute;
+      top: 0.85rem;
+      //top: -1.75rem;
+      margin-left: 1.5rem;
+      color: var(--brand-secondary);
+      &:has( ~ .input > input:focus),
+      &:has( ~ .input > input:not([value=""])) {
+        display: none;
+      }
+      // todo: mobile styles
+      //todo: styles for old browsers only:
+      input:-ms-input-placeholder {
+        position: relative;
+        color: var(--brand-gray);
+      }
+    }
+  }
+  .hs-error-msgs {
+    label {
+      color: var(--brand-error-500);
+    }
+  }
+
   &_default {
     margin-bottom: 35px;
 
@@ -25,29 +61,33 @@
       opacity: 1;
     }
 
-    input[type="text"],
-    input[type="email"] {
-      position: relative;
-      display: flex;
-      flex: auto;
+    &__form {
+      @extend .form-base;
+    }
+
+      input[type="text"],
+      input[type="email"] {
+        @extend .input-base;
+
       padding: 10px 39px;
       height: 56px;
       font-size: 18px;
       color: var(--brand-secondary);
-      background: none;
-      border-radius: 50px;
-      border: 1px solid var(--brand-dark-gray);
-      background: white;
-      font-family: $font-family-non-content;
-      margin-right: 24px;
-      margin-bottom: 0;
-      @include media-breakpoint-down(md) {
-        margin-right: 0;
-        margin-bottom: 10px;
-      }
-
+      box-shadow: 0 0 0 1px var(--brand-dark-gray);
       &:focus {
-        border: 1px solid var(--brand-secondary);
+        box-shadow: 0 0 0 1px var(--brand-secondary);
+      }
+    }
+
+    .hs_email {
+
+      & > label {
+
+        color: var(--brand-gray);
+        font-size: 18px;
+        //top: -2rem;
+        top: 1rem;
+        margin-left: 39px;
       }
     }
 
@@ -56,6 +96,16 @@
       border-radius: 0;
     }
 
+    button[type="submit"],
+    input[type="submit"],
+    .actions input[type="submit"] {
+      font-size: 1.5rem;
+      font-weight: 700;
+      height: 56px;
+      &:hover {
+        background: var(--brand-secondary);
+      }
+    }
 
   }
 
@@ -69,14 +119,22 @@
     }
 
     &__form {
+      @extend .form-base;
+
       input[type="text"],
       input[type="email"] {
         @extend .input-base;
       }
 
-      button[type="submit"] {
+
+      button[type="submit"],
+      input[type="submit"],
+      .actions input[type="submit"] {
         @extend .form-button-base;
         margin-bottom: 1.5rem;
+        &:hover {
+          background: var(--brand-secondary);
+        }
       }
     }
 
@@ -110,13 +168,19 @@
     }
 
     &__form {
+      @extend .form-base;
+
       input[type="text"],
       input[type="email"] {
         @extend .input-base;
       }
 
-      button[type="submit"] {
+      input[type="submit"],
+      .actions input[type="submit"] {
         @extend .form-button-base;
+        &:hover {
+          background: var(--brand-secondary);
+        }
       }
     }
 
