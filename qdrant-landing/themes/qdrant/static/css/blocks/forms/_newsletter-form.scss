@@ -7,8 +7,11 @@
     //margin-top: 2rem;
   }
   .hs_submit {
-    flex: 0 0 28%;
+    flex: 1 0 100%;
     //margin-top: 2rem;
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 28%;
+    }
   }
 
   .hs_email {
