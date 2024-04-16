@@ -98,7 +98,7 @@ Read more in our [official Red Hat Partner Blog](/blog/hybrid-cloud-red-hat-open
 Read more in our [official Vultr Partner Blog](/blog/hybrid-cloud-vultr/).
 
 #### OVHcloud:
-> *“In the European AI landscape, the partnership between OVHcloud and Qdrant Hybrid Cloud underscores our commitment to innovative, secure AI solutions, empowering startups and enterprises to navigate AI complexities confidently. By emphasizing data sovereignty and security, we enable businesses to leverage vector databases securely."* Yaniv Fdida, Chief Product and Technology Officer, OVHcloud
+> *“The partnership between OVHcloud and Qdrant Hybrid Cloud highlights, in the European AI landscape, a strong commitment to innovative and secure AI solutions, empowering startups and organisations to navigate AI complexities confidently. By emphasizing data sovereignty and security, we enable businesses to leverage vector databases securely."* Yaniv Fdida, Chief Product and Technology Officer, OVHcloud
 
 Read more in our [official OVHcloud Partner Blog](/blog/hybrid-cloud-ovhcloud/).
 
