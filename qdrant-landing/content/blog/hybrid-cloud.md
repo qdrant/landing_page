@@ -120,6 +120,11 @@ Read more in our [official Haystack by deepset Partner Blog](/blog/hybrid-cloud-
 
 Read more in our [official LlamaIndex Partner Blog](/blog/hybrid-cloud-llamaindex/).
 
+#### LangChain:
+> *“The AI industry is rapidly maturing, and more companies are moving their applications into production. We're really excited at LangChain about supporting enterprises' unique data architectures and tooling needs through integrations and first-party offerings through LangSmith. First-party enterprise integrations like Qdrant's greatly contribute to the LangChain ecosystem with enterprise-ready retrieval features that seamlessly integrate with LangSmith's observability, production monitoring, and automation features, and we're really excited to develop our partnership further.”* -Erick Friis, Founding Engineer at LangChain
+
+Read more in our [official LangChain Partner Blog](/blog/hybrid-cloud-langchain/).
+
 #### Jina AI:
 > *“The collaboration of Qdrant Hybrid Cloud with Jina AI’s embeddings gives every user the tools to craft a perfect search framework with unmatched accuracy and scalability. It’s a partnership that truly pays off!”* Nan Wang, CTO, Jina AI
 

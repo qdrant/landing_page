@@ -15,7 +15,7 @@ tags:
 
 In the realm of artificial intelligence (AI), developers are constantly seeking new ways to enhance their applications with new customer experiences. At the core of this are vector databases, as they enable the efficient handling of complex, unstructured data, making it possible to power applications with semantic search, personalized recommendation systems, and intelligent Q&A platforms. However, when deploying such new AI applications, especially those handling sensitive or personal user data, privacy becomes important.
 
-DigitalOcean and Qdrant are actively addressing this with an integration that let’s developers deploy a managed vector database directly in their existing DigitalOcean environments. With the launch of Qdrant Hybrid Cloud developers can seamlessly deploy Qdrant on DigitalOcean Kubernetes (DOKS) clusters, making it easier for developers to handle vector databases without getting bogged down in the complexity of managing the underlying infrastructure.
+[DigitalOcean](https://www.digitalocean.com/) and Qdrant are actively addressing this with an integration that let’s developers deploy a managed vector database directly in their existing DigitalOcean environments. With the launch of Qdrant Hybrid Cloud developers can seamlessly deploy Qdrant on DigitalOcean Kubernetes (DOKS) clusters, making it easier for developers to handle vector databases without getting bogged down in the complexity of managing the underlying infrastructure.
 
 #### Unlocking the Power of Generative AI for DigitalOcean Customers with Qdrant
 
@@ -40,6 +40,14 @@ To get Qdrant Hybrid Cloud setup on DigitalOcean, just follow these steps:
 - **Cluster Configuration**: Go to the Hybrid Cloud settings and integrate your DigitalOcean Kubernetes clusters as a Hybrid Cloud Environment.
 
 - **Simplified Deployment**: Use the Qdrant Management Console to effortlessly establish and oversee your Qdrant clusters on DigitalOcean.
+
+#### Chat with PDF Documents with Qdrant Hybrid Cloud on DigitalOcean
+
+![hybrid-cloud-llamaindex-tutorial](/blog/hybrid-cloud-llamaindex/hybrid-cloud-llamaindex-tutorial.png)
+
+We created a tutorial that guides you through setting up and leveraging Qdrant Hybrid Cloud on DigitalOcean for a RAG application. It highlights practical steps to integrate vector search with Jina AI's LLMs, optimizing the generation of high-quality, relevant AI content, while ensuring data sovereignty is maintained throughout. This specific system is tied together via the LlamaIndex framework.
+
+[Try the Tutorial](/documentation/tutorials/hybrid-search-llamaindex-jinaai/)
 
 For a comprehensive guide, our documentation provides detailed instructions on setting up Qdrant on DigitalOcean.
 

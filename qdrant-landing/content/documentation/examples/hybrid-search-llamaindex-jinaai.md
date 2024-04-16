@@ -33,15 +33,21 @@ Retrieval Augmented Generation (RAG) combines search with language generation. A
 
 This method enables a language model to respond to questions and access information from a much larger set of documents than it could see otherwise. The language model only looks at a few relevant sections of the documents when generating responses, which also helps to reduce inexplicable errors.
 
+## 
+
+[Service Managed Kubernetes](https://www.ovhcloud.com/en-in/public-cloud/kubernetes/), powered by OVH Public Cloud Instances, a leading European cloud provider. With OVHcloud Load Balancers and disks built in. OVHcloud Managed Kubernetes provides high availability, compliance, and CNCF conformance, allowing you to focus on your containerized software layers with total reversibility.
+
+
+
 ## Prerequisites
 
-### Qdrant cluster
+### Deploying Qdrant Hybrid Cloud on DigitalOcean
 
-Qdrant Hybrid Cloud is a flexible offer that gives you the effortless experience of a managed solution while keeping the 
-data on your premises. It might be launched on your Kubernetes cluster, such as DigitalOcean DOKS. A [detailed 
-description of running Qdrant Hybrid Cloud on DigitalOcean might be found in our 
-documentation](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean). Once it's
-deployed, you should have a running Qdrant cluster with an API key. 
+[DigitalOcean Kubernetes (DOKS)](https://www.digitalocean.com/products/kubernetes) is a managed Kubernetes service that lets you deploy Kubernetes clusters without the complexities of handling the control plane and containerized infrastructure. Clusters are compatible with standard Kubernetes toolchains and integrate natively with DigitalOcean Load Balancers and volumes.
+
+1. To start using managed Kubernetes on DigitalOcean, follow the [platform-specific documentation](/documentation/hybrid-cloud/platform-deployment-options/#digital-ocean).
+2. Once your Kubernetes clusters are up, [you can begin deploying Qdrant Hybrid Cloud](/documentation/hybrid-cloud/). 
+3. Once it's deployed, you should have a running Qdrant cluster with an API key. 
 
 ### Development environment
 

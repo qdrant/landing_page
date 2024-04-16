@@ -13,11 +13,13 @@ tags:
   - Vector Database
 ---
 
-LangChain and Qdrant are collaborating on the launch of Qdrant Hybrid Cloud, which is designed to empower engineers and scientists globally to easily and securely develop and scale their GenAI applications. Harnessing LangChain’s robust framework, users can unlock the full potential of vector search, enabling the creation of stable and effective AI products. Qdrant Hybrid Cloud extends the same powerful functionality of Qdrant onto a Kubernetes-based architecture, enhancing LangChain’s capability to cater to users across any environment.
+[LangChain](https://www.langchain.com/) and Qdrant are collaborating on the launch of Qdrant Hybrid Cloud, which is designed to empower engineers and scientists globally to easily and securely develop and scale their GenAI applications. Harnessing LangChain’s robust framework, users can unlock the full potential of vector search, enabling the creation of stable and effective AI products. Qdrant Hybrid Cloud extends the same powerful functionality of Qdrant onto a Kubernetes-based architecture, enhancing LangChain’s capability to cater to users across any environment.
 
 Qdrant Hybrid Cloud provides users with the flexibility to deploy their vector database in a preferred environment. Through container-based scalable deployments, companies can leverage cutting-edge frameworks like LangChain while maintaining compatibility with their existing hosting architecture for data sources, embedded models, and LLMs. This potent combination empowers organizations to develop robust and secure applications capable of text-based search, complex question-answering, recommendations and analysis.
 
 Despite LLMs being trained on vast amounts of data, they often lack user-specific or private knowledge. LangChain helps developers build context-aware reasoning applications, addressing this challenge. Qdrant’s vector database sifts through semantically relevant information, enhancing the performance gains derived from LangChain’s data connection features. With LangChain, users gain access to state-of-the-art functionalities for querying, chatting, sorting, and parsing data. Through the seamless integration of Qdrant Hybrid Cloud and LangChain, developers can effortlessly vectorize their data and conduct highly accurate semantic searches—all within their preferred environment.
+
+> *“The AI industry is rapidly maturing, and more companies are moving their applications into production. We're really excited at LangChain about supporting enterprises' unique data architectures and tooling needs through integrations and first-party offerings through LangSmith. First-party enterprise integrations like Qdrant's greatly contribute to the LangChain ecosystem with enterprise-ready retrieval features that seamlessly integrate with LangSmith's observability, production monitoring, and automation features, and we're really excited to develop our partnership further.”* -Erick Friis, Founding Engineer at LangChain
 
 #### Discover Advanced Integration Options with Qdrant Hybrid Cloud and LangChain
 
@@ -27,7 +29,7 @@ Building apps with Qdrant Hybrid Cloud and LangChain comes with several key adva
 
 **Open-Source Compatibility:** LangChain and Qdrant support a dependable and mature integration, providing peace of mind to those developing and deploying large-scale AI solutions. With comprehensive documentation, code samples, and tutorials, users of all skill levels can harness the advanced features of data ingestion and vector search to their fullest potential.
 
-**Advanced RAG Performance:** By infusing LLMs with relevant context, Qdrant offers superior results for RAG use cases. Integrating vector search yields improved retrieval accuracy, faster query speeds, and reduced computational overhead. LangChain streamlines the entire process, offering speed, scalability, and efficiency, particularly beneficial for enterprise-scale deployments dealing with vast datasets.
+**Advanced RAG Performance:** By infusing LLMs with relevant context, Qdrant offers superior results for RAG use cases. Integrating vector search yields improved retrieval accuracy, faster query speeds, and reduced computational overhead. LangChain streamlines the entire process, offering speed, scalability, and efficiency, particularly beneficial for enterprise-scale deployments dealing with vast datasets. Furthermore, [LangSmith](https://www.langchain.com/langsmith) provides one-line instrumentation for debugging, observability, and ongoing performance testing of LLM applications.
 
 #### Start Building With LangChain and Qdrant Hybrid Cloud: Develop a RAG-Based Employee Onboarding System
 
