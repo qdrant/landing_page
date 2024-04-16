@@ -1,0 +1,19 @@
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+    {{ with (.Site.GetPage "/advanced-search/advanced-search-hero") }}
+      {{ partial "use-cases-vector-hero" . }}
+    {{ end }}
+  </header>
+
+{{ partial "advanced-search-features" . }}
+{{ partial "advanced-search-use-cases" . }}
+
+{{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+  {{ partial "get-started-small" (dict "context" . "class" "advanced-search-get-started") }}
+{{ end }}
+
+{{ partial "get-started" . }}
+{{ end }}
