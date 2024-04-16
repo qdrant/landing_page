@@ -1,0 +1,24 @@
+{{ with (.Site.GetPage "/advanced-search/advanced-search-features") }}
+  <section class="advanced-search-features">
+    <div class="container">
+      <div class="advanced-search-features__header row">
+        <h3 class="advanced-search-features__title col-12 col-xl-6">{{ .Params.title }}</h3>
+        <p class="advanced-search-features__description col-12 col-xl-6">{{ .Params.description }}</p>
+      </div>
+      <div class="row g-4 gy-xl-3">
+        {{ range $index, $element := .Params.features }}
+          <div class="col-12 {{ if or (eq $index 0) (eq $index 3) }}col-xl-7{{ else }}col-xl-5{{ end }}">
+            <div class="card advanced-search-features__card">
+              <img class="advanced-search-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="advanced-search-features__card-title">{{ .title }}</h6>
+              <p class="advanced-search-features__card-description">{{ .description }}</p>
+              <a class="advanced-search-features__card-link link link_md align-self-start" href="{{ .link.url }}">
+                {{ .link.text }}
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
