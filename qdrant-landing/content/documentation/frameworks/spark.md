@@ -214,6 +214,10 @@ The connector supports ingesting multiple named/unnamed, dense/sparse vectors.
 
 ## Databricks
 
+<aside role="status">
+    <p>Check out our <a href="/documentation/examples/databricks/" target="_blank">example</a> of using the Spark connector with Databricks.</p>
+</aside>
+
 You can use the `qdrant-spark` connector as a library in [Databricks](https://www.databricks.com/).
 
 - Go to the `Libraries` section in your Databricks cluster dashboard.
