@@ -1,5 +1,5 @@
 {{ with (.Site.GetPage "/headless/menu") }}
-  <div class="main-menu">
+  <div class="main-menu z-2">
     <a href="/">
       {{ partial "logo.html" . }}
     </a>
@@ -8,6 +8,19 @@
       {{ range .Params.menuItems }}
         <li class="main-menu__item">
           <a class="menu-link" href="{{ .url }}">{{ .name }}</a>
+
+          {{ if .subMenuItems }}
+            <ul class="main-menu__subitems">
+              {{ range .subMenuItems }}
+                <li class="main-menu__subitem">
+                  <a href="{{ .url }}">
+                    <i style="background-image: url(/img/menu/{{ .icon }})"> </i>
+                    <span>{{ .name }}</span>
+                  </a>
+                </li>
+              {{ end }}
+            </ul>
+          {{ end }}
         </li>
       {{ end }}
     </ul>
