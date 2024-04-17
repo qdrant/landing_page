@@ -1,1 +1,19 @@
-{{ define "main" }}{{ end }}
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+    {{ partial "enterprise-solutions-hero" . }}
+  </header>
+
+  {{ partial "enterprise-solutions-use-cases" . }}
+  {{ partial "testimonial" . }}
+  {{ partial "enterprise-benefits" . }}
+
+  {{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+    {{ partial "get-contacted" (dict "context" . "class" "get-contacted-with-question") }}
+  {{ end }}
+
+  {{ partial "get-started" . }}
+  {{ partial "customer-list" . }}
+{{ end }}
