@@ -9,6 +9,17 @@
         </div>
       </div>
       <div class="splide">
+        <div class="splide__arrows customer-stories__controls">
+          <button
+            type="button"
+            class="splide__arrow splide__arrow--prev customer-stories__button customer-stories__button-prev"
+          >
+            <span>{{ partial "svg" "angle-right.svg" }}</span>
+          </button>
+          <button type="button" class="plide__arrow splide__arrow--next customer-stories__button">
+            <span>{{ partial "svg" "angle-right.svg" }}</span>
+          </button>
+        </div>
         <div class="splide__track" data-glide-el="track">
           <div class="splide__list">
             {{ range .Params.storyCards }}
