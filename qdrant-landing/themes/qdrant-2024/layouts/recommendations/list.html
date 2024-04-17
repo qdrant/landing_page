@@ -3,13 +3,18 @@
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
-    {{ with (.Site.GetPage "/advanced-search/advanced-search-hero") }}
+    {{ with (.Site.GetPage "/recommendations/recommendations-hero") }}
       {{ partial "use-cases-vector-hero" . }}
     {{ end }}
   </header>
 
-  {{ partial "advanced-search-features" . }}
-  {{ partial "advanced-search-use-cases" . }}
+  {{ partial "recommendations-features" . }}
+
+  {{ partial "recommendations-api" . }}
+
+  {{ with (.Site.GetPage "/recommendations/recommendations-use-cases") }}
+    {{ partial "use-cases-vector-cases" . }}
+  {{ end }}
 
   {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
     {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
