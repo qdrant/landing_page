@@ -5,8 +5,8 @@ weight: 36
 
 # Qdrant on Databricks
 
-| Time: 30 min | Level: Intermediate |  |    |
-| --- | ----------- | ----------- |----------- |
+| Time: 45 min | Level: Intermediate | [Complete Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/4750876096379825/93425612168199/6949977306828869/latest.html) |
+| ------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
 Databricks is a unified analytics platform for working with big data and AI. It's built around Apache Spark, a powerful open-source distributed computing system that's particularly well-suited for processing large-scale data sets and performing complex analytics tasks.
 
