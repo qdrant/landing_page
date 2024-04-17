@@ -1,12 +1,12 @@
 import Splide from '@splidejs/splide';
 import { MOBILE_WIDTH } from '../constants';
 
-document.addEventListener( 'DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   if (document.querySelector('.splide')) {
     const splide = new Splide('.splide', {
-      gap: "2rem",
+      gap: '2rem',
       perPage: 3,
-      type: "loop",
+      type: 'loop',
       drag: true,
       loop: true,
       speed: 1000,
@@ -18,15 +18,15 @@ document.addEventListener( 'DOMContentLoaded', function() {
         prev: 'splide__arrow--prev customer-stories__button-prev',
         next: 'splide__arrow--next customer-stories__button-next',
       },
-          breakpoints: {
-            [MOBILE_WIDTH]: {
-             destroy: true
-            }
-          }
-        });
+      breakpoints: {
+        [MOBILE_WIDTH]: {
+          destroy: true,
+        },
+      },
+    });
 
-    splide.on( 'ready', function () {
-      const e = new CustomEvent('splideIsReady', {detail: splide});
+    splide.on('ready', function () {
+      const e = new CustomEvent('splideIsReady', { detail: splide });
       document.dispatchEvent(e);
     });
 
