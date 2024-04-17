@@ -5,14 +5,14 @@ weight: 36
 
 # Qdrant on Databricks
 
-| Time: 45 min | Level: Intermediate | [Complete Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/4750876096379825/93425612168199/6949977306828869/latest.html) |
+| Time: 30 min | Level: Intermediate | [Complete Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/4750876096379825/93425612168199/6949977306828869/latest.html) |
 | ------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-Databricks is a unified analytics platform for working with big data and AI. It's built around Apache Spark, a powerful open-source distributed computing system that's particularly well-suited for processing large-scale data sets and performing complex analytics tasks.
+Databricks is a unified analytics platform for working with big data and AI. It's built around Apache Spark, a powerful open-source distributed computing system well-suited for processing large-scale datasets and performing complex analytics tasks.
 
-Apache Spark provides a fast and general-purpose cluster computing framework for big data processing. It's known for its in-memory computing capabilities, which allow it to process data much faster than traditional disk-based systems. It is designed to scale horizontally, meaning it can handle expensive operations like embeddings generation by distributing computation across a cluster of machines. This scalability is crucial when dealing with large datasets.
+Apache Spark is designed to scale horizontally, meaning it can handle expensive operations like generating vector embeddings by distributing computation across a cluster of machines. This scalability is crucial when dealing with large datasets.
 
-In this example, we will demonstrate how to vectorize a dataset with both dense and sparse embeddings using Qdrant's [FastEmbed](https://qdrant.github.io/fastembed/) library. We will then load this vectorized data into a Qdrant cluster using the Spark connector on Databricks.
+In this example, we will demonstrate how to vectorize a dataset with dense and sparse embeddings using Qdrant's [FastEmbed](https://qdrant.github.io/fastembed/) library. We will then load this vectorized data into a Qdrant cluster using the [Qdrant Spark connector](https://qdrant.tech/documentation/frameworks/spark/) on Databricks.
 
 ### Setting up a Databricks project
 
@@ -160,7 +160,7 @@ embeddings_df.write.format("io.qdrant.spark.Qdrant").option(
 ).save()
 ```
 
-Ensure to replace the placeholder values (`<QDRANT_GRPC_URL>`, `<QDRANT_API_KEY>`, `<QDRANT_COLLECTION_NAME>`) with your actual values.
+Ensure to replace the placeholder values (`<QDRANT_GRPC_URL>`, `<QDRANT_API_KEY>`, `<QDRANT_COLLECTION_NAME>`) with your actual values. If the `id_field` option is not specified, Qdrant Spark connector generates random UUIDs for each point.
 
 The command output you should see is similar to:
 
