@@ -4,7 +4,7 @@ import { MOBILE_WIDTH } from '../constants';
 document.addEventListener('DOMContentLoaded', function () {
   if (document.querySelector('.splide')) {
     const splide = new Splide('.splide', {
-      gap: '2rem',
+      gap: '1.5rem',
       perPage: 3,
       type: 'loop',
       drag: true,
@@ -12,6 +12,7 @@ document.addEventListener('DOMContentLoaded', function () {
       speed: 1000,
       perMove: 1,
       pagination: false,
+      padding: { left: 20, right: 20 },
       classes: {
         arrows: 'splide__arrows customer-stories__controls',
         arrow: 'splide__arrow customer-stories__button',
