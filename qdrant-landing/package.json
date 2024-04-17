@@ -1,6 +1,7 @@
 {
   "comments": {
     "dependencies": {
+      "@splidejs/splide": "qdrant-2024",
       "bootstrap": "qdrant-2024",
       "qdrant-page-search": "qdrant-2024"
     },
@@ -14,6 +15,7 @@
     }
   },
   "dependencies": {
+    "@splidejs/splide": "^4.1.4",
     "bootstrap": "^5.3.2",
     "qdrant-page-search": "^1.0.8"
   },

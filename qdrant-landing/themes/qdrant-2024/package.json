@@ -13,6 +13,7 @@
   },
   "comments": {
     "dependencies": {
+      "@splidejs/splide": "project",
       "bootstrap": "project",
       "qdrant-page-search": "project"
     },
@@ -26,6 +27,7 @@
     }
   },
   "dependencies": {
+    "@splidejs/splide": "^4.1.4",
     "bootstrap": "^5.3.2",
     "qdrant-page-search": "^1.0.8"
   },
