@@ -1,1 +1,14 @@
-{{ define "main" }}{{ end }}
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+  </header>
+
+  {{ partial "mission" . }}
+  {{ partial "our-story" . }}
+  {{ partial "carousel" . }}
+  {{ partial "leadership" . }}
+  {{ partial "investors" . }}
+  {{ partial "open-roles" . }}
+{{ end }}
