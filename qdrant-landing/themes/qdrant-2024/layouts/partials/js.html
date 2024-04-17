@@ -1,0 +1,9 @@
+<!--todo: only where this needed-->
+{{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+
+{{ if .IsHome }}
+  <!--splide.js carousel-->
+  {{ $splideJs := resources.Get "/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $splideJs.RelPermalink }}"></script>
+{{ end }}
