@@ -26,3 +26,9 @@
   }}
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 {{ end }}
+
+{{ if .IsHome }}
+  <!--splide.js carousel core styles-->
+  {{ $splideCss := resources.Get "css/vendor/splide.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $splideCss.RelPermalink }}" rel="stylesheet" integrity="{{ $splideCss.Data.Integrity }}" />
+{{ end }}

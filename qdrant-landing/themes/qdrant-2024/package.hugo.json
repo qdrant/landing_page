@@ -5,7 +5,8 @@
   },
   "dependencies": {
     "bootstrap": "^5.3.2",
-    "qdrant-page-search": "^1.0.8"
+    "qdrant-page-search": "^1.0.8",
+    "@splidejs/splide": "^4.1.4"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.23.9",
