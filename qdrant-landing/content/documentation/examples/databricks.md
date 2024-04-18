@@ -93,7 +93,7 @@ Next, let's apply our `vectorize` UDF on our Spark dataframe to generate embeddi
 embeddings = dataset_df.rdd.mapPartitions(vectorize)
 ```
 
-The `mapPartitions()` method returns a [Resilient Distributed Dataset (RDD)](https://www.databricks.com/glossary/what-is-rdd) which can then be converted to a Spark dataframe along with the specified schema.
+The `mapPartitions()` method returns a [Resilient Distributed Dataset (RDD)](https://www.databricks.com/glossary/what-is-rdd) which should then be converted back to a Spark dataframe.
 
 #### Building the new Spark dataframe with the vectorized data
 
