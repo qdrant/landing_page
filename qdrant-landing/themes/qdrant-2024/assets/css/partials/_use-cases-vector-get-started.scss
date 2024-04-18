@@ -1,6 +1,6 @@
 @use '../mixins/get-started-small' as get-started-small;
 
-.advanced-search-get-started {
+.use-cases-vector-get-started {
   @include get-started-small.base(
     $spacer * 5,
     $spacer * 1.5,

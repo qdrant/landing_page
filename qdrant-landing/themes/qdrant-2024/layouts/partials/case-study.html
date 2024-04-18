@@ -1,0 +1,16 @@
+<div class="case-study">
+  <div class="case-study__content">
+    <img class="case-study__logo" src="{{ .Params.caseStudy.logo.src }}" alt="{{ .Params.caseStudy.logo.alt }}" />
+    <h5 class="case-study__title">{{ .Params.caseStudy.title }}</h5>
+    <p class="case-study__description">{{ .Params.caseStudy.description }}</p>
+    <a class="link link_md link_light" href="{{ .Params.caseStudy.link.url }}">{{ .Params.caseStudy.link.text }}</a>
+  </div>
+  <div class="case-study__preview">
+    <img
+      class="case-study__preview-image"
+      src="{{ .Params.caseStudy.image.src }}"
+      alt="{{ .Params.caseStudy.image.alt }}"
+    />
+    <div class="case-study__preview-overlay"></div>
+  </div>
+</div>
