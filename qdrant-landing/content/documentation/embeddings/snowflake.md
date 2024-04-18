@@ -51,7 +51,7 @@ embeddings = embedding_model.embed(texts)
 ### Converting the model outputs to Qdrant points
 
 ```typescript
-let points = embeddings.map((embedding, i) => {
+let points = embeddings.tolist().map((embedding, i) => {
     return {
         id: i,
         vector: embedding,
@@ -119,7 +119,7 @@ const query_embedding = await extractor("What is the best to use for vector sear
 });
 
 await client.search(COLLECTION_NAME, {
-    vector: query_embedding[0],
+    vector: query_embedding.tolist()[0],
 });
 ```
 
