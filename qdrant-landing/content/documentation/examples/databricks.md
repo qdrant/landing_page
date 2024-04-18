@@ -8,7 +8,7 @@ weight: 36
 | Time: 30 min | Level: Intermediate | [Complete Notebook](https://databricks-prod-cloudfront.cloud.databricks.com/public/4027ec902e239c93eaaa8714f173bcfc/4750876096379825/93425612168199/6949977306828869/latest.html) |
 | ------------ | ------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 
-Databricks is a unified analytics platform for working with big data and AI. It's built around Apache Spark, a powerful open-source distributed computing system well-suited for processing large-scale datasets and performing complex analytics tasks.
+[Databricks](https://www.databricks.com/) is a unified analytics platform for working with big data and AI. It's built around Apache Spark, a powerful open-source distributed computing system well-suited for processing large-scale datasets and performing complex analytics tasks.
 
 Apache Spark is designed to scale horizontally, meaning it can handle expensive operations like generating vector embeddings by distributing computation across a cluster of machines. This scalability is crucial when dealing with large datasets.
 
@@ -55,11 +55,9 @@ dataset_df = spark.read.parquet("file:/dbfs/pq.pq")
 
 ### Vectorizing the data
 
-In this section, we'll be generating both dense and sparse vectors for our data using [FastEmbed](https://qdrant.github.io/fastembed/). We'll create a user-defined function (UDF) to handle this step.
+In this section, we'll be generating both dense and sparse vectors for our rows using [FastEmbed](https://qdrant.github.io/fastembed/). We'll create a user-defined function (UDF) to handle this step.
 
 #### Creating the vectorization function
-
-Let's start by defining a function `vectorize` that generates dense and sparse vectors for each row of our dataset.
 
 ```python
 from fastembed import TextEmbedding, SparseTextEmbedding
@@ -118,7 +116,7 @@ embeddings_df = spark.createDataFrame(data=embeddings, schema=schema)
 ### Uploading the data to Qdrant
 
 - **Create a Qdrant collection:**
-  - [Follow the documentation](https://qdrant.docs.buildwithfern.com/api-reference/collections/create-collection) to create a collection with the appropriate configurations. Here's an example request to support both dense and sparse vectors:
+  - [Follow the documentation](/documentation/concepts/collections/#create-a-collection) to create a collection with the appropriate configurations. Here's an example request to support both dense and sparse vectors:
 
   ```json
   PUT /collections/{collection_name}
