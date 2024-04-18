@@ -1,0 +1,74 @@
+@use '../helpers/functions' as *;
+
+.use-cases-vector-cases {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    color: $neutral-20;
+    text-align: center;
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__cards {
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: $spacer * 2;
+
+    &-image {
+      display: none;
+
+      &-mobile {
+        width: 100%;
+        margin-bottom: $spacer * 1.5;
+      }
+    }
+
+    &-title {
+      margin-bottom: $spacer;
+    }
+
+    &-description {
+      font-size: rem(18);
+      line-height: rem(27);
+      color: $neutral-40;
+      margin-bottom: $spacer;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      max-width: rem(920);
+      margin: 0 auto $spacer * 5;
+      font-size: $spacer * 3;
+      line-height: rem(57);
+    }
+
+    &__cards {
+      margin-bottom: $spacer * 4;
+    }
+
+    &__card {
+      &-image {
+        display: block;
+        width: 100%;
+        margin-bottom: $spacer * 1.5;
+
+        &-mobile {
+          display: none;
+        }
+      }
+    }
+  }
+}
