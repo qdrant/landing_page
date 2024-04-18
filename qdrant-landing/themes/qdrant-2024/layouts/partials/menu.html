@@ -7,12 +7,23 @@
     <ul class="main-menu__links">
       {{ range .Params.menuItems }}
         <li class="main-menu__item">
-          <a class="menu-link" href="{{ .url }}">{{ .name }}</a>
+          {{ if .url }}
+            <a class="menu-link" href="{{ .url }}">{{ .name }}</a>
+          {{ else }}
+            <span>{{ .name }}</span>
+          {{ end }}
 
           {{ if .subMenuItems }}
-            <ul class="main-menu__subitems">
+            <ul class="main-menu__submenu">
+              {{ if .url }}
+                <li class="main-menu__section-link">
+                  <a class="link link_neutral link_sm" href="{{ .url }}">
+                    {{ .name }}
+                  </a>
+                </li>
+              {{ end }}
               {{ range .subMenuItems }}
-                <li class="main-menu__subitem">
+                <li class="main-menu__submenu-item">
                   <a href="{{ .url }}">
                     <i style="background-image: url(/img/menu/{{ .icon }})"> </i>
                     <span>{{ .name }}</span>

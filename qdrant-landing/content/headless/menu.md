@@ -8,7 +8,6 @@ startFree:
 menuItems:
   - id: menu-0
     name: Product
-    url: /
     subMenuItems:
       - id: subMenu-0-0
         name: Qdrant Vector Database
@@ -60,7 +59,6 @@ menuItems:
         url: /
   - id: menu-2
     name: Developers
-    url: /
     subMenuItems:
       - id: subMenu-2-0
         name: Documentation
@@ -88,7 +86,6 @@ menuItems:
         url: /
   - id: menu-3
     name: Resources
-    url: /
     subMenuItems:
       - id: subMenu-3-0
         name: Benchmarks
@@ -104,7 +101,6 @@ menuItems:
         url: /
   - id: menu-4
     name: Company
-    url: /
     subMenuItems:
       - id: subMenu-4-0
         name: Customers
