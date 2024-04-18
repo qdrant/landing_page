@@ -158,6 +158,10 @@ embeddings_df.write.format("io.qdrant.spark.Qdrant").option(
 ).save()
 ```
 
+<aside role="status">
+   <p>You can find the list of the Spark connector configuration options <a href="/documentation/frameworks/spark/#configuration-options" target="_blank">here</a>.</p>
+</aside>
+
 Ensure to replace the placeholder values (`<QDRANT_GRPC_URL>`, `<QDRANT_API_KEY>`, `<QDRANT_COLLECTION_NAME>`) with your actual values. If the `id_field` option is not specified, Qdrant Spark connector generates random UUIDs for each point.
 
 The command output you should see is similar to:
