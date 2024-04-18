@@ -119,16 +119,14 @@
       color: $neutral-20;
       padding: 0.5rem;
     }
-    i {
+    img {
       display: block;
-      width: 1rem;
+      width: auto;
       height: 1rem;
       color: $primary-50;
       margin-top: 0.3rem;
       margin-bottom: 0.2rem;
       margin-right: rem(12);
-      background-position: center bottom;
-      background-repeat: no-repeat;
     }
 
     &:hover {

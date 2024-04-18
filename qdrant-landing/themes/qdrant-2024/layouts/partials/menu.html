@@ -25,7 +25,7 @@
               {{ range .subMenuItems }}
                 <li class="main-menu__submenu-item">
                   <a href="{{ .url }}" {{ if strings.HasPrefix .url "http" }} target="_blank" rel="noopener noreferrer nofollow"{{ end }} >
-                    <i style="background-image: url(/img/menu/{{ .icon }})"> </i>
+                    <img src="/img/menu/{{ .icon }}" draggable="false"/>
                     <span>{{ .name }}</span>
                   </a>
                 </li>
