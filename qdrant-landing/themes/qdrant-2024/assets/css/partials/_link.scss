@@ -144,6 +144,36 @@
     }
   }
 
+  &_neutral {
+    $link-color: $neutral-60;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+
+    &:after {
+      background: $link-color;
+    }
+
+    &:hover {
+      $link-color: $neutral-20;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &:after {
+        background: $link-color;
+      }
+    }
+  }
+
   // font-size
   &_inherit {
     font-size: inherit;
