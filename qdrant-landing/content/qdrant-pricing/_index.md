@@ -1,6 +1,7 @@
 ---
 title: qdrant-pricing
 description: qdrant-pricing
+url: pricing
 build:
   render: always
 cascade:
