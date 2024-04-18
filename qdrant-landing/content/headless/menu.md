@@ -12,100 +12,100 @@ menuItems:
       - id: subMenu-0-0
         name: Qdrant Vector Database
         icon: qdrant-vector-database.svg
-        url: /
+        url: /qdrant-vector-database/
       - id: subMenu-0-1
         name: Qdrant Cloud
         icon: qdrant-cloud.svg
-        url: /
+        url: /cloud/
       - id: subMenu-0-2
         name: Qdrant Enterprise Solutions
         icon: qdrant-enterprise-solutions.svg
-        url: /
+        url: /enterprise-solutions/
       - id: subMenu-0-3
         name: Hybrid Cloud
         icon: hybrid-cloud.svg
-        url: /
+        url: /hybrid-cloud/
       - id: subMenu-0-4
         name: Private Cloud
         icon: private-cloud.svg
-        url: /
+        url: /private-cloud/
       - id: subMenu-0-5
         name: Demos
         icon: demos.svg
-        url: /
+        url: /demos-and-tutorials/
   - id: menu-1
     name: Use Cases
-    url: /use-cases
+    url: /use-cases/
     subMenuItems:
       - id: subMenu-1-0
         name: RAG
         icon: rag.svg
-        url: /
+        url: /rag/
       - id: subMenu-1-1
         name: Recommendation Systems
         icon: recommendation-systems.svg
-        url: /
+        url: /recommendations/
       - id: subMenu-1-2
         name: Advanced Search
         icon: advanced-search.svg
-        url: /
+        url: /advanced-search/
       - id: subMenu-1-3
         name: Data Analysis & Anomaly Detection
         icon: data-analysis-anomaly-detection.svg
-        url: /
+        url: /data-analysis-anomaly-detection/
       - id: subMenu-1-4
         name: Qdrant for Startups
         icon: qdrant-for-startups.svg
-        url: /
+        url: /qdrant-for-startups/
   - id: menu-2
     name: Developers
     subMenuItems:
       - id: subMenu-2-0
         name: Documentation
         icon: documentation.svg
-        url: /
+        url: /documentation/
       - id: subMenu-2-1
         name: Community
         icon: community.svg
-        url: /
+        url: /community/
       - id: subMenu-2-2
         name: Qdrant Stars
         icon: qdrant-stars.svg
-        url: /
+        url: /stars/
       - id: subMenu-2-3
         name: Github
         icon: github.svg
-        url: /
+        url: https://github.com/qdrant/qdrant
       - id: subMenu-2-4
         name: Roadmap
         icon: roadmap.svg
-        url: /
+        url: https://qdrant.to/roadmap
       - id: subMenu-2-5
         name: Changelog
         icon: changelog.svg
-        url: /
+        url: https://github.com/qdrant/qdrant/releases
   - id: menu-3
     name: Resources
     subMenuItems:
       - id: subMenu-3-0
         name: Benchmarks
         icon: benchmarks.svg
-        url: /
+        url: /benchmarks/
       - id: subMenu-3-1
         name: Blog
         icon: blog.svg
-        url: /
+        url: /blog/
       - id: subMenu-3-2
         name: Articles
         icon: articles.svg
-        url: /
+        url: /articles/
   - id: menu-4
     name: Company
     subMenuItems:
       - id: subMenu-4-0
         name: Customers
         icon: customers.svg
-        url: /
+        url: /customers/
       - id: subMenu-4-1
         name: Partners
         icon: partners.svg
@@ -113,13 +113,13 @@ menuItems:
       - id: subMenu-4-2
         name: About us
         icon: about-us.svg
-        url: /about-us
+        url: /about-us/
       - id: subMenu-4-3
         name: Careers
         icon: careers.svg
-        url: /
+        url: /careers/
   - id: menu-5
     name: Pricing
-    url: /qdrant-pricing
+    url: /pricing/
 sitemapExclude: true
 ---
