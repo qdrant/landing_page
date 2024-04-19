@@ -457,7 +457,7 @@ which is suitable for ingesting a large amount of data.
 
 Some embedding providers may provide embeddings in a pre-quantized format.
 One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings).
-Qdrant have direct support for uint8 embeddings, which you can also use in combination with binary quantization.
+Qdrant has direct support for uint8 embeddings, which you can also use in combination with binary quantization.
 
 To create a collection with uint8 embeddings, you can use the following configuration:
 
@@ -500,8 +500,41 @@ client.create_collection(
 )
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.grpc.Collections.Datatype;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+
+QdrantClient client = new QdrantClient(
+    QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync("{collection_name}",
+        VectorParams.newBuilder()
+            .setSize(1024)
+            .setDistance(Distance.Cosine)
+            .setDatatype(Datatype.Uint8)
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParams {
+    Size = 1024, Distance = Distance.Cosine, Datatype = Datatype.Uint8
+  }
+);
+```
+
 Vectors with `uint8` datatype are stored in a more compact format, which can save memory and improve search speed at the cost of some precision.
-If you choose to use `uint8` datatype, elements of the vector will be stored as unsigned 8-bit integers, which can take values **from 0 to 255**.
+If you choose to use the `uint8` datatype, elements of the vector will be stored as unsigned 8-bit integers, which can take values **from 0 to 255**.
 
 
 ### Collection with sparse vectors
