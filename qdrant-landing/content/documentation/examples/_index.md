@@ -20,6 +20,7 @@ is_empty: false
 | [Hybrid Search on PDF Documents](../examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
 | [Blog-Reading RAG Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-3.5   
 | [Movie Recommendation System](../examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |   
+| [Qdrant on Databricks](../examples/databricks/)                                                                     | Learn how to use Qdrant on Databricks using the Spark connector     | Qdrant, Databricks, Apache Spark |
 
 
 ## Notebooks

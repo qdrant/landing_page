@@ -136,24 +136,19 @@ embeddings_df = spark.createDataFrame(data=embeddings, schema=schema)
 - **Upload the dataframe to Qdrant:**
 
 ```python
-embeddings_df.write.format("io.qdrant.spark.Qdrant").option(
-    "qdrant_url",
-    "<QDRANT_GRPC_URL>",
-).option("api_key", "<QDRANT_API_KEY>").option(
-    "collection_name", "<QDRANT_COLLECTION_NAME>"
-).option(
-    "vector_fields", "dense_vector"
-).option(
-    "vector_names", "dense"
-).option(
-    "sparse_vector_value_fields", "sparse_vector_values"
-).option(
-    "sparse_vector_index_fields", "sparse_vector_indices"
-).option(
-    "sparse_vector_names", "sparse"
-).option(
-    "schema", embeddings_df.schema.json()
-).mode(
+options = {
+    "qdrant_url": "<QDRANT_GRPC_URL>",
+    "api_key": "<QDRANT_API_KEY>",
+    "collection_name": "<QDRANT_COLLECTION_NAME>",
+    "vector_fields": "dense_vector",
+    "vector_names": "dense",
+    "sparse_vector_value_fields": "sparse_vector_values",
+    "sparse_vector_index_fields": "sparse_vector_indices",
+    "sparse_vector_names": "sparse",
+    "schema": embeddings_df.schema.json(),
+}
+
+embeddings_df.write.format("io.qdrant.spark.Qdrant").options(**options).mode(
     "append"
 ).save()
 ```
@@ -170,7 +165,7 @@ The command output you should see is similar to:
 Command took 40.37 seconds -- by xxxxx90@xxxxxx.com at 4/17/2024, 12:13:28 PM on fastembed
 ```
 
-### Gist
+### Conclusion
 
 That wraps up our tutorial! Feel free to explore more functionalities and experiments with different models, parameters, and features available in Databricks, Spark, and Qdrant.
 
