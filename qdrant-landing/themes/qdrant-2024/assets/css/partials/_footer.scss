@@ -118,38 +118,6 @@
     flex-direction: column;
   }
 
-  &__middle-subscribe {
-    display: flex;
-    gap: calc($spacer / 2);
-  }
-
-  &__middle-subscribe input {
-    background-color: transparent;
-    padding-top: calc($spacer / 2);
-    padding-bottom: calc($spacer / 2);
-    border: 1px solid $neutral-40;
-    padding-left: $spacer;
-    padding-right: $spacer;
-    border-radius: 8px;
-    max-height: rem(40);
-    width: 100%;
-    outline: none;
-    color: $neutral-98;
-  }
-
-  &__middle-subscribe input::placeholder {
-    color: $neutral-70;
-  }
-
-  &__middle-subscribe a {
-    max-height: rem(40);
-    padding-left: rem(22);
-    padding-right: rem(22);
-
-    font-size: map-get($font-sizes-text, 'md');
-    line-height: rem(24);
-  }
-
   &__middle-title {
     font-weight: 500;
     font-size: map-get($font-sizes-text, 'xl');
@@ -166,6 +134,7 @@
   }
 
   &__bottom {
+    width: 100%;
     padding-top: rem(30);
     padding-bottom: 0;
 
@@ -175,6 +144,7 @@
   }
 
   &__bottom-content {
+    width: 100%;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -226,15 +196,7 @@
 
     &__middle-newsletter {
       max-width: rem(350);
-    }
-
-    &__middle-subscribe {
       justify-content: flex-end;
-    }
-
-    &__middle-subscribe input {
-      min-width: rem(414);
-      width: auto;
     }
 
     &__bottom {
@@ -247,3 +209,5 @@
     }
   }
 }
+
+@import 'subscribe-form';
