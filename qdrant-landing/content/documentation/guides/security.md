@@ -243,9 +243,9 @@ For convenience, we have added a JWT generation tool the Qdrant Web UI under the
 
 **Signing the token** - To confirm that the generated token is valid, it needs to be signed with the `api_key` you have set in the configuration.
 That would mean, that someone who knows the `api_key` gives the authorization for the new token to be used in the Qdrant instance.
-Qdrant can validate the signature, becuase it knows the `api_key` and can decode the token. 
+Qdrant can validate the signature, because it knows the `api_key` and can decode the token.
 
-That means, that the process of token generation could be done on the client side offline, and doesn't require any communication with the Qdrant instance.
+The process of token generation can be done on the client side offline, and doesn't require any communication with the Qdrant instance.
 
 Here is an example of libraries that can be used to generate JWT tokens:
 
@@ -253,10 +253,9 @@ Here is an example of libraries that can be used to generate JWT tokens:
 - JavaScript: [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
 - Rust: [jsonwebtoken](https://crates.io/crates/jsonwebtoken)
 
-
 #### JWT Configuration
 
-These are the available options, or as we call them - **claims**, you can use in the JWT payload to define its functionality.
+These are the available options, or **claims** in the JWT lingo. You can use them in the JWT payload to define its functionality.
 
 - **`exp`** - The expiration time of the token. This is a Unix timestamp in seconds. The token will be invalid after this time. The check for this claim includes a 30-second leeway to account for clock skew.
 
@@ -340,9 +339,8 @@ These are the available options, or as we call them - **claims**, you can use in
   This `payload` claim will be used to implicitly filter the points in the collection. It will be equivalent to appending this filter to each request:  
 
   ```json  
-  {"filter": {"must": [{"key": "user_id", "match": {"value": "user_123456"}}]}}  
+  { "filter": { "must": [{ "key": "user_id", "match": { "value": "user_123456" } }] } }  
   ```
-
 
 ### Table of access
 
