@@ -1,60 +1,45 @@
 {{ with (.Site.GetPage "/headless/footer") }}
   <footer class="footer">
-    <div class="container">
-      <div class="footer__top">
-        <div class="footer__top-content">
-          <div class="footer__social">
-            <div>
-              <img class="footer__logo" src="/img/logo-white.png" alt="Qdrant" />
+      <div class="footer__top container">
+        <div class="row gx-md-5">
+          <section class="col-12 col-md-5 col-lg-4">
+            <div class="mb-5">
+              <a href="/" title="Go to Home Page">
+                <img class="footer__logo" src="/img/logo-white.png" alt="Qdrant Logo" />
+              </a>
               <p class="footer__subtitle">{{ .Params.subtitle }}</p>
             </div>
-            <div class="footer__social-media-platforms">
+            <div class="footer__social-media-platforms mb-5">
               {{ range .Params.socialMedia }}
-                <a class="footer__social-media-link" href="{{ .url }}"> {{ .icon | safeHTML }} </a>
+                <a class="footer__social-media-link" href="{{ .url }}" target="_blank" rel="noopener noreferrer nofollow"> {{ .icon | safeHTML }} </a>
               {{ end }}
             </div>
-          </div>
-          <div class="footer__menu">
-            <div class="footer__menu-section">
-              <p class="footer__menu-section-title">{{ .Params.productMenu.title }}</p>
-              <ul class="footer__menu-items">
-                {{ range .Params.productMenu.items }}
-                  <li class="footer__menu-item">
-                    <a href="{{ .url }}">{{ .name }}</a>
-                  </li>
-                {{ end }}
-              </ul>
+          </section>
+          <nav class="col-12  col-md-7 col-lg-8">
+            <div class="row gx-lg-5 gy-5 gy-md-6">
+            {{ range .Params.menuItems }}
+              <div class="col-6 col-lg-4">
+                <p class="footer__menu-section-title">{{ .title }}</p>
+                <ul class="footer__menu-items">
+                  {{ range .items }}
+                    <li class="footer__menu-item">
+                      <a href="{{ .url }}" {{ if strings.HasPrefix .url "http" }} target="_blank" rel="noopener noreferrer nofollow"{{ end }} >{{ .name }}</a>
+                    </li>
+                  {{ end }}
+                </ul>
+              </div>
+            {{ end }}
             </div>
-            <div class="footer__menu-section">
-              <p class="footer__menu-section-title">{{ .Params.developerMenu.title }}</p>
-              <ul class="footer__menu-items">
-                {{ range .Params.developerMenu.items }}
-                  <li class="footer__menu-item">
-                    <a href="{{ .url }}">{{ .name }}</a>
-                  </li>
-                {{ end }}
-              </ul>
-            </div>
-            <div class="footer__menu-section">
-              <p class="footer__menu-section-title">{{ .Params.companyMenu.title }}</p>
-              <ul class="footer__menu-items">
-                {{ range .Params.companyMenu.items }}
-                  <li class="footer__menu-item">
-                    <a href="{{ .url }}">{{ .name }}</a>
-                  </li>
-                {{ end }}
-              </ul>
-            </div>
-          </div>
+          </nav>
         </div>
       </div>
-      <div class="footer__middle">
-        <div class="footer__middle-content">
-          <div class="footer__middle-newsletter">
+      <div class="footer__middle container">
+        <div class="align-items-center row">
+          <div class="col-12 col-md-4">
             <p class="footer__middle-title">{{ .Params.joinTitle }}</p>
             <p class="footer__middle-subtitle">{{ .Params.joinSubtitle }}</p>
           </div>
-          <div class="footer__middle-subscribe">
+          <div class="footer__middle-subscribe col-12 col-md-8">
             <input type="text" placeholder="Enter your email" />
             <a href="{{ .Params.subscribe.url }}" class="button button_contained button_lg"
               >{{ .Params.subscribe.text }}</a
@@ -62,7 +47,7 @@
           </div>
         </div>
       </div>
-      <div class="footer__bottom">
+      <div class="footer__bottom container">
         <div class="footer__bottom-content">
           <span>{{ .Params.copyright }}</span>
           <div class="footer__bottom-links">
@@ -71,6 +56,5 @@
           </div>
         </div>
       </div>
-    </div>
   </footer>
 {{ end }}
