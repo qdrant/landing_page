@@ -16,4 +16,5 @@ is_empty: true
 | [Nomic](./nomic/)             |
 | [Nvidia](./nvidia/)           |
 | [OpenAI](./openai/)           |
+| [Snowflake](./snowflake/)     |
 | [Voyage AI](./voyage/)        |
