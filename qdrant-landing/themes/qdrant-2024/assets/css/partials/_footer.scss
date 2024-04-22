@@ -97,8 +97,6 @@
   }
 
   &__middle {
-    display: flex;
-    justify-content: center;
     padding-top: $spacer * 2.5;
     padding-bottom: $spacer * 2.5;
     border-bottom: 1px solid $neutral-20;
@@ -186,12 +184,6 @@
       padding: 0;
       flex-direction: row;
       gap: 0;
-    }
-
-    &__middle-content {
-      padding: 0;
-      flex-direction: row;
-      align-items: center;
     }
 
     &__middle-newsletter {
