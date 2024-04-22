@@ -639,7 +639,7 @@ The `wal_delta` transfer method only transfers the difference between two
 shards. More specifically, it transfers all operations that were missed to the
 target shard. The [WAL] of both shards is used to resolve this. There are two
 benefits: 1. it will be very fast, because it only transfers the difference
-rather than all data. 2. The ordering guarantees can be `strong`[^ordered],
+rather than all data. 2. the ordering guarantees can be `strong`[^ordered],
 required for some applications. Two disadvantages are: 1. it can only be used to
 transfer to a shard that already exists on the other node. 2. applicability is
 limited because the WALs normally don't hold more than 64MB of recent
