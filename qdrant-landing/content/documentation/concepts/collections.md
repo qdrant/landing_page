@@ -451,6 +451,127 @@ the use of
 which is suitable for ingesting a large amount of data.
 
 
+### Vector datatypes
+
+*Available as of v1.9.0*
+
+Some embedding providers may provide embeddings in a pre-quantized format.
+One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings).
+Qdrant has direct support for uint8 embeddings, which you can also use in combination with binary quantization.
+
+To create a collection with uint8 embeddings, you can use the following configuration:
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+      "size": 1024,
+      "distance": "Cosine",
+      "datatype": "uint8"
+    }
+}
+```
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 1024,
+      "distance": "Cosine",
+      "datatype": "uint8"
+    }
+  }'
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(
+        size=1024,
+        distance=models.Distance.COSINE,
+        datatype=models.Datatype.UINT8,
+    ),
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    image: { size: 1024, distance: "Cosine", datatype: "uint8" },
+  },
+});
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Datatype, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+qdrant_client
+     .create_collection(&CreateCollection {
+         collection_name: "{collection_name}".into(),
+         vectors_config: Some(VectorsConfig {
+             config: Some(Config::Params(VectorParams {
+                 size: 1024,
+                 distance: Distance::Cosine.into(),
+                 datatype: Some(Datatype::Uint8.into()),
+                 ..Default::default()
+             })),
+         }),
+         ..Default::default()
+     })
+     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.grpc.Collections.Datatype;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+
+QdrantClient client = new QdrantClient(
+    QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync("{collection_name}",
+        VectorParams.newBuilder()
+            .setSize(1024)
+            .setDistance(Distance.Cosine)
+            .setDatatype(Datatype.Uint8)
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParams {
+    Size = 1024, Distance = Distance.Cosine, Datatype = Datatype.Uint8
+  }
+);
+```
+
+Vectors with `uint8` datatype are stored in a more compact format, which can save memory and improve search speed at the cost of some precision.
+If you choose to use the `uint8` datatype, elements of the vector will be stored as unsigned 8-bit integers, which can take values **from 0 to 255**.
+
+
 ### Collection with sparse vectors
 
 *Available as of v1.7.0*
