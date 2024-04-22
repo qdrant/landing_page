@@ -35,7 +35,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 5;
+    padding-top: $spacer * 2.5;
     padding-bottom: $spacer * 5;
 
     &__title {

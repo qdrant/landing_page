@@ -14,7 +14,7 @@ features:
     alt: Search text
   title: Advanced Indexing Method
   description: Leveraging HNSW indexing, Qdrant ensures rapid, accurate searches crucial for effective recommendation engines.
-- id: 1
+- id: 2
   icon:
     src: /icons/outline/headphones-blue.svg
     alt: Headphones

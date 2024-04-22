@@ -58,7 +58,7 @@
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
-    padding-bottom: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
 
     &__header {
       margin-bottom: $spacer * 5;
