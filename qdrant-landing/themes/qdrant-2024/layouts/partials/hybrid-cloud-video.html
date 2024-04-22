@@ -5,8 +5,8 @@
       {{ if .Params.youtube }}
         {{ partial "youtube-video" .Params.youtube }}
       {{ else if .Params.video }}
-      {{ partial "video" .Params.video }}
-        {{ end }}
+        {{ partial "video" .Params.video }}
+      {{ end }}
     </div>
   </section>
 {{ end }}

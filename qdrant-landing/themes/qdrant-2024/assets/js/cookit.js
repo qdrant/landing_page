@@ -1,18 +1,20 @@
-(function() {
-  window.cookit = function(options) {
-
+(function () {
+  window.cookit = function (options) {
     // SETTINGS
-    var settings = Object.assign({
-      backgroundColor: '#1c1c1c',
-      messageColor: '#fff',
-      linkColor: '#fad04c',
-      buttonColor: '#fad04c',
-      messageText: '<b>Do you hungry ?</b> 🍪 Pursuing navigation on this site, you accept the use of cookies.',
-      linkText: 'Learn more',
-      linkUrl: 'https://www.cookiesandyou.com',
-      buttonText: 'I accept',
-      lifetime: 365,
-    }, options);
+    var settings = Object.assign(
+      {
+        backgroundColor: '#1c1c1c',
+        messageColor: '#fff',
+        linkColor: '#fad04c',
+        buttonColor: '#fad04c',
+        messageText: '<b>Do you hungry ?</b> 🍪 Pursuing navigation on this site, you accept the use of cookies.',
+        linkText: 'Learn more',
+        linkUrl: 'https://www.cookiesandyou.com',
+        buttonText: 'I accept',
+        lifetime: 365,
+      },
+      options,
+    );
 
     // DOM ITEMS
     const body = document.body;
@@ -77,7 +79,7 @@
     // SET COOKIE
     function setCookie(name, value, days) {
       const date = new Date();
-      date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+      date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
       const expires = 'expires=' + date.toUTCString();
       document.cookie = name + '=' + value + ';' + expires + ';path=/;Secure';
     }
