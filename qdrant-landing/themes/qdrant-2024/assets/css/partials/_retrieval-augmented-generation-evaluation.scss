@@ -1,0 +1,81 @@
+@use '../helpers/functions' as *;
+
+.retrieval-augmented-generation-evaluation {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    color: $neutral-20;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__description {
+    color: $neutral-20;
+    margin-bottom: 0;
+
+    &:first-of-type {
+      margin-bottom: $spacer * 1.5;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    margin-top: $spacer * 2.5;
+  }
+
+  &__partners {
+    margin-top: $spacer * 5;
+
+    &-title {
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &-logos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: $spacer * 1.5 $spacer * 0.5;
+    }
+
+    &-logo {
+      width: $spacer * 10;
+      height: $spacer * 4;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 6.5;
+    padding-bottom: $spacer * 6.5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: rem(57);
+    }
+
+    &__description {
+      font-size: rem(18);
+      line-height: rem(27);
+      max-width: rem(445);
+
+      &:first-of-type {
+        margin-bottom: $spacer * 2.5;
+      }
+    }
+
+    &__image {
+      margin-top: 0;
+    }
+
+    &__partners {
+      margin-top: $spacer * 7.5;
+
+      &-title {
+        max-width: rem(445);
+        margin-bottom: 0;
+      }
+    }
+  }
+}

@@ -14,7 +14,8 @@
   }
 
   &__logo {
-    width: rem(120);
+    align-self: flex-start;
+    height: rem(64);
     margin-bottom: $spacer * 1.5;
   }
 
@@ -67,11 +68,26 @@
     justify-content: space-between;
 
     &__content {
+      display: flex;
+      flex-direction: column;
+      height: rem(472);
       padding: $spacer * 4 $spacer * 3 $spacer * 4 $spacer * 5;
     }
 
+    &__link {
+      flex-grow: 1;
+      display: flex;
+      align-items: flex-end;
+      justify-content: flex-start;
+    }
+
+    &__tiitle {
+      width: rem(520);
+    }
+
     &__description {
-      margin-bottom: $spacer * 5;
+      width: rem(520);
+      //margin-bottom: $spacer * 5;
     }
 
     &__preview {

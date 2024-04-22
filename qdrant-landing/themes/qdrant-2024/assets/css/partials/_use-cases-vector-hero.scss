@@ -54,6 +54,7 @@
     }
 
     &__title {
+      max-width: rem(480);
       font-size: $spacer * 3.5;
       line-height: rem(67);
     }
