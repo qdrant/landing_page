@@ -30,19 +30,19 @@ menuItems:
       - id: 2
         name: Enterprise Solutions
         url: /enterprise-solutions/
-      - id: 4
+      - id: 3
         name: Qdrant Cloud
         url: /cloud/
-      - id: 5
+      - id: 4
         name: Private Cloud
         url: /private-cloud/
-      - id: 6
+      - id: 5
         name: Hybrid Cloud
         url: /hybrid-cloud/
-      - id: 3
+      - id: 6
         name: Demos
         url: /demos-and-tutorials/
-      - id: 0
+      - id: 7
         name: Pricing
         url: /pricing/
   - title: Use Cases
