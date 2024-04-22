@@ -500,6 +500,30 @@ client.create_collection(
 )
 ```
 
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Datatype, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+qdrant_client
+     .create_collection(&CreateCollection {
+         collection_name: "{collection_name}".into(),
+         vectors_config: Some(VectorsConfig {
+             config: Some(Config::Params(VectorParams {
+                 size: 512,
+                 distance: Distance::Cosine.into(),
+                 datatype: Some(Datatype::Uint8.into()),
+                 ..Default::default()
+             })),
+         }),
+         ..Default::default()
+     })
+     .await?;
+```
+
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.grpc.Collections.Datatype;
