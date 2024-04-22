@@ -1195,7 +1195,7 @@ client.updateCollectionAsync(
     UpdateCollection.newBuilder()
         .setCollectionName("{collection_name}")
         .setOptimizersConfig(
-            OptimizersConfigDiff.newBuilder().build())
+            OptimizersConfigDiff.getDefaultInstance())
         .build());
 ```
 
