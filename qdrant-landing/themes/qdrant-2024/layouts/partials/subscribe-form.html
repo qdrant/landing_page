@@ -1,0 +1,10 @@
+<div id="{{- .id -}}" class="d-inline-block">
+    <script>
+      const options = {{- .hubspotFormOptions | safeJS -}};
+      hbspt.forms.create({
+        ...options,
+        pageId: '{{- .Permalink -}}',
+        target: "#{{- .id -}}",
+      });
+   </script>
+</div>

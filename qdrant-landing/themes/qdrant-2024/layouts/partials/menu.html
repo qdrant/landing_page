@@ -24,8 +24,11 @@
               {{ end }}
               {{ range .subMenuItems }}
                 <li class="main-menu__submenu-item">
-                  <a href="{{ .url }}" {{ if strings.HasPrefix .url "http" }} target="_blank" rel="noopener noreferrer nofollow"{{ end }} >
-                    <img src="/img/menu/{{ .icon }}" draggable="false"/>
+                  <a
+                    href="{{ .url }}"
+                    {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer nofollow"{{ end }}
+                  >
+                    <img src="/img/menu/{{ .icon }}" draggable="false" />
                     <span>{{ .name }}</span>
                   </a>
                 </li>
