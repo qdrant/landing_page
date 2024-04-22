@@ -560,26 +560,29 @@ Another use-case would be to have shards that track the data chronologically, so
 
 *Available as of v1.7.0*
 
-There are different methods for transferring, such as moving or replicating, a
-shard to another node. Depending on what performance and guarantees you'd like
-to have and how you'd like to manage your cluster, you likely want to choose a
-specific method. Each method has its own pros and cons. Which is fastest depends
-on the size and state of a shard.
+There are different methods for transferring a shard, such as moving or
+replicating, to another node. Depending on what performance and guarantees you'd
+like to have and how you'd like to manage your cluster, you likely want to
+choose a specific method. Each method has its own pros and cons. Which is
+fastest depends on the size and state of a shard.
 
 Available shard transfer methods are:
 
-- `stream_records`: _(default)_ transfer shard by streaming just its records to the target node in batches.
-- `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
+- `stream_records`: _(default)_ transfer by streaming just its records to the target node in batches.
+- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
+- `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL] difference; the operations that were missed.
 
-Each has pros, cons and specific requirements, which are:
+Each has pros, cons and specific requirements, some of which are:
 
-| Method: | Stream records | Snapshot |
-|:---|:---|:---|
-| **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
-| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Ordering** | <ul><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Ordered updates on target node[^ordered]</li></ul> |
-| **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
+| Method: | Stream records | Snapshot | WAL delta |
+|:---|:---|:---|:---|
+| **Version** | v0.8.0+ | v1.7.0+ | v1.8.0+ |
+| **Target** | New/existing shard | New/existing shard | Existing shard |
+| **Connectivity** | Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> | REST API <small>(<abbr title="port">6333</abbr>)</small><br>Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> | Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> |
+| **HNSW index** | Doesn't transfer, will reindex on target. | Does transfer, immediately ready on target. | Doesn't transfer, may index on target. |
+| **Quantization** | Doesn't  transfer, will requantize on target. | Does transfer, immediately ready on target. | Doesn't transfer, may quantize on target. |
+| **Ordering** | Unordered updates on target[^unordered] | Ordered updates on target[^ordered] | Ordered updates on target[^ordered] |
+| **Disk space** | No extra required | Extra required for snapshot on both nodes | No extra required |
 
 [^unordered]: Weak ordering for updates: All records are streamed to the target node in order.
     New updates are received on the target node in parallel, while the transfer
@@ -632,8 +635,23 @@ degradation in performance at the end of the transfer. Especially on large
 shards, this can give a huge performance improvement. 2. The ordering guarantees
 can be `strong`[^ordered], required for some applications.
 
+The `wal_delta` transfer method only transfers the difference between two
+shards. More specifically, it transfers all operations that were missed to the
+target shard. The [WAL] of both shards is used to resolve this. There are two
+benefits: 1. It will be very fast because it only transfers the difference
+rather than all data. 2. The ordering guarantees can be `strong`[^ordered],
+required for some applications. Two disadvantages are: 1. It can only be used to
+transfer to a shard that already exists on the other node. 2. Applicability is
+limited because the WALs normally don't hold more than 64MB of recent
+operations. But that should be enough for a node that quickly restarts, to
+upgrade for example. If a delta cannot be resolved, this method automatically
+falls back to `stream_records` which equals transferring the full shard.
+
 The `stream_records` method is currently used as default. This may change in the
-future.
+future. As of Qdrant 1.9.0 `wal_delta` is used for automatic shard replications
+to recover dead shards.
+
+[WAL]: ../../concepts/storage/#versioning
 
 ## Replication
 
@@ -1172,6 +1190,8 @@ sequentially.
 - `weak` _(default)_ ordering does not provide any additional guarantees, so write operations can be freely reordered.
 - `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change.
 - `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down.
+
+<aside role="status">Some <a href="#shard-transfer-method">shard transfer methods</a> may affect ordering guarantees.</aside>
 
 ```http
 PUT /collections/{collection_name}/points?ordering=strong
