@@ -1,0 +1,35 @@
+{{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-evaluation") }}
+  <section class="retrieval-augmented-generation-evaluation">
+    <div class="container">
+      <div class="row">
+        <div class="col-12 col-xl-6">
+          <h3 class="retrieval-augmented-generation-evaluation__title">{{ .Params.title }}</h3>
+          <p class="retrieval-augmented-generation-evaluation__description">{{ .Params.descriptionFirstPart }}</p>
+          <p class="retrieval-augmented-generation-evaluation__description">{{ .Params.descriptionSecondPart }}</p>
+        </div>
+        <div class="col-12 col-xl-6">
+          <img
+            class="retrieval-augmented-generation-evaluation__image"
+            src="{{ .Params.image.src }}"
+            alt="{{ .Params.image.alt }}"
+          />
+        </div>
+      </div>
+
+      <div class="retrieval-augmented-generation-evaluation__partners row">
+        <div class="col-12 col-xl-6">
+          <h6 class="retrieval-augmented-generation-evaluation__partners-title">{{ .Params.partnersTitle }}</h6>
+        </div>
+        <div class="retrieval-augmented-generation-evaluation__partners-logos col-12 col-xl-6">
+          {{ range .Params.logos }}
+            <img
+              class="retrieval-augmented-generation-evaluation__partners-logo"
+              src="{{ .icon.src }}"
+              alt="{{ .icon.alt }}"
+            />
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

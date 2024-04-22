@@ -1,0 +1,18 @@
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+    {{ with (.Site.GetPage "/data-analysis/data-analysis-hero") }}
+      {{ partial "use-cases-vector-hero" . }}
+    {{ end }}
+  </header>
+
+  {{ partial "data-analysis-anomaly-detection" . }}
+
+  {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+
+  {{ partial "get-started" . }}
+{{ end }}
