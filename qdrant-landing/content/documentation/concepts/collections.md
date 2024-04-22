@@ -625,7 +625,6 @@ As a result, you will not waste extra computation resources on rebuilding the in
 
 The following command enables indexing for segments that have more than 10000 kB of vectors stored:
 
-
 ```http
 PATCH /collections/{collection_name}
 {
@@ -1128,7 +1127,89 @@ The following color statuses are possible:
 
 - 🟢 `green`: collection is ready
 - 🟡 `yellow`: collection is optimizing
+- ⚫ `grey`: collection is pending optimization ([help](#grey-collection-status))
 - 🔴 `red`: an error occurred which the engine could not recover from
+
+### Grey collection status
+
+_Available as of v1.9.0_
+
+A collection may have the grey ⚫ status or show "optimizations pending,
+awaiting update operation" as optimization status. This state is normally caused
+by restarting a Qdrant instance while optimizations were ongoing.
+
+It means the collection has optimizations pending, but they are paused. You must
+send any update operation to trigger and start the optimizations again.
+
+For example:
+
+```http
+PATCH /collections/{collection_name}
+{
+    "optimizers_config": {}
+}
+```
+
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "optimizers_config": {}
+  }'
+```
+
+```python
+client.update_collection(
+    collection_name="{collection_name}",
+    optimizer_config=models.OptimizersConfigDiff(),
+)
+```
+
+```typescript
+client.updateCollection("{collection_name}", {
+  optimizers_config: {},
+});
+```
+
+```rust
+use qdrant_client::qdrant::OptimizersConfigDiff;
+
+client
+    .update_collection(
+        "{collection_name}",
+        &OptimizersConfigDiff::default(),
+        None,
+        None,
+        None,
+        None,
+        None,
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.UpdateCollection;
+
+client.updateCollectionAsync(
+    UpdateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setOptimizersConfig(
+            OptimizersConfigDiff.getDefaultInstance())
+        .build());
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+	collectionName: "{collection_name}",
+	optimizersConfig: new OptimizersConfigDiff { }
+);
+```
 
 ### Approximate point and vector counts
 
