@@ -1,3 +1,4 @@
+{{ with (.Site.GetPage "/headless/not-found") }}
 <section class="not-found">
   <div class="not-found__overlay"></div>
   <img class="not-found__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
@@ -14,3 +15,4 @@
     </div>
   </div>
 </section>
+{{ end }}
