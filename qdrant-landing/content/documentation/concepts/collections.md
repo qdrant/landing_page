@@ -472,7 +472,6 @@ PUT /collections/{collection_name}
 }
 ```
 
-
 ```bash
 curl -X PUT http://localhost:6333/collections/test_collection1 \
   -H 'Content-Type: application/json' \
@@ -513,7 +512,7 @@ qdrant_client
          collection_name: "{collection_name}".into(),
          vectors_config: Some(VectorsConfig {
              config: Some(Config::Params(VectorParams {
-                 size: 512,
+                 size: 1024,
                  distance: Distance::Cosine.into(),
                  datatype: Some(Datatype::Uint8.into()),
                  ..Default::default()
@@ -555,6 +554,58 @@ await client.CreateCollectionAsync(
     Size = 1024, Distance = Distance.Cosine, Datatype = Datatype.Uint8
   }
 );
+```
+
+```go
+package main
+
+import (
+	"context"
+	"flag"
+	"log"
+	"time"
+
+	pb "github.com/qdrant/go-client/qdrant"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/credentials/insecure"
+)
+
+var (
+	addr                  = flag.String("addr", "localhost:6334", "the address to connect to")
+	collectionName        = "{test_collection}"
+	vectorSize     uint64 = 1024
+	distance              = pb.Distance_Cosine
+    datatype              = pb.Datatype_Uint8
+)
+
+func main() {
+	flag.Parse()
+	// Set up a connection to the server.
+	conn, err := grpc.DialContext(context.Background(), *addr, grpc.WithTransportCredentials(insecure.NewCredentials()))
+	if err != nil {
+		log.Fatalf("Failed to connect: %v", err)
+	}
+	defer conn.Close()
+
+	// create grpc collection client
+	collections_client := pb.NewCollectionsClient(conn)
+
+	// Contact the server and print out its response.
+	ctx, cancel := context.WithTimeout(context.Background(), time.Minute)
+	defer cancel()
+
+	// Create new collection
+	_, err = collections_client.Create(ctx, &pb.CreateCollection{
+		CollectionName: collectionName,
+		VectorsConfig: &pb.VectorsConfig{Config: &pb.VectorsConfig_Params{
+			Params: &pb.VectorParams{
+				Size:     vectorSize,
+				Distance: distance,
+                Datatype: &datatype,
+			},
+		}}
+	})
+}
 ```
 
 Vectors with `uint8` datatype are stored in a more compact format, which can save memory and improve search speed at the cost of some precision.
