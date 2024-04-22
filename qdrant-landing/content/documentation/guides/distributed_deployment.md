@@ -645,7 +645,7 @@ transfer to a shard that already exists on the other node. 2. applicability is
 limited because the WALs normally don't hold more than 64MB of recent
 operations. But that should be enough for a node that quickly restarts, to
 upgrade for example. If a delta cannot be resolved, this method automatically
-falls back to `stream_records` which equals to transferring the full shard.
+falls back to `stream_records` which equals transferring the full shard.
 
 The `stream_records` method is currently used as default. This may change in the
 future. As of Qdrant 1.9.0 `wal_delta` is used for automatic shard replications
