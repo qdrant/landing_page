@@ -47,7 +47,7 @@
     }
 
     fieldset {
-      &.form-columns-1:has( > .legal-consent-container) {
+      &.form-columns-1:has(> .legal-consent-container) {
         width: auto;
         margin-bottom: 0;
         @include media-breakpoint-up(md) {

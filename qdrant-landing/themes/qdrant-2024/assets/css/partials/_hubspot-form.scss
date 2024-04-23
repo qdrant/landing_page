@@ -1,7 +1,6 @@
 @use '../helpers/functions' as *;
 
 form.hs-form {
-
   & > fieldset {
     min-width: 100%;
     margin-bottom: rem(20);
@@ -13,7 +12,8 @@ form.hs-form {
     }
 
     & > div.hs-form-field {
-      div.input, textarea {
+      div.input,
+      textarea {
         margin: 0;
       }
     }
@@ -23,7 +23,8 @@ form.hs-form {
 
       & > div.hs-form-field {
         div.input {
-          input, textarea {
+          input,
+          textarea {
             width: 100%;
           }
         }
@@ -37,7 +38,7 @@ form.hs-form {
 
       @include media-breakpoint-up(md) {
         justify-content: space-between;
-        flex-direction: row
+        flex-direction: row;
       }
 
       & > div.hs-form-field {
@@ -57,7 +58,8 @@ form.hs-form {
     border: 0;
     margin-bottom: 0;
 
-    input, textarea {
+    input,
+    textarea {
       width: 100%;
       background-color: transparent;
       border: 1px solid $neutral-40;
