@@ -19,45 +19,11 @@
     color: $neutral-70;
   }
 
-  &__inputs {
+  form {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    gap: rem(20);
-    margin: $spacer * 2 0;
-
-    &-block {
-      width: 100%;
-
-      label {
-        margin-bottom: rem(6);
-        font-size: rem(14);
-        line-height: rem(21);
-      }
-
-      textarea {
-        height: rem(77);
-        resize: none;
-      }
-    }
-  }
-
-  &__footer {
-    p {
-      margin-bottom: $spacer * 1.5;
-      font-size: rem(12);
-      line-height: rem(18);
-      color: $neutral-60;
-
-      a {
-        color: $neutral-80;
-        font-weight: 600;
-      }
-    }
-
-    button {
-      width: 100%;
-    }
+    flex-direction: column;
+    align-content: space-between;
+    margin-top: $spacer * 2;
   }
 
   &__top-overlay {
@@ -74,27 +40,5 @@
 
   @include media-breakpoint-up(xl) {
     padding: $spacer * 3 $spacer * 2.5;
-
-    &__inputs {
-      &-block {
-        &:nth-of-type(1),
-        &:nth-of-type(2) {
-          width: calc(50% - 12px);
-        }
-      }
-    }
-
-    &__footer {
-      display: flex;
-      justify-content: space-between;
-
-      p {
-        width: rem(288);
-      }
-
-      button {
-        width: auto;
-      }
-    }
   }
 }

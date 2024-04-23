@@ -1,6 +1,6 @@
 @use '../helpers/functions' as *;
 
-.input {
+input.input, textarea.input, select.input {
   // VARIABLES
   $height: (
     md: $spacer * 2.5,

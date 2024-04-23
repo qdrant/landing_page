@@ -1,10 +1,13 @@
 <div id="{{- .id -}}" {{ if .classes }}class="{{ .classes }}"{{ end }}>
     <script>
-      const options = {{- .hubspotFormOptions | safeJS -}};
-      hbspt.forms.create({
-        ...options,
-        pageId: '{{- .Permalink -}}',
-        target: "#{{- .id -}}",
-      });
+      (function() {
+        const options = {{- .hubspotFormOptions | safeJS -}};
+        hbspt.forms.create({
+          ...options,
+          formInstanceId: "{{- .context.Permalink -}}#{{- .id -}}",
+          pageId: "{{- .context.Permalink -}}",
+          target: "#{{- .id -}}",
+        });
+      })()
    </script>
 </div>

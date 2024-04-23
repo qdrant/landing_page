@@ -1,5 +1,4 @@
 @use '../helpers/functions' as *;
-@use '../mixins/mixins' as *;
 
 .subscribe-form {
   display: flex;
@@ -23,27 +22,9 @@
 
       input {
         width: 100%;
-        background-color: transparent;
-        border: 1px solid $neutral-40;
-        border-radius: 8px;
-        max-height: rem(40);
-        outline: none;
-        color: $neutral-98;
-        padding-left: $spacer;
-        padding-right: $spacer;
-        padding-top: calc($spacer / 2);
-        padding-bottom: calc($spacer / 2);
-
         @include media-breakpoint-up(lg) {
           width: rem(414);
         }
-
-        &::placeholder {
-          color: $neutral-70;
-        }
-      }
-      .error {
-        border-color: $error-50;
       }
     }
   }
@@ -77,9 +58,3 @@
   }
 }
 
-.submitted-message {
-  color: $success-90;
-  font-size: map-get($font-sizes-text, 'md');
-  line-height: rem(24);
-  text-align: right;
-}
