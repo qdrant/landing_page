@@ -43,4 +43,12 @@
       }
     }
   }
+
+  iframe {
+    width: 100%;
+    max-width: 920px;
+    aspect-ratio: 9/5.1;
+    border-radius: $spacer * 0.5;
+    overflow: hidden;
+  }
 }
