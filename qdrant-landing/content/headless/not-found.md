@@ -1,6 +1,6 @@
 ---
 description: Oops! We can't find the page you were looking for.
-image: 
+image:
   src: /img/404-galaxy.svg
   mobileSrc: /img/404-galaxy-mobile.svg
   alt: Galaxy
