@@ -69,6 +69,12 @@
     margin-top: $spacer * 4;
   }
 
+  .hs_error_rollup {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+  }
+
   &__top-overlay {
     position: absolute;
     right: 0;
