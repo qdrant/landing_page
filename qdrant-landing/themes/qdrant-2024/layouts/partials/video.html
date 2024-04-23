@@ -1,7 +1,3 @@
 <div class="video">
-  <button class="button button_outlined button_sm">
-    <img src="{{ .context.Params.video.icon.src }}" alt="{{ .context.Params.video.icon.alt }}" />
-    {{ .context.Params.video.button }}
-  </button>
-  <video src="{{ .context.Params.video.src }}" poster="{{ .context.Params.video.preview }}"></video>
+  <video src="{{ .src }}" poster="{{ .preview }}" controls></video>
 </div>
