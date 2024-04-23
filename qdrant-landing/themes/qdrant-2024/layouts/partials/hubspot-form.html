@@ -1,4 +1,4 @@
-<div id="{{- .id -}}" class="d-inline-block">
+<div id="{{- .id -}}" {{ if .classes }}class="{{ .classes }}"{{ end }}>
     <script>
       const options = {{- .hubspotFormOptions | safeJS -}};
       hbspt.forms.create({
