@@ -53,7 +53,7 @@ vn.connect_to_postgres(host='my-host', dbname='my-dbname', user='my-user', passw
 You can now train and begin querying your database with SQL.
 
 ```python
-# YOu can add DDL statements that specify table names, colume names, types, and potentially relationships
+# You can add DDL statements that specify table names, column names, types, and potentially relationships
 vn.train(ddl="""
     CREATE TABLE IF NOT EXISTS my-table (
         id INT PRIMARY KEY,
