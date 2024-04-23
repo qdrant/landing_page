@@ -17,18 +17,14 @@ cards:
 form:
   title: Connect with us
   description: Please let us know how we can help. Upon submission, we will provide meeting options should you wish to schedule time with our Sales team.
-  firstNameLabel: First Name
-  lastNameLabel: Last Name
-  workEmailLabel: Work Email
-  companyLabel: Company
-  businessPhoneLabel: Business Phone
-  jobFunctionLabel: Job Function
-  messageLabel: Message
-  info: By submitting, I confirm that I have read and understood the
-  link:
-    href: /
-    text: Privacy Policy
-  button: Send Message
+  id: contact-sales-form
+  hubspotFormOptions: '{
+    "region": "eu1",
+    "portalId": "139603372",
+    "formId": "fc7a9f1d-9d41-418d-a9cc-ef9c5fb9b207",
+    "submitButtonClass": "button button_contained",
+    "submitText": "Send Message"
+  }'
 logosSectionTitle: Qdrant is trusted by top-tier enterprises
 sitemapExclude: true
 ---

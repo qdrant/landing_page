@@ -20,10 +20,53 @@
   }
 
   form {
+    $last-row-margin: rem(34);
+
     display: flex;
-    flex-direction: column;
-    align-content: space-between;
     margin-top: $spacer * 2;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .hs_submit {
+      width: 100%;
+      text-align: center;
+      margin-top: $spacer;
+
+      @include media-breakpoint-up(md) {
+        width: 50%;
+        text-align: right;
+        margin-top: $last-row-margin;
+      }
+
+      input[type='submit'] {
+        width: 100%;
+        @include media-breakpoint-up(md) {
+          width: auto;
+        }
+      }
+    }
+
+    fieldset {
+      &.form-columns-1:has( > .legal-consent-container) {
+        width: auto;
+        margin-bottom: 0;
+        @include media-breakpoint-up(md) {
+          max-width: 50%;
+          min-width: 50%;
+        }
+      }
+
+      &:last-of-type {
+        @include media-breakpoint-up(md) {
+          margin-top: $last-row-margin;
+        }
+      }
+    }
+  }
+
+  .submitted-message {
+    text-align: center;
+    margin-top: $spacer * 4;
   }
 
   &__top-overlay {

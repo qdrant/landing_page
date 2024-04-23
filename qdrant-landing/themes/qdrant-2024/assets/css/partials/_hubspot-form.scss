@@ -3,6 +3,7 @@
 form.hs-form {
 
   & > fieldset {
+    min-width: 100%;
     margin-bottom: rem(20);
 
     label {
@@ -31,13 +32,22 @@ form.hs-form {
 
     &.form-columns-2 {
       display: flex;
-      justify-content: space-between;
+      flex-direction: column;
       gap: rem(20);
-      //margin-top: $spacer * 2 0;
+
+      @include media-breakpoint-up(md) {
+        justify-content: space-between;
+        flex-direction: row
+      }
+
       & > div.hs-form-field {
-        $remValue: rem(10);
-        max-width: calc(50% - #{$remValue});
+        width: 100%;
         float: none;
+
+        @include media-breakpoint-up(md) {
+          $remValue: rem(10);
+          max-width: calc(50% - #{$remValue});
+        }
       }
     }
   }
@@ -59,19 +69,19 @@ form.hs-form {
       padding-top: calc($spacer / 2);
       padding-bottom: calc($spacer / 2);
 
-      //input {
-      //  max-height: rem(40);
-      //}
-
-      textarea {
-        display: block;
-        height: rem(77);
-        resize: none;
+      &:focus {
+        border: 1px solid $neutral-100;
       }
 
       &::placeholder {
         color: $neutral-70;
       }
+    }
+
+    textarea {
+      display: block;
+      height: rem(77);
+      resize: none;
     }
 
     .error {
@@ -81,7 +91,6 @@ form.hs-form {
 
   .legal-consent-container {
     p {
-      margin-bottom: $spacer * 1.5;
       font-size: rem(12);
       line-height: rem(18);
       color: $neutral-60;
@@ -92,7 +101,6 @@ form.hs-form {
       }
     }
   }
-
 }
 
 .hs_submit {
@@ -113,21 +121,10 @@ form.hs-form {
   margin: 0;
   color: $error-50;
   font-size: $font-size-xs;
-  //@include media-breakpoint-up(lg) {
-  //  position: absolute;
-  //  bottom: calc(#{$hs-error-msgs-top-offset} * -1);
-  //
-  //  @for $i from 1 through 10 {
-  //    &:nth-of-type(#{$i}) {
-  //      bottom: calc((#{$hs-error-msgs-top-offset} + #{$i - 1} * rem(40)) * -1);
-  //    }
-  //  }
-  //}
 }
 
 .submitted-message {
   color: $success-90;
   font-size: map-get($font-sizes-text, 'md');
   line-height: rem(24);
-  text-align: right;
 }
