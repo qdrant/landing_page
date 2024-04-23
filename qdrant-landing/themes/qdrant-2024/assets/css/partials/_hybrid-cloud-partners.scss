@@ -25,7 +25,7 @@
   }
 
   &__cards {
-    @include marquee.base(96px, 264px, 10, 10, 12px, $neutral-94, false, 50s, none);
+    @include marquee.base(96px, 264px, 20, 20, 12px, $neutral-94, false, 50s, none);
 
     &__container {
       z-index: 2;
