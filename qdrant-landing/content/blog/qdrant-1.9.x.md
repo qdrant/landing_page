@@ -84,5 +84,5 @@ PUT /collections/{collection_name}
 - Cancel shard transfers when the shard is deleted - [#3784](https://github.com/qdrant/qdrant/pull/3784)
 - Improve sparse vectors search performance by another 7% - [#4037](https://github.com/qdrant/qdrant/pull/4037)
 - Build Qdrant with a single codegen unit to allow better compile-time optimizations - [#3982](https://github.com/qdrant/qdrant/pull/3982)
-- Remove `vectors_count` from collection info because it is unreliable. **Check usage of this field before upgrading** - [#4052](https://github.com/qdrant/qdrant/pull/4052)
+- Remove `vectors_count` from collection info because it is unreliable. **Check if you use this field before upgrading** - [#4052](https://github.com/qdrant/qdrant/pull/4052)
 - Remove shard transfer method field from abort shard transfer operation - [#3803](https://github.com/qdrant/qdrant/pull/3803)
