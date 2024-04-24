@@ -31,6 +31,5 @@ form:
     href: /
     text: Privacy Policy
   button: Send Message
-sitemapExclude: true
 ---
 

@@ -3,7 +3,7 @@
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
-    {{ with (.Site.GetPage "/advanced-search/advanced-search-hero") }}
+    {{ with (.Site.GetPage "/advanced-search/headless/advanced-search-hero") }}
       {{ partial "use-cases-vector-hero" . }}
     {{ end }}
   </header>

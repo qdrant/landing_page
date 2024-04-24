@@ -317,6 +317,4 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
     render = 'never'
   [cascade._target]
     environment = '{production}'
-    path = '{**.skip,**.skip/*}'
-
-
+    path = '{**.skip,**.skip/*,**.headless,**headless**}'

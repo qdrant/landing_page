@@ -3,7 +3,7 @@
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
-    {{ with (.Site.GetPage "/data-analysis/data-analysis-hero") }}
+    {{ with (.Site.GetPage "/data-analysis/headless/data-analysis-hero") }}
       {{ partial "use-cases-vector-hero" . }}
     {{ end }}
   </header>

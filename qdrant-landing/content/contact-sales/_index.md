@@ -30,6 +30,5 @@ form:
     text: Privacy Policy
   button: Send Message
 logosSectionTitle: Qdrant is trusted by top-tier enterprises
-sitemapExclude: true
 ---
 
