@@ -1,1 +1,15 @@
-{{ define "main" }}{{ end }}
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+  </header>
+
+  <div class="container my-5">
+    <div class="qdrant-post">
+      <div class="qdrant-post__content">
+        {{ partial "article-content" . }}
+      </div>
+    </div>
+  </div>
+{{ end }}

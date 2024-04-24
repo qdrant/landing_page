@@ -17,6 +17,10 @@
   <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
   <meta name="theme-color" content="#ffffff" />
 
+  {{ if (eq .Params.type "external-link") }}
+    <meta http-equiv="refresh" content="0; url={{ .Params.external_url }}" />
+  {{ end }}
+
   {{ partial "css" . }}
 
   {{ partial "seo_schema" . }}
