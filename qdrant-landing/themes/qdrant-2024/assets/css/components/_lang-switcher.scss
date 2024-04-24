@@ -1,3 +1,5 @@
+@use '../helpers/functions' as *;
+
 $tabs-bg-color: $neutral-30;
 $tabs-bg-color-active: $neutral-20;
 $tabs-bg-color-hover: $neutral-40;
@@ -6,19 +8,25 @@ $tabs-font-color-active: $neutral-90;
 $tabs-font-color-hover: $neutral-90;
 
 .lang-tabs {
-  display: flex;
-  align-items: flex-start;
-  align-self: stretch;
-  background: $tabs-bg-color;
-  border-top-left-radius: $code-snippet-border-radius;
-  border-top-right-radius: $code-snippet-border-radius;
   position: relative;
 
-  &:after {
-    content: '';
+  &__wrapper {
+    display: flex;
+    align-items: flex-start;
+    align-self: stretch;
+    background: $tabs-bg-color;
+    border-top-left-radius: $code-snippet-border-radius;
+    border-top-right-radius: $code-snippet-border-radius;
+    position: relative;
+    overflow-x: scroll;
+    overflow-y: hidden;
+  }
+
+  &__overlay {
     display: block;
     height: 0.7rem;
     background: $tabs-bg-color-active;
+    width: 100%;
     position: absolute;
     bottom: -0.7rem;
     left: 0;
@@ -26,79 +34,71 @@ $tabs-font-color-hover: $neutral-90;
     z-index: 1;
   }
 
+  &__text {
+    display: none;
+    @include media-breakpoint-up(md) {
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+  }
+
+  &__icon {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    background-color: $tabs-font-color;
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+    -webkit-mask-image: url('/icons/outline/http.svg');
+    mask-image: url('/icons/outline/http.svg');
+
+    &_python {
+      -webkit-mask-image: url('/icons/outline/python.svg');
+      mask-image: url('/icons/outline/python.svg');
+    }
+
+    &_typescript {
+      -webkit-mask-image: url('/icons/outline/typescript.svg');
+      mask-image: url('/icons/outline/typescript.svg');
+    }
+
+    &_rust {
+      -webkit-mask-image: url('/icons/outline/rust.svg');
+      mask-image: url('/icons/outline/rust.svg');
+    }
+
+    &_java {
+      -webkit-mask-image: url('/icons/outline/java.svg');
+      mask-image: url('/icons/outline/java.svg');
+    }
+
+    &_csharp {
+      -webkit-mask-image: url('/icons/outline/csharp.svg');
+      mask-image: url('/icons/outline/csharp.svg');
+    }
+  }
+
   &__button {
     display: flex;
+    height: 44px;
     padding: 10px 20px;
     justify-content: center;
     align-items: center;
     gap: 8px;
     color: $tabs-font-color;
     position: relative;
-    text-indent: -9999px;
     flex-wrap: wrap;
-
-    &:first-of-type {
-      border-top-left-radius: $code-snippet-border-radius;
-    }
-    &:last-of-type {
-      border-top-right-radius: $code-snippet-border-radius;
-    }
-
-    @include media-breakpoint-up(md) {
-      text-indent: unset;
-    }
-
-    &:before {
-      content: '';
-      display: inline-block;
-      width: 16px;
-      height: 16px;
-      background-color: $tabs-font-color;
-      mask-size: contain;
-      mask-repeat: no-repeat;
-      mask-position: center;
-      -webkit-mask-image: url('/icons/outline/http.svg');
-      mask-image: url('/icons/outline/http.svg');
-    }
-
-    &_python {
-      &:before {
-        -webkit-mask-image: url('/icons/outline/python.svg');
-        mask-image: url('/icons/outline/python.svg');
-      }
-    }
-    &_typescript {
-      &:before {
-        -webkit-mask-image: url('/icons/outline/typescript.svg');
-        mask-image: url('/icons/outline/typescript.svg');
-      }
-    }
-    &_rust {
-      &:before {
-        -webkit-mask-image: url('/icons/outline/rust.svg');
-        mask-image: url('/icons/outline/rust.svg');
-      }
-    }
-    &_java {
-      &:before {
-        -webkit-mask-image: url('/icons/outline/java.svg');
-        mask-image: url('/icons/outline/java.svg');
-      }
-    }
-    &_csharp {
-      &:before {
-        -webkit-mask-image: url('/icons/outline/csharp.svg');
-        mask-image: url('/icons/outline/csharp.svg');
-      }
-    }
 
     &:not(.active):hover {
       background: $tabs-bg-color-hover;
       color: $tabs-font-color-hover;
       cursor: pointer;
-      &:before {
+
+      .lang-tabs__icon {
         background-color: $tabs-font-color-hover;
       }
+
       &:after {
         content: '';
         position: absolute;
@@ -110,7 +110,7 @@ $tabs-font-color-hover: $neutral-90;
         z-index: 1;
       }
 
-      & .lang-tabs__icon {
+      .lang-tabs__icon {
         background-color: $tabs-font-color-hover;
       }
     }
@@ -118,9 +118,11 @@ $tabs-font-color-hover: $neutral-90;
     &.active {
       background: $tabs-bg-color-active;
       color: $tabs-font-color-active;
-      &:before {
+
+      .lang-tabs_icon {
         background-color: $tabs-font-color-active;
       }
+
       &:after {
         content: '';
         position: absolute;

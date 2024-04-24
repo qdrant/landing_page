@@ -12,17 +12,22 @@
       this.langButtons = null;
     }
 
-    /**
-     * creates tabs with languages names in the interface
-     */
     initLangButtons() {
       if (this.tabs.length < 2) {
         return null;
       }
-      // create a wrapper element
       this.langButtons = document.createElement('div');
       this.langButtons.classList.add('lang-tabs');
-      // adds a button for each tab
+
+      // create a wrapper for the buttons
+      const buttonWrapper = document.createElement('div');
+      buttonWrapper.classList.add('lang-tabs__wrapper');
+      this.langButtons.append(buttonWrapper);
+
+      const overlay = document.createElement('div');
+      overlay.classList.add('lang-tabs__overlay');
+      this.langButtons.append(overlay);
+
       this.tabs.forEach((tab, i) => {
         const lang = this.getLang(tab);
         let button = document.createElement('span');
@@ -31,8 +36,7 @@
         i == 0 && button.classList.add('active');
         button.dataset.lang = lang;
         button.innerHTML = `<i class="lang-tabs__icon lang-tabs__icon_${lang}"></i><span class="lang-tabs__text">${lang}</span>`;
-        // append new button into wrapper element
-        this.langButtons.append(button);
+        buttonWrapper.append(button);
       });
       this.tabs[0].before(this.langButtons);
     }
