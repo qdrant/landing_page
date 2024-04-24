@@ -3,6 +3,9 @@
   {{- partial "head.html" . -}}
   <body>
     <main>
+      {{ if (eq .Params.type "external-link") }}
+        Redirecting to <a href="{{ .Params.external_url }}">external page</a>...
+      {{ end }}
       {{ block "main" . }}{{ end }}
     </main>
     {{ partial "footer" . }}

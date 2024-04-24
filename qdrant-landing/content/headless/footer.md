@@ -110,7 +110,7 @@ menuItems:
 copyright: © 2024 Qdrant. All Rights Reserved
 termsLink:
   text: Terms
-  url: /legal/terms-and-conditions/
+  url: /legal/terms_and_conditions/
 privacyLink:
   text: Privacy Policy
   url: /legal/privacy-policy/
