@@ -20,6 +20,10 @@ $tabs-font-color-hover: $neutral-90;
     position: relative;
     overflow-x: scroll;
     overflow-y: hidden;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+      display: none;
+    }
   }
 
   &__overlay {
