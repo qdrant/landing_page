@@ -1,8 +1,37 @@
 @use '../helpers/functions' as *;
 
 .docs-menu {
-  padding: $spacer * 1.5 $spacer * 2.5;
   background-color: $neutral-20;
+  border-top: 1px solid $neutral-30;
+
+  &--active {
+    .docs-menu__content {
+      display: block;
+    }
+
+    .docs-menu__header .docs-menu__button svg {
+      transform: rotate(180deg);
+    }
+  }
+
+  &__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: rem(15) rem(20);
+  }
+
+  &__header h2 {
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
+    color: $neutral-98;
+    margin: 0;
+  }
+
+  &__content {
+    display: none;
+    padding: $spacer * 1.5 $spacer * 2.5;
+  }
 
   &__input {
     position: relative;
