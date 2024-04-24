@@ -30,11 +30,13 @@ Historically, our API key supported basic read and write operations. However, re
 
 Qdrant now supports [granular access control using JSON Web Tokens (JWT)](/documentation/guides/security/#granular-access-control-with-jwt). JWT will let you easily limit a user's access to the specific data they are permitted to view. Specifically, JWT-based authentication leverages tokens with restricted access to designated data segments, laying the foundation for implementing role-based access control (RBAC) on top of it. **You will be able to define permissions for users and restrict access to sensitive endpoints.**
 
-> **Documentation:** [Read the access level breakdown](/documentation/guides/security/#table-of-access) to see which actions are allowed or denied.
-
-We highly recommend this for enterprises using [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/), as it is tailored to those who need additional control over company data and user access. RBAC empowers administrators to define roles and assign specific privileges to users based on their roles within the organization. In combination with [Hybrid Cloud's data sovereign architecture](/documentation/hybrid-cloud/), this feature reinforces internal security and efficient collaboration by granting access only to relevant resources.
-
 **Dashboard users:** For your convenience, we have added a JWT generation tool the Qdrant Web UI under the 🔑 tab. If you're using the default url, you will find it at `http://localhost:6333/dashboard#/jwt`.
+
+![jwt-web-ui](/blog/qdrant-1.9.x/jwt-web-ui.png)
+
+We highly recommend this feature to enterprises using [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/), as it is tailored to those who need additional control over company data and user access. RBAC empowers administrators to define roles and assign specific privileges to users based on their roles within the organization. In combination with [Hybrid Cloud's data sovereign architecture](/documentation/hybrid-cloud/), this feature reinforces internal security and efficient collaboration by granting access only to relevant resources.
+
+> **Documentation:** [Read the access level breakdown](/documentation/guides/security/#table-of-access) to see which actions are allowed or denied.
 
 ## Faster shard transfers on node recovery
 
