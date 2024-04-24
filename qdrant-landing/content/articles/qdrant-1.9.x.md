@@ -77,12 +77,12 @@ PUT /collections/{collection_name}
 
 ## Minor improvements and new features
 
-- Greatly improve write performance while creating a snapshot of a large collection - [3420](https://github.com/qdrant/qdrant/pull/3420), [3938](https://github.com/qdrant/qdrant/pull/3938) 
-- Report pending optimizations awaiting an update operation in collection info - [3962](https://github.com/qdrant/qdrant/pull/3962), [3971](https://github.com/qdrant/qdrant/pull/3971) 
-- Improve `indexed_only` reliability on proxy shards - [3998](https://github.com/qdrant/qdrant/pull/3998) 
-- Make shard diff transfer fall back to streaming records - [3798](https://github.com/qdrant/qdrant/pull/3798) 
-- Cancel shard transfers when the shard is deleted - [3784](https://github.com/qdrant/qdrant/pull/3784) 
-- Improve sparse vectors search performance by another 7% - [4037](https://github.com/qdrant/qdrant/pull/4037) 
-- Build Qdrant with a single codegen unit to allow better compile-time optimizations - [3982](https://github.com/qdrant/qdrant/pull/3982) 
-- Remove `vectors_count` from collection info because it is unreliable. **Check usage of this field before upgrading** - [4052](https://github.com/qdrant/qdrant/pull/4052) 
-- Remove shard transfer method field from abort shard transfer operation - [3803](https://github.com/qdrant/qdrant/pull/3803) 
+- Greatly improve write performance while creating a snapshot of a large collection - [#3420](https://github.com/qdrant/qdrant/pull/3420), [#3938](https://github.com/qdrant/qdrant/pull/3938)
+- Report pending optimizations awaiting an update operation in collection info - [#3962](https://github.com/qdrant/qdrant/pull/3962), [#3971](https://github.com/qdrant/qdrant/pull/3971)
+- Improve `indexed_only` reliability on proxy shards - [#3998](https://github.com/qdrant/qdrant/pull/3998)
+- Make shard diff transfer fall back to streaming records - [#3798](https://github.com/qdrant/qdrant/pull/3798)
+- Cancel shard transfers when the shard is deleted - [#3784](https://github.com/qdrant/qdrant/pull/3784)
+- Improve sparse vectors search performance by another 7% - [#4037](https://github.com/qdrant/qdrant/pull/4037)
+- Build Qdrant with a single codegen unit to allow better compile-time optimizations - [#3982](https://github.com/qdrant/qdrant/pull/3982)
+- Remove `vectors_count` from collection info because it is unreliable. **Check usage of this field before upgrading** - [#4052](https://github.com/qdrant/qdrant/pull/4052)
+- Remove shard transfer method field from abort shard transfer operation - [#3803](https://github.com/qdrant/qdrant/pull/3803)
