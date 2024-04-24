@@ -52,7 +52,7 @@ For more details on how this works, check out the [shard transfer documentation]
 
 > **Note:** There are limitations to consider. First, this method only works with existing shards. Second, while the WALs typically retain recent operations, their capacity is finite, potentially impeding the transfer process if exceeded. Nevertheless, for scenarios like rapid node restarts or upgrades, where the WAL content remains manageable, WAL delta transfer is an efficient solution.
 
-Overall, this is a great optional optimization measure and serves as the **auto-recovery default for shard transfers**. By minimizing data redundancy and expediting transfer processes, it alleviates the strain on the cluster during recovery phases, enabling faster node catch-up.
+Overall, this is a great optional optimization measure and serves as the **auto-recovery default for shard transfers**. It's safe to use everywhere because it'll automatically fall back to streaming records transfer if no difference can be resolved. By minimizing data redundancy and expediting transfer processes, it alleviates the strain on the cluster during recovery phases, enabling faster node catch-up.
 
 ## Native support for uint8 embeddings
 
