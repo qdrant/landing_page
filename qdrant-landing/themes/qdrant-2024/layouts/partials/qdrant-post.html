@@ -1,5 +1,5 @@
 <section class="qdrant-post">
-  <div class="container">
+  <article class="container">
     <div class="qdrant-post__header">
       <h2 class="qdrant-post__title">{{ .Params.title }}</h2>
       <div class="qdrant-post__about">
@@ -16,7 +16,7 @@
     </div>
 
     <div class="qdrant-post__body">
-      <div class="qdrant-post__social">
+      <section class="qdrant-post__social">
         <p class="qdrant-post__social-title">Share</p>
         <div class="qdrant-post__social-links">
           <a href="/">
@@ -45,11 +45,11 @@
             </svg>
           </a>
         </div>
-      </div>
+      </section>
 
       <div class="qdrant-post__content">
         {{ partial "article-content" . }}
       </div>
     </div>
-  </div>
+  </article>
 </section>
