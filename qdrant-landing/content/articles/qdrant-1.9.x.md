@@ -67,7 +67,7 @@ PUT /collections/{collection_name}
 {
     "vectors": {
       "size": 1024,
-      "distance": "Cosine",
+      "distance": "Dot",
       "datatype": "uint8"
     }
 }
