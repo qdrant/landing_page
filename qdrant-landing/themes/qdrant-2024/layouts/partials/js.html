@@ -24,8 +24,16 @@
   <script src="{{ $splideJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if eq .Section "documentation" }}
-  <!--todo: only where this needed-->
+{{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentation") .Section) }}
   {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+
+  <!--popper.js for bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+  {{ $copyCodeJs := resources.Get "/js/copy-code.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $copyCodeJs.RelPermalink }}"></script>
+
+  {{ $langSwitcherJs := resources.Get "/js/lang-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $langSwitcherJs.RelPermalink }}"></script>
 {{ end }}
