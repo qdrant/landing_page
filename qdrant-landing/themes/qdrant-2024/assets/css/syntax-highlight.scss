@@ -9,9 +9,10 @@ code:not([class]) {
 /* Background */
 .highlight {
   position: relative;
-  border: 1px solid $neutral-98;
+  border: 0;
   background: $neutral-20;
   margin-bottom: 1rem;
+  border-radius: $code-snippet-border-radius;
 }
 .highlight + .highlight {
   display: none;
@@ -19,6 +20,7 @@ code:not([class]) {
 .highlight > pre {
   margin: 0;
   padding: 1rem;
+  border-radius: $code-snippet-border-radius;
 }
 /* PreWrapper */
 .chroma {

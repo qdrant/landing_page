@@ -24,7 +24,7 @@
   <script src="{{ $splideJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentations") .Section) }}
+{{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentation") .Section) }}
   {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 
@@ -33,4 +33,7 @@
 
   {{ $copyCodeJs := resources.Get "/js/copy-code.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $copyCodeJs.RelPermalink }}"></script>
+
+  {{ $langSwitcherJs := resources.Get "/js/lang-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $langSwitcherJs.RelPermalink }}"></script>
 {{ end }}
