@@ -2,8 +2,9 @@
 
 .top-banner {
   display: flex;
-  height: rem(40);
   justify-content: center;
+  padding-top: $spacer * 0.5;
+  padding-bottom: $spacer * 0.5;
   align-items: center;
   gap: $spacer * 1.5;
   border-bottom: 1px solid #f4f6ff;
