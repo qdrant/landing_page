@@ -30,7 +30,7 @@
         button.classList.add(`lang-tabs__button_${lang}`);
         i == 0 && button.classList.add('active');
         button.dataset.lang = lang;
-        button.innerText = lang;
+        button.innerHTML = `<i class="lang-tabs__icon lang-tabs__icon_${lang}"></i><span class="lang-tabs__text">${lang}</span>`;
         // append new button into wrapper element
         this.langButtons.append(button);
       });
@@ -95,7 +95,10 @@
     const tabBtns = langSwitcher.getLangButtons();
     if (tabBtns) {
       langSwitcher.getLangButtons().addEventListener('click', (e) => {
-        e.target?.dataset?.lang && langSwitcher.switchLanguage(e.target.dataset.lang);
+        const button = e.target.closest('.lang-tabs__button');
+        if (button && button.dataset.lang) {
+          langSwitcher.switchLanguage(button.dataset.lang);
+        }
       });
     }
   });
