@@ -29,7 +29,7 @@ code:not([class]) {
 }
 /* Error */
 .chroma .err {
-  color: var(--neutral-n-700, #1f3266);
+  color: $neutral-98;
 }
 /* CodeLine */
 .chroma .cl {
