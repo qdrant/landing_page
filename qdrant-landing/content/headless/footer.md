@@ -122,7 +122,7 @@ hubspotFormOptions: '{
     "formId": "049d96c6-ef65-4e41-ba69-a3335b9334cf",
     "cssClass": "subscribe-form",
     "submitButtonClass": "button button_contained button_lg",
-    "submitText": "Subscribe",
+    "submitText": "Subscribe"
   }'
 sitemapExclude: true
 ---

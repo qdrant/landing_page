@@ -19,45 +19,60 @@
     color: $neutral-70;
   }
 
-  &__inputs {
+  form {
+    $last-row-margin: rem(34);
+
     display: flex;
+    margin-top: $spacer * 2;
     flex-wrap: wrap;
     justify-content: space-between;
-    gap: rem(20);
-    margin: $spacer * 2 0;
 
-    &-block {
+    .hs_submit {
       width: 100%;
+      text-align: center;
+      margin-top: $spacer;
 
-      label {
-        margin-bottom: rem(6);
-        font-size: rem(14);
-        line-height: rem(21);
+      @include media-breakpoint-up(md) {
+        width: 50%;
+        text-align: right;
+        margin-top: $last-row-margin;
       }
 
-      textarea {
-        height: rem(77);
-        resize: none;
+      input[type='submit'] {
+        width: 100%;
+        @include media-breakpoint-up(md) {
+          width: auto;
+        }
+      }
+    }
+
+    fieldset {
+      &.form-columns-1:has(> .legal-consent-container) {
+        width: auto;
+        margin-bottom: 0;
+        @include media-breakpoint-up(md) {
+          max-width: 50%;
+          min-width: 50%;
+        }
+      }
+
+      &:last-of-type {
+        @include media-breakpoint-up(md) {
+          margin-top: $last-row-margin;
+        }
       }
     }
   }
 
-  &__footer {
-    p {
-      margin-bottom: $spacer * 1.5;
-      font-size: rem(12);
-      line-height: rem(18);
-      color: $neutral-60;
+  .submitted-message {
+    text-align: center;
+    margin-top: $spacer * 4;
+  }
 
-      a {
-        color: $neutral-80;
-        font-weight: 600;
-      }
-    }
-
-    button {
-      width: 100%;
-    }
+  .hs_error_rollup {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
   }
 
   &__top-overlay {
@@ -74,27 +89,5 @@
 
   @include media-breakpoint-up(xl) {
     padding: $spacer * 3 $spacer * 2.5;
-
-    &__inputs {
-      &-block {
-        &:nth-of-type(1),
-        &:nth-of-type(2) {
-          width: calc(50% - 12px);
-        }
-      }
-    }
-
-    &__footer {
-      display: flex;
-      justify-content: space-between;
-
-      p {
-        width: rem(288);
-      }
-
-      button {
-        width: auto;
-      }
-    }
   }
 }
