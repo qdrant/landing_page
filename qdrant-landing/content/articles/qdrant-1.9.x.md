@@ -23,7 +23,7 @@ tags:
 [Qdrant 1.9.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.9.0) This version complements the release of our new managed product [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) with key security features valuable to our enterprise customers, and all those looking to productionize large-scale Generative AI. **Data privacy, system stability and resource optimizations** are always on our mind - so let's see what's new:
 
 - **Granular access control:** You can further specify access control levels by using JSON Web Tokens. 
-- **Optimized shard transfers:** The transfer of shards between nodes is now significantly faster!
+- **Optimized shard transfers:** The synchronization of shards between nodes is now significantly faster!
 - **Support for byte embeddings:** Reduce the memory footprint of Qdrant with official `uint8` support.
 
 ## New access control options via JSON Web Tokens
