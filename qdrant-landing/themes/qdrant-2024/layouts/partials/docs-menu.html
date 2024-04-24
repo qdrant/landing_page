@@ -1,2 +1,63 @@
 {{ with (.Site.GetPage "/headless/docs-menu") }}
+  <div class="docs-menu">
+    <div class="docs-menu__input">
+      {{ partial "svg" "search-white.svg" }}
+      <input
+        class="input input_md input_light-bg"
+        type="text"
+        name="search"
+        value=""
+        placeholder="{{ .Params.search }}"
+        required=""
+      />
+    </div>
+    <ul class="docs-menu__links">
+      {{ range .Params.menuSections }}
+        <li class="docs-menu__section">
+          <h2 class="docs-menu__title">{{ .title }}</h2>
+          {{ if .menuItems }}
+            <ul class="docs-menu__menu">
+              {{ range .menuItems }}
+                <li class="docs-menu__menu-item" data-path="{{ .id }}" onclick="toggleMenu('{{ .id }}')">
+                  <div class="docs-menu__menu-item-content">
+                    <span>{{ .name }}</span>
+                    {{ if .subMenuItems }}
+                      <button type="button" class="docs-menu__button">{{ partial "svg" "angle-sm-right.svg" }}</button>
+                    {{ end }}
+                    {{ if .isExternalUrl }}
+                      <button type="button" class="docs-menu__button">{{ partial "svg" "external-link.svg" }}</button>
+                    {{ end }}
+                  </div>
+                  {{ if .subMenuItems }}
+                    <ul class="docs-menu__submenu">
+                      {{ range .subMenuItems }}
+                        <li class="docs-menu__submenu-item">
+                          <a
+                            href="{{ .url }}"
+                            {{ if strings.HasPrefix .url "http" }}
+                              target="_blank" rel="noopener noreferrer nofollow"
+                            {{ end }}
+                          >
+                            <span>{{ .name }}</span>
+                          </a>
+                        </li>
+                      {{ end }}
+                    </ul>
+                  {{ end }}
+                </li>
+              {{ end }}
+            </ul>
+          {{ end }}
+        </li>
+      {{ end }}
+    </ul>
+  </div>
+  <script>
+    function toggleMenu(id) {
+      const menuItem = document.querySelector(`[data-path=${id}]`);
+      if (menuItem) {
+        menuItem.classList.toggle('docs-menu__menu-item--active');
+      }
+    }
+  </script>
 {{ end }}

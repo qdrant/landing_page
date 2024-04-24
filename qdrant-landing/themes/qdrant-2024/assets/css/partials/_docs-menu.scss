@@ -1,0 +1,106 @@
+@use '../helpers/functions' as *;
+
+.docs-menu {
+  padding: $spacer * 1.5 $spacer * 2.5;
+  background-color: $neutral-20;
+
+  &__input {
+    position: relative;
+  }
+
+  &__input svg {
+    position: absolute;
+    top: 50%;
+    left: $spacer;
+    transform: translateY(-50%);
+  }
+
+  &__input input {
+    padding-left: $spacer * 2.5;
+  }
+
+  &__links {
+    padding: 0;
+    margin-top: $spacer * 1.5;
+    list-style: none;
+  }
+
+  &__title {
+    color: $neutral-98;
+    font-weight: bold;
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
+    margin: 0 0 $spacer;
+  }
+
+  &__section {
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__section:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &__menu {
+    color: $neutral-70;
+    list-style: none;
+    padding: 0;
+  }
+
+  &__menu-item {
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+    margin-bottom: rem(12);
+  }
+
+  &__menu-item--active {
+    .docs-menu__submenu {
+      display: block;
+    }
+
+    .docs-menu__button svg {
+      transform: rotate(90deg);
+    }
+  }
+
+  &__menu-item:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &__menu-item-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__button {
+    padding: 0;
+    outline: none;
+    border: none;
+    background-color: transparent;
+    width: rem(24);
+    height: rem(24);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__submenu {
+    display: none;
+    list-style: none;
+    padding-left: $spacer;
+    margin-top: calc($spacer / 2);
+  }
+
+  &__submenu-item {
+    margin-bottom: calc($spacer / 2);
+  }
+
+  &__submenu-item:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &__submenu-item a {
+    color: $neutral-70;
+  }
+}

@@ -1,7 +1,7 @@
 ---
 title: Docs Menu
 search: Search
-menuSection:
+menuSections:
   - id: section-0
     title: Getting started
     menuItems:
