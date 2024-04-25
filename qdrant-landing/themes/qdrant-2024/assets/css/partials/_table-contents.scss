@@ -1,0 +1,99 @@
+@use '../helpers/functions' as *;
+
+.table-contents {
+  background-color: $neutral-10;
+  margin-bottom: -1px;
+
+  &__links {
+    list-style: none;
+    margin-bottom: $spacer * 1.5;
+    padding: 0;
+
+    .table-contents__link a {
+      color: $neutral-70;
+    }
+  }
+
+  &__title {
+    color: $neutral-98;
+    margin-bottom: $spacer;
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+  }
+
+  &__external-links {
+    border-top: 1px solid $neutral-50;
+    border-bottom: 1px solid $neutral-50;
+    list-style: none;
+    padding: $spacer * 1.5 0;
+    margin: 0;
+  }
+
+  &__link {
+    margin-bottom: rem(12);
+  }
+
+  &__link:last-of-type {
+    margin-bottom: 0;
+  }
+
+  &__link a {
+    display: flex;
+    align-items: center;
+    gap: calc($spacer / 2);
+  }
+
+  &__link__icon {
+    display: block;
+    width: rem(16);
+    height: rem(16);
+  }
+
+  &__feedback {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    margin-top: $spacer;
+    padding-bottom: $spacer * 1.5;
+    border-bottom: 1px solid $neutral-50;
+  }
+
+  &__feedback__title {
+    color: $neutral-98;
+    margin-bottom: calc($spacer / 2);
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+  }
+
+  &__feedback__question {
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+    color: $neutral-70;
+    margin: 0;
+  }
+
+  &__feedback__controls {
+    margin-top: rem(12);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacer;
+  }
+
+  &__feedback__button {
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    color: $success-90;
+    background-color: $success-10;
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+    padding: rem(4) $spacer;
+  }
+
+  &__feedback__button:last-of-type {
+    color: $error-90;
+    background-color: $error-10;
+  }
+}

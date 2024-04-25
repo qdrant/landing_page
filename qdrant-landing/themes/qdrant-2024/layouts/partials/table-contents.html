@@ -1,0 +1,45 @@
+{{ with (.Site.GetPage "/headless/table-contents") }}
+  <div class="table-contents">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="table-contents__title">{{ .Params.title }}</h2>
+          <ul class="table-contents__links">
+            {{ range .Params.links }}
+              <li class="table-contents__link">
+                <a
+                  href="{{ .url }}"
+                  {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer nofollow"{{ end }}
+                >
+                  <span>{{ .name }}</span>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+          <ul class="table-contents__external-links">
+            {{ range .Params.externalLinks }}
+              <li class="table-contents__link">
+                <a
+                  href="{{ .url }}"
+                  {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer nofollow"{{ end }}
+                >
+                  <span class="table-contents__link__icon" style="background-image: url(/icons/outline/{{ .icon }})">
+                  </span>
+                  <span>{{ .name }}</span>
+                </a>
+              </li>
+            {{ end }}
+          </ul>
+          <div class="table-contents__feedback">
+            <h2 class="table-contents__feedback__title">{{ .Params.feedback.title }}</h2>
+            <p class="table-contents__feedback__question">{{ .Params.feedback.question }}</p>
+            <div class="table-contents__feedback__controls">
+              <button class="table-contents__feedback__button" type="button">Yes</button>
+              <button class="table-contents__feedback__button" type="button">No</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{ end }}
