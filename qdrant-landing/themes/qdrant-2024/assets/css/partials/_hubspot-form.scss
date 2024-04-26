@@ -108,7 +108,7 @@ form.hs-form {
 
 .hs_submit {
   input[type='submit'] {
-    max-height: rem(40);
+    max-height: rem(41);
     padding-left: rem(22);
     padding-right: rem(22);
 
@@ -118,7 +118,6 @@ form.hs-form {
 }
 
 .hs-error-msgs {
-  $hs-error-msgs-top-offset: rem(40);
   list-style: none;
   padding-left: 0;
   margin: 0;
