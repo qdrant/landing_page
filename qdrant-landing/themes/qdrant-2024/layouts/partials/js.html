@@ -24,6 +24,7 @@
   <script src="{{ $splideJs.RelPermalink }}"></script>
 {{ end }}
 
+
 <!--todo: fix for paginator-->
 {{ if in (slice "blog" "documentation") .Section }}
   {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}

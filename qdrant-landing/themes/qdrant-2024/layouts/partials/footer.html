@@ -42,17 +42,17 @@
       </div>
     </div>
     <div class="footer__middle container">
-      {{ with (.Site.GetPage "/headless/newsletter")}}
-      <div class="align-items-center row">
-        <div class="col-12 col-lg-4">
-          <p class="footer__middle-title">{{ .Params.title }}</p>
-          <p class="footer__middle-subtitle">{{ .Params.description }}</p>
-        </div>
+      {{ with (.Site.GetPage "/headless/newsletter") }}
+        <div class="align-items-center row">
+          <div class="col-12 col-lg-4">
+            <p class="footer__middle-title">{{ .Params.title }}</p>
+            <p class="footer__middle-subtitle">{{ .Params.description }}</p>
+          </div>
 
-        <div class="footer__middle-newsletter col-12 col-lg-8">
-          {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "footer-subscribe-form" "context" . ) }}
+          <div class="footer__middle-newsletter col-12 col-lg-8">
+            {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "footer-subscribe-form" "context" . ) }}
+          </div>
         </div>
-      </div>
       {{ end }}
     </div>
     <div class="footer__bottom container">

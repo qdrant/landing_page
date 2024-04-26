@@ -4,7 +4,7 @@
       <h1 class="qdrant-blog-hero__title col-12 col-xl-6">{{ .Params.title }}</h1>
       <div class="qdrant-blog-hero__content col-12 col-xl-6">
         <p class="qdrant-blog-hero__description">{{ .Params.description }}</p>
-        {{ with (.Site.GetPage "/headless/newsletter")}}
+        {{ with (.Site.GetPage "/headless/newsletter") }}
           {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "blog-subscribe-form" "context" . ) }}
         {{ end }}
       </div>
