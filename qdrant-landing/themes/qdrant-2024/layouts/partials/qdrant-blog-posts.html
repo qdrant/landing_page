@@ -17,7 +17,7 @@
             <a class="post-link" href="{{ .RelPermalink }}">
               {{ if .Params.preview_image }}
                 <div class="post-preview">
-                  <img src="{{ .Params.preview_image }}" alt="Preview" />
+                  {{ partial "preview-image" (dict "context" . "default_file_name" "preview.jpg" "preview_file" .Params.small_preview_image) }}
                 </div>
               {{ end }}
               <h6 class="post-title">{{ .Params.title }}</h6>
