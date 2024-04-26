@@ -27,7 +27,6 @@ Qdrant Hybrid Cloud ensures data privacy, deployment flexibility, low latency, a
 
 We plan to introduce the following configuration options directly in the Qdrant Cloud Console in the future. If you need any of them beforehand, please contact our Support team.
 
-* Self-service environment deletion
 * Node selectors
 * Tolerations
 * Affinities and anti-affinities

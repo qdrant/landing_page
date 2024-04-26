@@ -78,6 +78,8 @@ After creating your Hybrid Cloud, select **Generate Installation Command** to ge
 
 You need this command only for the initial installation. After that, you can update the agent and operator using the Qdrant Cloud Console.
 
+> **Note:** If you generate the installation command a second time, it will re-generate the included secrets and you will have to apply the command again to update them.
+
 ## Creating a Qdrant cluster
 
 Once you have created a Hybrid Cloud Environment, you can create a Qdrant cluster in that enviroment. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). Make sure to select your Hybrid Cloud Environment as the target.
@@ -95,6 +97,12 @@ kubectl create secret generic qdrant-api-key --from-literal=api-key=your-secret-
 ```
 
 With this command the secret name would be `qdrant-api-key` and the key would be `api-key`.
+
+If you want to retrieve the secret again, you can also use kubect:
+
+```shell
+kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" | base64 --decode
+```
 
 ### Exposing Qdrant clusters to your client applications
 
@@ -160,6 +168,25 @@ spec:
 
 Please refer to the Kubernetes, ingress controller and cloud provider documention for more details.
 
+If you expose the database with such a way, you will be able to see this also reflected as an endpoint on the cluster detail page. And will see the Qdrant database dashboard link pointing to it.
+
 ## Deleting a Hybrid Cloud Environment
 
-To delete a Hybrid Cloud Environment, first delete all Qdrant database clusters in it. Then please open a support ticket, referencing the `id` of the environment you wish to delete.
+To delete a Hybrid Cloud Environment, first delete all Qdrant database clusters in it. Then you can delete the environment itself.
+
+To clean up your Kubernetes cluster, after deleting the Hybrid Cloud Environment, you can use the following command:
+
+```shell
+helm -n the-qdrant-namespace delete qdrant-cloud-agent
+helm -n the-qdrant-namespace delete qdrant-prometheus
+helm -n the-qdrant-namespace delete qdrant-operator
+kubectl -n the-qdrant-namespace patch HelmRelease.cd.qdrant.io qdrant-cloud-agent -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl -n the-qdrant-namespace patch HelmRelease.cd.qdrant.io qdrant-prometheus -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl -n the-qdrant-namespace patch HelmRelease.cd.qdrant.io qdrant-operator -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl -n the-qdrant-namespace patch HelmChart.cd.qdrant.io the-qdrant-namespace-qdrant-cloud-agent -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl -n the-qdrant-namespace patch HelmChart.cd.qdrant.io the-qdrant-namespace-qdrant-prometheus -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl -n the-qdrant-namespace patch HelmChart.cd.qdrant.io the-qdrant-namespace-qdrant-operator -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl -n the-qdrant-namespace patch HelmRepository.cd.qdrant.io qdrant-cloud -p '{"metadata":{"finalizers":null}}' --type=merge
+kubectl delete namespace the-qdrant-namespace
+kubectl get crd -o name | grep qdrant | xargs -n 1 kubectl delete
+```
