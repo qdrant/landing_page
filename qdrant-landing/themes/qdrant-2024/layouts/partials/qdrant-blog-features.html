@@ -23,7 +23,7 @@
     <div class="qdrant-blog-features__articles">
       {{ range first 1 (where $all ".Params.featured" "=" true) }}
         <article class="qdrant-blog-features__articles-main post">
-          <a class="post-link" href="/">
+          <a class="post-link" href="{{ .RelPermalink }}">
             <div class="post-preview">
               <img src="{{ .Params.preview_image }}" alt="Preview" />
             </div>
@@ -41,7 +41,7 @@
       <div class="qdrant-blog-features__articles-secondary">
         {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
           <article class="post">
-            <a class="post-link" href="/">
+            <a class="post-link" href="{{ .RelPermalink }}">
               <h6 class="post-title">{{ .Params.title }}</h6>
               <div class="post-about">
                 <p>{{ .Params.author }}</p>
