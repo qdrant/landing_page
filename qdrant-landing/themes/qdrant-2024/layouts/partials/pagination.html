@@ -2,17 +2,15 @@
 <div class="pagination">
   <ul class="pagination__list">
     {{ range $paginator.Pagers }}
-    <li class="pagination__item{{if eq .PageNumber $paginator.PageNumber }} active{{end}}">
-      <a href="{{ .URL }}">{{ .PageNumber }}</a>
-    </li>
+      <li class="pagination__item {{ if eq .PageNumber $paginator.PageNumber }}active{{ end }}">
+        <a href="{{ .URL }}">{{ .PageNumber }}</a>
+      </li>
     {{ end }}
 
     {{ range first 1 $paginator.Pagers }}
-    <li class="pagination__item">
-      <a href="{{ .URL }}">
-        Newest
-      </a>
-    </li>
+      <li class="pagination__item">
+        <a href="{{ .URL }}"> Newest </a>
+      </li>
     {{ end }}
   </ul>
 </div>

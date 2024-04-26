@@ -3,13 +3,13 @@
     <div class="qdrant-articles-posts__articles row gx-4 gy-5 gy-xl-6">
       {{ $all := ($.Site.GetPage "articles" .Section).Pages.ByPublishDate.Reverse }}
       {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 10 }}
-      {{ range $paginator.Pages}}
-      {{ .Scratch.Set "scope" "list" }}
+      {{ range $paginator.Pages }}
+        {{ .Scratch.Set "scope" "list" }}
 
-      {{ $link := .Permalink }}
-      {{ if .Params.external_link }}
-      {{ $link = .Params.external_link }}
-      {{ end }}
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+          {{ $link = .Params.external_link }}
+        {{ end }}
         <article class="col-12 col-xl-6 post">
           <a class="post-link" href="{{ .RelPermalink }}">
             <div class="post-preview">
@@ -29,8 +29,8 @@
 
     <div class="row">
       <div class="qdrant-articles-posts__pagination col-12">
-        {{ if gt $paginator.TotalPages 1}}
-        {{ partial "pagination" $paginator }}
+        {{ if gt $paginator.TotalPages 1 }}
+          {{ partial "pagination" $paginator }}
         {{ end }}
       </div>
     </div>
