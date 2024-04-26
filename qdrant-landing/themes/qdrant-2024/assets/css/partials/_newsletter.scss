@@ -34,12 +34,19 @@
     gap: $spacer * 0.5;
     margin-bottom: 0;
 
-    button {
+    & > form {
+      flex-direction: column;
+      gap: $spacer * 0.5;
+      margin-bottom: 0;
+    }
+
+    button,
+    input[type='submit'] {
       width: 100%;
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-bottom: $spacer * 7.5;
     text-align: left;
 
@@ -56,10 +63,13 @@
     }
 
     &__form {
-      flex-direction: row;
-      width: rem(476);
+      form {
+        flex-direction: row;
+        width: rem(476);
+      }
 
-      button {
+      button,
+      input[type='submit'] {
         width: rem(118);
       }
     }

@@ -6,7 +6,7 @@
           <h6 class="newsletter__title">{{ .Params.title }}</h6>
           <p class="newsletter__description">{{ .Params.description }}</p>
         </div>
-        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "subscribe-banner-form" "context" . ) }}
+        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "subscribe-banner-form" "context" . "classes" "newsletter__form") }}
       </div>
     </div>
   </section>
