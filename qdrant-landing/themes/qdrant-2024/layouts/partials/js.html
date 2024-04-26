@@ -24,10 +24,18 @@
   <script src="{{ $splideJs.RelPermalink }}"></script>
 {{ end }}
 
+<!--todo: fix for paginator-->
+{{ if in (slice "blog" "documentation") .Section }}
+  {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
+{{ end }}
+
 {{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentation") .Section) }}
   {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+{{ end }}
 
+{{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentation") .Section) }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 

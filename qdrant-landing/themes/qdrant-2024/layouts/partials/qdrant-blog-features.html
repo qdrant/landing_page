@@ -4,21 +4,15 @@
       <h2 class="qdrant-blog-features__title col-12 col-xl-6">{{ .Params.features_title }}</h2>
       <form class="qdrant-blog-features__form col-12 col-xl-6">
         <div class="qdrant-blog-features__form-search-block">
-          <input
-            class="q-input q-input_md q-input_light-bg"
-            type="text"
-            name="search"
-            value=""
-            placeholder="{{ .Params.search_placeholder }}"
-            required=""
-          />
-          <button class="qdrant-blog-features__form-button" type="submit"></button>
+          <button type="button" class="q-input q-input_md q-input_light-bg qdr-search-input-btn" data-target="#searchModal">
+            {{ .Params.search_placeholder }}
+            <i></i>
+          </button>
         </div>
       </form>
     </div>
 
     {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
-
 
     <div class="qdrant-blog-features__articles">
       {{ range first 1 (where $all ".Params.featured" "=" true) }}
@@ -36,7 +30,6 @@
           </a>
         </article>
       {{ end }}
-
 
       <div class="qdrant-blog-features__articles-secondary">
         {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
