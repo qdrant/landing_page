@@ -67,11 +67,11 @@ menuItems:
       - id: subMenu-2-1
         name: Community
         icon: community.svg
-        url: /community/
-      - id: subMenu-2-2
-        name: Qdrant Stars
-        icon: qdrant-stars.svg
-        url: /stars/
+        url: https://qdrant.to/discord
+#      - id: subMenu-2-2
+#        name: Qdrant Stars
+#        icon: qdrant-stars.svg
+#        url: /stars/
       - id: subMenu-2-3
         name: Github
         icon: github.svg
