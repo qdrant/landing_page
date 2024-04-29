@@ -25,10 +25,10 @@ menuItems:
         name: Hybrid Cloud
         icon: hybrid-cloud.svg
         url: /hybrid-cloud/
-      - id: subMenu-0-4
-        name: Private Cloud
-        icon: private-cloud.svg
-        url: /private-cloud/
+#      - id: subMenu-0-4
+#        name: Private Cloud
+#        icon: private-cloud.svg
+#        url: /private-cloud/
       - id: subMenu-0-5
         name: Demos
         icon: demos.svg
@@ -53,10 +53,10 @@ menuItems:
         name: Data Analysis & Anomaly Detection
         icon: data-analysis-anomaly-detection.svg
         url: /data-analysis-anomaly-detection/
-      - id: subMenu-1-4
-        name: Qdrant for Startups
-        icon: qdrant-for-startups.svg
-        url: /qdrant-for-startups/
+#      - id: subMenu-1-4
+#        name: Qdrant for Startups
+#        icon: qdrant-for-startups.svg
+#        url: /qdrant-for-startups/
   - id: menu-2
     name: Developers
     subMenuItems:
@@ -67,11 +67,11 @@ menuItems:
       - id: subMenu-2-1
         name: Community
         icon: community.svg
-        url: /community/
-      - id: subMenu-2-2
-        name: Qdrant Stars
-        icon: qdrant-stars.svg
-        url: /stars/
+        url: https://qdrant.to/discord
+#      - id: subMenu-2-2
+#        name: Qdrant Stars
+#        icon: qdrant-stars.svg
+#        url: /stars/
       - id: subMenu-2-3
         name: Github
         icon: github.svg
@@ -102,14 +102,14 @@ menuItems:
   - id: menu-4
     name: Company
     subMenuItems:
-      - id: subMenu-4-0
-        name: Customers
-        icon: customers.svg
-        url: /customers/
-      - id: subMenu-4-1
-        name: Partners
-        icon: partners.svg
-        url: /
+#      - id: subMenu-4-0
+#        name: Customers
+#        icon: customers.svg
+#        url: /customers/
+#      - id: subMenu-4-1
+#        name: Partners
+#        icon: partners.svg
+#        url: /
       - id: subMenu-4-2
         name: About us
         icon: about-us.svg
@@ -117,7 +117,7 @@ menuItems:
       - id: subMenu-4-3
         name: Careers
         icon: careers.svg
-        url: /careers/
+        url: https://qdrant.join.com/
   - id: menu-5
     name: Pricing
     url: /pricing/

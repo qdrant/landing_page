@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/headless/demos") }}
   <section class="demos">
     <div class="container">
-      <div class="demos__header">
+      <div class="demos__header mb-5 mb-md-7">
         <h2 class="demos__title mx-auto mx-lg-0">{{ .Params.title }}</h2>
         <p class="demos__subtitle mx-auto mx-lg-0">{{ .Params.description }}</p>
       </div>
@@ -10,7 +10,7 @@
           <div class="col-12">
             <div class="card demos__card">
               <div class="demos__card-content">
-                <h6 class="demos__card-title">{{ .title }}</h6>
+                <h6 class="demos__card-title">{{ .title | safeHTML }}</h6>
                 <div class="demos__card-description">
                   {{ range .paragraphs }}
                     <p>{{ .content }}</p>

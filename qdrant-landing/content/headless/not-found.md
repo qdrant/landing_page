@@ -8,7 +8,7 @@ homeButton:
   link: /
   text: Go to Home
 supportButton:
-  link: /
+  link: https://qdrant.io/discord
   text: Get Support
 sitemapExclude: True
 ---

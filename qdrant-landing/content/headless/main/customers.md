@@ -2,7 +2,7 @@
 customerStories:
   text: Qdrant Powers Thousands of Top AI Solutions.
   textLink: Customer Stories
-  url: /
+#  url: /customers/
 customers:
   - id: 0
     name: Alphasense

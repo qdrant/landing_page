@@ -9,7 +9,9 @@
 
     <div class="customers__description">
       <span class="customers__title">{{ .Params.customerStories.text }}</span>
-      <a class="link link_xl" href="{{ .Params.customerStories.url }}"> {{ .Params.customerStories.textLink }} </a>
+      {{ if .Params.customerStories.url }}
+        <a class="link link_xl" href="{{ .Params.customerStories.url }}"> {{ .Params.customerStories.textLink }} </a>
+      {{ end }}
     </div>
   </section>
 {{ end }}
