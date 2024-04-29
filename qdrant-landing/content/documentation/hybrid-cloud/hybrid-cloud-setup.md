@@ -98,7 +98,7 @@ kubectl create secret generic qdrant-api-key --from-literal=api-key=your-secret-
 
 With this command the secret name would be `qdrant-api-key` and the key would be `api-key`.
 
-If you want to retrieve the secret again, you can also use kubect:
+If you want to retrieve the secret again, you can also use `kubectl`:
 
 ```shell
 kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" | base64 --decode
