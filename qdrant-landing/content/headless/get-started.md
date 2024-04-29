@@ -1,8 +1,8 @@
 ---
 title: Get started for free
 subtitle: Turn embeddings or neural network encoders into full-fledged applications for matching, searching, recommending, and more.
-startFree:
+button:
   text: Start Free
-  url: /
+  url: https://cloud.qdrant.io/
 sitemapExclude: true
 ---

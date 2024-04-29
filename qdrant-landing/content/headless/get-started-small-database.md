@@ -1,8 +1,8 @@
 ---
 title: Launch a new cluster today
-getStarted:
+button:
   text: Get Started
-  url: /
+  url: https://cloud.qdrant.io/
 image:
   src: /img/database.svg
   alt: Database
