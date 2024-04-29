@@ -15,7 +15,7 @@ cards:
   description: For developer questions about Qdrant usage, please join our
   link: 
     text: Discord Server
-    href: /
+    href: https://qdrant.to/discord
 form:
   id: contact-us-form
   title: Talk to our Team

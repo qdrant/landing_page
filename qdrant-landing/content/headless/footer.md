@@ -33,9 +33,9 @@ menuItems:
       - id: 3
         name: Qdrant Cloud
         url: /cloud/
-      - id: 4
-        name: Private Cloud
-        url: /private-cloud/
+#      - id: 4
+#        name: Private Cloud
+#        url: /private-cloud/
       - id: 5
         name: Hybrid Cloud
         url: /hybrid-cloud/
@@ -59,9 +59,9 @@ menuItems:
       - id: 3
         name: Data Analysis & Anomaly Detection
         url: /data-analysis-anomaly-detection/
-      - id: 4
-        name: Qdrant for Startups
-        url: /qdrant-for-startups/
+#      - id: 4
+#        name: Qdrant for Startups
+#        url: /qdrant-for-startups/
   - title: Developers
     items:
       - id: 0
@@ -69,10 +69,10 @@ menuItems:
         url: /documentation/
       - id: 1
         name: Community
-        url: /community/
-      - id: 2
-        name: Qdrant Stars
-        url: /stars/
+        url: https://qdrant.to/discord
+#      - id: 2
+#        name: Qdrant Stars
+#        url: /stars/
       - id: 3
         name: Github
         url: https://github.com/qdrant/qdrant
@@ -98,15 +98,18 @@ menuItems:
       - id: 0
         name: About Us
         url: /about-us/
-      - id: 1
-        name: Customers
-        url: /customers/
-      - id: 2
-        name: Partners
-        url: /partners/
+#      - id: 1
+#        name: Customers
+#        url: /customers/
+#      - id: 2
+#        name: Partners
+#        url: /partners/
       - id: 3
         name: Careers
-        url: /careers/
+        url: https://qdrant.join.com/
+      - id: 4
+        name: Contact Us
+        url: /contact-us/
 copyright: © 2024 Qdrant. All Rights Reserved
 termsLink:
   text: Terms

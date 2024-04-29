@@ -4,7 +4,7 @@ description: RAG, powered by Qdrant's efficient data retrieval, elevates AI's ca
 features:
 - id: 0
   icon:
-    src: /icons/outline/Speedometer-blue.svg
+    src: /icons/outline/speedometer-blue.svg
     alt: Speedometer
   title: Highest RPS
   description: Qdrant leads with top requests-per-second, outperforming alternative vector databases in various datasets by up to 4x.
