@@ -17,11 +17,11 @@
           </div>
         </div>
       </div>
-      <button type="button" class="hero__stars">
-        {{ .Params.githubLogo | safeHTML }}
-        <span class="hero__stars-text">Star us</span>
-        <span class="hero__stars-count"> {{ .Params.starLogo | safeHTML }} 15.2K </span>
-      </button>
+      <a href="{{ .Params.githubStars.actionUrl }}" type="button" class="hero__stars" target="_blank">
+        {{ .Params.githubStars.logo | safeHTML }}
+        <span class="hero__stars-text">{{ .Params.githubStars.actionText }}</span>
+        <span class="hero__stars-count"> {{ .Params.githubStars.starIcon | safeHTML }} {{ .Params.githubStars.stars }} </span>
+      </a>
     </div>
     <div class="hero__image">
       <picture>

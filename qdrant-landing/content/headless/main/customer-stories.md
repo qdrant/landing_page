@@ -2,7 +2,7 @@
 title: Our Customers Words
 link:
   text: Customer Stories
-  url: /
+  url: /customers/
 storyCards:
   - id: 0
     icon: /img/brands/bayer.svg
