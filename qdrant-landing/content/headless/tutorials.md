@@ -3,7 +3,7 @@ title: Interactive Tutorials
 description: Dive into the capabilities of Qdrant with our hands-on tutorials. Discover various methods to integrate vector search into your applications, enhancing functionality and user experience.
 link:
   text: View All Tutorials
-  url: /
+  url: /documentation/tutorials/
 commands:
   - '...'
   - '<span class="command__object">"hnsw_config"</span>: {'
