@@ -5,7 +5,7 @@
         <h3 class="customer-stories__title mx-auto">{{ .Params.title }}</h3>
         <div class="customer-stories__header-content">
           {{ .Scratch.Set "cssClass" "link_xl" }}
-          {{ partial "link" . }}
+          {{if .Params.link }}{{ partial "link" . }}{{ end }}
         </div>
       </div>
       <div class="splide">

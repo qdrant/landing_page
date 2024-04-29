@@ -8,7 +8,7 @@ items:
     alt: AWS marketplace logo
   link:
     text: Get Started
-    url: /
+    url: https://aws.amazon.com/marketplace/pp/prodview-rtphb42tydtzg?sr=0-1&ref_=beagle&applicationId=AWS-Marketplace-Console
 - id: 1
   title: Google Cloud Marketplace
   image: 
@@ -16,7 +16,7 @@ items:
     alt: Google Cloud marketplace logo
   link:
     text: Get Started
-    url: /
+    url: https://console.cloud.google.com/marketplace/product/qdrant-public/qdrant?project=qdrant-public
 - id: 2
   title: Microsoft Azure
   image: 

@@ -1,8 +1,8 @@
 {{ with (.Site.GetPage "/recommendations/recommendations-api") }}
   <section class="recommendations-api">
     <div class="container">
-      <div class="row align-items-xl-center">
-        <div class="recommendations-api__content col-12 col-xl-6">
+      <div class="row align-items-lg-center">
+        <div class="recommendations-api__content col-12 col-lg-6">
           <h3 class="recommendations-api__title">{{ .Params.title }}</h3>
           <p class="recommendations-api__description">{{ .Params.description }}</p>
           <a href="{{ .Params.learnMore.url }}" class="button button_contained button_lg">
@@ -10,7 +10,7 @@
           </a>
         </div>
 
-        <div class="recommendations-api__preview col-12 col-xl-6">
+        <div class="recommendations-api__preview col-12 col-lg-6">
           <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
         </div>
       </div>

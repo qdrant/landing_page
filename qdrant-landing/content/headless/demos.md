@@ -11,7 +11,7 @@ cards:
         content: Enter a query to see how neural search compares to traditional full-text search, with the option to toggle neural search on and off for direct comparison.
     link:
       text: View Demo
-      url: /
+      url: https://qdrant.to/semantic-search-demo
   - id: 1
     title: Semantic Search and Recommendations Demo - Food Discovery
     paragraphs:
@@ -21,14 +21,14 @@ cards:
         content: Filter options allow for restaurant selections within your delivery area, tailoring your dining experience to your preferences.
     link:
       text: View Demo
-      url: /
+      url: https://food-discovery.qdrant.tech/
   - id: 2
-    title: Categorization Demo - E-Commerce Products
+    title: Categorization Demo -<br> E-Commerce Products
     paragraphs:
       - id: 0
         content: Discover the power of vector databases in e-commerce through our demo. Simply input a product name and watch as our multi-language model intelligently categorizes it. The dots you see represent product clusters, highlighting our system's efficient categorization.
     link:
       text: View Demo
-      url: /
+      url: https://qdrant.to/extreme-classification-demo
 sitemapExclude: true
 ---
