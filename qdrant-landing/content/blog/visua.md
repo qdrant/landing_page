@@ -1,7 +1,7 @@
 ---
 draft: false
 title: "Visua and Qdrant: Vector Search in Computer Vision"
-slug: /case-studies/visua
+slug: 
 short_description: "Using Vector Search for Quality Control and Anomaly Detection in Computer Vision."
 description: "Using Vector Search for Quality Control and Anomaly Detection in Computer Vision."
 preview_image: /blog/visua/image4.png
