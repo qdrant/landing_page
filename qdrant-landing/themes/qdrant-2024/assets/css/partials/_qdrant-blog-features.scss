@@ -22,11 +22,16 @@
     &-search-block {
       position: relative;
 
-      input {
+      input,
+      .qdr-search-input-btn {
         padding-right: $spacer * 2.5;
       }
+      .qdr-search-input-btn {
+        width: 100%;
+        color: $neutral-70;
+      }
 
-      button {
+      i {
         position: absolute;
         top: rem(12);
         right: $spacer;

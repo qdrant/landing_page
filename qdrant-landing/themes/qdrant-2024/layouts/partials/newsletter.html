@@ -6,17 +6,7 @@
           <h6 class="newsletter__title">{{ .Params.title }}</h6>
           <p class="newsletter__description">{{ .Params.description }}</p>
         </div>
-        <form class="newsletter__form">
-          <input
-            class="input input_md input_dark-bg"
-            type="email"
-            name="email"
-            value=""
-            placeholder="{{ .Params.placeholder }}"
-            required=""
-          />
-          <button class="button button_contained button_md" type="submit">{{ .Params.button }}</button>
-        </form>
+        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "subscribe-banner-form" "context" . "classes" "newsletter__form") }}
       </div>
     </div>
   </section>
