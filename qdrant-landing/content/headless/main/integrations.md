@@ -2,12 +2,12 @@
 title: Integrations
 link:
   text: See Integrations
-  url: /
+  url: /documentation/frameworks/
 embedLink:
   text: embeddings
-  url: /
+  url: /documentation/embeddings/
 frameworkLink:
   text: frameworks
-  url: /
+  url: /documentation/frameworks/
 sitemapExclude: true
 ---
