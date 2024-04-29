@@ -20,8 +20,6 @@
   <link href="{{ $splideCss.RelPermalink }}" rel="stylesheet" integrity="{{ $splideCss.Data.Integrity }}" />
 {{ end }}
 
-
-<!--todo: fix for paginator-->
 {{ if in (slice "blog" "documentation") .Section }}
   {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
