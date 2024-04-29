@@ -1,18 +1,12 @@
 <div class="benchmark-wrapper" id="benchmark-plot-wrapper-{{ .Params.id }}">
   <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
-  <select
-    name="datasets"
-    id="datasets-selector-{{ .Params.id }}"
-    onchange="renderSelected('{{ .Params.id }}')"
-  ></select>
+  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+
+  </select>
 
   <label for="parallel-selector-{{ .Params.id }}">Search threads:</label>
-  <select
-    disabled
-    name="parallel"
-    id="parallel-selector-{{ .Params.id }}"
-    onchange="renderSelected('{{ .Params.id }}')"
-  ></select>
+  <select disabled name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+  </select>
 
   Plot values:
 
