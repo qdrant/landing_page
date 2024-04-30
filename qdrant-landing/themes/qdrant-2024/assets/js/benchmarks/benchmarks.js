@@ -11,18 +11,18 @@ let engineToColor = {
   qdrant: '#bc1439',
   elasticsearch: '#f9b110',
   elastic: '#f9b110',
-}
+};
 
 let lowerIsBetterMap = {
-  "rps": false,
-  "mean_precisions": false,
-  "mean_time": true,
-  "p95_time": true,
-  "p99_time": true,
-  "upload_time": true,
-  "total_time": true,
-  "total_upload_time": true,
-}
+  rps: false,
+  mean_precisions: false,
+  mean_time: true,
+  p95_time: true,
+  p99_time: true,
+  upload_time: true,
+  total_time: true,
+  total_upload_time: true,
+};
 
 const normalizedTitles = {
   total_time: 'Total Time (s)',
@@ -37,15 +37,15 @@ const normalizedTitles = {
   p99_time: 'P99(ms)',
   setup_name: 'Setup',
   // engine_params: 'Run Params',
-}
+};
 
 const columnMultiplyFactor = {
-  total_upload_time: 1/60,
-  upload_time: 1/60,
+  total_upload_time: 1 / 60,
+  upload_time: 1 / 60,
   mean_time: 1000,
   p95_time: 1000,
-  p99_time: 1000
-}
+  p99_time: 1000,
+};
 
 function extractUniqueVals(data, key) {
   let vals = {};
@@ -54,7 +54,7 @@ function extractUniqueVals(data, key) {
     vals[row[key]] = 1;
   }
 
-  return [...Object.keys(vals)]
+  return [...Object.keys(vals)];
 }
 
 function getDatasetsList(data) {
@@ -96,12 +96,10 @@ function filterBestPoints(data, lowerIsBetter) {
   let bestValue = data[0].y;
   filtered.push(data[0]);
   for (const point of data) {
-
     let isCurrentBest = point.y > bestValue;
     if (lowerIsBetter) {
       isCurrentBest = point.y < bestValue;
     }
-
 
     if (isCurrentBest) {
       filtered.push(point);
@@ -112,7 +110,6 @@ function filterBestPoints(data, lowerIsBetter) {
   return filtered;
 }
 
-
 function getPrecisionVsValue(data, key) {
   let vals = [];
 
@@ -120,20 +117,18 @@ function getPrecisionVsValue(data, key) {
     vals.push({
       x: row['mean_precisions'],
       y: row[key],
-      ...row
+      ...row,
     });
   }
   // sort by x
   vals.sort((a, b) => a.x - b.x);
-  vals = filterBestPoints(vals, lowerIsBetterMap[key])
-
+  vals = filterBestPoints(vals, lowerIsBetterMap[key]);
 
   return vals;
 }
 
 function getPlotDataForEngine(data, engine, key) {
-  let filtered = filterData(data, {"engine_name": engine});
-
+  let filtered = filterData(data, { engine_name: engine });
 
   return {
     label: engine,
@@ -142,11 +137,10 @@ function getPlotDataForEngine(data, engine, key) {
     borderColor: engineToColor[engine],
     cubicInterpolationMode: 'monotone',
   };
-
 }
 
 function getPlotData(data, key) {
-  let engines = extractUniqueVals(data, "engine_name");
+  let engines = extractUniqueVals(data, 'engine_name');
   let plotData = [];
 
   for (const engine of engines) {
@@ -171,7 +165,7 @@ function selectByPrecision(data, minPrecision) {
 function selectDataForTable(data, sortKey) {
   let lowerIsBetter = lowerIsBetterMap[sortKey];
 
-  let engines = {}
+  let engines = {};
   // Select best value per engine
   for (const row of data) {
     let engine = row.engine_name;
@@ -217,7 +211,7 @@ function updataDropdown(selector, options) {
     selector.removeChild(selector.firstChild);
   }
   for (let i = 0; i < options.length; i++) {
-    let option = document.createElement("option");
+    let option = document.createElement('option');
     option.value = options[i];
     option.text = options[i];
     selector.appendChild(option);
@@ -244,8 +238,8 @@ function renderPlot(chart, data) {
 function getSelectedData(chartId) {
   let data = window.datasets[chartId];
 
-  let datasetSelector = document.getElementById("datasets-selector-" + chartId);
-  let parallelSelector = document.getElementById("parallel-selector-" + chartId);
+  let datasetSelector = document.getElementById('datasets-selector-' + chartId);
+  let parallelSelector = document.getElementById('parallel-selector-' + chartId);
 
   let selectedDataset = getSelectedValue(datasetSelector);
   let selectedParallel = getSelectedValue(parallelSelector);
@@ -253,20 +247,19 @@ function getSelectedData(chartId) {
   let parallelsInt = parseInt(selectedParallel);
 
   let selectedData = filterData(data, {
-    "dataset_name": selectedDataset,
-    "parallel": parallelsInt
+    dataset_name: selectedDataset,
+    parallel: parallelsInt,
   });
 
   return selectedData;
 }
-
 
 function updateLine(chartId, x) {
   let chart = window.charts[chartId];
   chart.data.datasets.pop();
   drawLine(chart, x);
 
-  let plotValueSelector = document.getElementsByName("plot-value-" + chartId);
+  let plotValueSelector = document.getElementsByName('plot-value-' + chartId);
   let selectedPlotValue = getRadioButtonValue(plotValueSelector);
 
   let selectedData = getSelectedData(chartId);
@@ -278,30 +271,25 @@ function updateLine(chartId, x) {
 function drawLine(chart, x) {
   chart.data.datasets.push({
     type: 'bar',
-    label: "Precision cutoff",
+    label: 'Precision cutoff',
     maxBarThickness: 2,
-    backgroundColor: "#ff000033",
+    backgroundColor: '#ff000033',
     parsing: false,
-    data: [
-      {x: x, y: chart.scales.y.max, setup_name: "cutoff"}
-    ],
+    data: [{ x: x, y: chart.scales.y.max, setup_name: 'cutoff' }],
   });
   chart.update();
 }
 
 function renderSelected(chartId) {
-
   let chart = window.charts[chartId];
 
-  let plotValueSelector = document.getElementsByName("plot-value-" + chartId);
-  let precisionSelector = document.getElementById("precision-selector-" + chartId);
+  let plotValueSelector = document.getElementsByName('plot-value-' + chartId);
+  let precisionSelector = document.getElementById('precision-selector-' + chartId);
 
   let selectedData = getSelectedData(chartId);
   let selectedPlotValue = getRadioButtonValue(plotValueSelector);
 
-
   chart.options.scales.y.title.text = selectedPlotValue;
-
 
   let plotData = getPlotData(selectedData, selectedPlotValue);
 
@@ -331,22 +319,22 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
 
   let titles = Object.keys(tableData[0]);
 
-  const titleElements = titles.map(title => {
+  const titleElements = titles.map((title) => {
     let normTitle = title;
     if (normalizedTitles.hasOwnProperty(title)) {
       normTitle = normalizedTitles[title];
     } else {
-      return "";
+      return '';
     }
     return `<th scope="col">${normTitle}</th>`;
   });
 
-  const rows = tableData.map(obj => {
+  const rows = tableData.map((obj) => {
     const row = Object.keys(obj).map((key, i) => {
       let value = obj[key];
 
       if (!normalizedTitles.hasOwnProperty(key)) {
-        return "";
+        return '';
       }
 
       if (key === 'setup_name') {
@@ -354,7 +342,7 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
       }
 
       if (typeof value === 'object') {
-        value = JSON.stringify(value)
+        value = JSON.stringify(value);
       }
       // check for float point
       if (typeof value === 'number' && Math.trunc(value) !== value) {
@@ -373,7 +361,10 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
   table.innerHTML = `<thead><tr>${titleElements.join('')}</tr></thead><tbody>${rows.join('')}</tbody>`;
 
   if (document.getElementById('table-' + chartId).querySelector('.table')) {
-    document.getElementById('table-' + chartId).querySelector('.table').remove();
+    document
+      .getElementById('table-' + chartId)
+      .querySelector('.table')
+      .remove();
   }
-  document.getElementById('table-' + chartId).append(table)
-}
+  document.getElementById('table-' + chartId).append(table);
+};

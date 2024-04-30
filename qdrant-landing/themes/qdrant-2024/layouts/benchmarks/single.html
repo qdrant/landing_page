@@ -1,35 +1,31 @@
 {{ define "main" }}
-<header class="main-header">
+  <header class="main-header">
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
     {{ partial "qdrant-articles-hero" . }}
-</header>
+  </header>
 
-<div class="container my-5">
+  <div class="container my-5">
     <div class="qdrant-post">
-        <article class="qdrant-post__content">
-{{ if .Params.single_node_data }}
-            <section>
-                {{
-                    partial "benchmark_chart"
-                    (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
-                }}
-            </section>
-{{ end }}
+      <article class="qdrant-post__content">
+        {{ if .Params.single_node_data }}
+          <section>
+            {{ partial "benchmark_chart"
+              (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
+            }}
+          </section>
+        {{ end }}
 
+        {{ if .Params.filter_data }}
+          <section>
+            {{ partial "benchmark_filter_chart" . }}
+          </section>
+        {{ end }}
 
-{{ if .Params.filter_data }}
-            <section>
-                {{ partial "benchmark_filter_chart" . }}
-            </section>
-{{ end }}
-
-
-            {{ .Scratch.Set "scope" "single" }}
-            {{ partial "article-content" . }}
-        </article>
+        {{ .Scratch.Set "scope" "single" }}
+        {{ partial "article-content" . }}
+      </article>
     </div>
-</div>
-
+  </div>
 {{ end }}

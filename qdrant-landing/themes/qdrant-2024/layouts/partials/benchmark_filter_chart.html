@@ -1,35 +1,41 @@
 <div class="benchmark-wrapper">
+  <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
+  <select
+    name="datasets"
+    id="datasets-selector-{{ .Params.id }}"
+    onchange="renderFilterSelected('{{ .Params.id }}')"
+  ></select>
 
-    <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
-    <select name="datasets" id="datasets-selector-{{ .Params.id }}"
-            onchange="renderFilterSelected('{{ .Params.id }}')">
+  Plot values:
 
-    </select>
+  <!-- Radio button group to select values to render -->
+  <label>
+    <input
+      checked
+      type="radio"
+      name="plot-value-{{ .Params.id }}"
+      value="regular_search"
+      onclick="updateFilterSelected('{{ .Params.id }}', this.value)"
+    />
+    Regular search
+  </label>
+  |
 
-    Plot values:
+  <label>
+    <input
+      type="radio"
+      name="plot-value-{{ .Params.id }}"
+      value="filter_search"
+      onclick="updateFilterSelected('{{ .Params.id }}', this.value)"
+    />
+    Filter search
+  </label>
+  |
 
-    <!-- Radio button group to select values to render -->
-    <label>
-        <input checked type="radio" name="plot-value-{{ .Params.id }}" value="regular_search"
-               onclick="updateFilterSelected('{{ .Params.id }}', this.value)"/>
-        Regular search
-    </label> |
+  <canvas id="chart-{{ .Params.id }}"></canvas>
 
-
-    <label>
-        <input type="radio" name="plot-value-{{ .Params.id }}" value="filter_search"
-               onclick="updateFilterSelected('{{ .Params.id }}', this.value)"/>
-        Filter search
-    </label> |
-
-
-
-    <canvas id="chart-{{ .Params.id }}"></canvas>
-
-    <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
-
+  <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
 </div>
-
 
 <script type="module">
     let url = "{{ .Params.filter_data }}";
@@ -118,7 +124,7 @@
 
             let cleanedDatasets = ["keyword-100", ...cleanedDatasetsSet];
             updataDropdown(datasetSelector, cleanedDatasets);
-            
+
             window.datasets = {"{{ .Params.id }}": data, ...window.datasets}
             window.charts = {"{{ .Params.id }}": chart, ...window.charts}
 
