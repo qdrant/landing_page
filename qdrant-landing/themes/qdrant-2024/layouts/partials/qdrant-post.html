@@ -1,4 +1,4 @@
-<section class='qdrant-post {{ if eq .variant "centered"}}qdrant-post_centered{{ end }}'>
+<section class="qdrant-post {{ if eq .variant "centered" }}qdrant-post_centered{{ end }}">
   <article class="container">
     <div class="qdrant-post__header">
       <h2 class="qdrant-post__title">{{ .context.Params.title }}</h2>
@@ -16,16 +16,17 @@
     </div>
 
     <div class="qdrant-post__body">
-      {{ if ne .variant "centered"}}
-      {{ partial "share-buttons" .context }}
+      {{ if ne .variant "centered" }}
+        {{ partial "share-buttons" .context }}
       {{ end }}
+
 
       <div class="qdrant-post__content">
         {{ partial "article-content" .context }}
       </div>
       {{ if eq .variant "centered" }}
-      {{ .context.Scratch.Set "variant" "horizontal" }}
-       {{ partial "share-buttons" .context }}
+        {{ .context.Scratch.Set "variant" "horizontal" }}
+        {{ partial "share-buttons" .context }}
       {{ end }}
     </div>
   </article>
