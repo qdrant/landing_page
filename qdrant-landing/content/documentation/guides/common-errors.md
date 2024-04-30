@@ -36,14 +36,15 @@ Please note, the command should be executed before you run Qdrant server.
 
 When starting a Qdrant instance as part of a distributed deployment, you may
 come across an error message similar to this:
+
 ```bash
 Can't open Collections meta Wal: Os { code: 11, kind: WouldBlock, message: "Resource temporarily unavailable" }
 ```
 
 It means that Qdrant cannot start because a collection cannot be loaded. Its
 associated [WAL](../../concepts/storage/#versioning) files are currently
-unavailable, likely because the very same files are already being used by
-another Qdrant instance.
+unavailable, likely because the same files are already being used by another
+Qdrant instance.
 
 Each node must have their own separate storage directory, volume or mount.
 
