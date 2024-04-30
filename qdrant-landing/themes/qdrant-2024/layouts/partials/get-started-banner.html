@@ -1,0 +1,16 @@
+<section class="get-started">
+    <div class="container">
+        <div class="get-started__content">
+            <div class="get-started__overlay-top"></div>
+            <div class="get-started__overlay-middle"></div>
+            <div class="get-started__overlay-bottom"></div>
+            <h3 class="get-started__title">{{ .Params.title }}</h3>
+            <p class="get-started__subtitle">{{ .Params.subtitle }}</p>
+            <a href="{{ .Params.button.url }}" class="button button_contained button_lg" target="_blank"
+            >{{ .Params.button.text }}</a
+            >
+            <div class="get-started__planet-icon" style="background-image: url(/img/planet.svg)"></div>
+            <div class="get-started__duo-planet-icon" style="background-image: url(/img/duo-planet.svg)"></div>
+        </div>
+    </div>
+</section>

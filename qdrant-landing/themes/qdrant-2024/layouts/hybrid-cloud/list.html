@@ -22,6 +22,8 @@
     {{ partial "get-contacted" (dict "context" . "class" "hybrid-cloud-get-contacted") }}
   {{ end }}
 
-  {{ partial "get-started" . }}
+  {{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-get-started") }}
+    {{ partial "get-started-banner" . }}
+  {{ end }}
   {{ partial "customer-list" . }}
 {{ end }}

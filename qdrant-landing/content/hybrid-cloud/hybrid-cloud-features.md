@@ -23,7 +23,7 @@ cards:
   description: Premium support plan option available
 link: 
   content: Learn more about Qdrant Hybrid Cloud in our documentation.
-  url: /
+  url: /documentation/hybrid-cloud/
   text: See Documentation
 sitemapExclude: true
 ---

@@ -3,5 +3,5 @@ title: Want to build the technology for the next generation of AI applications w
 subtitle: Take a look at our open roles. We’re excited to hear from you.
 seeOpenRoles:
   text: See Open Roles
-  url: /
+  url: https://qdrant.join.com/
 ---
