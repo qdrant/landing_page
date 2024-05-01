@@ -3,6 +3,7 @@
 .docs-menu {
   background-color: $neutral-20;
   border-top: 1px solid $neutral-30;
+  margin: 0 -16px;
 
   &--active {
     .docs-menu__content {
@@ -24,7 +25,8 @@
   &__header h2 {
     font-size: map-get($font-sizes-text, 'l');
     line-height: rem(27);
-    color: $neutral-98;
+    font-weight: 400;
+    color: $neutral-90;
     margin: 0;
   }
 
@@ -51,6 +53,7 @@
   &__links {
     padding: 0;
     margin-top: $spacer * 1.5;
+    margin-bottom: 0;
     list-style: none;
   }
 
@@ -80,6 +83,14 @@
     font-size: map-get($font-sizes-text, 'md');
     line-height: rem(24);
     margin-bottom: rem(12);
+
+    &.active {
+      padding: rem(4) 0 rem(4) $spacer;
+      border-left: rem(1) solid $primary-50;
+      font-weight: 600;
+      background-color: $neutral-30;
+      color: $neutral-90;
+    }
   }
 
   &__menu-item--active {
@@ -100,6 +111,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    cursor: pointer;
   }
 
   &__button {
@@ -131,5 +143,27 @@
 
   &__submenu-item a {
     color: $neutral-70;
+    font-size: rem(14);
+    line-height: rem(21);
+  }
+
+  @include media-breakpoint-up(xl) {
+    background-color: $neutral-10;
+    margin: 0;
+
+    &__header {
+      display: none;
+    }
+
+    &__content {
+      display: block;
+      padding: 0;
+    }
+
+    &__menu-item {
+      &.active {
+        background-color: $neutral-20;
+      }
+    }
   }
 }

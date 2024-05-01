@@ -5,6 +5,7 @@
   margin-bottom: -1px;
 
   &__links {
+    display: none;
     list-style: none;
     margin-bottom: $spacer * 1.5;
     padding: 0;
@@ -15,6 +16,7 @@
   }
 
   &__title {
+    display: none;
     color: $neutral-98;
     margin-bottom: $spacer;
     font-size: map-get($font-sizes-text, 'md');
@@ -95,5 +97,15 @@
   &__feedback__button:last-of-type {
     color: $error-90;
     background-color: $error-10;
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__links {
+      display: block;
+    }
+
+    &__title {
+      display: block;
+    }
   }
 }

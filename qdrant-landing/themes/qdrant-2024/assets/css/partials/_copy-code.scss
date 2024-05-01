@@ -1,0 +1,28 @@
+@use '../helpers/functions' as *;
+
+.copy-code {
+  position: absolute;
+  right: $spacer * 1.5;
+  top: $spacer * 1.5;
+  height: $spacer * 1.5;
+  width: $spacer * 1.5;
+
+  &__btn {
+    width: 100%;
+    height: 100%;
+    padding: 0;
+    border: none;
+    background-color: transparent;
+
+    i {
+      display: block;
+      width: 100%;
+      height: 100%;
+      background-color: $neutral-20;
+      background-image: url('/icons/outline/documentation-white.svg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}

@@ -1,3 +1,7 @@
+<script src="{{ "js/clipboard.min.js" | absURL }}"></script>
+<script src="{{ "js/lang-switcher.js" | absURL }}"></script>
+<script src="{{ "js/copy-code.js" | absURL }}"></script>
+
 <!--Coocke banner-->
 {{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $cookit.RelPermalink }}"></script>
