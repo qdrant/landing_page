@@ -1,0 +1,32 @@
+.breadcrumbs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  color: $neutral-60;
+  margin: 0;
+  padding: 0;
+
+  &__crumb {
+    display: inline-block;
+    text-transform: capitalize;
+    font-size: $font-size-sm;
+
+    &:last-child {
+      margin-right: 0;
+      padding-right: 0;
+      color: $neutral-20;
+    }
+
+    &:not(:last-child) {
+      margin-right: 0.38rem;
+    }
+
+    & > a {
+      color: $neutral-60;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
