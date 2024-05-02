@@ -75,10 +75,10 @@
     }
   }
 
-@include media-breakpoint-up(lg) {
-  &__preview {
-    height: rem(360);
-    padding-bottom: 0;
+  @include media-breakpoint-up(lg) {
+    &__preview {
+      height: rem(360);
+      padding-bottom: 0;
+    }
   }
-}
 }
