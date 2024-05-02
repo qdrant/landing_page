@@ -4,8 +4,8 @@ title: "Visua and Qdrant: Vector Search in Computer Vision"
 slug: 
 short_description: "Using vector search for quality control and anomaly detection in computer vision."
 description: "How Visua uses Qdrant as a vector search engine for quality control and anomaly detection in their computer vision platform."
-preview_image: /blog/visua/image4.png
-social_preview_image: /blog/visua/image4.png
+preview_image: /blog/case-study-visua/image4.png
+social_preview_image: /blog/case-study-visua/image4.png
 date: 2024-05-01T00:02:00Z
 author: Manuel Meyer
 featured: false
@@ -17,11 +17,11 @@ tags:
   - anomaly detection
 ---
 
-![visua/image1.png](/blog/visua/image1.png)
+![visua/image1.png](/blog/case-study-visua/image1.png)
 
 For over a decade, [VISUA](https://visua.com/) has been a leader in precise, high-volume computer vision data analysis, developing a robust platform that caters to a wide range of use cases, from startups to large enterprises. Starting with social media monitoring, where it excels in analyzing vast data volumes to detect company logos, VISUA has built a diverse ecosystem of customers, including names in social media monitoring, like **Brandwatch**, cybersecurity like **Mimecast**, trademark protection like **Ebay** and several sports agencies like **Vision Insights** for sponsorship evaluation.
 
-![visua/image3.png](/blog/visua/image3.png)
+![visua/image3.png](/blog/case-study-visua/image3.png)
 
 ## The Challenge
 
@@ -43,7 +43,7 @@ The introduction of vectors allowed VISUA to represent data uniquely and mark fr
 
 > *“Using Qdrant as a vector database for our quality control allowed us to review 10x more data by exploiting repetitions and deduplicating samples and doing that at scale with having a query engine.”* Alessandro Prest, Co-Founder at VISUA.
 
-![visua/image2.jpg](/blog/visua/image2.jpg)
+![visua/image2.jpg](/blog/case-study-visua/image2.jpg)
 
 ## The Selection Process
 
