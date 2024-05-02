@@ -72,8 +72,8 @@ vn.train(sql="SELECT * FROM my-table WHERE name = 'John Doe'")
 vn.remove_training_data(id='1-ddl')
 
 # Whenever you ask a new question, Vanna will retrieve 10 most relevant pieces of training data and use it as part of the LLM prompt to generate the SQL.
-```python
-vn.ask(question=...)
+
+vn.ask(question="<YOUR_QUESTION>")
 ```
 
 ## Further reading
