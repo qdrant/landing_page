@@ -20,7 +20,9 @@
       <a href="{{ .Params.githubStars.actionUrl }}" type="button" class="hero__stars" target="_blank">
         {{ .Params.githubStars.logo | safeHTML }}
         <span class="hero__stars-text">{{ .Params.githubStars.actionText }}</span>
-        <span class="hero__stars-count"> {{ .Params.githubStars.starIcon | safeHTML }} {{ .Params.githubStars.stars }} </span>
+        <span class="hero__stars-count">
+          {{ .Params.githubStars.starIcon | safeHTML }} {{ .Params.githubStars.stars }}
+        </span>
       </a>
     </div>
     <div class="hero__image">
