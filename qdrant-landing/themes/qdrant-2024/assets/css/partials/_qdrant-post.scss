@@ -1,10 +1,11 @@
 @use '../helpers/functions' as *;
 
+$postWidth: rem(920);
+
 .qdrant-post {
   &__header {
     padding-top: $spacer * 2.5;
     padding-bottom: $spacer * 1.5;
-    background-color: $neutral-98;
     text-align: center;
   }
 
@@ -50,6 +51,10 @@
       text-decoration: underline;
     }
 
+    p, li, a, span {
+      font-weight: 400;
+    }
+
     h2 {
       font-size: $spacer * 1.5;
       line-height: rem(34);
@@ -83,17 +88,9 @@
     }
   }
 
-  // Modifiers
-  &_centered {
-    .qdrant-post__body {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
   @include media-breakpoint-up(xl) {
     &__header {
-      width: rem(920);
+      width: $postWidth;
       margin: 0 auto;
       padding-top: $spacer * 5;
       padding-bottom: $spacer * 5;
@@ -107,7 +104,7 @@
     &__body {
       flex-direction: row;
       gap: $spacer * 5;
-      width: rem(920);
+      width: $postWidth;
       margin: 0 auto;
     }
 
@@ -141,6 +138,20 @@
       img,
       iframe {
         margin: $spacer * 2 0;
+      }
+    }
+  }
+
+  // Modifiers
+  &_centered {
+    .qdrant-post__body {
+      flex-direction: column;
+      align-items: center;
+      .qdrant-post__content {
+        width: 100%;
+      @include media-breakpoint-up(xl) {
+        width: $postWidth;
+      }
       }
     }
   }

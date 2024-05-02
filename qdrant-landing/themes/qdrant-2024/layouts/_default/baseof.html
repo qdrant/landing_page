@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   {{- partial "head.html" . -}}
-  <body>
+  <body {{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentation") .Section) }}class="bg-white"{{ end }}>
     <main>
       {{ if (eq .Params.type "external-link") }}
         Redirecting to <a href="{{ .Params.external_url }}">external page</a>...
