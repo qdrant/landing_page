@@ -4,7 +4,7 @@ draft: false
 slug: qdrant-1.9.x 
 short_description: "Granular access control. Optimized shard transfers. Support for byte embeddings."
 description: "New access control options for RBAC, a much faster shard transfer procedure, and direct support for byte embeddings. " 
-preview_image: /blog/qdrant-1.9.x/qdrant-1.9.0.png
+preview_image: /blog/qdrant-1.9.x/social_preview.png
 social_preview_image: /blog/qdrant-1.9.x/social_preview.png
 date: 2024-04-24T00:00:00-08:00
 author: David Myriel
