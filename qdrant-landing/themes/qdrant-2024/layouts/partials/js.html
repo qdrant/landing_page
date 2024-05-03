@@ -1,5 +1,3 @@
-<script src="{{ "js/jquery.js" | absURL }}"></script>
-
 <!--Coocke banner-->
 {{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $cookit.RelPermalink }}"></script>
@@ -77,17 +75,9 @@
 
 {{ if eq .Section "documentation" }}
   <script>
-    $(function () {
-      $('#sidebar-toggle').on('click', function () {
-        $('#sidebar').slideToggle();
-        $(this).toggleClass('active');
-      });
-    });
-
-    $(window).on('resize', function () {
-      if ($(window).width() > 1200) {
-        $('#sidebar').show();
-      }
+    document.getElementById('sidebar-toggle').addEventListener('click', () => {
+      document.getElementById('sidebar-toggle').classList.toggle('active');
+      document.getElementById('sidebar').classList.toggle('active');
     });
   </script>
 {{ end }}
