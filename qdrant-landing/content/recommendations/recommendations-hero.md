@@ -3,7 +3,7 @@ title: Recommendation Systems
 description: Step into the next generation of recommendation engines powered by Qdrant. Experience a new level of intelligence in application interactions, offering unprecedented accuracy and depth in user personalization.
 startFree:
   text: Get Started
-  url: /
+  url: https://cloud.qdrant.io/
 learnMore:
   text: Learn More
   url: /

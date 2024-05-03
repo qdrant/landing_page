@@ -7,6 +7,6 @@ extraContent: We started Qdrant with the mission to build the most efficient, sc
 year: In 2021
 link:
   text: Join Our Team
-  url: /
+  url: https://qdrant.join.com/
 sitemapExclude: true
 ---
