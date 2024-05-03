@@ -1719,9 +1719,11 @@ order_by: {
 ```rust
 order_by: Some(OrderBy {
     key: "timestamp".to_string(),
-    direction: Some(Direction::Desc) // default is Direction::Asc
-    start_from: Some(123),
-})
+    direction: Some(Direction::Desc as i32), // default is Direction::Asc
+    start_from: Some(StartFrom {
+        value: Some(Value::Integer(123)),
+    }),
+});
 ```
 
 ```java
@@ -1825,6 +1827,7 @@ client
             "red".to_string(),
         )])),
         exact: Some(true),
+        ..Default::default()
     })
     .await?;
 ```
@@ -2070,16 +2073,18 @@ client.batchUpdate("{collection_name}", {
 ```
 
 ```rust
+use std::collections::HashMap;
+
 use qdrant_client::qdrant::{
     points_selector::PointsSelectorOneOf,
     points_update_operation::{
-        DeletePayload, DeleteVectors, Operation, PointStructList, SetPayload, UpdateVectors,
+        ClearPayload, DeletePayload, DeletePoints, DeleteVectors, Operation, PointStructList,
+        SetPayload, UpdateVectors,
     },
     PointStruct, PointVectors, PointsIdsList, PointsSelector, PointsUpdateOperation,
     VectorsSelector,
 };
 use serde_json::json;
-use std::collections::HashMap;
 
 client
     .batch_updates_blocking(
@@ -2092,6 +2097,7 @@ client
                         vec![1.0, 2.0, 3.0, 4.0],
                         json!({}).try_into().unwrap(),
                     )],
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2100,6 +2106,7 @@ client
                         id: Some(1.into()),
                         vectors: Some(vec![1.0, 2.0, 3.0, 4.0].into()),
                     }],
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2114,6 +2121,7 @@ client
                     vectors: Some(VectorsSelector {
                         names: vec!["".into()],
                     }),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2126,6 +2134,7 @@ client
                         )),
                     }),
                     payload: HashMap::from([("test_payload".to_string(), 1.into())]),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2141,6 +2150,7 @@ client
                         ("test_payload_2".to_string(), 2.into()),
                         ("test_payload_3".to_string(), 3.into()),
                     ]),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2153,20 +2163,31 @@ client
                         )),
                     }),
                     keys: vec!["test_payload_2".to_string()],
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
-                operation: Some(Operation::ClearPayload(PointsSelector {
-                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
-                        ids: vec![1.into()],
-                    })),
+                operation: Some(Operation::ClearPayload(ClearPayload {
+                    points: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
-                operation: Some(Operation::Delete(PointsSelector {
-                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
-                        ids: vec![1.into()],
-                    })),
+                operation: Some(Operation::DeletePoints(DeletePoints {
+                    points: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    ..Default::default()
                 })),
             },
         ],
