@@ -46,6 +46,15 @@ features:
   link:
     text: View Tutorial
     url: /
+- id: 5
+  image:
+    src: /img/advanced-search-use-cases/hybrid-search-service-fastembed.svg
+    alt: Create a Hybrid Search Service with Fastembed
+  title: Create a Hybrid Search Service with Fastembed
+  description: This tutorial guides you through building and deploying your own hybrid search service using Fastembed.
+  link:
+    text: View Tutorial
+    url: /
 sitemapExclude: true
 ---
 
