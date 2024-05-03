@@ -72,3 +72,12 @@
     });
   </script>
 {{ end }}
+
+{{ if eq .Section "documentation" }}
+  <script>
+    document.getElementById('sidebar-toggle').addEventListener('click', () => {
+      document.getElementById('sidebar-toggle').classList.toggle('active');
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+  </script>
+{{ end }}
