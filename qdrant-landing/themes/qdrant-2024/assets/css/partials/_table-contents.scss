@@ -29,6 +29,13 @@
         display: block;
         margin-bottom: rem(12);
         color: $neutral-70;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      & > ul > li {
+        padding-left: $spacer;
       }
     }
   }
