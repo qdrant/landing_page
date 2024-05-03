@@ -69,7 +69,7 @@
     background-size: cover;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 3.5;
 
     &__title {
