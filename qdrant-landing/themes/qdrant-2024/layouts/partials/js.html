@@ -1,6 +1,4 @@
-<script src="{{ "js/clipboard.min.js" | absURL }}"></script>
-<script src="{{ "js/lang-switcher.js" | absURL }}"></script>
-<script src="{{ "js/copy-code.js" | absURL }}"></script>
+<script src="{{ "js/jquery.js" | absURL }}"></script>
 
 <!--Coocke banner-->
 {{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
@@ -73,6 +71,23 @@
       document.querySelectorAll('mjx-container').forEach(function (x) {
         x.parentElement.classList += 'has-jax';
       });
+    });
+  </script>
+{{ end }}
+
+{{ if eq .Section "documentation" }}
+  <script>
+    $(function () {
+      $('#sidebar-toggle').on('click', function () {
+        $('#sidebar').slideToggle();
+        $(this).toggleClass('active');
+      });
+    });
+
+    $(window).on('resize', function () {
+      if ($(window).width() > 1200) {
+        $('#sidebar').show();
+      }
     });
   </script>
 {{ end }}

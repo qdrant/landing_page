@@ -4,23 +4,33 @@
   background-color: $neutral-10;
   margin-bottom: -1px;
 
-  &__links {
-    display: none;
-    list-style: none;
-    margin-bottom: $spacer * 1.5;
-    padding: 0;
-
-    .table-contents__link a {
-      color: $neutral-70;
-    }
-  }
-
   &__title {
     display: none;
     color: $neutral-98;
     margin-bottom: $spacer;
     font-size: map-get($font-sizes-text, 'md');
     line-height: rem(24);
+  }
+
+  nav {
+    display: none;
+    padding-bottom: rem(12);
+
+    ul {
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+
+    li {
+      list-style: none;
+      padding: 0;
+
+      a {
+        display: block;
+        margin-bottom: rem(12);
+        color: $neutral-70;
+      }
+    }
   }
 
   &__external-links {
@@ -33,22 +43,22 @@
 
   &__link {
     margin-bottom: rem(12);
-  }
 
-  &__link:last-of-type {
-    margin-bottom: 0;
-  }
+    &:last-of-type {
+      margin-bottom: 0;
+    }
 
-  &__link a {
-    display: flex;
-    align-items: center;
-    gap: calc($spacer / 2);
-  }
+    a {
+      display: flex;
+      align-items: center;
+      gap: calc($spacer / 2);
+    }
 
-  &__link__icon {
-    display: block;
-    width: rem(16);
-    height: rem(16);
+    svg {
+      display: block;
+      width: rem(16);
+      height: rem(16);
+    }
   }
 
   &__feedback {
@@ -100,10 +110,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    &__links {
-      display: block;
-    }
-
+    nav,
     &__title {
       display: block;
     }

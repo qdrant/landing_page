@@ -34,7 +34,7 @@
     margin-bottom: $spacer * 0.5;
   }
 
-  code {
+  code:not([class]) {
     padding: rem(4);
     color: $neutral-90;
     background-color: $neutral-20;
@@ -67,24 +67,6 @@
       background-position: center;
       background-size: cover;
       background-repeat: no-repeat;
-    }
-  }
-
-  .highlight {
-    position: relative;
-    margin-bottom: $spacer;
-    padding-right: $spacer * 3.5;
-    background-color: $neutral-20;
-    color: $neutral-90;
-    border-radius: $spacer * 0.5;
-
-    pre {
-      margin-bottom: 0;
-      padding: $spacer * 1.5;
-    }
-
-    & + .highlight {
-      display: none;
     }
   }
 
