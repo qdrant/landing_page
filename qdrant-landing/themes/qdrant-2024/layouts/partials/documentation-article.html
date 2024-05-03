@@ -1,0 +1,6 @@
+<div class="col-12 col-xl-8">
+  <article class="documentation-article">
+    {{ $wrappedTable := printf "<div class=table-responsive> ${1} </div>" }}
+    {{ .Content | replaceRE "(<table>(?:.|\n)+?</table>)" $wrappedTable | safeHTML }}
+  </article>
+</div>
