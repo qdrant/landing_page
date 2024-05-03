@@ -8,7 +8,7 @@ items:
   description: With up to 4x RPS, Qdrant excels in delivering high-speed, efficient data processing, setting new benchmarks in vector database performance.
   link:
     text: Benchmarks
-    url: /
+    url: /benchmarks/
   odd: true
 - id: 1
   image:
@@ -18,7 +18,7 @@ items:
   description: Experience seamless scalability and minimal operational overhead with Qdrant Cloud, designed for ease-of-use and reliability.
   link:
     text: Qdrant Cloud
-    url: /
+    url: /cloud/
   odd: false
 - id: 2
   image:
@@ -28,7 +28,7 @@ items:
   description: Qdrant’s Hybrid Cloud and Private Cloud solutions offer flexible deployment options for top-tier data protection.
   link:
     text: Enterprise Solutions
-    url: /enterprise-solutions
+    url: /enterprise-solutions/
   odd: true
 sitemapExclude: true
 ---
