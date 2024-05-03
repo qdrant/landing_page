@@ -96,7 +96,7 @@
 
   @include media-breakpoint-up(xl) {
     &__header {
-      width: rem(920);
+      width: $post-content-width;
       margin: 0 auto;
       padding-top: $spacer * 5;
       padding-bottom: $spacer * 5;
@@ -110,7 +110,7 @@
     &__body {
       flex-direction: row;
       gap: $spacer * 5;
-      width: rem(920);
+      width: $post-content-width;
       margin: 0 auto;
     }
 
