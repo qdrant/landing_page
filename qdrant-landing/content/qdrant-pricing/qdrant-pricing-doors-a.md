@@ -7,7 +7,7 @@ cards:
   description: Starts with 1GB free cluster, no credit card required.
   button:
     text: Start Free
-    url: /
+    url: https://cloud.qdrant.io/
     contained: true
   featureDescription: Scale your production solutions without deployment and upkeep. 
   featureLink:
@@ -41,7 +41,7 @@ cards:
   description: Price on request.
   button:
     text: Contact Us
-    url: /
+    url: /contact-us/
     contained: false
   featureDescription: Deploy Qdrant fully on premise for maximum control and data sovereignty.
   features:

@@ -38,18 +38,14 @@
       flex-wrap: wrap;
       justify-content: start;
       gap: $spacer * 1.5 $spacer * 0.5;
+      @include media-breakpoint-up(xl) {
+        justify-content: space-between;
+      }
     }
 
     &-logo {
       width: $spacer * 10;
       height: $spacer * 4;
-    }
-  }
-
-  @include media-breakpoint-up(lg) {
-    &-logos {
-      flex-wrap: nowrap;
-      justify-content: space-between;
     }
   }
 
