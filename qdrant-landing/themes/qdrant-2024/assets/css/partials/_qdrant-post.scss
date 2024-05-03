@@ -45,6 +45,9 @@
     li {
       margin-bottom: $spacer * 2;
     }
+    p, li, table {
+      font-weight: 400;
+    }
 
     a:hover {
       text-decoration: underline;
