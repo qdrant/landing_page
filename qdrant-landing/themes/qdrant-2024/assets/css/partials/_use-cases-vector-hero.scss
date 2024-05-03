@@ -44,7 +44,7 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 10;
     text-align: left;
@@ -73,7 +73,9 @@
         min-width: auto;
       }
     }
+  }
 
+  @include media-breakpoint-up(lg) {
     &__preview {
       height: rem(360);
       padding-bottom: 0;

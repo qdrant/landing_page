@@ -45,6 +45,10 @@
     line-height: rem(34);
     text-align: center;
     color: #f0f3fa;
+    @include bs.media-breakpoint-up(lg) {
+      font-size: rem(32);
+      line-height: rem(38);
+    }
   }
 
   &__overlay-top {
@@ -58,7 +62,7 @@
     background-size: cover;
   }
 
-  @include bs.media-breakpoint-up(xl) {
+  @include bs.media-breakpoint-up(md) {
     padding-top: $paddingTop;
     padding-bottom: $paddingBottom;
 
@@ -79,8 +83,6 @@
     }
 
     &__title {
-      font-size: rem(32);
-      line-height: rem(38);
       text-align: left;
       padding: 0;
     }

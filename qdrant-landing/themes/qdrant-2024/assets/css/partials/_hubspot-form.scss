@@ -1,0 +1,132 @@
+@use '../helpers/functions' as *;
+
+form.hs-form {
+  position: relative;
+  & > fieldset {
+    min-width: 100%;
+    margin-bottom: rem(20);
+
+    label {
+      margin-bottom: rem(6);
+      font-size: rem(14);
+      line-height: rem(21);
+    }
+
+    & > div.hs-form-field {
+      div.input,
+      textarea {
+        margin: 0;
+      }
+    }
+
+    &.form-columns-1 {
+      display: block;
+
+      & > div.hs-form-field {
+        div.input {
+          input,
+          textarea {
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    &.form-columns-2 {
+      display: flex;
+      flex-direction: column;
+      gap: rem(20);
+
+      @include media-breakpoint-up(md) {
+        justify-content: space-between;
+        flex-direction: row;
+      }
+
+      & > div.hs-form-field {
+        width: 100%;
+        float: none;
+
+        @include media-breakpoint-up(md) {
+          $remValue: rem(10);
+          max-width: calc(50% - #{$remValue});
+        }
+      }
+    }
+  }
+
+  .input {
+    padding: 0;
+    border: 0;
+    margin-bottom: 0;
+
+    input,
+    textarea {
+      width: 100%;
+      background-color: transparent;
+      border: 1px solid $neutral-40;
+      border-radius: 8px;
+      outline: none;
+      color: $neutral-98;
+      padding-left: $spacer;
+      padding-right: $spacer;
+      padding-top: calc($spacer / 2);
+      padding-bottom: calc($spacer / 2);
+
+      &:focus {
+        border: 1px solid $neutral-100;
+      }
+
+      &::placeholder {
+        color: $neutral-70;
+      }
+    }
+
+    textarea {
+      display: block;
+      height: rem(77);
+      resize: none;
+    }
+
+    .error {
+      border-color: $error-50;
+    }
+  }
+
+  .legal-consent-container {
+    p {
+      font-size: rem(12);
+      line-height: rem(18);
+      color: $neutral-60;
+
+      a {
+        color: $neutral-80;
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+.hs_submit {
+  input[type='submit'] {
+    padding-left: rem(22);
+    padding-right: rem(22);
+
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+  }
+}
+
+.hs-error-msgs {
+  list-style: none;
+  padding-left: 0;
+  margin: 0;
+  color: $error-50;
+  font-size: $font-size-xs;
+}
+
+.submitted-message {
+  color: $success-90;
+  font-size: map-get($font-sizes-text, 'md');
+  line-height: rem(24);
+  text-align: right;
+}

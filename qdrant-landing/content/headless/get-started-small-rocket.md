@@ -1,8 +1,8 @@
 ---
 title: Qdrant Cloud is the fastest way to get started with Qdrant.
-getStarted:
+button:
   text: Get Started
-  url: /
+  url: https://cloud.qdrant.io/
 image: 
   src: /img/rocket.svg
   alt: Rocket

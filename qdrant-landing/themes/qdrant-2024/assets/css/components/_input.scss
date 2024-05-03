@@ -1,6 +1,9 @@
 @use '../helpers/functions' as *;
 
-.input {
+// we can not name it .input because it conflicts with hubspot embedded forms
+// where .input is a wrapper for the input field, not the input field itself
+
+.q-input {
   // VARIABLES
   $height: (
     md: $spacer * 2.5,

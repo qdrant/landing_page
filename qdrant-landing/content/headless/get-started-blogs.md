@@ -1,8 +1,8 @@
 ---
 title: Get Started with Qdrant Free
-getStarted:
+button:
   text: Get Started
-  url: /
+  url: https://cloud.qdrant.io/
 image:
   src: /img/rocket.svg
   alt: Rocket

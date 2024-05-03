@@ -1,0 +1,54 @@
+@use '../helpers/functions' as *;
+
+.share-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  @include media-breakpoint-up(xl) {
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: $spacer * 1.5;
+    width: $spacer * 5;
+    padding-left: $spacer * 2;
+  }
+
+  &__title {
+    font-size: rem(18);
+    line-height: rem(27);
+    font-weight: bold;
+    margin-bottom: 0;
+    padding-bottom: $spacer * 0.5;
+    border-bottom: rem(1) solid $primary-50;
+  }
+
+  &__links {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: $spacer * 2;
+    @include media-breakpoint-up(xl) {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  }
+
+  &_horizontal {
+    width: auto;
+    align-items: center;
+    gap: $spacer * 1.5;
+    @include media-breakpoint-up(xl) {
+      flex-direction: row;
+      padding: 0;
+    }
+
+    .share-buttons__title {
+      border-bottom: 0;
+      padding-bottom: 0;
+    }
+
+    .share-buttons__links {
+      flex-direction: row;
+    }
+  }
+}

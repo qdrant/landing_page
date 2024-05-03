@@ -1,0 +1,21 @@
+{{ $variant := .Scratch.Get "variant" }}
+<section class="share-buttons {{ if eq $variant "horizontal" }}share-buttons_horizontal{{ end }}">
+  {{ if eq $variant "horizontal" }}
+    <p class="share-buttons__title">Share this article</p>
+  {{ else }}
+    <p class="share-buttons__title">Share</p>
+  {{ end }}
+  <div class="share-buttons__links">
+    {{ $link := .Permalink }}
+    {{ $title := .Title }}
+    {{ with (.Site.GetPage "/headless/share-buttons") }}
+      {{ range .Params.buttons }}
+        {{ $url := .url | replaceRE "\\{\\{\\s*\\$link\\s*\\}\\}" $link | replaceRE "\\{\\{\\s*\\$title\\s*\\}\\}" $title }}
+        <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" title="{{ .title }}">
+          {{ .icon | safeHTML }}
+        </a>
+      {{ end }}
+    {{ end }}
+  </div>
+</section>
+{{ .Scratch.Delete "variant" }}

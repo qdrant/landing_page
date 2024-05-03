@@ -15,22 +15,17 @@ cards:
   description: For developer questions about Qdrant usage, please join our
   link: 
     text: Discord Server
-    href: /
+    href: https://qdrant.to/discord
 form:
+  id: contact-us-form
   title: Talk to our Team
-  firstNameLabel: First Name
-  lastNameLabel: Last Name
-  workEmailLabel: Work Email
-  companyLabel: Company
-  businessPhoneLabel: Business Phone
-  jobFunctionLabel: Job Function
-  inquiryTypeLabel: Inquiry Type
-  messageLabel: Message
-  info: By submitting, I confirm that I have read and understood the
-  link: 
-    href: /
-    text: Privacy Policy
-  button: Send Message
+  hubspotFormOptions: '{
+    "region": "eu1",
+    "portalId": "139603372",
+    "formId": "814b303f-2f24-460a-8a81-367146d98786",
+    "submitButtonClass": "button button_contained",
+    "submitText": "Send Message"
+  }'
 sitemapExclude: true
 ---
 
