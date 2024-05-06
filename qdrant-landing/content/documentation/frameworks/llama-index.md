@@ -36,5 +36,8 @@ index = VectorStoreIndex.from_vector_store(vector_store=vector_store)
 
 ```
 
-The library [comes with a notebook](https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/vector_stores/QdrantIndexDemo.ipynb) 
-that shows an end-to-end example of how to use Qdrant within LlamaIndex.
+## Further Reading
+
+- [LlamaIndex Documentation](https://docs.llamaindex.ai/en/stable/examples/vector_stores/QdrantIndexDemo/)
+- [Example Notebook](https://colab.research.google.com/github/run-llama/llama_index/blob/main/docs/docs/examples/vector_stores/QdrantIndexDemo.ipynb)
+- [Source Code](https://github.com/run-llama/llama_index/tree/main/llama-index-integrations/vector_stores/llama-index-vector-stores-qdrant)

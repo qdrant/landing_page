@@ -1,6 +1,6 @@
 ---
 title: Langchain4J
-weight: 110
+weight: 2110
 ---
 
 # LangChain for Java
@@ -53,3 +53,4 @@ EmbeddingStore<TextSegment> embeddingStore =
 ## Further Reading
 
 - You can refer to the [Langchain4J examples](https://github.com/langchain4j/langchain4j-examples/) to get started.
+- [Source Code](https://github.com/langchain4j/langchain4j/tree/main/langchain4j-qdrant)

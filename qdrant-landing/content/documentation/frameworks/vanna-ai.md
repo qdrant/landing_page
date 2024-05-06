@@ -80,3 +80,4 @@ vn.ask(question="<YOUR_QUESTION>")
 
 - [Getting started with Vanna.AI](https://vanna.ai/docs/app/)
 - [Vanna.AI documentation](https://vanna.ai/docs/)
+- [Source Code](https://github.com/vanna-ai/vanna/tree/main/src/vanna/qdrant)

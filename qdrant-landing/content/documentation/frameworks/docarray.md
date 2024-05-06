@@ -17,4 +17,7 @@ To install DocArray with Qdrant support, please do
 pip install "docarray[qdrant]"
 ```
 
-More information can be found in [DocArray's documentations](https://docarray.jina.ai/advanced/document-store/qdrant/).
+## Further Reading
+
+- [DocArray documentations](https://docarray.jina.ai/advanced/document-store/qdrant/).
+- [Source Code](https://github.com/docarray/docarray/blob/main/docarray/index/backends/qdrant.py)

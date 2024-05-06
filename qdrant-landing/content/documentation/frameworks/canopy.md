@@ -88,3 +88,4 @@ kb.query(
 
 - [Introduction to Canopy](https://www.pinecone.io/blog/canopy-rag-framework/)
 - [Canopy library reference](https://github.com/pinecone-io/canopy/blob/main/docs/library.md)
+- [Source Code](https://github.com/pinecone-io/canopy/tree/main/src/canopy/knowledge_base/qdrant)

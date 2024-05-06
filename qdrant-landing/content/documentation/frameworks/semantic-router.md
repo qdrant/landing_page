@@ -103,3 +103,4 @@ This returns:
 
 - Semantic-Router [Documentation](https://github.com/aurelio-labs/semantic-router/tree/main/docs)
 - Semantic-Router [Video Course](https://www.aurelio.ai/course/semantic-router)
+- [Source Code](https://github.com/aurelio-labs/semantic-router/blob/main/semantic_router/index/qdrant.py)

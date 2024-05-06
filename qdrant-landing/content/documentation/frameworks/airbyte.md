@@ -74,5 +74,7 @@ long as Airbyte supports it. The process is pretty straightforward, but depends 
 
 ![Airbyte connection](/documentation/frameworks/airbyte/connection.png)
 
-More information about creating connections can be found in the 
-[Airbyte documentation](https://docs.airbyte.com/understanding-airbyte/connections/).
+## Further Reading
+
+- [Airbyte documentation](https://docs.airbyte.com/understanding-airbyte/connections/).
+- [Source Code](https://github.com/airbytehq/airbyte/tree/master/airbyte-integrations/connectors/destination-qdrant)

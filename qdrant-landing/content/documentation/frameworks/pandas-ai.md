@@ -93,3 +93,4 @@ agent.train(queries=[query], codes=[response])
 
 - [Getting Started with Pandas-AI](https://pandasai-docs.readthedocs.io/en/latest/getting-started/)
 - [Pandas-AI Reference](https://pandasai-docs.readthedocs.io/en/latest/)
+- [Source Code](https://github.com/Sinaptik-AI/pandas-ai/blob/main/pandasai/ee/vectorstores/qdrant.py)

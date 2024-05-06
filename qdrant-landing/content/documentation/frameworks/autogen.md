@@ -100,4 +100,6 @@ rag_proxy_agent.initiate_chat(assistant, problem=code_problem)
 
 ## Next steps
 
-Check out more Autogen [examples](https://microsoft.github.io/autogen/docs/Examples). You can find detailed documentation about AutoGen [here](https://microsoft.github.io/autogen/).
+- Autogen [examples](https://microsoft.github.io/autogen/docs/Examples)
+- AutoGen [documentation](https://microsoft.github.io/autogen/)
+- [Source Code](https://github.com/microsoft/autogen/blob/main/autogen/agentchat/contrib/qdrant_retrieve_user_proxy_agent.py)

@@ -1,6 +1,6 @@
 ---
 title: Langchain Go
-weight: 120
+weight: 2120
 ---
 
 # Langchain Go
@@ -65,3 +65,5 @@ import (
 ## Further Reading
 
 - You can find usage examples of Langchain Go [here](https://github.com/tmc/langchaingo/tree/main/examples).
+
+- [Source Code](https://github.com/tmc/langchaingo/tree/main/vectorstores/qdrant)
