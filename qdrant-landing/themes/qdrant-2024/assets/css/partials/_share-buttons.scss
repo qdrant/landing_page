@@ -26,10 +26,19 @@
     display: flex;
     justify-content: flex-end;
     align-items: center;
-    gap: $spacer * 2;
+    gap: $spacer;
     @include media-breakpoint-up(xl) {
       flex-direction: column;
       justify-content: flex-start;
+    }
+
+    & > a {
+      padding: 0.5rem;
+      transition: background-color 0.3s;
+      &:hover {
+        background-color: $neutral-94;
+        border-radius: 0.25rem;
+      }
     }
   }
 

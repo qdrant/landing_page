@@ -57,7 +57,7 @@
     display: none;
   }
 
-  @include bs.media-breakpoint-up(xl) {
+  @include bs.media-breakpoint-up(lg) {
     padding-top: $paddingTop;
     padding-bottom: $paddingBottom;
     position: relative;

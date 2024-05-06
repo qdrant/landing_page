@@ -39,7 +39,7 @@
     display: none;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
 
     &__title {
