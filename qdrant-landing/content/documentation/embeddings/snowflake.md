@@ -85,7 +85,7 @@ COLLECTION_NAME = "example_collection"
 qclient.create_collection(
     COLLECTION_NAME,
     vectors_config=VectorParams(
-        size=1536,
+        size=384,
         distance=Distance.COSINE,
     ),
 )
@@ -113,7 +113,7 @@ await client.upsert(COLLECTION_NAME, {
 Once the documents are added, you can search for the most relevant documents.
 
 ```python
-query_embedding = embedding_model.query_embed("What is the best to use for vector search scaling?")
+query_embedding = next(embedding_model.query_embed("What is the best to use for vector search scaling?"))
 
 qclient.search(
     collection_name=COLLECTION_NAME,
