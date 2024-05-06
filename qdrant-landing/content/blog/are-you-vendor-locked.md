@@ -23,7 +23,7 @@ The last words of a seasoned IT professional
 
 As long as we are using any product, our solution’s infrastructure will depend on its vendors. Many say that building custom infrastructure will hurt velocity. **Is this true in the age of AI?**
 
-It depends on where your company is at. Most companies don’t survive more than five years, so putting too much effort into infrastructure is not the best use of their resources. You first need to survive and demonstrate product viability.
+It depends on where your company is at. Most startups don’t survive more than five years, so putting too much effort into infrastructure is not the best use of their resources. You first need to survive and demonstrate product viability.
 
 **Sometimes you may pick the right vendors and still fail.**
 
@@ -48,7 +48,7 @@ When GPU hosting becomes too expensive, large and exciting Gen AI projects lose 
 
 *Enterprises have many reasons to stay provider agnostic - but cost is the main one.*
 
-[Appenzeller, Bornstein & Casade from Andreessen Horowitz](https://a16z.com/navigating-the-high-cost-of-ai-compute/) point to growing costs of AI compute. It is still a vendor’s market for A100 hourly GPUs, largely due to supply constraints. Furthermore, the price differences between AWS, GCP and Azure are dynamic enough to justify extensive cost-benefit analysis from prospective customers.
+[Appenzeller, Bornstein & Casado from Andreessen Horowitz](https://a16z.com/navigating-the-high-cost-of-ai-compute/) point to growing costs of AI compute. It is still a vendor’s market for A100 hourly GPUs, largely due to supply constraints. Furthermore, the price differences between AWS, GCP and Azure are dynamic enough to justify extensive cost-benefit analysis from prospective customers.
 
 ![gpu-costs-a16z](/blog/are-you-vendor-locked/gpu-costs-a16z.png)
 
@@ -76,7 +76,7 @@ You spend months setting up the infrastructure, but your competitor goes all in 
 
 **Problem:** If you're not locked into a vendor, you're locked into managing a much larger team of engineers. The build vs buy tradeoff is real and it comes with its own set of risks and costs.
 
-**Acknowledgement:** Any organization that processes vast amounts of data with AI needs custom infrastructure and dedicated resources, no matter the industry. ****Having to work with expensive services such as A100 GPUs justifies the existence of in-house DevOps crew. Any enterprise that scales up needs to employ vigilant operatives if it wants to manage costs. 
+**Acknowledgement:** Any organization that processes vast amounts of data with AI needs custom infrastructure and dedicated resources, no matter the industry. Having to work with expensive services such as A100 GPUs justifies the existence of in-house DevOps crew. Any enterprise that scales up needs to employ vigilant operatives if it wants to manage costs. 
 
 > There is no need for **Fear, Uncertainty and Doubt**. Vendor lock is not a futile cause - so let’s dispel the sentiment that all vendors are adversaries. You just need to work with a company that is willing to accommodate flexible use of products.
 > 
