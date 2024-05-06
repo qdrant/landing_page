@@ -21,6 +21,7 @@
   &__case {
     display: flex;
     flex-direction: column;
+    gap: $spacer * 2.5;
 
     &-text {
       width: 100%;
@@ -55,7 +56,7 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 10;
 
@@ -113,6 +114,12 @@
           text-align: right;
         }
       }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__case {
+      gap: 0;
     }
   }
 }

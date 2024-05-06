@@ -10,7 +10,7 @@
     color: $neutral-20;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     position: relative;
 
     &:before,
