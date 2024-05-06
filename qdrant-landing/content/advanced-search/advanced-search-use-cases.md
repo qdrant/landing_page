@@ -9,7 +9,7 @@ features:
   description: The demo showcases semantic search for startup descriptions through SentenceTransformer and Qdrant, comparing neural search's accuracy with traditional searches for better content discovery.
   link:
     text: View Demo
-    url: /
+    url: https://demo.qdrant.tech/
 - id: 1
   image:
     src: /img/advanced-search-use-cases/multimodal-semantic-search.svg
@@ -18,7 +18,7 @@ features:
   description: This tutorial shows you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks.
   link:
     text: View Tutorial
-    url: /
+    url: /documentation/examples/aleph-alpha-search/
 - id: 2
   image:
     src: /img/advanced-search-use-cases/simple-neural-search.svg
@@ -27,7 +27,7 @@ features:
   description: This tutorial shows you how to build and deploy your own neural search service.
   link:
     text: View Tutorial
-    url: /
+    url: /documentation/tutorials/neural-search/
 - id: 3
   image:
     src: /img/advanced-search-use-cases/image-classification.svg
@@ -36,7 +36,7 @@ features:
   description: In this tutorial, you will learn how a semantic search engine for images can help diagnose different types of skin conditions.
   link:
     text: View Tutorial
-    url: /
+    url: https://github.com/qdrant/examples/blob/master/ecommerce_reverse_image_search/ecommerce-reverse-image-search.ipynb
 - id: 4
   image:
     src: /img/advanced-search-use-cases/semantic-search-101.svg
@@ -45,7 +45,7 @@ features:
   description: Build a semantic search engine for science fiction books in 5 mins.
   link:
     text: View Tutorial
-    url: /
+    url: /documentation/tutorials/search-beginners/
 - id: 5
   image:
     src: /img/advanced-search-use-cases/hybrid-search-service-fastembed.svg
@@ -54,7 +54,7 @@ features:
   description: This tutorial guides you through building and deploying your own hybrid search service using Fastembed.
   link:
     text: View Tutorial
-    url: /
+    url: /documentation/tutorials/hybrid-search-fastembed/
 sitemapExclude: true
 ---
 
