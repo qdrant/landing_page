@@ -1,0 +1,13 @@
+@use '../mixins/get-started-small' as get-started-small;
+
+.partners-get-started {
+  @include get-started-small.base(
+    $spacer * 5,
+    $spacer * 1.5,
+    $spacer * 3.5,
+    $spacer * 2.5,
+    $neutral-94,
+    url('/img/stars-pattern.png') $neutral-10,
+    url('/img/stars-pattern.png') $neutral-10
+  );
+}
