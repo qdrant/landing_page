@@ -1,4 +1,5 @@
 @use '../helpers/functions' as *;
+@use '../mixins/mixins' as *;
 
 .documentation-article {
   padding-top: $spacer * 2;
@@ -26,9 +27,7 @@
     margin-bottom: $spacer;
   }
 
-  img {
-    width: 100%;
-  }
+  @include content-image($font-size-sm, $neutral-90, $spacer);
 
   li:not(:last-of-type) {
     margin-bottom: $spacer * 0.5;
@@ -71,16 +70,11 @@
   }
 
   .table-responsive {
-    margin-bottom: $spacer;
-
-    table {
-      width: 100%;
-
-      td,
-      th {
-        vertical-align: top;
-        padding: $spacer * 0.5;
-      }
+    .table {
+      @extend .table-dark;
+    }
+    th, td {
+      background: inherit;
     }
   }
 
