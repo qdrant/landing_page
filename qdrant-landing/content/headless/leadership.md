@@ -22,9 +22,9 @@ teamMembers:
     position: Finance
     avatar: '/img/leadership/dominik-alberts.png'
   - id: 5
-    name: Demetrios B.
+    name: David Myriel
     position: Developer Relations
-    avatar: '/img/leadership/demetrios-b.png'
+    avatar: '/img/leadership/david-myriel.png'
   - id: 6
     name: Manuel Meyer
     position: Growth

@@ -40,7 +40,7 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-bottom: $spacer * 5;
 
     &__cards {

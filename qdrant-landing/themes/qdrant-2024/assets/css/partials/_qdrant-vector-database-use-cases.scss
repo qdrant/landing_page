@@ -53,7 +53,7 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 10;
 
