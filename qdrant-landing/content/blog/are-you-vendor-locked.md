@@ -48,11 +48,11 @@ When GPU hosting becomes too expensive, large and exciting Gen AI projects lose 
 
 *Enterprises have many reasons to stay provider agnostic - but cost is the main one.*
 
-[Appenzeller, Bornstein & Casade from Andressen Horowitz](https://a16z.com/navigating-the-high-cost-of-ai-compute/) point to growing costs of AI compute. It is still a vendor’s market for A100 hourly GPUs, largely due to supply constraints. Furthermore, the price differences between AWS, GCP and Azure are dynamic enough to justify extensive cost-benefit analysis from prospective customers.
+[Appenzeller, Bornstein & Casade from Andreessen Horowitz](https://a16z.com/navigating-the-high-cost-of-ai-compute/) point to growing costs of AI compute. It is still a vendor’s market for A100 hourly GPUs, largely due to supply constraints. Furthermore, the price differences between AWS, GCP and Azure are dynamic enough to justify extensive cost-benefit analysis from prospective customers.
 
 ![gpu-costs-a16z](/blog/are-you-vendor-locked/gpu-costs-a16z.png)
 
-*Source: Andressen Horowitz*
+*Source: Andreessen Horowitz*
 
 Sure, your competitors can brag about all the features they can access - but are they willing to admit how much their company has lost to convenience and increasing costs? 
 
