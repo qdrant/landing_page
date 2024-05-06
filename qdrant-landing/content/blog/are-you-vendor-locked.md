@@ -52,6 +52,8 @@ When GPU hosting becomes too expensive, large and exciting Gen AI projects lose 
 
 ![gpu-costs-a16z](/blog/are-you-vendor-locked/gpu-costs-a16z.png)
 
+*Source: Andressen Horowitz*
+
 Sure, your competitors can brag about all the features they can access - but are they willing to admit how much their company has lost to convenience and increasing costs? 
 
 As an enterprise customer, one shouldn’t expect a vendor to stay consistent in this market.
@@ -103,4 +105,5 @@ Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](
 
 #### Try it out!
 
-![hybrid-cloud-cta.png](/blog/are-you-vendor-locked/hybrid-cloud-cta.png)
+[![hybrid-cloud-cta.png](/blog/are-you-vendor-locked/hybrid-cloud-cta.png)](https://qdrant.to/cloud)
+
