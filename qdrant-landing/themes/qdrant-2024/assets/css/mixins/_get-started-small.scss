@@ -51,6 +51,14 @@
     }
   }
 
+  &__description {
+    margin-top: -16px;
+    margin-bottom: rem(16);
+    padding: 0 rem(24);
+    color: #b4bacc;
+    text-align: center;
+  }
+
   &__overlay-top {
     position: absolute;
     right: 0;
@@ -85,6 +93,12 @@
     &__title {
       text-align: left;
       padding: 0;
+    }
+
+    &__description {
+      max-width: rem(570);
+      padding: 0;
+      text-align: left;
     }
 
     &__text {

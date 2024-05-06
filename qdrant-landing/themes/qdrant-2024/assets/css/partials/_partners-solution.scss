@@ -1,0 +1,89 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
+
+.partners-solution {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 1.5;
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  &__description {
+    margin: 0 auto $spacer * 5;
+    font-size: rem(20);
+    line-height: rem(30);
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  &__content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+    padding: $spacer * 5 0;
+    z-index: 2;
+  }
+
+  &__cards {
+    @include marquee.base(80px, 264px, 8, 8, 12px, $neutral-94, false, 10s, none);
+
+    &__container {
+      z-index: 2;
+    }
+
+    &__item {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: $spacer * 0.5 rem(60);
+      background-color: $neutral-98;
+      border-radius: rem(12);
+      border: rem(1) solid $neutral-90;
+
+      img {
+        width: $spacer * 7.5;
+        max-width: none;
+      }
+    }
+  }
+
+  &__square-grid-overlay {
+    display: block;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: rem(240);
+    background-image: url('/img/square-grid-small.svg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    z-index: 1;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 2.5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: rem(57);
+    }
+
+    &__description {
+      max-width: rem(730);
+    }
+
+    &__square-grid-overlay {
+      background-size: contain;
+    }
+  }
+}

@@ -1,0 +1,26 @@
+{{ $class := .class }}
+<section class="testimonial-light {{ $class }}">
+  <div class="container">
+    <div class="row gy-4 gx-3">
+      <div class="col-12 col-xl-9">
+        <div class="testimonial-light__content">
+          <p class="testimonial-light__review">{{ .context.Params.review }}</p>
+          <div class="testimonial-light__employees">
+            <div class="testimonial-light__employees-avatar">
+              <img src="{{ .context.Params.avatar.src }}" alt="{{ .context.Params.avatar.alt }}" />
+            </div>
+            <div class="testimonial-light__employees-position">
+              <p>{{ .context.Params.names }}</p>
+              <p>{{ .context.Params.positions }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-xl-3">
+        <div class="testimonial-light__logo">
+          <img src="{{ .context.Params.logo.src }}" alt="{{ .context.Params.logo.alt }}" />
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
