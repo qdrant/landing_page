@@ -4,6 +4,9 @@
       <div class="row justify-content-md-between align-items-md-center">
         <div class="{{ .class }}__text col-12 col-md-7">
           <h3 class="{{ .class }}__title">{{ .context.Params.title }}</h3>
+          {{ if .context.Params.description }}
+            <p class="{{ .class }}__description">{{ .context.Params.description }}</p>
+          {{ end }}
           <a href="{{ .context.Params.button.url }}" class="button button_contained" target="_blank">
             {{ .context.Params.button.text }}
           </a>
