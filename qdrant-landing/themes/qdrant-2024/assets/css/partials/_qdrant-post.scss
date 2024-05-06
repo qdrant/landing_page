@@ -45,7 +45,9 @@
     li {
       margin-bottom: $spacer * 2;
     }
-    p, li, table {
+    p,
+    li,
+    table {
       font-weight: 400;
     }
 
@@ -89,8 +91,13 @@
   // Modifiers
   &_centered {
     .qdrant-post__body {
+      width: $post-content-width;
+      margin: 0 auto;
       flex-direction: column;
       align-items: center;
+    }
+    .qdrant-post__content {
+      width: 100%;
     }
   }
 
@@ -99,7 +106,7 @@
       width: $post-content-width;
       margin: 0 auto;
       padding-top: $spacer * 5;
-      padding-bottom: $spacer * 5;
+      padding-bottom: $spacer * 2;
     }
 
     &__title {
@@ -123,18 +130,25 @@
         line-height: rem(27);
       }
 
-      h2 {
+      h2:not(:first-child) {
         padding-top: $spacer * 2;
+      }
+      h2 {
         font-size: $spacer * 2.5;
         line-height: $spacer * 3;
       }
 
-      h3 {
+      h3:not(:first-child) {
         padding-top: $spacer * 2;
+      }
+      h3 {
         font-size: $spacer * 2;
         line-height: rem(38);
       }
 
+      h4:not(:first-child) {
+        padding-top: $spacer * 2;
+      }
       h4 {
         padding-top: $spacer * 2;
         font-size: $spacer * 1.5;

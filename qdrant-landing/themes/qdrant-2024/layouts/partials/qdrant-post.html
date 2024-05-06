@@ -1,10 +1,5 @@
 <section class="qdrant-post {{ if eq .variant "centered" }}qdrant-post_centered{{ end }}">
   <article class="container">
-    <div class="row">
-      <div class="col-12 mt-5">
-        {{ partial "breadcrumbs" .context }}
-      </div>
-    </div>
     <div class="qdrant-post__header">
       <h2 class="qdrant-post__title">{{ .context.Params.title }}</h2>
       <div class="qdrant-post__about">
@@ -18,6 +13,11 @@
       {{ if .context.Params.preview_dir }}
         <img class="qdrant-post__preview" src="{{ .context.Params.preview_dir }}/title.jpg" alt="Preview" />
       {{ end }}
+    </div>
+    <div class="row">
+      <div class="col-12 mb-5">
+        {{ partial "breadcrumbs" .context }}
+      </div>
     </div>
 
     <div class="qdrant-post__body">
