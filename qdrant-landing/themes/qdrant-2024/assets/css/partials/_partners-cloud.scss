@@ -1,0 +1,35 @@
+@use '../helpers/functions' as *;
+
+.partners-cloud {
+  padding-top: $spacer * 4;
+  background-color: $neutral-94;
+  text-align: center;
+
+  &__title {
+    margin-bottom: $spacer * 1.5;
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin-bottom: $spacer;
+    font-size: rem(18);
+    line-height: rem(27);
+    color: $neutral-30;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+    }
+
+    &__description {
+      font-size: rem(20);
+      line-height: rem(30);
+    }
+  }
+}

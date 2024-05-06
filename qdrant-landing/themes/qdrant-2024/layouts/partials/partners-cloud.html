@@ -1,0 +1,14 @@
+{{ with (.Site.GetPage "/partners/partners-cloud") }}
+  <section class="partners-cloud">
+    <div class="partners-cloud__overlay"></div>
+    <div class="container">
+      <div class="d-flex flex-column align-items-center">
+        <h2 class="partners-cloud__title">{{ .Params.title }}</h2>
+        <p class="partners-cloud__description">{{ .Params.description }}</p>
+        <a href="{{ .Params.link.url }}" class="link link_xl">
+          {{ .Params.link.text }}
+        </a>
+      </div>
+    </div>
+  </section>
+{{ end }}

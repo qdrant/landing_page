@@ -1,0 +1,75 @@
+@use '../helpers/functions' as *;
+
+.partners-hero {
+  position: relative;
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 4;
+  text-align: center;
+  overflow: hidden;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-98;
+    margin: 0 auto $spacer * 1.5;
+  }
+
+  &__description {
+    font-size: rem(18);
+    line-height: rem(27);
+    color: $neutral-70;
+    margin: 0 auto $spacer * 3;
+  }
+
+  &__image {
+    position: relative;
+    display: none;
+    z-index: 2;
+  }
+
+  &__image-mobile {
+    position: relative;
+    width: 100%;
+    z-index: 2;
+  }
+
+  &__overlay {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: -30px;
+    width: 100%;
+    height: rem(240);
+    background-image: url('/img/blurred/blurred-light-14.svg');
+    background-position: center;
+    background-size: cover;
+    z-index: 1;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 3;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 4;
+      line-height: rem(76);
+    }
+
+    &__description {
+      font-size: rem(20);
+      line-height: rem(30);
+      max-width: rem(730);
+    }
+
+    &__image {
+      display: block;
+      width: 100%;
+      max-width: rem(1254);
+      margin: 0 auto;
+    }
+
+    &__image-mobile {
+      display: none;
+    }
+  }
+}

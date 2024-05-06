@@ -1,0 +1,85 @@
+@use '../helpers/functions' as *;
+
+.testimonial-light {
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__content {
+    padding: $spacer * 2 $spacer * 2.5;
+    background: $neutral-98;
+    border-radius: $spacer * 0.5;
+    border: rem(1) solid $neutral-90;
+  }
+
+  &__review {
+    margin-bottom: $spacer * 2.5;
+    font-size: rem(20);
+    line-height: rem(30);
+    color: $neutral-20;
+  }
+
+  &__employees {
+    display: flex;
+    flex-direction: column;
+
+    &-avatar {
+      margin-bottom: $spacer;
+      height: $spacer * 3;
+      width: rem(48);
+      height: rem(48);
+      border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    &-position {
+      p {
+        margin-bottom: 0;
+      }
+
+      p:first-of-type {
+        color: $neutral-20;
+      }
+
+      p:last-of-type {
+        font-size: rem(14);
+        line-height: rem(21);
+        color: $neutral-60;
+      }
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacer * 2;
+    background: $neutral-98;
+    border-radius: $spacer * 0.5;
+    border: rem(1) solid $neutral-90;
+
+    img {
+      width: rem(150);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer * 5;
+
+    &__employees {
+      flex-direction: row;
+
+      &-avatar {
+        margin-bottom: 0;
+        margin-right: $spacer;
+      }
+    }
+
+    &__logo {
+      height: 100%;
+    }
+  }
+}

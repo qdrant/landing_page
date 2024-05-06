@@ -1,0 +1,33 @@
+@use '../helpers/functions' as *;
+
+.partners-embeddings {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
+
+  &__description {
+    color: $neutral-98;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__image {
+    display: none;
+  }
+
+  &__image-mobile {
+    width: 100%;
+    margin-top: $spacer * 2.5;
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__image {
+      display: block;
+      width: rem(560);
+    }
+
+    &__image-mobile {
+      display: none;
+      margin-left: auto;
+    }
+  }
+}
