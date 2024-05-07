@@ -46,8 +46,21 @@
       transform: translateY(-50%);
     }
 
-    input {
-      padding-left: $spacer * 2.5;
+    button {
+      padding-left: $spacer * 2.8;
+      color: $neutral-70;
+      &:after {
+        content: '';
+        display: block;
+        width: 1rem;
+        height: 1rem;
+        margin-top: 1px;
+        position: absolute;
+        top: 50%;
+        left: $spacer;
+        transform: translateY(-50%);
+        background: url("/icons/outline/search-white.svg") no-repeat;
+      }
     }
   }
 
