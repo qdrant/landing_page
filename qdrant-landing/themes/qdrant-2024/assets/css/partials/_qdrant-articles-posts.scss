@@ -13,7 +13,7 @@
     padding-bottom: 27.36%;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
   }
 }

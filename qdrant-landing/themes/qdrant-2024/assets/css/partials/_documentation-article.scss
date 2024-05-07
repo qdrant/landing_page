@@ -27,6 +27,10 @@
     margin-bottom: $spacer;
   }
 
+  a:hover {
+    text-decoration: underline;
+  }
+
   @include content-image($font-size-sm, $neutral-90, $spacer);
 
   li:not(:last-of-type) {

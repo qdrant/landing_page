@@ -28,13 +28,14 @@
 
   &__preview {
     margin-top: $spacer * 2.5;
+    text-align: center;
 
     img {
-      width: 100%;
+      max-width: 100%;
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
 
@@ -51,7 +52,8 @@
         margin-bottom: rem(30);
       }
     }
-
+  }
+  @include media-breakpoint-up(xl) {
     &__preview {
       margin-top: 0;
     }
