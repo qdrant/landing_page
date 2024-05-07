@@ -342,14 +342,16 @@
   margin-bottom:25px;
 }
 
-.contact-form .form-group label{
+.contact-form .form-group label,
+  .contact-form  label{
   position:relative;
   color: var(--brand-secondary);
   font-size:16px;
   margin-bottom:15px;
 }
 
-.contact-form .form-group input{
+.contact-form .form-group input,
+.contact-form .input input {
   position:relative;
   height:50px;
   padding:6px 30px;
@@ -358,6 +360,7 @@
   border-radius:50px;
   border: 1px solid var(--brand-dark-gray);
   font-family: $font-family-non-content;
+  margin-bottom: 1.5rem;
 }
 
 .contact-form .form-group textarea:focus,
@@ -376,9 +379,13 @@
   font-family: $font-family-non-content;
 }
 
-.contact-form .form-group button{
-  border-radius:50px;
+.contact-form .form-group button,
+.contact-form input[type="submit"]{
+  @extend .form-button-base;
   width:100%;
+  &:hover {
+    background: var(--brand-secondary);
+  }
 }
 
 .contact-form input.error,
@@ -396,4 +403,7 @@
   font-size:12px;
   color:#ff0000;
   font-weight:500;
+}
+.hs-error-msgs label {
+  color: var(--brand-error-500);
 }

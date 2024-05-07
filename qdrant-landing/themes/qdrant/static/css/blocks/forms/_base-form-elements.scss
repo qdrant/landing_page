@@ -38,7 +38,6 @@
   @include mixins.buttonHoverEffect(var(--brand-secondary), var(--neutral-white, #FFF));
 
   @include media-breakpoint-up(md) {
-    width: 12.7rem;
     line-height: 1.5rem; /* 150% */
   }
 }
@@ -52,3 +51,12 @@
   }
 }
 
+.form-base {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 1.5rem;
+  position: relative;
+}

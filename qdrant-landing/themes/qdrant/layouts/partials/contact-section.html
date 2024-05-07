@@ -1,4 +1,5 @@
 <!-- Contact Form Section -->
+<script charset="utf-8" type="text/javascript" src="//js-eu1.hsforms.net/forms/embed/v2.js"></script>
 {{ $variant := .Scratch.Get "variant" }}
 
 {{ if eq $variant "compact" }}
@@ -7,18 +8,21 @@
 <section class="newsletter-form newsletter-form_compact">
     <p class="newsletter-form_compact__title">A place to learn how to become an expert traveler through vector space.
         Subscribe and we will update you on features and news.</p>
-    <form
-            class="newsletter-form_compact__form d-flex flex-column flex-md-row validate"
-            action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form-{{ $randNum }}"
-            name="mc-embedded-subscribe-form" target="_blank" novalidate>
-        <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
-               id="mce-EMAIL">
-        <div style="position: absolute; left: -5000px;" aria-hidden="true">
-            <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
-                   value="">
-        </div>
-        <button type="submit"><span class="text">Subscribe</span></button>
-    </form>
+    <div id="hubspot-1">
+        <script>
+          hbspt.forms.create({
+            region: "eu1",
+            portalId: "139603372",
+            formId: "049d96c6-ef65-4e41-ba69-a3335b9334cf",
+            cssClass: "newsletter-form_compact__form",
+            submitText: "Subscribe",
+            target: '#hubspot-1',
+            pageId: '{{- .Permalink -}}',
+            formInstanceId: '{{- .Permalink -}}-compact',
+          });
+        </script>
+    </div>
+
 </section>
 
 {{ else if eq $variant "two-columns" }}
@@ -33,19 +37,19 @@
             <div class="col-12 col-md-6">
                 <p class="newsletter-form_two-columns__subtitle">We will update you on new features and news regarding <br class="d-none d-lg-inline"> Qdrant and Vector Similarity Search.</p>
             </div>
-            <div class="col-12 col-md-6">
-                <form
-                        class="newsletter-form_two-columns__form d-flex flex-column flex-md-row validate"
-                        action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form-{{ $randNum2 }}"
-                        name="mc-embedded-subscribe-form" target="_blank" novalidate>
-                    <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
-                           id="mce-EMAIL-{{ $randNum2 }}">
-                    <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                        <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
-                               value="">
-                    </div>
-                    <button type="submit"><span class="text">Subscribe</span></button>
-                </form>
+            <div class="col-12 col-md-6" id="hubspot-2">
+                <script>
+                  hbspt.forms.create({
+                    region: "eu1",
+                    portalId: "139603372",
+                    formId: "049d96c6-ef65-4e41-ba69-a3335b9334cf",
+                    cssClass: "newsletter-form_two-columns__form",
+                    submitText: "Subscribe",
+                    target: '#hubspot-2',
+                    pageId: '{{ .Permalink }}',
+                    formInstanceId: '{{- .Permalink -}}-two-columns',
+                  });
+                </script>
             </div>
         </div>
     </div>
@@ -65,22 +69,20 @@
             </div>
             <div class="content-column col-12">
                 <!-- Newsletter Form -->
-                <div class="newsletter-form newsletter-form_default">
-                    <form action="{{ .Site.Params.mailchimp_subscribe }}" method="post" id="mc-embedded-subscribe-form-{{ $randNum3 }}"
-                          name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
-                        <div class="d-flex justify-content-between flex-wrap">
-                            <input type="email" name="EMAIL" value="" placeholder="Enter Your Email" required=""
-                                   id="mce-EMAIL-{{ $randNum3 }}">
-                            <div style="position: absolute; left: -5000px;" aria-hidden="true">
-                                <input type="text" name="{{ .Site.Params.mailchimp_subscribe_id }}" tabindex="-1"
-                                       value="">
-                            </div>
-                            <button type="submit"
-                                    class="theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive">
-                                <span class="txt">Subscribe</span>
-                            </button>
-                        </div>
-                    </form>
+                <div class="newsletter-form newsletter-form_default" id="hubspot-3">
+                    <script>
+                      hbspt.forms.create({
+                        region: "eu1",
+                        portalId: "139603372",
+                        formId: "049d96c6-ef65-4e41-ba69-a3335b9334cf",
+                        cssClass: "newsletter-form_default__form",
+                        submitButtonClass: "theme-btn btn-style-four btn-style-four_rounded btn-style-four_reversed btn-style-four_big btn-style-four_responsive",
+                        submitText: "Subscribe",
+                        target: '#hubspot-3',
+                        pageId: '{{ .Permalink }}',
+                        formInstanceId: '{{- .Permalink -}}-default',
+                      });
+                    </script>
                 </div>
             </div>
         </div>
