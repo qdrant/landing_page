@@ -18,6 +18,7 @@
     position: relative;
 
     & > label {
+      display: none;
       margin-left: 1.5rem;
       color: var(--brand-secondary);
       position: absolute;
