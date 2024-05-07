@@ -86,26 +86,13 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;
 
     &__header {
       align-items: center;
       justify-content: space-between;
-    }
-
-    &__title {
-      font-size: $spacer * 3.5;
-      line-height: rem(67);
-      margin-bottom: 0;
-    }
-
-    &__form {
-      &-search-block {
-        width: rem(534);
-        margin-left: auto;
-      }
     }
 
     &__articles {
@@ -125,6 +112,21 @@
             border-top: none;
           }
         }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+      margin-bottom: 0;
+    }
+
+    &__form {
+      &-search-block {
+        width: rem(534);
+        margin-left: auto;
       }
     }
   }

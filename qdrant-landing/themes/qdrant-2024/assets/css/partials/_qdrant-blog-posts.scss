@@ -10,7 +10,7 @@
     margin-bottom: $spacer * 5;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     &__articles {
       gap: $spacer * 5 0;
     }

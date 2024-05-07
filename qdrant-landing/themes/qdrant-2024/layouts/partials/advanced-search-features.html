@@ -2,12 +2,12 @@
   <section class="use-cases-vector-features">
     <div class="container">
       <div class="use-cases-vector-features__header row">
-        <h3 class="use-cases-vector-features__title col-12 col-xl-6">{{ .Params.title }}</h3>
-        <p class="use-cases-vector-features__description col-12 col-xl-6">{{ .Params.description }}</p>
+        <h3 class="use-cases-vector-features__title col-12 col-lg-6">{{ .Params.title }}</h3>
+        <p class="use-cases-vector-features__description col-12 col-lg-6">{{ .Params.description }}</p>
       </div>
-      <div class="row g-4 gy-xl-3">
+      <div class="row g-4 gy-lg-3">
         {{ range $index, $element := .Params.features }}
-          <div class="col-12 {{ if or (eq $index 0) (eq $index 3) }}col-xl-7{{ else }}col-xl-5{{ end }}">
+          <div class="col-12 {{ if or (eq $index 0) (eq $index 3) }}col-lg-7{{ else }}col-lg-5{{ end }}">
             <div class="card use-cases-vector-features__card">
               <img class="use-cases-vector-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
               <h6 class="use-cases-vector-features__card-title">{{ .title }}</h6>
