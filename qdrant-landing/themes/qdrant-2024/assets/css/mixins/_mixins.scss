@@ -1,13 +1,15 @@
 @use '../helpers/functions' as lib;
 
 @mixin content-image($caption-size, $caption-color, $margin) {
-  img, figure {
+  img,
+  figure {
     display: block;
     max-width: 100%;
     height: auto;
     margin: $margin auto;
   }
-  figcaption, figcaption p {
+  figcaption,
+  figcaption p {
     color: $caption-color;
     font-size: $caption-size;
     text-align: center;

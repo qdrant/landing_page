@@ -43,7 +43,8 @@
     .table {
       @extend .table-dark;
     }
-    th, td {
+    th,
+    td {
       background: inherit;
       img {
         margin: 0;
