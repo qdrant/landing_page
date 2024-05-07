@@ -1,0 +1,59 @@
+@use "../helpers/functions" as *;
+
+.feedback {
+  margin-top: rem(12);
+  &__title {
+    color: $neutral-98;
+    margin-bottom: calc($spacer / 2);
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+  }
+  &__question {
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+    color: $neutral-70;
+    margin-bottom: rem(12);
+  }
+  &__answer {
+    outline: none;
+    border: none;
+    border-radius: 8px;
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+    padding: rem(4) $spacer;
+    &_yes {
+      color: $success-90;
+      background-color: $success-10;
+      margin-right: rem(12);
+      box-sizing: border-box;
+      &:hover {
+        background-color: $success-30;
+        color: $neutral-100;
+      }
+    }
+    &_no {
+      color: $error-90;
+      background-color: $error-10;
+      &:hover {
+        background-color: $error-30;
+        color: $neutral-100;
+      }
+    }
+    &[disabled] {
+      display: none;
+    }
+  }
+
+  &__response {
+    display: none;
+    padding: 10px 8px;
+    color: $neutral-100;
+    background: $neutral-20;
+    border-radius: 8px;
+    font-size: $font-size-sm;
+
+    &_visible {
+      display: block;
+    }
+  }
+}
