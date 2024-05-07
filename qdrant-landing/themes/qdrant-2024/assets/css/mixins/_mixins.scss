@@ -1,11 +1,23 @@
 @use '../helpers/functions' as lib;
 
-@mixin content-image {
-  img {
+@mixin content-image($caption-size, $caption-color, $margin) {
+  img, figure {
+    display: block;
     max-width: 100%;
     height: auto;
-    margin: 0 auto;
-    border-radius: lib.rem(14);
+    margin: $margin auto;
+  }
+  figcaption, figcaption p {
+    color: $caption-color;
+    font-size: $caption-size;
+    text-align: center;
+    margin-top: $margin;
+    @if ($margin > 1rem) {
+      margin-top: $margin * 0.4;
+    }
+  }
+  figure img {
+    margin-bottom: 0;
   }
 }
 
