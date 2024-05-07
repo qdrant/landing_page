@@ -8,26 +8,19 @@
 
       <ul class="table-contents__external-links">
         <li class="table-contents__link">
-          <a href="/">
+          <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
             {{ partial "svg" "github-red.svg" }}
             Edit on Github
           </a>
         </li>
         <li class="table-contents__link">
-          <a href="/">
+          <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
             {{ partial "svg" "bug-red.svg" }}
             Create an issue
           </a>
         </li>
       </ul>
-      <div class="table-contents__feedback">
-        <h2 class="table-contents__feedback__title">Feedback</h2>
-        <p class="table-contents__feedback__question">Was this page helpful?</p>
-        <div class="table-contents__feedback__controls">
-          <button class="table-contents__feedback__button" type="button">Yes</button>
-          <button class="table-contents__feedback__button" type="button">No</button>
-        </div>
-      </div>
+      {{ partial "feedback" . }}
     </div>
   {{ end }}
 </div>
