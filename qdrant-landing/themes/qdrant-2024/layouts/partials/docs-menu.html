@@ -7,15 +7,14 @@
     </div>
     <div id="sidebar" class="docs-menu__content">
       <div class="docs-menu__input">
-        {{ partial "svg" "search-white.svg" }}
-        <input
-          class="q-input input_md input_light-bg"
-          type="text"
+        <button
+          class="qdr-search-input-btn q-input input_md input_light-bg"
+          type="button"
           name="search"
-          value=""
-          placeholder="Search"
-          required=""
-        />
+          data-target="#searchModal"
+          >
+            Search
+        </button>
       </div>
 
       {{ $subject := site.GetPage "documentation" }}
