@@ -1,36 +1,39 @@
 {{ if .Site.Params.feedback.enable }}
+  <div class="feedback d-print-none">
+    <h6 class="feedback__title">{{ .Site.Params.feedback.title }}</h6>
+    <p class="feedback__question">{{ .Site.Params.feedback.question }}</p>
+    <button class="btn feedback__answer feedback__answer_yes">{{ .Site.Params.feedback.positive }}</button>
+    <button class="btn feedback__answer feedback__answer_no">{{ .Site.Params.feedback.negative }}</button>
+    <p class="feedback__response feedback__response_yes">
+      {{ .Site.Params.feedback.on_yes | safeHTML }}
+    </p>
+    <p class="feedback__response feedback__response_no">
+      {{ .Site.Params.feedback.on_no | safeHTML }}
+      <br />You can
+      <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank"
+        >edit</a
+      >
+      this page on GitHub, or
+      <a class="text-brand-p" href="{{ .Site.Params.githubIssueLink }}" target="_blank">create</a> a GitHub issue.
+    </p>
+  </div>
 
-<div class="feedback d-print-none">
-  <h6 class="feedback__title">{{ .Site.Params.feedback.title }}</h6>
-  <p class="feedback__question">{{ .Site.Params.feedback.question }}</p>
-  <button class="btn feedback__answer feedback__answer_yes">{{ .Site.Params.feedback.positive }}</button>
-  <button class="btn feedback__answer feedback__answer_no">{{ .Site.Params.feedback.negative }}</button>
-  <p class="feedback__response feedback__response_yes">
-    {{.Site.Params.feedback.on_yes | safeHTML }}
-  </p>
-  <p class="feedback__response feedback__response_no">
-    {{.Site.Params.feedback.on_no | safeHTML }}
-    <br>You can <a class="text-brand-p" href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">edit</a> this page on GitHub, or <a class="text-brand-p" href="{{ .Site.Params.githubIssueLink }}" target="_blank">create</a> a GitHub issue.
-  </p>
-</div>
-
-<script>
-  const yesButton = document.querySelector('.feedback__answer_yes');
-  const noButton = document.querySelector('.feedback__answer_no');
-  const yesResponse = document.querySelector('.feedback__response_yes');
-  const noResponse = document.querySelector('.feedback__response_no');
-  const disableButtons = () => {
-    yesButton.disabled = true;
-    noButton.disabled = true;
-  };
-  yesButton.addEventListener('click', () => {
-    yesResponse.classList.add('feedback__response_visible');
-    disableButtons();
-  });
-  noButton.addEventListener('click', () => {
-    noResponse.classList.add('feedback__response_visible');
-    disableButtons();
-  });
-</script>
-
+  <script>
+    const yesButton = document.querySelector('.feedback__answer_yes');
+    const noButton = document.querySelector('.feedback__answer_no');
+    const yesResponse = document.querySelector('.feedback__response_yes');
+    const noResponse = document.querySelector('.feedback__response_no');
+    const disableButtons = () => {
+      yesButton.disabled = true;
+      noButton.disabled = true;
+    };
+    yesButton.addEventListener('click', () => {
+      yesResponse.classList.add('feedback__response_visible');
+      disableButtons();
+    });
+    noButton.addEventListener('click', () => {
+      noResponse.classList.add('feedback__response_visible');
+      disableButtons();
+    });
+  </script>
 {{ end }}

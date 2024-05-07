@@ -12,16 +12,25 @@
 {{ end }}
 
 {{ if eq .Section "hybrid-cloud" }}
-{{ $hybridCloudCss := resources.Get "css/hybrid-cloud.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-<link href="{{ $hybridCloudCss.RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  {{ $hybridCloudCss := resources.Get "css/hybrid-cloud.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link
+    href="{{ $hybridCloudCss.RelPermalink }}"
+    rel="stylesheet"
+    integrity="{{ .Data.Integrity }}"
+    crossorigin="anonymous"
+  />
 {{ end }}
 
 {{ if eq .Section "documentation" }}
-{{ $documentationCss := resources.Get "css/documentation.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-<link href="{{ $documentationCss.RelPermalink }}" rel="stylesheet" integrity="{{ $documentationCss.Data.Integrity }}" />
+  {{ $documentationCss := resources.Get "css/documentation.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link
+    href="{{ $documentationCss.RelPermalink }}"
+    rel="stylesheet"
+    integrity="{{ $documentationCss.Data.Integrity }}"
+  />
 {{ end }}
 
 {{ if not (in (slice "hybrid-cloud" "documentation") .Section) }}
-{{ $mainCss := resources.Get "css/main.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
-<link href="{{ $mainCss.RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
+  {{ $mainCss := resources.Get "css/main.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $mainCss.RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
 {{ end }}
