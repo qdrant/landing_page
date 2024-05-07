@@ -4,15 +4,15 @@
     <div class="container">
       <div class="mission__content">
         {{ if .Params.link.url }}
-        <a href="{{ .Params.link.url }}" class="mission__link">
-          <span class="mission__logo"></span>
-          {{ .Params.link.text }}
-        </a>
+          <a href="{{ .Params.link.url }}" class="mission__link">
+            <span class="mission__logo"></span>
+            {{ .Params.link.text }}
+          </a>
         {{ else }}
-        <span class="mission__link">
-          <span class="mission__logo"></span>
-          {{ .Params.link.text }}
-        </span>
+          <span class="mission__link">
+            <span class="mission__logo"></span>
+            {{ .Params.link.text }}
+          </span>
         {{ end }}
         <h2 class="mission__title">{{ .Params.title }}</h2>
       </div>

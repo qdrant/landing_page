@@ -68,7 +68,6 @@
   }
 
   @include media-breakpoint-up(md) {
-
     &__cards {
       justify-content: space-between;
       gap: 0;

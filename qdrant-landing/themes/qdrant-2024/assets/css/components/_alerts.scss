@@ -1,7 +1,7 @@
-@use "../helpers/functions" as *;
+@use '../helpers/functions' as *;
 
-aside[role="alert"],
-aside[role="status"] {
+aside[role='alert'],
+aside[role='status'] {
   position: relative;
   padding: $spacer * 1.5 $spacer * 1.5 $spacer * 1.5 $spacer * 3.5;
   margin-bottom: $spacer;
@@ -23,7 +23,7 @@ aside[role="status"] {
   }
 }
 
-aside[role="alert"] {
+aside[role='alert'] {
   background-color: $warning-10;
   color: $warning-70;
   a {
@@ -31,7 +31,7 @@ aside[role="alert"] {
     border-bottom: rem(1) solid $warning-70;
   }
   &:before {
-    content: "\26A0";
+    content: '\26A0';
     font-size: rem(12);
   }
   code {
@@ -39,7 +39,7 @@ aside[role="alert"] {
     background-color: $warning-30;
   }
 }
-aside[role="status"] {
+aside[role='status'] {
   background-color: $secondary-blue-10;
   color: $secondary-blue-70;
   a {
@@ -47,7 +47,7 @@ aside[role="status"] {
     border-bottom: rem(1) solid $secondary-blue-70;
   }
   &:before {
-    content: "\24D8";
+    content: '\24D8';
     font-size: rem(24);
   }
   code {
