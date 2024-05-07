@@ -633,26 +633,24 @@ client.createCollection("{collection_name}", {
 ```rust
 use qdrant_client::{
     client::QdrantClient,
-    qdrant::{
-        vectors_config::Config, CreateCollection, Distance, SparseVectorParams, VectorParamsMap,
-        VectorsConfig,
-    },
+    qdrant::{CreateCollection, SparseVectorConfig, SparseVectorParams},
 };
+
 
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
         collection_name: "{collection_name}".to_string(),
-        sparse_vectors_config: Some(SparseVectorsConfig {
-            map: [
-                    (
-                        "text".to_string(),
-                        SparseVectorParams {},
-                    ),
-                ]
-                .into(),
-            }),
+        sparse_vectors_config: Some(SparseVectorConfig {
+            map: [(
+                "text".to_string(),
+                SparseVectorParams {
+                    ..Default::default()
+                },
+            )]
+            .into(),
+            ..Default::default()
         }),
         ..Default::default()
     })
@@ -786,10 +784,10 @@ use qdrant_client::qdrant::OptimizersConfigDiff;
 client
     .update_collection(
         "{collection_name}",
-        &OptimizersConfigDiff {
+        Some(&OptimizersConfigDiff {
             indexing_threshold: Some(10000),
             ..Default::default()
-        },
+        }),
         None,
         None,
         None,
@@ -1298,7 +1296,7 @@ use qdrant_client::qdrant::OptimizersConfigDiff;
 client
     .update_collection(
         "{collection_name}",
-        &OptimizersConfigDiff::default(),
+        Some(&OptimizersConfigDiff::default()),
         None,
         None,
         None,

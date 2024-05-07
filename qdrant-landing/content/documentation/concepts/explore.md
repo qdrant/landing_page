@@ -139,6 +139,22 @@ client
     .get();
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.RecommendAsync(
+    "{collection_name}",
+    positive: new ulong[] { 100, 231 },
+    negative: new ulong[] { 718 },
+    filter: MatchKeyword("city", "London"),
+    limit: 3
+);
+```
+
 Example result of this API would be
 
 ```json
@@ -1010,6 +1026,31 @@ client
             .setLimit(10)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DiscoverAsync(
+  collectionName: "{collection_name}",
+  context:
+  [
+    new()
+    {
+      Positive = new VectorExample { Id = 100 },
+      Negative = new VectorExample { Id = 718 }
+    },
+    new()
+    {
+      Positive = new VectorExample { Id = 200 },
+      Negative = new VectorExample { Id = 300 }
+    }
+  ],
+  limit: 10
+);
 ```
 
 <aside role="status">

@@ -346,7 +346,7 @@ client.create_collection(
     sharding_method=models.ShardingMethod.CUSTOM,
     # ... other collection parameters
 )
-client.create_shard_key("{collection_name}", "user_1")
+client.create_shard_key("{collection_name}", "{shard_key}")
 ```
 
 ```typescript
@@ -359,13 +359,17 @@ client.createCollection("{collection_name}", {
     sharding_method: "custom",
     // ... other collection parameters
 });
+
+client.createShardKey("{collection_name}", {
+    shard_key: "{shard_key}"
+});
 ```
 
 ```rust
 
 use qdrant_client::{
     client::QdrantClient,
-    qdrant::{CreateCollection, ShardingMethod},
+    qdrant::{CreateCollection, ShardingMethod, shard_key::Key}
 };
 
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
@@ -379,13 +383,27 @@ client
         ..Default::default()
     })
     .await?;
+
+client
+    .create_shard_key(
+        "{collection_name}",
+        &Key::Keyword("{shard_key".to_string()),
+        None,
+        None,
+        &[],
+    )
+    .await?;
 ```
 
 ```java
+import static io.qdrant.client.ShardKeyFactory.shardKey;
+
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.ShardingMethod;
+import io.qdrant.client.grpc.Collections.CreateShardKey;
+import io.qdrant.client.grpc.Collections.CreateShardKeyRequest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
@@ -399,6 +417,13 @@ client
             .setShardingMethod(ShardingMethod.Custom)
             .build())
     .get();
+
+client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setRequest(CreateShardKey.newBuilder()
+                                .setShardKey(shardKey("{shard_key}"))
+                                .build())
+                .build()).get();
 ```
 
 ```csharp
@@ -413,6 +438,11 @@ await client.CreateCollectionAsync(
 	shardNumber: 1,
 	shardingMethod: ShardingMethod.Custom
 );
+
+await client.CreateShardKeyAsync(
+    "{collection_name}",
+    new CreateShardKey { ShardKey = new ShardKey { Keyword = "{shard_key}", } }
+    );
 ```
 
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
