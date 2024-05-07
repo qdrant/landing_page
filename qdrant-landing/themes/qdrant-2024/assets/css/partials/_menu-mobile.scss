@@ -75,6 +75,10 @@
     line-height: rem(27);
 
     color: $neutral-20;
+
+    a {
+      color: $neutral-20;
+    }
   }
 
   &__item-content {
