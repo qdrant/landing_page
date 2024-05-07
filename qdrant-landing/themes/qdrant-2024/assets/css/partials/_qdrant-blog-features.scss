@@ -116,19 +116,18 @@
     }
   }
 
-    @include media-breakpoint-up(xl) {
-      &__title {
-        font-size: $spacer * 3.5;
-        line-height: rem(67);
-        margin-bottom: 0;
-      }
-
-      &__form {
-        &-search-block {
-          width: rem(534);
-          margin-left: auto;
-        }
-      }
-
+  @include media-breakpoint-up(xl) {
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+      margin-bottom: 0;
     }
+
+    &__form {
+      &-search-block {
+        width: rem(534);
+        margin-left: auto;
+      }
+    }
+  }
 }
