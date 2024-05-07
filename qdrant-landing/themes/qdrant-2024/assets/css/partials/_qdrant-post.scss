@@ -1,4 +1,5 @@
 @use '../helpers/functions' as *;
+@use '../mixins/mixins' as *;
 
 .qdrant-post {
   &__header {
@@ -73,9 +74,7 @@
       margin-bottom: $spacer;
     }
 
-    img {
-      width: 100%;
-    }
+    @include content-image($font-size-sm, $neutral-50, $spacer * 2);
 
     iframe {
       margin-bottom: $spacer * 2;
@@ -91,7 +90,7 @@
   // Modifiers
   &_centered {
     .qdrant-post__body {
-      width: $post-content-width;
+      max-width: $post-content-width;
       margin: 0 auto;
       flex-direction: column;
       align-items: center;
@@ -155,9 +154,8 @@
         line-height: rem(34);
       }
 
-      img,
       iframe {
-        margin: $spacer * 2 0;
+        margin: $spacer * 2 auto;
       }
     }
   }
