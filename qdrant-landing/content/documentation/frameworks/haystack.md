@@ -43,3 +43,8 @@ document_store = QdrantDocumentStore(
     ),
 )
 ```
+
+## Further Reading
+
+- [Haystack Documentation](https://haystack.deepset.ai/integrations/qdrant-document-store)
+- [Source Code](https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/qdrant)

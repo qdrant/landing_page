@@ -94,4 +94,5 @@ WHERE `metadata.source` = 'bbc';
 
 ## Next steps
 
-You can find more information pertaining to MindsDB and its datasources [here](https://docs.mindsdb.com/).
+- You can find more information pertaining to MindsDB and its datasources [here](https://docs.mindsdb.com/).
+- [Source Code](https://github.com/mindsdb/mindsdb/tree/main/mindsdb/integrations/handlers/qdrant_handler)

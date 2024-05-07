@@ -67,3 +67,4 @@ You can now use the `VectorStore` instance backed by Qdrant as a vector store in
 
 - Spring AI [Qdrant reference](https://docs.spring.io/spring-ai/reference/api/vectordbs/qdrant.html)
 - Spring AI [API reference](https://docs.spring.io/spring-ai/reference/index.html)
+- [Source Code](https://github.com/spring-projects/spring-ai/tree/main/vector-stores/spring-ai-qdrant)

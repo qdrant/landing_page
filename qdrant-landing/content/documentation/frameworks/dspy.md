@@ -68,4 +68,6 @@ With the generic RAG blueprint now in place, you can add the many interactions o
 
 ## Next steps
 
-Find DSPy usage docs and examples [here](https://github.com/stanfordnlp/dspy#4-documentation--tutorials).
+- Find DSPy usage docs and examples [here](https://github.com/stanfordnlp/dspy#4-documentation--tutorials).
+
+- [Source Code](https://github.com/stanfordnlp/dspy/blob/main/dspy/retrieve/qdrant_rm.py)
