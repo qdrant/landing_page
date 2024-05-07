@@ -71,6 +71,9 @@
       });
     });
   </script>
+
+{{ $anchorJs := resources.Get "/js/vendor/anchor.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $anchorJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if eq .Section "documentation" }}
