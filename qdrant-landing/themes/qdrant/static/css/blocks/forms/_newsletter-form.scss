@@ -41,6 +41,10 @@
       color: var(--brand-error-500);
     }
   }
+  .hs_error_rollup {
+    position: absolute;
+    bottom: -28px;
+  }
 
   &_default {
     margin-bottom: 35px;
