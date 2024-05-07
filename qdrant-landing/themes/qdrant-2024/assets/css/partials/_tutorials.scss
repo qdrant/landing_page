@@ -107,7 +107,7 @@
     color: $success-50;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     flex-direction: row;
     padding-top: $spacer * 5;
     padding-bottom: $spacer * 5;

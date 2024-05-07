@@ -47,7 +47,7 @@
     }
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     &__title {
       font-size: $spacer * 3;
       line-height: rem(57);
