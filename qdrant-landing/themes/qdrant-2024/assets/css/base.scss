@@ -2,15 +2,15 @@
 @import 'satoshi-font';
 @import 'bootstrap-custom';
 
+@import 'components';
 @import 'syntax-highlight';
 @import 'mathjax';
-@import 'components';
+@import 'cookit';
 @import 'partials/logo';
 @import 'partials/top-banner';
 @import 'partials/menu-mobile';
 @import 'partials/menu';
 @import 'partials/link';
 @import 'partials/hubspot-form';
-@import 'partials/footer';
-@import 'cookit';
 @import 'partials/breadcrumbs';
+@import 'partials/footer';
