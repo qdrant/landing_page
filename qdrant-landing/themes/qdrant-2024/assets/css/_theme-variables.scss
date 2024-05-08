@@ -60,10 +60,10 @@ $error-70: #fe897f;
 $error-90: #ffdad6;
 
 $grays: (
-  '100': $neutral-94,
-  '200': $neutral-90,
-  '300': $neutral-80,
-  '400': $neutral-60,
+  '100': $neutral-98,
+  '200': $neutral-94,
+  '300': $neutral-90,
+  '400': $neutral-70,
   '500': $neutral-50,
   '600': $neutral-40,
   '700': $neutral-30,
@@ -78,7 +78,7 @@ $theme-colors: (
   'info': $secondary-blue-70,
   'warning': $warning-50,
   'danger': $error-50,
-  'light': $neutral-100,
+  'light': $neutral-98,
   'dark': $neutral-10,
 );
 
@@ -87,6 +87,21 @@ $link-color: $primary-50;
 $link-hover-color: $primary-50;
 $link-decoration: none;
 // don't use underline for links hover by default
+
+$input-disabled-color: $neutral-40;
+$input-disabled-border-color: $neutral-94;
+$input-disabled-bg: $neutral-20;
+
+$form-select-bg: $neutral-98;
+
+$form-select-disabled-bg: $neutral-94;
+$form-select-disabled-border-color: $input-disabled-border-color;
+$form-select-disabled-color: $input-disabled-color;
+
+$table-color: $neutral-10;
+$table-border-color: $neutral-90;
+$table-striped-color: $table-color;
+$table-striped-bg: $neutral-94;
 
 $font-family-sans-serif: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
   'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';

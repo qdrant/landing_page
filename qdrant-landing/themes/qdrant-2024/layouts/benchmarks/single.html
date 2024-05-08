@@ -1,0 +1,41 @@
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+    {{ .Scratch.Set "withDate" "true" }}
+    {{ partial "qdrant-articles-hero" . }}
+  </header>
+
+  <div class="container my-5 benchmark">
+    <div class="row">
+      <div class="col-12 mb-5">
+        {{ partial "breadcrumbs" . }}
+      </div>
+    </div>
+    <div class="row qdrant-post qdrant-post_centered">
+      <div class="col-12 qdrant-post__body benchmark__post-wrapper">
+        <article class="qdrant-post__content">
+          {{ if .Params.single_node_data }}
+            <section>
+              {{ partial "benchmark_chart"
+                (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
+              }}
+            </section>
+          {{ end }}
+
+          {{ if .Params.filter_data }}
+            <section>
+              {{ partial "benchmark_filter_chart" . }}
+            </section>
+          {{ end }}
+
+          {{ .Scratch.Set "scope" "single" }}
+          {{ partial "article-content" . }}
+        </article>
+        {{ .Scratch.Set "variant" "horizontal" }}
+        {{ partial "share-buttons" . }}
+      </div>
+    </div>
+  </div>
+{{ end }}

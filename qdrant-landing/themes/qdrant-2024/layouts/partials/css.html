@@ -30,7 +30,12 @@
   />
 {{ end }}
 
-{{ if not (in (slice "hybrid-cloud" "documentation") .Section) }}
+{{ if eq .Section "benchmarks" }}
+  {{ $benchmarksCss := resources.Get "css/benchmarks.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
+  <link href="{{ $benchmarksCss.RelPermalink }}" rel="stylesheet" integrity="{{ $benchmarksCss.Data.Integrity }}" />
+{{ end }}
+
+{{ if not (in (slice "hybrid-cloud" "documentation" "benchmarks") .Section) }}
   {{ $mainCss := resources.Get "css/main.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $mainCss.RelPermalink }}" rel="stylesheet" integrity="{{ .Data.Integrity }}" crossorigin="anonymous" />
 {{ end }}

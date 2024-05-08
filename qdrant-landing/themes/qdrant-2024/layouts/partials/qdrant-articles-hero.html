@@ -1,7 +1,12 @@
+{{ $withDate := .Scratch.Get "withDate" }}
 <section class="qdrant-articles-hero">
   <div class="container">
     <h1 class="qdrant-articles-hero__title">{{ .Params.title }}</h1>
     <h5 class="qdrant-articles-hero__subtitle">{{ .Params.section_title }}</h5>
+    {{ if eq $withDate "true" }}
+      <p class="text-light small">{{ time.Format "January 02, 2006" .Date }}</p>
+    {{ end }}
   </div>
   <div class="qdrant-articles-hero__overlay"></div>
 </section>
+{{ .Scratch.Delete "withDate" }}

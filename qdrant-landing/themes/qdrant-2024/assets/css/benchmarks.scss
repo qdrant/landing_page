@@ -1,0 +1,24 @@
+@import 'base';
+@import 'partials/qdrant-articles-hero';
+@import 'partials/qdrant-post';
+@import 'partials/share-buttons';
+
+.benchmark {
+  &__post-wrapper {
+    width: 100%;
+    max-width: 100% !important;
+    padding-bottom: 0;
+  }
+  &__plot-wrapper {
+    margin-bottom: $spacer * 2;
+  }
+  .table-striped {
+    th,
+    td {
+      font-size: $font-size-sm;
+    }
+  }
+  .breadcrumbs {
+    margin-left: 0;
+  }
+}

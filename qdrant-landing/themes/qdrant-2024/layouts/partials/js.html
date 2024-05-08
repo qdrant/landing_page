@@ -34,7 +34,7 @@
   <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentation") .Section) }}
+{{ if in (slice "blog" "articles" "benchmarks" "documentation") .Section }}
   <!--popper.js for bootstrap-->
   <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
 
