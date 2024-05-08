@@ -7,14 +7,11 @@
         <span>&middot;</span>
         <p>{{ time.Format "January 02, 2006" .context.Date }}</p>
       </div>
-      {{ if .context.Params.preview_image }}
-        <picture>
-          <source srcset="{{ .Params.preview_dir }}/title.webp" type="image/webp" />
-          <img alt="{{ .Title }}" src="{{ .Params.preview_dir }}/title.jpg" />
-        </picture>
-      {{ end }}
       {{ if .context.Params.preview_dir }}
-        <img class="qdrant-post__preview" src="{{ .context.Params.preview_dir }}/title.jpg" alt="Preview" />
+        <picture>
+          <source srcset="{{ .context.Params.preview_dir }}/title.webp" type="image/webp" />
+          <img alt="{{ .context.Title }}" src="{{ .context.Params.preview_dir }}/title.jpg" />
+        </picture>
       {{ end }}
     </div>
     <div class="row">
