@@ -1,0 +1,46 @@
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+    {{ partial "qdrant-articles-hero" . }}
+  </header>
+
+  <div class="container my-5">
+    {{ range $i,$p := where .Data.Pages "Section" "benchmarks" }}
+
+      {{ if .Params.Unlisted }}
+
+      {{ else }}
+        <div class="row qdrant-post qdrant-post_centered benchmark">
+          <div class="col-12 qdrant-post__body benchmark__post-wrapper">
+            <article class="qdrant-post__content">
+              {{ .Scratch.Set "scope" "single" }}
+              {{ $link := .Permalink }}
+              {{ if .Params.external_link }}
+                {{ $link = .Params.external_link }}
+              {{ end }}
+
+              {{ if .Description }}
+                <h2 class="qdrant-post__title">{{ .Title }}</h2>
+                <p>{{ .Description | safeHTML }}</p>
+              {{ end }}
+
+              {{ if .Params.single_node_data }}
+                {{ partial "benchmark_chart"
+                  (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
+                }}
+              {{ end }}
+
+              {{ if .Params.filter_data }}
+                {{ partial "benchmark_filter_chart" . }}
+              {{ end }}
+
+              {{ partial "article-content" . }}
+            </article>
+          </div>
+        </div>
+      {{ end }}
+    {{ end }}
+  </div>
+{{ end }}
