@@ -58,14 +58,5 @@ Read more about [optimizing](../../guides/optimize/), and [quantization](../../g
 
 ### How can I enhance search performance when applying filters to their queries?
 
-To improve search performance with filters in Qdrant:
-
-- **Utilize Payload Index:** Implement payload indexes for fields used in filtering conditions. This enhances point retrieval speed based on filter criteria.
-- **Consider Full-text Index:** For string payloads, utilize full-text indexes for word or phrase presence filtering, adjusting tokenization parameters as needed.
-- **Parameterized Integer Index:** Opt for parameterized integer indexes for specific range filter requirements, balancing between lookup and range operations.
-- **Leverage Vector Index:** Employ HNSW for dense vector indexing, adjusting parameters like `m` and `ef_construct` for improved search accuracy and efficiency.
-- **Sparse Vector Index:** For sparse vectors, ensure efficient indexing and search mechanisms. Configure memory or disk storage based on segment characteristics and query patterns.
-- **Filtrable Index Extension:** Enhance HNSW graph with additional edges based on payload values to optimize search efficiency with varying filter stringency.
-
-By strategically combining these indexing techniques, you can address performance issues and achieve faster search results with applied filters in Qdrant.
+To enhance the search performance with the filters in qdrant, it's important to optimize the indexing strategies. Users can get a combination of vector and traditional indexes from qdrant, where the vector indexes reduce the time taken for the vector search and the payload indexes quicken the pace of filtering. Users need to strategically mark the fields as indexable as well as prioritize the fields that appear frequently in the filtering conditions in order to efficiently utilize the memory resources. Through thorough cosideration of the memory constraints as well as careful index configuration, users can effectively enhance search performance with filters in qdrant.
 Read more about [indexing](../../concepts/indexing/) in Qdrant.
