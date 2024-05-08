@@ -2,6 +2,24 @@
 @import 'satoshi-font';
 @import 'bootstrap-custom';
 
+html {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: $neutral-50;
+    border-radius: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background: $neutral-20;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: $neutral-60;
+  }
+  scrollbar-width: thin;
+  scrollbar-color: $neutral-50 $neutral-20;
+}
 @import 'components';
 @import 'syntax-highlight';
 @import 'mathjax';
