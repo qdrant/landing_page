@@ -6,7 +6,7 @@
     <p class="share-buttons__title">Share</p>
   {{ end }}
   <div class="share-buttons__links">
-    {{ $link := .Permalink }}
+    {{ $link := urlquery .Permalink }}
     {{ $title := .Title }}
     {{ with (.Site.GetPage "/headless/share-buttons") }}
       {{ range .Params.buttons }}
