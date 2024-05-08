@@ -27,6 +27,8 @@ Semantic cache differs from traditional caching methods. In computing, **cache**
 
 > The term **"semantic"** implies that the cache takes into account the meaning or semantics of the data or computation being cached, rather than just its syntactic representation. This can lead to more efficient caching strategies that exploit the structure or relationships within the data or computation.
 
+![semantic-cache-question](/blog/semantic-cache-ai-data-retrieval/semantic-cache-question.png)
+
 Traditional caches operate on an exact match basis, while semantic caches search for the meaning of the key rather than an exact match. For example, **"What is the capital of Brazil?"** and **"Can you tell me the capital of Brazil?"** are semantically equivalent, but not exact matches. A semantic cache recognizes such semantic equivalence and provides the correct result. 
 
 In this blog and video, we will walk you through how to use Qdrant to implement a basic semantic cache system. You can also try the [notebook example](https://github.com/infoslack/qdrant-example/blob/main/semantic-cache.ipynb) for this implementation.
