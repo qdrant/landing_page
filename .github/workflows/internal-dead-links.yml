@@ -15,7 +15,7 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "latest"
+          hugo-version: "v0.123.0"
       - name: Install npm
         uses: actions/setup-node@v2
         with:
