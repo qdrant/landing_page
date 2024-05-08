@@ -7,7 +7,7 @@
     {{ if gt (len . ) 0 }}
       {{ $rellink = printf "%s/%s" $rellink . }}
       <li class="breadcrumbs__crumb">/</li>
-      <li class="breadcrumbs__crumb"><a href="{{ $rellink }}">{{ humanize . }}</a></li>
+      <li class="breadcrumbs__crumb"><a href="{{ $rellink }}/">{{ humanize . }}</a></li>
     {{ end }}
   {{ end }}
   <li class="breadcrumbs__crumb">/</li>
