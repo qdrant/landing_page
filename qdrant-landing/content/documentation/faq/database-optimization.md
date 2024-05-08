@@ -42,9 +42,9 @@ There are several possible reasons for that:
 - **Usage of on-disk vector storage with slow disks** -- If you're using on-disk vector storage, ensure you have fast enough disks. We recommend using local SSDs with at least 50k IOPS. Read more about the influence of the disk speed on the search latency in the article about [Memory Consumption](../../../articles/memory-consumption/).
 - **Large limit or non-optimal query parameters** -- A large limit or offset might lead to significant performance degradation. Please pay close attention to the query/collection parameters that significantly diverge from the defaults. They might be the reason for the performance issues.
 
-### How can I optimize optimizers configuration settings for better accuracy and speed, especially for large-scale collections?
+### How can I optimize optimizer's configuration settings for better accuracy and speed, especially for large-scale collections?
 
-To optimize optimizers config in Qdrant for better accuracy and speed, consider the following:
+To optimize optimizer's config in Qdrant for better accuracy and speed, consider the following:
 
 - For low memory footprint with high-speed search, utilize vector quantization with disk storage for vectors and in-memory quantized vectors. Configure memmap_threshold and always_ram accordingly.
 - To prioritize high precision with a low memory footprint, enable on-disk vectors and HNSW index. Adjust HNSW parameters for precision while considering disk IOPS.
@@ -56,7 +56,7 @@ To optimize optimizers config in Qdrant for better accuracy and speed, consider 
 
 Read more about [optimizing](../../guides/optimize/), and [quantization](../../guides/quantization/) in Qdrant.
 
-### How can Qdrant I enhance search performance when applying filters to their queries?
+### How can I enhance search performance when applying filters to their queries?
 
 To improve search performance with filters in Qdrant:
 
