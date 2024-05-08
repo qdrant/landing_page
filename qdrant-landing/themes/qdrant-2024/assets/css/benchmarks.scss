@@ -1,4 +1,4 @@
-@import "base";
+@import 'base';
 @import 'partials/qdrant-articles-hero';
 @import 'partials/qdrant-post';
 @import 'partials/share-buttons';
@@ -13,7 +13,8 @@
     margin-bottom: $spacer * 2;
   }
   .table-striped {
-    th, td {
+    th,
+    td {
       font-size: $font-size-sm;
     }
   }

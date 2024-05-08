@@ -366,6 +366,6 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
       .querySelector('.table')
       .remove();
   }
-  document.getElementById('table-' + chartId).classList.add('table-responsive','table-responsive-md')
+  document.getElementById('table-' + chartId).classList.add('table-responsive', 'table-responsive-md');
   document.getElementById('table-' + chartId).append(table);
 };

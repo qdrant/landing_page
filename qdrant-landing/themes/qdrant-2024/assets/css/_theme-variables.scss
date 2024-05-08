@@ -88,20 +88,20 @@ $link-hover-color: $primary-50;
 $link-decoration: none;
 // don't use underline for links hover by default
 
-$input-disabled-color:                  $neutral-40;
-$input-disabled-border-color:           $neutral-94;
-$input-disabled-bg:                     $neutral-20;
+$input-disabled-color: $neutral-40;
+$input-disabled-border-color: $neutral-94;
+$input-disabled-bg: $neutral-20;
 
-$form-select-bg:                    $neutral-98;
+$form-select-bg: $neutral-98;
 
-$form-select-disabled-bg:           $neutral-94;
+$form-select-disabled-bg: $neutral-94;
 $form-select-disabled-border-color: $input-disabled-border-color;
 $form-select-disabled-color: $input-disabled-color;
 
 $table-color: $neutral-10;
 $table-border-color: $neutral-90;
-$table-striped-color:         $table-color;
-$table-striped-bg:            $neutral-94;
+$table-striped-color: $table-color;
+$table-striped-bg: $neutral-94;
 
 $font-family-sans-serif: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
   'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';

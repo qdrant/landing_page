@@ -1,66 +1,74 @@
 <div class="benchmark__plot-wrapper" id="benchmark-plot-wrapper-{{ .Params.id }}">
   <div class="row mb-2 small">
     <div class="col-3">
-  <label for="datasets-selector-{{ .Params.id }}" class="mb-1">Dataset:</label>
-  <select  class="form-select form-select-sm" name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
-
-  </select>
+      <label for="datasets-selector-{{ .Params.id }}" class="mb-1">Dataset:</label>
+      <select
+        class="form-select form-select-sm"
+        name="datasets"
+        id="datasets-selector-{{ .Params.id }}"
+        onchange="renderSelected('{{ .Params.id }}')"
+      ></select>
     </div>
     <div class="col-3">
-  <label for="parallel-selector-{{ .Params.id }}" class="mb-1">Search threads:</label>
-  <select class="form-select form-select-sm" disabled name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
-  </select>
+      <label for="parallel-selector-{{ .Params.id }}" class="mb-1">Search threads:</label>
+      <select
+        class="form-select form-select-sm"
+        disabled
+        name="parallel"
+        id="parallel-selector-{{ .Params.id }}"
+        onchange="renderSelected('{{ .Params.id }}')"
+      ></select>
     </div>
-<div class="col-6">
-  <label class="mb-2">Plot values:</label>
+    <div class="col-6">
+      <label class="mb-2">Plot values:</label>
 
-  <!-- Radio button group to select values to render -->
-  <div class="d-flex justify-content-between">
-  <label>
-    <input
-      type="radio"
-      name="plot-value-{{ .Params.id }}"
-      value="rps"
-      onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"
-    />
-    RPS
-  </label>
-  |
+      <!-- Radio button group to select values to render -->
+      <div class="d-flex justify-content-between">
+        <label>
+          <input
+            type="radio"
+            name="plot-value-{{ .Params.id }}"
+            value="rps"
+            onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"
+          />
+          RPS
+        </label>
+        |
 
-  <label>
-    <input
-      type="radio"
-      name="plot-value-{{ .Params.id }}"
-      value="mean_time"
-      onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"
-    />
-    Latency
-  </label>
-  |
+        <label>
+          <input
+            type="radio"
+            name="plot-value-{{ .Params.id }}"
+            value="mean_time"
+            onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"
+          />
+          Latency
+        </label>
+        |
 
-  <label>
-    <input
-      type="radio"
-      name="plot-value-{{ .Params.id }}"
-      value="p95_time"
-      onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"
-    />
-    p95 latency
-  </label>
-  |
+        <label>
+          <input
+            type="radio"
+            name="plot-value-{{ .Params.id }}"
+            value="p95_time"
+            onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 1; renderSelected('{{ .Params.id }}', this.value)"
+          />
+          p95 latency
+        </label>
+        |
 
-  <label>
-    <input
-      type="radio"
-      name="plot-value-{{ .Params.id }}"
-      value="total_upload_time"
-      onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"
-    />
-    Index time
-  </label>
+        <label>
+          <input
+            type="radio"
+            name="plot-value-{{ .Params.id }}"
+            value="total_upload_time"
+            onclick="document.getElementById('parallel-selector-{{ .Params.id }}').value = 100; renderSelected('{{ .Params.id }}', this.value)"
+          />
+          Index time
+        </label>
+      </div>
+    </div>
   </div>
-</div>
-</div>
 
   <canvas id="chart-{{ .Params.id }}"></canvas>
 

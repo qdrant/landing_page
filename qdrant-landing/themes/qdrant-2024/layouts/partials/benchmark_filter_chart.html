@@ -1,49 +1,49 @@
 <div class="benchmark__plot-wrapper">
   <div class="row mb-2 small">
     <div class="col-4">
-  <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
-  <select
-    class="form-select form-select-sm"
-    name="datasets"
-    id="datasets-selector-{{ .Params.id }}"
-    onchange="renderFilterSelected('{{ .Params.id }}')"
-  ></select>
+      <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
+      <select
+        class="form-select form-select-sm"
+        name="datasets"
+        id="datasets-selector-{{ .Params.id }}"
+        onchange="renderFilterSelected('{{ .Params.id }}')"
+      ></select>
     </div>
 
     <div class="col-8">
       <label class="mb-2">Plot values:</label>
 
       <div class="d-flex gap-3">
-  <!-- Radio button group to select values to render -->
-  <label>
-    <input
-      checked
-      type="radio"
-      name="plot-value-{{ .Params.id }}"
-      value="regular_search"
-      onclick="updateFilterSelected('{{ .Params.id }}', this.value)"
-    />
-    Regular search
-  </label>
-  |
+        <!-- Radio button group to select values to render -->
+        <label>
+          <input
+            checked
+            type="radio"
+            name="plot-value-{{ .Params.id }}"
+            value="regular_search"
+            onclick="updateFilterSelected('{{ .Params.id }}', this.value)"
+          />
+          Regular search
+        </label>
+        |
 
-  <label>
-    <input
-      type="radio"
-      name="plot-value-{{ .Params.id }}"
-      value="filter_search"
-      onclick="updateFilterSelected('{{ .Params.id }}', this.value)"
-    />
-    Filter search
-  </label>
-  |
+        <label>
+          <input
+            type="radio"
+            name="plot-value-{{ .Params.id }}"
+            value="filter_search"
+            onclick="updateFilterSelected('{{ .Params.id }}', this.value)"
+          />
+          Filter search
+        </label>
+        |
       </div>
+    </div>
+
+    <canvas id="chart-{{ .Params.id }}"></canvas>
+
+    <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
   </div>
-
-  <canvas id="chart-{{ .Params.id }}"></canvas>
-
-  <i> Download raw data: <a href="{{ .Params.filter_data }}">here</a> </i>
-</div>
 
 <script type="module">
     let url = "{{ .Params.filter_data }}";
@@ -140,3 +140,4 @@
 
         });
 </script>
+</div>
