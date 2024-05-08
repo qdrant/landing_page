@@ -2,7 +2,7 @@
 @import 'satoshi-font';
 @import 'bootstrap-custom';
 
-body {
+html {
   &::-webkit-scrollbar {
     width: 8px;
     height: 8px;
@@ -15,12 +15,11 @@ body {
     background: $neutral-20;
   }
   &::-webkit-scrollbar-thumb:hover {
-    background: $neutral-50;
+    background: $neutral-60;
   }
   scrollbar-width: thin;
   scrollbar-color: $neutral-50 $neutral-20;
 }
-
 @import 'components';
 @import 'syntax-highlight';
 @import 'mathjax';
