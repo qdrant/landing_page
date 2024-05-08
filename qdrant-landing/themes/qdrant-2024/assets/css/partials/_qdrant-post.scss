@@ -56,6 +56,12 @@
       text-decoration: underline;
     }
 
+    h1 {
+      font-size: $spacer * 2;
+      line-height: rem(37);
+      margin-bottom: $spacer;
+    }
+
     h2 {
       font-size: $spacer * 1.5;
       line-height: rem(34);
@@ -91,6 +97,14 @@
       border-radius: $spacer * 0.5;
       background: linear-gradient(180deg, #161e33 0%, #0e1424 100%);
       color: $neutral-98;
+    }
+
+    details {
+      summary {
+        font-size: rem(18);
+        cursor: pointer;
+        margin-bottom: $spacer * 2;
+      }
     }
   }
 
@@ -136,6 +150,13 @@
         line-height: rem(27);
       }
 
+      h1:not(:first-child) {
+        padding-top: $spacer * 2;
+      }
+      h1 {
+        font-size: $spacer * 3;
+        line-height: $spacer * 3.5;
+      }
       h2:not(:first-child) {
         padding-top: $spacer * 2;
       }
