@@ -3,29 +3,34 @@
     {{ partial "top-banner" . }}
     {{ partial "menu" . }}
     {{ partial "menu-mobile" . }}
+    {{ .Scratch.Set "withDate" "true"}}
     {{ partial "qdrant-articles-hero" . }}
   </header>
 
   <div class="container my-5">
-    <div class="qdrant-post">
-      <article class="qdrant-post__content">
-        {{ if .Params.single_node_data }}
+    <div class="row qdrant-post qdrant-post_centered benchmark">
+      <div class="col-12 qdrant-post__body benchmark__post-wrapper">
+        <article class="qdrant-post__content">
+          {{ if .Params.single_node_data }}
           <section>
             {{ partial "benchmark_chart"
-              (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
+            (dict "Params" (dict "id" 1 "metric" "rps" "data" .Params.single_node_data))
             }}
           </section>
-        {{ end }}
+          {{ end }}
 
-        {{ if .Params.filter_data }}
+          {{ if .Params.filter_data }}
           <section>
             {{ partial "benchmark_filter_chart" . }}
           </section>
-        {{ end }}
+          {{ end }}
 
         {{ .Scratch.Set "scope" "single" }}
         {{ partial "article-content" . }}
-      </article>
+        </article>
+      {{ .Scratch.Set "variant" "horizontal" }}
+      {{ partial "share-buttons" . }}
+      </div>
     </div>
   </div>
 {{ end }}

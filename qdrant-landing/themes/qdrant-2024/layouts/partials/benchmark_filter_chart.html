@@ -1,13 +1,19 @@
-<div class="benchmark-wrapper">
+<div class="benchmark__plot-wrapper">
+  <div class="row mb-2 small">
+    <div class="col-4">
   <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
   <select
+    class="form-select form-select-sm"
     name="datasets"
     id="datasets-selector-{{ .Params.id }}"
     onchange="renderFilterSelected('{{ .Params.id }}')"
   ></select>
+    </div>
 
-  Plot values:
+    <div class="col-8">
+      <label class="mb-2">Plot values:</label>
 
+      <div class="d-flex gap-3">
   <!-- Radio button group to select values to render -->
   <label>
     <input
@@ -31,6 +37,8 @@
     Filter search
   </label>
   |
+      </div>
+  </div>
 
   <canvas id="chart-{{ .Params.id }}"></canvas>
 

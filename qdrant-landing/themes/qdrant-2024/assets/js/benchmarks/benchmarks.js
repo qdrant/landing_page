@@ -357,7 +357,7 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
   });
 
   const table = document.createElement('table');
-  table.classList.add('table', 'table-striped', 'table-responsive', 'table-md');
+  table.classList.add('table', 'table-striped');
   table.innerHTML = `<thead><tr>${titleElements.join('')}</tr></thead><tbody>${rows.join('')}</tbody>`;
 
   if (document.getElementById('table-' + chartId).querySelector('.table')) {
@@ -366,5 +366,6 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
       .querySelector('.table')
       .remove();
   }
+  document.getElementById('table-' + chartId).classList.add('table-responsive','table-responsive-md')
   document.getElementById('table-' + chartId).append(table);
 };

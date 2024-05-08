@@ -60,10 +60,10 @@ $error-70: #fe897f;
 $error-90: #ffdad6;
 
 $grays: (
-  '100': $neutral-94,
-  '200': $neutral-90,
-  '300': $neutral-80,
-  '400': $neutral-60,
+  '100': $neutral-98,
+  '200': $neutral-94,
+  '300': $neutral-90,
+  '400': $neutral-70,
   '500': $neutral-50,
   '600': $neutral-40,
   '700': $neutral-30,
@@ -73,12 +73,12 @@ $grays: (
 
 $theme-colors: (
   'primary': $primary-50,
-  'secondary': $secondary-blue-50,
+  'secondary': $neutral-30,
   'success': $success-50,
   'info': $secondary-blue-70,
   'warning': $warning-50,
   'danger': $error-50,
-  'light': $neutral-100,
+  'light': $neutral-98,
   'dark': $neutral-10,
 );
 

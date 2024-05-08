@@ -1,16 +1,21 @@
-<div class="benchmark-wrapper" id="benchmark-plot-wrapper-{{ .Params.id }}">
-  <label for="datasets-selector-{{ .Params.id }}">Dataset:</label>
-  <select name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+<div class="benchmark__plot-wrapper" id="benchmark-plot-wrapper-{{ .Params.id }}">
+  <div class="row mb-2 small">
+    <div class="col-3">
+  <label for="datasets-selector-{{ .Params.id }}" class="mb-1">Dataset:</label>
+  <select  class="form-select form-select-sm" name="datasets" id="datasets-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
 
   </select>
-
-  <label for="parallel-selector-{{ .Params.id }}">Search threads:</label>
-  <select disabled name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
+    </div>
+    <div class="col-3">
+  <label for="parallel-selector-{{ .Params.id }}" class="mb-1">Search threads:</label>
+  <select class="form-select form-select-sm" disabled name="parallel" id="parallel-selector-{{ .Params.id }}" onchange="renderSelected('{{ .Params.id }}')">
   </select>
-
-  Plot values:
+    </div>
+<div class="col-6">
+  <label class="mb-2">Plot values:</label>
 
   <!-- Radio button group to select values to render -->
+  <div class="d-flex justify-content-between">
   <label>
     <input
       type="radio"
@@ -53,13 +58,16 @@
     />
     Index time
   </label>
+  </div>
+</div>
+</div>
 
   <canvas id="chart-{{ .Params.id }}"></canvas>
 
   <div class="form-group" style="margin-left: 5%; margin-right: 1%;">
     <input
       type="range"
-      class="custom-range"
+      class="custom-range form-range"
       id="precision-selector-{{ .Params.id }}"
       onchange="updateLine('{{ .Params.id }}', this.value)"
     />
