@@ -2,7 +2,7 @@
   <div class="container">
     <div class="qdrant-articles-posts__articles row gx-4 gy-5 gy-lg-6">
       {{ $all := ($.Site.GetPage "articles" .Section).Pages.ByPublishDate.Reverse }}
-      {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 10 }}
+      {{ $paginator := .Paginate $all 14 }}
       {{ range $paginator.Pages }}
         {{ .Scratch.Set "scope" "list" }}
 
