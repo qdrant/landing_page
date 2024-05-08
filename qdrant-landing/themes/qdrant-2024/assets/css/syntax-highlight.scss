@@ -13,7 +13,6 @@ article code:not([class]) {
   background: $neutral-20;
   margin-bottom: 1rem;
   border-radius: $code-snippet-border-radius;
-
 }
 .highlight + .highlight {
   display: none;
