@@ -6,7 +6,6 @@ email_placeholder: Enter your email
 subscribe_button: Subscribe
 features_title: Features and News
 search_placeholder: What are you Looking for?
-sitemapExclude: True
 aliases: # There is no need to add aliases for future new tags and categories!
   - /tags
   - /tags/case-study

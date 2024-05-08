@@ -26,6 +26,5 @@ form:
     "submitText": "Send Message"
   }'
 logosSectionTitle: Qdrant is trusted by top-tier enterprises
-sitemapExclude: true
 ---
 

@@ -26,6 +26,5 @@ form:
     "submitButtonClass": "button button_contained",
     "submitText": "Send Message"
   }'
-sitemapExclude: true
 ---
 

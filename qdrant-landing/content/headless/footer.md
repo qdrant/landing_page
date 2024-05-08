@@ -29,7 +29,7 @@ menuItems:
         url: /qdrant-vector-database/
       - id: 2
         name: Enterprise Solutions
-        url: /enterprise-solutions/
+        url: /solutions/
       - id: 3
         name: Qdrant Cloud
         url: /cloud/
@@ -41,7 +41,7 @@ menuItems:
         url: /hybrid-cloud/
       - id: 6
         name: Demos
-        url: /demos-and-tutorials/
+        url: /demo/
       - id: 7
         name: Pricing
         url: /pricing/
