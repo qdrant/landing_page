@@ -7,8 +7,13 @@
     {{ partial "qdrant-articles-hero" . }}
   </header>
 
-  <div class="container my-5">
-    <div class="row qdrant-post qdrant-post_centered benchmark">
+  <div class="container my-5 benchmark">
+    <div class="row">
+      <div class="col-12 mb-5">
+        {{ partial "breadcrumbs" . }}
+      </div>
+    </div>
+    <div class="row qdrant-post qdrant-post_centered">
       <div class="col-12 qdrant-post__body benchmark__post-wrapper">
         <article class="qdrant-post__content">
           {{ if .Params.single_node_data }}

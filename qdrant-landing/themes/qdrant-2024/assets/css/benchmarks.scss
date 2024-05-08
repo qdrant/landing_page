@@ -12,4 +12,12 @@
   &__plot-wrapper {
     margin-bottom: $spacer * 2;
   }
+  .table-striped {
+    th, td {
+      font-size: $font-size-sm;
+    }
+  }
+  .breadcrumbs {
+    margin-left: 0;
+  }
 }
