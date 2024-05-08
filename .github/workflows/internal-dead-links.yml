@@ -23,6 +23,8 @@ jobs:
       - name: Run hugo
         run: |
           bash -x ./install-and-build.sh
+          CURRENT_DIR=$(pwd)
+          export PATH="${CURRENT_DIR}/dart-sass:${PATH}"
           cd qdrant-landing && hugo --gc -b 'http://localhost:1313' && hugo serve &
           sleep 5 # wait for server to start
       - name: Link Checker
