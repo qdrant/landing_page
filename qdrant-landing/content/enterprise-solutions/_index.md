@@ -1,6 +1,7 @@
 ---
 title: enterprise-solutions
 description: enterprise-solutions
+url: solutions
 build:
   render: always
 cascade:

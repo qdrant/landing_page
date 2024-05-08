@@ -28,7 +28,7 @@ items:
   description: Qdrant’s Hybrid Cloud and Private Cloud solutions offer flexible deployment options for top-tier data protection.
   link:
     text: Enterprise Solutions
-    url: /enterprise-solutions/
+    url: /solutions/
   odd: true
 sitemapExclude: true
 ---

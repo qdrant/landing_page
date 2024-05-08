@@ -20,7 +20,7 @@ menuItems:
       - id: subMenu-0-2
         name: Qdrant Enterprise Solutions
         icon: qdrant-enterprise-solutions.svg
-        url: /enterprise-solutions/
+        url: /solutions/
       - id: subMenu-0-3
         name: Hybrid Cloud
         icon: hybrid-cloud.svg
@@ -32,7 +32,7 @@ menuItems:
       - id: subMenu-0-5
         name: Demos
         icon: demos.svg
-        url: /demos-and-tutorials/
+        url: /demo/
   - id: menu-1
     name: Use Cases
     url: /use-cases/
