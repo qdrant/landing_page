@@ -25,15 +25,11 @@ We are excited to announce the interns selected for the inaugural Qdrant Summer 
 
 **[Jishan Bhattacharya](https://www.linkedin.com/in/j16n/): WASM-based Dimension Reduction Visualization**
 
-Jishan Bhattacharya is tasked with enhancing our vector data visualization capabilities at Qdrant by developing a dimension reduction algorithm in Rust. This algorithm will distill complex, high-dimensional data into more manageable forms for visualization. Once developed, he’ll compile this Rust code into WebAssembly (WASM), enabling its deployment directly within the Qdrant Web UI. This integration leverages Rust’s performance and memory safety features while utilizing WASM’s ability to run on multiple platforms without losing efficiency. 
-
-The result will be a more responsive UI capable of handling larger datasets and higher-dimensional data more smoothly, improving both the speed and the scalability of our visualizations.
+Jishan will be implementing a dimension reduction algorithm in Rust, compiling it to WebAssembly (WASM), and integrating it with the Qdrant Web UI. This project aims to provide a more efficient and smoother visualization experience, enabling the handling of more data points and higher dimensions efficiently.
 
 **[Celine Hoang](https://www.linkedin.com/in/celine-h-hoang/): ONNX Cross Encoders in Python**
 
-Celine Hoang is working on expanding Qdrant’s model support capabilities by porting cross-encoder ranking models, such as Sentence Transformers, ColBERT, and BGE, to the ONNX format. Her project is critical for enhancing the flexibility of Qdrant in handling complex ranking tasks that require high accuracy and performance. By transitioning these models to the ONNX runtime, Celine will enable Qdrant to utilize a standardized format that supports efficient model interchange and deployment across various platforms.
-
-This project will significantly boost Qdrant’s ability to support a broader array of machine learning applications, particularly those involving nuanced ranking processes.
+Celine Hoang will focus on porting advanced ranking models—specifically Sentence Transformers, ColBERT, and BGE—to the ONNX (Open Neural Network Exchange) format. This project will enhance Qdrant's model support, making it more versatile and efficient in handling complex ranking tasks that are critical for applications such as recommendation engines and search functionalities.
 
 We look forward to working with Jishan and Celine over the coming months and are excited to see their contributions to the Qdrant project.
 
