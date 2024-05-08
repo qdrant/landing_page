@@ -24,7 +24,7 @@
   <script src="{{ $splideJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "blog" "documentation") .Section }}
+{{ if or (eq .Section "documentation") (and (not .IsPage) (eq .Section "blog")) }}
   {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 {{ end }}
