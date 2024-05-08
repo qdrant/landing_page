@@ -23,11 +23,11 @@ tags: # Change this, related by tags posts will be shown on the blog page
 
 We are excited to announce the interns selected for the inaugural Qdrant Summer of Code (QSoC) program! After receiving many impressive applications, we have chosen two talented individuals to work on the following projects:
 
-**(Jishan Bhattacharya)[https://www.linkedin.com/in/j16n/]: WASM-based Dimension Reduction Visualization**
+**[Jishan Bhattacharya](https://www.linkedin.com/in/j16n/): WASM-based Dimension Reduction Visualization**
 
 Jishan will be implementing a dimension reduction algorithm in Rust, compiling it to WebAssembly (WASM), and integrating it with the Qdrant Web UI. This project aims to provide a more efficient and smoother visualization experience, enabling the handling of more data points and higher dimensions efficiently.
 
-**(Celine Hoang)[https://www.linkedin.com/in/celine-h-hoang/]: ONNX Cross Encoders in Python**
+**[Celine Hoang](https://www.linkedin.com/in/celine-h-hoang/): ONNX Cross Encoders in Python**
 
 Celine's project focuses on porting cross-encoder ranking models, such as Sentence Transformers, ColBERT, and BGE, to the ONNX format while retaining performance. Successful completion of this project will expand Qdrant's capabilities to support ONNX models, significantly improving its versatility and efficiency in handling ranking-sensitive tasks.
 
