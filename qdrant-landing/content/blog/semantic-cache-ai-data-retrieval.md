@@ -77,6 +77,6 @@ The first part of this video explains how caching works. In the second part, you
 
 [Qdrant](https://qdrant.tech/) offers the most flexible way to implement vector search for your RAG and AI applications. You can test out semantic cache on your free Qdrant Cloud instance today! Simply sign up for or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and follow our [documentation](/documentation/cloud/).
 
-You can also deploy Qdrant locally and manage via our UI. To do this, check our [Hybrid Cloud](/blog/hybrid-cloud)!
+You can also deploy Qdrant locally and manage via our UI. To do this, check our [Hybrid Cloud](/blog/hybrid-cloud/)!
 
 [![hybrid-cloud-get-started](/blog/hybrid-cloud-launch-partners/hybrid-cloud-get-started.png)](https://cloud.qdrant.io/login)
