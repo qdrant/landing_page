@@ -33,7 +33,7 @@
   }
 
   &__cards {
-    @include marquee.base(80px, 264px, 8, 8, 12px, $neutral-94, false, 10s, none);
+    @include marquee.base(80px, 264px, 8, 8, 12px, $neutral-94, false, 50s, none);
 
     &__container {
       z-index: 2;

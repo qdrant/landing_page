@@ -1,14 +1,14 @@
 {{ with (.Site.GetPage "/partners/partners-embeddings") }}
   <section class="partners-embeddings">
     <div class="container">
-      <div class="row align-items-xl-center">
-        <div class="col-12 col-xl-5">
+      <div class="row align-items-lg-center">
+        <div class="col-12 col-lg-5">
           <h6 class="partners-embeddings__description">{{ .Params.description }}</h6>
           <a href="{{ .Params.link.url }}" class="partners-embeddings__link link link_xl link_light">
             {{ .Params.link.text }}
           </a>
         </div>
-        <div class="col-12 col-xl-7">
+        <div class="col-12 col-lg-7">
           <img class="partners-embeddings__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
           <img
             class="partners-embeddings__image-mobile"

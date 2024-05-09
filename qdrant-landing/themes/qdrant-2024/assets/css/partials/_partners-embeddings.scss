@@ -19,10 +19,12 @@
     margin-top: $spacer * 2.5;
   }
 
-  @include media-breakpoint-up(xl) {
+  @include media-breakpoint-up(lg) {
     &__image {
       display: block;
-      width: rem(560);
+      margin-left: auto;
+      width: 100%;
+      max-width: rem(560);
     }
 
     &__image-mobile {
