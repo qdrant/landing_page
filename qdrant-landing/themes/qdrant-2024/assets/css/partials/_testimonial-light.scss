@@ -67,7 +67,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-bottom: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
 
     &__employees {
       flex-direction: row;

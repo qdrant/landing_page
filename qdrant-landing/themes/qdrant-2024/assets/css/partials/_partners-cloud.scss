@@ -20,7 +20,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding-bottom: $spacer * 5;
+    padding-top: $spacer * 5;
 
     &__title {
       font-size: $spacer * 3.5;
