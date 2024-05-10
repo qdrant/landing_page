@@ -30,7 +30,7 @@ You can take a look at the further reading section below to learn more about Air
 
 ## Let's Go
 
-We'll be building a semantic retrieval DAG that generates embeddings in parallel based on our data corpus and performs semantic retrieval based on user input.
+We'll be building a DAG that generates embeddings in parallel for our our data corpus and performs semantic retrieval based on user input.
 
 ### Setting up the project
 
@@ -46,12 +46,12 @@ This command generates all of the project files you need to run Airflow locally.
 To use Qdrant within Airflow, install the Qdrant Airflow provider by adding the following to the `requirements.txt` file
 
 ```text
-apache-airflow-providers-qdrant==1.0.0
+apache-airflow-providers-qdrant==1.1.0
 ```
 
 ### Configuring credentials
 
-We can set up provider connections using the Airflow UI, Environment variables or the `airflow_settings.yml` file.
+We can set up provider connections using the Airflow UI, environment variables or the `airflow_settings.yml` file.
 
 Add the following to the `.env` file in the project. Replace the values as per your credentials.
 
