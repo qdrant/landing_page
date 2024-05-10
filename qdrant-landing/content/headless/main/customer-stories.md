@@ -12,14 +12,14 @@ storyCards:
       avatar: '/img/customers/hooman-sedghamiz.svg'
       fullName: Hooman Sedghamiz
       position: Director Al /ML, Bayer
-  - id: 1
-    icon: '/img/brands/soft-bank.svg'
-    brand: Softbank
-    content: “Qdrant is the best Vector Similarity Search Engine ever, as every other VSS broke during our high load and performance testing. If we find any issues, the Qdrant team fixes the fastest and improves on things beyond!”
-    author:
-      avatar: '/img/customers/jon-tse.svg'
-      fullName: Jon Tse
-      position: Senior Director of R&D, JVC (by Softbank)
+  # - id: 1
+  #   icon: '/img/brands/soft-bank.svg'
+  #   brand: Softbank
+  #   content: “Qdrant is the best Vector Similarity Search Engine ever, as every other VSS broke during our high load and performance testing. If we find any issues, the Qdrant team fixes the fastest and improves on things beyond!”
+  #   author:
+  #     avatar: '/img/customers/jon-tse.svg'
+  #     fullName: Jon Tse
+  #     position: Senior Director of R&D, JVC (by Softbank)
   - id: 2
     icon: '/img/brands/cb-insights.svg'
     brand: CB Insights

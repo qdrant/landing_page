@@ -36,7 +36,7 @@ features:
   description: In this tutorial, you will learn how a semantic search engine for images can help diagnose different types of skin conditions.
   link:
     text: View Tutorial
-    url: https://github.com/qdrant/examples/blob/master/ecommerce_reverse_image_search/ecommerce-reverse-image-search.ipynb
+    url: https://www.youtube.com/watch?v=sNFmN16AM1o
 - id: 4
   image:
     src: /img/advanced-search-use-cases/semantic-search-101.svg
