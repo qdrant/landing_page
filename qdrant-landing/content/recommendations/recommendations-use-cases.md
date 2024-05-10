@@ -10,7 +10,7 @@ features:
   description: Build a song recommendation engine based on music genres and other metadata.
   link:
     text: View Tutorial
-    url: /
+    url: /blog/human-language-ai-models/
 - id: 1
   image:
     src: /img/recommendations-use-cases/food-discovery.svg
@@ -20,7 +20,7 @@ features:
   description: Interactive demo recommends meals based on likes/dislikes and local restaurant options.
   link:
     text: View Demo
-    url: /
+    url: https://food-discovery.qdrant.tech/
 caseStudy:
   logo:
     src: /img/recommendations-use-cases/customer-logo.svg
@@ -29,7 +29,7 @@ caseStudy:
   description: Dailymotion's Journey to Crafting the Ultimate Content-Driven Video Recommendation Engine with Qdrant Vector Database.
   link:
     text: Read Case Study
-    url: /
+    url: /blog/case-study-dailymotion/
   image:
     src: /img/recommendations-use-cases/case-study.png
     alt: Preview

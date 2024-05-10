@@ -10,7 +10,7 @@ features:
   description: Qdrant optimizes similarity search, identifying the closest database items to any query vector for applications like recommendation systems, RAG and image retrieval, enhancing accuracy and user experience.
   link:
     text: Learn More
-    url: /
+    url: /documentation/concepts/search/
 - id: 1
   icon:
     src: /icons/outline/search-text-blue.svg
@@ -19,7 +19,7 @@ features:
   description: By combining dense vector embeddings with sparse vectors e.g. BM25, Qdrant powers semantic search to deliver context-aware results, transcending traditional keyword search by understanding the deeper meaning of data.
   link:
     text: Learn More
-    url: /
+    url: /documentation/tutorials/hybrid-search-fastembed/
 - id: 2
   icon:
     src: /icons/outline/selection-blue.svg
@@ -28,16 +28,16 @@ features:
   description: Qdrant's capability extends to multi-modal search, indexing and retrieving various data forms (text, images, audio) once vectorized, facilitating a comprehensive search experience.
   link:
     text: View Tutorial
-    url: /
+    url: /documentation/tutorials/aleph-alpha-search/
 - id: 3
   icon:
     src: /icons/outline/filter-blue.svg
     alt: Filter
-  title: Pre-Filtering that Works
-  description: Qdrant enhances search speeds and control and context understanding through pre-filtering on any nested entry in our payload. This filter works first – making your search faster and combines with our hybrid search and multi-modal search seamlessly.
+  title: Single Stage filtering that Works
+  description: Qdrant enhances search speeds and control and context understanding through filtering on any nested entry in our payload. Unique architecture allows Qdrant to avoid expensive pre-filtering and post-filtering stages, making search faster and accurate.
   link:
-    text: View Tutorial
-    url: /
+    text: Learn More
+    url: /articles/filtrable-hnsw/
 sitemapExclude: true
 ---
 

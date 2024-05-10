@@ -6,49 +6,49 @@ integrations:
     src: /img/retrieval-augmented-generation-integrations/integration-cohere.svg
     alt: Cohere logo
   title: Cohere
-  description: Qdrant is compatible with Cohere co.embed API.
+  description: Integrate Qdrant with Cohere's co.embed API and Python SDK.
 - id: 1
   icon:
     src: /img/retrieval-augmented-generation-integrations/integration-gemini.svg
     alt: Gemini logo
   title: Gemini
-  description: Gemini is a new family of Google PaLM models.
+  description: Connect Qdrant with Google's Gemini Embedding Model API seamlessly.
 - id: 2
   icon:
     src: /img/retrieval-augmented-generation-integrations/integration-open-ai.svg
-    alt: Open AI logo
-  title: Open AI
-  description: Qdrant can also easily work with OpenAI embeddings.
+    alt: OpenAI logo
+  title: OpenAI
+  description: Easily integrate OpenAI embeddings with Qdrant using the official Python SDK.
 - id: 3
   icon:
     src: /img/retrieval-augmented-generation-integrations/integration-aleph-alpha.svg
     alt: Aleph Alpha logo
   title: Aleph Alpha
-  description: Aleph Alpha is a multimodal and multilingual embeddings’ provider.AWS Bedrock
+  description: Integrate Qdrant with Aleph Alpha's multimodal, multilingual embeddings.
 - id: 4
   icon:
     src: /img/retrieval-augmented-generation-integrations/integration-jina.svg
     alt: Jina logo
   title: Jina
-  description: Qdrant can also easily work with Jina embeddings.
+  description: Easily integrate Qdrant with Jina's embeddings API.
 - id: 5
   icon:
     src: /img/retrieval-augmented-generation-integrations/integration-aws.svg
     alt: AWS logo
   title: AWS Bedrock
-  description: AWS Bedrock supports multiple embedding model providers.
+  description: Utilize AWS Bedrock's embedding models with Qdrant seamlessly.
 - id: 6
   icon:
     src: /img/retrieval-augmented-generation-integrations/integration-lang-chain.svg
     alt: LangChain logo
   title: LangChain
-  description: Langchain comes with the Qdrant integration by default.
+  description: Qdrant seamlessly integrates with LangChain for LLM development.
 - id: 7
   icon:
     src: /img/retrieval-augmented-generation-integrations/integration-llama-index.svg
     alt: LlamaIndex logo
   title: LlamaIndex
-  description: Acts as an interface between your external data and LLM
+  description: Qdrant integrates with LlamaIndex for efficient data indexing in LLMs.
 sitemapExclude: true
 ---
 

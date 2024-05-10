@@ -11,9 +11,9 @@
   {{ partial "advanced-search-features" . }}
   {{ partial "advanced-search-use-cases" . }}
 
-  {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+  <!-- {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
     {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
-  {{ end }}
+  {{ end }} -->
 
   {{ partial "get-started" . }}
 {{ end }}

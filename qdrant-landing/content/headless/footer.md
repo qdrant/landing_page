@@ -117,5 +117,8 @@ termsLink:
 privacyLink:
   text: Privacy Policy
   url: /legal/privacy-policy/
+impressumLink:
+  text: Impressum
+  url: /legal/impressum/
 sitemapExclude: true
 ---

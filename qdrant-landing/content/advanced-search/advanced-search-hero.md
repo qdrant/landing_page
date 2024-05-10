@@ -5,8 +5,8 @@ startFree:
   text: Get Started
   url: https://cloud.qdrant.io/
 learnMore:
-  text: Learn More
-  url: /
+  text: Contact Us
+  url: /contact-us/
 image:
   src: /img/vectors/vector-0.svg
   alt: Advanced search
