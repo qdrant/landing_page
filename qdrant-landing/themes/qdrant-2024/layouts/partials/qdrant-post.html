@@ -8,11 +8,15 @@
         <p>{{ time.Format "January 02, 2006" .context.Date }}</p>
       </div>
       {{ if .context.Params.preview_dir }}
-        <picture>
+        <picture class="qdrant-post__preview">
           <source srcset="{{ .context.Params.preview_dir }}/title.webp" type="image/webp" />
           <img alt="{{ .context.Title }}" src="{{ .context.Params.preview_dir }}/title.jpg" />
         </picture>
-      {{ end }}
+      {{ else }}
+        <picture class="qdrant-post__preview">
+          {{ partial "preview-image" (dict "context" .context "default_file_name" "title.jpg" "preview_file" .context.Params.title_preview_image) }}
+        </picture>
+      {{ end }}      
     </div>
     <div class="row">
       <div class="col-12 mb-5">
