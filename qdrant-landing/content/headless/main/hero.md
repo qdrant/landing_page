@@ -6,7 +6,7 @@ startFree:
   url: https://cloud.qdrant.io/
 learnMore:
   text: Learn More
-  url: /documentation/
+  url: /qdrant-vector-database/
 heroImageSources:
   - minWidth: 2881px
     srcset: /img/hero-home-illustration-x3.webp
