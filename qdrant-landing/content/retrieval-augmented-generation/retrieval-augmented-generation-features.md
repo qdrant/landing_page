@@ -25,7 +25,7 @@ features:
     src: /icons/outline/compression-blue.svg
     alt: Compression
   title: Built-in Compression
-  description: Significantly reduce memory usage and improve search performance and save up to 30x cost for high-dimensional vectors with Quantization.
+  description: Significantly reduce memory usage, improve search performance and save up to 30x cost for high-dimensional vectors with Quantization.
 sitemapExclude: true
 ---
 
