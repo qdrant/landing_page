@@ -1,4 +1,12 @@
 ---
-title: Qdrant Cloud
-description: Qdrant vector search services pricing. Qdrant open-source, Qdrant Cloud, Qdrant enterprise. 
+title: pricing
+description: pricing
+url: pricing
+build:
+  render: always
+cascade:
+- build:
+    list: local
+    publishResources: false
+    render: never
 ---
