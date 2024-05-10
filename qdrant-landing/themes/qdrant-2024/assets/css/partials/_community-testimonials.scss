@@ -1,0 +1,115 @@
+@use '../helpers/functions' as *;
+
+.community-testimonials {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 2.5;
+    color: $neutral-98;
+    text-align: center;
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+  }
+
+  &__card {
+    padding: $spacer * 1.5;
+    background: linear-gradient($neutral-20, #0e1424);
+    border-radius: $spacer * 0.5;
+  }
+
+  &__user {
+    display: flex;
+    gap: rem(12);
+
+    &-avatar {
+      height: $spacer * 3;
+      width: $spacer * 3;
+      border-radius: 50%;
+      overflow: hidden;
+
+      img {
+        height: 100%;
+      }
+    }
+
+    &-profile {
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &-name {
+      margin-bottom: 0;
+      font-weight: 600;
+      color: $neutral-98;
+    }
+
+    &-nickname {
+      margin-bottom: 0;
+      font-size: rem(12);
+      line-height: rem(18);
+      color: $neutral-80;
+    }
+
+    &:after {
+      content: '';
+      display: block;
+      width: rem(20);
+      height: rem(20);
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M9.03687 12.6263L3.67375 18.7501H0.703125L7.64937 10.8151L9.03687 12.6263Z' fill='%23F0F3FA'/%3E%3Cpath d='M10.6562 6.8675L15.5669 1.25H18.5356L12.0312 8.68875L10.6562 6.8675Z' fill='%23F0F3FA'/%3E%3Cpath d='M19.6803 18.75H13.7059L0.320312 1.25H6.44594L19.6803 18.75ZM14.5253 16.9731H16.1703L5.55219 2.93375H3.78719L14.5253 16.9731Z' fill='%23F0F3FA'/%3E%3C/svg%3E%0A");
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+    }
+  }
+
+  &__text {
+    margin-bottom: 0;
+    color: $neutral-70;
+
+    span {
+      color: $secondary-blue-50;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__cards {
+      flex-wrap: wrap;
+      gap: rem(30);
+      height: rem(500);
+    }
+
+    &__card {
+      width: calc((100% / 3) - 20px);
+
+      &:first-of-type,
+      &:nth-of-type(5) {
+        margin-top: $spacer * 1.5;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__cards {
+      height: rem(452);
+    }
+  }
+}

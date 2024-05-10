@@ -1,0 +1,136 @@
+@use '../helpers/functions' as *;
+
+.community-hero {
+  position: relative;
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 5;
+  background-color: $neutral-10;
+  overflow: hidden;
+
+  &__image {
+    display: none;
+  }
+
+  &__image-mobile {
+    position: relative;
+    width: calc(100% + 32px);
+    margin: 0 -16px;
+    z-index: 1;
+  }
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+    text-align: center;
+  }
+
+  &__description {
+    font-size: rem(18);
+    line-height: rem(27);
+    margin-bottom: $spacer * 3;
+    color: $neutral-70;
+    text-align: center;
+  }
+
+  &__form {
+    margin-bottom: $spacer * 1.5;
+
+    form {
+      flex-wrap: wrap;
+    }
+
+    .hs_email {
+      width: 100%;
+
+      input[type='email'] {
+        padding-top: rem(11);
+        padding-bottom: rem(11);
+      }
+    }
+
+    .hs_submit {
+      width: 100%;
+
+      input[type='submit'] {
+        width: 100%;
+        max-height: $spacer * 3;
+      }
+    }
+  }
+
+  &__about {
+    font-size: rem(14);
+    line-height: rem(21);
+    margin-bottom: $spacer * 2.5;
+    color: $neutral-50;
+    text-align: center;
+  }
+
+  &__overlay {
+    position: absolute;
+    right: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: rem(200);
+    background-image: url('/img/blurred/blurred-light-12.svg');
+    background-position: center;
+    background-size: cover;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 7.5;
+
+    &__image {
+      display: block;
+      width: 100%;
+      margin-bottom: $spacer * 2.5;
+    }
+
+    &__image-mobile {
+      display: none;
+    }
+
+    &__title {
+      max-width: rem(680);
+      margin-left: auto;
+      margin-right: auto;
+      font-size: $spacer * 4;
+      line-height: rem(76);
+    }
+
+    &__description {
+      max-width: rem(680);
+      margin-left: auto;
+      margin-right: auto;
+      font-size: rem(20);
+      line-height: rem(30);
+    }
+
+    &__form {
+      position: relative;
+      z-index: 1;
+
+      form {
+        justify-content: center;
+      }
+
+      .hs_submit {
+        max-width: $spacer * 10;
+      }
+    }
+
+    &__about {
+      position: relative;
+      max-width: rem(520);
+      margin: 0 auto;
+      z-index: 1;
+    }
+
+    &__overlay {
+      bottom: -30px;
+    }
+  }
+}

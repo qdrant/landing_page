@@ -1,0 +1,6 @@
+@use '../helpers/functions' as *;
+@use '../mixins/get-contacted' as get-contacted;
+
+.community-get-contacted {
+  @include get-contacted.base($spacer * 2.5, $spacer * 2.5, $spacer * 6.5, $spacer * 4, rem(350));
+}
