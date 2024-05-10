@@ -59,7 +59,7 @@ cards:
   content: Ability to segment a single collection for organized and efficient retrieval, data isolation, and privacy. Vital for applications needing distinct vector dataset management.
   link:
     text: Multitenancy
-    url: /guides/multiple-partitions/
+    url: /documentation/guides/multiple-partitions/
 - id: 6
   icon:
     src: /icons/outline/disk-storage-blue.svg
