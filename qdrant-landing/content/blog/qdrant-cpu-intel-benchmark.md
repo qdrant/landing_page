@@ -4,9 +4,9 @@ draft: false
 slug: qdrant-cpu-intel-benchmark
 short_description: "New generation silicon is a game-changer for AI/ML applications."
 description: "Intel’s 5th gen Xeon processor is made for enterprise-scale operations in vector space. " 
-preview_image: /blog/qdrant-cpu-intel-benchmark/qdrant-cpu-intel-benchmark.png
-social_preview_image: /blog/qdrant-cpu-intel-benchmark/qdrant-cpu-intel-benchmark.png
-date: 2024-05-06T00:00:00-08:00
+preview_image: /blog/qdrant-cpu-intel-benchmark/social_preview.jpg
+social_preview_image: /blog/qdrant-cpu-intel-benchmark/social_preview.jpg
+date: 2024-05-10T00:00:00-08:00
 author: David Myriel, Kumar Shivendu
 featured: false 
 tags:
@@ -17,7 +17,7 @@ tags:
 ---
 
 #### New generation silicon is a game-changer for AI/ML applications
-</br>
+![qdrant cpu intel benchmark report](/blog/qdrant-cpu-intel-benchmark/qdrant-cpu-intel-benchmark.png)
 
 > *Intel’s 5th gen Xeon processor is made for enterprise-scale operations in vector space.*
 
@@ -55,9 +55,9 @@ The main strength of a vector database like Qdrant is that it can consistently s
 
 Intel’s latest development is crucial to the future of vector databases. Vector search is the most CPU intensive process in vector search operations. Therefore, Qdrant relies on the innovations made by chip makers like Intel to offer large-scale support.
 
-> *“Vector databases are a mainstay in the AI/ML toolchain. Users looking to scale out shouldn’t just rely on LLMs. Instead, they need to leverage vector search for efficiency and cost management. We developed our new CPU to support products like Qdrant.”* 
+> *“Vector databases are a mainstay in today’s AI/ML toolchain, powering the latest generation of RAG and other Gen AI Applications. In teaming with Qdrant, Intel is helping enterprises deliver cutting-edge Gen-AI solutions and maximize their ROI by leveraging Qdrant’s high-performant and cost-efficient vector similarity search capabilities running on latest Intel Architecture based infrastructure across deployment models.”* 
 > 
-> - Arijit Bandyopadhyay, CTO at Intel Datacenter and AI Group
+> - Arijit Bandyopadhyay, CTO - Enterprise Analytics & AI, Head of Strategy – Cloud and Enterprise, CSV Group, Intel Corporation
 
 ## Advancing vector search and the role of next-gen CPUs
 
