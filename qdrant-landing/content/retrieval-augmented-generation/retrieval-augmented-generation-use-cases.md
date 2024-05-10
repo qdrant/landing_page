@@ -9,8 +9,8 @@ features:
   title: Question and Answer System with LlamaIndex
   description: Combine Qdrant and LlamaIndex to create a self-updating Q&A system.
   link:
-    text: Learn More
-    url: /
+    text: Video Tutorial
+    url: https://www.youtube.com/watch?v=id5ql-Abq4Y&t=56s
 - id: 1
   image:
     src: /img/retrieval-augmented-generation-use-cases/case2.svg
@@ -20,7 +20,7 @@ features:
   description: Basic RAG pipeline with Qdrant and OpenAI SDKs.
   link:
     text: Learn More
-    url: /
+    url: /articles/food-discovery-demo/
 caseStudy:
   logo:
     src: /img/retrieval-augmented-generation-use-cases/customer-logo.svg
@@ -29,7 +29,7 @@ caseStudy:
   description: Dust provides companies with the core platform to execute on their GenAI bet for their teams by deploying LLMs across the organization and providing context aware AI assistants through RAG.
   link:
     text: Read Case Study
-    url: /
+    url: /blog/dust-and-qdrant/
   image:
     src: /img/retrieval-augmented-generation-use-cases/case-study.png
     alt: Preview

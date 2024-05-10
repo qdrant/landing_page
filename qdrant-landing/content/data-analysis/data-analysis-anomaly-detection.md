@@ -12,7 +12,7 @@ caseStudy:
   description: "Detecting Coffee Anomalies with Qdrant: Discover how Qdrant can be used for anomaly detection in green coffee quality control, transforming the industry's approach to sorting and classification."
   link:
     text: Read Case Study
-    url: /
+    url: /articles/detecting-coffee-anomalies/
   image:
     src: /img/data-analysis-anomaly-detection/case-study.png
     alt: Preview

@@ -12,7 +12,7 @@ cards:
   featureDescription: Scale your production solutions without deployment and upkeep. 
   featureLink:
     text: Calculate your usage.
-    url: /
+    url: https://cloud.qdrant.io/calculator
   features:
   - id: 0
     content: 1GB free forever cluster. No credit card required.

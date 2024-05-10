@@ -23,7 +23,7 @@ items:
   description: Uninterrupted service during scaling and model updates for continuous operation and deployment flexibility.
   link:
     text: Cluster Scaling
-    url: /
+    url: /documentation/cloud/cluster-scaling/
   image:
     src: /img/qdrant-cloud-bento-cards/zero-downtime-upgrades.png
     alt: Zero downtime upgrades illustration
@@ -32,7 +32,7 @@ items:
   description: Automated, configurable backups for data safety and easy restoration to previous states.
   link:
     text: Backups
-    url: /
+    url: /documentation/cloud/backups/
   image:
     src: /img/qdrant-cloud-bento-cards/continuous-backups.png
     alt: Continuous backups illustration
