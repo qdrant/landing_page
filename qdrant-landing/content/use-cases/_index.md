@@ -10,5 +10,7 @@ cascade:
     list: local
     publishResources: false
     render: never
+aliases:
+  - /solutions/
 ---
 
