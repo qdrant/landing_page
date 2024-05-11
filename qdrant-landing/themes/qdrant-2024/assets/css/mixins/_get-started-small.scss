@@ -26,7 +26,10 @@
     }
 
     img {
+      display: block;
       width: 100%;
+      max-width: rem(300);
+      margin: 0 auto;
       padding: 0 rem(17.5);
     }
   }
@@ -70,11 +73,12 @@
     background-size: cover;
   }
 
-  @include bs.media-breakpoint-up(md) {
+  @include bs.media-breakpoint-up(lg) {
     padding-top: $paddingTop;
     padding-bottom: $paddingBottom;
 
     &__content {
+      min-height: rem(210);
       background: $blockBackgroundMobile;
 
       img {
@@ -92,22 +96,34 @@
 
     &__title {
       text-align: left;
+      margin-left: rem(56);
       padding: 0;
     }
 
     &__description {
       max-width: rem(570);
+      margin-left: rem(56);
       padding: 0;
       text-align: left;
     }
 
-    &__text {
-      align-items: flex-start;
+    .button {
       margin-left: rem(56);
     }
 
+    &__text {
+      align-self: center;
+      align-items: flex-start;
+      padding-top: rem(30);
+      padding-bottom: rem(30);
+    }
+
     &__image {
-      text-align: right;
+      align-self: flex-end;
+
+      img {
+        margin: 0 0 0 auto;
+      }
     }
   }
 }
