@@ -2,6 +2,50 @@
 @use '../../mixins/mixins' as mixins;
 
 .newsletter-form {
+  .hs_email {
+    flex: 1 0 auto;
+    //margin-top: 2rem;
+  }
+  .hs_submit {
+    flex: 1 0 100%;
+    //margin-top: 2rem;
+    @include media-breakpoint-up(lg) {
+      flex: 0 0 28%;
+    }
+  }
+
+  .hs_email {
+    position: relative;
+
+    & > label {
+      display: none;
+      margin-left: 1.5rem;
+      color: var(--brand-secondary);
+      position: absolute;
+      top: -1.75rem;
+      &:has( ~ .input > input) {
+        top: 0.85rem;
+      }
+      &:has( ~ .input > input:focus),
+      &:has( ~ .input > input:not([value=""])) {
+        display: none;
+      }
+      input:-ms-input-placeholder {
+        position: relative;
+        color: var(--brand-gray);
+      }
+    }
+  }
+  .hs-error-msgs {
+    label {
+      color: var(--brand-error-500);
+    }
+  }
+  .hs_error_rollup {
+    position: absolute;
+    bottom: -28px;
+  }
+
   &_default {
     margin-bottom: 35px;
 
@@ -25,29 +69,41 @@
       opacity: 1;
     }
 
-    input[type="text"],
-    input[type="email"] {
-      position: relative;
-      display: flex;
-      flex: auto;
+    &__form {
+      @extend .form-base;
+    }
+
+      input[type="text"],
+      input[type="email"] {
+        @extend .input-base;
+
       padding: 10px 39px;
       height: 56px;
       font-size: 18px;
       color: var(--brand-secondary);
-      background: none;
-      border-radius: 50px;
-      border: 1px solid var(--brand-dark-gray);
-      background: white;
-      font-family: $font-family-non-content;
-      margin-right: 24px;
-      margin-bottom: 0;
-      @include media-breakpoint-down(md) {
-        margin-right: 0;
-        margin-bottom: 10px;
-      }
-
+      box-shadow: 0 0 0 1px var(--brand-dark-gray);
       &:focus {
-        border: 1px solid var(--brand-secondary);
+        box-shadow: 0 0 0 1px var(--brand-secondary);
+      }
+    }
+
+    .hs_email {
+
+      & > label {
+
+        color: var(--brand-gray);
+        font-size: 18px;
+        top: -2rem;
+        margin-left: 39px;
+        &:has( ~ .input > input) {
+          top: 1rem;
+        }
+      }
+    }
+
+    .hs_submit {
+      @include media-breakpoint-up(lg) {
+        flex: 0 0 17%;
       }
     }
 
@@ -56,6 +112,16 @@
       border-radius: 0;
     }
 
+    button[type="submit"],
+    input[type="submit"],
+    .actions input[type="submit"] {
+      font-size: 1.5rem;
+      font-weight: 700;
+      height: 56px;
+      &:hover {
+        background: var(--brand-secondary);
+      }
+    }
 
   }
 
@@ -69,14 +135,22 @@
     }
 
     &__form {
+      @extend .form-base;
+
       input[type="text"],
       input[type="email"] {
         @extend .input-base;
       }
 
-      button[type="submit"] {
+
+      button[type="submit"],
+      input[type="submit"],
+      .actions input[type="submit"] {
         @extend .form-button-base;
         margin-bottom: 1.5rem;
+        &:hover {
+          background: var(--brand-secondary);
+        }
       }
     }
 
@@ -110,13 +184,19 @@
     }
 
     &__form {
+      @extend .form-base;
+
       input[type="text"],
       input[type="email"] {
         @extend .input-base;
       }
 
-      button[type="submit"] {
+      input[type="submit"],
+      .actions input[type="submit"] {
         @extend .form-button-base;
+        &:hover {
+          background: var(--brand-secondary);
+        }
       }
     }
 

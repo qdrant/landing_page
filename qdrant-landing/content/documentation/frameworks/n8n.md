@@ -24,7 +24,7 @@ You can now configure the vectorstore node according to your workflow requiremen
 
 ![Qdrant Config](/documentation/frameworks/n8n/config.png)
 
-Create a connection to Qdrant using your [instance credentials](https://qdrant.tech/documentation/cloud/authentication/).
+Create a connection to Qdrant using your [instance credentials](/documentation/cloud/authentication/).
 
 ![Qdrant Credentials](/documentation/frameworks/n8n/credentials.png)
 
@@ -38,3 +38,4 @@ The vectorstore supports the following operations:
 
 - N8N vectorstore [reference](https://docs.n8n.io/integrations/builtin/cluster-nodes/root-nodes/n8n-nodes-langchain.vectorstoreqdrant/).
 - N8N AI-based workflows [reference](https://n8n.io/integrations/basic-llm-chain/).
+- [Source Code](https://github.com/n8n-io/n8n/tree/master/packages/@n8n/nodes-langchain/nodes/vector_store/VectorStoreQdrant)

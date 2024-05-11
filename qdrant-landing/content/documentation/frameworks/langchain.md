@@ -1,7 +1,9 @@
 ---
 title: LangChain
 weight: 100
-aliases: [ ../integrations/langchain/ ]
+aliases:
+  - ../integrations/langchain/
+  - /documentation/overview/integrations/langchain/
 ---
 
 # LangChain
@@ -66,7 +68,8 @@ client is destroyed - usually at the end of your script/notebook.
 
 ```python
 qdrant = Qdrant.from_documents(
-    docs, embeddings, 
+    docs, 
+    embeddings, 
     location=":memory:",  # Local mode with in-memory storage only
     collection_name="my_documents",
 )
@@ -78,7 +81,8 @@ Local mode, without using the Qdrant server, may also store your vectors on disk
 
 ```python
 qdrant = Qdrant.from_documents(
-    docs, embeddings, 
+    docs, 
+    embeddings, 
     path="/tmp/local_qdrant",
     collection_name="my_documents",
 )
@@ -106,3 +110,5 @@ qdrant = Qdrant.from_documents(
 If you'd like to know more about running Qdrant in a LangChain-based application, please read our article 
 [Question Answering with LangChain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
 might also be found in the [LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant).
+
+- [Source Code](https://github.com/langchain-ai/langchain/blob/master/libs/langchain/langchain/vectorstores/qdrant.py)

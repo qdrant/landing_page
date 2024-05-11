@@ -15,9 +15,12 @@ This tutorial will show you how to create a snapshot of a collection and restore
 
 <aside role="status">Snapshots cannot be created in local mode of Python SDK. You need to spin up a Qdrant Docker container or use Qdrant Cloud.</aside>
 
+You can use the techniques described in this page to migrate a cluster. Follow the instructions
+in this tutorial to create and download snapshots. When you [Restore from snapshot](#restore-from-snapshot), restore your data to the new cluster.
+
 ## Prerequisites
 
-Let's assume you already have a running Qdrant instance or a cluster. If not, you can follow the [installation guide](/documentation/guides/installation) to set up a local Qdrant instance or use [Qdrant Cloud](https://cloud.qdrant.io/) to create a cluster in a few clicks.
+Let's assume you already have a running Qdrant instance or a cluster. If not, you can follow the [installation guide](/documentation/guides/installation/) to set up a local Qdrant instance or use [Qdrant Cloud](https://cloud.qdrant.io/) to create a cluster in a few clicks.
 
 Once the cluster is running, let's install the required dependencies:
 
@@ -72,9 +75,9 @@ We used the streaming mode, so the dataset is not loaded into memory. Instead, w
 
 ```python
 for payload in dataset:
-    id = payload.pop("id")
+    id_ = payload.pop("id")
     vector = payload.pop("vector")
-    print(id, vector, payload)
+    print(id_, vector, payload)
 ```
 
 A single payload looks like this:
@@ -111,10 +114,10 @@ Calculating the embeddings is usually a bottleneck of the vector search pipeline
 ```python
 ids, vectors, payloads = [], [], []
 for payload in dataset:
-    id = payload.pop("id")
+    id_ = payload.pop("id")
     vector = payload.pop("vector")
 
-    ids.append(id)
+    ids.append(id_)
     vectors.append(vector)
     payloads.append(payload)
 

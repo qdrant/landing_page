@@ -7,7 +7,7 @@ aliases:
 
 # Explore the data
 
-After mastering the concepts in [search](../search), you can start exploring your data in other ways. Qdrant provides a stack of APIs that allow you to find similar vectors in a different fashion, as well as to find the most dissimilar ones. These are useful tools for recommendation systems, data exploration, and data cleaning.
+After mastering the concepts in [search](../search/), you can start exploring your data in other ways. Qdrant provides a stack of APIs that allow you to find similar vectors in a different fashion, as well as to find the most dissimilar ones. These are useful tools for recommendation systems, data exploration, and data cleaning.
 
 ## Recommendation API
 
@@ -36,10 +36,9 @@ POST /collections/{collection_name}/points/recommend
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.recommend(
     collection_name="{collection_name}",
@@ -138,6 +137,22 @@ client
             .setLimit(3)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.RecommendAsync(
+    "{collection_name}",
+    positive: new ulong[] { 100, 231 },
+    negative: new ulong[] { 718 },
+    filter: MatchKeyword("city", "London"),
+    limit: 3
+);
 ```
 
 Example result of this API would be
@@ -455,12 +470,11 @@ POST /collections/{collection_name}/points/recommend/batch
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
-filter = models.Filter(
+filter_ = models.Filter(
     must=[
         models.FieldCondition(
             key="city",
@@ -473,9 +487,9 @@ filter = models.Filter(
 
 recommend_queries = [
     models.RecommendRequest(
-        positive=[100, 231], negative=[718], filter=filter, limit=3
+        positive=[100, 231], negative=[718], filter=filter_, limit=3
     ),
-    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter, limit=3),
+    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter_, limit=3),
 ]
 
 client.recommend_batch(collection_name="{collection_name}", requests=recommend_queries)
@@ -703,10 +717,9 @@ POST /collections/{collection_name}/points/discover
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 discover_queries = [
     models.DiscoverRequest(
@@ -906,10 +919,9 @@ POST /collections/{collection_name}/points/discover
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 discover_queries = [
     models.DiscoverRequest(
@@ -1014,6 +1026,31 @@ client
             .setLimit(10)
             .build())
     .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.DiscoverAsync(
+  collectionName: "{collection_name}",
+  context:
+  [
+    new()
+    {
+      Positive = new VectorExample { Id = 100 },
+      Negative = new VectorExample { Id = 718 }
+    },
+    new()
+    {
+      Positive = new VectorExample { Id = 200 },
+      Negative = new VectorExample { Id = 300 }
+    }
+  ],
+  limit: 10
+);
 ```
 
 <aside role="status">

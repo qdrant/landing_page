@@ -5,6 +5,9 @@
     {{ partial "body_start.html" . }}
 
             <!-- Main Header-->
+    {{ if .IsHome }}
+    {{ partial "top-banner" (dict "context" . "classes" "") }}
+    {{ end }}
 
             {{ if (eq $.Section "documentation") }}
             <header class="main-header position-static">

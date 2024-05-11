@@ -39,7 +39,7 @@ Qdrant is now accessible:
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 ```
 
 ```typescript
@@ -78,7 +78,7 @@ var client = new QdrantClient("localhost", 6334);
 You will be storing all of your vector data in a Qdrant collection. Let's call it `test_collection`. This collection will be using a dot product distance metric to compare vectors.
 
 ```python
-from qdrant_client.http.models import Distance, VectorParams
+from qdrant_client.models import Distance, VectorParams
 
 client.create_collection(
     collection_name="test_collection",
@@ -135,7 +135,7 @@ await client.CreateCollectionAsync(
 Let's now add a few vectors with a payload. Payloads are other data you want to associate with the vector:
 
 ```python
-from qdrant_client.http.models import PointStruct
+from qdrant_client.models import PointStruct
 
 operation_info = client.upsert(
     collection_name="test_collection",
@@ -517,14 +517,14 @@ version: 1
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
-See [payload and vector in the result](../concepts/search#payload-and-vector-in-the-result) on how to enable it.
+See [payload and vector in the result](../concepts/search/#payload-and-vector-in-the-result) on how to enable it.
 
 ## Add a filter
 
 We can narrow down the results further by filtering by payload. Let's find the closest results that include "London".
 
 ```python
-from qdrant_client.http.models import Filter, FieldCondition, MatchValue
+from qdrant_client.models import Filter, FieldCondition, MatchValue
 
 search_result = client.search(
     collection_name="test_collection",

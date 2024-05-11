@@ -17,7 +17,7 @@ For a step-by-step guide on how to use snapshots, see our [tutorial](/documentat
 
 ## Store snapshots
 
-The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
+The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration/) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
 
 You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
 
@@ -51,7 +51,7 @@ POST /collections/{collection_name}/snapshots
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_snapshot(collection_name="{collection_name}")
 ```
@@ -103,7 +103,7 @@ DELETE /collections/{collection_name}/snapshots/{snapshot_name}
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.delete_snapshot(
     collection_name="{collection_name}", snapshot_name="{snapshot_name}"
@@ -155,7 +155,7 @@ GET /collections/{collection_name}/snapshots
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.list_snapshots(collection_name="{collection_name}")
 ```
@@ -241,7 +241,7 @@ PUT /collections/{collection_name}/snapshots/recover
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("qdrant-node-2", port=6333)
+client = QdrantClient(url="http://qdrant-node-2:6333")
 
 client.recover_snapshot(
     "{collection_name}",
@@ -326,7 +326,7 @@ PUT /collections/{collection_name}/snapshots/recover
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("qdrant-node-2", port=6333)
+client = QdrantClient(url="http://qdrant-node-2:6333")
 
 client.recover_snapshot(
     "{collection_name}",
@@ -360,7 +360,9 @@ curl -X POST 'http://qdrant-node-1:6333/collections/{collection_name}/snapshots/
 Sometimes it might be handy to create snapshot not just for a single collection, but for the whole storage, including collection aliases.
 Qdrant provides a dedicated API for that as well. It is similar to collection-level snapshots, but does not require `collection_name`.
 
-<aside role="status">Whole storage snapshots can be created and downloaded from Qdrant Cloud, but you cannot restore a Qdrant Cloud cluster from a whole storage snapshot since that requires use of the Qdrant CLI. You can use <a href="/documentation/cloud/backups/">Backups</a> instead.</aside>
+<aside role="alert">Full storage snapshots are only suitable for single-node deployments. <a href="/documentation/guides/distributed_deployment/">Distributed</a> mode is not supported as it doesn't contain the necessary files for that.</aside>
+
+<aside role="status">Full storage snapshots can be created and downloaded from Qdrant Cloud, but you cannot restore a Qdrant Cloud cluster from a whole storage snapshot since that requires use of the Qdrant CLI. You can use <a href="/documentation/cloud/backups/">Backups</a> instead.</aside>
 
 ### Create full storage snapshot
 
@@ -371,7 +373,7 @@ POST /snapshots
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_full_snapshot()
 ```
@@ -421,7 +423,7 @@ DELETE /snapshots/{snapshot_name}
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.delete_full_snapshot(snapshot_name="{snapshot_name}")
 ```

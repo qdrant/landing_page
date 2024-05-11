@@ -27,7 +27,7 @@ set up your collections.
 
 Previously, you had to send multiple requests to the Qdrant API to perform multiple non-related tasks. However, this 
 can cause significant network overhead and slow down the process, especially if you have a poor connection speed. 
-Fortunately, the [new batch search feature](https://blog.qdrant.tech/batch-vector-search-with-qdrant-8c4d598179d5) allows 
+Fortunately, the [new batch search feature](https://qdrant.tech/documentation/concepts/search/#batch-search-api) allows 
 you to avoid this issue. With just one API call, Qdrant will handle multiple search requests in the most efficient way 
 possible. This means that you can perform multiple tasks simultaneously without having to worry about network overhead
 or slow performance.
@@ -37,14 +37,13 @@ or slow performance.
 To make our application accessible to ARM users, we have compiled it specifically for that platform. If it is not 
 compiled for ARM, the device will have to emulate it, which can slow down performance. To ensure the best possible 
 experience for ARM users, we have created Docker images specifically for that platform. Keep in mind that using 
-a limited set of processor instructions may affect the performance of your vector search. Therefore, [we have tested 
-both ARM and non-ARM architectures using similar setups to understand the potential impact on performance
-](https://blog.qdrant.tech/qdrant-supports-arm-architecture-363e92aa5026).
+a limited set of processor instructions may affect the performance of your vector search. Therefore, we have tested 
+both ARM and non-ARM architectures using similar setups to understand the potential impact on performance.
 
 ## Full-text filtering
 
 Qdrant is a vector database that allows you to quickly search for the nearest neighbors. However, you may need to apply 
 additional filters on top of the semantic search. Up until version 0.10, Qdrant only supported keyword filters. With the 
-release of Qdrant 0.10, [you can now use full-text filters](https://blog.qdrant.tech/qdrant-introduces-full-text-filters-and-indexes-9a032fcb5fa) 
+release of Qdrant 0.10, [you can now use full-text filters](https://qdrant.tech/documentation/concepts/filtering/#full-text-match) 
 as well. This new filter type can be used on its own or in combination with other filter types to provide even more 
 flexibility in your searches.

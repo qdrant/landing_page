@@ -13,7 +13,7 @@ Qdrant is available as a [provider](https://airflow.apache.org/docs/apache-airfl
 
 Before configuring Airflow, you need:
 
-1. A Qdrant instance to connect to. You can set one up in our [installation guide](https://qdrant.tech/documentation/guides/installation).
+1. A Qdrant instance to connect to. You can set one up in our [installation guide](/documentation/guides/installation/).
 
 2. A running Airflow instance. You can use their [Quick Start Guide](https://airflow.apache.org/docs/apache-airflow/stable/start.html).
 
@@ -69,7 +69,7 @@ ids = [32, 21, "b626f6a9-b14d-4af9-b7c3-43d8deb719a6"]
 payload = [{"meta": "data"}, {"meta": "data_2"}, {"meta": "data_3", "extra": "data"}]
 
 QdrantIngestOperator(
-    conn_id="qdrant_connection"
+    conn_id="qdrant_connection",
     task_id="qdrant_ingest",
     collection_name="<COLLECTION_NAME>",
     vectors=vectors,
@@ -79,6 +79,6 @@ QdrantIngestOperator(
 ```
 
 ## Reference
-
 - 📦 [Provider package PyPI](https://pypi.org/project/apache-airflow-providers-qdrant/)
 - 📚 [Provider docs](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html)
+- 📄 [Source Code](https://github.com/apache/airflow/tree/main/airflow/providers/qdrant)

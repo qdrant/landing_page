@@ -51,3 +51,4 @@ QdrantInstrumentor().instrument()
 ## Further Reading
 
 - 📚 OpenLLMetry [API reference](https://www.traceloop.com/docs/api-reference/introduction)
+- 📄 [Source Code](https://github.com/traceloop/openllmetry/tree/main/packages/opentelemetry-instrumentation-qdrant)

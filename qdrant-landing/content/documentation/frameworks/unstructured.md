@@ -38,7 +38,7 @@ unstructured-ingest \
   --verbose \
   qdrant \
   --collection-name "test" \
-  --location "http://localhost:6333" \
+  --url "http://localhost:6333" \
   --batch-size 80
 ```
 
@@ -66,7 +66,7 @@ from unstructured.ingest.runner.writers.qdrant import QdrantWriter
 def get_writer() -> Writer:
     return QdrantWriter(
         connector_config=SimpleQdrantConfig(
-            location="http://localhost:6333",
+            url="http://localhost:6333",
             collection_name="test",
         ),
         write_config=QdrantWriteConfig(batch_size=80),
@@ -97,3 +97,4 @@ if __name__ == "__main__":
 
 - Unstructured API [reference](https://unstructured-io.github.io/unstructured/api.html).
 - Qdrant ingestion destination [reference](https://unstructured-io.github.io/unstructured/ingest/destination_connectors/qdrant.html).
+- [Source Code](https://github.com/Unstructured-IO/unstructured/blob/main/unstructured/ingest/connector/qdrant.py)

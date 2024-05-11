@@ -54,7 +54,7 @@ As embeddings are vectors, one can apply a simple function to calculate the simi
 So with similarity learning, all we need to do is provide pairs of correct questions and answers.
 And then, the model will learn to distinguish proper answers by the similarity of embeddings.
 
->If you want to learn more about similarity learning and applications, check out this [article](https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc) which might be an asset.
+>If you want to learn more about similarity learning and applications, check out this [article](https://qdrant.tech/documentation/tutorials/neural-search/) which might be an asset.
 
 ## Let's build
 
@@ -638,7 +638,7 @@ if __name__ == "__main__":
 ```
 
 We stored our collection of answer embeddings in memory and perform search directly in Python. 
-For production purposes, it's better to use some sort of vector search engine like [Qdrant](https://qdrant.tech/).
+For production purposes, it's better to use some sort of vector search engine like [Qdrant](https://github.com/qdrant/qdrant).
 It provides durability, speed boost, and a bunch of other features.
 
 So far, we've implemented a whole training process, prepared model for serving and even applied a 

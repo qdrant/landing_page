@@ -1,0 +1,52 @@
+@use '../helpers/functions' as *;
+
+.top-banner {
+  display: flex;
+  justify-content: center;
+  padding-top: $spacer * 0.5;
+  padding-bottom: $spacer * 0.5;
+  align-items: center;
+  gap: $spacer * 1.5;
+  border-bottom: 1px solid #f4f6ff;
+  background: #f4f6ff;
+
+  &__text {
+    color: var(--brand-secondary);
+    font-size: rem(18);
+    margin-right: $spacer;
+  }
+
+  & a {
+    font-size: rem(18);
+    &:hover {
+      color: var(--brand-primary);
+      text-decoration: underline;
+    }
+  }
+
+  &__icon {
+    margin-right: $spacer;
+  }
+
+  &_dark {
+    background: var(--brand-dark-gray);
+    color: #fff;
+    border-bottom: 1px solid var(--brand-dark-gray);
+
+    .top-banner__text {
+      color: #fff;
+    }
+
+    & a {
+      color: var(--neutral-n-50);
+      text-decoration: underline;
+      &:hover {
+        color: #fff;
+      }
+    }
+
+    .top-banner__icon svg path {
+      fill: #EADDFF;
+    }
+  }
+}

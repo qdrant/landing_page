@@ -1,7 +1,9 @@
 ---
 title: Haystack
 weight: 400
-aliases: [ ../integrations/haystack/ ]
+aliases:
+  - ../integrations/haystack/
+  - /documentation/overview/integrations/haystack/
 ---
 
 # Haystack
@@ -25,7 +27,7 @@ Scalar Quantization, you'd make that in the following way:
 
 ```python
 from qdrant_haystack.document_stores import QdrantDocumentStore
-from qdrant_client.http import models
+from qdrant_client import models
 
 document_store = QdrantDocumentStore(
     ":memory:",
@@ -41,3 +43,8 @@ document_store = QdrantDocumentStore(
     ),
 )
 ```
+
+## Further Reading
+
+- [Haystack Documentation](https://haystack.deepset.ai/integrations/qdrant-document-store)
+- [Source Code](https://github.com/deepset-ai/haystack-core-integrations/tree/main/integrations/qdrant)

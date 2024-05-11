@@ -100,3 +100,4 @@ Qdrant destination supports syncing of the [`DLT` state](https://dlthub.com/docs
 ## Next steps
 
 - The comprehensive Qdrant DLT destination documentation can be found [here](https://dlthub.com/docs/dlt-ecosystem/destinations/qdrant/).
+- [Source Code](https://github.com/dlt-hub/dlt/tree/devel/dlt/destinations/impl/qdrant)

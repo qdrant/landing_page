@@ -17,7 +17,14 @@
     </div>
 </section>
 
-{{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
+{{ $all := slice }}
+{{ range ($.Site.GetPage "blog" .Section).Pages.GroupBy "Weight" }}
+  {{ range .ByPublishDate.Reverse }}
+    {{ $all = $all | append . }}
+  {{ end }}
+{{ end }}
+
+
 <section class="qdrant-blog__content auto-container">
 
     <!-- Features and News -->

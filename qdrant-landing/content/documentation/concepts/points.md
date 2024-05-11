@@ -8,10 +8,10 @@ aliases:
 # Points
 
 The points are the central entity that Qdrant operates with.
-A point is a record consisting of a vector and an optional [payload](../payload).
+A point is a record consisting of a vector and an optional [payload](../payload/).
 
-You can search among the points grouped in one [collection](../collections) based on vector similarity.
-This procedure is described in more detail in the [search](../search) and [filtering](../filtering) sections.
+You can search among the points grouped in one [collection](../collections/) based on vector similarity.
+This procedure is described in more detail in the [search](../search/) and [filtering](../filtering/) sections.
 
 This section explains how to create and manage vectors.
 
@@ -26,12 +26,12 @@ If the API is called with the `&wait=false` parameter, or if it is not explicitl
 
 ```json
 {
-    "result": {
-        "operation_id": 123,
-        "status": "acknowledged"
-    },
-    "status": "ok",
-    "time": 0.000206061
+  "result": {
+    "operation_id": 123,
+    "status": "acknowledged"
+  },
+  "status": "ok",
+  "time": 0.000206061
 }
 ```
 
@@ -46,12 +46,12 @@ In this case, the API will return the result only after the operation is finishe
 
 ```json
 {
-    "result": {
-        "operation_id": 0,
-        "status": "completed"
-    },
-    "status": "ok",
-    "time": 0.000206061
+  "result": {
+    "operation_id": 0,
+    "status": "completed"
+  },
+  "status": "ok",
+  "time": 0.000206061
 }
 ```
 
@@ -61,9 +61,9 @@ Qdrant supports using both `64-bit unsigned integers` and `UUID` as identifiers 
 
 Examples of UUID string representations:
 
-* simple: `936DA01F9ABD4d9d80C702AF85C822A8`
-* hyphenated: `550e8400-e29b-41d4-a716-446655440000`
-* urn: `urn:uuid:F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4`
+- simple: `936DA01F9ABD4d9d80C702AF85C822A8`
+- hyphenated: `550e8400-e29b-41d4-a716-446655440000`
+- urn: `urn:uuid:F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4`
 
 That means that in every request UUID string could be used instead of numerical id.
 Example:
@@ -82,10 +82,9 @@ PUT /collections/{collection_name}/points
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.upsert(
     collection_name="{collection_name}",
@@ -369,7 +368,6 @@ client.upsert("{collection_name}", {
 });
 ```
 
-
 or record-oriented equivalent:
 
 ```http
@@ -629,7 +627,7 @@ In this case, it means that points with the same id will be overwritten when re-
 Idempotence property is useful if you use, for example, a message queue that doesn't provide an exactly-ones guarantee.
 Even with such a system, Qdrant ensures data consistency.
 
-[*Available as of v0.10.0*](#create-vector-name)
+[_Available as of v0.10.0_](#create-vector-name)
 
 If the collection was created with multiple vectors, each vector data can be provided using the vector's name:
 
@@ -804,18 +802,18 @@ await client.UpsertAsync(
 );
 ```
 
-*Available as of v1.2.0*
+_Available as of v1.2.0_
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
 For example, you can upload one point with only the `image` vector and a second
 one with only the `text` vector.
 
-When uploading a point with an existing ID, the existing point is deleted first, 
-then it is inserted with just the specified vectors. In other words, the entire 
-point is replaced, and any unspecified vectors are set to null. To keep existing 
+When uploading a point with an existing ID, the existing point is deleted first,
+then it is inserted with just the specified vectors. In other words, the entire
+point is replaced, and any unspecified vectors are set to null. To keep existing
 vectors unchanged and only update specified vectors, see [update vectors](#update-vectors).
 
-*Available as of v1.7.0*
+_Available as of v1.7.0_
 
 Points can contain dense and sparse vectors.
 
@@ -897,7 +895,7 @@ client.upsert(
             vector={
                 "text": models.SparseVector(
                     indices=[1, 2, 3, 4, 5],
-                    values= [0.1, 0.2, 0.3, 0.4, 0.5],
+                    values=[0.1, 0.2, 0.3, 0.4, 0.5],
                 )
             },
         ),
@@ -913,7 +911,7 @@ client.upsert("{collection_name}", {
       vector: {
         text: {
           indices: [6, 7],
-          values: [1.0, 2.0]
+          values: [1.0, 2.0],
         },
       },
     },
@@ -921,8 +919,8 @@ client.upsert("{collection_name}", {
       id: 2,
       vector: {
         text: {
-          indices=[1, 2, 3, 4, 5],
-          values= [0.1, 0.2, 0.3, 0.4, 0.5],
+          indices: [1, 2, 3, 4, 5],
+          values: [0.1, 0.2, 0.3, 0.4, 0.5],
         },
       },
     },
@@ -1047,7 +1045,7 @@ ways to do this.
 
 ### Update vectors
 
-*Available as of v1.2.0*
+_Available as of v1.2.0_
 
 This method updates the specified vectors on the given points. Unspecified
 vectors are kept unchanged. All given points must exist.
@@ -1195,7 +1193,7 @@ points](#upload-points).
 
 ### Delete vectors
 
-*Available as of v1.2.0*
+_Available as of v1.2.0_
 
 This method deletes just the specified vectors from the given points. Other
 vectors are kept unchanged. Points are never deleted.
@@ -1213,9 +1211,7 @@ POST /collections/{collection_name}/points/vectors/delete
 ```python
 client.delete_vectors(
     collection_name="{collection_name}",
-    points_selector=models.PointIdsList(
-        points=[0, 3, 100],
-    ),
+    points=[0, 3, 100],
     vectors=["text", "image"],
 )
 ```
@@ -1480,7 +1476,7 @@ await client.RetrieveAsync(
 );
 ```
 
-This method has additional parameters `with_vectors` and `with_payload`. 
+This method has additional parameters `with_vectors` and `with_payload`.
 Using these parameters, you can select parts of the point you want as a result.
 Excluding helps you not to waste traffic transmitting useless data.
 
@@ -1610,19 +1606,19 @@ Returns all point with `color` = `red`.
 
 ```json
 {
-    "result": {
-        "next_page_offset": 1,
-        "points": [
-            {
-                "id": 0,
-                "payload": {
-                    "color": "red"
-                }
-            }
-        ]
-    },
-    "status": "ok",
-    "time": 0.0001
+  "result": {
+    "next_page_offset": 1,
+    "points": [
+      {
+        "id": 0,
+        "payload": {
+          "color": "red"
+        }
+      }
+    ]
+  },
+  "status": "ok",
+  "time": 0.0001
 }
 ```
 
@@ -1632,24 +1628,146 @@ All resulting points are sorted by ID. To query the next page it is necessary to
 For convenience, this ID is also returned in the field `next_page_offset`.
 If the value of the `next_page_offset` field is `null` - the last page is reached.
 
-<!-- 
-Python client:
+### Order points by payload key
+
+_Available as of v1.8.0_
+
+When using the [`scroll`](#scroll-points) API, you can sort the results by payload key. For example, you can retrieve points in chronological order if your payloads have a `"timestamp"` field, as is shown from the example below:
+
+<aside role="status">Without an appropriate index, payload-based ordering would create too much load on the system for each request. Qdrant therefore requires a payload index which supports <a href=/documentation/concepts/indexing/#payload-index target="_blank">Range filtering conditions</a> on the field used for <code>order_by</code></aside>
+
+```http
+POST /collections/{collection_name}/points/scroll
+{
+    "limit": 15,
+    "order_by": "timestamp", // <-- this!
+}
+```
 
 ```python
+client.scroll(
+    collection_name="{collection_name}",
+    limit=15,
+    order_by="timestamp", # <-- this!
+)
 ```
- -->
+
+```typescript
+client.scroll("{collection_name}", {
+  limit: 15,
+  order_by: "timestamp", // <-- this!
+});
+```
+
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPoints, OrderBy};
+
+client
+    .scroll(&ScrollPoints {
+        collection_name: "{collection_name}".to_string(),
+        limit: Some(15),
+        order_by: Some(OrderBy {
+            key: "timestamp".to_string(),  // <-- this!
+            ..Default::default(),
+        }),
+        ..Default::default()
+    })
+    .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Points.OrderBy;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client.scrollAsync(ScrollPoints.newBuilder()
+  .setCollectionName("{collection_name}")
+  .setLimit(15)
+  .setOrderBy(OrderBy.newBuilder().setKey("timestamp").build())
+  .build()).get();
+```
+
+```csharp
+await client.ScrollAsync("{collection_name}", limit: 15, orderBy: "timestamp");
+```
+
+You need to use the `order_by` `key` parameter to specify the payload key. Then you can add other fields to control the ordering, such as `direction` and `start_from`:
+
+```http
+"order_by": {
+    "key": "timestamp",
+    "direction": "desc" // default is "asc"
+    "start_from": 123, // start from this value
+}
+```
+
+```python
+order_by=models.OrderBy(
+    key="timestamp",
+    direction="desc",  # default is "asc"
+    start_from=123,  # start from this value
+)
+```
+
+```typescript
+order_by: {
+    key: "timestamp",
+    direction: "desc", // default is "asc"
+    start_from: 123, // start from this value
+}
+```
+
+```rust
+order_by: Some(OrderBy {
+    key: "timestamp".to_string(),
+    direction: Some(Direction::Desc as i32), // default is Direction::Asc
+    start_from: Some(StartFrom {
+        value: Some(Value::Integer(123)),
+    }),
+});
+```
+
+```java
+import io.qdrant.client.grpc.Points.Direction;
+import io.qdrant.client.grpc.Points.OrderBy;
+import io.qdrant.client.grpc.Points.StartFrom;
+
+OrderBy.newBuilder()
+  .setKey("timestamp")
+  .setDirection(Direction.Desc)
+  .setStartFrom(StartFrom.newBuilder()
+    .setInteger(123)
+    .build())
+  .build();
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+
+new OrderBy
+{
+ Key = "timestamp",
+ Direction = Direction.Desc,
+ StartFrom = 123
+};
+```
+
+**Note:** for payloads with more than one value (such as arrays), the same point may show up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
+
+<aside role="alert">When you use the <code>order_by</code> parameter, pagination is disabled.</aside>
+
+When sorting is based on a non-unique value, it is not possible to rely on an ID offset. Thus, next_page_offset is not returned within the response. However, you can still do pagination by combining `"order_by": { "start_from": ... }` with a `{ "must_not": [{ "has_id": [...] }] }` filter.
 
 ## Counting points
 
-*Available as of v0.8.4*
+_Available as of v0.8.4_
 
 Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
 
-Among others, for example, we can highlight the following scenarios: 
+Among others, for example, we can highlight the following scenarios:
 
-* Evaluation of results size for faceted search
-* Determining the number of pages for pagination
-* Debugging the query execution speed
+- Evaluation of results size for faceted search
+- Determining the number of pages for pagination
+- Debugging the query execution speed
 
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/count_points)):
 
@@ -1709,6 +1827,7 @@ client
             "red".to_string(),
         )])),
         exact: Some(true),
+        ..Default::default()
     })
     .await?;
 ```
@@ -1743,13 +1862,13 @@ Returns number of counts matching given filtering conditions:
 
 ```json
 {
-    "count": 3811
+  "count": 3811
 }
 ```
 
 ## Batch update
 
-*Available as of v1.5.0*
+_Available as of v1.5.0_
 
 You can batch multiple point update operations. This includes inserting,
 updating and deleting points, vectors and payload.
@@ -1836,7 +1955,7 @@ POST /collections/{collection_name}/points/batch
 
 ```python
 client.batch_update_points(
-    collection_name=collection_name,
+    collection_name="{collection_name}",
     update_operations=[
         models.UpsertOperation(
             upsert=models.PointsList(
@@ -1954,16 +2073,18 @@ client.batchUpdate("{collection_name}", {
 ```
 
 ```rust
+use std::collections::HashMap;
+
 use qdrant_client::qdrant::{
     points_selector::PointsSelectorOneOf,
     points_update_operation::{
-        DeletePayload, DeleteVectors, Operation, PointStructList, SetPayload, UpdateVectors,
+        ClearPayload, DeletePayload, DeletePoints, DeleteVectors, Operation, PointStructList,
+        SetPayload, UpdateVectors,
     },
     PointStruct, PointVectors, PointsIdsList, PointsSelector, PointsUpdateOperation,
     VectorsSelector,
 };
 use serde_json::json;
-use std::collections::HashMap;
 
 client
     .batch_updates_blocking(
@@ -1976,6 +2097,7 @@ client
                         vec![1.0, 2.0, 3.0, 4.0],
                         json!({}).try_into().unwrap(),
                     )],
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -1984,6 +2106,7 @@ client
                         id: Some(1.into()),
                         vectors: Some(vec![1.0, 2.0, 3.0, 4.0].into()),
                     }],
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -1998,6 +2121,7 @@ client
                     vectors: Some(VectorsSelector {
                         names: vec!["".into()],
                     }),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2010,6 +2134,7 @@ client
                         )),
                     }),
                     payload: HashMap::from([("test_payload".to_string(), 1.into())]),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2025,6 +2150,7 @@ client
                         ("test_payload_2".to_string(), 2.into()),
                         ("test_payload_3".to_string(), 3.into()),
                     ]),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
@@ -2037,20 +2163,31 @@ client
                         )),
                     }),
                     keys: vec!["test_payload_2".to_string()],
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
-                operation: Some(Operation::ClearPayload(PointsSelector {
-                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
-                        ids: vec![1.into()],
-                    })),
+                operation: Some(Operation::ClearPayload(ClearPayload {
+                    points: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    ..Default::default()
                 })),
             },
             PointsUpdateOperation {
-                operation: Some(Operation::Delete(PointsSelector {
-                    points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
-                        ids: vec![1.into()],
-                    })),
+                operation: Some(Operation::DeletePoints(DeletePoints {
+                    points: Some(PointsSelector {
+                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
+                            PointsIdsList {
+                                ids: vec![1.into()],
+                            },
+                        )),
+                    }),
+                    ..Default::default()
                 })),
             },
         ],

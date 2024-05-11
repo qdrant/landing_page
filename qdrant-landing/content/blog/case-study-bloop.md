@@ -9,7 +9,7 @@ description: Bloop is a fast code-search engine that combines semantic search,
 preview_image: /case-studies/bloop/social_preview.png
 date: 2023-02-28T09:48:00.000Z
 author: Qdrant Team
-featured: true
+featured: false
 aliases:
   - /case-studies/bloop/
 ---
@@ -38,7 +38,7 @@ more time shipping features and fixing bugs.
 bloop’s mission is to make software engineers autonomous and semantic code search is the cornerstone 
 of that vision. The project is maintained by a group of Rust and Typescript engineers and ML researchers. 
 It leverages many prominent nascent technologies, such as [Tauri](http://tauri.app), [tantivy](https://docs.rs/tantivy), 
-[Qdrant](http://qdrant.tech) and [Anthropic](https://www.anthropic.com/).
+[Qdrant](https://qdrant.tech) and [Anthropic](https://www.anthropic.com/).
 
 ## About Qdrant
 

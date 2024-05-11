@@ -75,7 +75,7 @@ Now as we have a vector representation for all our records, we need to store the
 
 The vector search engine can take care of all these tasks. It provides a convenient API for searching and managing vectors.
 
-In our tutorial we will use [Qdrant](https://qdrant.tech/) vector search engine. It not only supports all necessary operations with vectors but also allows to store additional payload along with vectors and use it to perform filtering of the search result. Qdrant has a client for python and also defines the API schema if you need to use it from other languages.
+In our tutorial we will use [Qdrant](/) vector search engine. It not only supports all necessary operations with vectors but also allows to store additional payload along with vectors and use it to perform filtering of the search result. Qdrant has a client for python and also defines the API schema if you need to use it from other languages.
 
 The easiest way to use Qdrant is to run a pre-built image. So make sure you have Docker installed on your system.
 

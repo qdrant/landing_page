@@ -9,6 +9,8 @@ canonifyURLs = true
 
 keywords = "search engine, vector database, neural network, matching, filter, SaaS, approximate nearest neighbor search, image search, recommender system, vectors, knn algorithm, hnsw, vector search, embeddings, similarity"
 
+disableKinds = ["taxonomy", "term"]
+
 [params]
   description = "Qdrant is an Open-Source Vector Database and Vector Search Engine written in Rust. It provides fast and scalable vector similarity search service with convenient API."
   keywords = ["vector search engine", "neural network", "matching", "SaaS",
@@ -50,7 +52,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   quick_start = "/documentation/quick-start/"
   tutorial = "/articles/neural-search-tutorial/"
   benchmarks = "/benchmarks/"
-  demos = "/demo"
+  demos = "/demo/"
   cloud = "https://qdrant.to/cloud"
 
   linkedin = "https://qdrant.to/linkedin"
@@ -67,12 +69,14 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
 
   mailchimp_subscribe_id = "b_69617d79374ac6280dd2230b2_acb2b876fc"
 
+  prices_contact_form = "https://share-eu1.hsforms.com/1olUNSzuRRWWXxKJevWfxiA2b46ng"
+
   gdpr = "We use cookies to learn more about you. At any time you can delete or block cookies through your browser settings."
 
   githubDocPrefix = "https://github.com/qdrant/landing_page/tree/master/qdrant-landing/content/"
   githubIssueLink = "https://github.com/qdrant/landing_page/issues/new/choose"
 
-  docVersion = "v1.7.x"
+  docVersion = "v1.9.x"
   cloudDocVersion = "v0.1.x"
 
   googleTagManager = "GTM-KRLCXD5"
@@ -89,6 +93,7 @@ keywords = "search engine, vector database, neural network, matching, filter, Sa
   negative = "No"
   on_yes = "Thanks! 🙏"
   on_no = "Sorry! 😔"
+
 
 [taxonomies]
     tag = "tags"

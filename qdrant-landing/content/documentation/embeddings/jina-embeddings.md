@@ -1,7 +1,9 @@
 ---
 title: Jina Embeddings
 weight: 800
-aliases: [ ../integrations/jina-embeddings/ ]
+aliases: 
+  - /documentation/embeddings/jina-emebddngs/
+  - ../integrations/jina-embeddings/
 ---
 
 # Jina Embeddings
@@ -14,8 +16,7 @@ To call their endpoint, all you need is an API key obtainable [here](https://jin
 import qdrant_client
 import requests
 
-from qdrant_client.http.models import Distance, VectorParams
-from qdrant_client.http.models import Batch
+from qdrant_client.models import Distance, VectorParams, Batch
 
 # Provide Jina API key and choose one of the available models.
 # You can get a free trial key here: https://jina.ai/embeddings/
@@ -41,8 +42,8 @@ embeddings = [d["embedding"] for d in response.json()["data"]]
 
 
 # Index the embeddings into Qdrant
-qdrant_client = qdrant_client.QdrantClient(":memory:")
-qdrant_client.create_collection(
+client = qdrant_client.QdrantClient(":memory:")
+client.create_collection(
     collection_name="MyCollection",
     vectors_config=VectorParams(size=EMBEDDING_SIZE, distance=Distance.DOT),
 )

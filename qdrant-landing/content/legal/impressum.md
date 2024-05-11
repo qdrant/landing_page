@@ -17,7 +17,8 @@ André Zayarni
 
 #### Kontakt:
 
-Telefon: +49 3040797694  
+Telefon: +49 30 120 201 01
+
 E-Mail: info@qdrant.com
 
 #### Registereintrag:

@@ -17,7 +17,7 @@ Please read more about collections, isolation, and multiple users in our [Multit
 ### My search results contain vectors with null values. Why?
 
 By default, Qdrant tries to minimize network traffic and doesn't return vectors in search results.
-But you can force Qdrant to do so by setting the `with_vector` parameter of the Search/Scroll to `true`. 
+But you can force Qdrant to do so by setting the `with_vector` parameter of the Search/Scroll to `true`.
 
 If you're still seeing `"vector": null` in your results, it might be that the vector you're passing is not in the correct format, or there's an issue with how you're calling the upsert method.
 
@@ -35,10 +35,12 @@ What Qdrant can do:
 - Search with full-text filters
 - Apply full-text filters to the vector search (i.e., perform vector search among the records with specific words or phrases)
 - Do prefix search and semantic [search-as-you-type](../../../articles/search-as-you-type/)
+- Sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
 
 What Qdrant plans to introduce in the future:
 
-- Support for sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
+- ColBERT and other late-interruction models
+- Fusion of the multiple searches
 
 What Qdrant doesn't plan to support:
 
@@ -47,13 +49,13 @@ What Qdrant doesn't plan to support:
 - Query analyzers and other NLP tools
 
 Of course, you can always combine Qdrant with any specialized tool you need, including full-text search engines.
-Read more about [our approach](../../../articles/hybrid-search/) to hybrid search.  
+Read more about [our approach](../../../articles/hybrid-search/) to hybrid search.
 
 ### How do I upload a large number of vectors into a Qdrant collection?
 
 Read about our recommendations in the [bulk upload](../../tutorials/bulk-upload/) tutorial.
 
-### Can I only store quantized vectors and discard full precision vectors? 
+### Can I only store quantized vectors and discard full precision vectors?
 
 No, Qdrant requires full precision vectors for operations like reindexing, rescoring, etc.
 
@@ -66,12 +68,16 @@ But in some cases, we might be able to help you with that through manual interve
 
 ## Versioning
 
+### Do you support downgrades?
+
+We do not support downgrading a cluster on any of our products. If you deploy a newer version of Qdrant, your
+data is automatically migrated to the newer storage format. This migration is not reversible.
+
 ### How do I avoid issues when updating to the latest version?
 
-We only guarantee compatibility if you update between consequent versions. You would need to upgrade versions one at a time: `1.1 -> 1.2`, then `1.2 -> 1.3`, then `1.3 -> 1.4`.
+We only guarantee compatibility if you update between consecutive versions. You would need to upgrade versions one at a time: `1.1 -> 1.2`, then `1.2 -> 1.3`, then `1.3 -> 1.4`.
 
 ### Do you guarantee compatibility across versions?
 
-In case your version is older, we guarantee only compatibility between two consecutive minor versions.
+In case your version is older, we only guarantee compatibility between two consecutive minor versions. This also applies to client versions. Ensure your client version is never more than one minor version away from your cluster version.
 While we will assist with break/fix troubleshooting of issues and errors specific to our products, Qdrant is not accountable for reviewing, writing (or rewriting), or debugging custom code.
-

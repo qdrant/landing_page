@@ -3,6 +3,7 @@ title: Distributed Deployment
 weight: 100
 aliases:
   - ../distributed_deployment
+  - /guides/distributed_deployment
 ---
 
 # Distributed deployment
@@ -10,7 +11,28 @@ aliases:
 Since version v0.8.0 Qdrant supports a distributed deployment mode.
 In this mode, multiple Qdrant services communicate with each other to distribute the data across the peers to extend the storage capabilities and increase stability.
 
-To enable distributed deployment - enable the cluster mode in the [configuration](../configuration) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
+## How many Qdrant nodes should I run?
+
+The ideal number of Qdrant nodes depends on how much you value cost-saving, resilience, and performance/scalability in relation to each other.
+
+- **Prioritizing cost-saving**: If cost is most important to you, run a single Qdrant node. This is not recommended for production environments. Drawbacks:
+  - Resilience: Users will experience downtime during node restarts, and recovery is not possible unless you have backups or snapshots.
+  - Performance: Limited to the resources of a single server.
+
+- **Prioritizing resilience**: If resilience is most important to you, run a Qdrant cluster with three or more nodes and two or more shard replicas. Clusters with three or more nodes and replication can perform all operations even while one node is down. Additionally, they gain performance benefits from load-balancing and they can recover from the permanent loss of one node without the need for backups or snapshots (but backups are still strongly recommended). This is most recommended for production environments. Drawbacks:
+   - Cost: Larger clusters are more costly than smaller clusters, which is the only drawback of this configuration.
+
+- **Balancing cost, resilience, and performance**: Running a two-node Qdrant cluster with replicated shards allows the cluster to respond to most read/write requests even when one node is down, such as during maintenance events. Having two nodes also means greater performance than a single-node cluster while still being cheaper than a three-node cluster. Drawbacks:
+   - Resilience (uptime): The cluster cannot perform operations on collections when one node is down. Those operations require >50% of nodes to be running, so this is only possible in a 3+ node cluster. Since creating, editing, and deleting collections are usually rare operations, many users find this drawback to be negligible.
+   - Resilience (data integrity): If the data on one of the two nodes is permanently lost or corrupted, it cannot be recovered aside from snapshots or backups. Only 3+ node clusters can recover from the permanent loss of a single node since recovery operations require >50% of the cluster to be healthy.
+   - Cost: Replicating your shards requires storing two copies of your data.
+   - Performance: The maximum performance of a Qdrant cluster increases as you add more nodes.
+
+In summary, single-node clusters are best for non-production workloads, replicated 3+ node clusters are the gold standard, and replicated 2-node clusters strike a good balance.
+
+## Enabling distributed mode in self-hosted Qdrant
+
+To enable distributed deployment - enable the cluster mode in the [configuration](../configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
 
 ```yaml
 cluster:
@@ -105,6 +127,24 @@ Example result:
 }
 ```
 
+Note that enabling distributed mode does not automatically replicate your data. See the section on [making use of a new distributed Qdrant cluster](#making-use-of-a-new-distributed-qdrant-cluster) for the next steps.
+
+## Enabling distributed mode in Qdrant Cloud
+
+For best results, first ensure your cluster is running Qdrant v1.7.4 or higher. Older versions of Qdrant do support distributed mode, but improvements in v1.7.4 make distributed clusters more resilient during outages.
+
+In the [Qdrant Cloud console](https://cloud.qdrant.io/), click "Scale Up" to increase your cluster size to >1. Qdrant Cloud configures the distributed mode settings automatically.
+
+After the scale-up process completes, you will have a new empty node running alongside your existing node(s). To replicate data into this new empty node, see the next section.
+
+## Making use of a new distributed Qdrant cluster
+
+When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
+
+* Replicate your existing data to the new node by [creating new shard replicas](#creating-new-shard-replicas)
+* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more (can only be set at creation time)
+* Move data (without replicating it) onto the new node by [moving shards](#moving-shards)
+
 ## Raft
 
 Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain consistency regarding the cluster topology and the collections structure.
@@ -146,10 +186,9 @@ PUT /collections/{collection_name}
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -297,10 +336,9 @@ PUT /collections/{collection_name}
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -308,7 +346,7 @@ client.create_collection(
     sharding_method=models.ShardingMethod.CUSTOM,
     # ... other collection parameters
 )
-client.create_shard_key("{collection_name}", "user_1")
+client.create_shard_key("{collection_name}", "{shard_key}")
 ```
 
 ```typescript
@@ -321,13 +359,17 @@ client.createCollection("{collection_name}", {
     sharding_method: "custom",
     // ... other collection parameters
 });
+
+client.createShardKey("{collection_name}", {
+    shard_key: "{shard_key}"
+});
 ```
 
 ```rust
 
 use qdrant_client::{
     client::QdrantClient,
-    qdrant::{CreateCollection, ShardingMethod},
+    qdrant::{CreateCollection, ShardingMethod, shard_key::Key}
 };
 
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
@@ -341,13 +383,27 @@ client
         ..Default::default()
     })
     .await?;
+
+client
+    .create_shard_key(
+        "{collection_name}",
+        &Key::Keyword("{shard_key".to_string()),
+        None,
+        None,
+        &[],
+    )
+    .await?;
 ```
 
 ```java
+import static io.qdrant.client.ShardKeyFactory.shardKey;
+
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Collections.CreateCollection;
 import io.qdrant.client.grpc.Collections.ShardingMethod;
+import io.qdrant.client.grpc.Collections.CreateShardKey;
+import io.qdrant.client.grpc.Collections.CreateShardKeyRequest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
@@ -361,6 +417,13 @@ client
             .setShardingMethod(ShardingMethod.Custom)
             .build())
     .get();
+
+client.createShardKeyAsync(CreateShardKeyRequest.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setRequest(CreateShardKey.newBuilder()
+                                .setShardKey(shardKey("{shard_key}"))
+                                .build())
+                .build()).get();
 ```
 
 ```csharp
@@ -375,6 +438,11 @@ await client.CreateCollectionAsync(
 	shardNumber: 1,
 	shardingMethod: ShardingMethod.Custom
 );
+
+await client.CreateShardKeyAsync(
+    "{collection_name}",
+    new CreateShardKey { ShardKey = new ShardKey { Keyword = "{shard_key}", } }
+    );
 ```
 
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
@@ -388,6 +456,10 @@ In this mode, the `shard_number` means the number of shards per shard key, where
 ```
 
 Then you will have `1 * 10 * 2 = 20` total physical shards in the collection.
+
+Physical shards require a large amount of resources, so make sure your custom sharding key has a low cardinality.
+
+For large cardinality keys, it is recommended to use [partition by payload](/documentation/guides/multiple-partitions/#partition-by-payload) instead.
 
 To specify the shard for each point, you need to provide the `shard_key` field in the upsert request:
 
@@ -405,10 +477,9 @@ PUT /collections/{collection_name}/points
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.upsert(
     collection_name="{collection_name}",
@@ -519,32 +590,35 @@ Another use-case would be to have shards that track the data chronologically, so
 
 *Available as of v1.7.0*
 
-There are different methods for transferring, such as moving or replicating, a
-shard to another node. Depending on what performance and guarantees you'd like
-to have and how you'd like to manage your cluster, you likely want to choose a
-specific method. Each method has its own pros and cons. Which is fastest depends
-on the size and state of a shard.
+There are different methods for transferring a shard, such as moving or
+replicating, to another node. Depending on what performance and guarantees you'd
+like to have and how you'd like to manage your cluster, you likely want to
+choose a specific method. Each method has its own pros and cons. Which is
+fastest depends on the size and state of a shard.
 
 Available shard transfer methods are:
 
-- `stream_records`: _(default)_ transfer shard by streaming just its records to the target node in batches.
-- `snapshot`: transfer shard including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots) automatically.
+- `stream_records`: _(default)_ transfer by streaming just its records to the target node in batches.
+- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
+- `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL] difference; the operations that were missed.
 
-Each has pros, cons and specific requirements, which are:
+Each has pros, cons and specific requirements, some of which are:
 
-| Method: | Stream records | Snapshot |
-|:---|:---|:---|
-| **Connection** | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li></ul> | <ul><li>Requires internal gRPC API <small>(port 6335)</small></li><li>Requires REST API <small>(port 6333)</small></li></ul> |
-| **HNSW index** | <ul><li>Doesn't transfer index</li><li>Will reindex on target node</li></ul> | <ul><li>Index is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Quantization** | <ul><li>Doesn't transfer quantized data</li><li>Will re-quantize on target node</li></ul> | <ul><li>Quantized data is transferred with a snapshot</li><li>Immediately ready on target node</li></ul> |
-| **Consistency** | <ul><li>Weak data consistency</li><li>Unordered updates on target node[^unordered]</li></ul> | <ul><li>Strong data consistency</li><li>Ordered updates on target node[^ordered]</li></ul> |
-| **Disk space** | <ul><li>No extra disk space required</li></ul> | <ul><li>Extra disk space required for snapshot on both nodes</li></ul> |
+| Method: | Stream records | Snapshot | WAL delta |
+|:---|:---|:---|:---|
+| **Version** | v0.8.0+ | v1.7.0+ | v1.8.0+ |
+| **Target** | New/existing shard | New/existing shard | Existing shard |
+| **Connectivity** | Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> | REST API <small>(<abbr title="port">6333</abbr>)</small><br>Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> | Internal gRPC API <small>(<abbr title="port">6335</abbr>)</small> |
+| **HNSW index** | Doesn't transfer, will reindex on target. | Does transfer, immediately ready on target. | Doesn't transfer, may index on target. |
+| **Quantization** | Doesn't  transfer, will requantize on target. | Does transfer, immediately ready on target. | Doesn't transfer, may quantize on target. |
+| **Ordering** | Unordered updates on target[^unordered] | Ordered updates on target[^ordered] | Ordered updates on target[^ordered] |
+| **Disk space** | No extra required | Extra required for snapshot on both nodes | No extra required |
 
-[^unordered]: Weak data consistency and unordered updates: All records are streamed to the target node in order.
+[^unordered]: Weak ordering for updates: All records are streamed to the target node in order.
     New updates are received on the target node in parallel, while the transfer
     of records is still happening. We therefore have `weak` ordering, regardless
     of what [ordering](#write-ordering) is used for updates.
-[^ordered]: Strong data consistency and ordered updates: A snapshot of the shard
+[^ordered]: Strong ordering for updates: A snapshot of the shard
     is created, it is transferred and recovered on the target node. That ensures
     the state of the shard is kept consistent. New updates are queued on the
     source node, and transferred in order to the target node. Updates therefore
@@ -571,15 +645,15 @@ transferred all of them, keeping both shards in sync. It will also make sure the
 transferred shard indexing process is keeping up before performing a final
 switch. The method has two common disadvantages: 1. It does not transfer index
 or quantization data, meaning that the shard has to be optimized again on the
-new node, which can be very expensive. 2. The consistency and ordering
-guarantees are `weak`[^unordered], which is not suitable for some applications.
-Because it is so simple, it's also very robust, making it a reliable choice if
-the above cons are acceptable in your use case. If your cluster is unstable and
-out of resources, it's probably best to use the `stream_records` transfer
-method, because it is unlikely to fail.
+new node, which can be very expensive. 2. The ordering guarantees are
+`weak`[^unordered], which is not suitable for some applications. Because it is
+so simple, it's also very robust, making it a reliable choice if the above cons
+are acceptable in your use case. If your cluster is unstable and out of
+resources, it's probably best to use the `stream_records` transfer method,
+because it is unlikely to fail.
 
-The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots) to
-transfer a shard. A snapshot is created automatically. It is then transferred
+The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots/)
+to transfer a shard. A snapshot is created automatically. It is then transferred
 and restored on the target node. After this is done, the snapshot is removed
 from both nodes. While the snapshot/transfer/restore operation is happening, the
 source node queues up all new operations. All queued updates are then sent in
@@ -588,11 +662,26 @@ are two important benefits: 1. It transfers index and quantization data, so that
 the shard does not have to be optimized again on the target node, making them
 immediately available. This way, Qdrant ensures that there will be no
 degradation in performance at the end of the transfer. Especially on large
-shards, this can give a huge performance improvement. 2. The consistency and
-ordering guarantees can be `strong`[^ordered], required for some applications.
+shards, this can give a huge performance improvement. 2. The ordering guarantees
+can be `strong`[^ordered], required for some applications.
+
+The `wal_delta` transfer method only transfers the difference between two
+shards. More specifically, it transfers all operations that were missed to the
+target shard. The [WAL] of both shards is used to resolve this. There are two
+benefits: 1. It will be very fast because it only transfers the difference
+rather than all data. 2. The ordering guarantees can be `strong`[^ordered],
+required for some applications. Two disadvantages are: 1. It can only be used to
+transfer to a shard that already exists on the other node. 2. Applicability is
+limited because the WALs normally don't hold more than 64MB of recent
+operations. But that should be enough for a node that quickly restarts, to
+upgrade for example. If a delta cannot be resolved, this method automatically
+falls back to `stream_records` which equals transferring the full shard.
 
 The `stream_records` method is currently used as default. This may change in the
-future.
+future. As of Qdrant 1.9.0 `wal_delta` is used for automatic shard replications
+to recover dead shards.
+
+[WAL]: ../../concepts/storage/#versioning
 
 ## Replication
 
@@ -622,10 +711,9 @@ PUT /collections/{collection_name}
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -779,10 +867,11 @@ Let's walk through them from best to worst.
 
 **Recover with replicated collection**
 
-If the number of failed nodes is less than the replication factor of the collection, then no data is lost.
-Your cluster should still be able to perform read, search and update queries.
+If the number of failed nodes is less than the replication factor of the collection, then your cluster should still be able to perform read, search and update queries.
 
 Now, if the failed node restarts, consensus will trigger the replication process to update the recovering node with the newest updates it has missed.
+
+If the failed node never restarts, you can recover the lost shards if you have a 3+ node cluster. You cannot recover lost shards in smaller clusters because recovery operations go through [raft](#raft) which requires >50% of the nodes to be healthy.
 
 **Recreate node with replicated collections**
 
@@ -818,6 +907,17 @@ Use the [Collection Snapshot Recovery API](../../concepts/snapshots/#recover-in-
 The service will download the specified snapshot of the collection and recover shards with data from it.
 
 Once all shards of the collection are recovered, the collection will become operational again.
+
+### Temporary node failure
+
+If properly configured, running Qdrant in distributed mode can make your cluster resistant to outages when one node fails temporarily.
+
+Here is how differently-configured Qdrant clusters respond:
+
+* 1-node clusters: All operations time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
+* 2-node clusters where shards ARE NOT replicated: All operations will time out or fail for up to a few minutes. It depends on how long it takes to restart and load data from disk.
+* 2-node clusters where all shards ARE replicated to both nodes: All requests except for operations on collections continue to work during the outage.
+* 3+-node clusters where all shards are replicated to at least 2 nodes: All requests continue to work during the outage.
 
 ## Consistency guarantees
 
@@ -861,10 +961,9 @@ PUT /collections/{collection_name}
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -1122,6 +1221,8 @@ sequentially.
 - `medium` ordering serializes all write operations through a dynamically elected leader, which might cause minor inconsistencies in case of leader change.
 - `strong` ordering serializes all write operations through the permanent leader, which provides strong consistency, but write operations may be unavailable if the leader is down.
 
+<aside role="status">Some <a href="#shard-transfer-method">shard transfer methods</a> may affect ordering guarantees.</aside>
+
 ```http
 PUT /collections/{collection_name}/points?ordering=strong
 {
@@ -1157,7 +1258,7 @@ client.upsert(
             [0.1, 0.1, 0.9],
         ],
     ),
-    ordering="strong",
+    ordering=models.WriteOrdering.STRONG,
 )
 ```
 

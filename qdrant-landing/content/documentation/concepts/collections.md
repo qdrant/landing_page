@@ -3,6 +3,8 @@ title: Collections
 weight: 30
 aliases:
   - ../collections
+  - /concepts/collections/
+  - /documentation/frameworks/fondant/documentation/concepts/collections/
 ---
 
 # Collections
@@ -61,10 +63,9 @@ curl -X PUT http://localhost:6333/collections/test_collection1 \
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -135,8 +136,8 @@ In addition to the required options, you can also specify custom values for the 
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
 * `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
-* `optimizers_config` - see [optimizer](../optimizer) for details.
-* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../../guides/distributed_deployment#sharding) section for details.
+* `optimizers_config` - see [optimizer](../optimizer/) for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../../guides/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
 * `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
 
@@ -193,9 +194,8 @@ curl -X PUT http://localhost:6333/collections/test_collection2 \
 
 ```python
 from qdrant_client import QdrantClient
-from qdrant_client.http import models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -323,10 +323,10 @@ curl -X PUT http://localhost:6333/collections/test_collection3 \
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -451,6 +451,127 @@ the use of
 which is suitable for ingesting a large amount of data.
 
 
+### Vector datatypes
+
+*Available as of v1.9.0*
+
+Some embedding providers may provide embeddings in a pre-quantized format.
+One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings).
+Qdrant has direct support for uint8 embeddings, which you can also use in combination with binary quantization.
+
+To create a collection with uint8 embeddings, you can use the following configuration:
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+      "size": 1024,
+      "distance": "Cosine",
+      "datatype": "uint8"
+    }
+}
+```
+
+```bash
+curl -X PUT http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "vectors": {
+      "size": 1024,
+      "distance": "Cosine",
+      "datatype": "uint8"
+    }
+  }'
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(
+        size=1024,
+        distance=models.Distance.COSINE,
+        datatype=models.Datatype.UINT8,
+    ),
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    image: { size: 1024, distance: "Cosine", datatype: "uint8" },
+  },
+});
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{vectors_config::Config, CreateCollection, Datatype, Distance, VectorParams, VectorsConfig},
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+qdrant_client
+     .create_collection(&CreateCollection {
+         collection_name: "{collection_name}".into(),
+         vectors_config: Some(VectorsConfig {
+             config: Some(Config::Params(VectorParams {
+                 size: 1024,
+                 distance: Distance::Cosine.into(),
+                 datatype: Some(Datatype::Uint8.into()),
+                 ..Default::default()
+             })),
+         }),
+         ..Default::default()
+     })
+     .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.grpc.Collections.Datatype;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+
+QdrantClient client = new QdrantClient(
+    QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync("{collection_name}",
+        VectorParams.newBuilder()
+            .setSize(1024)
+            .setDistance(Distance.Cosine)
+            .setDatatype(Datatype.Uint8)
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParams {
+    Size = 1024, Distance = Distance.Cosine, Datatype = Datatype.Uint8
+  }
+);
+```
+
+Vectors with `uint8` datatype are stored in a more compact format, which can save memory and improve search speed at the cost of some precision.
+If you choose to use the `uint8` datatype, elements of the vector will be stored as unsigned 8-bit integers, which can take values **from 0 to 255**.
+
+
 ### Collection with sparse vectors
 
 *Available as of v1.7.0*
@@ -485,10 +606,9 @@ curl -X PUT http://localhost:6333/collections/test_collection4 \
 
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -513,26 +633,24 @@ client.createCollection("{collection_name}", {
 ```rust
 use qdrant_client::{
     client::QdrantClient,
-    qdrant::{
-        vectors_config::Config, CreateCollection, Distance, SparseVectorParams, VectorParamsMap,
-        VectorsConfig,
-    },
+    qdrant::{CreateCollection, SparseVectorConfig, SparseVectorParams},
 };
+
 
 let client = QdrantClient::from_url("http://localhost:6334").build()?;
 
 client
     .create_collection(&CreateCollection {
         collection_name: "{collection_name}".to_string(),
-        sparse_vectors_config: Some(SparseVectorsConfig {
-            map: [
-                    (
-                        "text".to_string(),
-                        SparseVectorParams {},
-                    ),
-                ]
-                .into(),
-            }),
+        sparse_vectors_config: Some(SparseVectorConfig {
+            map: [(
+                "text".to_string(),
+                SparseVectorParams {
+                    ..Default::default()
+                },
+            )]
+            .into(),
+            ..Default::default()
         }),
         ..Default::default()
     })
@@ -626,7 +744,6 @@ As a result, you will not waste extra computation resources on rebuilding the in
 
 The following command enables indexing for segments that have more than 10000 kB of vectors stored:
 
-
 ```http
 PATCH /collections/{collection_name}
 {
@@ -667,10 +784,10 @@ use qdrant_client::qdrant::OptimizersConfigDiff;
 client
     .update_collection(
         "{collection_name}",
-        &OptimizersConfigDiff {
+        Some(&OptimizersConfigDiff {
             indexing_threshold: Some(10000),
             ..Default::default()
-        },
+        }),
         None,
         None,
         None,
@@ -1063,6 +1180,10 @@ client.collection_info("{collection_name}").await?;
 client.getCollectionInfoAsync("{collection_name}").get();
 ```
 
+```csharp
+await client.GetCollectionInfoAsync("{collection_name}");
+```
+
 <details>
 <summary>Expected result</summary>
 
@@ -1117,12 +1238,6 @@ client.getCollectionInfoAsync("{collection_name}").get();
 </details>
 <br/>
 
-
-
-```csharp
-await client.GetCollectionInfoAsync("{collection_name}");
-```
-
 If you insert the vectors into the collection, the `status` field may become
 `yellow` whilst it is optimizing. It will become `green` once all the points are
 successfully processed.
@@ -1131,7 +1246,89 @@ The following color statuses are possible:
 
 - 🟢 `green`: collection is ready
 - 🟡 `yellow`: collection is optimizing
+- ⚫ `grey`: collection is pending optimization ([help](#grey-collection-status))
 - 🔴 `red`: an error occurred which the engine could not recover from
+
+### Grey collection status
+
+_Available as of v1.9.0_
+
+A collection may have the grey ⚫ status or show "optimizations pending,
+awaiting update operation" as optimization status. This state is normally caused
+by restarting a Qdrant instance while optimizations were ongoing.
+
+It means the collection has optimizations pending, but they are paused. You must
+send any update operation to trigger and start the optimizations again.
+
+For example:
+
+```http
+PATCH /collections/{collection_name}
+{
+    "optimizers_config": {}
+}
+```
+
+```bash
+curl -X PATCH http://localhost:6333/collections/test_collection1 \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+    "optimizers_config": {}
+  }'
+```
+
+```python
+client.update_collection(
+    collection_name="{collection_name}",
+    optimizer_config=models.OptimizersConfigDiff(),
+)
+```
+
+```typescript
+client.updateCollection("{collection_name}", {
+  optimizers_config: {},
+});
+```
+
+```rust
+use qdrant_client::qdrant::OptimizersConfigDiff;
+
+client
+    .update_collection(
+        "{collection_name}",
+        Some(&OptimizersConfigDiff::default()),
+        None,
+        None,
+        None,
+        None,
+        None,
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.grpc.Collections.OptimizersConfigDiff;
+import io.qdrant.client.grpc.Collections.UpdateCollection;
+
+client.updateCollectionAsync(
+    UpdateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setOptimizersConfig(
+            OptimizersConfigDiff.getDefaultInstance())
+        .build());
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpdateCollectionAsync(
+	collectionName: "{collection_name}",
+	optimizersConfig: new OptimizersConfigDiff { }
+);
+```
 
 ### Approximate point and vector counts
 
@@ -1165,7 +1362,7 @@ _Note: these numbers may be removed in a future version of Qdrant._
 ### Indexing vectors in HNSW
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
-depends on the [optimizer configuration](../optimizer). A new index segment is built if the size of non-indexed vectors is higher than the
+depends on the [optimizer configuration](../optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
 value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.
 
@@ -1419,7 +1616,7 @@ curl -X GET http://localhost:6333/collections/test_collection2/aliases
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.get_collection_aliases(collection_name="{collection_name}")
 ```
@@ -1472,7 +1669,7 @@ curl -X GET http://localhost:6333/aliases
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.get_aliases()
 ```
@@ -1525,7 +1722,7 @@ curl -X GET http://localhost:6333/collections
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.get_collections()
 ```

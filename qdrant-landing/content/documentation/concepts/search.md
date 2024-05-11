@@ -46,10 +46,10 @@ This process is called query planning.
 The strategy selection process relies heavily on heuristics and can vary from release to release.
 However, the general principles are:
 
-* planning is performed for each segment independently (see [storage](../storage) for more information about segments)
+* planning is performed for each segment independently (see [storage](../storage/) for more information about segments)
 * prefer a full scan if the amount of points is below a threshold
 * estimate the cardinality of a filtered result before selecting a strategy
-* retrieve points using payload index (see [indexing](../indexing)) if cardinality is below threshold
+* retrieve points using payload index (see [indexing](../indexing/)) if cardinality is below threshold
 * use filterable vector index if the cardinality is above a threshold
 
 You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
@@ -83,10 +83,9 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.search(
     collection_name="{collection_name}",
@@ -211,7 +210,7 @@ Currently, it could be:
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
 
 Since the `filter` parameter is specified, the search is performed only among those points that satisfy the filter condition.
-See details of possible filters and their work in the [filtering](../filtering) section.
+See details of possible filters and their work in the [filtering](../filtering/) section.
 
 Example result of this API would be
 
@@ -250,9 +249,8 @@ POST /collections/{collection_name}/points/search
 
 ```python
 from qdrant_client import QdrantClient
-from qdrant_client.http import models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.search(
     collection_name="{collection_name}",
@@ -358,10 +356,9 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.search(
     collection_name="{collection_name}",
@@ -562,9 +559,8 @@ POST /collections/{collection_name}/points/search
 
 ```python
 from qdrant_client import QdrantClient
-from qdrant_client.http import models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.search(
     collection_name="{collection_name}",
@@ -656,10 +652,9 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.search(
     collection_name="{collection_name}",
@@ -808,12 +803,11 @@ POST /collections/{collection_name}/points/search/batch
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
-filter = models.Filter(
+filter_ = models.Filter(
     must=[
         models.FieldCondition(
             key="city",
@@ -825,8 +819,8 @@ filter = models.Filter(
 )
 
 search_queries = [
-    models.SearchRequest(vector=[0.2, 0.1, 0.9, 0.7], filter=filter, limit=3),
-    models.SearchRequest(vector=[0.5, 0.3, 0.2, 0.3], filter=filter, limit=3),
+    models.SearchRequest(vector=[0.2, 0.1, 0.9, 0.7], filter=filter_, limit=3),
+    models.SearchRequest(vector=[0.5, 0.3, 0.2, 0.3], filter=filter_, limit=3),
 ]
 
 client.search_batch(collection_name="{collection_name}", requests=search_queries)
@@ -1003,7 +997,7 @@ POST /collections/{collection_name}/points/search
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.search(
     collection_name="{collection_name}",
@@ -1185,7 +1179,7 @@ POST /collections/{collection_name}/points/search/groups
 client.search_groups(
     collection_name="{collection_name}",
     # Same as in the regular search() API
-    query_vector=g,
+    query_vector=[1.1],
     # Grouping parameters
     group_by="document_id",  # Path of the field to group by
     limit=4,  # Max amount of groups

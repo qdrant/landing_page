@@ -147,7 +147,7 @@ documents = [
 You need to tell Qdrant where to store embeddings. This is a basic demo, so your local computer will use its memory as temporary storage.
 
 ```python
-qdrant = QdrantClient(":memory:")
+client = QdrantClient(":memory:")
 ```
 
 ## 4. Create a collection
@@ -155,7 +155,7 @@ qdrant = QdrantClient(":memory:")
 All data in Qdrant is organized by collections. In this case, you are storing books, so we are calling it `my_books`.
 
 ```python
-qdrant.recreate_collection(
+client.recreate_collection(
     collection_name="my_books",
     vectors_config=models.VectorParams(
         size=encoder.get_sentence_embedding_dimension(),  # Vector size is defined by used model
@@ -176,7 +176,7 @@ qdrant.recreate_collection(
 Tell the database to upload `documents` to the `my_books` collection. This will give each record an id and a payload. The payload is just the metadata from the dataset.
 
 ```python
-qdrant.upload_points(
+client.upload_points(
     collection_name="my_books",
     points=[
         models.PointStruct(
@@ -192,7 +192,7 @@ qdrant.upload_points(
 Now that the data is stored in Qdrant, you can ask it questions and receive semantically relevant results.
 
 ```python
-hits = qdrant.search(
+hits = client.search(
     collection_name="my_books",
     query_vector=encoder.encode("alien invasion").tolist(),
     limit=3,
@@ -216,7 +216,7 @@ The search engine shows three of the most likely responses that have to do with 
 How about the most recent book from the early 2000s?
 
 ```python
-hits = qdrant.search(
+hits = client.search(
     collection_name="my_books",
     query_vector=encoder.encode("alien invasion").tolist(),
     query_filter=models.Filter(

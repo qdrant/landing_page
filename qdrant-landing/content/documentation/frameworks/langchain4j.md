@@ -1,6 +1,6 @@
 ---
 title: Langchain4J
-weight: 110
+weight: 2110
 ---
 
 # LangChain for Java
@@ -25,7 +25,7 @@ Add the `langchain4j-qdrant` to your project dependencies.
 
 Before you use the following code sample, customize the following values for your configuration:
 
-- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections) guide to create or
+- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections/) guide to create or
   list collections.
 - `YOUR_HOST_URL`: Use the GRPC URL for your system. If you used the [Quick Start](/documentation/quick-start/) guide,
   it may be http://localhost:6334. If you've deployed in the [Qdrant Cloud](/documentation/cloud/), you may have a
@@ -53,3 +53,4 @@ EmbeddingStore<TextSegment> embeddingStore =
 ## Further Reading
 
 - You can refer to the [Langchain4J examples](https://github.com/langchain4j/langchain4j-examples/) to get started.
+- [Source Code](https://github.com/langchain4j/langchain4j/tree/main/langchain4j-qdrant)

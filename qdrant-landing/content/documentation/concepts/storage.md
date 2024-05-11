@@ -13,7 +13,7 @@ Each segment has its independent vector and payload storage as well as indexes.
 Data stored in segments usually do not overlap.
 However, storing the same point in different segments will not cause problems since the search contains a deduplication mechanism.
 
-The segments consist of vector and payload storages, vector and payload [indexes](../indexing), and id mapper, which stores the relationship between internal and external ids.
+The segments consist of vector and payload storages, vector and payload [indexes](../indexing/), and id mapper, which stores the relationship between internal and external ids.
 
 A segment can be `appendable` or `non-appendable` depending on the type of storage and index used.
 You can freely add, delete and query data in the `appendable` segment.
@@ -56,7 +56,7 @@ PUT /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -168,7 +168,7 @@ PUT /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
@@ -293,7 +293,7 @@ PUT /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",

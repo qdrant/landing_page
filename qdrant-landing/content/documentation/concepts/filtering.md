@@ -8,7 +8,7 @@ aliases:
 # Filtering
 
 With Qdrant, you can set conditions when searching or retrieving points.
-For example, you can impose conditions on both the [payload](../payload) and the `id` of the point.
+For example, you can impose conditions on both the [payload](../payload/) and the `id` of the point.
 
 Setting additional conditions is important when it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
@@ -52,10 +52,9 @@ POST /collections/{collection_name}/points/scroll
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.scroll(
     collection_name="{collection_name}",
@@ -729,7 +728,7 @@ Example:
 ```
 
 ```python
-FieldCondition(
+models.FieldCondition(
     key="color",
     match=models.MatchAny(any=["black", "yellow"]),
 )
@@ -785,7 +784,7 @@ Example:
 ```
 
 ```python
-FieldCondition(
+models.FieldCondition(
     key="color",
     match=models.MatchExcept(**{"except": ["black", "yellow"]}),
 )
@@ -1317,29 +1316,27 @@ The key should point to an array of objects and can be used with or without the 
 POST /collections/{collection_name}/points/scroll
 {
     "filter": {
-        "must": [
+        "must": [{
             "nested": {
-                {
-                    "key": "diet",
-                    "filter":{
-                        "must": [
-                            {
-                                "key": "food",
-                                "match": {
-                                    "value": "meat"
-                                }
-                            },
-                            {
-                                "key": "likes",
-                                "match": {
-                                    "value": true
-                                }
+                "key": "diet",
+                "filter":{
+                    "must": [
+                        {
+                            "key": "food",
+                            "match": {
+                                "value": "meat"
                             }
-                        ]
-                    }
+                        },
+                        {
+                            "key": "likes",
+                            "match": {
+                                "value": true
+                            }
+                        }
+                    ]
                 }
             }
-        ]
+        }]
     }
 }
 ```
@@ -1748,6 +1745,88 @@ Comparisons that can be used:
 - `lte` - less than or equal
 
 Can be applied to [float](../payload/#float) and [integer](../payload/#integer) payloads.
+
+### Datetime Range
+
+The datetime range is a unique range condition, used for [datetime](../payload/#datetime) payloads, which supports RFC 3339 formats. 
+You do not need to convert dates to UNIX timestaps. During comparison, timestamps are parsed and converted to UTC.
+
+_Available as of v1.8.0_
+
+```json
+{
+  "key": "date",
+  "range": {
+    "gt": "2023-02-08T10:49:00Z"
+    "gte": null,
+    "lt": null,
+    "lte": "2024-01-31 10:14:31Z"
+  }
+}
+```
+
+```python
+models.FieldCondition(
+    key="date",
+    range=models.DatetimeRange(
+        gt="2023-02-08T10:49:00Z",
+        gte=None,
+        lt=None,
+        lte="2024-01-31T10:14:31Z",
+    ),
+)
+```
+
+```typescript
+{
+    key: 'date',
+    range: {
+        gt: '2023-02-08T10:49:00Z',
+        gte: null,
+        lt: null,
+        lte: '2024-01-31T10:14:31Z'
+    }
+}
+```
+
+```rust
+Condition::datetime_range(
+    "date",
+    DatetimeRange {
+        gt: Some(Timestamp::date_time(2023, 2, 8, 10, 49, 0).unwrap()),
+        gte: None,
+        lt: None,
+        lte: Some(Timestamp::date_time(2024, 1, 31, 10, 14, 31).unwrap()),
+    },
+)
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.datetimeRange;
+
+import com.google.protobuf.Timestamp;
+import io.qdrant.client.grpc.Points.DatetimeRange;
+import java.time.Instant;
+
+long gt = Instant.parse("2023-02-08T10:49:00Z").getEpochSecond();
+long lte = Instant.parse("2024-01-31T10:14:31Z").getEpochSecond();
+
+datetimeRange("date",
+    DatetimeRange.newBuilder()
+        .setGt(Timestamp.newBuilder().setSeconds(gt))
+        .setLte(Timestamp.newBuilder().setSeconds(lte))
+        .build());
+```
+
+```csharp
+using Qdrant.Client.Grpc;
+
+Conditions.DatetimeRange(
+    field: "date",
+    gt: new DateTime(2023, 2, 8, 10, 49, 0, DateTimeKind.Utc),
+    lte: new DateTime(2024, 1, 31, 10, 14, 31, DateTimeKind.Utc)
+);
+```
 
 ### Geo
 

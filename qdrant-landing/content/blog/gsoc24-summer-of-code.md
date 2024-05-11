@@ -21,12 +21,12 @@ We are thrilled to announce that Qdrant was 𝐍𝐎𝐓 𝐚𝐜𝐜𝐞𝐩�
 
 
 ## Our project ideas. 
-We have prepared some excelent project ideas. Take a look and choose if you want to contribute in Rust or a Python-based project.
+We have prepared some excellent project ideas. Take a look and choose if you want to contribute in Rust or a Python-based project.
 
 
 ➡ *WASM-based dimension reduction viz* 📊 
 
-Implement a dimension reduction algorithm in Rust and compile to WASM and integrate the WASM code with Qdrant Web UI.
+Implement a dimension reduction algorithm in Rust, compile to WASM and integrate the WASM code with Qdrant Web UI.
 
 ➡ *Efficient BM25 and Okapi BM25, which uses the BERT Tokenizer* 🥇
 
@@ -38,7 +38,7 @@ Export a cross-encoder ranking models to operate on ONNX runtime and integrate t
 
 ➡ *Ranking Fusion Algorithms implementation in Rust* 🧪
 
-Develop Rust implementations of various ranking fusion algorithms including but not limited to Reciprocal Rank Fusion (RRF). For complete list, see: https://github.com/AmenRa/ranx
+Develop Rust implementations of various ranking fusion algorithms including but not limited to Reciprocal Rank Fusion (RRF). For a complete list, see: https://github.com/AmenRa/ranx
 and create Python bindings for the implemented Rust modules.
 
 ➡ *Setup Jepsen to test Qdrant’s distributed guarantees* 💣

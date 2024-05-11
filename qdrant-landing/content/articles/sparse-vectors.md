@@ -7,7 +7,7 @@ small_preview_image: /articles_data/sparse-vectors/sparse-vectors-icon.svg
 preview_dir: /articles_data/sparse-vectors/preview
 weight: -100
 author: Nirant Kasliwal
-author_link: 
+author_link: https://nirantk.com/about 
 date: 2023-12-09T13:00:00+03:00
 draft: false
 keywords:
@@ -199,8 +199,8 @@ Here are some terms that are added: "Berlin", and "founder" - despite having no 
 
 If you're interested in using the higher-performance approach, check out the following models:
 
-1. [naver/efficient-splade-VI-BT-large-doc](huggingface.co/naver/efficient-splade-vi-bt-large-doc)
-2. [naver/efficient-splade-VI-BT-large-query](huggingface.co/naver/efficient-splade-vi-bt-large-doc)
+1. [naver/efficient-splade-VI-BT-large-doc](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
+2. [naver/efficient-splade-VI-BT-large-query](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
 
 ## Why SPLADE works? Term Expansion
 
@@ -506,7 +506,7 @@ For those who want to dive deeper, here are the top papers on the topic most of 
 
 **Why just read when you try it out?**
 
-We've packed an easy-to-use Colab for you on how to make a Sparse Vector: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
+We've packed an easy-to-use Colab for you on how to make a Sparse Vector: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/drive/1wa2Yr5BCOgV0MTOFFTude99BOXCLHXky?usp=sharing). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
 
 ## Conclusion
 
@@ -514,6 +514,6 @@ Alright, folks, let's wrap it up. Better search isn't a 'nice-to-have,' it's a g
 
 Got questions? Our [Discord community](https://qdrant.to/discord?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) is teeming with answers. 
 
-If you enjoyed reading this, why not sign up for our [newsletter](https://qdrant.tech/subscribe/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) to stay ahead of the curve. 
+If you enjoyed reading this, why not sign up for our [newsletter](/subscribe/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors) to stay ahead of the curve. 
 
 And, of course, a big thanks to you, our readers, for pushing us to make ranking better for everyone.

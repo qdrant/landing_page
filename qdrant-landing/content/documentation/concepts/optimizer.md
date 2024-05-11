@@ -9,7 +9,7 @@ aliases:
 
 It is much more efficient to apply changes in batches than perform each change individually, as many other databases do. Qdrant here is no exception. Since Qdrant operates with data structures that are not always easy to change, it is sometimes necessary to rebuild those structures completely.
 
-Storage optimization in Qdrant occurs at the segment level (see [storage](../storage)).
+Storage optimization in Qdrant occurs at the segment level (see [storage](../storage/)).
 In this case, the segment to be optimized remains readable for the time of the rebuild.
 
 ![Segment optimization](/docs/optimization.svg)
@@ -91,6 +91,6 @@ storage:
     indexing_threshold_kb: 20000
 ```
 
-In addition to the configuration file, you can also set optimizer parameters separately for each [collection](../collections).
+In addition to the configuration file, you can also set optimizer parameters separately for each [collection](../collections/).
 
 Dynamic parameter updates may be useful, for example, for more efficient initial loading of points. You can disable indexing during the upload process with these settings and enable it immediately after it is finished. As a result, you will not waste extra computation resources on rebuilding the index.

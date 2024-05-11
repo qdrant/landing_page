@@ -100,7 +100,7 @@ Product Quantization comes with a cost - there are some additional operations to
 that the performance might be reduced. However, memory usage might be reduced drastically as 
 well. As usual, we did some benchmarks to give you a brief understanding of what you may expect.
 
-Again, we reused the same pipeline as in [the other benchmarks we published](/benchmarks). We
+Again, we reused the same pipeline as in [the other benchmarks we published](/benchmarks/). We
 selected [Arxiv-titles-384-angular-no-filters](https://github.com/qdrant/ann-filtering-benchmark-datasets)
 and [Glove-100](https://github.com/erikbern/ann-benchmarks/) datasets to measure the impact
 of Product Quantization on precision and time. Both experiments were launched with $ EF = 128 $. 

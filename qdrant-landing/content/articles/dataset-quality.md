@@ -107,7 +107,7 @@ Diversity:
 {{< figure src=https://storage.googleapis.com/demo-dataset-quality-public/article/diversity_transparent.png caption="Diversity search" >}}
 
 Diversity search utilizes the very same embeddings, and you can reuse them.
-If your data is huge and does not fit into memory, vector search engines like [Qdrant](https://qdrant.tech/) might be helpful.
+If your data is huge and does not fit into memory, vector search engines like [Qdrant](https://github.com/qdrant/qdrant) might be helpful.
 
 Although the described methods can be used independently. But they are simple to combine and improve detection capabilities.
 If the quality remains insufficient, you can fine-tune the models using a similarity learning approach (e.g. with [Quaterion](https://quaterion.qdrant.tech) both to provide a better representation of your data and pull apart dissimilar objects in space.

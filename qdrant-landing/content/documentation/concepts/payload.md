@@ -50,7 +50,7 @@ For example, you will get an empty output if you apply the [range condition](../
 
 However, arrays (multiple values of the same type) are treated a little bit different. When we apply a filter to an array, it will succeed if at least one of the values inside the array meets the condition.
 
-The filtering process is discussed in detail in the section [Filtering](../filtering).
+The filtering process is discussed in detail in the section [Filtering](../filtering/).
 
 Let's look at the data types that Qdrant supports for searching:
 
@@ -137,6 +137,42 @@ Example of single and multiple `geo` values:
 
 Coordinate should be described as an object containing two fields: `lon` - for longitude, and `lat` - for latitude.
 
+### Datetime
+
+*Available as of v1.8.0*
+
+`datetime` - date and time in [RFC 3339] format.
+
+See the following examples of single and multiple `datetime` values:
+
+```json
+{
+    "created_at": "2023-02-08T10:49:00Z",
+    "updated_at": [
+        "2023-02-08T13:52:00Z",
+        "2023-02-21T21:23:00Z"
+    ]
+}
+```
+
+The following formats are supported:
+
+- `"2023-02-08T10:49:00Z"` ([RFC 3339], UTC)
+- `"2023-02-08T11:49:00+01:00"` ([RFC 3339], with timezone)
+- `"2023-02-08T10:49:00"` (without timezone, UTC is assumed)
+- `"2023-02-08T10:49"` (without timezone and seconds)
+- `"2023-02-08"` (only date, midnight is assumed)
+
+Notes about the format:
+
+- `T` can be replaced with a space.
+- The `T` and `Z` symbols are case-insensitive.
+- UTC is always assumed when the timezone is not specified.
+- Timezone can have the following formats: `±HH:MM`, `±HHMM`, `±HH`, or `Z`.
+- Seconds can have up to 6 decimals, so the finest granularity for `datetime` is microseconds.
+
+[RFC 3339]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.6
+
 ## Create point with payload
 REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/upsert_points))
 
@@ -164,10 +200,9 @@ PUT /collections/{collection_name}/points
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.upsert(
     collection_name="{collection_name}",
@@ -574,6 +609,49 @@ await client.SetPayloadAsync(
 );
 ```
 
+_Available as of v1.8.0_
+
+It is possible to modify only a specific key of the payload by using the `key` parameter.
+
+For instance, given the following payload JSON object on a point:
+
+```json
+{
+    "property1": {
+        "nested_property": "foo",
+    },
+    "property2": {
+        "nested_property": "bar",
+    }
+}
+```
+
+You can modify the `nested_property` of `property1` with the following request:
+
+```http
+POST /collections/{collection_name}/points/payload
+{
+    "payload": {
+        "nested_property": "qux",
+    },
+    "key": "property1",
+    "points": [1]
+}
+```
+
+Resulting in the following payload:
+
+```json
+{
+    "property1": {
+        "nested_property": "qux",
+    },
+    "property2": {
+        "nested_property": "bar",
+    }
+}
+```
+
 ### Overwrite payload
 
 Fully replace any existing payload with the given one.
@@ -689,9 +767,7 @@ POST /collections/{collection_name}/points/payload/clear
 ```python
 client.clear_payload(
     collection_name="{collection_name}",
-    points_selector=models.PointIdsList(
-        points=[0, 3, 100],
-    ),
+    points_selector=[0, 3, 100],
 )
 ```
 
@@ -923,7 +999,7 @@ await client.DeletePayloadAsync(
 
 To search more efficiently with filters, Qdrant allows you to create indexes for payload fields by specifying the name and type of field it is intended to be.
 
-The indexed fields also affect the vector index. See [Indexing](../indexing) for details.
+The indexed fields also affect the vector index. See [Indexing](../indexing/) for details.
 
 In practice, we recommend creating an index on those fields that could potentially constrain the results the most.
 For example, using an index for the object ID will be much more efficient, being unique for each record, than an index by its color, which has only a few possible values.

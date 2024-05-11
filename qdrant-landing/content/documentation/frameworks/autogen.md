@@ -68,7 +68,7 @@ assistant = RetrieveAssistantAgent(
 # `chunk_token_size` is the chunk token size for the retrieve chat.
 # We use an in-memory QdrantClient instance here. Not recommended for production.
 
-ragproxyagent = QdrantRetrieveUserProxyAgent(
+rag_proxy_agent = QdrantRetrieveUserProxyAgent(
     name="qdrantagent",
     human_input_mode="NEVER",
     max_consecutive_auto_reply=10,
@@ -95,9 +95,11 @@ assistant.reset()
 
 # The query used below is for demonstration. It should usually be related to the docs made available to the agent
 code_problem = "How can I use FLAML to perform a classification task?"
-ragproxyagent.initiate_chat(assistant, problem=code_problem)
+rag_proxy_agent.initiate_chat(assistant, problem=code_problem)
 ```
 
 ## Next steps
 
-Check out more Autogen [examples](https://microsoft.github.io/autogen/docs/Examples). You can find detailed documentation about AutoGen [here](https://microsoft.github.io/autogen/).
+- Autogen [examples](https://microsoft.github.io/autogen/docs/Examples)
+- AutoGen [documentation](https://microsoft.github.io/autogen/)
+- [Source Code](https://github.com/microsoft/autogen/blob/main/autogen/agentchat/contrib/qdrant_retrieve_user_proxy_agent.py)

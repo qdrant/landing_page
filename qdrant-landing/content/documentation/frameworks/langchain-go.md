@@ -1,6 +1,6 @@
 ---
 title: Langchain Go
-weight: 120
+weight: 2120
 ---
 
 # Langchain Go
@@ -23,7 +23,7 @@ Before you use the following code sample, customize the following values for you
 
 - `YOUR_QDRANT_REST_URL`: If you've set up Qdrant using the [Quick Start](/documentation/quick-start/) guide,
   set this value to `http://localhost:6333`.
-- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections) guide to create or
+- `YOUR_COLLECTION_NAME`: Use our [Collections](/documentation/concepts/collections/) guide to create or
   list collections.
 
 ```go
@@ -65,3 +65,5 @@ import (
 ## Further Reading
 
 - You can find usage examples of Langchain Go [here](https://github.com/tmc/langchaingo/tree/main/examples).
+
+- [Source Code](https://github.com/tmc/langchaingo/tree/main/vectorstores/qdrant)

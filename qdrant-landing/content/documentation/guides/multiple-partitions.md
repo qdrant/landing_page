@@ -3,6 +3,7 @@ title: Multitenancy
 weight: 12
 aliases:
   - ../tutorials/multiple-partitions
+  - /tutorials/multiple-partitions/
 ---
 # Configure Multitenancy
 
@@ -13,6 +14,10 @@ aliases:
 ## Partition by payload
 
 When an instance is shared between multiple users, you may need to partition vectors by user. This is done so that each user can only access their own vectors and can't see the vectors of other users.
+
+> ### NOTE
+>
+> The key doesn't necessarily need to be named `group_id`. You can choose a name that best suits your data structure and naming conventions.
 
 1. Add a `group_id` field to each vector in the collection.
 
@@ -220,7 +225,7 @@ POST /collections/{collection_name}/points/search
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.search(
     collection_name="{collection_name}",
@@ -341,7 +346,7 @@ PUT /collections/{collection_name}
 ```python
 from qdrant_client import QdrantClient, models
 
-client = QdrantClient("localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",

@@ -98,8 +98,8 @@ switching overhead plus the wait time until the disk IO is finished. Ultimately,
 this works very well with the asynchronous nature of Qdrant's core.
 
 One of the great optimizations Qdrant offers is quantization (either
-[scalar](https://qdrant.tech/articles/scalar-quantization/) or 
-[product](https://qdrant.tech/articles/product-quantization/)-based).
+[scalar](/articles/scalar-quantization/) or 
+[product](/articles/product-quantization/)-based).
 However unless the collection resides fully in memory, this optimization
 method generates significant disk IO, so it is a prime candidate for possible
 improvements.

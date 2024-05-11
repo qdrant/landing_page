@@ -12,14 +12,14 @@ A key feature of Qdrant is the effective combination of vector and traditional i
 The indexes in the segments exist independently, but the parameters of the indexes themselves are configured for the whole collection.
 
 Not all segments automatically have indexes.
-Their necessity is determined by the [optimizer](../optimizer) settings and depends, as a rule, on the number of stored points.
+Their necessity is determined by the [optimizer](../optimizer/) settings and depends, as a rule, on the number of stored points.
 
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
 This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
 
-The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search#query-planning) choose a search strategy.
+The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search/#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
@@ -36,7 +36,7 @@ PUT /collections/{collection_name}/index
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_payload_index(
     collection_name="{collection_name}",
@@ -105,8 +105,9 @@ Available field types are:
 * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
 * `integer` - for [integer](../payload/#integer) payload, affects [Match](../filtering/#match) and [Range](../filtering/#range) filtering conditions.
 * `float` - for [float](../payload/#float) payload, affects [Range](../filtering/#range) filtering conditions.
-* `bool` - for [bool](../payload/#bool) payload, affects [Match](../filtering/#match) filtering conditions (available as of 1.4.0).
+* `bool` - for [bool](../payload/#bool) payload, affects [Match](../filtering/#match) filtering conditions (available as of v1.4.0).
 * `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
+* `datetime` - for [datetime](../payload/#datetime) payload, affects [Range](../filtering/#range) filtering conditions (available as of v1.8.0).
 * `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
 
 Payload index may occupy some additional memory, so it is recommended to only use index for those fields that are used in filtering conditions.
@@ -140,10 +141,9 @@ PUT /collections/{collection_name}/index
 ```
 
 ```python
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 
-client = QdrantClient(host="localhost", port=6333)
+client = QdrantClient(url="http://localhost:6333")
 
 client.create_payload_index(
     collection_name="{collection_name}",
@@ -267,6 +267,157 @@ Available tokenizers are:
 
 See [Full Text match](../filtering/#full-text-match) for examples of querying with full-text index.
 
+### Parameterized index
+
+*Available as of v1.8.0*
+
+We've added a parameterized variant to the `integer` index, which allows
+you to fine-tune indexing and search performance.
+
+Both the regular and parameterized `integer` indexes use the following flags:
+
+- `lookup`: enables support for direct lookup using
+  [Match](/documentation/concepts/filtering/#match) filters.
+- `range`: enables support for
+  [Range](/documentation/concepts/filtering/#range) filters.
+
+The regular `integer` index assumes both `lookup` and `range` are `true`. In
+contrast, to configure a parameterized index, you would set only one of these
+filters to `true`:
+
+| `lookup` | `range` | Result                      |
+|----------|---------|-----------------------------|
+| `true`   | `true`  | Regular integer index       |
+| `true`   | `false` | Parameterized integer index |
+| `false`  | `true`  | Parameterized integer index |
+| `false`  | `false` | No integer index            |
+
+The parameterized index can enhance performance in collections with millions
+of points. We encourage you to try it out. If it does not enhance performance
+in your use case, you can always restore the regular `integer` index.
+
+Note: If you set `"lookup": true` with a range filter, that may lead to
+significant performance issues.
+
+For example, the following code sets up a parameterized integer index which
+supports only range filters:
+
+```http
+PUT /collections/{collection_name}/index
+{
+    "field_name": "name_of_the_field_to_index",
+    "field_schema": {
+        "type": "integer",
+        "lookup": false,
+        "range": true
+    }
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="name_of_the_field_to_index",
+    field_schema=models.IntegerIndexParams(
+        type=models.IntegerIndexType.INTEGER,
+        lookup=False,
+        range=True,
+    ),
+)
+```
+
+```typescript
+import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createPayloadIndex("{collection_name}", {
+  field_name: "name_of_the_field_to_index",
+  field_schema: {
+    type: "integer",
+    lookup: false,
+    range: true,
+  },
+});
+```
+
+```rust
+use qdrant_client::{
+    client::QdrantClient,
+    qdrant::{
+        payload_index_params::IndexParams, FieldType, PayloadIndexParams,
+        IntegerIndexParams, TokenizerType,
+    },
+};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client
+    .create_field_index(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        FieldType::Integer,
+        Some(&PayloadIndexParams {
+            index_params: Some(IndexParams::IntegerIndexParams(IntegerIndexParams {
+                lookup: false,
+                range: true,
+            })),
+        }),
+        None,
+    )
+    .await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.IntegerIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createPayloadIndexAsync(
+        "{collection_name}",
+        "name_of_the_field_to_index",
+        PayloadSchemaType.Integer,
+        PayloadIndexParams.newBuilder()
+            .setIntegerIndexParams(
+                IntegerIndexParams.newBuilder().setLookup(false).setRange(true).build())
+            .build(),
+        null,
+        null,
+        null)
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync(
+    collectionName: "{collection_name}",
+    fieldName: "name_of_the_field_to_index",
+    schemaType: PayloadSchemaType.Integer,
+    indexParams: new PayloadIndexParams
+    {
+	    IntegerIndexParams = new()
+	    {
+		    Lookup = false,
+		    Range = true
+	    }
+    }
+);
+```
+
 ## Vector Index
 
 A vector index is a data structure built on vectors through a specific mathematical model.
@@ -298,7 +449,7 @@ storage:
 
 ```
 
-And so in the process of creating a [collection](../collections). The `ef` parameter is configured during [the search](../search) and by default is equal to `ef_construct`.
+And so in the process of creating a [collection](../collections/). The `ef` parameter is configured during [the search](../search/) and by default is equal to `ef_construct`.
 
 HNSW is chosen for several reasons.
 First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
