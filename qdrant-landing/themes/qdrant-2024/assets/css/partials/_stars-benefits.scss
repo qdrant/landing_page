@@ -1,0 +1,48 @@
+@use '../helpers/functions' as *;
+
+.stars-benefits {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 2.5;
+    font-size: $spacer * 1.5;
+    line-height: rem(34);
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  &__card {
+    justify-content: flex-start;
+
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+      margin-bottom: $spacer;
+    }
+
+    &-title {
+      font-size: rem(20);
+      line-height: rem(30);
+      color: $neutral-20;
+      margin-bottom: $spacer;
+    }
+
+    &-description {
+      color: $neutral-30;
+      margin-bottom: 0;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 6.5;
+
+    &__title {
+      max-width: rem(920);
+      margin: 0 auto $spacer * 5;
+      font-size: $spacer * 2.5;
+      line-height: $spacer * 3;
+    }
+  }
+}

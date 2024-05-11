@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/stars/stars-marketplaces") }}
+  <section class="stars-marketplaces">
+    <div class="container">
+      <div class="stars-marketplaces__cards row g-4 gy-md-3 gy-xl-0">
+        <div class="col-12 col-md-6 col-xl-3">
+          <h4 class="stars-marketplaces__title">{{ .Params.title }}</h4>
+        </div>
+
+        {{ range .Params.cards }}
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="card stars-marketplaces__card">
+              <img class="stars-marketplaces__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="stars-marketplaces__card-title">{{ .title }}</h6>
+              <p class="stars-marketplaces__card-description">{{ .description }}</p>
+              <a class="stars-marketplaces__card-link link link_md align-self-start" href="{{ .link.url }}">
+                {{ .link.text }}
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+    <div class="stars-marketplaces__square-grid-overlay"></div>
+  </section>
+{{ end }}

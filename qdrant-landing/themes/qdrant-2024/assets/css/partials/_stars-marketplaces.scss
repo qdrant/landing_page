@@ -1,0 +1,88 @@
+@use '../helpers/functions' as *;
+
+.stars-marketplaces {
+  position: relative;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    margin-bottom: $spacer * 0.5;
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    color: $neutral-20;
+  }
+
+  &__card {
+    justify-content: flex-start;
+
+    &-icon {
+      height: $spacer * 4;
+      width: $spacer * 4;
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: rem(20);
+      line-height: rem(30);
+      color: $neutral-20;
+    }
+
+    &__description {
+      margin-bottom: $spacer * 1.5;
+      font-size: rem(14);
+      line-height: rem(21);
+      color: $neutral-30;
+    }
+
+    &-link {
+      margin-top: auto;
+    }
+  }
+
+  &__square-grid-overlay {
+    display: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 6.5;
+    padding-bottom: $spacer * 6.5;
+
+    &__title {
+      font-size: $spacer * 2.5;
+      line-height: $spacer * 3;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__title {
+      margin-bottom: $spacer * 10;
+    }
+
+    &__cards {
+      position: relative;
+      align-items: center;
+      height: rem(400);
+      z-index: 2;
+    }
+
+    &__card {
+      height: rem(306);
+    }
+
+    &__square-grid-overlay {
+      display: block;
+      position: absolute;
+      left: 0;
+      bottom: $spacer * 6.5;
+      width: 100%;
+      height: rem(400);
+      background-image: url('/img/square-grid.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center;
+      z-index: 1;
+    }
+  }
+}
