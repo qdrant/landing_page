@@ -81,3 +81,14 @@ We only guarantee compatibility if you update between consecutive versions. You 
 
 In case your version is older, we only guarantee compatibility between two consecutive minor versions. This also applies to client versions. Ensure your client version is never more than one minor version away from your cluster version.
 While we will assist with break/fix troubleshooting of issues and errors specific to our products, Qdrant is not accountable for reviewing, writing (or rewriting), or debugging custom code.
+
+### Which embedding models does FastEmbed support, and how does it utilize memory?
+
+You can find the list of supported models [here](https://qdrant.github.io/fastembed/examples/Supported_Models/).
+
+Memory usage in fastEmbed depends on several factors:
+1. **Size of the Text**: Everything, including the text and its vectors, is loaded into memory. As vectors are computed, RAM consumption increases accordingly.
+2. **Data Parallelism**: fastEmbed utilizes Python's multiprocessing to split large lists of strings into smaller ones and process them in parallel. While this enhances processing speed, it can also lead to higher RAM consumption.
+3. **Model Used**: Memory usage varies depending on the model used to embed your data.
+
+For optimal performance and memory management, consider these factors when using fastEmbed.

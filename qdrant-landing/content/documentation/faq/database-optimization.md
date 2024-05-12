@@ -59,4 +59,5 @@ Read more about [optimizing](../../guides/optimize/), and [quantization](../../g
 ### How can I enhance search performance when applying filters to their queries?
 
 To enhance the search performance with the filters in qdrant, it's important to optimize the indexing strategies. Users can get a combination of vector and traditional indexes from qdrant, where the vector indexes reduce the time taken for the vector search and the payload indexes quicken the pace of filtering. Users need to strategically mark the fields as indexable as well as prioritize the fields that appear frequently in the filtering conditions in order to efficiently utilize the memory resources. Through thorough cosideration of the memory constraints as well as careful index configuration, users can effectively enhance search performance with filters in qdrant.
+
 Read more about [indexing](../../concepts/indexing/) in Qdrant.
