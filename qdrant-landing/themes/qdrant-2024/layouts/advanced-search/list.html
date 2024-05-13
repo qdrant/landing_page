@@ -1,10 +1,8 @@
 {{ define "main" }}
-<!--  <header class="main-header">-->
-    {{ partial "site-header" . }}
-    {{ with (.Site.GetPage "/advanced-search/advanced-search-hero") }}
-      {{ partial "use-cases-vector-hero" . }}
-    {{ end }}
-<!--  </header>-->
+  {{ partial "site-header" . }}
+  {{ with (.Site.GetPage "/advanced-search/advanced-search-hero") }}
+    {{ partial "use-cases-vector-hero" . }}
+  {{ end }}
 
   {{ partial "advanced-search-features" . }}
   {{ partial "advanced-search-use-cases" . }}

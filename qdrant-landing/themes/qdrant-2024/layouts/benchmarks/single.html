@@ -1,8 +1,9 @@
 {{ define "main" }}
-    {{ partial "site-header" . }}
+  {{ partial "site-header" . }}
 
-    {{ .Scratch.Set "withDate" "true" }}
-    {{ partial "qdrant-articles-hero" . }}
+  {{ .Scratch.Set "withDate" "true" }}
+  {{ partial "qdrant-articles-hero" . }}
+
 
   <div class="container my-5 benchmark">
     <div class="row">

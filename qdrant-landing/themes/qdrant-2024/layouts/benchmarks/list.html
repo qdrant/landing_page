@@ -2,6 +2,7 @@
   {{ partial "site-header" . }}
   {{ partial "qdrant-articles-hero" . }}
 
+
   <div class="container my-5">
     {{ range $i,$p := where .Data.Pages "Section" "benchmarks" }}
 
