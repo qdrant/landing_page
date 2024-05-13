@@ -92,7 +92,3 @@ Memory usage in fastEmbed depends on several factors:
 3. **Model Used**: Memory usage varies depending on the model used to embed your data.
 
 For optimal performance and memory management, consider these factors when using fastEmbed.
-
-### How does your cloud handle shard rebalancing when increasing the number of nodes?
-
-Our [cloud platform](https://cloud.qdrant.io) handles shard rebalancing when scaling out. However, it's essential to create enough shards beforehand to facilitate the scaling process effectively. For instance, if you have 3 nodes, it's advisable to choose 6 or 9 shards to allow for rebalancing upon extending your cluster, which wouldn't be possible with just 3 shards.
