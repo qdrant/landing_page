@@ -1,10 +1,6 @@
 {{ define "main" }}
-  <header class="main-header">
-    {{ partial "top-banner" . }}
-    {{ partial "menu" . }}
-    {{ partial "menu-mobile" . }}
+    {{ partial "site-header" . }}
     {{ partial "qdrant-articles-hero" . }}
-  </header>
 
   {{ partial "qdrant-articles-posts" . }}
 

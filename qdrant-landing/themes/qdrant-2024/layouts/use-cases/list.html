@@ -1,9 +1,6 @@
 {{ define "main" }}
-  <header class="main-header">
-    {{ partial "top-banner" . }}
-    {{ partial "menu" . }}
-    {{ partial "menu-mobile" . }}
-  </header>
+
+  {{ partial "site-header" . }}
 
   {{ with (.Site.GetPage "vectors-use-case") }}
     {{ .Scratch.Set "cssClass" "vectors-use-case" }}{{ partial "vectors" . }}

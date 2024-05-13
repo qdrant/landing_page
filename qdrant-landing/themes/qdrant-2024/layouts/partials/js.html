@@ -1,4 +1,4 @@
-<!--Coocke banner-->
+<!--Cookies banner-->
 {{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
 <script src="{{ $cookit.RelPermalink }}"></script>
 {{ with (.Site.GetPage "/headless/cookies") }}
@@ -17,6 +17,36 @@
   });
 </script>
 {{ end }}
+
+<script>
+  const body = document.querySelector('body');
+  const header = document.querySelector('.site-header');
+  const topBannerHeight = document.querySelector('.top-banner')?.offsetHeight ?? 0;
+  const mainMenu = document.querySelector('.main-menu');
+  const mainMenuHeight = mainMenu?.offsetHeight ?? 0;
+  const mainMenuMarginTop = parseInt(window.getComputedStyle(mainMenu).marginTop, 10);
+
+  // predict in which direction user is scrolling
+    let scrollDirection = 'down';
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function () {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        scrollDirection = 'down';
+        console.log('down');
+        if (window.scrollY > topBannerHeight + 24) {
+          body.classList.add('scrolled');
+        }
+      } else {
+        scrollDirection = 'up';
+        console.log('up');
+        if (window.scrollY <= mainMenuHeight) {
+          body.classList.remove('scrolled');
+        }
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+</script>
 
 {{ if .IsHome }}
   <!--splide.js carousel-->

@@ -3,9 +3,8 @@
 
 .hero {
   padding-top: $spacer * 2.5;
-  background-position: bottom;
-  background-repeat: no-repeat;
   position: relative;
+  background: url('/img/stars-pattern.png') $neutral-10;
 
   &__content {
     text-align: center;
@@ -124,8 +123,6 @@
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 5;
-    background-size: 100%;
-    background-position: center bottom;
 
     &__content {
       padding: 0;
