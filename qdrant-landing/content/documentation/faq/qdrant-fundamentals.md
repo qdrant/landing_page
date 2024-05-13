@@ -93,23 +93,6 @@ Memory usage in fastEmbed depends on several factors:
 
 For optimal performance and memory management, consider these factors when using fastEmbed.
 
-### To ensure all shards are replicated to the listener node, can I use the "Creating new shard replicas" API right after bootstrapping a new cluster and loading data, but before clients start sending new requests?
-
-Yes, that's correct. Before clients start sending requests, you can use the "Creating new shard replicas" API to replicate all shards to the listener node. This ensures that all new data will be replicated to the data node, facilitating whole cluster backup or scaling out.
-
-### Does a listener node in a cluster receive data from all shards?
-
-Yes, a listener node can indeed receive data from all shards. However, it's important to note that a listener node doesn't participate in searches.
-
-###  When creating snapshots from the listener node, will they include data from all shards by default?
-
-No, snapshots from the listener node won't automatically include data from all shards. You'll need to manually replicate all shards to the listener node. You can use the `replicate_shard` API for this purpose.
-
-
-### If I want to use a listener node solely for data storage and scaling out my cluster, can I do so without affecting other nodes with query traffic?
-
-Absolutely. You can configure a listener node to act as a pure data node, thereby scaling out your cluster without impacting other nodes with query traffic.
-
 ### How does your cloud handle shard rebalancing when increasing the number of nodes?
 
 Our [cloud platform](https://cloud.qdrant.io) handles shard rebalancing when scaling out. However, it's essential to create enough shards beforehand to facilitate the scaling process effectively. For instance, if you have 3 nodes, it's advisable to choose 6 or 9 shards to allow for rebalancing upon extending your cluster, which wouldn't be possible with just 3 shards.
