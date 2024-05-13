@@ -42,20 +42,6 @@ There are several possible reasons for that:
 - **Usage of on-disk vector storage with slow disks** -- If you're using on-disk vector storage, ensure you have fast enough disks. We recommend using local SSDs with at least 50k IOPS. Read more about the influence of the disk speed on the search latency in the article about [Memory Consumption](../../../articles/memory-consumption/).
 - **Large limit or non-optimal query parameters** -- A large limit or offset might lead to significant performance degradation. Please pay close attention to the query/collection parameters that significantly diverge from the defaults. They might be the reason for the performance issues.
 
-### How can I optimize optimizer's configuration settings for better accuracy and speed, especially for large-scale collections?
-
-To optimize optimizer's config in Qdrant for better accuracy and speed, consider the following:
-
-- For low memory footprint with high-speed search, utilize vector quantization with disk storage for vectors and in-memory quantized vectors. Configure memmap_threshold and always_ram accordingly.
-- To prioritize high precision with a low memory footprint, enable on-disk vectors and HNSW index. Adjust HNSW parameters for precision while considering disk IOPS.
-- For high precision with high-speed search, focus on keeping data in RAM. Utilize quantization with re-scoring and adjust search-time parameters like hnsw_ef for accuracy and speed balance.
-- Balance latency vs. throughput based on your needs. Configure the number of segments to utilize CPU cores effectively for either minimizing latency or maximizing throughput.
-- Explore different quantization methods like scalar, binary, and product quantization based on accuracy, speed, and compression requirements.
-- Fine-tune quantization parameters such as quantile for scalar quantization to optimize search precision and memory usage.
-- Adjust storage modes to balance between memory footprint and search speed, considering factors like disk reads and storage type (RAM, SSD, or HDD).
-
-Read more about [optimizing](../../guides/optimize/), and [quantization](../../guides/quantization/) in Qdrant.
-
 ### How can I enhance search performance when applying filters to their queries?
 
 To enhance the search performance with the filters in qdrant, it's important to optimize the indexing strategies. Users can get a combination of vector and traditional indexes from qdrant, where the vector indexes reduce the time taken for the vector search and the payload indexes quicken the pace of filtering. Users need to strategically mark the fields as indexable as well as prioritize the fields that appear frequently in the filtering conditions in order to efficiently utilize the memory resources. Through thorough cosideration of the memory constraints as well as careful index configuration, users can effectively enhance search performance with filters in qdrant.
