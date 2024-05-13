@@ -18,7 +18,7 @@ or [protobuf](https://github.com/qdrant/qdrant/tree/master/lib/api/src/grpc/prot
 |-|-|-|-|
 |[![python](/docs/misc/python.webp)](https://python-client.qdrant.tech/)|**[Python](https://github.com/qdrant/qdrant-client)** + **[(Client Docs)](https://python-client.qdrant.tech/)**|`pip install qdrant-client[fastembed]`|[Latest Release](https://github.com/qdrant/qdrant-client/releases)|
 |![typescript](/docs/misc/ts.webp)|**[JavaScript / Typescript](https://github.com/qdrant/qdrant-js)**|`npm install @qdrant/js-client-rest`|[Latest Release](https://github.com/qdrant/qdrant-js/releases)|
-|![rust](/docs/misc/rust.webp)|**[Rust](https://github.com/qdrant/rust-client)**|`cargo add qdrant-client`|[Latest Release](https://github.com/qdrant/rust-client/releases)|
+|![rust](/docs/misc/rust.png)|**[Rust](https://github.com/qdrant/rust-client)**|`cargo add qdrant-client`|[Latest Release](https://github.com/qdrant/rust-client/releases)|
 |![golang](/docs/misc/go.webp)|**[Go](https://github.com/qdrant/go-client)**|`go get github.com/qdrant/go-client`|[Latest Release](https://github.com/qdrant/go-client)|
 |![.net](/docs/misc/dotnet.webp)|**[.NET](https://github.com/qdrant/qdrant-dotnet)**|`dotnet add package Qdrant.Client`|[Latest Release](https://github.com/qdrant/qdrant-dotnet/releases)|
 |![java](/docs/misc/java.webp)|**[Java](https://github.com/qdrant/java-client)**|[Available on Maven Central](https://central.sonatype.com/artifact/io.qdrant/client)|[Latest Release](https://github.com/qdrant/java-client/releases)|
