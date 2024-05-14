@@ -1,12 +1,8 @@
 {{ define "main" }}
-  <header class="main-header">
-    {{ partial "top-banner" . }}
-    {{ partial "menu" . }}
-    {{ partial "menu-mobile" . }}
-    {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-hero") }}
-      {{ partial "use-cases-vector-hero" . }}
-    {{ end }}
-  </header>
+  {{ partial "site-header" . }}
+  {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-hero") }}
+    {{ partial "use-cases-vector-hero" . }}
+  {{ end }}
 
   {{ partial "retrieval-augmented-generation-features" . }}
   {{ partial "retrieval-augmented-generation-integrations" . }}

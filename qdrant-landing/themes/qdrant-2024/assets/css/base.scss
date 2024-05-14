@@ -1,4 +1,5 @@
 @use 'sass:math';
+@use 'helpers/functions' as *;
 @import 'satoshi-font';
 @import 'bootstrap-custom';
 
@@ -20,6 +21,28 @@ html {
   scrollbar-width: thin;
   scrollbar-color: $neutral-50 $neutral-20;
 }
+
+.scrolled {
+  .site-header {
+    z-index: 3;
+  }
+  .main-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: $neutral-10;
+    padding-bottom: $spacer * 0.5;
+    @include media-breakpoint-up(xl) {
+      top: -24px;
+    }
+  }
+
+  .top-banner {
+    display: none;
+  }
+}
+
 @import 'components';
 @import 'syntax-highlight';
 @import 'mathjax';
@@ -28,6 +51,7 @@ html {
 @import 'partials/top-banner';
 @import 'partials/menu-mobile';
 @import 'partials/menu';
+@import 'partials/site-header';
 @import 'partials/link';
 @import 'partials/hubspot-form';
 @import 'partials/breadcrumbs';

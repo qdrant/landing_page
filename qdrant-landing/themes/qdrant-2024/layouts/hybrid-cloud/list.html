@@ -1,10 +1,6 @@
 {{ define "main" }}
-  <header class="main-header">
-    {{ partial "top-banner" . }}
-    {{ partial "menu" . }}
-    {{ partial "menu-mobile" . }}
-    {{ partial "hybrid-cloud-hero" . }}
-  </header>
+  {{ partial "site-header" . }}
+  {{ partial "hybrid-cloud-hero" . }}
 
   {{ partial "hybrid-cloud-kubernetes-clusters" . }}
   {{ partial "hybrid-cloud-cases" . }}

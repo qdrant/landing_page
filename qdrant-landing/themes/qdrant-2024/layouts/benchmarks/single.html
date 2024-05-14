@@ -1,11 +1,9 @@
 {{ define "main" }}
-  <header class="main-header">
-    {{ partial "top-banner" . }}
-    {{ partial "menu" . }}
-    {{ partial "menu-mobile" . }}
-    {{ .Scratch.Set "withDate" "true" }}
-    {{ partial "qdrant-articles-hero" . }}
-  </header>
+  {{ partial "site-header" . }}
+
+  {{ .Scratch.Set "withDate" "true" }}
+  {{ partial "qdrant-articles-hero" . }}
+
 
   <div class="container my-5 benchmark">
     <div class="row">
