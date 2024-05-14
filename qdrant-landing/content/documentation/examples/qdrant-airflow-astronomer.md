@@ -10,11 +10,11 @@ weight: 36
 
 In this tutorial, you will use Qdrant as a [provider](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html) in [Apache Airflow](https://airflow.apache.org/), an open-source tool that lets you setup data-engineering workflows. 
 
-You will write the pipeline in Python to a DAG (Directed Acyclic Graph). With this framework, you can leverage the powerful suite of Python's capabilities and libraries to achieve almost anything your data pipeline needs.
+You will write the pipeline as a DAG (Directed Acyclic Graph) in Python. With this, you can leverage the powerful suite of Python's capabilities and libraries to achieve almost anything your data pipeline needs.
 
-All Airflow workflows are hosted via [Astronomer](https://www.astronomer.io/), a managed SaaS that simplifies the process via its easy to use CLI and extensive automation capabilities.
+All Airflow workflows are hosted via [Astronomer](https://www.astronomer.io/), a managed SaaS that simplifies the process via its easy-to-use CLI and extensive automation capabilities.
 
-Airflow is useful when running operations in Qdrant based on data events or when building parallel tasks for generating vector embeddings. By using Astronomer, can set up monitoring and alerts for your pipelines for full observability.
+Airflow is useful when running operations in Qdrant based on data events or when building parallel tasks for generating vector embeddings. By using Airflow, can set up monitoring and alerts for your pipelines for full observability.
 
 ## Prerequisites
 
@@ -26,7 +26,7 @@ Please make sure you have the following ready:
 
 ## Implementation
 
-We'll be building a DAG that generates embeddings in parallel for our our data corpus and performs semantic retrieval based on user input.
+We'll be building a DAG that generates embeddings in parallel for our data corpus and performs semantic retrieval based on user input.
 
 ### Set up the project
 
@@ -67,8 +67,8 @@ Let's add some sample data to work with. Paste the following content into a file
 ```text
 1 | To Kill a Mockingbird (1960) | fiction | Harper Lee's Pulitzer Prize-winning novel explores racial injustice and moral growth through the eyes of young Scout Finch in the Deep South.
 2 | Harry Potter and the Sorcerer's Stone (1997) | fantasy | J.K. Rowling's magical tale follows Harry Potter as he discovers his wizarding heritage and attends Hogwarts School of Witchcraft and Wizardry.
-3 | The Great Gatsby (1925) | fiction | F. Scott Fitzgerald's classic novel delves into the glitz, glamour, and moral decay of the Jazz Age through the eyes of narrator Nick Carraway and his enigmatic neighbor, Jay Gatsby.
-4 | 1984 (1949) | dystopian | George Orwell's dystopian masterpiece paints a chilling picture of a totalitarian society where individuality is suppressed and truth is manipulated by a powerful regime.
+3 | The Great Gatsby (1925) | fiction | F. Scott Fitzgerald's classic novel delves into the glitz, glamour, and moral decay of the Jazz Age through the eyes of narrator Nick Carraway and his enigmatic neighbour, Jay Gatsby.
+4 | 1984 (1949) | dystopian | George Orwell's dystopian masterpiece paints a chilling picture of a totalitarian society where individuality is suppressed and the truth is manipulated by a powerful regime.
 5 | The Catcher in the Rye (1951) | fiction | J.D. Salinger's iconic novel follows disillusioned teenager Holden Caulfield as he navigates the complexities of adulthood and society's expectations in post-World War II America.
 6 | Pride and Prejudice (1813) | romance | Jane Austen's beloved novel revolves around the lively and independent Elizabeth Bennet as she navigates love, class, and societal expectations in Regency-era England.
 7 | The Hobbit (1937) | fantasy | J.R.R. Tolkien's adventure follows Bilbo Baggins, a hobbit who embarks on a quest with a group of dwarves to reclaim their homeland from the dragon Smaug.
@@ -206,9 +206,9 @@ recommend_book()
 
 `embed_user_preference`: Here, we take a user's input and convert it into a vector using the same pre-trained model used for the book descriptions.
 
-`qdrant_vector_ingest`: This task ingests the books data into the Qdrant collection using the [QdrantIngestOperator](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/1.0.0/), associating each book description with its corresponding vector embeddings.
+`qdrant_vector_ingest`: This task ingests the book data into the Qdrant collection using the [QdrantIngestOperator](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/1.0.0/), associating each book description with its corresponding vector embeddings.
 
-`search_qdrant`: Finally, this task performs a search in the Qdrant database using the vectorized user preference. It finds the most relevant book in the collection based on the vector similarity.
+`search_qdrant`: Finally, this task performs a search in the Qdrant database using the vectorized user preference. It finds the most relevant book in the collection based on vector similarity.
 
 ### Run the DAG
 
@@ -219,7 +219,7 @@ A local Airflow container should spawn. You can now access the Airflow UI at <ht
 
 ![DAG](/documentation/examples/airflow/demo-dag.png)
 
-Hit the PLAY button on the right to run the DAG. You'll be asked for input about the your preference, with the default value already filled in.
+Hit the PLAY button on the right to run the DAG. You'll be asked for input about your preference, with the default value already filled in.
 
 ![Preference](/documentation/examples/airflow/preference-input.png)
 
