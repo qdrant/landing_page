@@ -8,33 +8,29 @@ weight: 36
 | Time: 45 min | Level: Intermediate |     |     |
 | ------------ | ------------------- | --- | --- |
 
-Qdrant is available as a [provider](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html) in Airflow. So here's a tutorial to get building with it.
+In this tutorial, you will use Qdrant as a [provider](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html) in [Apache Airflow](https://airflow.apache.org/), an open-source tool that lets you setup data-engineering workflows. 
 
-First off, let's talk about [Apache Airflow](https://airflow.apache.org/). It's this open-source tool that lets you write your data-engineering workflows using Python in what's called a DAG (Directed Acyclic Graph), essentially a Python file. That means that you can leverage the powerful suite of Python's capabilities and libraries to achieve almost anything your data pipeline could need.
+You will write the pipeline in Python to a DAG (Directed Acyclic Graph). With this framework, you can leverage the powerful suite of Python's capabilities and libraries to achieve almost anything your data pipeline needs.
 
-Now, what's Astronomer? [Astronomer](https://www.astronomer.io/) is a managed service that allows you to manage Airflow workflows in a cloud environment. Think of it as the CI/CD for your Airflow project. The Astronomer CLI also offers great DX when setting up an Airflow project too. This is what we'll be using in this tutorial.
+All Airflow workflows are hosted via [Astronomer](https://www.astronomer.io/), a managed SaaS that simplifies the process via its easy to use CLI and extensive automation capabilities.
 
-## Why should I bother?
-
-Well, imagine you want to do things like running operations in Qdrant based on data events or build parallel tasks for generating vector embeddings (We are doing it below). Airflow helps with all that and more. You can also set up monitoring and alerts for your pipelines.
+Airflow is useful when running operations in Qdrant based on data events or when building parallel tasks for generating vector embeddings. By using Astronomer, can set up monitoring and alerts for your pipelines for full observability.
 
 ## Prerequisites
 
-We'll be proceeding with the tutorial with the assumption that the following are set up.
+Please make sure you have the following ready:
 
-- A running Qdrant instance. We'll be using a FREE instance from <https://cloud.qdrant.io>
+- A running Qdrant instance. We'll be using a free instance from <https://cloud.qdrant.io>
 - The Astronomer CLI. Find the installation instructions [here](https://docs.astronomer.io/astro/cli/install-cli).
 - A [HuggingFace token](https://huggingface.co/docs/hub/en/security-tokens) to generate embeddings.
 
-You can take a look at the further reading section below to learn more about Airflow concepts
-
-## Let's Go
+## Implementation
 
 We'll be building a DAG that generates embeddings in parallel for our our data corpus and performs semantic retrieval based on user input.
 
-### Setting up the project
+### Set up the project
 
-Let's spawn our Airflow project. The Astronomer CLI makes it very straightforward. Simply run,
+The Astronomer CLI makes it very straightforward to set up the Airflow project:
 
 ```console
 mkdir qdrant-airflow-tutorial && cd qdrant-airflow-tutorial
@@ -49,7 +45,7 @@ To use Qdrant within Airflow, install the Qdrant Airflow provider by adding the 
 apache-airflow-providers-qdrant==1.1.0
 ```
 
-### Configuring credentials
+### Configure credentials
 
 We can set up provider connections using the Airflow UI, environment variables or the `airflow_settings.yml` file.
 
@@ -64,9 +60,7 @@ AIRFLOW_CONN_QDRANT_DEFAULT='{
 }'
 ```
 
-Got your credentials set? Great!
-
-### Adding the data corpus
+### Add the data corpus
 
 Let's add some sample data to work with. Paste the following content into a file called `books.txt` file within the `include` directory.
 
@@ -85,7 +79,7 @@ Let's add some sample data to work with. Paste the following content into a file
 
 Now, the hacking part - writing our Airflow DAG!
 
-### Writing the dag
+### Write the dag
 
 We'll add the following content to a `books_recommend.py` file within the `dags` directory. Let's go over what it does for each task.
 
@@ -216,7 +210,7 @@ recommend_book()
 
 `search_qdrant`: Finally, this task performs a search in the Qdrant database using the vectorized user preference. It finds the most relevant book in the collection based on the vector similarity.
 
-### Running the DAG
+### Run the DAG
 
 Head over to your terminal and run
 ```astro dev start```
@@ -235,7 +229,7 @@ After your DAG run completes, you should be able to see the output of your searc
 
 There you have it, an Airflow pipeline that interfaces with Qdrant! Feel free to fiddle around and explore Airflow. There are references below that might come in handy.
 
-## Further Reading
+## Further reading
 
 - [Introduction to Airflow](https://docs.astronomer.io/learn/intro-to-airflow)
 - [Airflow Concepts](https://docs.astronomer.io/learn/category/airflow-concepts)
