@@ -35,11 +35,13 @@
     if (st > lastScrollTop) {
       // scroll down
       if (window.scrollY > topBannerHeight + menuOffset) {
+        header.style.minHeight = `${header.offsetHeight}px`;
         body.classList.add('scrolled');
       }
     } else {
       // scroll up
       if (window.scrollY <= mainMenuHeight) {
+        header.style.minHeight = '';
         body.classList.remove('scrolled');
       }
     }
