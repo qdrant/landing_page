@@ -1,10 +1,6 @@
 {{ define "main" }}
-  <header class="main-header">
-    {{ partial "top-banner" . }}
-    {{ partial "menu" . }}
-    {{ partial "menu-mobile" . }}
-    {{ partial "qdrant-vector-database-hero" . }}
-  </header>
+  {{ partial "site-header" . }}
+  {{ partial "qdrant-vector-database-hero" . }}
 
   {{ partial "qdrant-vector-database-use-cases" . }}
   {{ partial "feature-overview" . }}
