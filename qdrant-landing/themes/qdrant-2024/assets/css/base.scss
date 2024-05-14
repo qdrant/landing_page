@@ -28,11 +28,14 @@ html {
   }
   .main-menu {
     position: fixed;
-    top: -24px;
+    top: 0;
     left: 0;
     right: 0;
     background: $neutral-10;
     padding-bottom: $spacer * 0.5;
+    @include media-breakpoint-up(xl) {
+      top: -24px;
+    }
   }
 
   .top-banner {

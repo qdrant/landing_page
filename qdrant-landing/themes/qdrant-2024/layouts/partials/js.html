@@ -20,33 +20,38 @@
 
 
 <script>
-  // on all pages:
-  // add class 'scrolled' to body when user scrolls down more than top banner height + menu offset
-  const body = document.querySelector('body');
-  const header = document.querySelector('.site-header');
-  const topBannerHeight = document.querySelector('.top-banner')?.offsetHeight ?? 0;
-  const mainMenuHeight = document.querySelector('.main-menu')?.offsetHeight ?? 0;
-  const menuOffset = 24; // 24px is a PART of padding-top which we want to scroll over
+  (function () {
+    // on all pages:
+    // add class 'scrolled' to body when user scrolls down more than top banner height + menu offset
+    const body = document.querySelector('body');
+    const header = document.querySelector('.site-header');
+    const topBannerHeight = document.querySelector('.top-banner')?.offsetHeight ?? 0;
+    const mainMenuHeight = document.querySelector('.main-menu')?.offsetHeight ?? 0;
+    let menuOffset = window.innerWidth >= 1400 ? 24 : 0; // 24px is a PART of padding-top which we want to scroll over
+    window.addEventListener('resize', function () {
+      menuOffset = window.innerWidth >= 1400 ? 24 : 0;
+    });
 
-  // predict in which direction user is scrolling
-  let lastScrollTop = 0;
-  window.addEventListener('scroll', function () {
-    const st = window.pageYOffset || document.documentElement.scrollTop;
-    if (st > lastScrollTop) {
-      // scroll down
-      if (window.scrollY > topBannerHeight + menuOffset) {
-        header.style.minHeight = `${header.offsetHeight}px`;
-        body.classList.add('scrolled');
+    // predict in which direction user is scrolling
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function () {
+      const st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop) {
+        // scroll down
+        if (window.scrollY > topBannerHeight + menuOffset) {
+          header.style.minHeight = `${header.offsetHeight}px`;
+          body.classList.add('scrolled');
+        }
+      } else {
+        // scroll up
+        if (window.scrollY <= mainMenuHeight) {
+          header.style.minHeight = '';
+          body.classList.remove('scrolled');
+        }
       }
-    } else {
-      // scroll up
-      if (window.scrollY <= mainMenuHeight) {
-        header.style.minHeight = '';
-        body.classList.remove('scrolled');
-      }
-    }
-    lastScrollTop = st <= 0 ? 0 : st;
-  });
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+  })();
 </script>
 
 {{ if .IsHome }}
