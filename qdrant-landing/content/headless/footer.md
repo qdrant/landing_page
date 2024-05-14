@@ -120,5 +120,9 @@ privacyLink:
 impressumLink:
   text: Impressum
   url: /legal/impressum/
+bages:
+  - src: /img/soc2-badge.png
+    alt: "SOC2"
+    url: http://qdrant.to/trust-center
 sitemapExclude: true
 ---
