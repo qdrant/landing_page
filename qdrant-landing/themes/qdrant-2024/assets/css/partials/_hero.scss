@@ -86,7 +86,9 @@
     padding-left: rem(20);
     padding-right: rem(20);
 
-    background-color: rgba($neutral-20, 0.24);
+    background-color: $neutral-10;
+    transition: bottom 1s ease-in-out;
+    z-index: 2;
   }
 
   &__stars svg {
@@ -151,8 +153,20 @@
     }
 
     &__stars {
+      position: fixed;
       right: $spacer * 1.5;
       bottom: $spacer * 1.5;
+      transition: background-color 0.2s;
+
+      &:hover {
+        background-color: $neutral-100;
+        .hero__stars-text, .hero__stars-count {
+          color: $neutral-20;
+        }
+        & > svg path {
+            fill: $neutral-20;
+        }
+      }
     }
   }
 }
