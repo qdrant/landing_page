@@ -8,13 +8,13 @@ weight: 36
 | Time: 45 min | Level: Intermediate |     |     |
 | ------------ | ------------------- | --- | --- |
 
-In this tutorial, you will use Qdrant as a [provider](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html) in [Apache Airflow](https://airflow.apache.org/), an open-source tool that lets you setup data-engineering workflows. 
+In this tutorial, you will use Qdrant as a [provider](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/index.html) in [Apache Airflow](https://airflow.apache.org/), an open-source tool that lets you setup data-engineering workflows.
 
 You will write the pipeline as a DAG (Directed Acyclic Graph) in Python. With this, you can leverage the powerful suite of Python's capabilities and libraries to achieve almost anything your data pipeline needs.
 
-All Airflow workflows are hosted via [Astronomer](https://www.astronomer.io/), a managed SaaS that simplifies the process via its easy-to-use CLI and extensive automation capabilities.
+[Astronomer](https://www.astronomer.io/) is a managed platform that simplifies the process of developing and deploying Airflow projects via its easy-to-use CLI and extensive automation capabilities.
 
-Airflow is useful when running operations in Qdrant based on data events or when building parallel tasks for generating vector embeddings. By using Airflow, can set up monitoring and alerts for your pipelines for full observability.
+Airflow is useful when running operations in Qdrant based on data events or building parallel tasks for generating vector embeddings. By using Airflow, you can set up monitoring and alerts for your pipelines for full observability.
 
 ## Prerequisites
 
