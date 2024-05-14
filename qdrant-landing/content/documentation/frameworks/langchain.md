@@ -111,4 +111,4 @@ If you'd like to know more about running Qdrant in a LangChain-based application
 [Question Answering with LangChain and Qdrant without boilerplate](/articles/langchain-integration/). Some more information
 might also be found in the [LangChain documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant).
 
-- [Source Code](https://github.com/langchain-ai/langchain/blob/master/libs/langchain/langchain/vectorstores/qdrant.py)
+- [Source Code](https://github.com/langchain-ai/langchain/blob/master/libs/community/langchain_community/vectorstores/qdrant.py)
