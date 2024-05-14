@@ -53,7 +53,7 @@ The market is preparing for a host of artificial intelligence and machine learni
 
 The main strength of a vector database like Qdrant is that it can consistently support the user way past the prototyping and launch phases. Qdrant’s product is already being used by large enterprises with billions of data points. Such users can go from testing to production almost instantly. Those looking to host large applications might only need up to 18GB RAM to support 1 million OpenAI Vectors. This makes Qdrant the best option for maximizing resource usage and data connection.
 
-Intel’s latest development is crucial to the future of vector databases. Vector search is the most CPU intensive process in vector search operations. Therefore, Qdrant relies on the innovations made by chip makers like Intel to offer large-scale support.
+Intel’s latest development is crucial to the future of vector databases. Vector search operations are very CPU-intensive. Therefore, Qdrant relies on the innovations made by chip makers like Intel to offer large-scale support.
 
 > *“Vector databases are a mainstay in today’s AI/ML toolchain, powering the latest generation of RAG and other Gen AI Applications. In teaming with Qdrant, Intel is helping enterprises deliver cutting-edge Gen-AI solutions and maximize their ROI by leveraging Qdrant’s high-performant and cost-efficient vector similarity search capabilities running on latest Intel Architecture based infrastructure across deployment models.”* 
 > 
