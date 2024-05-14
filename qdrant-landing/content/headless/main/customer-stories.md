@@ -36,5 +36,13 @@ storyCards:
       avatar: '/img/customers/jeremy-t-daly-singh.svg'
       fullName: Jeremy T. & Daly Singh
       position: Generative AI Expert  & Product Owner, Bosch
+  - id: 4
+    icon: '/img/brands/cognizant.svg'
+    brand: Cognizant
+    content: “We LOVE Qdrant! The exceptional engineering, strong business value, and outstanding team behind the product drove our choice. Thank you for your great contribution to the technology community!”
+    author:
+      avatar: '/img/customers/kyle-tobin.png'
+      fullName: Kyle Tobin
+      position: Principal, Cognizant
 sitemapExclude: true
 ---
