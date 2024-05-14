@@ -696,6 +696,38 @@ The distance function for sparse vectors is always `Dot` and does not need to be
 
 However, there are optional parameters to tune the underlying [sparse vector index](../indexing/#sparse-vector-index).
 
+### Check collection existence
+
+*Available as of v1.8.0*
+
+```http
+GET http://localhost:6333/collections/{collection_name}
+```
+
+```bash
+curl -X GET http://localhost:6333/collections/{collection_name}
+```
+
+```python
+client.collection_exists(collection_name="{collection_name}")
+```
+
+```typescript
+client.collectionExists("{collection_name}");
+```
+
+```rust
+client.collection_exists("{collection_name}").await?;
+```
+
+```java
+client.collectionExistsAsync("{collection_name}").get();
+```
+
+```csharp
+await client.CollectionExistsAsync("{collection_name}");
+```
+
 ### Delete collection
 
 ```http
