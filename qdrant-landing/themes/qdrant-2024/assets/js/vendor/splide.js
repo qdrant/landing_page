@@ -1,5 +1,5 @@
 import Splide from '@splidejs/splide';
-import { MOBILE_WIDTH } from '../constants';
+import { XL_BREAKPOINT } from '../constants';
 
 document.addEventListener('DOMContentLoaded', function () {
   if (document.querySelector('.splide')) {
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
       pagination: false,
       padding: { left: 20, right: 20 },
       breakpoints: {
-        [MOBILE_WIDTH]: {
+        [XL_BREAKPOINT]: {
           destroy: true,
         },
       },
