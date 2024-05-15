@@ -1,6 +1,5 @@
 import ClipboardJS from 'clipboard';
 import Popover from 'bootstrap/js/src/popover.js';
-import Tooltip from 'bootstrap/js/src/tooltip.js';
 
 (function () {
   let codeBlocks = document.querySelectorAll('.highlight > pre');
