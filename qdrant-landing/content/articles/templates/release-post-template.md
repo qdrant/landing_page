@@ -1,6 +1,6 @@
 ---
 title: "Qdrant x.y.0 - <include headline> #required; update version and headline"
-draft: true # Change to false to publish the article at https://qdrant.tech/articles/
+draft: true # Change to false to publish the article at /articles/
 slug: qdrant-x.y.z # required; subtitute version number
 short_description: "Headline-like description."
 description: "Headline with more detail. Suggested limit: 140 characters. " 

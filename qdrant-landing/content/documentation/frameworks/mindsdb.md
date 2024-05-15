@@ -58,7 +58,7 @@ By default, the `LIMIT` is set to 10 and the `OFFSET` is set to 0.
 
 #### Perform a similarity search using your embeddings
 
-<aside role="status">Qdrant supports <a href="https://qdrant.tech/documentation/concepts/indexing/#payload-index">payload indexing</a> that vastly improves retrieval efficiency with filters and is highly recommended. Please note that this feature currently cannot be configured via MindsDB and must be set up separately if needed.</aside>
+<aside role="status">Qdrant supports <a href="/documentation/concepts/indexing/#payload-index">payload indexing</a> that vastly improves retrieval efficiency with filters and is highly recommended. Please note that this feature currently cannot be configured via MindsDB and must be set up separately if needed.</aside>
 
 ```sql
 SELECT * FROM qdrant_test.test_table

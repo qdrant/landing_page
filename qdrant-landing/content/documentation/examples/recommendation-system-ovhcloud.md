@@ -21,7 +21,7 @@ In this tutorial, you will build a mechanism that recommends movies based on def
 
 - **Dataset:** The [MovieLens dataset](https://grouplens.org/datasets/movielens/) contains a list of movies and ratings given by users.
 - **Cloud:** [OVHcloud](https://ovhcloud.com/), with managed Kubernetes.
-- **Vector DB:** [Qdrant Hybrid Cloud](https://qdrant.tech) running on [OVHcloud](https://ovhcloud.com/).
+- **Vector DB:** [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech) running on [OVHcloud](https://ovhcloud.com/).
 
 **Methodology:** We're adopting a collaborative filtering approach to construct a recommendation system from the dataset provided. Collaborative filtering works on the premise that if two users share similar tastes, they're likely to enjoy similar movies. Leveraging this concept, we'll identify users whose ratings align closely with ours, and explore the movies they liked but we haven't seen yet. To do this, we'll represent each user's ratings as a vector in a high-dimensional, sparse space. Using Qdrant, we'll index these vectors and search for users whose ratings vectors closely match ours. Ultimately, we will see which movies were enjoyed by users similar to us.
 

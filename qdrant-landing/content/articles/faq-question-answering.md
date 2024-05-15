@@ -54,7 +54,7 @@ As embeddings are vectors, one can apply a simple function to calculate the simi
 So with similarity learning, all we need to do is provide pairs of correct questions and answers.
 And then, the model will learn to distinguish proper answers by the similarity of embeddings.
 
->If you want to learn more about similarity learning and applications, check out this [article](https://qdrant.tech/documentation/tutorials/neural-search/) which might be an asset.
+>If you want to learn more about similarity learning and applications, check out this [article](/documentation/tutorials/neural-search/) which might be an asset.
 
 ## Let's build
 
@@ -62,7 +62,7 @@ Similarity learning approach seems a lot simpler than classification in this cas
 doubts on your mind, let me dispel them.
 
 As I have no any resource with exhaustive F.A.Q. which might serve as a dataset, I've scrapped it from sites of popular cloud providers.
-The dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](https://github.com/qdrant/demo-cloud-faq).
+The dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](/qdrant/demo-cloud-faq).
 
 Once we have data, we need to obtain embeddings for it.
 It is not a novel technique in NLP to represent texts as embeddings.
