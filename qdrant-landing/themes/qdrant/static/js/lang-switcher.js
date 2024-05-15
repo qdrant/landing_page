@@ -1,4 +1,9 @@
 (function () {
+
+  const SWITCH_EVENT = 'switch-lang';
+  const DEFAULT_LANG = 'http';
+  const LANG_PREFERENCE_KEY = 'lang-preference';
+
   /**
    * @class LangSwitcher
    * create tabs with buttons to switching
@@ -43,8 +48,10 @@
       })
 
       this.tabs.forEach(t => t.style.display = 'none');
-      activeTab.style.display = 'block';
+      if (activeTab) activeTab.style.display = 'block';
       this.#setActiveButton(lang);
+
+      localStorage.setItem(LANG_PREFERENCE_KEY, lang);
     }
 
     setTabs(tabs) {
@@ -62,8 +69,8 @@
 
     // should be used together with changing of the active tab visibility
     #setActiveButton(lang) {
-      this.langButtons.querySelector('.active').classList.remove('active');
-      this.langButtons.querySelector(`[data-lang=${lang}]`).classList.add('active');
+      this.langButtons?.querySelector('.active')?.classList.remove('active');
+      this.langButtons?.querySelector(`[data-lang=${lang}]`)?.classList.add('active');
     }
   }
 
@@ -92,11 +99,25 @@
     const langSwitcher = new LangSwitcher(g);
     langSwitcher.initLangButtons();
 
+    const preferredLang = localStorage.getItem(LANG_PREFERENCE_KEY) ?? DEFAULT_LANG;
+    langSwitcher.switchLanguage(preferredLang);
+
     const tabBtns = langSwitcher.getLangButtons();
-    if (tabBtns) {
-      langSwitcher.getLangButtons().addEventListener("click", (e) => {
-        e.target?.dataset?.lang && langSwitcher.switchLanguage(e.target.dataset.lang);
-      })
-    }
+
+    if (!tabBtns) return;
+
+    // Add global listeners for switching language in all all LangSwitcher instances
+    document.addEventListener(SWITCH_EVENT, (e) => {
+      langSwitcher.switchLanguage(e.detail.lang);
+    });
+
+    tabBtns.addEventListener('click', (e) => {
+      document.dispatchEvent(new CustomEvent(SWITCH_EVENT, {
+        detail: {
+          bubbles: true,
+          lang: e.target?.dataset?.lang
+        }
+      }))
+    });
   })
 }).call(this);
