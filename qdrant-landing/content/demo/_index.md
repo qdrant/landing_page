@@ -30,5 +30,13 @@ cards:
     link:
       text: View Demo
       url: https://qdrant.to/extreme-classification-demo
+  - id: 3
+    title: Code Search Demo -<br> Explore Qdrant's Codebase
+    paragraphs:
+      - id: 0
+        content: Semantic search isn't just for natural language. By combining results from two models, qdrant is able to locate relevant code snippets down to the exact line.
+    link:
+      text: View Demo
+      url: https://code-search.qdrant.tech/
 sitemapExclude: true
 ---
