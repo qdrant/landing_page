@@ -27,7 +27,7 @@ to the selected Large Language Model, and have an established way to do it in a 
 an ingestion pipeline and then a Retrieval Augmented Generation application that will use the data.
 
 - **Dataset:** a [set of Frequently Asked Questions from Qdrant 
-  users](https://qdrant.tech/documentation/faq/qdrant-fundamentals/) as an incrementally updated Excel sheet
+  users](/documentation/faq/qdrant-fundamentals/) as an incrementally updated Excel sheet
 - **Embedding model:** Cohere `embed-multilingual-v3.0`, to support different languages with the same pipeline
 - **Knowledge base:** Qdrant, running in Hybrid Cloud mode
 - **Ingestion pipeline:** [Airbyte](https://airbyte.com/), loading the data into Qdrant

@@ -71,7 +71,7 @@ by LangChain. If you want to get into the source code right away, all the proces
 
 ### Configuration
 
-A journey of a thousand miles begins with a single step, in our case with the configuration of all the services. We'll be using [Qdrant Cloud](https://qdrant.tech),
+A journey of a thousand miles begins with a single step, in our case with the configuration of all the services. We'll be using [Qdrant Cloud](https://cloud.qdrant.io),
 so we need an API key. The same is for OpenAI - the API key has to be obtained from their website.
 
 ![](/articles_data/langchain-integration/code-configuration.png)

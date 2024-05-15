@@ -101,7 +101,7 @@ This technology integrates Kubernetes clusters from any setting - cloud, on-prem
 
 You can test out Qdrant Hybrid Cloud today. Sign up or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the **Hybrid Cloud** section. 
 
-Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](https://qdrant.tech/blog/hybrid-cloud/) or our [Qdrant Hybrid Cloud website](https://hybrid-cloud.qdrant.tech/). For additional technical insights, please read our [documentation](https://qdrant.tech/documentation/hybrid-cloud/).
+Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our [Qdrant Hybrid Cloud website](https://hybrid-cloud.qdrant.tech/). For additional technical insights, please read our [documentation](/documentation/hybrid-cloud/).
 
 #### Try it out!
 

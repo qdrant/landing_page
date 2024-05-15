@@ -76,7 +76,7 @@ public class QdrantSparkJavaExample {
 
 ### Loading data into Qdrant
 
-<aside role="status">Before loading the data using this connector, a collection has to be <a href="https://qdrant.tech/documentation/concepts/collections/#create-a-collection">created</a> in advance with the appropriate vector dimensions and configurations.</aside>
+<aside role="status">Before loading the data using this connector, a collection has to be <a href="/documentation/concepts/collections/#create-a-collection">created</a> in advance with the appropriate vector dimensions and configurations.</aside>
 
 The connector supports ingesting multiple named/unnamed, dense/sparse vectors.
 

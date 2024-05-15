@@ -3,6 +3,6 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://
 text: Introducing Qdrant Hybrid Cloud
 link:
   text: Learn More
-  url: https://qdrant.tech/blog/hybrid-cloud/
+  url: /blog/hybrid-cloud/
 sitemapExclude: true
 ---
