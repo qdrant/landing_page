@@ -23,7 +23,7 @@ export function scrollIntoViewWithOffset(id, offset) {
   return new Promise((resolve) => {
     const scrollHandler = () => {
       // resolve promise when scroll is finished
-      if (window.scrollY.toFixed() === targetPosition.toFixed()) {
+      if (window.scrollY === Math.floor(targetPosition)) {
         window.removeEventListener('scroll', scrollHandler);
         resolve();
       }
