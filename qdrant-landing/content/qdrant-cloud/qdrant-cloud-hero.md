@@ -11,13 +11,13 @@ icon:
   src: /icons/fill/lightning-purple.svg
   alt: Lightning
 content: "Learn how to get up and running in minutes:"
-video:
-  src: /
-  button: Watch Demo
-  icon: 
-    src: /icons/outline/play-white.svg
-    alt: Play
-  preview: /img/qdrant-cloud-demo.png
+#video:
+#  src: /
+#  button: Watch Demo
+#  icon:
+#    src: /icons/outline/play-white.svg
+#    alt: Play
+#  preview: /img/qdrant-cloud-demo.png
 sitemapExclude: true
 ---
 

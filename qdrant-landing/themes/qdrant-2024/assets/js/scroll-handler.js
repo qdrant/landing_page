@@ -3,15 +3,19 @@ export class ScrollHandler {
     this.lastScrollTop = 0;
     this.scrollDownCallbacks = [];
     this.scrollUpCallbacks = [];
-    window.addEventListener('scroll', () => {
-      const st = window.pageYOffset || document.documentElement.scrollTop;
-      if (st > this.lastScrollTop) {
-        this.scrollDownCallbacks.forEach(cb => cb(st));
-      } else {
-        this.scrollUpCallbacks.forEach(cb => cb(st));
-      }
-      this.lastScrollTop = st <= 0 ? 0 : st;
-    }, false);
+    window.addEventListener(
+      'scroll',
+      () => {
+        const st = window.pageYOffset || document.documentElement.scrollTop;
+        if (st > this.lastScrollTop) {
+          this.scrollDownCallbacks.forEach((cb) => cb(st));
+        } else {
+          this.scrollUpCallbacks.forEach((cb) => cb(st));
+        }
+        this.lastScrollTop = st <= 0 ? 0 : st;
+      },
+      false,
+    );
   }
 
   onScrollDown(cb) {
