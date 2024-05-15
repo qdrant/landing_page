@@ -14,12 +14,14 @@
             </a>
           </div>
 
-          <div class="qdrant-cloud-hero__content">
-            <img src="{{ .Params.icon.src }}" alt="{{ .Params.icon.alt }}" />
-            <p>{{ .Params.content }}</p>
-          </div>
+          {{ if .Params.video }}
+            <div class="qdrant-cloud-hero__content">
+              <img src="{{ .Params.icon.src }}" alt="{{ .Params.icon.alt }}" />
+              <p>{{ .Params.content }}</p>
+            </div>
 
-          {{ partial "video" (dict "context" .) }}
+            {{ partial "video" (dict "context" .) }}
+          {{ end }}
         </div>
       </div>
     </div>

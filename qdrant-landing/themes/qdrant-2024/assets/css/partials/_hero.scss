@@ -160,11 +160,12 @@
 
       &:hover {
         background-color: $neutral-100;
-        .hero__stars-text, .hero__stars-count {
+        .hero__stars-text,
+        .hero__stars-count {
           color: $neutral-20;
         }
         & > svg path {
-            fill: $neutral-20;
+          fill: $neutral-20;
         }
       }
     }
