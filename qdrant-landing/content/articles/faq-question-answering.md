@@ -62,7 +62,7 @@ Similarity learning approach seems a lot simpler than classification in this cas
 doubts on your mind, let me dispel them.
 
 As I have no any resource with exhaustive F.A.Q. which might serve as a dataset, I've scrapped it from sites of popular cloud providers.
-The dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](/qdrant/demo-cloud-faq).
+The dataset consists of just 8.5k pairs of question and answers, you can take a closer look at it [here](/qdrant/demo-cloud-faq/).
 
 Once we have data, we need to obtain embeddings for it.
 It is not a novel technique in NLP to represent texts as embeddings.
