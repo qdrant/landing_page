@@ -1,5 +1,5 @@
 import AnchorJS from 'anchor-js';
-import { isElementInViewport, scrollIntoViewWithOffset } from '../helpers';
+import { scrollIntoViewWithOffset } from '../helpers';
 
 const anchors = new AnchorJS();
 anchors.options.placement = 'left';
