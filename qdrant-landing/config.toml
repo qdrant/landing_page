@@ -1,4 +1,4 @@
-baseURL = "https://qdrant.tech"
+baseURL = "https://qdrant.com"
 languageCode = "en-us"
 title = "Qdrant - Vector Database"
 theme = "qdrant"
@@ -60,7 +60,7 @@ disableKinds = ["taxonomy", "term"]
   discord = "https://qdrant.to/discord"
   youtube = "https://www.youtube.com/channel/UC6ftm8PwH1RU_LM1jwG0LQA"
 
-  email = "info@qdrant.tech"
+  email = "info@qdrant.com"
   location = "Berlin"
 
   mailchimp_contact_form = "https://qdrant.to/contact-us"
@@ -83,7 +83,7 @@ disableKinds = ["taxonomy", "term"]
 
 [params.author]
   name = "Andrey Vasnetsov"
-  email = "info@qdrant.tech"
+  email = "info@qdrant.com"
 
 [params.feedback]
   enable = true

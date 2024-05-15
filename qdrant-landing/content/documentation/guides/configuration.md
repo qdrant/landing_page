@@ -288,7 +288,7 @@ cluster:
 
 
 # Set to true to prevent service from sending usage statistics to the developers.
-# Read more: https://qdrant.tech/documentation/guides/telemetry
+# Read more: https://qdrant.com/documentation/guides/telemetry
 telemetry_disabled: false
 
 

@@ -2,7 +2,7 @@
   "@type": "Product",
   "@id": "{{- .Permalink -}}#product",
   "brand": {
-    "@id": "https://qdrant.tech",
+    "@id": "https://qdrant.com",
     "@type": "Organization",
     "name": "Qdrant Vector Database"
   },
@@ -23,7 +23,7 @@
           "price": "free",
           "priceCurrency": "USD",
           "name": "Community",
-          "url": "https://qdrant.tech/documentation/quick-start/"
+          "url": "https://qdrant.com/documentation/quick-start/"
         }
       },
       {

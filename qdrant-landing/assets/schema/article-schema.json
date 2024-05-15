@@ -19,6 +19,6 @@
   "author": {
     "@type": "Organization",
     "name": "Qdrant",
-    "url": "https://qdrant.tech/"
+    "url": "https://qdrant.com/"
   }{{- end -}}
 }

@@ -28,7 +28,7 @@ For the purposes of these Terms and Conditions:
 
 * **Third-party Social Media Service** means any services or content (including data, information, products or services) provided by a third-party that may be displayed, included or made available by the Service.
 
-* **Website** refers to Qdrant, accessible from https://qdrant.tech
+* **Website** refers to Qdrant, accessible from https://qdrant.com
 
 * **You** means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.
 
