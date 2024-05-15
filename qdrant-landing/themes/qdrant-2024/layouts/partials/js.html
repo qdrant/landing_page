@@ -25,6 +25,42 @@
   <!--splide.js carousel-->
   {{ $splideJs := resources.Get "/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $splideJs.RelPermalink }}"></script>
+
+  <!--Redirects for CMS authentication-->
+  <script>
+    // Check that current url contains `?token=...` parameter
+    // And if so, redirec to `/admin?token=...` page
+
+    // Get the current URL
+    const url = window.location.href;
+
+    // Use URLSearchParams to parse the query parameters
+    const params = new URLSearchParams(url.split('#')[1]);
+
+    // Check if the 'token' parameter is present
+    if (params.has('recovery_token')) {
+      // Get the value of the 'token' parameter
+      const token = params.get('recovery_token');
+      // Redirect to the '/admin' page with the same 'token' parameter
+      window.location.href = '/admin/#recovery_token=' + token;
+    }
+
+    // Check if the 'token' parameter is present
+    if (params.has('invite_token')) {
+      // Get the value of the 'token' parameter
+      const token = params.get('invite_token');
+      // Redirect to the '/admin' page with the same 'token' parameter
+      window.location.href = '/admin/#invite_token=' + token;
+    }
+
+    // Check if the 'token' parameter is present
+    if (params.has('confirmation_token')) {
+      // Get the value of the 'token' parameter
+      const token = params.get('confirmation_token');
+      // Redirect to the '/admin' page with the same 'token' parameter
+      window.location.href = '/admin/#confirmation_token=' + token;
+    }
+  </script>
 {{ end }}
 
 {{ if or (eq .Section "documentation") (and (not .IsPage) (eq .Section "blog")) }}
