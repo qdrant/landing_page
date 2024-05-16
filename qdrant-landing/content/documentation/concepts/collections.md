@@ -695,7 +695,7 @@ However, there are optional parameters to tune the underlying [sparse vector ind
 *Available as of v1.8.0*
 
 ```http
-GET http://localhost:6333/collections/{collection_name}
+GET http://localhost:6333/collections/{collection_name}/exists
 ```
 
 ```bash
