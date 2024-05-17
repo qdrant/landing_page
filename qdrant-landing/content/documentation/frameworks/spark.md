@@ -80,6 +80,8 @@ public class QdrantSparkJavaExample {
 
 The connector supports ingesting multiple named/unnamed, dense/sparse vectors.
 
+_Click each to expand._
+
 <details>
   <summary><b>Unnamed/Default vector</b></summary>
 
