@@ -3,6 +3,8 @@
 .table-contents {
   background-color: $neutral-10;
   margin-bottom: -1px;
+  position: sticky;
+  top: rem(140);
 
   &__title {
     display: none;
