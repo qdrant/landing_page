@@ -2,6 +2,10 @@
 {{ if .Params.sitemapExclude }}
   <meta name="robots" content="noindex" />
 {{ end }}
+{{ if .Params.h1 }}
+  <meta property="og:title" content="{{ .Params.h1 }}" />
+  <meta property="twitter:title" content="{{ .Params.h1 }}" />
+{{ end }}
 {{ if .Params.description }}
   <meta name="description" content="{{ .Params.Description }}" />
 {{ else }}

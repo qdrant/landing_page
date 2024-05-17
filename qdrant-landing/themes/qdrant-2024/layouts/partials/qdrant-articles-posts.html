@@ -15,7 +15,7 @@
             <div class="post-preview">
               <img src="{{ .Params.preview_dir }}/preview.jpg" alt="Preview" />
             </div>
-            <h6 class="post-title">{{ .Params.title }}</h6>
+            <h3 class="post-title">{{ if .Params.h1 }}{{ .Params.h1 }}{{ else }}{{ .Params.title }}{{ end }}</h3>
             <p class="post-description">{{ .Params.description }}</p>
             <div class="post-about">
               <p>{{ .Params.author }}</p>

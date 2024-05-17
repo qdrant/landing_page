@@ -1,7 +1,7 @@
 <section class="qdrant-post {{ if eq .variant "centered" }}qdrant-post_centered{{ end }}">
   <article class="container">
     <div class="qdrant-post__header">
-      <h1 class="qdrant-post__title">{{ .context.Params.title }}</h1>
+      <h1 class="qdrant-post__title">{{ if .context.Params.h1 }}{{ .context.Params.h1 }}{{ else }}{{ .context.Params.title }}{{ end }}</h1>
       <div class="qdrant-post__about">
         <p>{{ .context.Params.author }}</p>
         <span>&middot;</span>
