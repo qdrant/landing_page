@@ -26,7 +26,7 @@
             <div class="post-preview">
               {{ partial "preview-image" (dict "context" . "default_file_name" "title.jpg" "preview_file" .Params.title_preview_image) }}
             </div>
-            <h5 class="post-title">{{ .Params.title }}</h5>
+            <h5 class="post-title">{{ if .Params.h1 }}{{ .Params.h1 }}{{ else }}{{ .Params.title }}{{ end }}</h5>
             <div class="post-about">
               <p>{{ .Params.author }}</p>
               <span>&middot;</span>
@@ -41,7 +41,7 @@
         {{ range first 3 (after 1 (where $all ".Params.featured" "=" true)) }}
           <article class="post">
             <a class="post-link" href="{{ .RelPermalink }}">
-              <h6 class="post-title">{{ .Params.title }}</h6>
+              <h6 class="post-title">{{ if .Params.h1 }}{{ .Params.h1 }}{{ else }}{{ .Params.title }}{{ end }}</h6>
               <div class="post-about">
                 <p>{{ .Params.author }}</p>
                 <span>&middot;</span>
