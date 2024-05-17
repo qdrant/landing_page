@@ -27,6 +27,7 @@ weight: 33
 | [OpenLLMetry](./openllmetry/)         | Set of OpenTelemetry extensions to add Observability for your LLM application.                       |
 | [Pandas-AI](./pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
 | [PrivateGPT](./privategpt/)           | Tool to ask questions about your documents using local LLMs emphasising privacy.                     |
+| [Rivet](./rivet/)                     | A visual programming environment for building AI agents with LLMs.                                   |
 | [Semantic Router](./semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.             |
 | [Spark](./spark/)                     | A unified analytics engine for large-scale data processing.                                          |
 | [Spring AI](./spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design. |
