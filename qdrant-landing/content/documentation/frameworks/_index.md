@@ -5,9 +5,9 @@ weight: 33
 
 | Frameworks                            | Description                                                                                          |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
-| [Airbyte](./airbyte/)                 | Data integration platform that specializes in ELT pipelines,                                         |
+| [Airbyte](./airbyte/)                 | Data integration platform specialising in ELT pipelines.                                             |
 | [Airflow](./airflow/)                 | Platform designed for developing, scheduling, and monitoring batch-oriented workflows.               |
-| [AutoGen](./autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents              |
+| [AutoGen](./autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.             |
 | [Canopy](./canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                |
 | [Cheshire Cat](./cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                    |
 | [DLT](./dlt/)                         | Python library to simplify data loading processes between several sources and destinations.          |
@@ -15,11 +15,11 @@ weight: 33
 | [DocsGPT](./docsgpt/)                 | Tool for ingesting documentation sources and enabling conversations and queries.                     |
 | [DSPy](./dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                     |
 | [Fifty-One](./fifty-one/)             | Toolkit for building high-quality datasets and computer vision models.                               |
-| [Fondant](./fondant/)                 | Framework for developing datasets, sharing reusable operations and data processing trees             |
+| [Fondant](./fondant/)                 | Framework for developing datasets, sharing reusable operations and data processing trees.            |
 | [Haystack](./haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                |
 | [Langchain](./langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                      |
-| [Langchain-Go](./langchain-go/)       | Go framework for building context-aware, reasoning applications using LLMs                           |
-| [Langchain4j](./langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs                         |
+| [Langchain-Go](./langchain-go/)       | Go framework for building context-aware, reasoning applications using LLMs.                          |
+| [Langchain4j](./langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                        |
 | [LlamaIndex](./llama-index/)          | A data framework for building LLM applications with modular integrations.                            |
 | [Make](./make/)                       | Cloud platform to build low-code workflows by integrating various software applications.             |
 | [MindsDB](./mindsdb/)                 | Platform to deploy, serve, and fine-tune models with numerous data source integrations.              |
