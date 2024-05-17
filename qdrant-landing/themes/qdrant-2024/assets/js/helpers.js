@@ -33,6 +33,9 @@ export function scrollIntoViewWithOffset(id, offset) {
 }
 
 export function checkIfElementHasScrollbar(element) {
-  return element.scrollWidth > element.clientWidth && 'horizontal'  || element.scrollHeight > element.clientHeight && 'vertical' || null;
+  return (
+    (element.scrollWidth > element.clientWidth && 'horizontal') ||
+    (element.scrollHeight > element.clientHeight && 'vertical') ||
+    null
+  );
 }
-

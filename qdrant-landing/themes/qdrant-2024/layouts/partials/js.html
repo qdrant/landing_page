@@ -116,8 +116,8 @@
 {{ end }}
 
 {{ if eq .Section "documentation" }}
-{{ $docsJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-<script src="{{ $docsJs.RelPermalink }}"></script>
+  {{ $docsJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $docsJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if or (eq .Section "blog") (eq .Section "documentation") }}

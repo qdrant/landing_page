@@ -15,7 +15,10 @@ document.addEventListener('DOMContentLoaded', function () {
         requestAnimationFrame(() => {
           if (!checkIfElementHasScrollbar(docsMenuLinks) && docsMenu.classList.contains('horizontal-blur')) {
             docsMenu.classList.remove('horizontal-blur');
-          } else if (checkIfElementHasScrollbar(docsMenuLinks) === 'vertical' && !docsMenu.classList.contains('horizontal-blur')) {
+          } else if (
+            checkIfElementHasScrollbar(docsMenuLinks) === 'vertical' &&
+            !docsMenu.classList.contains('horizontal-blur')
+          ) {
             docsMenu.classList.add('horizontal-blur');
           }
         });
