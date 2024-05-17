@@ -31,3 +31,8 @@ export function scrollIntoViewWithOffset(id, offset) {
     window.addEventListener('scroll', scrollHandler);
   });
 }
+
+export function checkIfElementHasScrollbar(element) {
+  return element.scrollWidth > element.clientWidth && 'horizontal'  || element.scrollHeight > element.clientHeight && 'vertical' || null;
+}
+

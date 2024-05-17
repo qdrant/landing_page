@@ -54,8 +54,11 @@ $tabs-font-color-hover: $neutral-90;
     mask-size: contain;
     mask-repeat: no-repeat;
     mask-position: center;
-    -webkit-mask-image: url('/icons/outline/http.svg');
     mask-image: url('/icons/outline/http.svg');
+    -webkit-mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    -webkit-mask-image: url('/icons/outline/http.svg');
 
     &_python {
       -webkit-mask-image: url('/icons/outline/python.svg');

@@ -6,4 +6,28 @@
   pointer-events: none;
 }
 
+.scroller {
+    &::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    &:hover::-webkit-scrollbar-thumb {
+      background: $neutral-50;
+
+      &:hover {
+        background: $neutral-60;
+      }
+    }
+}
+
 // add more utility classes here

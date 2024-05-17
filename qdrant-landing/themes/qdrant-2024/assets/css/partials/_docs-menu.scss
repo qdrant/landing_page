@@ -173,6 +173,8 @@
     background-color: $neutral-10;
     border-top: none;
     margin: 0;
+    position: sticky;
+    top: rem(140);
 
     &__header {
       display: none;
@@ -183,10 +185,37 @@
       padding: 0;
     }
 
+    &__links {
+      max-height: 80vh;
+      margin-right: -$spacer;
+      padding-right: $spacer;
+      overflow-y: auto;
+      scrollbar-width: thin;
+    }
+
     &__links-group {
       &.active {
         .docs-menu__links-group-heading > a {
           background-color: $neutral-20;
+        }
+      }
+    }
+
+    &.horizontal-blur {
+      &:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 110px;
+        background: linear-gradient(to bottom , transparent, rgba($neutral-10,1));
+        transition: height 0.3s ease-in-out, background 0.3s ease-in-out;
+        z-index: 1;
+      }
+      &:hover {
+        &:after {
+          height: 20px;
+          pointer-events: none;
         }
       }
     }

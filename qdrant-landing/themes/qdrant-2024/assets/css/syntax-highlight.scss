@@ -25,23 +25,7 @@ article code:not([class]) {
 /* PreWrapper */
 .chroma {
   background-color: $neutral-20;
-
-  &::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  &::-webkit-scrollbar-thumb {
-    background: $neutral-50;
-    border-radius: 10px;
-  }
-  &::-webkit-scrollbar-track {
-    background: $neutral-20;
-  }
-  &::-webkit-scrollbar-thumb:hover {
-    background: $neutral-50;
-  }
-  scrollbar-width: thin;
-  scrollbar-color: $neutral-50 $neutral-20;
+  @extend .scroller;
 }
 /* Other */
 .chroma .x {
