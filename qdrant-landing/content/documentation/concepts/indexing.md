@@ -526,8 +526,28 @@ client.createCollection("{collection_name}", {
 
 ```rust
 
-ToDo: Add Rust example
+use qdrant_client::{client::QdrantClient, qdrant::collections::SparseVectorIndexConfig};
 
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.create_collection(&CreateCollection {
+    collection_name: "{collection_name}".to_string(),
+    sparse_vectors_config: Some(SparseVectorConfig { 
+        map: [
+            (
+                "splade-model-name".to_string(), 
+                SparseVectorParams {
+                    index: Some(SparseIndexConfig {
+                        on_disk: false,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                }
+            )
+        ].into_iter().collect()
+    }),
+    ..Default::default()
+}).await;
 ```
 
 
