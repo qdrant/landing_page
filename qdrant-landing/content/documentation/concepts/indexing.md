@@ -580,9 +580,19 @@ client.createCollectionAsync(
 ```
 
 ```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
 
-ToDo: Add C# example
+var client = new QdrantClient("localhost", 6334);
 
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	sparseVectorsConfig: ("splade-model-name", new SparseVectorParams{
+        Index = new SparseIndexConfig {
+            OnDisk = false,
+        }
+    })
+);
 ```
 
 Some important parameters of the sparse index are:
