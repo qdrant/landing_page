@@ -466,13 +466,13 @@ performance.
 *Available as of v1.7.0*
 
 Sparse vectors in Qdrant are indexed with a special data structure, optimized for vectors with a high proportion of zeroes.
-In some ways it is similar to the inverted index, used in text search engines.
+In some ways, it is similar to the inverted index, used in text search engines.
 
-Sparse vector index in Qdrant is exact, meaning it does not use any approximation algorithms.
+The sparse vector index in Qdrant is exact, meaning it does not use any approximation algorithms.
 
 All sparse vectors added to the collection are immediately indexed in the mutable version of sparse index.
 
-Qdrant, however, allows you to also benefit from more compact and efficient immutable sparse index, which which is constructed during the same optimization process as the dense vector index.
+Qdrant, however, allows you to also benefit from a more compact and efficient immutable sparse index, which is constructed during the same optimization process as the dense vector index.
 That is especially useful for collections, which have both dense and sparse vectors stored.
 
 
