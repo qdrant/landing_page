@@ -32,12 +32,6 @@ These settings can be changed at any time by a corresponding request.
 
 **When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
-> Note: If you're running `curl` from the command line, the following commands
-assume that you have a running instance of Qdrant on `http://localhost:6333`.
-If needed, you can set one up as described in our
-[Quickstart](/documentation/quick-start/) guide. For convenience, these commands
-specify collections named  `test_collection1` through `test_collection4`.
-
 ## Create a collection
 
 
@@ -52,7 +46,7 @@ PUT /collections/{collection_name}
 ```
 
 ```bash
-curl -X PUT http://localhost:6333/collections/test_collection1 \
+curl -X PUT http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
@@ -179,7 +173,7 @@ PUT /collections/{collection_name}
 ```
 
 ```bash
-curl -X PUT http://localhost:6333/collections/test_collection2 \
+curl -X PUT http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
@@ -187,7 +181,7 @@ curl -X PUT http://localhost:6333/collections/test_collection2 \
       "distance": "Cosine"
     },
     "init_from": {
-       "collection": "test_collection1"
+       "collection": {from_collection_name}
     }
   }'
 ```
@@ -306,7 +300,7 @@ PUT /collections/{collection_name}
 ```
 
 ```bash
-curl -X PUT http://localhost:6333/collections/test_collection3 \
+curl -X PUT http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
@@ -473,7 +467,7 @@ PUT /collections/{collection_name}
 ```
 
 ```bash
-curl -X PUT http://localhost:6333/collections/test_collection1 \
+curl -X PUT http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
@@ -595,7 +589,7 @@ PUT /collections/{collection_name}
 ```
 
 ```bash
-curl -X PUT http://localhost:6333/collections/test_collection4 \
+curl -X PUT http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "sparse_vectors": {
@@ -696,14 +690,46 @@ The distance function for sparse vectors is always `Dot` and does not need to be
 
 However, there are optional parameters to tune the underlying [sparse vector index](../indexing/#sparse-vector-index).
 
-### Delete collection
+### Check collection existence
+
+*Available as of v1.8.0*
 
 ```http
-DELETE http://localhost:6333/collections/test_collection4 
+GET http://localhost:6333/collections/{collection_name}/exists
 ```
 
 ```bash
-curl -X DELETE http://localhost:6333/collections/test_collection4 
+curl -X GET http://localhost:6333/collections/{collection_name}/exists
+```
+
+```python
+client.collection_exists(collection_name="{collection_name}")
+```
+
+```typescript
+client.collectionExists("{collection_name}");
+```
+
+```rust
+client.collection_exists("{collection_name}").await?;
+```
+
+```java
+client.collectionExistsAsync("{collection_name}").get();
+```
+
+```csharp
+await client.CollectionExistsAsync("{collection_name}");
+```
+
+### Delete collection
+
+```http
+DELETE http://localhost:6333/collections/{collection_name}
+```
+
+```bash
+curl -X DELETE http://localhost:6333/collections/{collection_name}
 ```
 
 ```python
@@ -754,7 +780,7 @@ PATCH /collections/{collection_name}
 ```
 
 ```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
+curl -X PATCH http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "optimizers_config": {
@@ -862,7 +888,7 @@ PATCH /collections/{collection_name}
 ```
 
 ```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
+curl -X PATCH http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
@@ -891,7 +917,7 @@ PATCH /collections/{collection_name}
 ```
 
 ```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
+curl -X PATCH http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
@@ -938,7 +964,7 @@ PATCH /collections/{collection_name}
 ```
 
 ```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
+curl -X PATCH http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "vectors": {
@@ -1157,11 +1183,11 @@ Qdrant allows determining the configuration parameters of an existing collection
 distributed and indexed.
 
 ```http
-GET /collections/test_collection1
+GET /collections/{collection_name}
 ```
 
 ```bash
-curl -X GET http://localhost:6333/collections/test_collection1
+curl -X GET http://localhost:6333/collections/{collection_name}
 ```
 
 ```python
@@ -1270,7 +1296,7 @@ PATCH /collections/{collection_name}
 ```
 
 ```bash
-curl -X PATCH http://localhost:6333/collections/test_collection1 \
+curl -X PATCH http://localhost:6333/collections/{collection_name} \
   -H 'Content-Type: application/json' \
   --data-raw '{
     "optimizers_config": {}
@@ -1388,7 +1414,7 @@ POST /collections/aliases
     "actions": [
         {
             "create_alias": {
-                "collection_name": "test_collection1",
+                "collection_name": "example_collection",
                 "alias_name": "production_collection"
             }
         }
@@ -1403,7 +1429,7 @@ curl -X POST http://localhost:6333/collections/aliases \
     "actions": [
         {
             "create_alias": {
-                "collection_name": "test_collection1",
+                "collection_name": "example_collection",
                 "alias_name": "production_collection"
             }
         }
@@ -1457,7 +1483,6 @@ curl -X POST http://localhost:6333/collections/aliases \
     "actions": [
         {
             "delete_alias": {
-                "collection_name": "test_collection1",
                 "alias_name": "production_collection"
             }
         }
@@ -1528,7 +1553,7 @@ POST /collections/aliases
         },
         {
             "create_alias": {
-                "collection_name": "test_collection2",
+                "collection_name": "example_collection",
                 "alias_name": "production_collection"
             }
         }
@@ -1548,7 +1573,7 @@ curl -X POST http://localhost:6333/collections/aliases \
         },
         {
             "create_alias": {
-                "collection_name": "test_collection2",
+                "collection_name": "example_collection",
                 "alias_name": "production_collection"
             }
         }
@@ -1606,11 +1631,11 @@ await client.CreateAliasAsync(aliasName: "production_collection", collectionName
 ### List collection aliases
 
 ```http
-GET /collections/test_collection2/aliases
+GET /collections/{collection_name}/aliases
 ```
 
 ```bash
-curl -X GET http://localhost:6333/collections/test_collection2/aliases
+curl -X GET http://localhost:6333/collections/{collection_name}/aliases
 ```
 
 ```python

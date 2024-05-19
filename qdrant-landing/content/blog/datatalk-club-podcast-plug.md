@@ -63,5 +63,5 @@ Thanks to the [DataTalks.Club](https://datatalks.club) for organizing [this podc
 If you're interested in a similar discussion, watch for the recording from the [following event](https://www.eventbrite.co.uk/e/the-evolution-of-genai-exploring-practical-applications-tickets-778359172237?aff=oddtdtcreator), organized by [DeepRec.ai](https://deeprec.ai).
 
 ### Further reading
-- https://qdrant.tech/blog
+- [Qdrant Blog](/blog/)
 - https://hub.superlinked.com/blog

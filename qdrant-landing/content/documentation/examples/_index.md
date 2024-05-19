@@ -16,9 +16,10 @@ weight: 35
 | [System for Contract Management](../examples/rag-contract-management-stackit-aleph-alpha/)                                 | Build a Region-Specific RAG System for Contract Management              | Qdrant, Aleph Alpha, STACKIT                                      |  
 | [Question-Answering System for Customer Support](../examples/rag-customer-support-cohere-airbyte-aws/)                                 | Build a RAG System for AI Customer Support               | Qdrant, Cohere, Airbyte, AWS                                      |  
 | [Hybrid Search on PDF Documents](../examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
-| [Blog-Reading RAG Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-3.5   
+| [Blog-Reading RAG Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-4o   
 | [Movie Recommendation System](../examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |   
 | [Qdrant on Databricks](../examples/databricks/)                                                                     | Learn how to use Qdrant on Databricks using the Spark connector     | Qdrant, Databricks, Apache Spark |
+| [Qdrant with Airflow and Astronomer](../examples/qdrant-airflow-astronomer/)                                        | Build a semantic querying system using Airflow and Astronomer       | Qdrant, Airflow, Astronomer      |
 
 
 ## Notebooks
@@ -34,4 +35,10 @@ Our Notebooks offer complex instructions that are supported with a throrough exp
 | [Question and Answer System with LlamaIndex](https://githubtocolab.com/qdrant/examples/blob/master/llama_index_recency/Qdrant%20and%20LlamaIndex%20%E2%80%94%20A%20new%20way%20to%20keep%20your%20Q%26A%20systems%20up-to-date.ipynb) | Combine Qdrant and LlamaIndex to create a self-updating Q&A system.                             | Qdrant, LlamaIndex, Cohere | 
 | [Extractive QA System](https://githubtocolab.com/qdrant/examples/blob/master/extractive_qa/extractive-question-answering.ipynb)                                                                                                       | Extract answers directly from context to generate highly relevant answers.                      | Qdrant                     | 
 | [Ecommerce Reverse Image Search](https://githubtocolab.com/qdrant/examples/blob/master/ecommerce_reverse_image_search/ecommerce-reverse-image-search.ipynb)                                                                           | Accept images as search queries to receive semantically appropriate answers.                    | Qdrant                     | 
-| [Basic RAG](https://githubtocolab.com/qdrant/examples/blob/master/rag-openai-qdrant/rag-openai-qdrant.ipynb)                                                                                                                          | Basic RAG pipeline with Qdrant and OpenAI SDKs                                                  | OpenAI, Qdrant, FastEmbed  |
+| [Basic RAG](https://githubtocolab.com/qdrant/examples/blob/master/rag-openai-qdrant/rag-openai-qdrant.ipynb)                                                                                                                          | Basic RAG pipeline with Qdrant and OpenAI SDKs.                                                  | OpenAI, Qdrant, FastEmbed  |
+
+## Data Transfer
+
+| Example                                                                   | Description                                                       | Stack                                       |   
+|---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
+| [Pinecone to Qdrant Data Transfer](https://githubtocolab.com/qdrant/examples/blob/master/data-migration/from-pinecone-to-qdrant.ipynb)                                                                                                                          | Migrate your vector data from Pinecone to Qdrant.                                                 |  Qdrant, Vector-io  |

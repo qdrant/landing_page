@@ -39,7 +39,7 @@ What Qdrant can do:
 
 What Qdrant plans to introduce in the future:
 
-- ColBERT and other late-interruction models
+- ColBERT and other late-interaction models
 - Fusion of the multiple searches
 
 What Qdrant doesn't plan to support:

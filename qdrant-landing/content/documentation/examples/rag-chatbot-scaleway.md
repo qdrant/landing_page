@@ -1,17 +1,19 @@
 ---
-title: Blog-Reading RAG Chatbot 
+title: Blog-Reading Chatbot with GPT-4o 
 weight: 35
 social_preview_image: /blog/hybrid-cloud-scaleway/hybrid-cloud-scaleway-tutorial.png
 aliases:
   - /documentation/tutorials/rag-chatbot-scaleway/
 ---
 
-# Blog-Reading RAG Chatbot 
+# Blog-Reading Chatbot with GPT-4o
 
 | Time: 90 min | Level: Advanced |[GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb)|    |
 |--------------|-----------------|--|----|
 
-In this tutorial, you will build a RAG system that combines blog content ingestion with the capabilities of semantic search. RAG enhances the generation of answers by retrieving relevant documents to aid the question-answering process. This setup showcases the integration of advanced search and AI language processing to improve information retrieval and generation tasks.
+In this tutorial, you will build a RAG system that combines blog content ingestion with the capabilities of semantic search. **OpenAI's GPT-4o LLM** is powerful, but scaling its use requires us to supply context systematically.
+
+RAG enhances the LLM's generation of answers by retrieving relevant documents to aid the question-answering process. This setup showcases the integration of advanced search and AI language processing to improve information retrieval and generation tasks.
 
 A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/examples/blob/master/langchain-lcel-rag/Langchain-LCEL-RAG-Demo.ipynb).
 
@@ -21,12 +23,12 @@ A notebook for this tutorial is available on [GitHub](https://github.com/qdrant/
 
 - **Cloud Host:** [Scaleway on managed Kubernetes](https://www.scaleway.com/en/kubernetes-kapsule/) for compatibility with Qdrant Hybrid Cloud.
 - **Vector Database:** Qdrant Hybrid Cloud as the vector search engine for retrieval.
-- **LLM:** GPT-3.5, developed by OpenAI is utilized as the generator for producing answers.
+- **LLM:** GPT-4o, developed by OpenAI is utilized as the generator for producing answers.
 - **Framework:** [LangChain](https://www.langchain.com/) for extensive RAG capabilities.
 
 ![Architecture diagram](/documentation/examples/rag-chatbot-scaleway/architecture-diagram.png)
 
-> Langchain [supports a wide range of LLMs](https://python.langchain.com/docs/integrations/chat/), and GPT-3.5 was chosen just for the purposes of this tutorial.  You can easily swap it out for your preferred model that might be launched on your premises to complete the fully private setup. For the sake of simplicity, we used the OpenAI APIs, but Langchain makes the transition seamless.
+> Langchain [supports a wide range of LLMs](https://python.langchain.com/docs/integrations/chat/), and GPT-4o is used as the main generator in this tutorial. You can easily swap it out for your preferred model that might be launched on your premises to complete the fully private setup. For the sake of simplicity, we used the OpenAI APIs, but LangChain makes the transition seamless.
 
 ## Deploying Qdrant Hybrid Cloud on Scaleway
 
@@ -63,7 +65,7 @@ import os
 import bs4
 from langchain import hub
 from langchain_community.document_loaders import WebBaseLoader
-from langchain_community.vectorstores import Qdrant
+from langchain_qdrant import Qdrant
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain_openai import ChatOpenAI, OpenAIEmbeddings
@@ -79,7 +81,7 @@ os.environ["OPENAI_API_KEY"] = getpass.getpass()
 Initialize the language model:
 
 ```python
-llm = ChatOpenAI(model="gpt-3.5-turbo-0125")
+llm = ChatOpenAI(model="gpt-4o")
 ```
 
 It is here that we configure both the Embeddings and LLM. You can replace this with your own models using Ollama or other services. Scaleway has some great [L4 GPU Instances](https://www.scaleway.com/en/l4-gpu-instance/) you can use for compute here.
