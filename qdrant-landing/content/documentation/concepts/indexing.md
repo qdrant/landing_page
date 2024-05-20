@@ -470,13 +470,13 @@ In some ways, it is similar to the inverted index, used in text search engines.
 
 The sparse vector index in Qdrant is exact, meaning it does not use any approximation algorithms.
 
-All sparse vectors added to the collection are immediately indexed in the mutable version of sparse index.
+All sparse vectors added to the collection are immediately indexed in the mutable version of a sparse index.
 
 Qdrant, however, allows you to also benefit from a more compact and efficient immutable sparse index, which is constructed during the same optimization process as the dense vector index.
 That is especially useful for collections, which have both dense and sparse vectors stored.
 
 
-To configure sparse vector index, create a collection with the following parameters:
+To configure a sparse vector index, create a collection with the following parameters:
 
 ```http
 PUT /collections/{collection_name}
@@ -597,19 +597,19 @@ await client.CreateCollectionAsync(
 
 Some important parameters of the sparse index are:
 
-- `on_disk: true` - the index is stored on disk, which allows to save memory, but may slow down search performance. 
-- If `on_disk` is set to `false`, sparse index is still persisted on disk, but also loaded into memory for faster search.
+- `on_disk: true` - the index is stored on disk, which lets you save memory, but may also slow down search performance. 
+- If `on_disk` is set to `false`, the sparse index is still persisted on disk, but it is also loaded into memory for faster search.
 
 <!-- Modifier explanation -->
 
 
-Unlike dense vector index, sparse vector index does not require pre-defined size of the vector. It is automatically adjusted to the size of the vectors added to the collection.
+Unlike dense vector index, a sparse vector index does not require pre-defined size of the vector. It is automatically adjusted to the size of the vectors added to the collection.
 
-It also supports only dot-product similarity search, and does not support other distance metrics.
+**Note:** The sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
 
 ## Filtrable Index
 
-Separately, payload index and vector index cannot solve the problem of search using the filter completely.
+Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
 
 In the case of weak filters, you can use the HNSW index as it is. In the case of stringent filters, you can use the payload index and complete rescore.
 However, for cases in the middle, this approach does not work well.
