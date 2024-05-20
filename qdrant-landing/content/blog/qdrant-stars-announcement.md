@@ -35,7 +35,7 @@ Our inaugural Qdrant Stars are a diverse and talented lineup who have shown exce
   <div style="display: flex; align-items: center; margin-bottom: 20px;">
     <img src="/blog/qdrant-stars-announcement/robert-caulk-profile.jpeg" alt="Robert Caulk" style="width: 200px; height: 200px; object-fit: cover; object-position: center; margin-right: 20px; margin-top: 20px;">
     <div>
-      <p>Robert is working with a team on <a href="asknews.app">AskNews</a> to adaptively enrich, index, and report on over 1 million news articles per day. His team maintains an open-source tool geared toward cluster orchestration <a href="https://flowdapt.ai">Flowdapt</a>, which moves data around highly parallelized production environments. This is why Robert and his team rely on Qdrant for low-latency, scalable, hybrid search across dense and sparse vectors in asynchronous environments.</p>
+      <p>Robert is working with a team on <a href="https://asknews.app">AskNews</a> to adaptively enrich, index, and report on over 1 million news articles per day. His team maintains an open-source tool geared toward cluster orchestration <a href="https://flowdapt.ai">Flowdapt</a>, which moves data around highly parallelized production environments. This is why Robert and his team rely on Qdrant for low-latency, scalable, hybrid search across dense and sparse vectors in asynchronous environments.</p>
     </div>
   </div>
   <blockquote>
