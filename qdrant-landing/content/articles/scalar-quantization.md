@@ -1,7 +1,7 @@
 ---
-title: "Qdrant under the hood: Scalar Quantization"
+title: "Scalar Quantization: Background, Practices & More | Qdrant"
 short_description: "Scalar Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
-description: "Scalar Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
+description: "Discover the efficiency of scalar quantization for optimized data storage and enhanced performance. Learn about its data compression benefits and efficiency improvements."
 social_preview_image: /articles_data/scalar-quantization/social_preview.png
 small_preview_image: /articles_data/scalar-quantization/scalar-quantization-icon.svg
 preview_dir: /articles_data/scalar-quantization/preview
@@ -15,6 +15,8 @@ keywords:
   - scalar quantization
   - memory optimization
 ---
+
+# Efficiency Unleashed: The Power of Scalar Quantization
 
 High-dimensional vector embeddings can be memory-intensive, especially when working with 
 large datasets consisting of millions of vectors. Memory footprint really starts being 
