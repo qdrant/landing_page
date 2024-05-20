@@ -465,16 +465,14 @@ performance.
 
 *Available as of v1.7.0*
 
-Sparse vectors in Qdrant are indexed with a special data structure, optimized for vectors with a high proportion of zeroes.
-In some ways, it is similar to the inverted index, used in text search engines.
+Sparse vectors in Qdrant are indexed with a special data structure, which is optimized for vectors that have a high proportion of zeroes. In some ways, this indexing method is similar to the inverted index, which is used in text search engines.
 
-The sparse vector index in Qdrant is exact, meaning it does not use any approximation algorithms.
+- A sparse vector index in Qdrant is exact, meaning it does not use any approximation algorithms.
+- All sparse vectors added to the collection are immediately indexed in the mutable version of a sparse index.
 
-All sparse vectors added to the collection are immediately indexed in the mutable version of a sparse index.
+With Qdrant, you can benefit from a more compact and efficient immutable sparse index, which is constructed during the same optimization process as the dense vector index.
 
-Qdrant, however, allows you to also benefit from a more compact and efficient immutable sparse index, which is constructed during the same optimization process as the dense vector index.
-That is especially useful for collections, which have both dense and sparse vectors stored.
-
+This approach is particularly useful for collections storing both dense and sparse vectors.
 
 To configure a sparse vector index, create a collection with the following parameters:
 
@@ -595,17 +593,14 @@ await client.CreateCollectionAsync(
 );
 ```
 
-Some important parameters of the sparse index are:
+The following parameters may affect performance:
 
-- `on_disk: true` - the index is stored on disk, which lets you save memory, but may also slow down search performance. 
-- If `on_disk` is set to `false`, the sparse index is still persisted on disk, but it is also loaded into memory for faster search.
+- `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance. 
+- `on_disk: false` - The index is still persisted on disk, but it is also loaded into memory for faster search.
 
-<!-- Modifier explanation -->
+Unlike a dense vector index, a sparse vector index does not require a pre-defined vector size. It automatically adjusts to the size of the vectors added to the collection.
 
-
-Unlike dense vector index, a sparse vector index does not require pre-defined size of the vector. It is automatically adjusted to the size of the vectors added to the collection.
-
-**Note:** The sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
+**Note:** A sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
 
 ## Filtrable Index
 
