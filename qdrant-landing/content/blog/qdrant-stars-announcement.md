@@ -125,7 +125,7 @@ Our inaugural Qdrant Stars are a diverse and talented lineup who have shown exce
     </div>
   </div>
 <blockquote>
-I'm excited to be part of this program. I really enjoy creating content in my free time, especially when working with the newest technologies that can have a significant impact in real life. That's why I see AI in the medical/healthcare field as a really important use case.
+I'm really excited to show the power of the Qdrant as vector database. Especially in some fields where accessing the right data by very fast and efficient way is a must, in fields like Healthcare and Medicine.
 </blockquote>
 </div>
 
