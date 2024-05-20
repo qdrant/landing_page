@@ -1,7 +1,7 @@
 ---
-title: "Sparse Vectors in Qdrant: Pure Vector-based Hybrid Search"
+title: "What is a Sparse Vector? How to Achieve Vector-based Hybrid Search"
 short_description: "Combining the precision of exact keyword search with NN-based ranking"
-description: "Sparse vectors are the generalization of TF-IDF and BM25, that allows to leverage the power of neural networks for text retrieval."
+description: "Learn what sparse vectors are, how they work, and their importance in modern data processing. Explore methods like SPLADE for creating and leveraging sparse vectors efficiently. "
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
 small_preview_image: /articles_data/sparse-vectors/sparse-vectors-icon.svg
 preview_dir: /articles_data/sparse-vectors/preview
