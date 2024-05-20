@@ -278,7 +278,9 @@ await client.CreateCollectionAsync(
 );
 ```
 
-The number of shards must be a multiple of the number of nodes you are currently running in your cluster.
+To ensure all nodes in your cluster are evenly utilized, the number of shards must be a multiple of the number of nodes you are currently running in your cluster.
+
+> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
 
 We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. Re-sharding should be avoided since it requires creating a new collection. In-place re-sharding is planned for a future version of Qdrant.
 
