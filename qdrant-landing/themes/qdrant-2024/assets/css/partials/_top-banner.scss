@@ -1,0 +1,21 @@
+@use '../helpers/functions' as *;
+
+.top-banner {
+  display: flex;
+  height: rem(40);
+  justify-content: center;
+  align-items: center;
+  gap: $spacer * 1.5;
+  border-bottom: 1px solid var(--Neutral-N20, #161e33);
+  background: var(--Neutral-N10, #090e1a);
+
+  &__text {
+    color: $neutral-94;
+    font-size: $font-size-s;
+    margin-right: $spacer * 0.5;
+  }
+
+  &__icon {
+    margin-right: calc($spacer / 4);
+  }
+}

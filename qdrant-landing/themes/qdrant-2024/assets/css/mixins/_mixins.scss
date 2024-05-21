@@ -1,0 +1,60 @@
+@use '../helpers/functions' as lib;
+
+@mixin content-image($caption-size, $caption-color, $margin) {
+  img,
+  figure {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: $margin auto;
+  }
+  figcaption,
+  figcaption p {
+    color: $caption-color;
+    font-size: $caption-size;
+    text-align: center;
+    margin-top: $margin;
+    @if ($margin > 1rem) {
+      margin-top: $margin * 0.4;
+    }
+  }
+  figure img {
+    margin-bottom: 0;
+  }
+}
+
+@mixin transitionAll($ms) {
+  -webkit-transition: all $ms ease;
+  -ms-transition: all $ms ease;
+  -o-transition: all $ms ease;
+  -moz-transition: all $ms ease;
+  transition: all $ms ease;
+}
+
+@mixin font-styles($size, $weight, $line-height, $color, $font-family) {
+  font-family: $font-family;
+  font-size: $size;
+  font-style: normal;
+  font-weight: $weight;
+  line-height: $line-height;
+  color: $color;
+}
+
+@mixin fixed-height-img($height, $width: auto) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  max-width: $width;
+  min-width: $width;
+  height: $width;
+  overflow: hidden;
+  margin-bottom: 0;
+  & > img {
+    flex-shrink: 0;
+    width: auto;
+    min-width: 100%;
+    min-height: 100%;
+    max-width: none;
+    max-height: 100%;
+  }
+}

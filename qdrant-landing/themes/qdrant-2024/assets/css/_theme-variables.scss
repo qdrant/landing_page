@@ -1,0 +1,201 @@
+@use 'helpers/functions' as *;
+
+$neutral-10: #090e1a;
+$neutral-20: #161e33;
+$neutral-30: #28324d;
+$neutral-40: #3d4866;
+$neutral-50: #576280;
+$neutral-60: #717c99;
+$neutral-70: #8f98b2;
+$neutral-80: #b4bacc;
+$neutral-90: #d4d9e6;
+$neutral-94: #e1e5f0;
+$neutral-98: #f0f3fa;
+$neutral-100: #ffffff;
+
+$primary-10: #40000e;
+$primary-20: #67001b;
+$primary-30: #91012a;
+$primary-40: #be003a;
+$primary-50: #dc244c;
+$primary-60: #ff516b;
+$primary-70: #ff8792;
+$primary-80: #ffb2b7;
+$primary-90: #ffdadb;
+
+$secondary-blue-10: #001848;
+$secondary-blue-30: #0040a1;
+$secondary-blue-50: #2f6ff0;
+$secondary-blue-70: #89a9ff;
+$secondary-blue-90: #d9e2fe;
+
+$secondary-violet-10: #24005b;
+$secondary-violet-30: #5700c9;
+$secondary-violet-50: #8547ff;
+$secondary-violet-70: #b99aff;
+$secondary-violet-90: #eaddff;
+
+$secondary-teal-10: #002020;
+$secondary-teal-30: #004f4f;
+$secondary-teal-50: #038585;
+$secondary-teal-70: #77e5e5;
+$secondary-teal-90: #c0f0f0;
+
+$success-10: #00210f;
+$success-30: #00522f;
+$success-50: #008a53;
+$success-70: #50bf83;
+$success-90: #befad6;
+
+$warning-10: #311300;
+$warning-30: #733501;
+$warning-50: #e0700d;
+$warning-70: #ff8d39;
+$warning-90: #ffdbc7;
+
+$error-10: #410002;
+$error-30: #93000d;
+$error-50: #e02828;
+$error-70: #fe897f;
+$error-90: #ffdad6;
+
+$grays: (
+  '100': $neutral-98,
+  '200': $neutral-94,
+  '300': $neutral-90,
+  '400': $neutral-70,
+  '500': $neutral-50,
+  '600': $neutral-40,
+  '700': $neutral-30,
+  '800': $neutral-20,
+  '900': $neutral-10,
+);
+
+$theme-colors: (
+  'primary': $primary-50,
+  'secondary': $secondary-blue-50,
+  'success': $success-50,
+  'info': $secondary-blue-70,
+  'warning': $warning-50,
+  'danger': $error-50,
+  'light': $neutral-98,
+  'dark': $neutral-10,
+);
+
+$body-bg: $neutral-98;
+$link-color: $primary-50;
+$link-hover-color: $primary-50;
+$link-decoration: none;
+// don't use underline for links hover by default
+
+$input-disabled-color: $neutral-40;
+$input-disabled-border-color: $neutral-94;
+$input-disabled-bg: $neutral-20;
+
+$form-select-bg: $neutral-98;
+
+$form-select-disabled-bg: $neutral-94;
+$form-select-disabled-border-color: $input-disabled-border-color;
+$form-select-disabled-color: $input-disabled-color;
+
+$table-color: $neutral-10;
+$table-border-color: $neutral-90;
+$table-striped-color: $table-color;
+$table-striped-bg: $neutral-94;
+
+$font-family-sans-serif: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif,
+  'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+$font-family-monospace: 'Azeret Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New',
+  monospace;
+$font-family-base: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', Arial, sans-serif, 'Apple Color Emoji',
+  'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+$font-family-code: 'Azeret Mono', SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
+
+$font-size-xs: rem(12);
+$font-size-s: rem(14);
+$font-size-md: rem(16);
+$font-size-l: rem(18);
+$font-size-xl: rem(20);
+
+$font-sizes-text: (
+  'xs': $font-size-xs,
+  's': $font-size-s,
+  'md': $font-size-md,
+  'l': $font-size-l,
+  'xl': $font-size-xl,
+);
+
+// bootstrap
+$font-size-sm: $font-size-s;
+$font-size-lg: $font-size-l;
+
+$font-weight-base: $font-weight-medium;
+
+$line-height-sm: rem(21);
+$line-height-lg: rem(27);
+
+$h1-font-size: rem(64);
+$h2-font-size: rem(56);
+$h3-font-size: rem(48);
+$h4-font-size: rem(40);
+$h5-font-size: rem(32);
+$h6-font-size: rem(24);
+
+$font-sizes: (
+  1: rem(64),
+  2: rem(56),
+  3: rem(48),
+  4: rem(40),
+  5: rem(32),
+  6: rem(24),
+);
+
+$headings-font-weight: 700;
+$headings-line-height: 1.2;
+
+$display-font-sizes: (
+  1: rem(80),
+  //2: 4.5rem,
+  //3: 4rem,
+  //4: 3.5rem,
+  //5: 3rem,
+  //6: 2.5rem
+);
+
+$display-font-weight: 700;
+
+$container-max-widths: (
+  sm: 540px,
+  md: 720px,
+  lg: 960px,
+  xl: 1134px,
+  xxl: 1134px,
+);
+
+$container-padding-x: $grid-gutter-width + $spacer * 0.5;
+
+$grid-gutter-width: 1.5rem;
+$gutters: (
+  0: 0,
+  1: $spacer * 0.5,
+  2: $spacer,
+  3: $spacer * 1.5,
+  4: $spacer * 2,
+  5: $spacer * 3,
+  6: $spacer * 4,
+);
+
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3,
+  6: $spacer * 5,
+  7: $spacer * 7.5,
+);
+
+$code-snippet-border-radius: $border-radius * 2;
+
+$post-content-width: rem(920);

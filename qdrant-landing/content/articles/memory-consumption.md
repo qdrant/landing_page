@@ -175,9 +175,9 @@ Create collection with:
 ```http
 PUT /collections/benchmark
 {
-  ...
-  "optimizers_config": {
-    "mmap_threshold_kb": 20000
+  "vectors": {
+    ...
+    "on_disk": true
   }
 }
 
@@ -222,13 +222,14 @@ Create collection with:
 ```http
 PUT /collections/benchmark 
 {
-  ...
+  "vectors": {
+    ...
+    "on_disk": true
+  },
   "hnsw_config": {
     "on_disk": true
   },
-  "optimizers_config": {
-    "mmap_threshold_kb": 20000
-  }
+  ...
 }
 ```
 

@@ -1,0 +1,10 @@
+{{ if .Params.logosSectionTitle }}
+  {{ $title := .Params.logosSectionTitle }}
+  {{ with (.Site.GetPage "customer-list") }}
+    {{ .Scratch.Set "setting" (slice " dark" $title) }}{{ partial "customer-list" . }}
+  {{ end }}
+{{ else }}
+  {{ with (.Site.GetPage "customer-list") }}
+    {{ .Scratch.Set "setting" (slice " dark") }}{{ partial "customer-list" . }}
+  {{ end }}
+{{ end }}

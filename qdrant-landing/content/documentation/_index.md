@@ -11,7 +11,7 @@ weight: 10
 
 [![Hybrid Cloud](/docs/homepage/hybrid-cloud-cta.png)](https://qdrant.to/cloud)
 
-Use [**Qdrant Hybrid Cloud**](https://hybrid-cloud.qdrant.tech/) to build the best private environment that suits your needs. Manage your own clusters via the [Qdrant Cloud UI](/documentation/cloud/), but continue to run them within your own private infrastructure for complete security and sovereignty. 
+Use [**Qdrant Hybrid Cloud**](/hybrid-cloud/) to build the best private environment that suits your needs. Manage your own clusters via the [Qdrant Cloud UI](/documentation/cloud/), but continue to run them within your own private infrastructure for complete security and sovereignty. 
 
 ## First-Time Users:
 

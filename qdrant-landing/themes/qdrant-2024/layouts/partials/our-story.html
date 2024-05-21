@@ -1,0 +1,30 @@
+{{ with (.Site.GetPage "/headless/our-story") }}
+  <section class="our-story">
+    <div class="container">
+      <div class="row our-story__row">
+        <div class="col-12">
+          <h2 class="our-story__title">{{ .Params.title }}</h2>
+        </div>
+      </div>
+      <div class="row our-story__row our-story__row--offsetted">
+        <div class="col-12 col-md-6">
+          <h4 class="our-story__subtitle">{{ .Params.subtitle }}</h4>
+          <p class="our-story__content">{{ .Params.content }}</p>
+        </div>
+        <div class="col-12 col-md-6">
+          <div class="our-story__image" style="background-image: url(/img/planet.png)"></div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 col-md-5">
+          <h5 class="our-story__date">{{ .Params.year }}</h5>
+        </div>
+        <div class="col-12 col-md-7">
+          <p class="our-story__extra-content">{{ .Params.extraContent }}</p>
+          <h6 class="our-story__extra-title">{{ .Params.extraTitle }}</h6>
+          {{ partial "link" . }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

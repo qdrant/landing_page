@@ -1,0 +1,54 @@
+@use '../helpers/functions' as *;
+
+.video {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  z-index: 1;
+
+  video {
+    width: 100%;
+    border-radius: $spacer * 0.5;
+  }
+
+  button {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 0.5;
+
+    img {
+      height: rem(18);
+      width: rem(18);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    max-width: rem(920);
+
+    button {
+      gap: rem(12);
+      height: $spacer * 3;
+      padding: 0 rem(28);
+      font-size: rem(18);
+      line-height: rem(27);
+
+      img {
+        height: rem(22);
+        width: rem(22);
+      }
+    }
+  }
+
+  iframe {
+    width: 100%;
+    max-width: 920px;
+    aspect-ratio: 9/5.1;
+    border-radius: $spacer * 0.5;
+    overflow: hidden;
+  }
+}

@@ -1,0 +1,136 @@
+@use '../helpers/functions' as *;
+
+.get-started {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &__content {
+    position: relative;
+    overflow: hidden;
+    background-color: $neutral-10;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    min-width: 100%;
+    min-height: rem(615);
+
+    border-radius: 16px;
+
+    padding-top: $spacer * 5;
+    padding-left: $spacer * 3.5;
+    padding-right: $spacer * 3.5;
+    padding-bottom: $spacer * 5;
+  }
+
+  &__title {
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
+    color: $neutral-98;
+    text-align: center;
+    margin: 0;
+    z-index: 1;
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
+    text-align: center;
+    color: $neutral-90;
+    margin-top: $spacer * 1.5;
+    margin-bottom: $spacer * 1.5;
+    z-index: 1;
+  }
+
+  &__planet-icon {
+    position: absolute;
+    top: $spacer * 1.5;
+    left: $spacer * 2.5;
+    width: rem(94);
+    height: rem(83);
+    background-position: top;
+    background-repeat: no-repeat;
+  }
+
+  &__duo-planet-icon {
+    border-radius: 0 0 16px 0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: rem(281);
+    height: rem(151);
+    background-repeat: no-repeat;
+  }
+
+  &__overlay-top {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: rem(250);
+    height: rem(250);
+    background-image: url('/img/blurred/blurred-light-2.svg');
+    background-position: top;
+    background-size: cover;
+  }
+
+  &__overlay-middle {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('/img/blurred/blurred-light.png');
+    background-position: center;
+    background-size: cover;
+  }
+
+  &__overlay-bottom {
+    display: none;
+  }
+
+  @include media-breakpoint-up(md) {
+    padding-top: $spacer * 6.5;
+    padding-bottom: $spacer * 6.5;
+
+    &__content {
+      min-height: rem(165);
+
+      padding-left: 0;
+      padding-right: 0;
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, 3);
+      line-height: rem(57);
+      max-width: unset;
+    }
+
+    &__subtitle {
+      max-width: rem(640);
+    }
+
+    &__overlay-middle {
+      display: none;
+    }
+
+    &__overlay-bottom {
+      display: block;
+      position: absolute;
+      right: 0;
+      bottom: 0;
+      width: 50%;
+      height: 100%;
+      background-image: url('/img/blurred/blurred-light-3.svg');
+      background-position: right;
+      background-size: cover;
+    }
+  }
+}

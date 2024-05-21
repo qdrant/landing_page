@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-[LangChain](https://www.langchain.com/) and Qdrant are collaborating on the launch of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/), which is designed to empower engineers and scientists globally to easily and securely develop and scale their GenAI applications. Harnessing LangChain’s robust framework, users can unlock the full potential of vector search, enabling the creation of stable and effective AI products. Qdrant Hybrid Cloud extends the same powerful functionality of Qdrant onto a Kubernetes-based architecture, enhancing LangChain’s capability to cater to users across any environment.
+[LangChain](https://www.langchain.com/) and Qdrant are collaborating on the launch of [Qdrant Hybrid Cloud](/hybrid-cloud/), which is designed to empower engineers and scientists globally to easily and securely develop and scale their GenAI applications. Harnessing LangChain’s robust framework, users can unlock the full potential of vector search, enabling the creation of stable and effective AI products. Qdrant Hybrid Cloud extends the same powerful functionality of Qdrant onto a Kubernetes-based architecture, enhancing LangChain’s capability to cater to users across any environment.
 
 Qdrant Hybrid Cloud provides users with the flexibility to deploy their vector database in a preferred environment. Through container-based scalable deployments, companies can leverage cutting-edge frameworks like LangChain while maintaining compatibility with their existing hosting architecture for data sources, embedded models, and LLMs. This potent combination empowers organizations to develop robust and secure applications capable of text-based search, complex question-answering, recommendations and analysis.
 

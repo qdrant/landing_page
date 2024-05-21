@@ -1,0 +1,32 @@
+{{ $default_file_name := .default_file_name }}
+{{ $preview_file := .preview_file }}
+
+<!-- 
+    Image render priority:  
+    
+    1. If `preview_file` explicitly set .md file, use it
+    2. If custom preview image in `default_file_name` exists, use it
+    3. Fall back to default `preview_image`
+
+-->
+
+{{ $preview_image := .context.Params.preview_image }}
+
+{{ $content_dir := or .context.Params.slug .context.File.ContentBaseName }}
+
+{{ $preview_image_path :=  path.Join "static" .context.File.Dir $content_dir "preview" $default_file_name }}
+{{ $preview_image_exists := fileExists $preview_image_path }}
+
+{{ if $preview_image_exists }}
+    {{ $preview_image_path = strings.TrimPrefix "static/" $preview_image_path }}
+    {{ $preview_image_path = strings.TrimPrefix "/static" $preview_image_path }}
+    {{ $preview_image = $preview_image_path }}
+{{ end }}
+
+{{ if $preview_file }}
+    {{ $preview_image = $preview_file }}
+{{ end }}
+
+{{ $preview_image = $preview_image  | safeHTML | absURL }}
+
+<img src="{{ $preview_image }}" alt="{{ .context.Params.title }}" loading="lazy">

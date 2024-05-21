@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ with (.Site.GetPage "/recommendations/recommendations-hero") }}
+    {{ partial "use-cases-vector-hero" . }}
+  {{ end }}
+
+  {{ partial "recommendations-features" . }}
+
+  {{ partial "recommendations-api" . }}
+
+  {{ with (.Site.GetPage "/recommendations/recommendations-use-cases") }}
+    {{ partial "use-cases-vector-cases" . }}
+  {{ end }}
+
+
+  <!-- {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+   -->
+
+  {{ partial "get-started" . }}
+{{ end }}
