@@ -1,0 +1,14 @@
+<section class="qdrant-blog-hero">
+  <div class="container">
+    <div class="row">
+      <h1 class="qdrant-blog-hero__title col-12 col-lg-6">{{ .Params.title }}</h1>
+      <div class="qdrant-blog-hero__content col-12 col-lg-6">
+        <p class="qdrant-blog-hero__description">{{ .Params.description }}</p>
+        {{ with (.Site.GetPage "/headless/newsletter") }}
+          {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "blog-subscribe-form" "context" . "classes" "qdrant-blog-hero__form") }}
+        {{ end }}
+      </div>
+    </div>
+  </div>
+  <div class="qdrant-blog-hero__overlay"></div>
+</section>

@@ -1,0 +1,16 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ with (.Site.GetPage "/data-analysis/data-analysis-hero") }}
+    {{ partial "use-cases-vector-hero" . }}
+  {{ end }}
+
+  {{ partial "data-analysis-anomaly-detection" . }}
+
+
+  <!-- {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+   -->
+
+  {{ partial "get-started" . }}
+{{ end }}

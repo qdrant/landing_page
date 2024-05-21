@@ -1,0 +1,61 @@
+@use '../helpers/functions' as *;
+
+.hybrid-cloud-kubernetes-clusters {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-20;
+  }
+
+  &__description {
+    font-size: rem(18);
+    line-height: rem(27);
+    color: $neutral-20;
+
+    &:first-of-type {
+      margin-bottom: rem(27);
+    }
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+  }
+
+  &__preview {
+    margin-top: $spacer * 2.5;
+    text-align: center;
+
+    img {
+      max-width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: rem(57);
+    }
+
+    &__description {
+      font-size: rem(20);
+      line-height: rem(30);
+
+      &:first-of-type {
+        margin-bottom: rem(30);
+      }
+    }
+  }
+  @include media-breakpoint-up(xl) {
+    &__preview {
+      margin-top: 0;
+    }
+  }
+}

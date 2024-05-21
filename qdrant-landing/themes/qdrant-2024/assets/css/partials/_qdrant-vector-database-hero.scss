@@ -1,0 +1,76 @@
+@use '../helpers/functions' as *;
+
+.qdrant-vector-database-hero {
+  padding-top: $spacer * 2.5;
+  text-align: center;
+  background: url('/img/stars-pattern.png') $neutral-10;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: rem(18);
+    line-height: rem(27);
+    margin-bottom: $spacer * 2;
+    color: $neutral-70;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 1.5;
+    margin-bottom: $spacer * 2.5;
+
+    .button {
+      min-width: $spacer * 12.5;
+    }
+  }
+
+  &__preview-mobile {
+    width: 100%;
+  }
+
+  &__preview {
+    display: none;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 4;
+      line-height: rem(76);
+    }
+
+    &__description {
+      max-width: rem(730);
+      font-size: rem(20);
+      line-height: rem(30);
+      margin: 0 auto $spacer * 2 auto;
+    }
+
+    &__buttons {
+      flex-direction: row;
+      margin-bottom: $spacer * 4;
+
+      .button {
+        min-width: auto;
+      }
+    }
+
+    &__preview-mobile {
+      display: none;
+    }
+
+    &__preview {
+      display: block;
+      width: 100%;
+    }
+  }
+}

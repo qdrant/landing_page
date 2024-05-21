@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "/pricing/qdrant-pricing-calculator") }}
+  <section class="qdrant-pricing-calculator">
+    <div class="container">
+      <div class="row">
+        <div class="qdrant-pricing-calculator__content col-12">
+          <p class="qdrant-pricing-calculator__title">{{ .Params.titleFirstPart }}</p>
+          <p class="qdrant-pricing-calculator__title">{{ .Params.titleSecondPart }}</p>
+          <a
+            class="qdrant-pricing-calculator__link link link_light link_xl align-self-start"
+            href="{{ .Params.link.url }}"
+          >
+            {{ .Params.link.text }}
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

@@ -1,0 +1,110 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+@use '../bootstrap-custom' as bs;
+
+@mixin base(
+  $height,
+  $itemWidth: 200px,
+  $total-marquee-items: 6,
+  $visible-marquee-items: 6,
+  $item-padding: 20px,
+  $background-color: #090e1a,
+  $pauseOnHover: false,
+  $speed: 25s,
+  $pseudoElementDisplay: block
+) {
+  $inner-width: math.div($total-marquee-items, $visible-marquee-items) * 2 * 100%;
+
+  max-width: 100%;
+  text-align: center;
+  height: $height;
+
+  &__container {
+    overflow: hidden;
+    position: relative;
+
+    &:before,
+    &:after {
+      display: $pseudoElementDisplay;
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: rem(80);
+      z-index: 1;
+
+      @include bs.media-breakpoint-up(lg) {
+        width: rem(165);
+      }
+    }
+    &:before {
+      left: 0;
+      background: linear-gradient(90deg, $background-color 0.5%, $background-color 38.79%, rgba(9, 14, 26, 0) 100%);
+    }
+    &:after {
+      right: 0;
+      background: linear-gradient(270deg, $background-color 38.79%, rgba(9, 14, 26, 0) 100%);
+    }
+  }
+
+  &__block {
+    height: $height;
+    display: grid;
+    width: $itemWidth * $visible-marquee-items;
+    overflow: hidden;
+    box-sizing: border-box;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  &__inner {
+    display: block;
+    width: $inner-width;
+    position: absolute;
+
+    & > span {
+      float: left;
+      width: 50%;
+    }
+
+    &_to-left {
+      animation: marqueeLeft $speed linear infinite;
+    }
+
+    &_to-right {
+      animation: marqueeRight $speed linear infinite;
+    }
+  }
+
+  &__item {
+    width: $itemWidth - $item-padding * 2;
+    height: $height;
+    display: inline-flex;
+    margin: 0 $item-padding;
+    float: left;
+    transition: all 0.2s ease-out;
+    align-items: center;
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  @keyframes marqueeLeft {
+    0% {
+      left: 0;
+    }
+    100% {
+      left: $inner-width * 0.5 * -1;
+    }
+  }
+  @keyframes marqueeRight {
+    0% {
+      left: $inner-width * 0.5 * -1;
+    }
+    100% {
+      left: 0;
+    }
+  }
+}

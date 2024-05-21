@@ -64,4 +64,3 @@ If you're interested in a similar discussion, watch for the recording from the [
 
 ### Further reading
 - [Qdrant Blog](/blog/)
-- https://hub.superlinked.com/blog

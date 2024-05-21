@@ -1,0 +1,57 @@
+@use '../helpers/functions' as *;
+
+aside[role='alert'],
+aside[role='status'] {
+  position: relative;
+  padding: $spacer * 1.5 $spacer * 1.5 $spacer * 1.5 $spacer * 3.5;
+  margin-bottom: $spacer;
+  font-size: rem(14);
+  line-height: rem(21);
+  border-radius: $spacer * 0.5;
+
+  &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    left: $spacer * 1.5;
+    top: $spacer * 1.5;
+    height: rem(20);
+    width: $spacer;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+}
+
+aside[role='alert'] {
+  background-color: $warning-10;
+  color: $warning-70;
+  a {
+    color: $warning-70;
+    border-bottom: rem(1) solid $warning-70;
+  }
+  &:before {
+    content: '\26A0';
+    font-size: rem(12);
+  }
+  code {
+    color: $warning-70;
+    background-color: $warning-30;
+  }
+}
+aside[role='status'] {
+  background-color: $secondary-blue-10;
+  color: $secondary-blue-70;
+  a {
+    color: $secondary-blue-70;
+    border-bottom: rem(1) solid $secondary-blue-70;
+  }
+  &:before {
+    content: '\24D8';
+    font-size: rem(24);
+  }
+  code {
+    color: $secondary-blue-70;
+    background-color: $secondary-blue-30;
+  }
+}

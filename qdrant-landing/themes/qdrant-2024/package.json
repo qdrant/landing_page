@@ -1,0 +1,50 @@
+{
+  "browserslist": {
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ],
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ]
+  },
+  "comments": {
+    "dependencies": {
+      "@splidejs/splide": "project",
+      "anchor-js": "project",
+      "bootstrap": "project",
+      "clipboard": "project",
+      "qdrant-page-search": "project"
+    },
+    "devDependencies": {
+      "@babel/preset-env": "project",
+      "copy-webpack-plugin": "project",
+      "prettier": "project",
+      "prettier-plugin-go-template": "project",
+      "webpack": "project",
+      "webpack-cli": "project"
+    }
+  },
+  "dependencies": {
+    "@splidejs/splide": "^4.1.4",
+    "anchor-js": "^5.0.0",
+    "bootstrap": "^5.3.2",
+    "clipboard": "^2.0.11",
+    "qdrant-page-search": "^1.0.8"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.23.9",
+    "copy-webpack-plugin": "^12.0.2",
+    "prettier": "^3.2.5",
+    "prettier-plugin-go-template": "^0.0.15",
+    "webpack": "^5.90.1",
+    "webpack-cli": "^5.1.4"
+  },
+  "scripts": {
+    "format": "prettier . --write",
+    "format:check": "prettier . --check"
+  }
+}

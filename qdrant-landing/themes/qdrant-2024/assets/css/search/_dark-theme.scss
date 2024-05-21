@@ -1,0 +1,15 @@
+.qdr-search__dialog {
+  background-color: $neutral-20;
+  color: $neutral-90;
+  input {
+    background-color: $neutral-20;
+    color: $neutral-98;
+  }
+  .qdr-search-result {
+    color: $neutral-90;
+
+    &.active {
+      background-color: $secondary-blue-10;
+    }
+  }
+}

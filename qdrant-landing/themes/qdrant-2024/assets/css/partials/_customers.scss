@@ -1,0 +1,52 @@
+@use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
+
+.customers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacer * 3;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background: $neutral-10;
+
+  &__title {
+    color: $neutral-70;
+    text-align: center;
+    font-size: map-get($font-sizes-text, 'l');
+    margin: 0 auto calc($spacer / 2);
+  }
+
+  &__description {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding-left: rem(20);
+    padding-right: rem(20);
+  }
+
+  &__link {
+    color: $primary-60;
+    font-size: map-get($font-sizes-text, 'l');
+    text-decoration: none;
+  }
+
+  .customers__logos {
+    @include marquee.base(64px, 224px, 16, 16, 52px, $neutral-10, false, 50s, block);
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__title {
+      margin: 0;
+    }
+
+    &__description {
+      flex-direction: row;
+      justify-content: center;
+      padding: 0;
+      gap: calc($spacer / 2);
+    }
+  }
+}

@@ -1,0 +1,149 @@
+@use '../helpers/functions' as *;
+
+.menu-mobile {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 2;
+  padding-top: rem(52);
+  background-color: $neutral-94;
+  display: none;
+  gap: $spacer * 3;
+  flex-direction: column;
+  overflow-y: scroll;
+
+  &--visible {
+    display: flex;
+  }
+
+  &__header {
+    padding: 0 rem(20);
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  &__close {
+    outline: none;
+    border: none;
+    padding: rem(5);
+    padding-top: rem(7);
+    width: rem(40);
+    height: rem(40);
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__close svg {
+    width: rem(24);
+    height: rem(24);
+  }
+
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 1.5;
+
+    padding-left: rem(20);
+    padding-right: rem(20);
+    padding-bottom: rem(60);
+  }
+
+  &__login {
+    color: $neutral-20 !important;
+  }
+
+  &__items {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  &__item {
+    width: 100%;
+    border-bottom: 1px solid $neutral-90;
+
+    display: flex;
+    flex-direction: column;
+
+    font-size: rem(18);
+    line-height: rem(27);
+
+    color: $neutral-20;
+
+    a {
+      color: $neutral-20;
+    }
+  }
+
+  &__item-content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: rem(64);
+    padding: 0 rem(20);
+  }
+
+  &__subitems {
+    display: none;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    background-color: $neutral-90;
+    padding: $spacer rem(20);
+  }
+
+  &__subitems a {
+    text-decoration: none;
+  }
+
+  &__subitem {
+    display: flex;
+    align-items: center;
+
+    min-height: rem(40);
+
+    font-size: rem(16);
+    line-height: rem(24);
+    color: $neutral-20;
+  }
+
+  &__subitem span {
+    width: rem(16);
+    height: rem(16);
+    margin-right: $spacer;
+  }
+
+  &__expand {
+    outline: none;
+    border: none;
+    padding: rem(5);
+    width: rem(34);
+    height: rem(34);
+    background-color: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__expand svg {
+    height: rem(16);
+    width: rem(16);
+  }
+}
+
+.menu-mobile__item--active {
+  .menu-mobile__subitems {
+    display: block;
+  }
+
+  .menu-mobile__expand svg {
+    transform: rotate(180deg);
+  }
+}

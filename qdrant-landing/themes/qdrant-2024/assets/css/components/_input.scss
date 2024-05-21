@@ -1,0 +1,92 @@
+@use '../helpers/functions' as *;
+
+// we can not name it .input because it conflicts with hubspot embedded forms
+// where .input is a wrapper for the input field, not the input field itself
+
+.q-input {
+  // VARIABLES
+  $height: (
+    md: $spacer * 2.5,
+    lg: $spacer * 3,
+  );
+
+  $padding: (
+    md: rem(7) $spacer,
+    lg: rem(11) $spacer,
+  );
+
+  // STYLES
+  width: 100%;
+  height: map-get($height, md);
+  padding: map-get($padding, md);
+  border: rem(1) solid $neutral-50;
+  border-radius: $spacer * 0.5;
+  background-color: transparent;
+  color: $neutral-94;
+
+  &::placeholder {
+    color: $neutral-70;
+  }
+
+  &:focus {
+    border: rem(1) solid $neutral-100;
+  }
+
+  &:active,
+  &:focus,
+  &:focus-visible {
+    outline: 0;
+  }
+
+  // VARIANTS
+  &_dark-bg {
+    border-color: $neutral-50;
+
+    &:focus {
+      border-color: $neutral-100;
+      color: $neutral-94;
+    }
+  }
+
+  &_light-bg {
+    border-color: $neutral-70;
+
+    &:focus {
+      border-color: $neutral-20;
+      color: $neutral-20;
+    }
+  }
+
+  // SIZE
+  &_md {
+    height: map-get($height, md);
+    padding: map-get($padding, md);
+  }
+
+  &_lg {
+    height: map-get($height, lg);
+    padding: map-get($padding, lg);
+  }
+}
+
+.dropdown {
+  &__button {
+    position: relative;
+    padding: rem(7) $spacer * 2.5 rem(7) $spacer;
+    text-align: left;
+
+    &:after {
+      content: '';
+      display: block;
+      position: absolute;
+      top: rem(12);
+      right: $spacer;
+      height: $spacer;
+      width: $spacer;
+      background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1.33203 4.66666L7.9987 11.3333L14.6654 4.66666' stroke='%23D4D9E6' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+}
