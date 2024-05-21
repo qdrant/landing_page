@@ -18,7 +18,7 @@ tags:
   - new features
 ---
 
-[Qdrant 1.9.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.9.0) This version complements the release of our new managed product [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) with key security features valuable to our enterprise customers, and all those looking to productionize large-scale Generative AI. **Data privacy, system stability and resource optimizations** are always on our mind - so let's see what's new:
+[Qdrant 1.9.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.9.0) This version complements the release of our new managed product [Qdrant Hybrid Cloud](/hybrid-cloud/) with key security features valuable to our enterprise customers, and all those looking to productionize large-scale Generative AI. **Data privacy, system stability and resource optimizations** are always on our mind - so let's see what's new:
 
 - **Granular access control:** You can further specify access control levels by using JSON Web Tokens. 
 - **Optimized shard transfers:** The synchronization of shards between nodes is now significantly faster!
@@ -34,7 +34,7 @@ Qdrant now supports [granular access control using JSON Web Tokens (JWT)](/docum
 
 ![jwt-web-ui](/blog/qdrant-1.9.x/jwt-web-ui.png)
 
-We highly recommend this feature to enterprises using [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/), as it is tailored to those who need additional control over company data and user access. RBAC empowers administrators to define roles and assign specific privileges to users based on their roles within the organization. In combination with [Hybrid Cloud's data sovereign architecture](/documentation/hybrid-cloud/), this feature reinforces internal security and efficient collaboration by granting access only to relevant resources.
+We highly recommend this feature to enterprises using [Qdrant Hybrid Cloud](/hybrid-cloud/), as it is tailored to those who need additional control over company data and user access. RBAC empowers administrators to define roles and assign specific privileges to users based on their roles within the organization. In combination with [Hybrid Cloud's data sovereign architecture](/documentation/hybrid-cloud/), this feature reinforces internal security and efficient collaboration by granting access only to relevant resources.
 
 > **Documentation:** [Read the access level breakdown](/documentation/guides/security/#table-of-access) to see which actions are allowed or denied.
 

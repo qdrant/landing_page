@@ -13,7 +13,7 @@ tags:
   - Hybrid Cloud
 ---
 
-We are excited to announce the official launch of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) today, a significant leap forward in the field of vector search and enterprise AI. Rooted in our open-source origin, we are committed to offering our users and customers unparalleled control and sovereignty over their data and vector search workloads. Qdrant Hybrid Cloud stands as **the industry's first managed vector database that can be deployed in any environment** - be it cloud, on-premise, or the edge. 
+We are excited to announce the official launch of [Qdrant Hybrid Cloud](/hybrid-cloud/) today, a significant leap forward in the field of vector search and enterprise AI. Rooted in our open-source origin, we are committed to offering our users and customers unparalleled control and sovereignty over their data and vector search workloads. Qdrant Hybrid Cloud stands as **the industry's first managed vector database that can be deployed in any environment** - be it cloud, on-premise, or the edge. 
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/gWH2uhWgTvM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
 

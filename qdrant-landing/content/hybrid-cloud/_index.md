@@ -9,6 +9,4 @@ cascade:
     list: local
     publishResources: false
     render: never
-seo_schema_json:
-- schema/hybrid-cloud.json
 ---
