@@ -1641,7 +1641,7 @@ curl -X GET http://localhost:6333/collections/{collection_name}/aliases
 ```python
 from qdrant_client import QdrantClient
 
-client = QdrantClient(url="http://localhost:6333")
+client = QdrantClient(url="{url for collection}, api_key="{your api key}")
 
 client.get_collection_aliases(collection_name="{collection_name}")
 ```
