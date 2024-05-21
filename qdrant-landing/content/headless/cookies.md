@@ -4,7 +4,7 @@ message:
   color: '#161E33'
 link:
   text: Learn more
-  url: /privacy-policy
+  url: /legal/privacy-policy/
   color: '#DC244C'
 button:
   text: I accept
