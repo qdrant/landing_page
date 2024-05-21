@@ -95,6 +95,10 @@
         display: block;
         position: relative;
         margin-bottom: $spacer * 0.5;
+        // hide native details marker
+        &::-webkit-details-marker {
+          display: none;
+        }
 
         a {
           display: flex;
