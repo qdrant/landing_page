@@ -40,7 +40,7 @@ The same embeddings can be repurposed for search, ads, and other features, creat
 They make [high-dimensional](https://www.sciencedirect.com/topics/computer-science/high-dimensional-data) data more manageable. This reduces storage requirements, improves computational efficiency, and makes sense of a ton of **unstructured** data.
 
 
-## Why Use Vector Embeddings?
+## Why use vector embeddings?
 
 The **nuances** of natural language or the hidden **meaning** in large datasets of images, sounds, or user interactions are hard to fit into a table. Traditional relational databases can't efficiently query most types of data being currently used and produced, making the **retrieval** of this information very limited.
 
@@ -70,7 +70,7 @@ The meaning of a data point is implicitly defined by its **position** on the vec
 > The quality of the vector representations drives the performance. The embedding model that works best for you depends on your use case.
 
 
-### Creating Vector Embeddings
+### Creating vector embeddings
 
 Embeddings translate the complexities of human language to a format that computers can understand. It uses neural networks to assign **numerical values** to the input data, in a way that similar data has similar values.
 
@@ -128,7 +128,7 @@ And then it compares contexts to known architectural and design principles:
 The model creates a vector embedding for "biophilic design" that encapsulates the concept of integrating natural elements into man-made environments. Augmented with attributes that highlight the correlation between this integration and its positive impact on health, well-being, and environmental sustainability.
 
 
-### Integration with Embedding APIs
+### Integration with embedding APIs
 
 Selecting the right embedding model for your use case is crucial to your application performance. Qdrant makes it easier by offering seamless integration with the best selection of embedding APIs, including [Cohere](/documentation/embeddings/cohere/), [Gemini](/documentation/embeddings/gemini/), [Jina Embeddings](/documentation/embeddings/jina-embeddings/), [OpenAI](/documentation/embeddings/openai/), [Aleph Alpha](/documentation/embeddings/aleph-alpha/), [Fastembed](https://github.com/qdrant/fastembed), and [AWS Bedrock](/documentation/embeddings/bedrock/). 
 
@@ -138,7 +138,7 @@ Fastembed, which we’ll use on the example below, is designed for efficiency an
 
 We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
 
-## Create a Neural Search Service with FastEmbed
+## Create a neural search service with Fastmbed
 
 Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials/neural-search/)?
 
