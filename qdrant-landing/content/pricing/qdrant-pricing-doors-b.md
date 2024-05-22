@@ -33,8 +33,8 @@ cards:
     content: Unlimited users
   - id: 9
     content: Standard support plan
-  - id: 10
-    content: Can be upgraded to premium support plan
+  # - id: 10
+  #   content: Can be upgraded to premium support plan
 - id: 1
   popular: false
   title: Hybrid Cloud
