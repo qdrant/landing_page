@@ -1,0 +1,77 @@
+@use '../helpers/functions' as *;
+
+.table-contents {
+  background-color: $neutral-10;
+  margin-bottom: -1px;
+
+  &__title {
+    display: none;
+    color: $neutral-98;
+    margin-bottom: $spacer;
+    font-size: map-get($font-sizes-text, 'md');
+    line-height: rem(24);
+  }
+
+  nav {
+    display: none;
+    padding-bottom: rem(12);
+
+    ul {
+      padding-left: 0;
+      margin-bottom: 0;
+    }
+
+    li {
+      list-style: none;
+      padding: 0;
+
+      a {
+        display: block;
+        margin-bottom: rem(12);
+        color: $neutral-70;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      & > ul > li {
+        padding-left: $spacer;
+      }
+    }
+  }
+
+  &__external-links {
+    border-top: 1px solid $neutral-50;
+    border-bottom: 1px solid $neutral-50;
+    list-style: none;
+    padding: $spacer * 1.5 0;
+    margin: 0;
+  }
+
+  &__link {
+    margin-bottom: rem(12);
+
+    &:last-of-type {
+      margin-bottom: 0;
+    }
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: calc($spacer / 2);
+    }
+
+    svg {
+      display: block;
+      width: rem(16);
+      height: rem(16);
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    nav,
+    &__title {
+      display: block;
+    }
+  }
+}

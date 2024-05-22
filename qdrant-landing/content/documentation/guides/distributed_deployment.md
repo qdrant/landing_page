@@ -141,9 +141,10 @@ After the scale-up process completes, you will have a new empty node running alo
 
 When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
 
-* Replicate your existing data to the new node by [creating new shard replicas](#creating-new-shard-replicas)
-* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more (can only be set at creation time)
-* Move data (without replicating it) onto the new node by [moving shards](#moving-shards)
+* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more and setting the [number of shards](#choosing-the-right-number-of-shards) to a multiple of your number of nodes.
+* If you have an existing collection which does not contain enough shards for each node, you must create a new collection as described in the previous bullet point.
+* If you already have enough shards for each node and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
+* If you already have enough shards for each node and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
 
 ## Raft
 
@@ -172,7 +173,9 @@ There are two methods of distributing points across shards:
 
 Each node knows where all parts of the collection are stored through the [consensus protocol](./#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
 
-When you create a collection, Qdrant splits the collection into `shard_number` shards. If left unset, `shard_number` is set to the number of nodes in your cluster:
+### Choosing the right number of shards
+
+When you create a collection, Qdrant splits the collection into `shard_number` shards. If left unset, `shard_number` is set to the number of nodes in your cluster when the collection was created. The `shard_number` cannot be changed without recreating the collection.
 
 ```http
 PUT /collections/{collection_name}
@@ -275,9 +278,13 @@ await client.CreateCollectionAsync(
 );
 ```
 
-We recommend setting the number of shards to be a multiple of the number of nodes you are currently running in your cluster.
+To ensure all nodes in your cluster are evenly utilized, the number of shards must be a multiple of the number of nodes you are currently running in your cluster.
 
-For example, if you have 3 nodes, 6 shards could be a good option.
+> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
+
+We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. Re-sharding should be avoided since it requires creating a new collection. In-place re-sharding is planned for a future version of Qdrant.
+
+If you anticipate a lot of growth, we recommend 12 shards since you can expand from 1 node up to 2, 3, 6, and 12 nodes without having to re-shard. Having more than 12 shards in a small cluster may not be worth the performance overhead.
 
 Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size or replication factor changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
 

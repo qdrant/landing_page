@@ -1,8 +1,6 @@
 ---
 title: Examples
-weight: 34
-# If the index.md file is empty, the link to the section will be hidden from the sidebar
-is_empty: false
+weight: 35
 ---
 # Examples
 

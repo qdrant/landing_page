@@ -1,0 +1,31 @@
+<section class="docker-deploy{{ .class }}">
+  <div class="container">
+    <div class="docker-deploy__content row">
+      <div class="col-12 col-lg-5">
+        <div class="docker-deploy__description">
+          <h3 class="docker-deploy__title">{{ .context.Params.title }}</h3>
+          <p class="docker-deploy__subtitle">
+            Get started with our
+            <a class="docker-deploy__link" href="{{ .context.Params.quickStartLink.url }}"
+              >{{ .context.Params.quickStartLink.text }}</a
+            >, or our main
+            <a class="docker-deploy__link" href="{{ .context.Params.repositoryLink.url }}"
+              >{{ .context.Params.repositoryLink.text }}</a
+            >.
+          </p>
+        </div>
+      </div>
+      <div class="col-12 col-lg-7">
+        <div class="docker-deploy__preview">
+          <div class="docker-deploy__image" style="background-image: url(/img/docker-illustration.png)">
+            <code>
+              {{ range $index, $command := .context.Params.commands }}
+                <span class="no-copy">{{ add $index 1 }}&nbsp;</span>{{ $command | safeHTML }}<br />
+              {{ end }}
+            </code>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

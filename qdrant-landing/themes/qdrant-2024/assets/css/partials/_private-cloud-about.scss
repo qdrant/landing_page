@@ -1,0 +1,63 @@
+@use '../helpers/functions' as *;
+
+.private-cloud-about {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    color: $neutral-20;
+    margin-bottom: 0;
+  }
+
+  &__image {
+    width: 100%;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__description {
+    color: $neutral-40;
+    margin-bottom: 0;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer;
+
+    &__content {
+      position: relative;
+
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: rem(1);
+        width: rem(920);
+        margin: 0 auto;
+        background-color: $neutral-80;
+      }
+    }
+
+    &__title {
+      position: absolute;
+      top: $spacer * 4;
+      left: rem(12);
+      width: rem(400);
+    }
+
+    &__image {
+      display: block;
+      width: rem(553);
+      margin: 0 auto;
+    }
+
+    &__description {
+      position: absolute;
+      bottom: $spacer * 4;
+      right: rem(12);
+      width: rem(361);
+    }
+  }
+}

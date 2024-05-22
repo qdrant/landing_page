@@ -1,0 +1,48 @@
+{{ with (.Site.GetPage "/headless/main/customer-stories") }}
+  <section class="customer-stories">
+    <div class="container">
+      <div class="customer-stories__header">
+        <h3 class="customer-stories__title mx-auto">{{ .Params.title }}</h3>
+        <div class="customer-stories__header-content">
+          {{ .Scratch.Set "cssClass" "link_xl" }}
+          {{ if .Params.link }}{{ partial "link" . }}{{ end }}
+        </div>
+      </div>
+      <div class="splide">
+        <div class="splide__arrows customer-stories__controls">
+          <button
+            type="button"
+            class="splide__arrow splide__arrow--prev customer-stories__button customer-stories__button-prev"
+          >
+            <span>{{ partial "svg" "angle-right.svg" }}</span>
+          </button>
+          <button type="button" class="plide__arrow splide__arrow--next customer-stories__button">
+            <span>{{ partial "svg" "angle-right.svg" }}</span>
+          </button>
+        </div>
+        <div class="splide__track" data-glide-el="track">
+          <div class="splide__list">
+            {{ range .Params.storyCards }}
+              <div class="splide__slide">
+                <div class="card customer-stories__card">
+                  <div>
+                    <img src="{{ .icon }}" alt="{{ .brand }}" />
+                    <p class="customer-stories__card-content">{{ .content | safeHTML }}</p>
+                  </div>
+                  <div class="customer-stories__card-footer">
+                    <img src="{{ .author.avatar }}" alt="{{ .author.fullName }}" />
+                    <div class="customer-stories__card-author">
+                      <p class="customer-stories__card-author-name">{{ .author.fullName }}</p>
+                      <p class="customer-stories__card-author-position">{{ .author.position }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+      <p class="core-features__subtitle mx-auto">{{ .Params.wall.intro_text }} <a class="link" target="_blank" href="{{ .Params.wall.url }}">{{ .Params.wall.url_text }}</a></p>
+    </div>
+  </section>
+{{ end }}

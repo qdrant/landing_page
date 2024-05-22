@@ -1,0 +1,193 @@
+@use '../helpers/functions' as *;
+@use '../mixins/mixins' as *;
+
+.qdrant-post {
+  &__header {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 1.5;
+    background-color: $neutral-98;
+    text-align: center;
+  }
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    margin-bottom: $spacer;
+    color: $neutral-20;
+  }
+
+  &__about {
+    display: flex;
+    justify-content: center;
+    gap: rem(6);
+    font-size: rem(14);
+    line-height: rem(21);
+    color: $neutral-50;
+    margin-bottom: $spacer * 2.5;
+
+    p {
+      margin-bottom: 0;
+    }
+  }
+
+  &__preview {
+    img {
+      width: 100%;
+      height: auto;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2.5;
+    padding-bottom: $spacer * 3;
+  }
+
+  &__content {
+    p,
+    li {
+      margin-bottom: $spacer * 2;
+    }
+    p,
+    li,
+    table {
+      font-weight: 400;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    h1 {
+      font-size: $spacer * 2;
+      line-height: rem(37);
+      margin-bottom: $spacer;
+    }
+
+    h2 {
+      font-size: $spacer * 1.5;
+      line-height: rem(34);
+      margin-bottom: $spacer;
+    }
+
+    h3 {
+      font-size: rem(20);
+      line-height: rem(30);
+      margin-bottom: $spacer;
+    }
+
+    h4 {
+      font-size: rem(18);
+      line-height: rem(27);
+      margin-bottom: $spacer;
+    }
+
+    @include content-image($font-size-sm, $neutral-50, $spacer * 2);
+
+    iframe {
+      margin-bottom: $spacer * 2;
+      width: 100%;
+
+      &[title='YouTube video player'] {
+        height: auto;
+        aspect-ratio: 1.7 / 1;
+      }
+    }
+
+    blockquote {
+      padding: rem(32) rem(40) 1px;
+      border-radius: $spacer * 0.5;
+      background: linear-gradient(180deg, #161e33 0%, #0e1424 100%);
+      color: $neutral-98;
+    }
+
+    details {
+      summary {
+        font-size: rem(18);
+        cursor: pointer;
+        margin-bottom: $spacer * 2;
+      }
+    }
+  }
+
+  // Modifiers
+  &_centered {
+    .qdrant-post__body {
+      max-width: $post-content-width;
+      margin: 0 auto;
+      flex-direction: column;
+      align-items: center;
+    }
+    .qdrant-post__content {
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__header {
+      width: $post-content-width;
+      margin: 0 auto;
+      padding-top: $spacer * 5;
+      padding-bottom: $spacer * 2;
+    }
+
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+    }
+
+    &__body {
+      flex-direction: row;
+      gap: $spacer * 5;
+      width: $post-content-width;
+      margin: 0 auto;
+    }
+
+    &__content {
+      width: calc(100% - 160px);
+
+      p,
+      li {
+        font-size: rem(18);
+        line-height: rem(27);
+      }
+
+      h1:not(:first-child) {
+        padding-top: $spacer * 2;
+      }
+      h1 {
+        font-size: $spacer * 3;
+        line-height: $spacer * 3.5;
+      }
+      h2:not(:first-child) {
+        padding-top: $spacer * 2;
+      }
+      h2 {
+        font-size: $spacer * 2.5;
+        line-height: $spacer * 3;
+      }
+
+      h3:not(:first-child) {
+        padding-top: $spacer * 2;
+      }
+      h3 {
+        font-size: $spacer * 2;
+        line-height: rem(38);
+      }
+
+      h4:not(:first-child) {
+        padding-top: $spacer * 2;
+      }
+      h4 {
+        padding-top: $spacer * 2;
+        font-size: $spacer * 1.5;
+        line-height: rem(34);
+      }
+
+      iframe {
+        margin: $spacer * 2 auto;
+      }
+    }
+  }
+}

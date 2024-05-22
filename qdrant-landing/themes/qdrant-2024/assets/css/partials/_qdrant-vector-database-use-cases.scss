@@ -1,0 +1,92 @@
+@use '../helpers/functions' as *;
+
+.qdrant-vector-database-use-cases {
+  background-color: $neutral-10;
+
+  padding-top: $spacer * 3;
+  padding-bottom: $spacer * 4;
+
+  &__cases {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 5;
+  }
+
+  &__case {
+    &-text .link {
+      font-size: rem(20);
+      line-height: rem(30);
+      margin-bottom: $spacer * 2.5;
+    }
+
+    &-title {
+      font-size: $spacer * 2;
+      line-height: rem(38);
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-98;
+    }
+
+    &-description {
+      font-size: $spacer;
+      line-height: $spacer * 1.5;
+      margin-bottom: $spacer * 1.5;
+      color: $neutral-70;
+    }
+
+    &-preview {
+      height: 0;
+      padding-bottom: 67%;
+
+      img {
+        width: 100%;
+      }
+    }
+
+    &:nth-of-type(1) img {
+      margin-left: -4%;
+      width: 104%;
+    }
+
+    &:nth-of-type(2) img {
+      margin-left: -5%;
+      width: 105%;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 10;
+
+    &__cases {
+      gap: $spacer * 10;
+    }
+
+    &__case {
+      justify-content: space-between;
+      align-items: center;
+
+      &.case-reversed {
+        flex-direction: row-reverse;
+      }
+
+      &-text .link {
+        margin-bottom: 0;
+      }
+
+      &-title {
+        font-size: $spacer * 3;
+        line-height: rem(57);
+      }
+
+      &-description {
+        font-size: rem(18);
+        line-height: rem(27);
+      }
+
+      &-preview {
+        height: rem(360);
+        padding-bottom: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,46 @@
+@import 'components/buttons';
+
+body {
+  margin: 0;
+}
+
+#cookit {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  padding: 0.6rem 2rem;
+  display: flex;
+  z-index: 999;
+}
+
+#cookit #cookit-container {
+  @extend .container;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: end;
+  align-items: center;
+  @include media-breakpoint-up(xl) {
+    justify-content: space-between;
+  }
+}
+
+#cookit #cookit-container > * {
+  margin: 0.4rem;
+}
+
+#cookit #cookit-container p {
+  line-height: 1.4rem;
+}
+
+#cookit #cookit-container a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
+
+#cookit #cookit-container #cookit-button {
+  @extend .button;
+  @extend .button_contained;
+}

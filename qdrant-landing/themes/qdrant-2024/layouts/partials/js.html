@@ -1,0 +1,139 @@
+<!--Cookies banner-->
+{{ $cookit := resources.Get "/js/cookit.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $cookit.RelPermalink }}"></script>
+{{ with (.Site.GetPage "/headless/cookies") }}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    window.cookit({
+      messageText: "{{ .Params.message.text }}",
+      linkText: "{{ .Params.link.text }}",
+      linkUrl: "{{ .Params.link.url }}",
+      buttonText: "{{ .Params.button.text }}",
+      backgroundColor: {{ .Params.background }},
+      messageColor: {{ .Params.message.color }},
+      linkColor: {{ .Params.link.color }},
+      buttonColor: {{ .Params.button.color }},
+    });
+  });
+</script>
+{{ end }}
+
+{{ $indexJs := resources.Get "/js/index.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $indexJs.RelPermalink }}"></script>
+
+{{ if .IsHome }}
+  <!--splide.js carousel-->
+  {{ $splideJs := resources.Get "/js/vendor/splide.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $splideJs.RelPermalink }}"></script>
+
+  <!--Redirects for CMS authentication-->
+  <script>
+    // Check that current url contains `?token=...` parameter
+    // And if so, redirec to `/admin?token=...` page
+
+    // Get the current URL
+    const url = window.location.href;
+
+    // Use URLSearchParams to parse the query parameters
+    const params = new URLSearchParams(url.split('#')[1]);
+
+    // Check if the 'token' parameter is present
+    if (params.has('recovery_token')) {
+      // Get the value of the 'token' parameter
+      const token = params.get('recovery_token');
+      // Redirect to the '/admin' page with the same 'token' parameter
+      window.location.href = '/admin/#recovery_token=' + token;
+    }
+
+    // Check if the 'token' parameter is present
+    if (params.has('invite_token')) {
+      // Get the value of the 'token' parameter
+      const token = params.get('invite_token');
+      // Redirect to the '/admin' page with the same 'token' parameter
+      window.location.href = '/admin/#invite_token=' + token;
+    }
+
+    // Check if the 'token' parameter is present
+    if (params.has('confirmation_token')) {
+      // Get the value of the 'token' parameter
+      const token = params.get('confirmation_token');
+      // Redirect to the '/admin' page with the same 'token' parameter
+      window.location.href = '/admin/#confirmation_token=' + token;
+    }
+  </script>
+{{ end }}
+
+{{ if or (eq .Section "documentation") (and (not .IsPage) (eq .Section "blog")) }}
+  {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
+{{ end }}
+
+{{ if and .IsPage (in (slice "blog" "articles" "benchmarks" "documentation") .Section) }}
+  {{ $pageSearchScrollJs := resources.Get "/js/search/scroll.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $pageSearchScrollJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if in (slice "blog" "articles" "benchmarks" "documentation") .Section }}
+  <!--popper.js for bootstrap-->
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+
+  {{ $copyCodeJs := resources.Get "/js/copy-code.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $copyCodeJs.RelPermalink }}"></script>
+
+  {{ $langSwitcherJs := resources.Get "/js/lang-switcher.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $langSwitcherJs.RelPermalink }}"></script>
+
+  <!-- MathJax support -->
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [
+          ['$', '$'],
+          ['\\(', '\\)'],
+        ],
+        displayMath: [
+          ['$$', '$$'],
+          ['\\[', '\\]'],
+        ],
+        processEscapes: true,
+        processEnvironments: true,
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+      },
+    };
+
+    window.addEventListener('load', (event) => {
+      document.querySelectorAll('mjx-container').forEach(function (x) {
+        x.parentElement.classList += 'has-jax';
+      });
+    });
+  </script>
+
+  {{ $anchorJs := resources.Get "/js/vendor/anchor.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $anchorJs.RelPermalink }}"></script>
+{{ end }}
+
+{{ if eq .Section "documentation" }}
+  <script>
+    document.getElementById('sidebar-toggle').addEventListener('click', () => {
+      document.getElementById('sidebar-toggle').classList.toggle('active');
+      document.getElementById('sidebar').classList.toggle('active');
+    });
+  </script>
+{{ end }}
+
+{{ if or (eq .Section "blog") (eq .Section "documentation") }}
+<script>
+  document.addEventListener('keydown', function(event) {
+    if ((event.metaKey || event.ctrlKey) && event.key === 'k') {
+        event.preventDefault();
+
+        let searchButton = document.querySelector('[data-target="#searchModal"]');
+
+        if (searchButton) searchButton?.click();
+    }
+  });
+</script>
+{{ end }}

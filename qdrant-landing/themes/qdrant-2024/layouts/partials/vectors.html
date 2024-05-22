@@ -1,0 +1,35 @@
+{{ $defaultClass := "vectors" }}
+{{ $cssClass := "" }}
+{{ if .Scratch.Get "cssClass" }}
+  {{ $cssClass = .Scratch.Get
+    "cssClass"
+  }}
+{{ end }}
+
+
+<section class="{{ printf "%s %s" $defaultClass $cssClass }}">
+  <div class="vectors__header-overlay"></div>
+  <div class="container">
+    <div class="vectors__header row">
+      <div class="col-12 z-1">
+        <h2 class="vectors__title mx-auto">{{ .Params.title }}</h2>
+        <p class="vectors__subtitle mx-auto">{{ .Params.subtitle }}</p>
+      </div>
+    </div>
+    <div class="vectors__cards row">
+      {{ range $index, $element := .Params.featureCards }}
+        <div class="col-12">
+          <div {{ if mod $index 2 | eq 0 }}class="vectors__card"{{ else }}class="vectors__card--reversed"{{ end }}>
+            {{ .icon | safeHTML }}
+            <div class="vectors__card-description">
+              <h4 class="vectors__card-title">{{ .title }}</h4>
+              <p class="vectors__card-content">{{ .content }}</p>
+              <a class="link link_light link_md" href="{{ .link.url }}"> {{ .link.text }} </a>
+            </div>
+            <div class="vectors__card-image" style="background-image: url(/img/vectors/vector-{{ $index }}.svg)"></div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>
