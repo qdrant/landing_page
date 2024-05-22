@@ -8,6 +8,7 @@ weight: 34
 | [Aleph Alpha](./aleph-alpha/) |
 | [Bedrock](./bedrock/)         |
 | [Cohere](./cohere/)           |
+| [Prem AI](./premai/)          |
 | [Gemini](./gemini/)           |
 | [Jina](./jina-emebddngs/)     |
 | [Mistral](./mistral/)         |
