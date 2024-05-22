@@ -1,7 +1,7 @@
 ---
 title: "What is a Sparse Vector? How to Achieve Vector-based Hybrid Search"
-short_description: "Combining the precision of exact keyword search with NN-based ranking"
-description: "Learn what sparse vectors are, how they work, and their importance in modern data processing. Explore methods like SPLADE for creating and leveraging sparse vectors efficiently. "
+short_description: "Discover sparse vectors, their function, and significance in modern data processing, including methods like SPLADE for efficient use."
+description: "Learn what sparse vectors are, how they work, and their importance in modern data processing. Explore methods like SPLADE for creating and leveraging sparse vectors efficiently."
 social_preview_image: /articles_data/sparse-vectors/social_preview.png
 small_preview_image: /articles_data/sparse-vectors/sparse-vectors-icon.svg
 preview_dir: /articles_data/sparse-vectors/preview
@@ -19,7 +19,7 @@ keywords:
 
 Think of a library with a vast index card system. Each index card only has a few keywords marked out (sparse vector) of a large possible set for each book (document). This is what sparse vectors enable for text. 
 
-## What is a Sparse Vector?
+## What are sparse and dense vectors?
 
 Sparse vectors are like the Marie Kondo of data—keeping only what sparks joy (or relevance, in this case). 
 
@@ -45,7 +45,7 @@ BM25 relies solely on the frequency of words in a document and does not attempt 
 Sparse vectors harness the power of neural networks to surmount these limitations while retaining the ability to query exact words and phrases.
 They excel in handling large text data, making them crucial in modern data processing a and marking an advancement over traditional methods such as BM25.
 
-# Understanding Sparse Vectors
+# Understanding sparse vectors
 
 Sparse Vectors are a representation where each dimension corresponds to a word or subword, greatly aiding in interpreting document rankings. This clarity is why sparse vectors are essential in modern search and recommendation systems, complimenting the meaning-rich embedding or dense vectors. 
 
@@ -60,9 +60,9 @@ For example, in the medical domain, many rare terms are not present in the gener
 | **Data Representation**   | Majority of elements are zero               | All elements are non-zero                   |
 | **Computational Efficiency** | Generally higher, especially in operations involving zero elements | Lower, as operations are performed on all elements |
 | **Information Density**   | Less dense, focuses on key features | Highly dense, capturing nuanced relationships |
-| **Example Applications**  | Text search, Hybrid search | RAG, many general machine learning tasks |
+| **Example Applications**  | Text search, Hybrid search | [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/), many general machine learning tasks |
 
-Where do Sparse Vectors fail though? They're not great at capturing nuanced relationships between words. For example, they can't capture the relationship between "king" and "queen" as well as dense vectors.
+Where do sparse vectors fail though? They're not great at capturing nuanced relationships between words. For example, they can't capture the relationship between "king" and "queen" as well as dense vectors.
 
 # SPLADE
 
@@ -86,13 +86,13 @@ SPLADE is quite flexible as a method, with regularization knobs that can be tune
 
 First, let's look at how to create a sparse vector. Then, we'll look at the concepts behind SPLADE.
 
-# Creating a Sparse Vector
+## Creating a sparse vector
 
 We'll explore two different ways to create a sparse vector. The higher performance way to create a sparse vector from dedicated document and query encoders. We'll look at a simpler approach -- here we will use the same model for both document and query. We will get a dictionary of token ids and their corresponding weights for a sample text - representing a document.
 
 If you'd like to follow along, here's a [Colab Notebook](https://colab.research.google.com/gist/NirantK/ad658be3abefc09b17ce29f45255e14e/splade-single-encoder.ipynb), [alternate link](https://gist.github.com/NirantK/ad658be3abefc09b17ce29f45255e14e) with all the code.
 
-## Setting Up
+### Setting Up
 ```python
 from transformers import AutoModelForMaskedLM, AutoTokenizer
 
@@ -104,7 +104,7 @@ model = AutoModelForMaskedLM.from_pretrained(model_id)
 text = """Arthur Robert Ashe Jr. (July 10, 1943 – February 6, 1993) was an American professional tennis player. He won three Grand Slam titles in singles and two in doubles."""
 ```
 
-## Computing the Sparse Vector
+### Computing the sparse vector
 ```python
 import torch
 
@@ -130,7 +130,7 @@ print(vec.shape)
 
 You'll notice that there are 38 tokens in the text based on this tokenizer. This will be different from the number of tokens in the vector. In a TF-IDF, we'd assign weights only to these tokens or words. In SPLADE, we assign weights to all the tokens in the vocabulary using this vector using our learned model.
 
-# Term Expansion and Weights
+## Term expansion and weights
 ```python
 def extract_and_map_sparse_vector(vector, tokenizer):
     """
@@ -202,7 +202,7 @@ If you're interested in using the higher-performance approach, check out the fol
 1. [naver/efficient-splade-VI-BT-large-doc](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
 2. [naver/efficient-splade-VI-BT-large-query](https://huggingface.co/naver/efficient-splade-vi-bt-large-doc)
 
-## Why SPLADE works? Term Expansion
+## Why SPLADE works: term expansion
 
 Consider a query "solar energy advantages". SPLADE might expand this to include terms like "renewable," "sustainable," and "photovoltaic," which are contextually relevant but not explicitly mentioned. This process is called term expansion, and it's a key component of SPLADE. 
 
@@ -218,7 +218,7 @@ For example, assume a 1M document corpus. Say, we use 100 sparse token ids + wei
 | OpenAI Embedding  | 12.288                  |
 | Sparse Vector     | 1.12                    |
 
-## How SPLADE works? Leveraging BERT
+## How SPLADE works: leveraging BERT
 
 SPLADE leverages a transformer architecture to generate sparse representations of documents and queries, enabling efficient retrieval. Let's dive into the process. 
 
@@ -239,15 +239,15 @@ A downside of dense vectors is that they are not interpretable, making it diffic
 
 SPLADE importance estimation can provide insights into the 'why' behind a document's relevance to a query. By shedding light on which tokens contribute most to the retrieval score, SPLADE offers some degree of interpretability alongside performance, a rare feat in the realm of neural IR systems. For engineers working on search, this transparency is invaluable.
 
-## Known Limitations of SPLADE
+## Known limitations of SPLADE
 
-### Pooling Strategy
+### Pooling strategy
 The switch to max pooling in SPLADE improved its performance on the MS MARCO and TREC datasets. However, this indicates a potential limitation of the baseline SPLADE pooling method, suggesting that SPLADE's performance is sensitive to the choice of pooling strategy​​.
 
-### Document and Query Encoder 
+### Document and query Eecoder 
 The SPLADE model variant that uses a document encoder with max pooling but no query encoder reaches the same performance level as the prior SPLADE model. This suggests a limitation in the necessity of a query encoder, potentially affecting the efficiency of the model​​.
 
-## Other Sparse Vector Methods
+## Other sparse vector methods
 
 SPLADE is not the only method to create sparse vectors.
 
@@ -259,8 +259,7 @@ This method preserves the ability to query exact words and phrases but avoids th
 
 We will cover these methods in detail in a future article.
 
-
-# Leveraging Sparse Vectors in Qdrant for Hybrid Search
+## Leveraging sparse vectors in Qdrant for hybrid search
 
 Qdrant supports a separate index for Sparse Vectors.
 This enables you to use the same collection for both dense and sparse vectors.
@@ -268,7 +267,7 @@ Each "Point" in Qdrant can have both dense and sparse vectors.
 
 But let's first take a look at how you can work with sparse vectors in Qdrant.
 
-## Practical Implementation in Python
+## Practical implementation in Python
 
 Let's dive into how Qdrant handles sparse vectors with an example. Here is what we will cover:
 
@@ -282,7 +281,7 @@ Let's dive into how Qdrant handles sparse vectors with an example. Here is what 
 
 5. Retrieving and Interpreting Results: The search operation returns results that include the id of the matching document, its score, and other relevant details. The score is a crucial aspect, reflecting the similarity between the query and the documents in the collection.
 
-### 1. Setting up
+### 1. Set up
 
 ```python
 # Qdrant client setup
@@ -295,7 +294,7 @@ COLLECTION_NAME = "example_collection"
 point_id = 1  # Assign a unique ID for the point
 ```
 
-### 2. Creating a Collection with Sparse Vector Support
+### 2. Create a collection with sparse vector support
 
 ```python
 client.recreate_collection(
@@ -312,7 +311,7 @@ client.recreate_collection(
 ```
 
 
-### 3. Inserting Sparse Vectors
+### 3. Insert sparse vectors
 
 Here, we see the process of inserting a sparse vector into the Qdrant collection. This step is key to building a dataset that can be quickly retrieved in the first stage of the retrieval process, utilizing the efficiency of sparse vectors. Since this is for demonstration purposes, we insert only one point with Sparse Vector and no dense vector.
 
@@ -336,7 +335,7 @@ By upserting points with sparse vectors, we prepare our dataset for rapid first-
 
 Those familiar with the Qdrant API will notice that the extra care taken to be consistent with the existing named vectors API -- this is to make it easier to use sparse vectors in existing codebases. As always, you're able to **apply payload filters**, shard keys, and other advanced features you've come to expect from Qdrant. To make things easier for you, the indices and values don't have to be sorted before upsert. Qdrant will sort them when the index is persisted e.g. on disk.
 
-### 4. Querying with Sparse Vectors
+### 4. Query with sparse vectors
 
 We use the same process to prepare a query vector as well. This involves computing the vector from a query text and extracting its indices and values. We then use these details to construct a query against our collection. 
 
@@ -353,7 +352,7 @@ query_values = query_vec.detach().numpy()[indices]
 
 In this example, we use the same model for both document and query. This is not a requirement, but it's a simpler approach.
 
-### 5. Retrieving and Interpreting Results
+### 5. Retrieve and interpret results
 
 After setting up the collection and inserting sparse vectors, the next critical step is retrieving and interpreting the results. This process involves executing a search query and then analyzing the returned results.
 
@@ -406,7 +405,7 @@ $$\text{Similarity}(\text{Query}, \text{Document}) = \sum_{i \in I} \text{Query}
 This formula calculates the similarity score by multiplying corresponding elements of the query and document vectors and summing these products. This method is particularly effective with sparse vectors, where many elements are zero, leading to a computationally efficient process. The higher the score, the greater the similarity between the query and the document, making it a valuable metric for assessing the relevance of the retrieved documents.
 
 
-## Hybrid Search: Combining Sparse and Dense Vectors
+## Hybrid search: combining sparse and dense vectors
 
 By combining search results from both dense and sparse vectors, you can achieve a hybrid search that is both efficient and accurate.
 Results from sparse vectors will guarantee, that all results with the required keywords are returned, 
@@ -476,7 +475,7 @@ The result will be a pair of result lists, one for dense and one for sparse vect
 
 Having those results, there are several ways to combine them:
 
-### Mixing or Fusion
+### Mixing or fusion
 
 You can mix the results from both dense and sparse vectors, based purely on their relative scores. This is a simple and effective approach, but it doesn't take into account the semantic similarity between the results. Among the [popular mixing methods](https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18) are:
 
@@ -495,7 +494,7 @@ You can use obtained results as a first stage of a two-stage retrieval process. 
 
 And that's it! You've successfully achieved hybrid search with Qdrant!
 
-## Additional Resources
+## Additional resources
 For those who want to dive deeper, here are the top papers on the topic most of which have code available:
 
 1. Problem Motivation: [Sparse Overcomplete Word Vector Representations](https://ar5iv.org/abs/1506.02004?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
@@ -504,7 +503,7 @@ For those who want to dive deeper, here are the top papers on the topic most of 
 1. Late Interaction - [ColBERTv2: Effective and Efficient Retrieval via Lightweight Late Interaction](https://ar5iv.org/abs/2112.01488?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
 1. [SparseEmbed: Learning Sparse Lexical Representations with Contextual Embeddings for Retrieval](https://research.google/pubs/pub52289/?utm_source=qdrant&utm_medium=website&utm_campaign=sparse-vectors&utm_content=article&utm_term=sparse-vectors)
 
-**Why just read when you try it out?**
+**Why just read when you can try it out?**
 
 We've packed an easy-to-use Colab for you on how to make a Sparse Vector: [Sparse Vectors Single Encoder Demo](https://colab.research.google.com/drive/1wa2Yr5BCOgV0MTOFFTude99BOXCLHXky?usp=sharing). Run it, tinker with it, and start seeing the magic unfold in your projects. We can't wait to hear how you use it!
 

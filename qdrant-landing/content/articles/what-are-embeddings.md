@@ -1,9 +1,9 @@
 ---
-title: "What are Vector Embeddings?"
+title: "What are Vector Embeddings? - Revolutionize Your Search Experience"
 draft: false
 slug: what-are-embeddings? 
-short_description:  What are Vector Embeddings? 
-description: Explore the key functionalities of vector embeddings and learn how they convert complex data into a format that machines can understand.
+short_description: Explore the power of vector embeddings. Learn to use numerical machine learning representations to build a personalized Neural Search Service with Fastembed.
+description: Discover the power of vector embeddings. Learn how to harness the potential of numerical machine learning representations to create a personalized Neural Search Service with FastEmbed.
 preview_dir: /articles_data/what-are-embeddings/preview
 weight: -102
 social_preview_image: /articles_data/what-are-embeddings/preview/social-preview.jpg
@@ -138,7 +138,7 @@ Fastembed, which we’ll use on the example below, is designed for efficiency an
 
 We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
 
-## Create a Neural Search Service with Fastembed
+## Create a Neural Search Service with FastEmbed
 
 Now that you’re familiar with the core concepts around vector embeddings, how about start building your own [Neural Search Service](/documentation/tutorials/neural-search/)?
 

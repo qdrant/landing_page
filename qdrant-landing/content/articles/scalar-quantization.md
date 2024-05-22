@@ -1,6 +1,6 @@
 ---
 title: "Scalar Quantization: Background, Practices & More | Qdrant"
-short_description: "Scalar Quantization is a newly introduced mechanism of reducing the memory footprint and increasing performance"
+short_description: "Discover scalar quantization for optimized data storage and improved performance, including data compression benefits and efficiency enhancements."
 description: "Discover the efficiency of scalar quantization for optimized data storage and enhanced performance. Learn about its data compression benefits and efficiency improvements."
 social_preview_image: /articles_data/scalar-quantization/social_preview.png
 small_preview_image: /articles_data/scalar-quantization/scalar-quantization-icon.svg
@@ -15,7 +15,6 @@ keywords:
   - scalar quantization
   - memory optimization
 ---
-
 # Efficiency Unleashed: The Power of Scalar Quantization
 
 High-dimensional vector embeddings can be memory-intensive, especially when working with 
@@ -40,7 +39,7 @@ from version 1.1.0, you can also optimize your memory by compressing the embeddi
 We've implemented the mechanism of **Scalar Quantization**! It turns out to have not 
 only a positive impact on memory but also on the performance. 
 
-## Scalar Quantization
+## Scalar quantization
 
 Scalar quantization is a data compression technique that converts floating point values 
 into integers. In case of Qdrant `float32` gets converted into `int8`, so a single number 
@@ -256,7 +255,7 @@ In all the cases, the decrease in search precision is negligible, but we keep a 
 reduction of at least 28.57%, even up to 60,64%, while searching. As a rule of thumb,
 the higher the dimensionality of the vectors, the lower the precision loss.
 
-### Oversampling and Rescoring
+### Oversampling and rescoring
 
 A distinctive feature of the Qdrant architecture is the ability to combine the search for quantized and original vectors in a single query.
 This enables the best combination of speed, accuracy, and RAM usage.
@@ -288,7 +287,7 @@ The mechanism of Scalar Quantization with rescoring disabled pushes the limits o
 machines even further. It seems like handling lots of requests does not require an 
 expensive setup if you can agree to a small decrease in the search precision.
 
-### Good practices
+### Accessing best practices
 
 Qdrant documentation on [Scalar Quantization](/documentation/quantization/#setting-up-quantization-in-qdrant)
 is a great resource describing different scenarios and strategies to achieve up to 4x 

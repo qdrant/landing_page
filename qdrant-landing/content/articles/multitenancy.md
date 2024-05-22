@@ -1,6 +1,6 @@
 ---
-title: "Scaling Your Machine Learning Setup: The Power of Multitenancy and Custom Sharding in Qdrant"
-short_description: "Discover how multitenancy and custom sharding in Qdrant can help you scale efficiently and manage data securely."
+title: "How to Implement Multitenancy and Custom Sharding in Qdrant"
+short_description: "Explore how Qdrant's multitenancy and custom sharding streamline machine-learning operations, enhancing scalability and data security."
 description: "Discover how multitenancy and custom sharding in Qdrant can streamline your machine-learning operations. Learn how to scale efficiently and manage data securely."
 social_preview_image: /articles_data/multitenancy/social_preview.png
 preview_dir: /articles_data/multitenancy/preview
@@ -16,18 +16,20 @@ keywords:
   - vector database
 ---
 
-We are seeing the topics of [multitenancy](/documentation/guides/multiple-partitions/) and [distributed deployment](/documentation/guides/distributed_deployment/#sharding) pop up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine-learning setup. 
+# Scaling Your Machine Learning Setup: The Power of Multitenancy and Custom Sharding in Qdrant 
+
+We are seeing the topics of [multitenancy](/documentation/guides/multiple-partitions/) and [distributed deployment](/documentation/guides/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
 
 Whether you are building a bank fraud-detection system, [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/) for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
 In the world of SaaS and enterprise apps, this setup is the norm. It will considerably increase your application's performance and lower your hosting costs. 
 
-## Multitenancy & Custom Sharding with Qdrant
+## Multitenancy & custom sharding with Qdrant
 
 We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](/documentation/guides/multiple-partitions/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](/documentation/guides/distributed_deployment/#user-defined-sharding). 
 
-Combining these two will result in an efficiently partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
+Combining these two will result in an efficiently-partitioned architecture that further leverages the convenience of a single Qdrant cluster. This article will briefly explain the benefits and show how you can get started using both features.
 
-## One Collection, Many Tenants
+## One collection, many tenants
 
 When working with Qdrant, you can upsert all your data to a single collection, and then partition each vector via its payload. This means that all your users are leveraging the power of a single Qdrant cluster, but their data is still isolated within the collection. Let's take a look at a two-tenant collection:
 
@@ -36,7 +38,7 @@ When working with Qdrant, you can upsert all your data to a single collection, a
 
 Qdrant is built to excel in a single collection with a vast number of tenants. You should only create multiple collections when your data is not homogenous or if users' vectors are created by different embedding models. Creating too many collections may result in resource overhead and cause dependencies. This can increase costs and affect overall performance. 
 
-## Sharding Your Database
+## Sharding your database
 
 With Qdrant, you can also specify a shard for each vector individually. This feature is useful if you want to [control where your data is kept in the cluster](/documentation/guides/distributed_deployment/#sharding). For example, one set of vectors can be assigned to one shard on its own node, while another set can be on a completely different node.
 
@@ -44,7 +46,7 @@ During vector search, your operations will be able to hit only the subset of sha
 
 This works in the other direction as well. Whenever you search for something, you can specify a shard or several shards and Qdrant will know where to find them. It will avoid asking all machines in your cluster for results. This will minimize overhead and maximize performance. 
 
-### Common Use Cases
+### Common use cases
 
 A clear use-case for this feature is managing a multitenant collection, where each tenant (let it be a user or organization) is assumed to be segregated, so they can have their data stored in separate shards. Sharding solves the problem of region-based data placement, whereby certain data needs to be kept within specific locations. To do this, however, you will need to [move your shards between nodes](/documentation/guides/distributed_deployment/#moving-shards).  
 
@@ -140,7 +142,7 @@ client.search(
 )
 ```
 
-## Performance Considerations
+## Performance considerations
 
 The speed of indexation may become a bottleneck if you are adding large amounts of data in this way, as each user's vector will be indexed into the same collection. To avoid this bottleneck, consider _bypassing the construction of a global vector index_ for the entire collection and building it only for individual groups instead.
 
@@ -177,9 +179,9 @@ client.create_payload_index(
 ```
 > Note: Keep in mind that global requests (without the `group_id` filter) will be slower since they will necessitate scanning all groups to identify the nearest neighbors.
 
-## Explore Multitenancy and Custom Sharding in Qdrant for Scalable Solutions
+## Explore multitenancy and custom sharding in Qdrant for scalable solutions
 
-Qdrant is ready to support a massive-scale architecture for your machine-learning project. If you want to see whether our [vector database](https://qdrant.tech/) is right for you, try the [quickstart tutorial](/documentation/quick-start/) or read our [docs and tutorials](/documentation/).
+Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our [vector database](https://qdrant.tech/) is right for you, try the [quickstart tutorial](/documentation/quick-start/) or read our [docs and tutorials](/documentation/).
 
 To spin up a free instance of Qdrant, sign up for [Qdrant Cloud](https://qdrant.to/cloud) - no strings attached.
 
