@@ -1,0 +1,42 @@
+<head>
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui"
+  />
+  <meta charset="UTF-8" />
+
+  <title>{{ .Title }} - Qdrant</title>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+  <link rel="manifest" href="/favicon/site.webmanifest" />
+  <link rel="mask-icon" href="/favicon/safari-pinned-tab.svg" color="#5bbad5" />
+  <link rel="shortcut icon" href="/favicon/favicon.ico" />
+  <meta name="msapplication-TileColor" content="#2b5797" />
+  <meta name="msapplication-config" content="/favicon/browserconfig.xml" />
+  <meta name="theme-color" content="#ffffff" />
+
+  {{ if (eq .Params.type "external-link") }}
+    <meta http-equiv="refresh" content="0; url={{ .Params.external_url }}" />
+  {{ end }}
+
+  {{ partial "css" . }}
+
+  {{ hugo.Generator }}
+
+  {{ with .OutputFormats.Get "RSS" }}
+    <link href="{{ .RelPermalink }}" rel="alternate" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
+    <link href="{{ .RelPermalink }}" rel="feed" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
+  {{ end }}
+
+  {{ partial "seo_schema" . }}
+
+
+  <!-- todo -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@400&display=swap" />
+
+  {{ partial "js-head" . }}
+
+</head>

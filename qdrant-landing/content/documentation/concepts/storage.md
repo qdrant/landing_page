@@ -145,7 +145,7 @@ This will create a collection with all vectors immediately stored in memmap stor
 This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
 
 
-- Set up `memmap_threshold_kb` option. This option will set the threshold after which the segment will be converted to memmap storage.
+- Set up `memmap_threshold_kb` option (deprecated). This option will set the threshold after which the segment will be converted to memmap storage.
 
 There are two ways to do this:
 

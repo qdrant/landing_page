@@ -97,11 +97,11 @@ This technology integrates Kubernetes clusters from any setting - cloud, on-prem
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/BF02jULGCfo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
 
-[Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) marks a significant advancement in vector databases, offering the most flexible way to implement vector search.
+[Qdrant Hybrid Cloud](/hybrid-cloud/) marks a significant advancement in vector databases, offering the most flexible way to implement vector search.
 
 You can test out Qdrant Hybrid Cloud today. Sign up or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the **Hybrid Cloud** section. 
 
-Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our [Qdrant Hybrid Cloud website](https://hybrid-cloud.qdrant.tech/). For additional technical insights, please read our [documentation](/documentation/hybrid-cloud/).
+Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our [Qdrant Hybrid Cloud website](/hybrid-cloud/). For additional technical insights, please read our [documentation](/documentation/hybrid-cloud/).
 
 #### Try it out!
 

@@ -1,0 +1,69 @@
+@use '../helpers/functions' as *;
+
+.leadership {
+  padding-top: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__cards {
+    row-gap: rem(7);
+  }
+
+  &__card {
+    padding: rem(10);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    row-gap: $spacer;
+    background-color: $neutral-98;
+  }
+
+  &__card-image {
+    width: 100%;
+    aspect-ratio: 0.96;
+    background-position: center;
+    background-size: contain;
+    border-radius: rem(6);
+  }
+
+  &__card-name {
+    width: 100%;
+    font-weight: bold;
+    color: $neutral-20;
+    text-align: center;
+    margin-bottom: rem(4);
+    font-size: map-get($font-sizes-text, md);
+  }
+
+  &__card-position {
+    width: 100%;
+    margin: 0;
+    color: $neutral-40;
+    text-align: center;
+    font-size: map-get($font-sizes-text, xs);
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+
+    &__title {
+      text-align: center;
+      font-size: map-get($font-sizes, 2);
+      line-height: rem(67);
+      margin-bottom: $spacer * 4;
+    }
+
+    &__cards {
+      row-gap: rem(30);
+    }
+
+    &__card {
+      padding: $spacer;
+    }
+  }
+}

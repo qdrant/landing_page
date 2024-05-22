@@ -1,0 +1,21 @@
+{{ with (.Site.GetPage "/recommendations/recommendations-features") }}
+  <section class="use-cases-vector-features">
+    <div class="container">
+      <div class="use-cases-vector-features__header row">
+        <h3 class="use-cases-vector-features__title col-12 col-xl-6">{{ .Params.title }}</h3>
+        <p class="use-cases-vector-features__description col-12 col-xl-6">{{ .Params.description }}</p>
+      </div>
+      <div class="row g-4 gy-xl-3">
+        {{ range .Params.features }}
+          <div class="col-12 col-xl-4">
+            <div class="card use-cases-vector-features__card">
+              <img class="use-cases-vector-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="use-cases-vector-features__card-title">{{ .title }}</h6>
+              <p class="use-cases-vector-features__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

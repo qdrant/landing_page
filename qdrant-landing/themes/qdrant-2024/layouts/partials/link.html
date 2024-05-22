@@ -1,0 +1,8 @@
+{{ $defaultClass := "link" }}
+{{ $cssClass := "" }}
+{{ if .Scratch.Get "cssClass" }}
+  {{ $cssClass = .Scratch.Get
+    "cssClass"
+  }}
+{{ end }}
+<a class="{{ printf "%s %s" $defaultClass $cssClass }}" href="{{ .Params.link.url }}"> {{ .Params.link.text }} </a>

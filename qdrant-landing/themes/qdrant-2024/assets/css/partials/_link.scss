@@ -1,0 +1,192 @@
+@use '../helpers/functions' as *;
+
+.link {
+  $icon-width: rem(20);
+  $icon-height: calc(1em * 0.62);
+  $link-color: $primary-50;
+  $link-font-size: $font-size-l;
+
+  display: inline-flex;
+  justify-content: flex-start;
+  align-items: center;
+  color: $link-color;
+  font-size: $link-font-size;
+  text-decoration: none;
+  position: relative;
+  transition:
+    all 0.3s ease-in-out,
+    color 0.1s linear;
+  padding-right: $icon-width;
+
+  &:before {
+    display: block;
+    content: '';
+    position: absolute;
+    width: $icon-width;
+    height: $icon-height;
+    -webkit-mask: url('../../icons/outline/arrow-hand.svg') no-repeat center right;
+    mask: url('../../icons/outline/arrow-hand.svg') no-repeat center right;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    background: linear-gradient(to right, $link-color 50%, transparent 50%);
+    background-size: 200% 100%;
+    background-position: -100% 0;
+    right: 0;
+    margin-bottom: -2px;
+  }
+
+  &:after {
+    display: block;
+    content: '';
+    width: $icon-width;
+    height: $icon-height;
+    -webkit-mask: url('../../icons/outline/angle-right-color.svg') no-repeat center right;
+    mask: url('../../icons/outline/angle-right-color.svg') no-repeat center right;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    background: $link-color;
+    position: absolute;
+    right: 0;
+    margin-bottom: -2px;
+  }
+
+  &:hover {
+    padding-right: calc($icon-width + 6px);
+    &:after {
+      animation: dash 0.3s ease-in-out forwards;
+    }
+
+    &:before {
+      animation: dash 0.3s ease-in-out forwards;
+    }
+  }
+
+  &:not(:hover) {
+    &:before {
+      animation: dash-revert 0.3s ease-in-out forwards;
+    }
+  }
+
+  @keyframes dash {
+    to {
+      background-position: 0 0;
+    }
+  }
+
+  @keyframes dash-revert {
+    from {
+      background-position: 0 0;
+    }
+    to {
+      background-position: -100% 0;
+    }
+  }
+
+  // MODIFIERS
+  &_dark {
+    $link-color: $neutral-20;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+
+    &:after {
+      background: $link-color;
+    }
+
+    &:hover {
+      $link-color: $primary-50;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &:after {
+        background: $link-color;
+      }
+    }
+  }
+
+  &_light {
+    $link-color: $primary-60;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+
+    &:after {
+      background: $link-color;
+    }
+  }
+
+  &_disabled,
+  &:disabled {
+    $link-color: $neutral-60;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+
+    &:after {
+      background: $link-color;
+    }
+  }
+
+  &_neutral {
+    $link-color: $neutral-60;
+    color: $link-color;
+
+    &:before {
+      background: linear-gradient(to right, $link-color 50%, transparent 50%);
+      background-size: 200% 100%;
+      background-position: -100% 0;
+    }
+
+    &:after {
+      background: $link-color;
+    }
+
+    &:hover {
+      $link-color: $neutral-20;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &:after {
+        background: $link-color;
+      }
+    }
+  }
+
+  // font-size
+  &_inherit {
+    font-size: inherit;
+  }
+  &_sm {
+    font-size: $font-size-s;
+  }
+
+  &_md {
+    font-size: $font-size-md;
+  }
+
+  &_xl {
+    font-size: $font-size-xl;
+  }
+}

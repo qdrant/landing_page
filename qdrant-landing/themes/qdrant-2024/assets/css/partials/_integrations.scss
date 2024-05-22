@@ -1,0 +1,89 @@
+@use '../helpers/functions' as *;
+
+.integrations {
+  background: $neutral-10;
+  padding-top: $spacer * 4;
+
+  position: relative;
+  overflow: hidden;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__title {
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
+    text-align: center;
+    margin-bottom: $spacer * 1.5;
+    max-width: 100%;
+    color: $neutral-98;
+  }
+
+  &__subtitle {
+    color: $neutral-70;
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
+    margin-bottom: $spacer * 1.5;
+    text-align: center;
+  }
+
+  &__link {
+    color: $primary-60;
+    font-size: $font-size-xl;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__preview {
+    margin-top: $spacer * 3;
+    width: 100%;
+    height: rem(440);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url('/img/mobile/integrations.svg');
+  }
+
+  &__overlay {
+    display: none;
+  }
+
+  @include media-breakpoint-up(xl) {
+    background: url('/img/stars-pattern.png') $neutral-10;
+    padding-top: $spacer * 6.5;
+
+    &__title {
+      font-size: map-get($font-sizes, 2);
+      line-height: rem(67);
+      max-width: rem(726);
+    }
+
+    &__subtitle {
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: rem(30);
+    }
+
+    &__preview {
+      margin-top: $spacer * 5;
+      width: rem(920);
+      height: rem(440);
+      background-image: url('/img/integrations.svg');
+    }
+
+    &__overlay {
+      display: block;
+      width: 100%;
+      height: rem(240);
+
+      position: absolute;
+      bottom: rem(-255);
+      left: 0;
+      filter: blur(60px);
+      background: linear-gradient(90deg, #dc244c 7%, #2567eb 30%, #f54c71 50%, #7335f0 70%, #bb3987 100%);
+    }
+  }
+}

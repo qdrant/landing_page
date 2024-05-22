@@ -1,0 +1,45 @@
+@use '../helpers/functions' as *;
+
+.carousel {
+  min-height: rem(240);
+  background-color: $neutral-94;
+
+  &__content {
+    overflow-x: scroll;
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+    scroll-behavior: smooth;
+  }
+
+  &__content::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__cards {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: rem(30);
+
+    width: fit-content;
+  }
+
+  &__image {
+    min-width: rem(400);
+    aspect-ratio: 5 / 3;
+    height: 100%;
+    background-position: center;
+    background-size: contain;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer * 5;
+  }
+
+  @include media-breakpoint-up(xxl) {
+    &__content {
+      max-width: rem(1102);
+      margin: 0 auto;
+    }
+  }
+}

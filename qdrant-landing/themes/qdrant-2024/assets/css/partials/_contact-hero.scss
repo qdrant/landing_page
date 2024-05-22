@@ -1,0 +1,122 @@
+@use '../helpers/functions' as *;
+
+.contact-hero {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 7.5;
+  background-color: $neutral-10;
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 5;
+  }
+
+  &__title,
+  &__sales-title {
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    color: $neutral-98;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__description {
+    color: $neutral-70;
+    margin-bottom: 24px;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: $spacer * 0.5;
+    padding: $spacer * 1.5 0;
+    border-top: rem(1) solid $neutral-20;
+
+    &:not(:last-of-type) {
+      margin-bottom: $spacer * 0.5;
+    }
+
+    img {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+    }
+
+    &-title {
+      font-size: rem(20);
+      line-height: rem(30);
+      color: $neutral-98;
+    }
+
+    &-description {
+      font-size: rem(14);
+      line-height: rem(21);
+      color: $neutral-70;
+      margin-bottom: 0;
+    }
+
+    &-link {
+      $link-color: $secondary-blue-50;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &:after {
+        background: $link-color;
+      }
+    }
+
+    &-link-mail {
+      $link-color: $secondary-violet-50;
+      color: $link-color;
+
+      &:before {
+        background: linear-gradient(to right, $link-color 50%, transparent 50%);
+        background-size: 200% 100%;
+        background-position: -100% 0;
+      }
+
+      &:after {
+        background: $link-color;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__content {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 0;
+    }
+
+    &__info {
+      width: rem(382);
+    }
+
+    &__form {
+      width: rem(600);
+    }
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: rem(57);
+    }
+
+    &__sales-title {
+      font-size: $spacer * 2.5;
+      line-height: $spacer * 3;
+    }
+
+    &__description {
+      font-size: rem(18);
+      line-height: rem(27);
+    }
+  }
+}

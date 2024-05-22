@@ -1,0 +1,34 @@
+{{ with (.Site.GetPage "/qdrant-vector-database/feature-overview") }}
+  <section class="feature-overview">
+    <div class="container">
+      <div class="row">
+        <div class="feature-overview__header col-12">
+          <h3 class="feature-overview__title">{{ .Params.title }}</h3>
+          <p class="feature-overview__description">{{ .Params.description }}</p>
+        </div>
+        <div class="feature-overview__cards-wrapper col-12">
+          <div class="feature-overview__cards">
+            {{ range $index, $element := .Params.cards }}
+              <div class="card feature-overview__card">
+                <div>
+                  <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+                  <h5 class="feature-overview__card-title">{{ .title }}</h5>
+                  {{ if eq $index 1 }}
+                    <p class="feature-overview__card-content">
+                      {{ .content }}
+                      <a href="{{ .contentLink.url }}">{{ .contentLink.text }}</a>
+                      {{ .contentSecondPart }}
+                    </p>
+                  {{ else }}
+                    <p class="feature-overview__card-content">{{ .content }}</p>
+                  {{ end }}
+                </div>
+                <a class="link link_dark link_md align-self-start" href="{{ .link.url }}">{{ .link.text }}</a>
+              </div>
+            {{ end }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

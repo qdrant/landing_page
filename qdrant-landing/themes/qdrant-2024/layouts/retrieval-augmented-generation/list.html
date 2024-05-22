@@ -1,0 +1,22 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-hero") }}
+    {{ partial "use-cases-vector-hero" . }}
+  {{ end }}
+
+  {{ partial "retrieval-augmented-generation-features" . }}
+  {{ partial "retrieval-augmented-generation-integrations" . }}
+  {{ partial "retrieval-augmented-generation-evaluation" . }}
+
+  {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-use-cases") }}
+    {{ partial "use-cases-vector-cases" . }}
+  {{ end }}
+
+
+  <!-- {{ with (.Site.GetPage "/headless/get-started-small-rocket") }}
+    {{ partial "get-started-small" (dict "context" . "class" "use-cases-vector-get-started") }}
+  {{ end }}
+   -->
+
+  {{ partial "get-started" . }}
+{{ end }}
