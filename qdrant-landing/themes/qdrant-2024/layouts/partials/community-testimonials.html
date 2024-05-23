@@ -1,0 +1,23 @@
+{{ with (.Site.GetPage "/community/community-testimonials") }}
+  <section class="community-testimonials">
+    <div class="container">
+      <h2 class="community-testimonials__title">{{ .Params.title }}</h2>
+      <div class="community-testimonials__cards">
+        {{ range .Params.testimonials }}
+          <div class="community-testimonials__card">
+            <div class="community-testimonials__user">
+              <div class="community-testimonials__user-avatar">
+                <img src="{{ .avatar.src }}" alt="{{ .avatar.alt }}" />
+              </div>
+              <div class="community-testimonials__user-profile">
+                <p class="community-testimonials__user-name">{{ .name }}</p>
+                <p class="community-testimonials__user-nickname">{{ .nickname }}</p>
+              </div>
+            </div>
+            <p class="community-testimonials__text">{{ .text | safeHTML }}</p>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
