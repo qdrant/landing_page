@@ -1,0 +1,15 @@
+{{ with (.Site.GetPage "/community/community-hero") }}
+  <section class="community-hero">
+    <div class="container">
+      <img class="community-hero__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+      <h1 class="community-hero__title">{{ .Params.title }}</h1>
+      <p class="community-hero__description">{{ .Params.description }}</p>
+      {{ with (.Site.GetPage "/headless/newsletter") }}
+        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "community-subscribe-form" "context" . "classes" "community-hero__form") }}
+      {{ end }}
+      <p class="community-hero__about">{{ .Params.about }}</p>
+      <img class="community-hero__image-mobile" src="{{ .Params.image.srcMobile }}" alt="{{ .Params.image.alt }}" />
+    </div>
+    <div class="community-hero__overlay"></div>
+  </section>
+{{ end }}

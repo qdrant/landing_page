@@ -58,3 +58,17 @@
     max-height: 100%;
   }
 }
+
+@mixin link-color($color) {
+  color: $color;
+
+  &:before {
+    background: linear-gradient(to right, $color 50%, transparent 50%);
+    background-size: 200% 100%;
+    background-position: -100% 0;
+  }
+
+  &:after {
+    background: $color;
+  }
+}
