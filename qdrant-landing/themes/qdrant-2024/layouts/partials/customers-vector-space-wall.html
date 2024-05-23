@@ -1,0 +1,28 @@
+{{ with (.Site.GetPage "/customers/customers-vector-space-wall") }}
+  <section class="customers-vector-space-wall">
+    <div class="container">
+      <div class="d-flex flex-column align-items-center">
+        <h2 class="customers-vector-space-wall__title">{{ .Params.title }}</h2>
+        <a class="customers-vector-space-wall__link link link_xl" href="{{ .Params.link.href }}">
+          {{ .Params.link.text }}
+        </a>
+      </div>
+      <div class="customers-vector-space-wall__cards">
+        {{ range .Params.testimonials }}
+          <div class="customers-vector-space-wall__card">
+            <div class="customers-vector-space-wall__user">
+              <div class="customers-vector-space-wall__user-avatar">
+                <img src="{{ .avatar.src }}" alt="{{ .avatar.alt }}" />
+              </div>
+              <div class="customers-vector-space-wall__user-profile">
+                <p class="customers-vector-space-wall__user-name">{{ .name }}</p>
+                <p class="customers-vector-space-wall__user-position">{{ .position }}</p>
+              </div>
+            </div>
+            <p class="customers-vector-space-wall__text">{{ .text | safeHTML }}</p>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

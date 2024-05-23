@@ -66,6 +66,10 @@
     }
   }
 
+  &.reversed div.row {
+    flex-direction: column-reverse;
+  }
+
   @include media-breakpoint-up(xl) {
     padding-bottom: $spacer * 7.5;
 
@@ -80,6 +84,10 @@
 
     &__logo {
       height: 100%;
+    }
+
+    &.reversed div.row {
+      flex-direction: row-reverse;
     }
   }
 }
