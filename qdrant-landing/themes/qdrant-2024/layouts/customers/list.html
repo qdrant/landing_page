@@ -1,0 +1,27 @@
+{{ define "main" }}
+  <header class="main-header">
+    {{ partial "top-banner" . }}
+    {{ partial "menu" . }}
+    {{ partial "menu-mobile" . }}
+  </header>
+
+  {{ partial "customers-hero" . }}
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial1") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
+  {{ end }}
+
+  {{ partial "customers-case-studies" . }}
+
+  {{ with (.Site.GetPage "/customers/customers-testimonial2") }}
+    {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial reversed") }}
+  {{ end }}
+
+  {{ partial "customers-vector-space-wall" . }}
+
+  {{ partial "get-started" . }}
+
+  {{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+    {{ partial "get-contacted" (dict "context" . "class" "customers-get-contacted") }}
+  {{ end }}
+{{ end }}
