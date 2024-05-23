@@ -88,7 +88,6 @@
 
     background-color: $neutral-10;
     transition: bottom 1s ease-in-out;
-    z-index: 2;
   }
 
   &__stars svg {
@@ -157,6 +156,7 @@
       right: $spacer * 1.5;
       bottom: $spacer * 1.5;
       transition: background-color 0.2s;
+      z-index: 2;
 
       &:hover {
         background-color: $neutral-100;

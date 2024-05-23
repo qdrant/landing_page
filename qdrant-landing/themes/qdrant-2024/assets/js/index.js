@@ -40,4 +40,37 @@ document.addEventListener('DOMContentLoaded', function () {
       removeScrollStateFromPage();
     }
   });
+
+  // Mobile menu
+
+  const closeBtn = document.querySelector('.menu-mobile__close');
+  const menuTrigger = document.querySelector('.main-menu__trigger');
+  const menu = document.querySelector('.menu-mobile');
+  menuTrigger.addEventListener('click', () => {
+    menu.classList.add('menu-mobile--visible');
+  });
+  closeBtn.addEventListener('click', () => {
+    menu.classList.remove('menu-mobile--visible');
+  });
+  function toggleMenu(id) {
+    const menuItem = document.querySelector(`[data-path=${id}]`);
+    if (menuItem) {
+      menuItem.classList.toggle('menu-mobile__item--active');
+    }
+  }
+
+  document.querySelectorAll('.menu-mobile__item').forEach((item) => {
+    item.addEventListener('click', () => {
+      console.log(item.dataset.path);
+      toggleMenu(item.dataset.path);
+    });
+  });
+
+  // close mobile menu on resize
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= XXL_BREAKPOINT) {
+      menu.classList.remove('menu-mobile--visible');
+    }
+  });
+
 });
