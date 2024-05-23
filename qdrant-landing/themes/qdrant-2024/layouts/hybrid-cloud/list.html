@@ -14,7 +14,7 @@
   {{ partial "hybrid-cloud-features" . }}
   {{ partial "hybrid-cloud-partners" . }}
 
-  {{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+  {{ with (.Site.GetPage "/hybrid-cloud/get-contacted-with-question") }}
     {{ partial "get-contacted" (dict "context" . "class" "hybrid-cloud-get-contacted") }}
   {{ end }}
 
