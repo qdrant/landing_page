@@ -96,7 +96,7 @@ qdrant_client = QdrantClient(url=QDRANT_SERVER_URL)
 
 ```python
 const premaiClient = new Prem({
-    apiKey: "G91lPIK3XDX7ohwxu6EIlmRDiHQnmO7SMn"
+    apiKey: "xxxx-xxx-xxx"
 })
 const qdrantClient = new QdrantClient({ url: SERVER_URL });
 ```
