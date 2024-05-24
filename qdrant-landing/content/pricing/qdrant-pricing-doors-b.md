@@ -40,7 +40,7 @@ cards:
   popular: false
   title: Hybrid Cloud
   price: $0.014
-  description: Starting price per hour*.
+  description: Starting price per hour.
   button:
     text: Get Started
     url: https://cloud.qdrant.io
