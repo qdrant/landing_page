@@ -13,9 +13,9 @@
     <div class="col-8">
       <label class="mb-2">Plot values:</label>
 
-      <div class="d-flex gap-3">
+      <div class="benchmark__plot-labels">
         <!-- Radio button group to select values to render -->
-        <label>
+        <label class="benchmark__plot-label">
           <input
             checked
             type="radio"
@@ -25,9 +25,8 @@
           />
           Regular search
         </label>
-        |
 
-        <label>
+        <label class="benchmark__plot-label">
           <input
             type="radio"
             name="plot-value-{{ .Params.id }}"
@@ -36,7 +35,6 @@
           />
           Filter search
         </label>
-        |
       </div>
     </div>
 

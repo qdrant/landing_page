@@ -19,12 +19,12 @@
         onchange="renderSelected('{{ .Params.id }}')"
       ></select>
     </div>
-    <div class="col-6">
+    <div class="col-12 col-lg-6">
       <label class="mb-2">Plot values:</label>
 
       <!-- Radio button group to select values to render -->
-      <div class="d-flex justify-content-between">
-        <label>
+      <div class="benchmark__plot-labels benchmark__plot-labels_stretch">
+        <label class="benchmark__plot-label">
           <input
             type="radio"
             name="plot-value-{{ .Params.id }}"
@@ -33,9 +33,8 @@
           />
           RPS
         </label>
-        |
 
-        <label>
+        <label class="benchmark__plot-label">
           <input
             type="radio"
             name="plot-value-{{ .Params.id }}"
@@ -44,9 +43,8 @@
           />
           Latency
         </label>
-        |
 
-        <label>
+        <label class="benchmark__plot-label">
           <input
             type="radio"
             name="plot-value-{{ .Params.id }}"
@@ -55,9 +53,8 @@
           />
           p95 latency
         </label>
-        |
 
-        <label>
+        <label class="benchmark__plot-label">
           <input
             type="radio"
             name="plot-value-{{ .Params.id }}"

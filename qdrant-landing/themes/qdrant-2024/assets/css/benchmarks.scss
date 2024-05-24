@@ -12,6 +12,48 @@
   &__plot-wrapper {
     margin-bottom: $spacer * 2;
   }
+  &__plot-labels {
+    display: flex;
+    border-left: 1px solid $neutral-80;
+    border-right: 1px solid $neutral-80;
+    @include media-breakpoint-up(lg) {
+      border-left: 0;
+      border-right: 0;
+    }
+    &_stretch {
+      justify-content: space-between;
+
+      & .benchmark__plot-label {
+        flex-grow: 1;
+      }
+    }
+  }
+  &__plot-label {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-right: $spacer;
+    &:first-of-type {
+      padding-left: $spacer;
+    }
+    &:not(:last-of-type) {
+      margin-right: $spacer;
+      border-right: 1px solid $neutral-80;
+    }
+
+    @include media-breakpoint-up(lg) {
+      flex-direction: row;
+      &:first-of-type {
+        padding-left: 0;
+      }
+      &:not(:last-of-type) {
+        margin-right: $spacer;
+      }
+      input {
+        margin-right: $spacer * 0.5;
+      }
+    }
+  }
   .table-striped {
     th,
     td {
