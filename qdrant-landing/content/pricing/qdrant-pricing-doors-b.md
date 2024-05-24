@@ -3,11 +3,12 @@ cards:
 - id: 0
   popular: true
   title: Qdrant Cloud
-  price: $0
+  price: Starting at $0
   description: Starts with 1GB free cluster, no credit card required.
   button:
     text: Start Free
     url: https://cloud.qdrant.io
+    contained: true
   featureDescription: Scale your production solutions without deployment and upkeep.
   featureLink:
     text: Calculate your usage.
@@ -56,7 +57,7 @@ cards:
     content: Standard support plan
   - id: 4
     content: Can be upgraded to premium support plan
-  minPrice: <span>*</span>Min $99 / month
+#  minPrice: <span>*</span>Min $99 / month
 - id: 2
   popular: false
   title: Private Cloud
