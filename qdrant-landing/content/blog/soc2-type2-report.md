@@ -4,9 +4,9 @@ draft: false
 slug: qdrant-soc2-type2-audit # Change this slug to your page slug if needed
 short_description:  We're proud to announce achieving SOC 2 Type II compliance for Security, Availability, Processing Integrity, Confidentiality, and Privacy.
 description: We're proud to announce achieving SOC 2 Type II compliance for Security, Availability, and Confidentiality.
-preview_image: /blog/soc2-type2-report/soc2-preview.jpg # 
+preview_image: /blog/soc2-type2-report/soc2-preview.jpeg # 
 
-social_preview_image: /blog/soc2-type2-report/soc2-preview.jpg 
+social_preview_image: /blog/soc2-type2-report/soc2-preview.jpeg 
 
 date: 2024-05-23T20:26:20-03:00
 author: Sabrina Aquino # Change this
