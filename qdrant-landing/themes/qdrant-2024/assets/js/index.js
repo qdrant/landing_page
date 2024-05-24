@@ -48,9 +48,11 @@ document.addEventListener('DOMContentLoaded', function () {
   const menu = document.querySelector('.menu-mobile');
   menuTrigger.addEventListener('click', () => {
     menu.classList.add('menu-mobile--visible');
+    body.classList.add('no-scroll');
   });
   closeBtn.addEventListener('click', () => {
     menu.classList.remove('menu-mobile--visible');
+    body.classList.remove('no-scroll');
   });
   function toggleMenu(id) {
     const menuItem = document.querySelector(`[data-path=${id}]`);
