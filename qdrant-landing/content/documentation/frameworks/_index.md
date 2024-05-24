@@ -24,6 +24,7 @@ weight: 33
 | [Make](./make/)                       | Cloud platform to build low-code workflows by integrating various software applications.             |
 | [MindsDB](./mindsdb/)                 | Platform to deploy, serve, and fine-tune models with numerous data source integrations.              |
 | [N8N](./n8n/)                         | Platform for node-based, low-code workflow automation.                                               |
+| [OpenLIT](./openlit/)         | OpenTelemetry-native LLM Application and VectorDB Observability.                       |
 | [OpenLLMetry](./openllmetry/)         | Set of OpenTelemetry extensions to add Observability for your LLM application.                       |
 | [Pandas-AI](./pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
 | [PrivateGPT](./privategpt/)           | Tool to ask questions about your documents using local LLMs emphasising privacy.                     |
