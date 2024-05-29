@@ -32,6 +32,10 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+
+        &:hover {
+          color: $primary-50;
+        }
       }
 
       & > ul > li {
@@ -59,6 +63,9 @@
       display: flex;
       align-items: center;
       gap: calc($spacer / 2);
+      &:hover {
+        text-decoration: underline;
+      }
     }
 
     svg {
@@ -72,6 +79,30 @@
     nav,
     &__title {
       display: block;
+    }
+  }
+
+  [data-theme="light"] & {
+    background-color: $neutral-98;
+    margin-bottom: $spacer * 2;
+
+    &__title {
+        color: $neutral-30;
+    }
+
+    a {
+      color: $neutral-30;
+    }
+
+    &__external-links {
+      border-top: 1px solid $neutral-90;
+      border-bottom: 1px solid $neutral-90;
+    }
+
+    &__link {
+      a {
+        color: $primary-50;
+      }
     }
   }
 }

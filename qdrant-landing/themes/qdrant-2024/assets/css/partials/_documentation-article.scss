@@ -61,3 +61,31 @@
     padding: 0 $spacer * 1.5;
   }
 }
+
+[data-theme="light"] {
+  .documentation-article {
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: $neutral-20;
+    }
+
+    p {
+      color: $neutral-30;
+    }
+
+    code:not([class]) {
+      color: $neutral-20;
+      background-color: #d9e2fe;
+      padding: .2em .4em;
+      border-radius: .4em;
+    }
+
+    .table-responsive {
+      .table {
+        @extend .table-light;
+      }
+    }
+  }
+}

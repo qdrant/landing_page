@@ -56,4 +56,46 @@
       display: block;
     }
   }
+
+  [data-theme="light"] & {
+    &__title {
+      color: $neutral-30;
+    }
+
+    &__question {
+      color: $neutral-30;
+    }
+
+    &__answer {
+      color: $neutral-30;
+      background-color: $neutral-90;
+
+      &_yes {
+        color: $success-10;
+        background-color: $success-90;
+        border: 1px solid $success-10;
+
+        &:hover {
+          background-color: $success-50;
+          color: $neutral-100;
+        }
+      }
+
+      &_no {
+        color: $error-10;
+        background-color: $error-90;
+        border: 1px solid $error-10;
+
+        &:hover {
+          background-color: $error-50;
+          color: $neutral-100;
+        }
+      }
+    }
+
+    &__response {
+      color: $neutral-30;
+      background: $neutral-90;
+    }
+  }
 }

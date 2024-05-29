@@ -1,0 +1,30 @@
+.theme-switch {
+  display: block;
+  width: $spacer * 1.25;
+  height: $spacer * 1.25;
+  border-radius: 50%;
+  background-color: transparent;
+  border: 0;
+
+  @mixin mask($url) {
+    mask: url($url);
+    mask-repeat: no-repeat;
+    mask-size: contain;
+    mask-position: center;
+  }
+
+  &[data-theme-label="light"] {
+    @include mask("/icons/outline/moon.svg");
+    background-color: $neutral-60;
+  }
+
+    &[data-theme-label="dark"] {
+      @include mask("/icons/outline/sun.svg");
+      background-color: $neutral-60;
+    }
+
+  &[data-theme-label="auto"] {
+    @include mask("/icons/outline/half-circle.svg");
+    background-color: $neutral-60;
+  }
+}

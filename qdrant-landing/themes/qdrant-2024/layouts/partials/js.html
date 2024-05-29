@@ -116,12 +116,8 @@
 {{ end }}
 
 {{ if eq .Section "documentation" }}
-  <script>
-    document.getElementById('sidebar-toggle').addEventListener('click', () => {
-      document.getElementById('sidebar-toggle').classList.toggle('active');
-      document.getElementById('sidebar').classList.toggle('active');
-    });
-  </script>
+  {{ $documentationJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+<script src="{{ $documentationJs.RelPermalink }}"></script>
 {{ end }}
 
 {{ if or (eq .Section "blog") (eq .Section "documentation") }}
