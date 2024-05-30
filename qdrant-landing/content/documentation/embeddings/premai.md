@@ -45,11 +45,11 @@ import { QdrantClient } from '@qdrant/js-client-rest';
 
 ### Define all the constants
 
-After this we define our constants. For Prem, we are required to set our `project_id` and `embedding_model`. You can learn more about how to get your `project_id` and API Key from [here](https://docs.premai.io/quick-start). 
+To set up our constants, we need to define `project_id` and `embedding_model` for Prem. You can find details on obtaining your `project_id` and API Key [here](https://docs.premai.io/quick-start).
 
-From Qdrant’s side, we need to also define our server URL, in which we will be sending requests to do all sorts of CRUD operations to our vector database. We also need to define our collection name. You can learn more about these concepts from Qdrant’s [quick start](https://qdrant.tech/documentation/quick-start/) guide and [concepts](https://qdrant.tech/documentation/concepts/).
+For Qdrant, we need to specify our server URL and collection name for sending CRUD requests to the vector database. More information is available in Qdrant’s [quick start guide](https://qdrant.tech/documentation/quick-start/) and [concepts](https://qdrant.tech/documentation/concepts/).
 
-Last but not the least, we also need to get our documents. For simplicity purpose, we define a small list of documents here. But in actual scenarios, this list should be derived from some source (like database or from an API call etc).
+Additionally, we will need a list of documents. For simplicity, we'll define a small list here, but in real scenarios, this list would come from a database or API call.
 
 **Python**
 
