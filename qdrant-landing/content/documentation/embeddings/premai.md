@@ -104,8 +104,6 @@ const qdrantClient = new QdrantClient({ url: SERVER_URL });
 
 Let’s write a simple function to fetch embeddings from document or a list of documents. This process will be done using Prem SDK. We then use this function to embed all our documents, before pushing it to Qdrant’s vector database. 
 
-**Python**
-
 ```python
 from typing import Union, List
 
