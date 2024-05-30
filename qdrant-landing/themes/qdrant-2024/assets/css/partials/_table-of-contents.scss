@@ -82,12 +82,12 @@
     }
   }
 
-  [data-theme="light"] & {
+  [data-theme='light'] & {
     background-color: $neutral-98;
     margin-bottom: $spacer * 2;
 
     &__title {
-        color: $neutral-30;
+      color: $neutral-30;
     }
 
     a {

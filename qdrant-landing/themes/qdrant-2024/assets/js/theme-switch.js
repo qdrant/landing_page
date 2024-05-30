@@ -5,7 +5,7 @@
 import { isNodeList } from './helpers';
 
 class ThemeSwitch {
-  constructor(options = {switcher: null, callbacks: []}) {
+  constructor(options = { switcher: null, callbacks: [] }) {
     this.theme = localStorage.getItem('theme') || 'auto';
     this.switcher = options.switcher || document.querySelectorAll('.theme-switch');
     if (isNodeList(this.switcher)) {
@@ -13,7 +13,7 @@ class ThemeSwitch {
         switcher.addEventListener('click', () => this.toggleTheme());
       });
     } else {
-    this.switcher.addEventListener('click', () => this.toggleTheme());
+      this.switcher.addEventListener('click', () => this.toggleTheme());
     }
     this.callbacks = options.callbacks;
     this.setTheme();
@@ -45,9 +45,8 @@ class ThemeSwitch {
   toggleTheme() {
     this.theme = this.theme === 'dark' ? 'light' : this.theme === 'light' ? 'auto' : 'dark';
     this.setTheme();
-    this.callbacks.forEach(callback => callback());
+    this.callbacks.forEach((callback) => callback());
   }
 }
 
 export default ThemeSwitch;
-

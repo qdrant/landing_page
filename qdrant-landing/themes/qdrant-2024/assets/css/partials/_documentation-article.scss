@@ -62,7 +62,7 @@
   }
 }
 
-[data-theme="light"] {
+[data-theme='light'] {
   .documentation-article {
     h1,
     h2,
@@ -78,8 +78,8 @@
     code:not([class]) {
       color: $neutral-20;
       background-color: #d9e2fe;
-      padding: .2em .4em;
-      border-radius: .4em;
+      padding: 0.2em 0.4em;
+      border-radius: 0.4em;
     }
 
     .table-responsive {

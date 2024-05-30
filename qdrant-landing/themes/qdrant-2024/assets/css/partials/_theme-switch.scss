@@ -17,18 +17,18 @@
     -webkit-mask-position: center;
   }
 
-  &[data-theme-label="light"] {
-    @include mask("/icons/outline/sun.svg");
+  &[data-theme-label='light'] {
+    @include mask('/icons/outline/sun.svg');
     background-color: $neutral-60;
   }
 
-    &[data-theme-label="dark"] {
-      @include mask("/icons/outline/moon.svg");
-      background-color: $neutral-60;
-    }
+  &[data-theme-label='dark'] {
+    @include mask('/icons/outline/moon.svg');
+    background-color: $neutral-60;
+  }
 
-  &[data-theme-label="auto"] {
-    @include mask("/icons/outline/half-circle.svg");
+  &[data-theme-label='auto'] {
+    @include mask('/icons/outline/half-circle.svg');
     background-color: $neutral-60;
   }
 }

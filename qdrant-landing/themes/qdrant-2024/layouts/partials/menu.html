@@ -6,12 +6,12 @@
     </a>
 
     <div class="d-flex justify-content-end align-items-center gap-4">
-    {{ if eq $section "documentation" }}
-    <div class="d-block d-xl-none">
-      {{ partial "theme-switch" . }}
-    </div>
-    {{ end }}
-    <button type="button" class="main-menu__trigger">{{ partial "svg" "hamburger-menu-white.svg" }}</button>
+      {{ if eq $section "documentation" }}
+        <div class="d-block d-xl-none">
+          {{ partial "theme-switch" . }}
+        </div>
+      {{ end }}
+      <button type="button" class="main-menu__trigger">{{ partial "svg" "hamburger-menu-white.svg" }}</button>
     </div>
     <ul class="main-menu__links">
       {{ range .Params.menuItems }}

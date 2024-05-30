@@ -35,4 +35,3 @@ export function scrollIntoViewWithOffset(id, offset) {
 export function isNodeList(list) {
   return Object.prototype.isPrototypeOf.call(NodeList.prototype, list);
 }
-

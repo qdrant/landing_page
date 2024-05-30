@@ -189,7 +189,7 @@
     }
   }
 
-  [data-theme="light"] & {
+  [data-theme='light'] & {
     border-color: $neutral-100;
     background-color: $neutral-94;
 
@@ -226,7 +226,6 @@
 
       &-group {
         &-heading {
-
           a {
             color: $neutral-30;
 
@@ -256,7 +255,6 @@
         svg path {
           fill: $neutral-30;
         }
-
       }
 
       &-submenu {
