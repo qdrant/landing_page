@@ -29,7 +29,7 @@ menuItems:
         url: /qdrant-vector-database/
       - id: 2
         name: Enterprise Solutions
-        url: /solutions/
+        url: /enterprise-solutions/
       - id: 3
         name: Qdrant Cloud
         url: /cloud/
