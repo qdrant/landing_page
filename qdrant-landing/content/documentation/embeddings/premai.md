@@ -220,9 +220,7 @@ qdrant_client.upsert(
  )
 ```
 
-**JavaScript**
-
-```python
+```typescript
 if (points != null) {
     // Now upsert the points to the vector DB 
     await qdrant_client.upsert(COLLECTION_NAME, {
