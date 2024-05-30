@@ -22,7 +22,7 @@ npm install @premai/prem-sdk
 
 ### Import all required packages
 
-We start by importing all our required packages. Here is how you do that for python
+Let's import all our required packages. Here is how you do that for python
 
 ```python
 import os 
