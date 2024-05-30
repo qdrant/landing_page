@@ -34,9 +34,6 @@ from qdrant_client.models import Distance, VectorParams
 if os.environ.get("PREMAI_API_KEY") is None:
     os.environ["PREMAI_API_KEY"] = getpass.getpass("PremAI API Key:")
 ```
-
-And here is how you do for javascript
-
 ```typescript
 import Prem from '@premai/prem-sdk';
 import { QdrantClient } from '@qdrant/js-client-rest';
