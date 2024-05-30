@@ -1,0 +1,73 @@
+{{ with (.Site.GetPage "/brand-resources/brand-resources-content") }}
+  <section class="brand-resources-content">
+    <div class="brand-resources-content__container">
+      <div class="brand-resources-content__block">
+        <h3 class="brand-resources-content__title">{{ .Params.logo.title }}</h3>
+        <p class="brand-resources-content__description">{{ .Params.logo.description }}</p>
+        <div class="brand-resources-content__logos row g-4">
+          {{ range .Params.logo.logoCards }}
+            <div class="col-12 col-lg-4">
+              <div class="card">
+                <div class="brand-resources-content__logos-logo">
+                  <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
+                </div>
+                <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>
+                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}">{{ .link.text }}</a>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+        <h4 class="brand-resources-content__subtitle">{{ .Params.logo.logomarkTitle }}</h4>
+        <div class="brand-resources-content__logos row g-4">
+          {{ range .Params.logo.logomarkCards }}
+            <div class="col-12 col-lg-4">
+              <div class="card">
+                <div class="brand-resources-content__logos-logo">
+                  <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
+                </div>
+                <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>
+                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}">{{ .link.text }}</a>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="brand-resources-content__block">
+        <h3 class="brand-resources-content__title">{{ .Params.colors.title }}</h3>
+        <p class="brand-resources-content__description">{{ .Params.colors.description }}</p>
+        <div class="brand-resources-content__colors">
+          {{ range .Params.colors.cards }}
+            <div class="brand-resources-content__colors-card" style="background: #{{ .code }}">
+              <p class="brand-resources-content__colors-title">{{ .name }}</p>
+              <div class="brand-resources-content__colors-code">
+                <span>{{ .type }}</span>
+                <span>{{ .code }}</span>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="brand-resources-content__block">
+        <h3 class="brand-resources-content__title">{{ .Params.typography.title }}</h3>
+        <p class="brand-resources-content__description">{{ .Params.typography.description }}</p>
+        <div class="card brand-resources-content__typography">
+          <p class="brand-resources-content__typography-example">{{ .Params.typography.example }}</p>
+          <div>
+            <p class="brand-resources-content__typography-specimen">{{ .Params.typography.specimen | safeHTML }}</p>
+            <a class="link link_md" href="{{ .Params.typography.link.url }}">{{ .Params.typography.link.text }}</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="brand-resources-content__block">
+        <h3 class="brand-resources-content__title">{{ .Params.trademarks.title }}</h3>
+        <p class="brand-resources-content__description">
+          {{ .Params.trademarks.description | safeHTML }}
+          <a href="{{ .Params.trademarks.link.url }}">{{ .Params.trademarks.link.text }}</a>
+        </p>
+      </div>
+    </div>
+  </section>
+{{ end }}
