@@ -115,11 +115,6 @@
   <script src="{{ $anchorJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if eq .Section "documentation" }}
-  {{ $documentationJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $documentationJs.RelPermalink }}"></script>
-{{ end }}
-
 {{ if or (eq .Section "blog") (eq .Section "documentation") }}
   <script>
     document.addEventListener('keydown', function (event) {

@@ -1,8 +1,9 @@
 import ThemeSwitch from './theme-switch.js';
 
-new ThemeSwitch();
+const themeSwitch = new ThemeSwitch();
 
 document.addEventListener('DOMContentLoaded', () => {
+  themeSwitch.initSwitcher();
   const sidebar = document.getElementById('sidebar');
   const sidebarToggle = document.getElementById('sidebar-toggle');
 
@@ -10,5 +11,4 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebarToggle.classList.toggle('active');
     sidebar.classList.toggle('active');
   });
-
 });
