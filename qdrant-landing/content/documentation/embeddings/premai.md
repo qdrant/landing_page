@@ -60,9 +60,6 @@ DOCUMENTS = [
     "We will be using qdrant and premai python sdk"
 ]
 ```
-
-**JavaScript**
-
 ```typescript
 const PROJECT_ID = 123;
 const EMBEDDING_MODEL = "text-embedding-3-large";
