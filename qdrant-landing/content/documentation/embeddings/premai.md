@@ -185,8 +185,6 @@ try {
 
 If you already have a collection then you can skip this step, otherwise follow the code to create a Qdrant collection. We will be upserting our points in this collection. 
 
-**Python**
-
 ```python
 qdrant_client.create_collection(
     collection_name=COLLECTION_NAME, 
