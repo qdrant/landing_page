@@ -1,7 +1,6 @@
 ---
 title: Prem AI
 weight: 1000
-aliases: [ ../integrations/premai/ ]
 ---
 
 # Prem AI
