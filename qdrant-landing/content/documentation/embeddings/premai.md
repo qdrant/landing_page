@@ -75,8 +75,6 @@ const DOCUMENTS = [
 
 Once we defined all our constants, it’s time to instantiate Prem AI client and Qdrant client. Heres how you do it in both Python and JavaScript. 
 
-**Python**
-
 ```python
 api_key = os.environ["PREMAI_API_KEY"]
 prem_client = Prem(api_key=api_key)
