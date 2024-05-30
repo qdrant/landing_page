@@ -237,8 +237,6 @@ if (points != null) {
 
 Once our collection is indexed with all our documents, we are now ready to query it and search documents which are semantically similar to the query. Here’s how we do this. 
 
-**Python**
-
 ```python
 query = "what is the extension of python document"
 
