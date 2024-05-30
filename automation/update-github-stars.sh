@@ -17,4 +17,4 @@ echo "Current star count: $STAR_COUNT"
 
 # Update the star count in the markdown file
 echo "Updating the star count in the hero.md file"
-sed -i "" "s/.*stars.*$/  stars: $STAR_COUNT/g" ./qdrant-landing/content/headless/main/hero.md
+sed -i "s/.*stars.*$/  stars: $STAR_COUNT/g" ./qdrant-landing/content/headless/main/hero.md
