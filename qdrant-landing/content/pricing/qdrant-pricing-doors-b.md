@@ -39,7 +39,7 @@ cards:
   popular: false
   title: Hybrid Cloud
   price: $0.014
-  description: Starting price per hour*.
+  description: Starting price per hour.
   button:
     text: Get Started
     url: https://cloud.qdrant.io
@@ -56,7 +56,6 @@ cards:
     content: Standard support plan
   - id: 4
     content: Can be upgraded to premium support plan
-  minPrice: <span>*</span>Min $99 / month
 - id: 2
   popular: false
   title: Private Cloud
