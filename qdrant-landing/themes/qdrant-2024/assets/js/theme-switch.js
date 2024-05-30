@@ -12,7 +12,7 @@ class ThemeSwitch {
   #userSwitcherEl = null;
   constructor(options = { switcher: null, callbacks: [] }) {
     this.#userSwitcherEl = options.switcher;
-    this.theme = localStorage.getItem('theme') || 'auto';
+    this.theme = localStorage.getItem('theme') || 'dark';
     this.switcher = null;
     this.callbacks = options.callbacks;
     this.setTheme();
