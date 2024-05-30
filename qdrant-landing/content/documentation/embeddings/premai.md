@@ -250,9 +250,6 @@ query_embedding = get_embeddings(
 
 qdrant_client.search(collection_name=COLLECTION_NAME, query_vector=query_embedding[0])
 ```
-
-**JavaScript**
-
 ```typescript
 const query = "what is the extension of javascript document"
 const query_embedding_response = await getEmbeddings(PROJECT_ID, EMBEDDING_MODEL, query)
