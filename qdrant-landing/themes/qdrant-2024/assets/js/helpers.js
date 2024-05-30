@@ -31,3 +31,8 @@ export function scrollIntoViewWithOffset(id, offset) {
     window.addEventListener('scroll', scrollHandler);
   });
 }
+
+export function isNodeList(list) {
+  return Object.prototype.isPrototypeOf.call(NodeList.prototype, list);
+}
+

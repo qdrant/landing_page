@@ -11,15 +11,19 @@
     mask-repeat: no-repeat;
     mask-size: contain;
     mask-position: center;
+    -webkit-mask: url($url);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    -webkit-mask-position: center;
   }
 
   &[data-theme-label="light"] {
-    @include mask("/icons/outline/moon.svg");
+    @include mask("/icons/outline/sun.svg");
     background-color: $neutral-60;
   }
 
     &[data-theme-label="dark"] {
-      @include mask("/icons/outline/sun.svg");
+      @include mask("/icons/outline/moon.svg");
       background-color: $neutral-60;
     }
 
