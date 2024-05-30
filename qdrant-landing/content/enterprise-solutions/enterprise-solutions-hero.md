@@ -6,7 +6,7 @@ startFree:
   url: https://cloud.qdrant.io/
 contactUs:
   text: Contact us
-  url: /contact-us/
+  url: /contact-sales/
 image:
   src: /img/enterprise-solutions-hero.png
   srcMobile: /img/mobile/enterprise-solutions-hero-mobile.png

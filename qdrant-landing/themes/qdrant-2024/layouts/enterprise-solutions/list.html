@@ -6,7 +6,7 @@
   {{ partial "testimonial" . }}
   {{ partial "enterprise-benefits" . }}
 
-  {{ with (.Site.GetPage "/headless/get-contacted-with-question") }}
+  {{ with (.Site.GetPage "/headless/get-contacted-with-question-sales") }}
     {{ partial "get-contacted" (dict "context" . "class" "get-contacted-with-question") }}
   {{ end }}
 

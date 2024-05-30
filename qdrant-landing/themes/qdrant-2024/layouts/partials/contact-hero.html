@@ -2,8 +2,8 @@
   <div class="container">
     <div class="contact-hero__content">
       <div class="contact-hero__info">
-        {{ if .Params.salesTitle }}
-          <h4 class="contact-hero__sales-title">{{ .Params.salesTitle }}</h4>
+        {{ if .Params.salesTitle | safeHTML }}
+          <h4 class="contact-hero__sales-title">{{ .Params.salesTitle | safeHTML }}</h4>
         {{ else }}
           <h3 class="contact-hero__title">{{ .Params.title }}</h3>
         {{ end }}

@@ -1,5 +1,9 @@
 ---
 title: Our Customers Words
+wall:
+  intro_text: "See what our community is saying on our"
+  url: "https://testimonial.to/qdrant/all"
+  url_text: Vector Space Wall
 #link:
 #  text: Customer Stories
 #  url: /customers/

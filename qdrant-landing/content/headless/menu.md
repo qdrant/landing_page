@@ -118,6 +118,10 @@ menuItems:
         name: Careers
         icon: careers.svg
         url: https://qdrant.join.com/
+      - id: subMenu-4-4
+        name: Contact us
+        icon: contact-us.svg
+        url: /contact-us/
   - id: menu-5
     name: Pricing
     url: /pricing/
