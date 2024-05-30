@@ -80,10 +80,7 @@ api_key = os.environ["PREMAI_API_KEY"]
 prem_client = Prem(api_key=api_key)
 qdrant_client = QdrantClient(url=QDRANT_SERVER_URL)
 ```
-
-**JavaScript**
-
-```python
+```typescript
 const premaiClient = new Prem({
     apiKey: "xxxx-xxx-xxx"
 })
