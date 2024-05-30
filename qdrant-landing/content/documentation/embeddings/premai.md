@@ -193,9 +193,6 @@ qdrant_client.create_collection(
     vectors_config=VectorParams(size=3072, distance=Distance.DOT)
 )
 ```
-
-**JavaScript**
-
 ```typescript
 await qdrant_client.createCollection(COLLECTION_NAME, {
     vectors: {
