@@ -20,7 +20,7 @@
       {{ $subject := site.GetPage "documentation" }}
 
 
-      <nav class="docs-menu__links">
+      <nav class="docs-menu__links scroller">
         {{ range $subject.Pages }}
           {{ if (eq .Params.type "delimiter") }}
             <h3 class="docs-menu__links-title">{{ .Title }}</h3>
