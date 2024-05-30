@@ -4,10 +4,10 @@
   display: flex;
   justify-content: flex-end;
   gap: calc($spacer / 2);
+  position: relative;
 
   .hs_email {
     width: 100%;
-    position: relative;
     @include media-breakpoint-up(lg) {
       max-width: rem(414);
     }
@@ -41,6 +41,16 @@
           bottom: calc((#{$hs-error-msgs-top-offset} + #{$i - 1} * rem(20)) * -1);
         }
       }
+    }
+  }
+  .hs_error_rollup {
+    position: absolute;
+    width: 100%;
+    top: rem(-30);
+    right: 0;
+    text-align: right;
+    .hs-error-msgs {
+      position: static;
     }
   }
 }

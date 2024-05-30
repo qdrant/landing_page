@@ -1,5 +1,6 @@
 {{ $class := .class }}
 <section class="{{ $class }}">
+  <div class="{{ $class }}__square-grid-overlay"></div>
   <div class="container">
     <h2 class="{{ $class }}__title">{{ .context.Params.title }}</h2>
     <div class="{{ $class }}__cards">
@@ -12,5 +13,4 @@
       {{ end }}
     </div>
   </div>
-  <div class="{{ $class }}__square-grid-overlay"></div>
 </section>

@@ -30,7 +30,6 @@
     flex-direction: column;
     gap: rem(32);
     position: relative;
-    z-index: 2;
   }
 
   &__card {
@@ -92,7 +91,6 @@
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      z-index: 1;
     }
   }
 }

@@ -43,6 +43,12 @@ html {
   }
 }
 
+body {
+  &.no-scroll {
+    overflow: hidden;
+  }
+}
+
 @import 'components';
 @import 'syntax-highlight';
 @import 'mathjax';
