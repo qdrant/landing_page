@@ -117,9 +117,6 @@ def get_embeddings(
     
     return embeddings
 ```
-
-**JavaScript**
-
 ```typescript
 async function getEmbeddings(projectID, embeddingModel, documents) {
     const response = await premaiClient.embeddings.create({
