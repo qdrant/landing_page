@@ -150,9 +150,6 @@ points = [
     ) for idx, (embedding, text) in enumerate(zip(embeddings, DOCUMENTS))
 ]
 ```
-
-**JavaScript**
-
 ```typescript
 function convertToQdrantPoints(embeddings, texts) {
     return embeddings.data.map((data, i) => {
