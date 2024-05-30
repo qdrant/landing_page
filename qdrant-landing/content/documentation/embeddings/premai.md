@@ -131,8 +131,6 @@ async function getEmbeddings(projectID, embeddingModel, documents) {
 
 Once we are done fetching our embedding vectors with our embedding function, we convert this to Qdrant points. After this, we will use this points to upsert into our Qdrant vector DB collection. 
 
-**Python**
-
 ```python
 from qdrant_client.models import PointStruct
 
