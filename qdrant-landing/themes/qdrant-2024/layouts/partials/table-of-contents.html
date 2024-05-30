@@ -1,19 +1,19 @@
 <div class="col-12 col-xl-2">
   {{ if gt (.TableOfContents | len) 34 }}
-    <div class="table-contents">
-      <h2 class="table-contents__title">{{ .Params.title }}</h2>
+    <div class="table-of-contents">
+      <h2 class="table-of-contents__title">{{ .Params.title }}</h2>
 
       {{ .TableOfContents }}
 
 
-      <ul class="table-contents__external-links">
-        <li class="table-contents__link">
+      <ul class="table-of-contents__external-links">
+        <li class="table-of-contents__link">
           <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
             {{ partial "svg" "github-red.svg" }}
             Edit on Github
           </a>
         </li>
-        <li class="table-contents__link">
+        <li class="table-of-contents__link">
           <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
             {{ partial "svg" "bug-red.svg" }}
             Create an issue

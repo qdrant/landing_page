@@ -30,3 +30,8 @@
   {{ $filterChartJs := resources.Get "/js/benchmarks/benchmarks_filtered_search.js" | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $filterChartJs.RelPermalink }}"></script>
 {{ end }}
+
+{{ if eq .Section "documentation" }}
+  {{ $documentationJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $documentationJs.RelPermalink }}"></script>
+{{ end }}
