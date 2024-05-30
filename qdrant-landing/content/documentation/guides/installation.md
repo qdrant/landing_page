@@ -169,7 +169,7 @@ services:
       - source: qdrant_config
         target: /qdrant/config/production.yaml
     volumes:
-      - ./qdrant_data:/qdrant_data
+      - ./qdrant_data:/qdrant/storage
 
 configs:
   qdrant_config:

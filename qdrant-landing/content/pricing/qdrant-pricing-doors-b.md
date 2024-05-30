@@ -33,8 +33,8 @@ cards:
     content: Unlimited users
   - id: 9
     content: Standard support plan
-  - id: 10
-    content: Can be upgraded to premium support plan
+  # - id: 10
+  #   content: Can be upgraded to premium support plan
 - id: 1
   popular: false
   title: Hybrid Cloud
@@ -47,7 +47,7 @@ cards:
   featureDescription: Bring your own cluster from any cloud provider, on-premise infrastructure, or edge locations and connect them to the managed cloud.
   features:
   - id: 0
-    content: All the benefits of Hybrid Cloud
+    content: All the benefits of Qdrant Cloud
   - id: 1
     content: Security, data isolation, optimal latency
   - id: 2

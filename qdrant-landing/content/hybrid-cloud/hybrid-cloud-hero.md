@@ -22,7 +22,7 @@ startFree:
   url: https://cloud.qdrant.io/
 contactUs:
   text: Contact us
-  url: /contact-us/
+  url: /contact-hybrid-cloud/
 image:
   src: /img/hybrid-cloud-graphic.svg
   alt: Enterprise-solutions
