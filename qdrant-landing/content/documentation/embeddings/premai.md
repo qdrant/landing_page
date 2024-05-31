@@ -202,14 +202,10 @@ qdrant_client.upsert(
 ```
 
 ```typescript
-if (points != null) {
-    // Now upsert the points to the vector DB 
-    await qdrant_client.upsert(COLLECTION_NAME, {
+await qdrantClient.upsert(COLLECTION_NAME, {
         wait: true,
         points
-    })
-    console.log("All the points are upserted to: ", COLLECTION_NAME)
-}
+    });
 ```
 
 ### Searching for documents from a query in a collection
