@@ -43,9 +43,6 @@ We need to define the project ID and the embedding model to use. You can learn m
 
 
 ```python
-# Note: project_id: 123 is a dummy project id
-# You need to have an actual project ID here. Otherwise, it will throw an error.
-
 PROJECT_ID = 123
 EMBEDDING_MODEL = "text-embedding-3-large"
 COLLECTION_NAME = "prem-collection-py"
