@@ -8,6 +8,7 @@ weight: 33
 | [Airbyte](./airbyte/)                 | Data integration platform specialising in ELT pipelines.                                             |
 | [Airflow](./airflow/)                 | Platform designed for developing, scheduling, and monitoring batch-oriented workflows.               |
 | [AutoGen](./autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.             |
+| [Bubble](./bubble)                    | Development platform for application development with a no-code interface                            |
 | [Canopy](./canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                |
 | [Cheshire Cat](./cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                    |
 | [DLT](./dlt/)                         | Python library to simplify data loading processes between several sources and destinations.          |

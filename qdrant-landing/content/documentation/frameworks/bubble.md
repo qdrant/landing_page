@@ -16,13 +16,13 @@ You can use the [Qdrant Bubble plugin](https://bubble.io/plugin/qdrant-171680437
 
 ## Setting up the plugin
 
-Navigate to your app's workflows. Select `"Install a new plugin"`.
+Navigate to your app's workflows. Select `"Install more plugins actions"`.
 
-![Install New Plugin](/documentation/frameworks/install-bubble-plugin.png)
+![Install New Plugin](/documentation/frameworks/bubble/install-bubble-plugin.png)
 
 You can now search for the Qdrant plugin and install it. Ensure all the categories are selected to perform a full search.
 
-![Qdrant Plugin Search](/documentation/frameworks/qdrant-plugin-search.png)
+![Qdrant Plugin Search](/documentation/frameworks/bubble/qdrant-plugin-search.png)
 
 The Qdrant plugin can now be found in the installed plugins section of your workflow. Enter the API key of your Qdrant instance for authentication.
 
