@@ -5,33 +5,31 @@ weight: 1600
 
 # Prem AI
 
-[PremAI](https://premai.io/) is an all-in-one platform that simplifies the creation of robust, production-ready applications powered by Generative AI. By streamlining development, PremAI allows you to concentrate on enhancing user experience and driving overall growth.
+[PremAI](https://premai.io/) is a unified generative AI development platform for fine-tuning deploying, and monitoring AI models.
 
-Qdrant is compatible with Prem AI SDK (both Python and Javascript interfaces). We start by installing the SDKs. 
+Qdrant is compatible with PremAI APIs.
+
+### Installing the SDKs
 
 ```bash
-pip install premai
+pip install premai qdrant-client
 ```
 
 To install the npm package:
 
 ```bash
-npm install @premai/prem-sdk 
+npm install @premai/prem-sdk @qdrant/js-client-rest
 ```
 
 ### Import all required packages
 
 ```python
-import os 
-import getpass
 from premai import Prem
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
-
-if os.environ.get("PREMAI_API_KEY") is None:
-    os.environ["PREMAI_API_KEY"] = getpass.getpass("PremAI API Key:")
 ```
+
 ```typescript
 import Prem from '@premai/prem-sdk';
 import { QdrantClient } from '@qdrant/js-client-rest';
@@ -46,31 +44,32 @@ We need to define the project ID and the embedding model to use. You can learn m
 PROJECT_ID = 123
 EMBEDDING_MODEL = "text-embedding-3-large"
 COLLECTION_NAME = "prem-collection-py"
-QDRANT_SERVER_URL = "http://127.0.0.1:6333"
+QDRANT_SERVER_URL = "http://localhost:6333"
 DOCUMENTS = [
     "This is a sample python document",
     "We will be using qdrant and premai python sdk"
 ]
 ```
+
 ```typescript
 const PROJECT_ID = 123;
 const EMBEDDING_MODEL = "text-embedding-3-large";
 const COLLECTION_NAME = "prem-collection-js";
-const SERVER_URL = "http://127.0.0.1:6333"
+const SERVER_URL = "http://localhost:6333"
 const DOCUMENTS = [
     "This is a sample javascript document",
     "We will be using qdrant and premai javascript sdk"
 ];
 ```
 
-### Setup PremAI and Qdrant clients
+### Set up PremAI and Qdrant clients
 
 
 ```python
-api_key = os.environ["PREMAI_API_KEY"]
-prem_client = Prem(api_key=api_key)
+prem_client = Prem(api_key="xxxx-xxx-xxx")
 qdrant_client = QdrantClient(url=QDRANT_SERVER_URL)
 ```
+
 ```typescript
 const premaiClient = new Prem({
     apiKey: "xxxx-xxx-xxx"
@@ -109,6 +108,7 @@ def get_embeddings(
     
     return embeddings
 ```
+
 ```typescript
 async function getEmbeddings(projectID, embeddingModel, documents) {
     const response = await premaiClient.embeddings.create({
@@ -120,7 +120,7 @@ async function getEmbeddings(projectID, embeddingModel, documents) {
 }
 ```
 
-### Convert Embeddings to Qdrant Points
+### Converting Embeddings to Qdrant Points
 
 
 ```python
@@ -140,6 +140,7 @@ points = [
     ) for idx, (embedding, text) in enumerate(zip(embeddings, DOCUMENTS))
 ]
 ```
+
 ```typescript
 function convertToQdrantPoints(embeddings, texts) {
     return embeddings.data.map((data, i) => {
@@ -157,7 +158,7 @@ const embeddings = await getEmbeddings(PROJECT_ID, EMBEDDING_MODEL, DOCUMENTS);
 const points = convertToQdrantPoints(embeddings, DOCUMENTS);
 ```
 
-### Setting up Qdrant Collection
+### Set up a Qdrant Collection
 
 ```python
 qdrant_client.create_collection(
@@ -174,7 +175,7 @@ await qdrantClient.createCollection(COLLECTION_NAME, {
 })
 ```
 
-### Insert Documents to the Collection
+### Insert Documents into the Collection
 
 ```python
 doc_ids = list(range(len(embeddings)))
@@ -192,7 +193,7 @@ await qdrantClient.upsert(COLLECTION_NAME, {
     });
 ```
 
-### Searching for documents from a query in a collection
+### Perform a Search
 
 ```python
 query = "what is the extension of python document"
