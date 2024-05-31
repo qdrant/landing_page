@@ -152,8 +152,6 @@ function convertToQdrantPoints(embeddings, texts) {
     });
 }
 
-// Usage 
-
 const embeddings = await getEmbeddings(project_id, embedding_model, texts);
 const points = convertToQdrantPoints(embeddings, texts);
 ```
