@@ -210,8 +210,6 @@ await qdrantClient.upsert(COLLECTION_NAME, {
 
 ### Searching for documents from a query in a collection
 
-Once our collection is indexed with all our documents, we are now ready to query it and search documents which are semantically similar to the query. Here’s how we do this. 
-
 ```python
 query = "what is the extension of python document"
 
