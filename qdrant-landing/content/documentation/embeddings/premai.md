@@ -154,14 +154,8 @@ function convertToQdrantPoints(embeddings, texts) {
 
 // Usage 
 
-let points = null
-try {
-    const embeddings = await getEmbeddings(project_id, embedding_model, texts)
-    points = convertToQdrantPoints(embeddings, texts)
-} catch (error) {
-    points = null
-    console.error('Error fetching embeddings:', error);
-}
+const embeddings = await getEmbeddings(project_id, embedding_model, texts);
+const points = convertToQdrantPoints(embeddings, texts);
 ```
 
 ### Setting up Qdrant Collection
