@@ -39,7 +39,7 @@ import { QdrantClient } from '@qdrant/js-client-rest';
 
 ### Define all the constants
 
-To set up our constants, we need to define `project_id` and `embedding_model` for Prem. You can find details on obtaining your `project_id` and API Key [here](https://docs.premai.io/quick-start).
+We need to define the project ID and the embedding model to use. You can learn more about obtaining these in the PremAI [docs](https://docs.premai.io/quick-start).
 
 
 ```python
