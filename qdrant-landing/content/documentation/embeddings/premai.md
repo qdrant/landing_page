@@ -13,7 +13,7 @@ Qdrant is compatible with Prem AI SDK (both Python and Javascript interfaces). W
 pip install premai
 ```
 
-To install the npm package, type this command:
+To install the npm package:
 
 ```bash
 npm install @premai/prem-sdk 
