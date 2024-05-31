@@ -182,7 +182,7 @@ qdrant_client.create_collection(
 )
 ```
 ```typescript
-await qdrant_client.createCollection(COLLECTION_NAME, {
+await qdrantClient.createCollection(COLLECTION_NAME, {
     vectors: {
         size: 3072,
         distance: 'Cosine'
