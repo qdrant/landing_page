@@ -192,10 +192,6 @@ await qdrantClient.createCollection(COLLECTION_NAME, {
 
 ### Insert Documents to the Collection
 
-Once we have done making our collection, we upload all our document vectors in that collection. Here is how we do that
-
-**Python**
-
 ```python
 doc_ids = list(range(len(embeddings)))
 
