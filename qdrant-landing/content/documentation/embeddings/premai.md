@@ -117,6 +117,7 @@ async function getEmbeddings(projectID, embeddingModel, documents) {
         input: documents
     });
     return response;
+}
 ```
 
 ### Convert Embeddings to Qdrant Points
@@ -152,8 +153,8 @@ function convertToQdrantPoints(embeddings, texts) {
     });
 }
 
-const embeddings = await getEmbeddings(project_id, embedding_model, texts);
-const points = convertToQdrantPoints(embeddings, texts);
+const embeddings = await getEmbeddings(PROJECT_ID, EMBEDDING_MODEL, DOCUMENTS);
+const points = convertToQdrantPoints(embeddings, DOCUMENTS);
 ```
 
 ### Setting up Qdrant Collection
