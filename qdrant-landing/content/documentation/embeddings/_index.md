@@ -14,5 +14,6 @@ weight: 34
 | [Nomic](./nomic/)             |
 | [Nvidia](./nvidia/)           |
 | [OpenAI](./openai/)           |
+| [Prem AI](./premai/)          |
 | [Snowflake](./snowflake/)     |
 | [Voyage AI](./voyage/)        |
