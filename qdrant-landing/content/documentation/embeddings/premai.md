@@ -21,8 +21,6 @@ npm install @premai/prem-sdk
 
 ### Import all required packages
 
-Let's import all our required packages. Here is how you do that for python
-
 ```python
 import os 
 import getpass
