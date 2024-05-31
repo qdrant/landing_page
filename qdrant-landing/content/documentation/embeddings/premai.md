@@ -158,11 +158,6 @@ const points = convertToQdrantPoints(embeddings, texts);
 
 ### Setting up Qdrant Collection
 
-> A collection is a named set of points (vectors with a payload) among which you can search.
-> 
-
-If you already have a collection then you can skip this step, otherwise follow the code to create a Qdrant collection. We will be upserting our points in this collection. 
-
 ```python
 qdrant_client.create_collection(
     collection_name=COLLECTION_NAME, 
