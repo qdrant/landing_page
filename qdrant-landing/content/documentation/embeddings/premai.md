@@ -225,9 +225,7 @@ qdrant_client.search(collection_name=COLLECTION_NAME, query_vector=query_embeddi
 const query = "what is the extension of javascript document"
 const query_embedding_response = await getEmbeddings(PROJECT_ID, EMBEDDING_MODEL, query)
 
-let response = await qdrantClient.search(COLLECTION_NAME, {
+await qdrantClient.search(COLLECTION_NAME, {
     vector: query_embedding_response.data[0].embedding
-})
-
-console.log(response)
+});
 ```
