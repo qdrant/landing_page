@@ -40,13 +40,11 @@ To send telemetry to OpenTelemetry backends requiring authentication, set the `o
 
 ## Next Steps
 
-![](https://github.com/openlit/.github/blob/main/profile/assets/openlit-client-1.png?raw=true)
-
-With the LLM Observability data now being collected by OpenLIT, the next step is to visualize and analyze this data to get insights into your LLM application’s performance, behavior, and identify areas of improvement.
+With the LLM Observability data now being collected by OpenLIT, the next step is to visualize and analyze this data to get insights Qdrant's performance, behavior, and identify areas of improvement.
 
 To begin exploring your LLM Application's performance data within the OpenLIT UI, please see the [Quickstart Guide](https://docs.openlit.io/latest/quickstart).
 
-If you want to integrate and send metrics and traces to your existing observability tools like Promethues+Jaeger, Grafana or more, refer to the [Official Documentation for OpenLIT Connections](https://docs.openlit.io/latest/connections/intro) for detailed instructions.
+If you want to integrate and send the generated metrics and traces to your existing observability tools like Promethues+Jaeger, Grafana or more, refer to the [Official Documentation for OpenLIT Connections](https://docs.openlit.io/latest/connections/intro) for detailed instructions.
 
 ## Support
 
