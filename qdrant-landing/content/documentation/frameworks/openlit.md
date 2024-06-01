@@ -9,8 +9,6 @@ weight: 3100
 
 For more information on how to use OpenLIT, see the [OpenLIT docs](https://docs.openlit.io/).
 
-![OpenLIT Connections Banner](https://github.com/openlit/.github/blob/main/profile/assets/github-readme-connections-banner.png?raw=true)
-
 This page assumes you're using `qdrant-client` version 1.7.3 or above.
 
 ## Usage
