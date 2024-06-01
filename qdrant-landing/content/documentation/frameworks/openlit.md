@@ -5,7 +5,7 @@ weight: 3100
 
 # OpenLIT
 
-[OpenLIT](https://github.com/openlit/openlit) is an OpenTelemetry-native LLM Application Observability tool and includes OpenTelemetry auto-instrumention for Qdrant with just a single line of code helping you ensure your applications are monitored seamlessly, providing critical insights to improve performance, operations and reliability. 
+[OpenLIT](https://github.com/openlit/openlit) is an OpenTelemetry-native LLM Application Observability tool and includes OpenTelemetry auto-instrumentation to monitor Qdrant and provide insights to improve operations and reliability. 
 
 For more information on how to use OpenLIT, see the [OpenLIT docs](https://docs.openlit.io/).
 
