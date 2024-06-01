@@ -216,7 +216,7 @@ Qdrant has a pre-built docker image and start working with it is just as simple 
 docker run -p 6333:6333 qdrant/qdrant
 ```
 
-Documentation with examples could be found [here](https://qdrant.github.io/qdrant/redoc/index.html). 
+Documentation with examples could be found [here](https://api.qdrant.tech/api-reference). 
 
 
 ## Conclusion

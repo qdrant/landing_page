@@ -58,7 +58,7 @@ You can adjust the threshold using a [configuration file](https://github.com/qdr
 
 Let's look at an example of a search query.
 
-REST API - API Schema definition is available [here](https://qdrant.github.io/qdrant/redoc/index.html#operation/search_points)
+REST API - API Schema definition is available [here](https://api.qdrant.tech/master/api-reference/search/points)
 
 ```http
 POST /collections/{collection_name}/points/search
@@ -1160,7 +1160,7 @@ With the ***groups*** API, you will be able to get the best *N* points for each 
 
 ### Search groups
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/search_point_groups)):
+REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/point-groups)):
 
 ```http
 POST /collections/{collection_name}/points/search/groups

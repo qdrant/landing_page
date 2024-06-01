@@ -229,7 +229,7 @@ If there are other active replicas of the recovered shards in the cluster, Qdran
 
 This method of recovery requires the snapshot file to be downloadable from a URL or exist as a local file on the node (like if you [created the snapshot](#create-snapshot) on this node previously). If instead you need to upload a snapshot file, see the next section.
 
-To recover from a URL or local file use the [snapshot recovery endpoint](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/recover_from_snapshot). This endpoint accepts either a URL like `https://example.com` or a [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) like `file:///tmp/snapshot-2022-10-10.snapshot`. If the target collection does not exist, it will be created.
+To recover from a URL or local file use the [snapshot recovery endpoint](https://api.qdrant.tech/master/api-reference/snapshots/recover-from-snapshot). This endpoint accepts either a URL like `https://example.com` or a [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) like `file:///tmp/snapshot-2022-10-10.snapshot`. If the target collection does not exist, it will be created.
 
 ```http
 PUT /collections/{collection_name}/snapshots/recover
@@ -263,7 +263,7 @@ client.recoverSnapshot("{collection_name}", {
 
 ### Recover from an uploaded file
 
-The snapshot file can also be uploaded as a file and restored using the [recover from uploaded snapshot](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/recover_from_uploaded_snapshot). This endpoint accepts the raw snapshot data in the request body. If the target collection does not exist, it will be created.
+The snapshot file can also be uploaded as a file and restored using the [recover from uploaded snapshot](https://api.qdrant.tech/master/api-reference/snapshots/recover-from-uploaded-snapshot). This endpoint accepts the raw snapshot data in the request body. If the target collection does not exist, it will be created.
 
 ```bash
 curl -X POST 'http://{qdrant-url}:6333/collections/{collection_name}/snapshots/upload?priority=snapshot' \
