@@ -38,7 +38,7 @@ To forward telemetry data to an HTTP OTLP endpoint, such as the OpenTelemetry Co
 To send telemetry to OpenTelemetry backends requiring authentication, set the `otlp_headers` parameter with its desired value. Alternatively, you can configure the endpoint by setting the `OTEL_EXPORTER_OTLP_HEADERS` environment variable as recommended in the OpenTelemetry documentation.
 </aside>
 
-## Next Steps
+## Further Reading
 
 With the LLM Observability data now being collected by OpenLIT, the next step is to visualize and analyze this data to get insights Qdrant's performance, behavior, and identify areas of improvement.
 
