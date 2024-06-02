@@ -41,6 +41,3 @@ To begin exploring your LLM Application's performance data within the OpenLIT UI
 
 If you want to integrate and send the generated metrics and traces to your existing observability tools like Promethues+Jaeger, Grafana or more, refer to the [Official Documentation for OpenLIT Connections](https://docs.openlit.io/latest/connections/intro) for detailed instructions.
 
-## Support
-
-For any question or issue with integration you can reach out to the OpenLIT team on [Slack](https://join.slack.com/t/openlit/shared_invite/zt-2etnfttwg-TjP_7BZXfYg84oAukY8QRQ) or via [email](mailto:contact@openlit.io).
