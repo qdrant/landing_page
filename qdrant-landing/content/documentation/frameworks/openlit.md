@@ -30,13 +30,9 @@ import openlit
 openlit.init()
 ```
 
-To forward telemetry data to an HTTP OTLP endpoint, such as the OpenTelemetry Collector, set the `otlp_endpoint` parameter with the desired endpoint. Alternatively, you can configure the endpoint by setting the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable as recommended in the OpenTelemetry documentation.
+OpenLIT directs the trace to your console by default. To forward telemetry data to an HTTP OTLP endpoint, configure the `otlp_endpoint` parameter or the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable.
 
-<aside role="status">
-💡 Info: If you don't provide `otlp_endpoint` function argument or set the `OTEL_EXPORTER_OTLP_ENDPOINT` environment variable, OpenLIT directs the trace directly to your console, which can be useful during development.
-
-To send telemetry to OpenTelemetry backends requiring authentication, set the `otlp_headers` parameter with its desired value. Alternatively, you can configure the endpoint by setting the `OTEL_EXPORTER_OTLP_HEADERS` environment variable as recommended in the OpenTelemetry documentation.
-</aside>
+For OpenTelemetry backends requiring authentication, use the `otlp_headers` parameter or the `OTEL_EXPORTER_OTLP_HEADERS` environment variable with the required values.
 
 ## Further Reading
 
