@@ -7,12 +7,20 @@ weight: 2400
 
 [MemGPT](https://memgpt.ai/) is a system that enables LLMs to manage their own memory and overcome limited context windows to
 
-- Create perpetual chatbots that learn about you and change their own personalities over time.
+- Create perpetual chatbots that learn about you and change their personalities over time.
 - Create perpetual chatbots that can interface with large data stores.
 
 Qdrant is available as a storage backend in MemGPT for storing and semantically retrieving data.
 
 ## Usage
+
+#### Installation
+
+To install the required dependencies, install `pymemgpt` with the `qdrant` extra.
+
+```sh
+pip install 'pymemgpt[qdrant]'
+```
 
 You can configure MemGPT to use either a Qdrant server or an in-memory instance with the `memgpt configure` command.
 
@@ -36,8 +44,9 @@ You can set an API key for authentication using the `QDRANT_API_KEY` environment
 ? Select Qdrant backend: local
 ```
 
-The data is persisted at the defautl MemGPT storage directory.
+The data is persisted at the default MemGPT storage directory.
 
 ## Further Reading
 
-MemGPT [Documentation](https://memgpt.readme.io/docs/index).
+- [MemGPT Examples][https://github.com/cpacker/MemGPT/tree/main/examples]
+- [MemGPT Documentation](https://memgpt.readme.io/docs/index).
