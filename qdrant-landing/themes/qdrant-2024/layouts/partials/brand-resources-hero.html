@@ -1,0 +1,13 @@
+{{ with (.Site.GetPage "/brand-resources/brand-resources-hero") }}
+  <section class="brand-resources-hero">
+    <div class="brand-resources-hero__overlay"></div>
+    <div class="container">
+      <h1 class="brand-resources-hero__title">{{ .Params.title }}</h1>
+      <div class="brand-resources-hero__buttons">
+        {{ range .Params.buttons }}
+          <a class="button button_lg" href="{{ .url }}">{{ .text }}</a>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
