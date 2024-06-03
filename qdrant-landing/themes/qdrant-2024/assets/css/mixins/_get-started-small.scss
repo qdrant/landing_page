@@ -1,0 +1,99 @@
+@use 'sass:math';
+@use '../helpers/functions' as *;
+@use '../bootstrap-custom' as bs;
+
+@mixin base(
+  $paddingTop,
+  $paddingTopMobile,
+  $paddingBottom,
+  $paddingBottomMobile,
+  $mainBackground,
+  $blockBackground,
+  $blockBackgroundMobile
+) {
+  padding-top: $paddingTopMobile;
+  padding-bottom: $paddingBottomMobile;
+  background-color: $mainBackground;
+
+  &__content {
+    position: relative;
+    background: $blockBackground;
+    border-radius: rem(8);
+    overflow: hidden;
+
+    a {
+      margin-bottom: rem(40);
+    }
+
+    img {
+      width: 100%;
+      padding: 0 rem(17.5);
+    }
+  }
+
+  &__text {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__title {
+    padding: rem(40) rem(24) 0 rem(24);
+    margin-bottom: rem(24);
+    font-size: rem(24);
+    line-height: rem(34);
+    text-align: center;
+    color: #f0f3fa;
+    @include bs.media-breakpoint-up(lg) {
+      font-size: rem(32);
+      line-height: rem(38);
+    }
+  }
+
+  &__overlay-top {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(220);
+    height: rem(220);
+    background-image: url('/img/blurred/blurred-light-6.svg');
+    background-position: top;
+    background-size: cover;
+  }
+
+  @include bs.media-breakpoint-up(md) {
+    padding-top: $paddingTop;
+    padding-bottom: $paddingBottom;
+
+    &__content {
+      background: $blockBackgroundMobile;
+
+      img {
+        padding: 0;
+        width: rem(300);
+        height: rem(210);
+      }
+
+      a {
+        height: rem(40);
+        padding: 0 rem(22);
+        margin-bottom: 0;
+      }
+    }
+
+    &__title {
+      text-align: left;
+      padding: 0;
+    }
+
+    &__text {
+      align-items: flex-start;
+      margin-left: rem(56);
+    }
+
+    &__image {
+      text-align: right;
+    }
+  }
+}

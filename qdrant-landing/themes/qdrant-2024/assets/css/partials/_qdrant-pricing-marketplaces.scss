@@ -1,0 +1,16 @@
+@use '../helpers/functions' as *;
+@use '../mixins/marketplaces' as marketplaces;
+
+.qdrant-pricing-marketplaces {
+  @include marketplaces.base(
+    $spacer * 2.5,
+    $spacer * 2.5,
+    $spacer * 5,
+    $spacer * 5,
+    100%,
+    $spacer * 3,
+    $spacer * 2,
+    rem(57),
+    rem(38)
+  );
+}

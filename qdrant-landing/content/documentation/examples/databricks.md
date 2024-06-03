@@ -12,13 +12,13 @@ weight: 36
 
 Apache Spark is designed to scale horizontally, meaning it can handle expensive operations like generating vector embeddings by distributing computation across a cluster of machines. This scalability is crucial when dealing with large datasets.
 
-In this example, we will demonstrate how to vectorize a dataset with dense and sparse embeddings using Qdrant's [FastEmbed](https://qdrant.github.io/fastembed/) library. We will then load this vectorized data into a Qdrant cluster using the [Qdrant Spark connector](https://qdrant.tech/documentation/frameworks/spark/) on Databricks.
+In this example, we will demonstrate how to vectorize a dataset with dense and sparse embeddings using Qdrant's [FastEmbed](https://qdrant.github.io/fastembed/) library. We will then load this vectorized data into a Qdrant cluster using the [Qdrant Spark connector](/documentation/frameworks/spark/) on Databricks.
 
 ### Setting up a Databricks project
 
 - Set up a **[Databricks cluster](https://docs.databricks.com/en/compute/configure.html)** following the official documentation guidelines.
 
-- Install the **[Qdrant Spark connector](https://qdrant.tech/documentation/frameworks/spark/)** as a library:
+- Install the **[Qdrant Spark connector](/documentation/frameworks/spark/)** as a library:
   - Navigate to the `Libraries` section in your cluster dashboard.
   - Click on `Install New` at the top-right to open the library installation modal.
   - Search for `io.qdrant:spark:VERSION` in the Maven packages and click on `Install`.

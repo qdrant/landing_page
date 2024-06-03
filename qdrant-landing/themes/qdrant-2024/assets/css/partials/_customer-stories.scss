@@ -1,0 +1,161 @@
+@use '../helpers/functions' as *;
+
+.customer-stories {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  position: relative;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    max-width: rem(1110);
+    min-width: 100%;
+    margin-bottom: $spacer * 2.5;
+  }
+
+  &__header-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: $spacer;
+  }
+
+  &__controls {
+    display: none;
+    gap: $spacer * 2.5;
+    position: absolute;
+    top: -85px;
+    right: 20px;
+  }
+
+  &__button {
+    border-radius: 8px;
+    outline: none;
+    border: 1px solid $neutral-80;
+    background-color: transparent;
+    width: rem(64);
+    height: rem(64);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__button-prev svg {
+    transform: rotate(180deg);
+  }
+
+  &__button svg {
+    width: rem(24);
+    height: rem(24);
+  }
+
+  &__button:disabled {
+    opacity: 0.5;
+  }
+
+  &__title {
+    font-size: rem(32);
+    line-height: rem(38);
+    color: $neutral-20;
+    text-align: center;
+    margin: 0;
+  }
+
+  &__cards-wrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    row-gap: $spacer * 2;
+  }
+
+  &__card {
+    padding-top: $spacer * 2;
+    padding-bottom: $spacer * 2;
+    margin-bottom: $spacer * 2;
+
+    min-height: rem(407);
+
+    img {
+      max-width: rem(120);
+      max-height: rem(64);
+    }
+  }
+
+  &__card-footer {
+    display: flex;
+    gap: $spacer;
+
+    img {
+      min-width: rem(48);
+      min-height: rem(48);
+    }
+  }
+
+  &__card-author p {
+    margin: 0;
+  }
+
+  &__card-author-name {
+    font-weight: bold;
+    color: $neutral-20;
+    font-size: map-get($font-sizes-text, 's');
+  }
+
+  &__card-author-position {
+    color: $neutral-60;
+    font-size: map-get($font-sizes-text, 's');
+  }
+
+  &__card:last-of-type img {
+    min-width: rem(80);
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 6;
+
+    &__title {
+      font-size: map-get($font-sizes, 3);
+      line-height: rem(57);
+      text-align: left;
+    }
+
+    &__controls {
+      display: flex;
+    }
+
+    &__header-content {
+      justify-content: space-between;
+      margin-top: 0;
+      height: rem(64);
+    }
+
+    &__cards-wrapper {
+      padding-bottom: $spacer * 1.5;
+    }
+
+    &__cards {
+      flex-direction: row;
+    }
+
+    &__cards {
+      margin-left: rem(-15);
+      margin-right: rem(-15);
+    }
+    .splide {
+      margin-left: -20px;
+      margin-right: -20px;
+    }
+  }
+}

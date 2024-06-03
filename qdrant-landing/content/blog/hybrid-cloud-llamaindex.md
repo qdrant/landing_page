@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-We're happy to announce the collaboration between [LlamaIndex](https://www.llamaindex.ai/) and [Qdrant’s new Hybrid Cloud launch](https://hybrid-cloud.qdrant.tech/), aimed at empowering engineers and scientists worldwide to swiftly and securely develop and scale their GenAI applications. By leveraging LlamaIndex's robust framework, users can maximize the potential of vector search and create stable and effective AI products. Qdrant Hybrid Cloud offers the same Qdrant functionality on a Kubernetes-based architecture, which further expands the ability of LlamaIndex to support any user on any environment.
+We're happy to announce the collaboration between [LlamaIndex](https://www.llamaindex.ai/) and [Qdrant’s new Hybrid Cloud launch](/hybrid-cloud/), aimed at empowering engineers and scientists worldwide to swiftly and securely develop and scale their GenAI applications. By leveraging LlamaIndex's robust framework, users can maximize the potential of vector search and create stable and effective AI products. Qdrant Hybrid Cloud offers the same Qdrant functionality on a Kubernetes-based architecture, which further expands the ability of LlamaIndex to support any user on any environment.
 
 With Qdrant Hybrid Cloud, users have the flexibility to deploy their vector database in an environment of their choice. By using container-based scalable deployments, companies can leverage a cutting-edge framework like LlamaIndex, while staying deployed in the same hosting architecture as data sources, embedding models and LLMs. This powerful combination empowers organizations to build strong and secure applications that search, understand meaning and converse in text.
 

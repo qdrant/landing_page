@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "/headless/not-found") }}
+  <section class="not-found">
+    <div class="not-found__overlay"></div>
+    <img class="not-found__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+    <img class="not-found__image-mobile" src="{{ .Params.image.mobileSrc }}" alt="{{ .Params.image.alt }}" />
+    <div class="container">
+      <p class="not-found__description">{{ .Params.description }}</p>
+      <div class="not-found__buttons">
+        <a href="{{ .Params.homeButton.link }}" class="button button_contained">
+          {{ .Params.homeButton.text }}
+        </a>
+        <a href="{{ .Params.supportButton.link }}" class="button button_outlined">
+          {{ .Params.supportButton.text }}
+        </a>
+      </div>
+    </div>
+  </section>
+{{ end }}

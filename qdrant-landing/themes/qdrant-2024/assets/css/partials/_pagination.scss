@@ -1,0 +1,44 @@
+@use '../helpers/functions' as *;
+
+.pagination {
+  display: block;
+  margin: 0 auto;
+
+  &__list {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: rem(4);
+    margin-bottom: 0;
+    padding-left: 0;
+  }
+
+  &__item {
+    height: $spacer * 2;
+    width: $spacer * 2;
+    list-style: none;
+    line-height: $spacer * 2;
+
+    &:last-of-type {
+      width: $spacer * 3.5;
+      margin-left: $spacer;
+    }
+
+    a {
+      display: inline-block;
+      width: 100%;
+      height: 100%;
+      color: $neutral-50;
+      text-align: center;
+    }
+
+    &.active {
+      background-color: $primary-50;
+      border-radius: rem(10);
+
+      a {
+        color: $neutral-100;
+      }
+    }
+  }
+}

@@ -263,7 +263,7 @@ In the blog post file, you'll see:
 
 - Add tags. While they're not shown on the blog post page, they are used to display related posts.
 - If post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
-  - If there are more than 4 `featured: true` posts (where `draft: false`), the oldest post disappears from https://qdrant.tech/blog.
+  - If there are more than 4 `featured: true` posts (where `draft: false`), the oldest post disappears from /blog.
 
 ## Marketing Landing Pages
 

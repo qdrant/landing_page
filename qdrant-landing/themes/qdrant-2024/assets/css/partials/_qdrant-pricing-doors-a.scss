@@ -1,0 +1,34 @@
+@use '../helpers/functions' as *;
+
+.qdrant-pricing-doors-a {
+  padding-bottom: $spacer * 4;
+  padding-top: $spacer * 4;
+  background-color: $neutral-10;
+
+  &__doors {
+    display: flex;
+    flex-direction: column;
+    gap: rem(30);
+    width: 100%;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-bottom: $spacer * 5;
+    padding-top: $spacer * 5;
+
+    &__doors {
+      flex-direction: row;
+      justify-content: center;
+    }
+
+    &__door {
+      width: rem(400);
+      height: rem(896);
+
+      .pricing-door__feature-description a {
+        color: $primary-50;
+        border-bottom: none;
+      }
+    }
+  }
+}

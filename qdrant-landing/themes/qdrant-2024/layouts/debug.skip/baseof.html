@@ -1,0 +1,23 @@
+<!doctype html>
+<html lang="en">
+  {{ partial "head.html" . }}
+
+
+  <body>
+    <div class="container">
+      {{ block "main" . }}{{ end }}
+
+
+      <div class="row pt-5">
+        <div class="col-12">
+          <details>
+            <summary>Resources</summary>
+            {{ range resources.Match "**/*.*" }}
+              <p>{{ .RelPermalink }}</p>
+            {{ end }}
+          </details>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

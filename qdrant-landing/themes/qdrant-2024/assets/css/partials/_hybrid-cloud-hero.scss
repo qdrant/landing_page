@@ -1,0 +1,119 @@
+@use '../helpers/functions' as *;
+
+.hybrid-cloud-hero {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 4;
+  text-align: center;
+  background: url('/img/stars-pattern.png') $neutral-10;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__features {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer;
+    margin-bottom: $spacer * 1.5;
+
+    & > div {
+      gap: $spacer * 0.5;
+      padding: rem(4) $spacer;
+      border-radius: rem(100);
+      background-color: $neutral-20;
+
+      img {
+        height: $spacer;
+        width: $spacer;
+      }
+
+      p {
+        font-size: rem(14);
+        line-height: rem(21);
+        color: $neutral-90;
+        margin-bottom: 0;
+      }
+    }
+  }
+
+  &__description {
+    font-size: rem(18);
+    line-height: rem(27);
+    margin-bottom: $spacer * 2;
+    color: $neutral-70;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: $spacer * 1.5;
+
+    .button {
+      min-width: $spacer * 12.5;
+    }
+  }
+
+  &__preview {
+    margin-top: -$spacer;
+
+    img {
+      width: 100%;
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 7.5;
+    text-align: left;
+
+    &__content {
+      width: rem(480);
+    }
+
+    &__title {
+      font-size: $spacer * 4;
+      line-height: rem(76);
+    }
+
+    &__features {
+      flex-direction: row;
+      justify-content: flex-start;
+      flex-wrap: wrap;
+    }
+
+    &__description {
+      font-size: rem(20);
+      line-height: rem(30);
+    }
+
+    &__buttons {
+      flex-direction: row;
+      justify-content: flex-start;
+
+      .button {
+        min-width: auto;
+      }
+    }
+
+    &__preview {
+      width: rem(480);
+      margin-top: -$spacer * 5;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__content {
+      width: rem(500);
+    }
+    &__preview {
+      width: rem(550);
+    }
+  }
+}

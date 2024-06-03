@@ -17,11 +17,11 @@ speech recognition, object detection, and many others.
 
 These new databases shine in many applications like [semantic search](https://en.wikipedia.org/wiki/Semantic_search) 
 and [recommendation systems](https://en.wikipedia.org/wiki/Recommender_system), and here, we'll 
-learn about one of the most popular and fastest growing vector databases in the market, [Qdrant](https://qdrant.tech).
+learn about one of the most popular and fastest growing vector databases in the market, [Qdrant](https://github.com/qdrant/qdrant).
 
 ## What is Qdrant?
 
-[Qdrant](https://qdrant.tech) "is a vector similarity search engine that provides a production-ready 
+[Qdrant](https://github.com/qdrant/qdrant) "is a vector similarity search engine that provides a production-ready 
 service with a convenient API to store, search, and manage points (i.e. vectors) with an additional 
 payload." You can think of the payloads as additional pieces of information that can help you 
 hone in on your search and also receive useful information that you can give to your users.

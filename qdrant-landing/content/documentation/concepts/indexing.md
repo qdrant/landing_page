@@ -465,27 +465,16 @@ performance.
 
 *Available as of v1.7.0*
 
-### Key Features of Sparse Vector Index
-- **Support for Sparse Vectors:** Qdrant supports sparse vectors, characterized by a high proportion of zeroes.
-- **Efficient Indexing:** Utilizes an inverted index structure to store vectors for each non-zero dimension, optimizing memory and search speed.
+Sparse vectors in Qdrant are indexed with a special data structure, which is optimized for vectors that have a high proportion of zeroes. In some ways, this indexing method is similar to the inverted index, which is used in text search engines.
 
-### Search Mechanism
-- **Index Usage:** The index identifies vectors with non-zero values in query dimensions during a search.
-- **Scoring Method:** Vectors are scored using the dot product.
+- A sparse vector index in Qdrant is exact, meaning it does not use any approximation algorithms.
+- All sparse vectors added to the collection are immediately indexed in the mutable version of a sparse index.
 
-### Optimizations
-- **Reducing Vectors to Score:** Implementations are in place to minimize the number of vectors scored, especially for dimensions with numerous vectors.
+With Qdrant, you can benefit from a more compact and efficient immutable sparse index, which is constructed during the same optimization process as the dense vector index.
 
-### Filtering and Configuration
-- **Filtering Support:** Similar to dense vectors, supports filtering by payload fields.
-- **`full_scan_threshold` Configuration:** Allows control over when to switch search from the payload index to minimize scoring vectors.
-- **Threshold for Sparse Vectors:** Specifies the threshold in terms of the number of matching vectors found by the query planner.
+This approach is particularly useful for collections storing both dense and sparse vectors.
 
-### Index Storage and Management
-- **Memory-Based Index:** The index resides in memory for appendable segments, ensuring fast search and update operations.
-- **Handling Immutable Segments:** For immutable segments, the sparse index can either stay in memory or be mapped to disk with the `on_disk` flag.
-
-**Example Configuration:** To enable on-disk storage for immutable segments and full scan for queries inspecting less than 5000 vectors:
+To configure a sparse vector index, create a collection with the following parameters:
 
 ```http
 PUT /collections/{collection_name}
@@ -493,18 +482,129 @@ PUT /collections/{collection_name}
     "sparse_vectors": {
         "text": {
             "index": {
-                "on_disk": true,
-                "full_scan_threshold": 5000
+                "on_disk": false
             }
-         },
+        }
     }
 }
 ```
 
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    sparse_vectors={
+        "text": models.SparseVectorIndexParams(
+            index=models.SparseVectorIndexType(
+                on_disk=False,
+            ),
+        ),
+    },
+)
+```
+
+```typescript
+import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  sparse_vectors: {
+    "splade-model-name": {
+      index: {
+        on_disk: false
+      }
+    }
+  }
+});
+```
+
+```rust
+
+use qdrant_client::{client::QdrantClient, qdrant::collections::SparseVectorIndexConfig};
+
+let client = QdrantClient::from_url("http://localhost:6334").build()?;
+
+client.create_collection(&CreateCollection {
+    collection_name: "{collection_name}".to_string(),
+    sparse_vectors_config: Some(SparseVectorConfig { 
+        map: [
+            (
+                "splade-model-name".to_string(), 
+                SparseVectorParams {
+                    index: Some(SparseIndexConfig {
+                        on_disk: false,
+                        ..Default::default()
+                    }),
+                    ..Default::default()
+                }
+            )
+        ].into_iter().collect()
+    }),
+    ..Default::default()
+}).await;
+```
+
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+import io.qdrant.client.grpc.Collections;
+
+QdrantClient client = new QdrantClient(
+    QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createCollectionAsync(
+    Collections.CreateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setSparseVectorsConfig(
+            Collections.SparseVectorConfig.newBuilder().putMap(
+                "splade-model-name",
+                Collections.SparseVectorParams.newBuilder()
+                    .setIndex(
+                        Collections.SparseIndexConfig
+                            .newBuilder()
+                            .setOnDisk(false)
+                            .build()
+                    ).build()
+            ).build()
+        ).build()
+).get();
+
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	sparseVectorsConfig: ("splade-model-name", new SparseVectorParams{
+        Index = new SparseIndexConfig {
+            OnDisk = false,
+        }
+    })
+);
+```
+
+The following parameters may affect performance:
+
+- `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance. 
+- `on_disk: false` - The index is still persisted on disk, but it is also loaded into memory for faster search.
+
+Unlike a dense vector index, a sparse vector index does not require a pre-defined vector size. It automatically adjusts to the size of the vectors added to the collection.
+
+**Note:** A sparse vector index only supports dot-product similarity searches. It does not support other distance metrics.
 
 ## Filtrable Index
 
-Separately, payload index and vector index cannot solve the problem of search using the filter completely.
+Separately, a payload index and a vector index cannot solve the problem of search using the filter completely.
 
 In the case of weak filters, you can use the HNSW index as it is. In the case of stringent filters, you can use the payload index and complete rescore.
 However, for cases in the middle, this approach does not work well.

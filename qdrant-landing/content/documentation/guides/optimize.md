@@ -27,10 +27,8 @@ PUT /collections/{collection_name}
 {
     "vectors": {
         "size": 768,
-        "distance": "Cosine"
-    },
-    "optimizers_config": {
-        "memmap_threshold": 20000
+        "distance": "Cosine",
+        "on_disk": true
     },
     "quantization_config": {
         "scalar": {
@@ -48,8 +46,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE, on_disk=True),
     quantization_config=models.ScalarQuantization(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
@@ -68,9 +65,7 @@ client.createCollection("{collection_name}", {
   vectors: {
     size: 768,
     distance: "Cosine",
-  },
-  optimizers_config: {
-    memmap_threshold: 20000,
+    on_disk: true,
   },
   quantization_config: {
     scalar: {
@@ -100,12 +95,9 @@ client
             config: Some(Config::Params(VectorParams {
                 size: 768,
                 distance: Distance::Cosine.into(),
+                on_disk: Some(true),
                 ..Default::default()
             })),
-        }),
-        optimizers_config: Some(OptimizersConfigDiff {
-            memmap_threshold: Some(20000),
-              ..Default::default()
         }),
         quantization_config: Some(QuantizationConfig {
             quantization: Some(Quantization::Scalar(ScalarQuantization {
@@ -144,10 +136,9 @@ client
                         VectorParams.newBuilder()
                             .setSize(768)
                             .setDistance(Distance.Cosine)
+                            .setOnDisk(true)
                             .build())
                     .build())
-            .setOptimizersConfig(
-                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
             .setQuantizationConfig(
                 QuantizationConfig.newBuilder()
                     .setScalar(
@@ -168,8 +159,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
 	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
-	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true },
 	quantizationConfig: new QuantizationConfig
 	{
 		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }
@@ -177,7 +167,7 @@ await client.CreateCollectionAsync(
 );
 ```
 
-`mmmap_threshold` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
+`on_disk` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
 
 Optionally, you can disable rescoring with search `params`, which will reduce the number of disk reads even further, but potentially slightly decrease the precision.
 
@@ -300,10 +290,8 @@ PUT /collections/{collection_name}
 {
     "vectors": {
       "size": 768,
-      "distance": "Cosine"
-    },
-    "optimizers_config": {
-        "memmap_threshold": 20000
+      "distance": "Cosine",
+      "on_disk": true
     },
     "hnsw_config": {
         "on_disk": true
@@ -318,8 +306,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE, on_disk=True),
     hnsw_config=models.HnswConfigDiff(on_disk=True),
 )
 ```
@@ -333,9 +320,7 @@ client.createCollection("{collection_name}", {
   vectors: {
     size: 768,
     distance: "Cosine",
-  },
-  optimizers_config: {
-    memmap_threshold: 20000,
+    on_disk: true,
   },
   hnsw_config: {
     on_disk: true,
@@ -361,12 +346,9 @@ client
             config: Some(Config::Params(VectorParams {
                 size: 768,
                 distance: Distance::Cosine.into(),
+                on_disk: Some(true),
                 ..Default::default()
             })),
-        }),
-        optimizers_config: Some(OptimizersConfigDiff {
-            memmap_threshold: Some(20000),
-            ..Default::default()
         }),
         hnsw_config: Some(HnswConfigDiff {
             on_disk: Some(true),
@@ -400,10 +382,9 @@ client
                         VectorParams.newBuilder()
                             .setSize(768)
                             .setDistance(Distance.Cosine)
+                            .setOnDisk(true)
                             .build())
                     .build())
-            .setOptimizersConfig(
-                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
             .setHnswConfig(HnswConfigDiff.newBuilder().setOnDisk(true).build())
             .build())
     .get();
@@ -417,8 +398,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
 	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
-	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true},
 	hnswConfig: new HnswConfigDiff { OnDisk = true }
 );
 ```
@@ -450,10 +430,8 @@ PUT /collections/{collection_name}
 {
     "vectors": {
       "size": 768,
-      "distance": "Cosine"
-    },
-    "optimizers_config": {
-        "memmap_threshold": 20000
+      "distance": "Cosine",
+      "on_disk": true
     },
     "quantization_config": {
         "scalar": {
@@ -471,8 +449,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
-    optimizers_config=models.OptimizersConfigDiff(memmap_threshold=20000),
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE, on_disk=True),
     quantization_config=models.ScalarQuantization(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
@@ -491,9 +468,7 @@ client.createCollection("{collection_name}", {
   vectors: {
     size: 768,
     distance: "Cosine",
-  },
-  optimizers_config: {
-    memmap_threshold: 20000,
+    on_disk: true,
   },
   quantization_config: {
     scalar: {
@@ -523,12 +498,9 @@ client
             config: Some(Config::Params(VectorParams {
                 size: 768,
                 distance: Distance::Cosine.into(),
+                on_disk: Some(true),
                 ..Default::default()
             })),
-        }),
-        optimizers_config: Some(OptimizersConfigDiff {
-            memmap_threshold: Some(20000),
-            ..Default::default()
         }),
         quantization_config: Some(QuantizationConfig {
             quantization: Some(Quantization::Scalar(ScalarQuantization {
@@ -567,10 +539,9 @@ client
                         VectorParams.newBuilder()
                             .setSize(768)
                             .setDistance(Distance.Cosine)
+                            .setOnDisk(true)
                             .build())
                     .build())
-            .setOptimizersConfig(
-                OptimizersConfigDiff.newBuilder().setMemmapThreshold(20000).build())
             .setQuantizationConfig(
                 QuantizationConfig.newBuilder()
                     .setScalar(
@@ -591,8 +562,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
 	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
-	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true},
 	quantizationConfig: new QuantizationConfig
 	{
 		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }

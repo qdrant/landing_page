@@ -1,0 +1,9 @@
+{{ with (.Site.GetPage "/headless/top-banner") }}
+  <section class="top-banner">
+    <div>
+      <span class="top-banner__icon"> {{ .Params.icon | safeHTML }} </span>
+      <span class="top-banner__text"> {{ .Params.text }} </span>
+      <a class="link link_light link_sm" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
+    </div>
+  </section>
+{{ end }}

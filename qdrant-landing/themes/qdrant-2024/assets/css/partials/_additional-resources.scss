@@ -1,0 +1,100 @@
+@use '../helpers/functions' as *;
+
+.additional-resources {
+  position: relative;
+  overflow: hidden;
+  background-color: $neutral-10;
+
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  &__title {
+    position: relative;
+    margin-bottom: $spacer * 3;
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    color: $neutral-98;
+    z-index: 1;
+  }
+
+  &__cards {
+    position: relative;
+    justify-content: space-between;
+    gap: rem(30);
+    z-index: 1;
+  }
+
+  &__card {
+    &-info {
+      background: linear-gradient($neutral-20, #0e1424);
+      padding-top: $spacer * 1.5;
+      padding-bottom: $spacer * 1.5;
+      padding-left: $spacer * 1.5;
+      padding-right: $spacer * 1.5;
+      border-radius: calc($spacer / 2);
+
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+
+      svg {
+        max-width: rem(24);
+        max-height: rem(24);
+      }
+    }
+  }
+
+  &__card-title {
+    color: $neutral-98;
+    margin-top: $spacer * 1.5;
+    margin-bottom: $spacer;
+    line-height: rem(34);
+  }
+
+  &__card-content {
+    color: $neutral-70;
+    margin-bottom: $spacer * 1.5;
+    font-size: map-get($font-sizes-text, 's');
+    line-height: rem(21);
+    font-weight: 500;
+  }
+
+  &__card-link {
+    color: $neutral-98;
+    font-weight: 500;
+    font-size: map-get($font-sizes-text, 'm');
+    text-decoration: none;
+  }
+
+  @include media-breakpoint-up(md) {
+    &__cards {
+      justify-content: space-between;
+      gap: 0;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: map-get($font-sizes, 3);
+      line-height: rem(57);
+      margin-bottom: $spacer * 4;
+    }
+
+    &__cards {
+      & > div {
+        width: calc(25% - 4.5px);
+      }
+    }
+
+    &__card {
+      &-info {
+        width: 100%;
+        min-height: rem(333);
+      }
+    }
+  }
+}

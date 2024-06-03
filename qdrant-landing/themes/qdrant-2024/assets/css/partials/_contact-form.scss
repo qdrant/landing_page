@@ -1,0 +1,93 @@
+@use '../helpers/functions' as *;
+
+.contact-form {
+  position: relative;
+  width: 100%;
+  padding: $spacer * 2.5 $spacer * 1.5;
+  border-radius: $spacer * 0.5;
+  background: linear-gradient($neutral-20, #0e1424);
+  color: $neutral-98;
+
+  &__title {
+    margin-bottom: $spacer * 0.5;
+  }
+
+  &__description {
+    margin-bottom: 0;
+    font-size: rem(14);
+    line-height: rem(21);
+    color: $neutral-70;
+  }
+
+  form {
+    $last-row-margin: rem(34);
+
+    display: flex;
+    margin-top: $spacer * 2;
+    flex-wrap: wrap;
+    justify-content: space-between;
+
+    .hs_submit {
+      width: 100%;
+      text-align: center;
+      margin-top: $spacer;
+
+      @include media-breakpoint-up(md) {
+        width: 50%;
+        text-align: right;
+        margin-top: $last-row-margin;
+      }
+
+      input[type='submit'] {
+        width: 100%;
+        @include media-breakpoint-up(md) {
+          width: auto;
+        }
+      }
+    }
+
+    fieldset {
+      &.form-columns-1:has(> .legal-consent-container) {
+        width: auto;
+        margin-bottom: 0;
+        @include media-breakpoint-up(md) {
+          max-width: 50%;
+          min-width: 50%;
+        }
+      }
+
+      &:last-of-type {
+        @include media-breakpoint-up(md) {
+          margin-top: $last-row-margin;
+        }
+      }
+    }
+  }
+
+  .submitted-message {
+    text-align: center;
+    margin-top: $spacer * 4;
+  }
+
+  .hs_error_rollup {
+    position: absolute;
+    bottom: -20px;
+    right: 0;
+  }
+
+  &__top-overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(220);
+    height: rem(192);
+    background-image: url('/img/blurred/blurred-light-9.png');
+    background-position: top;
+    background-size: cover;
+    border-radius: 0 rem(12) 0 0;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding: $spacer * 3 $spacer * 2.5;
+  }
+}

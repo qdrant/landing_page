@@ -1,0 +1,35 @@
+<!--to create styles for new marquee use marquee scss mixin-->
+<!--context should be an array of objects with svg|src and name fields-->
+<!--svg is a string with svg code-->
+<!--src is a string with path to image-->
+{{ $marqueeClass := .marqueeClass }}
+<div class="{{ $marqueeClass }}">
+  <div class="{{ $marqueeClass }}__container">
+    <div class="{{ $marqueeClass }}__block">
+      <div class="{{ $marqueeClass }}__inner {{ $marqueeClass }}__inner_to-left">
+        <span>
+          {{ range .context }}
+            <div class="{{ $marqueeClass }}__item">
+              {{ if .svg }}
+                {{ .svg | safeHTML }}
+              {{ else }}
+                <img src="{{ .img }}" alt="{{ .name }} logo" />
+              {{ end }}
+            </div>
+          {{ end }}
+        </span>
+        <span>
+          {{ range .context }}
+            <div class="{{ $marqueeClass }}__item">
+              {{ if .svg }}
+                {{ .svg | safeHTML }}
+              {{ else }}
+                <img src="{{ .img }}" alt="{{ .name }} logo" />
+              {{ end }}
+            </div>
+          {{ end }}
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

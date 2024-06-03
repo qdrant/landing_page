@@ -53,7 +53,7 @@ The market is preparing for a host of artificial intelligence and machine learni
 
 The main strength of a vector database like Qdrant is that it can consistently support the user way past the prototyping and launch phases. Qdrant’s product is already being used by large enterprises with billions of data points. Such users can go from testing to production almost instantly. Those looking to host large applications might only need up to 18GB RAM to support 1 million OpenAI Vectors. This makes Qdrant the best option for maximizing resource usage and data connection.
 
-Intel’s latest development is crucial to the future of vector databases. Vector search is the most CPU intensive process in vector search operations. Therefore, Qdrant relies on the innovations made by chip makers like Intel to offer large-scale support.
+Intel’s latest development is crucial to the future of vector databases. Vector search operations are very CPU-intensive. Therefore, Qdrant relies on the innovations made by chip makers like Intel to offer large-scale support.
 
 > *“Vector databases are a mainstay in today’s AI/ML toolchain, powering the latest generation of RAG and other Gen AI Applications. In teaming with Qdrant, Intel is helping enterprises deliver cutting-edge Gen-AI solutions and maximize their ROI by leveraging Qdrant’s high-performant and cost-efficient vector similarity search capabilities running on latest Intel Architecture based infrastructure across deployment models.”* 
 > 
@@ -69,4 +69,4 @@ As large companies continue to integrate sophisticated AI and machine learning t
 
 Qdrant is open source and offers a complete SaaS solution, hosted on AWS, GCP, and Azure.
 
-Getting started is easy, either spin up a [container image](https://hub.docker.com/r/qdrant/qdrant) or start a [free Cloud instance](https://cloud.qdrant.io/login). The documentation covers [adding the data](https://qdrant.tech/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [creating your indices](https://qdrant.tech/documentation/tutorials/optimize/). We would love to hear about what you are building and please connect with our engineering team on [Github](https://github.com/qdrant/qdrant), [Discord](https://discord.com/invite/tdtYvXjC4h), or [LinkedIn](https://www.linkedin.com/company/qdrant).
+Getting started is easy, either spin up a [container image](https://hub.docker.com/r/qdrant/qdrant) or start a [free Cloud instance](https://cloud.qdrant.io/login). The documentation covers [adding the data](/documentation/tutorials/bulk-upload/) to your Qdrant instance as well as [creating your indices](/documentation/tutorials/optimize/). We would love to hear about what you are building and please connect with our engineering team on [Github](https://github.com/qdrant/qdrant), [Discord](https://discord.com/invite/tdtYvXjC4h), or [LinkedIn](https://www.linkedin.com/company/qdrant).

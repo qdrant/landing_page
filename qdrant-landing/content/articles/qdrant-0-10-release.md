@@ -27,7 +27,7 @@ set up your collections.
 
 Previously, you had to send multiple requests to the Qdrant API to perform multiple non-related tasks. However, this 
 can cause significant network overhead and slow down the process, especially if you have a poor connection speed. 
-Fortunately, the [new batch search feature](https://qdrant.tech/documentation/concepts/search/#batch-search-api) allows 
+Fortunately, the [new batch search feature](/documentation/concepts/search/#batch-search-api) allows 
 you to avoid this issue. With just one API call, Qdrant will handle multiple search requests in the most efficient way 
 possible. This means that you can perform multiple tasks simultaneously without having to worry about network overhead
 or slow performance.
@@ -44,6 +44,6 @@ both ARM and non-ARM architectures using similar setups to understand the potent
 
 Qdrant is a vector database that allows you to quickly search for the nearest neighbors. However, you may need to apply 
 additional filters on top of the semantic search. Up until version 0.10, Qdrant only supported keyword filters. With the 
-release of Qdrant 0.10, [you can now use full-text filters](https://qdrant.tech/documentation/concepts/filtering/#full-text-match) 
+release of Qdrant 0.10, [you can now use full-text filters](/documentation/concepts/filtering/#full-text-match) 
 as well. This new filter type can be used on its own or in combination with other filter types to provide even more 
 flexibility in your searches.
