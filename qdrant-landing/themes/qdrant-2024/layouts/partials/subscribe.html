@@ -1,0 +1,25 @@
+<section class="subscribe">
+  <div class="subscribe-body">
+    <div class="subscribe-body__overlay"></div>
+    <div class="container">
+      <div class="subscribe-block">
+        <h5 class="subscribe-block__title">{{ .Params.form.title }}</h5>
+        <p class="subscribe-block__description">{{ .Params.form.description }}</p>
+        <form class="subscribe-block__form">
+          <label for="email">{{ .Params.form.label }}</label>
+          <input class="q-input" id="email" name="email" type="text" placeholder="{{ .Params.form.placeholder }}" />
+          <button class="button button_contained">{{ .Params.form.button }}</button>
+        </form>
+      </div>
+    </div>
+    <img class="subscribe-body__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+    <img class="subscribe-body__image-mobile" src="{{ .Params.image.srcMobile }}" alt="{{ .Params.image.alt }}" />
+  </div>
+  <div class="subscribe-header">
+    <p class="subscribe-header__rights">{{ .Params.footer.rights | safeHTML }}</p>
+    <a class="subscribe-header__link" href="{{ .Params.footer.termsLink.url }}">{{ .Params.footer.termsLink.text }}</a>
+    <a class="subscribe-header__link" href="{{ .Params.footer.policyLink.url }}">
+      {{ .Params.footer.policyLink.text }}
+    </a>
+  </div>
+</section>
