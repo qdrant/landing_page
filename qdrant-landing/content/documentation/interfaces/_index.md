@@ -28,10 +28,10 @@ or [protobuf](https://github.com/qdrant/qdrant/tree/master/lib/api/src/grpc/prot
 
 All interaction with Qdrant takes place via the REST API. We recommend using REST API if you are using Qdrant for the first time or if you are working on a prototype.
 
-|API|Documentation|
-|-|-|
-| REST API |[OpenAPI Specification](https://qdrant.github.io/qdrant/redoc/index.html)|
-| gRPC API| [gRPC Documentation](https://github.com/qdrant/qdrant/blob/master/docs/grpc/docs.md)|
+| API      | Documentation                                                                        |
+| -------- | ------------------------------------------------------------------------------------ |
+| REST API | [OpenAPI Specification](https://api.qdrant.tech/api-reference)                       |
+| gRPC API | [gRPC Documentation](https://github.com/qdrant/qdrant/blob/master/docs/grpc/docs.md) |
 
 ### gRPC Interface
 

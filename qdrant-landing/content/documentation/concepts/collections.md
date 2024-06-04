@@ -137,7 +137,7 @@ In addition to the required options, you can also specify custom values for the 
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
-See [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#operation/create_collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection and vector parameters.
+See [schema definitions](https://api.qdrant.tech/api-reference/collections/create-collection) and a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) for more information about collection and vector parameters.
 
 *Available as of v1.2.0*
 
@@ -855,7 +855,7 @@ The following parameters can be updated:
 * `vectors` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
 * `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
 
-Full API specification is available in [schema definitions](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/update_collection).
+Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).
 
 Calls to this endpoint may be blocking as it waits for existing optimizers to
 finish. We recommended against using this in a production database as it may

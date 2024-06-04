@@ -1050,7 +1050,7 @@ _Available as of v1.2.0_
 This method updates the specified vectors on the given points. Unspecified
 vectors are kept unchanged. All given points must exist.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/update_vectors)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/update-vectors)):
 
 ```http
 PUT /collections/{collection_name}/points/vectors
@@ -1198,7 +1198,7 @@ _Available as of v1.2.0_
 This method deletes just the specified vectors from the given points. Other
 vectors are kept unchanged. Points are never deleted.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/deleted_vectors)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-vectors)):
 
 ```http
 POST /collections/{collection_name}/points/vectors/delete
@@ -1264,7 +1264,7 @@ Learn how to modify the payload of a point in the [Payload](../payload/#update-p
 
 ## Delete points
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_points)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-points)):
 
 ```http
 POST /collections/{collection_name}/points/delete
@@ -1418,7 +1418,7 @@ This example removes all points with `{ "color": "red" }` from the collection.
 
 There is a method for retrieving points by their ids.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_points)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/get-points)):
 
 ```http
 POST /collections/{collection_name}/points
@@ -1482,7 +1482,7 @@ Excluding helps you not to waste traffic transmitting useless data.
 
 The single point can also be retrieved via the API:
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_point)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/get-point)):
 
 ```http
 GET /collections/{collection_name}/points/{point_id}
@@ -1499,7 +1499,7 @@ Python client:
 
 Sometimes it might be necessary to get all stored points without knowing ids, or iterate over points that correspond to a filter.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/scroll_points)):
+REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/scroll-points)):
 
 ```http
 POST /collections/{collection_name}/points/scroll
@@ -1769,7 +1769,7 @@ Among others, for example, we can highlight the following scenarios:
 - Determining the number of pages for pagination
 - Debugging the query execution speed
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/count_points)):
+REST API ([Schema](https://api.qdrant.tech/master/api-reference/points/count-points)):
 
 ```http
 POST /collections/{collection_name}/points/count
@@ -1887,7 +1887,7 @@ order. These operations can be batched:
 
 The following example snippet makes use of all operations.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/batch_update)):
+REST API ([Schema](https://api.qdrant.tech/master/api-reference/points/batch-update)):
 
 ```http
 POST /collections/{collection_name}/points/batch
