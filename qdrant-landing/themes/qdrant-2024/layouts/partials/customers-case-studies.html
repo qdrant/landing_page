@@ -5,10 +5,9 @@
 
 
       <div class="customers-case-studies__cards row g-4 gx-lg-4 gy-lg-6">
-
         <section class="bg-mid-gray">
           {{ with (.Site.GetPage "/customers/logo-cards-2") }}
-          {{ partial "logo-cards" . }}
+            {{ partial "logo-cards" . }}
           {{ end }}
         </section>
 

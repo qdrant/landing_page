@@ -32,12 +32,12 @@
                   <div class="customer-stories__card-footer">
                     <div class="customer-stories__avatar">
                       {{ if eq (printf "%T" .author.avatar) "[]interface {}" }}
-                      {{ $author := .author }}
-                      {{ range .author.avatar }}
-                      <img src="{{ . }}" alt="{{ $author.fullName }}" />
-                      {{ end }}
-                        {{ else }}
-                      <img src="{{ .author.avatar }}" alt="{{ .author.fullName }}" />
+                        {{ $author := .author }}
+                        {{ range .author.avatar }}
+                          <img src="{{ . }}" alt="{{ $author.fullName }}" />
+                        {{ end }}
+                      {{ else }}
+                        <img src="{{ .author.avatar }}" alt="{{ .author.fullName }}" />
                       {{ end }}
                     </div>
                     <div class="customer-stories__card-author">

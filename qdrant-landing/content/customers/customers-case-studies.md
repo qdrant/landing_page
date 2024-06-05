@@ -47,38 +47,5 @@ cases:
   link:
     text: Read Story
     url: /blog/iris-agent-qdrant/
-#- id: 3
-#  logo:
-#    src: /img/customers-case-studies/alphasense.svg
-#    alt: Logo
-#  image:
-#    src: /img/customers-case-studies/case4.png
-#    alt: Preview
-#  title: Mozilla optimizes the user experience with advanced search
-#  link:
-#    text: Read Story
-#    url: /
-#- id: 4
-#  logo:
-#    src: /img/customers-case-studies/hrs-group.svg
-#    alt: Logo
-#  image:
-#    src: /img/customers-case-studies/case5.png
-#    alt: Preview
-#  title: Flipkart optimizes the user experience with advanced search
-#  link:
-#    text: Read Story
-#    url: /
-#- id: 5
-#  logo:
-#    src: /img/customers-case-studies/deloitte.svg
-#    alt: Logo
-#  image:
-#    src: /img/customers-case-studies/case6.png
-#    alt: Preview
-#  title: Kaufland optimizes the user experience with advanced search
-#  link:
-#    text: Read Story
-#    url: /
 sitemapExclude: true
 ---
