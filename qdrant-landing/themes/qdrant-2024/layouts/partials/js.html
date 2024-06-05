@@ -142,7 +142,7 @@
   <script>
     const accordionButtons = Array.from(document.getElementsByClassName('accordion__item-header'));
 
-    accordionButtons.map((el) => {
+    accordionButtons.forEach((el) => {
       el.addEventListener('click', function () {
         this.parentElement.classList.toggle('active');
         const panel = this.nextElementSibling;
