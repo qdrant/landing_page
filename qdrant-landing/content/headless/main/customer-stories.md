@@ -4,9 +4,9 @@ wall:
   intro_text: "See what our community is saying on our"
   url: "https://testimonial.to/qdrant/all"
   url_text: Vector Space Wall
-#link:
-#  text: Customer Stories
-#  url: /customers/
+link:
+  text: Customer Stories
+  url: /customers/
 storyCards:
   - id: 0
     icon: /img/brands/bayer.svg
@@ -16,14 +16,6 @@ storyCards:
       avatar: '/img/customers/hooman-sedghamiz.svg'
       fullName: Hooman Sedghamiz
       position: Director Al /ML, Bayer
-  # - id: 1
-  #   icon: '/img/brands/soft-bank.svg'
-  #   brand: Softbank
-  #   content: “Qdrant is the best Vector Similarity Search Engine ever, as every other VSS broke during our high load and performance testing. If we find any issues, the Qdrant team fixes the fastest and improves on things beyond!”
-  #   author:
-  #     avatar: '/img/customers/jon-tse.svg'
-  #     fullName: Jon Tse
-  #     position: Senior Director of R&D, JVC (by Softbank)
   - id: 2
     icon: '/img/brands/cb-insights.svg'
     brand: CB Insights
@@ -37,7 +29,9 @@ storyCards:
     brand: Bosch
     content: “With Qdrant, we found the missing piece to develop our own provider independent multimodal generative AI platform on enterprise scale.”
     author:
-      avatar: '/img/customers/jeremy-t-daly-singh.svg'
+      avatar:
+        - '/img/customers/jeremy-t.png'
+        - '/img/customers/daly-singh.png'
       fullName: Jeremy T. & Daly Singh
       position: Generative AI Expert  & Product Owner, Bosch
   - id: 4

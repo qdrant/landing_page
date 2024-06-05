@@ -7,11 +7,27 @@
     {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial") }}
   {{ end }}
 
-  {{ partial "customers-case-studies" . }}
+<section class="bg-mid-gray pb-6">
+  <div class="container">
+{{ with (.Site.GetPage "/customers/logo-cards-1") }}
+{{ partial "logo-cards" . }}
+{{ end }}
+  </div>
+</section>
+
+{{ partial "customers-case-studies" . }}
 
   {{ with (.Site.GetPage "/customers/customers-testimonial2") }}
     {{ partial "testimonial-light" (dict "context" . "class" "customers-testimonial reversed") }}
   {{ end }}
+
+<section class="bg-mid-gray pb-6">
+  <div class="container">
+    {{ with (.Site.GetPage "/customers/logo-cards-3") }}
+    {{ partial "logo-cards" . }}
+    {{ end }}
+  </div>
+</section>
 
   {{ partial "customers-vector-space-wall" . }}
 

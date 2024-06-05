@@ -67,7 +67,7 @@ menuItems:
       - id: subMenu-2-1
         name: Community
         icon: community.svg
-        url: https://qdrant.to/discord
+        url: /community/
 #      - id: subMenu-2-2
 #        name: Qdrant Stars
 #        icon: qdrant-stars.svg
@@ -102,18 +102,18 @@ menuItems:
   - id: menu-4
     name: Company
     subMenuItems:
-#      - id: subMenu-4-0
-#        name: Customers
-#        icon: customers.svg
-#        url: /customers/
-#      - id: subMenu-4-1
-#        name: Partners
-#        icon: partners.svg
-#        url: /
-      - id: subMenu-4-2
+      - id: subMenu-4-0
         name: About us
         icon: about-us.svg
         url: /about-us/
+      - id: subMenu-4-1
+        name: Customers
+        icon: customers.svg
+        url: /customers/
+      - id: subMenu-4-2
+        name: Partners
+        icon: partners.svg
+        url: /partners/
       - id: subMenu-4-3
         name: Careers
         icon: careers.svg

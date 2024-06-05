@@ -4,10 +4,13 @@
       <img class="community-hero__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
       <h1 class="community-hero__title">{{ .Params.title }}</h1>
       <p class="community-hero__description">{{ .Params.description }}</p>
-      {{ with (.Site.GetPage "/headless/newsletter") }}
-        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "community-subscribe-form" "context" . "classes" "community-hero__form") }}
-      {{ end }}
-      <p class="community-hero__about">{{ .Params.about }}</p>
+<!--      {{ with (.Site.GetPage "/headless/newsletter") }}-->
+<!--        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "community-subscribe-form" "context" . "classes" "community-hero__form") }}-->
+<!--      {{ end }}-->
+<!--      <p class="community-hero__about">{{ .Params.about }}</p>-->
+      <div class="text-center">
+        <a href="{{ .Params.button.link }}" class="button button_contained button_lg" target="_blank" role="button">{{ .Params.button.text }}</a>
+      </div>
       <img class="community-hero__image-mobile" src="{{ .Params.image.srcMobile }}" alt="{{ .Params.image.alt }}" />
     </div>
     <div class="community-hero__overlay"></div>
