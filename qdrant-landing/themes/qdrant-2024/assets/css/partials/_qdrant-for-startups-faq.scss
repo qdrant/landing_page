@@ -47,21 +47,22 @@
       }
 
       &-body {
-        display: none;
-        margin-bottom: $spacer * 2.5;
         padding-right: $spacer * 1.5;
         font-size: rem(18);
         line-height: rem(27);
         color: $neutral-40;
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.2s ease-out;
+
+        &-content {
+          margin-bottom: $spacer * 2.5;
+        }
       }
 
       &.active {
         .accordion__item-header:after {
           background-image: url("data:image/svg+xml,%3Csvg width='24' height='25' viewBox='0 0 24 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22 12.7871H2' stroke='%232F6FF0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
-        }
-
-        .accordion__item-body {
-          display: block;
         }
       }
     }
