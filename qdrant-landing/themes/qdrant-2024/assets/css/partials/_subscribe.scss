@@ -60,6 +60,7 @@
       color: $neutral-80;
     }
 
+    // let's keep this in case we switch to static form in the future
     &__form {
       label {
         margin-bottom: rem(6);
@@ -87,6 +88,33 @@
       background-position: top;
       background-size: cover;
     }
+
+    &__hs-form {
+      .hs-form {
+        flex-direction: column;
+
+        .hs_email {
+         & > label {
+            display: block;
+            margin-bottom: rem(6);
+            font-size: rem(14);
+            line-height: rem(21);
+            color: $neutral-98;
+          }
+        }
+        .button {
+            width: 100%;
+            margin-top: $spacer * 1.5;
+        }
+        .hs_error_rollup {
+          top: 0;
+        }
+      }
+    }
+    .submitted-message {
+      text-align: center;
+    }
+
   }
 
   &-header {

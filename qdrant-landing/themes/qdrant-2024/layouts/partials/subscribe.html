@@ -5,11 +5,15 @@
       <div class="subscribe-block">
         <h5 class="subscribe-block__title">{{ .Params.form.title }}</h5>
         <p class="subscribe-block__description">{{ .Params.form.description }}</p>
-        <form class="subscribe-block__form">
-          <label for="email">{{ .Params.form.label }}</label>
-          <input class="q-input" id="email" name="email" type="text" placeholder="{{ .Params.form.placeholder }}" />
-          <button class="button button_contained">{{ .Params.form.button }}</button>
-        </form>
+        <!--        <form class="subscribe-block__form">-->
+        <!--          <label for="email">{{ .Params.form.label }}</label>-->
+        <!--          <input class="q-input" id="email" name="email" type="text" placeholder="{{ .Params.form.placeholder }}" />-->
+        <!--          <button class="button button_contained">{{ .Params.form.button }}</button>-->
+        <!--        </form>-->
+
+        {{ with (.Site.GetPage "/headless/newsletter") }}
+        {{ partial "hubspot-form.html" (dict "hubspotFormOptions" .Params.hubspotFormOptions "id" "subscribe-page" "context" . "classes" "subscribe-block__hs-form") }}
+        {{ end }}
       </div>
     </div>
     <img class="subscribe-body__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
@@ -21,5 +25,6 @@
     <a class="subscribe-header__link" href="{{ .Params.footer.policyLink.url }}">
       {{ .Params.footer.policyLink.text }}
     </a>
+    <a class="subscribe-header__link" href="{{ .Params.footer.impressumLink.url }}">{{ .Params.footer.impressumLink.text }}</a>
   </div>
 </section>
