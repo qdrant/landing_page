@@ -68,6 +68,17 @@
     border-radius: $spacer * 0.5;
   }
 
+  &__bottom-overlay {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: rem(637);
+    height: rem(420);
+    background-image: url('/img/blurred/blurred-light-16.svg');
+    background-position: bottom;
+    background-size: cover;
+  }
+
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 7.5;
