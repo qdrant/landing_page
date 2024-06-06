@@ -100,6 +100,8 @@ var client = new QdrantClient("localhost", 6334);
 await client.CreatePayloadIndexAsync(collectionName: "{collection_name}", fieldName: "name_of_the_field_to_index");
 ```
 
+You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](../filtering/#nested-key).
+
 Available field types are:
 
 * `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
