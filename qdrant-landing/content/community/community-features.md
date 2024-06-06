@@ -55,7 +55,7 @@ features:
   description: Whatever your strengths are, we got you covered. Learn more about how to contribute to Qdrant.
   link:
     text: Learn More
-    url: https://github.com/qdrant/qdrant/blob/d08d36204b8bae3e099b205ce9c19af64b8ae948/CONTRIBUTING.md
+    url: https://github.com/qdrant/qdrant/blob/master/CONTRIBUTING.md
 - id: 2
   icon:
     src: /icons/outline/handshake-blue.svg
