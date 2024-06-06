@@ -1,6 +1,6 @@
 ---
-title: Rapid RAG Optimization with Qdrant and Quotient
-short_description: Learn how Qdrant powered RAG applications can be tested and iteratively improved using Quotient.
+title: "Optimizing Retrieval Augmented Generation through Evaluation based methodology"
+short_description: Learn how Qdrant powered RAG applications can be tested and iteratively improved using LLM Evaluation tools like Quotient.
 description: In this article, we’ll break down a RAG Optimization workflow experiment that demonstrates that evaluation is essential to build a successful RAG strategy. We will use Qdrant and Quotient for this experiment.
 social_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/preview/social_preview.jpg
 small_preview_image: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/icon.svg
