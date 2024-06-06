@@ -5,8 +5,9 @@ image:
   src: /img/community-hero.svg
   srcMobile: /img/mobile/community-hero.svg
   alt: Community
-placeholder: Enter your email
-button: Subscribe
+button:
+  text: Join our Discord
+  url: https://discord.gg/qdrant
 about: Get access to educational resources, and stay up to date on all news and discussions about Qdrant and the vector database space.
 sitemapExclude: true
 ---

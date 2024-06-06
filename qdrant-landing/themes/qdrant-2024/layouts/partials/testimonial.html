@@ -3,7 +3,7 @@
   <div class="container">
     <div class="testimonial__cards">
       <div class="testimonial__content">
-        <p class="testimonial__review">{{ .context.Params.review }}</p>
+        <p class="testimonial__review">{{ .context.Params.review | safeHTML }}</p>
         <div class="testimonial__employees">
           <div class="testimonial__employees-avatar">
             <img src="{{ .context.Params.avatar.src }}" alt="{{ .context.Params.avatar.alt }}" />

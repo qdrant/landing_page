@@ -2,7 +2,7 @@
 customerStories:
   text: Qdrant Powers Thousands of Top AI Solutions.
   textLink: Customer Stories
-#  url: /customers/
+  url: /customers/
 
 # WARNING: If you want to add more customers, you need adjust the styles in the file:
 # `qdrant-landing/themes/qdrant-2024/assets/css/partials/_customers.scss`

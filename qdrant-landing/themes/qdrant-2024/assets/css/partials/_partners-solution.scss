@@ -29,15 +29,10 @@
     flex-direction: column;
     gap: $spacer * 1.5;
     padding: $spacer * 5 0;
-    z-index: 2;
   }
 
   &__cards {
     @include marquee.base(80px, 264px, 8, 8, 12px, $neutral-94, false, 50s, none);
-
-    &__container {
-      z-index: 2;
-    }
 
     &__item {
       display: flex;
@@ -66,7 +61,6 @@
     background-size: cover;
     background-repeat: no-repeat;
     background-position: center;
-    z-index: 1;
   }
 
   @include media-breakpoint-up(xl) {
