@@ -1,6 +1,6 @@
 ---
 title: MemGPT
-weight: 2400
+weight: 3200
 ---
 
 # MemGPT
