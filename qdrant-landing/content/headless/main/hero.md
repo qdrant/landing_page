@@ -27,10 +27,6 @@ heroImageSources:
 fallbackHeroImage:
   src: /img/hero-home-illustration-x1.png
   alt: 'Hero image: an astronaut looking at dark hole from the planet surface.'
-customerStories:
-  text: Qdrant Powers Thousands of Top AI Solutions.
-#  textLink: Customer Stories
-#  url: /
   
 githubStars:
   stars: 18.5k

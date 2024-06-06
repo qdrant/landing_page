@@ -1,7 +1,7 @@
 ---
 title: Vector Space Wall
 link:
-  src: /
+  url: https://testimonial.to/qdrant/all
   text: Submit Your Testimonial
 testimonials:
 - id: 0

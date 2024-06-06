@@ -6,7 +6,7 @@ resources:
   description: Qdrant Stars are our top contributors, organizers, and evangelists. Learn more about how you can become a Star.
   link:
     text: Learn More
-    href: /
+    url: /blog/qdrant-stars-announcement/
   image:
     src: /img/community-features/qdrant-stars.svg
     alt: Avatar
@@ -15,7 +15,7 @@ resources:
   description: Chat in real-time with the Qdrant team and community members.
   link:
     text: Join our Discord
-    href: /
+    url: https://discord.gg/qdrant
   image:
     src: /img/community-features/discord.svg
     alt: Avatar
@@ -24,7 +24,7 @@ resources:
   description: Learn all the latest tips and tricks in the AI space through our community blog.
   link:
     text: Visit our Blog
-    href: /
+    url: /blog/
   image:
     src: /img/community-features/community-blog.svg
     alt: Avatar
@@ -33,7 +33,7 @@ resources:
   description: Weekly tech talks with Qdrant users and industry experts.
   link:
     text: Learn More
-    href: /
+    url: https://www.youtube.com/watch?v=4aUq5VnR_VI&list=PL9IXkWSmb36_eANzd_sKeQ3tXbFiEGEWn&pp=iAQB
   image:
     src: /img/community-features/vector-space-talks.svg
     alt: Avatar
@@ -46,7 +46,7 @@ features:
   description: Docs carefully crafted to support developers and decision-makers learning about Qdrant features.
   link:
     text: Read More
-    href: /
+    url: /documentation/
 - id: 1
   icon:
     src: /icons/outline/guide-blue.svg
@@ -55,7 +55,7 @@ features:
   description: Whatever your strengths are, we got you covered. Learn more about how to contribute to Qdrant.
   link:
     text: Learn More
-    href: /
+    url: https://github.com/qdrant/qdrant/blob/master/CONTRIBUTING.md
 - id: 2
   icon:
     src: /icons/outline/handshake-blue.svg
@@ -64,7 +64,7 @@ features:
   description: Technology partners and applications that support Qdrant.
   link:
     text: Learn More
-    href: /
+    url: /partners/
 - id: 3
   icon:
     src: /icons/outline/mail-blue.svg
@@ -73,6 +73,6 @@ features:
   description: Stay up to date with all the latest Qdrant news
   link:
     text: Learn More
-    href: /
+    url: /subscribe/
 sitemapExclude: true
 ---

@@ -95,10 +95,21 @@
   &__card-footer {
     display: flex;
     gap: $spacer;
+  }
 
+  &__avatar {
+    height: rem(48);
+    text-align: right;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
     img {
-      min-width: rem(48);
-      min-height: rem(48);
+      width: rem(48);
+      height: rem(48);
+      &:not(:first-of-type) {
+        margin-left: $spacer * -1;
+        z-index: 1;
+      }
     }
   }
 
@@ -115,10 +126,6 @@
   &__card-author-position {
     color: $neutral-60;
     font-size: map-get($font-sizes-text, 's');
-  }
-
-  &__card:last-of-type img {
-    min-width: rem(80);
   }
 
   @include media-breakpoint-up(xl) {

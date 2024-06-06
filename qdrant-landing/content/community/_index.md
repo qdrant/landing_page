@@ -1,6 +1,6 @@
 ---
-title: community
-description: community
+title: Community
+description: Community
 build:
   render: always
 cascade:
