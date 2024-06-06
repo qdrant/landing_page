@@ -1,24 +1,28 @@
-{{ with (.Site.GetPage "/enterprise-solutions/testimonial") }}
-  <section class="testimonial">
-    <div class="container">
-      <div class="testimonial__cards">
-        <div class="testimonial__content">
-          <p class="testimonial__review">{{ .Params.review }}</p>
-          <div class="testimonial__employees">
-            <div class="testimonial__employees-avatar">
-              <img src="{{ .Params.avatar.src }}" alt="{{ .Params.avatar.alt }}" />
-            </div>
-            <div class="testimonial__employees-position">
-              <p>{{ .Params.names }}</p>
-              <p>{{ .Params.positions }}</p>
-            </div>
+{{ $overlayType := .overlayType }}
+<section class="testimonial">
+  <div class="container">
+    <div class="testimonial__cards">
+      <div class="testimonial__content">
+        <p class="testimonial__review">{{ .context.Params.review }}</p>
+        <div class="testimonial__employees">
+          <div class="testimonial__employees-avatar">
+            <img src="{{ .context.Params.avatar.src }}" alt="{{ .context.Params.avatar.alt }}" />
+          </div>
+          <div class="testimonial__employees-position">
+            <p>{{ .context.Params.names }}</p>
+            <p>{{ .context.Params.positions }}</p>
           </div>
         </div>
-        <div class="testimonial__logo">
-          <img src="{{ .Params.logo.src }}" alt="{{ .Params.logo.alt }}" />
-        </div>
+      </div>
+      <div class="testimonial__logo">
+        <img src="{{ .context.Params.logo.src }}" alt="{{ .context.Params.logo.alt }}" />
       </div>
     </div>
+  </div>
+  {{ if eq $overlayType "bottom-overlay" }}
+    <div class="testimonial__bottom-overlay"></div>
+  {{ end }}
+  {{ if eq $overlayType "top-and-bottom-overlay" }}
     {{ partial "top-and-bottom-overlay" (dict "context" . "class" "testimonial") }}
-  </section>
-{{ end }}
+  {{ end }}
+</section>

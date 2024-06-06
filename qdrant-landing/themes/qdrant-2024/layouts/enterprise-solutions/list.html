@@ -3,7 +3,11 @@
   {{ partial "enterprise-solutions-hero" . }}
 
   {{ partial "enterprise-solutions-use-cases" . }}
-  {{ partial "testimonial" . }}
+
+  {{ with (.Site.GetPage "/enterprise-solutions/testimonial") }}
+    {{ partial "testimonial" (dict "context" . "overlayType" "top-and-bottom-overlay") }}
+  {{ end }}
+
   {{ partial "enterprise-benefits" . }}
 
   {{ with (.Site.GetPage "/headless/get-contacted-with-question-sales") }}
