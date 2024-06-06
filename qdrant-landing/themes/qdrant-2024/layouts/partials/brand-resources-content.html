@@ -1,7 +1,7 @@
 {{ with (.Site.GetPage "/brand-resources/brand-resources-content") }}
   <section class="brand-resources-content">
     <div class="brand-resources-content__container">
-      <div class="brand-resources-content__block">
+      <div class="brand-resources-content__block" id="logo">
         <h3 class="brand-resources-content__title">{{ .Params.logo.title }}</h3>
         <p class="brand-resources-content__description">{{ .Params.logo.description }}</p>
         <div class="brand-resources-content__logos row g-4">
@@ -12,7 +12,9 @@
                   <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
                 </div>
                 <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>
-                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}">{{ .link.text }}</a>
+                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}"
+                   {{ if eq .link.text "Download" }}download{{ end }}
+                >{{ .link.text }}</a>
               </div>
             </div>
           {{ end }}
@@ -26,14 +28,16 @@
                   <img src="{{ .logo.src }}" alt="{{ .logo.alt }}" />
                 </div>
                 <h6 class="brand-resources-content__logos-title">{{ .title }}</h6>
-                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}">{{ .link.text }}</a>
+                <a class="brand-resources-content__logos-link link link_md" href="{{ .link.url }}"
+                   {{ if eq .link.text "Download" }}download{{ end }}
+                >{{ .link.text }}</a>
               </div>
             </div>
           {{ end }}
         </div>
       </div>
 
-      <div class="brand-resources-content__block">
+      <div class="brand-resources-content__block" id="colors">
         <h3 class="brand-resources-content__title">{{ .Params.colors.title }}</h3>
         <p class="brand-resources-content__description">{{ .Params.colors.description }}</p>
         <div class="brand-resources-content__colors">
@@ -49,19 +53,19 @@
         </div>
       </div>
 
-      <div class="brand-resources-content__block">
+      <div class="brand-resources-content__block" id="typography">
         <h3 class="brand-resources-content__title">{{ .Params.typography.title }}</h3>
         <p class="brand-resources-content__description">{{ .Params.typography.description }}</p>
         <div class="card brand-resources-content__typography">
           <p class="brand-resources-content__typography-example">{{ .Params.typography.example }}</p>
           <div>
             <p class="brand-resources-content__typography-specimen">{{ .Params.typography.specimen | safeHTML }}</p>
-            <a class="link link_md" href="{{ .Params.typography.link.url }}">{{ .Params.typography.link.text }}</a>
+            <a class="link link_md" href="{{ .Params.typography.link.url }}" target="_blank" rel="nofollow">{{ .Params.typography.link.text }}</a>
           </div>
         </div>
       </div>
 
-      <div class="brand-resources-content__block">
+      <div class="brand-resources-content__block" id="trademarks">
         <h3 class="brand-resources-content__title">{{ .Params.trademarks.title }}</h3>
         <p class="brand-resources-content__description">
           {{ .Params.trademarks.description | safeHTML }}
