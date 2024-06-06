@@ -9,7 +9,7 @@ cards:
   description: Join our GitHub community and contribute to the future of vector databases.
   link:
     text: Start Contributing
-    src: /
+    url: https://github.com/qdrant/qdrant
 - id: 1
   icon:
     src: /img/stars-marketplaces/discord.svg
@@ -18,7 +18,7 @@ cards:
   description: Discover and chat on a vibrant community of developers working on the future of AI.
   link:
     text: Join our Conversations
-    src: /
+    url: https://qdrant.to/discord
 - id: 2
   icon:
     src: /img/stars-marketplaces/twitter.svg
@@ -27,7 +27,7 @@ cards:
   description: Join us on X, participate and find out about our updates and releases before anyone else.
   link:
     text: Spread the Word
-    src: /
+    url: https://qdrant.to/twitter
 sitemapExclude: true
 ---
 
