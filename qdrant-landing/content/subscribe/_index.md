@@ -16,10 +16,13 @@ form:
 footer:
   rights: "&copy; 2024 Qdrant. All Rights Reserved"
   termsLink:
-    url: /
+    url: /legal/terms_and_conditions/
     text: Terms
   policyLink:
-    url: /
+    url: /legal/privacy-policy/
     text: Privacy Policy
+  impressumLink:
+    url: /legal/impressum/
+    text: Impressum
 sitemapExclude: true
 ---
