@@ -1,0 +1,13 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ partial "stars-hero" . }}
+
+  {{ partial "stars-about" . }}
+  {{ partial "stars-benefits" . }}
+  {{ partial "stars-list" . }}
+  {{ partial "stars-marketplaces" . }}
+
+  {{ with (.Site.GetPage "/stars/stars-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "stars-get-started") }}
+  {{ end }}
+{{ end }}

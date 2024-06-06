@@ -1,0 +1,20 @@
+{{ with (.Site.GetPage "/stars/stars-hero") }}
+  <section class="stars-hero">
+    <div class="container">
+      <div class="row align-items-lg-center">
+        <div class="stars-hero__content col-12 col-lg-6">
+          <h1 class="stars-hero__title">{{ .Params.title }}</h1>
+          <p class="stars-hero__description">{{ .Params.description }}</p>
+          <a href="{{ .Params.button.url }}" class="button button_contained button_md">
+            {{ .Params.button.text }}
+          </a>
+        </div>
+
+        <div class="stars-hero__preview col-12 col-lg-6">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+    <div class="stars-hero__overlay"></div>
+  </section>
+{{ end }}
