@@ -9,7 +9,7 @@ logo:
       alt: Logo Full Color
     title: Logo Full Color
     link:
-      url: /
+      url: /img/brand-resources-logos/logo.svg
       text: Download
   - id: 1
     logo:
@@ -17,7 +17,7 @@ logo:
       alt: Logo Black
     title: Logo Black
     link:
-      url: /
+      url:  /img/brand-resources-logos/logo-black.svg
       text: Download
   - id: 2
     logo:
@@ -25,7 +25,7 @@ logo:
       alt: Logo White
     title: Logo White
     link:
-      url: /
+      url: /img/brand-resources-logos/logo-white.svg
       text: Download 
   logomarkTitle: Logomark
   logomarkCards:
@@ -35,7 +35,7 @@ logo:
       alt: Logomark Full Color
     title: Logomark Full Color
     link:
-      url: /
+      url: /img/brand-resources-logos/logomark.svg
       text: Download
   - id: 1
     logo:
@@ -43,7 +43,7 @@ logo:
       alt: Logomark Black
     title: Logomark Black
     link:
-      url: /
+      url: /img/brand-resources-logos/logomark-black.svg
       text: Download
   - id: 2
     logo:
@@ -51,7 +51,7 @@ logo:
       alt: Logomark White
     title: Logomark White
     link:
-      url: /
+      url: /img/brand-resources-logos/logomark-white.svg
       text: Download 
 colors:
   title: Colors
@@ -87,13 +87,13 @@ typography:
   example: AaBb
   specimen: "ABCDEFGHIJKLMNOPQRSTUVWXYZ<br>abcdefghijklmnopqrstuvwxyz<br>0123456789 !@#$%^&*()"
   link:
-    url: /
+    url: https://api.fontshare.com/v2/fonts/download/satoshi
     text: Download 
 trademarks:
   title: Trademarks
   description: All features associated with the Qdrant brand are safeguarded by relevant trademark, copyright, and intellectual property regulations. Utilization of the Qdrant trademark must adhere to the specified Qdrant Trademark Standards for Use.<br><br>Should you require clarification or seek permission to utilize these resources, feel free to reach out to us at
   link: 
-    url: /
+    url: "mailto:info@qdrant.com"
     text: info@qdrant.com.
 sitemapExclude: true
 ---

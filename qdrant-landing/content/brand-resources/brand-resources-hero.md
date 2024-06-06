@@ -2,16 +2,16 @@
 title: Qdrant Brand Resources
 buttons:
 - id: 0
-  url: /
+  url: "#logo"
   text: Logo
 - id: 1
-  url: /
+  url: "#colors"
   text: Colors
 - id: 2
-  url: /
+  url: "#typography"
   text: Typography
 - id: 3
-  url: /
+  url: "#trademarks"
   text: Trademarks
 sitemapExclude: true
 ---
