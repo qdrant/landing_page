@@ -64,7 +64,6 @@
       position: relative;
       align-items: center;
       height: rem(400);
-      z-index: 2;
     }
 
     &__card {
@@ -82,7 +81,6 @@
       background-size: cover;
       background-repeat: no-repeat;
       background-position: center;
-      z-index: 1;
     }
   }
 }
