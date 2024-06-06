@@ -42,12 +42,13 @@
     }
 
     &-title {
-      padding: 0 $spacer $spacer;
+      padding: $spacer 0;
+      font-weight: 500;
     }
 
     &-link {
-      padding-left: $spacer;
       margin-bottom: $spacer * 0.5;
+      font-weight: 500;
     }
   }
 

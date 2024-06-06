@@ -1,7 +1,7 @@
 ---
 description: "Qdrant stands out in handling embeddings by consistently achieving the lowest latency, ensuring quicker response times in data retrieval:"
 link:
-  url: /
+  url: /benchmarks/
   text: See Our Benchmarks Report
 image:
   src: /img/partners-embeddings.svg
