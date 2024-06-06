@@ -1,0 +1,21 @@
+{{ with (.Site.GetPage "/stars/stars-list") }}
+  <section class="stars-list">
+    <div class="container">
+      <h2 class="stars-list__title">{{ .Params.title }}</h2>
+      <div class="stars-list__cards row g-4 gy-md-3">
+        {{ range .Params.cards }}
+          <div class="col-12 col-md-6 col-xl-3">
+            <div class="stars-list__card">
+              <img class="stars-list__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              <h6 class="stars-list__card-title">{{ .name }}</h6>
+              <p class="stars-list__card-subtitle">{{ .position }}</p>
+              <p class="stars-list__card-description">{{ .description }}</p>
+              <div class="stars-list__card-overlay"></div>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+    <div class="stars-list__overlay"></div>
+  </section>
+{{ end }}
