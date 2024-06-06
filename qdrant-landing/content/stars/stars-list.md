@@ -3,14 +3,14 @@ title: Meet our Stars
 cards:
   - id: 0
     image:
-      src: /img/stars/robert-caulk.png
+      src: /img/stars/robert-caulk.jpg
       alt: Avatar
     name: Robert Caulk
     position: Founder of Emergent Methods
     description: Robert is working with a team on AskNews.app to adaptively enrich, index, and report on over 1 million news articles per day
   - id: 1
     image:
-      src: /img/stars/joshua-mo.png
+      src: /img/stars/joshua-mo.jpg
       alt: Avatar
     name: Joshua Mo
     position: DevRel at Shuttle.rs
@@ -24,7 +24,7 @@ cards:
     description: Founder and product engineer at Trieve and has been using Qdrant since late 2022
   - id: 3
     image:
-      src: /img/stars/owen-colegrove.png
+      src: /img/stars/owen-colegrove.jpg
       alt: Avatar
     name: Owen Colegrove
     position: Founder of SciPhi
