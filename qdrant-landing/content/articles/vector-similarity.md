@@ -163,7 +163,7 @@ Qdrant offers several [security features](https://qdrant.tech/documentation/guid
 - JWT-Based Access Control: You can also enable more granular access control through JSON Web Tokens (JWT), and opt for restricted access to specific parts of the stored data while building Role-Based Access Control (RBAC).
 - TLS Encryption: Additionally, you can enable TLS Encryption on data transmission to ensure security of data in transit.
 
-To help with data sovereignty, Qdrant can be run in a [Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) setup. Hybrid Cloud allows for seamless deployment and management of the vector database across various environments, and integrates Kubernetes clusters into a unified managed service. You can manage these clusters via Qdrant Cloud’s UI while maintaining control over your infrastructure and resources.
+To help with data sovereignty, Qdrant can be run in a [Hybrid Cloud](/hybrid-cloud/) setup. Hybrid Cloud allows for seamless deployment and management of the vector database across various environments, and integrates Kubernetes clusters into a unified managed service. You can manage these clusters via Qdrant Cloud’s UI while maintaining control over your infrastructure and resources.
 
 ## **Optimizing Similarity Search Performance**
 
