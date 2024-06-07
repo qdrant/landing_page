@@ -18,7 +18,7 @@ You can use the [Qdrant app](https://pipedream.com/apps/qdrant) in Pipedream to 
 
 Search for the Qdrant app in your workflow apps.
 
-![Qdrant Pipedream App](/documentation/frameworks/pipedream/app-connection.png)
+![Qdrant Pipedream App](/documentation/frameworks/pipedream/qdrant-app.png)
 
 The Qdrant app offers extensible API interface and pre-built actions.
 
