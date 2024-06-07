@@ -26,6 +26,7 @@ form.hs-form {
       & > div.hs-form-field {
         div.input {
           input,
+          select,
           textarea {
             width: 100%;
           }
@@ -68,6 +69,7 @@ form.hs-form {
     margin-bottom: 0;
 
     input,
+    select,
     textarea {
       width: 100%;
       background-color: transparent;
