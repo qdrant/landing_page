@@ -135,7 +135,7 @@ To address these challenges head-on, we have made several design choices at Qdra
 
 ## **How Qdrant Solves Vector Similarity Search Challenges**
 
-Qdrant is a highly performant and scalable vector search system, developed ground up in Rust. Qdrant leverages Rust’s famed memory efficiency and performance. It supports horizontal scaling, sharding, and replicas, and includes security features like role-based authentication. Additionally, Qdrant can be deployed in various environments, including [hybrid cloud setups](https://hybrid-cloud.qdrant.tech/).
+Qdrant is a highly performant and scalable vector search system, developed ground up in Rust. Qdrant leverages Rust’s famed memory efficiency and performance. It supports horizontal scaling, sharding, and replicas, and includes security features like role-based authentication. Additionally, Qdrant can be deployed in various environments, including [hybrid cloud setups](/hybrid-cloud/).
 
 Here’s how we have taken on some of the key challenges that vector search applications face in production.
 
