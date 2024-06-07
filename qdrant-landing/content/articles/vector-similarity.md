@@ -6,7 +6,7 @@ preview_dir: /articles_data/vector-similarity/preview
 small_preview_image: /articles_data/vector-similarity/icon.svg
 social_preview_image: /articles_data/vector-similarity/preview/social_preview.jpg
 weight: -1
-author: Qdrant teama
+author: Qdrant Team
 author_link: https://qdrant.tech/
 date: 2024-06-04T08:00:00+03:00
 draft: false
@@ -167,29 +167,27 @@ To help with data sovereignty, Qdrant can be run in a [Hybrid Cloud](/hybrid-clo
 
 ## **Optimizing Similarity Search Performance**
 
-In order to achieve top performance in vector similarity searches, Qdrant employs a number of other tactics in addition to the features discussed above.
+In order to achieve top performance in vector similarity searches, Qdrant employs a number of other tactics in addition to the features discussed above.**FastEmbed**: Qdrant supports [FastEmbed](/articles/fastembed/), a lightweight Python library for generating fast and efficient text embeddings. FastEmbed uses quantized transformer models integrated with ONNX Runtime, and is significantly faster than traditional methods of embedding generation.
 
-**FastEmbed**: Qdrant supports [FastEmbed](https://qdrant.tech/articles/fastembed/), a lightweight Python library for generating fast and efficient text embeddings. FastEmbed uses quantized transformer models integrated with ONNX Runtime, and is significantly faster than traditional methods of embedding generation.
+    **Support for Dense and Sparse Vectors**: Qdrant supports both dense and sparse vector representations. While dense vectors are most common, you may encounter situations where the dataset contains a range of specialized domain-specific keywords. [Sparse vectors](/articles/sparse-vectors/) shine in such scenarios. Sparse vectors are vector representations of data where most elements are zero.
 
-**Support for Dense and Sparse Vectors**: Qdrant supports both dense and sparse vector representations. While dense vectors are most common, you may encounter situations where the dataset contains a range of specialized domain-specific keywords. [Sparse vectors](https://qdrant.tech/articles/sparse-vectors/) shine in such scenarios. Sparse vectors are vector representations of data where most elements are zero.
+**Multitenancy**: Qdrant supports [multitenancy](/documentation/guides/multiple-partitions/) by allowing vectors to be partitioned by payload within a single collection. Using this you can isolate each user's data, and avoid creating separate collections for each user. In order to ensure indexing performance, Qdrant also offers ways to bypass the construction of a global vector index, so that you can index vectors for each user independently.
 
-**Multitenancy**: Qdrant supports [multitenancy](https://qdrant.tech/documentation/guides/multiple-partitions/) by allowing vectors to be partitioned by payload within a single collection. Using this you can isolate each user's data, and avoid creating separate collections for each user. In order to ensure indexing performance, Qdrant also offers ways to bypass the construction of a global vector index, so that you can index vectors for each user independently.
-
-**IO Optimizations**: If your data doesn’t fit into the memory, it may require storing on disk. To [optimize disk IO performance](https://qdrant.tech/articles/io_uring/), Qdrant offers io_uring based *async uring* storage backend on Linux-based systems. Benchmarks show that it drastically helps reduce operating system overhead from disk IO.
+**IO Optimizations**: If your data doesn’t fit into the memory, it may require storing on disk. To [optimize disk IO performance](/articles/io_uring/), Qdrant offers io_uring based *async uring* storage backend on Linux-based systems. Benchmarks show that it drastically helps reduce operating system overhead from disk IO.
 
 **Data Integrity**: To ensure data integrity, Qdrant handles data changes in two stages. First, changes are recorded in the Write-Ahead Log (WAL). Then, changes are applied to segments, which store both the latest and individual point versions. In case of abnormal shutdowns, data is restored from WAL.
 
-**Integrations**: Qdrant has integrations with most popular frameworks, such as LangChain, LlamaIndex, Haystack, Apache Spark, FiftyOne, and more. Qdrant also has several [trusted partners](https://qdrant.tech/blog/hybrid-cloud-launch-partners/) for Hybrid Cloud deployments, such as Oracle Cloud Infrastructure, Red Hat OpenShift, Vultr, OVHcloud, Scaleway, and DigitalOcean.
+**Integrations**: Qdrant has integrations with most popular frameworks, such as LangChain, LlamaIndex, Haystack, Apache Spark, FiftyOne, and more. Qdrant also has several [trusted partners](/blog/hybrid-cloud-launch-partners/) for Hybrid Cloud deployments, such as Oracle Cloud Infrastructure, Red Hat OpenShift, Vultr, OVHcloud, Scaleway, and DigitalOcean.
 
-We regularly run [benchmarks](https://qdrant.tech/benchmarks/) comparing Qdrant against other vector databases like Elasticsearch, Milvus, and Weaviate. Our benchmarks show that Qdrant consistently achieves the highest requests-per-second (RPS) and lowest latencies across various scenarios, regardless of the precision threshold and metric used.
+We regularly run [benchmarks](/benchmarks/) comparing Qdrant against other vector databases like Elasticsearch, Milvus, and Weaviate. Our benchmarks show that Qdrant consistently achieves the highest requests-per-second (RPS) and lowest latencies across various scenarios, regardless of the precision threshold and metric used.
 
 ## **Real-World Use Cases**
 
-Vector similarity is increasingly being used in a wide range of [real-world applications](https://qdrant.tech/use-cases/). In e-commerce, it powers recommendation systems by comparing user behavior vectors to product vectors. In social media, it can enhance content recommendations and user connections by analyzing user interaction vectors. In image-oriented applications, vector similarity search enables reverse image search, similar image clustering, and efficient content-based image retrieval. In healthcare, vector similarity helps in genetic research by comparing DNA sequence vectors to identify similarities and variations. The possibilities are endless.
+Vector similarity is increasingly being used in a wide range of [real-world applications](/use-cases/). In e-commerce, it powers recommendation systems by comparing user behavior vectors to product vectors. In social media, it can enhance content recommendations and user connections by analyzing user interaction vectors. In image-oriented applications, vector similarity search enables reverse image search, similar image clustering, and efficient content-based image retrieval. In healthcare, vector similarity helps in genetic research by comparing DNA sequence vectors to identify similarities and variations. The possibilities are endless.
 
 A unique example of real-world application of vector similarity is how VISUA uses Qdrant. A leading computer vision platform, VISUA faced two key challenges. First, a rapid and accurate method to identify images and objects within them for reinforcement learning. Second, dealing with the scalability issues of their quality control processes due to the rapid growth in data volume. Their previous quality control, which relied on meta-information and manual reviews, was no longer scalable, which prompted the VISUA team to explore vector databases as a solution.
 
-After exploring a number of vector databases, VISUA picked Qdrant as the solution of choice. Vector similarity search helped identify similarities and deduplicate large volumes of images, videos, and frames. This allowed VISUA to uniquely represent data and prioritize frames with anomalies for closer examination, which helped scale their quality assurance and reinforcement learning processes. Read our [case study](https://qdrant.tech/blog/case-study-visua/) to learn more.
+After exploring a number of vector databases, VISUA picked Qdrant as the solution of choice. Vector similarity search helped identify similarities and deduplicate large volumes of images, videos, and frames. This allowed VISUA to uniquely represent data and prioritize frames with anomalies for closer examination, which helped scale their quality assurance and reinforcement learning processes. Read our [case study](/blog/case-study-visua/) to learn more.
 
 ## **Future Directions and Innovations**
 
