@@ -1,7 +1,7 @@
 ---
 title: What is Vector Similarity?
 short_description: Understanding the essence of vector similarity, how it is calculated, and how it is used in AI applications.
-description:   Understanding and leveraging vector similarity to enhance AI applications, recommendations, and search capabilities through numerical representations of data points in high-dimensional spaces.
+description: Understanding and leveraging vector similarity to enhance AI applications, recommendations, and search capabilities through numerical representations of data points in high-dimensional spaces.
 preview_dir: /articles_data/vector-similarity/preview
 small_preview_image: /articles_data/vector-similarity/icon.svg
 social_preview_image: /articles_data/vector-similarity/preview/social_preview.jpg
@@ -10,15 +10,14 @@ author: Qdrant Team
 author_link: https://qdrant.tech/
 date: 2024-06-04T08:00:00+03:00
 draft: false
-keywords: 
-    - vector similarity
-    - exploration
-    - dissimilarity
-    - discovery
-    - diversity
-    - recommendation
+keywords:
+  - vector similarity
+  - exploration
+  - dissimilarity
+  - discovery
+  - diversity
+  - recommendation
 ---
-
 
 A core function of a wide range of AI applications is to first understand the *meaning* behind a user query, and then provide *relevant* answers to the questions that the user is asking. With increasingly advanced interfaces and applications, this query can be in the form of language, or an image, an audio, video, or other forms of *unstructured* data.
 
@@ -149,7 +148,7 @@ The vector index in Qdrant employs the Hierarchical Navigable Small World (HNSW)
 
 ### **Scalability**
 
-For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/guides/distributed_deployment) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
+For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/guides/distributed_deployment/) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
 
 Qdrant also supports vector [quantization](/documentation/guides/quantization/) to reduce memory footprint and speed up vector similarity searches, making it very effective for large-scale applications where efficient resource management is critical.
 
