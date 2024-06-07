@@ -11,7 +11,14 @@
           <div class="col-12 col-md-6 col-xl-3">
             <div class="card stars-marketplaces__card">
               <img class="stars-marketplaces__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
-              <h6 class="stars-marketplaces__card-title">{{ .title }}</h6>
+              <h6 class="stars-marketplaces__card-title">
+                {{ $stats := .statsToUse }}
+                {{ if $stats }}
+                  {{ with ($.Site.GetPage "/headless/stats") }}
+                    {{ printf "%s" (index .Params.stats $stats) }}
+                  {{ end }}
+                {{ end }}
+                {{ .title }}</h6>
               <p class="stars-marketplaces__card-description">{{ .description }}</p>
               <a
                 class="stars-marketplaces__card-link link link_md align-self-start"

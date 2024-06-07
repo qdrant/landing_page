@@ -22,7 +22,9 @@
         <span class="hero__stars-text">{{ .Params.githubStars.actionText }}</span>
         <span class="hero__stars-count">
           {{ .Params.githubStars.starIcon | safeHTML }}
-          {{ .Params.githubStars.stars }}
+          {{ with (.Site.GetPage "/headless/stats") }}
+            {{ .Params.stats.githubStars }}
+          {{ end }}
         </span>
       </a>
     </div>
