@@ -208,4 +208,4 @@ Ready to implement vector similarity in your AI applications? Explore Qdrant's v
 - [Quick Start Guide](/documentation/quick-start/)
 - [Documentation](/documentation/overview/)
 
-We are always available on our [Discord channel](https://discord.com/invite/tdtYvXjC4h) to answer any questions you might have. You can also sign up for our [newsletter](https://qdrant.tech/subscribe/) to stay ahead of the curve.
+We are always available on our [Discord channel](https://qdrant.to/discord) to answer any questions you might have. You can also sign up for our [newsletter](/subscribe/) to stay ahead of the curve.
