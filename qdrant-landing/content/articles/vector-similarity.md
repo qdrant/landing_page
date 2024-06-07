@@ -151,7 +151,7 @@ The vector index in Qdrant employs the Hierarchical Navigable Small World (HNSW)
 
 For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/guides/distributed_deployment) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
 
-Qdrant also supports vector [quantization](https://qdrant.tech/documentation/guides/quantization/) to reduce memory footprint and speed up vector similarity searches, making it very effective for large-scale applications where efficient resource management is critical.
+Qdrant also supports vector [quantization](/documentation/guides/quantization/) to reduce memory footprint and speed up vector similarity searches, making it very effective for large-scale applications where efficient resource management is critical.
 
 There are three quantization strategies you can choose from - scalar quantization, binary quantization and product quantization - which will help you control the trade-off between storage efficiency, search accuracy and speed.
 
