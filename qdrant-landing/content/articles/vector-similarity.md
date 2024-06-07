@@ -141,7 +141,7 @@ Here’s how we have taken on some of the key challenges that vector search appl
 
 ### **Efficiency**
 
-Our [choice of Rust](https://qdrant.tech/articles/why-rust/) significantly contributes to the efficiency of Qdrant’s vector similarity search capabilities. Rust’s emphasis on safety and performance, without the need for a garbage collector, helps with better handling of memory and resources. Rust is renowned for its performance and safety features, particularly in concurrent processing, and we leverage it heavily to handle high loads efficiently.
+Our [choice of Rust](/articles/why-rust/) significantly contributes to the efficiency of Qdrant’s vector similarity search capabilities. Rust’s emphasis on safety and performance, without the need for a garbage collector, helps with better handling of memory and resources. Rust is renowned for its performance and safety features, particularly in concurrent processing, and we leverage it heavily to handle high loads efficiently.
 
 Also, a key feature of Qdrant is that we leverage both vector and traditional indexes (payload index). This means that vector index helps speed up vector search, while traditional indexes help filter the results.
 
