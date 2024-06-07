@@ -8,8 +8,8 @@ social_preview_image: /articles_data/vector-similarity/preview/social_preview.jp
 weight: -1
 author: Qdrant teama
 author_link: https://qdrant.tech/
-date: 2024-07-04T08:00:00+03:00
-draft: true
+date: 2024-06-04T08:00:00+03:00
+draft: false
 keywords: 
     - vector similarity
     - exploration
