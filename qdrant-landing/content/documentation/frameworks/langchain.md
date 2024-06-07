@@ -8,21 +8,20 @@ aliases:
 
 # LangChain
 
-LangChain is a library that makes developing Large Language Models based applications much easier. It unifies the interfaces
+LangChain is a library that makes developing Large Language Model-based applications much easier. It unifies the interfaces
 to different libraries, including major embedding providers and Qdrant. Using LangChain, you can focus on the business value
 instead of writing the boilerplate.
 
 Langchain distributes their Qdrant integration in their community package. It might be installed with pip:
 
 ```bash
-pip install langchain-community
+pip install langchain-community langchain-qdrant
 ```
 
-Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways
-how to use it, but calling `Qdrant.from_texts` is probably the most straightforward way how to get started:
+Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways to use it, but calling `Qdrant.from_texts` or `Qdrant.from_documents` is probably the most straightforward way to get started:
 
 ```python
-from langchain_community.vectorstores import Qdrant
+from langchain_qdrant import Qdrant
 from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
 
 embeddings = HuggingFaceEmbeddings(
@@ -33,25 +32,16 @@ doc_store = Qdrant.from_texts(
 )
 ```
 
-Calling `Qdrant.from_documents` or `Qdrant.from_texts` will always recreate the collection and remove all the existing points.
-That's fine for some experiments, but you'll prefer not to start from scratch every single time in a real-world scenario.
-If you prefer reusing an existing collection, you can create an instance of Qdrant on your own:
+## Using an existing collection
+
+To get an instance of `langchain_qdrant.Qdrant` without loading any new documents or texts, you can use the `Qdrant.from_existing_collection()` method.
 
 ```python
-import qdrant_client
-
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-mpnet-base-v2"
-)
-
-client = qdrant_client.QdrantClient(
-    "<qdrant-url>",
-    api_key="<qdrant-api-key>", # For Qdrant Cloud, None for local instance
-)
-
-doc_store = Qdrant(
-    client=client, collection_name="texts",
+doc_store = Qdrant.from_existing_collection(
     embeddings=embeddings,
+    collection_name="my_documents",
+    url="<qdrant-url>",
+    api_key="<qdrant-api-key>",
 )
 ```
 
