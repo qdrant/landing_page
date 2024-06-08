@@ -8,7 +8,7 @@ preview_dir: /articles_data/rapid-rag-optimization-with-qdrant-and-quotient/prev
 weight: -131
 author: Atita Arora
 author_link: https://github.com/atarora
-date: 2024-06-03T00:00:00.000Z
+date: 2024-06-08T00:00:00.000Z
 draft: false
 keywords:
 - vector database
@@ -16,6 +16,7 @@ keywords:
 - retrieval augmented generation
 - quotient
 - optimization
+- rag
 ---
 
 In today's fast-paced, information-rich world, AI is revolutionizing knowledge management—the systematic process of capturing, distributing, and effectively using knowledge within an organization is one of the fields in which AI provides exceptional value today. The potential for AI-powered knowledge management increases when leveraging **Retrieval Augmented Generation (RAG), a methodology that enables LLMs to access a vast, diverse repository of factual information from a knowledge stores aka vector databases, enhancing the accuracy, relevance, and reliability of generated text, thereby mitigating the risk of faulty, incorrect, or nonsensical results sometimes associated with traditional LLMs.** This method not only ensures that the answers are contextually relevant but also up-to-date, reflecting the latest insights and data available.
