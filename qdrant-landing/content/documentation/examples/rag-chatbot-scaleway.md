@@ -114,10 +114,15 @@ This chunking and indexing strategy significantly improves the management and re
 
 ```python
 text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
 splits = text_splitter.split_documents(docs)
 
 vectorstore = Qdrant.from_documents(
-    documents=splits, embedding=OpenAIEmbeddings(), location=":memory:", collection_name="lilianweng"
+    documents=splits,
+    embedding=OpenAIEmbeddings(),
+    collection_name="lilianweng",
+    url=os.environ["QDRANT_URL"],
+    api_key=os.environ["QDRANT_API_KEY"],
 )
 ```
 
