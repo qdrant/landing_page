@@ -24,9 +24,10 @@ weight: 33
 | [Langchain4j](./langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                        |
 | [LlamaIndex](./llama-index/)          | A data framework for building LLM applications with modular integrations.                            |
 | [Make](./make/)                       | Cloud platform to build low-code workflows by integrating various software applications.             |
+| [MemGPT](./memgpt/)                   | System to build LLM agents with long term memory & custom tools                                      |
 | [MindsDB](./mindsdb/)                 | Platform to deploy, serve, and fine-tune models with numerous data source integrations.              |
 | [N8N](./n8n/)                         | Platform for node-based, low-code workflow automation.                                               |
-| [OpenLIT](./openlit/)                 | OpenTelemetry-native Observability & Evals for LLMs and Vector Databases.                            |
+| [OpenLIT](./openlit/)                 | Platform for OpenTelemetry-native Observability & Evals for LLMs and Vector Databases.               |
 | [OpenLLMetry](./openllmetry/)         | Set of OpenTelemetry extensions to add Observability for your LLM application.                       |
 | [Pandas-AI](./pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
 | [Pipedream](./pipedream/)             | Platform for connecting apps and developing event-driven automations.                                |
