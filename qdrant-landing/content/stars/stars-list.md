@@ -57,13 +57,27 @@ cards:
     name: Haydar KULEKCI
     position: Senior Software Engineer
     description: I am a senior software engineer and consultant with over 10 years of experience in data management, processing, and software development.
-#  - id: 8
-#    image:
-#      src: /img/stars/nicola-procopio.jpg
-#      alt: Nicola Procopio Photo
-#    name: Nicola Procopio
-#    position: Senior Data Scientist @ Fincons Group
-#    description: " "
+  - id: 8
+    image:
+      src: /img/stars/nicola-procopio.jpg
+      alt: Nicola Procopio Photo
+    name: Nicola Procopio
+    position: Senior Data Scientist @ Fincons Group
+    description: Nicola is a data scientist involved in R&D and an open source fan since 2009. He contributes in some A.I. projects and uses Qdrant since 2023. He developed the first version of fastembed integration for Haystack and the vector search for Cheshire Cat A.I. using Qdrant. He is involved in several communities, he wrote articles, tutorials and gave talks on Qdrant for Cheshire Cat AI.
+  - id: 9
+    image:
+      src: /img/stars/eduardo-vasquez.jpg
+      alt: Eduardo Vasquez Photo
+    name: Eduardo Vasquez
+    position: Data Scientist and MLOps Engineer
+    description: I'm a Data Scientist and MLOps Engineer by day, and in my free time, I'm an enthusiastic explorer of generative AI and LLMs. I also enjoy creating content for my YouTube channel, explaining how to create end-to-end workflows for RAG applications, recommendation systems, fine-tuning LLMs, and more. I hold an MSc in Statistics and Data Science and am passionate about sharing knowledge and advancing the field.
+  - id: 10
+    image:
+      src: /img/stars/benito-martin.jpg
+      alt: Benito Martin Photo
+    name: Benito Martin
+    position: Independent Consultant | Data Science, ML and AI Project Implementation | Teacher and Course Content Developer
+    description: Benito, a former process engineer, discovered a passion for machine learning and artificial intelligence after completing a Data Science Bootcamp. Over the past year, he has been actively developing various MLOps and LLM projects, showcasing his expertise and creativity. Based in Switzerland but 100% Spanish at heart, Benito continues to push the boundaries of his knowledge and skills in the field.
 sitemapExclude: true
 ---
 
