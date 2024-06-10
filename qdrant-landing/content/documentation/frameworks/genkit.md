@@ -5,7 +5,7 @@ weight: 3400
 
 # Firebase Genkit
 
-[Genkit](https://firebase.google.com/products/genkit) is an open source framework to build, deploy, and monitor production-ready AI-powered apps.
+[Genkit](https://firebase.google.com/products/genkit) is a framework to build, deploy, and monitor production-ready AI-powered apps.
 
 You can build apps that generate custom content, use semantic search, handle unstructured inputs, answer questions with your business data, autonomously make decisions, orchestrate tool calls, and more.
 
@@ -72,16 +72,18 @@ Import retriever and indexer references like so:
 
 ```js
 import { qdrantIndexerRef, qdrantRetrieverRef } from 'genkitx-qdrant';
+import { Document, index, retrieve } from '@genkit-ai/ai/retriever';
 ```
 
 Then, pass the references to `retrieve()` and `index()`:
 
 ```js
-// To specify an index:
+// To specify an indexer:
 export const qdrantIndexer = qdrantIndexerRef({
   collectionName: 'some-collection',
   displayName: 'Some Collection indexer',
 });
+
 await index({ indexer: qdrantIndexer, documents });
 ```
 
@@ -90,7 +92,8 @@ await index({ indexer: qdrantIndexer, documents });
 export const qdrantRetriever = qdrantRetrieverRef({
   collectionName: 'some-collection',
   displayName: 'Some Collection Retriever',
-});https://github.com/qdrant/qdrant-genkit
+});
+
 let docs = await retrieve({ retriever: qdrantRetriever, query });
 ```
 
