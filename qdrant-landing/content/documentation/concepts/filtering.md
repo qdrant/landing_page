@@ -1464,32 +1464,36 @@ The `has_id` condition is not supported within the nested object filter. If you 
 ```http
 POST /collections/{collection_name}/points/scroll
 {
-    "filter": {
-        "must": [
-            "nested": {
-                {
-                    "key": "diet",
-                    "filter":{
-                        "must": [
-                            {
-                                "key": "food",
-                                "match": {
-                                    "value": "meat"
-                                }
-                            },
-                            {
-                                "key": "likes",
-                                "match": {
-                                    "value": true
-                                }
-                            }
-                        ]
-                    }
-                }
-            },
-            { "has_id": [1] }
-        ]
-    }
+   "filter":{
+      "must":[
+         {
+            "nested":{
+               "key":"diet",
+               "filter":{
+                  "must":[
+                     {
+                        "key":"food",
+                        "match":{
+                           "value":"meat"
+                        }
+                     },
+                     {
+                        "key":"likes",
+                        "match":{
+                           "value":true
+                        }
+                     }
+                  ]
+               }
+            }
+         },
+         {
+            "has_id":[
+               1
+            ]
+         }
+      ]
+   }
 }
 ```
 
