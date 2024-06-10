@@ -17,6 +17,7 @@ weight: 33
 | [DSPy](./dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                     |
 | [Fifty-One](./fifty-one/)             | Toolkit for building high-quality datasets and computer vision models.                               |
 | [Fondant](./fondant/)                 | Framework for developing datasets, sharing reusable operations and data processing trees.            |
+| [Genkit](./genkit/)                   | Framework to build, deploy, and monitor production-ready AI-powered apps.                            |
 | [Haystack](./haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                |
 | [Langchain](./langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                      |
 | [Langchain-Go](./langchain-go/)       | Go framework for building context-aware, reasoning applications using LLMs.                          |
