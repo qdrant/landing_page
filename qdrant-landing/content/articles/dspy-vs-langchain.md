@@ -1,5 +1,5 @@
 ---
-title: "DSPy vs LangChain" #required
+title: "DSPy vs LangChain: A Comprehensive Framework Comparison" #required
 short_description: DSPy and LangChain are powerful frameworks for building AI applications leveraging LLMs and vector search technology.
 description: DSPy and LangChain are powerful frameworks for building AI applications leveraging LLMs and vector search technology. In this article, we dive deep into the capabilities of each and discuss scenarios where each of these frameworks shine. Let’s get started! #required
 social_preview_image: /articles_data/discovery-search/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
@@ -247,22 +247,16 @@ The above code sets up DSPy to use Qdrant (localhost), with collection-name as t
 ```python
 
 class RAG(dspy.Module):
+    def __init__(self, num_passages=5):
+        super().__init__()
 
-def __init__(self, num_passages=5):
-
-super().__init__()
-
-self.retrieve = dspy.Retrieve(k=num_passages)
-
-self.generate_answer = dspy.ChainOfThought('context, question -> answer') # using inline signature
-
-def forward(self, question):
-
-context = self.retrieve(question).passages
-
-prediction = self.generate_answer(context=context, question=question)
-
-return dspy.Prediction(context=context, answer=prediction.answer)
+        self.retrieve = dspy.Retrieve(k=num_passages)
+        self.generate_answer = dspy.ChainOfThought('context, question -> answer') # using inline signature
+    
+    def forward(self, question):
+        context = self.retrieve(question).passages
+        prediction = self.generate_answer(context=context, question=question)
+        return dspy.Prediction(context=context, answer=prediction.answer)
 
 ```
 
