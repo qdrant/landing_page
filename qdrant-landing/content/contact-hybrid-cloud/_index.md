@@ -17,7 +17,7 @@ cards:
   description: Fully managed experience for your Qdrant clusters, while your data remains exclusively yours.
 form:
   title: Connect with us
-  description: Please let us know how we can help. Upon submission, we will provide meeting options should you wish to schedule time with our Sales team.
+#  description:
   id: contact-sales-form
   hubspotFormOptions: '{
     "region": "eu1",
