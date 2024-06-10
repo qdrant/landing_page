@@ -25,6 +25,7 @@ To use this plugin, specify it when you call `configureGenkit()`:
 
 ```js
 import { qdrant } from 'genkitx-qdrant';
+import { textEmbeddingGecko } from '@genkit-ai/vertexai';
 
 export default configureGenkit({
   plugins: [
