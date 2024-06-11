@@ -11,7 +11,7 @@ NiFi includes support for ingesting and querying data in Qdrant via its processo
 
 ## Configuration
 
-![NiFi Qdrant configuration](/documentation/frameworks/nifi/nifi-config.png)
+![NiFi Qdrant configuration](/documentation/frameworks/nifi/nifi-conifg.png)
 
 You can configure Qdrant NiFi processors with your Qdrant credentials, query/upload configurations. The processors offer 2 built-in embedding providers to encode data into vector embeddings - HuggingFace, OpenAI.
 
