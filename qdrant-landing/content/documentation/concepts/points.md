@@ -590,7 +590,7 @@ client.upload_collection(
 ```
 
 <aside role="status">
-If <code>ids</code> are not provided, they will be generated automatically as UUIDs.
+If <code>ids</code> are not provided, Qdrant Client will generate them automatically as random UUIDs.
 </aside>
 
 Record-oriented format:
