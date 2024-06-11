@@ -16,7 +16,7 @@ cards:
   description: Deploy Qdrant in your own infrastructure.
 form:
   title: Connect with us
-  description: Please let us know how we can help. Upon submission, we will provide meeting options should you wish to schedule time with our Sales team.
+#  description:
   id: contact-sales-form
   hubspotFormOptions: '{
     "region": "eu1",
