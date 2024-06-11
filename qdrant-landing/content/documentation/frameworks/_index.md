@@ -27,6 +27,7 @@ weight: 33
 | [MemGPT](./memgpt/)                   | System to build LLM agents with long term memory & custom tools                                      |
 | [MindsDB](./mindsdb/)                 | Platform to deploy, serve, and fine-tune models with numerous data source integrations.              |
 | [N8N](./n8n/)                         | Platform for node-based, low-code workflow automation.                                               |
+| [NiFi](./nifi/)                       | Data ingestion platform to manage data transfer between different sources and destination systems.   |
 | [OpenLIT](./openlit/)                 | Platform for OpenTelemetry-native Observability & Evals for LLMs and Vector Databases.               |
 | [OpenLLMetry](./openllmetry/)         | Set of OpenTelemetry extensions to add Observability for your LLM application.                       |
 | [Pandas-AI](./pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
