@@ -5,9 +5,9 @@ weight: 3500
 
 # Apache NiFi
 
-[NiFi] is a real time data ingestion platform, which can transfer and manage data transfer between different sources and destination systems. It supports a wide variety of data formats like logs, geolocation data, social feeds, etc. It also supports many protocols and offers a web-based user interface for developing and monitoring data flows.
+[NiFi](https://nifi.apache.org/) is a real-time data ingestion platform, which can transfer and manage data transfer between numerous sources and destination systems. It supports many protocols and offers a web-based user interface for developing and monitoring data flows.
 
-NiFi includes support for ingesting and querying data in Qdrant via its processor modules.
+NiFi supports ingesting and querying data in Qdrant via its processor modules.
 
 ## Configuration
 
