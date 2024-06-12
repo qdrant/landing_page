@@ -81,7 +81,10 @@ menuItems:
         url: https://qdrant.to/roadmap
       - id: 5
         name: Changelog
-        url: https://github.com/qdrant/qdrant/releases
+        url: https://github.com/qdrant/qdrant/releases     
+      - id: 6
+        name: Status Page
+        url: https://status.qdrant.io/
   - title: Resources
     items:
       - id: 0
