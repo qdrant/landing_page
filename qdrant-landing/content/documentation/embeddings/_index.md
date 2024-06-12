@@ -3,7 +3,7 @@ title: Embeddings
 weight: 34
 ---
 
-| Embedding                     |
+| Embeddings Providers          |
 | ----------------------------- |
 | [Aleph Alpha](./aleph-alpha/) |
 | [Bedrock](./bedrock/)         |
@@ -16,4 +16,5 @@ weight: 34
 | [OpenAI](./openai/)           |
 | [Prem AI](./premai/)          |
 | [Snowflake](./snowflake/)     |
+| [Upstage](./upstage/)        |
 | [Voyage AI](./voyage/)        |
