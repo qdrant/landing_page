@@ -5,7 +5,7 @@ title: Single node benchmarks
 description: |
     We benchmarked several vector databases using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January 2024 </b>
 single_node_title: Single node benchmarks
-single_node_data: /benchmarks/results-1-100-thread.json
+single_node_data: /benchmarks/results-topk.json
 preview_image: /benchmarks/benchmark-1.png
 date: 2022-08-23
 weight: 2
