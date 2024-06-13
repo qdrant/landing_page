@@ -88,7 +88,7 @@ $tabs-font-color-hover: $neutral-90;
 
   &__button {
     display: flex;
-    height: 44px;
+    min-height: 44px;
     padding: 10px 20px;
     justify-content: center;
     align-items: center;
