@@ -19,17 +19,6 @@ export function scrollIntoViewWithOffset(id, offset) {
     top: targetPosition,
     behavior: 'smooth',
   });
-
-  return new Promise((resolve) => {
-    const scrollHandler = () => {
-      // resolve promise when scroll is finished
-      if (window.scrollY === Math.floor(targetPosition)) {
-        window.removeEventListener('scroll', scrollHandler);
-        resolve();
-      }
-    };
-    window.addEventListener('scroll', scrollHandler);
-  });
 }
 
 export function isNodeList(list) {
