@@ -24,9 +24,8 @@ document.addEventListener('DOMContentLoaded', function (event) {
     const target = anchor.getAttribute('href');
     anchor.addEventListener('click', function (e) {
       e.preventDefault();
-      scrollIntoViewWithOffset(target.replace('#', ''), offset).then(() => {
-        history.pushState(null, null, target);
-      });
+      history.pushState(null, null, target);
+      scrollIntoViewWithOffset(target.replace('#', ''), offset);
     });
   });
 });
