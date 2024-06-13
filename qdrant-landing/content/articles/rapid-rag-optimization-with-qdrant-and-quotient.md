@@ -678,8 +678,12 @@ The significant variations in *Context Relevance* suggest that **certain questio
 Furthermore, there's ongoing **exploration required on the generative aspect** of RAG. 
 Modifying LLMs or prompts can substantially impact the overall quality of responses.
 
-
-> 💡 A workshop version of this article is [available on YouTube](https://www.youtube.com/watch?v=3MEMPZR1aZA).<br /><br />The accompanying notebook [accompanying notebook](https://github.com/qdrant/qdrant-rag-eval/tree/master/workshop-rag-eval-qdrant-quotient) can be accessed on GitHub for future reference.
-
+> 💡 The [accompanying notebook](https://github.com/qdrant/qdrant-rag-eval/tree/master/workshop-rag-eval-qdrant-quotient) can be accessed on GitHub for future reference.
 
 This iterative process demonstrates how, starting from scratch, continual evaluation and adjustments throughout experimentation can lead to the development of an enhanced RAG system.
+
+## Watch this workshop on YouTube
+
+> A workshop version of this article is [available on YouTube](https://www.youtube.com/watch?v=3MEMPZR1aZA).
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/3MEMPZR1aZA?si=n38oTBMtH3LNCTzd" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
