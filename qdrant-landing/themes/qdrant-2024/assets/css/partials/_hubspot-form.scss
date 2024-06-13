@@ -13,6 +13,11 @@ form.hs-form {
       line-height: rem(21);
     }
 
+    legend {
+      font-size: rem(14);
+      color: $neutral-60;
+    }
+
     & > div.hs-form-field {
       div.input,
       textarea {

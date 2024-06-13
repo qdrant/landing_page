@@ -20,7 +20,7 @@ form:
   hubspotFormOptions: '{
     "region": "eu1",
     "portalId": "139603372",
-    "formId": "3679bf7f-97ec-4b16-9682-eea65971570d",
+    "formId": "59eb058b-0145-4ab0-b49a-c37708d20a60",
     "submitButtonClass": "button button_contained",
     "submitText": "Send Message",
   }'
