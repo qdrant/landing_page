@@ -21,11 +21,13 @@ keywords:
 
 In today's fast-paced, information-rich world, AI is revolutionizing knowledge management. The systematic process of capturing, distributing, and effectively using knowledge within an organization is one of the fields in which AI provides exceptional value today. 
 
-The potential for AI-powered knowledge management increases when leveraging Retrieval Augmented Generation (RAG), a methodology that enables LLMs to access a vast, diverse repository of factual information from knowledge stores, such as vector databases. 
+> The potential for AI-powered knowledge management increases when leveraging Retrieval Augmented Generation (RAG), a methodology that enables LLMs to access a vast, diverse repository of factual information from knowledge stores, such as vector databases. 
 
 This process enhances the accuracy, relevance, and reliability of generated text, thereby mitigating the risk of faulty, incorrect, or nonsensical results sometimes associated with traditional LLMs. This method not only ensures that the answers are contextually relevant but also up-to-date, reflecting the latest insights and data available.
 
-While RAG enhances the accuracy, relevance, and reliability of traditional LLM solutions, an evaluation strategy can further help teams ensure their AI products meet these benchmarks of success.
+While RAG enhances the accuracy, relevance, and reliability of traditional LLM solutions, **an evaluation strategy can further help teams ensure their AI products meet these benchmarks of success.**
+
+## Relevant tools for this experiment
 
 In this article, we’ll break down a RAG Optimization workflow experiment that demonstrates that evaluation is essential to build a successful RAG strategy. We will use Qdrant and Quotient for this experiment.
 
@@ -35,7 +37,7 @@ Alongside Qdrant we will use Quotient, which provides a seamless way to evaluate
 
 [Quotient](https://www.quotientai.co/) is a platform that provides tooling for AI developers to build evaluation frameworks and conduct experiments on their products. Evaluation is how teams surface the shortcomings of their applications and improve performance in key benchmarks such as faithfulness, and semantic similarity. Iteration is key to building innovative AI products that will deliver value to end users.
 
-## Summary of Key Findings
+## Summary of key findings
 
 1. **Irrelevance and Hallucinations**: When the documents retrieved are irrelevant, evidenced by low scores in both Chunk Relevance and Context Relevance, the model is prone to generating inaccurate or fabricated information.
 2. **Optimizing Document Retrieval**: By retrieving a greater number of documents and reducing the chunk size, we observed improved outcomes in the model's performance.
@@ -44,7 +46,7 @@ Alongside Qdrant we will use Quotient, which provides a seamless way to evaluate
 
 Let us walk you through how we arrived at these findings!
 
-## Building a RAG Pipeline
+## Building a RAG pipeline
 
 To evaluate a RAG pipeline , we will have to build a RAG Pipeline first. In the interest of simplicity, we are building a Naive RAG in this article. There are certainly other versions of RAG :
 
@@ -137,7 +139,7 @@ print(dataset[100]['text'])
 
 ```
 
-## Evaluation Dataset
+## Evaluation dataset
 
 To measure the quality of our RAG setup, we will need a representative evaluation dataset. This dataset should contain realistic questions and the expected answers.
 
@@ -147,7 +149,7 @@ We will be using a [prebuilt evaluation dataset](https://huggingface.co/datasets
 
 If you are struggling to make an evaluation dataset for your use case , you can use your documents and some techniques described in this [notebook](https://github.com/qdrant/qdrant-rag-eval/blob/master/synthetic_qna/notebook/Synthetic_question_generation.ipynb)
 
-### Building the RAG Pipeline
+### Building the RAG pipeline
 
 We establish the data preprocessing parameters essential for the RAG pipeline and configure the Qdrant vector database according to the specified criteria. 
 
@@ -264,7 +266,7 @@ For our evaluation, we will be considering the following metrics, with a focus o
 - **BERT Sentence Similarity**
 - **BERTScore**
 
-### Evaluation in Action
+### Evaluation in action
 
 The function below takes an evaluation dataset as input, which in this case contains questions and their corresponding answers. It retrieves relevant documents based on the questions in the dataset and populates the context field with this information from Qdrant. The prepared dataset is then submitted to QuotientAI for evaluation for the chosen metrics. After the evaluation is complete, the function displays aggregated statistics on the evaluation metrics followed by the summarized evaluation results.
 
@@ -496,7 +498,7 @@ Followed by running evaluation :
 
 ![experiment2_eval.png](/articles_data/rapid-rag-optimization-with-qdrant-and-quotient/experiment2_eval.png)
 
-and **comparing it with the results from Experiment 1 :** 
+and **comparing it with the results from Experiment 1:** 
 
 ![graph_exp1_vs_exp2.png](/articles_data/rapid-rag-optimization-with-qdrant-and-quotient/graph_exp1_vs_exp2.png)
 
@@ -544,7 +546,7 @@ As anticipated, employing the smaller chunk size while retrieving a larger numbe
 
 Looks like we have achieved a good hold on our chunking parameters but it is worth testing another embedding model to see if we can get better results.
 
-### Experiment 4 - Changing the Embedding model 
+### Experiment 4 - Changing the embedding model 
 
 Let us try using **MiniLM** for this experiment
 ****Parameters :
