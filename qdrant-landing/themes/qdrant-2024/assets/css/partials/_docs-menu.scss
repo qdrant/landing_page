@@ -38,6 +38,8 @@
 
   &__input {
     position: relative;
+    margin-top: $spacer;
+    margin-bottom: $spacer * 2;
 
     svg {
       position: absolute;
@@ -78,7 +80,6 @@
   }
 
   &__links {
-    margin-top: $spacer * 1.5;
 
     &-title {
       color: $neutral-98;
@@ -178,6 +179,14 @@
     &__content {
       display: block;
       padding: 0;
+    }
+
+    &__input {
+      margin-bottom: 0;
+    }
+
+    &__links {
+      margin-top: $spacer * 1.5;
     }
 
     &__links-group {
