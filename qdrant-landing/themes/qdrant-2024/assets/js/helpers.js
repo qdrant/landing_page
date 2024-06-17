@@ -33,17 +33,9 @@ export function initGoToTopButton(selector) {
   }
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > window.innerHeight / 3) {
-      button.classList.add('d-block');
-      if (button.classList.contains('d-none')) {
-        button.classList.remove('d-none');
-      }
-    } else {
-      if (button.classList.contains('d-block')) {
-        button.classList.remove('d-block');
-      }
-      button.classList.add('d-none');
-    }
+    const shouldShow = window.scrollY > window.innerHeight / 3;
+    button.classList.toggle('d-block', shouldShow);
+    button.classList.toggle('d-none', !shouldShow);
   });
 
   button.addEventListener('click', () => {
