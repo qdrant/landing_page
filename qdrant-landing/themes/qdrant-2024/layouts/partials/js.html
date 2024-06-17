@@ -128,3 +128,21 @@
     });
   </script>
 {{ end }}
+
+{{ if eq .Section "qdrant-for-startups" }}
+  <script>
+    const accordionButtons = Array.from(document.getElementsByClassName('accordion__item-header'));
+
+    accordionButtons.forEach((el) => {
+      el.addEventListener('click', function () {
+        this.parentElement.classList.toggle('active');
+        const panel = this.nextElementSibling;
+        if (panel.style.maxHeight) {
+          panel.style.maxHeight = null;
+        } else {
+          panel.style.maxHeight = panel.scrollHeight + 'px';
+        }
+      });
+    });
+  </script>
+{{ end }}

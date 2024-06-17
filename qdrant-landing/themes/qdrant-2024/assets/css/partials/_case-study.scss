@@ -29,6 +29,9 @@
     line-height: rem(27);
     color: $neutral-70;
     margin-bottom: $spacer * 1.5;
+    b {
+      color: $neutral-98;
+    }
   }
 
   &__preview {
@@ -70,7 +73,7 @@
     &__content {
       display: flex;
       flex-direction: column;
-      height: rem(472);
+      min-height: rem(472);
       padding: $spacer * 4 $spacer * 3 $spacer * 4 $spacer * 5;
     }
 

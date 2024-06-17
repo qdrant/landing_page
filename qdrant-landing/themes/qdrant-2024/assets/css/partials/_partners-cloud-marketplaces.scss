@@ -1,0 +1,20 @@
+@use '../helpers/functions' as *;
+@use '../mixins/marketplaces' as marketplaces;
+
+.partners-cloud-marketplaces {
+  @include marketplaces.base(
+    $spacer * 4,
+    $spacer * 4,
+    $spacer * 6.5,
+    $spacer * 5.5,
+    100%,
+    $spacer * 3,
+    $spacer * 2,
+    rem(57),
+    rem(38)
+  );
+
+  &__title {
+    display: none;
+  }
+}

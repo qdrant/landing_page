@@ -2,5 +2,5 @@
 @use '../mixins/get-contacted' as get-contacted;
 
 .qdrant-pricing-get-contacted {
-  @include get-contacted.base($spacer * 2.5, $spacer * 2.5, $spacer * 5, $spacer * 4, rem(400));
+  @include get-contacted.base($spacer * 2.5, $spacer * 2.5, $spacer * 5, $spacer * 4, rem(350));
 }

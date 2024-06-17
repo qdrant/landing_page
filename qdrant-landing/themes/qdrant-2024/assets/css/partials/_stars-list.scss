@@ -1,0 +1,117 @@
+@use '../helpers/functions' as *;
+
+.stars-list {
+  position: relative;
+  background-color: $neutral-10;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+
+  &__title {
+    position: relative;
+    margin-bottom: $spacer * 2.5;
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-98;
+    text-align: center;
+    z-index: 1;
+  }
+
+  &__card {
+    position: relative;
+    width: 100%;
+    max-width: rem(255);
+    height: 100%;
+    margin: 0 auto;
+    padding: $spacer * 1.5;
+    border-radius: rem(12);
+    background: linear-gradient($neutral-20, #0e1424);
+    overflow: hidden;
+    text-align: center;
+    z-index: 1;
+
+    &-image {
+      position: relative;
+      width: 100%;
+      margin-bottom: $spacer;
+      border-radius: rem(6);
+      z-index: 1;
+    }
+
+    &-title {
+      margin-bottom: 0;
+      font-size: rem(20);
+      line-height: rem(30);
+      color: $neutral-98;
+    }
+
+    &-subtitle {
+      margin-bottom: $spacer * 0.5;
+      font-size: rem(14);
+      line-height: rem(21);
+      font-weight: 600;
+      color: $neutral-90;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: rem(14);
+      line-height: rem(21);
+      color: $neutral-60;
+    }
+
+    &-overlay {
+      position: absolute;
+      right: 0;
+      top: 0;
+      width: rem(124);
+      height: rem(124);
+      background-image: url('/img/blurred/blurred-light-15.svg');
+      background-position: top;
+      background-size: cover;
+    }
+  }
+
+  &__overlay {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: rem(323);
+    height: rem(320);
+    background-image: url('/img/blurred/blurred-light-4.png');
+    background-position: top;
+    background-size: cover;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      margin-bottom: $spacer * 5;
+      font-size: $spacer * 4;
+      line-height: rem(67);
+    }
+
+    &__cards > div {
+      &:nth-of-type(1),
+      &:nth-of-type(3) {
+        .stars-list__card {
+          margin: 0 0 0 auto;
+        }
+      }
+
+      &:nth-of-type(2),
+      &:nth-of-type(4) {
+        .stars-list__card {
+          margin: 0 auto 0 0;
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__card {
+      margin: 0 auto !important;
+    }
+  }
+}

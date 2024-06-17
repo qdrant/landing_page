@@ -1,0 +1,120 @@
+@use '../helpers/functions' as *;
+@use '../mixins/mixins' as mixins;
+
+.community-features {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-20;
+    margin-bottom: $spacer * 2.5;
+    text-align: center;
+  }
+
+  &__resources-card {
+    padding-bottom: 0;
+    overflow: hidden;
+
+    &-title {
+      font-size: $spacer * 1.5;
+      line-height: rem(34);
+      color: $neutral-20;
+      margin-bottom: rem(12);
+    }
+
+    &-description {
+      color: $neutral-40;
+      margin-bottom: rem(12);
+    }
+
+    &-link {
+      @include mixins.link-color($neutral-20);
+    }
+
+    &-image {
+      width: 100%;
+      align-self: center;
+      margin-top: $spacer * 1.5;
+    }
+  }
+
+  &__resources-cards {
+    margin-bottom: rem(30);
+
+    & > div {
+      &:first-of-type,
+      &:last-of-type {
+        img {
+          min-width: rem(635);
+        }
+      }
+
+      &:nth-of-type(2),
+      &:nth-of-type(3) {
+        img {
+          min-width: rem(397);
+        }
+      }
+    }
+  }
+
+  &__card {
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &-title {
+      font-size: $spacer * 1.5;
+      line-height: rem(34);
+      color: $neutral-20;
+      margin-bottom: $spacer;
+    }
+
+    &-description {
+      font-size: rem(14);
+      line-height: rem(21);
+      color: $neutral-40;
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &-link {
+      @include mixins.link-color($neutral-20);
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 6.5;
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__resources-card {
+      justify-content: flex-start;
+
+      &-link {
+        margin-bottom: $spacer;
+      }
+
+      &-image {
+        margin-top: auto;
+      }
+    }
+
+    &__card {
+      justify-content: flex-start;
+
+      &-link {
+        margin-top: auto;
+      }
+    }
+  }
+}

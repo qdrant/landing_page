@@ -1,0 +1,17 @@
+{{ with (.Site.GetPage "/stars/stars-about") }}
+  <section class="stars-about">
+    <div class="container">
+      <div class="row align-items-lg-center">
+        <div class="stars-about__content col-12 col-lg-6">
+          <h3 class="stars-about__title">{{ .Params.title }}</h3>
+          <p class="stars-about__description">{{ .Params.descriptionFirstPart }}</p>
+          <p class="stars-about__description">{{ .Params.descriptionSecondPart }}</p>
+        </div>
+
+        <div class="stars-about__preview col-12 col-lg-6">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

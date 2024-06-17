@@ -1,0 +1,11 @@
+{{ with (.Site.GetPage "/partners/partners-hero") }}
+  <section class="partners-hero">
+    <div class="partners-hero__overlay"></div>
+    <div class="container">
+      <h3 class="partners-hero__title">{{ .Params.title }}</h3>
+      <p class="partners-hero__description">{{ .Params.description }}</p>
+    </div>
+    <img class="partners-hero__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+    <img class="partners-hero__image-mobile" src="{{ .Params.image.srcMobile }}" alt="{{ .Params.image.alt }}" />
+  </section>
+{{ end }}

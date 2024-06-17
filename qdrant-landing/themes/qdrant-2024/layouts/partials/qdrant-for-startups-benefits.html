@@ -1,0 +1,38 @@
+{{ with (.Site.GetPage "/qdrant-for-startups/qdrant-for-startups-benefits") }}
+  <section class="qdrant-for-startups-benefits">
+    <div class="container">
+      <h4 class="qdrant-for-startups-benefits__title">{{ .Params.title }}</h4>
+      <div class="qdrant-for-startups-benefits__cards row g-4">
+        <div class="col-12">
+          <div class="card qdrant-for-startups-benefits__main-card">
+            <div class="qdrant-for-startups-benefits__main-card-block">
+              <h4 class="qdrant-for-startups-benefits__main-card-title">{{ .Params.mainCard.title }}</h4>
+              <p class="qdrant-for-startups-benefits__main-card-description">
+                {{ .Params.mainCard.description | safeHTML }}
+              </p>
+            </div>
+            <img
+              class="qdrant-for-startups-benefits__main-card-image"
+              src="{{ .Params.mainCard.image.src }}"
+              alt="{{ .Params.mainCard.image.alt }}"
+            />
+          </div>
+        </div>
+        {{ range .Params.cards }}
+          <div class="col-12 col-lg-6">
+            <div class="card qdrant-for-startups-benefits__card">
+              <h5 class="qdrant-for-startups-benefits__card-title">{{ .title }}</h5>
+              <p class="qdrant-for-startups-benefits__card-description">{{ .description }}</p>
+              <img class="qdrant-for-startups-benefits__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="qdrant-for-startups-benefits__footer">
+        <p class="qdrant-for-startups-benefits__description">{{ .Params.description }}</p>
+        <a class="link link_xl" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
+      </div>
+    </div>
+  </section>
+{{ end }}
