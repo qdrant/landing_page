@@ -2,11 +2,7 @@
 title: Why join Qdrant for Startups?
 mainCard: 
   title: Discount for Qdrant Cloud
-  descriptionFirstPart: Receive up to <span>30%</span> discount on
-  link:
-    url: /
-    text: Qdrant Cloud
-  descriptionSecondPart: for the first year and start building now.
+  description: Receive up to <strong>20%</strong> discount on <a href="https://cloud.qdrant.io/" target="_blank">Qdrant Cloud</a> for the first year and start building now.
   image:
     src: /img/qdrant-for-startups-benefits/card1.png
     alt: Qdrant Discount for Startups
@@ -25,7 +21,7 @@ cards:
     alt: Co-Marketing Opportunities
 description: Qdrant is the leading open source vector database and similarity search engine designed to handle high-dimensional vectors for performance and massive-scale AI applications.
 link:
-  url: /
+  url: /documentation/overview/
   text: Learn More
 sitemapExclude: true
 ---

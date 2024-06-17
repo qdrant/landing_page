@@ -2,97 +2,99 @@
   <section class="qdrant-for-startups-form" id="form">
     <div class="container">
       <h2 class="qdrant-for-startups-form__title">{{ .Params.title }}</h2>
-      <form class="contact-form">
-        <div class="contact-form__top-overlay"></div>
-        <h6 class="contact-form__title">{{ .Params.form.title }}</h6>
+<!--      <form class="contact-form">-->
+<!--        <div class="contact-form__top-overlay"></div>-->
+<!--        <h6 class="contact-form__title">{{ .Params.form.title }}</h6>-->
 
-        <div class="contact-form__inputs">
-          <div class="contact-form__inputs-block">
-            <label for="firstName">{{ .Params.form.firstNameLabel }}</label>
-            <input class="q-input q-input_dark-bg" type="text" name="firstName" id="firstName" value="" />
-          </div>
+<!--        <div class="contact-form__inputs">-->
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="firstName">{{ .Params.form.firstNameLabel }}</label>-->
+<!--            <input class="q-input q-input_dark-bg" type="text" name="firstName" id="firstName" value="" />-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="lastName">{{ .Params.form.lastNameLabel }}</label>
-            <input class="q-input q-input_dark-bg" type="text" name="lastName" id="lastName" value="" />
-          </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="lastName">{{ .Params.form.lastNameLabel }}</label>-->
+<!--            <input class="q-input q-input_dark-bg" type="text" name="lastName" id="lastName" value="" />-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="businessEmail">{{ .Params.form.businessEmailLabel }}</label>
-            <input class="q-input q-input_dark-bg" type="text" name="businessEmail" id="businessEmail" value="" />
-          </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="businessEmail">{{ .Params.form.businessEmailLabel }}</label>-->
+<!--            <input class="q-input q-input_dark-bg" type="text" name="businessEmail" id="businessEmail" value="" />-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="companyName">{{ .Params.form.companyNameLabel }}</label>
-            <input class="q-input q-input_dark-bg" type="text" name="companyName" id="companyName" value="" />
-          </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="companyName">{{ .Params.form.companyNameLabel }}</label>-->
+<!--            <input class="q-input q-input_dark-bg" type="text" name="companyName" id="companyName" value="" />-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="companyUrl">{{ .Params.form.companyUrlLabel }}</label>
-            <input class="q-input q-input_dark-bg" type="text" name="companyUrl" id="companyUrl" value="" />
-          </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="companyUrl">{{ .Params.form.companyUrlLabel }}</label>-->
+<!--            <input class="q-input q-input_dark-bg" type="text" name="companyUrl" id="companyUrl" value="" />-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="cloudProvider">{{ .Params.form.cloudProviderLabel }}</label>
-            <input class="q-input q-input_dark-bg" type="text" name="cloudProvider" id="cloudProvider" value="" />
-          </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="cloudProvider">{{ .Params.form.cloudProviderLabel }}</label>-->
+<!--            <input class="q-input q-input_dark-bg" type="text" name="cloudProvider" id="cloudProvider" value="" />-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="productDescription">{{ .Params.form.productDescriptionLabel }}</label>
-            <input
-              class="q-input q-input_dark-bg"
-              type="text"
-              name="productDescription"
-              id="productDescription"
-              value=""
-            />
-          </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="productDescription">{{ .Params.form.productDescriptionLabel }}</label>-->
+<!--            <input-->
+<!--              class="q-input q-input_dark-bg"-->
+<!--              type="text"-->
+<!--              name="productDescription"-->
+<!--              id="productDescription"-->
+<!--              value=""-->
+<!--            />-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="latestFundingRound">{{ .Params.form.latestFundingRoundLabel }}</label>
-            <div class="dropdown">
-              <button
-                class="dropdown__button q-input q-input_md q-input_dark-bg"
-                type="button"
-                name="latestFundingRound"
-                id="latestFundingRound"
-                value=""
-              >
-                Select
-              </button>
-              <!--<ul class="dropdown__list">
-                <li></li>
-              </ul>-->
-            </div>
-          </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="latestFundingRound">{{ .Params.form.latestFundingRoundLabel }}</label>-->
+<!--            <div class="dropdown">-->
+<!--              <button-->
+<!--                class="dropdown__button q-input q-input_md q-input_dark-bg"-->
+<!--                type="button"-->
+<!--                name="latestFundingRound"-->
+<!--                id="latestFundingRound"-->
+<!--                value=""-->
+<!--              >-->
+<!--                Select-->
+<!--              </button>-->
+<!--              &lt;!&ndash;<ul class="dropdown__list">-->
+<!--                <li></li>-->
+<!--              </ul>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
 
-          <div class="contact-form__inputs-block">
-            <label for="numberOfEmployees">{{ .Params.form.numberOfEmployeesLabel }}</label>
-            <div class="dropdown">
-              <button
-                class="dropdown__button q-input q-input_md q-input_dark-bg"
-                type="button"
-                name="numberOfEmployees"
-                id="numberOfEmployees"
-                value=""
-              >
-                Select
-              </button>
-              <!--<ul class="dropdown__list">
-                <li></li>
-              </ul>-->
-            </div>
-          </div>
-        </div>
+<!--          <div class="contact-form__inputs-block">-->
+<!--            <label for="numberOfEmployees">{{ .Params.form.numberOfEmployeesLabel }}</label>-->
+<!--            <div class="dropdown">-->
+<!--              <button-->
+<!--                class="dropdown__button q-input q-input_md q-input_dark-bg"-->
+<!--                type="button"-->
+<!--                name="numberOfEmployees"-->
+<!--                id="numberOfEmployees"-->
+<!--                value=""-->
+<!--              >-->
+<!--                Select-->
+<!--              </button>-->
+<!--              &lt;!&ndash;<ul class="dropdown__list">-->
+<!--                <li></li>-->
+<!--              </ul>&ndash;&gt;-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
 
-        <div class="contact-form__footer">
-          <p>
-            {{ .Params.form.info }}
-            <a href="{{ .Params.form.link.href }}"> {{ .Params.form.link.text }}</a>
-          </p>
-          <button class="button button_contained" type="submit">{{ .Params.form.button }}</button>
-        </div>
-      </form>
+<!--        <div class="contact-form__footer">-->
+<!--          <p>-->
+<!--            {{ .Params.form.info }}-->
+<!--            <a href="{{ .Params.form.link.href }}"> {{ .Params.form.link.text }}</a>-->
+<!--          </p>-->
+<!--          <button class="button button_contained" type="submit">{{ .Params.form.button }}</button>-->
+<!--        </div>-->
+<!--      </form>-->
+
+      {{ partial "contact-form" .Params.form }}
     </div>
   </section>
 {{ end }}

@@ -32,6 +32,7 @@
       width: 100%;
       text-align: center;
       margin-top: $spacer;
+      flex-grow: 1;
 
       @include media-breakpoint-up(md) {
         width: 50%;
@@ -57,7 +58,8 @@
         }
       }
 
-      &:last-of-type {
+      .legal-consent-container {
+        flex-grow: 0;
         @include media-breakpoint-up(md) {
           margin-top: $last-row-margin;
         }
