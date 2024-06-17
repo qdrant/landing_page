@@ -1,5 +1,6 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
+import { initGoToTopButton } from './helpers';
 
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
@@ -75,4 +76,5 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   });
 
+  initGoToTopButton('#scrollToTopBtn');
 });
