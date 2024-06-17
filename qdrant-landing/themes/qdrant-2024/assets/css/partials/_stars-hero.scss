@@ -44,6 +44,7 @@
     background-image: url('/img/blurred/blurred-light-12.svg');
     background-position: center;
     background-size: cover;
+    pointer-events: none;
   }
 
   @include media-breakpoint-up(lg) {
