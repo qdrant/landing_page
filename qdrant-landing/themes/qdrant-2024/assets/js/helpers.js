@@ -24,3 +24,24 @@ export function scrollIntoViewWithOffset(id, offset) {
 export function isNodeList(list) {
   return Object.prototype.isPrototypeOf.call(NodeList.prototype, list);
 }
+
+export function initGoToTopButton(selector) {
+  const button = document.querySelector(selector || '.go-to-top');
+
+  if (!button) {
+    return;
+  }
+
+  window.addEventListener('scroll', () => {
+    const shouldShow = window.scrollY > window.innerHeight / 3;
+    button.classList.toggle('d-block', shouldShow);
+    button.classList.toggle('d-none', !shouldShow);
+  });
+
+  button.addEventListener('click', () => {
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  });
+}

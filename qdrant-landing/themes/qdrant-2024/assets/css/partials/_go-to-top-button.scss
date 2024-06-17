@@ -1,0 +1,19 @@
+.go-to-top-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    color: $neutral-30;
+    background: $neutral-94;
+    z-index: 10;
+    transition: background-color 0.3s;
+
+    [data-theme="light"] & {
+        color: $neutral-30;
+        background: $neutral-94;
+    }
+
+    [data-theme="dark"] & {
+        color: $neutral-94;
+        background: $neutral-30;
+    }
+}
