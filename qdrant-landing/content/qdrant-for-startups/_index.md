@@ -1,13 +1,13 @@
 ---
 title: Qdrant For Startups
 description: Qdrant For Startups
-build:
-  render: always
 cascade:
-- build:
-    list: local
-    publishResources: false
+- _target:
+     environment: production
+  build:
+    list: never
     render: never
+    publishResources: false
 sitemapExclude: true
-# todo: remove sitemapExclude after the page is ready to be published
+# todo: remove sitemapExclude and change building options after the page is ready to be published
 ---
