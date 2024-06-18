@@ -2,7 +2,7 @@
 title: " Data Privacy with Qdrant: Implementing Role-Based Access Control (RBAC)" #required
 short_description: "Secure Your Data with Qdrant: Implementing RBAC"
 description: Discover how Qdrant's Role-Based Access Control (RBAC) ensures data privacy and compliance for your AI applications. Build secure and scalable systems with ease. Read more now!
-social_preview_image: /articles_data/data-privacy/preview/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
+social_preview_image: /articles_data/data-privacy/preview/social_preview.png # This image will be used in social media previews, should be 1200x630px. Required.
 small_preview_image: /articles_data/discovery-search/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
 preview_dir: /articles_data/data-privacy/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
 weight: -110 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
@@ -18,21 +18,14 @@ keywords: # Keywords for SEO
   - Enterprise Data Compliance
 ---
 
-For enterprise AI applications, transforming unstructured data into high-dimensional vector representations and storing them in vector databases unlocks powerful capabilities. By capturing the relationships within unstructured data and enabling similarity searches through vector space, vectors help us build applications that traditional databases struggle with.
+Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures become critical to safeguarding this data. If the data stored in a vector database is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 
 
-Today, a vast array of advanced AI applications leverages vector databases, including retrieval-augmented generation (RAG) applications, AI assistants, chatbots, recommendation systems, reverse image searches, and anomaly detection systems.
+Strict compliance regulations govern data stored in vector databases across various industries. For instance, healthcare must comply with HIPAA, which dictates how protected health information (PHI) is stored, transmitted, and secured. Similarly, the financial services industry follows PCI DSS to safeguard sensitive financial data. These regulations require developers to ensure data storage and transmission comply with industry-specific legal frameworks across different regions. **As a result, features that enable data privacy, security and sovereignty are deciding factors when choosing the right vector database.**
 
-By nature, data stored in vector databases are often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. For this reason, robust security measures become critical to safeguarding the confidentiality and integrity of this valuable data.
+This article explores various strategies to ensure the security of your critical data while leveraging the benefits of vector search. Implementing some of these security approaches can help you build privacy-enhanced similarity search algorithms and integrate them into your AI applications. 
+Additionally, you will learn how to build a fully data-sovereign architecture, allowing you to retain control over your data and comply with relevant data laws and regulations.
 
-If the data stored in a vector database is not secured, it creates a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves.
-
-Also, strict compliance regulations govern data stored in vector databases across various industries like healthcare and finance. For example, in healthcare, compliance with HIPAA (Health Insurance Portability and Accountability Act) is mandatory. This regulation dictates how protected health information (PHI) must be stored, transmitted, and secured.
-
-Similarly, the financial services industry has regulations like PCI DSS (Payment Card Industry Data Security Standard) which safeguard sensitive financial data. These regulations necessitate that developers have the ability to choose how data is stored or transmitted in a way that complies with the specific legal framework of their industry in various geographies.
-
-Therefore, for developers building enterprise-grade AI applications, features that enable data privacy, data security and data sovereignty often become deciding factors when choosing the right vector database.
-
-This article explores various strategies to ensure the security of your critical data while leveraging the benefits of vector search. Implementing some of these security approaches can help you build privacy-enhanced similarity search algorithms and integrate them into your AI applications. Additionally, we'll explain how to build a fully data-sovereign architecture, allowing you to retain control over your data and comply with relevant data laws and regulations.
+> To skip right to the code implementation, [click here](/articles/data-privacy/#jwt-on-qdrant). 
 
 ## Vector Database Security: An Overview
 
@@ -59,8 +52,6 @@ Therefore, the vector database that developers choose should offer a range of se
 One of the cornerstones of our design choices at Qdrant has been the focus on security features. We have built in a range of features keeping the enterprise user in mind, which allow building of granular access control on a fully data sovereign architecture.
 
 A Qdrant instance is unsecured by default. However, when you are ready to deploy in production, Qdrant offers a range of security features that allow you to control access to your data, protect it from breaches, and adhere to regulatory requirements. Using Qdrant, you can build granular access control, segregate roles and privileges, and create a fully data sovereign architecture.
-
-Let’s look at how.
 
 ### **API Keys and TLS Encryption**
 
