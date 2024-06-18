@@ -190,12 +190,12 @@ As we saw above, JWT claims create powerful levers through which you can create 
 
 In a typical enterprise application, you will have a segregation of users based on their roles and permissions. These could be:
 
-1. Admin or Owner: with full access, and can generate API keys.
-2. Editor: with read-write access levels to specific collections.
-3. Viewer: with read-only access to specific collections.
-4. Data Scientist or Analyst: with read-only access to specific collections.
-5. Developer: with read-write access to development- or testing-specific collections, but limited access to production data.
-6. Guest: with limited read-only access to publicly available collections.
+1. **Admin or Owner:** with full access, and can generate API keys.
+2. **Editor:** with read-write access levels to specific collections.
+3. **Viewer:** with read-only access to specific collections.
+4. **Data Scientist or Analyst:** with read-only access to specific collections.
+5. **Developer:** with read-write access to development- or testing-specific collections, but limited access to production data.
+6. **Guest:** with limited read-only access to publicly available collections.
 
 In addition, you can create access levels within sections of a collection. In a multi-tenant application, where you have used payload-based partitioning, you can create read-only access for specific user roles for a subset of the collection that belongs to that user.
 
