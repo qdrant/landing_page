@@ -16,7 +16,13 @@ DEPLOY_PRIME_URL = "https://qdrant.tech"
 HUGO_ENV = "staging"
 
 [[headers]]
-    for = "/*"
+    for = "/index.html"
+    [headers.values]
+        X-Content-Type-Options = "nosniff"
+        X-Frame-Options = "DENY"
+
+[[headers]]
+    for = "/admin/index.html"
     [headers.values]
         X-Content-Type-Options = "nosniff"
         X-Frame-Options = "DENY"
