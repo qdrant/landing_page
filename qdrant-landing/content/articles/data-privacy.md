@@ -29,23 +29,15 @@ Additionally, you will learn how to build a fully data-sovereign architecture, a
 
 ## Vector Database Security: An Overview
 
-Typical vector databases are often unsecured by default, and prioritize rapid development for prototyping and experimentation in development environments. This allows developers to quickly ingest data, build vector representations, and experiment with similarity search algorithms minus initial security concerns. However, unsecured vector databases present significant risk of data breaches in production environments.
+Vector databases are often unsecured by default to facilitate rapid prototyping and experimentation. This approach allows developers to quickly ingest data, build vector representations, and test similarity search algorithms without initial security concerns. However, in production environments, unsecured databases pose significant data breach risks.
 
-In production environments, where data security is a priority, vector databases require a more robust security system than the default unsecured settings. Here, authentication becomes critical to control access and prevent unauthorized modifications. A common approach leverages static API keys for client authentication.
+For production use, robust security systems are essential. Authentication, particularly using static API keys, is a common approach to control access and prevent unauthorized modifications. Yet, simple API authentication is insufficient for enterprise data, which requires granular control.
 
-However, simple API authentication isn’t enough when it comes to enterprise data. Real-world production deployments often demand far more granular control.
-
-The primary challenge with static API keys is that they grant all-or-nothing access. In enterprise applications,where you need to segregate access to data by roles, this is not enough. Also, of course, static API keys come with a major caveat: a compromised key could grant an attacker full access to manipulate or steal your data.
-
-In enterprise applications, in order to strengthen the security of the vector database, developers typically need the following:
+The primary challenge with static API keys is their all-or-nothing access, inadequate for role-based data segregation in enterprise applications. Additionally, a compromised key could grant attackers full access to manipulate or steal data. To strengthen the security of the vector database, developers typically need the following:
 
 1. **Encryption**: This ensures that sensitive data is scrambled as it travels between the application and the vector database. This safeguards against Man-in-the-Middle ([MitM](https://en.wikipedia.org/wiki/Man-in-the-middle_attack)) attacks, where malicious actors can attempt to intercept and steal data during transmission.
 2. **Role-Based Access Control**: As mentioned before, traditional static API keys grant all-or-nothing access, which is a significant security risk in enterprise environments. RBAC offers a more granular approach by defining user roles and assigning specific data access permissions based on those roles. For example, an analyst might have read-only access to specific datasets, while an administrator might have full CRUD (Create, Read, Update, Delete) permissions across the database.
 3. **Deployment Flexibility**: Data residency regulations like GDPR (General Data Protection Regulation) and industry-specific compliance requirements dictate where data can be stored, processed, and accessed. Developers would need to choose a database solution which offers deployment options that comply with these regulations. This might include on-premise deployments within a company's private cloud or geographically distributed cloud deployments that adhere to data residency laws.
-
-By employing a combination of these security features, developers can achieve comprehensive data protection and ensure compliance with relevant data regulations.
-
-Therefore, the vector database that developers choose should offer a range of security features, deployment options, and privacy controls that help them launch the application in a secure and compliant manner.
 
 ## How Qdrant Handles Data Privacy and Security
 
@@ -57,11 +49,13 @@ A Qdrant instance is unsecured by default. However, when you are ready to deploy
 
 For simpler use cases, Qdrant offers API key-based authentication. This includes both regular API keys and read-only API keys. Regular API keys grant full access to read, write, and delete operations, while read-only keys restrict access to data retrieval operations only, preventing write actions.
 
-On Qdrant Cloud, you can create API keys using the [Cloud Dashboard](https://qdrant.to/cloud). This allows you to generate API keys that give you access to a single node or cluster, or multiple clusters. You can read the steps to do so [here](documentation/cloud/authentication/).
+On Qdrant Cloud, you can create API keys using the [Cloud Dashboard](https://qdrant.to/cloud). This allows you to generate API keys that give you access to a single node or cluster, or multiple clusters. You can read the steps to do so [here](/documentation/cloud/authentication/).
+
+![web-ui](/articles_data/data-privacy/web-ui.png)
 
 For on-premise or local deployments, you'll need to configure API key authentication. This involves specifying a key in either the Qdrant configuration file or as an environment variable. This ensures that all requests to the server must include a valid API key sent in the header.
 
-When using the simple API key-based authentication, you should also turn on TLS encryption. Otherwise, you are exposing the connection to sniffing and MitM attacks. To secure your connection using TLS, you would need to create a certificate and private key, and then [enable TLS](documentation/guides/security/#tls) in the configuration.
+When using the simple API key-based authentication, you should also turn on TLS encryption. Otherwise, you are exposing the connection to sniffing and MitM attacks. To secure your connection using TLS, you would need to create a certificate and private key, and then [enable TLS](/documentation/guides/security/#tls) in the configuration.
 
 API authentication, coupled with TLS encryption, offers a first layer of security for your Qdrant instance. However, to enable more granular access control, the recommended approach is to leverage JSON Web Tokens (JWTs).
 
@@ -165,7 +159,7 @@ Now, if you ever want to revoke access for a user, simply change the value of th
 
 **Scenario 3: 1-hour expiry time, and read-write access to a subset of a collection**
 
-You can even specify access levels specific to subsets of a collection. This can be especially useful when you are leveraging [multitenancy](documentation/guides/multiple-partitions/), and want to segregate access.
+You can even specify access levels specific to subsets of a collection. This can be especially useful when you are leveraging [multitenancy](/documentation/guides/multiple-partitions/), and want to segregate access.
 ```json
 {
   "exp": 1690995200,
