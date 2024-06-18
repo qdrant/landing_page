@@ -8,7 +8,7 @@ preview_dir: /articles_data/data-privacy/preview # This directory contains image
 weight: -110 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
 author: Qdrant Team # Author of the article. Required.
 author_link: https://qdrant.tech// # Link to the author's page. Required.
-date: 2024-06-16T08:00:00-03:00 # Date of the article. Required.
+date: 2024-06-18T08:00:00-03:00 # Date of the article. Required.
 draft: false # If true, the article will not be published
 keywords: # Keywords for SEO
   - Role-Based Access Control (RBAC)
