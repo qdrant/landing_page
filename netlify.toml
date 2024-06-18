@@ -16,16 +16,50 @@ DEPLOY_PRIME_URL = "https://qdrant.tech"
 HUGO_ENV = "staging"
 
 [[headers]]
-    for = "/"
+    for = "/*"
     [headers.values]
         X-Content-Type-Options = "nosniff"
         X-Frame-Options = "DENY"
 
 [[headers]]
-    for = "/admin/"
+    for = "/*.css"
     [headers.values]
-        X-Content-Type-Options = "nosniff"
-        X-Frame-Options = "DENY"
+        X-Frame-Options = ""
+
+[[headers]]
+    for = "/*.js"
+    [headers.values]
+        X-Frame-Options = ""
+
+[[headers]]
+    for = "/*.svg"
+    [headers.values]
+        X-Frame-Options = ""
+
+[[headers]]
+    for = "/*.png"
+    [headers.values]
+        X-Frame-Options = ""
+
+[[headers]]
+    for = "/*.jpeg"
+    [headers.values]
+        X-Frame-Options = ""
+
+[[headers]]
+    for = "/*.webp"
+    [headers.values]
+        X-Frame-Options = ""
+
+[[headers]]
+    for = "/*.woff2"
+    [headers.values]
+        X-Frame-Options = ""
+
+[[headers]]
+    for = "/*.webmanifest"
+    [headers.values]
+        X-Frame-Options = ""
 
 [[redirects]]
     from = "/surveys/hybrid-saas"
