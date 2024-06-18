@@ -1880,10 +1880,10 @@ order. These operations can be batched:
 - [Delete points](#delete-points): `delete_points` or `DeleteOperation`
 - [Update vectors](#update-vectors): `update_vectors` or `UpdateVectorsOperation`
 - [Delete vectors](#delete-vectors): `delete_vectors` or `DeleteVectorsOperation`
-- [Set payload](#set-payload): `set_payload` or `SetPayloadOperation`
-- [Overwrite payload](#overwrite-payload): `overwrite_payload` or `OverwritePayload`
-- [Delete payload](#delete-payload-keys): `delete_payload` or `DeletePayloadOperation`
-- [Clear payload](#clear-payload): `clear_payload` or `ClearPayloadOperation`
+- [Set payload](/documentation/concepts/payload/#set-payload): `set_payload` or `SetPayloadOperation`
+- [Overwrite payload](/documentation/concepts/payload/#overwrite-payload): `overwrite_payload` or `OverwritePayload`
+- [Delete payload](/documentation/concepts/payload/#delete-payload-keys): `delete_payload` or `DeletePayloadOperation`
+- [Clear payload](/documentation/concepts/payload/#clear-payload): `clear_payload` or `ClearPayloadOperation`
 
 The following example snippet makes use of all operations.
 
