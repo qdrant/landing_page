@@ -23,7 +23,6 @@ form:
     "portalId": "139603372",
     "formId": "fc7a9f1d-9d41-418d-a9cc-ef9c5fb9b207",
     "submitButtonClass": "button button_contained",
-    "submitText": "Send Message"
   }'
 logosSectionTitle: Qdrant is trusted by top-tier enterprises
 ---
