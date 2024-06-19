@@ -24,7 +24,6 @@ form:
     "portalId": "139603372",
     "formId": "814b303f-2f24-460a-8a81-367146d98786",
     "submitButtonClass": "button button_contained",
-    "submitText": "Send Message"
   }'
 ---
 
