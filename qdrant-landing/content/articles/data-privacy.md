@@ -44,7 +44,7 @@ One of the cornerstones of our design choices at Qdrant has been the focus on se
 
 A Qdrant instance is unsecured by default. However, when you are ready to deploy in production, Qdrant offers a range of security features that allow you to control access to your data, protect it from breaches, and adhere to regulatory requirements. Using Qdrant, you can build granular access control, segregate roles and privileges, and create a fully data sovereign architecture.
 
-### **API Keys and TLS Encryption**
+### API Keys and TLS Encryption
 
 For simpler use cases, Qdrant offers API key-based authentication. This includes both regular API keys and read-only API keys. Regular API keys grant full access to read, write, and delete operations, while read-only keys restrict access to data retrieval operations only, preventing write actions.
 
@@ -58,7 +58,7 @@ When using the simple API key-based authentication, you should also turn on TLS 
 
 API authentication, coupled with TLS encryption, offers a first layer of security for your Qdrant instance. However, to enable more granular access control, the recommended approach is to leverage JSON Web Tokens (JWTs).
 
-### **JWT on Qdrant**
+### JWT on Qdrant
 
 JSON Web Tokens (JWTs) are a compact, URL-safe, and stateless means of representing _claims_ to be transferred between two parties. These claims are encoded as a JSON object and are cryptographically signed.
 
@@ -109,7 +109,7 @@ response = qdrant_client.search(
 
 For convenience, we have added a JWT generation tool in the Qdrant Web UI, which is present under the 🔑 tab. For your local deployments, you will find it at [http://localhost:6333/dashboard#/jwt](http://localhost:6333/dashboard#/jwt).
 
-### **Payload Configuration**
+### Payload Configuration
 
 There are several different options (claims) you can use in the JWT payload that help control access and functionality. Let’s look at them one by one.
 
@@ -177,7 +177,7 @@ You can even specify access levels specific to subsets of a collection. This can
 
 By combining the claims, you can fully customize the access level that a user or a role has within the vector store.
 
-### **Creating Role-Based Access Control (RBAC) Using JWT**
+### Creating Role-Based Access Control (RBAC) Using JWT
 
 As we saw above, JWT claims create powerful levers through which you can create granular access control on Qdrant. Let’s bring it all together and understand how it helps you create Role-Based Access Control (RBAC).
 
@@ -228,15 +228,15 @@ In such an application, an example JWT payload for a customer support representa
 
 As you can see, by implementing RBAC, you can ensure proper segregation of roles and their privileges, and avoid privacy loopholes in your application.
 
-## **Qdrant Hybrid Cloud and Data Sovereignty**
+## Qdrant Hybrid Cloud and Data Sovereignty
 
-In many enterprise applications, data is subject to the laws and governance structures of the country in which it is collected or stored. This is particularly important for organizations that operate globally, as different countries have varying regulations concerning data privacy, security, and access. This often involves deploying infrastructure within specific geographical boundaries to control where and how data is processed and stored.
+Data governance varies by country, especially for global organizations dealing with different regulations on data privacy, security, and access. This often necessitates deploying infrastructure within specific geographical boundaries.
 
-This means that along with data security features, the vector database you choose should offer you the ability to deploy and scale in an infrastructure that you control. Qdrant Hybrid Cloud allows you to do this, while leveraging all its features, including sharding, replicas, JWT authentication, and monitoring.
+To address these needs, the vector database you choose should support deployment and scaling within your controlled infrastructure. [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/) offers this flexibility, along with features like sharding, replicas, JWT authentication, and monitoring.
 
-Essentially, Qdrant Hybrid Cloud integrates Kubernetes clusters from various environments—cloud, on-premises, or edge—into a unified managed service. This setup allows organizations to manage Qdrant databases using the Qdrant Cloud UI while the databases remain within the organization's infrastructure.
+Qdrant Hybrid Cloud integrates Kubernetes clusters from various environments—cloud, on-premises, or edge—into a unified managed service. This allows organizations to manage Qdrant databases through the Qdrant Cloud UI while keeping the databases within their infrastructure.
 
-When combined with JWT and RBAC, Qdrant Hybrid Cloud offers enterprise users the ability to build a fully secure, private, and sovereign vector store. This capability allows enterprises to scale their AI applications geographically, while adhering to local laws and regulations and maintaining strict control over their data.
+With JWT and RBAC, Qdrant Hybrid Cloud provides a secure, private, and sovereign vector store. Enterprises can scale their AI applications geographically, comply with local laws, and maintain strict data control.
 
 ## Conclusion
 
