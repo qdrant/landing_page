@@ -16,7 +16,7 @@ keywords:
   - memory optimization
 ---
 
-#### Optimizing high-dimensional vectors 
+## Optimizing High-Dimensional Vectors 
 
 Qdrant is built to handle typical scaling challenges: high throughput, low latency and efficient indexing. **Binary quantization (BQ)** is our latest attempt to give our customers the edge they need to scale efficiently. This feature is particularly excellent for collections with large vector lengths and a large number of points. 
 
@@ -72,7 +72,7 @@ For 100K OpenAI Embedding (`ada-002`) vectors we would need 900 Megabytes of RAM
 
 This reduction in RAM needed is achieved through the compression that happens in the binary conversion. Instead of putting the HNSW index for the full vectors into RAM, we just put the binary vectors into RAM, use them for the initial oversampled search, and then use the HNSW full index of the oversampled results for the final precise search. All of this happens under the hoods without any intervention needed on your part. 
 
-#### When should you not use BQ?
+### When should you not use BQ?
 
 Since this method exploits the over-parameterization of embedding, you can expect poorer results for small embeddings i.e. less than 1024 dimensions. With the smaller number of elements, there is not enough information maintained in the binary vector to achieve good results. 
 
@@ -173,7 +173,7 @@ These two parameters are how you are going to balance speed versus accuracy. The
 
 If you have lower accuracy requirements you can even try doing a small oversample without rescoring. Or maybe, for your data set combined with your accuracy versus speed requirements you can just search the binary index and no rescoring, i.e. leaving those two parameters out of the search query.
 
-## Benchmark results
+## Benchmark Results
 
 We retrieved some early results on the relationship between limit and oversampling using the the DBPedia OpenAI 1M vector dataset. We ran all these experiments on a Qdrant instance where 100K vectors were indexed and used 100 random queries. 
 
@@ -224,7 +224,7 @@ If you determine that binary quantization is appropriate for your datasets and q
 - Oversampling=2.0 (or more) 
 - Rescore=True
 
-## What's next?
+## What's Next?
 
 Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
 
