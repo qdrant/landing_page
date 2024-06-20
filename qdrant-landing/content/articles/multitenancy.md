@@ -1,7 +1,7 @@
 ---
-title: "Best Practices for Massive-Scale Deployments: Multitenancy and Custom Sharding"
-short_description: "Combining our most popular features to support scalable machine learning solutions."
-description: "Combining our most popular features to support scalable machine learning solutions."
+title: "How to Implement Multitenancy and Custom Sharding in Qdrant"
+short_description: "Explore how Qdrant's multitenancy and custom sharding streamline machine-learning operations, enhancing scalability and data security."
+description: "Discover how multitenancy and custom sharding in Qdrant can streamline your machine-learning operations. Learn how to scale efficiently and manage data securely."
 social_preview_image: /articles_data/multitenancy/social_preview.png
 preview_dir: /articles_data/multitenancy/preview
 small_preview_image: /articles_data/multitenancy/icon.svg
@@ -16,10 +16,14 @@ keywords:
   - vector database
 ---
 
+# Scaling Your Machine Learning Setup: The Power of Multitenancy and Custom Sharding in Qdrant 
+
 We are seeing the topics of [multitenancy](/documentation/guides/multiple-partitions/) and [distributed deployment](/documentation/guides/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
 
-Whether you are building a bank fraud-detection system, RAG for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
+Whether you are building a bank fraud-detection system, [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/) for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
 In the world of SaaS and enterprise apps, this setup is the norm. It will considerably increase your application's performance and lower your hosting costs. 
+
+## Multitenancy & custom sharding with Qdrant
 
 We have developed two major features just for this. __You can now scale a single Qdrant cluster and support all of your customers worldwide.__ Under [multitenancy](/documentation/guides/multiple-partitions/), each customer's data is completely isolated and only accessible by them. At times, if this data is location-sensitive, Qdrant also gives you the option to divide your cluster by region or other criteria that further secure your customer's access. This is called [custom sharding](/documentation/guides/distributed_deployment/#user-defined-sharding). 
 
@@ -175,9 +179,9 @@ client.create_payload_index(
 ```
 > Note: Keep in mind that global requests (without the `group_id` filter) will be slower since they will necessitate scanning all groups to identify the nearest neighbors.
 
-## Next steps
+## Explore multitenancy and custom sharding in Qdrant for scalable solutions
 
-Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our vector database is right for you, try the [quickstart tutorial](/documentation/quick-start/) or read our [docs and tutorials](/documentation/).
+Qdrant is ready to support a massive-scale architecture for your machine learning project. If you want to see whether our [vector database](https://qdrant.tech/) is right for you, try the [quickstart tutorial](/documentation/quick-start/) or read our [docs and tutorials](/documentation/).
 
 To spin up a free instance of Qdrant, sign up for [Qdrant Cloud](https://qdrant.to/cloud) - no strings attached.
 

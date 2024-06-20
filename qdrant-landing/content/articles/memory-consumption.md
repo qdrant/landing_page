@@ -1,7 +1,7 @@
 ---
-title: Minimal RAM you need to serve a million vectors
-short_description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
-description: How to properly measure RAM usage and optimize Qdrant for memory consumption.
+title: "How to Optimize RAM Requirements for 1 Million Vectors: A Case Study"
+short_description: Master RAM measurement and memory optimization for optimal performance and resource use.
+description: Unlock the secrets of efficient RAM measurement and memory optimization with this comprehensive guide, ensuring peak performance and resource utilization.
 social_preview_image: /articles_data/memory-consumption/preview/social_preview.jpg
 preview_dir: /articles_data/memory-consumption/preview
 small_preview_image: /articles_data/memory-consumption/icon.svg
@@ -32,6 +32,7 @@ Introduction:
 3. As a result, if you see `10Gb` memory consumption in `htop`, it doesn't mean that your process actually needs `10Gb` of RAM to work.
 -->
 
+# Mastering RAM Measurement and Memory Optimization in Qdrant: A Comprehensive Guide
 
 When it comes to measuring the memory consumption of our processes, we often rely on tools such as `htop` to give us an indication of how much RAM is being used. However, this method can be misleading and doesn't always accurately reflect the true memory usage of a process.
 
@@ -42,9 +43,9 @@ This means that the memory consumption of the child process will be counted twic
 Additionally, a process may utilize disk cache, which is also accounted as resident memory in the `htop` measurements.
 
 As a result, even if `htop` shows that a process is using 10GB of memory, it doesn't necessarily mean that the process actually requires 10GB of RAM to operate efficiently.
-In this article, we will explore how to properly measure RAM usage and optimize Qdrant for optimal memory consumption.
+In this article, we will explore how to properly measure RAM usage and optimize [Qdrant](https://qdrant.tech/) for optimal memory consumption.
 
-## How to measure actual memory requirements
+## How to measure actual RAM requirements
 
 <!--
 1. We need to know how much RAM we need to have for the program to work, so why not just do a straightforward experiment.
@@ -62,7 +63,7 @@ In this article, we will explore how to properly measure RAM usage and optimize 
 
 -->
 
-We need to know memory consumption in order to estimate how much RAM we need to run the program.
+We need to know memory consumption in order to estimate how much RAM is required to run the program.
 So in order to determine that, we can conduct a simple experiment.
 Let's limit the allowed memory of the process and observe at which point it stops functioning. 
 In this way we can determine the minimum amount of RAM the program needs to operate.
@@ -216,7 +217,7 @@ But let's first see how much RAM we need to serve 1 million vectors and then we 
 
 ### Vectors and HNSW graph stored using MMAP
 
-In the third experiment, we tested how well our system performs when vectors and HNSW graph are stored using the memory-mapped files.
+In the third experiment, we tested how well our system performs when vectors and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph are stored using the memory-mapped files.
 Create collection with:
 
 ```http
@@ -358,8 +359,7 @@ Which might be an interesting option to serve large datasets with low search lat
 
 ## Conclusion
 
-In this article, we showed that Qdrant have flexibility in terms of RAM usage and can be used to serve large datasets.
-It provides configurable trade-offs between RAM usage and search speed.
+In this article, we showed that Qdrant has flexibility in terms of RAM usage and can be used to serve large datasets. It provides configurable trade-offs between RAM usage and search speed. If you’re interested to learn more about Qdrant, [book a demo today](https://qdrant.tech/contact-us/)!
 
 We are eager to learn more about how you use Qdrant in your projects, what challenges you face, and how we can help you solve them.
 Please feel free to join our [Discord](https://qdrant.to/discord) and share your experience with us!

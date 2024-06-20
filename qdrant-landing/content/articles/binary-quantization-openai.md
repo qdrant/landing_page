@@ -1,9 +1,9 @@
 ---
-title: "Enhance OpenAI Embeddings with Qdrant's Binary Quantization"
+title: "Optimizing OpenAI Embeddings: Enhance Efficiency with Qdrant's Binary Quantization"
 draft: false
 slug: binary-quantization-openai
 short_description: Use Qdrant's Binary Quantization to enhance OpenAI embeddings
-description: Use Qdrant's Binary Quantization to enhance the performance and efficiency of OpenAI embeddings
+description: Explore how Qdrant's Binary Quantization can significantly improve the efficiency and performance of OpenAI's Ada-003 embeddings. Learn best practices for real-time search applications.
 preview_dir: /articles_data/binary-quantization-openai/preview
 preview_image: /articles-data/binary-quantization-openai/Article-Image.png
 small_preview_image: /articles_data/binary-quantization-openai/icon.svg
@@ -38,19 +38,19 @@ If you're new to Binary Quantization, consider reading our article which walks y
 
 You can also try out these techniques as described in [Binary Quantization OpenAI](https://github.com/qdrant/examples/blob/openai-3/binary-quantization-openai/README.md), which includes Jupyter notebooks.
 
-## New OpenAI Embeddings: Performance and Changes
+## New OpenAI embeddings: performance and changes
 
 As the technology of embedding models has advanced, demand has grown. Users are looking more for powerful and efficient text-embedding models. OpenAI's Ada-003 embeddings offer state-of-the-art performance on a wide range of NLP tasks, including those noted in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). 
 
 These models include multilingual support in over 100 languages. The transition from text-embedding-ada-002 to text-embedding-3-large has led to a significant jump in performance scores (from 31.4% to 54.9% on MIRACL).
 
-#### Matryoshka Representation Learning
+#### Matryoshka representation learning
 
 The new OpenAI models have been trained with a novel approach called "[Matryoshka Representation Learning](https://aniketrege.github.io/blog/2024/mrl/)". Developers can set up embeddings of different sizes (number of dimensions). In this post, we use small and large variants. Developers can select embeddings which balances accuracy and size.
 
 Here, we show how the accuracy of binary quantization is quite good across different dimensions -- for both the models. 
 
-## Enhanced Performance and Efficiency with Binary Quantization
+## Enhanced performance and efficiency with binary quantization
 
 By reducing storage needs, you can scale applications with lower costs. This addresses a critical challenge posed by the original embedding sizes. Binary Quantization also speeds the search process. It simplifies the complex distance calculations between vectors into more manageable bitwise operations, which supports potentially real-time searches across vast datasets. 
 
@@ -64,7 +64,7 @@ The efficiency gains from Binary Quantization are as follows:
 - Enhanced speed of data retrieval: Smaller data sizes generally leads to faster searches. 
 - Accelerated search process: It is based on simplified distance calculations between vectors to bitwise operations. This enables real-time querying even in extensive databases.
 
-### Experiment Setup: OpenAI Embeddings in Focus
+### Experiment setup: OpenAI embeddings in focus
 
 To identify Binary Quantization's impact on search efficiency and accuracy, we designed our experiment on OpenAI text-embedding models. These models, which capture nuanced linguistic features and semantic relationships, are the backbone of our analysis. We then delve deep into the potential enhancements offered by Qdrant's Binary Quantization feature.
 
@@ -74,7 +74,7 @@ This approach not only leverages the high-caliber OpenAI embeddings but also pro
 
  The research employs 100K random samples from the [OpenAI 1M](https://huggingface.co/datasets/KShivendu/dbpedia-entities-openai-1M) 1M dataset, focusing on 100 randomly selected records. These records serve as queries in the experiment, aiming to assess how Binary Quantization influences search efficiency and precision within the dataset. We then use the embeddings of the queries to search for the nearest neighbors in the dataset. 
 
-#### Parameters: Oversampling, Rescoring, and Search Limits
+#### Parameters: oversampling, rescoring, and search limits
 
 For each record, we run a parameter sweep over the number of oversampling, rescoring, and search limits. We can then understand the impact of these parameters on search accuracy and efficiency. Our experiment was designed to assess the impact of Binary Quantization under various conditions, based on the following parameters: 
 
@@ -86,7 +86,7 @@ For each record, we run a parameter sweep over the number of oversampling, resco
 
 Through this detailed setup, our experiment sought to shed light on the nuanced interplay between Binary Quantization and the high-quality embeddings produced by OpenAI's models. By meticulously adjusting and observing the outcomes under different conditions, we aimed to uncover actionable insights that could empower users to harness the full potential of Qdrant in combination with OpenAI's embeddings, regardless of their specific application needs.
 
-### Results: Binary Quantization's Impact on OpenAI Embeddings
+### Results: binary quantization's impact on OpenAI embeddings
 
 To analyze the impact of rescoring (`True` or `False`), we compared results across different model configurations and search limits. Rescoring sets up a more precise search, based on results from an initial query.
 
@@ -112,7 +112,7 @@ In contrast, for lower dimension models (such as text-embedding-3-small with 512
 
 In summary, enabling rescoring dramatically improves search accuracy across all tested configurations. It is crucial feature for applications where precision is paramount. The consistent performance boost provided by rescoring underscores its value in refining search results, particularly when working with complex, high-dimensional data like OpenAI embeddings. This enhancement is critical for applications that demand high accuracy, such as semantic search, content discovery, and recommendation systems, where the quality of search results directly impacts user experience and satisfaction.
 
-### Dataset Combinations
+### Dataset combinations
 
 For those exploring the integration of text embedding models with Qdrant, it's crucial to consider various model configurations for optimal performance. The dataset combinations defined above illustrate different configurations to test against Qdrant. These combinations vary by two primary attributes:
 
@@ -151,7 +151,7 @@ dataset_combinations = [
     },
 ]
 ```
-#### Exploring Dataset Combinations and Their Impacts on Model Performance 
+#### Exploring dataset combinations and their impacts on model performance 
 
 The code snippet iterates through predefined dataset and model combinations. For each combination, characterized by the model name and its dimensions, the corresponding experiment's results are loaded. These results, which are stored in JSON format, include performance metrics like accuracy under different configurations: with and without oversampling, and with and without a rescore step.
 
@@ -187,7 +187,7 @@ Here is a selected slice of these results, with `rescore=True`:
 |OpenAI text-embedding-3-small|1536|[DBpedia 100K](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-small-1536-100K)| 0.9847|3x|
 |OpenAI text-embedding-3-large|1536|[DBpedia 1M](https://huggingface.co/datasets/Qdrant/dbpedia-entities-openai3-text-embedding-3-large-1536-1M)| 0.9826|3x|
 
-#### Impact of Oversampling
+#### Impact of oversampling
 
 You can use oversampling in machine learning to counteract imbalances in datasets.
 It works well when one class significantly outnumbers others. This imbalance
@@ -201,7 +201,7 @@ Without an explicit code snippet or output, we focus on the role of oversampling
 
 ![Measuring the impact of oversampling](/blog/openai/Oversampling_Impact.png)
 
-### Leveraging Binary Quantization: Best Practices
+### Leveraging binary quantization: best practices
 
 We recommend the following best practices for leveraging Binary Quantization to enhance OpenAI embeddings:
 
