@@ -1,23 +1,10 @@
 ---
-title: What is Vector Similarity?
-short_description: Understanding the essence of vector similarity, how it is calculated, and how it is used in AI applications.
-description: Understanding and leveraging vector similarity to enhance AI applications, recommendations, and search capabilities through numerical representations of data points in high-dimensional spaces.
-preview_dir: /articles_data/vector-similarity/preview
-small_preview_image: /articles_data/vector-similarity/icon.svg
-social_preview_image: /articles_data/vector-similarity/preview/social_preview.jpg
-weight: -1
-author: Qdrant Team
-author_link: https://qdrant.tech/
-date: 2024-06-04T08:00:00+03:00
-draft: false
-keywords:
-  - vector similarity
-  - exploration
-  - dissimilarity
-  - discovery
-  - diversity
-  - recommendation
+title: Vector Similarity
+weight: 2
+social_preview_image: /docs/gettingstarted/vector-similarity/vector-similarity.png
 ---
+
+# What is Vector Similarity?
 
 A core function of a wide range of AI applications is to first understand the *meaning* behind a user query, and then provide *relevant* answers to the questions that the user is asking. With increasingly advanced interfaces and applications, this query can be in the form of language, or an image, an audio, video, or other forms of *unstructured* data.
 
@@ -34,7 +21,7 @@ At a high level, here’s how:
 
 At the heart of all such searches lies the concept of *vector similarity*, which gives us the ability to measure how closely related two data points are, how similar or dissimilar they are, or find other related data points.
 
-In this article, we will deep-dive into the essence of vector similarity, study how vector similarity search is used in the context of AI, look at some real-world use cases and show you how to leverage the power of vector similarity and vector similarity search for building AI applications.
+In this document, we will deep-dive into the essence of vector similarity, study how vector similarity search is used in the context of AI, look at some real-world use cases and show you how to leverage the power of vector similarity and vector similarity search for building AI applications.
 
 Let’s begin.
 
@@ -44,7 +31,7 @@ ML and deep learning models require numerical data as inputs to accomplish their
 
 A vector is a set of numbers that represents data, which can be text, image, or audio, or any multidimensional data. Vectors reside in a high-dimensional space, the vector space, where each dimension captures a specific aspect or feature of the data.
 
-{{< figure width=80% src=/articles_data/vector-similarity/working.png caption="Working" >}}
+{{< figure width=80% src=/docs/gettingstarted/vector-similarity/working.png caption="Working" >}}
 
 The number of dimensions of a vector can range from tens or hundreds to thousands, and each dimension is stored as the element of an array. Vectors are, therefore, an array of numbers of fixed length, and in their totality, they encode the key features of the data they represent.
 
@@ -72,7 +59,7 @@ There are several ways to calculate the similarity (or distance) between two vec
 
 **Manhattan Distance**: Also known as taxicab distance, it is calculated as the total distance between the two vectors in a vector space, if you follow a grid-like path. The smaller the Manhattan distance, the greater the similarity.
 
-{{< figure width=80% src=/articles_data/vector-similarity/products.png caption="Metrics" >}}
+{{< figure width=80% src=/docs/gettingstarted/vector-similarity/products.png caption="Metrics" >}}
 
 As a rule of thumb, the choice of the best similarity metric depends on how the vectors were encoded.
 
@@ -108,7 +95,7 @@ The biggest challenge in this area comes from what researchers call the "[curse 
 
 This means that building production applications that leverage vector similarity involves navigating several challenges. Here are some of the key challenges to watch out for.
 
-**Scalability**
+### Scalability
 
 Various vector search algorithms were originally developed to handle datasets small enough to be accommodated entirely within the memory of a single computer.
 
@@ -116,13 +103,13 @@ However, in real-world production settings, the datasets can encompass billions 
 
 For building scalable applications, leveraging vector databases that allow for a distributed architecture and have the capabilities of sharding, partitioning and load balancing is crucial.
 
-**Efficiency**
+### Efficiency
 
 As the number of dimensions in vectors increases, algorithms that work in lower dimensions become less effective in measuring true similarity. This makes finding nearest neighbors computationally expensive and inaccurate in high-dimensional space.
 
 For efficient query processing, it is important to choose vector search systems which use indexing techniques that help speed up search through high-dimensional vector space, and reduce latency.
 
-**Security**
+### Security
 
 For real-world applications, vector databases frequently house privacy-sensitive data. This can encompass Personally Identifiable Information (PII) in customer records, intellectual property (IP) like proprietary documents, or specialized datasets subject to stringent compliance regulations.
 
@@ -132,13 +119,13 @@ These are some of the many challenges that developers face when attempting to le
 
 To address these challenges head-on, we have made several design choices at Qdrant which help power vector search use-cases that go beyond simple CRUD applications.
 
-## **How Qdrant Solves Vector Similarity Search Challenges**
+## How Qdrant Solves Vector Similarity Search Challenges
 
 Qdrant is a highly performant and scalable vector search system, developed ground up in Rust. Qdrant leverages Rust’s famed memory efficiency and performance. It supports horizontal scaling, sharding, and replicas, and includes security features like role-based authentication. Additionally, Qdrant can be deployed in various environments, including [hybrid cloud setups](/hybrid-cloud/).
 
 Here’s how we have taken on some of the key challenges that vector search applications face in production.
 
-### **Efficiency**
+### Efficiency
 
 Our [choice of Rust](/articles/why-rust/) significantly contributes to the efficiency of Qdrant’s vector similarity search capabilities. Rust’s emphasis on safety and performance, without the need for a garbage collector, helps with better handling of memory and resources. Rust is renowned for its performance and safety features, particularly in concurrent processing, and we leverage it heavily to handle high loads efficiently.
 
@@ -146,7 +133,7 @@ Also, a key feature of Qdrant is that we leverage both vector and traditional in
 
 The vector index in Qdrant employs the Hierarchical Navigable Small World (HNSW) algorithm for Approximate Nearest Neighbor (ANN) searches, which is one of the fastest algorithms according to [benchmarks](https://github.com/erikbern/ann-benchmarks).
 
-### **Scalability**
+### Scalability
 
 For massive datasets and demanding workloads, Qdrant supports [distributed deployment](/documentation/guides/distributed_deployment/) from v0.8.0. In this mode, you can set up a Qdrant cluster and distribute data across multiple nodes, enabling you to maintain high performance and availability even under increased workloads. Clusters support sharding and replication, and harness the Raft consensus algorithm to manage node coordination.
 
@@ -154,7 +141,7 @@ Qdrant also supports vector [quantization](/documentation/guides/quantization/) 
 
 There are three quantization strategies you can choose from - scalar quantization, binary quantization and product quantization - which will help you control the trade-off between storage efficiency, search accuracy and speed.
 
-**Security**
+### Security
 
 Qdrant offers several [security features](/documentation/guides/security/) to help protect data and access to the vector store:
 
@@ -164,11 +151,11 @@ Qdrant offers several [security features](/documentation/guides/security/) to he
 
 To help with data sovereignty, Qdrant can be run in a [Hybrid Cloud](/hybrid-cloud/) setup. Hybrid Cloud allows for seamless deployment and management of the vector database across various environments, and integrates Kubernetes clusters into a unified managed service. You can manage these clusters via Qdrant Cloud’s UI while maintaining control over your infrastructure and resources.
 
-## **Optimizing Similarity Search Performance**
+## Optimizing Similarity Search Performance
 
 In order to achieve top performance in vector similarity searches, Qdrant employs a number of other tactics in addition to the features discussed above.**FastEmbed**: Qdrant supports [FastEmbed](/articles/fastembed/), a lightweight Python library for generating fast and efficient text embeddings. FastEmbed uses quantized transformer models integrated with ONNX Runtime, and is significantly faster than traditional methods of embedding generation.
 
-    **Support for Dense and Sparse Vectors**: Qdrant supports both dense and sparse vector representations. While dense vectors are most common, you may encounter situations where the dataset contains a range of specialized domain-specific keywords. [Sparse vectors](/articles/sparse-vectors/) shine in such scenarios. Sparse vectors are vector representations of data where most elements are zero.
+**Support for Dense and Sparse Vectors**: Qdrant supports both dense and sparse vector representations. While dense vectors are most common, you may encounter situations where the dataset contains a range of specialized domain-specific keywords. [Sparse vectors](/articles/sparse-vectors/) shine in such scenarios. Sparse vectors are vector representations of data where most elements are zero.
 
 **Multitenancy**: Qdrant supports [multitenancy](/documentation/guides/multiple-partitions/) by allowing vectors to be partitioned by payload within a single collection. Using this you can isolate each user's data, and avoid creating separate collections for each user. In order to ensure indexing performance, Qdrant also offers ways to bypass the construction of a global vector index, so that you can index vectors for each user independently.
 
@@ -180,7 +167,7 @@ In order to achieve top performance in vector similarity searches, Qdrant employ
 
 We regularly run [benchmarks](/benchmarks/) comparing Qdrant against other vector databases like Elasticsearch, Milvus, and Weaviate. Our benchmarks show that Qdrant consistently achieves the highest requests-per-second (RPS) and lowest latencies across various scenarios, regardless of the precision threshold and metric used.
 
-## **Real-World Use Cases**
+## Real-World Use Cases
 
 Vector similarity is increasingly being used in a wide range of [real-world applications](/use-cases/). In e-commerce, it powers recommendation systems by comparing user behavior vectors to product vectors. In social media, it can enhance content recommendations and user connections by analyzing user interaction vectors. In image-oriented applications, vector similarity search enables reverse image search, similar image clustering, and efficient content-based image retrieval. In healthcare, vector similarity helps in genetic research by comparing DNA sequence vectors to identify similarities and variations. The possibilities are endless.
 
@@ -188,7 +175,7 @@ A unique example of real-world application of vector similarity is how VISUA use
 
 After exploring a number of vector databases, VISUA picked Qdrant as the solution of choice. Vector similarity search helped identify similarities and deduplicate large volumes of images, videos, and frames. This allowed VISUA to uniquely represent data and prioritize frames with anomalies for closer examination, which helped scale their quality assurance and reinforcement learning processes. Read our [case study](/blog/case-study-visua/) to learn more.
 
-## **Future Directions and Innovations**
+## Future Directions and Innovations
 
 As real-world deployments of vector similarity search technology grows, there are a number of promising directions where this technology is headed.
 
@@ -198,7 +185,7 @@ Qdrant is one of the most secure vector stores out there. However, we are workin
 
 We have just about witnessed the tip of the iceberg in terms of what vector similarity can achieve. If you are working on an interesting use-case that uses vector similarity, we would like to hear from you.
 
-## **Getting Started with Qdrant**
+## Getting Started with Qdrant
 
 Ready to implement vector similarity in your AI applications? Explore Qdrant's vector database to enhance your data retrieval and AI capabilities. For additional resources and documentation, visit:
 
