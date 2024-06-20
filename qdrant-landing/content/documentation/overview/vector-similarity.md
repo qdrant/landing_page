@@ -1,7 +1,7 @@
 ---
 title: Vector Similarity
 weight: 2
-social_preview_image: /docs/gettingstarted/vector-similarity/vector-similarity.png
+social_preview_image: /docs/gettingstarted/vector-similarity/vector-similarity.jpg
 ---
 
 # What is Vector Similarity?
