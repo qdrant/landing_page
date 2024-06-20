@@ -16,7 +16,7 @@ keywords:
   - memory optimization
 ---
 
-## Optimizing High-Dimensional Vectors 
+# Optimizing High-Dimensional Vectors with Binary Quantization
 
 Qdrant is built to handle typical scaling challenges: high throughput, low latency and efficient indexing. **Binary quantization (BQ)** is our latest attempt to give our customers the edge they need to scale efficiently. This feature is particularly excellent for collections with large vector lengths and a large number of points. 
 
@@ -44,7 +44,7 @@ For example, The 1536 dimension OpenAI embedding is worse than Open Source count
 
 Our implementation of quantization achieves a good balance between full, large vectors at ranking time and binary vectors at search and retrieval time. It also has the ability for you to adjust this balance depending on your use case.
 
-## Fast Search and Retrieval
+## Faster search and retrieval
 
 Unlike product quantization, binary quantization does not rely on reducing the search space for each probe. Instead, we build a binary index that helps us achieve large increases in search speed.
 
@@ -54,7 +54,7 @@ HNSW is the approximate nearest neighbor search. This means our accuracy improve
 
 For example, if `oversampling=2.0` and the `limit=100`, then 200 vectors will first be selected using a quantized index. For those 200 vectors, the full 32 bit vector will be used with their HNSW index to a much more accurate 100 item result set. As opposed to doing a full HNSW search, we oversample a preliminary search and then only do the full search on this much smaller set of vectors.
 
-## Improved Storage Efficiency
+## Improved storage efficiency
 
 The following diagram shows the binarization function, whereby we reduce 32 bits storage to 1 bit information.
 
@@ -78,7 +78,7 @@ Since this method exploits the over-parameterization of embedding, you can expec
 
 You will still get faster boolean operations and reduced RAM usage, but the accuracy degradation might be too high. 
 
-## Sample Implementation
+## Sample implementation
 
 Now that we have introduced you to binary quantization, let’s try our a basic implementation. In this example, we will be using OpenAI and Cohere with Qdrant.
 
@@ -173,7 +173,7 @@ These two parameters are how you are going to balance speed versus accuracy. The
 
 If you have lower accuracy requirements you can even try doing a small oversample without rescoring. Or maybe, for your data set combined with your accuracy versus speed requirements you can just search the binary index and no rescoring, i.e. leaving those two parameters out of the search query.
 
-## Benchmark Results
+## Benchmark results
 
 We retrieved some early results on the relationship between limit and oversampling using the the DBPedia OpenAI 1M vector dataset. We ran all these experiments on a Qdrant instance where 100K vectors were indexed and used 100 random queries. 
 
@@ -224,7 +224,7 @@ If you determine that binary quantization is appropriate for your datasets and q
 - Oversampling=2.0 (or more) 
 - Rescore=True
 
-## What's Next?
+## What's next?
 
 Binary quantization is exceptional if you need to work with large volumes of data under high recall expectations. You can try this feature either by spinning up a [Qdrant container image](https://hub.docker.com/r/qdrant/qdrant) locally or, having us create one for you through a [free account](https://cloud.qdrant.io/login) in our cloud hosted service. 
 
