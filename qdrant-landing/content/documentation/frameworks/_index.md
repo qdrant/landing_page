@@ -7,6 +7,7 @@ weight: 33
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | [Airbyte](./airbyte/)                 | Data integration platform specialising in ELT pipelines.                                             |
 | [Airflow](./airflow/)                 | Platform designed for developing, scheduling, and monitoring batch-oriented workflows.               |
+| [Apify](./apify/)                     | Platform to build web scrapers and automate web browser tasks.                                       |
 | [AutoGen](./autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.             |
 | [Bubble](./bubble)                    | Development platform for application development with a no-code interface                            |
 | [Canopy](./canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                |
