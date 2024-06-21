@@ -5,7 +5,7 @@ weight: 3600
 
 # Apify
 
-Apify[https://apify.com/] is a cloud platform to build fast, reliable web scrapers and automate web browser tasks. Its serverless Actors can crawl millions of pages and perform tasks like sending emails or data transformations. Actors can be started manually, via API, or on a schedule, and easily integrate with other apps.
+[Apify](https://apify.com/) is a cloud platform to build fast, reliable web scrapers and automate web browser tasks. Its serverless Actors can crawl millions of pages and perform tasks like sending emails or data transformations. Actors can be started manually, via API, or on a schedule, and easily integrate with other apps.
 
 Qdrant is available as an [official integration](https://apify.com/apify/qdrant-integration) to load Apify datasets into a collection.
 
@@ -73,4 +73,4 @@ Upon running the script, the data from <https://qdrant.tech/documentation/> will
 
 - Apify [Documentation](https://docs.apify.com/)
 - Apify [Templates](https://apify.com/templates)
-- [Source Code](https://github.com/apify/actor-vector-database-integrations)
+- Integration [Source Code](https://github.com/apify/actor-vector-database-integrations)
