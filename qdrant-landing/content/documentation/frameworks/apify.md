@@ -5,7 +5,13 @@ weight: 3600
 
 # Apify
 
-[Apify](https://apify.com/) is a cloud platform to build fast, reliable web scrapers and automate web browser tasks. Its serverless Actors can crawl millions of pages and perform tasks like sending emails or data transformations. Actors can be started manually, via API, or on a schedule, and easily integrate with other apps.
+[Apify](https://apify.com/) is a web scraping and browser automation platform featuring an [app store](https://apify.com/store) with over 1,500 pre-built micro-apps known as Actors. These serverless cloud programs, which are essentially dockers under the hood, are designed for various web automation applications, including data collection.
+
+One such Actor, built especially for AI and RAG applications, is [Website Content Crawler](https://apify.com/apify/website-content-crawler).  
+
+It's ideal for this purpose because it has built-in HTML processing and data-cleaning functions. That means you can easily remove fluff, duplicates, and other things on a web page that aren't relevant, and provide only the necessary data to the language model.
+
+The Markdown can then be used to feed Qdrant to train AI models or supply them with fresh web content.
 
 Qdrant is available as an [official integration](https://apify.com/apify/qdrant-integration) to load Apify datasets into a collection.
 
