@@ -11,13 +11,13 @@ Qdrant is available as an [official integration](https://apify.com/apify/qdrant-
 
 You can refer to the [Apify documentation](https://docs.apify.com/platform/integrations/qdrant) to set up the integration via the Apify UI.
 
-## Programmatic usage
+## Programmatic Usage
 
 Apify also supports programmatic access to integrations via the [Apify Python SDK](https://docs.apify.com/sdk/python/).
 
 1. Install the Apify Python SDK by running the following command:
 
-    ```py
+    ```sh
     pip install apify-client
     ```
 
