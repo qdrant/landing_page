@@ -99,7 +99,17 @@ merged_df = ratings_df.merge(movies_df[['movieId', 'title']], left_on='movieId',
 
 # Aggregate ratings to handle duplicate (userId, title) pairs
 ratings_agg_df = merged_df.groupby(['userId', 'movieId']).rating.mean().reset_index()
+
+ratings_agg_df.head()
 ```
+
+|	|userId	|movieId	|rating|
+|---|---|---|---|
+|0	|1	|1	|0.429960|
+|1	|1	|1036	|1.369846|
+|2	|1	|1049	|-0.509926|
+|3	|1	|1066	|0.429960|
+|4	|1	|110	|0.429960|
 
 ### Convert to sparse
 
