@@ -98,11 +98,11 @@ article code:not([class]) {
 /* Line */
 .chroma .line {
   color: $neutral-94;
-  font-family: 'Roboto Mono', monospace;
+  font-family: $font-family-monospace;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
-  line-height: 24px; /* 150% */
+  line-height: 16px;
   display: flex;
   &:not(:last-of-type) {
     margin-bottom: 0.5rem;
