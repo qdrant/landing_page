@@ -9,7 +9,7 @@ weight: 23
 
 # Create a collaborative filtering system
 
-| Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/infoslack/qdrant-example/blob/main/sparse-vectors/collaborative-filtering.ipynb) |    |
+| Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb) |    |
 |--------------|---------------------|--|----|
 
 Every time Spotify recommends the next song from a band you've never heard of, it uses a recommendation algorithm based on other users' interactions with that song. This type of algorithm is known as **collaborative filtering**. 
@@ -28,7 +28,7 @@ Fortunately, there is a way to build collaborative filtering systems without any
 
 To implement this, you will use a simple yet powerful resource: [Qdrant with Sparse Vectors](https://qdrant.tech/articles/sparse-vectors/). 
 
-Notebook: [You can try this code here](https://github.com/infoslack/qdrant-example/blob/main/sparse-vectors/collaborative-filtering.ipynb)
+Notebook: [You can try this code here](https://githubtocolab.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb)
 
 
 ### Setup 
@@ -247,7 +247,7 @@ display(HTML(html_content))
 ```
 ## Recommendations
 
-For a complete display of movie posters, check the [notebook output](https://github.com/infoslack/qdrant-example/blob/main/sparse-vectors/collaborative-filtering.ipynb). Here are the results without html content.
+For a complete display of movie posters, check the [notebook output](https://github.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb). Here are the results without html content.
 
 ```bash
 Toy Story, Score: 131.2033799 
