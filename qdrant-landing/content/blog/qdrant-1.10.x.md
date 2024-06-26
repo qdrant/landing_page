@@ -40,7 +40,7 @@ POST collections/{collection_name}/points/query
 }
 ```
 
-We will be publishing examples in docs and our new API specification. *For more details, read the [Query API documentation](/documentation/concepts/query/)*
+We will be publishing examples in docs and our new API specification. *For more details, read the [Query API documentation] (/documentation/concepts/query/)*
 
 ## Native Hybrid Search Support
 Query API will also natively support **Hybrid Search**. Up to this point, you had to combine the results via `fusion` of `sparse` and `dense` vectors on your own. This is now sorted on the back-end, and you only have to configure them as basic parameters for Query API. 
@@ -69,7 +69,7 @@ POST /collections/{collection_name}/points/query
 ```
 Keep in mind that the Query API can now perform **sub-requests**. You will need to define a strategy to merge these requests using new parameters. For example, you can now include reranking within Hybrid Search, which can open door to strategies like iterative refinement via matryoshka embeddings. 
 
-*Read the [Query API documentation](/documentation/concepts/query/) for more details.*
+*Read the [Query API documentation] (/documentation/concepts/query/) for more details.*
 
 ## The Answer is 42
 
@@ -183,7 +183,7 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
-Keep in mind, the multivector feature is not only useful for ColBERT; it can also be utilized in other ways. For instance, in e-commerce, you can use multivector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search) method. 
+Keep in mind, the multivector feature is not only useful for ColBERT; it can also be utilized in other ways. For instance, in e-commerce, you can use multivector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method. 
 
 
 ## Sparse Vectors Compression
