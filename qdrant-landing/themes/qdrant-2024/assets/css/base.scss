@@ -1,6 +1,8 @@
 @use 'sass:math';
 @use 'helpers/functions' as *;
-@import 'satoshi-font';
+@import 'fonts/satoshi-font';
+@import 'fonts/source-code-pro';
+@import 'fonts/overpass-mono';
 @import 'bootstrap-custom';
 
 html {
