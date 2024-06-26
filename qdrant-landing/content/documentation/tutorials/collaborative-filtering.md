@@ -39,14 +39,11 @@ You have to first import the necessary libraries and define the environment.
 import os
 import pandas as pd
 import requests
-from IPython.display import display, HTML
-from qdrant_client import models,QdrantClient
-from qdrant_client.http.models import PointStruct, SparseVector, NamedSparseVector
+from qdrant_client import QdrantClient, models
+from qdrant_client.models import PointStruct, SparseVector, NamedSparseVector
 from collections import defaultdict
-from dotenv import load_dotenv
-load_dotenv()
 
-# OMDB API Key
+# OMDB API Key - for movie posters
 omdb_api_key = os.getenv("OMDB_API_KEY")
 
 # Collection name
@@ -67,11 +64,8 @@ Here, you will configure the recommendation engine to retrieve movie posters as 
 # Function to get movie poster using OMDB API
 def get_movie_poster(imdb_id, api_key):
     url = f"https://www.omdbapi.com/?i={imdb_id}&apikey={api_key}"
-    response = requests.get(url)
-    if response.status_code == 200:
-        data = response.json()
-        return data.get('Poster', 'No Poster Found'), data
-    return 'No Poster Found'
+    data = requests.get(url).json()
+    return data.get('Poster'), data
 ```
 
 ### Prepare the data
@@ -82,20 +76,21 @@ Load the movie datasets. These include three main CSV files: user ratings, movie
 # Load CSV files
 ratings_df = pd.read_csv('data/ratings.csv', low_memory=False)
 movies_df = pd.read_csv('data/movies.csv', low_memory=False)
-links = pd.read_csv('data/links.csv')
 
 # Convert movieId in ratings_df and movies_df to string
 ratings_df['movieId'] = ratings_df['movieId'].astype(str)
 movies_df['movieId'] = movies_df['movieId'].astype(str)
 
-# Add step to convert imdbId to tt format with leading zeros
-links['imdbId'] = 'tt' + links['imdbId'].astype(str).str.zfill(7)
+rating = ratings_df['rating']
 
 # Normalize ratings
-ratings_df['rating'] = (ratings_df['rating'] - ratings_df['rating'].mean()) / ratings_df['rating'].std()
+ratings_df['rating'] = (rating - rating.mean()) / rating.std()
 
 # Merge ratings with movie metadata to get movie titles
-merged_df = ratings_df.merge(movies_df[['movieId', 'title']], left_on='movieId', right_on='movieId', how='inner')
+merged_df = ratings_df.merge(
+    movies_df[['movieId', 'title']],
+    left_on='movieId', right_on='movieId', how='inner'
+)
 
 # Aggregate ratings to handle duplicate (userId, title) pairs
 ratings_agg_df = merged_df.groupby(['userId', 'movieId']).rating.mean().reset_index()
@@ -103,13 +98,13 @@ ratings_agg_df = merged_df.groupby(['userId', 'movieId']).rating.mean().reset_in
 ratings_agg_df.head()
 ```
 
-|	|userId	|movieId	|rating|
-|---|---|---|---|
-|0	|1	|1	|0.429960|
-|1	|1	|1036	|1.369846|
-|2	|1	|1049	|-0.509926|
-|3	|1	|1066	|0.429960|
-|4	|1	|110	|0.429960|
+|	|userId	    |movieId  |rating   |
+|---|-----------|---------|---------|
+|0	|1	        |1	      |0.429960 |
+|1	|1	        |1036	  |1.369846 |
+|2	|1	        |1049	  |-0.509926|
+|3	|1	        |1066	  |0.429960 |
+|4	|1	        |110	  |0.429960 |
 
 ### Convert to sparse
 
@@ -151,7 +146,12 @@ qdrant_client.upload_points(
 )
 ```
 
-### Define ratings
+### Define query
+
+In order to get recommendations, we need to find users with similar tastes to ours.
+Let's describe our preferences by providing ratings for some of our favorite movies.
+
+`1` indicates that we like the movie, `-1` indicates that we dislike it.
 
 ```python
 my_ratings = {
@@ -168,6 +168,12 @@ my_ratings = {
     562: -1     # Die Hard
 }
 
+```
+
+<details>
+<summary>Click to see the code for <code>to_vector</code> </summary>
+
+```python
 # Create sparse vector from my_ratings
 def to_vector(ratings):
     vector = SparseVector(
@@ -178,14 +184,14 @@ def to_vector(ratings):
         vector.values.append(rating)
         vector.indices.append(movie_id)
     return vector
-
 ```
+
+</details>
+
 
 ### Run the query
 
-From the uploaded list of movies with ratings, you can perform a search in Qdrant to get the top recommendations, focusing on the most similar ones.
-
-If you have a list of movies we like and dislike, you can search for the top 20 users with the most similar tastes to ours. By doing this, you can discover the most liked movies that you haven't seen yet by looking at those users' review lists.
+From the uploaded list of movies with ratings, we can perform a search in Qdrant to get the top most similar users to us.
 
 ```python
 # Perform the search
@@ -199,7 +205,8 @@ results = qdrant_client.search(
 )
 ```
 
-You can filter the results to order by score and sort them to get the top 5 movies.
+Now we can find the movies liked by the other similar users, but we haven't seen yet.
+Let's combine the results from found users, filter out seen movies, and sort by the score.
 
 ```python
 # Convert results to scores and sort by score
@@ -215,8 +222,9 @@ movie_scores = results_to_scores(results)
 top_movies = sorted(movie_scores.items(), key=lambda x: x[1], reverse=True)
 ```
 
-### Display the results
+<details>
 
+<summary> Visualize results in Jupyter Notebook </summary>
  
 Finally, we display the top 5 recommended movies along with their posters and titles.
 
@@ -245,17 +253,24 @@ html_content += "</div>"
 
 display(HTML(html_content))
 ```
+
+</details>
+
 ## Recommendations
 
 For a complete display of movie posters, check the [notebook output](https://github.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb). Here are the results without html content.
 
-```bash
+```text
 Toy Story, Score: 131.2033799 
 Monty Python and the Holy Grail, Score: 131.2033799 
 Star Wars: Episode V - The Empire Strikes Back, Score: 131.2033799  
 Star Wars: Episode VI - Return of the Jedi, Score: 131.2033799 
 Men in Black, Score: 131.2033799
 ```
+
+On top of collaborative filtering, we can further enhance the recommendation system by incorporating other features like user demographics, movie genres, or movie tags.
+
+Or, for example, only consider recent ratings via a time-based filter. This way, we can recommend movies that are currently popular among users.
 
 ## Conclusion
 
