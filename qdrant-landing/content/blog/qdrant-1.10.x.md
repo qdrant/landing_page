@@ -81,7 +81,7 @@ $$
 
 This method addresses the tokenization issues and computational costs associated with SPLADE. The expected model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
-> Read more about BM42 in our [dedicated article](/articles/bm42/)
+> Read more about BM42 in our [dedicated article] (/articles/bm42/)
 
 BM42 can now be used in Qdrant via FastEmbed inference. Let's see how you can setup a collection for hybrid search with BM42 and [jina.ai](https://jina.ai/embeddings/) dense embeddings.
 
