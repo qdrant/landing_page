@@ -15,29 +15,6 @@ This feature can be used to archive data or easily replicate an existing deploym
 
 For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
 
-## Store snapshots
-
-The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration/) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
-
-You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
-
-```yaml
-storage:
-  # Specify where you want to store snapshots.
-  snapshots_path: ./snapshots
-```
-
-*Available as of v1.3.0*
-
-While a snapshot is being created, temporary files are by default placed in the configured storage directory.
-This location may have limited capacity or be on a slow network-attached disk. You may specify a separate location for temporary files:
-
-```yaml
-storage:
-  # Where to store temporary files
-  temp_path: /tmp
-```
-
 ## Create snapshot
 
 <aside role="status">If you work with a distributed deployment, you have to create snapshots for each node separately. A single snapshot will contain only the data stored on the node on which the snapshot was created.</aside>
@@ -526,4 +503,84 @@ For example:
 
 ```bash
 ./qdrant --storage-snapshot /snapshots/full-snapshot-2022-07-18-11-20-51.snapshot
+```
+
+## Storage
+
+Created, uploaded and recovered snapshots are stored as `.snapshot` files. By
+default, they're stored on the [local file system](#local-file-system). You may
+also configure to use an [S3 storage](#s3) service for them.
+
+### Local file system
+
+By default, snapshots are stored at `./snapshots` or at `/qdrant/snapshots` when
+using our Docker image.
+
+The target directory can be controlled through the [configuration](../../guides/configuration/):
+
+```yaml
+storage:
+  # Specify where you want to store snapshots.
+  snapshots_path: ./snapshots
+```
+
+Alternatively you may use the environment variable `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
+
+*Available as of v1.3.0*
+
+While a snapshot is being created, temporary files are placed in the configured
+storage directory by default. In case of limited capacity or a slow
+network attached disk, you can specify a separate location for temporary files:
+
+```yaml
+storage:
+  # Where to store temporary files
+  temp_path: /tmp
+```
+
+### S3
+
+*Available as of v1.10.0*
+
+Rather than storing snapshots on the local file system, you may also configure
+to store snapshots in an S3-compatible storage service. To enable this, you must
+configure it in the [configuration](../../guides/configuration/) file.
+
+For example, to configure for AWS S3:
+
+```yaml
+storage:
+  # S3 snapshot storage configuration
+  # If present, all snapshots will be stored in AWS S3 or S3-compatible storage.
+  snapshots_s3:
+    # Bucket name
+    bucket: your_bucket_here
+
+    # Storage provider
+    service:
+      # AWS S3
+      type: AWS
+      # Bucket region (e.g. eu-central-1)
+      region: your_bucket_region_here
+
+    # Storage access key
+    # Can be specified either here or in the `AWS_ACCESS_KEY_ID` environment variable.
+    access_key: your_access_key_here
+
+    # Storage secret key
+    # Can be specified either here or in the `AWS_SECRET_ACCESS_KEY` environment variable.
+    secret_key: your_secret_key_hereyaml
+```
+
+If you're using Cloudflare R2 your configuration would look like this:
+
+```yaml
+storage:
+  snapshots_s3:
+    bucket: your_bucket_here
+    service:
+      type: R2
+      account_id: your_account_id_here
+    access_key: your_access_key_here
+    secret_key: your_secret_key_hereyaml
 ```
