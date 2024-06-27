@@ -606,7 +606,7 @@ Unlike a dense vector index, a sparse vector index does not require a pre-define
 
 ### IDF Modifier
 
-** Available as of v1.10.0 **
+*Available as of v1.10.0*
 
 For many search algorithms, it is important to consider how often an item occurs in a collection.
 The intuition is that the less frequently an item appears in a collection, the more important it is in a search. 
@@ -627,6 +627,20 @@ PUT /collections/{collection_name}
         }
     }
 }
+```python
+
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    sparse_vectors={
+        "text": models.SparseVectorParams(
+            modifier=models.Modifier.IDF,
+        ),
+    },
+)
 ```
 
 Qdrant uses the following formula to calculate the IDF modifier:
