@@ -30,9 +30,9 @@ A [Payload](/documentation/concepts/payload/) describes information that you can
 
 [Explore](/documentation/concepts/explore/) includes several APIs for exploring data in your collections.
 
-## Hybrid queries
+## Hybrid Queries
 
-[Hybrid queries](/documentation/concepts/query/) combines multiple queries or performs them in more than one stage.
+[Hybrid Queries](/documentation/concepts/hybrid-queries/) combines multiple queries or performs them in more than one stage.
 
 ## Filtering
 

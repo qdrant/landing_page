@@ -30,9 +30,9 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | [Recommendations](../explore/#recommendation-api) | Provide positive and negative examples |
 | [Discovery Search](../explore/#discovery-api) | Guide the search using context as a training set |
 | [Scroll](../points/#scroll-points) | Get all points with optional filtering |
-| [Order By](../query/#re-ranking-with-stored-values) | Order points by payload key |
-| [Hybrid Search](../query/#hybrid-search) | Combine multiple queries to get better results |
-| [Multi-Staged Search](../query/#multi-stage-queries) | Optimize performance for large embeddings |
+| [Order By](../hybrid-queries/#re-ranking-with-stored-values) | Order points by payload key |
+| [Hybrid Search](../hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
+| [Multi-Staged Search](../hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
 
 
 **Nearest Neighbors Search**
