@@ -11,7 +11,49 @@ Searching for the nearest vectors is at the core of many representational learni
 Modern neural networks are trained to transform objects into vectors so that objects close in the real world appear close in vector space.
 It could be, for example, texts with similar meanings, visually similar pictures, or songs of the same genre.
 
-![Embeddings](/docs/encoders.png)
+
+{{< figure src="/docs/encoders.png" caption="This is how vector similarity works" width="70%" >}}
+
+## Query API
+
+*Available as of v1.10.0*
+
+Qdrant provides a single interface for all kinds of search and exploration requests - the `Query API`.
+Here is a reference list of what kind of queries you can perform with the `Query API` in Qdrant:
+
+Depending on the `query` parameter, Qdrant might prefer different strategies for the search.
+
+|  | |
+| --- | --- |
+| Nearest Neighbors Search | Vector Similarity Search, also known as  or k-NN |
+| Search By Id | Seach by already stored vector - skip embedding model inference |
+| [Recommendations](../explore/#recommendation-api) | Provide positive and negative examples |
+| [Discovery Search](../explore/#discovery-api) | Guide the search using context as a training set |
+| [Scroll](../points/#scroll-points) | Get all points with optional filtering |
+| [Order By](../query/#re-ranking-with-stored-values) | Order points by payload key |
+| [Hybrid Search](../query/#hybrid-search) | Combine multiple queries to get better results |
+| [Multi-Staged Search](../query/#multi-stage-queries) | Optimize performance for large embeddings |
+
+
+**Nearest Neighbors Search**
+
+```http
+POST /collections/{collection_name}/points/query
+{
+    "query": [0.2, 0.1, 0.9, 0.7] // <--- Dense vector
+}
+```
+
+**Search By Id**
+
+```http
+POST /collections/{collection_name}/points/query
+{
+    "query": "43cf51e2-8777-4f52-bc74-c2cbde0c8b04" // <--- point id
+}
+```
+
+
 
 ## Metrics
 
@@ -37,22 +79,8 @@ It happens only once for each vector.
 The second step is the comparison of vectors.
 In this case, it becomes equivalent to dot production - a very fast operation due to SIMD.
 
-## Query planning
-
-Depending on the filter used in the search - there are several possible scenarios for query execution.
-Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result.
-This process is called query planning.
-
-The strategy selection process relies heavily on heuristics and can vary from release to release.
-However, the general principles are:
-
-* planning is performed for each segment independently (see [storage](../storage/) for more information about segments)
-* prefer a full scan if the amount of points is below a threshold
-* estimate the cardinality of a filtered result before selecting a strategy
-* retrieve points using payload index (see [indexing](../indexing/)) if cardinality is below threshold
-* use filterable vector index if the cardinality is above a threshold
-
-You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
+Depending on the query configuration, Qdrant might prefer different strategies for the search.
+Read more about it in the [query planning](#query-planning) section.
 
 ## Search API
 
@@ -1486,3 +1514,21 @@ The looked up result will show up under `lookup` in each group.
 ```
 
 Since the lookup is done by matching directly with the point id, any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
+
+
+## Query planning
+
+Depending on the filter used in the search - there are several possible scenarios for query execution.
+Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result.
+This process is called query planning.
+
+The strategy selection process relies heavily on heuristics and can vary from release to release.
+However, the general principles are:
+
+* planning is performed for each segment independently (see [storage](../storage/) for more information about segments)
+* prefer a full scan if the amount of points is below a threshold
+* estimate the cardinality of a filtered result before selecting a strategy
+* retrieve points using payload index (see [indexing](../indexing/)) if cardinality is below threshold
+* use filterable vector index if the cardinality is above a threshold
+
+You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.

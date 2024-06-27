@@ -1,5 +1,5 @@
 ---
-title: Hybrid queries #required
+title: Hybrid Queries #required
 weight: 57 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
 aliases: 
   - ../query
@@ -8,7 +8,7 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 # Hybrid and multi-stage queries
 
-*As of v1.10.0*
+*Available as of v1.10.0*
 
 There are use-cases when the best search is obtained by combining multiple queries, 
 or by performing the search in more than one stage.
@@ -20,15 +20,19 @@ The main component for making the combinations of queries possible is the `prefe
 The way it works is that, whenever a query has at least one prefetch, Qdrant will first perform the prefetch query (or queries),
 and then it will apply the main query over the results of the prefetch.
 
-## Fusing related results
+## Hybrid Search
 
 One of the most common problems when you have different representations of the same data is to combine the queried 
 points for each representation in a single result.
 
+
+{{< figure  src="/docs/relative-score-fusion.png" caption="Relative Score Fusion" width="70%" >}}
+
+
 For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
 plus the best of specific words.
 
-There are many ways to fuse the results, but one that we chose to implement is Reciprocal Rank Fusion (<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">RRF</a>), 
+There are many ways to fuse the results, in this example we use Reciprocal Rank Fusion (<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">RRF</a>), 
 which considers the positions of each of points in the results, and boosts the ones that appear closer to the top in several queries.
 
 This is a dense + sparse query, fused with RRF:
@@ -56,15 +60,23 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
-## Querying in stages
+## Multi-stage queries
 
-Qdrant often goes the extra mile to avoid multiple passes for a single query, specially with in-query filtering. But recent advances in embedding generation and techniques like smaller datatype embeddings (e.g. `uint8`),
-Matryoshka Representation Learning (<a href=https://arxiv.org/abs/2205.13147 target="_blank">MRL</a>), 
-Late-Interaction models (like <a href=https://arxiv.org/abs/2112.01488 target="_blank">ColBERT</a>) among others, 
-have made it possible to go from quicker and more efficient to more refined and expensive searches.
+In many cases usage of the larger vector representation gives more accurate search results, but it is also more expensive to compute.
+
+One of the popular techniques to speed up the search is to split the search into two stages:
+
+* First, use a smaller and cheaper representation to get a large list of candidates.
+* Then, re-score the candidates using the larger and more accurate representation.
+
+There are a few ways to build search architectures around this idea:
+
+* The quantized vectors as a first stage, and the full-precision vectors as a second stage.
+* Leverage Matryoshka Representation Learning (<a href=https://arxiv.org/abs/2205.13147 target="_blank">MRL</a>) and generate candidate vectors with a shorter vector, and then refine them with a longer one.
+* Use regular dense vectors to pre-fetch the candidates, and then re-score them with a multi-vector model like <a href=https://arxiv.org/abs/2112.01488 target="_blank">ColBERT</a>.
 
 To leverage the best of all worlds, Qdrant has a convenient interface to perform the queries in stages,
-such that the coarse results are fetched first, and then they are refined later.
+such that the coarse results are fetched first, and then they are refined later with larger vectors.
 
 ### Re-scoring examples
 
@@ -102,7 +114,7 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
-Even a crazy example of leveraging all the above techniques in a single query is possible:
+Even more sophisticated examples like leveraging all the above techniques in a single query are possible:
 ```http
 POST /collections/{collection_name}/points/query
 {
@@ -137,7 +149,7 @@ Whenever you need to use a vector as an input, you can always use a point id ins
 ```http
 POST /collections/{collection_name}/points/query
 {
-    "query": "43cf51e2-8777-4f52-bc74-c2cbde0c8b04", // <--- point id
+    "query": "43cf51e2-8777-4f52-bc74-c2cbde0c8b04" // <--- point id
 }
 ```
 
@@ -162,45 +174,57 @@ POST /collections/{collection_name}/points/query
 In the case above, Qdrant will fetch the `"image-512"` vector from the specified point id in the 
 collection `another_collection`.
 
-**Note:** The fetched vector(s) must match the characteristics of the `using` vector, otherwise an error will be returned.
+<aside role="status">
+ The fetched vector(s) must match the characteristics of the `using` vector, otherwise an error will be returned.
+</aside>
 
-### Sane defaults
 
-Whatever you don't need to specify, Qdrant will take care of it for you.
+## Re-ranking with stored values
 
-The minimal query is... no parameters! In such case it will just return points by ids.
+Query API allows to retrieve points not only by vector similarity, but also by the content of the payload.
 
-**Note:** The preferred way to fetch points without a query is via the [Scroll API](../points/#scroll-points), 
-since offset pagination is much more efficient there.
+There are two ways to make use of the payload in the query:
+
+* Apply filters to the payload fields, to get only the points that match the filter.
+* Order the results by the payload field.
+
+Let's see an example of when this might be useful:
 
 ```http
 POST /collections/{collection_name}/points/query
-{}
+{
+    "prefetch": [
+        {
+            "query": [0.01, 0.45, 0.67, ...], // <-- dense vector
+            "filter": {
+                "must": {
+                    "key": "color",
+                    "match": {
+                        "value": "red"
+                    }
+                }
+            },
+            "limit": 10
+        },
+        {
+            "query": [0.01, 0.45, 0.67, ...], // <-- dense vector
+            "filter": {
+                "must": {
+                    "key": "color",
+                    "match": {
+                        "value": "green"
+                    }
+                }
+            },
+            "limit": 10
+        }
+    ],
+    "query": { "order_by": "price" }
+}
 ```
 
-These are the defaults, in case you want to override them:
+In this example, we first fetch 10 points with the color "red", and then 10 points with the color "green".
+Then, we order the results by the price field.
 
-- `query`: no query, but providing a vector means a nearest neighbors query,
-- `using`: the default vector name (`""`),
-- `prefetch`: no prefetch.
-- `filters`: no filters.
-- `limit`: 10,
-- `offset`: 0,
-- `with_payload`: without payload,
-- `with_vector`: without vector(s),
-- `score_threshold`: no threshold,
-- `lookup_from`: same as the current collection name and the `using` vector,
-
-
-### All kinds of queries
-
-The `query` parameter can be any kind of query, including:
-- [`nearest`](../search): nearest neighbors query,
-- [`recommend`](../explore/#recommendation-api): recommendation query,
-- [`discover`](../explore/#discovery-search): discovery query (target + context),
-- [`context`](../explore/#context-search): context query (only context),
-- [`order_by`](../points/#order-points-by-payload-key): order by a payload field,
-- [`fusion`](#fusing-related-results): fuse multiple prefetch queries,
-
-
+In this way we can guarantee even sampling of both colors in the results, and also get the cheapest ones first.
 
