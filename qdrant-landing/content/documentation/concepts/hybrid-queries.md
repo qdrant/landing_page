@@ -60,6 +60,29 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="my_collection",
+    prefetch=[
+        models.Prefetch(
+            query=models.SparseVector(indices=[1, 42], values=[0.22, 0.8]),
+            using="sparse",
+            limit=20,
+        ),
+        models.Prefetch(
+            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            using="dense",
+            limit=20,
+        ),
+    ],
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
+)
+```
+
 ## Multi-stage queries
 
 In many cases the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
@@ -96,6 +119,24 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="my_collection",
+    prefetch=models.Prefetch(
+        query=[1, 23, 45, 67],  # <------------- small byte vector
+        using="mrl_byte",
+        limit=1000,
+    ),
+    query=[0.01, 0.299, 0.45, 0.67, ...],  # <-- full vector
+    using="full",
+    limit=10,
+)
+```
+
 Fetch 100 results using the default vector, then re-score them using a multi-vector to get the top 10.
 ```http
 POST /collections/{collection_name}/points/query
@@ -112,6 +153,27 @@ POST /collections/{collection_name}/points/query
     "using": "colbert",
     "limit": 10
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="my_collection",
+    prefetch=models.Prefetch(
+        query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+        limit=100,
+    ),
+    query=[
+        [0.1, 0.2, ...],  # <─┐
+        [0.2, 0.1, ...],  # < ├─ multi-vector
+        [0.8, 0.9, ...],  # < ┘
+    ],
+    using="colbert",
+    limit=10,
+)
 ```
 
 Even more sophisticated examples like leveraging all the above techniques in a single query are possible:
@@ -138,6 +200,33 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="my_collection",
+    prefetch=models.Prefetch(
+        prefetch=models.Prefetch(
+            query=[1, 23, 45, 67],  # <------ small byte vector
+            using="mrl_byte",
+            limit=1000,
+        ),
+        query=[0.01, 0.45, 0.67, ...],  # <-- full dense vector
+        using="full",
+        limit=100,
+    ),
+    query=[
+        [0.1, 0.2, ...],  # <─┐
+        [0.2, 0.1, ...],  # < ├─ multi-vector
+        [0.8, 0.9, ...],  # < ┘
+    ],
+    using="colbert",
+    limit=10,
+)
+```
+
 ## Flexible interface
 
 Other than the introduction of `prefetch`, the `Query API` has been designed to make querying easy, here are a few bonus features.
@@ -151,6 +240,17 @@ POST /collections/{collection_name}/points/query
 {
     "query": "43cf51e2-8777-4f52-bc74-c2cbde0c8b04" // <--- point id
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="my_collection",
+    query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04",  # <--- point id
+)
 ```
 
 This will fetch the default vector from the point with this id, and use it as the query vector.
@@ -169,6 +269,22 @@ POST /collections/{collection_name}/points/query
         "vector": "image-512" // <--- vector name in the other collection
     }
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="my_collection",
+    query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04",  # <--- point id
+    using="512d-vector",
+    lookup_from=models.LookupFrom(
+        collection="another_collection",  # <--- other collection name
+        vector="image-512",  # <--- vector name in the other collection
+    )
+)
 ```
 
 In the case above, Qdrant will fetch the `"image-512"` vector from the specified point id in the 
@@ -221,6 +337,39 @@ POST /collections/{collection_name}/points/query
     ],
     "query": { "order_by": "price" }
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="my_collection",
+    prefetch=[
+        models.Prefetch(
+            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            filter=models.Filter(
+                must=models.FieldCondition(
+                    key="color",
+                    match=models.Match(value="red"),
+                ),
+            ),
+            limit=10,
+        ),
+        models.Prefetch(
+            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            filter=models.Filter(
+                must=models.FieldCondition(
+                    key="color",
+                    match=models.Match(value="green"),
+                ),
+            ),
+            limit=10,
+        ),
+    ],
+    query=models.OrderByQuery(order_by="price"),
+)
 ```
 
 In this example, we first fetch 10 points with the color "red", and then 10 points with the color "green".

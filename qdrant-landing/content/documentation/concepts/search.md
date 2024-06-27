@@ -44,6 +44,13 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
+```python
+client.query_points(
+    collection_name="{collection_name}",
+    query=[0.2, 0.1, 0.9, 0.7], # <--- Dense vector
+)
+```
+
 **Search By Id**
 
 ```http
@@ -51,6 +58,13 @@ POST /collections/{collection_name}/points/query
 {
     "query": "43cf51e2-8777-4f52-bc74-c2cbde0c8b04" // <--- point id
 }
+```
+
+```python
+client.query_points(
+    collection_name="{collection_name}",
+    query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04", # <--- point id
+)
 ```
 
 ## Metrics
