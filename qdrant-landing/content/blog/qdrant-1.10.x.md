@@ -96,7 +96,7 @@ $$
 
 In practical terms, this method addresses the tokenization issues and computational costs associated with SPLADE. The expected model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
-> For more info on BM42, read our [dedicated technical article].
+*For more info on BM42, read our [dedicated technical article].*
 
 ### Using BM42
 
@@ -170,6 +170,14 @@ client.query_points(
 
 ### Where BM42 shines
 You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common. Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
+
+Our benchmark was done on the [Quora dataset](https://huggingface.co/datasets/BeIR/quora), to demonstrate Question-Answering tasks on a corpus of short texts. 
+
+|Results | BM25 | BM42     |
+|---------------|------|----------|
+|Precision @ 10 | 0.45 | **0.49** |
+
+This preliminary test highlights increased precision across the entire QA task. Please note that best results are achieved with combination of sparse and dense embeddings in a hybrid approach.
 
 ## ColBERT Multivector Support 
 We are adding native support for multivector search, compatible with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. 
