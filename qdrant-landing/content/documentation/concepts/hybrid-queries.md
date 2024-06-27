@@ -26,7 +26,7 @@ One of the most common problems when you have different representations of the s
 points for each representation in a single result.
 
 
-{{< figure  src="/docs/relative-score-fusion.png" caption="Relative Score Fusion" width="70%" >}}
+{{< figure  src="/docs/reciprocal-rank-fusion.png" caption="Reciprocal Rank Fusion" width="85%" >}}
 
 
 For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
@@ -62,7 +62,7 @@ POST /collections/{collection_name}/points/query
 
 ## Multi-stage queries
 
-In many cases usage of the larger vector representation gives more accurate search results, but it is also more expensive to compute.
+In many cases the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
 
 One of the popular techniques to speed up the search is to split the search into two stages:
 
@@ -72,7 +72,7 @@ One of the popular techniques to speed up the search is to split the search into
 There are a few ways to build search architectures around this idea:
 
 * The quantized vectors as a first stage, and the full-precision vectors as a second stage.
-* Leverage Matryoshka Representation Learning (<a href=https://arxiv.org/abs/2205.13147 target="_blank">MRL</a>) and generate candidate vectors with a shorter vector, and then refine them with a longer one.
+* Leverage Matryoshka Representation Learning (<a href=https://arxiv.org/abs/2205.13147 target="_blank">MRL</a>) to generate candidate vectors with a shorter vector, and then refine them with a longer one.
 * Use regular dense vectors to pre-fetch the candidates, and then re-score them with a multi-vector model like <a href=https://arxiv.org/abs/2112.01488 target="_blank">ColBERT</a>.
 
 To leverage the best of all worlds, Qdrant has a convenient interface to perform the queries in stages,
@@ -175,11 +175,11 @@ In the case above, Qdrant will fetch the `"image-512"` vector from the specified
 collection `another_collection`.
 
 <aside role="status">
- The fetched vector(s) must match the characteristics of the `using` vector, otherwise an error will be returned.
+ The fetched vector(s) must match the characteristics of the <code>using</code> vector, otherwise an error will be returned.
 </aside>
 
 
-## Re-ranking with stored values
+## Re-ranking with payload values
 
 Query API allows to retrieve points not only by vector similarity, but also by the content of the payload.
 

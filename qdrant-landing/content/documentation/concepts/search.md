@@ -25,14 +25,14 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 
 |  | |
 | --- | --- |
-| Nearest Neighbors Search | Vector Similarity Search, also known as  or k-NN |
-| Search By Id | Seach by already stored vector - skip embedding model inference |
+| Nearest Neighbors Search | Vector Similarity Search, also known as k-NN |
+| Search By Id | Search by an already stored vector - skip embedding model inference |
 | [Recommendations](../explore/#recommendation-api) | Provide positive and negative examples |
-| [Discovery Search](../explore/#discovery-api) | Guide the search using context as a training set |
+| [Discovery Search](../explore/#discovery-api) | Guide the search using context as a one-shot training set |
 | [Scroll](../points/#scroll-points) | Get all points with optional filtering |
 | [Order By](../hybrid-queries/#re-ranking-with-stored-values) | Order points by payload key |
 | [Hybrid Search](../hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
-| [Multi-Staged Search](../hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
+| [Multi-Stage Search](../hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
 
 
 **Nearest Neighbors Search**
@@ -52,8 +52,6 @@ POST /collections/{collection_name}/points/query
     "query": "43cf51e2-8777-4f52-bc74-c2cbde0c8b04" // <--- point id
 }
 ```
-
-
 
 ## Metrics
 
