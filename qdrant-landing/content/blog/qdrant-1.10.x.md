@@ -18,15 +18,27 @@ tags:
 
 [Qdrant 1.10.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.10.0) This version introduces at some major changes, so let's dive right in:
 
-**Universal Query API:** All search APIs are now consolidated into the single Query API endpoint.</br>
+**Universal Query API:** All search APIs are now consolidated into a single Query API endpoint.</br>
 **Hybrid Search:** Hybrid Search is offered out of the box, and you can use it via Query API.</br>
 **BM42 Algorithm:** Alternative method of scoring is best suited for Hybrid Search on short docs.</br>
 **Multivector Support:** Native support for late interaction ColBERT is accessible via Query API.
 
 ## One Endpoint for All Queries
-**Query API** will consolidate all search APIs into a single request. You can now configure a single request to `nearest`/`fusion` search or `discover`/`recommend` or `context`/`order_by` results. Previously, you had to work outside of the API to combine different search requests. Now these approaches are reduced to parameters of a single request, so you can avoid merging individual results.
+**Query API** will consolidate all search APIs into a single request. Previously, you had to work outside of the API to combine different search requests. Now these approaches are reduced to parameters of a single request, so you can avoid merging individual results. 
 
-For example, you can configure Query API to run Discovery search. Let's see how that looks:
+You can now configure the Query API request with the following parameters:
+
+|Parameter|Description|
+|-|-|
+|no parameter|Returns points by `id`|
+|`nearest`|Queries nearest neighbors ([Search](/documentation/concepts/search/))|
+|`fusion`|Fuses sparse/dense prefetch queries ([Hybrid Search](/articles/sparse-vectors/))|
+|`discover`|Queries target with added context ([Discovery](/documentation/concepts/explore/#discovery-api))|
+|`context` |No target with context only ([Context](/documentation/concepts/explore/#context-search))|
+|`recommend`|Queries against positive/negative examples. ([Recommendation](/documentation/concepts/explore/#recommendation-api))|
+|`order_by`|Orders results by [payload field](/documentation/concepts/points/#order-points-by-payload-key)|
+
+For example, you can configure Query API to run [Discovery search](/documentation/concepts/explore/#discovery-api). Let's see how that looks:
 
 ```http
 POST collections/{collection_name}/points/query
@@ -40,10 +52,10 @@ POST collections/{collection_name}/points/query
 }
 ```
 
-We will be publishing examples in docs and our new API specification. *For more details, read the [Query API documentation] (/documentation/concepts/query/)*
+We will be publishing code samples in [docs](/documentation/concepts/search) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
 
-## Native Hybrid Search Support
-Query API will also natively support **Hybrid Search**. Up to this point, you had to combine the results via `fusion` of `sparse` and `dense` vectors on your own. This is now sorted on the back-end, and you only have to configure them as basic parameters for Query API. 
+### Native Hybrid Search Support
+Query API now also natively supports **sparse/dense fusion**. Up to this point, you had to combine the results of sparse and dense searches on your own. This is now sorted on the back-end, and you only have to configure them as basic parameters for Query API. 
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -67,23 +79,30 @@ POST /collections/{collection_name}/points/query
     "limit": 10
 }
 ```
-Keep in mind that the Query API can now perform **sub-requests**. You will need to define a strategy to merge these requests using new parameters. For example, you can now include reranking within Hybrid Search, which can open door to strategies like iterative refinement via matryoshka embeddings. 
+### Sub-Requests
+Query API can now perform sub-requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open door to strategies like iterative refinement via matryoshka embeddings. 
 
-*Read the [Query API documentation] (/documentation/concepts/query/) for more details.*
+*To learn more about Sub-Requests, read the [Query API documentation](/documentation/concepts/search/).*
 
 ## The Answer is 42
 
-Qdrant's BM42 is a novel algorithm that combines the IDF (inverse document frequency) element of BM25 with **transformer-based attention matrices** to improve text retrieval. It utilizes attention matrices to determine token importance. Here is how we structured the algorithm:
+Qdrant's BM42 is a novel algorithm that combines the `[IDF]` (inverse document frequency) element of BM25 with **transformer-based attention matrices** to improve text retrieval. It utilizes attention matrices from `all-MiniLM-L6-v2` to determine `[CLS]` token importance. 
+
+Here is how we structured the algorithm:
 
 $$
 \text{score}(D,Q) = \sum_{i=1}^{N} \text{IDF}(q_i) \times \text{Attention}(\text{CLS}, q_i)
 $$
 
-This method addresses the tokenization issues and computational costs associated with SPLADE. The expected model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
+In practical terms, this method addresses the tokenization issues and computational costs associated with SPLADE. The expected model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
-> Read more about BM42 in our [dedicated article] (/articles/bm42/)
+> For more info on BM42, read our [dedicated technical article].
 
-BM42 can now be used in Qdrant via FastEmbed inference. Let's see how you can setup a collection for hybrid search with BM42 and [jina.ai](https://jina.ai/embeddings/) dense embeddings.
+### Using BM42
+
+BM42 can now be used in Qdrant via [FastEmbed](https://github.com/qdrant/fastembed) inference. 
+
+1. Let's see how you can setup a collection for Hybrid Search with BM42 and [jina.ai](https://jina.ai/embeddings/) dense embeddings:
 
 ```http
 PUT collections/my-hybrid-collection
@@ -123,8 +142,8 @@ client.create_collection(
 )
 ```
 
-The search query will retrieve the documents with both dense and sparse embeddings and combine the scores
-using Reciprocal Rank Fusion (RRF) algorithm.
+2. The search query will retrieve the documents with both dense and sparse embeddings and combine the scores
+using **Reciprocal Rank Fusion (RRF)** algorithm.
 
 ```python
 from fastembed import SparseTextEmbedding, TextEmbedding
@@ -149,16 +168,21 @@ client.query_points(
 
 ```
 
+### Where BM42 shines
 You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common. Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
 
 ## ColBERT Multivector Support 
-We are adding native support for multivector search, compatible with the late-interaction ColBERT model. If you are working with high-dimensional similarity searches, ColBERT is highly recommended as a reranking step in Universal Query search. You will experience better quality of vector retrieval, since ColBERT’s approach  allows for deeper semantic understanding. 
+We are adding native support for multivector search, compatible with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. 
+
+If you are working with high-dimensional similarity searches, **ColBERT is highly recommended as a reranking step in the Universal Query search.** You will experience better quality of vector retrieval, since ColBERT’s approach  allows for deeper semantic understanding. 
 
 This model retains contextual information during query-document interaction, leading to better relevance scoring. In terms of efficiency and scalability benefits, documents and queries will be encoded separately, which gives opportunity for precomputation and storage of document embeddings for faster retrieval. 
 
 **Note:** *This feature supports all the original quantization compression methods, just the same as the regular search method.* 
 
-The `colbert` parameter is configured via Query API and is compatible with a host of other functionalities. As you can see here, Query can handle exceedingly complex requests:
+**Run a query with ColBERT vectors:**
+
+The `colbert` parameter is configured via Query API and is compatible with a host of other functionalities. As you can see here, Query API can handle exceedingly complex requests:
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -183,22 +207,55 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
-Keep in mind, the multivector feature is not only useful for ColBERT; it can also be utilized in other ways. For instance, in e-commerce, you can use multivector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method. 
-
+**Note:** *The multivector feature is not only useful for ColBERT; it can also be used in other ways.*</br> 
+For instance, in e-commerce, you can use multivector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method. 
 
 ## Sparse Vectors Compression
-For `sparse` vectors, we are introducing 1) a new **data type** for vectors and 2) a different way of **storing** these vectors. 
 
-**For data types**, sparse vectors were represented in larger f32 values, but now they can be turned to the f16 or f8 data type. f16/f8 have a lower precision compared to f32, which means that there is less numerical accuracy in the vector values - but this is negligible for practical use cases. These vectors will use at least half the memory of f32, which can significantly reduce the footprint of large vector datasets. Operations can be faster due to reduced memory bandwidth requirements and better cache utilization. This can lead to faster vector search operations, especially in memory-bound scenarios.
+In version 1.9, we introduced the `uint8` [vector datatype](/documentation/concepts/collections/#vector-datatypes), as support for pre-quantized embeddings. 
+Now, we are introducing a new **datatype** for sparse vectors and a different way of **storing** these sparse vectors. 
 
-**In terms of storage**, bit packing minimizes the bits needed to store data, crucial for handling sparse vectors in applications like machine learning and data compression. For sparse vectors with mostly zeros, it focuses on storing only the indices and values of non-zero elements. You will benefit from a more compact storage and higher processing efficiency. This can also lead to reduced dataset sizes for faster processing and lower storage costs in data compression.
+**Datatype:** Sparse vectors were represented in larger `float32` values, but now they can be turned to the `float16`. `float16` vectors have a lower precision compared to `float32`, which means that there is less numerical accuracy in the vector values - but this is negligible for practical use cases. 
+
+These vectors will use at least half the memory of regular vectors, which can significantly reduce the footprint of large vector datasets. Operations can be faster due to reduced memory bandwidth requirements and better cache utilization. This can lead to faster vector search operations, especially in memory-bound scenarios.
+
+When creating a collection, you need to specify the `datatype` upfront:
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+      "size": 1024,
+      "distance": "Cosine",
+      "datatype": "float16"
+    }
+}
+```
+**Storage:** On the backend, we implemented bit packing to minimize the bits needed to store data, crucial for handling sparse vectors in applications like machine learning and data compression. For sparse vectors with mostly zeros, this focuses on storing only the indices and values of non-zero elements. 
+
+You will benefit from a more compact storage and higher processing efficiency. This can also lead to reduced dataset sizes for faster processing and lower storage costs in data compression.
 
 ## New Rust Client 
 Qdrant’s reshaped Rust client is now more accessible and easier to use. We have focused on putting together a minimalistic user experience. Its ownership model ensures memory safety without needing a garbage collector, making it ideal for managing intensive computations and large datasets typical of vector databases. Additionally, Rust supports safe concurrent execution, which is crucial for handling multiple simultaneous requests efficiently.
 
-> [Rust Client Repository](https://github.com/qdrant/rust-client) and [Rust Documentation](https://docs.rs/qdrant-client)
+<p align="center">
+    <a href="https://github.com/qdrant/rust-client">Rust Client Repo</a> and 
+    <a href="https://docs.rs/qdrant-client">Client Documentation</a>
+</p>
 
 ## S3 Snapshot Storage
-How it works: Qdrant Collections, Shards and Storage can be snapshotted and saved in case of data loss or other data transfer/backup purposes.These snapshots can be quite large and the resources required to maintain them can result in higher costs. AWS S3 is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss. 
+Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/concepts/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. [AWS S3](https://aws.amazon.com/s3/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss. 
 
-User benefit: This integration allows for a more convenient distribution of snapshots. AWS users can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
+This integration allows for a more convenient distribution of snapshots. AWS users can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
+
+
+## Issues API 
+Our new functionality reports issues in case something isn't operating up to standards.
+
+![issues api](/blog/qdrant-1.10.x/issues.png)
+
+
+## Optimized Collection Loading 
+
+(account for RocksDB and WAL issues)
+
+Need assistance here.
