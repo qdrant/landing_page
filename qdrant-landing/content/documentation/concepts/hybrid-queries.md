@@ -26,14 +26,14 @@ One of the most common problems when you have different representations of the s
 points for each representation in a single result.
 
 
-{{< figure  src="/docs/reciprocal-rank-fusion.png" caption="Reciprocal Rank Fusion" width="85%" >}}
+{{< figure  src="/docs/fusion-idea.png" caption="Fusing results from multiple queries" width="80%" >}}
 
 
 For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
 plus the best of specific words.
 
 There are many ways to fuse the results, in this example we use Reciprocal Rank Fusion (<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">RRF</a>), 
-which considers the positions of each of points in the results, and boosts the ones that appear closer to the top in several queries.
+which considers the positions of each of points in the results, and boosts the ones that appear closer to the top in multiple queries.
 
 This is a dense + sparse query, fused with RRF:
 
