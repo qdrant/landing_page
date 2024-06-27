@@ -1262,7 +1262,6 @@ await client.GetCollectionInfoAsync("{collection_name}");
 ```
 
 </details>
-<br/>
 
 If you insert the vectors into the collection, the `status` field may become
 `yellow` whilst it is optimizing. It will become `green` once all the points are

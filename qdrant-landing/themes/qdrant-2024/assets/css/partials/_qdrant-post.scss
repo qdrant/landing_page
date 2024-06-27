@@ -46,7 +46,8 @@
 
   &__content {
     p,
-    li {
+    li,
+    summary {
       margin-bottom: $spacer * 2;
     }
     p,

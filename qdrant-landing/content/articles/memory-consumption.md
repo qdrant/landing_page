@@ -208,8 +208,6 @@ Now the out-of-memory happens when we allow using **600mb** RAM only
 
 </details>
 
-<br/>
-
 At this point we have to switch from network-mounted storage to a faster disk, as the network-based storage is too slow to handle the amount of sequential reads that our system needs to serve the queries.
 
 But let's first see how much RAM we need to serve 1 million vectors and then we will discuss the speed optimization as well.
@@ -250,8 +248,6 @@ With this configuration we are able to serve 1 million vectors with **only 135mb
 | 125mb | out of memory |
 
 </details>
-
-<br/>
 
 At this point the importance of the disk speed becomes critical.
 We can serve the search requests with 135mb of RAM, but the speed of the requests makes it impossible to use the system in production.
