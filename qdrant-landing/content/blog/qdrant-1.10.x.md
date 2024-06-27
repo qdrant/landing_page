@@ -33,9 +33,9 @@ You can now configure the Query API request with the following parameters:
 |no parameter|Returns points by `id`|
 |`nearest`|Queries nearest neighbors ([Search](/documentation/concepts/search/))|
 |`fusion`|Fuses sparse/dense prefetch queries ([Hybrid Search](/articles/sparse-vectors/))|
-|`discover`|Queries target with added context ([Discovery](/documentation/concepts/explore/#discovery-api))|
-|`context` |No target with context only ([Context](/documentation/concepts/explore/#context-search))|
-|`recommend`|Queries against positive/negative examples. ([Recommendation](/documentation/concepts/explore/#recommendation-api))|
+|`discover`|Queries `target` with added `context` ([Discovery](/documentation/concepts/explore/#discovery-api))|
+|`context` |No target with `context` only ([Context](/documentation/concepts/explore/#context-search))|
+|`recommend`|Queries against `positive`/`negative` examples. ([Recommendation](/documentation/concepts/explore/#recommendation-api))|
 |`order_by`|Orders results by [payload field](/documentation/concepts/points/#order-points-by-payload-key)|
 
 For example, you can configure Query API to run [Discovery search](/documentation/concepts/explore/#discovery-api). Let's see how that looks:
