@@ -69,3 +69,10 @@ export function setCookie(name, value, days) {
   const expires = 'expires=' + date.toUTCString();
   document.cookie = name + '=' + value + ';' + expires + ';path=/;Secure';
 }
+
+// Logging in Development Mode (localhost)
+export function devLog(str) {
+  if (window.location.host === 'localhost:1313') {
+    console.log(str)
+  }
+}
