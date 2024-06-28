@@ -644,6 +644,49 @@ client.create_collection(
 )
 ```
 
+```typescript
+import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  sparse_vectors: {
+    "text": {
+      modifier: "idf"
+    }
+  }
+});
+```
+
+
+```rust
+use qdrant_client::qdrant::{ 
+    CreateCollectionBuilder, SparseVectorParamsBuilder,
+    Modifier, sparse_vectors_config::SparseVectorsConfigBuilder
+};
+use qdrant_client::qdrant::;
+use qdrant_client::Qdrant;
+
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let mut sparse_vectors_config = SparseVectorsConfigBuilder::default();
+
+sparse_vectors_config.add_named_vector_params(
+    "text",
+    SparseVectorParamsBuilder::default()
+        .modifier(Modifier::Idf),
+);
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .sparse_vectors_config(sparse_vectors_config)
+    )
+    .await?;
+```
+
+
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
