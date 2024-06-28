@@ -51,62 +51,6 @@ POST collections/{collection_name}/points/query
 }
 ```
 
-```java
-import static io.qdrant.client.QueryFactory.discover;
-import static io.qdrant.client.VectorInputFactory.vectorInput;
-
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.ContextInput;
-import io.qdrant.client.grpc.Points.ContextInputPair;
-import io.qdrant.client.grpc.Points.DiscoverInput;
-import io.qdrant.client.grpc.Points.QueryPoints;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
-client
-    .queryAsync(
-        QueryPoints.newBuilder()
-            .setQuery(
-                discover(
-                    DiscoverInput.newBuilder()
-                        .setContext(
-                            ContextInput.newBuilder()
-                                .addPairs(
-                                    ContextInputPair.newBuilder()
-                                        .setPositive(vectorInput(<vector_input>))
-                                        .setNegative(vectorInput(<vector_input>))
-                                        .build())
-                                .build())
-                        .setTarget(vectorInput(<vector_input>))
-                        .build()))
-            .build())
-    .get();
-```
-
-```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-
-var client = new QdrantClient("localhost", 6334);
-
-await client.QueryAsync(
-  collectionName: "{collection_name}",
-  query: new DiscoverInput {
-    Context = new ContextInput {
-      Pairs = {
-        new ContextInputPair {
-          Positive = <vector_input>,
-          Negative = <vector_input>
-        }
-      }
-    },
-    Target = <vector_input>
-  }
-);
-```
-
 We will be publishing code samples in [docs](/documentation/concepts/search/) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
 
 ### Native Hybrid Search Support
