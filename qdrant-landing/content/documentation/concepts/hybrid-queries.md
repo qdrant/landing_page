@@ -83,6 +83,28 @@ client.query_points(
 )
 ```
 
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest([(1, 0.22), (42, 0.8)].as_slice()))
+            .using("sparse")
+            .limit(20u64)
+        )
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .using("dense")
+            .limit(20u64)
+        )
+        .query(Query::new_fusion(Fusion::Rrf))
+).await?;
+```
+
 ```java
 import static io.qdrant.client.QueryFactory.nearest;
 
@@ -198,6 +220,25 @@ client.query_points(
 )
 ```
 
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest(vec![1.0, 23.0, 45.0, 67.0]))
+            .using("mlr_byte")
+            .limit(1000u64)
+        )
+        .query(Query::new_nearest(vec![0.01, 0.299, 0.45, 0.67]))
+        .using("full")
+        .limit(10u64)
+).await?;
+```
+
 ```java
 import static io.qdrant.client.QueryFactory.nearest;
 
@@ -248,6 +289,7 @@ await client.QueryAsync(
 ```
 
 Fetch 100 results using the default vector, then re-score them using a multi-vector to get the top 10.
+
 ```http
 POST /collections/{collection_name}/points/query
 {
@@ -284,6 +326,28 @@ client.query_points(
     using="colbert",
     limit=10,
 )
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .limit(100u64)
+        )
+        .query(Query::new_nearest(vec![
+            vec![0.1, 0.2],
+            vec![0.2, 0.1],
+            vec![0.8, 0.9],
+        ]))
+        .using("colbert")
+        .limit(10u64)
+).await?;
 ```
 
 ```java
@@ -345,6 +409,7 @@ await client.QueryAsync(
 ```
 
 Even more sophisticated examples like leveraging all the above techniques in a single query are possible:
+
 ```http
 POST /collections/{collection_name}/points/query
 {
@@ -393,6 +458,34 @@ client.query_points(
     using="colbert",
     limit=10,
 )
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .add_prefetch(PrefetchQueryBuilder::default()
+                .query(Query::new_nearest(vec![1.0, 23.0, 45.0, 67.0]))
+                .using("mlr_byte")
+                .limit(1000u64)
+            )
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .using("full")
+            .limit(100u64)
+        )
+        .query(Query::new_nearest(vec![
+            vec![0.1, 0.2],
+            vec![0.2, 0.1],
+            vec![0.8, 0.9],
+        ]))
+        .using("colbert")
+        .limit(10u64)
+).await?;
 ```
 
 ```java
@@ -495,6 +588,20 @@ client.query_points(
 )
 ```
 
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Condition, Filter, PointId, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(Query::new_nearest(PointId::new("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+    )
+    .await?;
+```
+
 ```java
 import static io.qdrant.client.QueryFactory.nearest;
 
@@ -513,7 +620,6 @@ client
             .setQuery(nearest(UUID.fromString("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
             .build())
     .get();
-
 ```
 
 ```csharp
@@ -559,6 +665,23 @@ client.query_points(
         vector="image-512",  # <--- vector name in the other collection
     )
 )
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{LookupLocationBuilder, PointId, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .query(Query::new_nearest(PointId::new("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+        .using("512d-vector")
+        .lookup_from(
+            LookupLocationBuilder::new("another_collection")
+                .vector_name("image-512")
+        )
+).await?;
 ```
 
 ```java
@@ -689,6 +812,34 @@ client.query_points(
 )
 ```
 
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Condition, Filter, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .filter(Filter::must([Condition::matches(
+                "color",
+                "red".to_string(),
+            )]))
+            .limit(10u64)
+        )
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .filter(Filter::must([Condition::matches(
+                "color",
+                "green".to_string(),
+            )]))
+            .limit(10u64)
+        )
+        .query(Query::new_order_by("price"))
+).await?;
+```
+
 ```java
 import static io.qdrant.client.ConditionFactory.matchKeyword;
 import static io.qdrant.client.QueryFactory.nearest;
@@ -760,4 +911,3 @@ In this example, we first fetch 10 points with the color "red" and then 10 point
 Then, we order the results by the price field.
 
 In this way, we can guarantee even sampling of both colors in the results and also get the cheapest ones first.
-
