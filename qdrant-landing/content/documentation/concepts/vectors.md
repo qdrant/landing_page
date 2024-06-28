@@ -207,6 +207,10 @@ PUT /collections/{collection_name}/points
 ```
 
 ```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
 client.upsert(
     collection_name="{collection_name}",
     points=[
@@ -339,7 +343,11 @@ POST /collections/{collection_name}/points/search
 ```
 
 ```python
-# Searching for similar documents
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+
 result = client.search(
     collection_name="{collection_name}",
     query_vector=models.NamedSparseVector(
@@ -476,6 +484,62 @@ PUT collections/{collection_name}
 }
 ```
 
+```python
+
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(
+        size=128,
+        distance=models.Distance.Cosine,
+        multivector_config=models.MultiVectorConfig(
+            comparator=models.MultiVectorComparator.MAX_SIM
+        ),
+    ),
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 128,
+    distance: "Cosine",
+    multivector_config: {
+      comparator: "max_sim"
+    }
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, VectorParamsBuilder,
+    MultiVectorComparator, MultiVectorConfigBuilder,
+};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(
+                VectorParamsBuilder::new(100, Distance::Cosine)
+                    .multivector_config(
+                        MultiVectorConfigBuilder::new(MultiVectorComparator::MaxSim)
+                    ),
+            ),
+    )
+    .await?;
+```
+
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
@@ -530,6 +594,70 @@ PUT collections/{collection_name}/points
     }
   ]
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.upsert(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1,
+            vector=[
+                [-0.013,  0.020, -0.007, -0.111, ...],
+                [-0.030, -0.055,  0.001,  0.072, ...],
+                [-0.041,  0.014, -0.032, -0.062, ...]
+            ],
+        )
+    ],
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      vector: [
+        [-0.013,  0.020, -0.007, -0.111, ...],
+        [-0.030, -0.055,  0.001,  0.072, ...],
+        [-0.041,  0.014, -0.032, -0.062, ...]
+      ],
+    }
+  ]
+});
+```
+
+```rust
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder, Vector};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let points = vec![
+    PointStruct::new(
+        1,
+        Vector::new_multi(vec![
+            vec![-0.013, 0.020, -0.007, -0.111],
+            vec![-0.030, -0.055, 0.001, 0.072],
+            vec![-0.041, 0.014, -0.032, -0.062],
+        ]),
+        Payload::new()
+    )
+];
+
+client
+    .upsert_points(
+        UpsertPointsBuilder::new("{collection_name}", points)
+    ).await?;
+
 ```
 
 ```java
@@ -594,6 +722,54 @@ POST collections/{collection_name}/points/query
     [-0.041,  0.014, -0.032, -0.062, ...]
   ]
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query(
+    collection_name="{collection_name}",
+    query=[
+        [-0.013,  0.020, -0.007, -0.111, ...],
+        [-0.030, -0.055,  0.001,  0.072, ...],
+        [-0.041,  0.014, -0.032, -0.062, ...]
+    ],
+)
+```
+
+```typescript
+
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    "query": [
+        [-0.013,  0.020, -0.007, -0.111, ...],
+        [-0.030, -0.055,  0.001,  0.072, ...],
+        [-0.041,  0.014, -0.032, -0.062, ...]
+    ]
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{ QueryPointsBuilder, VectorInput };
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let res = client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .query(VectorInput::new_multi(
+            vec![
+                vec![-0.013,  0.020, -0.007, -0.111, ...],
+                vec![-0.030, -0.055,  0.001,  0.072, ...],
+                vec![-0.041,  0.014, -0.032, -0.062, ...],
+            ]
+        ))
+).await?;
 ```
 
 ```java
@@ -703,44 +879,30 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        vectors_config::Config, CreateCollection, Distance, VectorParams, VectorParamsMap,
-        VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    VectorsConfigBuilder,
+    Distance,
+    VectorParamsBuilder
 };
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let mut vector_config = VectorsConfigBuilder::default();
+
+vector_config.add_named_vector_params(
+    "text",
+    VectorParamsBuilder::new(4, Distance::Dot),
+);
+vector_config.add_named_vector_params(
+    "image",
+    VectorParamsBuilder::new(8, Distance::Cosine),
+);
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::ParamsMap(VectorParamsMap {
-                map: [
-                    (
-                        "image".to_string(),
-                        VectorParams {
-                            size: 4,
-                            distance: Distance::Dot.into(),
-                            ..Default::default()
-                        },
-                    ),
-                    (
-                        "text".to_string(),
-                        VectorParams {
-                            size: 8,
-                            distance: Distance::Cosine.into(),
-                            ..Default::default()
-                        },
-                    ),
-                ]
-                .into(),
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(vector_config)
+    )
     .await?;
 ```
 
@@ -846,6 +1008,77 @@ PUT /collections/{collection_name}
 }
 ```
 
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(
+        size=128,
+        distance=models.Distance.COSINE,
+        datatype=models.Datatype.FLOAT16
+    ),
+    sparse_vectors_config={
+        "text": models.SparseVectorParams(
+            index=models.SparseIndexConfig(datatype=models.Datatype.FLOAT16)
+        ),
+    },
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 128,
+    distance: "Cosine",
+    datatype: "float16"
+  },
+  sparse_vectors: {
+    text: {
+      index: {
+        datatype: "float16"
+      }
+    }
+  }
+});
+```
+
+```rust
+
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder,
+    Distance,
+    SparseIndexConfigBuilder,
+    SparseVectorParamsBuilder,
+    VectorParamsBuilder,
+    Datatype,
+};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let mut sparse_vector_config = SparseVectorsConfigBuilder::default();
+
+sparse_vector_config.add_named_vector_params(
+    "text",
+    SparseVectorParamsBuilder::default()
+        .index(SparseIndexConfigBuilder::default().datatype(Datatype::Float32)),
+);
+let create_collection = CreateCollectionBuilder::new(collection_name)
+    .sparse_vectors_config(sparse_vector_config)
+    .vectors_config(
+        VectorParamsBuilder::new(128, Distance::Cosine)
+            .datatype(Datatype::Float16)
+    );
+
+client.create_collection(create_collection).await?;
+```
+
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
@@ -944,6 +1177,79 @@ PUT /collections/{collection_name}
   }
 }
 ```
+
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(
+        size=128,
+        distance=models.Distance.COSINE,
+        datatype=models.Datatype.UINT8
+    ),
+    sparse_vectors_config={
+        "text": models.SparseVectorParams(
+            index=models.SparseIndexConfig(datatype=models.Datatype.UINT8)
+        ),
+    },
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+  vectors: {
+    size: 128,
+    distance: "Cosine",
+    datatype: "uint8"
+  },
+  sparse_vectors: {
+    text: {
+      index: {
+        datatype: "uint8"
+      }
+    }
+  }
+});
+```
+
+```rust
+
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder,
+    Distance,
+    SparseIndexConfigBuilder,
+    SparseVectorParamsBuilder,
+    VectorParamsBuilder,
+    Datatype,
+};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let mut sparse_vector_config = SparseVectorsConfigBuilder::default();
+
+sparse_vector_config.add_named_vector_params(
+    "text",
+    SparseVectorParamsBuilder::default()
+        .index(SparseIndexConfigBuilder::default().datatype(Datatype::Uint8)),
+);
+let create_collection = CreateCollectionBuilder::new(collection_name)
+    .sparse_vectors_config(sparse_vector_config)
+    .vectors_config(
+        VectorParamsBuilder::new(128, Distance::Cosine)
+            .datatype(Datatype::Uint8)
+    );
+
+client.create_collection(create_collection).await?;
+```
+
 
 ```java
 import io.qdrant.client.QdrantClient;
