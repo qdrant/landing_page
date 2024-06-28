@@ -162,10 +162,9 @@ await client.QueryAsync(
 );
 ```
 
-### Sub-Requests
-Query API can now perform sub-requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open the door to strategies like iterative refinement via matryoshka embeddings. 
+Query API can now pre-fetch vectors for requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open the door to strategies like iterative refinement via matryoshka embeddings. 
 
-*To learn more about Sub-Requests, read the [Query API documentation](/documentation/concepts/search/).*
+*To learn more about this, read the [Query API documentation](/documentation/concepts/search/).*
 
 ## Inverse Document Frequency [IDF]
 
@@ -270,7 +269,7 @@ await client.CreateCollectionAsync(
 
 This quarter, Qdrant also introduced BM42, a novel algorithm that combines the IDF element of BM25 with transformer-based attention matrices to improve text retrieval. It utilizes attention matrices from your embedding model to determine the importance of each token in the document based on the attention value it receives.
 
-We've prepared the standard `all-MiniLM-L6-v2` Sentence Transformer so [it outputs the attention values](https://huggingface.co/Qdrant/all_miniLM_L6_v2_with_attentions). Still, you can virtually use any model of your choice, given you have access to its parameters. That's another reason to prefer Open Source over proprietary systems!
+We've prepared the standard `all-MiniLM-L6-v2` Sentence Transformer so [it outputs the attention values](https://huggingface.co/Qdrant/all_miniLM_L6_v2_with_attentions). Still, you can use virtually any model of your choice, as long as you have access to its parameters. This is just another reason to stick with open source technologies over proprietary systems.
 
 In practical terms, the BM42 method addresses the tokenization issues and computational costs associated with SPLADE. The model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
@@ -551,18 +550,20 @@ storage:
 
 *Read more about [S3 snapshot storage](https://qdrant.tech/documentation/concepts/snapshots/#s3) and [configuration](https://qdrant.tech/documentation/guides/configuration/).*
 
-This integration allows for a more convenient distribution of snapshots. Users of any S3-compatible object storage can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
+This integration allows for a more convenient distribution of snapshots. Users of **any S3-compatible object storage** can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 
 ## Issues API 
-Issues API reports irregularities in case something isn't operating up to standards. This powerful new feature allows users (such as database admins) to efficiently manage and track issues directly within the system, ensuring smoother operations and quicker resolutions.
+Issues API notifies you about potential performance issues and misconfigurations. This powerful new feature allows users (such as database admins) to efficiently manage and track issues directly within the system, ensuring smoother operations and quicker resolutions.
 
 You can find the Issues button in the top right. When you click the bell icon, a sidebar will open to show ongoing issues.
 
 ![issues api](/blog/qdrant-1.10.x/issues.png)
 
+## Minor Improvements
 
-## Optimized Collection Loading 
+- Pre-configure collection parameters; quantization, vector storage & replication factor - [#4299](https://github.com/qdrant/qdrant/pull/4299)
 
-(account for RocksDB and WAL issues)
+- Overwrite global optimizer configuration for collections. Lets you separate roles for indexing and searching within the single qdrant cluster - [#4317](https://github.com/qdrant/qdrant/pull/4317)
 
-Need assistance here.
+- Delta encoding and bitpacking compression for sparse vectors reduces memory consumption for sparse vectors by up to 75% - [#4253](https://github.com/qdrant/qdrant/pull/4253), [#4350](https://github.com/qdrant/qdrant/pull/4350)
+
