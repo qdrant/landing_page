@@ -551,7 +551,7 @@ storage:
 
 *Read more about [S3 snapshot storage](https://qdrant.tech/documentation/concepts/snapshots/#s3) and [configuration](https://qdrant.tech/documentation/guides/configuration/).*
 
-This integration allows for a more convenient distribution of snapshots. AWS users can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
+This integration allows for a more convenient distribution of snapshots. Users of any S3-compatible object storage can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 
 ## Issues API 
 Issues API reports irregularities in case something isn't operating up to standards. This powerful new feature allows users (such as database admins) to efficiently manage and track issues directly within the system, ensuring smoother operations and quicker resolutions.
