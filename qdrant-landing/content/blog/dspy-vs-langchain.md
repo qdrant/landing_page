@@ -183,11 +183,8 @@ A typical DSPy program requires the developer to follow the following 8 steps:
 8. **Iterating**: Continuously refine each aspect of your task, from the pipeline and data to the metrics and evaluations. Iteration helps in gradually improving the model’s performance and adapting to new requirements.
 9. 
 
-<!-- {{< figure src=/articles_data/vector-similarity-beyond-search/mislabelling.png caption="Mislabeling Detection" >}}
 
- -->
-
-{{< figure src=/articles_data/dspy-vs-langchain/process.jpg caption="Process" >}}
+{{< figure src=/blog/dspy-vs-langchain/process.jpg caption="Process" >}}
 
 **Language Model Setup**
 
