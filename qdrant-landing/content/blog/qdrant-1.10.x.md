@@ -268,7 +268,9 @@ await client.CreateCollectionAsync(
 
 ### IDF as Part of BM42
 
-This quarter, Qdrant also introduced BM42, a novel algorithm that combines the IDF element of BM25 with **transformer-based attention matrices** to improve text retrieval. It utilizes attention matrices from `all-MiniLM-L6-v2` to determine CLS token importance. 
+This quarter, Qdrant also introduced BM42, a novel algorithm that combines the IDF element of BM25 with transformer-based attention matrices to improve text retrieval. It utilizes attention matrices from your embedding model to determine the importance of each token in the document based on the attention value it receives.
+
+We've prepared the standard `all-MiniLM-L6-v2` Sentence Transformer so [it outputs the attention values](https://huggingface.co/Qdrant/all_miniLM_L6_v2_with_attentions). Still, you can virtually use any model of your choice, given you have access to its parameters. That's another reason to prefer Open Source over proprietary systems!
 
 In practical terms, the BM42 method addresses the tokenization issues and computational costs associated with SPLADE. The model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
