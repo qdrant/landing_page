@@ -287,7 +287,7 @@ This model retains contextual information during query-document interaction, lea
 
 **Run a query with ColBERT vectors:**
 
-The `colbert` parameter is configured via Query API and is compatible with a host of other functionalities. As you can see here, Query API can handle exceedingly complex requests:
+Query API can handle exceedingly complex requests. The following example prefetches 1000 entries most similar to the given query using the `mrl_byte` named vector, then reranks them to get the best 100 matches with `full` named vector and eventually reranks them again to extract the top 10 results with the named vector called `colbert`. A single API call can now implement complex reranking schemes.
 
 ```http
 POST /collections/{collection_name}/points/query
