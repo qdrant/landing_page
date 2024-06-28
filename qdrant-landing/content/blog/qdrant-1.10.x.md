@@ -16,7 +16,7 @@ tags:
   - new features
 ---
 
-[Qdrant 1.10.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.10.0) This version introduces at some major changes, so let's dive right in:
+[Qdrant 1.10.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.10.0) This version introduces some major changes, so let's dive right in:
 
 **Universal Query API:** All search APIs, including Hybrid Search, are now in one Query endpoint.</br>
 **Built-in IDF:** We added the IDF mechanism to Qdrant's core search and indexing processes.</br>
@@ -51,6 +51,62 @@ POST collections/{collection_name}/points/query
 }
 ```
 
+```java
+import static io.qdrant.client.QueryFactory.discover;
+import static io.qdrant.client.VectorInputFactory.vectorInput;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.ContextInput;
+import io.qdrant.client.grpc.Points.ContextInputPair;
+import io.qdrant.client.grpc.Points.DiscoverInput;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .queryAsync(
+        QueryPoints.newBuilder()
+            .setQuery(
+                discover(
+                    DiscoverInput.newBuilder()
+                        .setContext(
+                            ContextInput.newBuilder()
+                                .addPairs(
+                                    ContextInputPair.newBuilder()
+                                        .setPositive(vectorInput(<vector_input>))
+                                        .setNegative(vectorInput(<vector_input>))
+                                        .build())
+                                .build())
+                        .setTarget(vectorInput(<vector_input>))
+                        .build()))
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+  collectionName: "{collection_name}",
+  query: new DiscoverInput {
+    Context = new ContextInput {
+      Pairs = {
+        new ContextInputPair {
+          Positive = <vector_input>,
+          Negative = <vector_input>
+        }
+      }
+    },
+    Target = <vector_input>
+  }
+);
+```
+
 We will be publishing code samples in [docs](/documentation/concepts/search/) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
 
 ### Native Hybrid Search Support
@@ -78,8 +134,70 @@ POST /collections/{collection_name}/points/query
     "limit": 10
 }
 ```
+
+```java
+import static io.qdrant.client.QueryFactory.nearest;
+
+import java.util.List;
+
+import static io.qdrant.client.QueryFactory.fusion;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Fusion;
+import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(
+    QueryPoints.newBuilder()
+    .setCollectionName("{collection_name}")
+    .addPrefetch(PrefetchQuery.newBuilder()
+      .setQuery(nearest(List.of(0.22f, 0.8f), List.of(1, 42)))
+      .setUsing("sparse")
+      .setLimit(20)
+      .build())
+    .addPrefetch(PrefetchQuery.newBuilder()
+      .setQuery(nearest(List.of(0.01f, 0.45f, 0.67f)))
+      .setUsing("dense")
+      .setLimit(20)
+      .build())
+    .setQuery(fusion(Fusion.RRF))
+    .build())
+  .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+  collectionName: "{collection_name}",
+  prefetch: new List < PrefetchQuery > {
+    new() {
+      Query = new(float, uint)[] {
+          (0.22f, 1), (0.8f, 42),
+        },
+        Using = "sparse",
+        Limit = 20
+    },
+    new() {
+      Query = new float[] {
+          0.01f, 0.45f, 0.67f
+        },
+        Using = "dense",
+        Limit = 20
+    }
+  },
+  query: Fusion.Rrf
+);
+```
+
 ### Sub-Requests
-Query API can now perform sub-requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open door to strategies like iterative refinement via matryoshka embeddings. 
+Query API can now perform sub-requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open the door to strategies like iterative refinement via matryoshka embeddings. 
 
 *To learn more about Sub-Requests, read the [Query API documentation](/documentation/concepts/search/).*
 
@@ -112,6 +230,7 @@ PUT /collections/{collection_name}
     }
 }
 ```
+
 ```python
 from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
@@ -123,6 +242,42 @@ client.create_collection(
         ),
     },
 )
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Modifier;
+import io.qdrant.client.grpc.Collections.SparseVectorConfig;
+import io.qdrant.client.grpc.Collections.SparseVectorParams;
+
+QdrantClient client =
+  new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+  .createCollectionAsync(
+    CreateCollection.newBuilder()
+    .setCollectionName("{collection_name}")
+    .setSparseVectorsConfig(
+      SparseVectorConfig.newBuilder()
+      .putMap("text", SparseVectorParams.newBuilder().setModifier(Modifier.Idf).build()))
+    .build())
+  .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+  collectionName: "{collection_name}",
+  sparseVectorsConfig: ("text", new SparseVectorParams {
+    Modifier = Modifier.Idf,
+  })
+);
 ```
 
 ### IDF as Part of BM42
@@ -169,6 +324,80 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
+```java
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .queryAsync(
+        QueryPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .addPrefetch(
+                PrefetchQuery.newBuilder()
+                    .addPrefetch(
+                        PrefetchQuery.newBuilder()
+                            .setQuery(nearest(1, 23, 45, 67))	// <------------- small byte vector
+                            .setUsing("mrl_byte")
+                            .setLimit(1000)
+                            .build())
+                    .setQuery(nearest(0.01f, 0.45f, 0.67f)) // <-- dense vector
+                    .setUsing("full")
+                    .setLimit(100)
+                    .build())
+            .setQuery(
+                nearest(
+                    new float[][] {
+                      {0.1f, 0.2f},	// <─┐
+                      {0.2f, 0.1f},	// < ├─ multi-vector
+                      {0.8f, 0.9f}	// < ┘
+                    }))
+            .setUsing("colbert")
+            .setLimit(10)
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+  collectionName: "{collection_name}",
+  prefetch: new List <PrefetchQuery> {
+    new() {
+      Prefetch = {
+          new List <PrefetchQuery> {
+            new() {
+              Query = new float[] { 1, 23, 45, 67 }, // <------------- small byte vector
+                Using = "mrl_byte",
+                Limit = 1000
+            },
+          }
+        },
+        Query = new float[] {0.01f, 0.45f, 0.67f}, // <-- dense vector
+        Using = "full",
+        Limit = 100
+    }
+  },
+  query: new float[][] {
+    [0.1f, 0.2f], // <─┐
+    [0.2f, 0.1f], // < ├─ multi-vector
+    [0.8f, 0.9f]  // < ┘
+  },
+  usingVector: "colbert",
+  limit: 10
+);
+```
+
 **Note:** *The multivector feature is not only useful for ColBERT; it can also be used in other ways.*</br> 
 For instance, in e-commerce, you can use multivector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method. 
 
@@ -182,6 +411,7 @@ This time, we are introducing a new datatype **for both sparse and dense vectors
 These vectors will use at least half the memory of regular vectors, which can significantly reduce the footprint of large vector datasets. Operations can be faster due to reduced memory bandwidth requirements and better cache utilization. This can lead to faster vector search operations, especially in memory-bound scenarios.
 
 When creating a collection, you need to specify the `datatype` upfront:
+
 ```http
 PUT /collections/{collection_name}
 {
@@ -192,6 +422,49 @@ PUT /collections/{collection_name}
     }
 }
 ```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Datatype;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+  .createCollectionAsync(
+    CreateCollection.newBuilder()
+    .setCollectionName("{collection_name}")
+    .setVectorsConfig(VectorsConfig.newBuilder()
+      .setParams(VectorParams.newBuilder()
+        .setSize(1024)
+        .setDistance(Distance.Cosine)
+        .setDatatype(Datatype.Float16)
+        .build())
+      .build())
+    .build())
+  .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParams {
+    Size = 1024,
+    Distance = Distance.Cosine,
+    Datatype = Datatype.Float16
+  }
+);
+```
+
 **Storage:** On the backend, we implemented bit packing to minimize the bits needed to store data, crucial for handling sparse vectors in applications like machine learning and data compression. For sparse vectors with mostly zeros, this focuses on storing only the indices and values of non-zero elements. 
 
 You will benefit from a more compact storage and higher processing efficiency. This can also lead to reduced dataset sizes for faster processing and lower storage costs in data compression.
