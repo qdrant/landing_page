@@ -422,9 +422,9 @@ Qdrant’s reshaped Rust client is now more accessible and easier to use. We hav
 </p>
 
 ## S3 Snapshot Storage
-Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/concepts/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. [AWS S3](https://aws.amazon.com/s3/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss. 
+Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/concepts/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. [AWS S3](https://aws.amazon.com/s3/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss.
 
-You can configure S3 bucket settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically under`snapshots_storage`.
+You can configure S3 storage settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically under `snapshots_storage`.
 
 ```yaml
 storage:
@@ -444,10 +444,9 @@ storage:
     #   secret_key: ""
 ```
 
-*Read more about [configuring Qdrant defaults](https://qdrant.tech/documentation/guides/configuration/).*
+*Read more about [S3 storage](https://qdrant.tech/documentation/concepts/snapshots/#s3) and [configuration](https://qdrant.tech/documentation/guides/configuration/).*
 
 This integration allows for a more convenient distribution of snapshots. AWS users can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
-
 
 ## Issues API 
 Issues API reports irregularities in case something isn't operating up to standards. This powerful new feature allows users (such as database admins) to efficiently manage and track issues directly within the system, ensuring smoother operations and quicker resolutions.
