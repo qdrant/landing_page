@@ -795,7 +795,7 @@ await client.CreateCollectionAsync(
 Newest versions of embeddings models generate vectors with very large dimentionality.
 In openai `text-embedding-3-large` embedding model the dimentionality goes up to 3072.
 
-The size of memory required to store such vectors grows linearly with the dimentionality,
+The amount of memory required to store such vectors grows linearly with the dimentionality,
 so it is important to choose the right datatype for the vectors.
 
 The choice between datatypes is a trade-off between the memory consumption and the precision of the vectors.
