@@ -1,6 +1,5 @@
 import { getCookie, devLog } from './helpers';
 
-const WRITE_KEY='****';
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
 const INTERACTIONS_SESSION_STORAGE_KEY = 'segmentInteractions';
 const PAYLOAD_BOILERPLATE = {
@@ -171,6 +170,12 @@ export function handleConsent() {
 /* Loading Segment */
 /*******************/
 export function loadSegment() {
+  const metaTag = document.querySelector(`meta[name="segment"]`);
+  if (!metaTag) return; // Fail silently?
+
+  const writeKey = metaTag ? metaTag.getAttribute('content') : null;
+  if (!writeKey) return; // Fail silently?
+
   devLog('Loading Segment...');
 
   // Segment snippet initialization
@@ -230,9 +235,9 @@ export function loadSegment() {
         analytics._loadOptions = n;
       };
 
-      analytics._writeKey = "Ze0ULGZFD55eSQt4cQAsR86yLk4PTvDH";
+      analytics._writeKey = writeKey;
       analytics.SNIPPET_VERSION = "5.2.0";
-      analytics.load(WRITE_KEY);
+      analytics.load(writeKey);
     }
   }
 
