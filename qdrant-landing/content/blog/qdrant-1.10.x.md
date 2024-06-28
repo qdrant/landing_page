@@ -170,7 +170,7 @@ Query API can now perform sub-requests, which means you can run queries sequenti
 ## Inverse Document Frequency [IDF]
 
 IDF is a critical component of the **TF-IDF (Term Frequency-Inverse Document Frequency)** weighting scheme used to evaluate the importance of a word in a document relative to a collection of documents (corpus).
-Here is how IDF is calculated:
+There are various ways in which IDF might be calculated, but the most commonly used formula is:
 
 $$
 \text{IDF}(q_i) = \ln \left(\frac{N - n(q_i) + 0.5}{n(q_i) + 0.5}+1\right)
