@@ -154,7 +154,7 @@ const trackEvent = (name, properties = {}) => {
 
 const trackInteractionEvent = (properties = {}) => {
   trackEvent(
-    'Interaction',
+    'interaction',
     properties
   )
 }
