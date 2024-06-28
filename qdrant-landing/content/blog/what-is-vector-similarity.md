@@ -39,7 +39,7 @@ ML and deep learning models require numerical data as inputs to accomplish their
 
 A vector is a set of numbers that represents data, which can be text, image, or audio, or any multidimensional data. Vectors reside in a high-dimensional space, the vector space, where each dimension captures a specific aspect or feature of the data.
 
-{{< figure width=80% src=/docs/gettingstarted/vector-similarity/working.png caption="Working" >}}
+{{< figure width=80% src=/blog/what-is-vector-similarity/working.png caption="Working" >}}
 
 The number of dimensions of a vector can range from tens or hundreds to thousands, and each dimension is stored as the element of an array. Vectors are, therefore, an array of numbers of fixed length, and in their totality, they encode the key features of the data they represent.
 
@@ -67,7 +67,7 @@ There are several ways to calculate the similarity (or distance) between two vec
 
 **Manhattan Distance**: Also known as taxicab distance, it is calculated as the total distance between the two vectors in a vector space, if you follow a grid-like path. The smaller the Manhattan distance, the greater the similarity.
 
-{{< figure width=80% src=/docs/gettingstarted/vector-similarity/products.png caption="Metrics" >}}
+{{< figure width=80% src=/blog/what-is-vector-similarity/products.png caption="Metrics" >}}
 
 As a rule of thumb, the choice of the best similarity metric depends on how the vectors were encoded.
 
