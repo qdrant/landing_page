@@ -627,8 +627,9 @@ PUT /collections/{collection_name}
         }
     }
 }
-```python
+```
 
+```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
@@ -641,6 +642,40 @@ client.create_collection(
         ),
     },
 )
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Modifier;
+import io.qdrant.client.grpc.Collections.SparseVectorConfig;
+import io.qdrant.client.grpc.Collections.SparseVectorParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createCollectionAsync(
+        CreateCollection.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setSparseVectorsConfig(
+            SparseVectorConfig.newBuilder()
+            .putMap("text", SparseVectorParams.newBuilder().setModifier(Modifier.Idf).build()))
+        .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	sparseVectorsConfig: ("text", new SparseVectorParams { Modifier = Modifier.Idf, })
+);
 ```
 
 Qdrant uses the following formula to calculate the IDF modifier:
