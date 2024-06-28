@@ -1,8 +1,8 @@
 ---
-title: "What is Vector Similarity?"
+title: "What is Vector Similarity? Understanding its Role in AI Applications."
 draft: false
 short_description: "An in-depth exploration of vector similarity and its applications in AI."
-description: "An in-depth exploration of vector similarity, and its applications in Generative AI." 
+description: "Discover the significance of vector similarity in AI applications and how our vector database revolutionizes similarity search technology for enhanced performance and accuracy." 
 preview_image: /blog/what-is-vector-similarity/social_preview.png
 social_preview_image: /blog/what-is-vector-similarity/social_preview.png
 date: 2024-02-24T00:00:00-08:00
@@ -14,6 +14,8 @@ tags:
   - similarity search
   - embeddings
 ---
+
+# Understanding Vector Similarity: Powering Next-Gen AI Applications
 
 A core function of a wide range of AI applications is to first understand the *meaning* behind a user query, and then provide *relevant* answers to the questions that the user is asking. With increasingly advanced interfaces and applications, this query can be in the form of language, or an image, an audio, video, or other forms of *unstructured* data.
 
