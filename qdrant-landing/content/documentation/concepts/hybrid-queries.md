@@ -10,32 +10,34 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 *Available as of v1.10.0*
 
-There are use-cases when the best search is obtained by combining multiple queries, 
+With the introduction of [many named vectors per point](../vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries, 
 or by performing the search in more than one stage.
 
 Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
 
-The main component for making the combinations of queries possible is the `prefetch` parameter.
+The main component for making the combinations of queries possible is the `prefetch` parameter, which enables making sub-requests.
 
-The way it works is that, whenever a query has at least one prefetch, Qdrant will first perform the prefetch query (or queries),
-and then it will apply the main query over the results of the prefetch.
+The way it works is that, whenever a query has at least one prefetch, Qdrant will:
+1. Perform the prefetch query (or queries),
+1. Apply the main query over the results of its prefetch(es).
+
+Additionally, prefetches can have prefetches themselves, so you can have nested prefetches.
 
 ## Hybrid Search
 
 One of the most common problems when you have different representations of the same data is to combine the queried 
-points for each representation in a single result.
-
+points for each representation into a single result.
 
 {{< figure  src="/docs/fusion-idea.png" caption="Fusing results from multiple queries" width="80%" >}}
 
-
 For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
-plus the best of specific words.
+plus the best of matching specific words.
 
-There are many ways to fuse the results, in this example we use Reciprocal Rank Fusion (<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">RRF</a>), 
+There are many ways to fuse the results, a versatile one is <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">Reciprocal Rank Fusion (RRF)</a>, 
 which considers the positions of each of points in the results, and boosts the ones that appear closer to the top in multiple queries.
 
-This is a dense + sparse query, fused with RRF:
+
+Here is an example of RRF for a query containing two prefetches against differently named vectors configured to respectively hold sparse and dense vectors. 
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -658,7 +660,7 @@ Other than the introduction of `prefetch`, the `Query API` has been designed to 
 
 ### Query by ID
 
-Whenever you need to use a vector as an input, you can always use a point id instead.
+Whenever you need to use a vector as an input, you can always use a [point ID](../points/#point-ids) instead.
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -733,7 +735,7 @@ await client.QueryAsync(
 );
 ```
 
-This will fetch the default vector from the point with this id, and use it as the query vector.
+The above example will fetch the default vector from the point with this id, and use it as the query vector.
 
 If the `using` parameter is also specified, Qdrant will use the vector with that name.
 
@@ -852,7 +854,7 @@ collection `another_collection`.
 
 ## Re-ranking with payload values
 
-Query API allows to retrieve points not only by vector similarity but also by the content of the payload.
+The query API can retrieve points not only by vector similarity but also by the content of the payload.
 
 There are two ways to make use of the payload in the query:
 
@@ -1060,7 +1062,7 @@ await client.QueryAsync(
 );
 ```
 
-In this example, we first fetch 10 points with the color "red" and then 10 points with the color "green".
+In this example, we first fetch 10 points with the color `"red"` and then 10 points with the color `"green"`.
 Then, we order the results by the price field.
 
 In this way, we can guarantee even sampling of both colors in the results and also get the cheapest ones first.
