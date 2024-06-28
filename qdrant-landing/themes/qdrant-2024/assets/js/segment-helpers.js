@@ -118,13 +118,14 @@ const trackStoredPageViews = () => {
     const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
     delete properties['storedTimestamp'];
 
-    // Nota Bene: cannot override timestamp value for .page() function
-    window.analytics.page(
-      category,
-      name,
-      properties,
-      originalTimestamp ? { timestamp: originalTimestamp } : null
-    );
+    if(window.analytics) {
+      window.analytics.page(
+        category,
+        name,
+        properties,
+        originalTimestamp ? { timestamp: originalTimestamp } : null
+      );
+    }
   });
   
   removeSegmentStoredPages();
@@ -143,12 +144,14 @@ const trackEvent = (name, properties = {}) => {
   const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
   delete properties['storedTimestamp'];
 
-  window.analytics.track({
-    event: name,
-    properties
-  }, 
-  originalTimestamp ? { timestamp: originalTimestamp } : null
-  )
+  if(window.analytics) {
+    window.analytics.track({
+      event: name,
+      properties
+    }, 
+    originalTimestamp ? { timestamp: originalTimestamp } : null
+    )
+  }
 }
 
 const trackInteractionEvent = (properties = {}) => {
