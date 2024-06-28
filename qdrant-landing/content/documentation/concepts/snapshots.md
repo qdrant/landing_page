@@ -550,37 +550,22 @@ For example, to configure for AWS S3:
 
 ```yaml
 storage:
-  # S3 snapshot storage configuration
-  # If present, all snapshots will be stored in AWS S3 or S3-compatible storage.
-  snapshots_s3:
-    # Bucket name
-    bucket: your_bucket_here
+  snapshots_config:
+    # Use 's3' to store snapshots on S3
+    snapshots_storage: s3
 
-    # Storage provider
-    service:
-      # AWS S3
-      type: AWS
+    s3_config:
+      # Bucket name
+      bucket: your_bucket_here
+
       # Bucket region (e.g. eu-central-1)
       region: your_bucket_region_here
 
-    # Storage access key
-    # Can be specified either here or in the `AWS_ACCESS_KEY_ID` environment variable.
-    access_key: your_access_key_here
+      # Storage access key
+      # Can be specified either here or in the `AWS_ACCESS_KEY_ID` environment variable.
+      access_key: your_access_key_here
 
-    # Storage secret key
-    # Can be specified either here or in the `AWS_SECRET_ACCESS_KEY` environment variable.
-    secret_key: your_secret_key_here
-```
-
-If you're using Cloudflare R2 your configuration would look like this:
-
-```yaml
-storage:
-  snapshots_s3:
-    bucket: your_bucket_here
-    service:
-      type: R2
-      account_id: your_account_id_here
-    access_key: your_access_key_here
-    secret_key: your_secret_key_here
+      # Storage secret key
+      # Can be specified either here or in the `AWS_SECRET_ACCESS_KEY` environment variable.
+      secret_key: your_secret_key_here
 ```
