@@ -84,8 +84,6 @@ client.query_points(
 ```
 
 ```java
-package io.qdrant.user;
-
 import static io.qdrant.client.QueryFactory.nearest;
 
 import java.util.List;
@@ -109,7 +107,7 @@ client.queryAsync(
       .setLimit(20)
       .build())
     .addPrefetch(PrefetchQuery.newBuilder()
-      .setQuery(nearest(List.of(0.01 f, 0.45 f, 0.67 f)))
+      .setQuery(nearest(List.of(0.01f, 0.45f, 0.67f)))
       .setUsing("dense")
       .setLimit(20)
       .build())
@@ -125,23 +123,24 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	prefetch: new List<PrefetchQuery>
-	{
-		new()
-		{
-			Query = new (float, uint)[] { (0.22f, 1), (0.8f, 42), },
-			Using = "sparse",
-			Limit = 20
-		},
-		new()
-		{
-			Query = new float[] { 0.01f, 0.45f, 0.67f },
-			Using = "dense",
-			Limit = 20
-		}
-	},
-	query: Fusion.Rrf
+  collectionName: "{collection_name}",
+  prefetch: new List < PrefetchQuery > {
+    new() {
+      Query = new(float, uint)[] {
+          (0.22f, 1), (0.8f, 42),
+        },
+        Using = "sparse",
+        Limit = 20
+    },
+    new() {
+      Query = new float[] {
+          0.01f, 0.45f, 0.67f
+        },
+        Using = "dense",
+        Limit = 20
+    }
+  },
+  query: Fusion.Rrf
 );
 ```
 
@@ -206,19 +205,17 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	prefetch: new List<PrefetchQuery>
-	{
-		new()
-		{
-			Query = new float[] { 1, 23, 45, 67 }, // <------------- small byte vector
-			Using = "mrl_byte",
-			Limit = 1000
-		}
-	},
-	query: new float[] { 0.01f, 0.299f, 0.45f, 0.67f }, // <-- full vector
-	usingVector: "full",
-	limit: 10
+  collectionName: "{collection_name}",
+  prefetch: new List<PrefetchQuery> {
+    new() {
+      Query = new float[] { 1,23, 45, 67 }, // <------------- small byte vector
+        Using = "mrl_byte",
+        Limit = 1000
+    }
+  },
+  query: new float[] { 0.01f, 0.299f, 0.45f, 0.67f }, // <-- full vector
+  usingVector: "full",
+  limit: 10
 );
 ```
 
@@ -268,23 +265,20 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	prefetch: new List<PrefetchQuery>
-	{
-		new()
-		{
-			Query = new float[] {0.01f, 0.45f, 0.67f}, // <-- dense vector
-			Limit = 100
-		}
-	},
-	query: new float[][] { 
-		[0.1f, 0.2f],	// <─┐
-		[0.2f, 0.1f],	// < ├─ multi-vector
-		[0.8f, 0.9f]	// < ┘
-		
-	 },
-	usingVector: "colbert",
-	limit: 10
+  collectionName: "{collection_name}",
+  prefetch: new List <PrefetchQuery> {
+    new() {
+      Query = new float[] { 0.01f, 0.45f, 0.67f	},	// <-- dense vector****
+        Limit = 100
+    }
+  },
+  query: new float[][] {
+    [0.1f, 0.2f], // <─┐
+    [0.2f, 0.1f], // < ├─ multi-vector
+    [0.8f, 0.9f]  // < ┘
+  },
+  usingVector: "colbert",
+  limit: 10
 );
 ```
 
@@ -346,36 +340,30 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	prefetch: new List<PrefetchQuery>
-	{
-		new()
-		{
-			Prefetch =
-			{
-				new List<PrefetchQuery>
-				{
-					new()
-					{
-						Query = new float[] { 1, 23, 45, 67 }, // <------------- small byte vector
-						Using = "mrl_byte",
-						Limit = 1000
-					},
-				}
-			},
-			Query = new float[] { 0.01f, 0.45f, 0.67f }, // <-- dense vector
-			Using = "full",
-			Limit = 100
-		}
-	},
-	query: new float[][]
-	{
-		[0.1f, 0.2f], // <─┐
-		[0.2f, 0.1f], // < ├─ multi-vector
-		[0.8f, 0.9f] // < ┘
-	},
-	usingVector: "colbert",
-	limit: 10
+  collectionName: "{collection_name}",
+  prefetch: new List <PrefetchQuery> {
+    new() {
+      Prefetch = {
+          new List <PrefetchQuery> {
+            new() {
+              Query = new float[] { 1, 23, 45, 67 }, // <------------- small byte vector
+                Using = "mrl_byte",
+                Limit = 1000
+            },
+          }
+        },
+        Query = new float[] {0.01f, 0.45f, 0.67f}, // <-- dense vector
+        Using = "full",
+        Limit = 100
+    }
+  },
+  query: new float[][] {
+    [0.1f, 0.2f], // <─┐
+    [0.2f, 0.1f], // < ├─ multi-vector
+    [0.8f, 0.9f]  // < ┘
+  },
+  usingVector: "colbert",
+  limit: 10
 );
 ```
 
@@ -456,14 +444,13 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04"), // <--- point id
-	usingVector: "512d-vector",
-	lookupFrom: new()
-	{
-		CollectionName = "another_collection", // <--- other collection name
-		VectorName = "image-512" // <--- vector name in the other collection
-	}
+  collectionName: "{collection_name}",
+  query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04"), // <--- point id
+  usingVector: "512d-vector",
+  lookupFrom: new() {
+    CollectionName = "another_collection", // <--- other collection name
+      VectorName = "image-512" // <--- vector name in the other collection
+  }
 );
 ```
 
@@ -560,24 +547,25 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	prefetch: new List<PrefetchQuery>
-	{
-		new()
-		{
-			Query = new float[] { 0.01f, 0.45f, 0.67f },
-			Filter = MatchKeyword("color", "red"),
-			Limit = 10
-		},
-		new()
-		{
-			Query = new float[] { 0.01f, 0.45f, 0.67f },
-			Filter = MatchKeyword("color", "green"),
-			Limit = 10
-		}
-	},
-	query: (OrderBy) "price",
-	limit: 10
+  collectionName: "{collection_name}",
+  prefetch: new List <PrefetchQuery> {
+    new() {
+      Query = new float[] {
+          0.01f, 0.45f, 0.67f
+        },
+        Filter = MatchKeyword("color", "red"),
+        Limit = 10
+    },
+    new() {
+      Query = new float[] {
+          0.01f, 0.45f, 0.67f
+        },
+        Filter = MatchKeyword("color", "green"),
+        Limit = 10
+    }
+  },
+  query: (OrderBy) "price",
+  limit: 10
 );
 ```
 
