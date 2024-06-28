@@ -1,5 +1,5 @@
 ---
-title: "Qdrant 1.10 - Universal Query, IDF & ColBERT Support"
+title: "Qdrant 1.10 - Universal Query, Built-in IDF & ColBERT Support"
 draft: false
 short_description: "Single search API. Server-side IDF. Native multivector support."
 description: "Consolidated search API, built-in IDF, and native multivector support. " 
