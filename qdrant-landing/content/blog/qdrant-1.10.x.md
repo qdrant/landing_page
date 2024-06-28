@@ -424,27 +424,33 @@ Qdrant’s reshaped Rust client is now more accessible and easier to use. We hav
 ## S3 Snapshot Storage
 Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/concepts/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. [AWS S3](https://aws.amazon.com/s3/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss.
 
-You can configure S3 storage settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically under `snapshots_storage`.
+You can configure S3 storage settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically with `snapshots_storage`.
+
+For example, to use AWS S3:
 
 ```yaml
 storage:
-  # Where to store all the data
-  storage_path: ./storage
-
-  # Where to store snapshots
-  snapshots_path: ./snapshots
-
   snapshots_config:
-    # "local" or "s3" - where to store snapshots
-    snapshots_storage: local
-    # s3_config:
-    #   bucket: ""
-    #   region: ""
-    #   access_key: ""
-    #   secret_key: ""
+    # Use 's3' to store snapshots on S3
+    snapshots_storage: s3
+
+    s3_config:
+      # Bucket name
+      bucket: your_bucket_here
+
+      # Bucket region (e.g. eu-central-1)
+      region: your_bucket_region_here
+
+      # Storage access key
+      # Can be specified either here or in the `AWS_ACCESS_KEY_ID` environment variable.
+      access_key: your_access_key_here
+
+      # Storage secret key
+      # Can be specified either here or in the `AWS_SECRET_ACCESS_KEY` environment variable.
+      secret_key: your_secret_key_here
 ```
 
-*Read more about [S3 storage](https://qdrant.tech/documentation/concepts/snapshots/#s3) and [configuration](https://qdrant.tech/documentation/guides/configuration/).*
+*Read more about [S3 snapshot storage](https://qdrant.tech/documentation/concepts/snapshots/#s3) and [configuration](https://qdrant.tech/documentation/guides/configuration/).*
 
 This integration allows for a more convenient distribution of snapshots. AWS users can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 
