@@ -1,8 +1,8 @@
 ---
 title: "What is Vector Similarity?"
 draft: false
-short_description: "Granular access control. Optimized shard transfers. Support for byte embeddings."
-description: "New access control options for RBAC, a much faster shard transfer procedure, and direct support for byte embeddings. " 
+short_description: "An in-depth exploration of vector similarity and its applications in AI."
+description: "An in-depth exploration of vector similarity, and its applications in Generative AI." 
 preview_image: /blog/what-is-vector-similarity/social_preview.jpg
 social_preview_image: /blog/what-is-vector-similarity/social_preview.jpg
 date: 2024-02-24T00:00:00-08:00
