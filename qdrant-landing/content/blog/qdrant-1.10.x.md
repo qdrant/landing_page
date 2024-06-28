@@ -18,9 +18,8 @@ tags:
 
 [Qdrant 1.10.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.10.0) This version introduces at some major changes, so let's dive right in:
 
-**Universal Query API:** All search APIs are now consolidated into a single Query API endpoint.</br>
-**Hybrid Search:** Hybrid Search is offered out of the box, and you can use it via Query API.</br>
-**BM42 Algorithm:** Alternative method of scoring is best suited for Hybrid Search on short docs.</br>
+**Universal Query API:** All search APIs, including Hybrid Search, are now in one Query endpoint.</br>
+**BM42 Algorithm:** Alternative method of scoring, that's best for Hybrid Search on short docs.</br>
 **Multivector Support:** Native support for late interaction ColBERT is accessible via Query API.
 
 ## One Endpoint for All Queries
@@ -171,13 +170,6 @@ client.query_points(
 ### Where BM42 shines
 You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common. Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
 
-Our benchmark was done on the [Quora dataset](https://huggingface.co/datasets/BeIR/quora), to demonstrate Question-Answering tasks on a corpus of short texts. 
-
-|Results | BM25 | BM42     |
-|---------------|------|----------|
-|Precision @ 10 | 0.45 | **0.49** |
-
-This preliminary test highlights increased precision across the entire QA task. Please note that best results are achieved with combination of sparse and dense embeddings in a hybrid approach.
 
 ## ColBERT Multivector Support 
 We are adding native support for multivector search, compatible with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. 
@@ -220,10 +212,10 @@ For instance, in e-commerce, you can use multivector to store multiple images of
 
 ## Sparse Vectors Compression
 
-In version 1.9, we introduced the `uint8` [vector datatype](/documentation/concepts/collections/#vector-datatypes), as support for pre-quantized embeddings. 
-Now, we are introducing a new **datatype** for sparse vectors and a different way of **storing** these sparse vectors. 
+In version 1.9, we introduced the `uint8` [vector datatype](/documentation/concepts/collections/#vector-datatypes) for sparse vectors, in order to support pre-quantized embeddings from companies like JinaAI and Cohere. 
+This time, we are introducing a new datatype **for both sparse and dense vectors**, as well as a different way of **storing** these  vectors. 
 
-**Datatype:** Sparse vectors were represented in larger `float32` values, but now they can be turned to the `float16`. `float16` vectors have a lower precision compared to `float32`, which means that there is less numerical accuracy in the vector values - but this is negligible for practical use cases. 
+**Datatype:** Sparse and dense vectors were previously represented in larger `float32` values, but now they can be turned to the `float16`. `float16` vectors have a lower precision compared to `float32`, which means that there is less numerical accuracy in the vector values - but this is negligible for practical use cases. 
 
 These vectors will use at least half the memory of regular vectors, which can significantly reduce the footprint of large vector datasets. Operations can be faster due to reduced memory bandwidth requirements and better cache utilization. This can lead to faster vector search operations, especially in memory-bound scenarios.
 
@@ -252,6 +244,28 @@ Qdrant’s reshaped Rust client is now more accessible and easier to use. We hav
 
 ## S3 Snapshot Storage
 Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/concepts/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. [AWS S3](https://aws.amazon.com/s3/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss. 
+
+You can configure S3 bucket settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically under`snapshots_storage`.
+
+```yaml
+storage:
+  # Where to store all the data
+  storage_path: ./storage
+
+  # Where to store snapshots
+  snapshots_path: ./snapshots
+
+  snapshots_config:
+    # "local" or "s3" - where to store snapshots
+    snapshots_storage: local
+    # s3_config:
+    #   bucket: ""
+    #   region: ""
+    #   access_key: ""
+    #   secret_key: ""
+```
+
+*Read more about [configuring Qdrant defaults](https://qdrant.tech/documentation/guides/configuration/).*
 
 This integration allows for a more convenient distribution of snapshots. AWS users can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 
