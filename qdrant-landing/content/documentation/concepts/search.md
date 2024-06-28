@@ -51,6 +51,16 @@ client.query_points(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    query: [0.2, 0.1, 0.9, 0.7],
+});
+```
+
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{Condition, Filter, Query, QueryPointsBuilder};
@@ -107,6 +117,16 @@ client.query_points(
     collection_name="{collection_name}",
     query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04", # <--- point id
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    query: '43cf51e2-8777-4f52-bc74-c2cbde0c8b04',
+});
 ```
 
 ```rust

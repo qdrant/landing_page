@@ -83,6 +83,29 @@ client.query_points(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: [
+        {
+            query: {
+                values: [0.22, 0.8],
+                indices: [1, 42],
+            },
+        },
+        {
+            query: [0.01, 0.45, 0.67],
+        },
+    ],
+    query: {
+        fusion: 'rrf',
+    },
+});
+```
+
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
@@ -220,6 +243,23 @@ client.query_points(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: {
+        query: [1, 23, 45, 67], // <------------- small byte vector
+        using: 'mrl_byte',
+        limit: 1000,
+    },
+    query: [0.01, 0.299, 0.45, 0.67, ...], // <-- full vector,
+    using: 'full',
+    limit: 10,
+});
+```
+
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
@@ -326,6 +366,26 @@ client.query_points(
     using="colbert",
     limit=10,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: {
+        query: [1, 23, 45, 67], // <------------- small byte vector
+        limit: 100,
+    },
+    query: [
+        [0.1, 0.2], // <─┐
+        [0.2, 0.1], // < ├─ multi-vector
+        [0.8, 0.9], // < ┘
+    ],
+    using: 'colbert',
+    limit: 10,
+});
 ```
 
 ```rust
@@ -460,6 +520,32 @@ client.query_points(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: {
+        prefetch: {
+            query: [1, 23, 45, 67, ...], // <------------- small byte vector
+            using: 'mrl_byte',
+            limit: 1000,
+        },
+        query: [0.01, 0.45, 0.67, ...],  // <-- full dense vector
+        using: 'full',
+        limit: 100,
+    },
+    query: [
+        [0.1, 0.2], // <─┐
+        [0.2, 0.1], // < ├─ multi-vector
+        [0.8, 0.9], // < ┘
+    ],
+    using: 'colbert',
+    limit: 10,
+});
+```
+
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
@@ -588,6 +674,16 @@ client.query_points(
 )
 ```
 
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    query: '43cf51e2-8777-4f52-bc74-c2cbde0c8b04', // <--- point id
+});
+```
+
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{Condition, Filter, PointId, Query, QueryPointsBuilder};
@@ -665,6 +761,21 @@ client.query_points(
         vector="image-512",  # <--- vector name in the other collection
     )
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    query: '43cf51e2-8777-4f52-bc74-c2cbde0c8b04', // <--- point id
+    using: '512d-vector',
+    lookup_from: {
+        collection: 'another_collection',
+        vector: 'image-512',
+    }
+});
 ```
 
 ```rust
@@ -810,6 +921,44 @@ client.query_points(
     ],
     query=models.OrderByQuery(order_by="price"),
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: [
+        {
+            query: [0.01, 0.45, 0.67], // <-- dense vector
+            filter: {
+                must: {
+                    key: 'color',
+                    match: {
+                        value: 'red',
+                    },
+                }
+            },
+            limit: 10,
+        },
+        {
+            query: [0.01, 0.45, 0.67], // <-- dense vector
+            filter: {
+                must: {
+                    key: 'color',
+                    match: {
+                        value: 'green',
+                    },
+                }
+            },
+            limit: 10,
+        },
+    ],
+    query: {
+        order_by: 'price',
+    },
+});
 ```
 
 ```rust
