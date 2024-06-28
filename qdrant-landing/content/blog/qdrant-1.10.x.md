@@ -498,12 +498,23 @@ await client.CreateCollectionAsync(
 
 You will benefit from a more compact storage and higher processing efficiency. This can also lead to reduced dataset sizes for faster processing and lower storage costs in data compression.
 
-## New Rust Client 
-Qdrant’s reshaped Rust client is now more accessible and easier to use. We have focused on putting together a minimalistic user experience. Its ownership model ensures memory safety without needing a garbage collector, making it ideal for managing intensive computations and large datasets typical of vector databases. Additionally, Rust supports safe concurrent execution, which is crucial for handling multiple simultaneous requests efficiently.
+## New Rust Client
+
+Qdrant’s Rust client has been fully reshaped. It is now more accessible and
+easier to use. We have focused on putting together a minimalistic API interface.
+All operations and their types now use the builder pattern, providing an easy
+and extensible interface, preventing breakage with future updates. Additionally,
+Rust supports safe concurrent execution, which is crucial for handling multiple
+simultaneous requests efficiently.
+
+Documentation got a significant improvement as well. It is much better organized
+and provides usage examples across the board. Everything links back to our main
+documentation, making it easier to navigate and find the information you need.
 
 <p align="center">
-    <a href="https://github.com/qdrant/rust-client">Rust Client Repo</a> and 
-    <a href="https://docs.rs/qdrant-client">Client Documentation</a>
+  Visit our
+  <a href="https://docs.rs/qdrant-client">client</a> and
+  <a href="https://docs.rs/qdrant-client/latest/qdrant_client/struct.Qdrant.html">operations</a> documentation
 </p>
 
 ## S3 Snapshot Storage
