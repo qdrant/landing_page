@@ -51,6 +51,34 @@ client.query_points(
 )
 ```
 
+```java
+import java.util.List;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(QueryPoints.newBuilder()
+  .setCollectionName("{collectionName}")
+  .setQuery(nearest(List.of(0.2f, 0.1f, 0.9f, 0.7f)))
+  .build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f }
+);
+```
+
 **Search By Id**
 
 ```http
@@ -67,11 +95,39 @@ client.query_points(
 )
 ```
 
+```java
+import java.util.UUID;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(QueryPoints.newBuilder()
+  .setCollectionName("{collectionName}")
+  .setQuery(nearest(UUID.fromString("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+  .build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")
+);
+```
+
 ## Metrics
 
 There are many ways to estimate the similarity of vectors with each other.
 In Qdrant terms, these ways are called metrics.
-The choice of metric depends on vectors obtaining and, in particular, on the method of neural network encoder training.
+The choice of metric depends on the vectors obtained and, in particular, on the neural network encoder training method.
 
 Qdrant supports these most popular types of metrics:
 
