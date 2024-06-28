@@ -254,7 +254,43 @@ result = client.search(
 )
 ```
 
-<!-- TODO: Add examples for other languages -->
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.SparseIndices;
+import io.qdrant.client.grpc.Points.Vectors;
+
+QdrantClient client =
+  new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+  .searchAsync(
+    SearchPoints.newBuilder()
+    .setCollectionName("{collection_name}")
+    .setVectorName("text")
+    .addAllVector(List.of(0.1f, 0.2f, 0.3f, 0.4 f))
+    .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 3, 5, 7)).build())
+    .setLimit(3)
+    .build())
+  .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.SearchAsync(
+	collectionName: "{collection_name}",
+	vector: new float[] { 0.1f, 0.2f, 0.3f, 0.4f },
+	vectorName: "text",
+	limit: 3,
+	sparseIndices: new uint[] { 1, 3, 5, 7 }
+);
+```
 
 
 ### Multivectors
@@ -310,6 +346,23 @@ PUT collections/{collection_name}
 }
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams
+	{
+		Size = 128,
+		Distance = Distance.Cosine,
+		MultivectorConfig = new() { Comparator = MultiVectorComparator.MaxSim }
+	}
+);
+```
+
 To insert a point with multivector:
 
 ```http
@@ -328,6 +381,27 @@ PUT collections/{collection_name}/points
 }
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+  collectionName: "{collection_name}",
+  points: new List <PointStruct> {
+    new() {
+      Id = 1,
+        Vectors = new float[][] {
+          [-0.013f, 0.020f, -0.007f, -0.111f],
+          [-0.030f, -0.05f, 0.001f, 0.072f],
+          [-0.041f, 0.014f, -0.032f, -0.062f ],
+        },
+    },
+  }
+);
+```
+
 And search with multivector (available in `query ` API): 
 
 ```http
@@ -339,6 +413,22 @@ POST collections/{collection_name}/points/query
     [-0.041,  0.014, -0.032, -0.062, ...]
   ]
 }
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: new float[][]
+	{
+		[-0.013f, 0.020f, -0.007f, -0.111f],
+		[-0.030f, -0.055f, 0.001f, 0.072f],
+		[-0.041f, 0.014f, -0.032f, -0.062f],
+	}
+);
 ```
 
 
@@ -554,6 +644,27 @@ PUT /collections/{collection_name}
 }
 ```
 
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams
+	{
+		Size = 128,
+		Distance = Distance.Cosine,
+		Datatype = Datatype.Float16
+	},
+	sparseVectorsConfig: (
+		"text",
+		new SparseVectorParams { Index = new SparseIndexConfig { Datatype = Datatype.Float16 } }
+	)
+);
+```
+
 **Uint8**
 
 Another step towards memory optimization is to use Uint8 datatype for vectors.
@@ -591,6 +702,27 @@ PUT /collections/{collection_name}
     }
   }
 }
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreateCollectionAsync(
+	collectionName: "{collection_name}",
+	vectorsConfig: new VectorParams
+	{
+		Size = 128,
+		Distance = Distance.Cosine,
+		Datatype = Datatype.Uint8
+	},
+	sparseVectorsConfig: (
+		"text",
+		new SparseVectorParams { Index = new SparseIndexConfig { Datatype = Datatype.Uint8 } }
+	)
+);
 ```
 
 ## Quantization
