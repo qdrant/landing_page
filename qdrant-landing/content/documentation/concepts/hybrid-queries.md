@@ -215,11 +215,11 @@ client
             .setCollectionName("{collection_name}")
             .addPrefetch(
                 PrefetchQuery.newBuilder()
-                    .setQuery(nearest(1, 23, 45, 67))
+                    .setQuery(nearest(1, 23, 45, 67))	// <------------- small byte vector
                     .setLimit(1000)
                     .setUsing("mrl_byte")
                     .build())
-            .setQuery(nearest(0.01f, 0.299f, 0.45f, 0.67f))
+            .setQuery(nearest(0.01f, 0.299f, 0.45f, 0.67f))	 // <-- full vector
             .setUsing("full")
             .setLimit(10)
             .build())
