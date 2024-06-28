@@ -9,9 +9,9 @@ aliases:
 # Vectors
 
 Vectors (or embeddings) are the core concept of the Qdrant Vector Search engine. 
-Vectors define similarity between objects in the vector space.
+Vectors define the similarity between objects in the vector space.
 
-If a pair of vectors are similar in the vector space, it means that the objects they represent are similar in some way.
+If a pair of vectors are similar in vector space, it means that the objects they represent are similar in some way.
 
 For example, if you have a collection of images, you can represent each image as a vector.
 If two images are similar, their vectors will be close to each other in the vector space.
@@ -21,18 +21,18 @@ Usually, this algorithm is a neural network that converts the object into a fixe
 
 The neural network is usually [trained](../articles/metric-learning-tips/) on a pairs or [triplets](../articles/triplet-loss/) of similar and dissimilar objects, so it learns to recognize a specific type of similarity.
 
-By using this property of vectors, you can explore your data in a variety of ways, such as searching for similar objects, clustering objects, and more.
+By using this property of vectors, you can explore your data in a number of ways; e.g. by searching for similar objects, clustering objects, and more.
 
 
-## Vector types
+## Vector Types
 
 Modern neural networks can output vectors in different shapes and sizes, and Qdrant supports most of them.
-Let's take a look at the most common types of vectors, supported by Qdrant.
+Let's take a look at the most common types of vectors supported by Qdrant.
 
 
 ### Dense Vectors
 
-This is the most common type of vector. It is a simple list of numbers, it have a fixed length and each element of the list is a floating-point number.
+This is the most common type of vector. It is a simple list of numbers, it has a fixed length and each element of the list is a floating-point number.
 
 It looks like this:
 
@@ -57,15 +57,15 @@ It looks like this:
 ]
 ```
 
-Majority of the neural networks output dense vectors, so you can use them in Qdrant without any additional processing.
-See a list of embedding models that we are sure will work with Qdrant out of the box in the [Embedding Providers](../embeddings/) section.
+The majority of neural networks create dense vectors, so you can use them with Qdrant without any additional processing.
+Although compatible with most embedding models out there, Qdrant has been tested with the following [verified embedding providers](../embeddings/).
 
 ### Sparse Vectors
 
 Sparse vectors are a special type of vectors. 
-Mathematically, they are the same as dense vectors, but they have a lot of zeros in them so they are stored in a special format.
+Mathematically, they are the same as dense vectors, but they contain many zeros so they are stored in a special format.
 
-Sparse vectors in Qdrant don't have a fixed length, as it is dynamically allocated during the vector insertion.
+Sparse vectors in Qdrant don't have a fixed length, as it is dynamically allocated during vector insertion.
 
 In order to define a sparse vector, you need to provide a list of non-zero elements and their indexes.
 
@@ -77,9 +77,9 @@ In order to define a sparse vector, you need to provide a list of non-zero eleme
 }
 ```
 
-Sparse vectors in Qdrant are stored in a special storage and indexed in a special index, so their configuration is different from dense vectors.
+Sparse vectors in Qdrant are kept in special storage and indexed in a separate index, so their configuration is different from dense vectors.
 
-To create collection with sparse vectors:
+To create a collection with sparse vectors:
 
 
 ```http
@@ -187,7 +187,7 @@ await client.CreateCollectionAsync(
 );
 ```
 
-Insert a point with sparse vector into the created collection:
+Insert a point with a sparse vector into the created collection:
 
 ```http
 PUT /collections/{collection_name}/points
@@ -327,7 +327,7 @@ await client.UpsertAsync(
 );
 ```
 
-And search with sparse vectors:
+Now you can run a search with sparse vectors:
 
 ```http
 POST /collections/{collection_name}/points/search
@@ -430,12 +430,11 @@ await client.SearchAsync(
 );
 ```
 
-
 ### Multivectors
 
 **Available as of v1.10.0**
 
-Qdrant supports storing variable amount of same-shaped dense vectors in a single point.
+Qdrant supports the storing of a variable amount of same-shaped dense vectors in a single point.
 That means that instead of a single dense vector, you can upload a matrix of dense vectors.
 
 The length of the matrix is fixed, but the number of vectors in the matrix can be different for each point.
@@ -453,15 +452,15 @@ Multivectors look like this:
 
 ```
 
-There are two scenarios where multivectors can be useful:
+There are two scenarios where multivectors are useful:
 
 * **Multiple representation of the same object** - For example, you can store multiple embeddings for pictures of the same object, taken from different angles. This approach assumes that the payload is same for all vectors.
-* **Late Interaction Embeddings** - Some text embedding models can output multiple vectors for a single text. 
-For example, a family of models like ColBERT output a relatively small vector for each token in the text. 
+* **Late interaction embeddings** - Some text embedding models can output multiple vectors for a single text. 
+For example, a family of models such as ColBERT output a relatively small vector for each token in the text. 
 
-In order to use multivectors, we need to specify a function that will be used to compare matrices of vectors between each other.
+In order to use multivectors, we need to specify a function that will be used to compare between matrices of vectors
 
-Currently, Qdrant supports `max_sim` function, that is defined as a sum of maximum similarities between each pair of vectors in the matrices.
+Currently, Qdrant supports `max_sim` function, which is defined as a sum of maximum similarities between each pair of vectors in the matrices.
 
 $$
 score = \sum_{i=1}^{N} \max_{j=1}^{M} \text{Sim}(\text{vectorA}_i, \text{vectorB}_j)
@@ -711,7 +710,7 @@ await client.UpsertAsync(
 );
 ```
 
-And search with multivector (available in `query ` API): 
+To search with multivector (available in `query` API): 
 
 ```http
 POST collections/{collection_name}/points/query
@@ -808,7 +807,7 @@ await client.QueryAsync(
 ```
 
 
-## Named vectors
+## Named Vectors
 
 Aside from storing multiple vectors of the same shape in a single point, Qdrant supports storing multiple different vectors in a single point.
 
@@ -954,26 +953,26 @@ await client.CreateCollectionAsync(
 
 ## Datatypes
 
-Newest versions of embeddings models generate vectors with very large dimentionality.
-In openai `text-embedding-3-large` embedding model the dimentionality goes up to 3072.
+Newest versions of embeddings models generate vectors with very large dimentionalities.
+With OpenAI's `text-embedding-3-large` embedding model, the dimensionality can go up to 3072.
 
-The amount of memory required to store such vectors grows linearly with the dimentionality,
+The amount of memory required to store such vectors grows linearly with the dimensionality,
 so it is important to choose the right datatype for the vectors.
 
-The choice between datatypes is a trade-off between the memory consumption and the precision of the vectors.
+The choice between datatypes is a trade-off between memory consumption and precision of vectors.
 
 Qdrant supports a number of datatypes for both dense and sparse vectors:
 
 **Float32**
 
-This is a default datatype for vectors in Qdrant. It is a 32-bit (4 bytes) floating-point number. 
-Standard OpenAI embedding of 1536 dimentionality will require 6KB of memory to store in Float32.
+This is the default datatype for vectors in Qdrant. It is a 32-bit (4 bytes) floating-point number. 
+The standard OpenAI embedding of 1536 dimensionality will require 6KB of memory to store in Float32.
 
 You don't need to specify the datatype for vectors in Qdrant, as it is set to Float32 by default.
 
 **Float16**
 
-This is a 16-bit (2 bytes) floating-point number. Also known as half-precision float.
+This is a 16-bit (2 bytes) floating-point number. It is also known as half-precision float.
 Intuitively, it looks like this:
 
 ```text
@@ -986,7 +985,7 @@ float32 -> float16 delta (float32 - float16).abs
 0.6616839  -> 0.6616211  delta 0.000062823296
 ```
 
-The main advantage of Float16 is that it requires half the memory of Float32, while having virtually no impact on the quality of the vector search.
+The main advantage of Float16 is that it requires half the memory of Float32, while having virtually no impact on the quality of vector search.
 
 To use Float16, you need to specify the datatype for vectors in the collection configuration:
 
@@ -1141,7 +1140,7 @@ await client.CreateCollectionAsync(
 
 **Uint8**
 
-Another step towards memory optimization is to use Uint8 datatype for vectors.
+Another step towards memory optimization is to use the Uint8 datatype for vectors.
 Unlike Float16, Uint8 is not a floating-point number, but an integer number in the range from 0 to 255.
 
 Not all embeddings models generate vectors in the range from 0 to 255, so you need to be careful when using Uint8 datatype.
@@ -1151,7 +1150,7 @@ In order to convert a number from float range to Uint8 range, you need to apply 
 Some embedding providers may provide embeddings in a pre-quantized format.
 One of the most notable examples is the [Cohere int8 & binary embeddings](https://cohere.com/blog/int8-binary-embeddings).
 
-For other embeddings, you need to apply quantization yourself.
+For other embeddings, you will need to apply quantization yourself.
 
 
 <aside role="alert">
@@ -1171,7 +1170,7 @@ PUT /collections/{collection_name}
   "sparse_vectors": {
     "text": {
       "index": {
-        "datatype": "uint8" // <-- And for sparse vectors 
+        "datatype": "uint8" // <-- For sparse vectors 
       }
     }
   }
@@ -1313,18 +1312,17 @@ await client.CreateCollectionAsync(
 
 ## Quantization
 
-Apart from changing the datatype of the original vectors, qdrant can create quantized representations of the vectors alongside the original ones.
+Apart from changing the datatype of the original vectors, Qdrant can create quantized representations of vectors alongside the original ones.
 This quantized representation can be used to quickly select candidates for rescoring with the original vectors, or even used directly for search.
 
-Quantization is applied in background, during the optimization process.
+Quantization is applied in the background, during the optimization process.
 
 More information about the quantization process can be found in the [Quantization](../guides/quantization/) section.
 
 
-## Vector storage
+## Vector Storage
 
 Depending on the requirements of the application, Qdrant can use one of the data storage options.
-The choice has to be made between the search speed and the size of the RAM used.
-
+Keep in mind that youu will have to tradeoff between search speed and the size of RAM used.
 
 More information about the storage options can be found in the [Storage](../concepts/storage/#vector-storage) section.
