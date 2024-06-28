@@ -239,6 +239,7 @@ import io.qdrant.client.grpc.Points.PointStruct;
 
 QdrantClient client =
   new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
 client
   .upsertAsync(
     "{collection_name}",
@@ -247,7 +248,7 @@ client
       .setId(id(129))
       .setVectors(
         namedVectors(Map.of(
-          "text", vector(List.of(1.0 f, 2.0 f), List.of(6, 7))))
+          "text", vector(List.of(1.0f, 2.0f), List.of(6, 7))))
       )
       .build()))
   .get();
@@ -318,7 +319,7 @@ client
     SearchPoints.newBuilder()
     .setCollectionName("{collection_name}")
     .setVectorName("text")
-    .addAllVector(List.of(0.1f, 0.2f, 0.3f, 0.4 f))
+    .addAllVector(List.of(0.1f, 0.2f, 0.3f, 0.4f))
     .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 3, 5, 7)).build())
     .setLimit(3)
     .build())
@@ -331,11 +332,11 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 0.1f, 0.2f, 0.3f, 0.4f },
-	vectorName: "text",
-	limit: 3,
-	sparseIndices: new uint[] { 1, 3, 5, 7 }
+  collectionName: "{collection_name}",
+  vector: new float[] {0.1f, 0.2f, 0.3f, 0.4f},
+  vectorName: "text",
+  limit: 3,
+  sparseIndices: new uint[] {1, 3, 5, 7}
 );
 ```
 
@@ -420,13 +421,14 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams
-	{
-		Size = 128,
-		Distance = Distance.Cosine,
-		MultivectorConfig = new() { Comparator = MultiVectorComparator.MaxSim }
-	}
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParams {
+    Size = 128,
+      Distance = Distance.Cosine,
+      MultivectorConfig = new() {
+        Comparator = MultiVectorComparator.MaxSim
+      }
+  }
 );
 ```
 
@@ -688,15 +690,17 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParamsMap
-	{
-		Map =
-		{
-			["image"] = new VectorParams { Size = 4, Distance = Distance.Dot },
-			["text"] = new VectorParams { Size = 8, Distance = Distance.Cosine },
-		}
-	}
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParamsMap {
+    Map = {
+      ["image"] = new VectorParams {
+        Size = 4, Distance = Distance.Dot
+      },
+      ["text"] = new VectorParams {
+        Size = 8, Distance = Distance.Cosine
+      },
+    }
+  }
 );
 ```
 
@@ -775,25 +779,25 @@ import io.qdrant.client.grpc.Collections.VectorsConfig;
 QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
-        .createCollectionAsync(
-                CreateCollection.newBuilder()
-                        .setCollectionName("{collection_name}")
-                        .setVectorsConfig(VectorsConfig.newBuilder()
-                                .setParams(VectorParams.newBuilder()
-                                        .setSize(128)
-                                        .setDistance(Distance.Cosine)
-                                        .setDatatype(Datatype.Float16)
-                                        .build())
-                                .build())
-                        .setSparseVectorsConfig(
-                                SparseVectorConfig.newBuilder()
-                                        .putMap("text", SparseVectorParams.newBuilder()
-                                                .setIndex(SparseIndexConfig.newBuilder()
-                                                        .setDatatype(Datatype.Float16)
-                                                        .build())
-                                                .build()))
-                        .build())
-        .get();
+  .createCollectionAsync(
+    CreateCollection.newBuilder()
+    .setCollectionName("{collection_name}")
+    .setVectorsConfig(VectorsConfig.newBuilder()
+      .setParams(VectorParams.newBuilder()
+        .setSize(128)
+        .setDistance(Distance.Cosine)
+        .setDatatype(Datatype.Float16)
+        .build())
+      .build())
+    .setSparseVectorsConfig(
+      SparseVectorConfig.newBuilder()
+      .putMap("text", SparseVectorParams.newBuilder()
+        .setIndex(SparseIndexConfig.newBuilder()
+          .setDatatype(Datatype.Float16)
+          .build())
+        .build()))
+    .build())
+  .get();
 ```
 
 ```csharp
@@ -803,17 +807,20 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams
-	{
-		Size = 128,
-		Distance = Distance.Cosine,
-		Datatype = Datatype.Float16
-	},
-	sparseVectorsConfig: (
-		"text",
-		new SparseVectorParams { Index = new SparseIndexConfig { Datatype = Datatype.Float16 } }
-	)
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParams {
+    Size = 128,
+      Distance = Distance.Cosine,
+      Datatype = Datatype.Float16
+  },
+  sparseVectorsConfig: (
+    "text",
+    new SparseVectorParams {
+      Index = new SparseIndexConfig {
+        Datatype = Datatype.Float16
+      }
+    }
+  )
 );
 ```
 
@@ -871,25 +878,25 @@ import io.qdrant.client.grpc.Collections.VectorsConfig;
 QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
-        .createCollectionAsync(
-                CreateCollection.newBuilder()
-                        .setCollectionName("{collection_name}")
-                        .setVectorsConfig(VectorsConfig.newBuilder()
-                                .setParams(VectorParams.newBuilder()
-                                        .setSize(128)
-                                        .setDistance(Distance.Cosine)
-                                        .setDatatype(Datatype.Uint8)
-                                        .build())
-                                .build())
-                        .setSparseVectorsConfig(
-                                SparseVectorConfig.newBuilder()
-                                        .putMap("text", SparseVectorParams.newBuilder()
-                                                .setIndex(SparseIndexConfig.newBuilder()
-                                                        .setDatatype(Datatype.Uint8)
-                                                        .build())
-                                                .build()))
-                        .build())
-        .get();
+  .createCollectionAsync(
+    CreateCollection.newBuilder()
+    .setCollectionName("{collection_name}")
+    .setVectorsConfig(VectorsConfig.newBuilder()
+      .setParams(VectorParams.newBuilder()
+        .setSize(128)
+        .setDistance(Distance.Cosine)
+        .setDatatype(Datatype.Uint8)
+        .build())
+      .build())
+    .setSparseVectorsConfig(
+      SparseVectorConfig.newBuilder()
+      .putMap("text", SparseVectorParams.newBuilder()
+        .setIndex(SparseIndexConfig.newBuilder()
+          .setDatatype(Datatype.Uint8)
+          .build())
+        .build()))
+    .build())
+  .get();
 ```
 
 ```csharp
@@ -899,17 +906,20 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams
-	{
-		Size = 128,
-		Distance = Distance.Cosine,
-		Datatype = Datatype.Uint8
-	},
-	sparseVectorsConfig: (
-		"text",
-		new SparseVectorParams { Index = new SparseIndexConfig { Datatype = Datatype.Uint8 } }
-	)
+  collectionName: "{collection_name}",
+  vectorsConfig: new VectorParams {
+    Size = 128,
+      Distance = Distance.Cosine,
+      Datatype = Datatype.Uint8
+  },
+  sparseVectorsConfig: (
+    "text",
+    new SparseVectorParams {
+      Index = new SparseIndexConfig {
+        Datatype = Datatype.Uint8
+      }
+    }
+  )
 );
 ```
 
