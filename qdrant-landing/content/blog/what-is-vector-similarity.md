@@ -3,8 +3,8 @@ title: "What is Vector Similarity?"
 draft: false
 short_description: "An in-depth exploration of vector similarity and its applications in AI."
 description: "An in-depth exploration of vector similarity, and its applications in Generative AI." 
-preview_image: /blog/what-is-vector-similarity/social_preview.jpg
-social_preview_image: /blog/what-is-vector-similarity/social_preview.jpg
+preview_image: /blog/what-is-vector-similarity/social_preview.png
+social_preview_image: /blog/what-is-vector-similarity/social_preview.png
 date: 2024-02-24T00:00:00-08:00
 author: Qdrant Team
 featured: false 
