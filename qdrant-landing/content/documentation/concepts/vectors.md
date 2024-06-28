@@ -225,6 +225,53 @@ client.upsert(
 
 <!-- TODO: Add examples for other languages -->
 
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
+import static io.qdrant.client.VectorsFactory.namedVectors;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+
+QdrantClient client =
+  new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+client
+  .upsertAsync(
+    "{collection_name}",
+    List.of(
+      PointStruct.newBuilder()
+      .setId(id(129))
+      .setVectors(
+        namedVectors(Map.of(
+          "text", vector(List.of(1.0 f, 2.0 f), List.of(6, 7))))
+      )
+      .build()))
+  .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+  collectionName: "{collection_name}",
+  points: new List < PointStruct > {
+    new() {
+      Id = 129,
+        Vectors = new Dictionary < string, Vector > {
+          ["text"] = ([0.1 f, 0.2 f, 0.3 f, 0.4 f], [1, 3, 5, 7])
+        }
+    }
+  }
+);
+```
+
 And search with sparse vectors:
 
 ```http
@@ -346,6 +393,26 @@ PUT collections/{collection_name}
 }
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.MultiVectorComparator;
+import io.qdrant.client.grpc.Collections.MultiVectorConfig;
+import io.qdrant.client.grpc.Collections.VectorParams;
+
+QdrantClient client =
+  new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.createCollectionAsync("{collection_name}",
+  VectorParams.newBuilder().setSize(128)
+  .setDistance(Distance.Cosine)
+  .setMultivectorConfig(MultiVectorConfig.newBuilder()
+    .setComparator(MultiVectorComparator.MaxSim)
+    .build())
+  .build()).get();
+```
+
 ```csharp
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
@@ -379,6 +446,36 @@ PUT collections/{collection_name}/points
     }
   ]
 }
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorsFactory.vectors;
+import static io.qdrant.client.VectorFactory.multiVector;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.PointStruct;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+.upsertAsync(
+    "{collection_name}",
+    List.of(
+        PointStruct.newBuilder()
+            .setId(id(1))
+            .setVectors(vectors(multiVector(new float[][] {
+                {-0.013f,  0.020f, -0.007f, -0.111f},
+                {-0.030f, -0.055f,  0.001f,  0.072f},
+                {-0.041f,  0.014f, -0.032f, -0.062f}
+            })))
+            .build()
+    ))
+.get();
 ```
 
 ```csharp
@@ -415,19 +512,38 @@ POST collections/{collection_name}/points/query
 }
 ```
 
+```java
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(QueryPoints.newBuilder()
+    .setCollectionName("{collection_name}")
+    .setQuery(nearest(new float[][] {
+        {-0.013f, 0.020f, -0.007f, -0.111f}, 
+        {-0.030f, -0.055f, 0.001f, 0.072f}, 
+        {-0.041f, 0.014f, -0.032f, -0.062f}
+    }))
+    .build()).get();
+```
+
 ```csharp
 using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	query: new float[][]
-	{
-		[-0.013f, 0.020f, -0.007f, -0.111f],
-		[-0.030f, -0.055f, 0.001f, 0.072f],
-		[-0.041f, 0.014f, -0.032f, -0.062f],
-	}
+  collectionName: "{collection_name}",
+  query: new float[][] {
+    [-0.013f, 0.020f, -0.007f, -0.111f],
+    [-0.030f, -0.055f, 0.001 , 0.072f],
+    [-0.041f, 0.014f, -0.032f, -0.062f],
+  }
 );
 ```
 
@@ -644,6 +760,42 @@ PUT /collections/{collection_name}
 }
 ```
 
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Datatype;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.SparseIndexConfig;
+import io.qdrant.client.grpc.Collections.SparseVectorConfig;
+import io.qdrant.client.grpc.Collections.SparseVectorParams;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+        .createCollectionAsync(
+                CreateCollection.newBuilder()
+                        .setCollectionName("{collection_name}")
+                        .setVectorsConfig(VectorsConfig.newBuilder()
+                                .setParams(VectorParams.newBuilder()
+                                        .setSize(128)
+                                        .setDistance(Distance.Cosine)
+                                        .setDatatype(Datatype.Float16)
+                                        .build())
+                                .build())
+                        .setSparseVectorsConfig(
+                                SparseVectorConfig.newBuilder()
+                                        .putMap("text", SparseVectorParams.newBuilder()
+                                                .setIndex(SparseIndexConfig.newBuilder()
+                                                        .setDatatype(Datatype.Float16)
+                                                        .build())
+                                                .build()))
+                        .build())
+        .get();
+```
+
 ```csharp
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
@@ -702,6 +854,42 @@ PUT /collections/{collection_name}
     }
   }
 }
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.CreateCollection;
+import io.qdrant.client.grpc.Collections.Datatype;
+import io.qdrant.client.grpc.Collections.Distance;
+import io.qdrant.client.grpc.Collections.SparseIndexConfig;
+import io.qdrant.client.grpc.Collections.SparseVectorConfig;
+import io.qdrant.client.grpc.Collections.SparseVectorParams;
+import io.qdrant.client.grpc.Collections.VectorParams;
+import io.qdrant.client.grpc.Collections.VectorsConfig;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+        .createCollectionAsync(
+                CreateCollection.newBuilder()
+                        .setCollectionName("{collection_name}")
+                        .setVectorsConfig(VectorsConfig.newBuilder()
+                                .setParams(VectorParams.newBuilder()
+                                        .setSize(128)
+                                        .setDistance(Distance.Cosine)
+                                        .setDatatype(Datatype.Uint8)
+                                        .build())
+                                .build())
+                        .setSparseVectorsConfig(
+                                SparseVectorConfig.newBuilder()
+                                        .putMap("text", SparseVectorParams.newBuilder()
+                                                .setIndex(SparseIndexConfig.newBuilder()
+                                                        .setDatatype(Datatype.Uint8)
+                                                        .build())
+                                                .build()))
+                        .build())
+        .get();
 ```
 
 ```csharp
