@@ -19,7 +19,7 @@ tags:
 [Qdrant 1.10.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.10.0) This version introduces at some major changes, so let's dive right in:
 
 **Universal Query API:** All search APIs, including Hybrid Search, are now in one Query endpoint.</br>
-**BM42 Algorithm:** Alternative method of scoring, that's best for Hybrid Search on short docs.</br>
+**Built-in IDF:** We added the IDF mechanism to Qdrant's core search and indexing processes.</br>
 **Multivector Support:** Native support for late interaction ColBERT is accessible via Query API.
 
 ## One Endpoint for All Queries
@@ -83,98 +83,60 @@ Query API can now perform sub-requests, which means you can run queries sequenti
 
 *To learn more about Sub-Requests, read the [Query API documentation](/documentation/concepts/search/).*
 
-## The Answer is 42
+## Inverse Document Frequency [IDF]
 
-Qdrant's BM42 is a novel algorithm that combines the `[IDF]` (inverse document frequency) element of BM25 with **transformer-based attention matrices** to improve text retrieval. It utilizes attention matrices from `all-MiniLM-L6-v2` to determine `[CLS]` token importance. 
-
-Here is how we structured the algorithm:
+IDF is a critical component of the **TF-IDF (Term Frequency-Inverse Document Frequency)** weighting scheme used to evaluate the importance of a word in a document relative to a collection of documents (corpus).
+Here is how IDF is calculated:
 
 $$
-\text{score}(D,Q) = \sum_{i=1}^{N} \text{IDF}(q_i) \times \text{Attention}(\text{CLS}, q_i)
+\text{IDF}(q_i) = \ln \left(\frac{N - n(q_i) + 0.5}{n(q_i) + 0.5}+1\right)
 $$
 
-In practical terms, this method addresses the tokenization issues and computational costs associated with SPLADE. The expected model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
+Where:</br>
+`N` is the total number of documents in the collection. </br>
+`n` is the number of documents containing non-zero values for the given vector.
 
-*For more info on BM42, read our [dedicated technical article].*
+Due to its relevance to BM25, we decided to move the IDF calculation into the Qdrant engine itself. This type of separation allows streaming updates of the sparse embeddings while keeping the IDF calculation up-to-date.
 
-### Using BM42
+This mechanism is relevant when using BM25, but even more so for TFIDF. It previously had to be calculated using all the documents on the client side. However, now that Qdrant does it out of the box, you won't need to implement it anywhere else and recompute the value if some documents are removed or new added.
 
-BM42 can now be used in Qdrant via [FastEmbed](https://github.com/qdrant/fastembed) inference. 
-
-1. Let's see how you can setup a collection for Hybrid Search with BM42 and [jina.ai](https://jina.ai/embeddings/) dense embeddings:
+You can enable the IDF modifier in the collection configuration:
 
 ```http
-PUT collections/my-hybrid-collection
+PUT /collections/{collection_name}
 {
-  "vectors": {
-    "jina": {
-      "size": 768,
-      "distance": "Cosine"
+    "sparse_vectors": {
+        "text": {
+            "modifier": "idf"
+        }
     }
-  },
-  "sparse_vectors": {
-    "bm42": {
-      "modifier": "idf" // <--- This parameter enables the IDF calculation
-    }
-  }
 }
 ```
-
 ```python
 from qdrant_client import QdrantClient, models
-
-client = QdrantClient()
-
+client = QdrantClient(url="http://localhost:6333")
 client.create_collection(
-    collection_name="my-hybrid-collection",
-    vectors_config={
-        "jina": models.VectorParams(
-            size=768,
-            distance=models.Distance.COSINE,
-        )
-    },
-    sparse_vectors_config={
-        "bm42": models.SparseVectorParams(
+    collection_name="{collection_name}",
+    sparse_vectors={
+        "text": models.SparseVectorParams(
             modifier=models.Modifier.IDF,
-        )
-    }
+        ),
+    },
 )
 ```
 
-2. The search query will retrieve the documents with both dense and sparse embeddings and combine the scores
-using **Reciprocal Rank Fusion (RRF)** algorithm.
+### IDF as Part of BM42
 
-```python
-from fastembed import SparseTextEmbedding, TextEmbedding
+This quarter, Qdrant's also introduced BM42, a novel algorithm that combines the IDF element of BM25 with **transformer-based attention matrices** to improve text retrieval. It utilizes attention matrices from `all-MiniLM-L6-v2` to determine CLS token importance. 
 
-query_text = "best programming language for beginners?"
+In practical terms, the BM42 method addresses the tokenization issues and computational costs associated with SPLADE. The model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
-model_bm42 = SparseTextEmbedding(model_name="Qdrant/bm42-all-minilm-l6-v2-attentions")
-model_jina = TextEmbedding(model_name="jinaai/jina-embeddings-v2-base-en")
+> To learn more about IDF and BM42, read our [dedicated technical article].
 
-sparse_embedding = list(embedding_model.embed_query(query_text))[0]
-dense_embedding = list(model_jina.embed_query(query_text))[0]
-
-client.query_points(
-  collection_name="my-hybrid-collection",
-  prefetch=[
-      models.Prefetch(query=sparse_embedding, using="bm42", limit=10),
-      models.Prefetch(query=dense_embedding,  using="jina", limit=10),
-  ],
-  query=models.Fusion.RRF, # <--- Combine the scores
-  limit=10
-)
-
-```
-
-### Where BM42 shines
-You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common. Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
-
+**You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common.** Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
 
 ## ColBERT Multivector Support 
-We are adding native support for multivector search, compatible with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. 
-
-If you are working with high-dimensional similarity searches, **ColBERT is highly recommended as a reranking step in the Universal Query search.** You will experience better quality of vector retrieval, since ColBERT’s approach  allows for deeper semantic understanding. 
+We are adding native support for multivector search, compatible with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. If you are working with high-dimensional similarity searches, **ColBERT is highly recommended as a reranking step in the Universal Query search.** You will experience better quality of vector retrieval, since ColBERT’s approach  allows for deeper semantic understanding. 
 
 This model retains contextual information during query-document interaction, leading to better relevance scoring. In terms of efficiency and scalability benefits, documents and queries will be encoded separately, which gives opportunity for precomputation and storage of document embeddings for faster retrieval. 
 
@@ -271,7 +233,9 @@ This integration allows for a more convenient distribution of snapshots. AWS use
 
 
 ## Issues API 
-Our new functionality reports issues in case something isn't operating up to standards.
+Issues API reports irregularities in case something isn't operating up to standards. This powerful new feature allows users (such as database admins) to efficiently manage and track issues directly within the system, ensuring smoother operations and quicker resolutions.
+
+You can find the Issues button in the top right. When you click the bell icon, a sidebar will open to show ongoing issues.
 
 ![issues api](/blog/qdrant-1.10.x/issues.png)
 
