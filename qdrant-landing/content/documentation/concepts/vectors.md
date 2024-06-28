@@ -128,28 +128,29 @@ client.createCollection("{collection_name}", {
 
 ```rust
 use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{CreateCollection, SparseVectorConfig, SparseVectorParams},
+    Qdrant,
+    qdrant::{
+        CreateCollectionBuilder,
+        SparseVectorsConfigBuilder,
+        SparseVectorParamsBuilder,
+    },
 };
 
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let mut sparse_vectors_config = SparseVectorsConfigBuilder::default();
+
+sparse_vectors_config.add_named_vector_params(
+    "text",
+    SparseVectorParamsBuilder::default()
+);
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        sparse_vectors_config: Some(SparseVectorConfig {
-            map: [(
-                "text".to_string(),
-                SparseVectorParams {
-                    ..Default::default()
-                },
-            )]
-            .into(),
-            ..Default::default()
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new(collection_name)
+            .sparse_vectors_config(sparse_vectors_config)
+    )
     .await?;
 ```
 
@@ -223,7 +224,56 @@ client.upsert(
 )
 ```
 
-<!-- TODO: Add examples for other languages -->
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 129,
+      vector: {
+        text: {
+          indices: [1, 3, 5, 7],
+          values: [0.1, 0.2, 0.3, 0.4]
+        },
+      },
+    }
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    PointStruct,
+    UpsertPointsBuilder,
+    NamedVectors,
+    Vector,
+};
+use qdrant_client::{Qdrant, Payload};
+
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let points = vec![
+    PointStruct::new(
+        129,
+        NamedVectors::default().add_vector(
+            "text",
+            Vector::new_sparse(
+                vec![1, 3, 5, 7],
+                vec![0.1, 0.2, 0.3, 0.4]
+            )
+        ),
+        Payload::new()
+    )
+];
+
+client
+    .upsert_points(
+        UpsertPointsBuilder::new("{collection_name}", points)
+    ).await?;
+```
 
 ```java
 import java.util.List;
@@ -300,6 +350,38 @@ result = client.search(
         ),
     )
 )
+```
+
+```rust
+use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 10)
+            .sparse_indices(vec![1, 3, 5, 7])
+            .vector_name("text")
+    )
+    .await?;
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.search("{collection_name}", {
+  vector: {
+    name: "text",
+    vector: {
+        indices: [1, 3, 5, 7],
+        values: [0.1, 0.2, 0.3, 0.4]
+    },
+  },
+  limit: 3,
+});
 ```
 
 ```java
