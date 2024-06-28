@@ -451,7 +451,7 @@ There are two scenarios where multivectors can be useful:
 * **Late Interaction Embeddings** - Some text embedding models can output multiple vectors for a single text. 
 For example, a family of models like ColBERT output a relatively small vector for each token in the text. 
 
-In order to use multivectors, we need to specify a fuction that will be used to compare matrices of vectors between each other.
+In order to use multivectors, we need to specify a function that will be used to compare matrices of vectors between each other.
 
 Currently, Qdrant supports `max_sim` function, that is defined as a sum of maximum similarities between each pair of vectors in the matrices.
 
