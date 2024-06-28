@@ -503,7 +503,8 @@ You will benefit from a more compact storage and higher processing efficiency. T
 Qdrant’s Rust client has been fully reshaped. It is now more accessible and
 easier to use. We have focused on putting together a minimalistic API interface.
 All operations and their types now use the builder pattern, providing an easy
-and extensible interface, preventing breakage with future updates. Additionally,
+and extensible interface, preventing breakage with future updates. See the Rust
+[ColBERT query](#colbert-multivector-support) as great example. Additionally,
 Rust supports safe concurrent execution, which is crucial for handling multiple
 simultaneous requests efficiently.
 
