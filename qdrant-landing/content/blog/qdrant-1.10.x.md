@@ -79,6 +79,28 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest([(1, 0.22), (42, 0.8)].as_slice()))
+            .using("sparse")
+            .limit(20u64)
+        )
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .using("dense")
+            .limit(20u64)
+        )
+        .query(Query::new_fusion(Fusion::Rrf))
+).await?;
+```
+
 ```java
 import static io.qdrant.client.QueryFactory.nearest;
 
@@ -188,6 +210,26 @@ client.create_collection(
 )
 ```
 
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{CreateCollectionBuilder, sparse_vectors_config::SparseVectorsConfigBuilder, Modifier, SparseVectorParamsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let mut config = SparseVectorsConfigBuilder::default();
+config.add_named_vector_params(
+    "text",
+    SparseVectorParamsBuilder::default().modifier(Modifier::Idf),
+);
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .sparse_vectors_config(config),
+    )
+    .await?;
+```
+
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
@@ -266,6 +308,34 @@ POST /collections/{collection_name}/points/query
     "using": "colbert",
     "limit": 10
 }
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .add_prefetch(PrefetchQueryBuilder::default()
+                .query(Query::new_nearest(vec![1.0, 23.0, 45.0, 67.0]))
+                .using("mlr_byte")
+                .limit(1000u64)
+            )
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .using("full")
+            .limit(100u64)
+        )
+        .query(Query::new_nearest(vec![
+            vec![0.1, 0.2],
+            vec![0.2, 0.1],
+            vec![0.8, 0.9],
+        ]))
+        .using("colbert")
+        .limit(10u64)
+).await?;
 ```
 
 ```java
@@ -391,6 +461,21 @@ client
       .build())
     .build())
   .get();
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{CreateCollectionBuilder, Datatype, Distance, VectorParamsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}").vectors_config(
+            VectorParamsBuilder::new(1024, Distance::Cosine).datatype(Datatype::Float16),
+        ),
+    )
+    .await?;
 ```
 
 ```csharp
