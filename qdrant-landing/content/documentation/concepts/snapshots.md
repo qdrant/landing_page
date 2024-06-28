@@ -569,7 +569,7 @@ storage:
 
     # Storage secret key
     # Can be specified either here or in the `AWS_SECRET_ACCESS_KEY` environment variable.
-    secret_key: your_secret_key_hereyaml
+    secret_key: your_secret_key_here
 ```
 
 If you're using Cloudflare R2 your configuration would look like this:
@@ -582,5 +582,5 @@ storage:
       type: R2
       account_id: your_account_id_here
     access_key: your_access_key_here
-    secret_key: your_secret_key_hereyaml
+    secret_key: your_secret_key_here
 ```
