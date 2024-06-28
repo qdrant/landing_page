@@ -95,9 +95,13 @@ client.query("{collection_name}", {
                 values: [0.22, 0.8],
                 indices: [1, 42],
             },
+            using: 'sparse',
+            limit: 20,
         },
         {
             query: [0.01, 0.45, 0.67],
+            using: 'dense',
+            limit: 20,
         },
     ],
     query: {
