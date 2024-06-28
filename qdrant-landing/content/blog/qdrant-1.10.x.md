@@ -216,7 +216,7 @@ Where:</br>
 
 Due to its relevance to BM25, we decided to move the IDF calculation into the Qdrant engine itself. This type of separation allows streaming updates of the sparse embeddings while keeping the IDF calculation up-to-date.
 
-This mechanism is relevant when using BM25, but even more so for TFIDF. It previously had to be calculated using all the documents on the client side. However, now that Qdrant does it out of the box, you won't need to implement it anywhere else and recompute the value if some documents are removed or new added.
+This mechanism is relevant when using BM25, but even more so for TFIDF. It previously had to be calculated using all the documents on the client side. However, now that Qdrant does it out of the box, you won't need to implement it anywhere else and recompute the value if some documents are removed or newly added.
 
 You can enable the IDF modifier in the collection configuration:
 
@@ -282,7 +282,7 @@ await client.CreateCollectionAsync(
 
 ### IDF as Part of BM42
 
-This quarter, Qdrant's also introduced BM42, a novel algorithm that combines the IDF element of BM25 with **transformer-based attention matrices** to improve text retrieval. It utilizes attention matrices from `all-MiniLM-L6-v2` to determine CLS token importance. 
+This quarter, Qdrant also introduced BM42, a novel algorithm that combines the IDF element of BM25 with **transformer-based attention matrices** to improve text retrieval. It utilizes attention matrices from `all-MiniLM-L6-v2` to determine CLS token importance. 
 
 In practical terms, the BM42 method addresses the tokenization issues and computational costs associated with SPLADE. The model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
@@ -291,9 +291,9 @@ In practical terms, the BM42 method addresses the tokenization issues and comput
 **You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common.** Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
 
 ## ColBERT Multivector Support 
-We are adding native support for multivector search, compatible with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. If you are working with high-dimensional similarity searches, **ColBERT is highly recommended as a reranking step in the Universal Query search.** You will experience better quality of vector retrieval, since ColBERT’s approach  allows for deeper semantic understanding. 
+We are adding native support for multivector search, compatible with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. If you are working with high-dimensional similarity searches, **ColBERT is highly recommended as a reranking step in the Universal Query search.** You will experience better quality vector retrieval since ColBERT’s approach  allows for deeper semantic understanding. 
 
-This model retains contextual information during query-document interaction, leading to better relevance scoring. In terms of efficiency and scalability benefits, documents and queries will be encoded separately, which gives opportunity for precomputation and storage of document embeddings for faster retrieval. 
+This model retains contextual information during query-document interaction, leading to better relevance scoring. In terms of efficiency and scalability benefits, documents and queries will be encoded separately, which gives an opportunity for pre-computation and storage of document embeddings for faster retrieval. 
 
 **Note:** *This feature supports all the original quantization compression methods, just the same as the regular search method.* 
 
@@ -399,7 +399,7 @@ await client.QueryAsync(
 ```
 
 **Note:** *The multivector feature is not only useful for ColBERT; it can also be used in other ways.*</br> 
-For instance, in e-commerce, you can use multivector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method. 
+For instance, in e-commerce, you can use multi-vector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method. 
 
 ## Sparse Vectors Compression
 
