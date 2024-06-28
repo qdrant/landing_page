@@ -180,7 +180,7 @@ Where:</br>
 `N` is the total number of documents in the collection. </br>
 `n` is the number of documents containing non-zero values for the given vector.
 
-Due to its relevance to BM25, we decided to move the IDF calculation into the Qdrant engine itself. This type of separation allows streaming updates of the sparse embeddings while keeping the IDF calculation up-to-date.
+This variant is also used in BM25, whose support was heavily requested by our users. We decided to move the IDF calculation into the Qdrant engine itself. This type of separation allows streaming updates of the sparse embeddings while keeping the IDF calculation up-to-date.
 
 This mechanism is relevant when using BM25, but even more so for TFIDF. It previously had to be calculated using all the documents on the client side. However, now that Qdrant does it out of the box, you won't need to implement it anywhere else and recompute the value if some documents are removed or newly added.
 
