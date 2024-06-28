@@ -1,8 +1,8 @@
 ---
-title: "Qdrant 1.10 - Universal Query, BM42 & ColBERT Support"
+title: "Qdrant 1.10 - Universal Query, IDF & ColBERT Support"
 draft: false
-short_description: "Single search API. New search algorithm. Native multivector support."
-description: "Consolidated search API, brand new BM42 algorithm, and native multivector support. " 
+short_description: "Single search API. Server-side IDF. Native multivector support."
+description: "Consolidated search API, built-in IDF, and native multivector support. " 
 preview_image: /blog/qdrant-1.10.x/social_preview.png
 social_preview_image: /blog/qdrant-1.10.x/social_preview.png
 date: 2024-06-25T00:00:00-08:00
