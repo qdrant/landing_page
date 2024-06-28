@@ -72,7 +72,7 @@ export function setCookie(name, value, days) {
 
 // Logging in Development Mode (localhost)
 export function devLog(str) {
-  if (window.location.host === 'localhost:1313') {
+  if (window.location.host.includes('localhost')) {
     console.log(str)
   }
 }

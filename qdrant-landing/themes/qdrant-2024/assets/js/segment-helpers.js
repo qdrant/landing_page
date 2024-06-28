@@ -12,9 +12,12 @@ const PAYLOAD_BOILERPLATE = {
 /*******************/
 /* General helpers */
 /*******************/
-const storedPayload = () => { // Url, Title, Timestamp (now)
-  const now = new Date();
+const storedPayload = () => {
+  if (getCookie('cookie-consent')) {
+    return PAYLOAD_BOILERPLATE;
+  }
 
+  const now = new Date();
   return {
     ...PAYLOAD_BOILERPLATE,
     storedEvent: true,
@@ -111,14 +114,17 @@ const trackStoredPageViews = () => {
   const category = 'Qdrant.tech';
 
   // Iterate over all stored page views
-  getSegmentStoredPages().forEach(pagePayload => {
-    const name = nameMapper(pagePayload.url);
+  getSegmentStoredPages().forEach(properties => {
+    const name = nameMapper(properties.url);
+    const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
+    delete properties['storedTimestamp'];
 
     // Nota Bene: cannot override timestamp value for .page() function
     window.analytics.page(
       category,
       name,
-      properties = pagePayload
+      properties,
+      originalTimestamp ? { timestamp: originalTimestamp } : null
     );
   });
   
@@ -135,13 +141,15 @@ const trackStoredInteractions = () => {
 }
 
 const trackEvent = (name, properties = {}) => {
+  const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
+  delete properties['storedTimestamp'];
+
   window.analytics.track({
     event: name,
-    properties,
-    context: {
-      timestamp: properties.storedEvent ? properties.storedTimestamp : null
-    },
-  })
+    properties
+  }, 
+  originalTimestamp ? { timestamp: originalTimestamp } : null
+  )
 }
 
 const trackInteractionEvent = (properties = {}) => {
