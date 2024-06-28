@@ -66,7 +66,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 client.query_points(
-    collection_name="my_collection",
+    collection_name="{collection_name}",
     prefetch=[
         models.Prefetch(
             query=models.SparseVector(indices=[1, 42], values=[0.22, 0.8]),
@@ -83,9 +83,71 @@ client.query_points(
 )
 ```
 
+```java
+package io.qdrant.user;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
+import java.util.List;
+
+import static io.qdrant.client.QueryFactory.fusion;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Fusion;
+import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(
+    QueryPoints.newBuilder()
+    .setCollectionName("{collection_name}")
+    .addPrefetch(PrefetchQuery.newBuilder()
+      .setQuery(nearest(List.of(0.22f, 0.8f), List.of(1, 42)))
+      .setUsing("sparse")
+      .setLimit(20)
+      .build())
+    .addPrefetch(PrefetchQuery.newBuilder()
+      .setQuery(nearest(List.of(0.01 f, 0.45 f, 0.67 f)))
+      .setUsing("dense")
+      .setLimit(20)
+      .build())
+    .setQuery(fusion(Fusion.RRF))
+    .build())
+  .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	prefetch: new List<PrefetchQuery>
+	{
+		new()
+		{
+			Query = new (float, uint)[] { (0.22f, 1), (0.8f, 42), },
+			Using = "sparse",
+			Limit = 20
+		},
+		new()
+		{
+			Query = new float[] { 0.01f, 0.45f, 0.67f },
+			Using = "dense",
+			Limit = 20
+		}
+	},
+	query: Fusion.Rrf
+);
+```
+
 ## Multi-stage queries
 
-In many cases the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
+In many cases, the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
 
 One of the popular techniques to speed up the search is to split the search into two stages:
 
@@ -125,7 +187,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 client.query_points(
-    collection_name="my_collection",
+    collection_name="{collection_name}",
     prefetch=models.Prefetch(
         query=[1, 23, 45, 67],  # <------------- small byte vector
         using="mrl_byte",
@@ -135,6 +197,29 @@ client.query_points(
     using="full",
     limit=10,
 )
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	prefetch: new List<PrefetchQuery>
+	{
+		new()
+		{
+			Query = new float[] { 1, 23, 45, 67 }, // <------------- small byte vector
+			Using = "mrl_byte",
+			Limit = 1000
+		}
+	},
+	query: new float[] { 0.01f, 0.299f, 0.45f, 0.67f }, // <-- full vector
+	usingVector: "full",
+	limit: 10
+);
 ```
 
 Fetch 100 results using the default vector, then re-score them using a multi-vector to get the top 10.
@@ -161,7 +246,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 client.query_points(
-    collection_name="my_collection",
+    collection_name="{collection_name}",
     prefetch=models.Prefetch(
         query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
         limit=100,
@@ -174,6 +259,33 @@ client.query_points(
     using="colbert",
     limit=10,
 )
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	prefetch: new List<PrefetchQuery>
+	{
+		new()
+		{
+			Query = new float[] {0.01f, 0.45f, 0.67f}, // <-- dense vector
+			Limit = 100
+		}
+	},
+	query: new float[][] { 
+		[0.1f, 0.2f],	// <─┐
+		[0.2f, 0.1f],	// < ├─ multi-vector
+		[0.8f, 0.9f]	// < ┘
+		
+	 },
+	usingVector: "colbert",
+	limit: 10
+);
 ```
 
 Even more sophisticated examples like leveraging all the above techniques in a single query are possible:
@@ -206,7 +318,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 client.query_points(
-    collection_name="my_collection",
+    collection_name="{collection_name}",
     prefetch=models.Prefetch(
         prefetch=models.Prefetch(
             query=[1, 23, 45, 67],  # <------ small byte vector
@@ -225,6 +337,46 @@ client.query_points(
     using="colbert",
     limit=10,
 )
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	prefetch: new List<PrefetchQuery>
+	{
+		new()
+		{
+			Prefetch =
+			{
+				new List<PrefetchQuery>
+				{
+					new()
+					{
+						Query = new float[] { 1, 23, 45, 67 }, // <------------- small byte vector
+						Using = "mrl_byte",
+						Limit = 1000
+					},
+				}
+			},
+			Query = new float[] { 0.01f, 0.45f, 0.67f }, // <-- dense vector
+			Using = "full",
+			Limit = 100
+		}
+	},
+	query: new float[][]
+	{
+		[0.1f, 0.2f], // <─┐
+		[0.2f, 0.1f], // < ├─ multi-vector
+		[0.8f, 0.9f] // < ┘
+	},
+	usingVector: "colbert",
+	limit: 10
+);
 ```
 
 ## Flexible interface
@@ -248,9 +400,20 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 client.query_points(
-    collection_name="my_collection",
+    collection_name="{collection_name}",
     query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04",  # <--- point id
 )
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04") // <--- point id
+);
 ```
 
 This will fetch the default vector from the point with this id, and use it as the query vector.
@@ -277,7 +440,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 client.query_points(
-    collection_name="my_collection",
+    collection_name="{collection_name}",
     query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04",  # <--- point id
     using="512d-vector",
     lookup_from=models.LookupFrom(
@@ -287,17 +450,34 @@ client.query_points(
 )
 ```
 
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04"), // <--- point id
+	usingVector: "512d-vector",
+	lookupFrom: new()
+	{
+		CollectionName = "another_collection", // <--- other collection name
+		VectorName = "image-512" // <--- vector name in the other collection
+	}
+);
+```
+
 In the case above, Qdrant will fetch the `"image-512"` vector from the specified point id in the 
 collection `another_collection`.
 
 <aside role="status">
- The fetched vector(s) must match the characteristics of the <code>using</code> vector, otherwise an error will be returned.
+ The fetched vector(s) must match the characteristics of the <code>using</code> vector, otherwise, an error will be returned.
 </aside>
 
 
 ## Re-ranking with payload values
 
-Query API allows to retrieve points not only by vector similarity, but also by the content of the payload.
+Query API allows to retrieve points not only by vector similarity but also by the content of the payload.
 
 There are two ways to make use of the payload in the query:
 
@@ -345,7 +525,7 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 client.query_points(
-    collection_name="my_collection",
+    collection_name="{collection_name}",
     prefetch=[
         models.Prefetch(
             query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
@@ -372,8 +552,37 @@ client.query_points(
 )
 ```
 
-In this example, we first fetch 10 points with the color "red", and then 10 points with the color "green".
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	prefetch: new List<PrefetchQuery>
+	{
+		new()
+		{
+			Query = new float[] { 0.01f, 0.45f, 0.67f },
+			Filter = MatchKeyword("color", "red"),
+			Limit = 10
+		},
+		new()
+		{
+			Query = new float[] { 0.01f, 0.45f, 0.67f },
+			Filter = MatchKeyword("color", "green"),
+			Limit = 10
+		}
+	},
+	query: (OrderBy) "price",
+	limit: 10
+);
+```
+
+In this example, we first fetch 10 points with the color "red" and then 10 points with the color "green".
 Then, we order the results by the price field.
 
-In this way we can guarantee even sampling of both colors in the results, and also get the cheapest ones first.
+In this way, we can guarantee even sampling of both colors in the results and also get the cheapest ones first.
 
