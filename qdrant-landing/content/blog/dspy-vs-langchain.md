@@ -1,14 +1,12 @@
 ---
 title: "DSPy vs LangChain: A Comprehensive Framework Comparison" #required
 short_description: DSPy and LangChain are powerful frameworks for building AI applications leveraging LLMs and vector search technology.
-description: DSPy and LangChain are powerful frameworks for building AI applications leveraging LLMs and vector search technology. In this article, we dive deep into the capabilities of each and discuss scenarios where each of these frameworks shine. Let’s get started! #required
-social_preview_image: /articles_data/discovery-search/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
-small_preview_image: /articles_data/discovery-search/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
-preview_dir: /articles_data/discovery-search/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
-weight: -110 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
+description: We dive deep into the capabilities of DSPy and LangChain and discuss scenarios where each of these frameworks shine. #required
+social_preview_image: /blog/dspy-vs-langchain/dspy-langchain.png # This image will be used in 
+preview_image: /blog/dspy-vs-langchain/dspy-langchain.png
 author: Qdrant Team # Author of the article. Required.
 author_link: https://qdrant.tech/ # Link to the author's page. Required.
-date: 2024-06-06T08:00:00-03:00 # Date of the article. Required.
+date: 2024-02-23T08:00:00-03:00 # Date of the article. Required.
 draft: false # If true, the article will not be published
 keywords: # Keywords for SEO
     - DSPy
@@ -19,7 +17,6 @@ keywords: # Keywords for SEO
     - RAG applications
     - chatbots
 ---
-
 
 As Large Language Models (LLMs) and vector stores have become steadily more powerful, a new generation of frameworks has appeared which can streamline the development of AI applications by leveraging LLMs and vector search technology. These frameworks simplify the process of building everything from Retrieval Augmented Generation (RAG) applications to complex chatbots with advanced conversational abilities, and even sophisticated reasoning-driven AI applications.
 
