@@ -1,15 +1,25 @@
 ---
-title: Vector Similarity
-weight: 2
-social_preview_image: /docs/gettingstarted/vector-similarity/vector-similarity.jpg
+title: "What is Vector Similarity?"
+draft: false
+short_description: "Granular access control. Optimized shard transfers. Support for byte embeddings."
+description: "New access control options for RBAC, a much faster shard transfer procedure, and direct support for byte embeddings. " 
+preview_image: /blog/what-is-vector-similarity/social_preview.jpg
+social_preview_image: /blog/what-is-vector-similarity/social_preview.jpg
+date: 2024-02-24T00:00:00-08:00
+author: Qdrant Team
+featured: false 
+tags:
+  - vector search
+  - vector similarity
+  - similarity search
+  - embeddings
 ---
-
-# What is Vector Similarity?
 
 A core function of a wide range of AI applications is to first understand the *meaning* behind a user query, and then provide *relevant* answers to the questions that the user is asking. With increasingly advanced interfaces and applications, this query can be in the form of language, or an image, an audio, video, or other forms of *unstructured* data.
 
 On an ecommerce platform, a user can, for instance, try to find ‘clothing for a trek’, when they actually want results around ‘waterproof jackets’, or ‘winter socks’. Keyword, or full-text, or even synonym search would fail to provide any response to such a query. Similarly, on a music app, a user might be looking for songs that sound similar to an audio clip they have heard. Or, they might want to look up furniture that has a similar look as the one they saw on a trip.
 
+## How Does Vector Similarity Work?
 So, how does an algorithm capture the essence of a user’s query, and then unearth results that are relevant?
 
 At a high level, here’s how:
@@ -22,8 +32,6 @@ At a high level, here’s how:
 At the heart of all such searches lies the concept of *vector similarity*, which gives us the ability to measure how closely related two data points are, how similar or dissimilar they are, or find other related data points.
 
 In this document, we will deep-dive into the essence of vector similarity, study how vector similarity search is used in the context of AI, look at some real-world use cases and show you how to leverage the power of vector similarity and vector similarity search for building AI applications.
-
-Let’s begin.
 
 ## **Understanding Vectors, Vector Spaces and Vector Similarity**
 
@@ -190,6 +198,6 @@ We have just about witnessed the tip of the iceberg in terms of what vector simi
 Ready to implement vector similarity in your AI applications? Explore Qdrant's vector database to enhance your data retrieval and AI capabilities. For additional resources and documentation, visit:
 
 - [Quick Start Guide](/documentation/quick-start/)
-- [Documentation](/documentation/overview/)
+- [Documentation](/documentation/)
 
 We are always available on our [Discord channel](https://qdrant.to/discord) to answer any questions you might have. You can also sign up for our [newsletter](/subscribe/) to stay ahead of the curve.
