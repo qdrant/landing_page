@@ -48,5 +48,5 @@ The data is persisted at the default MemGPT storage directory.
 
 ## Further Reading
 
-- [MemGPT Examples][https://github.com/cpacker/MemGPT/tree/main/examples]
+- [MemGPT Examples](https://github.com/cpacker/MemGPT/tree/main/examples)
 - [MemGPT Documentation](https://memgpt.readme.io/docs/index).
