@@ -6,7 +6,7 @@ aliases:
 hideInSidebar: false # Optional. If true, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
 ---
 
-# Hybrid and multi-stage queries
+# Hybrid and Multi-Stage Queries
 
 *Available as of v1.10.0*
 
@@ -17,27 +17,26 @@ Qdrant has a flexible and universal interface to make this possible, called `Que
 
 The main component for making the combinations of queries possible is the `prefetch` parameter, which enables making sub-requests.
 
-The way it works is that, whenever a query has at least one prefetch, Qdrant will:
+Specifically, whenever a query has at least one prefetch, Qdrant will:
 1. Perform the prefetch query (or queries),
-1. Apply the main query over the results of its prefetch(es).
+2. Apply the main query over the results of its prefetch(es).
 
 Additionally, prefetches can have prefetches themselves, so you can have nested prefetches.
 
 ## Hybrid Search
 
-One of the most common problems when you have different representations of the same data is to combine the queried 
-points for each representation into a single result.
+One of the most common problems when you have different representations of the same data is to combine the queried points for each representation into a single result.
 
 {{< figure  src="/docs/fusion-idea.png" caption="Fusing results from multiple queries" width="80%" >}}
 
 For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
 plus the best of matching specific words.
 
-There are many ways to fuse the results, a versatile one is <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">Reciprocal Rank Fusion (RRF)</a>, 
+There are many ways to fuse the results. One versatile method is <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">Reciprocal Rank Fusion (RRF)</a>, 
 which considers the positions of each of points in the results, and boosts the ones that appear closer to the top in multiple queries.
 
 
-Here is an example of RRF for a query containing two prefetches against differently named vectors configured to respectively hold sparse and dense vectors. 
+Here is an example of RRF for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors. 
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -199,7 +198,7 @@ await client.QueryAsync(
 
 In many cases, the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
 
-One of the popular techniques to speed up the search is to split the search into two stages:
+Splitting the search into two stages is a known technique:
 
 * First, use a smaller and cheaper representation to get a large list of candidates.
 * Then, re-score the candidates using the larger and more accurate representation.
@@ -210,7 +209,7 @@ There are a few ways to build search architectures around this idea:
 * Leverage Matryoshka Representation Learning (<a href=https://arxiv.org/abs/2205.13147 target="_blank">MRL</a>) to generate candidate vectors with a shorter vector, and then refine them with a longer one.
 * Use regular dense vectors to pre-fetch the candidates, and then re-score them with a multi-vector model like <a href=https://arxiv.org/abs/2112.01488 target="_blank">ColBERT</a>.
 
-To leverage the best of all worlds, Qdrant has a convenient interface to perform the queries in stages,
+To get the best of all worlds, Qdrant has a convenient interface to perform the queries in stages,
 such that the coarse results are fetched first, and then they are refined later with larger vectors.
 
 ### Re-scoring examples
@@ -474,7 +473,7 @@ await client.QueryAsync(
 );
 ```
 
-Even more sophisticated examples like leveraging all the above techniques in a single query are possible:
+It is possible to combine all the above techniques in a single query:
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -656,7 +655,7 @@ await client.QueryAsync(
 
 ## Flexible interface
 
-Other than the introduction of `prefetch`, the `Query API` has been designed to make querying easy, here are a few bonus features.
+Other than the introduction of `prefetch`, the `Query API` has been designed to make querying simpler. Let's look at a few bonus features:
 
 ### Query by ID
 
@@ -854,11 +853,11 @@ collection `another_collection`.
 
 ## Re-ranking with payload values
 
-The query API can retrieve points not only by vector similarity but also by the content of the payload.
+The Query API can retrieve points not only by vector similarity but also by the content of the payload.
 
 There are two ways to make use of the payload in the query:
 
-* Apply filters to the payload fields, to get only the points that match the filter.
+* Apply filters to the payload fields, to only get the points that match the filter.
 * Order the results by the payload field.
 
 Let's see an example of when this might be useful:
@@ -1065,4 +1064,4 @@ await client.QueryAsync(
 In this example, we first fetch 10 points with the color `"red"` and then 10 points with the color `"green"`.
 Then, we order the results by the price field.
 
-In this way, we can guarantee even sampling of both colors in the results and also get the cheapest ones first.
+This is how we can guarantee even sampling of both colors in the results and also get the cheapest ones first.
