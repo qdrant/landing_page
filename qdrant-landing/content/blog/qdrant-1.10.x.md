@@ -515,8 +515,8 @@ documentation, making it easier to navigate and find the information you need.
 
 <p align="center">
   Visit our
-  <a href="https://docs.rs/qdrant-client">client</a> and
-  <a href="https://docs.rs/qdrant-client/latest/qdrant_client/struct.Qdrant.html">operations</a> documentation
+  <a href="https://docs.rs/qdrant-client/1.10/qdrant_client/">client</a> and
+  <a href="https://docs.rs/qdrant-client/1.10/qdrant_client/struct.Qdrant.html">operations</a> documentation
 </p>
 
 ## S3 Snapshot Storage
