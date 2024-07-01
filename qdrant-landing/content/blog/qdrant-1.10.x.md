@@ -56,7 +56,7 @@ POST collections/{collection_name}/points/query
 }
 ```
 
-We will be publishing code samples in [docs](/documentation/concepts/hybrid-queries) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
+We will be publishing code samples in [docs](/documentation/concepts/hybrid-queries/) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
 
 ### Native Hybrid Search Support
 Query API now also natively supports **sparse/dense fusion**. Up to this point, you had to combine the results of sparse and dense searches on your own. This is now sorted on the back-end, and you only have to configure them as basic parameters for Query API. 
