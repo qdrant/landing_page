@@ -99,6 +99,7 @@ article code:not([class]) {
 .chroma .line {
   color: $neutral-94;
   font-family: $font-family-monospace;
+  font-optical-sizing: auto;
   font-size: 16px;
   font-style: normal;
   font-weight: 400;
@@ -338,7 +339,6 @@ article code:not([class]) {
 /* CommentSingle */
 .chroma .c1 {
   color: $neutral-80;
-  font-style: italic;
 }
 /* CommentSpecial */
 .chroma .cs {
