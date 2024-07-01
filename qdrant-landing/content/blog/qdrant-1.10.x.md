@@ -278,7 +278,7 @@ We've prepared the standard `all-MiniLM-L6-v2` Sentence Transformer so [it outpu
 
 In practical terms, the BM42 method addresses the tokenization issues and computational costs associated with SPLADE. The model is both efficient and effective across different document types and lengths, offering enhanced search performance by leveraging the strengths of both BM25 and modern transformer techniques.
 
-> To learn more about IDF and BM42, read our [dedicated technical article](https://qdrant.tech/articles/bm42).
+> To learn more about IDF and BM42, read our [dedicated technical article](/articles/bm42/).
 
 **You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common.** Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
 
@@ -553,7 +553,7 @@ storage:
       secret_key: your_secret_key_here
 ```
 
-*Read more about [S3 snapshot storage](https://qdrant.tech/documentation/concepts/snapshots/#s3) and [configuration](https://qdrant.tech/documentation/guides/configuration/).*
+*Read more about [S3 snapshot storage](/documentation/concepts/snapshots/#s3) and [configuration](/documentation/guides/configuration/).*
 
 This integration allows for a more convenient distribution of snapshots. Users of **any S3-compatible object storage** can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 
