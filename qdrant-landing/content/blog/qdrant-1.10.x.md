@@ -5,7 +5,7 @@ short_description: "Single search API. Server-side IDF. Native multivector suppo
 description: "Consolidated search API, built-in IDF, and native multivector support. " 
 preview_image: /blog/qdrant-1.10.x/social_preview.png
 social_preview_image: /blog/qdrant-1.10.x/social_preview.png
-date: 2024-06-25T00:00:00-08:00
+date: 2024-07-01T00:00:00-08:00
 author: David Myriel
 featured: false 
 tags:
