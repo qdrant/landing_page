@@ -7,7 +7,12 @@ aliases:
 
 # Administration
 
-Qdrant exposes administration tools which enable to modify at runtime the behavior of a qdrant instance without changing its configuration manually.
+Qdrant exposes administration tools which allow you to modify the behavior of a Qdrant instance at runtime:
+
+- [Locking](#locking)
+- [Recovery mode](#recovery-mode)
+
+You do not have to change the instance configuration manually.
 
 ## Locking
 
