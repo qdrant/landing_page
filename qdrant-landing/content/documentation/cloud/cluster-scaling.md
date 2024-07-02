@@ -61,7 +61,7 @@ curl \
   --header 'api-key: <paste-your-api-key-here>'
 ```
 
-The last step is to initiate a move shard operation, for it you will need the ID of the peer that stores the target shard, the shard ID itself and the target peer ID to which the shard will be moved:
+The last step is to initiate a "move shard" operation. For this, you will need the ID of the peer that stores the target shard, the shard ID itself and the target peer ID to which the shard will be moved:
 
 ```bash
 curl \
