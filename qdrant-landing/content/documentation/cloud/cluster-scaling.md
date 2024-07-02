@@ -53,7 +53,7 @@ curl \
 
 Note the `peer_ids` of the peers as they are needed for the last step of moving shards.
 
-Afterwards you need to check the target collection cluster info. This gives insights of how many shards are on the node and its size. Note the `local_shards` from the return result and note a `shard_id` of the shard you want to move to another node.
+Next, you need to check the target collection cluster info. This gives insights on how many shards are on a node and its size. Note the `local_shards` from the return result and note a `shard_id` of the shard you want to move to another node.
 
 ```bash
 curl \
