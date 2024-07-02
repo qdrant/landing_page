@@ -40,7 +40,7 @@ We will be glad to consult you on an optimal strategy for scaling.
 
 After scaling a cluster horizontally, you can move shards from your original nodes to the new ones to balance memory and storage utilization.
 
-NOTE: NOTE: this guide is an example of moving shards from node 0, if you want to move shards from another 
+NOTE: This guide is an example of moving shards from node 0, if you want to move shards from another 
 node you would need to change your cluster URL to `https://node-{source_node}-xyz-example.eu-central.aws.cloud.qdrant.io`
 
 Firstly, after adding nodes confirm that new peers are present by running:
