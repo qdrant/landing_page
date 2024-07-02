@@ -10,7 +10,7 @@
 
 - [Node.js](https://nodejs.org/en/download/)
 - [npm](https://www.npmjs.com/get-npm)
-- [sass](https://sass-lang.com/install)
+- [sass](https://sass-lang.com/install) - be aware that you need a Dart Sass version, don't use npm package `sass` as it's a different implementation of Sass
 
 ## Run
 
@@ -34,21 +34,7 @@ hugo serve -D
 
 ## Build css from scss
 
-If you are **going to change scss files**, you need to run the following commands in a separate terminal window.
-
-Install sass if you don't have it:
-
-```bash
-npm install -g sass
-```
-
-Install dependencies and run sass watcher:
-
-``` bash
-cd qdrant-landing
-npm install
-sass --watch --style=compressed ./themes/qdrant/static/css/main.scss ./themes/qdrant/static/css/main.css
-```
+For previous theme, it was required to build css files. We don't need to explicitly build css from scss anymore. It's done automatically by Hugo uses Dart Sass, which should be installed on your machine to see results).
 
 # Content Management
 

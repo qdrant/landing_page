@@ -26,7 +26,5 @@ Here are the principles we followed while designing these benchmarks:
 
 </details>
 
-</br>
-
 Some of our experiment design decisions are described in the [F.A.Q Section](/benchmarks/#benchmarks-faq).
 Reach out to us on our [Discord channel](https://qdrant.to/discord) if you want to discuss anything related Qdrant or these benchmarks.

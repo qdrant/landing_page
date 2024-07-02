@@ -11,13 +11,171 @@ Searching for the nearest vectors is at the core of many representational learni
 Modern neural networks are trained to transform objects into vectors so that objects close in the real world appear close in vector space.
 It could be, for example, texts with similar meanings, visually similar pictures, or songs of the same genre.
 
-![Embeddings](/docs/encoders.png)
+
+{{< figure src="/docs/encoders.png" caption="This is how vector similarity works" width="70%" >}}
+
+## Query API
+
+*Available as of v1.10.0*
+
+Qdrant provides a single interface for all kinds of search and exploration requests - the `Query API`.
+Here is a reference list of what kind of queries you can perform with the `Query API` in Qdrant:
+
+Depending on the `query` parameter, Qdrant might prefer different strategies for the search.
+
+|  | |
+| --- | --- |
+| Nearest Neighbors Search | Vector Similarity Search, also known as k-NN |
+| Search By Id | Search by an already stored vector - skip embedding model inference |
+| [Recommendations](../explore/#recommendation-api) | Provide positive and negative examples |
+| [Discovery Search](../explore/#discovery-api) | Guide the search using context as a one-shot training set |
+| [Scroll](../points/#scroll-points) | Get all points with optional filtering |
+| [Order By](../hybrid-queries/#re-ranking-with-stored-values) | Order points by payload key |
+| [Hybrid Search](../hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
+| [Multi-Stage Search](../hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
+
+
+**Nearest Neighbors Search**
+
+```http
+POST /collections/{collection_name}/points/query
+{
+    "query": [0.2, 0.1, 0.9, 0.7] // <--- Dense vector
+}
+```
+
+```python
+client.query_points(
+    collection_name="{collection_name}",
+    query=[0.2, 0.1, 0.9, 0.7], # <--- Dense vector
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    query: [0.2, 0.1, 0.9, 0.7], // <--- Dense vector
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Condition, Filter, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(Query::new_nearest(vec![0.2, 0.1, 0.9, 0.7]))
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(QueryPoints.newBuilder()
+  .setCollectionName("{collectionName}")
+  .setQuery(nearest(List.of(0.2f, 0.1f, 0.9f, 0.7f)))
+  .build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f }
+);
+```
+
+**Search By Id**
+
+```http
+POST /collections/{collection_name}/points/query
+{
+    "query": "43cf51e2-8777-4f52-bc74-c2cbde0c8b04" // <--- point id
+}
+```
+
+```python
+client.query_points(
+    collection_name="{collection_name}",
+    query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04", # <--- point id
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    query: '43cf51e2-8777-4f52-bc74-c2cbde0c8b04', // <--- point id
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Condition, Filter, PointId, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(Query::new_nearest(PointId::new("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+    )
+    .await?;
+```
+
+```java
+import java.util.UUID;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(QueryPoints.newBuilder()
+  .setCollectionName("{collectionName}")
+  .setQuery(nearest(UUID.fromString("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+  .build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")
+);
+```
 
 ## Metrics
 
 There are many ways to estimate the similarity of vectors with each other.
 In Qdrant terms, these ways are called metrics.
-The choice of metric depends on vectors obtaining and, in particular, on the method of neural network encoder training.
+The choice of metric depends on the vectors obtained and, in particular, on the neural network encoder training method.
 
 Qdrant supports these most popular types of metrics:
 
@@ -37,22 +195,8 @@ It happens only once for each vector.
 The second step is the comparison of vectors.
 In this case, it becomes equivalent to dot production - a very fast operation due to SIMD.
 
-## Query planning
-
-Depending on the filter used in the search - there are several possible scenarios for query execution.
-Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result.
-This process is called query planning.
-
-The strategy selection process relies heavily on heuristics and can vary from release to release.
-However, the general principles are:
-
-* planning is performed for each segment independently (see [storage](../storage/) for more information about segments)
-* prefer a full scan if the amount of points is below a threshold
-* estimate the cardinality of a filtered result before selecting a strategy
-* retrieve points using payload index (see [indexing](../indexing/)) if cardinality is below threshold
-* use filterable vector index if the cardinality is above a threshold
-
-You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
+Depending on the query configuration, Qdrant might prefer different strategies for the search.
+Read more about it in the [query planning](#query-planning) section.
 
 ## Search API
 
@@ -1486,3 +1630,21 @@ The looked up result will show up under `lookup` in each group.
 ```
 
 Since the lookup is done by matching directly with the point id, any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
+
+
+## Query planning
+
+Depending on the filter used in the search - there are several possible scenarios for query execution.
+Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result.
+This process is called query planning.
+
+The strategy selection process relies heavily on heuristics and can vary from release to release.
+However, the general principles are:
+
+* planning is performed for each segment independently (see [storage](../storage/) for more information about segments)
+* prefer a full scan if the amount of points is below a threshold
+* estimate the cardinality of a filtered result before selecting a strategy
+* retrieve points using payload index (see [indexing](../indexing/)) if cardinality is below threshold
+* use filterable vector index if the cardinality is above a threshold
+
+You can adjust the threshold using a [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), as well as independently for each collection.
