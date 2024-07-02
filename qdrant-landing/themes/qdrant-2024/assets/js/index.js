@@ -1,9 +1,18 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
-import { initGoToTopButton } from './helpers';
+import { initGoToTopButton, getCookie } from './helpers';
+import { loadSegment, createSegmentStoredPage, tagAllAnchors } from './segment-helpers'
+
+createSegmentStoredPage();
 
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
+  tagAllAnchors();
+
+  if (!window.analytics && getCookie('cookie-consent')) {
+    loadSegment();
+  }
+
   // Header scroll
   const body = document.querySelector('body');
   const header = document.querySelector('.site-header');
