@@ -75,5 +75,5 @@ curl \
 }' -H "Content-Type: application/json"
 ```
 
-This initiates a background shard move operation. After the shard is moved you can confirm it by once again running the command from step two (querying collection cluster info), and you will notice that the shard has moved to another peer.
+This initiates a background operation to move a shard. After the shard is moved, you can confirm the operation's success by once again running the command from step two (querying collection cluster info), and you will notice that the shard has moved to another peer.
 
