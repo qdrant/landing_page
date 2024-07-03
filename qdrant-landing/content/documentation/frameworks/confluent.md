@@ -3,12 +3,11 @@ title: Confluent
 weight: 3700
 ---
 
-# Confluent
+![Confluent Logo](/documentation/frameworks/confluent/confluent-logo.png)
 
 [Confluent Cloud](https://www.confluent.io/confluent-cloud/?utm_campaign=tm.pmm_cd.cwc_partner_Qdrant_generic&utm_source=Qdrant&utm_medium=partnerref) is a fully-managed data streaming platform, available on AWS, GCP, and Azure, with a cloud-native Apache Kafka engine for elastic scaling, enterprise-grade security, stream processing, and governance.
 
 With our [Qdrant-Kafka Sink Connector](https://github.com/qdrant/qdrant-kafka), Qdrant is part of the [Connect with Confluent](https://www.confluent.io/partners/connect/) technology partner program. It brings fully managed data streams directly to organizations through the Confluent Cloud platform. Making it easier for organizations to stream any data to Qdrant with a fully managed Apache Kafka service.
-
 
 ## Usage
 
