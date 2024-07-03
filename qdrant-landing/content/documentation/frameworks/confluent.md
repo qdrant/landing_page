@@ -47,7 +47,7 @@ You can now produce messages for the configured topic, and they'll be written in
 
 ## Message Formats
 
-This sink connector supports messages with multiple dense/sparse vectors.
+The connector supports messages in the following formats.
 
 _Click each to expand._
 
@@ -276,7 +276,7 @@ Reference:
 }
 ```
 
-</details>.
+</details>
 
 ## Further Reading
 
