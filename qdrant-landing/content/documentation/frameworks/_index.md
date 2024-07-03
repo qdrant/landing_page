@@ -12,6 +12,7 @@ weight: 33
 | [Bubble](./bubble)                    | Development platform for application development with a no-code interface                            |
 | [Canopy](./canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                |
 | [Cheshire Cat](./cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                    |
+| [Confluent](./confluent/)             | Fully-managed data streaming platform with a cloud-native Apache Kafka engine.                      |
 | [DLT](./dlt/)                         | Python library to simplify data loading processes between several sources and destinations.          |
 | [DocArray](./docarray/)               | Python library for managing data in multi-modal AI applications.                                     |
 | [DocsGPT](./docsgpt/)                 | Tool for ingesting documentation sources and enabling conversations and queries.                     |
