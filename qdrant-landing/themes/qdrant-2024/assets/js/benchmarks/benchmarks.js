@@ -39,6 +39,20 @@ const normalizedTitles = {
   // engine_params: 'Run Params',
 };
 
+const titleOrder = [
+  'engine_name',
+  'setup_name',
+  'dataset_name',
+  'upload_time',
+  'total_upload_time',
+  'mean_time',
+  'p95_time',
+  'p99_time',
+  'rps',
+  'mean_precisions',
+];
+
+
 const columnMultiplyFactor = {
   total_upload_time: 1 / 60,
   upload_time: 1 / 60,
@@ -317,7 +331,7 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
     return;
   }
 
-  let titles = Object.keys(tableData[0]);
+  let titles = titleOrder;
 
   const titleElements = titles.map((title) => {
     let normTitle = title;
@@ -330,7 +344,7 @@ const renderTable = function (tableData, chartId, selectedPlotValue) {
   });
 
   const rows = tableData.map((obj) => {
-    const row = Object.keys(obj).map((key, i) => {
+    const row = titleOrder.map((key, i) => {
       let value = obj[key];
 
       if (!normalizedTitles.hasOwnProperty(key)) {
