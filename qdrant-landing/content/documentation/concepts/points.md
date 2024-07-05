@@ -1751,8 +1751,6 @@ new OrderBy
 };
 ```
 
-**Note:** for payloads with more than one value (such as arrays), the same point may show up more than once. Each point can appear as many times as the number of elements in the array. For example, if you have a point payload with a `timestamp` key, and the value for the key is an array of 3 elements, the same point will appear 3 times in the results, one for each timestamp.
-
 <aside role="alert">When you use the <code>order_by</code> parameter, pagination is disabled.</aside>
 
 When sorting is based on a non-unique value, it is not possible to rely on an ID offset. Thus, next_page_offset is not returned within the response. However, you can still do pagination by combining `"order_by": { "start_from": ... }` with a `{ "must_not": [{ "has_id": [...] }] }` filter.
