@@ -1,7 +1,7 @@
 ---
-title: Neural Search Tutorial
+title: "Neural Search 101: A Complete Guide and Step-by-Step Tutorial"
 short_description: Step-by-step guide on how to build a neural search service.
-description: Our step-by-step guide on how to build a neural search service with BERT + Qdrant + FastAPI.
+description: Discover the power of neural search. Learn what neural search is and follow our tutorial to build a neural search service using BERT, Qdrant, and FastAPI.
 # external_link: https://blog.qdrant.tech/neural-search-tutorial-3f034ab13adc
 social_preview_image: /articles_data/neural-search-tutorial/social_preview.jpg
 preview_dir: /articles_data/neural-search-tutorial/preview
@@ -12,15 +12,14 @@ author_link: https://blog.vasnetsov.com/
 date: 2021-06-10T10:18:00.000Z
 # aliases: [ /articles/neural-search-tutorial/ ]
 ---
-
-## How to build a neural search service with BERT + Qdrant + FastAPI
+# Neural Search 101: A Comprehensive Guide and Step-by-Step Tutorial
 
 Information retrieval technology is one of the main technologies that enabled the modern Internet to exist.
 These days, search technology is the heart of a variety of applications.
 From web-pages search to product recommendations.
 For many years, this technology didn't get much change until neural networks came into play.
 
-In this tutorial we are going to find answers to these questions:
+In this guide we are going to find answers to these questions:
 
 * What is the difference between regular and neural search?
 * What neural networks could be used for search?
@@ -49,7 +48,7 @@ The usual Euclidean distance can also be used, but it is not so efficient due to
 
 It is ideal to use a model specially trained to determine the closeness of meanings.
 For example, models trained on Semantic Textual Similarity (STS) datasets.
-Current state-of-the-art models could be found on this [leaderboard](https://paperswithcode.com/sota/semantic-textual-similarity-on-sts-benchmark?p=roberta-a-robustly-optimized-bert-pretraining).
+Current state-of-the-art models can be found on this [leaderboard](https://paperswithcode.com/sota/semantic-textual-similarity-on-sts-benchmark?p=roberta-a-robustly-optimized-bert-pretraining).
 
 However, not only specially trained models can be used.
 If the model is trained on a large enough dataset, its internal features can work as embeddings too.
@@ -60,7 +59,7 @@ The output of this layer can be used as an embedding.
 ## What tasks is neural search good for?
 
 Neural search has the greatest advantage in areas where the query cannot be formulated precisely.
-Querying a table in a SQL database is not the best place for neural search.
+Querying a table in an SQL database is not the best place for neural search.
 
 On the contrary, if the query itself is fuzzy, or it cannot be formulated as a set of conditions - neural search can help you.
 If the search query is a picture, sound file or long text, neural network search is almost the only option.
@@ -69,7 +68,7 @@ If you want to build a recommendation system, the neural approach can also be us
 The user's actions can be encoded in vector space in the same way as a picture or text.
 And having those vectors, it is possible to find semantically similar users and determine the next probable user actions.
 
-## Let's build our own
+## Step-by-step neural search tutorial using Qdrant
 
 With all that said, let's make our neural network search.
 As an example, I decided to make a search for startups by their description.
@@ -80,7 +79,7 @@ I will use data from [startups-list.com](https://www.startups-list.com/).
 Each record contains the name, a paragraph describing the company, the location and a picture. 
 Raw parsed data can be found at [this link](https://storage.googleapis.com/generall-shared-data/startups_demo.json).
 
-### Prepare data for neural search
+### Step 1: Prepare data for neural search
 
 To be able to search for our descriptions in vector space, we must get vectors first.
 We need to encode the descriptions into a vector representation.
@@ -99,7 +98,7 @@ The complete code for data preparation with detailed comments can be found and r
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)
 
-### Vector search engine
+### Step 2: Incorporate a Vector search engine
 
 Now as we have a vector representation for all our records, we need to store them somewhere.
 In addition to storing, we may also need to add or delete a vector, save additional information with the vector.
@@ -107,9 +106,9 @@ And most importantly, we need a way to search for the nearest vectors.
 
 The vector search engine can take care of all these tasks. 
 It provides a convenient API for searching and managing vectors. 
-In our tutorial we will use [Qdrant](https://github.com/qdrant/qdrant) vector search engine.
-It not only supports all necessary operations with vectors but also allows to store additional payload along with vectors and use it to perform filtering of the search result.
-Qdrant has a client for python and also defines the API schema if you need to use it from other languages.
+In our tutorial, we will use [Qdrant vector search engine](https://github.com/qdrant/qdrant) vector search engine.
+It not only supports all necessary operations with vectors but also allows you to store additional payload along with vectors and use it to perform filtering of the search result.
+Qdrant has a client for Python and also defines the API schema if you need to use it from other languages.
 
 The easiest way to use Qdrant is to run a pre-built image.
 So make sure you have Docker installed on your system.
@@ -142,7 +141,7 @@ To make sure you can test [http://localhost:6333/](http://localhost:6333/) in yo
 
 All uploaded to Qdrant data is saved into the `./qdrant_storage` directory and will be persisted even if you recreate the container.
 
-### Upload data to Qdrant
+### Step 3: Upload data to Qdrant
 
 Now once we have the vectors prepared and the search engine running, we can start uploading the data.
 To interact with Qdrant from python, I recommend using an out-of-the-box client library.
@@ -219,12 +218,12 @@ qdrant_client.upload_collection(
 )
 ```
 
-Now we have vectors, uploaded to the vector search engine.
-On the next step we will learn how to actually search for closest vectors.
+Now we have vectors uploaded to the vector search engine.
+In the next step, we will learn how to actually search for the closest vectors.
 
-The full code for this step could be found [here](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_collection_startups.py).
+The full code for this step can be found [here](https://github.com/qdrant/qdrant_demo/blob/master/qdrant_demo/init_collection_startups.py).
 
-### Make a search API
+### Step 4: Make a search API
 
 Now that all the preparations are complete, let's start building a neural search class.
 
@@ -306,7 +305,7 @@ from qdrant_client.models import Filter
 We now have a class for making neural search queries. Let's wrap it up into a service.
 
 
-### Deploy as a service
+### Step 5: Deploy as a service
 
 To build the service we will use the FastAPI framework.
 It is super easy to use and requires minimal code writing.
@@ -359,17 +358,10 @@ Feel free to play around with it, make queries and check out the results.
 This concludes the tutorial.
 
 
-### Online Demo
+### Experience Neural Search With Qdrant’s Free Demo
+Excited to see neural search in action? Take the next step and book a [free demo](https://qdrant.to/semantic-search-demo) with Qdrant! Experience firsthand how this cutting-edge technology can transform your search capabilities.
 
-The described code is the core of this [online demo](https://qdrant.to/semantic-search-demo).
-You can try it to get an intuition for cases when the neural search is useful.
-The demo contains a switch that selects between neural and full-text searches.
-You can turn neural search on and off to compare the result with regular full-text search.
-Try to use startup description to find similar ones. 
+Our demo will help you grow intuition for cases when the neural search is useful. The demo contains a switch that selects between neural and full-text searches. You can turn neural search on and off to compare the result with regular full-text search.
+Try to use a startup description to find similar ones. 
 
-## Conclusion
-
-In this tutorial, I have tried to give minimal information about neural search, but enough to start using it.
-Many potential applications are not mentioned here, this is a space to go further into the subject.
-
-Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, publish other examples of neural networks and neural search applications.
+Join our [Discord community](https://qdrant.to/discord), where we talk about vector search and similarity learning, and publish other examples of neural networks and neural search applications.
