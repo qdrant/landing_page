@@ -1,7 +1,7 @@
 ---
-title: "Qdrant under the hood: Product Quantization"
+title: "Product Quantization in Vector Search | Qdrant"
 short_description: "Vector search with low memory? Try out our brand-new Product Quantization!"
-description: "Vector search with low memory? Try out our brand-new Product Quantization!"
+description: "Discover product quantization in vector search technology. Learn how it optimizes storage and accelerates search processes for high-dimensional data."
 social_preview_image: /articles_data/product-quantization/social_preview.png
 small_preview_image: /articles_data/product-quantization/product-quantization-icon.svg
 preview_dir: /articles_data/product-quantization/preview
@@ -17,19 +17,22 @@ keywords:
 aliases: [ /articles/product_quantization/ ]
 ---
 
+# Product Quantization Demystified: Streamlining Efficiency in Data Management
+
 Qdrant 1.1.0 brought the support of [Scalar Quantization](/articles/scalar-quantization/),
 a technique of reducing the memory footprint by even four times, by using `int8` to represent
 the values that would be normally represented by `float32`.
 
-The memory usage in vector search might be reduced even further! Please welcome **Product 
+The memory usage in [vector search](https://qdrant.tech/solutions/) might be reduced even further! Please welcome **Product 
 Quantization**, a brand-new feature of Qdrant 1.2.0! 
 
-## Product Quantization
+## What is Product Quantization?
 
 Product Quantization converts floating-point numbers into integers like every other quantization 
-method. However, the process is slightly more complicated than Scalar Quantization and is more 
-customizable, so you can find the sweet spot between memory usage and search precision. This article 
+method. However, the process is slightly more complicated than [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/) and is more customizable, so you can find the sweet spot between memory usage and search precision. This article 
 covers all the steps required to perform Product Quantization and the way it's implemented in Qdrant.
+
+## How Does Product Quantization Work?
 
 Let’s assume we have a few vectors being added to the collection and that our optimizer decided 
 to start creating a new segment.
@@ -94,7 +97,7 @@ distance between a query and all the centroids.
 | **Chunk 1** | 0.08421    | 0.00142    |     |
 | **...**     | ...        | ...        | ... |
 
-## Benchmarks
+## Produc Quantization Benchmarks
 
 Product Quantization comes with a cost - there are some additional operations to perform so 
 that the performance might be reduced. However, memory usage might be reduced drastically as 
@@ -205,9 +208,9 @@ the lower the search precision. The main benefit is undoubtedly the reduced usag
 It turns out that in some cases, Product Quantization may not only reduce the memory usage, 
 but also the search time.
 
-## Good practices
+## Product Quantization vs Scalar Quantization
 
-Compared to Scalar Quantization, Product Quantization offers a higher compression rate. However, this comes with considerable trade-offs in accuracy, and at times, in-RAM search speed.
+Compared to [Scalar Quantization](https://qdrant.tech/articles/scalar-quantization/), Product Quantization offers a higher compression rate. However, this comes with considerable trade-offs in accuracy, and at times, in-RAM search speed.
 
 Product Quantization tends to be favored in certain specific scenarios:
 
@@ -217,6 +220,10 @@ Product Quantization tends to be favored in certain specific scenarios:
 
 In circumstances that do not align with the above, Scalar Quantization should be the preferred choice.
 
-Qdrant documentation on [Product Quantization](/documentation/guides/quantization/#setting-up-product-quantization) 
-will help you to set and configure the new quantization for your data and achieve even 
+## Using Qdrant for Product Quantization
+
+
+If you’re already a Qdrant user, we have, documentation on [Product Quantization](/documentation/guides/quantization/#setting-up-product-quantization) that will help you to set and configure the new quantization for your data and achieve even 
 up to 64x memory reduction.
+
+Ready to experience the power of Product Quantization? [Sign up now](https://cloud.qdrant.io/) for a free Qdrant demo and optimize your data management today!
