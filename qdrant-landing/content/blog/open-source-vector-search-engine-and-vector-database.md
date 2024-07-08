@@ -1,14 +1,11 @@
 ---
 draft: false
-title: Open Source Vector Search Engine and Vector Database - Andrey Vasnetsov
+title: Optimizing an Open Source Vector Database with Andrey Vasnetsov
 slug: open-source-vector-search-engine-vector-database
 short_description: CTO of Qdrant Andrey talks about Vector search engines and
   the technical facets and challenges encountered in developing an open-source
   vector database.
-description: Andrey Vasnetsov, CTO and Co-founder of Qdrant, presents an
-  in-depth look into the intricacies of their open-source vector search engine
-  and database, detailing its optimized architecture, data structure challenges,
-  and innovative filtering techniques for efficient vector similarity searches.
+description: Learn key strategies for optimizing vector search from Andrey Vasnetsov, CTO at Qdrant. Dive into techniques like efficient indexing for improved performance.
 preview_image: /blog/from_cms/andrey-vasnetsov-cropped.png
 date: 2024-01-10T16:04:57.804Z
 author: Demetrios Brinkmann
@@ -18,13 +15,16 @@ tags:
   - Vector Search Engine
   - Vector Database
 ---
+
+# Optimizing Open Source Vector Search: Strategies from Andrey Vasnetsov at Qdrant
+
 > *"For systems like Qdrant, scalability and performance in my opinion, is much more important than transactional consistency, so it should be treated as a search engine rather than database."*\
 -- Andrey Vasnetsov
 > 
 
 Discussing core differences between search engines and databases, Andrey underlined the importance of application needs and scalability in database selection for vector search tasks.
 
-Andrey Vasnetsov, CTO at Qdrant is an enthusiast of Open Source, machine learning, and vector search. He works on Open Source projects related to Vector Similarity Search and Similarity Learning. He prefers practical over theoretical, working demo over arXiv paper.
+Andrey Vasnetsov, CTO at Qdrant is an enthusiast of [Open Source](https://qdrant.tech/), machine learning, and vector search. He works on Open Source projects related to [Vector Similarity Search](https://qdrant.tech/articles/vector-similarity-beyond-search/) and Similarity Learning. He prefers practical over theoretical, working demo over arXiv paper.
 
 ***You can watch this episode on [YouTube](https://www.youtube.com/watch?v=bU38Ovdh3NY).***
 
@@ -34,7 +34,7 @@ Andrey Vasnetsov, CTO at Qdrant is an enthusiast of Open Source, machine learnin
 
 ## **Top Takeaways:**
 
-Dive into the intricacies of vector databases with Andrey as he unpacks Qdrant's approach to combining filtering and vector search, revealing how in-place filtering during graph traversal optimizes precision without sacrificing search exactness, even when scaling to billions of vectors.
+Dive into the intricacies of [vector databases](https://qdrant.tech/articles/what-is-a-vector-database/) with Andrey as he unpacks Qdrant's approach to combining filtering and vector search, revealing how in-place filtering during graph traversal optimizes precision without sacrificing search exactness, even when scaling to billions of vectors.
 
 5 key insights you’ll learn:
 
@@ -48,7 +48,7 @@ Dive into the intricacies of vector databases with Andrey as he unpacks Qdrant's
 
 - 🔗 **Connected Graph Challenges:** Learn about navigating the difficulties of maintaining a connected graph while filtering during search operations.
 
-> Fun Fact: The Qdrant system is capable of in-place filtering during graph traversal, which is a novel approach compared to traditional post-filtering methods, ensuring the correct quantity of results that meet the filtering conditions.
+> Fun Fact: [The Qdrant system](https://qdrant.tech/) is capable of in-place filtering during graph traversal, which is a novel approach compared to traditional post-filtering methods, ensuring the correct quantity of results that meet the filtering conditions.
 > 
 
 ## Timestamps:

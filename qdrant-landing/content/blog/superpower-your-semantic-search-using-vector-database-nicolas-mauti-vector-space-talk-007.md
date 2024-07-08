@@ -1,14 +1,11 @@
 ---
 draft: false
-title: Superpower your Semantic Search using Vector Database - Nicolas Mauti |
+title: How to Superpower Your Semantic Search Using a Vector Database
   Vector Space Talks
 slug: semantic-search-vector-database
 short_description: Nicolas Mauti and his team at Malt discusses how they
   revolutionize the way freelancers connect with projects.
-description: Nicolas Mauti discusses the improvements to Malt's semantic search
-  capabilities to enhance freelancer and project matching, highlighting the
-  transition to retriever-ranker architecture, implementation of a multilingual
-  encoder model, and the deployment of Qdrant to significantly reduce latency.
+description: Unlock the secrets of supercharging semantic search with Nicolas Mauti's insights on leveraging vector databases. Discover advanced strategies.
 preview_image: /blog/from_cms/nicolas-mauti-cropped.png
 date: 2024-01-09T12:27:18.659Z
 author: Demetrios Brinkmann
@@ -18,6 +15,8 @@ tags:
   - Retriever-Ranker Architecture
   - Semantic Search
 ---
+# How to Superpower Your Semantic Search Using a Vector Database with Nicolas Mauti
+
 > *"We found a trade off between performance and precision in Qdrant’s that were better for us than what we can found on Elasticsearch.”*\
 > -- Nicolas Mauti
 > 
@@ -34,9 +33,9 @@ Nicolas Mauti, a computer science graduate from INSA Lyon Engineering School, tr
 
 ## **Top Takeaways:**
 
-Dive into the intricacies of semantic search enhancement with Nicolas Mauti, MLOps Engineer at Malt. Discover how Nicolas and his team at Malt revolutionize the way freelancers connect with projects.
+Dive into the intricacies of [semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) enhancement with Nicolas Mauti, MLOps Engineer at Malt. Discover how Nicolas and his team at Malt revolutionize the way freelancers connect with projects.
 
-In this episode, Nicolas delves into enhancing semantics search at Malt by implementing a retriever-ranker architecture with multilingual transformer-based models, improving freelancer-project matching through a transition to Qdrant that reduced latency from 10 seconds to 1 second and bolstering the platform's overall performance and scaling capabilities.
+In this episode, Nicolas delves into enhancing semantics search at Malt by implementing a retriever-ranker architecture with multilingual transformer-based models, improving freelancer-project matching through a transition to [Qdrant](https://qdrant.tech/) that reduced latency from 10 seconds to 1 second and bolstering the platform's overall performance and scaling capabilities.
 
 5 Keys to Learning from the Episode:
 
@@ -134,13 +133,13 @@ Nicolas Mauti:
 So I think I already talked about this ponds, but yeah, we needed performances. The second ones was about inn quality. As I said before, we cannot do a KnN search, brute force search each time. And so we have to find a way to approximate but to be close enough and to be good enough on these points. And so otherwise we won't be leveraged the performance of our model. And the last one, and I didn't talk a lot about this before, is filtering. Filtering is a big problem for us because we have a lot of filters, of art filters, as I said before. And so if we think about my architecture, we can say, okay, so filtering is not a problem.
 
 Nicolas Mauti:
-You can just have a three step process and do filtering, semantic search and then ranking, or do semantic search, filtering and then ranking. But in both cases, you will have some troubles if you do that. The first one is if you want to apply prefiltering. So filtering, semantic search, ranking. If you do that, in fact, you will have, so we'll have this kind of architecture. And if you do that, you will have, in fact, to flag each freelancers before asking the vector database and performing a search, you will have to flag each freelancer whether there could be selected or not. And so with that, you will basically create a binary mask on your freelancers pool. And as the number of freelancers you have will grow, your binary namask will also grow.
+You can just have a three step process and do filtering, semantic search and then ranking, or do semantic search, filtering and then ranking. But in both cases, you will have some troubles if you do that. The first one is if you want to apply prefiltering. So filtering, semantic search, ranking. If you do that, in fact, you will have, so we'll have this kind of architecture. And if you do that, you will have, in fact, to flag each freelancers before asking the [vector database](https://qdrant.tech/articles/what-is-a-vector-database/) and performing a search, you will have to flag each freelancer whether there could be selected or not. And so with that, you will basically create a binary mask on your freelancers pool. And as the number of freelancers you have will grow, your binary namask will also grow.
 
 Nicolas Mauti:
-And so it's not very scalable. And regarding the performance, it will be degraded as your freelancer base grow. And also you will have another problem. A lot of vector database and Qdrants is one of them using hash NSW algorithm to do your inn search. And this kind of algorithm is based on graph. And so if you do that, you will deactivate some nodes in your graph, and so your graph will become disconnected and you won't be able to navigate in your graph. And so your quality of your matching will degrade. So it's definitely not a good idea to apply prefiltering.
+And so it's not very scalable. And regarding the performance, it will be degraded as your freelancer base grow. And also you will have another problem. A lot of [vector database](https://qdrant.tech/articles/what-is-a-vector-database/) and Qdrants is one of them using hash NSW algorithm to do your inn search. And this kind of algorithm is based on graph. And so if you do that, you will deactivate some nodes in your graph, and so your graph will become disconnected and you won't be able to navigate in your graph. And so your quality of your matching will degrade. So it's definitely not a good idea to apply prefiltering.
 
 Nicolas Mauti:
-So, no, if we go to post filtering here, I think the issue is more clear. You will have this kind of architecture. And so, in fact, if you do that, you will have to retrieve a lot of freelancer for your vector database. If you apply some very aggressive filtering and you exclude a lot of freelancer with your filtering, you will have to ask for a lot of freelancer in your vector database and so your performances will be impacted. So filtering is a problem. So we cannot do pre filtering or post filtering. So we had to find a database that do filtering and matching and semantic matching and search at the same time. And so Qdrant is one of them, you have other one in the market.
+So, no, if we go to post filtering here, I think the issue is more clear. You will have this kind of architecture. And so, in fact, if you do that, you will have to retrieve a lot of freelancer for your [vector database](https://qdrant.tech/articles/what-is-a-vector-database/). If you apply some very aggressive filtering and you exclude a lot of freelancer with your filtering, you will have to ask for a lot of freelancer in your vector database and so your performances will be impacted. So filtering is a problem. So we cannot do pre filtering or post filtering. So we had to find a database that do filtering and matching and semantic matching and search at the same time. And so Qdrant is one of them, you have other one in the market.
 
 Nicolas Mauti:
 But in our case, we had one filter that caused us a lot of troubles. And this filter is the geospatial filtering and a few of databases under this filtering, and I think Qdrant is one of them that supports it. But there is not a lot of databases that support them. And we absolutely needed that because we have a local approach and we want to be sure that we recommend freelancer next to the project. And so now that I said all of that, we had three candidates that we tested and we benchmarked them. We had elasticsearch PG vector, that is an extension of PostgreSQL and Qdrants. And on this slide you can see Pycon for example, and Pycon was excluded because of the lack of geospatial filtering. And so we benchmark them regarding the qps.
@@ -176,7 +175,7 @@ Demetrios:
 All right, first off, I want to give a shout out in case there are freelancers that are watching this or looking at this, now is a great time to just join Malt, I think. It seems like it's getting better every day. So I know there's questions that will come through and trickle in, but we've already got one from Luis. What's happening, Luis? He's asking what library or service were you using for Ann before considering Qdrant, in fact.
 
 Nicolas Mauti:
-So before that we didn't add any library or service or we were not doing any inn search or semantic search in the way we are doing it right now. We just had one model when we passed the freelancers and the project at the same time in the model, and we got relevancy scoring at the end. And so that's why it was also so slow because you had to constrict each pair and send each pair to your model. And so right now we don't have to do that and so it's much better.
+So before that we didn't add any library or service or we were not doing any ann search or [semantic searc](https://qdrant.tech/documentation/tutorials/search-beginners/) in the way we are doing it right now. We just had one model when we passed the freelancers and the project at the same time in the model, and we got relevancy scoring at the end. And so that's why it was also so slow because you had to constrict each pair and send each pair to your model. And so right now we don't have to do that and so it's much better.
 
 Demetrios:
 Yeah, that makes sense. One question from my side is it took you, I think you said in October you started with the A B test and then in December you rolled it out. What was that last slide that you had?
@@ -197,7 +196,7 @@ Nicolas Mauti:
 Thanks.
 
 Demetrios:
-All right, everyone. By the way, in case you want to join us and talk about what you're working on and how you're using Qdrant or what you're doing in the semantic space or semantic search or vector space, all that fun stuff, hit us up. We would love to have you on here. One last question for you, Nicola. Something came through. What indexing method do you use? Is it good for using OpenAI embeddings?
+All right, everyone. By the way, in case you want to join us and talk about what you're working on and how you're using Qdrant or what you're doing in the semantic space or [semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) or vector space, all that fun stuff, hit us up. We would love to have you on here. One last question for you, Nicola. Something came through. What indexing method do you use? Is it good for using OpenAI embeddings?
 
 Nicolas Mauti:
 So in our case, we have our own model to build the embeddings.

@@ -1,14 +1,10 @@
 ---
 draft: false
-title: "Qdrant x Dust: How Vector Search helps make work work better - Stan Polu
-  | Vector Space Talks"
+title: "Unlocking AI Potential: Insights from Stanislas Polu"
 slug: qdrant-x-dust-vector-search
 short_description: Stanislas shares insights from his experiences at Stripe and
   founding his own company, Dust, focusing on AI technology's product layer.
-description: Stanislas Polu shares insights on integrating SaaS platforms into
-  workflows, reflects on his experiences at Stripe and OpenAI, and discusses his
-  company Dust's focus on enhancing enterprise productivity through tailored AI
-  assistants and their recent switch to Qdrant for database management.
+description: Explore the dynamic discussion with Stanislas Polu on AI, ML, entrepreneurship, and product development. Gain valuable insights into AI's transformative power.
 preview_image: /blog/from_cms/stan-polu-cropped.png
 date: 2024-01-26T16:22:37.487Z
 author: Demetrios Brinkmann
@@ -18,10 +14,12 @@ tags:
   - Vector Search
   - OpenAI
 ---
+
+# Qdrant x Dust: How Vector Search Helps Make Work Better with Stanislas Polu
+
 > *"We ultimately chose Qdrant due to its open-source nature, strong performance, being written in Rust, comprehensive documentation, and the feeling of control.”*\
 -- Stanislas Polu
 > 
-
 
 Stanislas Polu is the Co-Founder and an Engineer at Dust. He had previously sold a company to Stripe and spent 5 years there, seeing them grow from 80 to 3000 people. Then pivoted to research at OpenAI on large language models and mathematical reasoning capabilities. He started Dust 6 months ago to make work work better with LLMs.
 
@@ -234,19 +232,18 @@ What I want to try.
 
 
 Demetrios:
-Okay, the next question that I had is you talked about how benchmarking with the horizontal solution, surprisingly, has been more effective in certain use cases. I'm guessing that's why you got a little bit of love for Qdrant and what we're doing here.
+Okay, the next question that I had is you talked about how benchmarking with the horizontal solution, surprisingly, has been more effective in certain use cases. I'm guessing that's why you got a little bit of love for [Qdrant](https://qdrant.tech/) and what we're doing here.
 
 
 Stanislas Polu:
 Yeah
-I think the benchmarking was really about quality of models, answers in the.
-Context of ritual augmented generation.
+I think the benchmarking was really about quality of models, answers in the context of [retrieval augmented generation](https://qdrant.tech/articles/what-is-rag-in-ai/).
 So it's not as much as performance, but obviously performance matters, and that's why we love using Qdrants. But I think the main idea of.
 
 
 Stanislas Polu:
 What I mentioned is that it's interesting because today the retrieval is noisy, because the embedders are not perfect, which is an interesting point.
-Sorry, I'm double clicking, but I'll come back. The embedded are really not perfect. Are really not perfect. So that's interesting. When Qdrant release kind of optimization for storage of vectors, they come with obviously warnings that you may have a loss.
+Sorry, I'm double clicking, but I'll come back. The embedded are really not perfect. Are really not perfect. So that's interesting. When Qdrant release kind of optimization for [storage of vectors](https://qdrant.tech/documentation/concepts/storage/), they come with obviously warnings that you may have a loss.
 Of precision because of the compression, et cetera, et cetera.
 And that's funny, like in all kind of retrieval and mental generation world, it really doesn't matter. We take all the performance we can because the loss of precision coming from compression of those vectors at the vector DB level are completely negligible compared to.
 The holon fuckness of the embedders in.
@@ -273,7 +270,7 @@ Saying, oh, I'm working on helping sales find interesting next leads.
 And you really want to narrow the data exactly where that information lies. And that's where there, we're really relying.
 Hard on Qdrants as well.
 So the kind of indexing capabilities on.
-Top of the vector search, where whenever.
+Top of the [vector search](https://qdrant.tech/), where whenever.
 
 
 Stanislas Polu:

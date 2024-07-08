@@ -1,12 +1,10 @@
 ---
 draft: false
-title: Storing multiple vectors per object in Qdrant
+title: Optimizing Semantic Search by Managing Multiple Vectors
 slug: storing-multiple-vectors-per-object-in-qdrant
 short_description: Qdrant's approach to storing multiple vectors per object,
   unraveling new possibilities in data representation and retrieval.
-description: Discover how Qdrant continues to push the boundaries of data
-  indexing, providing insights into the practical applications and benefits of
-  this novel vector storage strategy.
+description: Discover the power of vector storage optimization and learn how to efficiently manage multiple vectors per object for enhanced semantic search capabilities.
 preview_image: /blog/from_cms/andrey.vasnetsov_a_space_station_with_multiple_attached_modules_853a27c7-05c4-45d2-aebc-700a6d1e79d0.png
 date: 2022-10-05T10:05:43.329Z
 author: Kacper Łukawski
@@ -18,9 +16,10 @@ tags:
   - Search
   - Similarity Search
 ---
-In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable semantic search with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!
 
-In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable semantic search with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!
+# How to Optimize Vector Storage by Storing Multiple Vectors Per Object
+
+In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable [semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!
 
 Running the new version of Qdrant is as simple as it always was. By running the following command, you are able to set up a single instance that will also expose the HTTP API:
 
@@ -177,7 +176,7 @@ The created vectors might be easily put into Qdrant. For the sake of simplicity,
 
 ## Searching with multiple vectors
 
-If you decided to describe each object with several neural embeddings, then at each search operation you need to provide the vector name along with the embedding, so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
+If you decided to describe each object with several [neural embeddings](https://qdrant.tech/articles/neural-search-tutorial/), then at each search operation you need to provide the vector name along with the [vector embedding](https://qdrant.tech/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
 
 ```python
 from qdrant_client.http.models import NamedVector
@@ -213,5 +212,12 @@ However, if we use textual description embedding, then the results are slightly 
 ![](/blog/from_cms/0_3sdgctswb99xtexl.webp "Text search However, if we use textual description embedding, then the results are slightly different:")
 
 It is not surprising that a method used for creating neural encoding plays an important role in the search process and its quality. If your data points might be described using several vectors, then the latest release of Qdrant gives you an opportunity to store them together and reuse the payloads, instead of creating several collections and querying them separately.
+
+### Summary:
+
+- Qdrant 0.10 introduces efficient vector storage optimization, allowing seamless management of multiple vectors per object within a single collection.
+- This update streamlines semantic search capabilities by eliminating the need for separate collections for each vector type, enhancing search accuracy and performance.
+- With Qdrant's new features, users can easily configure vector parameters, including size and distance functions, for each vector type, optimizing search results and user experience.
+
 
 If you’d like to check out some other examples, please check out our [full notebook](https://gist.github.com/kacperlukawski/961aaa7946f55110abfcd37fbe869b8f) presenting the search results and the whole pipeline implementation.
