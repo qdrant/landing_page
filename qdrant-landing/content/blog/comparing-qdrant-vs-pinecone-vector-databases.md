@@ -5,6 +5,7 @@ short_description: "Highlighting performance, features, and suitability for vari
 description: "This comprehensive comparison highlights performance, features, and suitability for various use cases." 
 preview_image: /blog/comparing-qdrant-vs-pinecone-vector-databases/social_preview.png
 social_preview_image: /blog/comparing-qdrant-vs-pinecone-vector-databases/social_preview.png
+aliases: /documentation/overview/qdrant-alternatives/
 date: 2024-02-25T00:00:00-08:00
 author: Qdrant Team
 featured: false 
