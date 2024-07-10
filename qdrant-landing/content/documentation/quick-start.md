@@ -1,10 +1,10 @@
 ---
-title: Quickstart
-weight: 11
+title: Docker Quickstart
+weight: 8
 aliases:
   - quick_start
 ---
-# Quickstart
+# Docker Quickstart
 
 In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query.
 
