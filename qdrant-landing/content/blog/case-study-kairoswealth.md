@@ -1,11 +1,11 @@
 ---
 draft: false
-title: "Kairoswealth & Qdrant Transforming Wealth Management with AI-Driven Insights and Scalable Vector Search"
+title: "Kairoswealth & Qdrant: Transforming Wealth Management with AI-Driven Insights and Scalable Vector Search"
 short_description: "Transforming wealth management with AI-driven insights and scalable vector search."
-description: "Kairoswealth and Qdrant enhance wealth management using AI-driven insights and efficient vector search for improved recommendations and scalability."
+description: "Enhancing wealth management using AI-driven insights and efficient vector search for improved recommendations and scalability."
 preview_image: /blog/case-study-kairoswealth/preview.png
 social_preview_image: /blog/case-study-kairoswealth/preview.png
-date: 2024-07-01T00:02:00Z
+date: 2024-07-10T00:02:00Z
 author: Qdrant
 featured: false
 tags:
