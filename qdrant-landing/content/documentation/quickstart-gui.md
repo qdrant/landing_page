@@ -1,6 +1,6 @@
 ---
 title: Visual Quickstart
-weight: 7
+weight: 3
 ---
 
 # Visual Quickstart
@@ -12,8 +12,8 @@ weight: 7
 ## Setup a Qdrant Cloud cluster
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/) with your email, Google or Github credentials.
-2. Go to **Overview** and follow the onboarding intructions under **Create First Cluster**. 
-3. When you create it, you will receive an API key. Copy it and prepare to paste it soon.
+2. Go to **Overview** and follow the onboarding instructions under **Create First Cluster**. 
+3. When you create it, you will receive an API key. You will need to copy and paste it soon.
 4. Your new cluster will be created under **Clusters**. Give it a few moments to provision.
 
 ## Access the cluster dashboard

@@ -1,8 +1,9 @@
 ---
 title: Docker Quickstart
-weight: 8
+weight: 4
 aliases:
   - quick_start
+  - quickstart
 ---
 # Docker Quickstart
 
