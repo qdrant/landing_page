@@ -1,3 +1,4 @@
+{{ if not .Params.hideTOC }}
 <div class="col-12 col-xl-2">
   {{ if gt (.TableOfContents | len) 34 }}
     <div class="table-of-contents">
@@ -24,3 +25,4 @@
     </div>
   {{ end }}
 </div>
+{{ end }}
