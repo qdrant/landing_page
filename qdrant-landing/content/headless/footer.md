@@ -68,7 +68,7 @@ menuItems:
         name: Documentation
         url: /documentation/
       - id: 1
-        name: Community
+        name: Discord
         url: https://qdrant.to/discord
 #      - id: 2
 #        name: Qdrant Stars
