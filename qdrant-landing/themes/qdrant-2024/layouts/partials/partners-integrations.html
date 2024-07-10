@@ -1,0 +1,28 @@
+<section class="partners-integrations">
+  <div class="container">
+    <div class="partners-integrations__header row">
+      <div class="col-12 col-xl-6">
+        <h4 class="partners-integrations__title">{{ .Params.title }}</h4>
+      </div>
+      <div class="col-12 col-xl-6">
+        <p class="partners-integrations__description">{{ .Params.description }}</p>
+        <a href="{{ .Params.link.url }}" class="partners-integrations__link link link_md link_light">
+          {{ .Params.link.text }}
+        </a>
+      </div>
+    </div>
+    <div class="row g-4 g-lg-5">
+      {{ range .Params.integrations }}
+        <div class="col-12 col-md-6 col-xl-4">
+          <div class="partners-integrations__card">
+            <img class="partners-integrations__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+            <div class="partners-integrations__card-info">
+              <h6 class="partners-integrations__card-title">{{ .title }}</h6>
+              <p class="partners-integrations__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        </div>
+      {{ end }}
+    </div>
+  </div>
+</section>

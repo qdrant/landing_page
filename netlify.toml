@@ -1,19 +1,19 @@
 [build]
 publish = "qdrant-landing/public"
-command = "cd qdrant-landing ; hugo --gc --minify"
+command = "bash -x ./install-and-build.sh"
 
 [build.environment]
 HUGO_VERSION = "0.123.0"
+DART_SASS_VERSION = "1.70.0"
+NODE_VERSION = "20.10.0"
 
 [context.production.environment]
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
+DEPLOY_PRIME_URL = "https://qdrant.tech"
 
 [context.deploy-preview.environment]
 HUGO_ENV = "staging"
-
-[context.deploy-preview]
-command = "cd qdrant-landing ; echo $HUGO_ENV ; hugo --gc --minify --buildFuture -b $DEPLOY_PRIME_URL"
 
 [[headers]]
     for = "/*"

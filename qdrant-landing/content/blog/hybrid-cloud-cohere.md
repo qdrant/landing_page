@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-We’re excited to share that Qdrant and [Cohere](https://cohere.com/) are partnering on the launch of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) to enable global audiences to build and scale their AI applications quickly and securely. With Cohere's world-class large language models (LLMs), getting the most out of vector search becomes incredibly easy. Qdrant's new Hybrid Cloud offering and its Kubernetes-native design can be coupled with Cohere's powerful models and APIs. This combination allows for simple setup when prototyping and deploying AI solutions.
+We’re excited to share that Qdrant and [Cohere](https://cohere.com/) are partnering on the launch of [Qdrant Hybrid Cloud](/hybrid-cloud/) to enable global audiences to build and scale their AI applications quickly and securely. With Cohere's world-class large language models (LLMs), getting the most out of vector search becomes incredibly easy. Qdrant's new Hybrid Cloud offering and its Kubernetes-native design can be coupled with Cohere's powerful models and APIs. This combination allows for simple setup when prototyping and deploying AI solutions.
 
 It’s no secret that Retrieval Augmented Generation (RAG) has shown to be a powerful method of building conversational AI products, such as chatbots or customer support systems. With Cohere's managed LLM service, scientists and developers can tap into state-of-the-art text generation and understanding capabilities, all accessible via API. Qdrant Hybrid Cloud seamlessly integrates with Cohere’s foundation models, enabling convenient data vectorization and highly accurate semantic search.
 

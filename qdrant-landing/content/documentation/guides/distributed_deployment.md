@@ -93,7 +93,7 @@ OPTIONS:
 
 ```
 
-After a successful synchronization you can observe the state of the cluster through the [REST API](https://qdrant.github.io/qdrant/redoc/index.html?v=master#tag/cluster):
+After a successful synchronization you can observe the state of the cluster through the [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status):
 
 ```http
 GET /cluster
@@ -141,9 +141,10 @@ After the scale-up process completes, you will have a new empty node running alo
 
 When you enable distributed mode and scale up to two or more nodes, your data does not move to the new node automatically; it starts out empty. To make use of your new empty node, do one of the following:
 
-* Replicate your existing data to the new node by [creating new shard replicas](#creating-new-shard-replicas)
-* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more (can only be set at creation time)
-* Move data (without replicating it) onto the new node by [moving shards](#moving-shards)
+* Create a new replicated collection by setting the [replication_factor](#replication-factor) to 2 or more and setting the [number of shards](#choosing-the-right-number-of-shards) to a multiple of your number of nodes.
+* If you have an existing collection which does not contain enough shards for each node, you must create a new collection as described in the previous bullet point.
+* If you already have enough shards for each node and you merely need to replicate your data, follow the directions for [creating new shard replicas](#creating-new-shard-replicas).
+* If you already have enough shards for each node and your data is already replicated, you can move data (without replicating it) onto the new node(s) by [moving shards](#moving-shards).
 
 ## Raft
 
@@ -158,7 +159,7 @@ In practice it means that a majority of nodes agree on what operations should be
 
 Practically, it means that if the cluster is in a transition state - either electing a new leader after a failure or starting up, the collection update operations will be denied.
 
-You may use the cluster [REST API](https://qdrant.github.io/qdrant/redoc/index.html?v=master#tag/cluster) to check the state of the consensus.
+You may use the cluster [REST API](https://api.qdrant.tech/master/api-reference/distributed/cluster-status) to check the state of the consensus.
 
 ## Sharding
 
@@ -172,7 +173,9 @@ There are two methods of distributing points across shards:
 
 Each node knows where all parts of the collection are stored through the [consensus protocol](./#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
 
-When you create a collection, Qdrant splits the collection into `shard_number` shards. If left unset, `shard_number` is set to the number of nodes in your cluster:
+### Choosing the right number of shards
+
+When you create a collection, Qdrant splits the collection into `shard_number` shards. If left unset, `shard_number` is set to the number of nodes in your cluster when the collection was created. The `shard_number` cannot be changed without recreating the collection.
 
 ```http
 PUT /collections/{collection_name}
@@ -275,9 +278,13 @@ await client.CreateCollectionAsync(
 );
 ```
 
-We recommend setting the number of shards to be a multiple of the number of nodes you are currently running in your cluster.
+To ensure all nodes in your cluster are evenly utilized, the number of shards must be a multiple of the number of nodes you are currently running in your cluster.
 
-For example, if you have 3 nodes, 6 shards could be a good option.
+> Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
+
+We recommend creating at least 2 shards per node to allow future expansion without having to re-shard. Re-sharding should be avoided since it requires creating a new collection. In-place re-sharding is planned for a future version of Qdrant.
+
+If you anticipate a lot of growth, we recommend 12 shards since you can expand from 1 node up to 2, 3, 6, and 12 nodes without having to re-shard. Having more than 12 shards in a small cluster may not be worth the performance overhead.
 
 Shards are evenly distributed across all existing nodes when a collection is first created, but Qdrant does not automatically rebalance shards if your cluster size or replication factor changes (since this is an expensive operation on large clusters). See the next section for how to move shards after scaling operations.
 
@@ -287,9 +294,9 @@ Shards are evenly distributed across all existing nodes when a collection is fir
 
 Qdrant allows moving shards between nodes in the cluster and removing nodes from the cluster. This functionality unlocks the ability to dynamically scale the cluster size without downtime. It also allows you to upgrade or migrate nodes without downtime.
 
-Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/collection_cluster_info).
+Qdrant provides the information regarding the current shard distribution in the cluster with the [Collection Cluster info API](https://api.qdrant.tech/master/api-reference/distributed/collection-cluster-info).
 
-Use the [Update collection cluster setup API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/update_collection_cluster) to initiate the shard transfer:
+Use the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster) to initiate the shard transfer:
 
 ```http
 POST /collections/{collection_name}/cluster
@@ -308,7 +315,7 @@ After the transfer is initiated, the service will process it based on the used
 [transfer method](#shard-transfer-method) keeping both shards in sync. Once the
 transfer is completed, the old shard is deleted from the source node.
 
-In case you want to downscale the cluster, you can move all shards away from a peer and then remove the peer using the [remove peer API](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer).
+In case you want to downscale the cluster, you can move all shards away from a peer and then remove the peer using the [remove peer API](https://api.qdrant.tech/master/api-reference/distributed/remove-peer).
 
 ```http
 DELETE /cluster/peer/{peer_id}
@@ -812,7 +819,7 @@ Since a replication factor of "2" would require twice as much storage space, it 
 
 ### Creating new shard replicas
 
-It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://qdrant.github.io/qdrant/redoc/index.html?v=v0.11.0#tag/cluster/operation/update_collection_cluster).
+It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster).
 
 A replica can be added on a specific peer by specifying the peer from which to replicate.
 
@@ -877,13 +884,13 @@ If the failed node never restarts, you can recover the lost shards if you have a
 
 If a node fails and it is impossible to recover it, you should exclude the dead node from the consensus and create an empty node.
 
-To exclude failed nodes from the consensus, use [remove peer](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer) API.
+To exclude failed nodes from the consensus, use [remove peer](https://api.qdrant.tech/master/api-reference/distributed/remove-peer) API.
 Apply the `force` flag if necessary.
 
 When you create a new node, make sure to attach it to the existing cluster by specifying `--bootstrap` CLI parameter with the URL of any of the running cluster nodes.
 
 Once the new node is ready and synchronized with the cluster, you might want to ensure that the collection shards are replicated enough. Remember that Qdrant will not automatically balance shards since this is an expensive operation.
-Use the [Replicate Shard Operation](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/update_collection_cluster) to create another copy of the shard on the newly connected node.
+Use the [Replicate Shard Operation](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster) to create another copy of the shard on the newly connected node.
 
 It's worth mentioning that Qdrant only provides the necessary building blocks to create an automated failure recovery.
 Building a completely automatic process of collection scaling would require control over the cluster machines themself.
@@ -896,7 +903,7 @@ If there are no copies of data in the cluster, it is still possible to recover f
 
 Follow the same steps to detach failed node and create a new one in the cluster:
 
-* To exclude failed nodes from the consensus, use [remove peer](https://qdrant.github.io/qdrant/redoc/index.html#tag/cluster/operation/remove_peer) API. Apply the `force` flag if necessary.
+* To exclude failed nodes from the consensus, use [remove peer](https://api.qdrant.tech/master/api-reference/distributed/remove-peer) API. Apply the `force` flag if necessary.
 * Create a new node, making sure to attach it to the existing cluster by specifying the `--bootstrap` CLI parameter with the URL of any of the running cluster nodes.
 
 Snapshot recovery, used in single-node deployment, is different from cluster one.

@@ -1,11 +1,9 @@
 ---
 title: Embeddings
-weight: 33
-# If the index.md file is empty, the link to the section will be hidden from the sidebar
-is_empty: true
+weight: 34
 ---
 
-| Embedding                     |
+| Embeddings Providers          |
 | ----------------------------- |
 | [Aleph Alpha](./aleph-alpha/) |
 | [Bedrock](./bedrock/)         |
@@ -16,5 +14,7 @@ is_empty: true
 | [Nomic](./nomic/)             |
 | [Nvidia](./nvidia/)           |
 | [OpenAI](./openai/)           |
+| [Prem AI](./premai/)          |
 | [Snowflake](./snowflake/)     |
+| [Upstage](./upstage/)        |
 | [Voyage AI](./voyage/)        |

@@ -1,6 +1,6 @@
 ---
 title: Payload
-weight: 40
+weight: 45
 aliases:
   - ../payload
 ---
@@ -174,7 +174,7 @@ Notes about the format:
 [RFC 3339]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.6
 
 ## Create point with payload
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/points/operation/upsert_points))
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/upsert-points))
 
 ```http
 PUT /collections/{collection_name}/points
@@ -399,7 +399,7 @@ await client.UpsertAsync(
 
 Set only the given payload values on a point.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/set_payload)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/set-payload)):
 
 ```http
 POST /collections/{collection_name}/points/payload
@@ -656,7 +656,7 @@ Resulting in the following payload:
 
 Fully replace any existing payload with the given one.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/overwrite_payload)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/overwrite-payload)):
 
 ```http
 PUT /collections/{collection_name}/points/payload
@@ -755,7 +755,7 @@ you want to modify. The alternative is to use filters.
 
 This method removes all payload keys from specified points
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/clear_payload)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/clear-payload)):
 
 ```http
 POST /collections/{collection_name}/points/payload/clear
@@ -822,7 +822,7 @@ You can also use <code>models.FilterSelector</code> to remove the points matchin
 
 Delete specific payload keys from points.
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#operation/delete_payload)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/points/delete-payload)):
 
 ```http
 POST /collections/{collection_name}/points/payload/delete
@@ -1008,7 +1008,7 @@ In compound queries involving multiple fields, Qdrant will attempt to use the mo
 
 To create index for the field, you can use the following:
 
-REST API ([Schema](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/create_field_index))
+REST API ([Schema](https://api.qdrant.tech/api-reference/indexes/create-field-index))
 
 ```http
 PUT /collections/{collection_name}/index
@@ -1071,7 +1071,7 @@ await client.CreatePayloadIndexAsync(
 );
 ```
 
-The index usage flag is displayed in the payload schema with the [collection info API](https://qdrant.github.io/qdrant/redoc/index.html#operation/get_collection).
+The index usage flag is displayed in the payload schema with the [collection info API](https://api.qdrant.tech/api-reference/collections/get-collection).
 
 Payload schema example:
 

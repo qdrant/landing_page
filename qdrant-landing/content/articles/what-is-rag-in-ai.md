@@ -38,7 +38,7 @@ As your data grows, you’ll need efficient ways to identify the most relevant i
 
 **Vector databases** store information as **vector embeddings**. This format supports efficient similarity searches to retrieve relevant data for your query. For example, Qdrant is specifically designed to perform fast, even in scenarios dealing with billions of vectors.
 
-This article will focus on RAG systems and architecture. If you’re interested in learning more about vector search, we recommend the following articles: [What is a Vector Database?](https://qdrant.tech/articles/what-is-a-vector-database/) and [What are Vector Embeddings?](https://qdrant.tech/articles/what-are-embeddings/).
+This article will focus on RAG systems and architecture. If you’re interested in learning more about vector search, we recommend the following articles: [What is a Vector Database?](/articles/what-is-a-vector-database/) and [What are Vector Embeddings?](/articles/what-are-embeddings/).
 
 
 ## RAG architecture
@@ -64,7 +64,7 @@ As shown in the image above, here’s the process:
 * Start with a _loader_ that gathers _documents_ containing your data. These documents could be anything from articles and books to web pages and social media posts. 
 * Next, a _splitter_ divides the documents into smaller chunks, typically sentences or paragraphs. 
 * This is because RAG models work better with smaller pieces of text. In the diagram, these are _document snippets_.
-* Each text chunk is then fed into an _embedding machine_. This machine uses complex algorithms to convert the text into [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/).
+* Each text chunk is then fed into an _embedding machine_. This machine uses complex algorithms to convert the text into [vector embeddings](/articles/what-are-embeddings/).
 
 All the generated vector embeddings are stored in a knowledge base of indexed information. This supports efficient retrieval of similar pieces of information when needed.
 
@@ -94,14 +94,14 @@ The classic approach is **keyword search**, which scans documents for the exact 
 
 [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) are two classic related algorithms. They're simple and computationally efficient. However, they can struggle with synonyms and don't always capture semantic similarities.
 
-If you’re interested in going deeper, refer to our article on [Sparse Vectors](https://qdrant.tech/articles/sparse-vectors/).
+If you’re interested in going deeper, refer to our article on [Sparse Vectors](/articles/sparse-vectors/).
 
 
 ##### Dense vector embeddings
 
 This approach uses large language models like [BERT](https://en.wikipedia.org/wiki/BERT_(language_model)) to encode the query and passages into dense vector embeddings. These models are compact numerical representations that capture semantic meaning. Vector databases like Qdrant store these embeddings, allowing retrieval based on **semantic similarity** rather than just keywords using distance metrics like cosine similarity.
 
-This allows the retriever to match based on semantic understanding rather than just keywords. So if I ask about "compounds that cause BO," it can retrieve relevant info about "molecules that create body odor" even if those exact words weren't used. We explain more about it in our [What are Vector Embeddings](https://qdrant.tech/articles/what-are-embeddings/) article.
+This allows the retriever to match based on semantic understanding rather than just keywords. So if I ask about "compounds that cause BO," it can retrieve relevant info about "molecules that create body odor" even if those exact words weren't used. We explain more about it in our [What are Vector Embeddings](/articles/what-are-embeddings/) article.
 
 
 #### Hybrid search 
@@ -121,7 +121,7 @@ Some common hybrid approaches include:
 * Considering both semantic vector closeness and statistical keyword patterns/weights in a combined scoring model.
 * Having multiple stages were different techniques. One example: start with an initial keyword retrieval, followed by semantic re-ranking, then a final re-ranking using even more complex models.
 
-When you combine the powers of different search methods in a complementary way, you can provide higher quality, more comprehensive results. Check out our article on [Hybrid Search](https://qdrant.tech/articles/hybrid-search/) if you’d like to learn more.
+When you combine the powers of different search methods in a complementary way, you can provide higher quality, more comprehensive results. Check out our article on [Hybrid Search](/articles/hybrid-search/) if you’d like to learn more.
 
 
 ### The Generator

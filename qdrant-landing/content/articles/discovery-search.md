@@ -1,16 +1,16 @@
 ---
-title: "Discovery needs context" #required
-short_description: Discover points by constraining the space.
-description: Qdrant released a new functionality that lets you constrain the space in which a search is performed, relying only on vectors. #required
-social_preview_image: /articles_data/discovery-search/social_preview.jpg # This image will be used in social media previews, should be 1200x630px. Required.
-small_preview_image: /articles_data/discovery-search/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
-preview_dir: /articles_data/discovery-search/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
-weight: -110 # This is the order of the article in the list of articles at the footer. The lower the number, the higher the article will be in the list.
-author: Luis Cossío # Author of the article. Required.
-author_link: https://coszio.github.io # Link to the author's page. Required.
-date: 2024-01-31T08:00:00-03:00 # Date of the article. Required.
-draft: false # If true, the article will not be published
-keywords: # Keywords for SEO
+title: "Discovery Search: A New Approach to Vector Space" 
+short_description: Discovery Search, an innovative API for precise, tailored search results.
+description: Explore the next frontier in search technology with Discovery Search. Learn how this innovative API provides precise and tailored results.
+social_preview_image: /articles_data/discovery-search/social_preview.jpg 
+small_preview_image: /articles_data/discovery-search/icon.svg 
+preview_dir: /articles_data/discovery-search/preview 
+weight: -110 
+author: Luis Cossío 
+author_link: https://coszio.github.io 
+date: 2024-01-31T08:00:00-03:00 
+draft: false
+keywords: 
   - why use a vector database
   - specialty
   - search
@@ -19,13 +19,23 @@ keywords: # Keywords for SEO
   - vector-search
 ---
 
+# How to Master Vector Space Exploration with Discovery Search
+
 When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for America. They were looking for a new route to India, and they were convinced that the Earth was round. They didn't know anything about America, but since they were going west, they stumbled upon it.
 
-They couldn't reach their _target_, because the geography didn't let them, but once they realized it wasn't India, they claimed it a new "discovery" for their crown. If we consider that sailors need water to sail, then we can establish a _context_ which is positive in the water, and negative on land. Once the sailor's search was stopped by the land, they could not go any further, and a new route was found. Let's keep this concepts of _target_ and _context_ in mind as we explore the new functionality of Qdrant: __Discovery search__.
+They couldn't reach their _target_, because the geography didn't let them, but once they realized it wasn't India, they claimed it a new "discovery" for their crown. If we consider that sailors need water to sail, then we can establish a _context_ which is positive in the water, and negative on land. Once the sailor's search was stopped by the land, they could not go any further, and a new route was found. Let's keep these concepts of _target_ and _context_ in mind as we explore the new functionality of Qdrant: __Discovery search__.
+
+## What is discovery search?
+
+Discovery search is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target but are still relevant to the search. It can also be used to represent complex tastes and break out of the similarity bubble. Check out the documentation to learn more about the math behind it and how to use it.
+
+## Qdrant's discovery search: version 1.7 release
 
 In version 1.7, Qdrant [released](/articles/qdrant-1.7.x/) this novel API that lets you constrain the space in which a search is performed, relying only on pure vectors. This is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily closest to the target, but are still relevant to the search.
 
 You can already select which points are available to the search by using payload filters. This by itself is very versatile because it allows us to craft complex filters that show only the points that satisfy their criteria deterministically. However, the payload associated with each point is arbitrary and cannot tell us anything about their position in the vector space. In other words, filtering out irrelevant points can be seen as creating a _mask_ rather than a hyperplane –cutting in between the positive and negative vectors– in the space.
+
+## Understanding context in discovery search
 
 This is where a __vector _context___ can help. We define _context_ as a list of pairs. Each pair is made up of a positive and a negative vector. With a context, we can define hyperplanes within the vector space, which always prefer the positive over the negative vectors. This effectively partitions the space where the search is performed. After the space is partitioned, we then need a _target_ to return the points that are more similar to it.
 
@@ -42,7 +52,7 @@ While positive and negative vectors might suggest the use of the <a href="/docum
 
 However, it is not the only way to use it. Alternatively, you can __only__ provide a context, which invokes a [__Context Search__](#context-search). This is useful when you want to explore the space defined by the context, but don't have a specific target in mind. But hold your horses, we'll get to that [later ↪](#context-search).
 
-## Discovery search
+## Real-world discovery search applications
 
 Let's talk about the first case: context with a target.
 
@@ -61,11 +71,11 @@ Turns out, multimodal encoders <a href="https://modalitygap.readthedocs.io/en/la
 
 ![Mental model of CLIP embeddings](/articles_data/discovery-search/clip-mental-model.png)
 
-This is where discovery excels, because it allows us to constrain the space considering the same mode (images) while using a target from the other mode (text).
+This is where discovery excels because it allows us to constrain the space considering the same mode (images) while using a target from the other mode (text).
 
 ![Cross-modal search with discovery](/articles_data/discovery-search/clip-discovery.png)
 
-Discovery also lets us keep giving feedback to the search engine in the shape of more context pairs, so we can keep refining our search until we find what we are looking for.
+Discovery search also lets us keep giving feedback to the search engine in the shape of more context pairs, so we can keep refining our search until we find what we are looking for.
 
 Another intuitive example: imagine you're looking for a fish pizza, but pizza names can be confusing, so you can just type "pizza", and prefer a fish over meat. Discovery search will let you use these inputs to suggest a fish pizza... even if it's not called fish pizza!
 
@@ -73,9 +83,9 @@ Another intuitive example: imagine you're looking for a fish pizza, but pizza na
 
 ## Context search
 
-Now, second case: only providing context.
+Now, the second case: only providing context.
 
-Ever been caught in the same recommendations on your favourite music streaming service? This may be caused by getting stuck in a similarity bubble. As user input gets more complex, diversity becomes scarce, and it becomes harder to force the system to recommend something different.
+Ever been caught in the same recommendations on your favorite music streaming service? This may be caused by getting stuck in a similarity bubble. As user input gets more complex, diversity becomes scarce, and it becomes harder to force the system to recommend something different.
 
 ![Context vs recommendation search](/articles_data/discovery-search/context-vs-recommendation.png)
 
@@ -83,12 +93,14 @@ __Context search__ solves this by de-focusing the search around a single point. 
 
 ![Context search visualization](/articles_data/discovery-search/context-search.png)
 
-Creating complex tastes in a high-dimensional space becomes easier, since you can just add more context pairs to the search. This way, you should be able to constrain the space enough so you select points from a per-search "category" created just from the context in the input.
+Creating complex tastes in a high-dimensional space becomes easier since you can just add more context pairs to the search. This way, you should be able to constrain the space enough so you select points from a per-search "category" created just from the context in the input.
 
 ![A more complex context search](/articles_data/discovery-search/complex-context-search.png)
 
-This way you can give refeshing recommendations, while still being in control by providing positive and negative feedback, or even by trying out different permutations of pairs.
+This way you can give refreshing recommendations, while still being in control by providing positive and negative feedback, or even by trying out different permutations of pairs.
 
-## Wrapping up
-
-Discovery search is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target, but are still relevant to the search. It can also be used to represent complex tastes, and break out of the similarity bubble. Check out the [documentation](/documentation/concepts/explore/#discovery-api) to learn more about the math behind it and how to use it.
+## Key rakeaways:
+- Discovery search is a powerful tool for controlled exploration in vector spaces.
+Context, positive, and negative vectors guide search parameters and refine results.
+- Real-world applications include multimodal search, diverse recommendations, and context-driven exploration.
+- Ready to experience the power of Qdrant's Discovery search for yourself? [Try a free demo](https://qdrant.tech/contact-us/) now and unlock the full potential of controlled exploration in vector spaces!

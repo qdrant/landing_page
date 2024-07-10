@@ -1,0 +1,21 @@
+<section class="{{ .class }}">
+  <div class="container">
+    <div class="{{ .class }}__content">
+      <div class="row">
+        <div class="{{ .class }}__text col-12 col-lg-7">
+          <h3 class="{{ .class }}__title">{{ .context.Params.title }}</h3>
+          {{ if .context.Params.description }}
+            <p class="{{ .class }}__description">{{ .context.Params.description }}</p>
+          {{ end }}
+          <a href="{{ .context.Params.button.url }}" class="button button_contained" target="_blank">
+            {{ .context.Params.button.text }}
+          </a>
+        </div>
+        <div class="{{ .class }}__image col-12 col-lg-5">
+          <img src="{{ .context.Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+      <div class="{{ .class }}__overlay-top"></div>
+    </div>
+  </div>
+</section>

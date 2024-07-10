@@ -15,9 +15,16 @@ jobs:
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
         with:
-          hugo-version: "latest"
+          hugo-version: "0.123.0"
+      - name: Install npm
+        uses: actions/setup-node@v2
+        with:
+          node-version: '20'
       - name: Run hugo
         run: |
+          bash -x ./install-and-build.sh
+          CURRENT_DIR=$(pwd)
+          export PATH="${CURRENT_DIR}/dart-sass:${PATH}"
           cd qdrant-landing && hugo --gc -b 'http://localhost:1313' && hugo serve &
           sleep 5 # wait for server to start
       - name: Link Checker

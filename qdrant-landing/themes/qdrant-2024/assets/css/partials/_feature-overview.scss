@@ -1,0 +1,126 @@
+@use '../helpers/functions' as *;
+
+.feature-overview {
+  background-color: $neutral-94;
+
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 3;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  &__header {
+    margin-bottom: $spacer * 3;
+  }
+
+  &__title {
+    margin-bottom: rem(30);
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-20;
+  }
+
+  &__description {
+    margin: 0;
+    font-size: rem(18);
+    line-height: rem(27);
+    color: $neutral-30;
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+  }
+
+  &__card img {
+    margin-bottom: $spacer;
+  }
+
+  &__card-title {
+    margin-bottom: $spacer;
+    font-size: rem(20);
+    line-height: rem(30);
+    font-weight: bold;
+    color: $neutral-20;
+  }
+
+  &__card-content {
+    margin-bottom: $spacer;
+    color: $neutral-30;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 2.5;
+
+    &__header {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: rem(30);
+      margin-bottom: $spacer * 5;
+    }
+
+    &__title {
+      margin: 0;
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+    }
+
+    &__description {
+      font-size: rem(20);
+      line-height: rem(30);
+    }
+
+    &__cards {
+      display: grid;
+      grid-template-areas:
+        'A A A B B B'
+        'C C D D E E'
+        'F F F F G G'
+        'H H I I J J';
+      gap: rem(30);
+    }
+
+    &__card:nth-of-type(1) {
+      grid-area: A;
+    }
+
+    &__card:nth-of-type(2) {
+      grid-area: B;
+    }
+
+    &__card:nth-of-type(3) {
+      grid-area: C;
+    }
+
+    &__card:nth-of-type(4) {
+      grid-area: D;
+    }
+
+    &__card:nth-of-type(5) {
+      grid-area: E;
+    }
+
+    &__card:nth-of-type(6) {
+      grid-area: F;
+    }
+
+    &__card:nth-of-type(7) {
+      grid-area: G;
+    }
+
+    &__card:nth-of-type(8) {
+      grid-area: H;
+    }
+
+    &__card:nth-of-type(9) {
+      grid-area: I;
+    }
+
+    &__card:nth-of-type(10) {
+      grid-area: J;
+    }
+  }
+}

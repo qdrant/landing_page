@@ -1,0 +1,12 @@
+{{ with (.Site.GetPage "/hybrid-cloud/hybrid-cloud-video") }}
+  <section class="hybrid-cloud-video">
+    <div class="container">
+      <h3 class="hybrid-cloud-video__title">{{ .Params.title }}</h3>
+      {{ if .Params.youtube }}
+        {{ partial "youtube-video" .Params.youtube }}
+      {{ else if .Params.video }}
+        {{ partial "video" .Params.video }}
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

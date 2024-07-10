@@ -1,0 +1,37 @@
+{{ with (.Site.GetPage "/community/community-features") }}
+  <section class="community-features">
+    <div class="container">
+      <h2 class="community-features__title">{{ .Params.title }}</h2>
+
+      <div class="community-features__resources-cards row g-4">
+        {{ range $index, $element := .Params.resources }}
+          <div class="col-12 {{ if or (eq $index 0) (eq $index 3) }}col-lg-7{{ else }}col-lg-5{{ end }}">
+            <div class="card community-features__resources-card">
+              <h6 class="community-features__resources-card-title">{{ .title }}</h6>
+              <p class="community-features__resources-card-description">{{ .description }}</p>
+              <a class="community-features__resources-card-link link link_md align-self-start" href="{{ .link.url }}">
+                {{ .link.text }}
+              </a>
+              <img class="community-features__resources-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="row g-4 gy-lg-3">
+        {{ range $index, $element := .Params.features }}
+          <div class="col-12 col-lg-3">
+            <div class="card community-features__card">
+              <img class="community-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="community-features__card-title">{{ .title }}</h6>
+              <p class="community-features__card-description">{{ .description }}</p>
+              <a class="community-features__card-link link link_md align-self-start" href="{{ .link.url }}">
+                {{ .link.text }}
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}

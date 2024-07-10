@@ -15,29 +15,6 @@ This feature can be used to archive data or easily replicate an existing deploym
 
 For a step-by-step guide on how to use snapshots, see our [tutorial](/documentation/tutorials/create-snapshot/).
 
-## Store snapshots
-
-The target directory used to store generated snapshots is controlled through the [configuration](../../guides/configuration/) or using the ENV variable: `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
-
-You can set the snapshots storage directory from the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml) file. If no value is given, default is `./snapshots`.
-
-```yaml
-storage:
-  # Specify where you want to store snapshots.
-  snapshots_path: ./snapshots
-```
-
-*Available as of v1.3.0*
-
-While a snapshot is being created, temporary files are by default placed in the configured storage directory.
-This location may have limited capacity or be on a slow network-attached disk. You may specify a separate location for temporary files:
-
-```yaml
-storage:
-  # Where to store temporary files
-  temp_path: /tmp
-```
-
 ## Create snapshot
 
 <aside role="status">If you work with a distributed deployment, you have to create snapshots for each node separately. A single snapshot will contain only the data stored on the node on which the snapshot was created.</aside>
@@ -229,7 +206,7 @@ If there are other active replicas of the recovered shards in the cluster, Qdran
 
 This method of recovery requires the snapshot file to be downloadable from a URL or exist as a local file on the node (like if you [created the snapshot](#create-snapshot) on this node previously). If instead you need to upload a snapshot file, see the next section.
 
-To recover from a URL or local file use the [snapshot recovery endpoint](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/recover_from_snapshot). This endpoint accepts either a URL like `https://example.com` or a [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) like `file:///tmp/snapshot-2022-10-10.snapshot`. If the target collection does not exist, it will be created.
+To recover from a URL or local file use the [snapshot recovery endpoint](https://api.qdrant.tech/master/api-reference/snapshots/recover-from-snapshot). This endpoint accepts either a URL like `https://example.com` or a [file URI](https://en.wikipedia.org/wiki/File_URI_scheme) like `file:///tmp/snapshot-2022-10-10.snapshot`. If the target collection does not exist, it will be created.
 
 ```http
 PUT /collections/{collection_name}/snapshots/recover
@@ -263,7 +240,7 @@ client.recoverSnapshot("{collection_name}", {
 
 ### Recover from an uploaded file
 
-The snapshot file can also be uploaded as a file and restored using the [recover from uploaded snapshot](https://qdrant.github.io/qdrant/redoc/index.html#tag/collections/operation/recover_from_uploaded_snapshot). This endpoint accepts the raw snapshot data in the request body. If the target collection does not exist, it will be created.
+The snapshot file can also be uploaded as a file and restored using the [recover from uploaded snapshot](https://api.qdrant.tech/master/api-reference/snapshots/recover-from-uploaded-snapshot). This endpoint accepts the raw snapshot data in the request body. If the target collection does not exist, it will be created.
 
 ```bash
 curl -X POST 'http://{qdrant-url}:6333/collections/{collection_name}/snapshots/upload?priority=snapshot' \
@@ -526,4 +503,69 @@ For example:
 
 ```bash
 ./qdrant --storage-snapshot /snapshots/full-snapshot-2022-07-18-11-20-51.snapshot
+```
+
+## Storage
+
+Created, uploaded and recovered snapshots are stored as `.snapshot` files. By
+default, they're stored on the [local file system](#local-file-system). You may
+also configure to use an [S3 storage](#s3) service for them.
+
+### Local file system
+
+By default, snapshots are stored at `./snapshots` or at `/qdrant/snapshots` when
+using our Docker image.
+
+The target directory can be controlled through the [configuration](../../guides/configuration/):
+
+```yaml
+storage:
+  # Specify where you want to store snapshots.
+  snapshots_path: ./snapshots
+```
+
+Alternatively you may use the environment variable `QDRANT__STORAGE__SNAPSHOTS_PATH=./snapshots`.
+
+*Available as of v1.3.0*
+
+While a snapshot is being created, temporary files are placed in the configured
+storage directory by default. In case of limited capacity or a slow
+network attached disk, you can specify a separate location for temporary files:
+
+```yaml
+storage:
+  # Where to store temporary files
+  temp_path: /tmp
+```
+
+### S3
+
+*Available as of v1.10.0*
+
+Rather than storing snapshots on the local file system, you may also configure
+to store snapshots in an S3-compatible storage service. To enable this, you must
+configure it in the [configuration](../../guides/configuration/) file.
+
+For example, to configure for AWS S3:
+
+```yaml
+storage:
+  snapshots_config:
+    # Use 's3' to store snapshots on S3
+    snapshots_storage: s3
+
+    s3_config:
+      # Bucket name
+      bucket: your_bucket_here
+
+      # Bucket region (e.g. eu-central-1)
+      region: your_bucket_region_here
+
+      # Storage access key
+      # Can be specified either here or in the `AWS_ACCESS_KEY_ID` environment variable.
+      access_key: your_access_key_here
+
+      # Storage secret key
+      # Can be specified either here or in the `AWS_SECRET_ACCESS_KEY` environment variable.
+      secret_key: your_secret_key_here
 ```

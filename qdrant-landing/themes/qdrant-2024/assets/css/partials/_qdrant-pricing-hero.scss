@@ -1,0 +1,46 @@
+@use '../helpers/functions' as *;
+
+.qdrant-pricing-hero {
+  padding-top: $spacer * 2.5;
+  background-color: $neutral-10;
+  color: $neutral-98;
+  text-align: center;
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: rem(38);
+    margin-bottom: $spacer;
+  }
+
+  &__subtitle {
+    font-size: $spacer * 1.5;
+    line-height: rem(34);
+    margin-bottom: $spacer;
+  }
+
+  &__description {
+    margin-bottom: 0;
+    color: $neutral-70;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: rem(57);
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &__subtitle {
+      font-size: $spacer * 2;
+      line-height: rem(38);
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &__description {
+      font-size: rem(18);
+      line-height: rem(27);
+    }
+  }
+}

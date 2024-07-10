@@ -34,8 +34,6 @@ To use Qdrant Managed Cloud, you need at least one cluster. You can create one i
 
 If you're testing Qdrant, We recommend the Free Tier cluster. The capacity should be enough to serve up to 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/).
 
-We recommend that you use the Free Tier cluster for testing purposes. The capacity should be enough to serve up to 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/). 
-
 ## Support & Troubleshooting
 
 All Qdrant Cloud users are welcome to join our [Discord community](https://qdrant.to/discord/). Our Support Engineers are available to help you anytime.

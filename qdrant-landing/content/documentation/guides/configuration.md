@@ -98,6 +98,15 @@ storage:
   # Where to store snapshots
   snapshots_path: ./snapshots
 
+  snapshots_config:
+    # "local" or "s3" - where to store snapshots
+    snapshots_storage: local
+    # s3_config:
+    #   bucket: ""
+    #   region: ""
+    #   access_key: ""
+    #   secret_key: ""
+
   # Where to store temporary files
   # If null, temporary snapshot are stored in: storage/snapshots_temp/
   temp_path: null
@@ -130,16 +139,35 @@ storage:
   performance:
     # Number of parallel threads used for search operations. If 0 - auto selection.
     max_search_threads: 0
-    # Max total number of threads, which can be used for running optimization processes across all collections.
-    # Note: Each optimization thread will also use `max_indexing_threads` for index building.
-    # So total number of threads used for optimization will be `max_optimization_threads * max_indexing_threads`
-    max_optimization_threads: 1
+
+    # Max number of threads (jobs) for running optimizations across all collections, each thread runs one job.
+    # If 0 - have no limit and choose dynamically to saturate CPU.
+    # Note: each optimization job will also use `max_indexing_threads` threads by itself for index building.
+    max_optimization_threads: 0
+
+    # CPU budget, how many CPUs (threads) to allocate for an optimization job.
+    # If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size
+    # If negative - subtract this number of CPUs from the available CPUs.
+    # If positive - use this exact number of CPUs.
+    optimizer_cpu_budget: 0
 
     # Prevent DDoS of too many concurrent updates in distributed mode.
     # One external update usually triggers multiple internal updates, which breaks internal
     # timings. For example, the health check timing and consensus timing.
     # If null - auto selection.
     update_rate_limit: null
+
+    # Limit for number of incoming automatic shard transfers per collection on this node, does not affect user-requested transfers.
+    # The same value should be used on all nodes in a cluster.
+    # Default is to allow 1 transfer.
+    # If null - allow unlimited transfers.
+    #incoming_shard_transfers_limit: 1
+
+    # Limit for number of outgoing automatic shard transfers per collection on this node, does not affect user-requested transfers.
+    # The same value should be used on all nodes in a cluster.
+    # Default is to allow 1 transfer.
+    # If null - allow unlimited transfers.
+    #outgoing_shard_transfers_limit: 1
 
   optimizers:
     # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
@@ -186,33 +214,76 @@ storage:
     # Interval between forced flushes.
     flush_interval_sec: 5
 
-    # Max number of threads, which can be used for optimization per collection.
-    # Note: Each optimization thread will also use `max_indexing_threads` for index building.
-    # So total number of threads used for optimization will be `max_optimization_threads * max_indexing_threads`
-    # If `max_optimization_threads = 0`, optimization will be disabled.
-    max_optimization_threads: 1
+    # Max number of threads (jobs) for running optimizations per shard.
+    # Note: each optimization job will also use `max_indexing_threads` threads by itself for index building.
+    # If null - have no limit and choose dynamically to saturate CPU.
+    # If 0 - no optimization threads, optimizations will be disabled.
+    max_optimization_threads: null
+
+  # This section has the same options as 'optimizers' above. All values specified here will overwrite the collections
+  # optimizers configs regardless of the config above and the options specified at collection creation.
+  #optimizers_overwrite:
+  #  deleted_threshold: 0.2
+  #  vacuum_min_vector_number: 1000
+  #  default_segment_number: 0
+  #  max_segment_size_kb: null
+  #  memmap_threshold_kb: null
+  #  indexing_threshold_kb: 20000
+  #  flush_interval_sec: 5
+  #  max_optimization_threads: null
 
   # Default parameters of HNSW Index. Could be overridden for each collection or named vector individually
   hnsw_index:
     # Number of edges per node in the index graph. Larger the value - more accurate the search, more space required.
     m: 16
+
     # Number of neighbours to consider during the index building. Larger the value - more accurate the search, more time required to build index.
     ef_construct: 100
+
     # Minimal size (in KiloBytes) of vectors for additional payload-based indexing.
     # If payload chunk is smaller than `full_scan_threshold_kb` additional indexing won't be used -
     # in this case full-scan search should be preferred by query planner and additional indexing is not required.
     # Note: 1Kb = 1 vector of size 256
     full_scan_threshold_kb: 10000
-    # Number of parallel threads used for background index building. If 0 - auto selection.
+
+    # Number of parallel threads used for background index building.
+    # If 0 - automatically select.
+    # Best to keep between 8 and 16 to prevent likelihood of building broken/inefficient HNSW graphs.
+    # On small CPUs, less threads are used.
     max_indexing_threads: 0
+
     # Store HNSW index on disk. If set to false, index will be stored in RAM. Default: false
     on_disk: false
+
     # Custom M param for hnsw graph built for payload index. If not set, default M will be used.
     payload_m: null
 
+  # Default shard transfer method to use if none is defined.
+  # If null - don't have a shard transfer preference, choose automatically.
+  # If stream_records, snapshot or wal_delta - prefer this specific method.
+  # More info: https://qdrant.tech/documentation/guides/distributed_deployment/#shard-transfer-method
+  shard_transfer_method: null
+
+  # Default parameters for collections
+  collection:
+    # Number of replicas of each shard that network tries to maintain
+    replication_factor: 1
+
+    # How many replicas should apply the operation for us to consider it successful
+    write_consistency_factor: 1
+
+    # Default parameters for vectors.
+    vectors:
+      # Whether vectors should be stored in memory or on disk.
+      on_disk: null
+
+    # shard_number_per_node: 1
+
+    # Default quantization configuration.
+    # More info: https://qdrant.tech/documentation/guides/quantization
+    quantization: null
 
 service:
-
   # Maximum size of POST data in a single request in megabytes
   max_request_size_mb: 32
 
@@ -253,7 +324,7 @@ service:
   #
   # Uncomment to enable.
   # api_key: your_secret_api_key_here
-   
+
   # Set an api-key for read-only operations.
   # If set, all requests must include a header with the api-key.
   # example header: `api-key: <API-KEY>`
@@ -264,6 +335,12 @@ service:
   #
   # Uncomment to enable.
   # read_only_api_key: your_secret_read_only_api_key_here
+
+  # Uncomment to enable JWT Role Based Access Control (RBAC).
+  # If enabled, you can generate JWT tokens with fine-grained rules for access control.
+  # Use generated token instead of API key.
+  #
+  # jwt_rbac: true
 
 cluster:
   # Use `enabled: true` to run Qdrant in distributed deployment mode

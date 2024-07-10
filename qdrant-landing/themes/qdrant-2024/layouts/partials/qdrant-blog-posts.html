@@ -1,0 +1,44 @@
+<section class="qdrant-blog-posts">
+  <div class="container">
+    <div class="qdrant-blog-posts__articles row gx-5">
+      {{ $all := ($.Site.GetPage "blog" .Section).Pages.ByPublishDate.Reverse }}
+      {{ $paginator := .Paginate (where $all ".Params.featured" "!=" true) 9 }}
+      {{ range $paginator.Pages }}
+        {{ .Scratch.Set "scope" "list" }}
+
+        {{ $link := .Permalink }}
+        {{ if .Params.external_link }}
+          {{ $link = .Params.external_link }}
+        {{ end }}
+
+        {{ if or (not .Params.featured) }}
+
+          <article class="qdrant-blog-posts__article post col-12 col-lg-4">
+            <a class="post-link" href="{{ .RelPermalink }}">
+              {{ if .Params.preview_image }}
+                <div class="post-preview">
+                  {{ partial "preview-image" (dict "context" . "default_file_name" "preview.jpg" "preview_file" .Params.small_preview_image) }}
+                </div>
+              {{ end }}
+              <h6 class="post-title">{{ .Params.title }}</h6>
+              <p class="post-description">{{ .Params.description }}</p>
+              <div class="post-about">
+                <p>{{ .Params.author }}</p>
+                <span>&middot;</span>
+                <p>{{ time.Format "January 02, 2006" .Date }}</p>
+              </div>
+            </a>
+          </article>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <div class="row">
+      <div class="qdrant-blog-posts__pagination col-12">
+        {{ if gt $paginator.TotalPages 1 }}
+          {{ partial "pagination" $paginator }}
+        {{ end }}
+      </div>
+    </div>
+  </div>
+</section>

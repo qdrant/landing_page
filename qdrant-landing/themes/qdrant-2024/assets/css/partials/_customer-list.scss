@@ -1,0 +1,46 @@
+@use '../helpers/functions' as *;
+@use '../mixins/marquee' as marquee;
+
+.customer-list {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__logos {
+    @include marquee.base(64px, 224px, 15, 15, 52px, $neutral-94, false, 50s, block);
+  }
+
+  &__title {
+    margin-bottom: $spacer * 3;
+    font-size: rem(18);
+    line-height: rem(27);
+    font-weight: 400;
+    color: $neutral-20;
+    text-align: center;
+  }
+
+  &.dark {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+    background-color: $neutral-20;
+
+    .customer-list__logos {
+      @include marquee.base(64px, 224px, 15, 15, 52px, $neutral-20, false, 50s, block);
+    }
+
+    .customer-list__title {
+      color: $neutral-98;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 4;
+
+    &__title {
+      font-size: $spacer * 1.5;
+      line-height: rem(34);
+      font-weight: 600;
+    }
+  }
+}

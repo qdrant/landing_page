@@ -1,0 +1,19 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+  {{ partial "enterprise-solutions-hero" . }}
+
+  {{ partial "enterprise-solutions-use-cases" . }}
+
+  {{ with (.Site.GetPage "/enterprise-solutions/testimonial") }}
+    {{ partial "testimonial" (dict "context" . "overlayType" "top-and-bottom-overlay") }}
+  {{ end }}
+
+  {{ partial "enterprise-benefits" . }}
+
+  {{ with (.Site.GetPage "/headless/get-contacted-with-question-sales") }}
+    {{ partial "get-contacted" (dict "context" . "class" "get-contacted-with-question") }}
+  {{ end }}
+
+  {{ partial "get-started" . }}
+  {{ partial "customer-list" . }}
+{{ end }}

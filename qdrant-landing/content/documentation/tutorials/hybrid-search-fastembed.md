@@ -298,7 +298,7 @@ With Qdrant it is also feasible to add some conditions to the search.
 For example, if you wanted to search for startups in a certain city, the search query could look like this:
 
 ```python
-from qdrant_client.models import Filter
+from qdrant_client import models
 
     ...
 

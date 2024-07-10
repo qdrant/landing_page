@@ -14,7 +14,7 @@ tags:
   - launch partners
 ---
 
-With the launch of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) we provide developers the ability to deploy Qdrant as a managed vector database in any desired environment, be it *in the cloud, on premise, or on the edge*.
+With the launch of [Qdrant Hybrid Cloud](/hybrid-cloud/) we provide developers the ability to deploy Qdrant as a managed vector database in any desired environment, be it *in the cloud, on premise, or on the edge*.
 
 We are excited to have trusted industry players support the launch of Qdrant Hybrid Cloud, allowing developers to unlock best-in-class advantages for building production-ready AI applications:
 
@@ -97,8 +97,8 @@ Additionally, we built comprehensive documentation tutorials on how to successfu
 
 #### Get Started Now!
 
-[Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) marks a significant advancement in vector databases, offering the most flexible way to implement vector search. 
+[Qdrant Hybrid Cloud](/hybrid-cloud/) marks a significant advancement in vector databases, offering the most flexible way to implement vector search. 
 
-You can test out Qdrant Hybrid Cloud today! Simply sign up for or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the **Hybrid Cloud** section. Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our [Qdrant Hybrid Cloud website](https://hybrid-cloud.qdrant.tech/). For additional technical insights, please read our [documentation](/documentation/hybrid-cloud/).
+You can test out Qdrant Hybrid Cloud today! Simply sign up for or log into your [Qdrant Cloud account](https://cloud.qdrant.io/login) and get started in the **Hybrid Cloud** section. Also, to learn more about Qdrant Hybrid Cloud read our [Official Release Blog](/blog/hybrid-cloud/) or our [Qdrant Hybrid Cloud website](/hybrid-cloud/). For additional technical insights, please read our [documentation](/documentation/hybrid-cloud/).
 
 [![hybrid-cloud-get-started](/blog/hybrid-cloud-launch-partners/hybrid-cloud-get-started.png)](https://cloud.qdrant.io/login)

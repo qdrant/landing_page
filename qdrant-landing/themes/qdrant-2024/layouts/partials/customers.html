@@ -1,0 +1,17 @@
+{{ with (.Site.GetPage "/headless/main/customers") }}
+  <section class="customers">
+    {{ $context := slice }}
+    {{ range .Params.customers }}
+      {{ $context = $context | append (dict "svg" .logo "name" .name) }}
+    {{ end }}
+    {{ partial "marquee.html" (dict "context" $context "marqueeClass" "customers__logos") }}
+
+
+    <div class="customers__description">
+      <span class="customers__title">{{ .Params.customerStories.text }}</span>
+      {{ if .Params.customerStories.url }}
+        <a class="link link_xl" href="{{ .Params.customerStories.url }}"> {{ .Params.customerStories.textLink }} </a>
+      {{ end }}
+    </div>
+  </section>
+{{ end }}

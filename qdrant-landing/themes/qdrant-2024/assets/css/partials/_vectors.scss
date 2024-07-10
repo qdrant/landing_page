@@ -1,0 +1,195 @@
+@use '../helpers/functions' as *;
+
+.vectors {
+  background-color: $neutral-10;
+
+  padding-bottom: $spacer * 4;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  &__header {
+    z-index: 1;
+    padding-top: $spacer * 4;
+    padding-bottom: $spacer * 5;
+  }
+
+  &__header-overlay {
+    display: none;
+  }
+
+  &__title {
+    font-size: map-get($font-sizes, 4);
+    line-height: rem(48);
+    text-align: center;
+    margin-bottom: $spacer * 1.5;
+    max-width: 100%;
+    color: $neutral-98;
+  }
+
+  &__subtitle {
+    font-size: map-get($font-sizes-text, 'l');
+    line-height: rem(27);
+    text-align: center;
+    color: $neutral-70;
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 5;
+  }
+
+  &__card {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    min-width: 100%;
+    justify-content: space-between;
+  }
+
+  &__card--reversed {
+    display: flex;
+    align-items: center;
+    min-width: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  &__card-image {
+    width: 100%;
+    height: rem(224);
+    background-size: contain;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-top: $spacer * 2.5;
+  }
+
+  &__card-description {
+    max-width: 100%;
+  }
+
+  &__card-title {
+    color: $neutral-98;
+    margin-bottom: $spacer * 1.5;
+    font-size: map-get($font-sizes, 5);
+    line-height: rem(38);
+  }
+
+  &__card-content {
+    color: $neutral-70;
+    margin-bottom: $spacer * 1.5;
+    font-size: rem(16);
+    line-height: rem(24);
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__header {
+      padding-bottom: $spacer * 7.5;
+    }
+
+    &__title {
+      font-size: map-get($font-sizes, 2);
+      line-height: rem(67);
+      max-width: rem(726);
+    }
+
+    &__subtitle {
+      font-size: map-get($font-sizes-text, 'xl');
+      line-height: rem(30);
+      max-width: rem(726);
+    }
+
+    &__cards {
+      gap: $spacer * 10;
+    }
+
+    &__card {
+      min-width: rem(1110);
+      flex-direction: row;
+    }
+
+    &__card--reversed {
+      min-width: rem(1110);
+      flex-direction: row-reverse;
+    }
+
+    &__card-image {
+      width: rem(540);
+      height: rem(360);
+      margin-top: 0;
+    }
+
+    &__card-title {
+      font-size: map-get($font-sizes, 4);
+      line-height: rem(48);
+    }
+
+    &__card-content {
+      font-size: map-get($font-sizes-text, 'l');
+      line-height: rem(27);
+    }
+
+    &__card-description {
+      max-width: rem(445);
+    }
+  }
+}
+
+.vectors__card:first-child {
+  .vectors__card-image {
+    height: rem(256);
+
+    @include media-breakpoint-up(xl) {
+      height: rem(392);
+    }
+  }
+}
+
+.vectors-use-case {
+  .vectors__header {
+    padding-top: $spacer * 2.5;
+    padding-bottom: $spacer * 7;
+  }
+
+  .vectors__title {
+    max-width: 100%;
+  }
+
+  .vectors__cards {
+    gap: $spacer * 7.5;
+  }
+
+  @include media-breakpoint-up(xl) {
+    .vectors__header {
+      padding-top: $spacer * 5;
+    }
+
+    .vectors__header-overlay {
+      position: absolute;
+      display: block;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      max-height: rem(398);
+      background: url('/img/stars-pattern.png') $neutral-10;
+    }
+
+    .vectors__title {
+      font-size: map-get($font-sizes, 1);
+      line-height: rem(76);
+    }
+
+    .vectors__subtitle {
+      max-width: rem(944);
+    }
+
+    .vectors__cards {
+      gap: $spacer * 10;
+    }
+  }
+}

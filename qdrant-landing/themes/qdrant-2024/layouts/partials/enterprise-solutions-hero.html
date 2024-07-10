@@ -1,0 +1,26 @@
+{{ with (.Site.GetPage "enterprise-solutions/enterprise-solutions-hero") }}
+  <section class="enterprise-solutions-hero">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h3 class="enterprise-solutions-hero__title">{{ .Params.title }}</h3>
+          <div class="enterprise-solutions-hero__description">{{ .Params.description }}</div>
+          <div class="enterprise-solutions-hero__buttons">
+            <a href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
+              {{ .Params.startFree.text }}
+            </a>
+            <a href="{{ .Params.contactUs.url }}" class="button button_outlined button_lg">
+              {{ .Params.contactUs.text }}
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <img class="enterprise-solutions-hero__preview" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+    <img
+      class="enterprise-solutions-hero__preview-mobile"
+      src="{{ .Params.image.srcMobile }}"
+      alt="{{ .Params.image.alt }}"
+    />
+  </section>
+{{ end }}

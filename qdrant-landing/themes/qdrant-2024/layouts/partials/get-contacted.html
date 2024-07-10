@@ -1,0 +1,16 @@
+<section class="{{ .class }}">
+  <div class="container">
+    <div class="{{ .class }}__content col-12">
+      <p>{{ .context.Params.content }}</p>
+      <a
+        href="{{ .context.Params.contactUs.url }}"
+        class="{{ .class }}__button-mobile button button_outlined button_lg"
+      >
+        {{ .context.Params.contactUs.text }}
+      </a>
+      <a href="{{ .context.Params.contactUs.url }}" class="{{ .class }}__button button button_contained">
+        {{ .context.Params.contactUs.text }}
+      </a>
+    </div>
+  </div>
+</section>

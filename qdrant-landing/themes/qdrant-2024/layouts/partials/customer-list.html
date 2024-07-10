@@ -1,0 +1,21 @@
+{{ $setting := "" }}
+
+{{ if .Scratch.Get "setting" }}
+  {{ $setting = .Scratch.Get "setting" }}
+{{ end }}
+
+{{ with (.Site.GetPage "/headless/customer-list") }}
+  <section class="customer-list{{ index $setting 0 }}">
+    {{ if index $setting 1 }}
+      <div class="container">
+        <h6 class="customer-list__title">{{ index $setting 1 }}</h6>
+      </div>
+    {{ end }}
+
+    {{ $context := slice }}
+    {{ range .Params.customers }}
+      {{ $context = $context | append (dict "svg" .logo "name" .name) }}
+    {{ end }}
+    {{ partial "marquee.html" (dict "context" $context "marqueeClass" "customer-list__logos") }}
+  </section>
+{{ end }}

@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-We’re excited to share that Qdrant and [Vultr](https://www.vultr.com/) are partnering to provide seamless scalability and performance for vector search workloads. With Vultr's global footprint and customizable platform, deploying vector search workloads becomes incredibly flexible. Qdrant's new [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/) offering and its Kubernetes-native design, coupled with Vultr's straightforward virtual machine provisioning, allows for simple setup when prototyping and building next-gen AI apps.
+We’re excited to share that Qdrant and [Vultr](https://www.vultr.com/) are partnering to provide seamless scalability and performance for vector search workloads. With Vultr's global footprint and customizable platform, deploying vector search workloads becomes incredibly flexible. Qdrant's new [Qdrant Hybrid Cloud](/hybrid-cloud/) offering and its Kubernetes-native design, coupled with Vultr's straightforward virtual machine provisioning, allows for simple setup when prototyping and building next-gen AI apps.
 
 #### Adapting to Diverse AI Development Needs with Customization and Deployment Flexibility
 

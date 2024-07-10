@@ -71,7 +71,7 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 ```
 
-<aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="https://qdrant.tech/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
+<aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
 
 ## Create a collection
 

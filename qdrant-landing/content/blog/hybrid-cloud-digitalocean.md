@@ -15,7 +15,7 @@ tags:
 
 Developers are constantly seeking new ways to enhance their AI applications with new customer experiences. At the core of this are vector databases, as they enable the efficient handling of complex, unstructured data, making it possible to power applications with semantic search, personalized recommendation systems, and intelligent Q&A platforms. However, when deploying such new AI applications, especially those handling sensitive or personal user data, privacy becomes important.
 
-[DigitalOcean](https://www.digitalocean.com/) and Qdrant are actively addressing this with an integration that lets developers deploy a managed vector database in their existing DigitalOcean environments. With the recent launch of [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech/), developers can seamlessly deploy Qdrant on DigitalOcean Kubernetes (DOKS) clusters, making it easier for developers to handle vector databases without getting bogged down in the complexity of managing the underlying infrastructure. 
+[DigitalOcean](https://www.digitalocean.com/) and Qdrant are actively addressing this with an integration that lets developers deploy a managed vector database in their existing DigitalOcean environments. With the recent launch of [Qdrant Hybrid Cloud](/hybrid-cloud/), developers can seamlessly deploy Qdrant on DigitalOcean Kubernetes (DOKS) clusters, making it easier for developers to handle vector databases without getting bogged down in the complexity of managing the underlying infrastructure. 
 
 #### Unlocking the Power of Generative AI with Qdrant and DigitalOcean
 

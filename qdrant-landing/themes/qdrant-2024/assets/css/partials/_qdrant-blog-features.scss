@@ -1,0 +1,133 @@
+@use '../helpers/functions' as *;
+
+.qdrant-blog-features {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-98;
+
+  &__header {
+    margin-bottom: $spacer * 3;
+  }
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    color: $neutral-20;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__form {
+    margin-bottom: 0;
+
+    &-search-block {
+      position: relative;
+
+      input,
+      .qdr-search-input-btn {
+        padding-right: $spacer * 2.5;
+      }
+      .qdr-search-input-btn {
+        width: 100%;
+        color: $neutral-70;
+      }
+
+      i {
+        position: absolute;
+        top: rem(12);
+        right: $spacer;
+        width: $spacer;
+        height: $spacer;
+        border: none;
+        background-color: transparent;
+        background-image: url('/icons/outline/input-search.svg');
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+      }
+    }
+  }
+
+  &__articles {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 4;
+
+    &-main {
+      width: 100%;
+
+      h5 {
+        font-size: $spacer * 2;
+        line-height: rem(38);
+        color: $neutral-20;
+        margin-bottom: $spacer;
+      }
+
+      &:hover {
+        .post-preview > div {
+          transform: none;
+        }
+      }
+    }
+
+    &-secondary {
+      .post {
+        padding: rem(18) 0 rem(20);
+        border-bottom: rem(1) solid $neutral-90;
+
+        &:first-of-type {
+          padding-top: rem(20);
+          border-top: rem(1) solid $neutral-90;
+        }
+      }
+
+      h6 {
+        margin-bottom: $spacer;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+    padding-bottom: $spacer * 5;
+
+    &__header {
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    &__articles {
+      flex-direction: row;
+      gap: rem(30);
+
+      &-main {
+        width: calc(100% - 476px);
+      }
+
+      &-secondary {
+        width: rem(446);
+
+        .post {
+          &:first-of-type {
+            padding-top: 0;
+            border-top: none;
+          }
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__title {
+      font-size: $spacer * 3.5;
+      line-height: rem(67);
+      margin-bottom: 0;
+    }
+
+    &__form {
+      &-search-block {
+        width: rem(534);
+        margin-left: auto;
+      }
+    }
+  }
+}

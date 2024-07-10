@@ -50,7 +50,7 @@ There are several different techniques that we use to anonymize the data:
 - We replace all names with irreversibly hashed values. So no collection or field names will leak into the telemetry.
 - All urls are hashed as well.
 
-You can see exact version of anomymized collected data by accessing the [telemetry API](https://qdrant.github.io/qdrant/redoc/index.html#tag/service/operation/telemetry) with `anonymize=true` parameter.
+You can see exact version of anomymized collected data by accessing the [telemetry API](https://api.qdrant.tech/master/api-reference/service/telemetry) with `anonymize=true` parameter.
 
 For example, <http://localhost:6333/telemetry?details_level=6&anonymize=true>
 

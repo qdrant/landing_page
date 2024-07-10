@@ -25,7 +25,7 @@ To maintain complete data isolation, we need to limit ourselves to open-source t
 - **LLM:** `mistralai/Mistral-7B-Instruct-v0.1`, deployed as a standalone service on OpenShift.
 - **Embedding Model:** `BAAI/bge-base-en-v1.5`, lightweight embedding model deployed from within the Haystack pipeline
   with [FastEmbed](https://github.com/qdrant/fastembed)
-- **Vector DB:** [Qdrant Hybrid Cloud](https://qdrant.tech) running on OpenShift.
+- **Vector DB:** [Qdrant Hybrid Cloud](https://hybrid-cloud.qdrant.tech) running on OpenShift.
 - **Framework:** [Haystack 2.x](https://haystack.deepset.ai/) to connect all and [Hayhooks](https://docs.haystack.deepset.ai/docs/hayhooks) to serve the app through HTTP endpoints.
 
 ### Procedure
@@ -458,4 +458,4 @@ The response should be similar to the one we got in the Python before:
 - [Haystack's documentation](https://docs.haystack.deepset.ai/docs/kubernetes) describes [how to deploy the Hayhooks service in a Kubernetes 
 environment](https://docs.haystack.deepset.ai/docs/kubernetes), so you can easily move it to your own OpenShift infrastructure.
 
-- If you are just getting started and need more guidance on Qdrant, read the [quickstart](https://qdrant.tech/documentation/quick-start/) or try out our [beginner tutorial](https://qdrant.tech/documentation/tutorials/neural-search/).
+- If you are just getting started and need more guidance on Qdrant, read the [quickstart](/documentation/quick-start/) or try out our [beginner tutorial](/documentation/tutorials/neural-search/).

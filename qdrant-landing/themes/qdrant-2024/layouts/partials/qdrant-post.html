@@ -1,0 +1,42 @@
+<section class="qdrant-post {{ if eq .variant "centered" }}qdrant-post_centered{{ end }}">
+  <article class="container">
+    <div class="qdrant-post__header">
+      <h1 class="qdrant-post__title">{{ .context.Params.title }}</h1>
+      <div class="qdrant-post__about">
+        <p>{{ .context.Params.author }}</p>
+        <span>&middot;</span>
+        <p>{{ time.Format "January 02, 2006" .context.Date }}</p>
+      </div>
+      {{ if .context.Params.preview_dir }}
+        <picture class="qdrant-post__preview">
+          <source srcset="{{ .context.Params.preview_dir }}/title.webp" type="image/webp" />
+          <img alt="{{ .context.Title }}" src="{{ .context.Params.preview_dir }}/title.jpg" />
+        </picture>
+      {{ else }}
+        <picture class="qdrant-post__preview">
+          {{ partial "preview-image" (dict "context" .context "default_file_name" "title.jpg" "preview_file" .context.Params.title_preview_image) }}
+        </picture>
+      {{ end }}
+    </div>
+    <div class="row">
+      <div class="col-12 mb-5">
+        {{ partial "breadcrumbs" .context }}
+      </div>
+    </div>
+
+    <div class="qdrant-post__body">
+      {{ if ne .variant "centered" }}
+        {{ partial "share-buttons" .context }}
+      {{ end }}
+
+
+      <div class="qdrant-post__content">
+        {{ partial "article-content" .context }}
+      </div>
+      {{ if eq .variant "centered" }}
+        {{ .context.Scratch.Set "variant" "horizontal" }}
+        {{ partial "share-buttons" .context }}
+      {{ end }}
+    </div>
+  </article>
+</section>

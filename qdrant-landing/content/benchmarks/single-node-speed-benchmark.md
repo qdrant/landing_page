@@ -3,9 +3,9 @@ draft: false
 id: 1
 title: Single node benchmarks
 description: |
-    We benchmarked several vector databases using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January 2024 </b>
+    We benchmarked several vector databases using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January/June 2024 </b>
 single_node_title: Single node benchmarks
-single_node_data: /benchmarks/results-1-100-thread.json
+single_node_data: /benchmarks/results-1-100-thread-2024-06-15.json
 preview_image: /benchmarks/benchmark-1.png
 date: 2022-08-23
 weight: 2
@@ -21,7 +21,7 @@ Most of the engines have improved since [our last run](/benchmarks/single-node-s
 * `Elasticsearch` has become considerably fast for many cases but it's very slow in terms of indexing time. It can be 10x slower when storing 10M+ vectors of 96 dimensions! (32mins vs 5.5 hrs)
 * `Milvus` is the fastest when it comes to indexing time and maintains good precision. However, it's not on-par with others when it comes to RPS or latency when you have higher dimension embeddings or more number of vectors.
 * `Redis` is able to achieve good RPS but mostly for lower precision. It also achieved low latency with single thread, however its latency goes up quickly with more parallel requests. Part of this speed gain comes from their custom protocol.
-* `Weaviate` has improved the least since our last run. Because of relative improvements in other engines, it has become one of the slowest in terms of RPS as well as latency.
+* `Weaviate` has improved the least since our last run.
 
 ## How to read the results
 
