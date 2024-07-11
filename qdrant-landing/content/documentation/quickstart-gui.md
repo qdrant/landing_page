@@ -5,7 +5,7 @@ weight: 3
 
 # Visual Quickstart
 
-<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/woeDzc5o0CQ?si=h4pyobeA30gMQh2A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/g6uJhjAoNMg?si=EZ3OtmEdKKHIOgFy" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
 <p style="text-align: center;">You can try vector search on Qdrant Cloud in three steps. 
 </br> Instructions are below, but the video is faster:</p>
 
