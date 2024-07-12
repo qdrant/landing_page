@@ -21,7 +21,7 @@ tags:
 > -- Rishabh Bhardwaj
 > 
 
-How does the HNSW (Hierarchical Navigable Small World) algorithm benefit the solution built by Rishabh?
+How does the [HNSW (Hierarchical Navigable Small World)](https://qdrant.tech/articles/filtrable-hnsw/) algorithm benefit the solution built by Rishabh?
 
 Rhishabh, a Data Engineer at HRS Group, excels in designing, developing, and maintaining data pipelines and infrastructure crucial for data-driven decision-making processes. With extensive experience, Rhishabh brings a profound understanding of data engineering principles and best practices to the role. Proficient in SQL, Python, Airflow, ETL tools, and cloud platforms like AWS and Azure, Rhishabh has a proven track record of delivering high-quality data solutions that align with business needs. Collaborating closely with data analysts, scientists, and stakeholders at HRS Group, Rhishabh ensures the provision of valuable data and insights for informed decision-making.
 
