@@ -21,7 +21,7 @@ keywords:
 Ever since the data science community discovered that vector search significantly improves LLM answers,
 various vendors and enthusiasts have been arguing over the proper solutions to store embeddings.
 
-Some say storing them in a specialized engine (aka vector database) is better. Others say that it's enough to use plugins for existing databases.
+Some say storing them in a specialized engine (aka [vector databases](https://qdrant.tech/qdrant-vector-database/)) is better. Others say that it's enough to use plugins for existing databases.
 
 Here are [just](https://nextword.substack.com/p/vector-database-is-not-a-separate) a [few](https://stackoverflow.blog/2023/09/20/do-you-need-a-specialized-vector-database-to-implement-vector-search-well/) of [them](https://www.singlestore.com/blog/why-your-vector-database-should-not-be-a-vector-database/).
 
