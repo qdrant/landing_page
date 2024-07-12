@@ -5,7 +5,7 @@ weight: 4
 
 # Platform Deployment Options
 
-This page provides an overview of how to deploy Qdrant Hybrid Cloud on various managed Kubernetes platforms.
+This page provides an overview of how to deploy [Qdrant Hybrid Cloud](https://qdrant.tech/hybrid-cloud/) on various managed Kubernetes platforms.
 
 For a general list of prerequisites and installation steps, see our [Hybrid Cloud setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
 
