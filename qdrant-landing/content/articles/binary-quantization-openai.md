@@ -118,7 +118,7 @@ For those exploring the integration of text embedding models with Qdrant, it's c
 
 1. **Model Name**: Signifying the specific text embedding model variant, such as "text-embedding-3-large" or "text-embedding-3-small". This distinction correlates with the model's capacity, with "large" models offering more detailed embeddings at the cost of increased computational resources.
 
-2. **Dimensions**: This refers to the size of the vector embeddings produced by the model. Options range from 512 to 3072 dimensions. Higher dimensions could lead to more precise embeddings but might also increase the search time and memory usage in Qdrant.
+2. **Dimensions**: This refers to the size of the [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/) produced by the model. Options range from 512 to 3072 dimensions. Higher dimensions could lead to more precise embeddings but might also increase the search time and memory usage in Qdrant.
 
 Optimizing these parameters is a balancing act between search accuracy and resource efficiency. Testing across these combinations allows users to identify the configuration that best meets their specific needs, considering the trade-offs between computational resources and the quality of search results.
 
