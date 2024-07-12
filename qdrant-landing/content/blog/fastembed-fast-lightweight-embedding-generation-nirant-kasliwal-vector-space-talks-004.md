@@ -20,7 +20,7 @@ tags:
 > *"When things are actually similar or how we define similarity. They are close to each other and if they are not, they're far from each other. This is what a model or embedding model tries to do.”*\
 >-- Nirant Kasliwal
 
-Heard about FastEmbed? It's a game-changer. Nirant shares tricks on how to improve your embedding models. You might want to give it a shot!
+Heard about [FastEmbed](https://qdrant.tech/articles/fastembed/)? It's a game-changer. Nirant shares tricks on how to improve your embedding models. You might want to give it a shot!
 
 Nirant Kasliwal, the creator and maintainer of FastEmbed, has made notable contributions to the Finetuning Cookbook at OpenAI Cookbook. His contributions extend to the field of Natural Language Processing (NLP), with over 5,000 copies of the NLP book sold.
 
