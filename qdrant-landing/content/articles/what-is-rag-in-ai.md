@@ -84,7 +84,7 @@ The system can employ different vector similarity strategies depending on the ty
 
 ##### Sparse vector representations
 
-A sparse vector is characterized by a high dimensionality, with most of its elements being zero.
+A [sparse vector](https://qdrant.tech/articles/sparse-vectors/) is characterized by a high dimensionality, with most of its elements being zero.
 
 The classic approach is **keyword search**, which scans documents for the exact words or phrases in the query. The search creates sparse vector representations of documents by counting word occurrences and inversely weighting common words. Queries with rarer words get prioritized.
 
