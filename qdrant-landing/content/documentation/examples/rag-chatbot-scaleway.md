@@ -128,7 +128,7 @@ vectorstore = Qdrant.from_documents(
 
 ## Retrieve and generate content
 
-The `vectorstore` is used as a retriever to fetch relevant documents based on vector similarity. The `hub.pull("rlm/rag-prompt")` function is used to pull a specific prompt from a repository, which is designed to work with retrieved documents and a question to generate a response.
+The `vectorstore` is used as a retriever to fetch relevant documents based on [vector similarity](https://qdrant.tech/articles/vector-similarity-beyond-search/). The `hub.pull("rlm/rag-prompt")` function is used to pull a specific prompt from a repository, which is designed to work with retrieved documents and a question to generate a response.
 
 The `format_docs` function formats the retrieved documents into a single string, preparing them for further processing. This formatted string, along with a question, is passed through a chain of operations. Firstly, the context (formatted documents) and the question are processed by the retriever and the prompt. Then, the result is fed into a large language model (`llm`) for content generation. Finally, the output is parsed into a string format using `StrOutputParser()`.
 
