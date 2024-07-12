@@ -155,7 +155,7 @@ There are three quantization strategies you can choose from - scalar quantizatio
 
 Qdrant offers several [security features](/documentation/guides/security/) to help protect data and access to the vector store:
 
-- API Key Authentication: This helps secure API access to Qdrant Cloud with static or read-only API keys.
+- API Key Authentication: This helps secure API access to [Qdrant Cloud](https://qdrant.tech/cloud/) with static or read-only API keys.
 - JWT-Based Access Control: You can also enable more granular access control through JSON Web Tokens (JWT), and opt for restricted access to specific parts of the stored data while building Role-Based Access Control (RBAC).
 - TLS Encryption: Additionally, you can enable TLS Encryption on data transmission to ensure security of data in transit.
 
