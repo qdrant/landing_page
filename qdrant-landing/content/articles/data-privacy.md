@@ -234,7 +234,7 @@ Data governance varies by country, especially for global organizations dealing w
 
 To address these needs, the vector database you choose should support deployment and scaling within your controlled infrastructure. [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/) offers this flexibility, along with features like sharding, replicas, JWT authentication, and monitoring.
 
-Qdrant Hybrid Cloud integrates Kubernetes clusters from various environments—cloud, on-premises, or edge—into a unified managed service. This allows organizations to manage Qdrant databases through the Qdrant Cloud UI while keeping the databases within their infrastructure.
+Qdrant Hybrid Cloud integrates Kubernetes clusters from various environments—cloud, on-premises, or edge—into a unified managed service. This allows organizations to manage Qdrant databases through the [Qdrant Cloud](https://qdrant.tech/cloud/) UI while keeping the databases within their infrastructure.
 
 With JWT and RBAC, Qdrant Hybrid Cloud provides a secure, private, and sovereign vector store. Enterprises can scale their AI applications geographically, comply with local laws, and maintain strict data control.
 
