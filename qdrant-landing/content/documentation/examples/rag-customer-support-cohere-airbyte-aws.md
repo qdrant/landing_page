@@ -14,7 +14,7 @@ aliases:
 Maintaining top-notch customer service is vital to business success. As your operation expands, so does the influx of customer queries. Many of these queries are repetitive, making automation a time-saving solution. 
 Your support team's expertise is typically kept private, but you can still use AI to automate responses securely. 
 
-In this tutorial we will setup a private AI service that answers customer support queries with high accuracy and effectiveness. By leveraging Cohere's powerful models (deployed to [AWS](https://cohere.com/deployment-options/aws)) with Qdrant Hybrid Cloud, you can create a fully private customer support system. Data synchronization, facilitated by [Airbyte](https://airbyte.com/), will complete the setup.
+In this tutorial we will setup a private AI service that answers customer support queries with high accuracy and effectiveness. By leveraging Cohere's powerful models (deployed to [AWS](https://cohere.com/deployment-options/aws)) with [Qdrant Hybrid Cloud](https://qdrant.tech/hybrid-cloud/), you can create a fully private customer support system. Data synchronization, facilitated by [Airbyte](https://airbyte.com/), will complete the setup.
 
 ![Architecture diagram](/documentation/examples/customer-support-cohere-airbyte/architecture-diagram.png)
 
