@@ -21,7 +21,7 @@ tags:
 
 ## Long-Term Memory for Your GenAI App
 
-Qdrant's vector database quickly grew due to its ability to make Generative AI more effective. On its own, an LLM can be used to build a process-altering invention. With Qdrant, you can turn this invention into a production-level app that brings real business value.
+Qdrant's [vector database](https://qdrant.tech/qdrant-vector-database/) quickly grew due to its ability to make Generative AI more effective. On its own, an LLM can be used to build a process-altering invention. With Qdrant, you can turn this invention into a production-level app that brings real business value.
 
 The use of vector search in GenAI now has a name: **Retrieval Augmented Generation (RAG)**. [In our previous article](/articles/rag-is-dead/), we argued why RAG is an essential component of AI setups, and why large-scale AI can't operate without it. Numerous case studies explain that AI applications are simply too costly and resource-intensive to run using only LLMs. 
 
