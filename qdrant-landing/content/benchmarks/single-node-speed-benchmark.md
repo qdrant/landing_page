@@ -3,7 +3,7 @@ draft: false
 id: 1
 title: Single node benchmarks
 description: |
-    We benchmarked several vector databases using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January/June 2024 </b>
+    We benchmarked several <a href="https://qdrant.tech/qdrant-vector-database/">vector databases</a> using various configurations of them on different datasets to check how the results may vary. Those datasets may have different vector dimensionality but also vary in terms of the distance function being used. We also tried to capture the difference we can expect while using some different configuration parameters, for both the engine itself and the search operation separately. </br> </br> <b> Updated: January/June 2024 </b>
 single_node_title: Single node benchmarks
 single_node_data: /benchmarks/results-1-100-thread-2024-06-15.json
 preview_image: /benchmarks/benchmark-1.png
