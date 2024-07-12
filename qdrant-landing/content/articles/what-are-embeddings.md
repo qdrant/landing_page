@@ -54,7 +54,7 @@ At their core, vector embeddings are about semantics. They take the idea that "a
 ![Example of how synonyms are placed closer together in the embeddings space](/articles_data/what-are-embeddings/Similar-Embeddings.jpg)
 
 
-This capability is crucial for creating search systems, recommendation engines, retrieval augmented generation (RAG) and any application that benefits from a deep understanding of content.
+This capability is crucial for creating search systems, recommendation engines, [retrieval augmented generation (RAG)](https://qdrant.tech/rag/) and any application that benefits from a deep understanding of content.
 
 ## How do embeddings work?
 
