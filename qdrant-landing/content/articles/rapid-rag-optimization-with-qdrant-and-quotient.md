@@ -21,7 +21,7 @@ keywords:
 
 In today's fast-paced, information-rich world, AI is revolutionizing knowledge management. The systematic process of capturing, distributing, and effectively using knowledge within an organization is one of the fields in which AI provides exceptional value today. 
 
-> The potential for AI-powered knowledge management increases when leveraging Retrieval Augmented Generation (RAG), a methodology that enables LLMs to access a vast, diverse repository of factual information from knowledge stores, such as vector databases. 
+> The potential for AI-powered knowledge management increases when leveraging Retrieval Augmented Generation (RAG), a methodology that enables LLMs to access a vast, diverse repository of factual information from knowledge stores, such as [vector databases](https://qdrant.tech/qdrant-vector-database/). 
 
 This process enhances the accuracy, relevance, and reliability of generated text, thereby mitigating the risk of faulty, incorrect, or nonsensical results sometimes associated with traditional LLMs. This method not only ensures that the answers are contextually relevant but also up-to-date, reflecting the latest insights and data available.
 
