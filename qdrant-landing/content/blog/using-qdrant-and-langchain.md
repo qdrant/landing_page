@@ -72,7 +72,7 @@ Here is what this basic tutorial will teach you:
 
 **2. Preprocess and format data for use by the chatbot:** First, you will download a sample dataset based on some academic journals. Then, you will process this data into embeddings and store it as vectors inside of Qdrant.
 
-**3. Implement vector similarity search algorithms:** Second, you will create and test a chatbot that only uses the LLM. Then, you will enable the memory component offered by Qdrant. This will allow your chatbot to be modified and updated, giving it long-term memory. 
+**3. Implement [vector similarity](https://qdrant.tech/articles/vector-similarity-beyond-search/) search algorithms:** Second, you will create and test a chatbot that only uses the LLM. Then, you will enable the memory component offered by Qdrant. This will allow your chatbot to be modified and updated, giving it long-term memory. 
 
 **4. Optimize the chatbot's performance:** In the last step, you will query the chatbot in two ways. First query will retrieve parametric data from the LLM, while the second one will get contexual data via Qdrant.
 
