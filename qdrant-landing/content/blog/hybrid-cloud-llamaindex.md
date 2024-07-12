@@ -29,7 +29,7 @@ Building apps with Qdrant Hybrid Cloud and LlamaIndex comes with several key adv
 
 **Open-Source Compatibility:** LlamaIndex and Qdrant pride themselves on maintaining a reliable and mature integration that brings peace of mind to those prototyping and deploying large-scale AI solutions. Extensive documentation, code samples and tutorials support users of all skill levels in leveraging highly advanced features of data ingestion and vector search.
 
-**Advanced Search Features:** LlamaIndex comes with built-in Qdrant Hybrid Search functionality, which combines search results from sparse and dense vectors. As a highly sought-after use case, hybrid search is easily accessible from within the LlamaIndex ecosystem. Deploying this particular type vector search on Hybrid Cloud is a matter of a few lines of code.
+**Advanced Search Features:** LlamaIndex comes with built-in [Qdrant Hybrid Search](https://qdrant.tech/articles/hybrid-search/) functionality, which combines search results from sparse and dense vectors. As a highly sought-after use case, hybrid search is easily accessible from within the LlamaIndex ecosystem. Deploying this particular type vector search on Hybrid Cloud is a matter of a few lines of code.
 
 #### Start Building With LlamaIndex and Qdrant Hybrid Cloud: Hybrid Search in Complex PDF Documentation Use Cases
 
