@@ -13,7 +13,7 @@ date: 2023-04-19T00:42:00.000Z
 ---
 
 
-> [Vector databases](https://qdrant.tech/qdrant-vector-database/) are here to stay. The New Age of AI is powered by vector embeddings, and vector databases are a foundational part of the stack. At Qdrant, we are working on cutting-edge open-source vector similarity search solutions to power fantastic AI applications with the best possible performance and excellent developer experience. 
+> [Vector databases](https://qdrant.tech/qdrant-vector-database/) are here to stay. The New Age of AI is powered by [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/), and vector databases are a foundational part of the stack. At Qdrant, we are working on cutting-edge open-source vector similarity search solutions to power fantastic AI applications with the best possible performance and excellent developer experience. 
 > 
 > Our 7.5M seed funding – led by [Unusual Ventures](https://www.unusual.vc/), awesome angels, and existing investors – will help us bring these innovations to engineers and empower them to make the most of their unstructured data and the awesome power of LLMs at any scale.
 
