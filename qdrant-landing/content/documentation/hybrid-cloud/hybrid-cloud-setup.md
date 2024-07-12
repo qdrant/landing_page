@@ -11,7 +11,7 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 
 ## Prerequisites
 
-- **Kubernetes cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere.
+- **Kubernetes cluster:** To create a [Hybrid Cloud](https://qdrant.tech/hybrid-cloud/) Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere.
 - **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. For backups and restores, the driver needs to support CSI snapshots and restores.
 
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
