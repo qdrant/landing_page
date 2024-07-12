@@ -407,7 +407,7 @@ This formula calculates the similarity score by multiplying corresponding elemen
 
 ## Hybrid search: combining sparse and dense vectors
 
-By combining search results from both dense and sparse vectors, you can achieve a hybrid search that is both efficient and accurate.
+By combining search results from both dense and sparse vectors, you can achieve a [hybrid search](https://qdrant.tech/articles/hybrid-search/) that is both efficient and accurate.
 Results from sparse vectors will guarantee, that all results with the required keywords are returned, 
 while dense vectors will cover the semantically similar results.
 
