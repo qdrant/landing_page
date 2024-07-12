@@ -66,7 +66,7 @@ Despite its complicated background, vectors search is extraordinarily simple to 
 [**Tutorial 2 - Question and Answer System**](/articles/qa-with-cohere-and-qdrant/)
 However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer system tutorial](/articles/qa-with-cohere-and-qdrant/).
 
-There is another exciting thing about vector search. You can search for any kind of data as long as there is a neural network that would vectorize your data type. Do you think about a reverse image search? That’s also possible with vector embeddings.
+There is another exciting thing about vector search. You can search for any kind of data as long as there is a neural network that would vectorize your data type. Do you think about a reverse image search? That’s also possible with [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/).
 
 
 
