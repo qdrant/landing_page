@@ -72,7 +72,7 @@ Those priorities lead to different architectural decisions that are not reproduc
 
 ###### Having a dedicated vector database requires duplication of data.
 
-By their very nature, vector embeddings are derivatives of the primary source data.
+By their very nature, [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/) are derivatives of the primary source data.
 
 In the vast majority of cases, embeddings are derived from some other data, such as text, images, or additional information stored in your system. So, in fact, all embeddings you have in your system can be considered transformations of some original source.
 
