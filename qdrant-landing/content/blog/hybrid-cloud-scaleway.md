@@ -21,7 +21,7 @@ Building on this vision, the integration between Scaleway and Qdrant Hybrid Clou
 
 #### Developing a Retrieval Augmented Generation (RAG) Application with Qdrant Hybrid Cloud, Scaleway, and LangChain
 
-Retrieval Augmented Generation (RAG) enhances Large Language Models (LLMs) by integrating vector search to provide precise, context-rich responses. This combination allows LLMs to access and incorporate specific data in real-time, vastly improving the quality of AI-generated content.
+[Retrieval Augmented Generation (RAG)](https://qdrant.tech/rag/) enhances Large Language Models (LLMs) by integrating vector search to provide precise, context-rich responses. This combination allows LLMs to access and incorporate specific data in real-time, vastly improving the quality of AI-generated content.
 
 RAG applications often rely on sensitive or proprietary internal data, emphasizing the importance of data sovereignty. Running the entire stack within your own environment becomes crucial for maintaining control over this data. Qdrant Hybrid Cloud deployed on Scaleway addresses this need perfectly, offering a secure, scalable platform that respects data sovereignty requirements while leveraging the full potential of RAG for sophisticated AI solutions.
 
