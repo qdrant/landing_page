@@ -40,7 +40,7 @@ export QDRANT__SERVICE__API_KEY=your_secret_api_key_here
 
 <aside role="alert"><a href="#tls">TLS</a> must be used to prevent leaking the API key over an unencrypted connection.</aside>
 
-For using API key based authentication in Qdrant Cloud see the cloud
+For using API key based authentication in [Qdrant Cloud](https://qdrant.tech/cloud/) see the cloud
 [Authentication](/documentation/cloud/authentication/)
 section.
 
