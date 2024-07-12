@@ -18,7 +18,7 @@ keywords: # Keywords for SEO
     - chatbots
 ---
 
-As Large Language Models (LLMs) and vector stores have become steadily more powerful, a new generation of frameworks has appeared which can streamline the development of AI applications by leveraging LLMs and vector search technology. These frameworks simplify the process of building everything from Retrieval Augmented Generation (RAG) applications to complex chatbots with advanced conversational abilities, and even sophisticated reasoning-driven AI applications.
+As Large Language Models (LLMs) and vector stores have become steadily more powerful, a new generation of frameworks has appeared which can streamline the development of AI applications by leveraging LLMs and vector search technology. These frameworks simplify the process of building everything from [Retrieval Augmented Generation (RAG)](https://qdrant.tech/rag/) applications to complex chatbots with advanced conversational abilities, and even sophisticated reasoning-driven AI applications.
 
 The most well-known of these frameworks is possibly [LangChain](https://github.com/langchain-ai/langchain). [Launched in October 2022](https://en.wikipedia.org/wiki/LangChain) as an open-source project by Harrison Chase, the project quickly gained popularity, attracting contributions from hundreds of developers on GitHub. LangChain excels in its broad support for documents, data sources, and APIs. This, along with seamless integration with vector stores like Qdrant and the ability to chain multiple LLMs, has allowed developers to build complex AI applications without reinventing the wheel.
 
