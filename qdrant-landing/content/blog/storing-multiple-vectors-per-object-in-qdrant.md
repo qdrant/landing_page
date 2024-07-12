@@ -176,7 +176,7 @@ The created vectors might be easily put into Qdrant. For the sake of simplicity,
 
 ## Searching with multiple vectors
 
-If you decided to describe each object with several [neural embeddings](/articles/neural-search-tutorial/), then at each search operation you need to provide the vector name along with the [vector embedding](/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
+If you decided to describe each object with several neural embeddings, then at each search operation you need to provide the vector name along with the [vector embedding](/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
 
 ```python
 from qdrant_client.http.models import NamedVector
