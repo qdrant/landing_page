@@ -5,7 +5,7 @@ weight: 1
 
 # Creating a Hybrid Cloud Environment
 
-The following instruction set will show you how to properly setup a **Qdrant cluster** in your **Hybrid Cloud Environment**. 
+The following instruction set will show you how to properly set up a **Qdrant cluster** in your **Hybrid Cloud Environment**. 
 
 To learn how Hybrid Cloud works, [read the overview document](/documentation/hybrid-cloud/). 
 
@@ -22,6 +22,15 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 
 > **Note:** You can also mirror these images and charts into your own registry and pull them from there.
 
+### CLI tools
+
+During the onboarding, you will need to deploy the Qdrant Kubernetes Operator and Agent using Helm. Make sure you have the following tools installed:
+
+* [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/)
+* [helm](https://helm.sh/docs/intro/install/)
+
+You will need to have access to the Kubernetes cluster with `kubectl` and `helm` configured to connect to it. Please refer the documentation of your Kubernetes distribution for more information.
+
 ### Required artifacts
 
 Container images:
@@ -29,7 +38,7 @@ Container images:
 - `docker.io/qdrant/qdrant`
 - `registry.cloud.qdrant.io/qdrant/qdrant-cloud-agent`
 - `registry.cloud.qdrant.io/qdrant/qdrant-operator`
-- `registry.cloud.qdrant.io/qdrant/qdrant-cloud-cluster-manager`
+- `registry.cloud.qdrant.io/qdrant/cluster-manager`
 - `registry.cloud.qdrant.io/qdrant/prometheus`
 - `registry.cloud.qdrant.io/qdrant/prometheus-config-reloader`
 - `registry.cloud.qdrant.io/qdrant/kube-state-metrics`
@@ -38,6 +47,7 @@ Open Containers Initiative (OCI) Helm charts:
 
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent`
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-operator`
+- `registry.cloud.qdrant.io/qdrant-charts/qdrant-cluster-manager`
 - `registry.cloud.qdrant.io/qdrant-charts/prometheus`
 
 ## Installation
@@ -52,6 +62,8 @@ Open Containers Initiative (OCI) Helm charts:
 
 - **Name:** A name for the Hybrid Cloud Environment
 - **Kubernetes Namespace:** The Kubernetes namespace for the operator and agent. Once you select a namespace, you can't change it.
+
+You can also configure the StorageClass and VolumeSnapshotClass to use for the Qdrant databases, if you want to deviate from the default settings of your cluster.
 
 4. You can then enter the YAML configuration for your Kubernetes operator. Qdrant supports a specific list of configuration options, as described in the [Qdrant Operator configuration](/documentation/hybrid-cloud/operator-configuration/) section.
 
@@ -83,6 +95,15 @@ You need this command only for the initial installation. After that, you can upd
 ## Creating a Qdrant cluster
 
 Once you have created a Hybrid Cloud Environment, you can create a Qdrant cluster in that enviroment. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). Make sure to select your Hybrid Cloud Environment as the target.
+
+Note that in the "Kubernetes Configuration" section you can configure:
+
+* Node selectors for the Qdrant database pods
+* Toleration for the Qdrant database pods
+* Additional labels for the Qdrant database pods
+* A service type and annotations for the Qdrant database service
+
+These settings can also be changed after the cluster is created on the cluster detail page.
 
 ### Authentication at your Qdrant clusters
 
@@ -124,7 +145,18 @@ kubectl -n qdrant-namespace port-forward service/qdrant-9a9f48c7-bb90-4fb2-816f-
 
 You can also expose the database outside the Kubernetes cluster with a `LoadBalancer` (if supported in your Kubernetes environment) or `NodePort` service or an ingress.
 
-A simple Loadbalancer service could look like this:
+The service type and necessary annotations can be configured in the "Kubernetes Configuration" section during cluster creation, or on the cluster detail page.
+
+Especially if you create a LoadBalancer Service, you may need to provider annotations for the loadbalancer configration. Please refer to the documention of your cloud provider for more details.
+
+Examples:
+
+* [AWS EKS LoadBalancer annotations](https://kubernetes-sigs.github.io/aws-load-balancer-controller/latest/guide/ingress/annotations/)
+* [Azure AKS Public LoadBalancer annotations](https://learn.microsoft.com/en-us/azure/aks/load-balancer-standard)
+* [Azure AKS Internal LoadBalancer annotations](https://learn.microsoft.com/en-us/azure/aks/internal-lb)
+* [GCP GKE LoadBalancer annotations](https://cloud.google.com/kubernetes-engine/docs/concepts/service-load-balancer-parameters)
+
+You could also create a Loadbalancer service manually like this:
 
 ```yaml
 apiVersion: v1
