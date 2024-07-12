@@ -18,7 +18,7 @@ tags:
 
 ## Navigating challenges and innovations in search technologies
 
-We participated in a [podcast](#podcast-discussion-recap) on search technologies, specifically with retrieval-augmented generation (RAG) in language models.
+We participated in a [podcast](#podcast-discussion-recap) on search technologies, specifically with [retrieval-augmented generation (RAG)](https://qdrant.tech/rag/) in language models.
 
 RAG is a cutting-edge approach in natural language processing (NLP). It uses information retrieval and language generation models. We describe how it can enhance what AI can do to understand, retrieve, and generate human-like text.
 
