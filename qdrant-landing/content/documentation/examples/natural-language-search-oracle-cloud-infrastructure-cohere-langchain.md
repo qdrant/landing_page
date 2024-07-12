@@ -85,7 +85,7 @@ export QDRANT_URL="https://qdrant.example.com"
 export QDRANT_API_KEY="your-api-key"
 ```
 
-*Optional:* Whenever you use LangChain, you can also [configure LangSmith](https://docs.smith.langchain.com/), which will help us trace, monitor and debug LangChain applications. You can sign up for LangSmith [here](https://smith.langchain.com/).
+*Optional:* Whenever you use [LangChain](https://qdrant.tech/articles/langchain-integration/), you can also [configure LangSmith](https://docs.smith.langchain.com/), which will help us trace, monitor and debug LangChain applications. You can sign up for LangSmith [here](https://smith.langchain.com/).
 
 ```shell
 export LANGCHAIN_TRACING_V2=true
