@@ -91,7 +91,7 @@ Vector similarity in text analysis helps in understanding and processing languag
 
 **Retrieval Augmented Generation (RAG)**
 
-Vector similarity can help in representing and comparing linguistic features, from single words to entire documents. This can help build retrieval augmented generation (RAG) applications, where the data is retrieved based on user intent. It also enables nuanced language tasks such as sentiment analysis, synonym detection, language translation, and more.
+Vector similarity can help in representing and comparing linguistic features, from single words to entire documents. This can help build [retrieval augmented generation (RAG)](https://qdrant.tech/rag/) applications, where the data is retrieved based on user intent. It also enables nuanced language tasks such as sentiment analysis, synonym detection, language translation, and more.
 
 **Recommender Systems**
 
