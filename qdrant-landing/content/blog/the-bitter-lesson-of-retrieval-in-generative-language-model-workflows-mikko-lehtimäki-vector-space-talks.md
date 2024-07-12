@@ -37,7 +37,7 @@ Recently, Mikko has contributed software to Llama-index and Guardrails-AI, two l
 
 Aren’t you curious about what the bitter lesson is and how it plays out in generative language model workflows?
 
-Check it out as Mikko delves into the intricate world of retrieval-augmented generation, discussing how Yokot AI manages vast diverse data inputs and how focusing on re-ranking can massively improve LLM workflows and output quality.
+Check it out as Mikko delves into the intricate world of [retrieval-augmented generation](https://qdrant.tech/rag/), discussing how Yokot AI manages vast diverse data inputs and how focusing on re-ranking can massively improve LLM workflows and output quality.
 
 5 key takeaways you’ll get from this episode:
 
