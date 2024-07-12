@@ -11,7 +11,7 @@ aliases:
 | Time: 20 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/) |
 | --- | ----------- | ----------- |----------- |
 
-This tutorial shows you how to build and deploy your own hybrid search service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query.
+This tutorial shows you how to build and deploy your own [hybrid search](https://qdrant.tech/articles/hybrid-search/) service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query.
 The website contains the company names, descriptions, locations, and a picture for each entry. 
 
 As we have already written on our [blog](/articles/hybrid-search/), there is no single definition of hybrid search. 
