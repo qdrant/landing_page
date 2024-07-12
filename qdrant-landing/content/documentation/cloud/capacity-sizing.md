@@ -66,6 +66,6 @@ If you're running low on disk space, consider the following advantages:
 - Larger Datasets: Supports larger datasets. With vector search,
 larger datasets can improve the relevance and quality of search results.
 - Improved Indexing: Supports the use of indexing strategies such as 
-HNSW (Hierarchical Navigable Small World).
+[HNSW](https://qdrant.tech/articles/filtrable-hnsw/) (Hierarchical Navigable Small World).
 - Caching: Improves speed when you cache frequently accessed data on disk.
 - Backups and Redundancy: Allows more frequent backups. Perhaps the most important advantage.
