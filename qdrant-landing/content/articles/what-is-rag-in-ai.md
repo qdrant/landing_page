@@ -77,7 +77,7 @@ Once you have vectorized your knowledge base you can do the same to the user que
 
 #### Retrieval of relevant documents
 
-When the system needs to find the most relevant documents or passages to answer a query, it utilizes vector similarity techniques. **Vector similarity** is a fundamental concept in machine learning and natural language processing (NLP) that quantifies the resemblance between vectors, which are mathematical representations of data points.
+When the system needs to find the most relevant documents or passages to answer a query, it utilizes vector similarity techniques. [**Vector similarity**](https://qdrant.tech/articles/vector-similarity-beyond-search/) is a fundamental concept in machine learning and natural language processing (NLP) that quantifies the resemblance between vectors, which are mathematical representations of data points.
 
 The system can employ different vector similarity strategies depending on the type of vectors used to represent the data:
 
