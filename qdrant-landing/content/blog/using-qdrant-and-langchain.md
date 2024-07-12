@@ -37,7 +37,7 @@ Qdrant streamlines this process of retrieval augmentation, making it faster, eas
 
 Retrieval Augmented Generation is not without its challenges and limitations. One of the main setbacks for app developers is managing the entire setup. The integration of a retriever and a generator into a single model can lead to a raised level of complexity, thus increasing the computational resources required.
 
-[LangChain](https://www.langchain.com/) is a framework that makes developing RAG-based applications much easier. It unifies interfaces to different libraries, including major embedding providers like OpenAI or Cohere and vector stores like Qdrant. With LangChain, you can focus on creating tangible GenAI applications instead of writing your logic from the ground up. 
+[LangChain](https://www.langchain.com/) is a framework that makes developing RAG-based applications much easier. It unifies interfaces to different libraries, including major embedding providers like OpenAI or Cohere and vector stores like Qdrant. With [LangChain](https://qdrant.tech/articles/langchain-integration/), you can focus on creating tangible GenAI applications instead of writing your logic from the ground up. 
 
 > Qdrant is one of the **top supported vector stores** on LangChain, with [extensive documentation](https://python.langchain.com/docs/integrations/vectorstores/qdrant) and [examples](https://python.langchain.com/docs/integrations/retrievers/self_query/qdrant_self_query).
 
