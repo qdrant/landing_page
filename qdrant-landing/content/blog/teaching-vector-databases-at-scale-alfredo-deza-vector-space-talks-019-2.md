@@ -40,7 +40,7 @@ How does a former athlete such as Alfredo Deza end up in this AI and Machine Lea
 
 Here are some things you’ll discover from this episode:
 
-1. **The Intersection of Teaching and Tech:** Alfredo discusses on how to effectively bridge the gap between technical concepts and student understanding, especially when dealing with complex topics like vector databases.
+1. **The Intersection of Teaching and Tech:** Alfredo discusses on how to effectively bridge the gap between technical concepts and student understanding, especially when dealing with complex topics like [vector databases](https://qdrant.tech/qdrant-vector-database/).
 2. **Simplified Learning:** Dive into Alfredo's advocacy for simplicity in teaching methods, mirroring his approach with Qdrant and the potential for a Rust in-memory implementation aimed at enhancing learning experiences.
 3. **Beyond the Titanic Dataset:** Discover why Alfredo prefers to teach with a wine dataset he developed himself, underscoring the importance of using engaging subject matter in education.
 4. **AI Learning Acceleration:** Alfredo discusses the struggle universities face to keep pace with AI advancements and how online platforms can offer a more up-to-date curriculum.
