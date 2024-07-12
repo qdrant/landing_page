@@ -25,7 +25,7 @@ keywords:
 ---
 
 Please welcome the long-awaited [Qdrant 1.7.0 release](https://github.com/qdrant/qdrant/releases/tag/v1.7.0). Except for a handful of minor fixes and improvements, this release brings some cool brand-new features that we are excited to share! 
-The latest version of your favorite vector search engine finally supports **sparse vectors**. That's the feature many of you requested, so why should we ignore it? 
+The latest version of your favorite vector search engine finally supports[ **sparse vectors**](https://qdrant.tech/articles/sparse-vectors/). That's the feature many of you requested, so why should we ignore it? 
 We also decided to continue our journey with [vector similarity beyond search](/articles/vector-similarity-beyond-search/). The new Discovery API covers some utterly new use cases. We're more than excited to see what you will build with it! 
 But there is more to it! Check out what's new in **Qdrant 1.7.0**!
 
