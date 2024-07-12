@@ -30,7 +30,7 @@ The rest of this article will cover:
 3. Benchmark analysis and usage recommendations
 
 ## What is Binary Quantization?
-Binary quantization (BQ) converts any vector embedding of floating point numbers into a vector of binary or boolean values. This feature is an extension of our past work on [scalar quantization](/articles/scalar-quantization/) where we convert `float32` to `uint8` and then leverage a specific SIMD CPU instruction to perform fast vector comparison. 
+Binary quantization (BQ) converts any [vector embedding](https://qdrant.tech/articles/what-are-embeddings/) of floating point numbers into a vector of binary or boolean values. This feature is an extension of our past work on [scalar quantization](/articles/scalar-quantization/) where we convert `float32` to `uint8` and then leverage a specific SIMD CPU instruction to perform fast vector comparison. 
 
 ![What is binary quantization](/articles_data/binary-quantization/bq-2.png)
 
