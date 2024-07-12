@@ -134,7 +134,7 @@ Selecting the right embedding model for your use case is crucial to your applica
 
 If you’re looking for NLP and rapid prototyping, including language translation, question-answering, and text generation, OpenAI is a great choice. Gemini is ideal for image search, duplicate detection, and clustering tasks. 
 
-Fastembed, which we’ll use on the example below, is designed for efficiency and speed, great for applications needing low-latency responses, such as autocomplete and instant content recommendations. 
+[Fastembed](https://qdrant.tech/articles/fastembed/), which we’ll use on the example below, is designed for efficiency and speed, great for applications needing low-latency responses, such as autocomplete and instant content recommendations. 
 
 We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
 
