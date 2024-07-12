@@ -92,7 +92,7 @@ Transformers is not the only architecture suitable for neural search, but for ou
 
 We will use a model called `all-MiniLM-L6-v2`.
 This model is an all-round model tuned for many use-cases. Trained on a large and diverse dataset of over 1 billion training pairs.
-It is optimized for low memory consumption and fast inference.
+It is optimized for low [memory consumption](https://qdrant.tech/articles/memory-consumption/) and fast inference.
 
 The complete code for data preparation with detailed comments can be found and run in [Colab Notebook](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing).
 
