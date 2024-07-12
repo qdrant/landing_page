@@ -20,7 +20,7 @@ keywords:
 
 Qdrant is built to handle typical scaling challenges: high throughput, low latency and efficient indexing. **Binary quantization (BQ)** is our latest attempt to give our customers the edge they need to scale efficiently. This feature is particularly excellent for collections with large vector lengths and a large number of points. 
 
-Our results are dramatic: Using BQ will reduce your memory consumption and improve retrieval speeds by up to 40x.
+Our results are dramatic: Using BQ will reduce your [memory consumption](https://qdrant.tech/articles/memory-consumption/) and improve retrieval speeds by up to 40x.
 
 As is the case with other quantization methods, these benefits come at the cost of recall degradation. However, our implementation lets you balance the tradeoff between speed and recall accuracy at time of search, rather than time of index creation. 
 
