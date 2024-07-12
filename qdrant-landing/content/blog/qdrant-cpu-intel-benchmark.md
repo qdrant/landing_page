@@ -21,7 +21,7 @@ tags:
 
 > *Intel’s 5th gen Xeon processor is made for enterprise-scale operations in vector space.*
 
-Vector search is surging in popularity with institutional customers, and Intel is ready to support the emerging industry. Their latest generation CPU performed exceptionally with Qdrant, a leading vector database used for enterprise AI applications.
+Vector search is surging in popularity with institutional customers, and Intel is ready to support the emerging industry. Their latest generation CPU performed exceptionally with Qdrant, a leading [vector database](https://qdrant.tech/qdrant-vector-database/) used for enterprise AI applications.
 
 Intel just released the latest Xeon processor (**codename: Emerald Rapids**) for data centers, a market which is expected to grow to $45 billion. Emerald Rapids offers higher-performance computing and significant energy efficiency over previous generations. Compared to the 4th generation Sapphire Rapids, Emerald boosts AI inference performance by up to 42% and makes vector search 38% faster.
 
