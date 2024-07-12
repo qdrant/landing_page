@@ -17,7 +17,7 @@ keywords:
 ---
 # Efficiency Unleashed: The Power of Scalar Quantization
 
-High-dimensional vector embeddings can be memory-intensive, especially when working with 
+High-dimensional [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/) can be memory-intensive, especially when working with 
 large datasets consisting of millions of vectors. Memory footprint really starts being 
 a concern when we scale things up. A simple choice of the data type used to store a single
 number impacts even billions of numbers and can drive the memory requirements crazy. The
