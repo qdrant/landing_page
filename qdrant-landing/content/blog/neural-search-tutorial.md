@@ -171,7 +171,7 @@ The full code for this step could be found [here](https://github.com/qdrant/qdr
 
 **Make a search API**
 
-Now that all the preparations are complete, let’s start building a [neural search](https://qdrant.tech/articles/neural-search-tutorial/) class.
+Now that all the preparations are complete, let’s start building a [neural search](/articles/neural-search-tutorial/) class.
 
 First, install all the requirements:
 

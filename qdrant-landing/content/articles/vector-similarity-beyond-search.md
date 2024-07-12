@@ -24,7 +24,7 @@ keywords:
 When making use of unstructured data, there are traditional go-to solutions that are well-known for developers:
 
 - **Full-text search** when you need to find documents that contain a particular word or phrase.
-- **[Vector search](https://qdrant.tech/documentation/overview/vector-search/)** when you need to find documents that are semantically similar to a given query.
+- **[Vector search](/documentation/overview/vector-search/)** when you need to find documents that are semantically similar to a given query.
 
 Sometimes people mix those two approaches, so it might look like the vector similarity is just an extension of full-text search. However, in this article, we will explore some promising new techniques that can be used to expand the use-case of unstructured data and demonstrate that vector similarity creates its own stack of data exploration tools.
 
@@ -204,5 +204,5 @@ We believe that this is the future of vector databases, and we are excited to se
 - Practical applications of vector similarity include improving data quality through mislabeling detection and anomaly identification.
 - Enhanced user experiences are achieved by leveraging advanced search techniques, providing users with intuitive data exploration, and improving decision-making processes.
 
-Ready to unlock the full potential of your data? [Try a free demo](https://qdrant.tech/contact-us/) to explore how vector similarity can revolutionize your data insights and drive smarter decision-making.
+Ready to unlock the full potential of your data? [Try a free demo](/contact-us/) to explore how vector similarity can revolutionize your data insights and drive smarter decision-making.
 

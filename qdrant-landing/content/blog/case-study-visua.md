@@ -31,7 +31,7 @@ The accuracy of object detection within images is critical for VISUA ensuring th
 
 The challenge was twofold. First, VISUA needed a method to rapidly and accurately identify images and the objects within them that were similar, to identify false negatives, or unclear outcomes and use them as inputs for reinforcement learning. 
 
-Second, the rapid growth in data volume challenged their previous quality control processes, which relied on a sampling method based on meta-information (like analyzing lower-confidence, smaller, or blurry images), which involved more manual reviews and was not as scalable as needed. In response, the team at VISUA explored [vector databases as a solution](https://qdrant.tech/qdrant-vector-database/).
+Second, the rapid growth in data volume challenged their previous quality control processes, which relied on a sampling method based on meta-information (like analyzing lower-confidence, smaller, or blurry images), which involved more manual reviews and was not as scalable as needed. In response, the team at VISUA explored [vector databases as a solution](/qdrant-vector-database/).
 
 ## The Solution
 

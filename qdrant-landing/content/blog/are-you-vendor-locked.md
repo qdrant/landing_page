@@ -89,7 +89,7 @@ This is how you stay dynamic and move vendors whenever it suits you best.
 
 The key to freedom is to building your applications and infrastructure to run on any cloud. By leveraging containerization and service abstraction using Kubernetes or Docker, software vendors can exercise good faith in helping their customers transition to other cloud providers.
 
-We designed the architecture of [Qdrant Hybrid Cloud](https://qdrant.tech/hybrid-cloud/) to meet the evolving needs of businesses seeking unparalleled flexibility, control, and privacy. 
+We designed the architecture of [Qdrant Hybrid Cloud](/hybrid-cloud/) to meet the evolving needs of businesses seeking unparalleled flexibility, control, and privacy. 
 
 This technology integrates Kubernetes clusters from any setting - cloud, on-premises, or edge - into a unified, enterprise-grade managed service.
 

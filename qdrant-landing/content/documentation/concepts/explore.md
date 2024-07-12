@@ -884,7 +884,7 @@ Notes about discovery search:
 
 ### Context search
 
-Conversely, in the absence of a target, a rigid integer-by-integer function doesn't provide much guidance for the search when utilizing a proximity graph like [HNSW](https://qdrant.tech/articles/filtrable-hnsw/). Instead, context search employs a function derived from the [triplet-loss](/articles/triplet-loss/) concept, which is usually applied during model training. For context search, this function is adapted to steer the search towards areas with fewer negative examples.
+Conversely, in the absence of a target, a rigid integer-by-integer function doesn't provide much guidance for the search when utilizing a proximity graph like [HNSW](/articles/filtrable-hnsw/). Instead, context search employs a function derived from the [triplet-loss](/articles/triplet-loss/) concept, which is usually applied during model training. For context search, this function is adapted to steer the search towards areas with fewer negative examples.
 
 ![Context search](/docs/context-search.png)
 

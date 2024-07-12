@@ -20,7 +20,7 @@ keywords:
 
 Qdrant is built to handle typical scaling challenges: high throughput, low latency and efficient indexing. **Binary quantization (BQ)** is our latest attempt to give our customers the edge they need to scale efficiently. This feature is particularly excellent for collections with large vector lengths and a large number of points. 
 
-Our results are dramatic: Using BQ will reduce your [memory consumption](https://qdrant.tech/articles/memory-consumption/) and improve retrieval speeds by up to 40x.
+Our results are dramatic: Using BQ will reduce your [memory consumption](/articles/memory-consumption/) and improve retrieval speeds by up to 40x.
 
 As is the case with other quantization methods, these benefits come at the cost of recall degradation. However, our implementation lets you balance the tradeoff between speed and recall accuracy at time of search, rather than time of index creation. 
 
@@ -30,7 +30,7 @@ The rest of this article will cover:
 3. Benchmark analysis and usage recommendations
 
 ## What is Binary Quantization?
-Binary quantization (BQ) converts any [vector embedding](https://qdrant.tech/articles/what-are-embeddings/) of floating point numbers into a vector of binary or boolean values. This feature is an extension of our past work on [scalar quantization](/articles/scalar-quantization/) where we convert `float32` to `uint8` and then leverage a specific SIMD CPU instruction to perform fast vector comparison. 
+Binary quantization (BQ) converts any [vector embedding](/articles/what-are-embeddings/) of floating point numbers into a vector of binary or boolean values. This feature is an extension of our past work on [scalar quantization](/articles/scalar-quantization/) where we convert `float32` to `uint8` and then leverage a specific SIMD CPU instruction to perform fast vector comparison. 
 
 ![What is binary quantization](/articles_data/binary-quantization/bq-2.png)
 

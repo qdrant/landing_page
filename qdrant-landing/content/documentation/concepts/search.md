@@ -349,7 +349,7 @@ Parameter `limit` (or its alias - `top`) specifies the amount of most similar re
 Values under the key `params` specify custom parameters for the search.
 Currently, it could be:
 
-* `hnsw_ef` - value that specifies `ef` parameter of the [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) algorithm.
+* `hnsw_ef` - value that specifies `ef` parameter of the [HNSW](/articles/filtrable-hnsw/) algorithm.
 * `exact` - option to not use the approximate search (ANN). If set to true, the search may run for a long as it performs a full scan to retrieve exact results.
 * `indexed_only` - With this option you can disable the search in those segments where vector index is not built yet. This may be useful if you want to minimize the impact to the search performance whilst the collection is also being updated. Using this option may lead to a partial result if the collection is not fully indexed yet, consider using it only if eventual consistency is acceptable for your use case.
 
@@ -475,7 +475,7 @@ If the collection was created with sparse vectors, the name of the sparse vector
 
 You can still use payload filtering and other features of the search API with sparse vectors.
 
-There are however important differences between dense and [sparse vector search](https://qdrant.tech/articles/sparse-vectors/):
+There are however important differences between dense and [sparse vector search](/articles/sparse-vectors/):
 
 | Index| Sparse Query | Dense Query |
 | --- | --- | --- | 

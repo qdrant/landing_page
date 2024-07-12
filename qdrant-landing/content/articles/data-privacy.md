@@ -17,7 +17,7 @@ keywords: # Keywords for SEO
   - Enterprise Data Compliance
 ---
 
-Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures become critical to safeguarding this data. If the data stored in a [vector databases](https://qdrant.tech/qdrant-vector-database/) is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 
+Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures become critical to safeguarding this data. If the data stored in a [vector databases](/qdrant-vector-database/) is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 
 
 Strict compliance regulations govern data stored in vector databases across various industries. For instance, healthcare must comply with HIPAA, which dictates how protected health information (PHI) is stored, transmitted, and secured. Similarly, the financial services industry follows PCI DSS to safeguard sensitive financial data. These regulations require developers to ensure data storage and transmission comply with industry-specific legal frameworks across different regions. **As a result, features that enable data privacy, security and sovereignty are deciding factors when choosing the right vector database.**
 
@@ -234,7 +234,7 @@ Data governance varies by country, especially for global organizations dealing w
 
 To address these needs, the vector database you choose should support deployment and scaling within your controlled infrastructure. [Qdrant Hybrid Cloud](/documentation/hybrid-cloud/) offers this flexibility, along with features like sharding, replicas, JWT authentication, and monitoring.
 
-Qdrant Hybrid Cloud integrates Kubernetes clusters from various environments—cloud, on-premises, or edge—into a unified managed service. This allows organizations to manage Qdrant databases through the [Qdrant Cloud](https://qdrant.tech/cloud/) UI while keeping the databases within their infrastructure.
+Qdrant Hybrid Cloud integrates Kubernetes clusters from various environments—cloud, on-premises, or edge—into a unified managed service. This allows organizations to manage Qdrant databases through the [Qdrant Cloud](/cloud/) UI while keeping the databases within their infrastructure.
 
 With JWT and RBAC, Qdrant Hybrid Cloud provides a secure, private, and sovereign vector store. Enterprises can scale their AI applications geographically, comply with local laws, and maintain strict data control.
 

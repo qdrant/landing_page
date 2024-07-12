@@ -19,7 +19,7 @@ tags:
 
 # How to Optimize Vector Storage by Storing Multiple Vectors Per Object
 
-In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable [semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!
+In a real case scenario, a single object might be described in several different ways. If you run an e-commerce business, then your items will typically have a name, longer textual description and also a bunch of photos. While cooking, you may care about the list of ingredients, and description of the taste but also the recipe and the way your meal is going to look. Up till now, if you wanted to enable [semantic search](/documentation/tutorials/search-beginners/) with multiple vectors per object, Qdrant would require you to create separate collections for each vector type, even though they could share some other attributes in a payload. However, since Qdrant 0.10 you are able to store all those vectors together in the same collection and share a single copy of the payload!
 
 Running the new version of Qdrant is as simple as it always was. By running the following command, you are able to set up a single instance that will also expose the HTTP API:
 
@@ -176,7 +176,7 @@ The created vectors might be easily put into Qdrant. For the sake of simplicity,
 
 ## Searching with multiple vectors
 
-If you decided to describe each object with several [neural embeddings](https://qdrant.tech/articles/neural-search-tutorial/), then at each search operation you need to provide the vector name along with the [vector embedding](https://qdrant.tech/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
+If you decided to describe each object with several [neural embeddings](/articles/neural-search-tutorial/), then at each search operation you need to provide the vector name along with the [vector embedding](/articles/what-are-embeddings/), so the engine knows which one to use. The interface of the search operation is pretty straightforward and requires an instance of NamedVector.
 
 ```python
 from qdrant_client.http.models import NamedVector

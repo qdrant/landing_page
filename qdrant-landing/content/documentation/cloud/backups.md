@@ -19,7 +19,7 @@ self-service backups.
 
 ## Prerequisites
 
-You can back up your Qdrant clusters though the [Qdrant Cloud](https://qdrant.tech/cloud/)
+You can back up your Qdrant clusters though the [Qdrant Cloud](/cloud/)
 Dashboard at https://cloud.qdrant.io. This section assumes that you've already
 set up your cluster, as described in the following sections:
 

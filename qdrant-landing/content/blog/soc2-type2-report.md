@@ -53,4 +53,4 @@ Recognizing the critical importance of data security and the trust our clients p
 
 Qdrant is a vector database designed to handle large-scale, high-dimensional data efficiently. It allows for fast and accurate similarity searches in complex datasets. Qdrant strives to achieve seamless and scalable vector search capabilities for various applications. 
 
-For more information about Qdrant and our security practices, please visit our [website](http://qdrant.tech) or [reach out to our team directly](https://qdrant.tech/contact-us/).
+For more information about Qdrant and our security practices, please visit our [website](http://qdrant.tech) or [reach out to our team directly](/contact-us/).

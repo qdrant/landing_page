@@ -26,7 +26,7 @@ Fortunately, there is a way to build collaborative filtering systems without any
 
 ## Implementation
 
-To implement this, you will use a simple yet powerful resource: [Qdrant with Sparse Vectors](https://qdrant.tech/articles/sparse-vectors/). 
+To implement this, you will use a simple yet powerful resource: [Qdrant with Sparse Vectors](/articles/sparse-vectors/). 
 
 Notebook: [You can try this code here](https://githubtocolab.com/qdrant/examples/blob/master/collaborative-filtering/collaborative-filtering.ipynb)
 

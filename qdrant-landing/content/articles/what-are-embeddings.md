@@ -54,7 +54,7 @@ At their core, vector embeddings are about semantics. They take the idea that "a
 ![Example of how synonyms are placed closer together in the embeddings space](/articles_data/what-are-embeddings/Similar-Embeddings.jpg)
 
 
-This capability is crucial for creating search systems, recommendation engines, [retrieval augmented generation (RAG)](https://qdrant.tech/rag/) and any application that benefits from a deep understanding of content.
+This capability is crucial for creating search systems, recommendation engines, [retrieval augmented generation (RAG)](/rag/) and any application that benefits from a deep understanding of content.
 
 ## How do embeddings work?
 
@@ -134,7 +134,7 @@ Selecting the right embedding model for your use case is crucial to your applica
 
 If you’re looking for NLP and rapid prototyping, including language translation, question-answering, and text generation, OpenAI is a great choice. Gemini is ideal for image search, duplicate detection, and clustering tasks. 
 
-[Fastembed](https://qdrant.tech/articles/fastembed/), which we’ll use on the example below, is designed for efficiency and speed, great for applications needing low-latency responses, such as autocomplete and instant content recommendations. 
+[Fastembed](/articles/fastembed/), which we’ll use on the example below, is designed for efficiency and speed, great for applications needing low-latency responses, such as autocomplete and instant content recommendations. 
 
 We plan to go deeper into selecting the best model based on performance, cost, integration ease, and scalability in a future post.
 

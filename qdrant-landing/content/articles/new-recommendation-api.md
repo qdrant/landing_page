@@ -24,7 +24,7 @@ Here, we'll discuss some internals and show how they may be used in practice.
 ### Recap of the old recommendations API
 
 The previous [Recommendation API](/documentation/concepts/search/#recommendation-api) in Qdrant came with some limitations. First of all, it was required to pass vector IDs for 
-both positive and negative example points. If you wanted to use [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/) directly, you had to either create a new point 
+both positive and negative example points. If you wanted to use [vector embeddings](/articles/what-are-embeddings/) directly, you had to either create a new point 
 in a collection or mimic the behaviour of the Recommendation API by using the [Search API](/documentation/concepts/search/#search-api).
 Moreover, in the previous releases of Qdrant, you were always asked to provide at least one positive example. This requirement 
 was based on the algorithm used to combine multiple samples into a single query vector. It was a simple, yet effective approach. 

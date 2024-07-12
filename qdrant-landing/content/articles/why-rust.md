@@ -19,7 +19,7 @@ Looking at the [github repository](https://github.com/qdrant/qdrant), you can se
 
 **Scala** also builds on the JVM, although there is a native compiler, there was the question of compatibility. So Scala shared the limitations of Java, and although it has some nice high-level amenities (of which Java only recently copied a subset), it still doesn’t offer the same level of control over memory layout as, say, C++, so it is similarly disqualified.
 
-**Python**, being just a bit younger than Java, is ubiquitous in ML projects, mostly owing to its tooling (notably jupyter notebooks), being easy to learn and integration in most ML stacks. It doesn’t have a traditional garbage collector, opting for ubiquitous reference counting instead, which somewhat helps [memory consumption](https://qdrant.tech/articles/memory-consumption/). With that said, unless you only use it as glue code over high-perf modules, you may find yourself waiting for results. Also getting complex python services to perform stably under load is a serious technical challenge.
+**Python**, being just a bit younger than Java, is ubiquitous in ML projects, mostly owing to its tooling (notably jupyter notebooks), being easy to learn and integration in most ML stacks. It doesn’t have a traditional garbage collector, opting for ubiquitous reference counting instead, which somewhat helps [memory consumption](/articles/memory-consumption/). With that said, unless you only use it as glue code over high-perf modules, you may find yourself waiting for results. Also getting complex python services to perform stably under load is a serious technical challenge.
 
 ## Into the Unknown
 

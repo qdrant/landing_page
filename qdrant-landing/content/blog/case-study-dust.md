@@ -59,7 +59,7 @@ strategy with the embeddings models and performs retrieval augmented generation.
 
 ![solution-laptop-screen](/case-studies/dust/laptop-solutions.jpg)
 
-For this, Dust required a [vector database](https://qdrant.tech/articles/what-is-a-vector-database/) and evaluated different options
+For this, Dust required a [vector database](/articles/what-is-a-vector-database/) and evaluated different options
 including Pinecone and Weaviate, but ultimately decided on Qdrant as the
 solution of choice. “We particularly liked Qdrant because it is open-source,
 written in Rust, and it has a well-designed API,” Polu says. For example, Dust

@@ -237,13 +237,13 @@ Okay, the next question that I had is you talked about how benchmarking with the
 
 Stanislas Polu:
 Yeah
-I think the benchmarking was really about quality of models, answers in the context of [retrieval augmented generation](https://qdrant.tech/articles/what-is-rag-in-ai/).
+I think the benchmarking was really about quality of models, answers in the context of [retrieval augmented generation](/articles/what-is-rag-in-ai/).
 So it's not as much as performance, but obviously performance matters, and that's why we love using Qdrants. But I think the main idea of.
 
 
 Stanislas Polu:
 What I mentioned is that it's interesting because today the retrieval is noisy, because the embedders are not perfect, which is an interesting point.
-Sorry, I'm double clicking, but I'll come back. The embedded are really not perfect. Are really not perfect. So that's interesting. When Qdrant release kind of optimization for [storage of vectors](https://qdrant.tech/documentation/concepts/storage/), they come with obviously warnings that you may have a loss.
+Sorry, I'm double clicking, but I'll come back. The embedded are really not perfect. Are really not perfect. So that's interesting. When Qdrant release kind of optimization for [storage of vectors](/documentation/concepts/storage/), they come with obviously warnings that you may have a loss.
 Of precision because of the compression, et cetera, et cetera.
 And that's funny, like in all kind of retrieval and mental generation world, it really doesn't matter. We take all the performance we can because the loss of precision coming from compression of those vectors at the vector DB level are completely negligible compared to.
 The holon fuckness of the embedders in.

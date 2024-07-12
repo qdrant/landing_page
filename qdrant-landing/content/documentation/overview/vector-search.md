@@ -22,7 +22,7 @@ Time passed, and we haven’t had much change in that area for quite a long time
 
 {{< figure src=/docs/gettingstarted/tokenization.png caption="The process of tokenization with an additional stopwords removal and converstion to root form of a word." >}}
 
-Technically speaking, we encode the documents and queries into so-called [sparse vectors](https://qdrant.tech/articles/sparse-vectors/) where each position has a corresponding word from the whole dictionary. If the input text contains a specific word, it gets a non-zero value at that position. But in reality, none of the texts will contain more than hundreds of different words. So the majority of vectors will have thousands of zeros and a few non-zero values. That’s why we call them sparse. And they might be already used to calculate some word-based similarity by finding the documents which have the biggest overlap.
+Technically speaking, we encode the documents and queries into so-called [sparse vectors](/articles/sparse-vectors/) where each position has a corresponding word from the whole dictionary. If the input text contains a specific word, it gets a non-zero value at that position. But in reality, none of the texts will contain more than hundreds of different words. So the majority of vectors will have thousands of zeros and a few non-zero values. That’s why we call them sparse. And they might be already used to calculate some word-based similarity by finding the documents which have the biggest overlap.
 
 {{< figure src=/docs/gettingstarted/query.png caption="An example of a query vectorized to sparse format." >}}
 
@@ -50,9 +50,9 @@ Dense vectors can capture the meaning, not the words used in a text. That being 
 
 ## Why Qdrant?
 
-The challenge with vector search arises when we need to find similar documents in a big set of objects. If we want to find the closest examples, the naive approach would require calculating the distance to every document. That might work with dozens or even hundreds of examples but may become a bottleneck if we have more than that. When we work with relational data, we set up database indexes to speed things up and avoid full table scans. And the same is true for vector search. Qdrant is a fully-fledged [vector database](https://qdrant.tech/articles/what-is-a-vector-database/) that speeds up the search process by using a graph-like structure to find the closest objects in sublinear time. So you don’t calculate the distance to every object from the database, but some candidates only.
+The challenge with vector search arises when we need to find similar documents in a big set of objects. If we want to find the closest examples, the naive approach would require calculating the distance to every document. That might work with dozens or even hundreds of examples but may become a bottleneck if we have more than that. When we work with relational data, we set up database indexes to speed things up and avoid full table scans. And the same is true for vector search. Qdrant is a fully-fledged [vector database](/articles/what-is-a-vector-database/) that speeds up the search process by using a graph-like structure to find the closest objects in sublinear time. So you don’t calculate the distance to every object from the database, but some candidates only.
 
-{{< figure src=/docs/gettingstarted/vector-search.png caption="Vector search with Qdrant. Thanks to [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph we are able to compare the distance to some of the objects from the database, not to all of them." >}}
+{{< figure src=/docs/gettingstarted/vector-search.png caption="Vector search with Qdrant. Thanks to [HNSW](/articles/filtrable-hnsw/) graph we are able to compare the distance to some of the objects from the database, not to all of them." >}}
 
 While doing a semantic search at scale, because this is what we sometimes call the vector search done on texts, we need a specialized tool to do it effectively — a tool like Qdrant.
 
@@ -66,7 +66,7 @@ Despite its complicated background, vectors search is extraordinarily simple to 
 [**Tutorial 2 - Question and Answer System**](/articles/qa-with-cohere-and-qdrant/)
 However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer system tutorial](/articles/qa-with-cohere-and-qdrant/).
 
-There is another exciting thing about vector search. You can search for any kind of data as long as there is a neural network that would vectorize your data type. Do you think about a reverse image search? That’s also possible with [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/).
+There is another exciting thing about vector search. You can search for any kind of data as long as there is a neural network that would vectorize your data type. Do you think about a reverse image search? That’s also possible with [vector embeddings](/articles/what-are-embeddings/).
 
 
 

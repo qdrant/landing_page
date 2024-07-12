@@ -14,7 +14,7 @@ This tutorial shows you how to run a proper multimodal semantic search system wi
 
 In most cases, semantic search is limited to homogenous data types for both documents and queries (text-text, image-image, audio-audio, etc.). With the recent growth of multimodal architectures, it is now possible to encode different data types into the same latent space. That opens up some great possibilities, as you can finally explore non-textual data, for example visual, with text queries. 
 
-In the past, this would require labelling every image with a description of what it presents. Right now, you can rely on [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/), which can represent all 
+In the past, this would require labelling every image with a description of what it presents. Right now, you can rely on [vector embeddings](/articles/what-are-embeddings/), which can represent all 
 the inputs in the same space.
 
 *Figure 1: Two examples of text-image pairs presenting a similar object, encoded by a multimodal network into the same 

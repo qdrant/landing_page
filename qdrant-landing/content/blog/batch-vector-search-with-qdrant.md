@@ -18,7 +18,7 @@ tags:
 
 # How to Optimize Vector Search Using Batch Search in Qdrant 0.10.0
 
-The latest release of Qdrant 0.10.0 has introduced a lot of functionalities that simplify some common tasks. Those new possibilities come with some slightly modified interfaces of the client library. One of the recently introduced features is the possibility to query the collection with [multiple vectors](https://qdrant.tech/blog/storing-multiple-vectors-per-object-in-qdrant/) at once — a batch search mechanism.
+The latest release of Qdrant 0.10.0 has introduced a lot of functionalities that simplify some common tasks. Those new possibilities come with some slightly modified interfaces of the client library. One of the recently introduced features is the possibility to query the collection with [multiple vectors](/blog/storing-multiple-vectors-per-object-in-qdrant/) at once — a batch search mechanism.
 
 There are a lot of scenarios in which you may need to perform multiple non-related tasks at the same time. Previously, you only could send several requests to Qdrant API on your own. But multiple parallel requests may cause significant network overhead and slow down the process, especially in case of poor connection speed.
 

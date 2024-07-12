@@ -21,7 +21,7 @@ keywords:
 Ever since the data science community discovered that vector search significantly improves LLM answers,
 various vendors and enthusiasts have been arguing over the proper solutions to store embeddings.
 
-Some say storing them in a specialized engine (aka [vector databases](https://qdrant.tech/qdrant-vector-database/)) is better. Others say that it's enough to use plugins for existing databases.
+Some say storing them in a specialized engine (aka [vector databases](/qdrant-vector-database/)) is better. Others say that it's enough to use plugins for existing databases.
 
 Here are [just](https://nextword.substack.com/p/vector-database-is-not-a-separate) a [few](https://stackoverflow.blog/2023/09/20/do-you-need-a-specialized-vector-database-to-implement-vector-search-well/) of [them](https://www.singlestore.com/blog/why-your-vector-database-should-not-be-a-vector-database/).
 
@@ -72,7 +72,7 @@ Those priorities lead to different architectural decisions that are not reproduc
 
 ###### Having a dedicated vector database requires duplication of data.
 
-By their very nature, [vector embeddings](https://qdrant.tech/articles/what-are-embeddings/) are derivatives of the primary source data.
+By their very nature, [vector embeddings](/articles/what-are-embeddings/) are derivatives of the primary source data.
 
 In the vast majority of cases, embeddings are derived from some other data, such as text, images, or additional information stored in your system. So, in fact, all embeddings you have in your system can be considered transformations of some original source.
 

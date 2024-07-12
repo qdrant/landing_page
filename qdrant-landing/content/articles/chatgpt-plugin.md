@@ -36,7 +36,7 @@ These plugins, designed to enhance the model's performance, serve as modular ext
 that seamlessly interface with the core system. By adding a knowledge base plugin to 
 ChatGPT, we can effectively provide the AI with a curated, trustworthy source of 
 information, ensuring that the generated content is more accurate and relevant. Qdrant 
-may act as a [vector database](https://qdrant.tech/qdrant-vector-database/) where all the facts will be stored and served to the model 
+may act as a [vector database](/qdrant-vector-database/) where all the facts will be stored and served to the model 
 upon request.
 
 If you’d like to ask ChatGPT questions about your data sources, such as files, notes, or 

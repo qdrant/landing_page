@@ -60,7 +60,7 @@ For example, in the medical domain, many rare terms are not present in the gener
 | **Data Representation**   | Majority of elements are zero               | All elements are non-zero                   |
 | **Computational Efficiency** | Generally higher, especially in operations involving zero elements | Lower, as operations are performed on all elements |
 | **Information Density**   | Less dense, focuses on key features | Highly dense, capturing nuanced relationships |
-| **Example Applications**  | Text search, Hybrid search | [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/), many general machine learning tasks |
+| **Example Applications**  | Text search, Hybrid search | [RAG](/articles/what-is-rag-in-ai/), many general machine learning tasks |
 
 Where do sparse vectors fail though? They're not great at capturing nuanced relationships between words. For example, they can't capture the relationship between "king" and "queen" as well as dense vectors.
 
@@ -407,7 +407,7 @@ This formula calculates the similarity score by multiplying corresponding elemen
 
 ## Hybrid search: combining sparse and dense vectors
 
-By combining search results from both dense and sparse vectors, you can achieve a [hybrid search](https://qdrant.tech/articles/hybrid-search/) that is both efficient and accurate.
+By combining search results from both dense and sparse vectors, you can achieve a [hybrid search](/articles/hybrid-search/) that is both efficient and accurate.
 Results from sparse vectors will guarantee, that all results with the required keywords are returned, 
 while dense vectors will cover the semantically similar results.
 

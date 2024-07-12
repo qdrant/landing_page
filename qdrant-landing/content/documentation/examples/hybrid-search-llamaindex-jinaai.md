@@ -138,7 +138,7 @@ The code below does the following:
 - combines `sparse` and `dense` vectors for hybrid search;
 - stores all data into Qdrant;
 
-[Hybrid search with Qdrant](https://qdrant.tech/articles/hybrid-search/) must be enabled from the beginning - we can simply set `enable_hybrid=True`.
+[Hybrid search with Qdrant](/articles/hybrid-search/) must be enabled from the beginning - we can simply set `enable_hybrid=True`.
 
 ```python
 # By default llamaindex uses OpenAI models

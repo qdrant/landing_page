@@ -7,7 +7,7 @@ weight: 2200
 
 [Spring AI](https://docs.spring.io/spring-ai/reference/) is a Java framework that provides a [Spring-friendly](https://spring.io/) API and abstractions for developing AI applications.
 
-Qdrant is available as supported [vector database](https://qdrant.tech/articles/what-is-a-vector-database/) for use within your Spring AI projects.
+Qdrant is available as supported [vector database](/articles/what-is-a-vector-database/) for use within your Spring AI projects.
 
 ## Installation
 

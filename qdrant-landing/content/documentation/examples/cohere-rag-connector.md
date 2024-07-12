@@ -30,8 +30,8 @@ This tutorial guides you step by step on building such a service around Qdrant.
 ## Qdrant connector
 
 You probably already have some collections you would like to bring to the LLM. Maybe your pipeline was set up using some
-of the popular libraries such as [Langchain](https://qdrant.tech/articles/langchain-integration/), Llama Index, or Haystack. Cohere connectors may implement even more complex 
-logic, e.g. [hybrid search](https://qdrant.tech/articles/hybrid-search/). In our case, we are going to start with a fresh Qdrant collection, index data using Cohere
+of the popular libraries such as [Langchain](/articles/langchain-integration/), Llama Index, or Haystack. Cohere connectors may implement even more complex 
+logic, e.g. [hybrid search](/articles/hybrid-search/). In our case, we are going to start with a fresh Qdrant collection, index data using Cohere
 Embed v3, build the connector, and finally connect it with the [Command-R model](https://txt.cohere.com/command-r/).
 
 ### Building the collection

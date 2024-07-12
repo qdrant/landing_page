@@ -71,7 +71,7 @@ dataset = load_dataset(
 )
 ```
 
-We used the streaming mode, so the dataset is not loaded into memory. Instead, we can iterate through it and extract the id and [vector embedding](https://qdrant.tech/articles/what-are-embeddings/):
+We used the streaming mode, so the dataset is not loaded into memory. Instead, we can iterate through it and extract the id and [vector embedding](/articles/what-are-embeddings/):
 
 ```python
 for payload in dataset:

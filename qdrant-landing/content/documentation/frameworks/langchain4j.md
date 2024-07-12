@@ -5,7 +5,7 @@ weight: 2110
 
 # LangChain for Java
 
-[LangChain](https://qdrant.tech/articles/langchain-integration/) for Java, also known as [Langchain4J](https://github.com/langchain4j/langchain4j), is a community port of [Langchain](https://www.langchain.com/) for building context-aware AI applications in Java
+[LangChain](/articles/langchain-integration/) for Java, also known as [Langchain4J](https://github.com/langchain4j/langchain4j), is a community port of [Langchain](https://www.langchain.com/) for building context-aware AI applications in Java
 
 You can use Qdrant as a vector store in Langchain4J through the [`langchain4j-qdrant`](https://central.sonatype.com/artifact/dev.langchain4j/langchain4j-qdrant) module.
 

@@ -24,7 +24,7 @@ tags:
 
 Discussing core differences between search engines and databases, Andrey underlined the importance of application needs and scalability in database selection for vector search tasks.
 
-Andrey Vasnetsov, CTO at Qdrant is an enthusiast of [Open Source](https://qdrant.tech/), machine learning, and vector search. He works on Open Source projects related to [Vector Similarity Search](https://qdrant.tech/articles/vector-similarity-beyond-search/) and Similarity Learning. He prefers practical over theoretical, working demo over arXiv paper.
+Andrey Vasnetsov, CTO at Qdrant is an enthusiast of [Open Source](https://qdrant.tech/), machine learning, and vector search. He works on Open Source projects related to [Vector Similarity Search](/articles/vector-similarity-beyond-search/) and Similarity Learning. He prefers practical over theoretical, working demo over arXiv paper.
 
 ***You can watch this episode on [YouTube](https://www.youtube.com/watch?v=bU38Ovdh3NY).***
 
@@ -34,7 +34,7 @@ Andrey Vasnetsov, CTO at Qdrant is an enthusiast of [Open Source](https://qdrant
 
 ## **Top Takeaways:**
 
-Dive into the intricacies of [vector databases](https://qdrant.tech/articles/what-is-a-vector-database/) with Andrey as he unpacks Qdrant's approach to combining filtering and vector search, revealing how in-place filtering during graph traversal optimizes precision without sacrificing search exactness, even when scaling to billions of vectors.
+Dive into the intricacies of [vector databases](/articles/what-is-a-vector-database/) with Andrey as he unpacks Qdrant's approach to combining filtering and vector search, revealing how in-place filtering during graph traversal optimizes precision without sacrificing search exactness, even when scaling to billions of vectors.
 
 5 key insights you’ll learn:
 
@@ -48,7 +48,7 @@ Dive into the intricacies of [vector databases](https://qdrant.tech/articles/wha
 
 - 🔗 **Connected Graph Challenges:** Learn about navigating the difficulties of maintaining a connected graph while filtering during search operations.
 
-> Fun Fact: [The Qdrant system](https://qdrant.tech/) is capable of in-place filtering during graph traversal, which is a novel approach compared to traditional post-filtering methods, ensuring the correct quantity of results that meet the filtering conditions.
+> Fun Fact: [The Qdrant system](/) is capable of in-place filtering during graph traversal, which is a novel approach compared to traditional post-filtering methods, ensuring the correct quantity of results that meet the filtering conditions.
 > 
 
 ## Timestamps:

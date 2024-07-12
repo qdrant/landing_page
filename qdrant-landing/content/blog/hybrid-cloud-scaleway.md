@@ -13,7 +13,7 @@ tags:
   - Vector Database
 ---
 
-In a move to empower the next wave of AI innovation, Qdrant and [Scaleway](https://www.scaleway.com/en/) collaborate to introduce [Qdrant Hybrid Cloud](/hybrid-cloud/), a fully managed [vector database](https://qdrant.tech/qdrant-vector-database/) that can be deployed on existing Scaleway environments. This collaboration is set to democratize access to advanced AI capabilities, enabling developers to easily deploy and scale vector search technologies within Scaleway's robust and developer-friendly cloud infrastructure. By focusing on the unique needs of startups and the developer community, Qdrant and Scaleway are providing access to intuitive and easy to use tools, making cutting-edge AI more accessible than ever before.
+In a move to empower the next wave of AI innovation, Qdrant and [Scaleway](https://www.scaleway.com/en/) collaborate to introduce [Qdrant Hybrid Cloud](/hybrid-cloud/), a fully managed [vector database](/qdrant-vector-database/) that can be deployed on existing Scaleway environments. This collaboration is set to democratize access to advanced AI capabilities, enabling developers to easily deploy and scale vector search technologies within Scaleway's robust and developer-friendly cloud infrastructure. By focusing on the unique needs of startups and the developer community, Qdrant and Scaleway are providing access to intuitive and easy to use tools, making cutting-edge AI more accessible than ever before.
 
 Building on this vision, the integration between Scaleway and Qdrant Hybrid Cloud leverages the strengths of both Qdrant, with its leading open-source vector database, and Scaleway, known for its innovative and scalable cloud solutions. This integration means startups and developers can now harness the power of vector search - essential for AI applications like recommendation systems, image recognition, and natural language processing - within their existing environment without the complexity of maintaining such advanced setups.
 
@@ -21,7 +21,7 @@ Building on this vision, the integration between Scaleway and Qdrant Hybrid Clou
 
 #### Developing a Retrieval Augmented Generation (RAG) Application with Qdrant Hybrid Cloud, Scaleway, and LangChain
 
-[Retrieval Augmented Generation (RAG)](https://qdrant.tech/rag/) enhances Large Language Models (LLMs) by integrating vector search to provide precise, context-rich responses. This combination allows LLMs to access and incorporate specific data in real-time, vastly improving the quality of AI-generated content.
+[Retrieval Augmented Generation (RAG)](/rag/) enhances Large Language Models (LLMs) by integrating vector search to provide precise, context-rich responses. This combination allows LLMs to access and incorporate specific data in real-time, vastly improving the quality of AI-generated content.
 
 RAG applications often rely on sensitive or proprietary internal data, emphasizing the importance of data sovereignty. Running the entire stack within your own environment becomes crucial for maintaining control over this data. Qdrant Hybrid Cloud deployed on Scaleway addresses this need perfectly, offering a secure, scalable platform that respects data sovereignty requirements while leveraging the full potential of RAG for sophisticated AI solutions.
 

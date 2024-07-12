@@ -19,11 +19,11 @@ keywords:
 
 # Is RAG Dead? The Role of Vector Databases in AI Efficiency and Vector Search 
 
-When Anthropic came out with a context window of 100K tokens, they said: “*[Vector search](https://qdrant.tech/solutions/) is dead. LLMs are getting more accurate and won’t need RAG anymore.*”
+When Anthropic came out with a context window of 100K tokens, they said: “*[Vector search](/solutions/) is dead. LLMs are getting more accurate and won’t need RAG anymore.*”
 
 Google’s Gemini 1.5 now offers a context window of 10 million tokens. [Their supporting paper](https://storage.googleapis.com/deepmind-media/gemini/gemini_v1_5_report.pdf) claims victory over accuracy issues, even when applying Greg Kamradt’s [NIAH methodology](https://twitter.com/GregKamradt/status/1722386725635580292). 
 
-*It’s over. [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/) (Retrieval Augmented Generation) must be completely obsolete now. Right?*
+*It’s over. [RAG](/articles/what-is-rag-in-ai/) (Retrieval Augmented Generation) must be completely obsolete now. Right?*
 
 No.
 
@@ -37,9 +37,9 @@ This is not surprising. LLMs require massive amounts of compute and memory to ru
 
 ## Context stuffing is not the solution
 
-> Relying on context is expensive, and it doesn’t improve response quality in real-world applications. Retrieval based on [vector search](https://qdrant.tech/solutions/) offers much higher precision.
+> Relying on context is expensive, and it doesn’t improve response quality in real-world applications. Retrieval based on [vector search](/solutions/) offers much higher precision.
 
-If you solely rely on an [LLM](https://qdrant.tech/articles/what-is-rag-in-ai/) to perfect retrieval and precision, you are doing it wrong. 
+If you solely rely on an [LLM](/articles/what-is-rag-in-ai/) to perfect retrieval and precision, you are doing it wrong. 
 
 A large context window makes it harder to focus on relevant information. This increases the risk of errors or hallucinations in its responses. 
 
@@ -91,4 +91,4 @@ Our customers remind us of this fact every day. As a product, [our vector databa
 
 We want to keep Qdrant compact, efficient and with a focused purpose. This purpose is to empower our customers to use it however they see fit. 
 
-When large enterprises release their generative AI into production, they need to keep costs under control, while retaining the best possible quality of responses. Qdrant has the [vector search solutions](https://qdrant.tech/solutions/) to do just that. Revolutionize your vector search capabilities and get started with [a Qdrant demo](https://qdrant.tech/contact-us/).
+When large enterprises release their generative AI into production, they need to keep costs under control, while retaining the best possible quality of responses. Qdrant has the [vector search solutions](/solutions/) to do just that. Revolutionize your vector search capabilities and get started with [a Qdrant demo](/contact-us/).

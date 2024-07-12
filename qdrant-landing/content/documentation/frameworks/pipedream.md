@@ -39,5 +39,5 @@ Once a connection is set up, you can use the app to build workflows with the [20
 ## Further Reading
 
 - [Pipedream Documentation](https://pipedream.com/docs).
-- [Qdrant Cloud Authentication](https://qdrant.tech/documentation/cloud/authentication/).
+- [Qdrant Cloud Authentication](/documentation/cloud/authentication/).
 - [Source Code](https://github.com/PipedreamHQ/pipedream/tree/master/components/qdrant)

@@ -22,7 +22,7 @@ tags:
 
 Ever wonder why we need quantization for vector indexes? Andrey Vasnetsov explains the complexities and challenges of searching through proximity graphs. Binary quantization reduces storage size and boosts speed by 30x, but not all models are compatible. 
 
-Andrey worked as a Machine Learning Engineer most of his career. He prefers practical over theoretical, working demo over arXiv paper. He is currently working as the CTO at Qdrant a [Vector Similarity Search Engine](https://qdrant.tech/articles/vector-similarity-beyond-search/), which can be used for semantic search, similarity matching of text, images or even videos, and also recommendations.
+Andrey worked as a Machine Learning Engineer most of his career. He prefers practical over theoretical, working demo over arXiv paper. He is currently working as the CTO at Qdrant a [Vector Similarity Search Engine](/articles/vector-similarity-beyond-search/), which can be used for semantic search, similarity matching of text, images or even videos, and also recommendations.
 
 ***Listen to the episode on [Spotify](https://open.spotify.com/episode/7dPOm3x4rDBwSFkGZuwaMq?si=Ip77WCa_RCCYebeHX6DTMQ), Apple Podcast, Podcast addicts, Castbox. You can also watch this episode on [YouTube](https://youtu.be/4aUq5VnR_VI).***
 

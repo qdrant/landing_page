@@ -57,7 +57,7 @@ Here are five key takeaways from this episode:
 17:00 Trieve wrapped up YC W24 batch.\
 21:45 Revolutionizing company search.\
 23:30 Next update: user tracking, analytics, and cross-encoders.\
-27:39 Quadruple supported [sparse vectors](https://qdrant.tech/articles/sparse-vectors/).\
+27:39 Quadruple supported [sparse vectors](/articles/sparse-vectors/).\
 30:09 Final questions and wrap up.
 
 ## More Quotes from Nick:

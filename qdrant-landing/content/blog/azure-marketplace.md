@@ -27,7 +27,7 @@ We're thrilled to announce that Qdrant is now [officially available on Azure Mar
 
 ## Key Benefits for Users:
 
-- **Rapid Application Development:** Deploying a cluster on Microsoft Azure via the [Qdrant Cloud](https://qdrant.tech/cloud/) console only takes a few seconds and can scale up as needed, giving developers maximal flexibility for their production deployments.
+- **Rapid Application Development:** Deploying a cluster on Microsoft Azure via the [Qdrant Cloud](/cloud/) console only takes a few seconds and can scale up as needed, giving developers maximal flexibility for their production deployments.
 
 - **Billion Vector Scale:** Seamlessly grow and handle large-scale datasets with billions of vectors by leveraging Qdrant's features like vertical and horizontal scaling or binary quantization with Microsoft Azure's scalable infrastructure.
 

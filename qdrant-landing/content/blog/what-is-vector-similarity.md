@@ -91,7 +91,7 @@ Vector similarity in text analysis helps in understanding and processing languag
 
 **Retrieval Augmented Generation (RAG)**
 
-Vector similarity can help in representing and comparing linguistic features, from single words to entire documents. This can help build [retrieval augmented generation (RAG)](https://qdrant.tech/rag/) applications, where the data is retrieved based on user intent. It also enables nuanced language tasks such as sentiment analysis, synonym detection, language translation, and more.
+Vector similarity can help in representing and comparing linguistic features, from single words to entire documents. This can help build [retrieval augmented generation (RAG)](/rag/) applications, where the data is retrieved based on user intent. It also enables nuanced language tasks such as sentiment analysis, synonym detection, language translation, and more.
 
 **Recommender Systems**
 
@@ -155,7 +155,7 @@ There are three quantization strategies you can choose from - scalar quantizatio
 
 Qdrant offers several [security features](/documentation/guides/security/) to help protect data and access to the vector store:
 
-- API Key Authentication: This helps secure API access to [Qdrant Cloud](https://qdrant.tech/cloud/) with static or read-only API keys.
+- API Key Authentication: This helps secure API access to [Qdrant Cloud](/cloud/) with static or read-only API keys.
 - JWT-Based Access Control: You can also enable more granular access control through JSON Web Tokens (JWT), and opt for restricted access to specific parts of the stored data while building Role-Based Access Control (RBAC).
 - TLS Encryption: Additionally, you can enable TLS Encryption on data transmission to ensure security of data in transit.
 

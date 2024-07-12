@@ -9,7 +9,7 @@ aliases:
 
 ![qdrant](/images/logo_with_text.png)
 
-[Vector databases](https://qdrant.tech/qdrant-vector-database/) are a relatively new way for interacting with abstract data representations 
+[Vector databases](/qdrant-vector-database/) are a relatively new way for interacting with abstract data representations 
 derived from opaque machine learning models such as deep learning architectures. These 
 representations are often called vectors or embeddings and they are a compressed version of 
 the data used to train a machine learning model to accomplish a task like sentiment analysis, 
@@ -21,7 +21,7 @@ learn about one of the most popular and fastest growing vector databases in the 
 
 ## What is Qdrant?
 
-[Qdrant](https://github.com/qdrant/qdrant) "is a [vector similarity search engine](https://qdrant.tech/articles/vector-similarity-beyond-search/) that provides a production-ready 
+[Qdrant](https://github.com/qdrant/qdrant) "is a [vector similarity search engine](/articles/vector-similarity-beyond-search/) that provides a production-ready 
 service with a convenient API to store, search, and manage points (i.e. vectors) with an additional 
 payload." You can think of the payloads as additional pieces of information that can help you 
 hone in on your search and also receive useful information that you can give to your users.

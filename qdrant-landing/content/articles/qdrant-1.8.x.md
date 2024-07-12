@@ -25,9 +25,9 @@ tags:
 [Qdrant 1.8.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.8.0).
 This time around, we have focused on Qdrant's internals. Our goal was to optimize performance so that your existing setup can run faster and save on compute. Here is what we've been up to:
 
-- **Faster [sparse vectors](https://qdrant.tech/articles/sparse-vectors/):** [Hybrid search](https://qdrant.tech/articles/hybrid-search/) is up to 16x faster now!
+- **Faster [sparse vectors](/articles/sparse-vectors/):** [Hybrid search](/articles/hybrid-search/) is up to 16x faster now!
 - **CPU resource management:** You can allocate CPU threads for faster indexing. 
-- **Better indexing performance:** We optimized text [indexing](https://qdrant.tech/documentation/concepts/indexing/) on the backend.
+- **Better indexing performance:** We optimized text [indexing](/documentation/concepts/indexing/) on the backend.
 
 ## Faster search with sparse vectors
 
@@ -49,7 +49,7 @@ A real-life simulation of sparse vector queries was run against the [NeurIPS 202
 Latency (y-axis) has dropped significantly for queries. You can see the before/after here:
 
 ![dropping latency](/articles_data/qdrant-1.8.x/benchmark.png)
-**Figure 1:** Dropping latency in [sparse vector search](https://qdrant.tech/articles/sparse-vectors/) queries across versions 1.7-1.8.
+**Figure 1:** Dropping latency in [sparse vector search](/articles/sparse-vectors/) queries across versions 1.7-1.8.
 
 The colors within both scatter plots show the frequency of results. The red dots show that the highest concentration is around 2200ms (before) and 135ms (after). This tells us that latency for sparse vector queries dropped by about a factor of 16. Therefore, the time it takes to retrieve an answer with Qdrant is that much shorter. 
 
@@ -86,13 +86,13 @@ This configuration can be done at any time, but it requires a restart of Qdrant.
 
 ## Better indexing for text data
 
-In order to [minimize your RAM expenditure](https://qdrant.tech/articles/memory-consumption/), we have developed a new way to index specific types of data. Please keep in mind that this is a backend improvement, and you won't need to configure anything. 
+In order to [minimize your RAM expenditure](/articles/memory-consumption/), we have developed a new way to index specific types of data. Please keep in mind that this is a backend improvement, and you won't need to configure anything. 
 
 > Going forward, if you are indexing immutable text fields, we estimate a 10% reduction in RAM loads. Our benchmark result is based on a system that uses 64GB of RAM. If you are using less RAM, this reduction might be higher than 10%.
 
 Immutable text fields are static and do not change once they are added to Qdrant. These entries usually represent some type of attribute, description or tag. Vectors associated with them can be indexed more efficiently, since you don’t need to re-index them anymore. Conversely, mutable fields are dynamic and can be modified after their initial creation. Please keep in mind that they will continue to require additional RAM.
 
-This approach ensures stability in the [vector search](https://qdrant.tech/documentation/overview/vector-search/) index, with faster and more consistent operations. We achieved this by setting up a field index which helps minimize what is stored. To improve search performance we have also optimized the way we load documents for searches with a text field index. Now our backend loads documents mostly sequentially and in increasing order.
+This approach ensures stability in the [vector search](/documentation/overview/vector-search/) index, with faster and more consistent operations. We achieved this by setting up a field index which helps minimize what is stored. To improve search performance we have also optimized the way we load documents for searches with a text field index. Now our backend loads documents mostly sequentially and in increasing order.
 
 
 ## Minor improvements and new features
@@ -107,7 +107,7 @@ Beyond these enhancements, [Qdrant v1.8.0](https://github.com/qdrant/qdrant/rele
 
 ## Experience the Power of Qdrant 1.8.0
 
-Ready to experience the enhanced performance of Qdrant 1.8.0? Upgrade now and explore the major improvements, from faster sparse vectors to optimized CPU resource management and better indexing for text data. Take your search capabilities to the next level with Qdrant's latest version. [Try a demo today](https://qdrant.tech/demo/) and see the difference firsthand!
+Ready to experience the enhanced performance of Qdrant 1.8.0? Upgrade now and explore the major improvements, from faster sparse vectors to optimized CPU resource management and better indexing for text data. Take your search capabilities to the next level with Qdrant's latest version. [Try a demo today](/demo/) and see the difference firsthand!
 
 ## Release notes
 

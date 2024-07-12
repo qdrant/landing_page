@@ -39,7 +39,7 @@ To get you started, we created a comprehensive tutorial that shows how to build 
 
 #### Tutorial: Hybrid Search for Household Appliance Manuals
 
-Learn how to build an app that retrieves information from PDF user manuals to enhance user experience for companies that sell household appliances. The system will leverage Jina AI embeddings and Qdrant Hybrid Cloud for enhanced generative AI capabilities, while the RAG pipeline will be tied together using the LlamaIndex framework. This example demonstrates how complex tables in PDF documentation can be processed as high quality embeddings with no extra configuration. By introducing [Hybrid Search](https://qdrant.tech/articles/hybrid-search/) from Qdrant, the RAG functionality is highly accurate.
+Learn how to build an app that retrieves information from PDF user manuals to enhance user experience for companies that sell household appliances. The system will leverage Jina AI embeddings and Qdrant Hybrid Cloud for enhanced generative AI capabilities, while the RAG pipeline will be tied together using the LlamaIndex framework. This example demonstrates how complex tables in PDF documentation can be processed as high quality embeddings with no extra configuration. By introducing [Hybrid Search](/articles/hybrid-search/) from Qdrant, the RAG functionality is highly accurate.
 
 [Try the Tutorial](/documentation/tutorials/hybrid-search-llamaindex-jinaai/)
 

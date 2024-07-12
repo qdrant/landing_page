@@ -22,7 +22,7 @@ tags:
 
 ---
 
-> [Retrieval-augmented generation (RAG)](https://qdrant.tech/rag/) integrates external information retrieval into the process of generating responses by Large Language Models (LLMs). It searches a database for information beyond its pre-trained knowledge base, significantly improving the accuracy and relevance of the generated responses.
+> [Retrieval-augmented generation (RAG)](/rag/) integrates external information retrieval into the process of generating responses by Large Language Models (LLMs). It searches a database for information beyond its pre-trained knowledge base, significantly improving the accuracy and relevance of the generated responses.
 
 Language models have exploded on the internet ever since ChatGPT came out, and rightfully so. They can write essays, code entire programs, and even make memes (though we’re still deciding on whether that's a good thing).
 
@@ -36,7 +36,7 @@ The image above shows how a basic RAG system works. Before forwarding the questi
 
 As your data grows, you’ll need efficient ways to identify the most relevant information for your LLM's limited memory. This is where you’ll want a proper way to store and retrieve the specific data you’ll need for your query, without needing the LLM to remember it. 
 
-[**Vector databases**](https://qdrant.tech/qdrant-vector-database/) store information as **vector embeddings**. This format supports efficient similarity searches to retrieve relevant data for your query. For example, Qdrant is specifically designed to perform fast, even in scenarios dealing with billions of vectors.
+[**Vector databases**](/qdrant-vector-database/) store information as **vector embeddings**. This format supports efficient similarity searches to retrieve relevant data for your query. For example, Qdrant is specifically designed to perform fast, even in scenarios dealing with billions of vectors.
 
 This article will focus on RAG systems and architecture. If you’re interested in learning more about vector search, we recommend the following articles: [What is a Vector Database?](/articles/what-is-a-vector-database/) and [What are Vector Embeddings?](/articles/what-are-embeddings/).
 
@@ -77,14 +77,14 @@ Once you have vectorized your knowledge base you can do the same to the user que
 
 #### Retrieval of relevant documents
 
-When the system needs to find the most relevant documents or passages to answer a query, it utilizes vector similarity techniques. [**Vector similarity**](https://qdrant.tech/articles/vector-similarity-beyond-search/) is a fundamental concept in machine learning and natural language processing (NLP) that quantifies the resemblance between vectors, which are mathematical representations of data points.
+When the system needs to find the most relevant documents or passages to answer a query, it utilizes vector similarity techniques. [**Vector similarity**](/articles/vector-similarity-beyond-search/) is a fundamental concept in machine learning and natural language processing (NLP) that quantifies the resemblance between vectors, which are mathematical representations of data points.
 
 The system can employ different vector similarity strategies depending on the type of vectors used to represent the data:
 
 
 ##### Sparse vector representations
 
-A [sparse vector](https://qdrant.tech/articles/sparse-vectors/) is characterized by a high dimensionality, with most of its elements being zero.
+A [sparse vector](/articles/sparse-vectors/) is characterized by a high dimensionality, with most of its elements being zero.
 
 The classic approach is **keyword search**, which scans documents for the exact words or phrases in the query. The search creates sparse vector representations of documents by counting word occurrences and inversely weighting common words. Queries with rarer words get prioritized.
 
