@@ -475,7 +475,7 @@ If the collection was created with sparse vectors, the name of the sparse vector
 
 You can still use payload filtering and other features of the search API with sparse vectors.
 
-There are however important differences between dense and sparse vector search:
+There are however important differences between dense and [sparse vector search](https://qdrant.tech/articles/sparse-vectors/):
 
 | Index| Sparse Query | Dense Query |
 | --- | --- | --- | 
