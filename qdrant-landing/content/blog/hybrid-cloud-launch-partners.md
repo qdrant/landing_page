@@ -14,7 +14,7 @@ tags:
   - launch partners
 ---
 
-With the launch of [Qdrant Hybrid Cloud](/hybrid-cloud/) we provide developers the ability to deploy Qdrant as a managed vector database in any desired environment, be it *in the cloud, on premise, or on the edge*.
+With the launch of [Qdrant Hybrid Cloud](/hybrid-cloud/) we provide developers the ability to deploy Qdrant as a managed [vector database](https://qdrant.tech/articles/what-is-a-vector-database/) in any desired environment, be it *in the cloud, on premise, or on the edge*.
 
 We are excited to have trusted industry players support the launch of Qdrant Hybrid Cloud, allowing developers to unlock best-in-class advantages for building production-ready AI applications:
 
