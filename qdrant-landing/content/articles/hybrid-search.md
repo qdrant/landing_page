@@ -132,7 +132,7 @@ into account. Those models are usually trained on clickstream data of a real app
 very business-specific. Thus, we'll not cover them right now, as there is a more general approach. We will
 use so-called **cross-encoder models**.
 
-Cross-encoder takes a pair of texts and predicts the similarity of them. Unlike [embedding models, ](https://qdrant.tech/articles/fastembed/)
+Cross-encoder takes a pair of texts and predicts the similarity of them. Unlike [embedding models](https://qdrant.tech/articles/fastembed/), 
 cross-encoders do not compress text into vector, but uses interactions between individual tokens of both
 texts. In general, they are more powerful than both BM25 and vector search, but they are also way slower.
 That makes it feasible to use cross-encoders only for re-ranking of some preselected candidates.
