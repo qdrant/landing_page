@@ -13,7 +13,7 @@ date: 2023-04-19T00:42:00.000Z
 ---
 
 
-> Vector databases are here to stay. The New Age of AI is powered by vector embeddings, and vector databases are a foundational part of the stack. At Qdrant, we are working on cutting-edge open-source vector similarity search solutions to power fantastic AI applications with the best possible performance and excellent developer experience. 
+> [Vector databases](https://qdrant.tech/qdrant-vector-database/) are here to stay. The New Age of AI is powered by vector embeddings, and vector databases are a foundational part of the stack. At Qdrant, we are working on cutting-edge open-source vector similarity search solutions to power fantastic AI applications with the best possible performance and excellent developer experience. 
 > 
 > Our 7.5M seed funding – led by [Unusual Ventures](https://www.unusual.vc/), awesome angels, and existing investors – will help us bring these innovations to engineers and empower them to make the most of their unstructured data and the awesome power of LLMs at any scale.
 
@@ -41,7 +41,7 @@ A new AI product category, “Co-Pilot for X,” was born and is already affecti
 
 At the same time, adoption has only begun. Vector Search Databases are replacing VSS libraries like FAISS, etc., which, despite their disadvantages, are still used by ~90% of projects out there They’re hard-coupled to the application code, lack of production-ready features like basic CRUD operations or advanced filtering, are a nightmare to maintain and scale and have many other difficulties that make life hard for developers. 
 
-The current Qdrant ecosystem consists of excellent products to work with vector embeddings. We launched our managed vector database solution, Qdrant Cloud, early this year, and it is already serving more than 1,000 Qdrant clusters. We are extending our offering now with managed on-premise solutions for enterprise customers. 
+The current Qdrant ecosystem consists of excellent products to work with vector embeddings. We launched our managed [vector database solution](https://qdrant.tech/qdrant-vector-database/), Qdrant Cloud, early this year, and it is already serving more than 1,000 Qdrant clusters. We are extending our offering now with managed on-premise solutions for enterprise customers. 
 
 {{< figure src=/articles_data/seed-round/ecosystem.png caption="Qdrant Ecosystem" alt="Qdrant Vector Database Ecosystem" >}}
 
