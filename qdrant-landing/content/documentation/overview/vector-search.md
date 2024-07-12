@@ -22,7 +22,7 @@ Time passed, and we haven’t had much change in that area for quite a long time
 
 {{< figure src=/docs/gettingstarted/tokenization.png caption="The process of tokenization with an additional stopwords removal and converstion to root form of a word." >}}
 
-Technically speaking, we encode the documents and queries into so-called sparse vectors where each position has a corresponding word from the whole dictionary. If the input text contains a specific word, it gets a non-zero value at that position. But in reality, none of the texts will contain more than hundreds of different words. So the majority of vectors will have thousands of zeros and a few non-zero values. That’s why we call them sparse. And they might be already used to calculate some word-based similarity by finding the documents which have the biggest overlap.
+Technically speaking, we encode the documents and queries into so-called [sparse vectors](https://qdrant.tech/articles/sparse-vectors/) where each position has a corresponding word from the whole dictionary. If the input text contains a specific word, it gets a non-zero value at that position. But in reality, none of the texts will contain more than hundreds of different words. So the majority of vectors will have thousands of zeros and a few non-zero values. That’s why we call them sparse. And they might be already used to calculate some word-based similarity by finding the documents which have the biggest overlap.
 
 {{< figure src=/docs/gettingstarted/query.png caption="An example of a query vectorized to sparse format." >}}
 
