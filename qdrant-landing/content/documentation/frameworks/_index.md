@@ -32,7 +32,8 @@ weight: 33
 | [OpenLIT](./openlit/)                 | Platform for OpenTelemetry-native Observability & Evals for LLMs and Vector Databases.               |
 | [OpenLLMetry](./openllmetry/)         | Set of OpenTelemetry extensions to add Observability for your LLM application.                       |
 | [Pandas-AI](./pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
-| [Pipedream](./pipedream/)             | Platform for connecting apps and developing event-driven automations.                                |
+| [Pipedream](./pipedream/)             | Platform for connecting apps and developing event-driven automation.                                 |
+| [Portable.io](./portable/)            | Cloud platform for developing and deploying ELT transformations.                                     |
 | [PrivateGPT](./privategpt/)           | Tool to ask questions about your documents using local LLMs emphasising privacy.                     |
 | [Rivet](./rivet/)                     | A visual programming environment for building AI agents with LLMs.                                   |
 | [Semantic Router](./semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.             |
