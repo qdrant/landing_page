@@ -142,7 +142,7 @@ To use it, install the FastEmbed package.
 pip install fastembed
 ```
 
-```py
+```python
 from langchain_qdrant import FastEmbedSparse, RetrievalMode
 
 sparse_embeddings = FastEmbedSparse(model_name="Qdrant/BM25")
