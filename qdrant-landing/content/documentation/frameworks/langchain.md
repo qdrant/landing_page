@@ -9,35 +9,37 @@ aliases:
 # Langchain
 
 Langchain is a library that makes developing Large Language Model-based applications much easier. It unifies the interfaces
-to different libraries, including major embedding providers and Qdrant. Using Langchain, you can focus on the business value
-instead of writing the boilerplate.
+to different libraries, including major embedding providers and Qdrant. Using Langchain, you can focus on the business value instead of writing the boilerplate.
 
-Langchain distributes their Qdrant integration in their community package. It might be installed with pip:
+Langchain distributes their Qdrant integration as a partner package.
+
+It might be installed with pip:
 
 ```bash
-pip install langchain-community langchain-qdrant
+pip install langchain-qdrant
 ```
 
-Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways to use it, but calling `Qdrant.from_texts` or `Qdrant.from_documents` is probably the most straightforward way to get started:
+The integration supports searching for relevant documents usin dense/sparse and hybrid retrieval.
+
+Qdrant acts as a vector index that may store the embeddings with the documents used to generate them. There are various ways to use it, but calling `QdrantVectorStore.from_texts` or `QdrantVectorStore.from_documents` is probably the most straightforward way to get started:
 
 ```python
-from langchain_qdrant import Qdrant
-from langchain_community.embeddings.huggingface import HuggingFaceEmbeddings
+from langchain_qdrant import QdrantVectorStore
+from langchain_openai import OpenAIEmbeddings
 
-embeddings = HuggingFaceEmbeddings(
-    model_name="sentence-transformers/all-mpnet-base-v2"
-)
-doc_store = Qdrant.from_texts(
+embeddings = OpenAIEmbeddings()
+
+doc_store = QdrantVectorStore.from_texts(
     texts, embeddings, url="<qdrant-url>", api_key="<qdrant-api-key>", collection_name="texts"
 )
 ```
 
 ## Using an existing collection
 
-To get an instance of `langchain_qdrant.Qdrant` without loading any new documents or texts, you can use the `Qdrant.from_existing_collection()` method.
+To get an instance of `langchain_qdrant.QdrantVectorStore` without loading any new documents or texts, you can use the `QdrantVectorStore.from_existing_collection()` method.
 
 ```python
-doc_store = Qdrant.from_existing_collection(
+doc_store = QdrantVectorStore.from_existing_collection(
     embeddings=embeddings,
     collection_name="my_documents",
     url="<qdrant-url>",
@@ -57,7 +59,7 @@ For some testing scenarios and quick experiments, you may prefer to keep all the
 client is destroyed - usually at the end of your script/notebook.
 
 ```python
-qdrant = Qdrant.from_documents(
+qdrant = QdrantVectorStore.from_documents(
     docs,
     embeddings,
     location=":memory:",  # Local mode with in-memory storage only
@@ -80,13 +82,13 @@ qdrant = Qdrant.from_documents(
 
 ### On-premise server deployment
 
-No matter if you choose to launch Qdrant locally with [a Docker container](/documentation/guides/installation/), or
+No matter if you choose to launch QdrantVectorStore locally with [a Docker container](/documentation/guides/installation/), or
 select a Kubernetes deployment with [the official Helm chart](https://github.com/qdrant/qdrant-helm), the way you're
 going to connect to such an instance will be identical. You'll need to provide a URL pointing to the service.
 
 ```python
 url = "<---qdrant url here --->"
-qdrant = Qdrant.from_documents(
+qdrant = QdrantVectorStore.from_documents(
     docs,
     embeddings,
     url,
@@ -94,6 +96,78 @@ qdrant = Qdrant.from_documents(
     collection_name="my_documents",
 )
 ```
+
+## Similarity search
+
+`QdrantVectorStore` supports 3 modes for similarity searches. They can be configured using the `retrieval_mode` parameter when setting up the class.
+
+- Dense Vector Search(Default)
+- Sparse Vector Search
+- Hybrid Search
+
+### Dense Vector Search
+
+To search with only dense vectors,
+
+- The `retrieval_mode` parameter should be set to `RetrievalMode.DENSE`(default).
+- A [dense embeddings provider](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be a provided for the `embedding` parameter.
+
+```py
+from langchain_qdrant import RetrievalMode
+
+qdrant = QdrantVectorStore.from_documents(
+    docs,
+    embedding=embeddings,
+    location=":memory:",
+    collection_name="my_documents",
+    retrieval_mode=RetrievalMode.DENSE,
+)
+
+query = "What did the president say about Ketanji Brown Jackson"
+found_docs = qdrant.similarity_search(query)
+```
+
+### Sparse Vector Search
+
+To search with only sparse vectors,
+
+- The `retrieval_mode` parameter should be set to `RetrievalMode.SPARSE`.
+- An implementation of the [SparseEmbeddings interface](https://github.com/langchain-ai/langchain/blob/master/libs/partners/qdrant/langchain_qdrant/sparse_embeddings.py) using any sparse embeddings provider has to be provided as value to the `sparse_embedding` parameter.
+
+The `langchain-qdrant` package provides a [FastEmbed](https://github.com/qdrant/fastembed) based implementation out of the box.
+
+To use it, install the FastEmbed package.
+
+```sh
+pip install fastembed
+```
+
+```py
+from langchain_qdrant import FastEmbedSparse, RetrievalMode
+
+sparse_embeddings = FastEmbedSparse(model_name="Qdrant/BM25")
+
+qdrant = QdrantVectorStore.from_documents(
+    docs,
+    sparse_embedding=sparse_embeddings,
+    location=":memory:",
+    collection_name="my_documents",
+    retrieval_mode=RetrievalMode.SPARSE,
+)
+
+query = "What did the president say about Ketanji Brown Jackson"
+found_docs = qdrant.similarity_search(query)
+```
+
+### Hybrid Vector Search
+
+To perform a hybrid search using dense and sparse vectors with score fusion,
+
+- The `retrieval_mode` parameter should be set to `RetrievalMode.HYBRID`.
+- A [dense embeddings provider](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be a provided for the `embedding` parameter.
+- An implementation of the [SparseEmbeddings interface](https://github.com/langchain-ai/langchain/blob/master/libs/partners/qdrant/langchain_qdrant/sparse_embeddings.py) using any sparse embeddings provider has to be provided as value to the `sparse_embedding` parameter.
+
+Note that if you've added documents with the HYBRID mode, you can switch to any retrieval mode when searching. Since both the dense and sparse vectors are available in the collection.
 
 ## Next steps
 
