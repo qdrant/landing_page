@@ -1322,7 +1322,4 @@ More information about the quantization process can be found in the [Quantizatio
 
 ## Vector Storage
 
-Depending on the application's requirements, Qdrant can use one of the data storage options.
-Keep in mind that you will have to tradeoff between search speed and the size of RAM used.
-
-More information about the storage options can be found in the [Storage](../../concepts/storage/#vector-storage) section.
+Information about the vector storage options with their benefits and trade-offs can be found in the [Storage](../../concepts/storage/#vector-storage) section.
