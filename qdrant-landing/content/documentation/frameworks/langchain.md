@@ -11,7 +11,7 @@ aliases:
 Langchain is a library that makes developing Large Language Model-based applications much easier. It unifies the interfaces
 to different libraries, including major embedding providers and Qdrant. Using Langchain, you can focus on the business value instead of writing the boilerplate.
 
-Langchain distributes their Qdrant integration as a partner package.
+Langchain distributes the Qdrant integration as a partner package.
 
 It might be installed with pip:
 
@@ -110,7 +110,7 @@ qdrant = QdrantVectorStore.from_documents(
 To search with only dense vectors,
 
 - The `retrieval_mode` parameter should be set to `RetrievalMode.DENSE`(default).
-- A [dense embeddings provider](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be a provided for the `embedding` parameter.
+- A [dense embeddings](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be provided for the `embedding` parameter.
 
 ```py
 from langchain_qdrant import RetrievalMode
@@ -164,7 +164,7 @@ found_docs = qdrant.similarity_search(query)
 To perform a hybrid search using dense and sparse vectors with score fusion,
 
 - The `retrieval_mode` parameter should be set to `RetrievalMode.HYBRID`.
-- A [dense embeddings provider](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be a provided for the `embedding` parameter.
+- A [dense embeddings](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be provided for the `embedding` parameter.
 - An implementation of the [SparseEmbeddings interface](https://github.com/langchain-ai/langchain/blob/master/libs/partners/qdrant/langchain_qdrant/sparse_embeddings.py) using any sparse embeddings provider has to be provided as value to the `sparse_embedding` parameter.
 
 Note that if you've added documents with the HYBRID mode, you can switch to any retrieval mode when searching. Since both the dense and sparse vectors are available in the collection.
