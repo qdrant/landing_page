@@ -1313,16 +1313,16 @@ await client.CreateCollectionAsync(
 ## Quantization
 
 Apart from changing the datatype of the original vectors, Qdrant can create quantized representations of vectors alongside the original ones.
-This quantized representation can be used to quickly select candidates for rescoring with the original vectors, or even used directly for search.
+This quantized representation can be used to quickly select candidates for rescoring with the original vectors or even used directly for search.
 
 Quantization is applied in the background, during the optimization process.
 
-More information about the quantization process can be found in the [Quantization](../guides/quantization/) section.
+More information about the quantization process can be found in the [Quantization](../../guides/quantization/) section.
 
 
 ## Vector Storage
 
-Depending on the requirements of the application, Qdrant can use one of the data storage options.
-Keep in mind that youu will have to tradeoff between search speed and the size of RAM used.
+Depending on the application's requirements, Qdrant can use one of the data storage options.
+Keep in mind that you will have to tradeoff between search speed and the size of RAM used.
 
-More information about the storage options can be found in the [Storage](../concepts/storage/#vector-storage) section.
+More information about the storage options can be found in the [Storage](../../concepts/storage/#vector-storage) section.
