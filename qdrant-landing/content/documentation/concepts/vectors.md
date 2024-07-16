@@ -2,7 +2,7 @@
 title: Vectors
 weight: 41
 aliases:
-  - ../vectors
+  - /vectors
 ---
 
 
@@ -19,7 +19,7 @@ If two images are similar, their vectors will be close to each other in the vect
 In order to obtain a vector representation of an object, you need to apply a vectorization algorithm to the object.
 Usually, this algorithm is a neural network that converts the object into a fixed-size vector.
 
-The neural network is usually [trained](../articles/metric-learning-tips/) on a pairs or [triplets](../articles/triplet-loss/) of similar and dissimilar objects, so it learns to recognize a specific type of similarity.
+The neural network is usually [trained](/articles/metric-learning-tips/) on a pairs or [triplets](/articles/triplet-loss/) of similar and dissimilar objects, so it learns to recognize a specific type of similarity.
 
 By using this property of vectors, you can explore your data in a number of ways; e.g. by searching for similar objects, clustering objects, and more.
 
@@ -58,7 +58,7 @@ It looks like this:
 ```
 
 The majority of neural networks create dense vectors, so you can use them with Qdrant without any additional processing.
-Although compatible with most embedding models out there, Qdrant has been tested with the following [verified embedding providers](../embeddings/).
+Although compatible with most embedding models out there, Qdrant has been tested with the following [verified embedding providers](/documentation/embeddings/).
 
 ### Sparse Vectors
 
@@ -1313,16 +1313,16 @@ await client.CreateCollectionAsync(
 ## Quantization
 
 Apart from changing the datatype of the original vectors, Qdrant can create quantized representations of vectors alongside the original ones.
-This quantized representation can be used to quickly select candidates for rescoring with the original vectors, or even used directly for search.
+This quantized representation can be used to quickly select candidates for rescoring with the original vectors or even used directly for search.
 
 Quantization is applied in the background, during the optimization process.
 
-More information about the quantization process can be found in the [Quantization](../guides/quantization/) section.
+More information about the quantization process can be found in the [Quantization](/documentation/guides/quantization/) section.
 
 
 ## Vector Storage
 
 Depending on the requirements of the application, Qdrant can use one of the data storage options.
-Keep in mind that youu will have to tradeoff between search speed and the size of RAM used.
+Keep in mind that you will have to tradeoff between search speed and the size of RAM used.
 
-More information about the storage options can be found in the [Storage](../concepts/storage/#vector-storage) section.
+More information about the storage options can be found in the [Storage](/documentation/concepts/storage/#vector-storage) section.
