@@ -1,6 +1,6 @@
 ---
 title: Database Optimization
-weight: 3
+weight: 2
 ---
 
 ## Database Optimization Strategies
@@ -15,7 +15,7 @@ The primary source of memory usage is vector data. There are several ways to add
 The choice of the approach depends on your requirements.
 Read more about [configuring the optimal](../../tutorials/optimize/) use of Qdrant.
 
-### How do you choose machine configuration?
+### How do you choose the machine configuration?
 
 There are two main scenarios of Qdrant usage in terms of resource consumption:
 
