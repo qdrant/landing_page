@@ -168,7 +168,10 @@ storage:
     # Default is to allow 1 transfer.
     # If null - allow unlimited transfers.
     #outgoing_shard_transfers_limit: 1
-
+    
+    # enable the async scorer which uses io_uring instead of a mmap based backend
+	#async_scorer: true
+      
   optimizers:
     # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
     deleted_threshold: 0.2
