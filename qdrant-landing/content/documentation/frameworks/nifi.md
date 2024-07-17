@@ -30,4 +30,4 @@ The `Query Qdrant` processor can perform a similarity search across a Qdrant col
 ## Further Reading
 
 - [NiFi Documentation](https://nifi.apache.org/documentation/v2/).
-- [Source Code](https://github.com/apache/nifi/tree/main/nifi-python-extensions/nifi-text-embeddings-module/src/main/python)
+- [Source Code](https://github.com/apache/nifi-python-extensions)
