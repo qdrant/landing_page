@@ -5,7 +5,7 @@ weight: 3700
 
 # Portable
 
-[Portable](https://portable.io/) is an ELT platform that builds connectors on-demand for data teams. It enables connecting applications to your data warehouse with no code
+[Portable](https://portable.io/) is an ELT platform that builds connectors on-demand for data teams. It enables connecting applications to your data warehouse with no code.
 
 You can avail the [Qdrant connector](https://portable.io/connectors/qdrant) to build data pipelines from your collections.
 
