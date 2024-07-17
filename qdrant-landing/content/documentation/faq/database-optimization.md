@@ -3,7 +3,7 @@ title: Database Optimization
 weight: 2
 ---
 
-## Database Optimization Strategies
+# Frequently Asked Questions: Database Optimization 
 
 ### How do I reduce memory usage?
 
