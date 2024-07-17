@@ -70,7 +70,7 @@ For 100K OpenAI Embedding (`ada-002`) vectors we would need 900 Megabytes of RAM
 
 **With binary quantization, those same 100K OpenAI vectors only require 128 MB of RAM.** We benchmarked this result using methods similar to those covered in our [Scalar Quantization memory estimation](/articles/scalar-quantization/#benchmarks).
 
-This reduction in RAM needed is achieved through the compression that happens in the binary conversion. Instead of putting the HNSW index for the full vectors into RAM, we just put the binary vectors into RAM, use them for the initial oversampled search, and then use the HNSW full index of the oversampled results for the final precise search. All of this happens under the hoods without any intervention needed on your part. 
+This reduction in RAM usage is achieved through the compression that happens in the binary conversion. HNSW and quantized vectors will live in RAM for quick access, while original vectors can be offloaded to disk only. For searching, quantized HNSW will provide oversampled candidates, then they will be re-evaluated using their disk-stored original vectors to refine the final results. All of this happens under the hood without any additional intervention on your part.
 
 ### When should you not use BQ?
 
