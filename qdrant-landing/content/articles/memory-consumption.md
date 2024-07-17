@@ -215,7 +215,7 @@ But let's first see how much RAM we need to serve 1 million vectors and then we 
 
 ### Vectors and HNSW graph stored using MMAP
 
-In the third experiment, we tested how well our system performs when vectors and [HNSW](https://qdrant.tech/articles/filtrable-hnsw/) graph are stored using the memory-mapped files.
+In the third experiment, we tested how well our system performs when vectors and [HNSW](/articles/filtrable-hnsw/) graph are stored using the memory-mapped files.
 Create collection with:
 
 ```http
@@ -355,7 +355,7 @@ Which might be an interesting option to serve large datasets with low search lat
 
 ## Conclusion
 
-In this article, we showed that Qdrant has flexibility in terms of RAM usage and can be used to serve large datasets. It provides configurable trade-offs between RAM usage and search speed. If you’re interested to learn more about Qdrant, [book a demo today](https://qdrant.tech/contact-us/)!
+In this article, we showed that Qdrant has flexibility in terms of RAM usage and can be used to serve large datasets. It provides configurable trade-offs between RAM usage and search speed. If you’re interested to learn more about Qdrant, [book a demo today](/contact-us/)!
 
 We are eager to learn more about how you use Qdrant in your projects, what challenges you face, and how we can help you solve them.
 Please feel free to join our [Discord](https://qdrant.to/discord) and share your experience with us!

@@ -31,8 +31,8 @@ provides unified interfaces to different libraries, so you can avoid writing boi
 It has been reported millions of times recently, but let's say that again. ChatGPT-like models struggle with generating factual statements if no context 
 is provided. They have some general knowledge but cannot guarantee to produce a valid answer consistently. Thus, it is better to provide some facts we 
 know are actual, so it can just choose the valid parts and extract them from all the provided contextual data to give a comprehensive answer. [Vector database, 
-such as Qdrant](https://qdrant.tech/), is of great help here, as their ability to perform a [semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) over a huge knowledge base is crucial to preselect some possibly valid 
-documents, so they can be provided into the LLM. That's also one of the **chains** implemented in [LangChain](https://qdrant.tech/documentation/frameworks/langchain/), which is called `VectorDBQA`. And Qdrant got 
+such as Qdrant](https://qdrant.tech/), is of great help here, as their ability to perform a [semantic search](/documentation/tutorials/search-beginners/) over a huge knowledge base is crucial to preselect some possibly valid 
+documents, so they can be provided into the LLM. That's also one of the **chains** implemented in [LangChain](/documentation/frameworks/langchain/), which is called `VectorDBQA`. And Qdrant got 
 integrated with the library, so it might be used to build it effortlessly.
 
 ### The Two-Model Approach

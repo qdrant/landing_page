@@ -40,7 +40,7 @@ You can also try out these techniques as described in [Binary Quantization OpenA
 
 ## New OpenAI embeddings: performance and changes
 
-As the technology of embedding models has advanced, demand has grown. Users are looking more for powerful and efficient text-embedding models. OpenAI's Ada-003 embeddings offer state-of-the-art performance on a wide range of NLP tasks, including those noted in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). 
+As the technology of [embedding models](/articles/fastembed/) has advanced, demand has grown. Users are looking more for powerful and efficient text-embedding models. OpenAI's Ada-003 embeddings offer state-of-the-art performance on a wide range of NLP tasks, including those noted in [MTEB](https://huggingface.co/spaces/mteb/leaderboard) and [MIRACL](https://openai.com/blog/new-embedding-models-and-api-updates). 
 
 These models include multilingual support in over 100 languages. The transition from text-embedding-ada-002 to text-embedding-3-large has led to a significant jump in performance scores (from 31.4% to 54.9% on MIRACL).
 
@@ -118,7 +118,7 @@ For those exploring the integration of text embedding models with Qdrant, it's c
 
 1. **Model Name**: Signifying the specific text embedding model variant, such as "text-embedding-3-large" or "text-embedding-3-small". This distinction correlates with the model's capacity, with "large" models offering more detailed embeddings at the cost of increased computational resources.
 
-2. **Dimensions**: This refers to the size of the vector embeddings produced by the model. Options range from 512 to 3072 dimensions. Higher dimensions could lead to more precise embeddings but might also increase the search time and memory usage in Qdrant.
+2. **Dimensions**: This refers to the size of the [vector embeddings](/articles/what-are-embeddings/) produced by the model. Options range from 512 to 3072 dimensions. Higher dimensions could lead to more precise embeddings but might also increase the search time and memory usage in Qdrant.
 
 Optimizing these parameters is a balancing act between search accuracy and resource efficiency. Testing across these combinations allows users to identify the configuration that best meets their specific needs, considering the trade-offs between computational resources and the quality of search results.
 

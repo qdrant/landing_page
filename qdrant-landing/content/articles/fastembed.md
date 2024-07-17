@@ -139,7 +139,7 @@ If anything changes, you'll see a new version number pop up, like going from 0.0
 
 ## Using FastEmbed with Qdrant
 
-Qdrant is a Vector Store, offering comprehensive, efficient, and scalable [enterprise solutions](https://qdrant.tech/enterprise-solutions/) for modern machine learning and AI applications. Whether you are dealing with billions of data points, require a low latency performant [vector database solution](https://qdrant.tech/qdrant-vector-database/), or specialized quantization methods – [Qdrant is engineered](/documentation/overview/) to meet those demands head-on.
+Qdrant is a Vector Store, offering comprehensive, efficient, and scalable [enterprise solutions](/enterprise-solutions/) for modern machine learning and AI applications. Whether you are dealing with billions of data points, require a low latency performant [vector database solution](/qdrant-vector-database/), or specialized quantization methods – [Qdrant is engineered](/documentation/overview/) to meet those demands head-on.
 
 The fusion of FastEmbed with Qdrant’s vector store capabilities enables a transparent workflow for seamless embedding generation, storage, and retrieval. This simplifies the API design — while still giving you the flexibility to make significant changes e.g. you can use FastEmbed to make your own embedding other than the DefaultEmbedding and use that with Qdrant.
 
@@ -229,7 +229,7 @@ Behind the scenes, we first convert the query_text to the embedding and use tha
 
 By following these steps, you effectively utilize the combined capabilities of FastEmbed and Qdrant, thereby streamlining your embedding generation and retrieval tasks.
 
-Qdrant is designed to handle large-scale datasets with billions of data points. Its architecture employs techniques like [binary quantization](https://qdrant.tech/articles/binary-quantization/) and [scalar quantization](https://qdrant.tech/articles/scalar-quantization/) for efficient storage and retrieval. When you inject FastEmbed’s CPU-first design and lightweight nature into this equation, you end up with a system that can scale seamlessly while maintaining low latency.
+Qdrant is designed to handle large-scale datasets with billions of data points. Its architecture employs techniques like [binary quantization](/articles/binary-quantization/) and [scalar quantization](/articles/scalar-quantization/) for efficient storage and retrieval. When you inject FastEmbed’s CPU-first design and lightweight nature into this equation, you end up with a system that can scale seamlessly while maintaining low latency.
 
 ## Summary
 

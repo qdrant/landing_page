@@ -20,7 +20,7 @@ keywords:
 
 We are seeing the topics of [multitenancy](/documentation/guides/multiple-partitions/) and [distributed deployment](/documentation/guides/distributed_deployment/#sharding) pop-up daily on our [Discord support channel](https://qdrant.to/discord). This tells us that many of you are looking to scale Qdrant along with the rest of your machine learning setup. 
 
-Whether you are building a bank fraud-detection system, [RAG](https://qdrant.tech/articles/what-is-rag-in-ai/) for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
+Whether you are building a bank fraud-detection system, [RAG](/articles/what-is-rag-in-ai/) for e-commerce, or services for the federal government - you will need to leverage a multitenant architecture to scale your product.
 In the world of SaaS and enterprise apps, this setup is the norm. It will considerably increase your application's performance and lower your hosting costs. 
 
 ## Multitenancy & custom sharding with Qdrant

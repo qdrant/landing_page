@@ -103,4 +103,4 @@ This way you can give refreshing recommendations, while still being in control b
 - Discovery search is a powerful tool for controlled exploration in vector spaces.
 Context, positive, and negative vectors guide search parameters and refine results.
 - Real-world applications include multimodal search, diverse recommendations, and context-driven exploration.
-- Ready to experience the power of Qdrant's Discovery search for yourself? [Try a free demo](https://qdrant.tech/contact-us/) now and unlock the full potential of controlled exploration in vector spaces!
+- Ready to experience the power of Qdrant's Discovery search for yourself? [Try a free demo](/contact-us/) now and unlock the full potential of controlled exploration in vector spaces!

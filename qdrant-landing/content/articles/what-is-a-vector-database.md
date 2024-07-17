@@ -21,11 +21,11 @@ aliases: [ /blog/what-is-a-vector-database/ ]
 
 # Why use a Vector Database & How Does it Work?
 
-In the ever-evolving landscape of data management and artificial intelligence, [vector databases](https://qdrant.tech/qdrant-vector-database/) have emerged as a revolutionary tool for efficiently handling complex, high-dimensional data. But what exactly is a vector database? This comprehensive guide delves into the fundamentals of vector databases, exploring their unique capabilities, core functionalities, and real-world applications.
+In the ever-evolving landscape of data management and artificial intelligence, [vector databases](/qdrant-vector-database/) have emerged as a revolutionary tool for efficiently handling complex, high-dimensional data. But what exactly is a vector database? This comprehensive guide delves into the fundamentals of vector databases, exploring their unique capabilities, core functionalities, and real-world applications.
 
 ## What is a Vector Database?
 
-A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
+A [Vector Database](/qdrant-vector-database/) is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
 
 ## Why use a Vector Database?
 
@@ -70,7 +70,7 @@ The **creation** of vector data (so we can store this high-dimensional data on o
 
 ### How do Embeddings Work?
 
-[Embeddings](https://qdrant.tech/articles/what-are-embeddings/) translate this high-dimensional data into a more manageable, **lower-dimensional** vector form that's more suitable for machine learning and data processing applications, typically through **neural network models**.
+[Embeddings](/articles/what-are-embeddings/) translate this high-dimensional data into a more manageable, **lower-dimensional** vector form that's more suitable for machine learning and data processing applications, typically through **neural network models**.
 
 In creating dimensions for text, for example, the process involves analyzing the text to capture its linguistic elements. 
 
@@ -134,9 +134,9 @@ Once the closest vectors are identified at the bottom layer, these points transl
 
 ### Scalability
 
-[Vector databases](https://qdrant.tech/qdrant-vector-database/) often deal with datasets that comprise billions of high-dimensional vectors. This data isn't just large in volume but also complex in nature, requiring more computing power and memory to process. Scalable systems can handle this increased complexity without performance degradation. This is achieved through a combination of a **distributed architecture**, **dynamic resource allocation**, **data partitioning**, **load balancing**, and **optimization techniques**.
+[Vector databases](/qdrant-vector-database/) often deal with datasets that comprise billions of high-dimensional vectors. This data isn't just large in volume but also complex in nature, requiring more computing power and memory to process. Scalable systems can handle this increased complexity without performance degradation. This is achieved through a combination of a **distributed architecture**, **dynamic resource allocation**, **data partitioning**, **load balancing**, and **optimization techniques**.
 
-Systems like Qdrant exemplify scalability in vector databases. It [leverages Rust's efficiency](https://qdrant.tech/articles/why-rust/) in **memory management** and **performance**, which allows the handling of large-scale data with optimized resource usage.
+Systems like Qdrant exemplify scalability in vector databases. It [leverages Rust's efficiency](/articles/why-rust/) in **memory management** and **performance**, which allows the handling of large-scale data with optimized resource usage.
 
 
 ### Efficient Query Processing 
@@ -197,13 +197,13 @@ Alternatively, the Memmap storage option creates a virtual address space linked 
 
 ## Vector Database Use Cases
 
-If we had to summarize the [use cases for vector databases](https://qdrant.tech/use-cases/) into a single word, it would be "match". They are great at finding non-obvious ways to correspond or “match” data with a given query. Whether it's through similarity in images, text, user preferences, or patterns in data.
+If we had to summarize the [use cases for vector databases](/use-cases/) into a single word, it would be "match". They are great at finding non-obvious ways to correspond or “match” data with a given query. Whether it's through similarity in images, text, user preferences, or patterns in data.
 
 Here are some examples of how to take advantage of using vector databases:
 
-[Personalized recommendation systems](https://qdrant.tech/recommendations/) to analyze and interpret complex user data, such as preferences, behaviors, and interactions. For example, on Spotify, if a user frequently listens to the same song or skips it, the recommendation engine takes note of this to personalize future suggestions.
+[Personalized recommendation systems](/recommendations/) to analyze and interpret complex user data, such as preferences, behaviors, and interactions. For example, on Spotify, if a user frequently listens to the same song or skips it, the recommendation engine takes note of this to personalize future suggestions.
 
-[Semantic search](https://qdrant.tech/documentation/tutorials/search-beginners/) allows for systems to be able to capture the deeper semantic meaning of words and text. In modern search engines, if someone searches for "tips for planting in spring," it tries to understand the intent and contextual meaning behind the query. It doesn’t try just matching the words themselves. 
+[Semantic search](/documentation/tutorials/search-beginners/) allows for systems to be able to capture the deeper semantic meaning of words and text. In modern search engines, if someone searches for "tips for planting in spring," it tries to understand the intent and contextual meaning behind the query. It doesn’t try just matching the words themselves. 
 
 Here’s an example of a [vector search engine for Startups](https://demo.qdrant.tech/) made with Qdrant:
 
