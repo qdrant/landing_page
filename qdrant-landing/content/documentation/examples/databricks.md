@@ -65,7 +65,7 @@ from fastembed import TextEmbedding, SparseTextEmbedding
 def vectorize(partition_data):
     # Initialize dense and sparse models
     dense_model = TextEmbedding(model_name="BAAI/bge-small-en-v1.5")
-    sparse_model = SparseTextEmbedding(model_name="Qdrant/bm42-all-minilm-l6-v2-attention")
+    sparse_model = SparseTextEmbedding(model_name="Qdrant/bm25")
 
     for row in partition_data:
         # Generate dense and sparse vectors
@@ -81,7 +81,7 @@ def vectorize(partition_data):
         ]
 ```
 
-We're using the [BAAI/bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model for dense embeddings and [BM42](https://qdrant.tech/articles/bm42/) for sparse embeddings.
+We're using the [BAAI/bge-small-en-v1.5](https://huggingface.co/BAAI/bge-small-en-v1.5) model for dense embeddings and [BM25](https://huggingface.co/Qdrant/bm25) for sparse embeddings.
 
 #### Applying the UDF on our dataframe
 
