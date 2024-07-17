@@ -1,7 +1,7 @@
 ---
 title: Quickstart
 weight: 11
-aliases:
+aliases: quick_start
 ---
 # Quickstart
 
