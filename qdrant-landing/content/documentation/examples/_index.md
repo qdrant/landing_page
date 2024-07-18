@@ -6,8 +6,6 @@ weight: 35
 
 | End-to-End Code Samples                                                                   | Description                                                       | Stack                                       |   
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Aleph Alpha Search](../examples/aleph-alpha-search/)                          | Build a multimodal search that combines text and image data.      | Qdrant, Aleph Alpha                         | 
-| [Mighty Semantic Search](../examples/mighty/)                                  | Build a simple semantic search with an on-demand NLP service.     | Qdrant, Mighty                              | 
 | [Multitenancy with LlamaIndex](../examples/llama-index-multitenancy/)          | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex                  |
 | [Implement custom connector for Cohere RAG](../examples/cohere-rag-connector/) | Bring data stored in Qdrant to Cohere RAG                         | Qdrant, Cohere, FastAPI                     |
 | [Chatbot for Interactive Learning](../examples/rag-chatbot-red-hat-openshift-haystack/)                                 | Build a Private RAG Chatbot for Interactive Learning              | Qdrant, Haystack, OpenShift                                      |  
