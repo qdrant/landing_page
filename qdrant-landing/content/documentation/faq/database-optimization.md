@@ -1,28 +1,28 @@
 ---
 title: Database Optimization
-weight: 3
+weight: 2
 ---
 
-## Database Optimization Strategies
+# Frequently Asked Questions: Database Optimization 
 
 ### How do I reduce memory usage?
 
-The primary source of memory usage vector data. There are several ways to address that:
+The primary source of memory usage is vector data. There are several ways to address that:
 
 - Configure [Quantization](../../guides/quantization/) to reduce the memory usage of vectors.
 - Configure on-disk vector storage
 
-The choice of the approach depends on your requirements. 
-Read more about [configuring the optimal](../../tutorials/optimize/) use of Qdrant. 
+The choice of the approach depends on your requirements.
+Read more about [configuring the optimal](../../tutorials/optimize/) use of Qdrant.
 
-### How do you choose machine configuration?
+### How do you choose the machine configuration?
 
 There are two main scenarios of Qdrant usage in terms of resource consumption:
 
 - **Performance-optimized** -- when you need to serve vector search as fast (many) as possible. In this case, you need to have as much vector data in RAM as possible. Use our [calculator](https://cloud.qdrant.io/calculator) to estimate the required RAM.
 - **Storage-optimized** -- when you need to store many vectors and minimize costs by compromising some search speed. In this case, pay attention to the disk speed instead. More about it in the article about [Memory Consumption](../../../articles/memory-consumption/).
 
-### I configured on-disk vector storage, but memory usage is still high. Why? 
+### I configured on-disk vector storage, but memory usage is still high. Why?
 
 Firstly, memory usage metrics as reported by `top` or `htop` may be misleading. They are not showing the minimal amount of memory required to run the service.
 If the RSS memory usage is 10 GB, it doesn't mean that it won't work on a machine with 8 GB of RAM.
@@ -33,7 +33,6 @@ As a result, the Qdrant process might use more memory than the minimum required 
 > Unused RAM is wasted RAM
 
 If you want to limit the memory usage of the service, we recommend using [limits in Docker](https://docs.docker.com/config/containers/resource_constraints/#memory) or Kubernetes.
-
 
 ### My requests are very slow or time out. What should I do?
 
