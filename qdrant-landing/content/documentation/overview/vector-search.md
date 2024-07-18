@@ -1,10 +1,14 @@
 ---
-title: Vector Search Basics
+title: Understanding Vector Search in Qdrant
 weight: 1
 social_preview_image: /docs/gettingstarted/vector-social.png
 ---
 
-# Vector Search Basics
+# How Does Vector Search Work in Qdrant?
+
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/mXNrhyw4q84?si=wruP9wWSa8JW4t78" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+
+
 
 If you are still trying to figure out how vector search works, please read ahead. This document describes how vector search is used, covers Qdrant's place in the larger ecosystem, and outlines how you can use Qdrant to augment your existing projects.
 
