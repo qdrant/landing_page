@@ -5,7 +5,7 @@ hideTOC: true
 ---
 # Documentation
 
-Qdrant is an AI-compatible vector dabatase and a semantic search engine. You can use it to extract meaningful information from unstructured data. **[Learn more about vector search](/documentation/overview/)** and how it works with AI.
+Qdrant is an AI-native vector dabatase and a semantic search engine. You can use it to extract meaningful information from unstructured data. **[Learn more about vector search](/documentation/overview/)** and how it works with AI.
 
 |||
 |-:|:-|
@@ -14,13 +14,11 @@ Qdrant is an AI-compatible vector dabatase and a semantic search engine. You can
 
 ## Ready to start developing?
 
-[![Hybrid Cloud](/docs/homepage/cloud-cta.png)](https://qdrant.to/cloud)
-
 ***<p style="text-align: center;">Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our [free tier](https://qdrant.to/cloud) on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.</p>***
 
-***<p style="text-align: center;">Besides regular semantic search, we are also known for innovative features:</p>***
+[![Hybrid Cloud](/docs/homepage/cloud-cta.png)](https://qdrant.to/cloud)
 
-## Qdrant's best-known features: 
+## Qdrant's most popular features: 
 ||||
 |:-|:-|:-|
 |[Filtrable HNSW](/documentation/filtering/) </br> Single-stage payload filtering | [Recommendations & Context Search](/documentation/concepts/explore/#explore-the-data) </br> Exploratory advanced search| [Pure-Vector Hybrid Search](/documentation/hybrid-queries/)</br>Full text and semantic search in one|
