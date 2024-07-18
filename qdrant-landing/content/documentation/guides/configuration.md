@@ -169,8 +169,9 @@ storage:
     # If null - allow unlimited transfers.
     #outgoing_shard_transfers_limit: 1
     
-    # enable the async scorer which uses io_uring instead of a mmap based backend
-	#async_scorer: true
+    # Enable async scorer which uses io_uring instead of mmap based backend.
+    # Before using, read io_uring documentation on specific tuning cases. 
+	  #async_scorer: true
       
   optimizers:
     # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
