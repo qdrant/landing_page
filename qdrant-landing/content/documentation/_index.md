@@ -9,7 +9,7 @@ Qdrant is an AI-native vector dabatase and a semantic search engine. You can use
 
 |||
 |-:|:-|
-|[Docker Quickstart](/documentation/quick-start/)|[Cloud Quickstart](/documentation/cloud/quickstart-cloud/)|
+|[Docker Quickstart](/documentation/quick-start/)|[Visual Quickstart](/documentation/cloud/quickstart-gui/)|
 |Use Qdrant Client SDKs|Try the GUI Dashboard|
 
 ## Ready to start developing?
