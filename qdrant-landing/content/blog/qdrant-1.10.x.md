@@ -23,7 +23,8 @@ tags:
 **Multivector Support:** Native support for late interaction ColBERT is accessible via Query API.
 
 ## One Endpoint for All Queries
-**Query API** will consolidate all search APIs into a single request. Previously, you had to work outside of the API to combine different search requests. Now these approaches are reduced to parameters of a single request, so you can avoid merging individual results. 
+
+**Query API** will consolidate all search APIs into a single request. Previously, you had to work outside of the API to combine different search requests. Now these approaches are reduced to parameters of a single request, so you can avoid merging individual results.
 
 You can now configure the Query API request with the following parameters:
 
@@ -59,7 +60,8 @@ POST collections/{collection_name}/points/query
 We will be publishing code samples in [docs](/documentation/concepts/hybrid-queries/) and our new [API specification](http://api.qdrant.tech).</br> *If you need additional support with this new method, our [Discord](https://qdrant.to/discord) on-call engineers can help you.*
 
 ### Native Hybrid Search Support
-Query API now also natively supports **sparse/dense fusion**. Up to this point, you had to combine the results of sparse and dense searches on your own. This is now sorted on the back-end, and you only have to configure them as basic parameters for Query API. 
+
+Query API now also natively supports **sparse/dense fusion**. Up to this point, you had to combine the results of sparse and dense searches on your own. This is now sorted on the back-end, and you only have to configure them as basic parameters for Query API.
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -82,6 +84,56 @@ POST /collections/{collection_name}/points/query
     "query": { "fusion": "rrf" }, // <--- reciprocal rank fusion
     "limit": 10
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="{collection_name}",
+    prefetch=[
+        models.Prefetch(
+            query=models.SparseVector(indices=[1, 42], values=[0.22, 0.8]),
+            using="sparse",
+            limit=20,
+        ),
+        models.Prefetch(
+            query=[0.01, 0.45, 0.67],
+            using="dense",
+            limit=20,
+        ),
+    ],
+    query=models.FusionQuery(fusion=models.Fusion.RRF),
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: [
+        {
+            query: {
+                values: [0.22, 0.8],
+                indices: [1, 42],
+            },
+            using: 'sparse',
+            limit: 20,
+        },
+        {
+            query: [0.01, 0.45, 0.67],
+            using: 'dense',
+            limit: 20,
+        },
+    ],
+    query: {
+        fusion: 'rrf',
+    },
+});
 ```
 
 ```rust
@@ -167,7 +219,7 @@ await client.QueryAsync(
 );
 ```
 
-Query API can now pre-fetch vectors for requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open the door to strategies like iterative refinement via matryoshka embeddings. 
+Query API can now pre-fetch vectors for requests, which means you can run queries sequentially within the same API call. There are a lot of options here, so you will need to define a strategy to merge these requests using new parameters. For example, you can now include **rescoring within Hybrid Search**, which can open the door to strategies like iterative refinement via matryoshka embeddings.
 
 *To learn more about this, read the [Query API documentation](/documentation/concepts/search/#query-api).*
 
@@ -212,6 +264,20 @@ client.create_collection(
         ),
     },
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+    sparse_vectors: {
+        "text": {
+            modifier: "idf"
+        }
+    }
+});
 ```
 
 ```rust
@@ -282,12 +348,13 @@ In practical terms, the BM42 method addresses the tokenization issues and comput
 
 **You can expect BM42 to excel in scalable RAG-based scenarios where short texts are more common.** Document inference speed is much higher with BM42, which is critical for large-scale applications such as search engines, recommendation systems, and real-time decision-making systems.
 
-## Multivector Support 
-We are adding native support for multivector search that is compatible, e.g., with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. If you are working with high-dimensional similarity searches, **ColBERT is highly recommended as a reranking step in the Universal Query search.** You will experience better quality vector retrieval since ColBERT’s approach allows for deeper semantic understanding. 
+## Multivector Support
 
-This model retains contextual information during query-document interaction, leading to better relevance scoring. In terms of efficiency and scalability benefits, documents and queries will be encoded separately, which gives an opportunity for pre-computation and storage of document embeddings for faster retrieval. 
+We are adding native support for multivector search that is compatible, e.g., with the late-interaction [ColBERT](https://github.com/stanford-futuredata/ColBERT) model. If you are working with high-dimensional similarity searches, **ColBERT is highly recommended as a reranking step in the Universal Query search.** You will experience better quality vector retrieval since ColBERT’s approach allows for deeper semantic understanding.
 
-**Note:** *This feature supports all the original quantization compression methods, just the same as the regular search method.* 
+This model retains contextual information during query-document interaction, leading to better relevance scoring. In terms of efficiency and scalability benefits, documents and queries will be encoded separately, which gives an opportunity for pre-computation and storage of document embeddings for faster retrieval.
+
+**Note:** *This feature supports all the original quantization compression methods, just the same as the regular search method.*
 
 **Run a query with ColBERT vectors:**
 
@@ -316,6 +383,55 @@ POST /collections/{collection_name}/points/query
 }
 ```
 
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="{collection_name}",
+    prefetch=models.Prefetch(
+        prefetch=models.Prefetch(query=[1, 23, 45, 67], using="mrl_byte", limit=1000),
+        query=[0.01, 0.45, 0.67],
+        using="full",
+        limit=100,
+    ),
+    query=[
+        [0.1, 0.2],
+        [0.2, 0.1],
+        [0.8, 0.9],
+    ],
+    using="colbert",
+    limit=10,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: {
+        prefetch: {
+            query: [1, 23, 45, 67],
+            using: 'mrl_byte',
+            limit: 1000
+        },
+        query: [0.01, 0.45, 0.67],
+        using: 'full',
+        limit: 100,
+    },
+    query: [
+        [0.1, 0.2],
+        [0.2, 0.1],
+        [0.8, 0.9],
+    ],
+    using: 'colbert',
+    limit: 10,
+});
+```
+
 ```rust
 use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{PrefetchQueryBuilder, Query, QueryPointsBuilder};
@@ -327,7 +443,7 @@ client.query(
         .add_prefetch(PrefetchQueryBuilder::default()
             .add_prefetch(PrefetchQueryBuilder::default()
                 .query(Query::new_nearest(vec![1.0, 23.0, 45.0, 67.0]))
-                .using("mlr_byte")
+                .using("mrl_byte")
                 .limit(1000u64)
             )
             .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
@@ -363,7 +479,7 @@ client
                 PrefetchQuery.newBuilder()
                     .addPrefetch(
                         PrefetchQuery.newBuilder()
-                            .setQuery(nearest(1, 23, 45, 67))	// <------------- small byte vector
+                            .setQuery(nearest(1, 23, 45, 67)) // <------------- small byte vector
                             .setUsing("mrl_byte")
                             .setLimit(1000)
                             .build())
@@ -374,9 +490,9 @@ client
             .setQuery(
                 nearest(
                     new float[][] {
-                      {0.1f, 0.2f},	// <─┐
-                      {0.2f, 0.1f},	// < ├─ multi-vector
-                      {0.8f, 0.9f}	// < ┘
+                      {0.1f, 0.2f}, // <─┐
+                      {0.2f, 0.1f}, // < ├─ multi-vector
+                      {0.8f, 0.9f}  // < ┘
                     }))
             .setUsing("colbert")
             .setLimit(10)
@@ -418,15 +534,15 @@ await client.QueryAsync(
 );
 ```
 
-**Note:** *The multivector feature is not only useful for ColBERT; it can also be used in other ways.*</br> 
-For instance, in e-commerce, you can use multi-vector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method. 
+**Note:** *The multivector feature is not only useful for ColBERT; it can also be used in other ways.*</br>
+For instance, in e-commerce, you can use multi-vector to store multiple images of the same item. This serves as an alternative to the [group-by](/documentation/concepts/search/#grouping-api) method.
 
 ## Sparse Vectors Compression
 
-In version 1.9, we introduced the `uint8` [vector datatype](/documentation/concepts/vectors/#datatypes) for sparse vectors, in order to support pre-quantized embeddings from companies like JinaAI and Cohere. 
-This time, we are introducing a new datatype **for both sparse and dense vectors**, as well as a different way of **storing** these  vectors. 
+In version 1.9, we introduced the `uint8` [vector datatype](/documentation/concepts/vectors/#datatypes) for sparse vectors, in order to support pre-quantized embeddings from companies like JinaAI and Cohere.
+This time, we are introducing a new datatype **for both sparse and dense vectors**, as well as a different way of **storing** these  vectors.
 
-**Datatype:** Sparse and dense vectors were previously represented in larger `float32` values, but now they can be turned to the `float16`. `float16` vectors have a lower precision compared to `float32`, which means that there is less numerical accuracy in the vector values - but this is negligible for practical use cases. 
+**Datatype:** Sparse and dense vectors were previously represented in larger `float32` values, but now they can be turned to the `float16`. `float16` vectors have a lower precision compared to `float32`, which means that there is less numerical accuracy in the vector values - but this is negligible for practical use cases.
 
 These vectors will use half the memory of regular vectors, which can significantly reduce the footprint of large vector datasets. Operations can be faster due to reduced memory bandwidth requirements and better cache utilization. This can lead to faster vector search operations, especially in memory-bound scenarios.
 
@@ -441,6 +557,33 @@ PUT /collections/{collection_name}
       "datatype": "float16"
     }
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.create_collection(
+    "{collection_name}",
+    vectors_config=models.VectorParams(
+        size=1024, distance=models.Distance.COSINE, datatype=models.Datatype.FLOAT16
+    ),
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.createCollection("{collection_name}", {
+    vectors: {
+        size: 1024,
+        distance: "Cosine",
+        datatype: "float16"
+    }
+});
 ```
 
 ```java
@@ -500,7 +643,7 @@ await client.CreateCollectionAsync(
 );
 ```
 
-**Storage:** On the backend, we implemented bit packing to minimize the bits needed to store data, crucial for handling sparse vectors in applications like machine learning and data compression. For sparse vectors with mostly zeros, this focuses on storing only the indices and values of non-zero elements. 
+**Storage:** On the backend, we implemented bit packing to minimize the bits needed to store data, crucial for handling sparse vectors in applications like machine learning and data compression. For sparse vectors with mostly zeros, this focuses on storing only the indices and values of non-zero elements.
 
 You will benefit from a more compact storage and higher processing efficiency. This can also lead to reduced dataset sizes for faster processing and lower storage costs in data compression.
 
@@ -525,6 +668,7 @@ documentation, making it easier to navigate and find the information you need.
 </p>
 
 ## S3 Snapshot Storage
+
 Qdrant **Collections**, **Shards** and **Storage** can be backed up with [Snapshots](/documentation/concepts/snapshots/) and saved in case of data loss or other data transfer purposes. These snapshots can be quite large and the resources required to maintain them can result in higher costs. AWS S3 and other S3-compatible implementations like [min.io](https://min.io/) is a great low-cost alternative that can hold snapshots without incurring high costs. It is globally reliable, scalable and resistant to data loss.
 
 You can configure S3 storage settings in the [config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml), specifically with `snapshots_storage`.
@@ -557,7 +701,8 @@ storage:
 
 This integration allows for a more convenient distribution of snapshots. Users of **any S3-compatible object storage** can now benefit from other platform services, such as automated workflows and disaster recovery options. S3's encryption and access control ensure secure storage and regulatory compliance. Additionally, S3 supports performance optimization through various storage classes and efficient data transfer methods, enabling quick and effective snapshot retrieval and management.
 
-## Issues API 
+## Issues API
+
 Issues API notifies you about potential performance issues and misconfigurations. This powerful new feature allows users (such as database admins) to efficiently manage and track issues directly within the system, ensuring smoother operations and quicker resolutions.
 
 You can find the Issues button in the top right. When you click the bell icon, a sidebar will open to show ongoing issues.
@@ -571,4 +716,3 @@ You can find the Issues button in the top right. When you click the bell icon, a
 - Overwrite global optimizer configuration for collections. Lets you separate roles for indexing and searching within the single qdrant cluster - [#4317](https://github.com/qdrant/qdrant/pull/4317)
 
 - Delta encoding and bitpacking compression for sparse vectors reduces memory consumption for sparse vectors by up to 75% - [#4253](https://github.com/qdrant/qdrant/pull/4253), [#4350](https://github.com/qdrant/qdrant/pull/4350)
-

@@ -42,7 +42,7 @@ This command generates all of the project files you need to run Airflow locally.
 To use Qdrant within Airflow, install the Qdrant Airflow provider by adding the following to the `requirements.txt` file
 
 ```text
-apache-airflow-providers-qdrant==1.1.0
+apache-airflow-providers-qdrant
 ```
 
 ### Configure credentials
@@ -178,12 +178,12 @@ def recommend_book():
     ) -> None:
         hook = QdrantHook(conn_id=QDRANT_CONNECTION_ID)
 
-        result = hook.conn.search(
+        result = hook.conn.query_points(
             collection_name=COLLECTION_NAME,
-            query_vector=preference_embedding,
+            query=preference_embedding,
             limit=1,
             with_payload=True,
-        )
+        ).points
 
         print("Book recommendation: " + result[0].payload["title"])
         print("Description: " + result[0].payload["description"])

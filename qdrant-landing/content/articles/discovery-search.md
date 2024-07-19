@@ -1,7 +1,7 @@
 ---
-title: "Discovery Search: A New Approach to Vector Space" 
-short_description: Discovery Search, an innovative API for precise, tailored search results.
-description: Explore the next frontier in search technology with Discovery Search. Learn how this innovative API provides precise and tailored results.
+title: "Discovery needs context"
+short_description: Discover points by constraining the vector space.
+description: Discovery Search, an innovative way to constrain the vector space in which a search is performed, relying only on vectors.
 social_preview_image: /articles_data/discovery-search/social_preview.jpg 
 small_preview_image: /articles_data/discovery-search/icon.svg 
 preview_dir: /articles_data/discovery-search/preview 
@@ -14,28 +14,24 @@ keywords:
   - why use a vector database
   - specialty
   - search
-  - discovery
+  - multimodal
   - state-of-the-art
   - vector-search
 ---
 
-# How to Master Vector Space Exploration with Discovery Search
+# Discovery needs context
 
-When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for America. They were looking for a new route to India, and they were convinced that the Earth was round. They didn't know anything about America, but since they were going west, they stumbled upon it.
+When Christopher Columbus and his crew sailed to cross the Atlantic Ocean, they were not looking for the Americas. They were looking for a new route to India because they were convinced that the Earth was round. They didn't know anything about a new continent, but since they were going west, they stumbled upon it.
 
 They couldn't reach their _target_, because the geography didn't let them, but once they realized it wasn't India, they claimed it a new "discovery" for their crown. If we consider that sailors need water to sail, then we can establish a _context_ which is positive in the water, and negative on land. Once the sailor's search was stopped by the land, they could not go any further, and a new route was found. Let's keep these concepts of _target_ and _context_ in mind as we explore the new functionality of Qdrant: __Discovery search__.
 
 ## What is discovery search?
 
-Discovery search is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily close to the target but are still relevant to the search. It can also be used to represent complex tastes and break out of the similarity bubble. Check out the documentation to learn more about the math behind it and how to use it.
-
-## Qdrant's discovery search: version 1.7 release
-
 In version 1.7, Qdrant [released](/articles/qdrant-1.7.x/) this novel API that lets you constrain the space in which a search is performed, relying only on pure vectors. This is a powerful tool that lets you explore the vector space in a more controlled way. It can be used to find points that are not necessarily closest to the target, but are still relevant to the search.
 
 You can already select which points are available to the search by using payload filters. This by itself is very versatile because it allows us to craft complex filters that show only the points that satisfy their criteria deterministically. However, the payload associated with each point is arbitrary and cannot tell us anything about their position in the vector space. In other words, filtering out irrelevant points can be seen as creating a _mask_ rather than a hyperplane –cutting in between the positive and negative vectors– in the space.
 
-## Understanding context in discovery search
+## Understanding context
 
 This is where a __vector _context___ can help. We define _context_ as a list of pairs. Each pair is made up of a positive and a negative vector. With a context, we can define hyperplanes within the vector space, which always prefer the positive over the negative vectors. This effectively partitions the space where the search is performed. After the space is partitioned, we then need a _target_ to return the points that are more similar to it.
 
@@ -99,8 +95,8 @@ Creating complex tastes in a high-dimensional space becomes easier since you can
 
 This way you can give refreshing recommendations, while still being in control by providing positive and negative feedback, or even by trying out different permutations of pairs.
 
-## Key rakeaways:
+## Key takeaways:
 - Discovery search is a powerful tool for controlled exploration in vector spaces.
-Context, positive, and negative vectors guide search parameters and refine results.
+Context, consisting of positive and negative vectors constrain the search space, while a target guides the search.
 - Real-world applications include multimodal search, diverse recommendations, and context-driven exploration.
-- Ready to experience the power of Qdrant's Discovery search for yourself? [Try a free demo](https://qdrant.tech/contact-us/) now and unlock the full potential of controlled exploration in vector spaces!
+- Ready to learn more about the math behind it and how to use it? Check out the [documentation](/documentation/concepts/explore/#discovery-api)
