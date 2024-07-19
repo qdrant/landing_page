@@ -13,23 +13,30 @@ weight: 3
 
 1. Register for a [Cloud account](https://cloud.qdrant.io/) with your email, Google or Github credentials.
 2. Go to **Overview** and follow the onboarding instructions under **Create First Cluster**. 
+
+![create a cluster](/docs/gettingstarted/gui-quickstart/create-cluster.png)
+
 3. When you create it, you will receive an API key. You will need to copy and paste it soon.
 4. Your new cluster will be created under **Clusters**. Give it a few moments to provision.
 
 ## Access the cluster dashboard
 
-1. Go to your **Active Clusters**. Under **Actions**, open the **Dashboard**.
+1. Go to your **Clusters**. Under **Actions**, open the **Dashboard**.
 2. Paste your new API key here. If you lost it, make another in **Access Management**.
 3. The key will grant you cluster access. Now you can see the cluster Dashboard.
+
+![access the dashboard](/docs/gettingstarted/gui-quickstart/access-dashboard.png)
 
 ## Try the Tutorial sandbox
 
 1. Open the interactive **Tutorial**. Here, you can test basic Qdrant API requests.
-2. Using the in-tutorial instructions, create a collection, add vectors and run a search.
+2. Using the **Quickstart** instructions, create a collection, add vectors and run a search.
 3. The output on the right will show you some basic semantic search results.
 
-## Done
-That's vector search! You can stay in the sandbox and continue trying our different API calls.</br>
+![interactive-tutorial](/docs/gettingstarted/gui-quickstart/interactive-tutorial.png)
+
+## That's vector search!
+You can stay in the sandbox and continue trying our different API calls.</br>
 When you're ready, use the Console and our complete REST API to try other operations.
 
 

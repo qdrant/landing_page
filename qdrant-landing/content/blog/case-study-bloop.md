@@ -50,8 +50,8 @@ can be turned into full-fledged applications for matching, searching, recommendi
 to make the most of unstructured data. It is easy to use, deploy and scale, blazing fast and is accurate 
 simultaneously.
 
-Qdrant was founded in 2021 in Berlin by Andre Zayarni and Andrey Vasnestov with the mission to power the 
-next generation of AI applications with advanced and high-performant vector similarity search technology. 
+Qdrant was founded in 2021 in Berlin by Andre Zayarni and Andrey Vasnetsov with the mission to power the 
+next generation of AI applications with advanced and high-performant [vector similarity](https://qdrant.tech/articles/vector-similarity-beyond-search/) search technology. 
 Their flagship product is the vector search database which is available as an open source 
 https://github.com/qdrant/qdrant or managed cloud solution https://cloud.qdrant.io/.
 
