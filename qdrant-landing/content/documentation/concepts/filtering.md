@@ -820,6 +820,50 @@ In this example, the condition will be satisfied if the stored value is neither 
 
 If the stored value is an array, it should have at least one value not matching any of the given values. E.g. if the stored value is `["black", "green"]`, the condition will be satisfied, because `"green"` does not match `"black"` nor `"yellow"`.
 
+
+### Match Subset
+
+*Available as of v1.11.0*
+
+In case you want to check if the stored value is not one of multiple values, you can use the Match Except condition.
+Match Except works as a logical NOR for the given values.
+It can also be described as a `NOT IN` operator.
+
+You can apply it to [keyword](../payload/#keyword) and [integer](../payload/#integer) array payloads.
+
+Example:
+
+```json
+{
+  "key": "colors",
+  "match": {
+    "subset": ["black", "yellow"]
+  }
+}
+```
+
+```python
+models.FieldCondition(
+    key="colors",
+    match=models.MatchSubset(**{"subset": ["black", "yellow"]}),
+)
+```
+
+```typescript
+{
+    key: 'colors',
+    match: {subset: ['black', 'yellow']}
+}
+```
+
+```java
+import static io.qdrant.client.ConditionFactory.matchExceptKeywords;
+
+matchSubsetKeywords("color", List.of("black", "yellow"));
+```
+
+In this example, the condition will be satisfied for all the points that have `black`, `yellow` or both in the `color` field.
+
 ### Nested key
 
 *Available as of v1.1.0*
