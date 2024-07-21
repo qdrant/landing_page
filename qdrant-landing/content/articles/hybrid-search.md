@@ -11,6 +11,14 @@ author_link: https://medium.com/@lukawskikacper
 date: 2023-02-15T10:48:00.000Z
 ---
 
+<aside role="status">
+This article was published in 2023, more than a year before the Qdrant 1.10 release introducing the new 
+<a href="/documentation/concepts/search/#query-api">Query API</a>. Although the presented concepts are still valid, 
+Qdrant 1.10 makes it easier to build a hybrid search system, without any additional tools in the stack. 
+<a href="/articles/hybrid-search-revamped">Hybrid Search Revamped</a> article presents even more advanced techniques
+to build a hybrid search system that gives the best of multiple worlds.
+</aside>
+
 There is not a single definition of hybrid search. Actually, if we use more than one search algorithm, it 
 might be described as some sort of hybrid. Some of the most popular definitions are:
 
