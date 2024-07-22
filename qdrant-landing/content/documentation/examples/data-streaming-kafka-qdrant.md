@@ -5,16 +5,18 @@ weight: 49
 
 # Setup Data Streaming with Kafka via Confluent
 
-**Author:** M K Pavan Kumar, GenAI & LLM Specialist 
-• [GitHub](https://github.com/pavanjava) • [Medium](https://medium.com/@manthapavankumar11) • [LinkedIn](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/) •
+**Author:** [M K Pavan Kumar](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/) , research scholar at [IIITDM, Kurnool](https://iiitk.ac.in). Specialist in hallucination mitigation techniques and RAG methodologies. 
+• [GitHub](https://github.com/pavanjava) • [Medium](https://medium.com/@manthapavankumar11)  
 
 ## Introduction
 
-This guide will walk you through the detailed steps of installing and setting up the Qdrant Sink Connector, building the necessary infrastructure, and creating a practical playground application. By the end of this article, you will have a deep understanding of how to leverage this powerful integration to streamline your data workflows, ultimately enhancing the performance and capabilities of your data-driven real-time semantic search and RAG applications.
+This guide will walk you through the detailed steps of installing and setting up the [Qdrant Sink Connector](https://github.com/qdrant/qdrant-kafka), building the necessary infrastructure, and creating a practical playground application. By the end of this article, you will have a deep understanding of how to leverage this powerful integration to streamline your data workflows, ultimately enhancing the performance and capabilities of your data-driven real-time semantic search and RAG applications.
+
+In this example, original data will be sourced from Azure Blob Storage and MongoDB.
 
 ![1.webp](/documentation/examples/data-streaming-kafka-qdrant/1.webp)
 
-Figure 1: Real time CDC with Kafka and Qdrant. created by author, M K Pavan Kumar
+Figure 1: [Real time Change Data Capture (CDC)](https://www.confluent.io/learn/change-data-capture/) with Kafka and Qdrant. 
 
 ## The Architecture:
 
@@ -84,7 +86,7 @@ This will download the Qdrant image and start a Qdrant instance accessible at `h
 
 ## Installation of Qdrant-Kafka Sink Connector:
 
-To install the Qdrant Kafka connector using Confluent Hub, you can utilize the straightforward `confluent-hub install` command. This command simplifies the process by eliminating the need for manual configuration file manipulations. To install the Qdrant Kafka connector version 1.1.0, execute the following command in your terminal:
+To install the Qdrant Kafka connector using [Confluent Hub](https://www.confluent.io/hub/), you can utilize the straightforward `confluent-hub install` command. This command simplifies the process by eliminating the need for manual configuration file manipulations. To install the Qdrant Kafka connector version 1.1.0, execute the following command in your terminal:
 
 ```bash
  confluent-hub install qdrant/qdrant-kafka:1.1.0
@@ -118,7 +120,7 @@ Ensure the configuration of the connector once it's installed as below. keep in 
 
 ## Installation of MongoDB
 
-For the kafka to connect mongodb as source, your mongodb instance should be running in a replicaSet mode. below is the docker compose file which will spin single node replicaSet instance of mongodb.
+For the Kafka to connect MongoDB as source, your MongoDB instance should be running in a `replicaSet` mode. below is the `docker compose` file which will spin a single node `replicaSet` instance of MongoDB.
 
 ```bash
 version: "3.8"
@@ -151,7 +153,7 @@ Similarly, install and configure source connector as below.
 confluent-hub install mongodb/kafka-connect-mongodb:latest
 ```
 
-After MongoDB connector installation, the connector configuration looks as below.
+After installing the `MongoDB` connector, connector configuration should look like this:
 
 ```bash
 {
@@ -172,7 +174,7 @@ After MongoDB connector installation, the connector configuration looks as below
 
 ## Playground Application
 
-As the infrastructure set is completely done, now it's time for us to create simple application and check our setup. the objective of our application is the data is inserted to mongodb and eventually it will get ingested into Qdrant also using Cahnge Data Capture (CDC).
+As the infrastructure set is completely done, now it's time for us to create a simple application and check our setup. the objective of our application is the data is inserted to Mongodb and eventually it will get ingested into Qdrant also using [Change Data Capture (CDC)](https://www.confluent.io/learn/change-data-capture/).
 
 `requirements.txt`
 
@@ -184,7 +186,7 @@ qdrant_client==1.10.1
 
 `project_root_folder/main.py`
 
-As said, it's just the playground code, nevertheless this can be extended to millions of operations based on your use case.
+This is just sample code. Nevertheless it can be extended to millions of operations based on your use case.
 
 ```python
 from pymongo import MongoClient
@@ -247,13 +249,13 @@ def create_qdrant_collection(collection_name: str, embed_model: str):
         )
 ```
 
-Before we run the application, below is the state of mongodb and qdrant databases.
+Before we run the application, below is the state of MongoDB and Qdrant databases.
 
 ![3.webp](/documentation/examples/data-streaming-kafka-qdrant/3.webp)
 
-Figure 3: Initial state: no collection named ‘test’ & no data in ‘docs’ collection of Mongodb.
+Figure 3: Initial state: no collection named `test` & `no data` in the `docs` collection of MongodDB.
 
-Once you run the code the data goes into mongodb and the CDC gets triggered and eventually Qdrant also have the data in it.
+Once you run the code the data goes into Mongodb and the CDC gets triggered and eventually Qdrant will receive this data.
 
 ![4.webp](/documentation/examples/data-streaming-kafka-qdrant/4.webp)
 
@@ -261,7 +263,7 @@ Figure 4: The test Qdrant collection is created automatically.
 
 ![5.webp](/documentation/examples/data-streaming-kafka-qdrant/5.webp)
 
-Figure 5: Data is inserted into both Mongodb and Qdrant.
+Figure 5: Data is inserted into both MongoDB and Qdrant.
 
 ## Conclusion:
 
