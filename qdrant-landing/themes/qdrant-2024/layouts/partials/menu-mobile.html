@@ -8,7 +8,14 @@
       {{ range .Params.menuItems }}
         <li class="menu-mobile__item" data-path="{{ .id }}">
           <div class="menu-mobile__item-content">
-            {{ .name }}
+            {{ if and (not .subMenuItems) .url }}
+              <a href="{{ .url }}">
+                {{ .name }}
+              </a>
+            {{ else }}
+              {{ .name }}
+            {{ end }}
+
             {{ if .subMenuItems }}
               <button type="button" class="menu-mobile__expand">{{ partial "svg" "arrow-sm-down.svg" }}</button>
             {{ end }}
