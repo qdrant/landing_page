@@ -5,7 +5,7 @@ aliases:
 ---
 
 # How to Setup and Connect to Qdrant Cloud on Free Tier
-This page shows you how to use the Qdrant Cloud Console to create a free tier cluster and then connect to it with Qdrant Client. 
+In this tutorial, you will use the Qdrant Cloud Console to create a free tier cluster and then connect to it with Qdrant Client. 
 
 ## Create a Free Tier cluster
 
