@@ -1,11 +1,12 @@
 ---
-title: Docker Quickstart
+title: Local Quickstart
 weight: 4
 aliases:
   - quick_start
+  - quick-start
   - quickstart
 ---
-# Docker Quickstart
+# How to Get Started with Qdrant Locally
 
 In this short example, you will use the Python Client to create a Collection, load data into it and run a basic search query.
 
