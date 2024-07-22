@@ -5,9 +5,8 @@ weight: 49
 
 # Setup Data Streaming with Kafka via Confluent
 
-**Author:** M K Pavan Kumar
-**Medium:** [https://medium.com/@manthapavankumar11](https://medium.com/@manthapavankumar11)</br>
-**LinkedIn:** [https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/)
+**Author:** M K Pavan Kumar, GenAI & LLM Specialist 
+• [GitHub](https://github.com/pavanjava) • [Medium](https://medium.com/@manthapavankumar11) • [LinkedIn](https://www.linkedin.com/in/kameshwara-pavan-kumar-mantha-91678b21/) •
 
 ## Introduction
 
