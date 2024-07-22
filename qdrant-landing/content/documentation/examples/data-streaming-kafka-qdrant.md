@@ -1,7 +1,6 @@
 ---
 title: How to Setup Seamless Data Streaming with Kafka and Qdrant
 weight: 49
-social_preview_image: /documentation/data-streaming-kafka-qdrant/social_preview.jpg
 ---
 
 # Setup Data Streaming with Kafka via Confluent
