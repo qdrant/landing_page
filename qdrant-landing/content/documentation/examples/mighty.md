@@ -6,8 +6,7 @@ weight: 17
 author: Andre Bogus
 author_link: https://llogiq.github.io
 date: 2023-06-01T11:24:20+01:00
-aliases:
-  - /documentation/tutorials/mighty.md/
+draft: true
 keywords:
   - vector search
   - embeddings

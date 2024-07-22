@@ -40,15 +40,15 @@ databases (as seen in the image above), data is organized in rows and columns (a
 called **Tables**), and queries are performed based on the values in those columns. However, 
 in certain applications including image recognition, natural language processing, and recommendation 
 systems, data is often represented as vectors in a high-dimensional space, and these vectors, plus 
-an id and a payload, are the elements we store in something called a **Collection** a vector 
+an id and a payload, are the elements we store in something called a **Collection** within a vector 
 database like Qdrant.
 
-A vector in this context is a mathematical representation of an object or data point, where each 
-element of the vector corresponds to a specific feature or attribute of the object. For example, 
+A vector in this context is a mathematical representation of an object or data point, where elements of 
+the vector implicitly or explicitly correspond to specific features or attributes of the object. For example, 
 in an image recognition system, a vector could represent an image, with each element of the vector 
 representing a pixel value or a descriptor/characteristic of that pixel. In a music recommendation 
-system, each vector would represent a song, and each element of the vector would represent a 
-characteristic song such as tempo, genre, lyrics, and so on.
+system, each vector could represent a song, and elements of the vector would capture song characteristics
+such as tempo, genre, lyrics, and so on.
 
 Vector databases are optimized for **storing** and **querying** these high-dimensional vectors 
 efficiently, and they often using specialized data structures and indexing techniques such as 
@@ -60,24 +60,22 @@ Distance, Cosine Similarity, and Dot Product, and these three are fully supporte
 
 Here's a quick overview of the three:
 - [**Cosine Similarity**](https://en.wikipedia.org/wiki/Cosine_similarity) - Cosine similarity 
-is a way to measure how similar two things are. Think of it like a ruler that tells you how far 
-apart two points are, but instead of measuring distance, it measures how similar two things 
-are. It's often used with text to compare how similar two documents or sentences are to each 
-other. The output of the cosine similarity ranges from -1 to 1, where -1 means the two things 
-are completely dissimilar, and 1 means the two things are exactly the same. It's a straightforward 
-and effective way to compare two things!
-- [**Dot Product**](https://en.wikipedia.org/wiki/Dot_product) - The dot product similarity 
-metric is another way of measuring how similar two things are, like cosine similarity. It's 
-often used in machine learning and data science when working with numbers. The dot product 
-similarity is calculated by multiplying the values in two sets of numbers, and then adding 
-up those products. The higher the sum, the more similar the two sets of numbers are. So, it's 
-like a scale that tells you how closely two sets of numbers match each other.
+is a way to measure how similar two vectors are. To simplify, it reflects whether the vectors 
+have the same direction (similar) or are poles apart. Cosine similarity is often used with text representations 
+to compare how similar two documents or sentences are to each other. The output of cosine similarity ranges 
+from -1 to 1, where -1 means the two vectors are completely dissimilar, and 1 indicates maximum similarity.
+- [**Dot Product**](https://en.wikipedia.org/wiki/Dot_product) - The dot product similarity metric is another way 
+of measuring how similar two vectors are. Unlike cosine similarity, it also considers the length of the vectors. 
+This might be important when, for example, vector representations of your documents are built 
+based on the term (word) frequencies. The dot product similarity is calculated by multiplying the respective values 
+in the two vectors and then summing those products. The higher the sum, the more similar the two vectors are. 
+If you normalize the vectors (so the numbers in them sum up to 1), the dot product similarity will become 
+the cosine similarity.
 - [**Euclidean Distance**](https://en.wikipedia.org/wiki/Euclidean_distance) - Euclidean 
 distance is a way to measure the distance between two points in space, similar to how we 
 measure the distance between two places on a map. It's calculated by finding the square root 
 of the sum of the squared differences between the two points' coordinates. This distance metric 
-is commonly used in machine learning to measure how similar or dissimilar two data points are 
-or, in other words, to understand how far apart they are.
+is also commonly used in machine learning to measure how similar or dissimilar two vectors are.
 
 Now that we know what vector databases are and how they are structurally different than other 
 databases, let's go over why they are important.
