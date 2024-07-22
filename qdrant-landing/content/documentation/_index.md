@@ -9,7 +9,7 @@ Qdrant is an AI-native vector dabatase and a semantic search engine. You can use
 
 |||
 |-:|:-|
-|[Local Quickstart](/documentation/quick-start/)|[Cloud Quickstart](/documentation/cloud/quickstart-cloud/))|
+|[Local Quickstart](/documentation/quick-start/)|[Cloud Quickstart](/documentation/cloud/quickstart-cloud/)|
 
 ## Ready to start developing?
 
