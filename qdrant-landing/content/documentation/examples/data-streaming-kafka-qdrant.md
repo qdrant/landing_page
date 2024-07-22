@@ -1,5 +1,10 @@
+---
+title: How to Setup Seamless Data Streaming with Kafka and Qdrant
+weight: 49
+social_preview_image: /documentation/data-streaming-kafka-qdrant/social_preview.png
+---
 
-# Seamless Data Streaming with Kafka and Qdrant: Installation, Setup, and Application Guide
+# Setup Data Streaming with Kafka via Confluent
 
 **Author:** M K Pavan Kumar
 **Medium:** [https://medium.com/@manthapavankumar11](https://medium.com/@manthapavankumar11)</br>
@@ -7,7 +12,7 @@
 
 ## Introduction
 
-In this guide, I will walk you through the detailed steps of installing and setting up the Qdrant Sink Connector, building the necessary infrastructure, and creating a practical playground application. By the end of this article, you will have a deep understanding of how to leverage this powerful integration to streamline your data workflows, ultimately enhancing the performance and capabilities of your data-driven real-time semantic search and RAG applications.
+This guide will walk you through the detailed steps of installing and setting up the Qdrant Sink Connector, building the necessary infrastructure, and creating a practical playground application. By the end of this article, you will have a deep understanding of how to leverage this powerful integration to streamline your data workflows, ultimately enhancing the performance and capabilities of your data-driven real-time semantic search and RAG applications.
 
 ![1.webp](/documentation/examples/data-streaming-kafka-qdrant/1.webp)
 
@@ -74,7 +79,7 @@ To install and run Qdrant (self-managed locally), you can use Docker, which simp
 
 ```bash
 docker pull qdrant/qdrant
-docker run -p 6333:6333 qdrant/qdrant
+docker run -p 6334:6334 -p 6333:6333 qdrant/qdrant
 ```
 
 This will download the Qdrant image and start a Qdrant instance accessible at `http://localhost:6333`. For more detailed instructions and alternative installation methods, refer to the [Qdrant installation documentation](https://qdrant.tech/documentation/quick-start/).
