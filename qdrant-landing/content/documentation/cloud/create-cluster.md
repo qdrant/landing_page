@@ -12,7 +12,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 1. Start in the **Clusters** section of the [Cloud Dashboard](https://cloud.qdrant.io/). 
 1. Select **Clusters** and then click **+ Create**.
 1. In the **Create a cluster** screen select **Free** or **Standard**
-   For more information on a free cluster, see the [Cloud quickstart](/documentation/cloud/quickstart-cloud/). The remaining steps assume you want a standard cluster.
+   For more information on a free cluster, follow [Free Tier Setup](/documentation/cloud/qdrant-cloud-setup/). The remaining steps assume you want a standard cluster.
 1. Select a provider. Currently, you can deploy to:
 
    - Amazon Web Services (AWS)

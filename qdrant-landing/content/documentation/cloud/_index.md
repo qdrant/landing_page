@@ -29,7 +29,7 @@ Each database cluster comes pre-configured with the following tools, features, a
 
 To use Qdrant Managed Cloud, you need at least one cluster. You can create one in the following ways:
 
-1. [**Create a Free Tier cluster**](/documentation/cloud/quickstart-cloud/) with one node and a default configuration (1 GB RAM, 0.5 CPU and 4 GB Disk). This option is perfect for prototyping. You don't need a credit card to join.
+1. [**Create a Free Tier cluster**](/documentation/cloud/qdrant-cloud-setup/) with one node and a default configuration (1 GB RAM, 0.5 CPU and 4 GB Disk). This option is perfect for prototyping. You don't need a credit card to join.
 2. [**Configure a custom cluster**](/documentation/cloud/create-cluster/) with additional nodes and resources. For this option, you need billing information.
 
 If you're testing Qdrant, We recommend the Free Tier cluster. The capacity should be enough to serve up to 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/).

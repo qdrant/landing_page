@@ -1,6 +1,6 @@
 ---
 title: What is Qdrant?
-weight: 9
+weight: 2
 aliases:
   - overview
 ---
