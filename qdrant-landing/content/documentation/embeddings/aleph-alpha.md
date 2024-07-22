@@ -1,8 +1,13 @@
 ---
 title: Aleph Alpha
 weight: 900
-aliases: [ ../integrations/aleph-alpha/ ]
+aliases:
+  - /documentation/examples/aleph-alpha-search/
+  - /documentation/tutorials/aleph-alpha-search/
+  - /documentation/integrations/aleph-alpha/ 
 ---
+
+# Using Aleph Alpha Embeddings with Qdrant 
 
 Aleph Alpha is a multimodal and multilingual embeddings' provider. Their API allows creating the embeddings for text and images, both 
 in the same latent space. They maintain an [official Python client](https://github.com/Aleph-Alpha/aleph-alpha-client) that might be 

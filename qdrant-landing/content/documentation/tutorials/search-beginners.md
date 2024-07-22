@@ -1,6 +1,8 @@
 ---
 title: Semantic Search 101
 weight: -100
+aliases:
+  - /documentation/tutorials/mighty.md/
 ---
 
 # Semantic Search for Beginners
