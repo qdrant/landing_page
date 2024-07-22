@@ -27,7 +27,7 @@ aliases:
 
 1. Go to your **Clusters**. Under **Actions**, open the **Dashboard**.
 2. Paste your new API key here. If you lost it, make another in **Access Management**.
-3. The key will grant you cluster access. Now you can see the cluster Dashboard.
+3. The key will grant you access to your Qdrant instance. Now you can see the cluster Dashboard.
 
 ![access the dashboard](/docs/gettingstarted/gui-quickstart/access-dashboard.png)
 
@@ -41,7 +41,7 @@ aliases:
 
 ## That's vector search!
 You can stay in the sandbox and continue trying our different API calls.</br>
-When you're ready, use the Console and our complete REST API to try other operations.
+When ready, use the Console and our complete REST API to try other operations.
 
 ## What's next?
 
