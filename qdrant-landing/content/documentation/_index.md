@@ -5,13 +5,14 @@ hideTOC: true
 ---
 # Documentation
 
-Qdrant is an AI-native vector dabatase and a semantic search engine. You can use it to extract meaningful information from unstructured data. **[Learn more about vector search](/documentation/overview/)** and how it works with AI.
+Qdrant is an AI-native vector dabatase and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
 
 |||
 |-:|:-|
 |[Local Quickstart](/documentation/quick-start/)|[Cloud Quickstart](/documentation/cloud/quickstart-cloud/)|
 
-## Ready to start developing?
+
+## Ready to start developing? 
 
 ***<p style="text-align: center;">Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our [free tier](https://qdrant.to/cloud) on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.</p>***
 
