@@ -70,8 +70,8 @@ export function tagAllAnchors() {
 const getSegmentWriteKey = () => {
   return JSON.parse(sessionStorage.getItem(WRITE_KEY));
 }
-export const setSegmentWriteKey = (segmentWriteKey) => {
-  sessionStorage.setItem(WRITE_KEY, JSON.stringify(segmentWriteKey));
+export const setSegmentWriteKey = (SEGMENT_WRITE_KEY) => {
+  sessionStorage.setItem(WRITE_KEY, JSON.stringify(SEGMENT_WRITE_KEY));
 }
 
 /****************/

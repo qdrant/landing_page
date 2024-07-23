@@ -6,6 +6,7 @@ command = "bash -x ./install-and-build.sh"
 HUGO_VERSION = "0.123.0"
 DART_SASS_VERSION = "1.70.0"
 NODE_VERSION = "20.10.0"
+SEGMENT_WRITE_KEY = "HtxD8cbIlx3I98cyMdEFl6tBcJ3Cwagc"
 
 [context.production.environment]
 HUGO_ENV = "production"

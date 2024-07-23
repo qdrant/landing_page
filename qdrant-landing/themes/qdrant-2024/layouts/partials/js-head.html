@@ -37,7 +37,7 @@
 {{ end }}
 
 <!--Segment-->
-{{ if .Site.Params.segmentWriteKey}}
-  {{ $segmentJs := resources.Get "js/segment-setup.js" | js.Build (dict "params" (dict "segmentWriteKey" .Site.Params.segmentWriteKey)) | minify | resources.Fingerprint "sha512" }}
+{{ if .Site.Params.SEGMENT_WRITE_KEY}}
+  {{ $segmentJs := resources.Get "js/segment-setup.js" | js.Build (dict "params" (dict "SEGMENT_WRITE_KEY" .Site.Params.SEGMENT_WRITE_KEY)) | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $segmentJs.RelPermalink }}"></script>
 {{ end }}
