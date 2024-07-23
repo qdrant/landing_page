@@ -1,5 +1,5 @@
 ---
 title: FAQ
-weight: 41
+weight: 22
 is_empty: true
 ---

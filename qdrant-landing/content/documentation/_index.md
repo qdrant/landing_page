@@ -1,6 +1,6 @@
 ---
-title: Qdrant Documentation
-weight: 10
+title: Home
+weight: 2
 hideTOC: true
 ---
 # Documentation

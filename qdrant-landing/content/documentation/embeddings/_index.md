@@ -1,6 +1,6 @@
 ---
 title: Embeddings
-weight: 34
+weight: 15
 ---
 
 | Embeddings Providers          |
