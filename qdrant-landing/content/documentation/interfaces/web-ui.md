@@ -1,6 +1,6 @@
 ---
 title: Qdrant Web UI
-weight: 1
+weight: 2
 aliases:
   - /documentation/web-ui/
 ---

@@ -1,6 +1,6 @@
 ---
-title: Examples
-weight: 35
+title: Build Prototypes
+weight: 19
 ---
 # Examples
 
@@ -16,8 +16,6 @@ weight: 35
 | [Hybrid Search on PDF Documents](../examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
 | [Blog-Reading RAG Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-4o   
 | [Movie Recommendation System](../examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |   
-| [Qdrant on Databricks](../examples/databricks/)                                                                     | Learn how to use Qdrant on Databricks using the Spark connector     | Qdrant, Databricks, Apache Spark |
-| [Qdrant with Airflow and Astronomer](../examples/qdrant-airflow-astronomer/)                                        | Build a semantic querying system using Airflow and Astronomer       | Qdrant, Airflow, Astronomer      |
 
 
 ## Notebooks
@@ -34,10 +32,3 @@ Our Notebooks offer complex instructions that are supported with a throrough exp
 | [Extractive QA System](https://githubtocolab.com/qdrant/examples/blob/master/extractive_qa/extractive-question-answering.ipynb)                                                                                                       | Extract answers directly from context to generate highly relevant answers.                      | Qdrant                     | 
 | [Ecommerce Reverse Image Search](https://githubtocolab.com/qdrant/examples/blob/master/ecommerce_reverse_image_search/ecommerce-reverse-image-search.ipynb)                                                                           | Accept images as search queries to receive semantically appropriate answers.                    | Qdrant                     | 
 | [Basic RAG](https://githubtocolab.com/qdrant/examples/blob/master/rag-openai-qdrant/rag-openai-qdrant.ipynb)                                                                                                                          | Basic RAG pipeline with Qdrant and OpenAI SDKs.                                                  | OpenAI, Qdrant, FastEmbed  |
-
-## Data Transfer
-
-| Example                                                                   | Description                                                       | Stack                                       |   
-|---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Pinecone to Qdrant Data Transfer](https://githubtocolab.com/qdrant/examples/blob/master/data-migration/from-pinecone-to-qdrant.ipynb)                                                                                                                          | Migrate your vector data from Pinecone to Qdrant.                                                 |  Qdrant, Vector-io  |
-| [Stream Data to Qdrant with Kafka](../examples/data-streaming-kafka-qdrant/)                                                                                                                          | Use Confluent to Stream Data to Qdrant via Managed Kafka.                                                 |  Qdrant, Kafka  |
