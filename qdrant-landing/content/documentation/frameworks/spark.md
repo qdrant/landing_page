@@ -217,7 +217,7 @@ _Click each to expand._
 ## Databricks
 
 <aside role="status">
-    <p>Check out our <a href="/documentation/examples/databricks/" target="_blank">example</a> of using the Spark connector with Databricks.</p>
+    <p>Check out our <a href="/documentation/send-data/databricks/" target="_blank">example</a> of using the Spark connector with Databricks.</p>
 </aside>
 
 You can use the `qdrant-spark` connector as a library in [Databricks](https://www.databricks.com/).
