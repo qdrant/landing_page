@@ -1,5 +1,5 @@
 ---
-title: API & SDK 
+title: API & SDKs
 weight: 6
 aliases:
   - /documentation/interfaces/
