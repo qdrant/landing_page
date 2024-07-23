@@ -398,6 +398,7 @@ This is also applicable to using api keys instead of tokens. In that case, `api_
 | delete payload | ✅ | ❌ | ✅ | ❌ | ❌ |
 | clear payload | ✅ | ❌ | ✅ | ❌ | ❌ |
 | scroll points | ✅ | ✅ | ✅ | ✅ | 🟡 |
+| query points | ✅ | ✅ | ✅ | ✅ | 🟡 |
 | search points | ✅ | ✅ | ✅ | ✅ | 🟡 |
 | search groups | ✅ | ✅ | ✅ | ✅ | 🟡 |
 | recommend points | ✅ | ✅ | ✅ | ✅ | ❌ |
