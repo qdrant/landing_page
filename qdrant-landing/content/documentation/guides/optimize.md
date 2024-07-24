@@ -77,37 +77,24 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
-        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
-        VectorParams, VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                on_disk: Some(true),
-                ..Default::default()
-            })),
-        }),
-        quantization_config: Some(QuantizationConfig {
-            quantization: Some(Quantization::Scalar(ScalarQuantization {
-                r#type: QuantizationType::Int8.into(),
-                always_ram: Some(true),
-                ..Default::default()
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .quantization_config(
+                ScalarQuantizationBuilder::default()
+                    .r#type(QuantizationType::Int8.into())
+                    .always_ram(true),
+            ),
+    )
     .await?;
 ```
 
@@ -214,27 +201,20 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
+use qdrant_client::qdrant::{
+    QuantizationSearchParamsBuilder, SearchParamsBuilder, SearchPointsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        params: Some(SearchParams {
-            quantization: Some(QuantizationSearchParams {
-                rescore: Some(false),
-                ..Default::default()
-            }),
-            ..Default::default()
-        }),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3).params(
+            SearchParamsBuilder::default()
+                .quantization(QuantizationSearchParamsBuilder::default().rescore(false)),
+        ),
+    )
     .await?;
 ```
 
@@ -329,33 +309,19 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        vectors_config::Config, CreateCollection, Distance, HnswConfigDiff, OptimizersConfigDiff,
-        VectorParams, VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, HnswConfigDiffBuilder, VectorParamsBuilder,
 };
+use qdrant_client::{Qdrant, QdrantError};
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                on_disk: Some(true),
-                ..Default::default()
-            })),
-        }),
-        hnsw_config: Some(HnswConfigDiff {
-            on_disk: Some(true),
-            ..Default::default()
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).on_disk(true))
+            .hnsw_config(HnswConfigDiffBuilder::default().on_disk(true)),
+    )
     .await?;
 ```
 
@@ -480,37 +446,24 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
-        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
-        VectorParams, VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                on_disk: Some(true),
-                ..Default::default()
-            })),
-        }),
-        quantization_config: Some(QuantizationConfig {
-            quantization: Some(Quantization::Scalar(ScalarQuantization {
-                r#type: QuantizationType::Int8.into(),
-                always_ram: Some(true),
-                ..Default::default()
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).on_disk(true))
+            .quantization_config(
+                ScalarQuantizationBuilder::default()
+                    .r#type(QuantizationType::Int8.into())
+                    .always_ram(true),
+            ),
+    )
     .await?;
 ```
 
@@ -613,25 +566,16 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{SearchParams, SearchPoints},
-};
+use qdrant_client::qdrant::{SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        params: Some(SearchParams {
-            hnsw_ef: Some(128),
-            exact: Some(false),
-            ..Default::default()
-        }),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .params(SearchParamsBuilder::default().hnsw_ef(128).exact(false)),
+    )
     .await?;
 ```
 
@@ -727,32 +671,21 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        vectors_config::Config, CreateCollection, Distance, OptimizersConfigDiff, VectorParams,
-        VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, OptimizersConfigDiffBuilder, VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        optimizers_config: Some(OptimizersConfigDiff {
-            default_segment_number: Some(16),
-            ..Default::default()
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .optimizers_config(
+                OptimizersConfigDiffBuilder::default().default_segment_number(16),
+            ),
+    )
     .await?;
 ```
 
@@ -845,32 +778,21 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        vectors_config::Config, CreateCollection, Distance, OptimizersConfigDiff, VectorParams,
-        VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, OptimizersConfigDiffBuilder, VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        optimizers_config: Some(OptimizersConfigDiff {
-            default_segment_number: Some(2),
-            ..Default::default()
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .optimizers_config(
+                OptimizersConfigDiffBuilder::default().default_segment_number(2),
+            ),
+    )
     .await?;
 ```
 

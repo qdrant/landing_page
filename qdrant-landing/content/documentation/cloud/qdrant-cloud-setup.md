@@ -76,12 +76,11 @@ const client = new QdrantClient({
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("xyz-example.eu-central.aws.cloud.qdrant.io:6334")
-    .with_api_key("<paste-your-api-key-here>")
-    .build()
-    .unwrap();
+let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
+    .api_key("<paste-your-api-key-here>")
+    .build()?;
 ```
 
 ```java

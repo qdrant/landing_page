@@ -51,10 +51,10 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::Qdrant;
 
 // The Rust client uses Qdrant's GRPC interface
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 ```
 
 ```java
@@ -95,20 +95,13 @@ await client.createCollection("test_collection", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{vectors_config::Config, VectorParams, VectorsConfig};
+use qdrant_client::qdrant::{CreateCollectionBuilder, VectorParamsBuilder};
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "test_collection".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 4,
-                distance: Distance::Dot.into(),
-                ..Default::default()
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("test_collection")
+            .vectors_config(VectorParamsBuilder::new(4, Distance::Dot)),
+    )
     .await?;
 ```
 
@@ -123,10 +116,10 @@ client.createCollectionAsync("test_collection",
 ```csharp
 using Qdrant.Client.Grpc;
 
-await client.CreateCollectionAsync(
-	collectionName: "test_collection",
-	vectorsConfig: new VectorParams { Size = 4, Distance = Distance.Dot }
-);
+await client.CreateCollectionAsync(collectionName: "test_collection", vectorsConfig: new VectorParams
+{
+    Size = 4, Distance = Distance.Dot
+});
 ```
 
 <aside role="status">TypeScript, Rust examples use async/await syntax, so should be used in an async block.</aside>
@@ -172,35 +165,20 @@ console.debug(operationInfo);
 ```
 
 ```rust
-use qdrant_client::qdrant::PointStruct;
-use serde_json::json;
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
 
 let points = vec![
-    PointStruct::new(
-        1,
-        vec![0.05, 0.61, 0.76, 0.74],
-        json!(
-            {"city": "Berlin"}
-        )
-        .try_into()
-        .unwrap(),
-    ),
-    PointStruct::new(
-        2,
-        vec![0.19, 0.81, 0.75, 0.11],
-        json!(
-            {"city": "London"}
-        )
-        .try_into()
-        .unwrap(),
-    ),
+    PointStruct::new(1, vec![0.05, 0.61, 0.76, 0.74], [("city", "Berlin".into())]),
+    PointStruct::new(2, vec![0.19, 0.81, 0.75, 0.11], [("city", "London".into())]),
+    PointStruct::new(3, vec![0.36, 0.55, 0.47, 0.94], [("city", "Moscow".into())]),
     // ..truncated
 ];
-let operation_info = client
-    .upsert_points_blocking("test_collection".to_string(), None, points, None)
+
+let response = client
+    .upsert_points(UpsertPointsBuilder::new("test_collection", points).wait(true))
     .await?;
 
-dbg!(operation_info);
+dbg!(response);
 ```
 
 ```java
@@ -243,31 +221,43 @@ System.out.println(operationInfo);
 ```csharp
 using Qdrant.Client.Grpc;
 
-var operationInfo = await client.UpsertAsync(
-	collectionName: "test_collection",
-	points: new List<PointStruct>
-	{
-		new()
-		{
-			Id = 1,
-			Vectors = new float[] { 0.05f, 0.61f, 0.76f, 0.74f },
-			Payload = { ["city"] = "Berlin" }
-		},
-		new()
-		{
-			Id = 2,
-			Vectors = new float[] { 0.19f, 0.81f, 0.75f, 0.11f },
-			Payload = { ["city"] = "London" }
-		},
-		new()
-		{
-			Id = 3,
-			Vectors = new float[] { 0.36f, 0.55f, 0.47f, 0.94f },
-			Payload = { ["city"] = "Moscow" }
-		},
-		// Truncated
-	}
-);
+var operationInfo = await client.UpsertAsync(collectionName: "test_collection", points: new List<PointStruct>
+{
+    new()
+    {
+        Id = 1,
+            Vectors = new float[]
+            {
+                0.05f, 0.61f, 0.76f, 0.74f
+            },
+            Payload = {
+                ["city"] = "Berlin"
+            }
+    },
+    new()
+    {
+        Id = 2,
+            Vectors = new float[]
+            {
+                0.19f, 0.81f, 0.75f, 0.11f
+            },
+            Payload = {
+                ["city"] = "London"
+            }
+    },
+    new()
+    {
+        Id = 3,
+            Vectors = new float[]
+            {
+                0.36f, 0.55f, 0.47f, 0.94f
+            },
+            Payload = {
+                ["city"] = "Moscow"
+            }
+    },
+    // Truncated
+});
 
 Console.WriteLine(operationInfo);
 ```
@@ -284,11 +274,15 @@ operation_id=0 status=<UpdateStatus.COMPLETED: 'completed'>
 
 ```rust
 PointsOperationResponse {
-    result: Some(UpdateResult {
-        operation_id: 0,
-        status: Completed,
-    }),
-    time: 0.006347708,
+    result: Some(
+        UpdateResult {
+            operation_id: Some(
+                0,
+            ),
+            status: Completed,
+        },
+    ),
+    time: 0.00094027,
 }
 ```
 
@@ -323,16 +317,12 @@ console.debug(searchResult);
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPoints;
+use qdrant_client::qdrant::SearchPointsBuilder;
 
 let search_result = client
-    .search_points(&SearchPoints {
-        collection_name: "test_collection".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        limit: 3,
-        with_payload: Some(true.into()),
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("test_collection", [0.2, 0.1, 0.9, 0.7], 3).with_payload(true),
+    )
     .await?;
 
 dbg!(search_result);
@@ -361,159 +351,38 @@ System.out.println(searchResult);
 ```
 
 ```csharp
-var searchResult = await client.SearchAsync(
-	collectionName: "test_collection",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	limit: 3,
-	payloadSelector: true
-);
+var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
+{
+    0.2f, 0.1f, 0.9f, 0.7f
+}, limit: 3, payloadSelector: true);
 
 Console.WriteLine(searchResult);
 ```
 
 **Response:**
 
-```python
-ScoredPoint(id=4, version=0, score=1.362, payload={"city": "New York"}, vector=None),
-ScoredPoint(id=1, version=0, score=1.273, payload={"city": "Berlin"}, vector=None),
-ScoredPoint(id=3, version=0, score=1.208, payload={"city": "Moscow"}, vector=None)
-```
-
-```typescript
+```json
 [
   {
-    id: 4,
-    version: 0,
-    score: 1.362,
-    payload: null,
-    vector: null,
-  },
-  {
-    id: 1,
-    version: 0,
-    score: 1.273,
-    payload: null,
-    vector: null,
-  },
-  {
-    id: 3,
-    version: 0,
-    score: 1.208,
-    payload: null,
-    vector: null,
-  },
-];
-```
-
-```rust
-SearchResponse {
-    result: [
-        ScoredPoint {
-            id: Some(PointId {
-                point_id_options: Some(Num(4)),
-            }),
-            payload: {},
-            score: 1.362,
-            version: 0,
-            vectors: None,
-        },
-        ScoredPoint {
-            id: Some(PointId {
-                point_id_options: Some(Num(1)),
-            }),
-            payload: {},
-            score: 1.273,
-            version: 0,
-            vectors: None,
-        },
-        ScoredPoint {
-            id: Some(PointId {
-                point_id_options: Some(Num(3)),
-            }),
-            payload: {},
-            score: 1.208,
-            version: 0,
-            vectors: None,
-        },
-    ],
-    time: 0.003635125,
-}
-```
-
-```java
-[id {
-  num: 4
-}
-payload {
-  key: "city"
-  value {
-    string_value: "New York"
-  }
-}
-score: 1.362
-version: 1
-, id {
-  num: 1
-}
-payload {
-  key: "city"
-  value {
-    string_value: "Berlin"
-  }
-}
-score: 1.273
-version: 1
-, id {
-  num: 3
-}
-payload {
-  key: "city"
-  value {
-    string_value: "Moscow"
-  }
-}
-score: 1.208
-version: 1
-]
-```
-
-```csharp
-[
-  {
-    "id": {
-      "num": "4"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "New York"
-      }
-    },
+    "id": 4,
+    "version": 0,
     "score": 1.362,
-    "version": "7"
+    "payload": null,
+    "vector": null
   },
   {
-    "id": {
-      "num": "1"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "Berlin"
-      }
-    },
+    "id": 1,
+    "version": 0,
     "score": 1.273,
-    "version": "7"
+    "payload": null,
+    "vector": null
   },
   {
-    "id": {
-      "num": "3"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "Moscow"
-      }
-    },
+    "id": 3,
+    "version": 0,
     "score": 1.208,
-    "version": "7"
+    "payload": null,
+    "vector": null
   }
 ]
 ```
@@ -555,19 +424,17 @@ console.debug(searchResult);
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchPoints};
+use qdrant_client::qdrant::{Condition, Filter, SearchPointsBuilder};
 
 let search_result = client
-    .search_points(&SearchPoints {
-        collection_name: "test_collection".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        filter: Some(Filter::all([Condition::matches(
-            "city",
-            "London".to_string(),
-        )])),
-        limit: 2,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("test_collection", [0.2, 0.1, 0.9, 0.7], 3)
+            .filter(Filter::all([Condition::matches(
+                "city",
+                "London".to_string(),
+            )]))
+            .with_payload(true),
+    )
     .await?;
 
 dbg!(search_result);
@@ -594,95 +461,27 @@ System.out.println(searchResult);
 ```csharp
 using static Qdrant.Client.Grpc.Conditions;
 
-var searchResult = await client.SearchAsync(
-	collectionName: "test_collection",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	filter: MatchKeyword("city", "London"),
-	limit: 3,
-	payloadSelector: true
-);  
+var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
+{
+	0.2f, 0.1f, 0.9f, 0.7f
+}, filter: MatchKeyword("city", "London"), limit: 3, payloadSelector: true);
 
 Console.WriteLine(searchResult);
 ```
 
 **Response:**
 
-```python
-ScoredPoint(id=2, version=0, score=0.871, payload={"city": "London"}, vector=None)
-```
-
-```typescript
+```json
 [
-  {
-    id: 2,
-    version: 0,
-    score: 0.871,
-    payload: { city: "London" },
-    vector: null,
-  },
-];
-```
-
-```rust
-SearchResponse {
-    result: [
-        ScoredPoint {
-            id: Some(
-                PointId {
-                    point_id_options: Some(
-                        Num(
-                            2,
-                        ),
-                    ),
-                },
-            ),
-            payload: {
-                "city": Value {
-                    kind: Some(
-                        StringValue(
-                            "London",
-                        ),
-                    ),
-                },
-            },
-            score: 0.871,
-            version: 0,
-            vectors: None,
+    {
+        "id": 2,
+        "version": 0,
+        "score": 0.871,
+        "payload": {
+            "city": "London"
         },
-    ],
-    time: 0.004001083,
-}
-```
-
-```java
-[id {
-  num: 2
-}
-payload {
-  key: "city"
-  value {
-    string_value: "London"
-  }
-}
-score: 0.871
-version: 1
-]
-```
-
-```csharp
-[
-  {
-    "id": {
-      "num": "2"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "London"
-      }
-    },
-    "score": 0.871,
-    "version": "7"
-  }
+        "vector": null
+    }
 ]
 ```
 
