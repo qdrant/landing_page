@@ -116,10 +116,10 @@ client.createCollectionAsync("test_collection",
 ```csharp
 using Qdrant.Client.Grpc;
 
-await client.CreateCollectionAsync(
- collectionName: "test_collection",
- vectorsConfig: new VectorParams { Size = 4, Distance = Distance.Dot }
-);
+await client.CreateCollectionAsync(collectionName: "test_collection", vectorsConfig: new VectorParams
+{
+    Size = 4, Distance = Distance.Dot
+});
 ```
 
 <aside role="status">TypeScript, Rust examples use async/await syntax, so should be used in an async block.</aside>
@@ -221,31 +221,43 @@ System.out.println(operationInfo);
 ```csharp
 using Qdrant.Client.Grpc;
 
-var operationInfo = await client.UpsertAsync(
- collectionName: "test_collection",
- points: new List<PointStruct>
- {
-  new()
-  {
-   Id = 1,
-   Vectors = new float[] { 0.05f, 0.61f, 0.76f, 0.74f },
-   Payload = { ["city"] = "Berlin" }
-  },
-  new()
-  {
-   Id = 2,
-   Vectors = new float[] { 0.19f, 0.81f, 0.75f, 0.11f },
-   Payload = { ["city"] = "London" }
-  },
-  new()
-  {
-   Id = 3,
-   Vectors = new float[] { 0.36f, 0.55f, 0.47f, 0.94f },
-   Payload = { ["city"] = "Moscow" }
-  },
-  // Truncated
- }
-);
+var operationInfo = await client.UpsertAsync(collectionName: "test_collection", points: new List<PointStruct>
+{
+    new()
+    {
+        Id = 1,
+            Vectors = new float[]
+            {
+                0.05f, 0.61f, 0.76f, 0.74f
+            },
+            Payload = {
+                ["city"] = "Berlin"
+            }
+    },
+    new()
+    {
+        Id = 2,
+            Vectors = new float[]
+            {
+                0.19f, 0.81f, 0.75f, 0.11f
+            },
+            Payload = {
+                ["city"] = "London"
+            }
+    },
+    new()
+    {
+        Id = 3,
+            Vectors = new float[]
+            {
+                0.36f, 0.55f, 0.47f, 0.94f
+            },
+            Payload = {
+                ["city"] = "Moscow"
+            }
+    },
+    // Truncated
+});
 
 Console.WriteLine(operationInfo);
 ```
@@ -339,12 +351,10 @@ System.out.println(searchResult);
 ```
 
 ```csharp
-var searchResult = await client.SearchAsync(
- collectionName: "test_collection",
- vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
- limit: 3,
- payloadSelector: true
-);
+var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
+{
+    0.2f, 0.1f, 0.9f, 0.7f
+}, limit: 3, payloadSelector: true);
 
 Console.WriteLine(searchResult);
 ```
@@ -451,13 +461,10 @@ System.out.println(searchResult);
 ```csharp
 using static Qdrant.Client.Grpc.Conditions;
 
-var searchResult = await client.SearchAsync(
- collectionName: "test_collection",
- vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
- filter: MatchKeyword("city", "London"),
- limit: 3,
- payloadSelector: true
-);  
+var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
+{
+	0.2f, 0.1f, 0.9f, 0.7f
+}, filter: MatchKeyword("city", "London"), limit: 3, payloadSelector: true);
 
 Console.WriteLine(searchResult);
 ```
