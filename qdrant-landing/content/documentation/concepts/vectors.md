@@ -127,29 +127,22 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    Qdrant,
-    qdrant::{
-        CreateCollectionBuilder,
-        SparseVectorsConfigBuilder,
-        SparseVectorParamsBuilder,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, SparseVectorParamsBuilder, SparseVectorsConfigBuilder,
 };
 
+use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let mut sparse_vectors_config = SparseVectorsConfigBuilder::default();
 
-sparse_vectors_config.add_named_vector_params(
-    "text",
-    SparseVectorParamsBuilder::default()
-);
+sparse_vectors_config.add_named_vector_params("text", SparseVectorParamsBuilder::default());
 
 client
     .create_collection(
-        CreateCollectionBuilder::new(collection_name)
-            .sparse_vectors_config(sparse_vectors_config)
+        CreateCollectionBuilder::new("{collection_name}")
+            .sparse_vectors_config(sparse_vectors_config),
     )
     .await?;
 ```
@@ -248,35 +241,24 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{
-    PointStruct,
-    UpsertPointsBuilder,
-    NamedVectors,
-    Vector,
-};
-use qdrant_client::{Qdrant, Payload};
+use qdrant_client::qdrant::{NamedVectors, PointStruct, UpsertPointsBuilder, Vector};
 
+use qdrant_client::{Payload, Qdrant};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-let points = vec![
-    PointStruct::new(
-        129,
-        NamedVectors::default().add_vector(
-            "text",
-            Vector::new_sparse(
-                vec![1, 3, 5, 7],
-                vec![0.1, 0.2, 0.3, 0.4]
-            )
-        ),
-        Payload::new()
-    )
-];
+let points = vec![PointStruct::new(
+    129,
+    NamedVectors::default().add_vector(
+        "text",
+        Vector::new_sparse(vec![1, 3, 5, 7], vec![0.1, 0.2, 0.3, 0.4]),
+    ),
+    Payload::new(),
+)];
 
 client
-    .upsert_points(
-        UpsertPointsBuilder::new("{collection_name}", points)
-    ).await?;
+    .upsert_points(UpsertPointsBuilder::new("{collection_name}", points))
+    .await?;
 ```
 
 ```java
@@ -879,28 +861,19 @@ client.createCollection("{collection_name}", {
 
 ```rust
 use qdrant_client::qdrant::{
-    VectorsConfigBuilder,
-    Distance,
-    VectorParamsBuilder
+    CreateCollectionBuilder, Distance, VectorParamsBuilder, VectorsConfigBuilder,
 };
+use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let mut vector_config = VectorsConfigBuilder::default();
-
-vector_config.add_named_vector_params(
-    "text",
-    VectorParamsBuilder::new(4, Distance::Dot),
-);
-vector_config.add_named_vector_params(
-    "image",
-    VectorParamsBuilder::new(8, Distance::Cosine),
-);
+vector_config.add_named_vector_params("text", VectorParamsBuilder::new(4, Distance::Dot));
+vector_config.add_named_vector_params("image", VectorParamsBuilder::new(8, Distance::Cosine));
 
 client
     .create_collection(
-        CreateCollectionBuilder::new("{collection_name}")
-            .vectors_config(vector_config)
+        CreateCollectionBuilder::new("{collection_name}").vectors_config(vector_config),
     )
     .await?;
 ```
@@ -1049,30 +1022,24 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder,
-    Distance,
-    SparseIndexConfigBuilder,
-    SparseVectorParamsBuilder,
-    VectorParamsBuilder,
-    Datatype,
+    CreateCollectionBuilder, Datatype, Distance, SparseIndexConfigBuilder, SparseVectorParamsBuilder, SparseVectorsConfigBuilder, VectorParamsBuilder
 };
+use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let mut sparse_vector_config = SparseVectorsConfigBuilder::default();
-
 sparse_vector_config.add_named_vector_params(
     "text",
     SparseVectorParamsBuilder::default()
         .index(SparseIndexConfigBuilder::default().datatype(Datatype::Float32)),
 );
-let create_collection = CreateCollectionBuilder::new(collection_name)
+
+let create_collection = CreateCollectionBuilder::new("{collection_name}")
     .sparse_vectors_config(sparse_vector_config)
     .vectors_config(
-        VectorParamsBuilder::new(128, Distance::Cosine)
-            .datatype(Datatype::Float16)
+        VectorParamsBuilder::new(128, Distance::Cosine).datatype(Datatype::Float16),
     );
 
 client.create_collection(create_collection).await?;
@@ -1220,15 +1187,12 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-
 use qdrant_client::qdrant::{
-    CreateCollectionBuilder,
-    Distance,
-    SparseIndexConfigBuilder,
-    SparseVectorParamsBuilder,
-    VectorParamsBuilder,
-    Datatype,
+    CreateCollectionBuilder, Datatype, Distance, SparseIndexConfigBuilder,
+    SparseVectorParamsBuilder, SparseVectorsConfigBuilder, VectorParamsBuilder,
 };
+
+use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
@@ -1239,7 +1203,7 @@ sparse_vector_config.add_named_vector_params(
     SparseVectorParamsBuilder::default()
         .index(SparseIndexConfigBuilder::default().datatype(Datatype::Uint8)),
 );
-let create_collection = CreateCollectionBuilder::new(collection_name)
+let create_collection = CreateCollectionBuilder::new("{collection_name}")
     .sparse_vectors_config(sparse_vector_config)
     .vectors_config(
         VectorParamsBuilder::new(128, Distance::Cosine)

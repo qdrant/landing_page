@@ -96,25 +96,22 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::PointStruct};
-use serde_json::json;
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .upsert_points_blocking(
-        "{collection_name}".to_string(),
-        None,
-        vec![PointStruct::new(
-            "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
-            vec![0.05, 0.61, 0.76, 0.74],
-            json!(
-                {"color": "Red"}
-            )
-            .try_into()
-            .unwrap(),
-        )],
-        None,
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![PointStruct::new(
+                "5c56c793-69f3-4fbf-87e6-c4bf54c28c26",
+                vec![0.9, 0.1, 0.1],
+                [("color", "Red".into())],
+            )],
+        )
+        .wait(true),
     )
     .await?;
 ```
@@ -212,23 +209,22 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::PointStruct;
-use serde_json::json;
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .upsert_points_blocking(
-        1,
-        None,
-        vec![PointStruct::new(
-            "5c56c793-69f3-4fbf-87e6-c4bf54c28c26".to_string(),
-            vec![0.05, 0.61, 0.76, 0.74],
-            json!(
-                {"color": "Red"}
-            )
-            .try_into()
-            .unwrap(),
-        )],
-        None,
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![PointStruct::new(
+                1,
+                vec![0.9, 0.1, 0.1],
+                [("color", "Red".into())],
+            )],
+        )
+        .wait(true),
     )
     .await?;
 ```
@@ -442,44 +438,19 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::PointStruct;
-use serde_json::json;
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
 
 client
-    .upsert_points_batch_blocking(
-        "{collection_name}".to_string(),
-        None,
-        vec![
-            PointStruct::new(
-                1,
-                vec![0.9, 0.1, 0.1],
-                json!(
-                    {"color": "red"}
-                )
-                .try_into()
-                .unwrap(),
-            ),
-            PointStruct::new(
-                2,
-                vec![0.1, 0.9, 0.1],
-                json!(
-                    {"color": "green"}
-                )
-                .try_into()
-                .unwrap(),
-            ),
-            PointStruct::new(
-                3,
-                vec![0.1, 0.1, 0.9],
-                json!(
-                    {"color": "blue"}
-                )
-                .try_into()
-                .unwrap(),
-            ),
-        ],
-        None,
-        100,
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![
+                PointStruct::new(1, vec![0.9, 0.1, 0.1], [("city", "red".into())]),
+                PointStruct::new(2, vec![0.1, 0.9, 0.1], [("city", "green".into())]),
+                PointStruct::new(3, vec![0.1, 0.1, 0.9], [("city", "blue".into())]),
+            ],
+        )
+        .wait(true),
     )
     .await?;
 ```
@@ -694,38 +665,41 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::PointStruct;
 use std::collections::HashMap;
 
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::Payload;
+
 client
-    .upsert_points_blocking(
-        "{collection_name}".to_string(),
-        None,
-        vec![
-            PointStruct::new(
-                1,
-                HashMap::from([
-                    ("image".to_string(), vec![0.9, 0.1, 0.1, 0.2]),
-                    (
-                        "text".to_string(),
-                        vec![0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
-                    ),
-                ]),
-                HashMap::new().into(),
-            ),
-            PointStruct::new(
-                2,
-                HashMap::from([
-                    ("image".to_string(), vec![0.2, 0.1, 0.3, 0.9]),
-                    (
-                        "text".to_string(),
-                        vec![0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
-                    ),
-                ]),
-                HashMap::new().into(),
-            ),
-        ],
-        None,
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![
+                PointStruct::new(
+                    1,
+                    HashMap::from([
+                        ("image".to_string(), vec![0.9, 0.1, 0.1, 0.2]),
+                        (
+                            "text".to_string(),
+                            vec![0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+                        ),
+                    ]),
+                    Payload::default(),
+                ),
+                PointStruct::new(
+                    2,
+                    HashMap::from([
+                        ("image".to_string(), vec![0.2, 0.1, 0.3, 0.9]),
+                        (
+                            "text".to_string(),
+                            vec![0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+                        ),
+                    ]),
+                    Payload::default(),
+                ),
+            ],
+        )
+        .wait(true),
     )
     .await?;
 ```
@@ -926,39 +900,32 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{PointStruct, Vector};
 use std::collections::HashMap;
 
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder, Vector};
+use qdrant_client::Payload;
+
 client
-    .upsert_points_blocking(
-        "{collection_name}".to_string(),
-        vec![
-            PointStruct::new(
-                1,
-                HashMap::from([
-                    (
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![
+                PointStruct::new(
+                    1,
+                    HashMap::from([("text".to_string(), vec![(6, 1.0), (7, 2.0)])]),
+                    Payload::default(),
+                ),
+                PointStruct::new(
+                    2,
+                    HashMap::from([(
                         "text".to_string(),
-                        Vector::from(
-                            (vec![6, 7], vec![1.0, 2.0])
-                        ),
-                    ),
-                ]),
-                HashMap::new().into(),
-            ),
-            PointStruct::new(
-                2,
-                HashMap::from([
-                    (
-                        "text".to_string(),
-                        Vector::from(
-                            (vec![1, 2, 3, 4, 5], vec![0.1, 0.2, 0.3, 0.4, 0.5])
-                        ),
-                    ),
-                ]),
-                HashMap::new().into(),
-            ),
-        ],
-        None,
+                        vec![(1, 0.1), (2, 0.2), (3, 0.3), (4, 0.4), (5, 0.5)],
+                    )]),
+                    Payload::default(),
+                ),
+            ],
+        )
+        .wait(true),
     )
     .await?;
 ```
@@ -1109,32 +1076,36 @@ client.updateVectors("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::PointVectors;
 use std::collections::HashMap;
 
+use qdrant_client::qdrant::{
+    PointVectors, UpdatePointVectorsBuilder,
+};
+
 client
-    .update_vectors_blocking(
-        "{collection_name}",
-        None,
-        &[
-            PointVectors {
-                id: Some(1.into()),
-                vectors: Some(
-                    HashMap::from([("image".to_string(), vec![0.1, 0.2, 0.3, 0.4])]).into(),
-                ),
-            },
-            PointVectors {
-                id: Some(2.into()),
-                vectors: Some(
-                    HashMap::from([(
-                        "text".to_string(),
-                        vec![0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2],
-                    )])
-                    .into(),
-                ),
-            },
-        ],
-        None,
+    .update_vectors(
+        UpdatePointVectorsBuilder::new(
+            "{collection_name}",
+            vec![
+                PointVectors {
+                    id: Some(1.into()),
+                    vectors: Some(
+                        HashMap::from([("image".to_string(), vec![0.1, 0.2, 0.3, 0.4])]).into(),
+                    ),
+                },
+                PointVectors {
+                    id: Some(2.into()),
+                    vectors: Some(
+                        HashMap::from([(
+                            "text".to_string(),
+                            vec![0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2],
+                        )])
+                        .into(),
+                    ),
+                },
+            ],
+        )
+        .wait(true),
     )
     .await?;
 ```
@@ -1222,22 +1193,17 @@ client.deleteVectors("{collection_name}", {
 
 ```rust
 use qdrant_client::qdrant::{
-    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector, VectorsSelector,
+    DeletePointVectorsBuilder, PointsIdsList,
 };
 
 client
-    .delete_vectors_blocking(
-        "{collection_name}",
-        None,
-        &PointsSelector {
-            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+    .delete_vectors(
+        DeletePointVectorsBuilder::new("{collection_name}")
+            .points_selector(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 10.into()],
-            })),
-        },
-        &VectorsSelector {
-            names: vec!["text".into(), "image".into()],
-        },
-        None,
+            })
+            .vectors(vec!["text".into(), "image".into()])
+            .wait(true),
     )
     .await?;
 ```
@@ -1286,20 +1252,15 @@ client.delete("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{
-    points_selector::PointsSelectorOneOf, PointsIdsList, PointsSelector,
-};
+use qdrant_client::qdrant::{DeletePointsBuilder, PointsIdsList};
 
 client
-    .delete_points_blocking(
-        "{collection_name}",
-        None,
-        &PointsSelector {
-            points_selector_one_of: Some(PointsSelectorOneOf::Points(PointsIdsList {
+    .delete_points(
+        DeletePointsBuilder::new("{collection_name}")
+            .points(PointsIdsList {
                 ids: vec![0.into(), 3.into(), 100.into()],
-            })),
-        },
-        None,
+            })
+            .wait(true),
     )
     .await?;
 ```
@@ -1370,20 +1331,16 @@ client.delete("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{
-    points_selector::PointsSelectorOneOf, Condition, Filter, PointsSelector,
-};
+use qdrant_client::qdrant::{Condition, DeletePointsBuilder, Filter};
 
 client
-    .delete_points_blocking(
-        "{collection_name}",
-        None,
-        &PointsSelector {
-            points_selector_one_of: Some(PointsSelectorOneOf::Filter(Filter::must([
-                Condition::matches("color", "red".to_string()),
-            ]))),
-        },
-        None,
+    .delete_points(
+        DeletePointsBuilder::new("{collection_name}")
+            .points(Filter::must([Condition::matches(
+                "color",
+                "red".to_string(),
+            )]))
+            .wait(true),
     )
     .await?;
 ```
@@ -1438,15 +1395,13 @@ client.retrieve("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::GetPointsBuilder;
+
 client
-    .get_points(
+    .get_points(GetPointsBuilder::new(
         "{collection_name}",
-        None,
-        &[0.into(), 30.into(), 100.into()],
-        Some(false),
-        Some(false),
-        None,
-    )
+        vec![0.into(), 30.into(), 100.into()],
+    ))
     .await?;
 ```
 
@@ -1550,20 +1505,19 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([Condition::matches(
-            "color",
-            "red".to_string(),
-        )])),
-        limit: Some(1),
-        with_payload: Some(true.into()),
-        with_vectors: Some(false.into()),
-        ..Default::default()
-    })
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}")
+            .filter(Filter::must([Condition::matches(
+                "color",
+                "red".to_string(),
+            )]))
+            .limit(1)
+            .with_payload(true)
+            .with_vectors(false),
+    )
     .await?;
 ```
 
@@ -1657,18 +1611,14 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints, OrderBy};
+use qdrant_client::qdrant::{OrderByBuilder, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        limit: Some(15),
-        order_by: Some(OrderBy {
-            key: "timestamp".to_string(),  // <-- this!
-            ..Default::default(),
-        }),
-        ..Default::default()
-    })
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}")
+            .limit(15)
+            .order_by(OrderByBuilder::new("timestamp")),
+    )
     .await?;
 ```
 
@@ -1714,13 +1664,12 @@ order_by: {
 ```
 
 ```rust
-order_by: Some(OrderBy {
-    key: "timestamp".to_string(),
-    direction: Some(Direction::Desc as i32), // default is Direction::Asc
-    start_from: Some(StartFrom {
-        value: Some(Value::Integer(123)),
-    }),
-});
+use qdrant_client::qdrant::{start_from::Value, Direction, OrderByBuilder};
+
+OrderByBuilder::new("timestamp")
+    .direction(Direction::Desc.into())
+    .start_from(Value::Integer(123))
+    .build();
 ```
 
 ```java
@@ -1812,18 +1761,17 @@ client.count("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, CountPoints, Filter};
+use qdrant_client::qdrant::{Condition, CountPointsBuilder, Filter};
 
 client
-    .count(&CountPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([Condition::matches(
-            "color",
-            "red".to_string(),
-        )])),
-        exact: Some(true),
-        ..Default::default()
-    })
+    .count(
+        CountPointsBuilder::new("{collection_name}")
+            .filter(Filter::must([Condition::matches(
+                "color",
+                "red".to_string(),
+            )]))
+            .exact(true),
+    )
     .await?;
 ```
 
@@ -2071,122 +2019,86 @@ client.batchUpdate("{collection_name}", {
 use std::collections::HashMap;
 
 use qdrant_client::qdrant::{
-    points_selector::PointsSelectorOneOf,
     points_update_operation::{
-        ClearPayload, DeletePayload, DeletePoints, DeleteVectors, Operation, PointStructList,
-        SetPayload, UpdateVectors,
+        ClearPayload, DeletePayload, DeletePoints, DeleteVectors, Operation, OverwritePayload,
+        PointStructList, SetPayload, UpdateVectors,
     },
-    PointStruct, PointVectors, PointsIdsList, PointsSelector, PointsUpdateOperation,
-    VectorsSelector,
+    PointStruct, PointVectors, PointsUpdateOperation, UpdateBatchPointsBuilder, VectorsSelector,
 };
-use serde_json::json;
+use qdrant_client::Payload;
 
 client
-    .batch_updates_blocking(
-        "{collection_name}",
-        &[
-            PointsUpdateOperation {
-                operation: Some(Operation::Upsert(PointStructList {
-                    points: vec![PointStruct::new(
-                        1,
-                        vec![1.0, 2.0, 3.0, 4.0],
-                        json!({}).try_into().unwrap(),
-                    )],
-                    ..Default::default()
-                })),
-            },
-            PointsUpdateOperation {
-                operation: Some(Operation::UpdateVectors(UpdateVectors {
-                    points: vec![PointVectors {
-                        id: Some(1.into()),
-                        vectors: Some(vec![1.0, 2.0, 3.0, 4.0].into()),
-                    }],
-                    ..Default::default()
-                })),
-            },
-            PointsUpdateOperation {
-                operation: Some(Operation::DeleteVectors(DeleteVectors {
-                    points_selector: Some(PointsSelector {
-                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
-                            PointsIdsList {
-                                ids: vec![1.into()],
-                            },
-                        )),
-                    }),
-                    vectors: Some(VectorsSelector {
-                        names: vec!["".into()],
-                    }),
-                    ..Default::default()
-                })),
-            },
-            PointsUpdateOperation {
-                operation: Some(Operation::OverwritePayload(SetPayload {
-                    points_selector: Some(PointsSelector {
-                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
-                            PointsIdsList {
-                                ids: vec![1.into()],
-                            },
-                        )),
-                    }),
-                    payload: HashMap::from([("test_payload".to_string(), 1.into())]),
-                    ..Default::default()
-                })),
-            },
-            PointsUpdateOperation {
-                operation: Some(Operation::SetPayload(SetPayload {
-                    points_selector: Some(PointsSelector {
-                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
-                            PointsIdsList {
-                                ids: vec![1.into()],
-                            },
-                        )),
-                    }),
-                    payload: HashMap::from([
-                        ("test_payload_2".to_string(), 2.into()),
-                        ("test_payload_3".to_string(), 3.into()),
-                    ]),
-                    ..Default::default()
-                })),
-            },
-            PointsUpdateOperation {
-                operation: Some(Operation::DeletePayload(DeletePayload {
-                    points_selector: Some(PointsSelector {
-                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
-                            PointsIdsList {
-                                ids: vec![1.into()],
-                            },
-                        )),
-                    }),
-                    keys: vec!["test_payload_2".to_string()],
-                    ..Default::default()
-                })),
-            },
-            PointsUpdateOperation {
-                operation: Some(Operation::ClearPayload(ClearPayload {
-                    points: Some(PointsSelector {
-                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
-                            PointsIdsList {
-                                ids: vec![1.into()],
-                            },
-                        )),
-                    }),
-                    ..Default::default()
-                })),
-            },
-            PointsUpdateOperation {
-                operation: Some(Operation::DeletePoints(DeletePoints {
-                    points: Some(PointsSelector {
-                        points_selector_one_of: Some(PointsSelectorOneOf::Points(
-                            PointsIdsList {
-                                ids: vec![1.into()],
-                            },
-                        )),
-                    }),
-                    ..Default::default()
-                })),
-            },
-        ],
-        None,
+    .update_points_batch(
+        UpdateBatchPointsBuilder::new(
+            "{collection_name}",
+            vec![
+                PointsUpdateOperation {
+                    operation: Some(Operation::Upsert(PointStructList {
+                        points: vec![PointStruct::new(
+                            1,
+                            vec![1.0, 2.0, 3.0, 4.0],
+                            Payload::default(),
+                        )],
+                        ..Default::default()
+                    })),
+                },
+                PointsUpdateOperation {
+                    operation: Some(Operation::UpdateVectors(UpdateVectors {
+                        points: vec![PointVectors {
+                            id: Some(1.into()),
+                            vectors: Some(vec![1.0, 2.0, 3.0, 4.0].into()),
+                        }],
+                        ..Default::default()
+                    })),
+                },
+                PointsUpdateOperation {
+                    operation: Some(Operation::DeleteVectors(DeleteVectors {
+                        points_selector: Some(vec![1.into()].into()),
+                        vectors: Some(VectorsSelector {
+                            names: vec!["".into()],
+                        }),
+                        ..Default::default()
+                    })),
+                },
+                PointsUpdateOperation {
+                    operation: Some(Operation::OverwritePayload(OverwritePayload {
+                        points_selector: Some(vec![1.into()].into()),
+                        payload: HashMap::from([("test_payload".to_string(), 1.into())]),
+                        ..Default::default()
+                    })),
+                },
+                PointsUpdateOperation {
+                    operation: Some(Operation::SetPayload(SetPayload {
+                        points_selector: Some(vec![1.into()].into()),
+                        payload: HashMap::from([
+                            ("test_payload_2".to_string(), 2.into()),
+                            ("test_payload_3".to_string(), 3.into()),
+                        ]),
+                        ..Default::default()
+                    })),
+                },
+                PointsUpdateOperation {
+                    operation: Some(Operation::DeletePayload(DeletePayload {
+                        points_selector: Some(vec![1.into()].into()),
+                        keys: vec!["test_payload_2".to_string()],
+                        ..Default::default()
+                    })),
+                },
+                PointsUpdateOperation {
+                    operation: Some(Operation::ClearPayload(ClearPayload {
+                        points: Some(vec![1.into()].into()),
+                        ..Default::default()
+                    })),
+                },
+                PointsUpdateOperation {
+                    operation: Some(Operation::DeletePoints(DeletePoints {
+                        points: Some(vec![1.into()].into()),
+                        ..Default::default()
+                    })),
+                },
+            ],
+        )
+        .wait(true),
     )
     .await?;
 ```

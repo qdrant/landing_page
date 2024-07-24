@@ -95,22 +95,18 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, ScrollPoints},
-};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must([
             Condition::matches("city", "london".to_string()),
             Condition::matches("color", "red".to_string()),
         ])),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -214,17 +210,18 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::should([
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::should([
             Condition::matches("city", "london".to_string()),
             Condition::matches("color", "red".to_string()),
         ])),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -321,17 +318,18 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must_not([
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must_not([
             Condition::matches("city", "london".to_string()),
             Condition::matches("color", "red".to_string()),
         ])),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -433,18 +431,16 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter {
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter {
             must: vec![Condition::matches("city", "London".to_string())],
             must_not: vec![Condition::matches("color", "red".to_string())],
             ..Default::default()
         }),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -550,18 +546,18 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must_not([Filter::must([
-            Condition::matches("city", "London".to_string()),
-            Condition::matches("color", "red".to_string()),
-        ])
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must_not([Filter::must(
+            [
+                Condition::matches("city", "London".to_string()),
+                Condition::matches("color", "red".to_string()),
+            ],
+        )
         .into()])),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -798,6 +794,8 @@ models.FieldCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::r#match::MatchValue;
+
 Condition::matches(
     "color",
     !MatchValue::from(vec!["black".to_string(), "yellow".to_string()]),
@@ -916,17 +914,14 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::should([Condition::matches(
-            "country.name",
-            "Germany".to_string(),
-        )])),
-        ..Default::default()
-    })
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::should([
+            Condition::matches("country.name", "Germany".to_string()),
+        ])),
+    )
     .await?;
 ```
 
@@ -1014,20 +1009,20 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, Range, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, Range, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::should([Condition::range(
-            "country.cities[].population",
-            Range {
-                gte: Some(9.0),
-                ..Default::default()
-            },
-        )])),
-        ..Default::default()
-    })
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::should([
+            Condition::range(
+                "country.cities[].population",
+                Range {
+                    gte: Some(9.0),
+                    ..Default::default()
+                },
+            ),
+        ])),
+    )
     .await?;
 ```
 
@@ -1113,17 +1108,14 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::should([Condition::matches(
-            "country.cities[].sightseeing",
-            "Osaka Castle".to_string(),
-        )])),
-        ..Default::default()
-    })
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::should([
+            Condition::matches("country.cities[].sightseeing", "Osaka Castle".to_string()),
+        ])),
+    )
     .await?;
 ```
 
@@ -1246,17 +1238,15 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must([
             Condition::matches("diet[].food", "meat".to_string()),
             Condition::matches("diet[].likes", true),
         ])),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -1393,12 +1383,11 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([NestedCondition {
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must([NestedCondition {
             key: "diet".to_string(),
             filter: Some(Filter::must([
                 Condition::matches("food", "meat".to_string()),
@@ -1406,8 +1395,7 @@ client
             ])),
         }
         .into()])),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -1553,12 +1541,11 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPointsBuilder};
 
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must([
             NestedCondition {
                 key: "diet".to_string(),
                 filter: Some(Filter::must([
@@ -1569,8 +1556,7 @@ client
             .into(),
             Condition::has_id([1]),
         ])),
-        ..Default::default()
-    })
+    )
     .await?;
 ```
 
@@ -1655,9 +1641,9 @@ models.FieldCondition(
 ```
 
 ```rust
-// If the match string contains a white-space, full text match is performed.
-// Otherwise a keyword match is performed.
-Condition::matches("description", "good cheap".to_string())
+use qdrant_client::qdrant::Condition;
+
+Condition::matches_text("description", "good cheap")
 ```
 
 ```java
@@ -1713,6 +1699,8 @@ models.FieldCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Range};
+
 Condition::range(
     "price",
     Range {
@@ -1794,6 +1782,8 @@ models.FieldCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, DatetimeRange, Timestamp};
+
 Condition::datetime_range(
     "date",
     DatetimeRange {
@@ -1885,6 +1875,8 @@ models.FieldCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, GeoBoundingBox, GeoPoint};
+
 Condition::geo_bounding_box(
     "location",
     GeoBoundingBox {
@@ -1956,6 +1948,8 @@ models.FieldCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, GeoPoint, GeoRadius};
+
 Condition::geo_radius(
     "location",
     GeoRadius {
@@ -2136,6 +2130,8 @@ models.FieldCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, GeoLineString, GeoPoint, GeoPolygon};
+
 Condition::geo_polygon(
     "location",
     GeoPolygon {
@@ -2294,6 +2290,8 @@ models.FieldCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, ValuesCount};
+
 Condition::values_count(
     "comments",
     ValuesCount {
@@ -2354,6 +2352,8 @@ models.IsEmptyCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::Condition;
+
 Condition::is_empty("reports")
 ```
 
@@ -2402,6 +2402,8 @@ models.IsNullCondition(
 ```
 
 ```rust
+use qdrant_client::qdrant::Condition;
+
 Condition::is_null("reports")
 ```
 
@@ -2462,14 +2464,16 @@ client.scroll("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, ScrollPoints};
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
+use qdrant_client::Qdrant;
 
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+    
 client
-    .scroll(&ScrollPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([Condition::has_id([1, 3, 5, 7, 9, 11])])),
-        ..Default::default()
-    })
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}")
+            .filter(Filter::must([Condition::has_id([1, 3, 5, 7, 9, 11])])),
+    )
     .await?;
 ```
 

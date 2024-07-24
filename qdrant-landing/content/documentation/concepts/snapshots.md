@@ -42,9 +42,9 @@ client.createSnapshot("{collection_name}");
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.create_snapshot("{collection_name}").await?;
 ```
@@ -96,11 +96,17 @@ client.deleteSnapshot("{collection_name}", "{snapshot_name}");
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::qdrant::DeleteSnapshotRequestBuilder;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-client.delete_snapshot("{collection_name}", "{snapshot_name}").await?;
+client
+    .delete_snapshot(DeleteSnapshotRequestBuilder::new(
+        "{collection_name}",
+        "{snapshot_name}",
+    ))
+    .await?;
 ```
 
 ```java
@@ -146,9 +152,9 @@ client.listSnapshots("{collection_name}");
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.list_snapshots("{collection_name}").await?;
 ```
@@ -364,9 +370,9 @@ client.createFullSnapshot();
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.create_full_snapshot().await?;
 ```
@@ -414,9 +420,9 @@ client.deleteFullSnapshot("{snapshot_name}");
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.delete_full_snapshot("{snapshot_name}").await?;
 ```
@@ -462,9 +468,9 @@ client.listFullSnapshots();
 ```
 
 ```rust
-use qdrant_client::client::QdrantClient;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.list_full_snapshots().await?;
 ```
