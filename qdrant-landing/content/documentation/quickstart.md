@@ -354,27 +354,27 @@ Console.WriteLine(searchResult);
 ```json
 [
   {
-    id: 4,
-    version: 0,
-    score: 1.362,
-    payload: null,
-    vector: null,
+    "id": 4,
+    "version": 0,
+    "score": 1.362,
+    "payload": null,
+    "vector": null
   },
   {
-    id: 1,
-    version: 0,
-    score: 1.273,
-    payload: null,
-    vector: null,
+    "id": 1,
+    "version": 0,
+    "score": 1.273,
+    "payload": null,
+    "vector": null
   },
   {
-    id: 3,
-    version: 0,
-    score: 1.208,
-    payload: null,
-    vector: null,
-  },
-];
+    "id": 3,
+    "version": 0,
+    "score": 1.208,
+    "payload": null,
+    "vector": null
+  }
+]
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
@@ -466,14 +466,16 @@ Console.WriteLine(searchResult);
 
 ```json
 [
-  {
-    id: 2,
-    version: 0,
-    score: 0.871,
-    payload: { city: "London" },
-    vector: null,
-  },
-];
+    {
+        "id": 2,
+        "version": 0,
+        "score": 0.871,
+        "payload": {
+            "city": "London"
+        },
+        "vector": null
+    }
+]
 ```
 
 <aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="../concepts/indexing/#payload-index">payload indexes</a>!</aside>
