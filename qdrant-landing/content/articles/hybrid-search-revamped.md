@@ -10,32 +10,32 @@ author_link: https://kacperlukawski.com
 date: 2024-07-21T14:24:00.000Z
 ---
 
-It's been more than a year since we published the [original article](/articles/hybrid-search) about building a hybrid 
+It's been over a year since we published the [original article](/articles/hybrid-search/) 
 search system with Qdrant. The idea was straightforward: combine the results from different search methods to improve 
-the search quality. Back in 2023, you were still expected to use an additional service to bring the lexical search 
-capabilities and combine all the intermediate results. Things have changed since then. Once we introduced the support of 
-the sparse vectors, [the additional search service became obsolete](/articles/sparse-vectors/), but you were still 
-required to combine the results from different methods on your side.
+retrieval quality. Back in 2023, you still needed to use an additional service to bring lexical search 
+capabilities and combine all the intermediate results. Things have changed since then. Once we introduced support for
+sparse vectors, [the additional search service became obsolete](/articles/sparse-vectors/), but you were still 
+required to combine the results from different methods on your end.
 
-**Qdrant 1.10 introduces a new Query API that allows you to build a search system that combines different search methods 
-to improve search quality**. Everything is now done on the server side, and you can focus on building the best search 
+**Qdrant 1.10 introduces a new Query API that lets you build a search system by combining different search methods 
+to improve retrieval quality**. Everything is now done on the server side, and you can focus on building the best search 
 experience for your users. In this article, we will show you how to utilize the new [Query 
 API](/documentation/concepts/search/#query-api) to build a hybrid search system.
 
 ## Introduction to the new Query API
 
-At Qdrant, we believe that vector search capabilities go well beyond the simple search for the nearest neighbors.
+At Qdrant, we believe that vector search capabilities go well beyond a simple search for nearest neighbors.
 That's why we provided separate methods for different search use cases, such as `search`, `recommend`, or `discover`.
 With the latest release, we are happy to introduce the new Query API, which combines all of these methods into a single 
 endpoint and also supports creating nested multistage queries that can be used to build complex search pipelines.
 
-If you are an existing Qdrant user, you probably have a running search mechanism that you want to improve, either sparse 
+If you are an existing Qdrant user, you probably have a running search mechanism that you want to improve, whether sparse 
 or dense. Your system will act as a baseline for further experiments, so you have a reference point to compare the new
 search methods with.
 
 ### Available embedding options
 
-Support of the multiple vectors per point is nothing new in Qdrant, but introducing the Query API makes it even
+Support for multiple vectors per point is nothing new in Qdrant, but introducing the Query API makes it even
 more powerful. The 1.10 release brings support for the multivectors, which allows you to treat lists of embeddings 
 as a single entity. There are many possible ways of utilizing this feature, and the most prominent one is the support
 for late interaction models, such as ColBERT. Instead of having a single embedding for each document or query, this
@@ -47,8 +47,8 @@ AI](https://jina.ai/news/what-is-colbert-and-late-interaction-and-why-they-matte
 
 ![Late interaction](/articles_data/hybrid-search-revamped/late-interaction.png)
 
-Except for the multivectors, you can of course use the standard dense and sparse vectors, play with data types to reduce
-the use of memory. Named vectors help you to store different dimensionality of the embeddings, which is useful if you 
+Besides multivectors, you can use regular dense and sparse vectors, and experiment with smaller data types to reduce
+the use of memory. Named vectors can help you store different dimensionality's of the embeddings, which is useful if you 
 use multiple models to represent your data, or want to utilize the Matryoshka embeddings.
 
 ![Multiple vectors per point](/articles_data/hybrid-search-revamped/multiple-vectors.png)
@@ -111,9 +111,9 @@ with oversampling the candidates with the dense vectors of the lowest dimensiona
 number of candidates by reranking them with the higher-dimensional embeddings. Actually, nothing stops you from 
 combining both fusion and reranking. 
 
-Assume we would like to go really sophisticated and build a hybrid search mechanism that combines the results from the 
+Let's go a step further and build a hybrid search mechanism that combines the results from the 
 Matryoshka embeddings, dense vectors, and sparse vectors and then reranks them with the late interaction model. In the 
-meantime, some additional reranking and fusion steps will also be done.
+meantime, we will introduce additional reranking and fusion steps.
 
 ![Complex search pipeline](/articles_data/hybrid-search-revamped/complex-search-pipeline.png)
 
@@ -223,7 +223,7 @@ and serve them directly from Qdrant.
 
 Our webinar on *Building the Ultimate Hybrid Search* takes you through the process of building a hybrid search system 
 with Qdrant Query API. If you missed it, you can [watch the recording](https://www.youtube.com/watch?v=LAZOxqzceEU), or 
-[check the notebooks](https://github.com/qdrant/workshop-ultimate-hybrid-search), if you prefer it that way.
+[check the notebooks](https://github.com/qdrant/workshop-ultimate-hybrid-search).
 
 <div style="max-width: 640px; margin: 0 auto; padding-bottom: 1em"> <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/LAZOxqzceEU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> </div> </div>
 
