@@ -117,85 +117,108 @@ meantime, we will introduce additional reranking and fusion steps.
 
 ![Complex search pipeline](/articles_data/hybrid-search-revamped/complex-search-pipeline.png)
 
-Here is how a corresponding query would look like in Python:
-
+Our search pipeline consists of two branches, each of them responsible for retrieving a subset of documents that
+we eventually want to rerank with the late interaction model. Let's connect to Qdrant first and then build the search
+pipeline.
 
 ```python
 from qdrant_client import QdrantClient, models
 
 client = QdrantClient("http://localhost:6333")
+```
+
+All the steps utilizing Matryoshka embeddings might be specified in the Query API as a nested structure:
+
+```python
+# The first branch of our search pipeline retrieves 25 documents
+# using the Matryoshka embeddings with multistep retrieval.
+matryoshka_prefetch = models.Prefetch(
+    prefetch=[
+        models.Prefetch(
+            prefetch=[
+                # The first prefetch operation retrieves 100 documents
+                # using the Matryoshka embeddings with the lowest
+                # dimensionality of 64.
+                models.Prefetch(
+                    query=[0.456, -0.789, ..., 0.239],
+                    using="matryoshka-64dim",
+                    limit=100,
+                ),
+            ],
+            # Then, the retrieved documents are re-ranked using the
+            # Matryoshka embeddings with the dimensionality of 128.
+            query=[0.456, -0.789, ..., -0.789],
+            using="matryoshka-128dim",
+            limit=50,
+        )
+    ],
+    # Finally, the results are re-ranked using the Matryoshka
+    # embeddings with the dimensionality of 256.
+    query=[0.456, -0.789, ..., 0.123],
+    using="matryoshka-256dim",
+    limit=25,
+)
+```
+
+Similarly, we can build the second branch of our search pipeline, which retrieves the documents using the dense and
+sparse vectors and performs the fusion of them using the Reciprocal Rank Fusion method:
+
+```python
+# The second branch of our search pipeline also retrieves 25 documents,
+# but uses the dense and sparse vectors, with their results combined
+# using the Reciprocal Rank Fusion.
+sparse_dense_rrf_prefetch = models.Prefetch(
+    prefetch=[
+        models.Prefetch(
+            prefetch=[
+                # The first prefetch operation retrieves 100 documents
+                # using dense vectors using integer data type. Retrieval
+                # is faster, but quality is lower.
+                models.Prefetch(
+                    query=[7, 63, ..., 92],
+                    using="dense-uint8",
+                    limit=100,
+                )
+            ],
+            # Integer-based embeddings are then re-ranked using the
+            # float-based embeddings. Here we just want to retrieve
+            # 25 documents.
+            query=[-1.234, 0.762, ..., 1.532],
+            using="dense",
+            limit=25,
+        ),
+        # Here we just add another 25 documents using the sparse
+        # vectors only.
+        models.Prefetch(
+            query=models.SparseVector(
+                indices=[125, 9325, 58214],
+                values=[-0.164, 0.229, 0.731],
+            ),
+            using="sparse",
+            limit=25,
+        ),
+    ],
+    # RRF is activated below, so there is no need to specify the
+    # query vector here, as fusion is done on the scores of the
+    # retrieved documents.
+    query=models.FusionQuery(
+        fusion=models.Fusion.RRF,
+    ),
+)
+```
+
+The second branch could have already been called hybrid, as it combines the results from the dense and sparse vectors
+with fusion. However, nothing stops us from building even more complex search pipelines.
+
+Here is how the target call to the Query API would look like in Python:
+
+
+```python
 client.query_points(
     "my-collection",
     prefetch=[
-        # The first branch of our search pipeline retrieves 25 documents
-        # using the Matryoshka embeddings with multistep retrieval.
-        models.Prefetch(
-            prefetch=[
-                models.Prefetch(
-                    prefetch=[
-                        # The first prefetch operation retrieves 100 documents
-                        # using the Matryoshka embeddings with the lowest
-                        # dimensionality of 64.
-                        models.Prefetch(
-                            query=[0.456, -0.789, ..., 0.239],
-                            using="matryoshka-64dim",
-                            limit=100,
-                        ),
-                    ],
-                    # Then, the retrieved documents are re-ranked using the
-                    # Matryoshka embeddings with the dimensionality of 128.
-                    query=[0.456, -0.789, ..., -0.789],
-                    using="matryoshka-128dim",
-                    limit=50,
-                )
-            ],
-            # Finally, the results are re-ranked using the Matryoshka
-            # embeddings with the dimensionality of 256.
-            query=[0.456, -0.789, ..., 0.123],
-            using="matryoshka-256dim",
-            limit=25,
-        ),
-        # The second branch of our search pipeline also retrieves 25 documents,
-        # but uses the dense and sparse vectors, with their results combined
-        # using the Reciprocal Rank Fusion.
-        models.Prefetch(
-            prefetch=[
-                models.Prefetch(
-                    prefetch=[
-                        # The first prefetch operation retrieves 100 documents
-                        # using dense vectors using integer data type. Retrieval
-                        # is faster, but quality is lower.
-                        models.Prefetch(
-                            query=[7, 63, ..., 92],
-                            using="dense-uint8",
-                            limit=100,
-                        )
-                    ],
-                    # Integer-based embeddings are then re-ranked using the
-                    # float-based embeddings. Here we just want to retrieve
-                    # 25 documents.
-                    query=[-1.234, 0.762, ..., 1.532],
-                    using="dense",
-                    limit=25,
-                ),
-                # Here we just add another 25 documents using the sparse
-                # vectors only.
-                models.Prefetch(
-                    query=models.SparseVector(
-                        indices=[125, 9325, 58214],
-                        values=[-0.164, 0.229, 0.731],
-                    ),
-                    using="sparse",
-                    limit=25,
-                ),
-            ],
-            # RRF is activated below, so there is no need to specify the
-            # query vector here, as fusion is done on the scores of the
-            # retrieved documents.
-            query=models.FusionQuery(
-                fusion=models.Fusion.RRF,
-            ),
-        )
+        matryoshka_prefetch,
+        sparse_dense_rrf_prefetch,
     ],
     # Finally rerank the results with the late interaction model. It only 
     # considers the documents retrieved by all the prefetch operations above. 
