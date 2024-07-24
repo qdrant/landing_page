@@ -57,18 +57,18 @@ client.createPayloadIndex("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::FieldType};
+use qdrant_client::qdrant::{CreateFieldIndexCollectionBuilder, FieldType};
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_field_index(
+    .create_field_index(CreateFieldIndexCollectionBuilder::new(
         "{collection_name}",
         "name_of_the_field_to_index",
         FieldType::Keyword,
-        None,
-        None,
-    )
+    ))
     .await?;
 ```
 
@@ -178,22 +178,22 @@ client.createPayloadIndex("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        payload_index_params::IndexParams, FieldType, PayloadIndexParams, TextIndexParams,
-        TokenizerType,
-    },
+use qdrant_client::qdrant::{
+    payload_index_params::IndexParams, CreateFieldIndexCollectionBuilder, FieldType,
+    PayloadIndexParams, TextIndexParams, TokenizerType,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
     .create_field_index(
-        "{collection_name}",
-        "name_of_the_field_to_index",
-        FieldType::Text,
-        Some(&PayloadIndexParams {
+        CreateFieldIndexCollectionBuilder::new(
+            "{collection_name}",
+            "name_of_the_field_to_index",
+            FieldType::Text,
+        )
+        .field_index_params(PayloadIndexParams {
             index_params: Some(IndexParams::TextIndexParams(TextIndexParams {
                 tokenizer: TokenizerType::Word as i32,
                 min_token_len: Some(2),
@@ -201,7 +201,6 @@ client
                 lowercase: Some(true),
             })),
         }),
-        None,
     )
     .await?;
 ```
@@ -348,28 +347,27 @@ client.createPayloadIndex("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        payload_index_params::IndexParams, FieldType, PayloadIndexParams,
-        IntegerIndexParams, TokenizerType,
-    },
+use qdrant_client::qdrant::{
+    payload_index_params::IndexParams, CreateFieldIndexCollectionBuilder, FieldType,
+    IntegerIndexParams, PayloadIndexParams,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
     .create_field_index(
-        "{collection_name}",
-        "name_of_the_field_to_index",
-        FieldType::Integer,
-        Some(&PayloadIndexParams {
+        CreateFieldIndexCollectionBuilder::new(
+            "{collection_name}",
+            "name_of_the_field_to_index",
+            FieldType::Integer,
+        )
+        .field_index_params(PayloadIndexParams {
             index_params: Some(IndexParams::IntegerIndexParams(IntegerIndexParams {
                 lookup: false,
                 range: true,
             })),
         }),
-        None,
     )
     .await?;
 ```
@@ -525,31 +523,29 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, SparseIndexConfigBuilder, SparseVectorParamsBuilder,
+    SparseVectorsConfigBuilder,
+};
+use qdrant_client::Qdrant;
 
-use qdrant_client::{client::QdrantClient, qdrant::collections::SparseVectorIndexConfig};
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let mut sparse_vectors_config = SparseVectorsConfigBuilder::default();
 
-client.create_collection(&CreateCollection {
-    collection_name: "{collection_name}".to_string(),
-    sparse_vectors_config: Some(SparseVectorConfig { 
-        map: [
-            (
-                "splade-model-name".to_string(), 
-                SparseVectorParams {
-                    index: Some(SparseIndexConfig {
-                        on_disk: false,
-                        ..Default::default()
-                    }),
-                    ..Default::default()
-                }
-            )
-        ].into_iter().collect()
-    }),
-    ..Default::default()
-}).await;
+sparse_vectors_config.add_named_vector_params(
+    "splade-model-name",
+    SparseVectorParamsBuilder::default()
+        .index(SparseIndexConfigBuilder::default().on_disk(true)),
+);
+
+client
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .sparse_vectors_config(sparse_vectors_config),
+    )
+    .await?;
 ```
-
 
 ```java
 import io.qdrant.client.QdrantClient;
@@ -658,30 +654,24 @@ client.createCollection("{collection_name}", {
 });
 ```
 
-
 ```rust
-use qdrant_client::qdrant::{ 
-    CreateCollectionBuilder, SparseVectorParamsBuilder,
-    Modifier, sparse_vectors_config::SparseVectorsConfigBuilder
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Modifier, SparseVectorParamsBuilder, SparseVectorsConfigBuilder,
 };
-use qdrant_client::qdrant::;
-use qdrant_client::Qdrant;
-
+use qdrant_client::{Qdrant, QdrantError};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let mut sparse_vectors_config = SparseVectorsConfigBuilder::default();
-
 sparse_vectors_config.add_named_vector_params(
     "text",
-    SparseVectorParamsBuilder::default()
-        .modifier(Modifier::Idf),
+    SparseVectorParamsBuilder::default().modifier(Modifier::Idf),
 );
 
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .sparse_vectors_config(sparse_vectors_config)
+            .sparse_vectors_config(sparse_vectors_config),
     )
     .await?;
 ```

@@ -83,28 +83,26 @@ client.recommend("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, RecommendPoints, RecommendStrategy},
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{
+    Condition, Filter, RecommendPointsBuilder, RecommendStrategy,
 };
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
-
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+    
 client
-    .recommend(&RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![100.into(), 200.into()],
-        positive_vectors: vec![vec![100.0, 231.0].into()],
-        negative: vec![718.into()],
-        negative_vectors: vec![vec![0.2, 0.3, 0.4, 0.5].into()],
-        strategy: Some(RecommendStrategy::AverageVector.into()),
-        filter: Some(Filter::must([Condition::matches(
-            "city",
-            "London".to_string(),
-        )])),
-        limit: 3,
-        ..Default::default()
-    })
+    .recommend(
+        RecommendPointsBuilder::new("{collection_name}", 3)
+            .add_positive(100)
+            .add_positive(231)
+            .add_positive(vec![0.2, 0.3, 0.4, 0.5])
+            .add_negative(718)
+            .strategy(RecommendStrategy::AverageVector)
+            .filter(Filter::must([Condition::matches(
+                "city",
+                "London".to_string(),
+            )])),
+    )
     .await?;
 ```
 
@@ -254,17 +252,16 @@ client.recommend("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::RecommendPoints;
+use qdrant_client::qdrant::RecommendPointsBuilder;
 
 client
-    .recommend(&RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![100.into(), 231.into()],
-        negative: vec![718.into()],
-        using: Some("image".to_string()),
-        limit: 10,
-        ..Default::default()
-    })
+    .recommend(
+        RecommendPointsBuilder::new("{collection_name}", 10)
+            .add_positive(100)
+            .add_positive(231)
+            .add_negative(718)
+            .using("image"),
+    )
     .await?;
 ```
 
@@ -357,22 +354,20 @@ client.recommend("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{LookupLocation, RecommendPoints};
+use qdrant_client::qdrant::{LookupLocationBuilder, RecommendPointsBuilder};
 
 client
-    .recommend(&RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![100.into(), 231.into()],
-        negative: vec![718.into()],
-        using: Some("image".to_string()),
-        limit: 10,
-        lookup_from: Some(LookupLocation {
-            collection_name: "{external_collection_name}".to_string(),
-            vector_name: Some("{external_vector_name}".to_string()),
-            ..Default::default()
-        }),
-        ..Default::default()
-    })
+    .recommend(
+        RecommendPointsBuilder::new("{collection_name}", 10)
+            .add_positive(100)
+            .add_positive(231)
+            .add_negative(718)
+            .using("image")
+            .lookup_from(
+                LookupLocationBuilder::new("{external_collection_name}")
+                    .vector_name("{external_vector_name}"),
+            ),
+    )
     .await?;
 ```
 
@@ -532,40 +527,34 @@ client.recommend_batch("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, RecommendBatchPoints, RecommendPoints},
+use qdrant_client::qdrant::{
+    Condition, Filter, RecommendBatchPointsBuilder, RecommendPointsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let filter = Filter::must([Condition::matches("city", "London".to_string())]);
-
 let recommend_queries = vec![
-    RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![100.into(), 231.into()],
-        negative: vec![718.into()],
-        filter: Some(filter.clone()),
-        limit: 3,
-        ..Default::default()
-    },
-    RecommendPoints {
-        collection_name: "{collection_name}".to_string(),
-        positive: vec![200.into(), 67.into()],
-        negative: vec![300.into()],
-        filter: Some(filter),
-        limit: 3,
-        ..Default::default()
-    },
+    RecommendPointsBuilder::new("{collection_name}", 3)
+        .add_positive(100)
+        .add_positive(231)
+        .add_negative(718)
+        .filter(filter.clone())
+        .build(),
+    RecommendPointsBuilder::new("{collection_name}", 3)
+        .add_positive(200)
+        .add_positive(67)
+        .add_negative(300)
+        .filter(filter.clone())
+        .build(),
 ];
 
 client
-    .recommend_batch(&RecommendBatchPoints {
-        collection_name: "{collection_name}".to_string(),
-        recommend_points: recommend_queries,
-        ..Default::default()
-    })
+    .recommend_batch(RecommendBatchPointsBuilder::new(
+        "{collection_name}",
+        recommend_queries,
+    ))
     .await?;
 ```
 
@@ -761,45 +750,29 @@ client.discover("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        target_vector::Target, vector_example::Example, ContextExamplePair, DiscoverPoints,
-        TargetVector, VectorExample,
-    },
-};
-
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+use qdrant_client::qdrant::{target_vector::Target, vector_example::Example, ContextExamplePairBuilder, DiscoverPointsBuilder, VectorExample};
+use qdrant_client::Qdrant;
 
 client
-    .discover(&DiscoverPoints {
-        collection_name: "{collection_name}".to_string(),
-        target: Some(TargetVector {
-            target: Some(Target::Single(VectorExample {
-                example: Some(Example::Vector(vec![0.2, 0.1, 0.9, 0.7].into())),
-            })),
-        }),
-        context: vec![
-            ContextExamplePair {
-                positive: Some(VectorExample {
-                    example: Some(Example::Id(100.into())),
-                }),
-                negative: Some(VectorExample {
-                    example: Some(Example::Id(718.into())),
-                }),
-            },
-            ContextExamplePair {
-                positive: Some(VectorExample {
-                    example: Some(Example::Id(200.into())),
-                }),
-                negative: Some(VectorExample {
-                    example: Some(Example::Id(300.into())),
-                }),
-            },
-        ],
-        limit: 10,
-        ..Default::default()
-    })
+    .discover(
+        DiscoverPointsBuilder::new(
+            "{collection_name}",
+            vec![
+                ContextExamplePairBuilder::default()
+                    .positive(Example::Id(100.into()))
+                    .negative(Example::Id(718.into()))
+                    .build(),
+                ContextExamplePairBuilder::default()
+                    .positive(Example::Id(200.into()))
+                    .negative(Example::Id(300.into()))
+                    .build(),
+            ],
+            10,
+        )
+        .target(Target::Single(VectorExample {
+            example: Some(Example::Vector(vec![0.2, 0.1, 0.9, 0.7].into())),
+        })),
+    )
     .await?;
 ```
 
@@ -961,37 +934,29 @@ client.discover("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{vector_example::Example, ContextExamplePair, DiscoverPoints, VectorExample},
+use qdrant_client::qdrant::{
+    target_vector::Target, vector_example::Example, ContextExamplePairBuilder,
+    DiscoverPointsBuilder, VectorExample,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .discover(&DiscoverPoints {
-        collection_name: "{collection_name}".to_string(),
-        context: vec![
-            ContextExamplePair {
-                positive: Some(VectorExample {
-                    example: Some(Example::Id(100.into())),
-                }),
-                negative: Some(VectorExample {
-                    example: Some(Example::Id(718.into())),
-                }),
-            },
-            ContextExamplePair {
-                positive: Some(VectorExample {
-                    example: Some(Example::Id(200.into())),
-                }),
-                negative: Some(VectorExample {
-                    example: Some(Example::Id(300.into())),
-                }),
-            },
+    .discover(DiscoverPointsBuilder::new(
+        "{collection_name}",
+        vec![
+            ContextExamplePairBuilder::default()
+                .positive(Example::Id(100.into()))
+                .negative(Example::Id(718.into()))
+                .build(),
+            ContextExamplePairBuilder::default()
+                .positive(Example::Id(200.into()))
+                .negative(Example::Id(300.into()))
+                .build(),
         ],
-        limit: 10,
-        ..Default::default()
-    })
+        10,
+    ))
     .await?;
 ```
 

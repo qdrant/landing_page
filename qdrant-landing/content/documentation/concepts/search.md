@@ -275,29 +275,18 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, SearchParams, SearchPoints},
-};
-
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+use qdrant_client::qdrant::{Condition, Filter, SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([Condition::matches(
-            "city",
-            "London".to_string(),
-        )])),
-        params: Some(SearchParams {
-            hnsw_ef: Some(128),
-            exact: Some(false),
-            ..Default::default()
-        }),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .filter(Filter::must([Condition::matches(
+                "city",
+                "London".to_string(),
+            )]))
+            .params(SearchParamsBuilder::default().hnsw_ef(128).exact(false)),
+    )
     .await?;
 ```
 
@@ -418,18 +407,16 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
+use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        vector_name: Some("image".to_string()),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .vector_name("image"),
+    )
     .await?;
 ```
 
@@ -535,21 +522,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, client::Vector, qdrant::SearchPoints};
+use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
-
-let sparse_vector: Vector = vec![(1, 2.0), (7, 1.0)].into();
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector_name: Some("text".to_string()),
-        sparse_indices: sparse_vector.indices,
-        vector: sparse_vector.data,
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![2.0, 1.0], 3)
+            .sparse_indices(vec![1, 7])
+            .vector_name("text"),
+    )
     .await?;
 ```
 
@@ -634,19 +617,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
+use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        with_payload: Some(true.into()),
-        with_vectors: Some(true.into()),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .with_payload(true)
+            .with_vectors(true),
+    )
     .await?;
 ```
 
@@ -725,18 +706,22 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
-
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        with_payload: Some(vec!["city", "village", "town"].into()),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .with_payload(SelectorOptions::Include(
+                vec![
+                    "city".to_string(),
+                    "village".to_string(),
+                    "town".to_string(),
+                ]
+                .into(),
+            ))
+            .with_vectors(true),
+    )
     .await?;
 ```
 
@@ -823,28 +808,22 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        with_payload_selector::SelectorOptions, PayloadExcludeSelector, SearchPoints,
-        WithPayloadSelector,
-    },
-};
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        with_payload: Some(WithPayloadSelector {
-            selector_options: Some(SelectorOptions::Exclude(PayloadExcludeSelector {
-                fields: vec!["city".to_string()],
-            })),
-        }),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .with_payload(SelectorOptions::Exclude(
+                vec![
+                    "city".to_string(),
+                ]
+                .into(),
+            ))
+            .with_vectors(true),
+    )
     .await?;
 ```
 
@@ -1005,39 +984,23 @@ client.searchBatch("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, SearchBatchPoints, SearchPoints},
-};
+use qdrant_client::qdrant::{Condition, Filter, SearchBatchPointsBuilder, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let filter = Filter::must([Condition::matches("city", "London".to_string())]);
-
 let searches = vec![
-    SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        filter: Some(filter.clone()),
-        limit: 3,
-        ..Default::default()
-    },
-    SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.5, 0.3, 0.2, 0.3],
-        filter: Some(filter),
-        limit: 3,
-        ..Default::default()
-    },
+    SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+        .filter(filter.clone())
+        .build(),
+    SearchPointsBuilder::new("{collection_name}", vec![0.5, 0.3, 0.2, 0.3], 3)
+        .filter(filter.)
+        .build(),
 ];
 
 client
-    .search_batch_points(&SearchBatchPoints {
-        collection_name: "{collection_name}".to_string(),
-        search_points: searches,
-        read_consistency: None,
-        ..Default::default()
-    })
+    .search_batch_points(SearchBatchPointsBuilder::new("{collection_name}", searches))
     .await?;
 ```
 
@@ -1168,20 +1131,19 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::SearchPoints};
+use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        with_vectors: Some(true.into()),
-        with_payload: Some(true.into()),
-        limit: 10,
-        offset: Some(100),
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .with_payload(true)
+            .with_vectors(true)
+            .limit(10)
+            .offset(100),
+    )
     .await?;
 ```
 
@@ -1341,17 +1303,16 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointGroups;
+use qdrant_client::qdrant::SearchPointGroupsBuilder;
 
 client
-    .search_groups(&SearchPointGroups {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![1.1],
-        group_by: "document_id".to_string(),
-        limit: 4,
-        group_size: 2,
-        ..Default::default()
-    })
+    .search_groups(SearchPointGroupsBuilder::new(
+        "{collection_name}",
+        vec![1.1],
+        4,
+        "document_id",
+        2,
+    ))
     .await?;
 ```
 
@@ -1517,22 +1478,21 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{SearchPointGroups, WithLookup};
+use qdrant_client::qdrant::{
+    with_payload_selector::SelectorOptions, SearchPointGroupsBuilder, WithLookupBuilder,
+};
 
 client
-    .search_groups(&SearchPointGroups {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![1.1],
-        group_by: "document_id".to_string(),
-        limit: 2,
-        group_size: 2,
-        with_lookup: Some(WithLookup {
-            collection: "documents".to_string(),
-            with_payload: Some(vec!["title", "text"].into()),
-            with_vectors: Some(false.into()),
-        }),
-        ..Default::default()
-    })
+    .search_groups(
+        SearchPointGroupsBuilder::new("{collection_name}", vec![1.1], 2, "document_id", 2)
+            .with_lookup(
+                WithLookupBuilder::new("documents")
+                    .with_payload(SelectorOptions::Include(
+                        vec!["title".to_string(), "text".to_string()].into(),
+                    ))
+                    .with_vectors(false),
+            ),
+    )
     .await?;
 ```
 
