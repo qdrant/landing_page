@@ -30,34 +30,9 @@ With the latest release, we are happy to introduce the new Query API, which comb
 endpoint and also supports creating nested multistage queries that can be used to build complex search pipelines.
 
 If you are an existing Qdrant user, you probably have a running search mechanism that you want to improve, whether sparse 
-or dense. Your system will act as a baseline for further experiments, so you have a reference point to compare the new
-search methods with.
+or dense. Doing any changes should be preceded by a proper evaluation of its effectiveness. 
 
-### Available embedding options
-
-Support for multiple vectors per point is nothing new in Qdrant, but introducing the Query API makes it even
-more powerful. The 1.10 release brings support for the multivectors, which allows you to treat lists of embeddings 
-as a single entity. There are many possible ways of utilizing this feature, and the most prominent one is the support
-for late interaction models, such as ColBERT. Instead of having a single embedding for each document or query, this
-family of models creates a separate one for each token of text. In the search process, the final score is calculated 
-based on the interaction between the tokens of the query and the document. Contrary to cross-encoders, document
-embedding might be precomputed and stored in the database, which makes the search process much faster. If you are
-curious about the details, please check out [the article about ColBERT, written by our friends from Jina 
-AI](https://jina.ai/news/what-is-colbert-and-late-interaction-and-why-they-matter-in-search/).
-
-![Late interaction](/articles_data/hybrid-search-revamped/late-interaction.png)
-
-Besides multivectors, you can use regular dense and sparse vectors, and experiment with smaller data types to reduce
-the use of memory. Named vectors can help you store different dimensionality's of the embeddings, which is useful if you 
-use multiple models to represent your data, or want to utilize the Matryoshka embeddings.
-
-![Multiple vectors per point](/articles_data/hybrid-search-revamped/multiple-vectors.png)
-
-There is no single way of building hybrid search. The process of designing it is an exploratory exercise, where you
-need to test various setups and measure the effectiveness of each of them. Building a proper search experience is a
-complex task, and it's better to keep it data-driven, not just rely on the intuition.
-
-#### Measuring the effectiveness of the search system
+### Measuring the effectiveness of the search system
 
 None of the experiments makes sense if you don't measure the quality. How else would you compare which method works 
 better for your use case? The most common way of doing that is by using the standard metrics, such as `precision@k`, 
@@ -84,6 +59,30 @@ run = Run(run_dict)
 # Calculating the NDCG@5 metric is as simple as that
 evaluate(qrels, run, "ndcg@5")
 ```
+
+### Available embedding options
+
+Support for multiple vectors per point is nothing new in Qdrant, but introducing the Query API makes it even
+more powerful. The 1.10 release brings support for the multivectors, which allows you to treat lists of embeddings 
+as a single entity. There are many possible ways of utilizing this feature, and the most prominent one is the support
+for late interaction models, such as ColBERT. Instead of having a single embedding for each document or query, this
+family of models creates a separate one for each token of text. In the search process, the final score is calculated 
+based on the interaction between the tokens of the query and the document. Contrary to cross-encoders, document
+embedding might be precomputed and stored in the database, which makes the search process much faster. If you are
+curious about the details, please check out [the article about ColBERT, written by our friends from Jina 
+AI](https://jina.ai/news/what-is-colbert-and-late-interaction-and-why-they-matter-in-search/).
+
+![Late interaction](/articles_data/hybrid-search-revamped/late-interaction.png)
+
+Besides multivectors, you can use regular dense and sparse vectors, and experiment with smaller data types to reduce
+the use of memory. Named vectors can help you store different dimensionality's of the embeddings, which is useful if you 
+use multiple models to represent your data, or want to utilize the Matryoshka embeddings.
+
+![Multiple vectors per point](/articles_data/hybrid-search-revamped/multiple-vectors.png)
+
+There is no single way of building hybrid search. The process of designing it is an exploratory exercise, where you
+need to test various setups and measure the effectiveness of each of them. Building a proper search experience is a
+complex task, and it's better to keep it data-driven, not just rely on the intuition.
 
 ### Fusion vs reranking
 
