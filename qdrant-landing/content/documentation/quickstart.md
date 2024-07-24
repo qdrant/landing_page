@@ -351,13 +351,7 @@ Console.WriteLine(searchResult);
 
 **Response:**
 
-```python
-ScoredPoint(id=4, version=0, score=1.362, payload={"city": "New York"}, vector=None),
-ScoredPoint(id=1, version=0, score=1.273, payload={"city": "Berlin"}, vector=None),
-ScoredPoint(id=3, version=0, score=1.208, payload={"city": "Moscow"}, vector=None)
-```
-
-```typescript
+```json
 [
   {
     id: 4,
@@ -381,167 +375,6 @@ ScoredPoint(id=3, version=0, score=1.208, payload={"city": "Moscow"}, vector=Non
     vector: null,
   },
 ];
-```
-
-```rust
-SearchResponse {
-    result: [
-        ScoredPoint {
-            id: Some(
-                PointId {
-                    point_id_options: Some(
-                        Num(
-                            4,
-                        ),
-                    ),
-                },
-            ),
-            payload: {
-                "city": Value {
-                    kind: Some(
-                        StringValue(
-                            "New York",
-                        ),
-                    ),
-                },
-            },
-            score: 1.362,
-            version: 2,
-            vectors: None,
-            shard_key: None,
-            order_value: None,
-        },
-        ScoredPoint {
-            id: Some(
-                PointId {
-                    point_id_options: Some(
-                        Num(
-                            1,
-                        ),
-                    ),
-                },
-            ),
-            payload: {
-                "city": Value {
-                    kind: Some(
-                        StringValue(
-                            "Berlin",
-                        ),
-                    ),
-                },
-            },
-            score: 1.273,
-            version: 2,
-            vectors: None,
-            shard_key: None,
-            order_value: None,
-        },
-        ScoredPoint {
-            id: Some(
-                PointId {
-                    point_id_options: Some(
-                        Num(
-                            3,
-                        ),
-                    ),
-                },
-            ),
-            payload: {
-                "city": Value {
-                    kind: Some(
-                        StringValue(
-                            "Moscow",
-                        ),
-                    ),
-                },
-            },
-            score: 1.208,
-            version: 2,
-            vectors: None,
-            shard_key: None,
-            order_value: None,
-        },
-    ],
-    time: 0.001829198,
-}
-```
-
-```java
-[id {
-  num: 4
-}
-payload {
-  key: "city"
-  value {
-    string_value: "New York"
-  }
-}
-score: 1.362
-version: 1
-, id {
-  num: 1
-}
-payload {
-  key: "city"
-  value {
-    string_value: "Berlin"
-  }
-}
-score: 1.273
-version: 1
-, id {
-  num: 3
-}
-payload {
-  key: "city"
-  value {
-    string_value: "Moscow"
-  }
-}
-score: 1.208
-version: 1
-]
-```
-
-```csharp
-[
-  {
-    "id": {
-      "num": "4"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "New York"
-      }
-    },
-    "score": 1.362,
-    "version": "7"
-  },
-  {
-    "id": {
-      "num": "1"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "Berlin"
-      }
-    },
-    "score": 1.273,
-    "version": "7"
-  },
-  {
-    "id": {
-      "num": "3"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "Moscow"
-      }
-    },
-    "score": 1.208,
-    "version": "7"
-  }
-]
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
@@ -631,11 +464,7 @@ Console.WriteLine(searchResult);
 
 **Response:**
 
-```python
-ScoredPoint(id=2, version=0, score=0.871, payload={"city": "London"}, vector=None)
-```
-
-```typescript
+```json
 [
   {
     id: 2,
@@ -645,71 +474,6 @@ ScoredPoint(id=2, version=0, score=0.871, payload={"city": "London"}, vector=Non
     vector: null,
   },
 ];
-```
-
-```rust
-SearchResponse {
-    result: [
-        ScoredPoint {
-            id: Some(
-                PointId {
-                    point_id_options: Some(
-                        Num(
-                            2,
-                        ),
-                    ),
-                },
-            ),
-            payload: {
-                "city": Value {
-                    kind: Some(
-                        StringValue(
-                            "London",
-                        ),
-                    ),
-                },
-            },
-            score: 0.871,
-            version: 2,
-            vectors: None,
-            shard_key: None,
-            order_value: None,
-        },
-    ],
-    time: 0.002162275,
-}
-```
-
-```java
-[id {
-  num: 2
-}
-payload {
-  key: "city"
-  value {
-    string_value: "London"
-  }
-}
-score: 0.871
-version: 1
-]
-```
-
-```csharp
-[
-  {
-    "id": {
-      "num": "2"
-    },
-    "payload": {
-      "city": {
-        "stringValue": "London"
-      }
-    },
-    "score": 0.871,
-    "version": "7"
-  }
-]
 ```
 
 <aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="../concepts/indexing/#payload-index">payload indexes</a>!</aside>
