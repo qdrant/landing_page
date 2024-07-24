@@ -94,46 +94,20 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::PointStruct};
-use serde_json::json;
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .upsert_points_blocking(
-        "{collection_name}".to_string(),
-        None,
+    .upsert_points(UpsertPointsBuilder::new(
+        "{collection_name}",
         vec![
-            PointStruct::new(
-                1,
-                vec![0.9, 0.1, 0.1],
-                json!(
-                    {"group_id": "user_1"}
-                )
-                .try_into()
-                .unwrap(),
-            ),
-            PointStruct::new(
-                2,
-                vec![0.1, 0.9, 0.1],
-                json!(
-                    {"group_id": "user_1"}
-                )
-                .try_into()
-                .unwrap(),
-            ),
-            PointStruct::new(
-                3,
-                vec![0.1, 0.1, 0.9],
-                json!(
-                    {"group_id": "user_2"}
-                )
-                .try_into()
-                .unwrap(),
-            ),
+            PointStruct::new(1, vec![0.9, 0.1, 0.1], [("group_id", "user_1".into())]),
+            PointStruct::new(2, vec![0.1, 0.9, 0.1], [("group_id", "user_1".into())]),
+            PointStruct::new(3, vec![0.1, 0.1, 0.9], [("group_id", "user_2".into())]),
         ],
-        None,
-    )
+    ))
     .await?;
 ```
 
@@ -259,25 +233,19 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{Condition, Filter, SearchPoints},
-};
+use qdrant_client::qdrant::{Condition, Filter, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        filter: Some(Filter::must([Condition::matches(
-            "group_id",
-            "user_1".to_string(),
-        )])),
-        vector: vec![0.1, 0.1, 0.9],
-        limit: 10,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.1, 0.1, 0.9], 10).filter(
+            Filter::must([Condition::matches("group_id", "user_1".to_string())]),
+        ),
+    )
     .await?;
+
 ```
 
 ```java
@@ -376,33 +344,19 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        vectors_config::Config, CreateCollection, Distance, HnswConfigDiff, VectorParams,
-        VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, HnswConfigDiffBuilder, VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        hnsw_config: Some(HnswConfigDiff {
-            payload_m: Some(16),
-            m: Some(0),
-            ..Default::default()
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .hnsw_config(HnswConfigDiffBuilder::default().payload_m(16).m(0)),
+    )
     .await?;
 ```
 
@@ -474,18 +428,17 @@ client.createPayloadIndex("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{client::QdrantClient, qdrant::FieldType};
+use qdrant_client::qdrant::{CreateFieldIndexCollectionBuilder, FieldType};
+use qdrant_client::{Qdrant, QdrantError};
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_field_index(
+    .create_field_index(CreateFieldIndexCollectionBuilder::new(
         "{collection_name}",
         "group_id",
         FieldType::Keyword,
-        None,
-        None,
-    )
+    ))
     .await?;
 ```
 

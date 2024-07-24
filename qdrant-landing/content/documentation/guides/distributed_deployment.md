@@ -215,25 +215,17 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
-};
+use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".into(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 300,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        shard_number: Some(6),
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(300, Distance::Cosine))
+            .shard_number(6),
+    )
     .await?;
 ```
 
@@ -373,31 +365,27 @@ client.createShardKey("{collection_name}", {
 ```
 
 ```rust
-
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{CreateCollection, ShardingMethod, shard_key::Key}
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, CreateShardKeyBuilder, CreateShardKeyRequestBuilder, Distance,
+    ShardingMethod, VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".into(),
-        shard_number: Some(1),
-        sharding_method: Some(ShardingMethod::Custom),
-        // ... other collection parameters
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(300, Distance::Cosine))
+            .shard_number(1)
+            .sharding_method(ShardingMethod::Custom.into()),
+    )
     .await?;
 
 client
     .create_shard_key(
-        "{collection_name}",
-        &Key::Keyword("{shard_key".to_string()),
-        None,
-        None,
-        &[],
+        CreateShardKeyRequestBuilder::new("{collection_name}")
+            .request(CreateShardKeyBuilder::default().shard_key("{shard_key".to_string())),
     )
     .await?;
 ```
@@ -514,21 +502,20 @@ client.upsertPoints("{collection_name}", {
 ```
 
 ```rust
-
-use qdrant_client::qdrant::{PointStruct, WriteOrdering, WriteOrderingType};
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::Payload;
 
 client
-    .upsert_points_blocking(
-        "{collection_name}",
-        Some(vec![shard_key::Key::String("user_1".into())]),
-        vec![
-            PointStruct::new(
-                1111,
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![PointStruct::new(
+                111,
                 vec![0.1, 0.2, 0.3],
-                Default::default(),
-            ),
-        ],
-        None,
+                Payload::default(),
+            )],
+        )
+        .shard_key_selector("user_1".to_string()),
     )
     .await?;
 ```
@@ -746,27 +733,18 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
-};
+use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".into(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 300,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        shard_number: Some(6),
-        replication_factor: Some(2),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(300, Distance::Cosine))
+            .shard_number(6)
+            .replication_factor(2),
+    )
     .await?;
 ```
 
@@ -998,28 +976,19 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{vectors_config::Config, CreateCollection, Distance, VectorParams, VectorsConfig},
-};
+use qdrant_client::qdrant::{CreateCollectionBuilder, Distance, VectorParamsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".into(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 300,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        shard_number: Some(6),
-        replication_factor: Some(2),
-        write_consistency_factor: Some(2),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(300, Distance::Cosine))
+            .shard_number(6)
+            .replication_factor(2)
+            .write_consistency_factor(2),
+    )
     .await?;
 ```
 
@@ -1139,35 +1108,24 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        read_consistency::Value, Condition, Filter, ReadConsistency, ReadConsistencyType,
-        SearchParams, SearchPoints,
-    },
+use qdrant_client::qdrant::{
+    read_consistency::Value, Condition, Filter, ReadConsistencyType, SearchParamsBuilder,
+    SearchPointsBuilder,
 };
+use qdrant_client::{Qdrant, QdrantError};
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".into(),
-        filter: Some(Filter::must([Condition::matches(
-            "city",
-            "London".into(),
-        )])),
-        params: Some(SearchParams {
-            hnsw_ef: Some(128),
-            exact: Some(false),
-            ..Default::default()
-        }),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        limit: 3,
-        read_consistency: Some(ReadConsistency {
-            value: Some(Value::Type(ReadConsistencyType::Majority.into())),
-        }),
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+            .filter(Filter::must([Condition::matches(
+                "city",
+                "London".to_string(),
+            )]))
+            .params(SearchParamsBuilder::default().hnsw_ef(128).exact(false))
+            .read_consistency(Value::Type(ReadConsistencyType::Majority.into())),
+    )
     .await?;
 ```
 
@@ -1285,43 +1243,24 @@ client.upsert("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{PointStruct, WriteOrdering, WriteOrderingType};
-use serde_json::json;
+use qdrant_client::qdrant::{
+    PointStruct, UpsertPointsBuilder, WriteOrdering, WriteOrderingType
+};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .upsert_points_blocking(
-        "{collection_name}",
-        None,
-        vec![
-            PointStruct::new(
-                1,
-                vec![0.9, 0.1, 0.1],
-                json!({
-                    "color": "red"
-                })
-                .try_into()
-                .unwrap(),
-            ),
-            PointStruct::new(
-                2,
-                vec![0.1, 0.9, 0.1],
-                json!({
-                    "color": "green"
-                })
-                .try_into()
-                .unwrap(),
-            ),
-            PointStruct::new(
-                3,
-                vec![0.1, 0.1, 0.9],
-                json!({
-                    "color": "blue"
-                })
-                .try_into()
-                .unwrap(),
-            ),
-        ],
-        Some(WriteOrdering {
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![
+                PointStruct::new(1, vec![0.9, 0.1, 0.1], [("color", "red".into())]),
+                PointStruct::new(2, vec![0.1, 0.9, 0.1], [("color", "green".into())]),
+                PointStruct::new(3, vec![0.1, 0.1, 0.9], [("color", "blue".into())]),
+            ],
+        )
+        .ordering(WriteOrdering {
             r#type: WriteOrderingType::Strong.into(),
         }),
     )

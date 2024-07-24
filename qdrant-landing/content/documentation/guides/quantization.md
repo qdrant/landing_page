@@ -205,35 +205,25 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
-        QuantizationConfig, QuantizationType, ScalarQuantization, VectorParams, VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        quantization_config: Some(QuantizationConfig {
-            quantization: Some(Quantization::Scalar(ScalarQuantization {
-                r#type: QuantizationType::Int8.into(),
-                quantile: Some(0.99),
-                always_ram: Some(true),
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .quantization_config(
+                ScalarQuantizationBuilder::default()
+                    .r#type(QuantizationType::Int8.into())
+                    .quantile(0.99)
+                    .always_ram(true),
+            ),
+    )
     .await?;
 ```
 
@@ -368,33 +358,19 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        quantization_config::Quantization, vectors_config::Config, BinaryQuantization,
-        CreateCollection, Distance, QuantizationConfig, VectorParams, VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    BinaryQuantizationBuilder, CreateCollectionBuilder, Distance, VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 1536,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        quantization_config: Some(QuantizationConfig {
-            quantization: Some(Quantization::Binary(BinaryQuantization {
-                always_ram: Some(true),
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(1536, Distance::Cosine))
+            .quantization_config(BinaryQuantizationBuilder::new(true)),
+    )
     .await?;
 ```
 
@@ -509,35 +485,22 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        quantization_config::Quantization, vectors_config::Config, CompressionRatio,
-        CreateCollection, Distance, ProductQuantization, QuantizationConfig, VectorParams,
-        VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CompressionRatio, CreateCollectionBuilder, Distance, ProductQuantizationBuilder,
+    VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                ..Default::default()
-            })),
-        }),
-        quantization_config: Some(QuantizationConfig {
-            quantization: Some(Quantization::Product(ProductQuantization {
-                compression: CompressionRatio::X16.into(),
-                always_ram: Some(true),
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
+            .quantization_config(
+                ProductQuantizationBuilder::new(CompressionRatio::X16.into()).always_ram(true),
+            ),
+    )
     .await?;
 ```
 
@@ -663,29 +626,22 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
-};
+use qdrant_client::qdrant::{QuantizationSearchParamsBuilder, SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
-
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+    
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        params: Some(SearchParams {
-            quantization: Some(QuantizationSearchParams {
-                ignore: Some(false),
-                rescore: Some(true),
-                oversampling: Some(2.0),
-                ..Default::default()
-            }),
-            ..Default::default()
-        }),
-        limit: 10,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 10).params(
+            SearchParamsBuilder::default().quantization(
+                QuantizationSearchParamsBuilder::default()
+                    .ignore(false)
+                    .rescore(true)
+                    .oversampling(2.0),
+            ),
+        ),
+    )
     .await?;
 ```
 
@@ -809,27 +765,20 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
+use qdrant_client::qdrant::{
+    QuantizationSearchParamsBuilder, SearchParamsBuilder, SearchPointsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        params: Some(SearchParams {
-            quantization: Some(QuantizationSearchParams {
-                ignore: Some(true),
-                ..Default::default()
-            }),
-            ..Default::default()
-        }),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3).params(
+            SearchParamsBuilder::default()
+                .quantization(QuantizationSearchParamsBuilder::default().ignore(true)),
+        ),
+    )
     .await?;
 ```
 
@@ -952,37 +901,24 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
-        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
-        VectorParams, VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                on_disk: Some(true),
-                ..Default::default()
-            })),
-        }),
-        quantization_config: Some(QuantizationConfig {
-            quantization: Some(Quantization::Scalar(ScalarQuantization {
-                r#type: QuantizationType::Int8.into(),
-                always_ram: Some(true),
-                ..Default::default()
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).on_disk(true))
+            .quantization_config(
+                ScalarQuantizationBuilder::default()
+                    .r#type(QuantizationType::Int8.into())
+                    .always_ram(true),
+            ),
+    )
     .await?;
 ```
 
@@ -1090,27 +1026,18 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{QuantizationSearchParams, SearchParams, SearchPoints},
-};
+use qdrant_client::qdrant::{QuantizationSearchParamsBuilder, SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(&SearchPoints {
-        collection_name: "{collection_name}".to_string(),
-        vector: vec![0.2, 0.1, 0.9, 0.7],
-        params: Some(SearchParams {
-            quantization: Some(QuantizationSearchParams {
-                rescore: Some(false),
-                ..Default::default()
-            }),
-            ..Default::default()
-        }),
-        limit: 3,
-        ..Default::default()
-    })
+    .search_points(
+        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3).params(
+            SearchParamsBuilder::default()
+                .quantization(QuantizationSearchParamsBuilder::default().rescore(false)),
+        ),
+    )
     .await?;
 ```
 
@@ -1219,37 +1146,24 @@ client.createCollection("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::{
-    client::QdrantClient,
-    qdrant::{
-        quantization_config::Quantization, vectors_config::Config, CreateCollection, Distance,
-        OptimizersConfigDiff, QuantizationConfig, QuantizationType, ScalarQuantization,
-        VectorParams, VectorsConfig,
-    },
+use qdrant_client::qdrant::{
+    CreateCollectionBuilder, Distance, QuantizationType, ScalarQuantizationBuilder,
+    VectorParamsBuilder,
 };
+use qdrant_client::Qdrant;
 
-let client = QdrantClient::from_url("http://localhost:6334").build()?;
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .create_collection(&CreateCollection {
-        collection_name: "{collection_name}".to_string(),
-        vectors_config: Some(VectorsConfig {
-            config: Some(Config::Params(VectorParams {
-                size: 768,
-                distance: Distance::Cosine.into(),
-                on_disk: Some(true),
-                ..Default::default()
-            })),
-        }),
-        quantization_config: Some(QuantizationConfig {
-            quantization: Some(Quantization::Scalar(ScalarQuantization {
-                r#type: QuantizationType::Int8.into(),
-                always_ram: Some(false),
-                ..Default::default()
-            })),
-        }),
-        ..Default::default()
-    })
+    .create_collection(
+        CreateCollectionBuilder::new("{collection_name}")
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).on_disk(true))
+            .quantization_config(
+                ScalarQuantizationBuilder::default()
+                    .r#type(QuantizationType::Int8.into())
+                    .always_ram(false),
+            ),
+    )
     .await?;
 ```
 
