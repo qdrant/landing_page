@@ -7,7 +7,7 @@ if [ -z "$SEGMENT_WRITE_KEY" ]; then
 fi
 
 # Print the new key for debugging
-echo "Adding SEGMENT_WRITE_KEY: $SEGMENT_WRITE_KEY"
+echo "Adding SEGMENT_WRITE_KEY..."
 
 # Backup the original config.toml file
 cp ./qdrant-landing/config.toml ./qdrant-landing/config.toml.bak
@@ -27,6 +27,9 @@ else
   echo "Failed to update SEGMENT_WRITE_KEY in ./qdrant-landing/config.toml."
   exit 1
 fi
+
+# Remove the backup file
+rm ./qdrant-landing/config.toml.bak
 
 # Optional: Display the updated file for verification
 echo "Updated config.toml content:"
