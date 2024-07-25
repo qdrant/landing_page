@@ -1,119 +1,110 @@
 ---
-title: On Hybrid Search
-short_description: What Hybrid Search is and how to get the best of both worlds.
-description: What Hybrid Search is and how to get the best of both worlds.
+title: "Hybrid Search Revamped"
+short_description: "Merging different search methods to improve the search quality was never easier"
+description: "Qdrant 1.10 introduces a new Query API to build a search system that combines different search methods to improve the search quality."
 preview_dir: /articles_data/hybrid-search/preview
-social_preview_image: /articles_data/hybrid-search/social_preview.png
-small_preview_image: /articles_data/hybrid-search/icon.svg
-weight: 8
+social_preview_image: /articles_data/hybrid-search/social-preview.png
+weight: -150
 author: Kacper Łukawski
-author_link: https://medium.com/@lukawskikacper
-date: 2023-02-15T10:48:00.000Z
+author_link: https://kacperlukawski.com
+date: 2024-07-24T14:24:00.000Z
 ---
 
-<aside role="status">
-This article was published in 2023, more than a year before the Qdrant 1.10 release introducing the new 
-<a href="/documentation/concepts/search/#query-api">Query API</a>. Although the concepts in this article are still valid, 
-you should use  Qdrant 1.10 to build a hybrid search system. It is easier and requires no additional tools from your stack. 
-<a href="/articles/hybrid-search-revamped">Hybrid Search Revamped</a> article presents even more advanced techniques
-to build a hybrid search system that gives the best of multiple worlds.
-</aside>
+It's been over a year since we published the original article on building a hybrid
+search system with Qdrant. The idea was straightforward: combine the results from different search methods to improve 
+retrieval quality. Back in 2023, you still needed to use an additional service to bring lexical search 
+capabilities and combine all the intermediate results. Things have changed since then. Once we introduced support for
+sparse vectors, [the additional search service became obsolete](/articles/sparse-vectors/), but you were still 
+required to combine the results from different methods on your end.
 
-There is not a single definition of hybrid search. Actually, if we use more than one search algorithm, it 
-might be described as some sort of hybrid. Some of the most popular definitions are:
+**Qdrant 1.10 introduces a new Query API that lets you build a search system by combining different search methods 
+to improve retrieval quality**. Everything is now done on the server side, and you can focus on building the best search 
+experience for your users. In this article, we will show you how to utilize the new [Query 
+API](/documentation/concepts/search/#query-api) to build a hybrid search system.
 
-1. A combination of vector search with [attribute filtering](/documentation/filtering/). 
-   We won't dive much into details, as we like to call it just filtered vector search.
-2. Vector search with keyword-based search. This one is covered in this article.
-3. A mix of dense and sparse vectors. That strategy will be covered in the upcoming article.
+## Introduction to the new Query API
 
-## Why do we still need keyword search?
+At Qdrant, we believe that vector search capabilities go well beyond a simple search for nearest neighbors.
+That's why we provided separate methods for different search use cases, such as `search`, `recommend`, or `discover`.
+With the latest release, we are happy to introduce the new Query API, which combines all of these methods into a single 
+endpoint and also supports creating nested multistage queries that can be used to build complex search pipelines.
 
-A keyword-based search was the obvious choice for search engines in the past. It struggled with some
-common issues, but since we didn't have any alternatives, we had to overcome them with additional
-preprocessing of the documents and queries. Vector search turned out to be a breakthrough, as it has
-some clear advantages in the following scenarios:
+If you are an existing Qdrant user, you probably have a running search mechanism that you want to improve, whether sparse 
+or dense. Doing any changes should be preceded by a proper evaluation of its effectiveness. 
 
-- 🌍 Multi-lingual & multi-modal search
-- 🤔 For short texts with typos and ambiguous content-dependent meanings
-- 👨‍🔬 Specialized domains with tuned encoder models
-- 📄 Document-as-a-Query similarity search
+### Measuring the effectiveness of the search system
 
-It doesn't mean we do not keyword search anymore. There are also some cases in which this kind of method
-might be useful:
-
-- 🌐💭 Out-of-domain search. Words are just words, no matter what they mean. BM25 ranking represents the
-  universal property of the natural language - less frequent words are more important, as they carry
-  most of the meaning.
-- ⌨️💨 Search-as-you-type, when there are only a few characters types in, and we cannot use vector search yet.
-- 🎯🔍 Exact phrase matching when we want to find the occurrences of a specific term in the documents. That's
-  especially useful for names of the products, people, part numbers, etc.
-
-## Matching the tool to the task
-
-There are various cases in which we need search capabilities and each of those cases will have some
-different requirements. Therefore, there is not just one strategy to rule them all, and some different 
-tools may fit us better. Text search itself might be roughly divided into multiple specializations like:
-
-- Web-scale search - documents retrieval
-- Fast search-as-you-type
-- Search over less-than-natural texts (logs, transactions, code, etc.)
-
-Each of those scenarios has a specific tool, which performs better for that specific use case. If you 
-already expose search capabilities, then you probably have one of them in your tech stack. And we can 
-easily combine those tools with vector search to get the best of both worlds. 
-
-# The fast search: A Fallback strategy
-
-The easiest way to incorporate vector search into the existing stack is to treat it as some sort of
-fallback strategy. So whenever your keyword search struggle with finding proper results, you can
-run a semantic search to extend the results. That is especially important in cases like search-as-you-type
-in which a new query is fired every single time your user types the next character in. For such cases
-the speed of the search is crucial. Therefore, we can't use vector search on every query. At the same 
-time, the simple prefix search might have a bad recall.
-
-In this case, a good strategy is to use vector search only when the keyword/prefix search returns none 
-or just a small number of results. A good candidate for this is [MeiliSearch](https://www.meilisearch.com/). 
-It uses custom ranking rules to provide results as fast as the user can type.
-
-The pseudocode of such strategy may go as following:
+None of the experiments makes sense if you don't measure the quality. How else would you compare which method works 
+better for your use case? The most common way of doing that is by using the standard metrics, such as `precision@k`, 
+`MRR`, or `NDCG`. There are existing libraries, such as [ranx](https://amenra.github.io/ranx/), that can help you with 
+that. Obviously, we need to have the ground truth dataset to calculate any of these, but curating it is a separate task.
 
 ```python
-async def search(query: str):
-    # Get fast results from MeiliSearch
-    keyword_search_result = search_meili(query)
+from ranx import Qrels, Run, evaluate
 
-    # Check if there are enough results
-    # or if the results are good enough for given query
-    if are_results_enough(keyword_search_result, query):
-        return keyword_search
+# Qrels, or query relevance judgments, keep the ground truth data
+qrels_dict = { "q_1": { "d_12": 5, "d_25": 3 },
+               "q_2": { "d_11": 6, "d_22": 1 } }
 
-    # Encoding takes time, but we get more results
-    vector_query = encode(query)
+# Runs are built from the search results
+run_dict = { "q_1": { "d_12": 0.9, "d_23": 0.8, "d_25": 0.7,
+                      "d_36": 0.6, "d_32": 0.5, "d_35": 0.4  },
+             "q_2": { "d_12": 0.9, "d_11": 0.8, "d_25": 0.7,
+                      "d_36": 0.6, "d_22": 0.5, "d_35": 0.4  } }
 
-    vector_result = search_qdrant(vector_query)
-    return vector_result
+# We need to create both objects, and then we can evaluate the run against the qrels
+qrels = Qrels(qrels_dict)
+run = Run(run_dict)
+
+# Calculating the NDCG@5 metric is as simple as that
+evaluate(qrels, run, "ndcg@5")
 ```
 
-# The precise search: The re-ranking strategy
+### Available embedding options
 
-In the case of document retrieval, we care more about the search result quality and time is not a huge constraint. 
-There is a bunch of search engines that specialize in the full-text search we found interesting:
+Support for multiple vectors per point is nothing new in Qdrant, but introducing the Query API makes it even
+more powerful. The 1.10 release brings support for the multivectors, which allows you to treat lists of embeddings 
+as a single entity. There are many possible ways of utilizing this feature, and the most prominent one is the support
+for late interaction models, such as ColBERT. Instead of having a single embedding for each document or query, this
+family of models creates a separate one for each token of text. In the search process, the final score is calculated 
+based on the interaction between the tokens of the query and the document. Contrary to cross-encoders, document
+embedding might be precomputed and stored in the database, which makes the search process much faster. If you are
+curious about the details, please check out [the article about ColBERT, written by our friends from Jina 
+AI](https://jina.ai/news/what-is-colbert-and-late-interaction-and-why-they-matter-in-search/).
 
-- [Tantivy](https://github.com/quickwit-oss/tantivy) - a full-text indexing library written in Rust. Has a great 
-  performance and featureset. 
-- [lnx](https://github.com/lnx-search/lnx) - a young but promising project, utilizes Tanitvy as a backend.
-- [ZincSearch](https://github.com/zinclabs/zinc) - a project written in Go, focused on minimal resource usage 
-  and high performance.
-- [Sonic](https://github.com/valeriansaliou/sonic) - a project written in Rust, uses custom network communication 
-  protocol for fast communication between the client and the server.
+![Late interaction](/articles_data/hybrid-search/late-interaction.png)
 
-All of those engines might be easily used in combination with the vector search offered by Qdrant. But the 
-exact way how to combine the results of both algorithms to achieve the best search precision might be still 
-unclear. So we need to understand how to do it effectively. We will be using reference datasets to benchmark 
-the search quality.
+Besides multivectors, you can use regular dense and sparse vectors, and experiment with smaller data types to reduce
+the use of memory. Named vectors can help you store different dimensionality's of the embeddings, which is useful if you 
+use multiple models to represent your data, or want to utilize the Matryoshka embeddings.
 
-## Why not linear combination?
+![Multiple vectors per point](/articles_data/hybrid-search/multiple-vectors.png)
+
+There is no single way of building hybrid search. The process of designing it is an exploratory exercise, where you
+need to test various setups and measure the effectiveness of each of them. Building a proper search experience is a
+complex task, and it's better to keep it data-driven, not just rely on the intuition.
+
+### Fusion vs reranking
+
+We can, distinguish two main approaches to building a hybrid search system: fusion and reranking. The former is about 
+combining the results from different search methods, based solely on the scores returned by each method. That usually 
+involves some normalization, as the scores returned by different methods might be in different ranges. After that, there 
+is a formula that takes the relevancy measures and calculates the final score that we use later on to reorder the 
+documents. Qdrant has built-in support for the Reciprocal Rank Fusion method, which is the de facto standard in the 
+field.
+
+![Fusion](/articles_data/hybrid-search/fusion.png)
+
+Reranking, on the other hand, is about taking the results from different search methods and reordering them based on
+some additional processing using the content of the documents, not just the scores. This processing may rely on an 
+additional neural model, such as a cross-encoder which would be inefficient enough to be used on the whole dataset. 
+These methods are practically applicable only when used on a smaller subset of candidates returned by the faster search 
+methods. Late interaction models, such as ColBERT, are way more efficient in this case, as they can be used to rerank
+the candidates without the need to access all the documents in the collection.
+
+![Reranking](/articles_data/hybrid-search/reranking.png)
+
+#### Why not linear combination?
 
 It's often proposed to use full-text and vector search scores to form a linear combination formula to rerank 
 the results. So it goes like this:
@@ -133,134 +124,146 @@ a proper hybrid search.*
 Both relevant and non-relevant items are mixed. **None of the linear formulas would be able to distinguish 
 between them.** Thus, that's not the way to solve it.
 
-## How to approach re-ranking?
+### Building a hybrid search system in Qdrant
 
-There is a common approach to re-rank the search results with a model that takes some additional factors
-into account. Those models are usually trained on clickstream data of a real application and tend to be
-very business-specific. Thus, we'll not cover them right now, as there is a more general approach. We will
-use so-called **cross-encoder models**.
+Ultimately, **any search mechanism might also be a reranking mechanism**. You can prefetch results with sparse vectors 
+and then rerank them with the dense ones, or the other way around. Or, if you have Matryoshka embeddings, you can start 
+with oversampling the candidates with the dense vectors of the lowest dimensionality and then gradually reduce the 
+number of candidates by reranking them with the higher-dimensional embeddings. Actually, nothing stops you from 
+combining both fusion and reranking. 
 
-Cross-encoder takes a pair of texts and predicts the similarity of them. Unlike embedding models, 
-cross-encoders do not compress text into vector, but uses interactions between individual tokens of both
-texts. In general, they are more powerful than both BM25 and vector search, but they are also way slower.
-That makes it feasible to use cross-encoders only for re-ranking of some preselected candidates.
+Let's go a step further and build a hybrid search mechanism that combines the results from the 
+Matryoshka embeddings, dense vectors, and sparse vectors and then reranks them with the late interaction model. In the 
+meantime, we will introduce additional reranking and fusion steps.
 
-This is how a pseudocode for that strategy look like: 
+![Complex search pipeline](/articles_data/hybrid-search/complex-search-pipeline.png)
+
+Our search pipeline consists of two branches, each of them responsible for retrieving a subset of documents that
+we eventually want to rerank with the late interaction model. Let's connect to Qdrant first and then build the search
+pipeline.
 
 ```python
-async def search(query: str):
-    keyword_search = search_keyword(query)
-    vector_search = search_qdrant(query) 
-    all_results = await asyncio.gather(keyword_search, vector_search)  # parallel calls
-    rescored = cross_encoder_rescore(query, all_results)
-    return rescored
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient("http://localhost:6333")
 ```
 
-It is worth mentioning that queries to keyword search and vector search and re-scoring can be done in parallel.
-Cross-encoder can start scoring results as soon as the fastest search engine returns the results.
+All the steps utilizing Matryoshka embeddings might be specified in the Query API as a nested structure:
 
-## Experiments
+```python
+# The first branch of our search pipeline retrieves 25 documents
+# using the Matryoshka embeddings with multistep retrieval.
+matryoshka_prefetch = models.Prefetch(
+    prefetch=[
+        models.Prefetch(
+            prefetch=[
+                # The first prefetch operation retrieves 100 documents
+                # using the Matryoshka embeddings with the lowest
+                # dimensionality of 64.
+                models.Prefetch(
+                    query=[0.456, -0.789, ..., 0.239],
+                    using="matryoshka-64dim",
+                    limit=100,
+                ),
+            ],
+            # Then, the retrieved documents are re-ranked using the
+            # Matryoshka embeddings with the dimensionality of 128.
+            query=[0.456, -0.789, ..., -0.789],
+            using="matryoshka-128dim",
+            limit=50,
+        )
+    ],
+    # Finally, the results are re-ranked using the Matryoshka
+    # embeddings with the dimensionality of 256.
+    query=[0.456, -0.789, ..., 0.123],
+    using="matryoshka-256dim",
+    limit=25,
+)
+```
 
-For that benchmark, there have been 3 experiments conducted:
+Similarly, we can build the second branch of our search pipeline, which retrieves the documents using the dense and
+sparse vectors and performs the fusion of them using the Reciprocal Rank Fusion method:
 
-1. **Vector search with Qdrant**
+```python
+# The second branch of our search pipeline also retrieves 25 documents,
+# but uses the dense and sparse vectors, with their results combined
+# using the Reciprocal Rank Fusion.
+sparse_dense_rrf_prefetch = models.Prefetch(
+    prefetch=[
+        models.Prefetch(
+            prefetch=[
+                # The first prefetch operation retrieves 100 documents
+                # using dense vectors using integer data type. Retrieval
+                # is faster, but quality is lower.
+                models.Prefetch(
+                    query=[7, 63, ..., 92],
+                    using="dense-uint8",
+                    limit=100,
+                )
+            ],
+            # Integer-based embeddings are then re-ranked using the
+            # float-based embeddings. Here we just want to retrieve
+            # 25 documents.
+            query=[-1.234, 0.762, ..., 1.532],
+            using="dense",
+            limit=25,
+        ),
+        # Here we just add another 25 documents using the sparse
+        # vectors only.
+        models.Prefetch(
+            query=models.SparseVector(
+                indices=[125, 9325, 58214],
+                values=[-0.164, 0.229, 0.731],
+            ),
+            using="sparse",
+            limit=25,
+        ),
+    ],
+    # RRF is activated below, so there is no need to specify the
+    # query vector here, as fusion is done on the scores of the
+    # retrieved documents.
+    query=models.FusionQuery(
+        fusion=models.Fusion.RRF,
+    ),
+)
+```
 
-   All the documents and queries are vectorized with [all-MiniLM-L6-v2](https://www.sbert.net/docs/pretrained_models.html) 
-   model, and compared with cosine similarity.
+The second branch could have already been called hybrid, as it combines the results from the dense and sparse vectors
+with fusion. However, nothing stops us from building even more complex search pipelines.
 
-2. **Keyword-based search with BM25**
+Here is how the target call to the Query API would look like in Python:
 
-   All the documents are indexed by BM25 and queried with its default configuration.
 
-3. **Vector and keyword-based candidates generation and cross-encoder reranking**
+```python
+client.query_points(
+    "my-collection",
+    prefetch=[
+        matryoshka_prefetch,
+        sparse_dense_rrf_prefetch,
+    ],
+    # Finally rerank the results with the late interaction model. It only 
+    # considers the documents retrieved by all the prefetch operations above. 
+    # Return 10 final results.
+    query=[
+        [1.928, -0.654, ..., 0.213],
+        [-1.197, 0.583, ..., 1.901],
+        ...,
+        [0.112, -1.473, ..., 1.786],
+    ],
+    using="late-interaction",
+    with_payload=False,
+    limit=10,
+)
+```
 
-   Both Qdrant and BM25 provides N candidates each and 
-   [ms-marco-MiniLM-L-6-v2](https://www.sbert.net/docs/pretrained-models/ce-msmarco.html) cross encoder performs reranking 
-   on those candidates only. This is an approach that makes it possible to use the power of semantic and keyword based 
-   search together.
-
-![The design of all the three experiments](/articles_data/hybrid-search/experiments-design.png)
-
-### Quality metrics
-
-There are various ways of how to measure the performance of search engines, and *[Recommender Systems: Machine Learning 
-Metrics and Business Metrics](https://neptune.ai/blog/recommender-systems-metrics)* is a great introduction to that topic. 
-I selected the following ones:
-
-- NDCG@5, NDCG@10
-- DCG@5, DCG@10
-- MRR@5, MRR@10
-- Precision@5, Precision@10
-- Recall@5, Recall@10
-
-Since both systems return a score for each result, we could use DCG and NDCG metrics. However, BM25 scores are not
-normalized be default. We performed the normalization to a range `[0, 1]` by dividing each score by the maximum
-score returned for that query. 
-
-### Datasets
-
-There are various benchmarks for search relevance available. Full-text search has been a strong baseline for
-most of them. However, there are also cases in which semantic search works better by default. For that article, 
-I'm performing **zero shot search**, meaning our models didn't have any prior exposure to the benchmark datasets, 
-so this is effectively an out-of-domain search.
-
-#### Home Depot
-
-[Home Depot dataset](https://www.kaggle.com/competitions/home-depot-product-search-relevance/) consists of real 
-inventory and search queries from Home Depot's website with a relevancy score from 1 (not relevant) to 3 (highly relevant).
-
-    Anna Montoya, RG, Will Cukierski. (2016). Home Depot Product Search Relevance. Kaggle. 
-    https://kaggle.com/competitions/home-depot-product-search-relevance
-
-There are over 124k products with textual descriptions in the dataset and around 74k search queries with the relevancy
-score assigned. For the purposes of our benchmark, relevancy scores were also normalized.
-
-#### WANDS
-
-I also selected a relatively new search relevance dataset. [WANDS](https://github.com/wayfair/WANDS), which stands for 
-Wayfair ANnotation Dataset, is designed to evaluate search engines for e-commerce.
-
-    WANDS: Dataset for Product Search Relevance Assessment
-    Yan Chen, Shujian Liu, Zheng Liu, Weiyi Sun, Linas Baltrunas and Benjamin Schroeder
-
-In a nutshell, the dataset consists of products, queries and human annotated relevancy labels. Each product has various 
-textual attributes, as well as facets. The relevancy is provided as textual labels: “Exact”, “Partial” and “Irrelevant” 
-and authors suggest to convert those to 1, 0.5 and 0.0 respectively. There are 488 queries with a varying number of 
-relevant items each.
-
-## The results
-
-Both datasets have been evaluated with the same experiments. The achieved performance is shown in the tables.
-
-### Home Depot
-
-![The results of all the experiments conducted on Home Depot dataset](/articles_data/hybrid-search/experiment-results-home-depot.png)
-
-The results achieved with BM25 alone are better than with Qdrant only. However, if we combine both
-methods into hybrid search with an additional cross encoder as a last step, then that gives great improvement
-over any baseline method.
-
-With the cross-encoder approach, Qdrant retrieved about 56.05% of the relevant items on average, while BM25 
-fetched 59.16%. Those numbers don't sum up to 100%, because some items were returned by both systems.
-
-### WANDS
-
-![The results of all the experiments conducted on WANDS dataset](/articles_data/hybrid-search/experiment-results-wands.png)
-
-The dataset seems to be more suited for semantic search, but the results might be also improved if we decide to use
-a hybrid search approach with cross encoder model as a final step.
-
-Overall, combining both full-text and semantic search with an additional reranking step seems to be a good idea, as we 
-are able to benefit the advantages of both methods.
-
-Again, it's worth mentioning that with the 3rd experiment, with cross-encoder reranking, Qdrant returned more than 48.12% of 
-the relevant items and BM25 around 66.66%.
+The options are endless, new Query API gives you the flexibility to experiment with different setups. Obviously, **you
+rarely need to build such a complex search pipeline**, but it's good to know that you can do that if needed.
 
 ## Some anecdotal observations
 
 None of the algorithms works better in all the cases. There might be some specific queries in which keyword-based search
-will be a winner and the other way around. The table shows some interesting examples we could find in WANDS dataset 
-during the experiments:
+will be a winner and the other way around. The table shows some interesting examples we could find in 
+[WANDS](https://github.com/wayfair/WANDS) dataset during the experiments:
 
 <table>
    <thead>
@@ -315,15 +318,17 @@ Also examples where keyword-based search did better:
    </tbody>
 </table>
 
+## Conclusion
 
-# A wrap up
+The new Query API introduced in Qdrant 1.10 is a game-changer for building hybrid search systems. You don't need any
+additional services to combine the results from different search methods, and you can even create more complex pipelines
+and serve them directly from Qdrant. 
 
-Each search scenario requires a specialized tool to achieve the best results possible. Still, combining multiple tools with 
-minimal overhead is possible to improve the search precision even further. Introducing vector search into an existing search 
-stack doesn't need to be a revolution but just one small step at a time. 
+Our webinar on *Building the Ultimate Hybrid Search* takes you through the process of building a hybrid search system 
+with Qdrant Query API. If you missed it, you can [watch the recording](https://www.youtube.com/watch?v=LAZOxqzceEU), or 
+[check the notebooks](https://github.com/qdrant/workshop-ultimate-hybrid-search).
 
-You'll never cover all the possible queries with a list of synonyms, so a full-text search may not find all the relevant 
-documents. There are also some cases in which your users use different terminology than the one you have in your database. 
-Those problems are easily solvable with neural vector embeddings, and combining both approaches with an additional reranking 
-step is possible. So you don't need to resign from your well-known full-text search mechanism but extend it with vector 
-search to support the queries you haven't foreseen.
+<div style="max-width: 640px; margin: 0 auto; padding-bottom: 1em"> <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/LAZOxqzceEU" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> </div> </div>
+
+If you have any questions or need help with building your hybrid search system, don't hesitate to reach out to us on 
+[Discord](https://qdrant.to/discord).
