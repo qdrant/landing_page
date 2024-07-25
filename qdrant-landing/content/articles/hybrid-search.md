@@ -7,10 +7,10 @@ social_preview_image: /articles_data/hybrid-search/social-preview.png
 weight: -150
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
-date: 2024-07-24T14:24:00.000Z
+date: 2024-07-25T00:00:00.000Z
 ---
 
-It's been over a year since we published the original article on building a hybrid
+It's been over a year since we published the original article on how to build a hybrid
 search system with Qdrant. The idea was straightforward: combine the results from different search methods to improve 
 retrieval quality. Back in 2023, you still needed to use an additional service to bring lexical search 
 capabilities and combine all the intermediate results. Things have changed since then. Once we introduced support for
@@ -22,7 +22,7 @@ to improve retrieval quality**. Everything is now done on the server side, and y
 experience for your users. In this article, we will show you how to utilize the new [Query 
 API](/documentation/concepts/search/#query-api) to build a hybrid search system.
 
-## Introduction to the new Query API
+## Introducing the new Query API
 
 At Qdrant, we believe that vector search capabilities go well beyond a simple search for nearest neighbors.
 That's why we provided separate methods for different search use cases, such as `search`, `recommend`, or `discover`.
@@ -32,7 +32,7 @@ endpoint and also supports creating nested multistage queries that can be used t
 If you are an existing Qdrant user, you probably have a running search mechanism that you want to improve, whether sparse 
 or dense. Doing any changes should be preceded by a proper evaluation of its effectiveness. 
 
-### Measuring the effectiveness of the search system
+### How effective is your search system?
 
 None of the experiments makes sense if you don't measure the quality. How else would you compare which method works 
 better for your use case? The most common way of doing that is by using the standard metrics, such as `precision@k`, 
@@ -104,7 +104,7 @@ the candidates without the need to access all the documents in the collection.
 
 ![Reranking](/articles_data/hybrid-search/reranking.png)
 
-#### Why not linear combination?
+#### Why not a linear combination?
 
 It's often proposed to use full-text and vector search scores to form a linear combination formula to rerank 
 the results. So it goes like this:
@@ -112,7 +112,7 @@ the results. So it goes like this:
 ```final_score = 0.7 * vector_score + 0.3 * full_text_score```
 
 However, we didn't even consider such a setup. Why? Those scores don't make the problem linearly separable. We used 
-BM25 score along with cosine vector similarity to use both of them as points coordinates in 2-dimensional space. The 
+the BM25 score along with cosine vector similarity to use both of them as points coordinates in 2-dimensional space. The 
 chart shows how those points are distributed:
 
 ![A distribution of both Qdrant and BM25 scores mapped into 2D space.](/articles_data/hybrid-search/linear-combination.png)
@@ -256,14 +256,14 @@ client.query_points(
 )
 ```
 
-The options are endless, new Query API gives you the flexibility to experiment with different setups. Obviously, **you
+The options are endless, the new Query API gives you the flexibility to experiment with different setups. Obviously, **you
 rarely need to build such a complex search pipeline**, but it's good to know that you can do that if needed.
 
 ## Some anecdotal observations
 
-None of the algorithms works better in all the cases. There might be some specific queries in which keyword-based search
-will be a winner and the other way around. The table shows some interesting examples we could find in 
-[WANDS](https://github.com/wayfair/WANDS) dataset during the experiments:
+Neither of the algorithms performs best in all cases. In some cases, keyword-based search
+will be the winner and vice-versa. The following table shows some interesting examples we could find in the
+[WANDS](https://github.com/wayfair/WANDS) dataset during experimentation:
 
 <table>
    <thead>
