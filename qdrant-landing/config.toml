@@ -80,7 +80,6 @@ disableKinds = ["taxonomy", "term"]
   cloudDocVersion = "v0.1.x"
 
   googleTagManager = "GTM-KRLCXD5"
-  SEGMENT_WRITE_KEY = "HtxD8cbIlx3I98cyMdEFl6tBcJ3Cwagc"
 
 [params.author]
   name = "Andrey Vasnetsov"
