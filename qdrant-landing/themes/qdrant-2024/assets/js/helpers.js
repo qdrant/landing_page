@@ -77,9 +77,9 @@ export function devLog(str) {
   }
 }
 
+export const CROSS_SITE_URL_PARAM_KEY = 'qdrant-tech';
 export function tagCloudUILinksWithHash() {
   const targetUrl = 'https://cloud.qdrant.io/';
-  const parameterName = 'qdrant-tech';
   
   // Generate a random 32-character string
   const generateRandomString = (length = 32) => {
@@ -101,6 +101,6 @@ export function tagCloudUILinksWithHash() {
 
   // Loop through all selected <a> elements and update their href
   links.forEach(link => {
-    link.href = addOrUpdateQueryParam(link.href, parameterName, parameterValue);
+    link.href = addOrUpdateQueryParam(link.href, CROSS_SITE_URL_PARAM_KEY, parameterValue);
   });
 }
