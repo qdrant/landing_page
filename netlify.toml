@@ -6,14 +6,17 @@ command = "bash -x ./install-and-build.sh"
 HUGO_VERSION = "0.123.0"
 DART_SASS_VERSION = "1.70.0"
 NODE_VERSION = "20.10.0"
+HUGO_PARAMS_segmentWriteKey = "HtxD8cbIlx3I98cyMdEFl6tBcJ3Cwagc"
 
 [context.production.environment]
 HUGO_ENV = "production"
 HUGO_ENABLEGITINFO = "true"
 DEPLOY_PRIME_URL = "https://qdrant.tech"
+HUGO_PARAMS_segmentWriteKey = "FDCshQlKE2lWbOkvTXYHXY9Vof3ZFKoV"
 
 [context.deploy-preview.environment]
 HUGO_ENV = "staging"
+HUGO_PARAMS_segmentWriteKey = "kcpVTrfNQqfL07HhMjVM08g0a3aH2Oek"
 
 [[headers]]
     for = "/*"

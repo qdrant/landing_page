@@ -1,5 +1,6 @@
 import { getCookie, devLog } from './helpers';
 
+const WRITE_KEY = 'segmentWriteKey';
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
 const INTERACTIONS_SESSION_STORAGE_KEY = 'segmentInteractions';
 const PAYLOAD_BOILERPLATE = {
@@ -65,6 +66,13 @@ export function tagAllAnchors() {
   }
 }
 
+// Segment Key Getter & Setter
+const getSegmentWriteKey = () => {
+  return JSON.parse(sessionStorage.getItem(WRITE_KEY));
+}
+export const setSegmentWriteKey = (segmentWriteKey) => {
+  sessionStorage.setItem(WRITE_KEY, JSON.stringify(segmentWriteKey));
+}
 
 /****************/
 /* Segment CRUD */
@@ -173,10 +181,7 @@ export function handleConsent() {
 /* Loading Segment */
 /*******************/
 export function loadSegment() {
-  const metaTag = document.querySelector(`meta[name="segment"]`);
-  if (!metaTag) return; // Fail silently?
-
-  const writeKey = metaTag ? metaTag.getAttribute('content') : null;
+  const writeKey = getSegmentWriteKey();
   if (!writeKey) return; // Fail silently?
 
   devLog('Loading Segment...');

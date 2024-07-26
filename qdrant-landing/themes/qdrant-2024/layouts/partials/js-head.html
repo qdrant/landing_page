@@ -35,3 +35,9 @@
   {{ $documentationJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $documentationJs.RelPermalink }}"></script>
 {{ end }}
+
+<!--Segment-->
+{{ if .Site.Params.segmentWriteKey }}
+  {{ $segmentJs := resources.Get "js/segment-setup.js" | js.Build (dict "params" (dict "segmentWriteKey" .Site.Params.segmentWriteKey)) | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $segmentJs.RelPermalink }}"></script>
+{{ end }}
