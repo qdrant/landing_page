@@ -1,7 +1,7 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
-import { initGoToTopButton, getCookie } from './helpers';
-import { loadSegment, createSegmentStoredPage, tagAllAnchors, tagCloudUILinksWithHash } from './segment-helpers'
+import { initGoToTopButton, getCookie, tagCloudUILinksWithHash } from './helpers';
+import { loadSegment, createSegmentStoredPage, tagAllAnchors } from './segment-helpers'
 
 createSegmentStoredPage();
 
