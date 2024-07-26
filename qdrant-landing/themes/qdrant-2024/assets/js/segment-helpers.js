@@ -8,6 +8,7 @@ const PAYLOAD_BOILERPLATE = {
   title: document.title,
 };
 
+tagCloudUILinksWithHash();
 
 /*******************/
 /* General helpers */
@@ -181,8 +182,6 @@ export function handleConsent() {
 /* Loading Segment */
 /*******************/
 export function loadSegment() {
-  tagCloudUILinksWithHash();
-
   const writeKey = getSegmentWriteKey();
   if (!writeKey) return; // Fail silently?
 
