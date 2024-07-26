@@ -1,4 +1,4 @@
-import { getCookie, devLog } from './helpers';
+import { getCookie, devLog, tagCloudUILinksWithHash } from './helpers';
 
 const WRITE_KEY = 'segmentWriteKey';
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
@@ -181,6 +181,8 @@ export function handleConsent() {
 /* Loading Segment */
 /*******************/
 export function loadSegment() {
+  tagCloudUILinksWithHash();
+
   const writeKey = getSegmentWriteKey();
   if (!writeKey) return; // Fail silently?
 
