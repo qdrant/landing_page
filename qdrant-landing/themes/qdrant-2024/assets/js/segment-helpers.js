@@ -33,11 +33,16 @@ const nameMapper = (url) => { // Mapping names based on pathname for Segment
 /* DOM helpers */
 /***************/
 const handleClickInteraction = (event) => {
+  const url = new URL(event.target.href);
+  const searchParams = url.searchParams;
+  const qdrantTechValue = searchParams.get('qdrant-techs');
+
   const payload = {
     ...PAYLOAD_BOILERPLATE,
     location: event.target.getAttribute('data-metric-loc') ?? '',
     label: event.target.getAttribute('data-metric-label') ?? event.target.innerText,
-    action: 'clicked'
+    action: 'clicked',
+    qdrant_tech_hash: qdrantTechValue ?? null
   };
 
   // If consented to tracking the track 
