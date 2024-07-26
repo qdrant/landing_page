@@ -1,4 +1,4 @@
-import { getCookie, devLog, tagCloudUILinksWithHash } from './helpers';
+import { getCookie, devLog } from './helpers';
 
 const WRITE_KEY = 'segmentWriteKey';
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
@@ -7,8 +7,6 @@ const PAYLOAD_BOILERPLATE = {
   url: window.location.href,
   title: document.title,
 };
-
-tagCloudUILinksWithHash();
 
 /*******************/
 /* General helpers */
