@@ -17,6 +17,12 @@ Before configuring Airflow, you need:
 
 2. A running Airflow instance. You can use their [Quick Start Guide](https://airflow.apache.org/docs/apache-airflow/stable/start.html).
 
+## Installation
+
+You can install the Qdrant provider by running `pip install apache-airflow-providers-qdrant` in your Airflow shell.
+
+**NOTE**: You'll have to restart your Airlfow session for the provider to be available.
+
 ## Setting up a connection
 
 Open the `Admin-> Connections` section of the Airflow UI. Click the `Create` link to create a new [Qdrant connection](https://airflow.apache.org/docs/apache-airflow-providers-qdrant/stable/connections.html).
