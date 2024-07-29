@@ -2,7 +2,7 @@
 title: Qdrant on Databricks
 weight: 36
 aliases:
-  - /examples/databricks/
+  - /documentation/examples/databricks/
 ---
 
 # Qdrant on Databricks
