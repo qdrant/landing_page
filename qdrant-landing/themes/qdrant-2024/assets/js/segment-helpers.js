@@ -1,4 +1,4 @@
-import { getCookie, devLog } from './helpers';
+import { getCookie, devLog, CROSS_SITE_URL_PARAM_KEY } from './helpers';
 
 const WRITE_KEY = 'segmentWriteKey';
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
@@ -7,7 +7,6 @@ const PAYLOAD_BOILERPLATE = {
   url: window.location.href,
   title: document.title,
 };
-
 
 /*******************/
 /* General helpers */
@@ -34,11 +33,16 @@ const nameMapper = (url) => { // Mapping names based on pathname for Segment
 /* DOM helpers */
 /***************/
 const handleClickInteraction = (event) => {
+  const url = new URL(event.target.href);
+  const searchParams = url.searchParams;
+  const qdrantTechHash = searchParams.get(CROSS_SITE_URL_PARAM_KEY);
+
   const payload = {
     ...PAYLOAD_BOILERPLATE,
     location: event.target.getAttribute('data-metric-loc') ?? '',
     label: event.target.getAttribute('data-metric-label') ?? event.target.innerText,
-    action: 'clicked'
+    action: 'clicked',
+    qdrant_tech_hash: qdrantTechHash ?? null
   };
 
   // If consented to tracking the track 
