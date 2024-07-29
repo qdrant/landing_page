@@ -106,6 +106,7 @@ storage:
     #   region: ""
     #   access_key: ""
     #   secret_key: ""
+    #   endpoint_url: ""
 
   # Where to store temporary files
   # If null, temporary snapshot are stored in: storage/snapshots_temp/

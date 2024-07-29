@@ -568,10 +568,14 @@ storage:
       region: your_bucket_region_here
 
       # Storage access key
-      # Can be specified either here or in the `AWS_ACCESS_KEY_ID` environment variable.
+      # Can be specified either here or in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__S3_CONFIG__ACCESS_KEY` environment variable.
       access_key: your_access_key_here
 
       # Storage secret key
-      # Can be specified either here or in the `AWS_SECRET_ACCESS_KEY` environment variable.
+      # Can be specified either here or in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__S3_CONFIG__SECRET_KEY` environment variable.
       secret_key: your_secret_key_here
+
+      # S3-Compatible Storage URL
+      # Can be specified either here or in the `QDRANT__STORAGE__SNAPSHOTS_CONFIG__S3_CONFIG__ENDPOINT_URL` environment variable.
+      endpoint_url: your_url_here
 ```
