@@ -99,7 +99,7 @@ Assume we have a database with 1 million records.
 This is a small database by modern standards of any relational database.
 You can probably use the smallest free tier of any cloud provider to host it.
 
-But if we want to use this database for vector search, 1 million OpenAI `text-embedding-ada-002` embeddings will take **~6Gb of RAM** (sic!).
+But if we want to use this database for vector search, 1 million OpenAI `text-embedding-ada-002` embeddings will take **~6GB of RAM** (sic!).
 As you can see, the vector search use case completely overwhelmed the main database resource requirements.
 In practice, this means that your main database becomes burdened with high memory requirements and can not scale efficiently, limited by the size of a single machine.
 

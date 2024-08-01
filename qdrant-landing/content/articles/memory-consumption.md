@@ -29,7 +29,7 @@ Introduction:
     2. Process may not free deallocated memory.
     3. Process might be forked and memory is shared between processes.
     3. Process may use disk cache.
-3. As a result, if you see `10Gb` memory consumption in `htop`, it doesn't mean that your process actually needs `10Gb` of RAM to work.
+3. As a result, if you see `10GB` memory consumption in `htop`, it doesn't mean that your process actually needs `10GB` of RAM to work.
 -->
 
 # Mastering RAM Measurement and Memory Optimization in Qdrant: A Comprehensive Guide
@@ -120,7 +120,7 @@ All in memory:
 1152mb - out of memory
 1200mb - 794.72it/s
 
-Conclusion: about 1.2Gb is needed to serve ~1 million vectors, no speed degradation with limiting memory above 1.2Gb
+Conclusion: about 1.2GB is needed to serve ~1 million vectors, no speed degradation with limiting memory above 1.2GB
 
 MMAP for vectors:
 
@@ -164,8 +164,8 @@ We tried using different amounts of memory, ranging from 1512mb to 1024mb, and m
 | 1024mb | out of memory |
 
 
-We found that 1152Mb memory limit resulted in our system running out of memory, but using 1512mb, 1256mb, and 1200mb of memory resulted in our system being able to handle around 780 RPS.
-This suggests that about 1.2Gb of memory is needed to serve around 1 million vectors, and there is no speed degradation when limiting memory usage above 1.2Gb.
+We found that 1152MB memory limit resulted in our system running out of memory, but using 1512mb, 1256mb, and 1200mb of memory resulted in our system being able to handle around 780 RPS.
+This suggests that about 1.2GB of memory is needed to serve around 1 million vectors, and there is no speed degradation when limiting memory usage above 1.2GB.
 
 ### Vectors stored using MMAP
 
