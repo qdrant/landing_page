@@ -6,6 +6,7 @@ aliases:
   - ../cloud-quick-start
   - cloud-quick-start
   - cloud-quickstart
+  - cloud/quickstart-cloud/
 ---
 # How to Get Started With Qdrant Cloud
 

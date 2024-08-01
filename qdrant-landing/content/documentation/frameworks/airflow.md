@@ -21,7 +21,7 @@ Before configuring Airflow, you need:
 
 You can install the Qdrant provider by running `pip install apache-airflow-providers-qdrant` in your Airflow shell.
 
-**NOTE**: You'll have to restart your Airlfow session for the provider to be available.
+**NOTE**: You'll have to restart your Airflow session for the provider to be available.
 
 ## Setting up a connection
 
