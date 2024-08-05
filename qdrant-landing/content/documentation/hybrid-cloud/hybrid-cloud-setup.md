@@ -117,6 +117,19 @@ One way to create a secret is with kubectl:
 kubectl create secret generic qdrant-api-key --from-literal=api-key=your-secret-api-key --namespace the-qdrant-namespace
 ```
 
+The resulting secret will look like this:
+
+```yaml
+apiVersion: v1
+data:
+  api-key: ...
+kind: Secret
+metadata:
+  name: qdrant-api-key
+  namespace: the-qdrant-namespace
+type: kubernetes.io/tls
+```
+
 With this command the secret name would be `qdrant-api-key` and the key would be `api-key`.
 
 If you want to retrieve the secret again, you can also use `kubectl`:
@@ -201,6 +214,37 @@ spec:
 Please refer to the Kubernetes, ingress controller and cloud provider documention for more details.
 
 If you expose the database with such a way, you will be able to see this also reflected as an endpoint on the cluster detail page. And will see the Qdrant database dashboard link pointing to it.
+
+### Configuring TLS
+
+If you want to configure TLS for accessing your Qdrant database in Hybrid Cloud, there are two options:
+
+* You can offload TLS at the ingress or loadbalancer level.
+* You can configure TLS directly in the Qdrant database.
+
+If you want to configure TLS directly in the Qdrant database, you can provide a secret with the TLS certificate and key in the "Configuration" section of the Qdrant Cluster detail page. There you can configure the Kubernetes secret name and key to be used as the certificate and key.
+
+To create such a secret, you can use `kubectl`:
+
+```shell
+ kubectl create secret tls qdrant-tls --cert=mydomain.com.crt --key=mydomain.com.key --namespace the-qdrant-namespace
+```
+
+The resulting secret will look like this:
+
+```yaml
+apiVersion: v1
+data:
+  tls.crt: ...
+  tls.key: ...
+kind: Secret
+metadata:
+  name: qdrant-tls
+  namespace: the-qdrant-namespace
+type: kubernetes.io/tls
+```
+
+With this command the secret name to enter into the UI would be `qdrant-tls` and the keys would be `tls.crt` and `tls.key`.
 
 ## Deleting a Hybrid Cloud Environment
 
