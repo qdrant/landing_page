@@ -121,5 +121,5 @@ We only guarantee compatibility if you update between consecutive versions. You 
 
 ### Is it possible to scale down a Qdrant Cloud cluster?
 
-In general, no. There's no way to scale down the underlying disk storage.
-But in some cases, we might be able to help you with that through manual intervention, but it's not guaranteed.
+It is possible to vertically scale down a Qdrant Cloud cluster, as long as the disk size is not reduced. Horizontal downscaling is currently not possible, but on our roadmap.
+But in some cases, we might be able to help you with that manually. Please open a support ticket, so that we can assist.
