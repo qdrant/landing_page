@@ -52,16 +52,13 @@
       &.form-columns-1:has(> .legal-consent-container) {
         width: auto;
         margin-bottom: 0;
-        @include media-breakpoint-up(md) {
-          max-width: 50%;
-          min-width: 50%;
-        }
       }
 
       .legal-consent-container {
         flex-grow: 0;
-        @include media-breakpoint-up(md) {
-          margin-top: $last-row-margin;
+        .inputs-list {
+          list-style: none;
+          padding-left: 0;
         }
       }
     }
