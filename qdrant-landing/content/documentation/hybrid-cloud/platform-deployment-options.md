@@ -111,6 +111,18 @@ First, consult Digital Ocean's managed Kubernetes instructions below. Then, **to
 - [DOKS - How To Guides](https://docs.digitalocean.com/products/kubernetes/how-to/)
 - [DOKS - Reference Manual](https://docs.digitalocean.com/products/kubernetes/reference/)
 
+![Gcore](/documentation/cloud/cloud-providers/gcore.svg)
+
+## Gcore
+
+[Gcore Managed Kubernetes](https://gcore.com/cloud/managed-kubernetes) is a managed container orchestration engine built on top of Kubernetes. Gcore enables you to quickly deploy and manage your containerized applications without needing to build (and maintain) your own Kubernetes cluster. All Gcore instances are equipped with a fully managed control plane at no additional cost.
+
+First, consult Gcore's managed Kubernetes instructions below. Then, **to set up Qdrant Hybrid Cloud on Gcore**, follow our [step-by-step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/).
+
+### More on Gcore Kubernetes Engine
+
+- [Getting Started with Kubnetes on Gcore](https://gcore.com/docs/cloud/kubernetes/about-gcore-kubernetes)
+
 ![Google Cloud Platform](/documentation/cloud/cloud-providers/gcp.jpg)
 
 ## Google Cloud Platform (GCP)
