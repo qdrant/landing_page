@@ -114,7 +114,7 @@ You can configure authentication for your Qdrant clusters in the "Configuration"
 One way to create a secret is with kubectl:
 
 ```shell
-kubectl create secret generic qdrant-api-key --from-literal=api-key=your-secret-api-key
+kubectl create secret generic qdrant-api-key --from-literal=api-key=your-secret-api-key --namespace the-qdrant-namespace
 ```
 
 With this command the secret name would be `qdrant-api-key` and the key would be `api-key`.
@@ -122,7 +122,7 @@ With this command the secret name would be `qdrant-api-key` and the key would be
 If you want to retrieve the secret again, you can also use `kubectl`:
 
 ```shell
-kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" | base64 --decode
+kubectl get secret qdrant-api-key -o jsonpath="{.data.api-key}" --namespace the-qdrant-namespace | base64 --decode
 ```
 
 ### Exposing Qdrant clusters to your client applications
@@ -140,7 +140,7 @@ This endpoint is also visible on the cluster detail page.
 If you want to access the database from your local developer machine, you can use `kubectl port-forward` to forward the service port to your local machine:
 
 ```
-kubectl -n qdrant-namespace port-forward service/qdrant-9a9f48c7-bb90-4fb2-816f-418a46a74b24 6333:6333
+kubectl --namespace your-qdrant-namespace port-forward service/qdrant-9a9f48c7-bb90-4fb2-816f-418a46a74b24 6333:6333
 ```
 
 You can also expose the database outside the Kubernetes cluster with a `LoadBalancer` (if supported in your Kubernetes environment) or `NodePort` service or an ingress.
