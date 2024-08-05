@@ -57,6 +57,9 @@ form.hs-form {
           max-width: calc(50% - #{$remValue});
         }
       }
+      .input > input {
+        width: 100% !important;
+      }
     }
 
     // todo: this may be removed once the form is updated
@@ -95,7 +98,7 @@ form.hs-form {
         color: $neutral-70;
       }
 
-      &[type="number"] {
+      &[type='number'] {
         -moz-appearance: textfield;
         -webkit-appearance: textfield;
         appearance: textfield;
@@ -151,6 +154,33 @@ form.hs-form {
       a {
         color: $neutral-80;
         font-weight: 600;
+      }
+    }
+    .hs-form-booleancheckbox-display {
+      display: flex;
+      align-items: center;
+
+      input[type='checkbox'] {
+        width: 1.2rem;
+        height: 1rem;
+        aspect-ratio: 1/1;
+        background-color: transparent;
+        border: 1px solid $neutral-40;
+        border-radius: 4px;
+        outline: none;
+        appearance: none;
+        padding: 0;
+
+        &:checked {
+          border-color: $neutral-100;
+          background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA0NDggNTEyIj48IS0tIUZvbnQgQXdlc29tZSBGcmVlIDYuNi4wIGJ5IEBmb250YXdlc29tZSAtIGh0dHBzOi8vZm9udGF3ZXNvbWUuY29tIExpY2Vuc2UgLSBodHRwczovL2ZvbnRhd2Vzb21lLmNvbS9saWNlbnNlL2ZyZWUgQ29weXJpZ2h0IDIwMjQgRm9udGljb25zLCBJbmMuLS0+PHBhdGggZmlsbD0iI2YwZjJmOSIgZD0iTTQzOC42IDEwNS40YzEyLjUgMTIuNSAxMi41IDMyLjggMCA0NS4zbC0yNTYgMjU2Yy0xMi41IDEyLjUtMzIuOCAxMi41LTQ1LjMgMGwtMTI4LTEyOGMtMTIuNS0xMi41LTEyLjUtMzIuOCAwLTQ1LjNzMzIuOC0xMi41IDQ1LjMgMEwxNjAgMzM4LjcgMzkzLjQgMTA1LjRjMTIuNS0xMi41IDMyLjgtMTIuNSA0NS4zIDB6Ii8+PC9zdmc+');
+          background-repeat: no-repeat;
+          background-position: center;
+        }
+
+        &:focus {
+          border: 1px solid $neutral-100;
+        }
       }
     }
   }

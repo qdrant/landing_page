@@ -8,7 +8,7 @@ image:
   srcMobile: /img/mobile/subscribe.svg
   alt: Astronaut
 form:
-  title: Sign up for our newsletter
+  title: Sign up for Qdrant Updates
   description: Stay up to date on product news, technical articles, and upcoming educational webinars.
   label: Email
   placeholder: info@qdrant.com
