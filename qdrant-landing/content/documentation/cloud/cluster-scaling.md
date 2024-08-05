@@ -35,3 +35,45 @@ With the growing amount of data you can add nodes to your cluster and move shard
 
 We will be glad to consult you on an optimal strategy for scaling.
 [Let us know](mailto:cloud@qdrant.io) your needs and decide together on a proper solution. We plan to introduce an auto-scaling functionality. Since it is one of most desired features, it has a high priority on our Cloud roadmap.
+
+### Guide: Moving shards to a new node after adding nodes
+
+After scaling a cluster horizontally, you can move shards from your original nodes to the new ones to balance memory and storage utilization.
+
+NOTE: This guide is an example of moving shards from node 0, if you want to move shards from another 
+node you would need to change your cluster URL to `https://node-{source_node}-xyz-example.eu-central.aws.cloud.qdrant.io`
+
+First, after adding nodes confirm that new peers are present by running:
+
+```bash
+curl \
+  -X GET 'https://node-0-xyz-example.eu-central.aws.cloud.qdrant.io:6333/cluster' \
+  --header 'api-key: <paste-your-api-key-here>'
+```
+
+Note the `peer_ids` of the peers as they are needed for the last step of moving shards.
+
+Next, you need to check the target collection cluster info. This gives insights on how many shards are on a node and its size. Note the `local_shards` from the return result and note a `shard_id` of the shard you want to move to another node.
+
+```bash
+curl \
+  -X GET 'https://node-0-xyz-example.eu-central.aws.cloud.qdrant.io:6333/collections/{collection_name}/cluster' \
+  --header 'api-key: <paste-your-api-key-here>'
+```
+
+The last step is to initiate a "move shard" operation. For this, you will need the ID of the peer that stores the target shard, the shard ID itself and the target peer ID to which the shard will be moved:
+
+```bash
+curl \
+  -X POST 'https://node-0-xyz-example.eu-central.aws.cloud.qdrant.io:6333/collections/{collection_name}/cluster' \
+  --header 'api-key: <paste-your-api-key-here>' -d '{
+    "move_shard": {
+    "shard_id": SHARD_ID,
+    "from_peer_id": SOURCE_PEER_ID,
+    "to_peer_id": TARGET_PEER_ID
+  }
+}' -H "Content-Type: application/json"
+```
+
+This initiates a background operation to move a shard. After the shard is moved, you can confirm the operation's success by once again running the command from step two (querying collection cluster info), and you will notice that the shard has moved to another peer.
+
