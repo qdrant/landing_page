@@ -85,6 +85,20 @@ cards:
     name: Nirant Kasliwal
     position: FastEmbed Creator
     description: I'm a Machine Learning consultant specializing in NLP and Vision systems for early-stage products. I've authored an NLP book recommended by Dr. Andrew Ng to Stanford's CS230 students and maintain FastEmbed at Qdrant for speed.
+  - id: 12
+    image:
+      src: /img/stars/denzell-ford.jpg
+      alt: Denzell Ford Photo
+    name: Denzell Ford
+    position: Founder at Trieve, has been using Qdrant since late 2022.
+    description: Denzell Ford, the founder of Trieve, has been using Qdrant since late 2022. He's passionate about helping people in the community.
+  - id: 13
+    image:
+      src: /img/stars/pavan-nagula.jpg
+      alt: Pavan Nagula Photo
+    name: Pavan Nagula
+    position: Data Scientist | Machine Learning and Generative AI
+    description: I'm Pavan, a data scientist specializing in AI, ML, and big data analytics. I love experimenting with new technologies in the AI and ML space, and Qdrant is a place where I've seen such innovative implementations recently.
 sitemapExclude: true
 ---
 
