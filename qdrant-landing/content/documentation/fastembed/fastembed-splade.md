@@ -73,7 +73,7 @@ sparse_embeddings_list: List[SparseEmbedding] = list(
 ```
 ## Retrieve embeddings
 
-`sparse_embeddings_list` contains sparse embeddings for the documents provided earlier. Each element in this list is a `SparseEmbedding` object that contains the sparse vector representation of a document. Set the variable `index` to 0. This will retrieve data from the first document in the list.
+`sparse_embeddings_list` contains sparse embeddings for the documents provided earlier. Each element in this list is a `SparseEmbedding` object that contains the sparse vector representation of a document. 
 
 ```python
 index = 0
@@ -120,9 +120,9 @@ Let's use the tokenizer vocab to make sense of these indices.
 
 ```python
 import json
-from transformers import AutoTokenizer
+from tokenizers import Tokenizer
 
-tokenizer = AutoTokenizer.from_pretrained(SparseTextEmbedding.list_supported_models()[0]["sources"]["hf"])
+tokenizer = Tokenizer.from_pretrained(SparseTextEmbedding.list_supported_models()[0]["sources"]["hf"])
 ```
 
 The `get_tokens_and_weights` function takes a `SparseEmbedding` object and a `tokenizer` as input. It will construct a dictionary where the keys are the decoded tokens, and the values are their corresponding weights. 

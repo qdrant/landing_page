@@ -6,7 +6,6 @@ weight: 3
 # Using FastEmbed with Qdrant for Vector Search
 
 ## Install Qdrant Client
-The Qdrant Python Client has a simple in-memory mode that lets you try semantic search locally. 
 ```python
 pip install qdrant-client
 ```
@@ -18,6 +17,7 @@ pip install fastembed
 ```
 
 ## Initialize the client
+Qdrant Client has a simple in-memory mode that lets you try semantic search locally. 
 ```python
 from qdrant_client import QdrantClient
 

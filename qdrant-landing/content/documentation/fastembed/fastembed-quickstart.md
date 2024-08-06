@@ -54,20 +54,7 @@ Document: fastembed is supported by and maintained by Qdrant.
 Vector of type: <class 'numpy.ndarray'> with shape: (384,)
 ```
 
-## Verify embedding shape
-Next, take the embeddings and convert them into a NumPy array.
-Then, check the shape of this array to confirm the dimensions of the generated embeddings.
-
-```python
-embeddings_list = np.array(list(embedding_model.embed(documents)))
-embeddings_list.shape
-```
-The shape will be a tuple indicating the number of documents and the dimensions of the embeddings. For example, if there are 2 documents and each embedding has 384 dimensions, the shape will be (2, 384).
-```python
-(2, 384)
-```
-
-## See the embeddings
+## Visualize embeddings
 ```python
 print("Embeddings:\n", embeddings_list)
 ```
