@@ -79,7 +79,7 @@ You should get something like this:
 ((26, 128), (32, 128))
 ```
 
-Don't worry about query embeddings having the bigger shape in this case. ColBERT authors recommend to pad queries with [MASK] tokens to 32 tokens. They also recommends to truncate queries to 32 tokens, however we don't do that in FastEmbed, so you can put some straight into the queries.
+Don't worry about query embeddings having the bigger shape in this case. ColBERT authors recommend to pad queries with [MASK] tokens to 32 tokens. They also recommend truncating queries to 32 tokens, however, we don't do that in FastEmbed so that you can put some straight into the queries.
 
 ## Compute similarity
 
