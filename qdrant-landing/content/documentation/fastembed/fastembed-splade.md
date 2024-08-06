@@ -73,7 +73,7 @@ sparse_embeddings_list: List[SparseEmbedding] = list(
 ```
 ## Retrieve embeddings
 
-`Sparse_embeddings_list` contains sparse embeddings for the documents provided earlier. Each element in this list is a `SparseEmbedding` object that contains the sparse vector representation of a document. Set the variable `index` to 0. This will retrieve data from the first document in the list.
+`sparse_embeddings_list` contains sparse embeddings for the documents provided earlier. Each element in this list is a `SparseEmbedding` object that contains the sparse vector representation of a document. Set the variable `index` to 0. This will retrieve data from the first document in the list.
 
 ```python
 index = 0
