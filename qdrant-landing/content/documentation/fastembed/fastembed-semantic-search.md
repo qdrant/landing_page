@@ -56,7 +56,7 @@ search_result = client.query(
 )
 print(search_result)
 ```
-The semantic search engine will retrieve the most similar result in order of releance. In this case, the second statement about LlamaIndex is more relevant.
+The semantic search engine will retrieve the most similar result in order of relevance. In this case, the second statement about LlamaIndex is more relevant.
 
 ```bash
 [QueryResponse(id=2, embedding=None, sparse_embedding=None, 
