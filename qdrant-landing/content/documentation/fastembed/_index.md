@@ -25,8 +25,12 @@ FastEmbed easily integrates with Qdrant for a variety of multimodal search purpo
 
 ## Supported Models
 We are continuously updating the list with better and useful models. Please note that this list changes often.
+Click on each list to expand it.
 
-### Text Embedding Models
+<details>
+
+<summary> Text Embedding Models </summary>
+
 | model                                      | dim | description                                                                     | size_in_GB |
 |--------------------------------------------|-----|---------------------------------------------------------------------------------|------------|
 | BAAI/bge-small-en-v1.5                     | 384 | Fast and Default English model                                                  | 0.067      |
@@ -55,7 +59,12 @@ We are continuously updating the list with better and useful models. Please note
 | BAAI/bge-large-en-v1.5                     | 1024 | Large English model, v1.5                                                       | 1.200      |
 | intfloat/multilingual-e5-large             | 1024 | Multilingual model, e5-large. Recommend using ...                              | 2.240      |
 
-### Image Embedding Models
+</details>
+
+<details>
+
+<summary> Image Embedding Models </summary>
+
 | model                       | dim  | description                                          | size_in_GB |
 |-----------------------------|------|------------------------------------------------------|------------|
 | Qdrant/resnet50-onnx        | 2048 | ResNet-50 from `Deep Residual Learning for Ima...    | 0.10       |
@@ -63,7 +72,12 @@ We are continuously updating the list with better and useful models. Please note
 | Qdrant/Unicom-ViT-B-32      | 512  | Unicom Unicom-ViT-B-32 from open-metric-learning     | 0.48       |
 | Qdrant/Unicom-ViT-B-16      | 768  | Unicom Unicom-ViT-B-16 from open-metric-learning     | 0.82       |
 
-### Sparse Embedding Models
+</details>
+
+<details>
+
+<summary> Sparse Embedding Models </summary>
+
 | model                                       | vocab_size | description                                                                       | size_in_GB | requires_idf |
 |---------------------------------------------|------------|-----------------------------------------------------------------------------------|------------|--------------|
 | Qdrant/bm25                                  | NaN        | BM25 as sparse embeddings meant to be used with...                                | 0.010      | True         |
@@ -71,7 +85,14 @@ We are continuously updating the list with better and useful models. Please note
 | prithvida/Splade_PP_en_v1                    | 30522.0    | Misspelled version of the model. Retained for...                                  | 0.532      | NaN          |
 | prithivida/Splade_PP_en_v1                   | 30522.0    | Independent Implementation of SPLADE++ Model for dense and sparse retrieval tasks | 0.532      | NaN          |
 
-### Late Interaction Embedding Models
+</details>
+
+<details>
+
+<summary> Late Interactio Embedding Models </summary>
+
 | model                    | dim | description             | size_in_GB |
 |--------------------------|-----|-------------------------|------------|
 | colbert-ir/colbertv2.0   | 128 | Late interaction model  | 0.44       |
+
+</details>
