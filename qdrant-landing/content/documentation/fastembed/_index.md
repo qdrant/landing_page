@@ -89,7 +89,7 @@ Click on each list to expand it.
 
 <details>
 
-<summary> Late Interactio Embedding Models </summary>
+<summary> Late Interaction Embedding Models </summary>
 
 | model                    | dim | description             | size_in_GB |
 |--------------------------|-----|-------------------------|------------|
