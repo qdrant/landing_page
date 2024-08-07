@@ -1,7 +1,7 @@
 ---
 title: "Every* model might be a late interaction model if you give it a chance"
-short_description: ""
-description: ""
+short_description: "Standard dense embedding models are surprisingly good in late interaction scenarios."
+description: "Standard dense embedding models are surprisingly good in late interaction scenarios."
 preview_dir: /articles_data/late-interaction-models/preview
 social_preview_image: /articles_data/late-interaction-models/social-preview.png
 weight: -160
@@ -16,7 +16,7 @@ Qdrant 1.10 introduced support for multi-vector representations, and late intera
 such models. In a nutshell, both documents and queries are represented by multiple vectors, and finding the most 
 relevant documents requires calculating a score based on similarity between the pairs of query and document embeddings.
 
-TODO: add a small image of a colbert-like retrieval
+![Late interaction](/articles_data/late-interaction-models/late-interaction.png)
 
 There are many specialized late interaction models, such as ColBERT, but **it seems that regular dense embedding models 
 can also be used in this way**.
@@ -29,28 +29,27 @@ identifiers is then passed through an embedding layer, which converts the token 
 Essentially, the embedding layer is a lookup table that maps token identifiers to dense vectors. This is the input to
 the transformer model.
 
-TODO: image presenting how a simple text is converted into tokens and then to corresponding embeddings
+![Input token embeddings](/articles_data/late-interaction-models/input-embeddings.png)
 
 The input token embeddings are context-free and learned during the training process of the model. Thus, each token has
 identical embedding, no matter where it appears in the text. At this stage, each token embedding does not know anything 
 about the context in which it appears. That's the job of the transformer model to contextualize the embeddings.
-
-TODO: continue transformer explanation
 
 A lot has been said about the attention role in the transformer models, but in a nutshell, this mechanism is responsible 
 for cross-tokens relations. Each of the transformer modules takes a sequence of token embeddings as input and produces a 
 sequence of output token embeddings. Both sequences have the same length, as each token embedding is processed using 
 the information from the other token embeddings at this stage.
 
-TODO: some image to visualize it?
+![Output token embeddings](/articles_data/late-interaction-models/output-embeddings.png)
 
 The last step performed by the embedding model is a pooling over the output token embeddings to obtain a single vector 
-representation of the input text. There are a few pooling strategies, but no matter which one a selected model uses, the 
-output is a single vector representation which obviously looses some information about the input. It's like giving 
-someone a detailed step-by-step instruction on how to get to the nearest grocery store vs pointing out the direction 
-with a finger.
+representation of the input text. 
 
-TODO: add an image presenting pooling
+![Pooling](/articles_data/late-interaction-models/pooling.png)
+
+There are a few pooling strategies, but no matter which one a selected model uses, the output is a single vector 
+representation which obviously looses some information about the input. It's like giving someone a detailed step-by-step 
+instruction on how to get to the nearest grocery store vs pointing out the direction with a finger.
 
 ### Output token embeddings are multi-vector representations
 
@@ -74,15 +73,10 @@ models. The results are quite promising.
     </thead>
     <tbody>
         <tr>
-            <th rowspan="4">SciFact</th>
-            <td><code>all-MiniLM-L6-v2</code></td>
-            <td>single dense vector representation</td>
-            <td>0.64594</td>
-        </tr>
-        <tr>
+            <th rowspan="6">SciFact</th>
             <td><code>prithvida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
-            <td><u>0.69359</u></td>
+            <td>0.69359</td>
         </tr>
         <tr>
             <td><code>colbert-ir/colbertv2.0</code></td>
@@ -90,17 +84,28 @@ models. The results are quite promising.
             <td>0.67462</td>
         </tr>
         <tr>
-            <td><code>all-MiniLM-L6-v2</code></td>
+            <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
+            <td>single dense vector representation</td>
+            <td>0.64594</td>
+        </tr>
+        <tr>
             <td>output token embeddings</td>
             <td>0.68941</td>
         </tr>
         <tr>
-            <th rowspan="4">NFCorpus</th>
-            <td><code>all-MiniLM-L6-v2</code></td>
+            <td rowspan="2"><code>BAAI/bge-small-en</code></td>
             <td>single dense vector representation</td>
-            <td>0.3078</td>
+            <td>0.6626</td>
         </tr>
         <tr>
+            <td>output token embeddings</td>
+            <td><u>0.72436</u></td>
+        </tr>
+        <tr>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <th rowspan="6">NFCorpus</th>
             <td><code>prithvida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
             <td>0.34377</td>
@@ -111,9 +116,22 @@ models. The results are quite promising.
             <td>0.34461</td>
         </tr>
         <tr>
-            <td><code>all-MiniLM-L6-v2</code></td>
+            <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
+            <td>single dense vector representation</td>
+            <td>0.3078</td>
+        </tr>
+        <tr>
             <td>output token embeddings</td>
-            <td><u>0.35256</u></td>
+            <td>0.35256</td>
+        </tr>
+        <tr>
+            <td rowspan="2"><code>BAAI/bge-small-en</code></td>
+            <td>single dense vector representation</td>
+            <td>0.31073</td>
+        </tr>
+        <tr>
+            <td>output token embeddings</td>
+            <td><u>0.37405</u></td>
         </tr>
     </tbody>
 </table>
@@ -129,26 +147,35 @@ retrieval quality. All the experiments were done using Qdrant in the exact searc
 by the approximate search.
 
 Even the simple `all-MiniLM-L6-v2` model can be used in a late interaction model fashion, with a positive impact on the
-retrieval quality. 
+retrieval quality. However, the best results were achieved by the `BAAI/bge-small-en` model, which outperformed both
+sparse and late interaction models. 
 
-TODO: mention sparse vectors to be winning, but the output token embeddings are still better than late interaction models
+### Pros and cons
 
-#### Pros and cons
+The retrieval quality speaks for itself, but there are some other aspects to consider.
 
-Traditional dense embedding models, as long as we can call any embedding model traditional, are usually faster than the
-late interaction models. It means that the retrieval time can be significantly reduced by using the output token
-embeddings instead of the late interaction models, and the quality of the retrieval is not affected.
+Traditional dense embedding models, as long as we can call any embedding model traditional, are quite often less complex
+than the late interaction models. They have fewer parameters, and for that reason should also be faster during the 
+inference and cheaper to maintain. Here is a comparison of the models used in the experiments:
+
+| Model                        | Number of parameters |
+|------------------------------|----------------------|
+| `prithivida/Splade_PP_en_v1` | 109,514,298          |
+| `colbert-ir/colbertv2.0`     | 109,580,544          |
+| `BAAI/bge-small-en`          | 33,360,000           |
+| `all-MiniLM-L6-v2`           | 22,713,216           |
 
 One argument against using the output token embeddings is the increased storage requirements compared to ColBERT-like
 models. For example, `all-MiniLM-L6-v2` model produces 384-dimensional output token embeddings, which is 3 times more
 than the 128-dimensional ColBERT-like models. Obviously, that leads to increased memory usage, but the computational
-cost of the retrieval is also affected. It would make a lot of sense to mitigate this issue by compressing the vectors.
+cost of the retrieval is also affected, as calculating the distance takes more time. It would make a lot of sense to 
+mitigate this issue by compressing the vectors.
 
 #### Impact of the quantization
 
-Binary Quantization is rather suitable for high-dimensional vectors, and `all-MiniLM-L6-v2` is on the opposite side of
-the spectrum, with relatively low-dimensional outputs. However, Scalar Quantization still sounded like a good idea. The 
-table below summarizes the impact of the quantization on the retrieval quality.
+Binary Quantization is rather suitable for high-dimensional vectors, and `all-MiniLM-L6-v2`, with relatively 
+low-dimensional outputs, is on the opposite side of the spectrum. However, Scalar Quantization still sounded like a good 
+idea. The table below summarizes the impact of the quantization on the retrieval quality.
 
 <table>
     <thead>
@@ -161,13 +188,12 @@ table below summarizes the impact of the quantization on the retrieval quality.
     </thead>
     <tbody>
         <tr>
-            <td rowspan="2">SciFact</td>
-            <td><code>all-MiniLM-L6-v2</code></td>
+            <th rowspan="2">SciFact</th>
+            <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
             <td>output token embeddings</td>
             <td>0.68941</td>
         </tr>
         <tr>
-            <td><code>all-MiniLM-L6-v2</code></td>
             <td>output token embeddings with Scalar Quantization</td>
             <td>0.68941</td>
         </tr>
@@ -185,7 +211,10 @@ Obviously a single vector representation will be more efficient in terms of stor
 necessary to throw away the output token embeddings. According to the experiments, they should offer a significant
 improvement in the retrieval quality. You can store both the single vector and the output token embeddings in Qdrant, 
 and use the single vector for the initial retrieval step, and then rerank the results using the output token embeddings. 
-Let's see how to do it.
+
+![Single model reranking](/articles_data/late-interaction-models/single-model-reranking.png)
+
+Let's see how to do it with the new Query API introduced in Qdrant 1.10.
 
 #### Single model retrieval and reranking
 
@@ -257,4 +286,7 @@ perform pooling to get the single vector representation. This way you can do eve
 
 ## Future work
 
-Definitely `all-MiniLM-L6-v2` is not the only model that can be used in this way, and no one claims that it's the best.
+The initial experiments of using the output token embeddings in the retrieval process are promising, but we plan to 
+perform some additional benchmarks to verify the results. We also plan to investigate the impact of the quantization on
+the multi-vector representations and its impact on the retrieval quality further. Speed is the last aspect we want to
+consider, as the retrieval time is crucial in many applications.
