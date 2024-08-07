@@ -32,13 +32,14 @@ the transformer model.
 
 ![Input token embeddings](/articles_data/late-interaction-models/input-embeddings.png)
 
-The input token embeddings are context-free and learned during the training process of the model. Thus, each token has
-identical embedding, no matter where it appears in the text. At this stage, each token embedding does not know anything 
-about the context in which it appears. That's the job of the transformer model to contextualize the embeddings.
+The input token embeddings are context-free and learned during the training process of the model. Thus, each token would
+always get identical embedding, no matter where it appears in the text. At this stage, each token embedding does not 
+know anything about the context in which it appears. That's the job of the transformer model to contextualize the 
+embeddings.
 
 A lot has been said about the attention role in the transformer models, but in a nutshell, this mechanism is responsible 
 for cross-tokens relations. Each of the transformer modules takes a sequence of token embeddings as input and produces a 
-sequence of output token embeddings. Both sequences have the same length, as each token embedding is processed using 
+sequence of output token embeddings. Both sequences have the same length, as each token embedding is enriched with 
 the information from the other token embeddings in the current step.
 
 ![Output token embeddings](/articles_data/late-interaction-models/output-embeddings.png)
@@ -143,7 +144,7 @@ TODO: clarify the discrepancy between the results achieved by Jina AI
 The [source code of the experiments is 
 open-source](https://github.com/kacperlukawski/beir-qdrant/blob/main/examples/retrieval/search/evaluate_all_exact.py) 
 and uses [`beir-qdrant`](https://github.com/kacperlukawski/beir-qdrant), which is an integration of Qdrant with the 
-[BeIR library](https://github.com/beir-cellar/beir). It is not an official package we will maintain in a long run, but 
+[BeIR library](https://github.com/beir-cellar/beir). It is not an official package maintained by Qdrant team, but 
 it might be useful for those who want to experiment with various Qdrant configurations and see how they impact the 
 retrieval quality. All the experiments were done using Qdrant in the exact search mode, so the results are not affected 
 by the approximate search.
@@ -205,6 +206,9 @@ idea. The table below summarizes the impact of the quantization on the retrieval
 It cannot be generalized that the quantization would always keep the retrieval quality at the same level, but in this
 case, it seems that the Scalar Quantization does not affect the retrieval quality at all. We didn't use rescoring in the
 evaluation, so the results are based on the initial retrieval step.
+
+We keep the original quality, using four times less memory. Moreover, a quantized vector needs 384 bytes, while ColBERT 
+requires 512. We saved 25% of the memory, and the retrieval quality remained the same.
 
 ### Practical considerations
 
@@ -288,7 +292,7 @@ perform pooling to get the single vector representation. This way you can do eve
 
 ## Future work
 
-The initial experiments of using the output token embeddings in the retrieval process are promising, but we plan to 
-perform some additional benchmarks to verify the results. We also plan to investigate the impact of the quantization on
-the multi-vector representations and its impact on the retrieval quality further. Speed is the last aspect we want to
-consider, as the retrieval time is crucial in many applications.
+The initial experiments utilizing output token embeddings in the retrieval process have shown promising results. 
+However, we intend to conduct further benchmarks to validate these findings. Additionally, we aim to delve deeper into 
+how quantization affects multi-vector representations and its consequent impact on retrieval quality. Lastly, we will 
+examine retrieval speed, as it is a critical factor for numerous applications.
