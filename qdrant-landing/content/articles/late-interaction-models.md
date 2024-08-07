@@ -38,7 +38,7 @@ about the context in which it appears. That's the job of the transformer model t
 A lot has been said about the attention role in the transformer models, but in a nutshell, this mechanism is responsible 
 for cross-tokens relations. Each of the transformer modules takes a sequence of token embeddings as input and produces a 
 sequence of output token embeddings. Both sequences have the same length, as each token embedding is processed using 
-the information from the other token embeddings at this stage.
+the information from the other token embeddings in the current step.
 
 ![Output token embeddings](/articles_data/late-interaction-models/output-embeddings.png)
 
