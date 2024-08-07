@@ -1,5 +1,5 @@
 ---
-title: "3 questions you need to ask yourself if you are not using FastEmbed and Qdrant for your RAG APP"
+title: "5 questions you need to ask yourself if you are not using FastEmbed and Qdrant for your RAG APP"
 short_description: "FastEmbed and Qdrant provide a fast and performant option for your AI Application"
 description: "Why aren't you using FastEmbed?"
 social_preview_image: /articles_data/embedding-model-questions/tree.png
@@ -19,7 +19,7 @@ keywords:
   - embedding models
 ---
 
-# 3 Questions to Ask Yourself if You're Not Using FastEmbed and Qdrant for Your RAG App
+# 5 Questions to Ask Yourself if You're Not Using FastEmbed and Qdrant for Your RAG App
 !(/blog/openai/Oversampling_Impact.png)
 
 As a data scientist learning about building AI applications, one of the branches of the RAG tree that has given me the most trouble is embedding models. There is a lot of discussion, research, and videos on frontier models like GPT-4 and Llama 3. There is much less fanfare surrounding the different embedding models and embedding model libraries.
