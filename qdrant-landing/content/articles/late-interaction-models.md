@@ -1,5 +1,5 @@
 ---
-title: "Every* model might be a late interaction model if you give it a chance"
+title: "Every* embedding model might be a late interaction model if you give it a chance"
 short_description: "Standard dense embedding models are surprisingly good in late interaction scenarios."
 description: "Standard dense embedding models are surprisingly good in late interaction scenarios."
 preview_dir: /articles_data/late-interaction-models/preview
@@ -12,9 +12,10 @@ date: 2024-08-05T00:00:00.000Z
 
 \* At least every Open Source model, because you need to access its internals.
 
-Qdrant 1.10 introduced support for multi-vector representations, and late interaction, are the most prominent example of 
-such models. In a nutshell, both documents and queries are represented by multiple vectors, and finding the most 
-relevant documents requires calculating a score based on similarity between the pairs of query and document embeddings.
+Qdrant 1.10 introduced support for multi-vector representations, and late interaction is the most prominent example of 
+such a model. In a nutshell, both documents and queries are represented by multiple vectors, and finding the most 
+relevant documents requires calculating a score based on the similarity between the pairs of query and document 
+embeddings.
 
 ![Late interaction](/articles_data/late-interaction-models/late-interaction.png)
 
