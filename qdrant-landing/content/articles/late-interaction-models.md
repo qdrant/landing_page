@@ -48,8 +48,9 @@ representation of the input text.
 ![Pooling](/articles_data/late-interaction-models/pooling.png)
 
 There are a few pooling strategies, but no matter which one a selected model uses, the output is a single vector 
-representation which obviously looses some information about the input. It's like giving someone a detailed step-by-step 
-instruction on how to get to the nearest grocery store vs pointing out the direction with a finger.
+representation, which obviously loses some information about the input. It’s like giving someone a detailed step-by-step 
+instruction on how to get to the nearest grocery store versus pointing out the direction with a finger. While this vague 
+direction might be enough in some cases, the detailed instruction is more likely to lead to the desired outcome.
 
 ### Output token embeddings are multi-vector representations
 
