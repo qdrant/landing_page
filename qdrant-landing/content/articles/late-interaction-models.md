@@ -287,7 +287,7 @@ client.query_points(
 )
 ```
 
-In a real world scenario, you would probably go even step further and calculate the token embedding first, and then 
+In a real-world scenario, you would probably go even step further and calculate the token embedding first, and then 
 perform pooling to get the single vector representation. This way you can do everything in a single pass.
 
 ## Future work
