@@ -33,8 +33,8 @@ integrations:
   icon:
     src: /img/integrations/integration-jina.svg
     alt: Jina logo
-  title: Jina
-  description: Easily integrate Qdrant with Jina's embeddings API.
+  title: Jina AI
+  description: Easily integrate Qdrant with Jina AI's embeddings API.
 - id: 5
   icon:
     src: /img/integrations/integration-aws.svg
