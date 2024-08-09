@@ -79,30 +79,30 @@ models. The results are quite promising.
             <th rowspan="6">SciFact</th>
             <td><code>prithvida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
-            <td>0.69359</td>
+            <td>0.70928</td>
         </tr>
         <tr>
             <td><code>colbert-ir/colbertv2.0</code></td>
             <td>late interaction model</td>
-            <td>0.67462</td>
+            <td>0.69579</td>
         </tr>
         <tr>
             <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
             <td>single dense vector representation</td>
-            <td>0.64594</td>
+            <td>0.64508</td>
         </tr>
         <tr>
             <td>output token embeddings</td>
-            <td>0.68941</td>
+            <td>0.70724</td>
         </tr>
         <tr>
             <td rowspan="2"><code>BAAI/bge-small-en</code></td>
             <td>single dense vector representation</td>
-            <td>0.6626</td>
+            <td>0.68213</td>
         </tr>
         <tr>
             <td>output token embeddings</td>
-            <td><u>0.72436</u></td>
+            <td><u>0.73696</u></td>
         </tr>
         <tr>
             <td colspan="4"></td>
@@ -111,35 +111,65 @@ models. The results are quite promising.
             <th rowspan="6">NFCorpus</th>
             <td><code>prithvida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
-            <td>0.34377</td>
+            <td>0.34166</td>
         </tr>
         <tr>
             <td><code>colbert-ir/colbertv2.0</code></td>
             <td>late interaction model</td>
-            <td>0.34461</td>
+            <td>0.35036</td>
         </tr>
         <tr>
             <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
             <td>single dense vector representation</td>
-            <td>0.3078</td>
+            <td>0.31594</td>
         </tr>
         <tr>
             <td>output token embeddings</td>
-            <td>0.35256</td>
+            <td>0.35779</td>
         </tr>
         <tr>
             <td rowspan="2"><code>BAAI/bge-small-en</code></td>
             <td>single dense vector representation</td>
-            <td>0.31073</td>
+            <td>0.29696</td>
         </tr>
         <tr>
             <td>output token embeddings</td>
-            <td><u>0.37405</u></td>
+            <td><u>0.37502</u></td>
         </tr>
+        <!--<tr>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <th rowspan="6">ArguAna</th>
+            <td><code>prithvida/Splade_PP_en_v1</code></td>
+            <td>sparse vectors</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><code>colbert-ir/colbertv2.0</code></td>
+            <td>late interaction model</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
+            <td>single dense vector representation</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>output token embeddings</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td rowspan="2"><code>BAAI/bge-small-en</code></td>
+            <td>single dense vector representation</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>output token embeddings</td>
+            <td></td>
+        </tr>-->
     </tbody>
 </table>
-
-TODO: clarify the discrepancy between the results achieved by Jina AI
 
 The [source code of the experiments is 
 open-source](https://github.com/kacperlukawski/beir-qdrant/blob/main/examples/retrieval/search/evaluate_all_exact.py) 
@@ -176,8 +206,8 @@ mitigate this issue by compressing the vectors.
 
 #### Impact of the quantization
 
-Binary Quantization is rather suitable for high-dimensional vectors, and `all-MiniLM-L6-v2`, with relatively 
-low-dimensional outputs, is on the opposite side of the spectrum. However, Scalar Quantization still sounded like a good 
+Binary quantization is rather suitable for high-dimensional vectors, and `all-MiniLM-L6-v2`, with relatively 
+low-dimensional outputs, is on the opposite side of the spectrum. However, scalar quantization still sounded like a good 
 idea. The table below summarizes the impact of the quantization on the retrieval quality.
 
 <table>
@@ -194,21 +224,47 @@ idea. The table below summarizes the impact of the quantization on the retrieval
             <th rowspan="2">SciFact</th>
             <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
             <td>output token embeddings</td>
-            <td>0.68941</td>
+            <td>0.70724</td>
         </tr>
         <tr>
-            <td>output token embeddings with Scalar Quantization</td>
-            <td>0.68941</td>
+            <td>output token embeddings (uint8)</td>
+            <td>0.70297</td>
         </tr>
+        <tr>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <th rowspan="2">NFCorpus</th>
+            <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
+            <td>output token embeddings</td>
+            <td>0.35779</td>
+        </tr>
+        <tr>
+            <td>output token embeddings (uint8)</td>
+            <td>0.35572</td>
+        </tr>
+        <!--<tr>
+            <td colspan="4"></td>
+        </tr>
+        <tr>
+            <th rowspan="2">ArguAna</th>
+            <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
+            <td>output token embeddings</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>output token embeddings (uint8)</td>
+            <td></td>
+        </tr>-->
     </tbody>
 </table>
 
 It cannot be generalized that the quantization would always keep the retrieval quality at the same level, but in this
-case, it seems that the Scalar Quantization does not affect the retrieval quality at all. We didn't use rescoring in the
-evaluation, so the results are based on the initial retrieval step.
+case, it seems that the scalar quantization does not affect the retrieval quality too much. The impact is negligible,
+and the memory savings are significant.
 
 We keep the original quality, using four times less memory. Moreover, a quantized vector needs 384 bytes, while ColBERT 
-requires 512. We saved 25% of the memory, and the retrieval quality remained the same.
+requires 512. We saved 25% of the memory, and the retrieval quality remained almost the same.
 
 ### Practical considerations
 
