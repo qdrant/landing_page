@@ -32,11 +32,25 @@ One of the most common problems when you have different representations of the s
 For example, in text search, it is often useful to combine dense and sparse vectors get the best of semantics,
 plus the best of matching specific words.
 
-There are many ways to fuse the results. One versatile method is <a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">Reciprocal Rank Fusion (RRF)</a>, 
-which considers the positions of each of points in the results, and boosts the ones that appear closer to the top in multiple queries.
+Qdrant currently has two ways of combining the results from different queries:
 
+- `rrf` - 
+<a href=https://plg.uwaterloo.ca/~gvcormac/cormacksigir09-rrf.pdf target="_blank">
+Reciprocal Rank Fusion
+</a>
 
-Here is an example of RRF for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors. 
+  Considers the positions of results within each query, and boosts the ones that appear closer to the top in multiple of them.
+  
+- `dbsf` - 
+<a href=https://medium.com/plain-simple-software/distribution-based-score-fusion-dbsf-a-new-approach-to-vector-search-ranking-f87c37488b18 target="_blank">
+Distribution-Based Score Fusion
+</a> *(available as of v1.11.0)*
+
+  Normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.
+  
+  <aside role="status"><code>dbsf</code> is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.</aside>
+
+Here is an example of Reciprocal Rank Fusion for a query containing two prefetches against different named vectors configured to respectively hold sparse and dense vectors. 
 
 ```http
 POST /collections/{collection_name}/points/query
