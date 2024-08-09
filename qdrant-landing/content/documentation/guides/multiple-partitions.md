@@ -404,11 +404,19 @@ await client.CreateCollectionAsync(
 
 3. Create keyword payload index for `group_id` field.
 
+<aside class="alert">
+`is_tenant` parameter is available as of v1.11.0
+</aside>
+
+
 ```http
 PUT /collections/{collection_name}/index
 {
     "field_name": "group_id",
-    "field_schema": "keyword"
+    "field_schema": {
+        "type": "keyword",
+        "is_tenant": true
+    }
 }
 ```
 
@@ -423,36 +431,59 @@ client.create_payload_index(
 ```typescript
 client.createPayloadIndex("{collection_name}", {
   field_name: "group_id",
-  field_schema: "keyword",
+  field_schema: {
+    type: "keyword",
+    is_tenant: true,
+  },
 });
 ```
 
 ```rust
-use qdrant_client::qdrant::{CreateFieldIndexCollectionBuilder, FieldType};
+use qdrant_client::qdrant::{
+    CreateFieldIndexCollectionBuilder,
+    KeywordIndexParamsBuilder,
+    FieldType
+};
 use qdrant_client::{Qdrant, QdrantError};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-client
-    .create_field_index(CreateFieldIndexCollectionBuilder::new(
-        "{collection_name}",
-        "group_id",
-        FieldType::Keyword,
-    ))
-    .await?;
+client.create_field_index(
+        CreateFieldIndexCollectionBuilder::new(
+            "{collection_name}",
+            "group_id",
+            FieldType::Keyword,
+        ).field_index_params(
+            KeywordIndexParamsBuilder::default()
+                .is_tenant(true)
+        )
+    ).await?;
 ```
 
 ```java
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
 import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.KeywordIndexParams;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
     .createPayloadIndexAsync(
-        "{collection_name}", "group_id", PayloadSchsemaType.Keyword, null, null, null, null)
+        "{collection_name}",
+        "group_id",
+        PayloadSchemaType.Keyword,
+        PayloadIndexParams.newBuilder()
+            .setKeywordIndexParams(
+                KeywordIndexParams.newBuilder()
+                    .setIsTenant(true)
+                    .build())
+            .build(),
+        null,
+        null,
+        null)
     .get();
 ```
 
@@ -461,8 +492,24 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.CreatePayloadIndexAsync(collectionName: "{collection_name}", fieldName: "group_id");
+await client.CreatePayloadIndexAsync(
+	collectionName: "{collection_name}",
+	fieldName: "group_id",
+	schemaType: PayloadSchemaType.Keyword,
+	indexParams: new PayloadIndexParams
+	{
+		KeywordIndexParams = new KeywordIndexParams
+		{
+			IsTenant = true
+		}
+	}
+);
+
 ```
+
+`is_tenant=true` parameter is optional, but specifying it provides storage with additional inforamtion about the usage patterns the collection is going to use.
+When specified, storage structure will be organized in a way to co-locate vectors of the same tenant together, which can significantly improve performance in some cases. 
+
 
 ## Limitations
 
