@@ -405,7 +405,7 @@ await client.CreateCollectionAsync(
 3. Create keyword payload index for `group_id` field.
 
 <aside role="alert">
-`is_tenant` parameter is available as of v1.11.0. Previous versions should use default options for keyword index creation.
+    <code>is_tenant</code> parameter is available as of v1.11.0. Previous versions should use default options for keyword index creation.
 </aside>
 
 
@@ -424,7 +424,10 @@ PUT /collections/{collection_name}/index
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="group_id",
-    field_schema=models.PayloadSchemaType.KEYWORD,
+    field_schema=models.KeywordIndexParams(
+        type="keywprd",
+        is_tenant=True,
+    ),
 )
 ```
 
