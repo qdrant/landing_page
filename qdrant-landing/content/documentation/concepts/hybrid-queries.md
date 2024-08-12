@@ -1079,3 +1079,106 @@ In this example, we first fetch 10 points with the color `"red"` and then 10 poi
 Then, we order the results by the price field.
 
 This is how we can guarantee even sampling of both colors in the results and also get the cheapest ones first.
+
+## Grouping
+
+*Available as of v1.11.0*
+
+It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
+
+REST API ([Schema](https://api.qdrant.tech/master/api-reference/query/query_points_groups)):
+
+```http
+POST /collections/{collection_name}/points/query/groups
+{
+    # Same as in the regular query() API
+    "query": [0.01, 0.45, 0.67],
+    # Grouping parameters
+    group_by="document_id",  # Path of the field to group by
+    limit=4,  # Max amount of groups
+    group_size=2,  # Max amount of points per group
+}
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_point_groups(
+    collection_name="{collection_name}",
+    query=[0.01, 0.45, 0.67],
+    group_by="document_id",
+    limit=4,
+    group_size=2,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query_point_groups("{collection_name}", {
+    query: [0.01, 0.45, 0.67],
+    group_by: "document_id",
+    limit: 4,
+    group_size: 2,
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointGroupsBuilder::new("{collection_name}", "document_id")
+        .query(Query::from(vec![0.01, 0.45, 0.67]))
+        .limit(4)
+        .group_size(2)
+).await?;
+```
+
+```java
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPointGroups;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .queryAsync(
+        QueryPointGroups.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setGroupBy("document_id")
+            .setQuery(nearest(0.01f, 0.45f, 0.67f))
+            .setLimit(4)
+            .setGroupSize(2)
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+  collectionName: "{collection_name}",
+  groupBy: "document_id",
+  query: (Query) new float[] {
+    0.01f, 0.45f, 0.67f
+  },
+  limit: 4,
+  groupSize: 2
+);
+```
+
+For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](./search/#search-groups) and [lookup](./search/#lookup-in-groups).
