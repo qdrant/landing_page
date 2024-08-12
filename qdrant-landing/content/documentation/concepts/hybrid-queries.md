@@ -1170,10 +1170,10 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.QueryAsync(
+await client.QueryGroupsAsync(
   collectionName: "{collection_name}",
   groupBy: "document_id",
-  query: (Query) new float[] {
+  query: new float[] {
     0.01f, 0.45f, 0.67f
   },
   limit: 4,
