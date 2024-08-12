@@ -1152,7 +1152,7 @@ QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
-    .queryAsync(
+    .queryGroupsAsync(
         QueryPointGroups.newBuilder()
             .setCollectionName("{collection_name}")
             .setGroupBy("document_id")
