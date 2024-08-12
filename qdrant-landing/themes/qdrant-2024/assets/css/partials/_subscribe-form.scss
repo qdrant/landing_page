@@ -5,10 +5,13 @@
   justify-content: flex-end;
   gap: calc($spacer / 2);
   position: relative;
+  flex-wrap: wrap;
 
   .hs_email {
-    width: 100%;
+    max-width: 100%;
+    flex: 1;
     @include media-breakpoint-up(lg) {
+      flex: auto;
       max-width: rem(414);
     }
 
@@ -51,6 +54,17 @@
     text-align: right;
     .hs-error-msgs {
       position: static;
+    }
+  }
+
+  .legal-consent-container {
+    margin-top: $spacer * 0.5;
+    order: 2;
+    width: 100%;
+    max-width: 100%;
+
+    @include media-breakpoint-up(lg) {
+      max-width: rem(537);
     }
   }
 }
