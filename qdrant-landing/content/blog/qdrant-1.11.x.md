@@ -162,7 +162,7 @@ As a result, the storage structure will be organized in a way to co-locate vecto
 
 ### On-Disk Support for the Payload Index
 
-When managing billions of records across millions of tenants, keeping all data in RAM is inefficient, especially when only a small subset is frequently accessed. As of 1.11, you can offload "cold" data to disk and cache the “hot” data in RAM.
+When managing billions of records across millions of tenants, keeping all data in RAM is inefficient. That is especially true when only a small subset is frequently accessed. As of 1.11, you can offload "cold" data to disk and cache the “hot” data in RAM.
 
 *This feature can help you manage a high number of different payload indexes, which is beneficial if you are working with large varied datasets.*
 
