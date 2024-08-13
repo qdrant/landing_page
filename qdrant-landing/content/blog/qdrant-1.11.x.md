@@ -319,7 +319,7 @@ This endpoint will retrieve the best N points for each document, assuming that t
 
 ### Query API: Random Sampling 
 
-Our [Food Discovery Demo](https://food-discovery.qdrant.tech) always shows a random sample of foods from the larger dataset. Now you can set the randomization from a basic Query API endpoint.
+Our [Food Discovery Demo](https://food-discovery.qdrant.tech) always shows a random sample of foods from the larger dataset. Now you can do the same and set the randomization from a basic Query API endpoint.
 
 When calling the Query API, you will be able to select a subset of data points from a larger dataset in a random manner. 
 
