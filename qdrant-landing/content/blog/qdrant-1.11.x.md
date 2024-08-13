@@ -94,7 +94,7 @@ PUT /collections/{collection_name}/index
 
 By moving the index to disk, Qdrant can handle larger datasets that exceed the capacity of RAM, making the system more scalable and capable of storing more data without being constrained by memory limitations.
 
-*To learn more about this, read the [Indexing documentation](/documentation/concepts/index/).*
+*To learn more about this, read the [Indexing documentation](/documentation/concepts/indexing/).*
 
 ### UUID Datatype for the Payload Index
 
