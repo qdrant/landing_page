@@ -1,5 +1,5 @@
 ---
-title: "Qdrant 1.11 - The Vector Stronghold: Optimizing Data Structures."
+title: "Qdrant 1.11 - The Vector Stronghold: Optimizing Data Structures for Scale and Efficiency"
 draft: false
 short_description: "On-Disk Payload Index. UUID Payload Support. Tenant Defragmentation."
 description: "Enhanced payload flexibility with on-disk indexing, UUID support, and tenant-based defragmentation." 
