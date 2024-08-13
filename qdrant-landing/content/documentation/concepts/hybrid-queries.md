@@ -1091,9 +1091,7 @@ REST API ([Schema](https://api.qdrant.tech/master/api-reference/query/query_poin
 ```http
 POST /collections/{collection_name}/points/query/groups
 {
-    # Same as in the regular query() API
     "query": [0.01, 0.45, 0.67],
-    # Grouping parameters
     group_by="document_id",  # Path of the field to group by
     limit=4,  # Max amount of groups
     group_size=2,  # Max amount of points per group
@@ -1119,7 +1117,7 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.query_point_groups("{collection_name}", {
+client.queryGroups("{collection_name}", {
     query: [0.01, 0.45, 0.67],
     group_by: "document_id",
     limit: 4,
@@ -1133,11 +1131,11 @@ use qdrant_client::qdrant::{Query, QueryPointsBuilder};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-client.query(
+client.query_groups(
     QueryPointGroupsBuilder::new("{collection_name}", "document_id")
         .query(Query::from(vec![0.01, 0.45, 0.67]))
-        .limit(4)
-        .group_size(2)
+        .limit(4u64)
+        .group_size(2u64)
 ).await?;
 ```
 
