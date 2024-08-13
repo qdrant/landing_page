@@ -157,7 +157,7 @@ client = QdrantClient(":memory:")
 All data in Qdrant is organized by collections. In this case, you are storing books, so we are calling it `my_books`.
 
 ```python
-client.recreate_collection(
+client.create_collection(
     collection_name="my_books",
     vectors_config=models.VectorParams(
         size=encoder.get_sentence_embedding_dimension(),  # Vector size is defined by used model
@@ -165,8 +165,6 @@ client.recreate_collection(
     ),
 )
 ```
-
-- Use `recreate_collection` if you are experimenting and running the script several times. This function will first try to remove an existing collection with the same name.
 
 - The `vector_size` parameter defines the size of the vectors for a specific collection. If their size is different, it is impossible to calculate the distance between them. 384 is the encoder output dimensionality. You can also use model.get_sentence_embedding_dimension() to get the dimensionality of the model you are using.
 

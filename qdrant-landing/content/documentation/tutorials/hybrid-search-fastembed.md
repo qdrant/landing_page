@@ -125,12 +125,13 @@ client.set_sparse_model("prithivida/Splade_PP_en_v1")
 4. Related vectors need to be added to a collection. Create a new collection for your startup vectors.
 
 ```python
-client.recreate_collection(
-    collection_name="startups",
-    vectors_config=client.get_fastembed_vector_params(),
-    # comment this line to use dense vectors only
-    sparse_vectors_config=client.get_fastembed_sparse_vector_params(),  
-)
+if not client.collection_exists("startups"):
+    client.create_collection(
+        collection_name="startups",
+        vectors_config=client.get_fastembed_vector_params(),
+        # comment this line to use dense vectors only
+        sparse_vectors_config=client.get_fastembed_sparse_vector_params(),  
+    )
 ```
 
 Qdrant requires vectors to have their own names and configurations.

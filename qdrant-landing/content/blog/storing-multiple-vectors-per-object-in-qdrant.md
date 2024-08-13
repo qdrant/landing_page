@@ -37,7 +37,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.http.models import VectorParams, Distance
 
 client = QdrantClient()
-client.recreate_collection(
+client.create_collection(
    collection_name="multiple_vectors",
    vectors_config={
        "title": VectorParams(
@@ -55,7 +55,7 @@ client.recreate_collection(
 In case you want to keep a single vector per collection, you can still do it without putting a name though.
 
 ```python
-client.recreate_collection(
+client.create_collection(
    collection_name="single_vector",
    vectors_config=VectorParams(
        size=100,
@@ -120,7 +120,7 @@ from qdrant_client import QdrantClient
 from qdrant_client.http.models import VectorParams, Distance
 
 client = QdrantClient(timeout=None)
-client.recreate_collection(
+client.create_collection(
    collection_name="ms-coco-2017",
    vectors_config={
        "text": VectorParams(

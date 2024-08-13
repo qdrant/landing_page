@@ -171,14 +171,12 @@ Many independent vector collections can exist on one service at the same time.
 Let's create a new collection for our startup vectors.
 
 ```python
-qdrant_client.recreate_collection(
-    collection_name='startups', 
-    vectors_config=VectorParams(size=384, distance=Distance.COSINE),
-)
+if not qdrant_client.collection_exists('startups'):
+    qdrant_client.create_collection(
+        collection_name='startups', 
+        vectors_config=VectorParams(size=384, distance=Distance.COSINE),
+    )
 ```
-
-The `recreate_collection` function first tries to remove an existing collection with the same name.
-This is useful if you are experimenting and running the script several times.
 
 The `vector_size` parameter is very important.
 It tells the service the size of the vectors in that collection.

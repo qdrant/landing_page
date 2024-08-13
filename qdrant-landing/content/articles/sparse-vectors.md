@@ -273,7 +273,7 @@ Let's dive into how Qdrant handles sparse vectors with an example. Here is what 
 
 1. Setting Up Qdrant Client: Initially, we establish a connection with Qdrant using the QdrantClient. This setup is crucial for subsequent operations.
 
-2. Creating a Collection with Sparse Vector Support: In Qdrant, a collection is a container for your vectors. Here, we create a collection specifically designed to support sparse vectors. This is done using the recreate_collection method where we define the parameters for sparse vectors, such as setting the index configuration.
+2. Creating a Collection with Sparse Vector Support: In Qdrant, a collection is a container for your vectors. Here, we create a collection specifically designed to support sparse vectors. This is done using the create_collection method where we define the parameters for sparse vectors, such as setting the index configuration.
 
 3. Inserting Sparse Vectors: Once the collection is set up, we can insert sparse vectors into it. This involves defining the sparse vector with its indices and values, and then upserting this point into the collection.
 
@@ -297,7 +297,7 @@ point_id = 1  # Assign a unique ID for the point
 ### 2. Create a collection with sparse vector support
 
 ```python
-client.recreate_collection(
+client.create_collection(
     collection_name=COLLECTION_NAME,
     vectors_config={},
     sparse_vectors_config={
@@ -418,7 +418,7 @@ Let's see how you can make a hybrid search query in Qdrant.
 First, you need to create a collection with both dense and sparse vectors:
 
 ```python
-client.recreate_collection(
+client.create_collection(
     collection_name=COLLECTION_NAME,
     vectors_config={
         "text-dense": models.VectorParams(

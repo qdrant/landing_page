@@ -100,7 +100,7 @@ import qdrant_client
 from qdrant_client.models import Batch, VectorParams, Distance
 
 client = qdrant_client.QdrantClient()
-client.recreate_collection(
+client.create_collection(
     collection_name="COCO",
     vectors_config=VectorParams(
         size=len(vectors[0]),
