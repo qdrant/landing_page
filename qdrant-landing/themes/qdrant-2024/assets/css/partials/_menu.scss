@@ -18,18 +18,18 @@
   flex-wrap: nowrap;
   flex-shrink: 0;
   position: relative;
-  padding-top: rem(12);
-  padding-bottom: rem(12);
-  padding-left: rem(20);
-  padding-right: rem(20);
+  padding-top: pxToRem(12);
+  padding-bottom: pxToRem(12);
+  padding-left: pxToRem(20);
+  padding-right: pxToRem(20);
   background: linear-gradient(180deg, #090d19, rgba(9, 13, 25, 0));
   z-index: 1;
 
   &__trigger {
     outline: none;
     border: none;
-    width: rem(40);
-    height: rem(40);
+    width: pxToRem(40);
+    height: pxToRem(40);
     padding: 0 8px;
     border-radius: 8px;
     z-index: 1;
@@ -68,7 +68,7 @@
     flex-direction: column;
     justify-content: flex-end;
     align-items: flex-start;
-    padding: rem(24);
+    padding: pxToRem(24);
     position: absolute;
 
     border-radius: 12px;
@@ -107,7 +107,7 @@
   &__submenu-item {
     width: 100%;
     list-style: none;
-    margin-bottom: rem(4);
+    margin-bottom: pxToRem(4);
     &:last-of-type {
       margin-bottom: 0;
     }
@@ -116,7 +116,7 @@
       height: 2.5rem;
       line-height: 1;
       align-items: center;
-      border-radius: rem(4);
+      border-radius: pxToRem(4);
       color: $neutral-20;
       padding: 0.5rem;
     }
@@ -127,7 +127,7 @@
       color: $primary-50;
       margin-top: 0.3rem;
       margin-bottom: 0.2rem;
-      margin-right: rem(12);
+      margin-right: pxToRem(12);
     }
 
     &:hover {
@@ -140,7 +140,7 @@
 
   &__section-link {
     padding: 0.5rem;
-    margin-bottom: rem(4);
+    margin-bottom: pxToRem(4);
     text-transform: uppercase;
     a {
       line-height: $font-size-s;

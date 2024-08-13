@@ -8,7 +8,7 @@
 
   &__title {
     font-size: map-get($font-sizes, 4);
-    line-height: rem(48);
+    line-height: pxToRem(48);
     text-align: center;
     margin-bottom: $spacer * 4;
   }
@@ -21,7 +21,7 @@
 
   &__logo {
     width: 100%;
-    min-height: rem(40);
+    min-height: pxToRem(40);
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
@@ -37,13 +37,13 @@
 
     &__title {
       font-size: map-get($font-sizes, 2);
-      line-height: rem(67);
+      line-height: pxToRem(67);
       margin-bottom: $spacer * 2.5;
     }
 
     &__logos {
       align-items: center;
-      min-height: rem(240);
+      min-height: pxToRem(240);
     }
 
     &__overlay {
@@ -51,7 +51,7 @@
       position: absolute;
       left: 0;
       width: 100%;
-      height: rem(240);
+      height: pxToRem(240);
       bottom: $spacer * 7.5;
       background-image: url('../../img/grid.png');
       background-size: cover;

@@ -12,8 +12,8 @@
   justify-content: center;
 
   &__title {
-    font-size: rem(40);
-    line-height: rem(48);
+    font-size: pxToRem(40);
+    line-height: pxToRem(48);
     text-align: start;
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
@@ -21,7 +21,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
-    line-height: rem(27);
+    line-height: pxToRem(27);
     margin: 0;
     max-width: 100%;
     text-align: start;
@@ -42,14 +42,14 @@
     color: $neutral-20;
     margin-top: calc($spacer / 2);
     margin-bottom: $spacer * 1.5;
-    font-size: rem(24);
-    line-height: rem(34);
+    font-size: pxToRem(24);
+    line-height: pxToRem(34);
   }
 
   &__card-description {
     color: $neutral-30;
-    font-size: rem(16);
-    line-height: rem(24);
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
     margin-bottom: $spacer * 1.5;
   }
 
@@ -67,8 +67,8 @@
     margin-top: $spacer * 2.5;
     margin-left: auto;
     margin-right: auto;
-    max-width: rem(287);
-    max-height: rem(197);
+    max-width: pxToRem(287);
+    max-height: pxToRem(197);
     aspect-ratio: 1.46;
     background-size: contain;
     background-color: $neutral-98;
@@ -88,15 +88,15 @@
 
     &__title {
       font-size: map-get($font-sizes, 2);
-      line-height: rem(67);
-      max-width: rem(445);
+      line-height: pxToRem(67);
+      max-width: pxToRem(445);
       margin-bottom: 0;
     }
 
     &__subtitle {
       font-size: map-get($font-sizes-text, 'xl');
-      max-width: rem(540);
-      line-height: rem(30);
+      max-width: pxToRem(540);
+      line-height: pxToRem(30);
     }
 
     &__cards {
@@ -114,7 +114,7 @@
     }
 
     &__card-content {
-      max-width: rem(400);
+      max-width: pxToRem(400);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -122,19 +122,19 @@
 
     &__card-title {
       margin-top: 0;
-      font-size: rem(32);
-      line-height: rem(38);
+      font-size: pxToRem(32);
+      line-height: pxToRem(38);
     }
 
     &__card-description {
-      font-size: rem(16);
-      line-height: rem(24);
+      font-size: pxToRem(16);
+      line-height: pxToRem(24);
     }
 
     &__card-image {
       margin: 0;
-      max-width: rem(560);
-      max-height: rem(384);
+      max-width: pxToRem(560);
+      max-height: pxToRem(384);
     }
   }
 }

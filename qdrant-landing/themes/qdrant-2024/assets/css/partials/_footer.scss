@@ -25,12 +25,12 @@
   }
 
   &__logo {
-    max-width: rem(118);
+    max-width: pxToRem(118);
     margin-bottom: $spacer * 2;
   }
 
   &__social {
-    max-width: rem(350);
+    max-width: pxToRem(350);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -38,7 +38,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 's');
-    line-height: rem(21);
+    line-height: pxToRem(21);
     color: $neutral-70;
     margin-bottom: $spacer * 2;
   }
@@ -65,12 +65,12 @@
   &__menu-section {
     display: flex;
     flex-direction: column;
-    min-width: rem(120);
+    min-width: pxToRem(120);
   }
 
   &__menu-section-title {
     font-size: map-get($font-sizes-text, 'm');
-    line-height: rem(24);
+    line-height: pxToRem(24);
     color: $neutral-98;
     font-weight: bold;
   }
@@ -88,7 +88,7 @@
   &__menu-item a {
     color: $neutral-70;
     font-size: map-get($font-sizes-text, 's');
-    line-height: rem(21);
+    line-height: pxToRem(21);
     text-decoration: none;
   }
 
@@ -119,7 +119,7 @@
   &__middle-title {
     font-weight: 500;
     font-size: map-get($font-sizes-text, 'xl');
-    line-height: rem(30);
+    line-height: pxToRem(30);
     margin-bottom: $spacer;
     color: $neutral-98;
   }
@@ -127,13 +127,13 @@
   &__middle-subtitle {
     color: $neutral-70;
     font-size: map-get($font-sizes-text, 's');
-    line-height: rem(21);
+    line-height: pxToRem(21);
     font-weight: 500;
   }
 
   &__bottom {
     width: 100%;
-    padding-top: rem(30);
+    padding-top: pxToRem(30);
     padding-bottom: 0;
 
     display: flex;
@@ -156,7 +156,7 @@
     color: $neutral-70;
     font-weight: 500;
     font-size: map-get($font-sizes-text, 's');
-    line-height: rem(21);
+    line-height: pxToRem(21);
   }
 
   &__bottom-content a {
@@ -172,8 +172,8 @@
     padding-bottom: $spacer * 3;
 
     &__menu {
-      min-width: rem(540);
-      gap: rem(54);
+      min-width: pxToRem(540);
+      gap: pxToRem(54);
     }
 
     &__menu-section {
@@ -191,7 +191,7 @@
     }
 
     &__bottom {
-      padding-bottom: rem(30);
+      padding-bottom: pxToRem(30);
     }
 
     &__bottom-content {

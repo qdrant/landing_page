@@ -9,12 +9,12 @@
     color: $neutral-98;
     margin-bottom: $spacer;
     font-size: map-get($font-sizes-text, 'md');
-    line-height: rem(24);
+    line-height: pxToRem(24);
   }
 
   nav {
     display: none;
-    padding-bottom: rem(12);
+    padding-bottom: pxToRem(12);
 
     ul {
       padding-left: 0;
@@ -27,7 +27,7 @@
 
       a {
         display: block;
-        margin-bottom: rem(12);
+        margin-bottom: pxToRem(12);
         color: $neutral-70;
         white-space: nowrap;
         overflow: hidden;
@@ -53,7 +53,7 @@
   }
 
   &__link {
-    margin-bottom: rem(12);
+    margin-bottom: pxToRem(12);
 
     &:last-of-type {
       margin-bottom: 0;
@@ -70,8 +70,8 @@
 
     svg {
       display: block;
-      width: rem(16);
-      height: rem(16);
+      width: pxToRem(16);
+      height: pxToRem(16);
     }
   }
 

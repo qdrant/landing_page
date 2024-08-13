@@ -1,7 +1,7 @@
 @use '../helpers/functions' as *;
 
 .link {
-  $icon-width: rem(20);
+  $icon-width: pxToRem(20);
   $icon-height: calc(1em * 0.62);
   $link-color: $primary-50;
   $link-font-size: $font-size-l;

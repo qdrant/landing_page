@@ -15,8 +15,8 @@
 
   &__image {
     width: 100%;
-    min-height: rem(480);
-    margin: rem(-142) auto 0;
+    min-height: pxToRem(480);
+    margin: pxToRem(-142) auto 0;
     overflow: hidden;
 
     @include media-breakpoint-up(md) {
@@ -43,14 +43,14 @@
     width: 100%;
     margin-bottom: $spacer;
     font-size: map-get($font-sizes, 4);
-    line-height: rem(48);
+    line-height: pxToRem(48);
   }
 
   &__subtitle {
     color: $neutral-70;
     text-align: center;
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     max-width: 100%;
     margin: 0 auto $spacer * 1.5;
   }
@@ -65,7 +65,7 @@
   }
 
   &__buttons a {
-    min-width: rem(200);
+    min-width: pxToRem(200);
   }
 
   &__stars {
@@ -83,16 +83,16 @@
 
     padding-top: calc($spacer / 2);
     padding-bottom: calc($spacer / 2);
-    padding-left: rem(20);
-    padding-right: rem(20);
+    padding-left: pxToRem(20);
+    padding-right: pxToRem(20);
 
     background-color: $neutral-10;
     transition: bottom 1s ease-in-out;
   }
 
   &__stars svg {
-    max-width: rem(24);
-    max-height: rem(24);
+    max-width: pxToRem(24);
+    max-height: pxToRem(24);
   }
 
   &__stars-text {
@@ -100,7 +100,7 @@
     margin-right: calc($spacer / 2);
     margin-left: calc($spacer / 2);
     font-size: map-get($font-sizes-text, 's');
-    line-height: rem(21);
+    line-height: pxToRem(21);
     font-weight: 500;
   }
 
@@ -116,10 +116,10 @@
     justify-content: center;
     gap: calc($spacer / 4);
 
-    height: rem(25);
+    height: pxToRem(25);
 
     font-size: map-get($font-sizes-text, 's');
-    line-height: rem(21);
+    line-height: pxToRem(21);
   }
 
   @include media-breakpoint-up(xl) {
@@ -127,18 +127,18 @@
 
     &__content {
       padding: 0;
-      max-width: rem(920);
+      max-width: pxToRem(920);
     }
 
     &__title {
       font-size: map-get($font-sizes, 1);
-      line-height: rem(76);
+      line-height: pxToRem(76);
     }
 
     &__subtitle {
       font-size: map-get($font-sizes-text, 'xl');
-      line-height: rem(30);
-      max-width: rem(640);
+      line-height: pxToRem(30);
+      max-width: pxToRem(640);
       margin: 0 auto $spacer * 2;
     }
 

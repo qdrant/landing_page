@@ -7,7 +7,7 @@
 
   &__title {
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-20;
     margin-bottom: $spacer * 1.5;
   }
@@ -29,8 +29,8 @@
     }
 
     &-title {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       color: $neutral-20;
       margin-bottom: $spacer;
     }
@@ -66,14 +66,14 @@
 
     &__title {
       font-size: $spacer * 3;
-      line-height: rem(57);
+      line-height: pxToRem(57);
       padding-right: $spacer * 2;
       margin-bottom: 0;
     }
 
     &__description {
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
     }
   }
 }

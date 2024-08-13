@@ -14,27 +14,27 @@
   }
 
   .contact-form {
-    max-width: rem(720);
+    max-width: pxToRem(720);
     margin: 0 auto;
 
     &__inputs {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-between;
-      gap: rem(20);
+      gap: pxToRem(20);
       margin: $spacer * 2 0;
 
       &-block {
         width: 100%;
 
         label {
-          margin-bottom: rem(6);
-          font-size: rem(14);
-          line-height: rem(21);
+          margin-bottom: pxToRem(6);
+          font-size: pxToRem(14);
+          line-height: pxToRem(21);
         }
 
         textarea {
-          height: rem(77);
+          height: pxToRem(77);
           resize: none;
         }
       }
@@ -43,8 +43,8 @@
     &__footer {
       p {
         margin-bottom: $spacer * 1.5;
-        font-size: rem(12);
-        line-height: rem(18);
+        font-size: pxToRem(12);
+        line-height: pxToRem(18);
         color: $neutral-60;
 
         a {
@@ -62,12 +62,12 @@
       position: absolute;
       right: 0;
       top: 0;
-      width: rem(210);
-      height: rem(210);
+      width: pxToRem(210);
+      height: pxToRem(210);
       background-image: url('/img/blurred/blurred-light-15.svg');
       background-position: top;
       background-size: cover;
-      border-radius: 0 rem(12) 0 0;
+      border-radius: 0 pxToRem(12) 0 0;
     }
   }
 
@@ -77,7 +77,7 @@
 
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     .contact-form {
@@ -95,7 +95,7 @@
         justify-content: space-between;
 
         p {
-          width: rem(360);
+          width: pxToRem(360);
         }
 
         button {

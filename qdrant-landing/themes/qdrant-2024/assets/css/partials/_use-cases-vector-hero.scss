@@ -18,8 +18,8 @@
   }
 
   &__description {
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     margin-bottom: $spacer * 2;
     color: $neutral-70;
   }
@@ -55,15 +55,15 @@
     }
 
     &__title {
-      max-width: rem(480);
+      max-width: pxToRem(480);
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__description {
-      max-width: rem(480);
-      font-size: rem(20);
-      line-height: rem(30);
+      max-width: pxToRem(480);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
     }
 
     &__buttons {
@@ -78,7 +78,7 @@
 
   @include media-breakpoint-up(lg) {
     &__preview {
-      height: rem(360);
+      height: pxToRem(360);
       padding-bottom: 0;
     }
   }

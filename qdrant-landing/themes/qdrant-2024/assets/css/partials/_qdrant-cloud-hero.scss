@@ -16,8 +16,8 @@
   }
 
   &__description {
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     margin-bottom: $spacer * 2;
     color: $neutral-70;
   }
@@ -41,8 +41,8 @@
     justify-content: center;
     gap: $spacer * 0.5;
     margin-bottom: $spacer * 1.5;
-    padding: rem(4) $spacer;
-    border-radius: rem(100);
+    padding: pxToRem(4) $spacer;
+    border-radius: pxToRem(100);
     background-color: $neutral-20;
 
     img {
@@ -52,8 +52,8 @@
 
     p {
       margin-bottom: 0;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       color: $neutral-90;
     }
   }
@@ -64,7 +64,7 @@
     left: 0;
     bottom: -9px;
     width: 100%;
-    height: rem(114);
+    height: pxToRem(114);
     background-image: url('/img/blurred/blurred-light-10.png');
     background-position: center;
     background-size: cover;
@@ -75,13 +75,13 @@
 
     &__title {
       font-size: $spacer * 4;
-      line-height: rem(71);
+      line-height: pxToRem(71);
     }
 
     &__description {
-      max-width: rem(730);
-      font-size: rem(20);
-      line-height: rem(30);
+      max-width: pxToRem(730);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       margin: 0 auto $spacer * 2 auto;
     }
 

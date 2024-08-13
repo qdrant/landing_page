@@ -9,7 +9,7 @@
   &__title {
     margin-bottom: $spacer * 0.5;
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-20;
   }
 
@@ -24,15 +24,15 @@
 
     &-title {
       margin-bottom: $spacer * 0.5;
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       color: $neutral-20;
     }
 
     &-description {
       margin-bottom: $spacer * 1.5;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       color: $neutral-30;
     }
 
@@ -63,11 +63,11 @@
     &__cards {
       position: relative;
       align-items: center;
-      height: rem(400);
+      height: pxToRem(400);
     }
 
     &__card {
-      height: rem(306);
+      height: pxToRem(306);
     }
 
     &__square-grid-overlay {
@@ -76,7 +76,7 @@
       left: 0;
       bottom: $spacer * 6.5;
       width: 100%;
-      height: rem(400);
+      height: pxToRem(400);
       background-image: url('/img/square-grid.png');
       background-size: cover;
       background-repeat: no-repeat;

@@ -23,8 +23,8 @@
     width: 100%;
     flex-direction: column;
     align-items: center;
-    padding-left: rem(20);
-    padding-right: rem(20);
+    padding-left: pxToRem(20);
+    padding-right: pxToRem(20);
   }
 
   &__link {

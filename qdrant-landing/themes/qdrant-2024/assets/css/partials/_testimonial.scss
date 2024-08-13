@@ -24,8 +24,8 @@
 
   &__review {
     margin-bottom: $spacer * 2.5;
-    font-size: rem(20);
-    line-height: rem(30);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
     color: $neutral-98;
   }
 
@@ -52,8 +52,8 @@
       }
 
       p:last-of-type {
-        font-size: rem(14);
-        line-height: rem(21);
+        font-size: pxToRem(14);
+        line-height: pxToRem(21);
         color: $neutral-60;
       }
     }
@@ -72,8 +72,8 @@
     position: absolute;
     left: 0;
     bottom: 0;
-    width: rem(637);
-    height: rem(420);
+    width: pxToRem(637);
+    height: pxToRem(420);
     background-image: url('/img/blurred/blurred-light-16.svg');
     background-position: bottom;
     background-size: cover;
@@ -89,7 +89,7 @@
     }
 
     &__content {
-      width: rem(825);
+      width: pxToRem(825);
     }
 
     &__employees {

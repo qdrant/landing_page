@@ -8,7 +8,7 @@
   &__doors {
     display: flex;
     flex-direction: column;
-    gap: rem(30);
+    gap: pxToRem(30);
     width: 100%;
   }
 
@@ -22,8 +22,8 @@
     }
 
     &__door {
-      width: rem(400);
-      height: rem(896);
+      width: pxToRem(400);
+      height: pxToRem(896);
 
       .pricing-door__feature-description a {
         color: $primary-50;

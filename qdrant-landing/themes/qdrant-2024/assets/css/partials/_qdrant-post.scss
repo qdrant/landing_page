@@ -11,7 +11,7 @@
 
   &__title {
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     margin-bottom: $spacer;
     color: $neutral-20;
   }
@@ -19,9 +19,9 @@
   &__about {
     display: flex;
     justify-content: center;
-    gap: rem(6);
-    font-size: rem(14);
-    line-height: rem(21);
+    gap: pxToRem(6);
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
     color: $neutral-50;
     margin-bottom: $spacer * 2.5;
 
@@ -62,25 +62,25 @@
 
     h1 {
       font-size: $spacer * 2;
-      line-height: rem(37);
+      line-height: pxToRem(37);
       margin-bottom: $spacer;
     }
 
     h2 {
       font-size: $spacer * 1.5;
-      line-height: rem(34);
+      line-height: pxToRem(34);
       margin-bottom: $spacer;
     }
 
     h3 {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       margin-bottom: $spacer;
     }
 
     h4 {
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       margin-bottom: $spacer;
     }
 
@@ -97,7 +97,7 @@
     }
 
     blockquote {
-      padding: rem(32) rem(40) 1px;
+      padding: pxToRem(32) pxToRem(40) 1px;
       border-radius: $spacer * 0.5;
       background: linear-gradient(180deg, #161e33 0%, #0e1424 100%);
       color: $neutral-98;
@@ -105,7 +105,7 @@
 
     details {
       summary {
-        font-size: rem(18);
+        font-size: pxToRem(18);
         cursor: pointer;
         margin-bottom: $spacer * 2;
       }
@@ -135,7 +135,7 @@
 
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__body {
@@ -150,8 +150,8 @@
 
       p,
       li {
-        font-size: rem(18);
-        line-height: rem(27);
+        font-size: pxToRem(18);
+        line-height: pxToRem(27);
       }
 
       h1:not(:first-child) {
@@ -174,7 +174,7 @@
       }
       h3 {
         font-size: $spacer * 2;
-        line-height: rem(38);
+        line-height: pxToRem(38);
       }
 
       h4:not(:first-child) {
@@ -183,7 +183,7 @@
       h4 {
         padding-top: $spacer * 2;
         font-size: $spacer * 1.5;
-        line-height: rem(34);
+        line-height: pxToRem(34);
       }
 
       iframe {

@@ -6,16 +6,16 @@
 
   &__title {
     font-size: map-get($font-sizes, 4);
-    line-height: rem(48);
+    line-height: pxToRem(48);
     margin-bottom: $spacer * 2.5;
   }
 
   &__cards {
-    row-gap: rem(7);
+    row-gap: pxToRem(7);
   }
 
   &__card {
-    padding: rem(10);
+    padding: pxToRem(10);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -28,7 +28,7 @@
     aspect-ratio: 0.96;
     background-position: center;
     background-size: contain;
-    border-radius: rem(6);
+    border-radius: pxToRem(6);
   }
 
   &__card-name {
@@ -36,7 +36,7 @@
     font-weight: bold;
     color: $neutral-20;
     text-align: center;
-    margin-bottom: rem(4);
+    margin-bottom: pxToRem(4);
     font-size: map-get($font-sizes-text, md);
   }
 
@@ -54,12 +54,12 @@
     &__title {
       text-align: center;
       font-size: map-get($font-sizes, 2);
-      line-height: rem(67);
+      line-height: pxToRem(67);
       margin-bottom: $spacer * 4;
     }
 
     &__cards {
-      row-gap: rem(30);
+      row-gap: pxToRem(30);
     }
 
     &__card {

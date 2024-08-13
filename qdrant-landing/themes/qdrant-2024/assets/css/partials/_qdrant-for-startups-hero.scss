@@ -24,7 +24,7 @@
     position: relative;
     display: flex;
     margin: 0 auto $spacer * 1.5;
-    width: rem(200);
+    width: pxToRem(200);
     z-index: 1;
   }
 
@@ -35,7 +35,7 @@
   &__image-mobile {
     display: block;
     width: 100%;
-    max-width: rem(730);
+    max-width: pxToRem(730);
     margin: 0 auto;
   }
 
@@ -46,7 +46,7 @@
     left: 0;
     bottom: -10px;
     width: 100%;
-    height: rem(200);
+    height: pxToRem(200);
     background-image: url('/img/blurred/blurred-light-12.svg');
     background-position: center;
     background-size: cover;
@@ -57,14 +57,14 @@
 
     &__title {
       font-size: $spacer * 4;
-      line-height: rem(76);
+      line-height: pxToRem(76);
     }
 
     &__description {
       position: relative;
-      max-width: rem(730);
-      font-size: rem(18);
-      line-height: rem(27);
+      max-width: pxToRem(730);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       z-index: 1;
     }
 
@@ -75,7 +75,7 @@
     &__image {
       display: block;
       width: 100%;
-      max-width: rem(1288);
+      max-width: pxToRem(1288);
       margin: -114px auto 0;
     }
 

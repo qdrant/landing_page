@@ -7,7 +7,7 @@
   width: 100%;
   height: 100%;
   z-index: 2;
-  padding-top: rem(52);
+  padding-top: pxToRem(52);
   background-color: $neutral-94;
   display: none;
   gap: $spacer * 3;
@@ -19,7 +19,7 @@
   }
 
   &__header {
-    padding: 0 rem(20);
+    padding: 0 pxToRem(20);
 
     display: flex;
     align-items: center;
@@ -29,10 +29,10 @@
   &__close {
     outline: none;
     border: none;
-    padding: rem(5);
-    padding-top: rem(7);
-    width: rem(40);
-    height: rem(40);
+    padding: pxToRem(5);
+    padding-top: pxToRem(7);
+    width: pxToRem(40);
+    height: pxToRem(40);
     background-color: transparent;
     display: flex;
     align-items: center;
@@ -40,8 +40,8 @@
   }
 
   &__close svg {
-    width: rem(24);
-    height: rem(24);
+    width: pxToRem(24);
+    height: pxToRem(24);
   }
 
   &__controls {
@@ -49,9 +49,9 @@
     flex-direction: column;
     gap: $spacer * 1.5;
 
-    padding-left: rem(20);
-    padding-right: rem(20);
-    padding-bottom: rem(60);
+    padding-left: pxToRem(20);
+    padding-right: pxToRem(20);
+    padding-bottom: pxToRem(60);
   }
 
   &__login {
@@ -71,8 +71,8 @@
     display: flex;
     flex-direction: column;
 
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
 
     color: $neutral-20;
 
@@ -85,8 +85,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    min-height: rem(64);
-    padding: 0 rem(20);
+    min-height: pxToRem(64);
+    padding: 0 pxToRem(20);
   }
 
   &__subitems {
@@ -95,7 +95,7 @@
     padding: 0;
     margin: 0;
     background-color: $neutral-90;
-    padding: $spacer rem(20);
+    padding: $spacer pxToRem(20);
   }
 
   &__subitems a {
@@ -106,25 +106,25 @@
     display: flex;
     align-items: center;
 
-    min-height: rem(40);
+    min-height: pxToRem(40);
 
-    font-size: rem(16);
-    line-height: rem(24);
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
     color: $neutral-20;
   }
 
   &__subitem span {
-    width: rem(16);
-    height: rem(16);
+    width: pxToRem(16);
+    height: pxToRem(16);
     margin-right: $spacer;
   }
 
   &__expand {
     outline: none;
     border: none;
-    padding: rem(5);
-    width: rem(34);
-    height: rem(34);
+    padding: pxToRem(5);
+    width: pxToRem(34);
+    height: pxToRem(34);
     background-color: transparent;
 
     display: flex;
@@ -133,14 +133,14 @@
   }
 
   &__expand svg {
-    height: rem(16);
-    width: rem(16);
+    height: pxToRem(16);
+    width: pxToRem(16);
   }
 
   &__section-link {
     padding-top: 0.5rem;
     padding-bottom: 0.5rem;
-    margin-bottom: rem(4);
+    margin-bottom: pxToRem(4);
     text-transform: uppercase;
     a {
       line-height: $font-size-s;

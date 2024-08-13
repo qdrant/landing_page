@@ -15,7 +15,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    max-width: rem(1110);
+    max-width: pxToRem(1110);
     min-width: 100%;
     margin-bottom: $spacer * 2.5;
   }
@@ -40,8 +40,8 @@
     outline: none;
     border: 1px solid $neutral-80;
     background-color: transparent;
-    width: rem(64);
-    height: rem(64);
+    width: pxToRem(64);
+    height: pxToRem(64);
 
     display: flex;
     align-items: center;
@@ -53,8 +53,8 @@
   }
 
   &__button svg {
-    width: rem(24);
-    height: rem(24);
+    width: pxToRem(24);
+    height: pxToRem(24);
   }
 
   &__button:disabled {
@@ -62,8 +62,8 @@
   }
 
   &__title {
-    font-size: rem(32);
-    line-height: rem(38);
+    font-size: pxToRem(32);
+    line-height: pxToRem(38);
     color: $neutral-20;
     text-align: center;
     margin: 0;
@@ -84,11 +84,11 @@
     padding-bottom: $spacer * 2;
     margin-bottom: $spacer * 2;
 
-    min-height: rem(407);
+    min-height: pxToRem(407);
 
     img {
-      max-width: rem(120);
-      max-height: rem(64);
+      max-width: pxToRem(120);
+      max-height: pxToRem(64);
     }
   }
 
@@ -98,14 +98,14 @@
   }
 
   &__avatar {
-    height: rem(48);
+    height: pxToRem(48);
     text-align: right;
     display: flex;
     flex-wrap: nowrap;
     justify-content: flex-start;
     img {
-      width: rem(48);
-      height: rem(48);
+      width: pxToRem(48);
+      height: pxToRem(48);
       &:not(:first-of-type) {
         margin-left: $spacer * -1;
         z-index: 1;
@@ -134,7 +134,7 @@
 
     &__title {
       font-size: map-get($font-sizes, 3);
-      line-height: rem(57);
+      line-height: pxToRem(57);
       text-align: left;
     }
 
@@ -145,7 +145,7 @@
     &__header-content {
       justify-content: space-between;
       margin-top: 0;
-      height: rem(64);
+      height: pxToRem(64);
     }
 
     &__cards-wrapper {
@@ -157,8 +157,8 @@
     }
 
     &__cards {
-      margin-left: rem(-15);
-      margin-right: rem(-15);
+      margin-left: pxToRem(-15);
+      margin-right: pxToRem(-15);
     }
     .splide {
       margin-left: -20px;

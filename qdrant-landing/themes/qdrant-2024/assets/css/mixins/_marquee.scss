@@ -30,11 +30,11 @@
       position: absolute;
       top: 0;
       bottom: 0;
-      width: rem(80);
+      width: pxToRem(80);
       z-index: 1;
 
       @include bs.media-breakpoint-up(lg) {
-        width: rem(165);
+        width: pxToRem(165);
       }
     }
     &:before {

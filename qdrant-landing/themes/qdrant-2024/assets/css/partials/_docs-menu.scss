@@ -9,7 +9,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: rem(15) rem(20);
+    padding: pxToRem(15) pxToRem(20);
     cursor: pointer;
 
     &.active {
@@ -19,8 +19,8 @@
     }
 
     h2 {
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       font-weight: 400;
       color: $neutral-90;
       margin: 0;
@@ -29,7 +29,7 @@
 
   &__content {
     display: none;
-    padding: $spacer * 1.5 $spacer * 2 rem(12);
+    padding: $spacer * 1.5 $spacer * 2 pxToRem(12);
 
     &.active {
       display: block;
@@ -72,8 +72,8 @@
     outline: none;
     border: none;
     background-color: transparent;
-    width: rem(24);
-    height: rem(24);
+    width: pxToRem(24);
+    height: pxToRem(24);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -84,14 +84,14 @@
     &-title {
       color: $neutral-98;
       font-weight: bold;
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       margin: 0 0 $spacer;
       padding-top: $spacer * 0.5;
     }
 
     &-group {
-      padding-bottom: rem(4);
+      padding-bottom: pxToRem(4);
 
       &-heading {
         display: block;
@@ -113,11 +113,11 @@
       summary:after {
         content: '';
         display: block;
-        width: rem(10);
-        height: rem(10);
+        width: pxToRem(10);
+        height: pxToRem(10);
         position: absolute;
-        top: rem(7);
-        right: rem(4);
+        top: pxToRem(7);
+        right: pxToRem(4);
         background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M3.16667 0.916341C3.10476 0.869913 3.03115 0.841641 2.95409 0.834692C2.87702 0.827742 2.79954 0.842391 2.73033 0.876997C2.66112 0.911602 2.60291 0.964797 2.56223 1.03062C2.52155 1.09644 2.5 1.17229 2.5 1.24967V8.74968C2.5 8.82706 2.52155 8.90291 2.56223 8.96873C2.60291 9.03455 2.66112 9.08775 2.73033 9.12235C2.79954 9.15696 2.87702 9.17161 2.95409 9.16466C3.03115 9.15771 3.10476 9.12944 3.16667 9.08301L8.16667 5.33301C8.21842 5.2942 8.26042 5.24387 8.28934 5.18601C8.31827 5.12816 8.33333 5.06436 8.33333 4.99967C8.33333 4.93499 8.31827 4.87119 8.28934 4.81334C8.26042 4.75548 8.21842 4.70515 8.16667 4.66634L3.16667 0.916341Z' fill='%238F98B3'/%3E%3C/svg%3E%0A");
         background-size: cover;
         background-position: center;
@@ -126,15 +126,15 @@
 
       &.active {
         .docs-menu__links-group-heading > a {
-          padding: rem(4) 0 rem(4) $spacer;
-          border-left: rem(1) solid $primary-50;
+          padding: pxToRem(4) 0 pxToRem(4) $spacer;
+          border-left: pxToRem(1) solid $primary-50;
           font-weight: 600;
           background-color: $neutral-30;
           color: $neutral-90;
         }
 
         summary:after {
-          top: rem(11);
+          top: pxToRem(11);
         }
       }
 
@@ -158,8 +158,8 @@
           justify-content: space-between;
           align-items: center;
           color: $neutral-70;
-          font-size: rem(14);
-          line-height: rem(21);
+          font-size: pxToRem(14);
+          line-height: pxToRem(21);
         }
 
         &.active {

@@ -12,7 +12,7 @@
     position: relative;
     margin-bottom: $spacer * 3;
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-98;
     z-index: 1;
   }
@@ -20,7 +20,7 @@
   &__cards {
     position: relative;
     justify-content: space-between;
-    gap: rem(30);
+    gap: pxToRem(30);
     z-index: 1;
   }
 
@@ -39,8 +39,8 @@
       justify-content: space-between;
 
       svg {
-        max-width: rem(24);
-        max-height: rem(24);
+        max-width: pxToRem(24);
+        max-height: pxToRem(24);
       }
     }
   }
@@ -49,14 +49,14 @@
     color: $neutral-98;
     margin-top: $spacer * 1.5;
     margin-bottom: $spacer;
-    line-height: rem(34);
+    line-height: pxToRem(34);
   }
 
   &__card-content {
     color: $neutral-70;
     margin-bottom: $spacer * 1.5;
     font-size: map-get($font-sizes-text, 's');
-    line-height: rem(21);
+    line-height: pxToRem(21);
     font-weight: 500;
   }
 
@@ -80,7 +80,7 @@
 
     &__title {
       font-size: map-get($font-sizes, 3);
-      line-height: rem(57);
+      line-height: pxToRem(57);
       margin-bottom: $spacer * 4;
     }
 
@@ -93,7 +93,7 @@
     &__card {
       &-info {
         width: 100%;
-        min-height: rem(333);
+        min-height: pxToRem(333);
       }
     }
   }

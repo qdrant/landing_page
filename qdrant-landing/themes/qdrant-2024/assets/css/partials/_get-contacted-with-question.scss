@@ -2,5 +2,5 @@
 @use '../mixins/get-contacted' as get-contacted;
 
 .get-contacted-with-question {
-  @include get-contacted.base($spacer * 2.5, 0, 0, 0, rem(350));
+  @include get-contacted.base($spacer * 2.5, 0, 0, 0, pxToRem(350));
 }

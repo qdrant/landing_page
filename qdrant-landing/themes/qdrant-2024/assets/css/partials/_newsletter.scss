@@ -16,14 +16,14 @@
 
   &__title {
     font-size: $spacer * 1.5;
-    line-height: rem(34);
+    line-height: pxToRem(34);
     color: $neutral-98;
     margin-bottom: $spacer * 0.5;
   }
 
   &__description {
-    font-size: rem(14);
-    line-height: rem(21);
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
     color: $neutral-70;
     margin-bottom: 0;
   }
@@ -59,18 +59,18 @@
     }
 
     &__text {
-      width: rem(381);
+      width: pxToRem(381);
     }
 
     &__form {
       form {
         flex-direction: row;
-        width: rem(476);
+        width: pxToRem(476);
       }
 
       button,
       input[type='submit'] {
-        width: rem(118);
+        width: pxToRem(118);
       }
     }
   }

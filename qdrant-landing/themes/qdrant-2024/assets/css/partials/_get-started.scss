@@ -21,7 +21,7 @@
     justify-content: center;
 
     min-width: 100%;
-    min-height: rem(615);
+    min-height: pxToRem(615);
 
     border-radius: 16px;
 
@@ -33,7 +33,7 @@
 
   &__title {
     font-size: map-get($font-sizes, 4);
-    line-height: rem(48);
+    line-height: pxToRem(48);
     color: $neutral-98;
     text-align: center;
     margin: 0;
@@ -42,7 +42,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
-    line-height: rem(27);
+    line-height: pxToRem(27);
     text-align: center;
     color: $neutral-90;
     margin-top: $spacer * 1.5;
@@ -54,8 +54,8 @@
     position: absolute;
     top: $spacer * 1.5;
     left: $spacer * 2.5;
-    width: rem(94);
-    height: rem(83);
+    width: pxToRem(94);
+    height: pxToRem(83);
     background-position: top;
     background-repeat: no-repeat;
   }
@@ -65,8 +65,8 @@
     position: absolute;
     bottom: 0;
     right: 0;
-    width: rem(281);
-    height: rem(151);
+    width: pxToRem(281);
+    height: pxToRem(151);
     background-repeat: no-repeat;
   }
 
@@ -74,8 +74,8 @@
     position: absolute;
     left: 0;
     top: 0;
-    width: rem(250);
-    height: rem(250);
+    width: pxToRem(250);
+    height: pxToRem(250);
     background-image: url('/img/blurred/blurred-light-2.svg');
     background-position: top;
     background-size: cover;
@@ -101,7 +101,7 @@
     padding-bottom: $spacer * 6.5;
 
     &__content {
-      min-height: rem(165);
+      min-height: pxToRem(165);
 
       padding-left: 0;
       padding-right: 0;
@@ -109,12 +109,12 @@
 
     &__title {
       font-size: map-get($font-sizes, 3);
-      line-height: rem(57);
+      line-height: pxToRem(57);
       max-width: unset;
     }
 
     &__subtitle {
-      max-width: rem(640);
+      max-width: pxToRem(640);
     }
 
     &__overlay-middle {

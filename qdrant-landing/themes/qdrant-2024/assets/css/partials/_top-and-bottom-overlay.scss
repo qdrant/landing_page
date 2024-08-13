@@ -4,8 +4,8 @@
   position: absolute;
   right: 0;
   top: 0;
-  width: rem(323);
-  height: rem(320);
+  width: pxToRem(323);
+  height: pxToRem(320);
   background-image: url('/img/blurred/blurred-light-4.png');
   background-position: top;
   background-size: cover;
@@ -15,8 +15,8 @@
   position: absolute;
   left: 0;
   bottom: 0;
-  width: rem(637);
-  height: rem(376);
+  width: pxToRem(637);
+  height: pxToRem(376);
   background-image: url('/img/blurred/blurred-light-5.png');
   background-position: bottom;
   background-size: cover;

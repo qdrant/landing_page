@@ -28,14 +28,14 @@
     }
 
     &-link {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       margin-bottom: $spacer * 2.5;
     }
 
     &-title {
       font-size: $spacer * 2;
-      line-height: rem(38);
+      line-height: pxToRem(38);
       margin-bottom: $spacer * 1.5;
       color: $neutral-20;
     }
@@ -63,7 +63,7 @@
     &__title {
       margin-bottom: $spacer * 7.5;
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__cases {
@@ -71,8 +71,8 @@
 
       & > div:last-of-type {
         img {
-          width: rem(394);
-          margin-left: rem(50);
+          width: pxToRem(394);
+          margin-left: pxToRem(50);
         }
       }
     }
@@ -87,7 +87,7 @@
       }
 
       &-text {
-        width: rem(445);
+        width: pxToRem(445);
       }
 
       &-link {
@@ -96,16 +96,16 @@
 
       &-title {
         font-size: $spacer * 3;
-        line-height: rem(57);
+        line-height: pxToRem(57);
       }
 
       &-description {
-        font-size: rem(18);
-        line-height: rem(27);
+        font-size: pxToRem(18);
+        line-height: pxToRem(27);
       }
 
       &-preview {
-        width: rem(540);
+        width: pxToRem(540);
         text-align: left;
         order: initial;
 

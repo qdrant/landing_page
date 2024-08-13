@@ -20,14 +20,14 @@
 
     &-title {
       font-size: $spacer * 1.5;
-      line-height: rem(34);
+      line-height: pxToRem(34);
       color: $neutral-20;
-      margin-bottom: rem(12);
+      margin-bottom: pxToRem(12);
     }
 
     &-description {
       color: $neutral-40;
-      margin-bottom: rem(12);
+      margin-bottom: pxToRem(12);
     }
 
     &-link {
@@ -42,20 +42,20 @@
   }
 
   &__resources-cards {
-    margin-bottom: rem(30);
+    margin-bottom: pxToRem(30);
 
     & > div {
       &:first-of-type,
       &:last-of-type {
         img {
-          min-width: rem(635);
+          min-width: pxToRem(635);
         }
       }
 
       &:nth-of-type(2),
       &:nth-of-type(3) {
         img {
-          min-width: rem(397);
+          min-width: pxToRem(397);
         }
       }
     }
@@ -70,14 +70,14 @@
 
     &-title {
       font-size: $spacer * 1.5;
-      line-height: rem(34);
+      line-height: pxToRem(34);
       color: $neutral-20;
       margin-bottom: $spacer;
     }
 
     &-description {
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       color: $neutral-40;
       margin-bottom: $spacer * 1.5;
     }
@@ -93,7 +93,7 @@
 
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
       margin-bottom: $spacer * 5;
     }
 

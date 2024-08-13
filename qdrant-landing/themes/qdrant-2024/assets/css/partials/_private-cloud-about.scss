@@ -33,8 +33,8 @@
         bottom: 0;
         left: 0;
         right: 0;
-        height: rem(1);
-        width: rem(920);
+        height: pxToRem(1);
+        width: pxToRem(920);
         margin: 0 auto;
         background-color: $neutral-80;
       }
@@ -43,21 +43,21 @@
     &__title {
       position: absolute;
       top: $spacer * 4;
-      left: rem(12);
-      width: rem(400);
+      left: pxToRem(12);
+      width: pxToRem(400);
     }
 
     &__image {
       display: block;
-      width: rem(553);
+      width: pxToRem(553);
       margin: 0 auto;
     }
 
     &__description {
       position: absolute;
       bottom: $spacer * 4;
-      right: rem(12);
-      width: rem(361);
+      right: pxToRem(12);
+      width: pxToRem(361);
     }
   }
 }

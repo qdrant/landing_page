@@ -15,7 +15,7 @@
   }
 
   &__title {
-    margin-bottom: rem(30);
+    margin-bottom: pxToRem(30);
     font-size: $spacer * 2.5;
     line-height: $spacer * 3;
     color: $neutral-20;
@@ -23,8 +23,8 @@
 
   &__description {
     margin: 0;
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     color: $neutral-30;
   }
 
@@ -40,8 +40,8 @@
 
   &__card-title {
     margin-bottom: $spacer;
-    font-size: rem(20);
-    line-height: rem(30);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
     font-weight: bold;
     color: $neutral-20;
   }
@@ -58,19 +58,19 @@
     &__header {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
-      gap: rem(30);
+      gap: pxToRem(30);
       margin-bottom: $spacer * 5;
     }
 
     &__title {
       margin: 0;
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__description {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
     }
 
     &__cards {
@@ -80,7 +80,7 @@
         'C C D D E E'
         'F F F F G G'
         'H H I I J J';
-      gap: rem(30);
+      gap: pxToRem(30);
     }
 
     &__card:nth-of-type(1) {

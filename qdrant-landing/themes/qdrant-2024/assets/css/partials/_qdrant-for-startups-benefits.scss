@@ -24,16 +24,16 @@
     }
 
     &-title {
-      margin-bottom: rem(12);
+      margin-bottom: pxToRem(12);
       font-size: $spacer * 1.5;
-      line-height: rem(34);
+      line-height: pxToRem(34);
       color: $neutral-20;
     }
 
     &-description {
       margin-bottom: 0;
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       color: $neutral-40;
 
       strong, b {
@@ -45,7 +45,7 @@
     &-image {
       align-self: flex-end;
       width: 100%;
-      max-width: rem(540);
+      max-width: pxToRem(540);
       margin-right: -24px;
     }
   }
@@ -58,10 +58,10 @@
     overflow: hidden;
 
     &-title {
-      margin-bottom: rem(12);
+      margin-bottom: pxToRem(12);
       padding: 0 $spacer * 1.5;
       font-size: $spacer * 1.5;
-      line-height: rem(34);
+      line-height: pxToRem(34);
     }
 
     &-description {
@@ -83,10 +83,10 @@
   }
 
   &__description {
-    max-width: rem(730);
+    max-width: pxToRem(730);
     margin: $spacer * 5 auto $spacer;
-    font-size: rem(20);
-    line-height: rem(30);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
     color: $neutral-20;
     text-align: center;
   }
@@ -97,18 +97,18 @@
 
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
       text-align: center;
     }
 
     &__main-card {
       flex-direction: row;
       align-items: center;
-      height: rem(400);
+      height: pxToRem(400);
       padding-top: 0;
 
       &-block {
-        width: rem(440);
+        width: pxToRem(440);
         padding: 0 0 0 $spacer * 3;
       }
 
@@ -124,20 +124,20 @@
     }
 
     &__card {
-      height: rem(400);
+      height: pxToRem(400);
       padding-top: $spacer * 3;
 
       &-title {
         padding: 0 $spacer * 4 0 $spacer * 3;
         font-size: $spacer * 2;
-        line-height: rem(38);
+        line-height: pxToRem(38);
       }
 
       &-description {
         margin-bottom: 0;
         padding: 0 $spacer * 4 0 $spacer * 3;
-        font-size: rem(18);
-        line-height: rem(27);
+        font-size: pxToRem(18);
+        line-height: pxToRem(27);
       }
 
       &-image {
@@ -154,9 +154,9 @@
         content: '';
         display: block;
         position: absolute;
-        top: rem(102);
+        top: pxToRem(102);
         width: calc((100% - 778px) / 2);
-        height: rem(1);
+        height: pxToRem(1);
         background-color: $neutral-80;
       }
 
@@ -172,7 +172,7 @@
 
   @include media-breakpoint-up(xl) {
     &__card {
-      height: rem(360);
+      height: pxToRem(360);
     }
   }
 }
