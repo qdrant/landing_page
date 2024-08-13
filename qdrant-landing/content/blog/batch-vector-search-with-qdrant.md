@@ -37,9 +37,9 @@ from qdrant_client import QdrantClient
 from qdrant_client.conversions.common_types import VectorParams
 
 client = QdrantClient("localhost", 6333)
-if not client.collection_exists('startups'):
+if not client.collection_exists('test_collection'):
     client.create_collection(
-        collection_name="startups",
+        collection_name="test_collection",
         vectors_config=VectorParams(size=4, distance=Distance.EUCLID),
 )
 ```
