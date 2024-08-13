@@ -347,7 +347,7 @@ reduced the number of results to 10. Here are the results for some of the BeIR d
 Again, the source code of the benchmark is publicly available, and [you can find it in the repository of the 
 `beir-qdrant` package](https://github.com/kacperlukawski/beir-qdrant/blob/main/examples/retrieval/search/evaluate_reranking.py).
 
-Overall, adding the retrieval step using the same model usually helps to improve the retrieval quality. However, the 
+Overall, adding the reranking step using the same model usually helps to improve the retrieval quality. However, the 
 quality of different late interaction models is [often reported regarding how well they perform in the reranking step 
 when BM25 is used for the initial retrieval](https://huggingface.co/mixedbread-ai/mxbai-colbert-large-v1#1-reranking-performance). 
 This experiment aimed to show how a single model can be used for both retrieval and reranking, and the results are still 
