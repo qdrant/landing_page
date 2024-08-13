@@ -20,8 +20,8 @@ tags:
 
 Optimized Data Structures:</br>
 **Defragmentation:** Storage for multitenant workloads is more optimized and scales better.</br>
-**On-Disk Payload:** You can now store less frequently used data on disk, rather than in RAM.</br>
-**UUID Support:** Additional data types for payload can result in significant memory savings.
+**On-Disk Payload Index:** Store less frequently used data on disk, rather than in RAM.</br>
+**UUID for Payload Index:** Additional data types for payload can result in big memory savings.
 
 Improved Query API:</br>
 **GroupBy Endpoint:** Use this query method to group results by a certain payload field.</br>
@@ -45,8 +45,6 @@ To avoid slow and unnecessary indexing, it’s better to create an index for eac
 ### Defragmentation of Tenant Storage
 
 With version 1.11, Qdrant changes how vectors from the same tenant are stored on disk, placing them **closer together** for faster bulk reading and reduced scaling costs. This approach optimizes storage and retrieval operations for different tenants, leading to more efficient system performance and resource utilization.
-
-> Defragmentation improves performance. In the coming weeks, we will share **benchmark data** to demonstrate performance gains.
 
 **Figure 1:** Re-ordering by payload can significantly speed up access to hot and cold data.
 
