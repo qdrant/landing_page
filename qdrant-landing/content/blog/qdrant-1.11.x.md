@@ -156,7 +156,7 @@ await client.CreatePayloadIndexAsync(
 
 ```
 
-As a result, the storage structure will be organized in a way to co-locate vectors of the same tenant together.
+As a result, the storage structure will be organized in a way to co-locate vectors of the same tenant together at the next optimization.
 
 *To learn more about defragmentation, read the [Multitenancy documentation](/documentation/guides/multiple-partitions/).*
 
