@@ -420,6 +420,381 @@ await client.CreatePayloadIndexAsync(
 );
 ```
 
+### On-disk payload index
+
+*Available as of v1.11.0*
+
+By default all payload-related structures are stored in memory. In this way vector index can quickly access payload values during search.
+As latency in this case is critical, it is recommended to keep hot payload indexes in memory.
+
+There are, however, cases when payload indexes are too large or rarely used. In those cases, it is possible to store payload indexes on disk.
+
+<aside role="alert">
+    On-disk payload index might affect cold requests latency, as it requires additional disk I/O operations.
+</aside>
+
+To configure on-disk payload index, you can use the following index parameters:
+
+```http
+PUT /collections/{collection_name}/index
+{
+    "field_name": "workspace_2",
+    "field_schema": {
+        "type": "keyword",
+        "on_disk": true
+    }
+}
+```
+
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="workspace_2",
+    field_schema=models.KeywordIndexParams(
+        type="keyword",
+        on_disk=True,
+    ),
+)
+```
+
+```typescript
+client.createPayloadIndex("{collection_name}", {
+  field_name: "workspace_2",
+  field_schema: {
+    type: "keyword",
+    on_disk: true
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    CreateFieldIndexCollectionBuilder,
+    KeywordIndexParamsBuilder,
+    FieldType
+};
+use qdrant_client::{Qdrant, QdrantError};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.create_field_index(
+    CreateFieldIndexCollectionBuilder::new(
+        "{collection_name}",
+        "workspace_2",
+        FieldType::Keyword,
+    )
+    .field_index_params(
+        KeywordIndexParamsBuilder::default()
+            .on_disk(true),
+    ),
+);
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.KeywordIndexParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createPayloadIndexAsync(
+        "{collection_name}",
+        "workspace_2",
+        PayloadSchemaType.Keyword,
+        PayloadIndexParams.newBuilder()
+            .setKeywordIndexParams(
+                KeywordIndexParams.newBuilder()
+                    .setOnDisk(true)
+                    .build())
+            .build(),
+        null,
+        null,
+        null)
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync(
+ collectionName: "{collection_name}",
+ fieldName: "workspace_2",
+ schemaType: PayloadSchemaType.Keyword,
+ indexParams: new PayloadIndexParams
+ {
+  KeywordIndexParams = new KeywordIndexParams
+  {
+   OnDisk   = true
+  }
+ }
+);
+
+```
+
+Payload index on-disk is supported for following types:
+
+* `keyword`
+* `integer`
+* `float`
+* `datetime`
+* `uuid`
+
+The list will be extended in future versions.
+
+### Tenant Index
+
+*Available as of v1.11.0*
+
+Many vector search use-cases require multi-tenancy support. In multi-tenant scenario the collection is expected to contain multiple subsets of data, each subset belonging to a different tenant. 
+
+Qdrant supports efficient multi-tenant search by enabling [special configuration](../guides/multiple-partitions/) vector index, which disables global search and only builds sub-indexes for each tenant.
+
+<aside role="note">
+    In Qdrant, tenants are not necessarily non-overlapping. It is possible to have subsets of data that belong to multiple tenants.
+</aside>
+
+But knowing that the collection contains multiple tenants unlocks more opportunities for optimization.
+For enabling Qdrant to optimize storage even further, you can enable tenant index for payload fields.
+
+This option will tell Qdrant which fields are used for tenant identification and will allow Qdrant to structure storage for faster search of tenant-specific data.
+One example of such optimization is localizing tenant-specific data closer on disk, which will reduce the number of disk reads during search.
+
+To enable tenant index for a field, you can use the following index parameters:
+
+```http
+PUT /collections/{collection_name}/index
+{
+    "field_name": "workspace_2",
+    "field_schema": {
+        "type": "keyword",
+        "is_tenant": true
+    }
+}
+```
+
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="workspace_2",
+    field_schema=models.KeywordIndexParams(
+        type="keyword",
+        is_tenant=True,
+    ),
+)
+```
+
+```typescript
+client.createPayloadIndex("{collection_name}", {
+  field_name: "workspace_2",
+  field_schema: {
+    type: "keyword",
+    is_tenant: true
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    CreateFieldIndexCollectionBuilder,
+    KeywordIndexParamsBuilder,
+    FieldType
+};
+use qdrant_client::{Qdrant, QdrantError};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.create_field_index(
+    CreateFieldIndexCollectionBuilder::new(
+        "{collection_name}",
+        "workspace_2",
+        FieldType::Keyword,
+    )
+    .field_index_params(
+        KeywordIndexParamsBuilder::default()
+            .is_tenant(true),
+    ),
+);
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.KeywordIndexParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createPayloadIndexAsync(
+        "{collection_name}",
+        "workspace_2",
+        PayloadSchemaType.Keyword,
+        PayloadIndexParams.newBuilder()
+            .setKeywordIndexParams(
+                KeywordIndexParams.newBuilder()
+                    .setIsTenant(true)
+                    .build())
+            .build(),
+        null,
+        null,
+        null)
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync(
+ collectionName: "{collection_name}",
+ fieldName: "workspace_2",
+ schemaType: PayloadSchemaType.Keyword,
+ indexParams: new PayloadIndexParams
+ {
+  KeywordIndexParams = new KeywordIndexParams
+  {
+   IsTenant = true
+  }
+ }
+);
+
+```
+
+
+Tenant optimization is supported for following types:
+
+* `keyword`
+* `uuid`
+
+### Principal Index
+
+*Available as of v1.11.0*
+
+Similar to the tenant index, the principal index is used to optimize storage for faster search, assuming that the search request is primarily filtered by the principal field.
+
+A good example of a use case for the principal index is time-related data, where each point is associated with a timestamp. In this case, the principal index can be used to optimize storage for faster search with time-based filters.
+
+```http
+PUT /collections/{collection_name}/index
+{
+    "field_name": "timestamp",
+    "field_schema": {
+        "type": "integer",
+        "is_principal": true
+    }
+}
+```
+
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="timestamp",
+    field_schema=models.KeywordIndexParams(
+        type="integer",
+        is_principal=True,
+    ),
+)
+```
+
+```typescript
+client.createPayloadIndex("{collection_name}", {
+  field_name: "timestamp",
+  field_schema: {
+    type: "integer",
+    is_principal: true
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    CreateFieldIndexCollectionBuilder,
+    IntegerdIndexParamsBuilder,
+    FieldType
+};
+use qdrant_client::{Qdrant, QdrantError};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.create_field_index(
+    CreateFieldIndexCollectionBuilder::new(
+        "{collection_name}",
+        "timestamp",
+        FieldType::Integer,
+    )
+    .field_index_params(
+        IntegerdIndexParamsBuilder::default()
+            .is_principal(true),
+    ),
+);
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.IntegerIndexParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createPayloadIndexAsync(
+        "{collection_name}",
+        "timestamp",
+        PayloadSchemaType.Integer,
+        PayloadIndexParams.newBuilder()
+            .setIntegerIndexParams(
+                KeywordIndexParams.newBuilder()
+                    .setIsPrincipa(true)
+                    .build())
+            .build(),
+        null,
+        null,
+        null)
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync(
+ collectionName: "{collection_name}",
+ fieldName: "timestamp",
+ schemaType: PayloadSchemaType.Integer,
+ indexParams: new PayloadIndexParams
+ {
+  IntegerIndexParams = new IntegerIndexParams
+  {
+   IsPrincipal = true
+  }
+ }
+);
+
+```
+
+Principal optimization is supported for following types:
+
+* `integer`
+* `float`
+* `datetime`
+
+
 ## Vector Index
 
 A vector index is a data structure built on vectors through a specific mathematical model.
