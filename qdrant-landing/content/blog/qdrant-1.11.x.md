@@ -525,7 +525,7 @@ Deeper exploration is highly dependant on expanding context. This is something w
 
 **Try it:** Using the feature is pretty self-explanatory. Each collection's dataset can be explored from the **Graph** tab. As you see the images change, you can steer your search in the direction of specific characteristics that interest you. 
 
-*Search results will become more "distilled" and tailored to your preferences.*
+> Search results will become more "distilled" and tailored to your preferences.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PXH4WPYUP7E?si=nFqLBIcxo-km9i4V" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
