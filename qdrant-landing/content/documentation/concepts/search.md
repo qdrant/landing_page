@@ -34,6 +34,7 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | [Order By](../hybrid-queries/#re-ranking-with-stored-values) | Order points by payload key |
 | [Hybrid Search](../hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
 | [Multi-Stage Search](../hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
+| [Random Sampling](#random-sampling) | Get random points from the collection |
 
 
 **Nearest Neighbors Search**
@@ -1592,6 +1593,96 @@ The looked up result will show up under `lookup` in each group.
 
 Since the lookup is done by matching directly with the point id, any group id that is not an existing (and valid) point id in the lookup collection will be ignored, and the `lookup` field will be empty.
 
+## Random Sampling
+
+*Available as of v1.11.0*
+
+In some cases it might be useful to retrieve a random sample of points from the collection. This can be useful for debugging, testing, or for providing entry points for exploration.
+
+Random sampling API is a part of [Universal Query API](#query-api) and can be used in the same way as regular search API.
+
+```http
+{
+    "collection_name": "{collection_name}",
+    "query": {
+        "sample": "random"
+    }
+}
+```
+
+
+```python
+from qdrant_client import QdrantClient, models
+
+
+sampled = client.query_points(
+    collection_name="{collection_name}",
+    query=models.SampleQuery(sample=models.Sample.Random)
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+const sampled = await client.query("{collection_name}", {
+  query: {
+    sample: "random",
+  },
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Query, QueryPointsBuilder};
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+let sampled = client
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(Query::new_sample(Sample::Random))
+    )
+    .await?;
+
+```
+
+```java
+import static io.qdrant.client.QueryFactory.sample;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
+import io.qdrant.client.grpc.Points.Sample;
+
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+
+client
+    .queryAsync(
+        QueryPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setQuery(sample(Sample.Random))
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+
+var client = new QdrantClient("localhost", 6334);
+
+
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: Sample.Random
+);
+
+```
 
 ## Query planning
 
