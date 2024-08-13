@@ -166,7 +166,7 @@ When managing billions of records across millions of tenants, keeping all data i
 
 *This feature can help you manage a high number of different payload indexes, which is beneficial if you are working with large varied datasets.*
 
-**Figure 2:** By moving the Workspace 2 index to disk, the system can free up valuable memory resources for Workspaces 1, 3 and 4, which are accessed more frequently.
+**Figure 2:** By moving the data from Workspace 2 to disk, the system can free up valuable memory resources for Workspaces 1, 3 and 4, which are accessed more frequently.
 
 ![on-disk-payload](/blog/qdrant-1.11.x/on-disk-payload.png)
 
