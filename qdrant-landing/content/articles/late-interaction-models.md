@@ -7,7 +7,7 @@ social_preview_image: /articles_data/late-interaction-models/social-preview.png
 weight: -160
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
-date: 2024-08-05T00:00:00.000Z
+date: 2024-08-13T00:00:00.000Z
 ---
 
 \* At least every Open Source model, because you need to access its internals.
