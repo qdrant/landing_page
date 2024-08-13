@@ -143,17 +143,17 @@ models. The results are quite promising.
             <th rowspan="6">ArguAna</th>
             <td><code>prithvida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
-            <td></td>
+            <td>0.47271</td>
         </tr>
         <tr>
             <td><code>colbert-ir/colbertv2.0</code></td>
             <td>late interaction model</td>
-            <td></td>
+            <td>0.44534</td>
         </tr>
         <tr>
             <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
             <td>single dense vector representation</td>
-            <td></td>
+            <td>0.50167</td>
         </tr>
         <tr>
             <td>output token embeddings</td>
