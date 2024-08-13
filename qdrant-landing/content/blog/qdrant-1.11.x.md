@@ -347,7 +347,7 @@ In version 1.10, we added Reciprocal Rank Fusion (RRF) as a way of fusing result
 *DBSF normalizes the scores of the points in each query, using the mean +/- the 3rd standard deviation as limits, and then sums the scores of the same point across different queries.* 
 
 
-**Example:** To fuse `prefetch` results from sparse and dense queries, set the `"fusion": "dbsf"`
+**Example:** To fuse `prefetch` results from sparse and dense queries, set `"fusion": "dbsf"`
 ```html
 POST /collections/{collection_name}/points/query
 {
