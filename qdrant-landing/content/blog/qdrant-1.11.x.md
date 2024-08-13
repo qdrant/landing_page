@@ -287,9 +287,9 @@ By moving the index to disk, Qdrant can handle larger datasets that exceed the c
 
 ### UUID Datatype for the Payload Index
 
-Many Qdrant users rely on UUIDs in their payloads, but storing these as strings comes with a substantial memory overhead—approximately 60 bytes per UUID. In reality, UUIDs only require 16 bytes of storage when stored as raw bytes.
+Many Qdrant users rely on UUIDs in their payloads, but storing these as strings comes with a substantial memory overhead—approximately 36 bytes per UUID. In reality, UUIDs only require 16 bytes of storage when stored as raw bytes.
 
-To address this inefficiency, we’ve developed a new index type tailored specifically for UUIDs that stores them internally as bytes, **reducing memory usage by up to 3.75x.**
+To address this inefficiency, we’ve developed a new index type tailored specifically for UUIDs that stores them internally as bytes, **reducing memory usage by up to 2.25x.**
 
 **Example:** When adding two separate points, indicate their UUID in the payload. In this example, both data points belong to the same user (with the same UUID).
 
