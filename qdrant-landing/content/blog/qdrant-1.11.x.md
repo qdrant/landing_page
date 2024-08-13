@@ -21,15 +21,15 @@ tags:
 Optimized Data Structures:</br>
 **Defragmentation:** Storage for multitenant workloads is more optimized and scales better.</br>
 **On-Disk Payload:** You can now store less frequently used data on disk, rather than on RAM.</br>
-**UUID Support:** Additional data type for payload can result in significant memory savings.
+**UUID Support:** Additional data types for payload can result in significant memory savings.
 
 Improved Query API:</br>
 **GroupBy Endpoint:** Use this query method to group results by a certain payload field.</br>
-**Random Sampling:** Select a subset of data points from a larger dataset in a random manner.</br>
+**Random Sampling:** Select a subset of data points from a larger dataset randomly.</br>
 **Hybrid Search Fusion:** We are adding the Distribution-Based Score Fusion (DBSF) method.</br>
 
 New Web UI Tools:</br>
-**Search Quality Tool:** Test the precision of your semantic search requests in real time.</br>
+**Search Quality Tool:** Test the precision of your semantic search requests in real-time.</br>
 **Graph Exploration Tool:** Visualize vector search in context-based exploratory scenarios.</br>
 
 ### Quick Recap: Multitenant Workloads
@@ -44,7 +44,7 @@ To avoid slow and unnecessary indexing, it’s better to create an index for eac
 
 ### Defragmentation of Tenant Storage
 
-With version 1.11, Qdrant changes how vectors from the same tenant are stored on disk, placing them **closer together** for faster bulk reading and reduced scaling costs. This approach optimizes storage and retrieval operations for different tenants, leading to more efficient system performance and better resource utilization.
+With version 1.11, Qdrant changes how vectors from the same tenant are stored on disk, placing them **closer together** for faster bulk reading and reduced scaling costs. This approach optimizes storage and retrieval operations for different tenants, leading to more efficient system performance and resource utilization.
 
 > Defragmentation can significantly improve performance. In the coming weeks, we will share **benchmark data** to demonstrate performance gains.
 
@@ -166,7 +166,7 @@ When managing billions of records across millions of tenants, keeping all data i
 
 *This feature can help you manage a high number of different payload indexes, which is beneficial if you are working with large varied datasets.*
 
-**Figure 2:** By moving the Workspace 2 index to disk, the system can free up valuable memory resources for Workspaces 1,3 and 4, that are accessed more frequently.
+**Figure 2:** By moving the Workspace 2 index to disk, the system can free up valuable memory resources for Workspaces 1, 3 and 4, which are accessed more frequently.
 
 ![on-disk-payload](/blog/qdrant-1.11.x/on-disk-payload.png)
 
@@ -419,7 +419,7 @@ This endpoint will retrieve the best N points for each document, assuming that t
 
 Our [Food Discovery Demo](https://food-discovery.qdrant.tech) always shows a random sample of foods from the larger dataset. Now you can do the same and set the randomization from a basic Query API endpoint.
 
-When calling the Query API, you will be able to select a subset of data points from a larger dataset in a random manner.
+When calling the Query API, you will be able to select a subset of data points from a larger dataset randomly.
 
 *This technique is often used to reduce the computational load, improve query response times, or provide a representative sample of the data for various analytical purposes.*
 
@@ -668,13 +668,13 @@ We have updated the Qdrant Web UI with additional testing functionality. Now you
 
 **Try it:** In the Dashboard, go to collection settings and test the **Precision** from the Search Quality menu tab.
 
-> The feature will conduct semantic search for each point and produce a report below.
+> The feature will conduct a semantic search for each point and produce a report below.
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/PJHzeVay_nQ?si=u-6lqCVECd-A319M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 ## Web UI: Graph Exploration Tool
 
-Deeper exploration is highly dependant on expanding context. This is something we previously covered in the [Discovery Needs Context](/articles/discovery-search/) article earlier this year. Now, we have developed a UI feature to help you visualize how semantic search can be used for exploratory and recommendation purposes.
+Deeper exploration is highly dependent on expanding context. This is something we previously covered in the [Discovery Needs Context](/articles/discovery-search/) article earlier this year. Now, we have developed a UI feature to help you visualize how semantic search can be used for exploratory and recommendation purposes.
 
 **Try it:** Using the feature is pretty self-explanatory. Each collection's dataset can be explored from the **Graph** tab. As you see the images change, you can steer your search in the direction of specific characteristics that interest you.
 
