@@ -34,7 +34,7 @@ New Web UI Tools:</br>
 
 ### Quick Recap: Multitenant Workloads
 
-Before we dive into the specifics of our optimizations, let's first go over Multitenancy. This is one of our most significant features, [best used for at scaling and data isolation](https://qdrant.tech/articles/multitenancy/).
+Before we dive into the specifics of our optimizations, let's first go over Multitenancy. This is one of our most significant features, [best used for scaling and data isolation](https://qdrant.tech/articles/multitenancy/).
 
 If you’re using Qdrant to manage data for multiple users, regions, or workspaces (tenants), we suggest setting up a [multitenant environment](/documentation/guides/multiple-partitions/). This approach keeps all tenant data in a single global collection, with points separated and isolated by their payload.
 
@@ -63,6 +63,96 @@ PUT /collections/{collection_name}/index
         "is_tenant": true
     }
 }
+```
+
+```python
+client.create_payload_index(
+    collection_name="{collection_name}",
+    field_name="workspace_2",
+    field_schema=models.KeywordIndexParams(
+        type="keywprd",
+        is_tenant=True,
+    ),
+)
+```
+
+```typescript
+client.createPayloadIndex("{collection_name}", {
+  field_name: "workspace_2",
+  field_schema: {
+    type: "keyword",
+    is_tenant: true,
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{
+    CreateFieldIndexCollectionBuilder,
+    KeywordIndexParamsBuilder,
+    FieldType
+};
+use qdrant_client::{Qdrant, QdrantError};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.create_field_index(
+        CreateFieldIndexCollectionBuilder::new(
+            "{collection_name}",
+            "workspace_2",
+            FieldType::Keyword,
+        ).field_index_params(
+            KeywordIndexParamsBuilder::default()
+                .is_tenant(true)
+        )
+    ).await?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Collections.PayloadIndexParams;
+import io.qdrant.client.grpc.Collections.PayloadSchemaType;
+import io.qdrant.client.grpc.Collections.KeywordIndexParams;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .createPayloadIndexAsync(
+        "{collection_name}",
+        "workspace_2",
+        PayloadSchemaType.Keyword,
+        PayloadIndexParams.newBuilder()
+            .setKeywordIndexParams(
+                KeywordIndexParams.newBuilder()
+                    .setIsTenant(true)
+                    .build())
+            .build(),
+        null,
+        null,
+        null)
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.CreatePayloadIndexAsync(
+	collectionName: "{collection_name}",
+	fieldName: "workspace_2",
+	schemaType: PayloadSchemaType.Keyword,
+	indexParams: new PayloadIndexParams
+	{
+		KeywordIndexParams = new KeywordIndexParams
+		{
+			IsTenant = true
+		}
+	}
+);
+
 ```
 As a result, the storage structure will be organized in a way to co-locate vectors of the same tenant together. 
 
@@ -132,6 +222,18 @@ When searching over data, you can group results by specific payload field, which
 
 **Example:** If a large document is divided into several chunks, and you need to search or make recommendations on a per-document basis, you can group the results by the `document_id`.
 
+```http
+POST /collections/{collection_name}/points/query/groups
+{
+    # Same as in the regular query() API
+    "query": [0.01, 0.45, 0.67],
+    # Grouping parameters
+    group_by="document_id",  # Path of the field to group by
+    limit=4,  # Max amount of groups
+    group_size=2,  # Max amount of points per group
+}
+```
+
 ```python
 from qdrant_client import QdrantClient, models
 
@@ -144,6 +246,72 @@ client.query_point_groups(
     limit=4,
     group_size=2,
 )
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query_point_groups("{collection_name}", {
+    query: [0.01, 0.45, 0.67],
+    group_by: "document_id",
+    limit: 4,
+    group_size: 2,
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointGroupsBuilder::new("{collection_name}", "document_id")
+        .query(Query::from(vec![0.01, 0.45, 0.67]))
+        .limit(4)
+        .group_size(2)
+).await?;
+```
+
+```java
+import static io.qdrant.client.QueryFactory.nearest;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPointGroups;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .queryGroupsAsync(
+        QueryPointGroups.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setGroupBy("document_id")
+            .setQuery(nearest(0.01f, 0.45f, 0.67f))
+            .setLimit(4)
+            .setGroupSize(2)
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryGroupsAsync(
+  collectionName: "{collection_name}",
+  groupBy: "document_id",
+  query: new float[] {
+    0.01f, 0.45f, 0.67f
+  },
+  limit: 4,
+  groupSize: 2
+);
 ```
 
 This endpoint will retrieve the best N points for each document, assuming that the payload of the points contains the document ID. Sometimes, the best N points cannot be fulfilled due to lack of points or a big distance with respect to the query. In every case, the `group_size` is a best-effort parameter, similar to the limit parameter.
@@ -203,6 +371,139 @@ POST /collections/{collection_name}/points/query
     "query": { "fusion": “dbsf" }, // <--- Distribution Based Score Fusion
     "limit": 10
 }
+```
+
+```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="{collection_name}",
+    prefetch=[
+        models.Prefetch(
+            query=models.SparseVector(indices=[1, 42], values=[0.22, 0.8]),
+            using="sparse",
+            limit=20,
+        ),
+        models.Prefetch(
+            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            using="dense",
+            limit=20,
+        ),
+    ],
+    query=models.FusionQuery(fusion=models.Fusion.DBSF),
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+    prefetch: [
+        {
+            query: {
+                values: [0.22, 0.8],
+                indices: [1, 42],
+            },
+            using: 'sparse',
+            limit: 20,
+        },
+        {
+            query: [0.01, 0.45, 0.67],
+            using: 'dense',
+            limit: 20,
+        },
+    ],
+    query: {
+        fusion: 'dbsf',
+    },
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+use qdrant_client::qdrant::{Fusion, PrefetchQueryBuilder, Query, QueryPointsBuilder};
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client.query(
+    QueryPointsBuilder::new("{collection_name}")
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest([(1, 0.22), (42, 0.8)].as_slice()))
+            .using("sparse")
+            .limit(20u64)
+        )
+        .add_prefetch(PrefetchQueryBuilder::default()
+            .query(Query::new_nearest(vec![0.01, 0.45, 0.67]))
+            .using("dense")
+            .limit(20u64)
+        )
+        .query(Query::new_fusion(Fusion::Dbsf))
+).await?;
+```
+
+```java
+import static io.qdrant.client.QueryFactory.nearest;
+
+import java.util.List;
+
+import static io.qdrant.client.QueryFactory.fusion;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Fusion;
+import io.qdrant.client.grpc.Points.PrefetchQuery;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+QdrantClient client = new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(
+    QueryPoints.newBuilder()
+    .setCollectionName("{collection_name}")
+    .addPrefetch(PrefetchQuery.newBuilder()
+      .setQuery(nearest(List.of(0.22f, 0.8f), List.of(1, 42)))
+      .setUsing("sparse")
+      .setLimit(20)
+      .build())
+    .addPrefetch(PrefetchQuery.newBuilder()
+      .setQuery(nearest(List.of(0.01f, 0.45f, 0.67f)))
+      .setUsing("dense")
+      .setLimit(20)
+      .build())
+    .setQuery(fusion(Fusion.DBSF))
+    .build())
+  .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+  collectionName: "{collection_name}",
+  prefetch: new List < PrefetchQuery > {
+    new() {
+      Query = new(float, uint)[] {
+          (0.22f, 1), (0.8f, 42),
+        },
+        Using = "sparse",
+        Limit = 20
+    },
+    new() {
+      Query = new float[] {
+          0.01f, 0.45f, 0.67f
+        },
+        Using = "dense",
+        Limit = 20
+    }
+  },
+  query: Fusion.Dbsf
+);
 ```
 
 Note that `dbsf` is stateless and calculates the normalization limits only based on the results of each query, not on all the scores that it has seen.
