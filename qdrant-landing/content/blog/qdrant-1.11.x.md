@@ -362,11 +362,11 @@ use qdrant_client::qdrant::{Query, QueryPointsBuilder};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
-client.query(
+client.query_groups(
     QueryPointGroupsBuilder::new("{collection_name}", "document_id")
         .query(Query::from(vec![0.01, 0.45, 0.67]))
-        .limit(4)
-        .group_size(2)
+        .limit(4u64)
+        .group_size(2u64)
 ).await?;
 ```
 
