@@ -46,7 +46,7 @@ To avoid slow and unnecessary indexing, it’s better to create an index for eac
 
 With version 1.11, Qdrant changes how vectors from the same tenant are stored on disk, placing them **closer together** for faster bulk reading and reduced scaling costs. This approach optimizes storage and retrieval operations for different tenants, leading to more efficient system performance and resource utilization.
 
-> Defragmentation can significantly improve performance. In the coming weeks, we will share **benchmark data** to demonstrate performance gains.
+> Defragmentation improves performance. In the coming weeks, we will share **benchmark data** to demonstrate performance gains.
 
 **Figure 1:** Re-ordering by payload can significantly speed up access to hot and cold data.
 
