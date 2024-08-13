@@ -15,7 +15,8 @@ date: 2024-08-05T00:00:00.000Z
 Qdrant 1.10 introduced support for multi-vector representations, and late interaction is the most prominent example of 
 such a model. In a nutshell, both documents and queries are represented by multiple vectors, and finding the most 
 relevant documents requires calculating a score based on the similarity between the pairs of query and document 
-embeddings.
+embeddings. Our revamped [Hybrid Search](/articles/hybrid-search) article describes, i.e., the concept of using
+multi-vector representations to improve the retrieval quality, if you are not familiar with that paradigm.
 
 ![Late interaction](/articles_data/late-interaction-models/late-interaction.png)
 
@@ -136,7 +137,7 @@ models. The results are quite promising.
             <td>output token embeddings</td>
             <td><u>0.37502</u></td>
         </tr>
-        <!--<tr>
+        <tr>
             <td colspan="4"></td>
         </tr>
         <tr>
@@ -157,17 +158,17 @@ models. The results are quite promising.
         </tr>
         <tr>
             <td>output token embeddings</td>
-            <td></td>
+            <td>0.45997</td>
         </tr>
         <tr>
             <td rowspan="2"><code>BAAI/bge-small-en</code></td>
             <td>single dense vector representation</td>
-            <td></td>
+            <td><u>0.58857</u></td>
         </tr>
         <tr>
             <td>output token embeddings</td>
-            <td></td>
-        </tr>-->
+            <td>0.57648</td>
+        </tr>
     </tbody>
 </table>
 
@@ -183,13 +184,17 @@ Even the simple `all-MiniLM-L6-v2` model can be used in a late interaction model
 retrieval quality. However, the best results were achieved by the `BAAI/bge-small-en` model, which outperformed both
 sparse and late interaction models. 
 
+It's worth noting that ColBERT has not been trained on BeIR datasets, so its performance is fully out-of-domain. 
+However, `all-MiniLM-L6-v2` [training dataset also does not contain any BeIR 
+data](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#training-data), and it still performs quite well.
+
 ### Pros and cons
 
 The retrieval quality speaks for itself, but there are some other aspects to consider.
 
-Traditional dense embedding models, as long as we can call any embedding model traditional, are quite often less complex
-than the late interaction models. They have fewer parameters, and for that reason should also be faster during the 
-inference and cheaper to maintain. Here is a comparison of the models used in the experiments:
+Traditional dense embedding models we tested are less complex than the late interaction or sparse models. They have 
+fewer parameters, and for that reason should also be faster during the inference and cheaper to maintain. Here is a 
+comparison of the models used in the experiments:
 
 | Model                        | Number of parameters |
 |------------------------------|----------------------|
@@ -243,19 +248,6 @@ idea. The table below summarizes the impact of the quantization on the retrieval
             <td>output token embeddings (uint8)</td>
             <td>0.35572</td>
         </tr>
-        <!--<tr>
-            <td colspan="4"></td>
-        </tr>
-        <tr>
-            <th rowspan="2">ArguAna</th>
-            <td rowspan="2"><code>all-MiniLM-L6-v2</code></td>
-            <td>output token embeddings</td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>output token embeddings (uint8)</td>
-            <td></td>
-        </tr>-->
     </tbody>
 </table>
 
@@ -276,9 +268,94 @@ and use the single vector for the initial retrieval step, and then rerank the re
 
 ![Single model reranking](/articles_data/late-interaction-models/single-model-reranking.png)
 
+To prove this concept, we have implemented a simple reranking pipeline in Qdrant, which uses dense embedding model
+for initial oversampled retrieval and then the output token embeddings solely for the reranking step.
+
+#### Single model retrieval and reranking benchmarks
+
+Our tests focused on using the same model for retrieval and reranking. The reported metric is also NDCG@10. All the 
+attempts were using the oversampling factor of 5x, so the retrieval step returned 50 results, and the reranking step 
+reduced the number of results to 10. Here are the results for some of the BeIR datasets:
+
+<table>
+    <thead>
+        <tr>
+            <th rowspan="2">Dataset</th>
+            <th colspan="2"><code>all-miniLM-L6-v2</code></th>
+            <th colspan="2"><code>BAAI/bge-small-en</code></th>
+        </tr>
+        <tr>
+            <th>dense embeddings only</th>
+            <th>dense + reranking</th>
+            <th>dense embeddings only</th>
+            <th>dense + reranking</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <th>SciFact</th>
+            <td>0.64508</td>
+            <td>0.70293</td>
+            <td>0.68213</td>
+            <td><u>0.73053</u></td>
+        </tr>
+        <tr>
+            <th>NFCorpus</th>
+            <td>0.31594</td>
+            <td>0.34297</td>
+            <td>0.29696</td>
+            <td><u>0.35996</u></td>
+        </tr>
+        <tr>
+            <th>ArguAna</th>
+            <td>0.50167</td>
+            <td>0.45378</td>
+            <td><u>0.58857</u></td>
+            <td>0.57302</td>
+        </tr>
+        <tr>
+            <th>Touche-2020</th>
+            <td>0.16904</td>
+            <td>0.19693</td>
+            <td>0.13055</td>
+            <td><u>0.19821</u></td>        
+        </tr>
+        <tr>
+            <th>TREC-COVID</th>
+            <td>0.47246</td>
+            <td><u>0.6379</u></td>
+            <td>0.45788</td>
+            <td>0.53539</td>
+        </tr>
+        <tr>
+            <th>FiQA-2018</th>
+            <td>0.36867</td>
+            <td><u>0.41587</u></td>
+            <td>0.31091</td>
+            <td>0.39067</td>
+        </tr>
+        <!--<tr>
+            <th>SCIDOCS</th>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>-->
+    </tbody>
+</table>
+
+Again, the source code of the benchmark is publicly available, and [you can find it in the repository of the 
+`beir-qdrant` package](https://github.com/kacperlukawski/beir-qdrant/blob/main/examples/retrieval/search/evaluate_reranking.py).
+
+Overall, adding the retrieval step using the same model usually helps to improve the retrieval quality. However, the 
+quality of different late interaction models is [often reported regarding how well they perform in the reranking step 
+when BM25 is used for the initial retrieval](https://huggingface.co/mixedbread-ai/mxbai-colbert-large-v1#1-reranking-performance). 
+This experiment aimed to show how a single model can be used for both retrieval and reranking, and the results are still 
+quite promising.
+
 Let's see how to do it with the new Query API introduced in Qdrant 1.10.
 
-#### Single model retrieval and reranking
+#### Qdrant implementation
 
 The new Query API introduced in Qdrant 1.10 allows for building even complex retrieval pipelines. We can use the single
 vector created after pooling as the first retrieval step, and then rerank the results using the output token embeddings.
@@ -346,9 +423,13 @@ client.query_points(
 In a real-world scenario, you would probably go even step further and calculate the token embedding first, and then 
 perform pooling to get the single vector representation. This way you can do everything in a single pass.
 
+The easiest way to start experimenting with building complex reranking pipelines with Qdrant is to use the forever-free 
+cluster on [Qdrant Cloud](https://cloud.qdrant.io/).
+
 ## Future work
 
 The initial experiments utilizing output token embeddings in the retrieval process have shown promising results. 
-However, we intend to conduct further benchmarks to validate these findings. Additionally, we aim to delve deeper into 
-how quantization affects multi-vector representations and its consequent impact on retrieval quality. Lastly, we will 
-examine retrieval speed, as it is a critical factor for numerous applications.
+However, we intend to conduct further benchmarks to validate these findings and focus on incorporating sparse methods 
+for the initial retrieval. Additionally, we aim to delve deeper into how quantization affects multi-vector 
+representations and its consequent impact on retrieval quality. Lastly, we will examine retrieval speed, a critical 
+factor for numerous applications.
