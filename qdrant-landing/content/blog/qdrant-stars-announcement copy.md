@@ -6,10 +6,9 @@ short_description: Qdrant Stars recognizes and supports key contributors to the 
 description: Say hello to the first Qdrant Stars and learn more about our new ambassador program!
 preview_image: /blog/qdrant-stars-announcement/preview-image.png
 social_preview_image: /blog/qdrant-stars-announcement/preview-image.png
-
 date: 2024-05-19T11:57:37-03:00
 author: Sabrina Aquino
-featured: true
+featured: false
 tags:
   - news
   - vector search

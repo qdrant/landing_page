@@ -6,7 +6,7 @@ description: Discover the power of Qdrant on Azure Marketplace! Get started toda
 preview_image: /blog/azure-marketplace/azure-marketplace.png
 date: 2024-03-26T10:30:00Z
 author: David Myriel
-featured: true
+featured: false
 weight: 0 
 tags:
   - Qdrant
