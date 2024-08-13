@@ -16,7 +16,7 @@ tags:
   - random sampling
 ---
 
-[Qdrant 1.11.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.11.0) This release largely focuses on improvements that imrpove memory usage and optimize segments. However, there are a few cool minor features, so let's look at the whole list:
+[Qdrant 1.11.0 is out!](https://github.com/qdrant/qdrant/releases/tag/v1.11.0) This release largely focuses on features that improve memory usage and optimize segments. However, there are a few cool minor features, so let's look at the whole list:
 
 Optimized Data Structures:</br>
 **Defragmentation:** Storage for multitenant workloads is more optimized and scales better.</br>
