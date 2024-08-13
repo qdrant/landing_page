@@ -20,7 +20,7 @@ tags:
 
 Optimized Data Structures:</br>
 **Defragmentation:** Storage for multitenant workloads is more optimized and scales better.</br>
-**On-Disk Payload:** You can now store less frequently used data on disk, rather than on RAM.</br>
+**On-Disk Payload:** You can now store less frequently used data on disk, rather than in RAM.</br>
 **UUID Support:** Additional data types for payload can result in significant memory savings.
 
 Improved Query API:</br>
