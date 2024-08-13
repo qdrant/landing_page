@@ -127,13 +127,12 @@ Qdrant allows you to combine vectors of the same purpose into collections. Many 
 Let’s create a new collection for our startup vectors.
 
 ```abuild
-`qdrant_client.recreate_collection(`\
-`collection_name='startups',`\
-`vectors_config=models.VectorParams(size=768, distance="Cosine")`\
-`)`
+`if not qdrant_client.collection_exists('startups'):
+    `qdrant_client.create_collection(`\
+    `collection_name='startups',`\
+    `vectors_config=models.VectorParams(size=768, distance="Cosine")`\
+    `)`
 ```
-
-The `*recreate_collection*` function first tries to remove an existing collection with the same name. This is useful if you are experimenting and running the script several times.
 
 The `*vector_size*\` parameter is very important. It tells the service the size of the vectors in that collection. All vectors in a collection must have the same size, otherwise, it is impossible to calculate the distance between them. `*768*` is the output dimensionality of the encoder we are using.
 

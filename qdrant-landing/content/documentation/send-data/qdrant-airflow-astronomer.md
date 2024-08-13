@@ -144,13 +144,13 @@ def recommend_book():
     @task
     def init_collection():
         hook = QdrantHook(conn_id=QDRANT_CONNECTION_ID)
-
-        hook.conn.recreate_collection(
-            COLLECTION_NAME,
-            vectors_config=models.VectorParams(
-                size=EMBEDDING_DIMENSION, distance=SIMILARITY_METRIC
-            ),
-        )
+        if not  hook.conn..collection_exists(COLLECTION_NAME):
+            hook.conn.create_collection(
+                COLLECTION_NAME,
+                vectors_config=models.VectorParams(
+                    size=EMBEDDING_DIMENSION, distance=SIMILARITY_METRIC
+                ),
+            )
 
     @task
     def embed_description(data: dict) -> list:
@@ -202,7 +202,7 @@ recommend_book()
 
 `import_books`: This task reads a text file containing information about the books (like title, genre, and description), and then returns the data as a list of dictionaries.
 
-`init_collection`: This task initializes a collection in the Qdrant database, where we will store the vector representations of the book descriptions. The `recreate_collection()` deletes a collection first if it already exists. Trying to create a collection that already exists throws an error.
+`init_collection`: This task initializes a collection in the Qdrant database, where we will store the vector representations of the book descriptions.
 
 `embed_description`: This is a dynamic task that creates one mapped task instance for each book in the list. The task uses the `embed` function to generate vector embeddings for each description. To use a different embedding model, you can adjust the `EMBEDDING_MODEL_ID`, `EMBEDDING_DIMENSION` values.
 

@@ -103,21 +103,22 @@ client = QdrantClient(
 #Create the collection to hold our embeddings
 # on_disk=True and the quantization_config are the areas to focus on
 collection_name = "binary-quantization"
-client.recreate_collection(
-    collection_name=f"{collection_name}",
-    vectors_config=models.VectorParams(
-        size=1536,
-        distance=models.Distance.DOT,
-        on_disk=True,
-    ),
-    optimizers_config=models.OptimizersConfigDiff(
-        default_segment_number=5,
-        indexing_threshold=0,
-    ),
-    quantization_config=models.BinaryQuantization(
-        binary=models.BinaryQuantizationConfig(always_ram=True),
-    ),
-)
+if not client.collection_exists(collection_name):
+    client.create_collection(
+        collection_name=f"{collection_name}",
+        vectors_config=models.VectorParams(
+            size=1536,
+            distance=models.Distance.DOT,
+            on_disk=True,
+        ),
+        optimizers_config=models.OptimizersConfigDiff(
+            default_segment_number=5,
+            indexing_threshold=0,
+        ),
+        quantization_config=models.BinaryQuantization(
+            binary=models.BinaryQuantizationConfig(always_ram=True),
+        ),
+    )
 ```
 
 #### What is happening in the OptimizerConfig? 
