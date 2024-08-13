@@ -1822,6 +1822,51 @@ Conditions.DatetimeRange(
 );
 ```
 
+
+### UUID Match
+
+_Available as of v1.11.0_
+
+Matching of UUID values works similarly to the regular `match` condition for strings.
+Functionally, it will work with `keyword` and `uuid` indexes exactly the same, but `uuid` index is more memory efficient.
+
+```json
+{
+  "key": "uuid",
+  "match": {
+    "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+  }
+}
+```
+
+```python
+models.FieldCondition(
+    key="uuid",
+    match=models.MatchValue(uuid="f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+)
+```
+
+```typescript
+{
+    key: 'uuid',
+    match: {uuid: 'f47ac10b-58cc-4372-a567-0e02b2c3d479'}    
+}
+```
+
+```rust
+Condition::matches("uuid", "f47ac10b-58cc-4372-a567-0e02b2c3d479".to_string())
+```
+
+```java
+matchKeyword("uuid", "f47ac10b-58cc-4372-a567-0e02b2c3d479");
+```
+
+```csharp
+using static Qdrant.Client.Grpc.Conditions;
+
+MatchKeyword("uuid", "f47ac10b-58cc-4372-a567-0e02b2c3d479");
+```
+
 ### Geo
 
 #### Geo Bounding Box

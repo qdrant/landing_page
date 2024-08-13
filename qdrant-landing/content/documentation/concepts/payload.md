@@ -173,6 +173,29 @@ Notes about the format:
 
 [RFC 3339]: https://datatracker.ietf.org/doc/html/rfc3339#section-5.6
 
+### UUID
+
+*Available as of v1.11.0*
+
+In addition to the basic `keyword` type, Qdrant supports `uuid` type for storing UUID values.
+Functionally, it works the same as `keyword`, internally stores parsed UUID values.
+
+```json
+{
+    "uuid": "550e8400-e29b-41d4-a716-446655440000",
+    "uuids": [
+        "550e8400-e29b-41d4-a716-446655440000",
+        "550e8400-e29b-41d4-a716-446655440001"
+    ]
+}
+```
+
+String representation of UUID (e.g. `550e8400-e29b-41d4-a716-446655440000`) occupies 36 bytes.
+But when numeric representation is used, it is only 128 bits (16 bytes).
+
+Usage of `uuid` index type is recommended in payload-heavy collections to save RAM and improve search performance.
+
+
 ## Create point with payload
 REST API ([Schema](https://api.qdrant.tech/api-reference/points/upsert-points))
 
