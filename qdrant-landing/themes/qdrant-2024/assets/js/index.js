@@ -1,7 +1,7 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
 import { initGoToTopButton, getCookie } from './helpers';
-import { loadSegment, createSegmentStoredPage, tagAllAnchors } from './segment-helpers'
+import { loadSegment, createSegmentStoredPage } from './segment-helpers'
 
 createSegmentStoredPage();
 
