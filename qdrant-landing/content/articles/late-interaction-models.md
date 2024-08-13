@@ -334,13 +334,6 @@ reduced the number of results to 10. Here are the results for some of the BeIR d
             <td>0.31091</td>
             <td>0.39067</td>
         </tr>
-        <!--<tr>
-            <th>SCIDOCS</th>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>-->
     </tbody>
 </table>
 
