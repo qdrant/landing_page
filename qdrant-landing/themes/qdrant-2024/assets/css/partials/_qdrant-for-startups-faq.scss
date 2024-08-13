@@ -14,18 +14,18 @@
   }
 
   .accordion {
-    max-width: rem(800);
+    max-width: pxToRem(800);
     margin: 0 auto;
-    border-top: rem(1) solid $neutral-80;
+    border-top: pxToRem(1) solid $neutral-80;
 
     &__item {
-      border-bottom: rem(1) solid $neutral-80;
+      border-bottom: pxToRem(1) solid $neutral-80;
 
       &-header {
         position: relative;
         display: flex;
         align-items: center;
-        height: rem(98);
+        height: pxToRem(98);
         margin-bottom: 0;
         padding: 0 $spacer * 3 0 0;
         color: $neutral-20;
@@ -36,7 +36,7 @@
           display: block;
           position: absolute;
           right: 0;
-          top: rem(37);
+          top: pxToRem(37);
           height: $spacer * 1.5;
           width: $spacer * 1.5;
           background-image: url("data:image/svg+xml,%3Csvg width='24' height='25' viewBox='0 0 24 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M12 2.78711V22.7871' stroke='%232F6FF0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M22 12.7871H2' stroke='%232F6FF0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
@@ -48,8 +48,8 @@
 
       &-body {
         padding-right: $spacer * 1.5;
-        font-size: rem(18);
-        line-height: rem(27);
+        font-size: pxToRem(18);
+        line-height: pxToRem(27);
         color: $neutral-40;
         max-height: 0;
         overflow: hidden;
@@ -75,7 +75,7 @@
     &__title {
       margin-bottom: $spacer * 5;
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     .accordion {

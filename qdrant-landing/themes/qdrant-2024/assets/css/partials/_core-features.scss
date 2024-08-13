@@ -12,8 +12,8 @@
   justify-content: center;
 
   &__title {
-    font-size: rem(40);
-    line-height: rem(48);
+    font-size: pxToRem(40);
+    line-height: pxToRem(48);
     text-align: start;
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
@@ -21,7 +21,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
-    line-height: rem(27);
+    line-height: pxToRem(27);
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
     text-align: start;
@@ -31,7 +31,7 @@
     color: $neutral-20;
     margin-top: $spacer * 1.5;
     margin-bottom: $spacer;
-    line-height: rem(34);
+    line-height: pxToRem(34);
   }
 
   &__cloud-native {
@@ -50,22 +50,22 @@
       padding-top: $spacer * 2;
 
       @include media-breakpoint-up(xl) {
-        padding-right: rem(122);
+        padding-right: pxToRem(122);
         padding-top: $spacer * 5;
       }
     }
 
     .core-features__card-title {
-      font-size: rem(24);
-      line-height: rem(34);
+      font-size: pxToRem(24);
+      line-height: pxToRem(34);
       margin-top: 0;
-      margin-bottom: rem(12);
+      margin-bottom: pxToRem(12);
     }
 
     .core-features__card-content {
       font-size: map-get($font-sizes-text, 'l');
-      line-height: rem(27);
-      margin-bottom: rem(12);
+      line-height: pxToRem(27);
+      margin-bottom: pxToRem(12);
     }
   }
 
@@ -74,8 +74,8 @@
     background: url('/img/qdrant-cloud.png') right bottom no-repeat;
     background-size: contain;
     max-width: 100% !important;
-    width: rem(372);
-    height: rem(214);
+    width: pxToRem(372);
+    height: pxToRem(214);
     border-radius: 0 0 calc($spacer / 2) 0;
     aspect-ratio: 1.45/1;
     align-self: end;
@@ -99,24 +99,24 @@
     &__title {
       font-size: map-get($font-sizes, 2);
       text-align: center;
-      line-height: rem(67);
-      max-width: rem(920);
+      line-height: pxToRem(67);
+      max-width: pxToRem(920);
     }
 
     &__subtitle {
       font-size: map-get($font-sizes-text, 'xl');
-      line-height: rem(30);
-      max-width: rem(920);
+      line-height: pxToRem(30);
+      max-width: pxToRem(920);
       text-align: center;
     }
 
     &__cards {
-      margin-left: rem(-15);
-      margin-right: rem(-15);
+      margin-left: pxToRem(-15);
+      margin-right: pxToRem(-15);
     }
 
     &__cards > div {
-      padding: 0 rem(15);
+      padding: 0 pxToRem(15);
     }
 
     &__card {
@@ -124,39 +124,39 @@
       padding-bottom: $spacer * 2.5;
       padding-left: $spacer * 2.5;
       padding-right: $spacer * 2.5;
-      min-height: rem(390);
+      min-height: pxToRem(390);
 
       svg {
-        max-width: rem(48);
-        max-height: rem(48);
+        max-width: pxToRem(48);
+        max-height: pxToRem(48);
       }
     }
 
     &__cloud-native {
-      padding-top: rem(75);
-      padding-bottom: rem(75);
-      max-width: rem(1110);
-      min-height: rem(420);
+      padding-top: pxToRem(75);
+      padding-bottom: pxToRem(75);
+      max-width: pxToRem(1110);
+      min-height: pxToRem(420);
       padding-left: $spacer * 3;
       padding-right: $spacer * 3;
       margin-top: $spacer * 5;
 
       .core-features__card-title {
         font-size: map-get($font-sizes-text, 'xxl');
-        line-height: rem(48);
+        line-height: pxToRem(48);
         margin-bottom: $spacer * 1.5;
       }
 
       .core-features__card-content {
         font-size: map-get($font-sizes-text, 'l');
-        line-height: rem(27);
+        line-height: pxToRem(27);
         margin-bottom: $spacer * 1.5;
       }
     }
 
     &__cloud-native-image {
-      width: rem(540);
-      height: rem(372);
+      width: pxToRem(540);
+      height: pxToRem(372);
     }
   }
 }

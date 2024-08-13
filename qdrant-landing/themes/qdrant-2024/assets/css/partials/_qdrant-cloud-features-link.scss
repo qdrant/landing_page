@@ -18,8 +18,8 @@
       content: ('');
       display: block;
       position: absolute;
-      top: rem(25);
-      height: rem(1);
+      top: pxToRem(25);
+      height: pxToRem(1);
       width: calc((100% - 820px) / 2);
       background-color: $neutral-90;
     }

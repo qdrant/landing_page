@@ -10,7 +10,7 @@
     display: flex;
     justify-content: space-between;
     flex-wrap: wrap;
-    row-gap: rem(40);
+    row-gap: pxToRem(40);
   }
 
   &__description {
@@ -20,8 +20,8 @@
   }
 
   &__title {
-    font-size: rem(32);
-    line-height: rem(38);
+    font-size: pxToRem(32);
+    line-height: pxToRem(38);
     color: $neutral-20;
     text-align: center;
     margin: 0;
@@ -29,7 +29,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
-    line-height: rem(27);
+    line-height: pxToRem(27);
     margin-top: $spacer * 1.5;
     margin-bottom: 0;
     text-align: center;
@@ -52,22 +52,22 @@
 
   &__image {
     width: 100%;
-    height: rem(229);
-    max-width: rem(335);
+    height: pxToRem(229);
+    max-width: pxToRem(335);
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
     position: relative;
-    padding-top: rem(54);
-    padding-left: rem(50);
-    padding-bottom: rem(80);
-    padding-right: rem(50);
+    padding-top: pxToRem(54);
+    padding-left: pxToRem(50);
+    padding-bottom: pxToRem(80);
+    padding-right: pxToRem(50);
   }
 
   &__image code {
     color: $neutral-98;
-    font-size: rem(9);
-    line-height: rem(14);
+    font-size: pxToRem(9);
+    line-height: pxToRem(14);
   }
 
   @include media-breakpoint-up(lg) {
@@ -82,13 +82,13 @@
 
     &__title {
       font-size: map-get($font-sizes, 3);
-      line-height: rem(57);
+      line-height: pxToRem(57);
       text-align: left;
     }
 
     &__subtitle {
       font-size: map-get($font-sizes-text, 'xl');
-      line-height: rem(30);
+      line-height: pxToRem(30);
       text-align: left;
     }
 
@@ -98,18 +98,18 @@
     }
 
     &__image {
-      width: rem(584);
-      height: rem(400);
-      max-width: rem(584);
-      padding-top: rem(94);
-      padding-left: rem(107);
-      padding-bottom: rem(80);
-      padding-right: rem(80);
+      width: pxToRem(584);
+      height: pxToRem(400);
+      max-width: pxToRem(584);
+      padding-top: pxToRem(94);
+      padding-left: pxToRem(107);
+      padding-bottom: pxToRem(80);
+      padding-right: pxToRem(80);
     }
 
     &__image code {
-      font-size: rem(15);
-      line-height: rem(24);
+      font-size: pxToRem(15);
+      line-height: pxToRem(24);
     }
   }
 }

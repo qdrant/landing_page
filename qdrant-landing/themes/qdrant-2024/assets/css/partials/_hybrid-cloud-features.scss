@@ -8,13 +8,13 @@
   &__title {
     margin-bottom: $spacer * 2.5;
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     text-align: center;
     color: $neutral-20;
   }
 
   &__cards {
-    gap: rem(30);
+    gap: pxToRem(30);
     margin-bottom: $spacer * 2.5;
   }
 
@@ -31,8 +31,8 @@
 
     &-description {
       margin-bottom: 0;
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       color: $neutral-20;
     }
   }
@@ -41,8 +41,8 @@
     text-align: center;
 
     p {
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       color: $neutral-20;
     }
   }
@@ -50,7 +50,7 @@
   @include media-breakpoint-up(lg) {
     &__title {
       font-size: $spacer * 3;
-      line-height: rem(57);
+      line-height: pxToRem(57);
       margin-bottom: $spacer * 5;
     }
 
@@ -67,17 +67,17 @@
       position: relative;
 
       p {
-        font-size: rem(20);
-        line-height: rem(30);
+        font-size: pxToRem(20);
+        line-height: pxToRem(30);
       }
 
       &:before,
       &:after {
         content: '';
         position: absolute;
-        top: rem(22);
-        width: rem(166);
-        height: rem(1);
+        top: pxToRem(22);
+        width: pxToRem(166);
+        height: pxToRem(1);
         background-color: $neutral-80;
       }
 

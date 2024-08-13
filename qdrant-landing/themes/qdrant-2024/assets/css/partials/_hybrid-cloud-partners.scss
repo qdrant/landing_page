@@ -10,7 +10,7 @@
   &__title {
     margin: 0 auto $spacer * 2.5;
     font-size: $spacer * 1.5;
-    line-height: rem(34);
+    line-height: pxToRem(34);
     color: $neutral-20;
     text-align: center;
   }
@@ -20,7 +20,7 @@
     display: flex;
     flex-direction: column;
     gap: $spacer * 1.5;
-    padding: rem(92) 0;
+    padding: pxToRem(92) 0;
   }
 
   &__cards {
@@ -35,7 +35,7 @@
       gap: $spacer;
       padding: $spacer 0 $spacer $spacer;
       background-color: $neutral-98;
-      border-radius: rem(12);
+      border-radius: pxToRem(12);
 
       img {
         width: $spacer * 4;
@@ -55,7 +55,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height: rem(400);
+    height: pxToRem(400);
     background-image: url('/img/square-grid.png');
     background-size: cover;
     background-repeat: no-repeat;
@@ -67,9 +67,9 @@
     padding-bottom: $spacer * 5;
 
     &__title {
-      width: rem(920);
+      width: pxToRem(920);
       font-size: $spacer * 2;
-      line-height: rem(38);
+      line-height: pxToRem(38);
     }
 
     &__square-grid-overlay {

@@ -11,14 +11,14 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: rem(40);
+    padding: pxToRem(40);
     background: linear-gradient(#161e33, #0e1424);
-    border-radius: rem(16);
+    border-radius: pxToRem(16);
 
     p {
-      margin-bottom: rem(32);
-      font-size: rem(20);
-      line-height: rem(30);
+      margin-bottom: pxToRem(32);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       text-align: center;
       color: #f0f3fa;
     }
@@ -35,13 +35,13 @@
     &__content {
       flex-direction: row;
       justify-content: space-between;
-      padding: rem(40) rem(64);
+      padding: pxToRem(40) pxToRem(64);
 
       p {
         max-width: $contentWidth;
         margin-bottom: 0;
-        font-size: rem(24);
-        line-height: rem(34);
+        font-size: pxToRem(24);
+        line-height: pxToRem(34);
         text-align: left;
       }
     }

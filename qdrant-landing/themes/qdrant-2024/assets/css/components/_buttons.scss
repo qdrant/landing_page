@@ -11,9 +11,9 @@
   );
 
   $padding: (
-    sm: 0 rem(20),
-    md: 0 rem(22),
-    lg: 0 rem(28),
+    sm: 0 pxToRem(20),
+    md: 0 pxToRem(22),
+    lg: 0 pxToRem(28),
   );
 
   // STYLES

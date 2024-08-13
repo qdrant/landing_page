@@ -3,7 +3,7 @@
 .not-found {
   position: relative;
   min-height: calc(100vh - 104px);
-  padding-top: rem(130);
+  padding-top: pxToRem(130);
   padding-bottom: $spacer * 5;
   text-align: center;
   background: url('/img/stars-pattern.png') $neutral-10;
@@ -19,8 +19,8 @@
   }
 
   &__description {
-    font-size: rem(20);
-    line-height: rem(30);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
     color: $neutral-94;
     margin-bottom: $spacer * 1.5;
   }
@@ -33,7 +33,7 @@
     gap: $spacer * 1.5;
 
     .button {
-      width: rem(200);
+      width: pxToRem(200);
     }
   }
 
@@ -43,15 +43,15 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height: rem(200);
+    height: pxToRem(200);
     background-image: url('/img/blurred/blurred-light-12.svg');
     background-position: center;
     background-size: cover;
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: rem(120);
-    padding-bottom: rem(130);
+    padding-top: pxToRem(120);
+    padding-bottom: pxToRem(130);
     min-height: calc(100vh - 140px);
 
     &__image {

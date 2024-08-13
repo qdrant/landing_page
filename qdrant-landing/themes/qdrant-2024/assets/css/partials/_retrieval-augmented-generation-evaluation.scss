@@ -7,7 +7,7 @@
 
   &__title {
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-20;
     margin-bottom: $spacer * 1.5;
   }
@@ -55,13 +55,13 @@
 
     &__title {
       font-size: $spacer * 3;
-      line-height: rem(57);
+      line-height: pxToRem(57);
     }
 
     &__description {
-      font-size: rem(18);
-      line-height: rem(27);
-      max-width: rem(445);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      max-width: pxToRem(445);
 
       &:first-of-type {
         margin-bottom: $spacer * 2.5;
@@ -76,7 +76,7 @@
       margin-top: $spacer * 7.5;
 
       &-title {
-        max-width: rem(445);
+        max-width: pxToRem(445);
         margin-bottom: 0;
       }
     }

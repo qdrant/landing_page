@@ -9,7 +9,7 @@
   &__title {
     margin-bottom: $spacer * 2.5;
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-20;
   }
 
@@ -32,14 +32,14 @@
 
     &-title {
       font-size: $spacer * 1.5;
-      line-height: rem(34);
+      line-height: pxToRem(34);
       margin-bottom: $spacer;
       color: $neutral-20;
     }
 
     &-description {
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       margin-bottom: 0;
       color: $neutral-30;
     }
@@ -52,7 +52,7 @@
     &__title {
       margin-bottom: $spacer * 4;
       font-size: $spacer * 3;
-      line-height: rem(57);
+      line-height: pxToRem(57);
       text-align: center;
     }
 

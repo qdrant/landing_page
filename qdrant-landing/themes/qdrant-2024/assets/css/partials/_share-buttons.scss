@@ -14,12 +14,12 @@
   }
 
   &__title {
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     font-weight: bold;
     margin-bottom: 0;
     padding-bottom: $spacer * 0.5;
-    border-bottom: rem(1) solid $primary-50;
+    border-bottom: pxToRem(1) solid $primary-50;
   }
 
   &__links {

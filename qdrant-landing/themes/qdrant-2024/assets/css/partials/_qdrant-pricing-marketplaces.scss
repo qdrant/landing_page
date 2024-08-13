@@ -10,7 +10,7 @@
     100%,
     $spacer * 3,
     $spacer * 2,
-    rem(57),
-    rem(38)
+    pxToRem(57),
+    pxToRem(38)
   );
 }

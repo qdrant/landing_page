@@ -12,7 +12,7 @@
     &-preview {
       position: relative;
       margin-bottom: $spacer * 1.5;
-      border-radius: rem(4);
+      border-radius: pxToRem(4);
       overflow: hidden;
 
       &:after {

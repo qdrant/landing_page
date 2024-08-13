@@ -32,15 +32,15 @@
     }
 
     &-title {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       margin-bottom: $spacer * 0.5;
       color: $neutral-98;
     }
 
     &-description {
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       margin-bottom: 0;
       color: $neutral-70;
     }
@@ -56,13 +56,13 @@
 
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
       margin-bottom: 0;
     }
 
     &__description {
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
     }
   }
 }

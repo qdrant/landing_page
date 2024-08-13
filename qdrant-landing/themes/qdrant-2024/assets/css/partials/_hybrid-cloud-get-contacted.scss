@@ -2,5 +2,5 @@
 @use '../mixins/get-contacted' as get-contacted;
 
 .hybrid-cloud-get-contacted {
-  @include get-contacted.base($spacer * 2.5, 0, 0, $spacer * 4, rem(350));
+  @include get-contacted.base($spacer * 2.5, 0, 0, $spacer * 4, pxToRem(350));
 }

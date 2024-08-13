@@ -7,8 +7,8 @@
   text-align: center;
 
   &__title {
-    font-size: rem(20);
-    line-height: rem(30);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
     margin-bottom: 0;
   }
 
@@ -27,8 +27,8 @@
         content: ('');
         display: block;
         position: absolute;
-        top: rem(29.5);
-        height: rem(1);
+        top: pxToRem(29.5);
+        height: pxToRem(1);
         width: calc((100% - 453px) / 2);
         background-color: $neutral-30;
       }

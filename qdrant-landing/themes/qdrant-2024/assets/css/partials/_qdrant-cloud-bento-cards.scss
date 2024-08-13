@@ -10,7 +10,7 @@
     & > div:nth-of-type(1),
     & > div:nth-of-type(3) {
       img {
-        max-width: rem(255);
+        max-width: pxToRem(255);
       }
     }
   }
@@ -20,8 +20,8 @@
 
     &-title {
       font-size: $spacer * 1.5;
-      line-height: rem(34);
-      margin-bottom: rem(12);
+      line-height: pxToRem(34);
+      margin-bottom: pxToRem(12);
       color: $neutral-20;
     }
 
@@ -36,7 +36,7 @@
     }
 
     a {
-      margin-top: rem(12);
+      margin-top: pxToRem(12);
     }
   }
 
@@ -77,7 +77,7 @@
       }
 
       a {
-        margin-top: rem(12);
+        margin-top: pxToRem(12);
       }
     }
   }

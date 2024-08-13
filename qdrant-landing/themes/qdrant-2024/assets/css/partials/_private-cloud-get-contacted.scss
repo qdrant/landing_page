@@ -2,5 +2,5 @@
 @use '../mixins/get-contacted' as get-contacted;
 
 .private-cloud-get-contacted {
-  @include get-contacted.base($spacer * 3.5, $spacer * 4, $spacer * 7.5, $spacer * 4, rem(400));
+  @include get-contacted.base($spacer * 3.5, $spacer * 4, $spacer * 7.5, $spacer * 4, pxToRem(400));
 }

@@ -22,24 +22,24 @@
     gap: $spacer * 0.5;
 
     img {
-      height: rem(18);
-      width: rem(18);
+      height: pxToRem(18);
+      width: pxToRem(18);
     }
   }
 
   @include media-breakpoint-up(xl) {
-    max-width: rem(920);
+    max-width: pxToRem(920);
 
     button {
-      gap: rem(12);
+      gap: pxToRem(12);
       height: $spacer * 3;
-      padding: 0 rem(28);
-      font-size: rem(18);
-      line-height: rem(27);
+      padding: 0 pxToRem(28);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
 
       img {
-        height: rem(22);
-        width: rem(22);
+        height: pxToRem(22);
+        width: pxToRem(22);
       }
     }
   }

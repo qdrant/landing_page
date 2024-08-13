@@ -13,8 +13,8 @@
   }
 
   &__description {
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     margin-bottom: $spacer * 2;
     color: $neutral-70;
   }
@@ -33,7 +33,7 @@
 
   &__preview-mobile {
     width: 100%;
-    padding: 0 rem(12);
+    padding: 0 pxToRem(12);
   }
 
   &__preview {
@@ -47,13 +47,13 @@
 
     &__title {
       font-size: $spacer * 4;
-      line-height: rem(76);
+      line-height: pxToRem(76);
     }
 
     &__description {
-      max-width: rem(730);
-      font-size: rem(20);
-      line-height: rem(30);
+      max-width: pxToRem(730);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       margin: 0 auto $spacer * 2 auto;
     }
 

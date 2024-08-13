@@ -19,7 +19,7 @@
       left: 0;
       bottom: -20px;
       width: 100%;
-      height: rem(200);
+      height: pxToRem(200);
       background-image: url('/img/blurred/blurred-light-12.svg');
       background-position: center;
       background-size: cover;
@@ -33,7 +33,7 @@
     &__image-mobile {
       display: block;
       width: 100%;
-      max-width: rem(540);
+      max-width: pxToRem(540);
       margin: 0 auto;
     }
   }
@@ -41,7 +41,7 @@
   &-block {
     position: relative;
     width: 100%;
-    max-width: rem(540);
+    max-width: pxToRem(540);
     margin: 0 auto $spacer * 2.5;
     padding: $spacer * 2 $spacer * 1.5;
     background: linear-gradient($neutral-20, #0e1424);
@@ -51,7 +51,7 @@
     &__title {
       margin-bottom: $spacer * 1.5;
       font-size: $spacer * 2;
-      line-height: rem(38);
+      line-height: pxToRem(38);
       color: $neutral-98;
     }
 
@@ -63,9 +63,9 @@
     // let's keep this in case we switch to static form in the future
     &__form {
       label {
-        margin-bottom: rem(6);
-        font-size: rem(14);
-        line-height: rem(21);
+        margin-bottom: pxToRem(6);
+        font-size: pxToRem(14);
+        line-height: pxToRem(21);
         color: $neutral-98;
       }
 
@@ -81,8 +81,8 @@
       top: 0;
       right: 0;
       display: block;
-      width: rem(210);
-      height: rem(210);
+      width: pxToRem(210);
+      height: pxToRem(210);
       background-image: url('/img/blurred/blurred-light-15.svg');
       background-repeat: no-repeat;
       background-position: top;
@@ -96,9 +96,9 @@
         .hs_email {
          & > label {
             display: block;
-            margin-bottom: rem(6);
-            font-size: rem(14);
-            line-height: rem(21);
+            margin-bottom: pxToRem(6);
+            font-size: pxToRem(14);
+            line-height: pxToRem(21);
             color: $neutral-98;
           }
         }
@@ -128,8 +128,8 @@
     &__rights {
       width: 100%;
       margin-bottom: 0;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       font-weight: 400;
       text-align: center;
       color: $neutral-70;
@@ -137,8 +137,8 @@
 
     &__link {
       flex-shrink: 0;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       font-weight: 400;
       color: $neutral-70;
     }
@@ -149,7 +149,7 @@
 
     &-body {
       position: relative;
-      padding: rem(96) 0 rem(157);
+      padding: pxToRem(96) 0 pxToRem(157);
 
       &__overlay {
         display: block;
@@ -160,7 +160,7 @@
         position: absolute;
         bottom: 0;
         left: $spacer * 2.5;
-        width: rem(630);
+        width: pxToRem(630);
       }
 
       &__image-mobile {
@@ -175,7 +175,7 @@
     }
 
     &-header {
-      padding: rem(30) rem(165);
+      padding: pxToRem(30) pxToRem(165);
       flex-wrap: nowrap;
 
       &__rights {

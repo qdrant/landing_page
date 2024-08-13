@@ -12,8 +12,8 @@
 
   &__title {
     margin-bottom: $spacer * 3;
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     font-weight: 400;
     color: $neutral-20;
     text-align: center;
@@ -39,7 +39,7 @@
 
     &__title {
       font-size: $spacer * 1.5;
-      line-height: rem(34);
+      line-height: pxToRem(34);
       font-weight: 600;
     }
   }

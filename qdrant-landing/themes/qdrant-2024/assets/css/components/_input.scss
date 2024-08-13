@@ -11,15 +11,15 @@
   );
 
   $padding: (
-    md: rem(7) $spacer,
-    lg: rem(11) $spacer,
+    md: pxToRem(7) $spacer,
+    lg: pxToRem(11) $spacer,
   );
 
   // STYLES
   width: 100%;
   height: map-get($height, md);
   padding: map-get($padding, md);
-  border: rem(1) solid $neutral-50;
+  border: pxToRem(1) solid $neutral-50;
   border-radius: $spacer * 0.5;
   background-color: transparent;
   color: $neutral-94;
@@ -29,7 +29,7 @@
   }
 
   &:focus {
-    border: rem(1) solid $neutral-100;
+    border: pxToRem(1) solid $neutral-100;
   }
 
   &:active,
@@ -72,14 +72,14 @@
 .dropdown {
   &__button {
     position: relative;
-    padding: rem(7) $spacer * 2.5 rem(7) $spacer;
+    padding: pxToRem(7) $spacer * 2.5 pxToRem(7) $spacer;
     text-align: left;
 
     &:after {
       content: '';
       display: block;
       position: absolute;
-      top: rem(12);
+      top: pxToRem(12);
       right: $spacer;
       height: $spacer;
       width: $spacer;

@@ -18,9 +18,9 @@
 
   &__link {
     color: $neutral-94;
-    padding: rem(4) $spacer;
+    padding: pxToRem(4) $spacer;
     font-size: $font-size-s;
-    line-height: rem(21);
+    line-height: pxToRem(21);
     border-radius: 100px;
     background: linear-gradient($neutral-20, $neutral-10);
     display: flex;
@@ -31,16 +31,16 @@
 
   &__logo {
     content: url('../../icons/logo.svg');
-    min-width: rem(14);
-    height: rem(16);
-    padding-right: rem(8);
+    min-width: pxToRem(14);
+    height: pxToRem(16);
+    padding-right: pxToRem(8);
   }
 
   &__title {
     color: $neutral-20;
     text-align: center;
     font-size: map-get($font-sizes, 4);
-    line-height: rem(48);
+    line-height: pxToRem(48);
     margin: $spacer * 1.5 0 0;
   }
 
@@ -58,17 +58,17 @@
   }
 
   @include media-breakpoint-up(xl) {
-    padding: rem(160) 0;
+    padding: pxToRem(160) 0;
 
     &__title {
-      max-width: rem(920);
+      max-width: pxToRem(920);
       font-size: map-get($font-sizes, 2);
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__overlay {
-      height: rem(400);
-      top: rem(87);
+      height: pxToRem(400);
+      top: pxToRem(87);
       background-image: url('../../img/mission-background.png');
     }
   }

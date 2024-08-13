@@ -33,7 +33,7 @@
 
   &__user {
     display: flex;
-    gap: rem(12);
+    gap: pxToRem(12);
 
     &-avatar {
       height: $spacer * 3;
@@ -62,16 +62,16 @@
 
     &-position {
       margin-bottom: 0;
-      font-size: rem(12);
-      line-height: rem(18);
+      font-size: pxToRem(12);
+      line-height: pxToRem(18);
       color: $neutral-50;
     }
 
     &:after {
       content: '';
       display: block;
-      width: rem(20);
-      height: rem(20);
+      width: pxToRem(20);
+      height: pxToRem(20);
       background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cg clip-path='url(%23clip0_4665_8685)'%3E%3Cpath d='M19.1667 0H0.833333C0.333333 0 0 0.333333 0 0.833333V19.1667C0 19.6667 0.333333 20 0.833333 20H19.1667C19.6667 20 20 19.6667 20 19.1667V0.833333C20 0.333333 19.6667 0 19.1667 0ZM5.91667 17.0833H3V7.5H6V17.0833H5.91667ZM4.41667 6.16667C3.5 6.16667 2.66667 5.41667 2.66667 4.41667C2.66667 3.5 3.41667 2.66667 4.41667 2.66667C5.33333 2.66667 6.16667 3.41667 6.16667 4.41667C6.16667 5.41667 5.41667 6.16667 4.41667 6.16667ZM17.0833 17.0833H14.0833V12.4167C14.0833 11.3333 14.0833 9.91667 12.5833 9.91667C11 9.91667 10.8333 11.0833 10.8333 12.3333V17.0833H7.83333V7.5H10.6667V8.83333C11.0833 8.08333 12 7.33333 13.5 7.33333C16.5 7.33333 17.0833 9.33333 17.0833 11.9167V17.0833Z' fill='%23161E33'/%3E%3C/g%3E%3Cdefs%3E%3CclipPath id='clip0_4665_8685'%3E%3Crect width='20' height='20' fill='white'/%3E%3C/clipPath%3E%3C/defs%3E%3C/svg%3E%0A");
       background-repeat: no-repeat;
       background-position: center;
@@ -91,13 +91,13 @@
 
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__cards {
       flex-wrap: wrap;
-      gap: rem(30);
-      height: rem(1452);
+      gap: pxToRem(30);
+      height: pxToRem(1452);
     }
 
     &__card {
@@ -112,7 +112,7 @@
 
   @include media-breakpoint-up(xl) {
     &__cards {
-      height: rem(1264);
+      height: pxToRem(1264);
     }
   }
 }

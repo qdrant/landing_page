@@ -15,8 +15,8 @@
   }
 
   &__description {
-    font-size: rem(20);
-    line-height: rem(30);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
     color: $neutral-70;
     margin-bottom: $spacer * 1.5;
   }
@@ -41,7 +41,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height: rem(176);
+    height: pxToRem(176);
     background-image: url('/img/blurred/blurred-light-11.png');
     background-position: center;
     background-size: cover;
@@ -54,7 +54,7 @@
 
     &__title {
       font-size: $spacer * 4;
-      line-height: rem(76);
+      line-height: pxToRem(76);
     }
 
     &__form {

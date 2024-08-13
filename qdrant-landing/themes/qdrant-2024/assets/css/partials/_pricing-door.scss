@@ -4,20 +4,20 @@
   position: relative;
   height: 100%;
   width: 100%;
-  padding: rem(47) $spacer * 2 $spacer * 3 $spacer * 2;
-  border-radius: rem(12);
-  border-top: rem(1) solid $neutral-40;
+  padding: pxToRem(47) $spacer * 2 $spacer * 3 $spacer * 2;
+  border-radius: pxToRem(12);
+  border-top: pxToRem(1) solid $neutral-40;
   background: linear-gradient($neutral-20, #0e1424);
   color: $neutral-80;
   z-index: 1;
 
   &.active,
   &:hover {
-    padding: rem(47) rem(31);
-    border: rem(1) solid $primary-40;
+    padding: pxToRem(47) pxToRem(31);
+    border: pxToRem(1) solid $primary-40;
 
     .pricing-door__popular {
-      left: rem(31);
+      left: pxToRem(31);
     }
   }
 
@@ -25,11 +25,11 @@
     position: absolute;
     top: -11px;
     left: $spacer * 2;
-    padding: rem(2) rem(12);
-    font-size: rem(12);
-    line-height: rem(18);
+    padding: pxToRem(2) pxToRem(12);
+    font-size: pxToRem(12);
+    line-height: pxToRem(18);
     text-transform: uppercase;
-    border-radius: rem(6);
+    border-radius: pxToRem(6);
     background-color: $primary-50;
     color: $neutral-98;
   }
@@ -38,12 +38,12 @@
     position: absolute;
     right: 0;
     top: 0;
-    width: rem(220);
-    height: rem(192);
+    width: pxToRem(220);
+    height: pxToRem(192);
     background-image: url('/img/blurred/blurred-light-9.png');
     background-position: top;
     background-size: cover;
-    border-radius: 0 rem(12) 0 0;
+    border-radius: 0 pxToRem(12) 0 0;
   }
 
   &__title {
@@ -57,8 +57,8 @@
   }
 
   &__description {
-    font-size: rem(14);
-    line-height: rem(21);
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
     margin-bottom: $spacer * 1.5;
   }
 
@@ -69,14 +69,14 @@
 
   &__feature {
     padding-top: $spacer;
-    border-top: rem(1) solid $neutral-40;
+    border-top: pxToRem(1) solid $neutral-40;
 
     &-description {
       margin-bottom: $spacer * 1.5;
 
       a {
         color: $neutral-80;
-        border-bottom: rem(1) solid $neutral-80;
+        border-bottom: pxToRem(1) solid $neutral-80;
       }
     }
 
@@ -90,14 +90,14 @@
       position: relative;
       margin-bottom: 0;
       padding-left: $spacer * 1.5;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
 
       &:before {
         content: ('');
         display: block;
         position: absolute;
-        top: rem(4);
+        top: pxToRem(4);
         left: 0;
         height: $spacer;
         width: $spacer;
@@ -113,14 +113,14 @@
       align-items: flex-start;
       gap: $spacer * 0.5;
       margin-bottom: 0;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
 
       span {
         display: block;
         width: $spacer;
-        font-size: rem(20);
-        line-height: rem(30);
+        font-size: pxToRem(20);
+        line-height: pxToRem(30);
         text-align: center;
         color: $secondary-blue-50;
       }

@@ -8,7 +8,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: rem(4);
+    gap: pxToRem(4);
     margin-bottom: 0;
     padding-left: 0;
   }
@@ -34,7 +34,7 @@
 
     &.active {
       background-color: $primary-50;
-      border-radius: rem(10);
+      border-radius: pxToRem(10);
 
       a {
         color: $neutral-100;

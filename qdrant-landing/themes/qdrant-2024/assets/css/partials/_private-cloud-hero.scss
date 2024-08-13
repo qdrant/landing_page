@@ -12,8 +12,8 @@
   }
 
   &__description {
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     color: $neutral-30;
     margin-bottom: $spacer * 1.5;
   }
@@ -26,19 +26,19 @@
     padding-top: $spacer * 7.5;
 
     &__title {
-      width: rem(540);
+      width: pxToRem(540);
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
       margin-bottom: 0;
     }
 
     &__content {
-      width: rem(465);
+      width: pxToRem(465);
     }
 
     &__description {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
     }
   }
 }

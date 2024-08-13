@@ -1,7 +1,7 @@
 @use '../helpers/functions' as *;
 
 .carousel {
-  min-height: rem(240);
+  min-height: pxToRem(240);
   background-color: $neutral-94;
 
   &__content {
@@ -19,13 +19,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: rem(30);
+    gap: pxToRem(30);
 
     width: fit-content;
   }
 
   &__image {
-    min-width: rem(400);
+    min-width: pxToRem(400);
     aspect-ratio: 5 / 3;
     height: 100%;
     background-position: center;
@@ -38,7 +38,7 @@
 
   @include media-breakpoint-up(xxl) {
     &__content {
-      max-width: rem(1102);
+      max-width: pxToRem(1102);
       margin: 0 auto;
     }
   }

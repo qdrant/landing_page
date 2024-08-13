@@ -8,13 +8,13 @@
     padding: $spacer * 2 $spacer * 2.5;
     background: $neutral-98;
     border-radius: $spacer * 0.5;
-    border: rem(1) solid $neutral-90;
+    border: pxToRem(1) solid $neutral-90;
   }
 
   &__review {
     margin-bottom: $spacer * 2.5;
-    font-size: rem(20);
-    line-height: rem(30);
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
     color: $neutral-20;
   }
 
@@ -25,8 +25,8 @@
     &-avatar {
       margin-bottom: $spacer;
       height: $spacer * 3;
-      width: rem(48);
-      height: rem(48);
+      width: pxToRem(48);
+      height: pxToRem(48);
       border-radius: 50%;
       overflow: hidden;
 
@@ -45,8 +45,8 @@
       }
 
       p:last-of-type {
-        font-size: rem(14);
-        line-height: rem(21);
+        font-size: pxToRem(14);
+        line-height: pxToRem(21);
         color: $neutral-60;
       }
     }
@@ -59,10 +59,10 @@
     padding: $spacer * 2;
     background: $neutral-98;
     border-radius: $spacer * 0.5;
-    border: rem(1) solid $neutral-90;
+    border: pxToRem(1) solid $neutral-90;
 
     img {
-      width: rem(150);
+      width: pxToRem(150);
     }
   }
 

@@ -33,7 +33,7 @@
 
       i {
         position: absolute;
-        top: rem(12);
+        top: pxToRem(12);
         right: $spacer;
         width: $spacer;
         height: $spacer;
@@ -57,7 +57,7 @@
 
       h5 {
         font-size: $spacer * 2;
-        line-height: rem(38);
+        line-height: pxToRem(38);
         color: $neutral-20;
         margin-bottom: $spacer;
       }
@@ -71,12 +71,12 @@
 
     &-secondary {
       .post {
-        padding: rem(18) 0 rem(20);
-        border-bottom: rem(1) solid $neutral-90;
+        padding: pxToRem(18) 0 pxToRem(20);
+        border-bottom: pxToRem(1) solid $neutral-90;
 
         &:first-of-type {
-          padding-top: rem(20);
-          border-top: rem(1) solid $neutral-90;
+          padding-top: pxToRem(20);
+          border-top: pxToRem(1) solid $neutral-90;
         }
       }
 
@@ -97,14 +97,14 @@
 
     &__articles {
       flex-direction: row;
-      gap: rem(30);
+      gap: pxToRem(30);
 
       &-main {
         width: calc(100% - 476px);
       }
 
       &-secondary {
-        width: rem(446);
+        width: pxToRem(446);
 
         .post {
           &:first-of-type {
@@ -119,13 +119,13 @@
   @include media-breakpoint-up(xl) {
     &__title {
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
       margin-bottom: 0;
     }
 
     &__form {
       &-search-block {
-        width: rem(534);
+        width: pxToRem(534);
         margin-left: auto;
       }
     }

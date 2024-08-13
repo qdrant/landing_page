@@ -14,14 +14,14 @@
 
   &__case {
     &-text .link {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       margin-bottom: $spacer * 2.5;
     }
 
     &-title {
       font-size: $spacer * 2;
-      line-height: rem(38);
+      line-height: pxToRem(38);
       margin-bottom: $spacer * 1.5;
       color: $neutral-98;
     }
@@ -75,16 +75,16 @@
 
       &-title {
         font-size: $spacer * 3;
-        line-height: rem(57);
+        line-height: pxToRem(57);
       }
 
       &-description {
-        font-size: rem(18);
-        line-height: rem(27);
+        font-size: pxToRem(18);
+        line-height: pxToRem(27);
       }
 
       &-preview {
-        height: rem(360);
+        height: pxToRem(360);
         padding-bottom: 0;
       }
     }

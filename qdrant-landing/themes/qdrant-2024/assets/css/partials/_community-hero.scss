@@ -27,8 +27,8 @@
   }
 
   &__description {
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     margin-bottom: $spacer * 3;
     color: $neutral-70;
     text-align: center;
@@ -45,8 +45,8 @@
       width: 100%;
 
       input[type='email'] {
-        padding-top: rem(11);
-        padding-bottom: rem(11);
+        padding-top: pxToRem(11);
+        padding-bottom: pxToRem(11);
       }
     }
 
@@ -61,8 +61,8 @@
   }
 
   &__about {
-    font-size: rem(14);
-    line-height: rem(21);
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
     margin-bottom: $spacer * 2.5;
     color: $neutral-50;
     text-align: center;
@@ -74,7 +74,7 @@
     left: 0;
     bottom: 0;
     width: 100%;
-    height: rem(200);
+    height: pxToRem(200);
     background-image: url('/img/blurred/blurred-light-12.svg');
     background-position: center;
     background-size: cover;
@@ -95,19 +95,19 @@
     }
 
     &__title {
-      max-width: rem(680);
+      max-width: pxToRem(680);
       margin-left: auto;
       margin-right: auto;
       font-size: $spacer * 4;
-      line-height: rem(76);
+      line-height: pxToRem(76);
     }
 
     &__description {
-      max-width: rem(680);
+      max-width: pxToRem(680);
       margin-left: auto;
       margin-right: auto;
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
     }
 
     &__form {
@@ -125,7 +125,7 @@
 
     &__about {
       position: relative;
-      max-width: rem(520);
+      max-width: pxToRem(520);
       margin: 0 auto;
       z-index: 1;
     }

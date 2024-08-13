@@ -10,7 +10,7 @@
   &__title {
     position: relative;
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     margin-bottom: $spacer * 5;
     color: $neutral-98;
     text-align: center;
@@ -29,15 +29,15 @@
     }
 
     &-title {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       margin-bottom: $spacer * 0.5;
       color: $neutral-98;
     }
 
     &-description {
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       margin-bottom: 0;
       color: $neutral-70;
     }
@@ -48,7 +48,7 @@
     padding-bottom: $spacer * 7.5;
 
     &__title {
-      width: rem(730);
+      width: pxToRem(730);
       margin: 0 auto $spacer * 6.5;
       font-size: $spacer * 2.5;
       line-height: $spacer * 3;

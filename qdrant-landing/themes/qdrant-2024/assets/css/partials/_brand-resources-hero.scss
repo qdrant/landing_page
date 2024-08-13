@@ -11,7 +11,7 @@
     position: relative;
     margin-bottom: $spacer * 2.5;
     font-size: $spacer * 3.5;
-    line-height: rem(67);
+    line-height: pxToRem(67);
     color: $neutral-98;
     text-align: center;
     z-index: 1;
@@ -22,12 +22,12 @@
     flex-wrap: wrap;
     justify-content: center;
     gap: $spacer;
-    max-width: rem(335);
+    max-width: pxToRem(335);
     margin: 0 auto;
 
     a {
       width: calc(50% - 8px);
-      border: rem(1) solid $neutral-60;
+      border: pxToRem(1) solid $neutral-60;
     }
   }
 
@@ -45,7 +45,7 @@
 
   @include media-breakpoint-up(md) {
     &__overlay {
-      height: rem(424);
+      height: pxToRem(424);
       background-image: url('/img/brand-resources-hero.svg');
     }
   }

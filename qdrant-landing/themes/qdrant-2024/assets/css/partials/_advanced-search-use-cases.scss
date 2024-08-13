@@ -39,14 +39,14 @@
     padding-bottom: $spacer * 5;
 
     &__title {
-      max-width: rem(920);
+      max-width: pxToRem(920);
       margin: 0 auto $spacer * 5;
       font-size: $spacer * 3.5;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__card {
-      height: rem(518);
+      height: pxToRem(518);
 
       &-link {
         flex-grow: 1;

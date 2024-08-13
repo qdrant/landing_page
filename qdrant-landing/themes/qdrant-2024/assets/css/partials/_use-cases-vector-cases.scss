@@ -7,7 +7,7 @@
 
   &__title {
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-20;
     text-align: center;
     margin-bottom: $spacer * 2.5;
@@ -37,8 +37,8 @@
     }
 
     &-description {
-      font-size: rem(18);
-      line-height: rem(27);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
       color: $neutral-40;
       margin-bottom: $spacer;
     }
@@ -49,10 +49,10 @@
     padding-bottom: $spacer * 5;
 
     &__title {
-      max-width: rem(920);
+      max-width: pxToRem(920);
       margin: 0 auto $spacer * 5;
       font-size: $spacer * 3;
-      line-height: rem(57);
+      line-height: pxToRem(57);
     }
 
     &__cards {

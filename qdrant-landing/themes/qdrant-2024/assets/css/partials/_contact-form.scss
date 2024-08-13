@@ -15,13 +15,13 @@
 
   &__description {
     margin-bottom: 0;
-    font-size: rem(14);
-    line-height: rem(21);
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
     color: $neutral-70;
   }
 
   form {
-    $last-row-margin: rem(34);
+    $last-row-margin: pxToRem(34);
 
     display: flex;
     margin-top: $spacer * 2;
@@ -79,12 +79,12 @@
     position: absolute;
     right: 0;
     top: 0;
-    width: rem(220);
-    height: rem(192);
+    width: pxToRem(220);
+    height: pxToRem(192);
     background-image: url('/img/blurred/blurred-light-9.png');
     background-position: top;
     background-size: cover;
-    border-radius: 0 rem(12) 0 0;
+    border-radius: 0 pxToRem(12) 0 0;
   }
 
   @include media-breakpoint-up(xl) {

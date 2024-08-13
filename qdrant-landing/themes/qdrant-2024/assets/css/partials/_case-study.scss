@@ -15,7 +15,7 @@
 
   &__logo {
     align-self: flex-start;
-    height: rem(64);
+    height: pxToRem(64);
     margin-bottom: $spacer * 1.5;
   }
 
@@ -25,8 +25,8 @@
   }
 
   &__description {
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     color: $neutral-70;
     margin-bottom: $spacer * 1.5;
     b {
@@ -38,7 +38,7 @@
     position: relative;
     align-self: flex-end;
     width: calc(100% - 24px);
-    max-width: rem(440);
+    max-width: pxToRem(440);
     margin-left: $spacer * 1.5;
     background-image: url('/img/case-study-bg.svg');
     background-size: 100%;
@@ -48,7 +48,7 @@
 
     &-image {
       width: 100%;
-      padding: rem(28) 0 0 rem(28);
+      padding: pxToRem(28) 0 0 pxToRem(28);
     }
 
     &-overlay {
@@ -61,7 +61,7 @@
       background-image: url('/img/blurred/blurred-light-13.svg');
       background-position: top;
       background-size: cover;
-      border-radius: 0 rem(12) 0 0;
+      border-radius: 0 pxToRem(12) 0 0;
       z-index: -1;
     }
   }
@@ -73,7 +73,7 @@
     &__content {
       display: flex;
       flex-direction: column;
-      min-height: rem(472);
+      min-height: pxToRem(472);
       padding: $spacer * 4 $spacer * 3 $spacer * 4 $spacer * 5;
     }
 
@@ -85,11 +85,11 @@
     }
 
     &__tiitle {
-      width: rem(520);
+      width: pxToRem(520);
     }
 
     &__description {
-      width: rem(520);
+      width: pxToRem(520);
       //margin-bottom: $spacer * 5;
     }
 
@@ -99,8 +99,8 @@
       }
 
       &-overlay {
-        width: rem(597);
-        height: rem(472);
+        width: pxToRem(597);
+        height: pxToRem(472);
         left: -150px;
       }
     }

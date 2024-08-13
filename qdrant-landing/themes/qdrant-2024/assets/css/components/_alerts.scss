@@ -5,8 +5,8 @@ aside[role='status'] {
   position: relative;
   padding: $spacer * 1.5 $spacer * 1.5 $spacer * 1.5 $spacer * 3.5;
   margin-bottom: $spacer;
-  font-size: rem(14);
-  line-height: rem(21);
+  font-size: pxToRem(14);
+  line-height: pxToRem(21);
   border-radius: $spacer * 0.5;
 
   &:before {
@@ -15,7 +15,7 @@ aside[role='status'] {
     position: absolute;
     left: $spacer * 1.5;
     top: $spacer * 1.5;
-    height: rem(20);
+    height: pxToRem(20);
     width: $spacer;
     background-position: center;
     background-size: cover;
@@ -28,11 +28,11 @@ aside[role='alert'] {
   color: $warning-70;
   a {
     color: $warning-70;
-    border-bottom: rem(1) solid $warning-70;
+    border-bottom: pxToRem(1) solid $warning-70;
   }
   &:before {
     content: '\26A0';
-    font-size: rem(12);
+    font-size: pxToRem(12);
   }
   code {
     color: $warning-70;
@@ -44,11 +44,11 @@ aside[role='status'] {
   color: $secondary-blue-70;
   a {
     color: $secondary-blue-70;
-    border-bottom: rem(1) solid $secondary-blue-70;
+    border-bottom: pxToRem(1) solid $secondary-blue-70;
   }
   &:before {
     content: '\24D8';
-    font-size: rem(24);
+    font-size: pxToRem(24);
   }
   code {
     color: $secondary-blue-70;

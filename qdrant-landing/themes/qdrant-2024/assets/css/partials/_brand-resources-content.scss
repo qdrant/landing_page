@@ -16,14 +16,14 @@
   &__title {
     margin-bottom: $spacer * 1.5;
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-20;
   }
 
   &__description {
     margin-bottom: $spacer * 2.5;
-    font-size: rem(18);
-    line-height: rem(27);
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     color: $neutral-20;
   }
 
@@ -31,7 +31,7 @@
     margin-top: $spacer * 5;
     margin-bottom: $spacer * 2.5;
     font-size: $spacer * 2;
-    line-height: rem(38);
+    line-height: pxToRem(38);
     color: $neutral-20;
   }
 
@@ -48,7 +48,7 @@
       justify-content: center;
       align-self: center;
       width: 100%;
-      max-width: rem(288);
+      max-width: pxToRem(288);
       height: $spacer * 7.5;
       margin-bottom: $spacer * 2;
       border-radius: $spacer * 0.5;
@@ -60,8 +60,8 @@
 
     &-title {
       margin-bottom: $spacer * 0.5;
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       color: $neutral-20;
     }
 
@@ -73,12 +73,12 @@
   &__colors {
     display: flex;
     flex-direction: column;
-    gap: rem(10);
+    gap: pxToRem(10);
 
     &-card {
       width: 100%;
       height: $spacer * 7.5;
-      padding: rem(12);
+      padding: pxToRem(12);
       border-radius: $spacer * 0.5;
       color: $neutral-100;
 
@@ -97,8 +97,8 @@
       gap: $spacer * 0.5;
 
       span {
-        font-size: rem(12);
-        line-height: rem(18);
+        font-size: pxToRem(12);
+        line-height: pxToRem(18);
         font-weight: 300;
       }
     }
@@ -132,7 +132,7 @@
 
   @include media-breakpoint-up(lg) {
     &__container {
-      max-width: rem(920);
+      max-width: pxToRem(920);
       padding: 0 $spacer;
     }
 
@@ -141,7 +141,7 @@
 
       &-card {
         width: calc(100% / 6);
-        height: rem(240);
+        height: pxToRem(240);
       }
     }
 
@@ -155,8 +155,8 @@
       }
 
       &-specimen {
-        font-size: rem(20);
-        line-height: rem(30);
+        font-size: pxToRem(20);
+        line-height: pxToRem(30);
       }
     }
   }
@@ -171,12 +171,12 @@
 
     &__title {
       font-size: $spacer * 3;
-      line-height: rem(57);
+      line-height: pxToRem(57);
     }
 
     &__description {
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
     }
 
     &__subtitle {

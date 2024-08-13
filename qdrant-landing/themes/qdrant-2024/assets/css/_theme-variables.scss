@@ -112,11 +112,11 @@ $font-family-base: 'Satoshi', 'Helvetica Neue', 'Noto Sans', 'Liberation Sans', 
   'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 $font-family-code: 'Source Code Pro', 'Overpass Mono', SFMono-Regular, 'Droid Sans Mono', Menlo, Monaco, Consolas,  'Lucida Console', 'Monaco', monospace;
 
-$font-size-xs: rem(12);
-$font-size-s: rem(14);
-$font-size-md: rem(16);
-$font-size-l: rem(18);
-$font-size-xl: rem(20);
+$font-size-xs: pxToRem(12);
+$font-size-s: pxToRem(14);
+$font-size-md: pxToRem(16);
+$font-size-l: pxToRem(18);
+$font-size-xl: pxToRem(20);
 
 $font-sizes-text: (
   'xs': $font-size-xs,
@@ -132,30 +132,30 @@ $font-size-lg: $font-size-l;
 
 $font-weight-base: $font-weight-medium;
 
-$line-height-sm: rem(21);
-$line-height-lg: rem(27);
+$line-height-sm: pxToRem(21);
+$line-height-lg: pxToRem(27);
 
-$h1-font-size: rem(64);
-$h2-font-size: rem(56);
-$h3-font-size: rem(48);
-$h4-font-size: rem(40);
-$h5-font-size: rem(32);
-$h6-font-size: rem(24);
+$h1-font-size: pxToRem(64);
+$h2-font-size: pxToRem(56);
+$h3-font-size: pxToRem(48);
+$h4-font-size: pxToRem(40);
+$h5-font-size: pxToRem(32);
+$h6-font-size: pxToRem(24);
 
 $font-sizes: (
-  1: rem(64),
-  2: rem(56),
-  3: rem(48),
-  4: rem(40),
-  5: rem(32),
-  6: rem(24),
+  1: pxToRem(64),
+  2: pxToRem(56),
+  3: pxToRem(48),
+  4: pxToRem(40),
+  5: pxToRem(32),
+  6: pxToRem(24),
 );
 
 $headings-font-weight: 700;
 $headings-line-height: 1.2;
 
 $display-font-sizes: (
-  1: rem(80),
+  1: pxToRem(80),
   //2: 4.5rem,
   //3: 4rem,
   //4: 3.5rem,
@@ -199,4 +199,4 @@ $spacers: (
 
 $code-snippet-border-radius: $border-radius * 2;
 
-$post-content-width: rem(920);
+$post-content-width: pxToRem(920);

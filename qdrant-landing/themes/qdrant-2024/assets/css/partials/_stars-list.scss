@@ -19,11 +19,11 @@
   &__card {
     position: relative;
     width: 100%;
-    max-width: rem(255);
+    max-width: pxToRem(255);
     height: 100%;
     margin: 0 auto;
     padding: $spacer * 1.5;
-    border-radius: rem(12);
+    border-radius: pxToRem(12);
     background: linear-gradient($neutral-20, #0e1424);
     overflow: hidden;
     text-align: center;
@@ -33,29 +33,29 @@
       position: relative;
       width: 100%;
       margin-bottom: $spacer;
-      border-radius: rem(6);
+      border-radius: pxToRem(6);
       z-index: 1;
     }
 
     &-title {
       margin-bottom: 0;
-      font-size: rem(20);
-      line-height: rem(30);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       color: $neutral-98;
     }
 
     &-subtitle {
       margin-bottom: $spacer * 0.5;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       font-weight: 600;
       color: $neutral-90;
     }
 
     &-description {
       margin-bottom: 0;
-      font-size: rem(14);
-      line-height: rem(21);
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       color: $neutral-60;
     }
 
@@ -63,8 +63,8 @@
       position: absolute;
       right: 0;
       top: 0;
-      width: rem(124);
-      height: rem(124);
+      width: pxToRem(124);
+      height: pxToRem(124);
       background-image: url('/img/blurred/blurred-light-15.svg');
       background-position: top;
       background-size: cover;
@@ -75,8 +75,8 @@
     position: absolute;
     right: 0;
     top: 0;
-    width: rem(323);
-    height: rem(320);
+    width: pxToRem(323);
+    height: pxToRem(320);
     background-image: url('/img/blurred/blurred-light-4.png');
     background-position: top;
     background-size: cover;
@@ -89,7 +89,7 @@
     &__title {
       margin-bottom: $spacer * 5;
       font-size: $spacer * 4;
-      line-height: rem(67);
+      line-height: pxToRem(67);
     }
 
     &__cards > div {

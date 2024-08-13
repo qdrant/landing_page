@@ -15,9 +15,9 @@
 
   &-title {
     font-size: $spacer * 1.5;
-    line-height: rem(34);
+    line-height: pxToRem(34);
     color: $neutral-20;
-    margin-bottom: rem(12);
+    margin-bottom: pxToRem(12);
   }
 
   &-description {
@@ -29,15 +29,15 @@
     overflow: hidden;
     text-overflow: ellipsis;
     color: $neutral-30;
-    margin-bottom: rem(12);
+    margin-bottom: pxToRem(12);
   }
 
   &-about {
     display: flex;
     justify-content: flex-start;
     gap: $spacer * 0.5;
-    font-size: rem(14);
-    line-height: rem(21);
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
     color: $neutral-50;
 
     p {

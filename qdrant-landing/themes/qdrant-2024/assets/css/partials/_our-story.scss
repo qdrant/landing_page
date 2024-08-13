@@ -11,7 +11,7 @@
 
   &__title {
     font-size: map-get($font-sizes, 2);
-    line-height: rem(67);
+    line-height: pxToRem(67);
     text-align: center;
     color: $neutral-20;
     margin: 0;
@@ -19,14 +19,14 @@
 
   &__subtitle {
     font-size: map-get($font-sizes, 6);
-    line-height: rem(34);
+    line-height: pxToRem(34);
     margin-bottom: $spacer * 1.5;
     color: $neutral-20;
   }
 
   &__extra-title {
     font-size: map-get($font-sizes, 6);
-    line-height: rem(34);
+    line-height: pxToRem(34);
     margin-bottom: $spacer * 1.5;
     color: $neutral-20;
   }
@@ -39,7 +39,7 @@
 
   &__image {
     height: 100%;
-    min-height: rem(332);
+    min-height: pxToRem(332);
     background-position: center;
     background-repeat: no-repeat;
     background-size: contain;
@@ -74,23 +74,23 @@
     }
 
     &__title {
-      font-size: rem(80);
-      line-height: rem(96);
+      font-size: pxToRem(80);
+      line-height: pxToRem(96);
     }
 
     &__subtitle {
-      font-size: rem(40);
-      line-height: rem(48);
-      max-width: rem(475);
+      font-size: pxToRem(40);
+      line-height: pxToRem(48);
+      max-width: pxToRem(475);
     }
 
     &__content {
-      max-width: rem(475);
+      max-width: pxToRem(475);
       font-size: map-get($font-sizes-text, 'xl');
     }
 
     &__image {
-      min-height: rem(524);
+      min-height: pxToRem(524);
     }
 
     &__date {

@@ -18,19 +18,19 @@
   &__content {
     position: relative;
     background: $blockBackground;
-    border-radius: rem(8);
+    border-radius: pxToRem(8);
     overflow: hidden;
 
     a {
-      margin-bottom: rem(40);
+      margin-bottom: pxToRem(40);
     }
 
     img {
       display: block;
       width: 100%;
-      max-width: rem(300);
+      max-width: pxToRem(300);
       margin: 0 auto;
-      padding: 0 rem(17.5);
+      padding: 0 pxToRem(17.5);
     }
   }
 
@@ -42,22 +42,22 @@
   }
 
   &__title {
-    padding: rem(40) rem(24) 0 rem(24);
-    margin-bottom: rem(24);
-    font-size: rem(24);
-    line-height: rem(34);
+    padding: pxToRem(40) pxToRem(24) 0 pxToRem(24);
+    margin-bottom: pxToRem(24);
+    font-size: pxToRem(24);
+    line-height: pxToRem(34);
     text-align: center;
     color: #f0f3fa;
     @include bs.media-breakpoint-up(lg) {
-      font-size: rem(32);
-      line-height: rem(38);
+      font-size: pxToRem(32);
+      line-height: pxToRem(38);
     }
   }
 
   &__description {
     margin-top: -16px;
-    margin-bottom: rem(16);
-    padding: 0 rem(24);
+    margin-bottom: pxToRem(16);
+    padding: 0 pxToRem(24);
     color: #b4bacc;
     text-align: center;
   }
@@ -66,8 +66,8 @@
     position: absolute;
     right: 0;
     top: 0;
-    width: rem(220);
-    height: rem(220);
+    width: pxToRem(220);
+    height: pxToRem(220);
     background-image: url('/img/blurred/blurred-light-6.svg');
     background-position: top;
     background-size: cover;
@@ -78,44 +78,44 @@
     padding-bottom: $paddingBottom;
 
     &__content {
-      min-height: rem(210);
+      min-height: pxToRem(210);
       background: $blockBackgroundMobile;
 
       img {
         padding: 0;
-        width: rem(300);
-        height: rem(210);
+        width: pxToRem(300);
+        height: pxToRem(210);
       }
 
       a {
-        height: rem(40);
-        padding: 0 rem(22);
+        height: pxToRem(40);
+        padding: 0 pxToRem(22);
         margin-bottom: 0;
       }
     }
 
     &__title {
       text-align: left;
-      margin-left: rem(56);
+      margin-left: pxToRem(56);
       padding: 0;
     }
 
     &__description {
-      max-width: rem(570);
-      margin-left: rem(56);
+      max-width: pxToRem(570);
+      margin-left: pxToRem(56);
       padding: 0;
       text-align: left;
     }
 
     .button {
-      margin-left: rem(56);
+      margin-left: pxToRem(56);
     }
 
     &__text {
       align-self: center;
       align-items: flex-start;
-      padding-top: rem(30);
-      padding-bottom: rem(30);
+      padding-top: pxToRem(30);
+      padding-bottom: pxToRem(30);
     }
 
     &__image {

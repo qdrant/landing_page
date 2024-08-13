@@ -23,7 +23,7 @@
 
   &__title {
     font-size: map-get($font-sizes, 4);
-    line-height: rem(48);
+    line-height: pxToRem(48);
     text-align: center;
     margin-bottom: $spacer * 1.5;
     max-width: 100%;
@@ -32,7 +32,7 @@
 
   &__subtitle {
     font-size: map-get($font-sizes-text, 'l');
-    line-height: rem(27);
+    line-height: pxToRem(27);
     text-align: center;
     color: $neutral-70;
   }
@@ -61,7 +61,7 @@
 
   &__card-image {
     width: 100%;
-    height: rem(224);
+    height: pxToRem(224);
     background-size: contain;
     background-position: center;
     background-repeat: no-repeat;
@@ -76,14 +76,14 @@
     color: $neutral-98;
     margin-bottom: $spacer * 1.5;
     font-size: map-get($font-sizes, 5);
-    line-height: rem(38);
+    line-height: pxToRem(38);
   }
 
   &__card-content {
     color: $neutral-70;
     margin-bottom: $spacer * 1.5;
-    font-size: rem(16);
-    line-height: rem(24);
+    font-size: pxToRem(16);
+    line-height: pxToRem(24);
   }
 
   @include media-breakpoint-up(xl) {
@@ -93,14 +93,14 @@
 
     &__title {
       font-size: map-get($font-sizes, 2);
-      line-height: rem(67);
-      max-width: rem(726);
+      line-height: pxToRem(67);
+      max-width: pxToRem(726);
     }
 
     &__subtitle {
       font-size: map-get($font-sizes-text, 'xl');
-      line-height: rem(30);
-      max-width: rem(726);
+      line-height: pxToRem(30);
+      max-width: pxToRem(726);
     }
 
     &__cards {
@@ -108,43 +108,43 @@
     }
 
     &__card {
-      min-width: rem(1110);
+      min-width: pxToRem(1110);
       flex-direction: row;
     }
 
     &__card--reversed {
-      min-width: rem(1110);
+      min-width: pxToRem(1110);
       flex-direction: row-reverse;
     }
 
     &__card-image {
-      width: rem(540);
-      height: rem(360);
+      width: pxToRem(540);
+      height: pxToRem(360);
       margin-top: 0;
     }
 
     &__card-title {
       font-size: map-get($font-sizes, 4);
-      line-height: rem(48);
+      line-height: pxToRem(48);
     }
 
     &__card-content {
       font-size: map-get($font-sizes-text, 'l');
-      line-height: rem(27);
+      line-height: pxToRem(27);
     }
 
     &__card-description {
-      max-width: rem(445);
+      max-width: pxToRem(445);
     }
   }
 }
 
 .vectors__card:first-child {
   .vectors__card-image {
-    height: rem(256);
+    height: pxToRem(256);
 
     @include media-breakpoint-up(xl) {
-      height: rem(392);
+      height: pxToRem(392);
     }
   }
 }
@@ -175,17 +175,17 @@
       left: 0;
       width: 100%;
       height: 100%;
-      max-height: rem(398);
+      max-height: pxToRem(398);
       background: url('/img/stars-pattern.png') $neutral-10;
     }
 
     .vectors__title {
       font-size: map-get($font-sizes, 1);
-      line-height: rem(76);
+      line-height: pxToRem(76);
     }
 
     .vectors__subtitle {
-      max-width: rem(944);
+      max-width: pxToRem(944);
     }
 
     .vectors__cards {

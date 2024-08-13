@@ -18,7 +18,7 @@
   padding-top: $paddingTopMobile;
 
   &__title {
-    margin-bottom: rem(40);
+    margin-bottom: pxToRem(40);
     font-size: $titleSizeMobile;
     line-height: $titleHeightMobile;
     color: #161e33;
@@ -28,7 +28,7 @@
   &__cards {
     display: flex;
     flex-direction: column;
-    gap: rem(32);
+    gap: pxToRem(32);
     position: relative;
   }
 
@@ -41,13 +41,13 @@
 
     img {
       width: 100%;
-      margin-bottom: rem(24);
+      margin-bottom: pxToRem(24);
     }
 
     h5 {
-      margin-bottom: rem(24);
-      font-size: rem(20);
-      line-height: rem(30);
+      margin-bottom: pxToRem(24);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
       color: #161e33;
       text-align: center;
     }
@@ -65,7 +65,7 @@
     &__title {
       max-width: $titleWidth;
       margin: auto;
-      margin-bottom: rem(80);
+      margin-bottom: pxToRem(80);
       font-size: $titleSize;
       line-height: $titleHeight;
     }
@@ -73,8 +73,8 @@
     &__cards {
       flex-direction: row;
       justify-content: space-between;
-      gap: rem(75);
-      padding: rem(53) 0;
+      gap: pxToRem(75);
+      padding: pxToRem(53) 0;
     }
 
     &__card {
@@ -87,7 +87,7 @@
       left: 0;
       bottom: $paddingBottom;
       width: 100%;
-      height: rem(400);
+      height: pxToRem(400);
       background-image: url('/img/square-grid.png');
       background-size: contain;
       background-repeat: no-repeat;
