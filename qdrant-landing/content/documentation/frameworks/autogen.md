@@ -1,6 +1,5 @@
 ---
 title: Autogen
-weight: 1200
 aliases: [ ../integrations/autogen/ ]
 ---
 

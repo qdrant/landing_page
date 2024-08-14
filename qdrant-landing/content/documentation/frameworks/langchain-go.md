@@ -1,6 +1,5 @@
 ---
 title: Langchain Go
-weight: 2120
 ---
 
 # Langchain Go
@@ -30,38 +29,38 @@ Before you use the following code sample, customize the following values for you
 package main
 
 import (
-	"log"
-	"net/url"
+ "log"
+ "net/url"
 
-	"github.com/tmc/langchaingo/embeddings"
-	"github.com/tmc/langchaingo/llms/openai"
-	"github.com/tmc/langchaingo/vectorstores/qdrant"
+ "github.com/tmc/langchaingo/embeddings"
+ "github.com/tmc/langchaingo/llms/openai"
+ "github.com/tmc/langchaingo/vectorstores/qdrant"
 )
 
 func main() {
-	llm, err := openai.New()
-	if err != nil {
-		log.Fatal(err)
-	}
+ llm, err := openai.New()
+ if err != nil {
+  log.Fatal(err)
+ }
 
-	e, err := embeddings.NewEmbedder(llm)
-	if err != nil {
-		log.Fatal(err)
-	}
+ e, err := embeddings.NewEmbedder(llm)
+ if err != nil {
+  log.Fatal(err)
+ }
 
-	url, err := url.Parse("YOUR_QDRANT_REST_URL")
-	if err != nil {
-		log.Fatal(err)
-	}
+ url, err := url.Parse("YOUR_QDRANT_REST_URL")
+ if err != nil {
+  log.Fatal(err)
+ }
 
-	store, err := qdrant.New(
-		qdrant.WithURL(*url),
-		qdrant.WithCollectionName("YOUR_COLLECTION_NAME"),
-		qdrant.WithEmbedder(e),
-	)
-	if err != nil {
-		log.Fatal(err)
-	}
+ store, err := qdrant.New(
+  qdrant.WithURL(*url),
+  qdrant.WithCollectionName("YOUR_COLLECTION_NAME"),
+  qdrant.WithEmbedder(e),
+ )
+ if err != nil {
+  log.Fatal(err)
+ }
 }
 ```
 

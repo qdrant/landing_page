@@ -1,6 +1,6 @@
 ---
 title: DocsGPT
-weight: 2600
+aliases: [ ../frameworks/docsgpt/ ]
 ---
 
 # DocsGPT

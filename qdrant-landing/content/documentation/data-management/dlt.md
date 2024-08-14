@@ -1,7 +1,6 @@
 ---
 title: DLT
-weight: 1300
-aliases: [ ../integrations/dlt/ ]
+aliases: [ ../integrations/dlt/, ../frameworks/dlt/ ]
 ---
 
 # DLT(Data Load Tool)

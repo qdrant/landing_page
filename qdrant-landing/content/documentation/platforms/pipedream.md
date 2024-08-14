@@ -1,6 +1,6 @@
 ---
 title: Pipedream
-weight: 3300
+aliases: [ ../frameworks/pipedream/ ]
 ---
 
 # Pipedream

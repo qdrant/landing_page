@@ -1,6 +1,6 @@
 ---
 title: N8N
-weight: 2000
+aliases: [ ../frameworks/n8n/ ]
 ---
 
 # N8N
