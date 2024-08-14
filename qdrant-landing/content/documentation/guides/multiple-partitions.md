@@ -179,8 +179,9 @@ await client.UpsertAsync(
 2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.1, 0.1, 0.9],
     "filter": {
         "must": [
             {
@@ -191,7 +192,6 @@ POST /collections/{collection_name}/points/search
             }
         ]
     },
-    "vector": [0.1, 0.1, 0.9],
     "limit": 10
 }
 ```

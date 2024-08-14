@@ -575,8 +575,9 @@ Qdrant will automatically use quantized vectors if they are available.
 However, there are a few options that you can use to control the search process:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.2, 0.1, 0.9, 0.7],
     "params": {
         "quantization": {
             "ignore": false,
@@ -584,7 +585,6 @@ POST /collections/{collection_name}/points/search
             "oversampling": 2.0
         }
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 10
 }
 ```
@@ -721,14 +721,14 @@ The fastest way to understand the impact of quantization on the search quality i
 In order to disable quantization, you can set `ignore` to `true` in the search request:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.2, 0.1, 0.9, 0.7],
     "params": {
         "quantization": {
             "ignore": true
         }
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 10
 }
 ```
@@ -984,14 +984,14 @@ In a system with high disk latency, the re-scoring step may become a bottleneck.
 Consider disabling `rescore` to improve the search speed:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.2, 0.1, 0.9, 0.7],
     "params": {
         "quantization": {
             "rescore": false
         }
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 10
 }
 ```

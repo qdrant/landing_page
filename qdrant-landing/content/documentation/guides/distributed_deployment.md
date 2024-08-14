@@ -1051,8 +1051,9 @@ is consistent across cluster nodes.
 - default `consistency` is `1`
 
 ```http
-POST /collections/{collection_name}/points/search?consistency=majority
+POST /collections/{collection_name}/points/query?consistency=majority
 {
+    "query": [0.2, 0.1, 0.9, 0.7],
     "filter": {
         "must": [
             {
@@ -1067,7 +1068,6 @@ POST /collections/{collection_name}/points/search?consistency=majority
         "hnsw_ef": 128,
         "exact": false
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 3
 }
 ```
