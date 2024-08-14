@@ -1,7 +1,7 @@
 ---
-title: "Any Embedding Model Can Become a Late Interaction Model—If You Give It a Chance"
+title: "Any* Embedding Model Can Become a Late Interaction Model - If You Give It a Chance!"
 short_description: "Standard dense embedding models perform surprisingly well in late interaction scenarios."
-description: "Standard dense embedding models perform surprisingly well in late interaction scenarios."
+description: "We discovered something huge. Standard dense embedding models can perform surprisingly well in late interaction scenarios."
 preview_dir: /articles_data/late-interaction-models/preview
 social_preview_image: /articles_data/late-interaction-models/social-preview.png
 weight: -160
@@ -12,15 +12,25 @@ date: 2024-08-13T00:00:00.000Z
 
 \* At least any open-source model, since you need access to its internals.
 
+### You Can Adapt Dense Embedding Models for Late Interaction
+
 Qdrant 1.10 introduced support for multi-vector representations, with late interaction being a prominent example of this model. In essence, both documents and queries are represented by multiple vectors, and identifying the most relevant documents involves calculating a score based on the similarity between corresponding query and document embeddings. If you're not familiar with this paradigm, our updated [Hybrid Search](/articles/hybrid-search/) article explains how multi-vector representations can enhance retrieval quality.
+
+**Figure 1:** We can visualize late interaction between corresponding document-query embedding pairs.
 
 ![Late interaction](/articles_data/late-interaction-models/late-interaction.png)
 
 There are many specialized late interaction models, such as ColBERT, but **it appears that regular dense embedding models can also be effectively utilized in this manner**.
 
-## How Does the Embedding Model Work?
+> In this study, we will demonstrate that standard dense embedding models, traditionally used for single-vector representations, can be effectively adapted for late interaction scenarios using output token embeddings as multi-vector representations.
+
+By testing out retrieval with Qdrant’s multi-vector feature, we will show that these models can rival or surpass specialized late interaction models in retrieval performance, while offering lower complexity and greater efficiency. This work redefines the potential of dense models in advanced search pipelines, presenting a new method for optimizing retrieval systems.
+
+## Understanding Embedding Models
 
 The inner workings of embedding models might be surprising to some. The model doesn’t operate directly on the input text; instead, it requires a tokenization step to convert the text into a sequence of token identifiers. Each token identifier is then passed through an embedding layer, which transforms it into a dense vector. Essentially, the embedding layer acts as a lookup table that maps token identifiers to dense vectors. These vectors are then fed into the transformer model as input.
+
+**Figure 2:** The tokenization step, which takes place before vectors are added to the transformer model. 
 
 ![Input token embeddings](/articles_data/late-interaction-models/input-embeddings.png)
 
@@ -28,19 +38,21 @@ The input token embeddings are context-free and are learned during the model’s
 
 Much has been discussed about the role of attention in transformer models, but in essence, this mechanism is responsible for capturing cross-token relationships. Each transformer module takes a sequence of token embeddings as input and produces a sequence of output token embeddings. Both sequences are of the same length, with each token embedding being enriched by information from the other token embeddings at the current step.
 
+**Figure 3:** The mechanism which produces a sequence of output token embeddings.
+
 ![Output token embeddings](/articles_data/late-interaction-models/output-embeddings.png)
 
-The final step performed by the embedding model is pooling the output token embeddings to generate a single vector representation of the input text.
+**Figure 4:** The final step performed by the embedding model is pooling the output token embeddings to generate a single vector representation of the input text.
 
 ![Pooling](/articles_data/late-interaction-models/pooling.png)
 
 There are several pooling strategies, but regardless of which one a model uses, the output is always a single vector representation, which inevitably loses some information about the input. It’s akin to giving someone detailed, step-by-step directions to the nearest grocery store versus simply pointing in the general direction. While the vague direction might suffice in some cases, the detailed instructions are more likely to lead to the desired outcome.
 
-### Output Token Embeddings as Multi-Vector Representations
+### Using Output Token Embeddings for Multi-Vector Representations
 
 We often overlook the output token embeddings, but the fact is—they also serve as multi-vector representations of the input text. So, why not explore their use in a multi-vector retrieval model, similar to late interaction models?
 
-#### Experiments
+#### Experimental Findings
 
 We conducted several experiments to determine whether output token embeddings could be effectively used in place of traditional late interaction models. The results are quite promising.
 
@@ -156,7 +168,7 @@ Even the simple `all-MiniLM-L6-v2` model can be applied in a late interaction mo
 
 It's important to note that ColBERT has not been trained on BeIR datasets, making its performance fully out-of-domain. Nevertheless, the `all-MiniLM-L6-v2` [training dataset](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2#training-data) also lacks any BeIR data, yet it still performs remarkably well.
 
-### Pros and Cons
+### Comparative Analysis of Dense vs. Late Interaction Models
 
 The retrieval quality speaks for itself, but there are other important factors to consider.
 
@@ -171,7 +183,7 @@ The traditional dense embedding models we tested are less complex than late inte
 
 One argument against using output token embeddings is the increased storage requirements compared to ColBERT-like models. For instance, the `all-MiniLM-L6-v2` model produces 384-dimensional output token embeddings, which is three times more than the 128-dimensional embeddings generated by ColBERT-like models. This increase not only leads to higher memory usage but also impacts the computational cost of retrieval, as calculating distances takes more time. Mitigating this issue through vector compression would make a lot of sense.
 
-#### Impact of Quantization
+#### Exploring Quantization for Multi-Vector Representations
 
 Binary quantization is generally more effective for high-dimensional vectors, making the `all-MiniLM-L6-v2` model, with its relatively low-dimensional outputs, less ideal for this approach. However, scalar quantization appeared to be a viable alternative. The table below summarizes the impact of quantization on retrieval quality.
 
@@ -215,9 +227,11 @@ It’s important to note that quantization doesn’t always preserve retrieval q
 
 We managed to maintain the original quality while using four times less memory. Additionally, a quantized vector requires 384 bytes, compared to ColBERT’s 512 bytes. This results in a 25% reduction in memory usage, with retrieval quality remaining nearly unchanged.
 
-### Practical Considerations
+### Practical Application: Enhancing Retrieval with Dense Models
 
 If you’re using one of the sentence transformer models, the output token embeddings are calculated by default. While a single vector representation is more efficient in terms of storage and computation, there’s no need to discard the output token embeddings. According to our experiments, these embeddings can significantly enhance retrieval quality. You can store both the single vector and the output token embeddings in Qdrant, using the single vector for the initial retrieval step and then reranking the results with the output token embeddings.
+
+**Figure 5:** A single model pipeline that relies solely on the output token embeddings for reranking.
 
 ![Single model reranking](/articles_data/late-interaction-models/single-model-reranking.png)
 
@@ -293,7 +307,7 @@ Overall, adding a reranking step using the same model typically improves retriev
 
 Now, let's explore how to implement this using the new Query API introduced in Qdrant 1.10.
 
-#### Qdrant Implementation
+### Implementation Guide: Setting Up Qdrant for Late Interaction
 
 The new Query API in Qdrant 1.10 enables the construction of even more complex retrieval pipelines. We can use the single vector created after pooling for the initial retrieval step and then rerank the results using the output token embeddings.
 
@@ -353,10 +367,14 @@ client.query_points(
     limit=10,
 )
 ```
+### Try the Experiment Yourself
+
 In a real-world scenario, you might take it a step further by first calculating the token embeddings and then performing pooling to obtain the single vector representation. This approach allows you to complete everything in a single pass.
 
-The simplest way to start experimenting with building complex reranking pipelines in Qdrant is by using the forever-free cluster on [Qdrant Cloud](https://cloud.qdrant.io/).
+The simplest way to start experimenting with building complex reranking pipelines in Qdrant is by using the forever-free cluster on [Qdrant Cloud](https://cloud.qdrant.io/) and reading [Qdrant's documentation](/documentation/).
 
-## Future Work
+The [source code for these experiments is open-source](https://github.com/kacperlukawski/beir-qdrant/blob/main/examples/retrieval/search/evaluate_all_exact.py) and uses [`beir-qdrant`](https://github.com/kacperlukawski/beir-qdrant), an integration of Qdrant with the [BeIR library](https://github.com/beir-cellar/beir).
+
+### Future Directions and Research Opportunities
 
 The initial experiments using output token embeddings in the retrieval process have yielded promising results. However, we plan to conduct further benchmarks to validate these findings and explore the incorporation of sparse methods for the initial retrieval. Additionally, we aim to investigate the impact of quantization on multi-vector representations and its effects on retrieval quality. Finally, we will assess retrieval speed, a crucial factor for many applications.
