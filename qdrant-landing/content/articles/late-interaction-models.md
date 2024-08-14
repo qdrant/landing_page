@@ -1,7 +1,7 @@
 ---
 title: "Any* Embedding Model Can Become a Late Interaction Model - If You Give It a Chance!"
 short_description: "Standard dense embedding models perform surprisingly well in late interaction scenarios."
-description: "We discovered something huge. Standard dense embedding models can perform surprisingly well in late interaction scenarios."
+description: "We discovered something interesting. Standard dense embedding models can perform surprisingly well in late interaction scenarios."
 preview_dir: /articles_data/late-interaction-models/preview
 social_preview_image: /articles_data/late-interaction-models/social-preview.png
 weight: -160
