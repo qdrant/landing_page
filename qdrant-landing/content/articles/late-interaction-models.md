@@ -68,7 +68,7 @@ We conducted several experiments to determine whether output token embeddings co
     <tbody>
         <tr>
             <th rowspan="6">SciFact</th>
-            <td><code>prithvida/Splade_PP_en_v1</code></td>
+            <td><code>prithivida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
             <td>0.70928</td>
         </tr>
@@ -100,7 +100,7 @@ We conducted several experiments to determine whether output token embeddings co
         </tr>
         <tr>
             <th rowspan="6">NFCorpus</th>
-            <td><code>prithvida/Splade_PP_en_v1</code></td>
+            <td><code>prithivida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
             <td>0.34166</td>
         </tr>
@@ -132,7 +132,7 @@ We conducted several experiments to determine whether output token embeddings co
         </tr>
         <tr>
             <th rowspan="6">ArguAna</th>
-            <td><code>prithvida/Splade_PP_en_v1</code></td>
+            <td><code>prithivida/Splade_PP_en_v1</code></td>
             <td>sparse vectors</td>
             <td>0.47271</td>
         </tr>
