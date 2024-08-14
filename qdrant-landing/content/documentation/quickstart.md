@@ -300,9 +300,9 @@ status: Completed
 Let's ask a basic question - Which of our stored vectors are most similar to the query vector `[0.2, 0.1, 0.9, 0.7]`?
 
 ```python
-search_result = client.search(
-    collection_name="test_collection", query_vector=[0.2, 0.1, 0.9, 0.7], limit=3
-)
+search_result = client.query_points(
+    collection_name="test_collection", query=[0.2, 0.1, 0.9, 0.7], limit=3
+).points
 
 print(search_result)
 ```
@@ -397,15 +397,15 @@ We can narrow down the results further by filtering by payload. Let's find the c
 ```python
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
-search_result = client.search(
+search_result = client.query_points(
     collection_name="test_collection",
-    query_vector=[0.2, 0.1, 0.9, 0.7],
+    query=[0.2, 0.1, 0.9, 0.7],
     query_filter=Filter(
         must=[FieldCondition(key="city", match=MatchValue(value="London"))]
     ),
     with_payload=True,
     limit=3,
-)
+).points
 
 print(search_result)
 ```

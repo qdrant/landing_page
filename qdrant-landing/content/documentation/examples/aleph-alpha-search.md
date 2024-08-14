@@ -139,11 +139,11 @@ async with AsyncCliet(token=aa_token) as aa_client:
     query_request = SemanticEmbeddingRequest(**query_params)
     query_response = await aa_client.semantic_embed(request=query_request, model=model)
 
-    results = client.search(
+    results = client.query_points(
         collection_name="COCO",
-        query_vector=query_response.embedding,
+        query=query_response.embedding,
         limit=3,
-    )
+    ).points
     print(results)
 ```
 
@@ -166,11 +166,11 @@ async with AsyncClient(token=aa_token) as aa_client:
     query_request = SemanticEmbeddingRequest(**query_params)
     query_response = await aa_client.semantic_embed(request=query_request, model=model)
 
-    results = client.search(
+    results = client.query_points(
         collection_name="COCO",
-        query_vector=query_response.embedding,
+        query=query_response.embedding,
         limit=3,
-    )
+    ).points
     print(results)
 ```
 

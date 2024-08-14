@@ -137,20 +137,20 @@ values of `k`.
 def avg_precision_at_k(k: int):
     precisions = []
     for item in test_dataset:
-        ann_result = client.search(
+        ann_result = client.query_points(
             collection_name="arxiv-titles-instructorxl-embeddings",
-            query_vector=item["vector"],
+            query=item["vector"],
             limit=k,
-        )
+        ).points
     
-        knn_result = client.search(
+        knn_result = client.query_points(
             collection_name="arxiv-titles-instructorxl-embeddings",
-            query_vector=item["vector"],
+            query=item["vector"],
             limit=k,
             search_params=models.SearchParams(
                 exact=True,  # Turns on the exact search mode
             ),
-        )
+        ).points
 
         # We can calculate the precision@k by comparing the ids of the search results
         ann_ids = set(item.id for item in ann_result)

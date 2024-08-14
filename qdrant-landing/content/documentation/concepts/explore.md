@@ -40,11 +40,15 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.recommend(
+client.query_points(
     collection_name="{collection_name}",
-    positive=[100, 231],
-    negative=[718, [0.2, 0.3, 0.4, 0.5]],
-    strategy=models.RecommendStrategy.AVERAGE_VECTOR,
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            positive=[100, 231],
+            negative=[718, [0.2, 0.3, 0.4, 0.5]],
+            strategy=models.RecommendStrategy.AVERAGE_VECTOR,
+        )
+    ),
     query_filter=models.Filter(
         must=[
             models.FieldCondition(
@@ -233,10 +237,14 @@ POST /collections/{collection_name}/points/recommend
 ```
 
 ```python
-client.recommend(
+client.query_points(
     collection_name="{collection_name}",
-    positive=[100, 231],
-    negative=[718],
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            positive=[100, 231],
+            negative=[718],
+        )
+    ),
     using="image",
     limit=10,
 )
@@ -327,15 +335,18 @@ POST /collections/{collection_name}/points/recommend
 ```
 
 ```python
-client.recommend(
+client.query_points(
     collection_name="{collection_name}",
-    positive=[100, 231],
-    negative=[718],
+    query=models.RecommendQuery(
+        recommend=models.RecommendInput(
+            positive=[100, 231],
+            negative=[718],
+        )
+    ),
     using="image",
     limit=10,
     lookup_from=models.LookupLocation(
-        collection="{external_collection_name}",
-        vector="{external_vector_name}"
+        collection="{external_collection_name}", vector="{external_vector_name}"
     ),
 )
 ```
@@ -481,13 +492,25 @@ filter_ = models.Filter(
 )
 
 recommend_queries = [
-    models.RecommendRequest(
-        positive=[100, 231], negative=[718], filter=filter_, limit=3
+    models.QueryRequest(
+        query=models.RecommendQuery(
+            recommend=models.RecommendInput(positive=[100, 231], negative=[718])
+        ),
+        filter=filter_,
+        limit=3,
     ),
-    models.RecommendRequest(positive=[200, 67], negative=[300], filter=filter_, limit=3),
+    models.QueryRequest(
+        query=models.RecommendQuery(
+            recommend=models.RecommendInput(positive=[200, 67], negative=[300])
+        ),
+        filter=filter_,
+        limit=3,
+    ),
 ]
 
-client.recommend_batch(collection_name="{collection_name}", requests=recommend_queries)
+client.query_batch_points(
+    collection_name="{collection_name}", requests=recommend_queries
+)
 ```
 
 ```typescript
@@ -711,18 +734,22 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 discover_queries = [
-    models.DiscoverRequest(
-        target=[0.2, 0.1, 0.9, 0.7],
-        context=[
-            models.ContextExamplePair(
-                positive=100,
-                negative=718,
-            ),
-            models.ContextExamplePair(
-                positive=200,
-                negative=300,
-            ),
-        ],
+    models.QueryRequest(
+        query=models.DiscoverQuery(
+            discover=models.DiscoverInput(
+                target=[0.2, 0.1, 0.9, 0.7],
+                context=[
+                    models.ContextPair(
+                        positive=100,
+                        negative=718,
+                    ),
+                    models.ContextPair(
+                        positive=200,
+                        negative=300,
+                    ),
+                ],
+            )
+        ),
         limit=10,
     ),
 ]
@@ -897,17 +924,19 @@ from qdrant_client import QdrantClient, models
 client = QdrantClient(url="http://localhost:6333")
 
 discover_queries = [
-    models.DiscoverRequest(
-        context=[
-            models.ContextExamplePair(
-                positive=100,
-                negative=718,
-            ),
-            models.ContextExamplePair(
-                positive=200,
-                negative=300,
-            ),
-        ],
+    models.QueryRequest(
+        query=models.ContextQuery(
+            context=[
+                models.ContextPair(
+                    positive=100,
+                    negative=718,
+                ),
+                models.ContextPair(
+                    positive=200,
+                    negative=300,
+                ),
+            ],
+        ),
         limit=10,
     ),
 ]
