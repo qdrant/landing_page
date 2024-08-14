@@ -1,9 +1,31 @@
 {{ with (.Site.GetPage "/headless/top-banner") }}
-  <section class="top-banner">
+  {{ $startExists := isset .Params "start" }}
+  {{ $endExists := isset .Params "end" }}
+  {{ $start := 0 }}
+  {{ $end := 0 }}
+
+  {{ if $startExists }}
+    {{ $start = time.AsTime .Params.start }}
+    {{ $start = $start.Unix }}
+  {{ end }}
+
+  {{ if $endExists }}
+    {{ $end = time.AsTime .Params.end }}
+    {{ $end = $end.Unix }}
+  {{ end }}
+
+
+  <section class="top-banner" data-start="{{ $start }}" data-end="{{ $end }}" style="display: none;">
     <div>
       <span class="top-banner__icon"> {{ .Params.icon | safeHTML }} </span>
       <span class="top-banner__text"> {{ .Params.text }} </span>
-      <a data-metric-loc="banner" data-metric-label="{{ .Params.text }} {{ .Params.link.text }}" class="link link_light link_sm" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
+      <a
+        data-metric-loc="banner"
+        data-metric-label="{{ .Params.text }} {{ .Params.link.text }}"
+        class="link link_light link_sm"
+        href="{{ .Params.link.url }}"
+        >{{ .Params.link.text }}</a
+      >
     </div>
   </section>
 {{ end }}

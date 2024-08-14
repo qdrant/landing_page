@@ -1,7 +1,7 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
 import { initGoToTopButton, getCookie } from './helpers';
-import { loadSegment, createSegmentStoredPage } from './segment-helpers'
+import { loadSegment, createSegmentStoredPage } from './segment-helpers';
 
 createSegmentStoredPage();
 
@@ -11,10 +11,21 @@ document.addEventListener('DOMContentLoaded', function () {
     loadSegment();
   }
 
+  // Top banner activation
+  const topBanner = document.querySelector('.top-banner');
+  if (topBanner) {
+    const start = parseInt(topBanner.getAttribute('data-start'));
+    const end = parseInt(topBanner.getAttribute('data-end'));
+    const now = Math.floor(Date.now() / 1000);
+    if (start && now > start && (end ? now < end : true)) {
+      topBanner.style.display = 'flex';
+    }
+  }
+
   // Header scroll
   const body = document.querySelector('body');
   const header = document.querySelector('.site-header');
-  const topBannerHeight = document.querySelector('.top-banner')?.offsetHeight ?? 0;
+  const topBannerHeight = topBanner?.offsetHeight ?? 0;
   const mainMenuHeight = document.querySelector('.main-menu')?.offsetHeight ?? 0;
   const PADDING_PART_TO_HIDE = 24;
   let menuOffset = window.innerWidth >= 1400 ? PADDING_PART_TO_HIDE : 0; // 24px is a PART of padding-top which we want to scroll over
