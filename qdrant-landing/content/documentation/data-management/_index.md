@@ -3,6 +3,8 @@ title: Data Management
 weight: 15
 ---
 
+## Data Management Integrations
+
 | Integration                           | Description                                                                                          |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | [Airbyte](./airbyte/)                 | Data integration platform specialising in ELT pipelines.                                             |

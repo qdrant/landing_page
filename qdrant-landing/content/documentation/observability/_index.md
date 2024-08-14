@@ -3,6 +3,8 @@ title: Observability
 weight: 15
 ---
 
+## Observability Integrations
+
 | Tool                                  | Description                                                                                          |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | [OpenLIT](./openlit/)                 | Platform for OpenTelemetry-native Observability & Evals for LLMs and Vector Databases.               |

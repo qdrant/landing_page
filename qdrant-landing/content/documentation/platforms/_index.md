@@ -3,6 +3,8 @@ title: Platforms
 weight: 15
 ---
 
+## Platform Integrations
+
 | Platform                              | Description                                                                                          |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | [Apify](./apify/)                     | Platform to build web scrapers and automate web browser tasks.                                       |

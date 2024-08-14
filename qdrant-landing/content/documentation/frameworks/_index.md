@@ -3,7 +3,9 @@ title: Frameworks
 weight: 15
 ---
 
-| Frameworks                            | Description                                                                                          |
+## Framework Integrations
+
+| Framework                             | Description                                                                                          |
 | ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | [AutoGen](./autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.             |
 | [Canopy](./canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                |
