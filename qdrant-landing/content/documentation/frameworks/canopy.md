@@ -1,6 +1,5 @@
 ---
 title: Pinecone Canopy
-weight: 2500
 ---
 
 # Pinecone Canopy

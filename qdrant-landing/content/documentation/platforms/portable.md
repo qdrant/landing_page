@@ -1,6 +1,6 @@
 ---
 title: Portable.io
-weight: 3700
+aliases: [ ../frameworks/portable/ ]
 ---
 
 # Portable

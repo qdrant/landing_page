@@ -1,6 +1,7 @@
 ---
 title: OpenLIT
 weight: 3100
+aliases: [ ../frameworks/openlit/ ]
 ---
 
 # OpenLIT

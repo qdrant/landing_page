@@ -1,6 +1,6 @@
 ---
 title: Ironclad Rivet
-weight: 3100
+aliases: [ ../frameworks/rivet/ ]
 ---
 
 # Ironclad Rivet

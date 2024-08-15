@@ -1,6 +1,6 @@
 ---
 title: Bubble
-weight: 3200
+aliases: [ ../frameworks/bubble/ ]
 ---
 
 # Bubble

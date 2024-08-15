@@ -30,3 +30,22 @@ collections:
       - { label: 'Tags', name: 'tags', widget: 'list', allow_add: true,
           hint: 'Use a comma without a space to separate tags (this widget will add spaces after commas itself). Currently, tags only used to show related posts and not appear in user interface. But it can change in the future.' }
       - { label: 'Body', name: 'body', widget: 'markdown', modes: ['raw'] }
+  - name: 'top-banner'
+    label: 'Top Banner'
+    create: false
+    editor:
+      preview: false
+    files:
+      - name: 'top-banner'
+        label: 'Top Banner'
+        file: 'qdrant-landing/content/headless/top-banner.md'
+        fields:
+          - { label: 'Text', name: 'text', widget: 'string' }
+          - label: 'Link'
+            name: 'link'
+            widget: 'object'
+            fields:
+              - { label: 'Text', name: 'text', widget: 'string' }
+              - { label: 'URL', name: 'url', widget: 'string' }
+          - { label: 'Start Date', name: 'start', widget: 'datetime', picker_utc: true, hint: 'The banner will be displayed starting from this date, if not set, the banner will not be displayed' }
+          - { label: 'End Date', name: 'end', widget: 'datetime', picker_utc: true, hint: 'If not set, the banner will be displayed indefinitely' }
