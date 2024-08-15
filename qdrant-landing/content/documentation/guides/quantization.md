@@ -612,16 +612,16 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: [0.2, 0.1, 0.9, 0.7],
-  params: {
-    quantization: {
-      ignore: false,
-      rescore: true,
-      oversampling: 2.0,
+client.query("{collection_name}", {
+    query: [0.2, 0.1, 0.9, 0.7],
+    params: {
+        quantization: {
+            ignore: false,
+            rescore: true,
+            oversampling: 2.0,
+        },
     },
-  },
-  limit: 10,
+    limit: 10,
 });
 ```
 
@@ -754,13 +754,13 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: [0.2, 0.1, 0.9, 0.7],
-  params: {
-    quantization: {
-      ignore: true,
+client.query("{collection_name}", {
+    query: [0.2, 0.1, 0.9, 0.7],
+    params: {
+        quantization: {
+            ignore: true,
+        },
     },
-  },
 });
 ```
 
@@ -1015,13 +1015,13 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: [0.2, 0.1, 0.9, 0.7],
-  params: {
-    quantization: {
-      rescore: false,
+client.query("{collection_name}", {
+    query: [0.2, 0.1, 0.9, 0.7],
+    params: {
+        quantization: {
+            rescore: false,
+        },
     },
-  },
 });
 ```
 

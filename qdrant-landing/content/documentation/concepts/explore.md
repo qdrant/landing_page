@@ -64,21 +64,25 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.recommend("{collection_name}", {
-  positive: [100, 231],
-  negative: [718, [0.2, 0.3, 0.4, 0.5]],
-  strategy: "average_vector",
-  filter: {
-    must: [
-      {
-        key: "city",
-        match: {
-          value: "London",
-        },
-      },
-    ],
-  },
-  limit: 3,
+client.query("{collection_name}", {
+    query: {
+        recommend: {
+            positive: [100, 231],
+            negative: [718, [0.2, 0.3, 0.4, 0.5]],
+            strategy: "average_vector"
+        }
+    },
+    filter: {
+        must: [
+            {
+                key: "city",
+                match: {
+                    value: "London",
+                },
+            },
+        ],
+    },
+    limit: 3
 });
 ```
 
@@ -243,11 +247,15 @@ client.recommend(
 ```
 
 ```typescript
-client.recommend("{collection_name}", {
-  positive: [100, 231],
-  negative: [718],
-  using: "image",
-  limit: 10,
+client.query("{collection_name}", {
+    query: {
+        recommend: {
+            positive: [100, 231],
+            negative: [718],
+        }
+    },
+    using: "image",
+    limit: 10
 });
 ```
 
@@ -341,15 +349,19 @@ client.recommend(
 ```
 
 ```typescript
-client.recommend("{collection_name}", {
-  positive: [100, 231],
-  negative: [718],
-  using: "image",
-  limit: 10,
-  lookup_from: {
-        "collection" : "{external_collection_name}",
-        "vector" : "{external_vector_name}"
+client.query("{collection_name}", {
+    query: {
+        recommend: {
+            positive: [100, 231],
+            negative: [718],
+        }
     },
+    using: "image",
+    limit: 10,
+    lookup_from: {
+        collection: "{external_collection_name}",
+        vector: "{external_vector_name}"
+    }
 });
 ```
 
@@ -496,33 +508,41 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 const filter = {
-  must: [
-    {
-      key: "city",
-      match: {
-        value: "London",
-      },
-    },
-  ],
+    must: [
+        {
+            key: "city",
+            match: {
+                value: "London",
+            },
+        },
+    ],
 };
 
 const searches = [
-  {
-    positive: [100, 231],
-    negative: [718],
-    filter,
-    limit: 3,
-  },
-  {
-    positive: [200, 67],
-    negative: [300],
-    filter,
-    limit: 3,
-  },
+    {
+        query: {
+            recommend: {
+                positive: [100, 231],
+                negative: [718]
+            }
+        },
+        filter,
+        limit: 3,
+    },
+    {
+        query: {
+            recommend: {
+                positive: [200, 67],
+                negative: [300]
+            }
+        },
+        filter,
+        limit: 3,
+    },
 ];
 
-client.recommend_batch("{collection_name}", {
-  searches,
+client.queryBatch("{collection_name}", {
+    searches,
 });
 ```
 
@@ -733,18 +753,22 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.discover("{collection_name}", {
-    target: [0.2, 0.1, 0.9, 0.7],
-    context: [
-    {
-        positive: 100,
-        negative: 718,
+client.query("{collection_name}", {
+    query: {
+        discover: {
+            target: [0.2, 0.1, 0.9, 0.7],
+            context: [
+                {
+                    positive: 100,
+                    negative: 718,
+                },
+                {
+                    positive: 200,
+                    negative: 300,
+                },
+            ],
+        }
     },
-    {
-        positive: 200,
-        negative: 300,
-    },
-    ],
     limit: 10,
 });
 ```
@@ -918,17 +942,19 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.discover("{collection_name}", {
-    context: [
-    {
-        positive: 100,
-        negative: 718,
+client.query("{collection_name}", {
+    query: {
+        context: [
+            {
+                positive: 100,
+                negative: 718,
+            },
+            {
+                positive: 200,
+                negative: 300,
+            },
+        ]
     },
-    {
-        positive: 200,
-        negative: 300,
-    },
-    ],
     limit: 10,
 });
 ```

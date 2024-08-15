@@ -256,23 +256,23 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  filter: {
-    must: [
-      {
-        key: "city",
-        match: {
-          value: "London",
-        },
-      },
-    ],
-  },
-  params: {
-    hnsw_ef: 128,
-    exact: false,
-  },
-  vector: [0.2, 0.1, 0.9, 0.7],
-  limit: 3,
+client.query("{collection_name}", {
+    query: [0.2, 0.1, 0.9, 0.7],
+    filter: {
+        must: [
+            {
+                key: "city",
+                match: {
+                    value: "London",
+                },
+            },
+        ],
+    },
+    params: {
+        hnsw_ef: 128,
+        exact: false,
+    },
+    limit: 3,
 });
 ```
 
@@ -399,11 +399,9 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: {
-    name: "image",
-    vector: [0.2, 0.1, 0.9, 0.7],
-  },
+client.query("{collection_name}", {
+  query: [0.2, 0.1, 0.9, 0.7],
+  using: "image",
   limit: 3,
 });
 ```
@@ -511,15 +509,13 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: {
-    name: "text",
-    vector: {
+client.query("{collection_name}", {
+    query: {
         indices: [1, 7],
         values: [2.0, 1.0]
     },
-  },
-  limit: 3,
+    using: "text",
+    limit: 3,
 });
 ```
 
@@ -611,8 +607,8 @@ client.search(
 ```
 
 ```typescript
-client.search("{collection_name}", {
-  vector: [0.2, 0.1, 0.9, 0.7],
+client.query("{collection_name}", {
+  query: [0.2, 0.1, 0.9, 0.7],
   with_vector: true,
   with_payload: true,
 });
@@ -701,8 +697,8 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: [0.2, 0.1, 0.9, 0.7],
+client.query("{collection_name}", {
+  query: [0.2, 0.1, 0.9, 0.7],
   with_payload: ["city", "village", "town"],
 });
 ```
@@ -801,8 +797,8 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: [0.2, 0.1, 0.9, 0.7],
+client.query("{collection_name}", {
+  query: [0.2, 0.1, 0.9, 0.7],
   with_payload: {
     exclude: ["city"],
   },
@@ -957,31 +953,31 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 const filter = {
-  must: [
-    {
-      key: "city",
-      match: {
-        value: "London",
-      },
-    },
-  ],
+    must: [
+        {
+            key: "city",
+            match: {
+                value: "London",
+            },
+        },
+    ],
 };
 
 const searches = [
-  {
-    vector: [0.2, 0.1, 0.9, 0.7],
-    filter,
-    limit: 3,
-  },
-  {
-    vector: [0.5, 0.3, 0.2, 0.3],
-    filter,
-    limit: 3,
-  },
+    {
+        query: [0.2, 0.1, 0.9, 0.7],
+        filter,
+        limit: 3,
+    },
+    {
+        query: [0.5, 0.3, 0.2, 0.3],
+        filter,
+        limit: 3,
+    },
 ];
 
-client.searchBatch("{collection_name}", {
-  searches,
+client.queryBatch("{collection_name}", {
+    searches,
 });
 ```
 
@@ -1123,8 +1119,8 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
-client.search("{collection_name}", {
-  vector: [0.2, 0.1, 0.9, 0.7],
+client.query("{collection_name}", {
+  query: [0.2, 0.1, 0.9, 0.7],
   with_vector: true,
   with_payload: true,
   limit: 10,
@@ -1296,11 +1292,11 @@ client.search_groups(
 ```
 
 ```typescript
-client.searchPointGroups("{collection_name}", {
-  vector: [1.1],
-  group_by: "document_id",
-  limit: 4,
-  group_size: 2,
+client.queryGroups("{collection_name}", {
+    query: [1.1],
+    group_by: "document_id",
+    limit: 4,
+    group_size: 2,
 });
 ```
 
@@ -1466,16 +1462,16 @@ client.search_groups(
 ```
 
 ```typescript
-client.searchPointGroups("{collection_name}", {
-  vector: [1.1],
-  group_by: "document_id",
-  limit: 2,
-  group_size: 2,
-  with_lookup: {
-    collection: w,
-    with_payload: ["title", "text"],
-    with_vectors: false,
-  },
+client.queryGroups("{collection_name}", {
+    query: [1.1],
+    group_by: "document_id",
+    limit: 2,
+    group_size: 2,
+    with_lookup: {
+        collection: "documents",
+        with_payload: ["title", "text"],
+        with_vectors: false,
+    },
 });
 ```
 
