@@ -1,6 +1,6 @@
 ---
 title: BuildShip
-weight: 3800
+aliases: [ ../frameworks/buildship/ ]
 ---
 
 # BuildShip

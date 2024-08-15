@@ -1,6 +1,6 @@
 ---
 title: Apache NiFi
-weight: 3500
+aliases: [ ../frameworks/nifi/ ]
 ---
 
 # Apache NiFi

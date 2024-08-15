@@ -1,6 +1,5 @@
 ---
 title: LlamaIndex
-weight: 200
 aliases:
   - ../integrations/llama-index/
   - /documentation/overview/integrations/llama-index/

@@ -1,7 +1,6 @@
 ---
 title: Fondant
-weight: 1700
-aliases: [ ../integrations/fondant/ ]
+aliases: [ ../integrations/fondant/, ../frameworks/fondant/ ]
 ---
 
 # Fondant

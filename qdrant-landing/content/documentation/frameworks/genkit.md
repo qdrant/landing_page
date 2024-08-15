@@ -1,6 +1,5 @@
 ---
 title: Firebase Genkit
-weight: 3400
 ---
 
 # Firebase Genkit

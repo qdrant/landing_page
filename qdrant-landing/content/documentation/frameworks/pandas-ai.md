@@ -1,6 +1,5 @@
 ---
 title: Pandas-AI
-weight: 2900
 ---
 
 # Pandas-AI

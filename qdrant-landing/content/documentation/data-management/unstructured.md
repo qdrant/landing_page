@@ -1,6 +1,6 @@
 ---
 title: Unstructured
-weight: 1900
+aliases: [ ../frameworks/unstructured/ ]
 ---
 
 # Unstructured

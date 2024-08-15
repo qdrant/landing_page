@@ -1,6 +1,6 @@
 ---
 title: Make.com
-weight: 1800
+aliases: [ ../frameworks/make/ ]
 ---
 
 # Make.com

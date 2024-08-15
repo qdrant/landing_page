@@ -1,6 +1,5 @@
 ---
 title: Semantic-Router
-weight: 2700
 ---
 
 # Semantic-Router

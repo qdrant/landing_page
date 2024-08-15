@@ -1,6 +1,5 @@
 ---
 title: Vanna.AI
-weight: 3000
 ---
 
 # Vanna.AI
