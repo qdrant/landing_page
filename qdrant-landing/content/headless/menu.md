@@ -1,6 +1,6 @@
 ---
 logIn:
-  text: Log in
+  text: Log In
   url: https://cloud.qdrant.io/
 startFree:
   text: Start Free
