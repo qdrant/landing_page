@@ -1,6 +1,5 @@
 ---
 title: Haystack
-weight: 400
 aliases:
   - ../integrations/haystack/
   - /documentation/overview/integrations/haystack/
@@ -8,10 +7,10 @@ aliases:
 
 # Haystack
 
-[Haystack](https://haystack.deepset.ai/) serves as a comprehensive NLP framework, offering a modular methodology for constructing 
-cutting-edge generative AI, QA, and semantic knowledge base search systems. A critical element in contemporary NLP systems is an 
-efficient database for storing and retrieving extensive text data. Vector databases excel in this role, as they house vector 
-representations of text and implement effective methods for swift retrieval. Thus, we are happy to announce the integration 
+[Haystack](https://haystack.deepset.ai/) serves as a comprehensive NLP framework, offering a modular methodology for constructing
+cutting-edge generative AI, QA, and semantic knowledge base search systems. A critical element in contemporary NLP systems is an
+efficient database for storing and retrieving extensive text data. Vector databases excel in this role, as they house vector
+representations of text and implement effective methods for swift retrieval. Thus, we are happy to announce the integration
 with Haystack - `QdrantDocumentStore`. This document store is unique, as it is maintained externally by the Qdrant team.
 
 The new document store comes as a separate package and can be updated independently of Haystack:
@@ -20,7 +19,7 @@ The new document store comes as a separate package and can be updated independen
 pip install qdrant-haystack
 ```
 
-`QdrantDocumentStore` supports [all the configuration properties](/documentation/collections/#create-collection) available in 
+`QdrantDocumentStore` supports [all the configuration properties](/documentation/collections/#create-collection) available in
 the Qdrant Python client. If you want to customize the default configuration of the collection used under the hood, you can
 provide that settings when you create an instance of the `QdrantDocumentStore`. For example, if you'd like to enable the
 Scalar Quantization, you'd make that in the following way:

@@ -1,6 +1,5 @@
 ---
 title: Langchain
-weight: 100
 aliases:
   - ../integrations/langchain/
   - /documentation/overview/integrations/langchain/

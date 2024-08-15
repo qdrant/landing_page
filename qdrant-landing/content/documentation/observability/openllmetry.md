@@ -1,6 +1,7 @@
 ---
 title: OpenLLMetry
 weight: 2300
+aliases: [ ../frameworks/openllmetry/ ]
 ---
 
 # OpenLLMetry

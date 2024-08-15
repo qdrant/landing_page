@@ -1,6 +1,5 @@
 ---
 title: Langchain4J
-weight: 2110
 ---
 
 # LangChain for Java

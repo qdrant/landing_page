@@ -1,6 +1,6 @@
 ---
 title: Apache Airflow
-weight: 2100
+aliases: [ ../frameworks/airflow/ ]
 ---
 
 # Apache Airflow

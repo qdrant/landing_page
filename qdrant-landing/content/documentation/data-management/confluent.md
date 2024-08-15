@@ -1,6 +1,6 @@
 ---
-title: Confluent
-weight: 3700
+title: Confluent Kafka
+aliases: [ ../frameworks/confluent/ ]
 ---
 
 ![Confluent Logo](/documentation/frameworks/confluent/confluent-logo.png)
