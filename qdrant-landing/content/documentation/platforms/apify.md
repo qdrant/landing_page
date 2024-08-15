@@ -1,6 +1,6 @@
 ---
 title: Apify 
-weight: 3600
+aliases: [ ../frameworks/apify/ ]
 ---
 
 # Apify

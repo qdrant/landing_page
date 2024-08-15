@@ -1,6 +1,5 @@
 ---
 title: Testcontainers
-weight: 2700
 ---
 
 # Testcontainers

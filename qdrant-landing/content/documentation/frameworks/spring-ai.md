@@ -1,6 +1,5 @@
 ---
 title: Spring AI
-weight: 2200
 ---
 
 # Spring AI
