@@ -13,10 +13,28 @@ The API key is only shown once after creation. If you lose it, you will need to 
 However, we recommend rotating the keys from time to time. To create additional API keys do the following.
 
 1. Go to the [Cloud Dashboard](https://qdrant.to/cloud).
-2. Select **Access Management** to display available API keys.
+2. Select **Access Management** to display available API keys, or go to the **API Keys** section of the Cluster detail page.
 3. Click **Create** and choose a cluster name from the dropdown menu.
 > **Note:** You can create a key that provides access to multiple clusters. Select desired clusters in the dropdown box.
 4. Click **OK** and retrieve your API key. 
+
+## Test cluster access
+
+After creation, you will receive a code snippet to access your cluster. Your generated request should look very similar to this one:
+
+```bash
+curl \
+  -X GET 'https://xyz-example.eu-central.aws.cloud.qdrant.io:6333' \
+  --header 'api-key: <paste-your-api-key-here>'
+```
+Open Terminal and run the request. You should get a response that looks like this:
+
+```bash
+{"title":"qdrant - vector search engine","version":"1.8.1"}
+```
+
+> **Note:** You need to include the API key in the request header for every
+> request over REST or gRPC.
 
 ## Authenticate via SDK
 

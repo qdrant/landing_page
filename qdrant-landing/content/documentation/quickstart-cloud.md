@@ -46,5 +46,5 @@ When ready, use the Console and our complete REST API to try other operations.
 
 ## What's next?
 
-Now that you have a Qdrant Cloud cluster up and running, you should [test remote access](/documentation/cloud/qdrant-cloud-setup/#test-cluster-access) with Qdrant Client.
+Now that you have a Qdrant Cloud cluster up and running, you should [test remote access](/documentation/cloud/authentication/#test-cluster-access) with a Qdrant Client.
 

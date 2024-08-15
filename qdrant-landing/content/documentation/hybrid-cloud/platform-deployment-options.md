@@ -1,6 +1,6 @@
 ---
 title: Deployment platforms
-weight: 4
+weight: 5
 ---
 
 # Platform Deployment Options

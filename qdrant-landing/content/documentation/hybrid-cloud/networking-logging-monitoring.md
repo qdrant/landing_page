@@ -1,6 +1,6 @@
 ---
 title: Networking, logging & monitoring
-weight: 3
+weight: 4
 ---
 # Networking, logging & monitoring
 

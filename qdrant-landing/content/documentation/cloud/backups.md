@@ -1,9 +1,9 @@
 ---
-title: Backups
-weight: 70
+title: Cluster Backups
+weight: 61
 ---
 
-# Cloud Backups
+# Cluster Backups
 
 Qdrant organizes cloud instances as clusters. On occasion, you may need to
 restore your cluster because of application or system failure.

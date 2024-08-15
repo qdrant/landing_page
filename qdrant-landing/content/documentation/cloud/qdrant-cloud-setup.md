@@ -1,108 +1,54 @@
 ---
-title: Setup Free Tier 
+title: Account Setup
 weight: 10
 aliases:
 ---
 
-# How to Setup and Connect to Qdrant Cloud on Free Tier
-In this tutorial, you will use the Qdrant Cloud Console to create a free tier cluster and then connect to it with Qdrant Client. 
+# Account setup
 
-## Create a Free Tier cluster
+## Registration
 
-1. Start in the **Overview** section of the [Cloud Dashboard](https://cloud.qdrant.io/). 
-1. Find the dashboard menu in the left-hand pane. If you do not see it, select
-   the icon with three horizonal lines in the upper-left of the screen
-1. Select **Clusters**. On the Clusters page, select **Create**.
-1. In the **Create a Cluster** page, select **Free**
-1. Scroll down. Confirm your cluster configuration, and select **Create**.
+There are different ways to register for a Qdrant Cloud account:
 
-You should now see your new free tier cluster in the **Clusters** menu.
+* With an email address and passwordless login via email
+* With a Google account
+* With a GitHub account
+* By connection an enterprise SSO solution
 
-A free tier cluster includes the following resources:
+Every account is tied to an email address. You can invite additional users to your account and manage their permissions.
 
-| Resource   | Value |
-|------------|-------|
-| RAM        | 1 GB  |
-| vCPU       | 0.5   |
-| Disk space | 4 GB  |
-| Nodes      | 1     |
+### Email registration
 
-## Get an API key
+1. Register for a [Cloud account](https://cloud.qdrant.io/) with your email, Google or GitHub credentials.
 
-To use your cluster, you need an API key. Read our documentation on [Cloud
-Authentication](/documentation/cloud/authentication/) for the process. 
+## Inviting additional users to an account
 
-## Test cluster access
+You can invite additional users to your account, and manage their permissions on the *Account Management* page in the Qdrant Cloud Console.
 
-After creation, you will receive a code snippet to access your cluster. Your generated request should look very similar to this one:
+![Invitations](/documentation/cloud/invitations.png)
 
-```bash
-curl \
-  -X GET 'https://xyz-example.eu-central.aws.cloud.qdrant.io:6333' \
-  --header 'api-key: <paste-your-api-key-here>'
-```
-Open Terminal and run the request. You should get a response that looks like this:
+Invited users will receive an email with an invitation link to join Qdrant Cloud. Once they signed up, they can accept the invitation from the Overview page.
 
-```bash
-{"title":"qdrant - vector search engine","version":"1.8.1"}
-```
+![Accepting invitation](/documentation/cloud/accept-invitation.png)
 
-> **Note:** You need to include the API key in the request header for every
-> request over REST or gRPC.
+## Switching between accounts
 
-## Authenticate via SDK
+If you have access to multiple accounts, you can switch between accounts with the account switcher on the top menu bar of the Qdrant Cloud Console.
 
-Now that you have created your first cluster and API key, you can access the
-Qdrant Cloud from within your application.
-Our official Qdrant clients for Python, TypeScript, Go, Rust, and .NET all
-support the API key parameter. 
+![Switching between accounts](/documentation/cloud/account-switcher.png)
 
-```python
-from qdrant_client import QdrantClient
+## Account settings
 
-qdrant_client = QdrantClient(
-    "xyz-example.eu-central.aws.cloud.qdrant.io",
-    api_key="<paste-your-api-key-here>",
-)
-```
+You can configure your account settings in the Qdrant Cloud Console, by clicking on your account picture in the top right corner, and selecting *Profile*.
 
-```typescript
-import { QdrantClient } from "@qdrant/js-client-rest";
+The following functionality is available.
 
-const client = new QdrantClient({
-  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
-  apiKey: "<paste-your-api-key-here>",
-});
-```
+### Renamin an account
 
-```rust
-use qdrant_client::Qdrant;
+If you have use multiple accounts for different purposes, it is a good idea to give them descriptive names, for example *Development*, *Production*, *Testing*. You can also choose which account should be the default one, when you log in.
 
-let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
-    .api_key("<paste-your-api-key-here>")
-    .build()?;
-```
+![Account management](/documentation/cloud/account-management.png)
 
-```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
+### Deleting an account
 
-QdrantClient client =
-    new QdrantClient(
-        QdrantGrpcClient.newBuilder(
-                "xyz-example.eu-central.aws.cloud.qdrant.io",
-                6334,
-                true)
-            .withApiKey("<paste-your-api-key-here>")
-            .build());
-```
-
-```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient(
-  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
-  https: true,
-  apiKey: "<paste-your-api-key-here>"
-);
-```
+When you delete an account, all database clusters and data associated with it will also be deleted.

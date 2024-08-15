@@ -1,6 +1,6 @@
 ---
 title: Advanced Qdrant Operator configuration
-weight: 2
+weight: 3
 ---
 
 # Advanced Qdrant Operator configuration
@@ -21,14 +21,6 @@ backOff:
   minDelay: 5
   maxDelay: 300
   increment: 5
-# Cluster-manager configuration for a Qdrant cluster (experimental)
-clusterManager:
-  image:
-    repository: qdrant/qdrant-cloud-cluster-manager
-    tag: 0.1.2
-  pullInterval: 10
-  logSize: 10
-  debug: false
 #  node_selector: {}
 #  tolerations: []
 # Default ingress configuration for a Qdrant cluster
