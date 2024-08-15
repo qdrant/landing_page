@@ -2,6 +2,8 @@
 title: Redpanda Connect
 ---
 
+## Connect
+
 [Redpanda Connect](https://www.redpanda.com/connect) is a declarative data-agnostic streaming service designed for efficient, stateless processing steps. It offers transaction-based resiliency with back pressure, ensuring at-least-once delivery when connecting to at-least-once sources with sinks, without the need to persist messages during transit.
 
 Connect pipelines are configured using a YAML file, which organizes components hierarchically. Each section represents a different component type, such as inputs, processors and outputs, and these can have nested child components and [dynamic values](https://docs.redpanda.com/redpanda-connect/configuration/interpolation/).
