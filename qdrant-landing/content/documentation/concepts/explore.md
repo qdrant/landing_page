@@ -20,19 +20,8 @@ POST /collections/{collection_name}/points/query
 {
   "query": {
     "recommend": {
-      "positive": [
-        100,
-        231
-      ],
-      "negative": [
-        718,
-        [
-          0.2,
-          0.3,
-          0.4,
-          0.5
-        ]
-      ],
+      "positive": [100, 231],
+      "negative": [718, [0.2, 0.3, 0.4, 0.5]],
       "strategy": "average_vector"
     }
   },
@@ -241,13 +230,8 @@ POST /collections/{collection_name}/points/query
 {
   "query": {
     "recommend": {
-      "positive": [
-        100,
-        231
-      ],
-      "negative": [
-        718
-      ]
+      "positive": [100, 231],
+      "negative": [718]
     }
   },
   "using": "image",
@@ -339,13 +323,8 @@ POST /collections/{collection_name}/points/query
 {
   "query": {
     "recommend": {
-      "positive": [
-        100,
-        231
-      ],
-      "negative": [
-        718
-      ]
+      "positive": [100, 231],
+      "negative": [718]
     }
   },
   "limit": 10,
@@ -463,13 +442,8 @@ POST /collections/{collection_name}/query/batch
     {
       "query": {
         "recommend": {
-          "positive": [
-            100,
-            231
-          ],
-          "negative": [
-            718
-          ]
+          "positive": [100, 231],
+          "negative": [718]
         }
       },
       "filter": {
@@ -487,13 +461,8 @@ POST /collections/{collection_name}/query/batch
     {
       "query": {
         "recommend": {
-          "positive": [
-            200,
-            67
-          ],
-          "negative": [
-            300
-          ]
+          "positive": [200, 67],
+          "negative": [300]
         }
       },
       "filter": {
@@ -739,12 +708,7 @@ POST /collections/{collection_name}/points/query
 {
   "query": {
     "discover": {
-      "target": [
-        0.2,
-        0.1,
-        0.9,
-        0.7
-      ],
+      "target": [0.2, 0.1, 0.9, 0.7],
       "context": [
         {
           "positive": 100,

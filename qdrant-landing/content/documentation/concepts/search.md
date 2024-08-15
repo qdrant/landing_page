@@ -476,14 +476,8 @@ In general, the speed of the search is proportional to the number of non-zero va
 POST /collections/{collection_name}/points/query
 {
   "query": {
-    "indices": [
-      6,
-      7
-    ],
-    "values": [
-      1,
-      2
-    ]
+    "indices": [6, 7],
+    "values": [1, 2]
   },
   "using": "text",
   "limit": 3
