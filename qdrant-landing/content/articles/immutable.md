@@ -19,7 +19,7 @@ keywords:
 You know from your freshman year that there is no such thing as a universal data structure.
 Some data structures are really good at providing access to elements by their index (like arrays), while others have a better insertion complexity (like linked lists).
 
-Everything becomes even more complicated when you start thinking about program execution in real harware.
+Everything becomes even more complicated when you start thinking about program execution in real hardware.
 Big-O notation suddenly becomes irrelevant, if you have to deal with cache misses, memory layout, and other low-level stuff.
 
 From the hardware perspective, the best data structure we can have is a simple contiguous array of bytes, which is being read sequentially in a single thread.
@@ -30,10 +30,10 @@ And the complexity is the result of additional requirements we set for our data 
 
 ### Mutability
 
-One of the most challenging requirements is ability to change the data structure after it was created.
+One of the most challenging requirements is the ability to change the data structure after it was created.
 Especially, if the update operation is supposed to be fast.
 
-Consider a simple example: we need want to have an ability to iterate over items in sorted order.
+Consider a simple example: we need to have an ability to iterate over items in sorted order.
 Without a mutability requirement, we can use a simple array and sort it once. 
 This is very close to our ideal scenario. We can even put the structure on disk - this is trivial for an array.
 
@@ -75,17 +75,17 @@ if we could make them immutable, it could significantly help us to improve perfo
 
 ## What immutability can improve exactly?
 
-Large part of immutable advantage comes from the fact, that we know the exact data we need to put into the structure even before we start building it.
-Simplest example is a sorted array: we would know exactly how many elements we have to put into the array, so we can allocate exact amount of memory once.
+A large part of immutable advantage comes from the fact, that we know the exact data we need to put into the structure even before we start building it.
+The simplest example is a sorted array: we would know exactly how many elements we have to put into the array, so we can allocate the exact amount of memory once.
 
 More complex data structures might require additional statistics to be collected before the structure is built.
-Qdrant-related example of this is Scalar Quantization: on order to select proper quantization levels, we have to know the distribution of the data.
+Qdrant-related example of this is Scalar Quantization: in order to select proper quantization levels, we have to know the distribution of the data.
 
 (Image with quatiles here)
 
-Computing this distribution is requires knowing all the data in advance, but once we have it, applying scalar quantization is a simple operation.
+Computing this distribution requires knowing all the data in advance, but once we have it, applying scalar quantization is a simple operation.
 
-Let's take a look at non-exhaustive list of data structures and potential improvements we can get from making them immutable:
+Let's take a look at a non-exhaustive list of data structures and potential improvements we can get from making them immutable:
 
 |Function| Mutable Data Structure | Immutable Alternative | Potential improvements |
 |----|------|------|------------------------|
@@ -94,22 +94,22 @@ Let's take a look at non-exhaustive list of data structures and potential improv
 | Read sorted ranges| B-Tree | Sorted Array | Store all data close, avoid cache misses |
 | Read by key | Hash Map | Hash Map with Perfect Hashing | Avoid hash collisions |
 | Get documents by keyword | Inverted Index | Inverted Index with Sorted </br> and BitPacked Postings | Less memory usage, faster search |
-| Vector Search | HNSW graph | HNSW graph with </br> paylaod-aware connections | Better precision with filters |
+| Vector Search | HNSW graph | HNSW graph with </br> payload-aware connections | Better precision with filters |
 | Tenant isolation | Vector Storage | Defragmented Vector Storage | Faster access to on-disk data |
 
 About payload-aware connections in HNSW you can read in our [previous article](/articles/filtrable-hnsw/).
 
-But in this article I would like to describe a few of the latest additions to Qdrant: immutable hash map with perfect hashing and defragmented vector storage.
+But in this article, I would like to describe a few of the latest additions to Qdrant: immutable hash map with perfect hashing and defragmented vector storage.
 
 ### Perfect Hashing
 
 ToDo: Here describe how hash table with perfect hashing works and why it is important (see notion for details)
 
-### Deftagmentation
+### Defragmentation
 
 ToDo
 
-* Describe why and when it is useful
+* Describe how, why and when it is useful
   * Disk is accessed by pages
   * If page is bigger than vector, we waste cache
   * If all relevant vectors for the tenant are together, we don't have cache misses even if vectors are small
@@ -126,10 +126,10 @@ Basically, two ideas:
 - Copy-on-write
 - Soft-delete
 
-Also might we interesting to describe segments and how we can write to the segment, which is currently under optimization (and have to be read-only).
+Also, it might be interesting to describe segments and how we can write to the segment, which is currently under optimization (and have to be read-only).
 
 ## Downsides and how to compensate them
 
-* Immutable data structures are less efficient for updates, amortized complexity is the same, but constant factor is higher. Sometimes we need to build index twice for the same data.
+* Immutable data structures are less efficient for updates, amortized complexity is the same, but constant factor is higher. Sometimes we need to build an index twice for the same data.
 * Immutable data structures assume read (search) heavy workload, which is expected for search engines.
-* With segments it is possible to fallback to mutable data structures, so abitily to have immutable storage is more generic and flexible, than just mutable storage.
+* With segments it is possible to fall back to mutable data structures, so ability to have immutable storage is more generic and flexible, than just mutable storage.
