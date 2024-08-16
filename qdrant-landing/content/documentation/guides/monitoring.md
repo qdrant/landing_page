@@ -62,7 +62,6 @@ There are also some metrics which are exposed in distributed mode only.
 | cluster_pending_operations_total | gauge   | Total number of pending operations for cluster peer                    |
 | cluster_voter                    | gauge   | Whether the cluster peer is a voter or learner. 1 - VOTER              |
 
-
 ## Kubernetes health endpoints
 
 *Available as of v1.5.0*
