@@ -1,6 +1,6 @@
 ---
 title: Installation
-weight: 10
+weight: 5
 aliases:
   - ../install
   - ../installation
