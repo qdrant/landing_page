@@ -43,7 +43,7 @@ You can configure your account settings in the Qdrant Cloud Console, by clicking
 
 The following functionality is available.
 
-### Renamin an account
+### Renaming an account
 
 If you have use multiple accounts for different purposes, it is a good idea to give them descriptive names, for example *Development*, *Production*, *Testing*. You can also choose which account should be the default one, when you log in.
 
