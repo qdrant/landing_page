@@ -317,11 +317,13 @@ console.debug(searchResult);
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 
 let search_result = client
-    .search_points(
-        SearchPointsBuilder::new("test_collection", [0.2, 0.1, 0.9, 0.7], 3).with_payload(true),
+    .query(
+        QueryPointsBuilder::new("test_collection")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .with_payload(true),
     )
     .await?;
 
@@ -424,12 +426,13 @@ console.debug(searchResult);
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchPointsBuilder};
+use qdrant_client::qdrant::{Condition, Filter, QueryPointsBuilder};
 
 let search_result = client
-    .search_points(
-        SearchPointsBuilder::new("test_collection", [0.2, 0.1, 0.9, 0.7], 3)
-            .filter(Filter::all([Condition::matches(
+    .query(
+        QueryPointsBuilder::new("test_collection")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .filter(Filter::must([Condition::matches(
                 "city",
                 "London".to_string(),
             )]))

@@ -83,21 +83,26 @@ client.recommend("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::Qdrant;
 use qdrant_client::qdrant::{
-    Condition, Filter, RecommendPointsBuilder, RecommendStrategy,
+    Condition, Filter, QueryPointsBuilder, RecommendInputBuilder, RecommendStrategy,
 };
+use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
     
 client
-    .recommend(
-        RecommendPointsBuilder::new("{collection_name}", 3)
-            .add_positive(100)
-            .add_positive(231)
-            .add_positive(vec![0.2, 0.3, 0.4, 0.5])
-            .add_negative(718)
-            .strategy(RecommendStrategy::AverageVector)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(
+                RecommendInputBuilder::default()
+                    .add_positive(100)
+                    .add_positive(231)
+                    .add_positive(vec![0.2, 0.3, 0.4, 0.5])
+                    .add_negative(718)
+                    .strategy(RecommendStrategy::AverageVector)
+                    .build(),
+            )
+            .limit(3)
             .filter(Filter::must([Condition::matches(
                 "city",
                 "London".to_string(),
@@ -192,9 +197,9 @@ The way it works is that each candidate is measured against every example, then 
 
 ```rust
 let score = if best_positive_score > best_negative_score {
-    best_positive_score;
+    best_positive_score
 } else {
-    -(best_negative_score * best_negative_score);
+    -(best_negative_score * best_negative_score)
 };
 ```
 
@@ -252,14 +257,19 @@ client.recommend("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::RecommendPointsBuilder;
+use qdrant_client::qdrant::{QueryPointsBuilder, RecommendInputBuilder};
 
 client
-    .recommend(
-        RecommendPointsBuilder::new("{collection_name}", 10)
-            .add_positive(100)
-            .add_positive(231)
-            .add_negative(718)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(
+                RecommendInputBuilder::default()
+                    .add_positive(100)
+                    .add_positive(231)
+                    .add_negative(718)
+                    .build(),
+            )
+            .limit(10)
             .using("image"),
     )
     .await?;
@@ -354,14 +364,19 @@ client.recommend("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{LookupLocationBuilder, RecommendPointsBuilder};
+use qdrant_client::qdrant::{LookupLocationBuilder, QueryPointsBuilder, RecommendInputBuilder};
 
 client
-    .recommend(
-        RecommendPointsBuilder::new("{collection_name}", 10)
-            .add_positive(100)
-            .add_positive(231)
-            .add_negative(718)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(
+                RecommendInputBuilder::default()
+                    .add_positive(100)
+                    .add_positive(231)
+                    .add_negative(718)
+                    .build(),
+            )
+            .limit(10)
             .using("image")
             .lookup_from(
                 LookupLocationBuilder::new("{external_collection_name}")
@@ -528,30 +543,40 @@ client.recommend_batch("{collection_name}", {
 
 ```rust
 use qdrant_client::qdrant::{
-    Condition, Filter, RecommendBatchPointsBuilder, RecommendPointsBuilder,
+    Condition, Filter, QueryBatchPointsBuilder, QueryPointsBuilder,
+    RecommendInputBuilder,
 };
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let filter = Filter::must([Condition::matches("city", "London".to_string())]);
+
 let recommend_queries = vec![
-    RecommendPointsBuilder::new("{collection_name}", 3)
-        .add_positive(100)
-        .add_positive(231)
-        .add_negative(718)
+    QueryPointsBuilder::new("{collection_name}")
+        .query(
+            RecommendInputBuilder::default()
+                .add_positive(100)
+                .add_positive(231)
+                .add_negative(718)
+                .build(),
+        )
         .filter(filter.clone())
         .build(),
-    RecommendPointsBuilder::new("{collection_name}", 3)
-        .add_positive(200)
-        .add_positive(67)
-        .add_negative(300)
-        .filter(filter.clone())
+    QueryPointsBuilder::new("{collection_name}")
+        .query(
+            RecommendInputBuilder::default()
+                .add_positive(200)
+                .add_positive(67)
+                .add_negative(300)
+                .build(),
+        )
+        .filter(filter)
         .build(),
 ];
 
 client
-    .recommend_batch(RecommendBatchPointsBuilder::new(
+    .query_batch(QueryBatchPointsBuilder::new(
         "{collection_name}",
         recommend_queries,
     ))
@@ -750,28 +775,20 @@ client.discover("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{target_vector::Target, vector_example::Example, ContextExamplePairBuilder, DiscoverPointsBuilder, VectorExample};
+use qdrant_client::qdrant::{ContextInputBuilder, DiscoverInputBuilder, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 client
-    .discover(
-        DiscoverPointsBuilder::new(
-            "{collection_name}",
-            vec![
-                ContextExamplePairBuilder::default()
-                    .positive(Example::Id(100.into()))
-                    .negative(Example::Id(718.into()))
-                    .build(),
-                ContextExamplePairBuilder::default()
-                    .positive(Example::Id(200.into()))
-                    .negative(Example::Id(300.into()))
-                    .build(),
-            ],
-            10,
-        )
-        .target(Target::Single(VectorExample {
-            example: Some(Example::Vector(vec![0.2, 0.1, 0.9, 0.7].into())),
-        })),
+    .query(
+        QueryPointsBuilder::new("{collection_name}").query(
+            DiscoverInputBuilder::new(
+                vec![0.2, 0.1, 0.9, 0.7],
+                ContextInputBuilder::default()
+                    .add_pair(100, 718)
+                    .add_pair(200, 300),
+            )
+            .build(),
+        ),
     )
     .await?;
 ```
@@ -934,29 +951,20 @@ client.discover("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{
-    target_vector::Target, vector_example::Example, ContextExamplePairBuilder,
-    DiscoverPointsBuilder, VectorExample,
-};
+use qdrant_client::qdrant::{ContextInputBuilder, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .discover(DiscoverPointsBuilder::new(
-        "{collection_name}",
-        vec![
-            ContextExamplePairBuilder::default()
-                .positive(Example::Id(100.into()))
-                .negative(Example::Id(718.into()))
+    .query(
+        QueryPointsBuilder::new("{collection_name}").query(
+            ContextInputBuilder::default()
+                .add_pair(100, 718)
+                .add_pair(200, 300)
                 .build(),
-            ContextExamplePairBuilder::default()
-                .positive(Example::Id(200.into()))
-                .negative(Example::Id(300.into()))
-                .build(),
-        ],
-        10,
-    ))
+        ),
+    )
     .await?;
 ```
 

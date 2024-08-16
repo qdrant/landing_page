@@ -1109,16 +1109,18 @@ client.search("{collection_name}", {
 
 ```rust
 use qdrant_client::qdrant::{
-    read_consistency::Value, Condition, Filter, ReadConsistencyType, SearchParamsBuilder,
-    SearchPointsBuilder,
+    read_consistency::Value, Condition, Filter, QueryPointsBuilder, ReadConsistencyType,
+    SearchParamsBuilder,
 };
 use qdrant_client::{Qdrant, QdrantError};
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
             .filter(Filter::must([Condition::matches(
                 "city",
                 "London".to_string(),
