@@ -93,7 +93,7 @@ You should now see the new cluster in the **Clusters** menu.
 
 You will need to connect to your new Qdrant Cloud cluster. Follow [**Authentication**](/documentation/cloud/authentication/) to create one or more API keys. 
 
-You can also scale your cluster both horizontally andvertically. Read more in [**Cluster Scaling**](/documentation/cloud/cluster-scaling/).
+You can also scale your cluster both horizontally and vertically. Read more in [**Cluster Scaling**](/documentation/cloud/cluster-scaling/).
 
 If a new Qdrant version becomes available, you can upgrade your cluster. See [**Cluster Upgrades**](/documentation/cloud/cluster-upgrades/).
 
