@@ -45,10 +45,10 @@ The following functionality is available.
 
 ### Renaming an account
 
-If you have use multiple accounts for different purposes, it is a good idea to give them descriptive names, for example *Development*, *Production*, *Testing*. You can also choose which account should be the default one, when you log in.
+If you use multiple accounts for different purposes, it is a good idea to give them descriptive names, for example *Development*, *Production*, *Testing*. You can also choose which account should be the default one, when you log in.
 
 ![Account management](/documentation/cloud/account-management.png)
 
 ### Deleting an account
 
-When you delete an account, all database clusters and data associated with it will also be deleted.
+When you delete an account, all database clusters and associated data will be deleted.

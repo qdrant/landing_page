@@ -16,9 +16,9 @@ Note that in the "Kubernetes Configuration" section you can additionally configu
 
 These settings can also be changed after the cluster is created on the cluster detail page.
 
-### Authentication at your Qdrant clusters
+### Authentication to your Qdrant clusters
 
-In Hybrid Cloud the authentication information is provided with Kubernetes secrets.
+In Hybrid Cloud the authentication information is provided by Kubernetes secrets.
 
 You can configure authentication for your Qdrant clusters in the "Configuration" section of the Qdrant Cluster detail page. There you can configure the Kubernetes secret name and key to be used as an API key and/or read-only API key.
 
@@ -71,7 +71,7 @@ You can also expose the database outside the Kubernetes cluster with a `LoadBala
 
 The service type and necessary annotations can be configured in the "Kubernetes Configuration" section during cluster creation, or on the cluster detail page.
 
-Especially if you create a LoadBalancer Service, you may need to provider annotations for the loadbalancer configration. Please refer to the documention of your cloud provider for more details.
+Especially if you create a LoadBalancer Service, you may need to provide annotations for the loadbalancer configration. Please refer to the documention of your cloud provider for more details.
 
 Examples:
 
@@ -124,7 +124,7 @@ spec:
 
 Please refer to the Kubernetes, ingress controller and cloud provider documention for more details.
 
-If you expose the database with such a way, you will be able to see this also reflected as an endpoint on the cluster detail page. And will see the Qdrant database dashboard link pointing to it.
+If you expose the database like this, you will be able to see this also reflected as an endpoint on the cluster detail page. And will see the Qdrant database dashboard link pointing to it.
 
 ### Configuring TLS
 
@@ -133,7 +133,7 @@ If you want to configure TLS for accessing your Qdrant database in Hybrid Cloud,
 * You can offload TLS at the ingress or loadbalancer level.
 * You can configure TLS directly in the Qdrant database.
 
-If you want to configure TLS directly in the Qdrant database, you can provide a secret with the TLS certificate and key in the "Configuration" section of the Qdrant Cluster detail page. There you can configure the Kubernetes secret name and key to be used as the certificate and key.
+If you want to configure TLS directly in the Qdrant database, you can reference a secret containing the TLS certificate and key in the "Configuration" section of the Qdrant Cluster detail page.
 
 To create such a secret, you can use `kubectl`:
 

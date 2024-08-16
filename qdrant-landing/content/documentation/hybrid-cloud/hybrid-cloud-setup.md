@@ -69,7 +69,7 @@ You can also configure the StorageClass and VolumeSnapshotClass to use for the Q
 
 5. (Optional) If you have special requirements for any of the following, activate the **Show advanced configuration** option:
 
-- If you require to use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and cetificates.
+- If you use a proxy to connect from your infrastructure to the Qdrant Cloud API, you can specify the proxy URL, credentials and cetificates.
 - Container registry URL for Qdrant Operator and Agent images. The default is <https://registry.cloud.qdrant.io/qdrant/>.
 - Helm chart repository URL for the Qdrant Operator and Agent. The default is <oci://registry.cloud.qdrant.io/qdrant-charts>.
 - Log level for the operator and agent

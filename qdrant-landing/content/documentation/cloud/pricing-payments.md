@@ -9,11 +9,11 @@ aliases:
 
 # Pricing & Payments
 
-Qdrant database clusters in Qdrant Cloud are prices based on CPU, memory, and disk storage usage. To get a clearer idea for the pricing structure, based on the amounts of vectors you want to store, please use our [Pricing Calculator](https://cloud.qdrant.io/calculator).
+Qdrant database clusters in Qdrant Cloud are priced based on CPU, memory, and disk storage usage. To get a clearer idea for the pricing structure, based on the amounts of vectors you want to store, please use our [Pricing Calculator](https://cloud.qdrant.io/calculator).
 
 ## Billing
 
-The costs for Qdrant Cloud database clusters can be paied either through a credit card or through the AWS, GCP, or Azure Marketplace.
+You can pay for your Qdrant Cloud database clusters either with a credit card or through an AWS, GCP, or Azure Marketplace subscription.
 
 Your payment method is charged at the beginning of each month for the previous month's usage. There is no difference in pricing between the different payment methods.
 

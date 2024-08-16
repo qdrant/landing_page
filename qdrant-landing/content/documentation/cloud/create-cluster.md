@@ -97,4 +97,4 @@ You can also scale your cluster both horizontally and vertically. Read more in [
 
 If a new Qdrant version becomes available, you can upgrade your cluster. See [**Cluster Upgrades**](/documentation/cloud/cluster-upgrades/).
 
-For more information on creating backups of a cluster and restore from them, see [**Backups**](/documentation/cloud/backups/).
+For more information on creating and restoring backups of a cluster, see [**Backups**](/documentation/cloud/backups/).
