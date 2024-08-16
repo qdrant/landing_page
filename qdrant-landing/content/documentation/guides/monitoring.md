@@ -32,8 +32,8 @@ Each Qdrant server will expose the following metrics.
 
 | Name                                | Type    | Meaning                                           |
 |-------------------------------------|---------|---------------------------------------------------|
-| app_info                            | counter | Information about Qdrant server                   |
-| app_status_recovery_mode            | counter | If Qdrant is currently started in recovery mode   |
+| app_info                            | gauge   | Information about Qdrant server                   |
+| app_status_recovery_mode            | gauge   | If Qdrant is currently started in recovery mode   |
 | collections_total                   | gauge   | Number of collections                             |
 | collections_vector_total            | gauge   | Total number of vectors in all collections        |
 | collections_full_total              | gauge   | Number of full collections                        |
@@ -48,19 +48,19 @@ Each Qdrant server will expose the following metrics.
 | grpc_responses_avg_duration_seconds | gauge   | Average response duration in gRPC API             |
 | grpc_responses_min_duration_seconds | gauge   | Minimum response duration in gRPC API             |
 | grpc_responses_max_duration_seconds | gauge   | Maximum response duration in gRPC API             |
-| cluster_enabled                     | gauge   | Whether the cluster support is enabled            |
+| cluster_enabled                     | gauge   | Whether the cluster support is enabled. 1 - YES   |
 
-### Cluster related metrics
+### Cluster-related metrics
 
 There are also some metrics which are exposed in distributed mode only.
 
 | Name                             | Type    | Meaning                                                                |
-|----------------------------------|---------|------------------------------------------------------------------------|
+| -------------------------------- | ------- | ---------------------------------------------------------------------- |
 | cluster_peers_total              | gauge   | Total number of cluster peers                                          |
 | cluster_term                     | counter | Current cluster term                                                   |
 | cluster_commit                   | counter | Index of last committed (finalized) operation cluster peer is aware of |
 | cluster_pending_operations_total | gauge   | Total number of pending operations for cluster peer                    |
-| cluster_voter                    | gauge   | Whether the cluster peer is a voter or learner                         |
+| cluster_voter                    | gauge   | Whether the cluster peer is a voter or learner. 1 - VOTER              |
 
 ## Kubernetes health endpoints
 
