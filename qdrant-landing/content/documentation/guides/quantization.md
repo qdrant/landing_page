@@ -682,9 +682,9 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	searchParams: new SearchParams
 	{
 		Quantization = new QuantizationSearchParams
@@ -815,9 +815,9 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	searchParams: new SearchParams
 	{
 		Quantization = new QuantizationSearchParams { Ignore = true }
@@ -1074,9 +1074,9 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	searchParams: new SearchParams
 	{
 		Quantization = new QuantizationSearchParams { Rescore = false }

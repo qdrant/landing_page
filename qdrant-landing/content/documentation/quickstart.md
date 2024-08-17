@@ -351,10 +351,12 @@ System.out.println(searchResult);
 ```
 
 ```csharp
-var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
-{
-    0.2f, 0.1f, 0.9f, 0.7f
-}, limit: 3, payloadSelector: true);
+var searchResult = await client.QueryAsync(
+    collectionName: "test_collection",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    limit: 3,
+    payloadSelector: true
+);
 
 Console.WriteLine(searchResult);
 ```
@@ -461,10 +463,13 @@ System.out.println(searchResult);
 ```csharp
 using static Qdrant.Client.Grpc.Conditions;
 
-var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
-{
-	0.2f, 0.1f, 0.9f, 0.7f
-}, filter: MatchKeyword("city", "London"), limit: 3, payloadSelector: true);
+var searchResult = await client.QueryAsync(
+    collectionName: "test_collection",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    filter: MatchKeyword("city", "London"),
+    limit: 3,
+    payloadSelector: true
+);
 
 Console.WriteLine(searchResult);
 ```

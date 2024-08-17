@@ -403,12 +403,11 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
   collectionName: "{collection_name}",
-  vector: new float[] {0.1f, 0.2f, 0.3f, 0.4f},
-  vectorName: "text",
-  limit: 3,
-  sparseIndices: new uint[] {1, 3, 5, 7}
+  query: new (float, uint)[] {(0.1f, 1), (0.2f, 3), (0.3f, 5), (0.4f, 7)},
+  usingVector: "text",
+  limit: 3
 );
 ```
 

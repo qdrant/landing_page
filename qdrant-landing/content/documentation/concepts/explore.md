@@ -144,10 +144,12 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.RecommendAsync(
-    "{collection_name}",
-    positive: new ulong[] { 100, 231 },
-    negative: new ulong[] { 718 },
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new RecommendInput {
+        Positive = { 100, 231 },
+        Negative = { 718 }
+    },
     filter: MatchKeyword("city", "London"),
     limit: 3
 );
@@ -286,15 +288,18 @@ client
 
 ```csharp
 using Qdrant.Client;
+using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.RecommendAsync(
-	collectionName: "{collection_name}",
-	positive: new ulong[] { 100, 231 },
-	negative: new ulong[] { 718 },
-	usingVector: "image",
-	limit: 10
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new RecommendInput {
+        Positive = { 100, 231 },
+        Negative = { 718 }
+    },
+    usingVector: "image",
+    limit: 10
 );
 ```
 
@@ -402,13 +407,15 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.RecommendAsync(
-	collectionName: "{collection_name}",
-	positive: new ulong[] { 100, 231 },
-	negative: new ulong[] { 718 },
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new RecommendInput {
+        Positive = { 100, 231 },
+        Negative = { 718 }
+    },
 	usingVector: "image",
 	limit: 10,
-	lookupFrom: new LookupLocation
+    lookupFrom: new LookupLocation
 	{
 		CollectionName = "{external_collection_name}",
 		VectorName = "{external_vector_name}",
@@ -601,23 +608,27 @@ var client = new QdrantClient("localhost", 6334);
 
 var filter = MatchKeyword("city", "london");
 
-await client.RecommendBatchAsync(
+await client.QueryBatchAsync(
 	collectionName: "{collection_name}",
-	recommendSearches:
+	queries:
 	[
-		new()
+		new QueryPoints()
 		{
 			CollectionName = "{collection_name}",
-			Positive = { new PointId[] { 100, 231 } },
-			Negative = { new PointId[] { 718 } },
+			Query = new RecommendInput {
+                Positive = { 100, 231 },
+                Negative = { 718 },
+            },
 			Limit = 3,
 			Filter = filter,
 		},
-		new()
+        		new QueryPoints()
 		{
 			CollectionName = "{collection_name}",
-			Positive = { new PointId[] { 200, 67 } },
-			Negative = { new PointId[] { 300 } },
+			Query = new RecommendInput {
+                Positive = { 200, 67 },
+                Negative = { 300 },
+            },
 			Limit = 3,
 			Filter = filter,
 		}
@@ -823,25 +834,23 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.DiscoverAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	target: new TargetVector
-	{
-		Single = new VectorExample { Vector = new float[] { 0.2f, 0.1f, 0.9f, 0.7f }, }
-	},
-	context:
-	[
-		new()
-		{
-			Positive = new VectorExample { Id = 100 },
-			Negative = new VectorExample { Id = 718 }
-		},
-		new()
-		{
-			Positive = new VectorExample { Id = 200 },
-			Negative = new VectorExample { Id = 300 }
-		}
-	],
+	query: new DiscoverInput {
+        Target = new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+        Context = new ContextInput {
+            Pairs = {
+                new ContextInputPair {
+                    Positive = 100,
+                    Negative = 718
+                },
+                new ContextInputPair {
+                    Positive = 200,
+                    Negative = 300
+                },
+            }   
+        },
+    },
 	limit: 10
 );
 ```
@@ -999,21 +1008,20 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.DiscoverAsync(
+await client.QueryAsync(
   collectionName: "{collection_name}",
-  context:
-  [
-    new()
-    {
-      Positive = new VectorExample { Id = 100 },
-      Negative = new VectorExample { Id = 718 }
-    },
-    new()
-    {
-      Positive = new VectorExample { Id = 200 },
-      Negative = new VectorExample { Id = 300 }
+  query: new ContextInput {
+    Pairs = {
+      new ContextInputPair {
+        Positive = 100,
+          Negative = 718
+      },
+      new ContextInputPair {
+        Positive = 200,
+          Negative = 300
+      },
     }
-  ],
+  },
   limit: 10
 );
 ```
