@@ -219,29 +219,29 @@ client
 ```
 
 ```java
-import java.util.List;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setParams(
-                SearchParams.newBuilder()
-                    .setQuantization(
-                        QuantizationSearchParams.newBuilder().setRescore(false).build())
-                    .build())
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(
+                        SearchParams.newBuilder()
+                                .setQuantization(
+                                        QuantizationSearchParams.newBuilder().setRescore(false).build())
+                                .build())
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -580,25 +580,24 @@ client
 ```
 
 ```java
-import java.util.List;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(false).build())
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(false).build())
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp

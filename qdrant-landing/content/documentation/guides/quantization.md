@@ -11,7 +11,7 @@ aliases:
 
 Quantization is an optional feature in Qdrant that enables efficient storage and search of high-dimensional vectors.
 By transforming original vectors into a new representations, quantization compresses data while preserving close to original relative distances between vectors.
-Different quantization methods have different mechanics and tradeoffs. We will cover them in this section. 
+Different quantization methods have different mechanics and tradeoffs. We will cover them in this section.
 
 Quantization is primarily used to reduce the memory footprint and accelerate the search process in high-dimensional vector spaces.
 In the context of the Qdrant, quantization allows you to optimize the search engine for specific use cases, striking a balance between accuracy, storage efficiency, and search speed.
@@ -22,13 +22,11 @@ This can be particularly beneficial in large-scale applications where minimizing
 On the other hand, quantization introduces an approximation error, which can lead to a slight decrease in search quality.
 The level of this tradeoff depends on the quantization method and its parameters, as well as the characteristics of the data.
 
-
 ## Scalar Quantization
 
 *Available as of v1.1.0*
 
 Scalar quantization, in the context of vector search engines, is a compression technique that compresses vectors by reducing the number of bits used to represent each vector component.
-
 
 For instance, Qdrant uses 32-bit floating numbers to represent the original vector components. Scalar quantization allows you to reduce the number of bits used to 8.
 In other words, Qdrant performs `float32 -> uint8` conversion for each vector component.
@@ -40,11 +38,10 @@ This instruction works with 8-bit integers, so the conversion to `uint8` allows 
 
 The main drawback of scalar quantization is the loss of accuracy. The `float32 -> uint8` conversion introduces an error that can lead to a slight decrease in search quality.
 However, this error is usually negligible, and tends to be less significant for high-dimensional vectors.
-In our experiments, we found that the error introduced by scalar quantization is usually less than 1%. 
+In our experiments, we found that the error introduced by scalar quantization is usually less than 1%.
 
 However, this value depends on the data and the quantization parameters.
 Please refer to the [Quantization Tips](#quantization-tips) section for more information on how to optimize the quantization parameters for your use case.
-
 
 ## Binary Quantization
 
@@ -57,7 +54,7 @@ This is the fastest quantization method, since it lets you perform a vector comp
 
 Binary quantization can achieve up to a **40x** speedup compared to the original vectors.
 
-However, binary quantization is only efficient for high-dimensional vectors and require a centered distribution of vector components. 
+However, binary quantization is only efficient for high-dimensional vectors and require a centered distribution of vector components.
 
 At the moment, binary quantization shows good accuracy results with the following models:
 
@@ -75,7 +72,6 @@ Additionally, oversampling can be used to tune the tradeoff between search speed
 The additional benefit of this method is that you can efficiently emulate Hamming distance with dot product.
 
 Specifically, if original vectors contain `{-1, 1}` as possible values, then the dot product of two vectors is equal to the Hamming distance by simply replacing `-1` with `0` and `1` with `1`.
-
 
 <!-- hidden section -->
 
@@ -101,12 +97,11 @@ Specifically, if original vectors contain `{-1, 1}` as possible values, then the
 As you can see, both functions are equal up to a constant factor, which makes similarity search equivalent.
 Binary quantization makes it efficient to compare vectors using this representation.
 
-
 ## Product Quantization
 
 *Available as of v1.2.0*
 
-Product quantization is a method of compressing vectors to minimize their memory usage by dividing them into 
+Product quantization is a method of compressing vectors to minimize their memory usage by dividing them into
 chunks and quantizing each segment individually.
 Each chunk is approximated by a centroid index that represents the original vector component.
 The positions of the centroids are determined through the utilization of a clustering algorithm such as k-means.
@@ -130,9 +125,9 @@ Here is a brief table of the pros and cons of each quantization method:
 
 `*` - for compatible models
 
-* **Binary Quantization** is the fastest method and the most memory-efficient, but it requires a centered distribution of vector components. It is recommended to use with tested models only.
-* **Scalar Quantization** is the most universal method, as it provides a good balance between accuracy, speed, and compression. It is recommended as default quantization if binary quantization is not applicable.
-* **Product Quantization** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
+- **Binary Quantization** is the fastest method and the most memory-efficient, but it requires a centered distribution of vector components. It is recommended to use with tested models only.
+- **Scalar Quantization** is the most universal method, as it provides a good balance between accuracy, speed, and compression. It is recommended as default quantization if binary quantization is not applicable.
+- **Product Quantization** may provide a better compression ratio, but it has a significant loss of accuracy and is slower than scalar quantization. It is recommended if the memory footprint is the top priority and the search speed is not critical.
 
 ## Setting up Quantization in Qdrant
 
@@ -273,17 +268,17 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
-	quantizationConfig: new QuantizationConfig
-	{
-		Scalar = new ScalarQuantization
-		{
-			Type = QuantizationType.Int8,
-			Quantile = 0.99f,
-			AlwaysRam = true
-		}
-	}
+ collectionName: "{collection_name}",
+ vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+ quantizationConfig: new QuantizationConfig
+ {
+  Scalar = new ScalarQuantization
+  {
+   Type = QuantizationType.Int8,
+   Quantile = 0.99f,
+   AlwaysRam = true
+  }
+ }
 );
 ```
 
@@ -414,12 +409,12 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 1536, Distance = Distance.Cosine },
-	quantizationConfig: new QuantizationConfig
-	{
-		Binary = new BinaryQuantization { AlwaysRam = true }
-	}
+ collectionName: "{collection_name}",
+ vectorsConfig: new VectorParams { Size = 1536, Distance = Distance.Cosine },
+ quantizationConfig: new QuantizationConfig
+ {
+  Binary = new BinaryQuantization { AlwaysRam = true }
+ }
 );
 ```
 
@@ -549,12 +544,12 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
-	quantizationConfig: new QuantizationConfig
-	{
-		Product = new ProductQuantization { Compression = CompressionRatio.X16, AlwaysRam = true }
-	}
+ collectionName: "{collection_name}",
+ vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
+ quantizationConfig: new QuantizationConfig
+ {
+  Product = new ProductQuantization { Compression = CompressionRatio.X16, AlwaysRam = true }
+ }
 );
 ```
 
@@ -646,34 +641,33 @@ client
 ```
 
 ```java
-import java.util.List;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setParams(
-                SearchParams.newBuilder()
-                    .setQuantization(
-                        QuantizationSearchParams.newBuilder()
-                            .setIgnore(false)
-                            .setRescore(true)
-                            .setOversampling(2.0)
-                            .build())
-                    .build())
-            .setLimit(10)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(
+                        SearchParams.newBuilder()
+                                .setQuantization(
+                                        QuantizationSearchParams.newBuilder()
+                                                .setIgnore(false)
+                                                .setRescore(true)
+                                                .setOversampling(2.0)
+                                                .build())
+                                .build())
+                .setLimit(10)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -683,24 +677,24 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	searchParams: new SearchParams
-	{
-		Quantization = new QuantizationSearchParams
-		{
-			Ignore = false,
-			Rescore = true,
-			Oversampling = 2.0
-		}
-	},
-	limit: 10
+ collectionName: "{collection_name}",
+ vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+ searchParams: new SearchParams
+ {
+  Quantization = new QuantizationSearchParams
+  {
+   Ignore = false,
+   Rescore = true,
+   Oversampling = 2.0
+  }
+ },
+ limit: 10
 );
 ```
 
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
-`rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. 
+`rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors.
 This can improve the search quality, but may slightly decrease the search speed, compared to the search without rescore.
 It is recommended to disable rescore only if the original vectors are stored on a slow storage (e.g. HDD or network storage).
 By default, rescore is enabled.
@@ -783,30 +777,29 @@ client
 ```
 
 ```java
-import java.util.List;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setParams(
-                SearchParams.newBuilder()
-                    .setQuantization(
-                        QuantizationSearchParams.newBuilder().setIgnore(true).build())
-                    .build())
-            .setLimit(10)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(
+                        SearchParams.newBuilder()
+                                .setQuantization(
+                                        QuantizationSearchParams.newBuilder().setIgnore(true).build())
+                                .build())
+                .setLimit(10)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -816,23 +809,22 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	searchParams: new SearchParams
-	{
-		Quantization = new QuantizationSearchParams { Ignore = true }
-	},
-	limit: 10
+ collectionName: "{collection_name}",
+ vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+ searchParams: new SearchParams
+ {
+  Quantization = new QuantizationSearchParams { Ignore = true }
+ },
+ limit: 10
 );
 ```
 
 - **Adjust the quantile parameter**: The quantile parameter in scalar quantization determines the quantization bounds.
-By setting it to a value lower than 1.0, you can exclude extreme values (outliers) from the quantization bounds. 
+By setting it to a value lower than 1.0, you can exclude extreme values (outliers) from the quantization bounds.
 For example, if you set the quantile to 0.99, 1% of the extreme values will be excluded.
-By adjusting the quantile, you find an optimal value that will provide the best search quality for your collection. 
+By adjusting the quantile, you find an optimal value that will provide the best search quality for your collection.
 
 - **Enable rescore**: Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors. On large collections, this can improve the search quality, with just minor performance impact.
-
 
 #### Memory and speed tuning
 
@@ -969,12 +961,12 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true},
-	quantizationConfig: new QuantizationConfig
-	{
-		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }
-	}
+ collectionName: "{collection_name}",
+ vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true},
+ quantizationConfig: new QuantizationConfig
+ {
+  Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }
+ }
 );
 ```
 
@@ -1042,30 +1034,29 @@ client
 ```
 
 ```java
-import java.util.List;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setParams(
-                SearchParams.newBuilder()
-                    .setQuantization(
-                        QuantizationSearchParams.newBuilder().setRescore(false).build())
-                    .build())
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(
+                        SearchParams.newBuilder()
+                                .setQuantization(
+                                        QuantizationSearchParams.newBuilder().setRescore(false).build())
+                                .build())
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -1075,13 +1066,13 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	searchParams: new SearchParams
-	{
-		Quantization = new QuantizationSearchParams { Rescore = false }
-	},
-	limit: 3
+ collectionName: "{collection_name}",
+ vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+ searchParams: new SearchParams
+ {
+  Quantization = new QuantizationSearchParams { Rescore = false }
+ },
+ limit: 3
 );
 ```
 
@@ -1214,11 +1205,11 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
-	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true},
-	quantizationConfig: new QuantizationConfig
-	{
-		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = false }
-	}
+ collectionName: "{collection_name}",
+ vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true},
+ quantizationConfig: new QuantizationConfig
+ {
+  Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = false }
+ }
 );
 ```
