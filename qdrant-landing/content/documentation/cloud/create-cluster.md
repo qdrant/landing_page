@@ -20,7 +20,7 @@ A free tier cluster only includes 1 single node with the following resources:
 | Disk space | 4 GB  |
 | Nodes      | 1     |
 
-The capacity should be enough to serve up to 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/).
+This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/).
 
 The choice of cloud providers and regions is limited.
 
@@ -77,9 +77,9 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 1. Choose the number of vCPUs per node. If you add more
    RAM, the menu provides different options for vCPUs.
 1. Select the number of nodes you want the cluster to be deployed on.
-   > Each node is automatically attached with a disk space offering enough space for your data for a default setup.
+   > Each node is automatically attached with a disk, that has enough space to store data with Qdrant's default collection configuration.
 1. Select additional disk space for your deployment.
-   > This can be required, if you want to store all data on disk and only use RAM for caching.
+   > Depending on your collection configuration, you may need more disk space per RAM. For example, if you configure `on_disk: true` and only use RAM for caching. 
 1. Review your cluster configuration and pricing.
 1. When you're ready, select **Create**. It takes some time to provision your cluster.
 

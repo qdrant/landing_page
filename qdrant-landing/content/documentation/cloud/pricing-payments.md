@@ -19,7 +19,9 @@ Your payment method is charged at the beginning of each month for the previous m
 
 If you choose to pay through a marketplace, the Qdrant Cloud usage costs are added as usage units to your existing billing for your cloud provider services. A detailed breakdown of your usage is available in the Qdrant Cloud Console.
 
-Note that even though you pay through a marketplace, you still use the Qdrant owned infrastructure for the database clusters and the setup and management of databases is performed through the Qdrant Cloud Console. If you want to deploy Qdrant on your own infrastructure, you can use our [Hybrid Cloud](/documentation/hybrid-cloud/) solution.
+Note: Even if you pay using a marketplace subscription, your database clusters will still be deployed into Qdrant-owned infrastructure. The setup and management of Qdrant database clusters will also still be done via the Qdrant Cloud Console UI.
+
+If you wish to deploy Qdrant database clusters into your own environment from Qdrant Cloud then we recommend our [Hybrid Cloud](/documentation/hybrid-cloud/) solution.
 
 ![Payment Options](/documentation/cloud/payment-options.png)
 

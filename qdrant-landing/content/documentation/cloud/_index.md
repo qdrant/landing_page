@@ -27,7 +27,7 @@ Each database cluster comes pre-configured with the following tools, features, a
 
 ## Getting started with Qdrant Cloud
 
-To get started Qdrant Cloud:
+To get started with Qdrant Cloud:
 
 1. [**Set up an account**](/documentation/cloud/qdrant-cloud-setup/)
 2. [**Create a Qdrant cluster**](/documentation/cloud/create-cluster/)
