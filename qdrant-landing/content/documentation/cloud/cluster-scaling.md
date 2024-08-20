@@ -1,11 +1,14 @@
 ---
-title: Cluster scaling
+title: Scale Clusters
 weight: 50
 ---
 
-# Cluster scaling
+# Scaling Qdrant Cloud Clusters
 
 The amount of data is always growing and at some point you might need to upgrade or downgrade the capacity of your cluster.
+
+![Cluster Scaling](/documentation/cloud/cluster-scaling.png)
+
 There are different options for how it can be done.
 
 ## Vertical scaling
