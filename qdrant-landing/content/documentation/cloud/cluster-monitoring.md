@@ -1,9 +1,9 @@
 ---
-title: Cluster monitoring
+title: Monitor Clusters
 weight: 55
 ---
 
-# Cluster monitoring
+# Monitoring Qdrant Cloud Clusters
 
 ## Telemetry
 

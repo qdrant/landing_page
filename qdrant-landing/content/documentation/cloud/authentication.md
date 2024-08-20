@@ -3,7 +3,7 @@ title: Authentication
 weight: 30
 ---
 
-# Authentication
+# Authenticating to Qdrant Cloud
 
 This page shows you how to use the Qdrant Cloud Console to create a custom API key for a cluster. You will learn how to connect to your cluster using the new API key.
 

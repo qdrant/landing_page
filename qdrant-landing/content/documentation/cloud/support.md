@@ -1,10 +1,10 @@
 ---
-title: Support
+title: Cloud Support
 weight: 99
 aliases:
 ---
 
-# Cloud Support & Troubleshooting
+# Qdrant Cloud Support and Troubleshooting
 
 All Qdrant Cloud users are welcome to join our [Discord community](https://qdrant.to/discord/). Our Support Engineers are available to help you anytime.
 

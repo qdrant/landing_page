@@ -4,7 +4,7 @@ weight: 10
 aliases:
 ---
 
-# Account setup
+# Setting up a Qdrant Cloud Account
 
 ## Registration
 

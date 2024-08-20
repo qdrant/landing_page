@@ -1,5 +1,5 @@
 ---
-title: Pricing & Payments
+title: Billing & Payments
 weight: 65
 aliases:
   - aws-marketplace
@@ -7,7 +7,7 @@ aliases:
   - azure-marketplace
 ---
 
-# Pricing & Payments
+# Qdrant Cloud Billing & Payments
 
 Qdrant database clusters in Qdrant Cloud are priced based on CPU, memory, and disk storage usage. To get a clearer idea for the pricing structure, based on the amounts of vectors you want to store, please use our [Pricing Calculator](https://cloud.qdrant.io/calculator).
 

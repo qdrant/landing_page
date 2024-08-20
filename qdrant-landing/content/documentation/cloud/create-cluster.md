@@ -1,9 +1,9 @@
 ---
-title: Create a cluster
+title: Create a Cluster
 weight: 20
 ---
 
-# Create a cluster
+# Creating a Qdrant Cloud Cluster
 
 Qdrant Cloud offers two types of clusters: **Free** and **Standard**.
 

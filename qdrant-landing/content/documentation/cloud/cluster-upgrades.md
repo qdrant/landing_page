@@ -1,9 +1,9 @@
 ---
-title: Cluster upgrades
+title: Upgrade Clusters
 weight: 55
 ---
 
-# Cluster upgrades
+# Upgrading Qdrant Cloud Clusters
 
 As soon as a new Qdrant version is available. Qdrant Cloud will show you an upgrade notification in the Cluster list and on the Cluster details page.
 
