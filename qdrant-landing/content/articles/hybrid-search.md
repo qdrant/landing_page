@@ -1,5 +1,5 @@
 ---
-title: "Building High-Performance Hybrid Search Systems with Qdrant 1.10 and The New Query API"
+title: "Building Hybrid Search Systems with Qdrant's Query API"
 short_description: "Merging different search methods to improve the search quality was never easier"
 description: "Qdrant 1.10 introduces a new Query API to build a search system that combines different search methods to improve the search quality."
 preview_dir: /articles_data/hybrid-search/preview
