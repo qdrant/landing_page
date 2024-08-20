@@ -93,7 +93,7 @@ Let's take a look at a non-exhaustive list of data structures and potential impr
 
 |Function| Mutable Data Structure | Immutable Alternative | Potential improvements |
 |----|------|------|------------------------|
-| Read by index | Arrray | Fixed chunk of memory | Allocate exact amount of memory |
+| Read by index | Array | Fixed chunk of memory | Allocate exact amount of memory |
 | Vector Storage | Array or Arrays | Memory-mapped file | Offload data to disk |
 | Read sorted ranges| B-Tree | Sorted Array | Store all data close, avoid cache misses |
 | Read by key | Hash Map | Hash Map with Perfect Hashing | Avoid hash collisions |
