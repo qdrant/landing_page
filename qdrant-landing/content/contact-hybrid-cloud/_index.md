@@ -16,7 +16,7 @@ cards:
   title: Transparent Control
   description: Fully managed experience for your Qdrant clusters, while your data remains exclusively yours.
 form:
-  title: Connect with us
+  title: Talk to Sales
 #  description:
   id: contact-sales-form
   hubspotFormOptions: '{
