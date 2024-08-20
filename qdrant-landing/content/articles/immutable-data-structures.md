@@ -113,18 +113,20 @@ A hash table is one of the most commonly used data structures implemented in alm
 It provides fast access to elements by key, with an average time complexity of O(1) for read and write operations.
 
 There is, however, the assumption that should be satisfied for the hash table to work efficiently: *hash collisions should not cause too much overhead*.
+In a hash table, each key is mapped to a "bucket," a slot where the value is stored.
+When different keys map to the same bucket, a collision occurs.
 
-In regular mutable hash tables, this might be achieved by multiple strategies:
+In regular mutable hash tables, minimization of collisions is achieved by:
 
-* making the hash table bigger so the probability of collision is lower
+* making the number of buckets bigger so the probability of collision is lower
 * using a linked list or a tree to store multiple elements with the same hash
 
 However, these strategies have overheads, which become more significant if we consider using high-latency storage like disk.
 
 Indeed, every read operation from disk is order of magnitude slower than reading from RAM, so we want to know the correct location of the data from the first attempt.
 
-In order to achieve this, we can use a so-called perfect hash function (PHF).
-This a special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal memory.
+In order to achieve this, we can use a so-called minimal perfect hash function (MPHF).
+This a special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal amount of buckets.
 
 In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph create](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
 According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but it significantly reduces the time for the whole operation:
@@ -142,10 +144,10 @@ might up to several milliseconds (10^6 ns).
 PHF RAM size scales linearly for `ph::Function`: 3.46 kB for 10k elements,  119MB for 350M elements.
 The construction time required to build the hash function is surprisingly low, and we only need to do it once: 
 
-| Volume | `ph::Function` (construct) | PHF size |
-|--------|----------------------------|----------|
-| 1M     |   52ms                     | 0.34Mb   |
-| 100M   |   7.4s                     | 33.7Mb   |
+| Volume | `ph::Function` (construct) | PHF size | Size of int64 keys (for reference) |
+|--------|----------------------------|----------|------------------------------------|
+| 1M     |   52ms                     | 0.34Mb   | 7.62Mb                             |
+| 100M   |   7.4s                     | 33.7Mb   | 762.9Mb                            |
 
 The usage of PHF in Qdrant lets us minimize the latency of cold reads, which is especially important for large-scale multi-tenant systems. With PHF, it is enough to read a single page from a disk to get the exact location of the data.
 
