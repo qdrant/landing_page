@@ -23,21 +23,20 @@ Some structures are good at accessing elements by index (like arrays), while oth
 
 {{< figure src="/articles_data/immutable-data-structures/hardware-optimized.png" alt="Hardware-optimized data structure" caption="Hardware-optimized data structure" width="80%" >}}
 
-However, when we move from theoretical data structures to real-world systems, and particularly in performance-critical areas such as vector search, things become more complex. [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation) provides a good abstraction, but it doesn’t account for the realities of modern hardware: cache misses, memory layout, disk I/O, and other low-level considerations that influence actual performance.
+However, when we move from theoretical data structures to real-world systems, and particularly in performance-critical areas such as [vector search](/use-cases/), things become more complex. [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation) provides a good abstraction, but it doesn’t account for the realities of modern hardware: cache misses, memory layout, disk I/O, and other low-level considerations that influence actual performance.
 
 > From the perspective of hardware efficiency, the ideal data structure is a contiguous array of bytes that can be read sequentially in a single thread. This scenario allows hardware optimizations like prefetching, caching, and branch prediction to operate at their best.
-
 
 However, real-world use cases require more complex structures to perform varios operations like insertion, deletion, and search.
 These requirements increase complexity and introduce performance trade-offs.
 
 ### Mutability
 
-One of the most significant challenges when working with data structures is ensuring mutability — the ability to change the data structure after it’s created, particularly with fast update operations.
+One of the most significant challenges when working with data structures is ensuring **mutability — the ability to change the data structure after it’s created**, particularly with fast update operations.
 
 Let’s consider a simple example: we want to iterate over items in sorted order.
 Without a mutability requirement, we can use a simple array and sort it once. 
-This is very close to our ideal scenario. We can even put the structure on disk - this is trivial for an array.
+This is very close to our ideal scenario. We can even put the structure on disk - which is trivial for an array.
 
 However, if we need to insert an item into this array, **things get more complicated**. 
 Inserting into a sorted array requires shifting all elements after the insertion point, which leads to linear time complexity for each insertion, which is not acceptable for many applications.
@@ -73,16 +72,16 @@ fn main() {
 }
 ```
 
-Vector Search engines, like Qdrant, have to deal with a large variety of data structures. 
+[Vector databases](https://qdrant.tech/), like Qdrant, have to deal with a large variety of data structures. 
 If we could make them immutable, it would significantly improve performance and optimize memory usage.
 
-## What exactly can immutability improve?
+## How Does Immutability Help?
 
 A large part of the immutable advantage comes from the fact that we know the exact data we need to put into the structure even before we start building it.
 The simplest example is a sorted array: we would know exactly how many elements we have to put into the array so we can allocate the exact amount of memory once.
 
 More complex data structures might require additional statistics to be collected before the structure is built.
-A qdrant-related example of this is [Scalar Quantization](/articles/scalar-quantization/#conversion-to-integers): in order to select proper quantization levels, we have to know the distribution of the data.
+A Qdrant-related example of this is [Scalar Quantization](/articles/scalar-quantization/#conversion-to-integers): in order to select proper quantization levels, we have to know the distribution of the data.
 
 {{< figure src="/articles_data/immutable-data-structures/quantization-quantile.png" alt="Scalar Quantization Quantile" caption="Scalar Quantization Quantile" width="70%" >}}
 
@@ -110,10 +109,10 @@ This time around, we will focus on the latest additions to Qdrant:
 
 ### Perfect Hashing
 
-Hash Table is one of the most commonly used data structures implemented in almost every programming language, including Rust.
-They provide fast access to elements by key, with an average time complexity of O(1) for read and write operations.
+A hash table is one of the most commonly used data structures implemented in almost every programming language, including Rust.
+It provides fast access to elements by key, with an average time complexity of O(1) for read and write operations.
 
-There is, however, an assumption that should be satisfied for the hash table to work efficiently: *hash collisions should not cause too much overhead*.
+There is, however, the assumption that should be satisfied for the hash table to work efficiently: *hash collisions should not cause too much overhead*.
 
 In regular mutable hash tables, this might be achieved by multiple strategies:
 
@@ -124,8 +123,8 @@ However, these strategies have overheads, which become more significant if we co
 
 Indeed, every read operation from disk is order of magnitude slower than reading from RAM, so we want to know the correct location of the data from the first attempt.
 
-In order to achieve this, we can use a so-called perfect hash function(PHF).
-A special type of hash function, constructed specifically for a given set of keys, guarantees no collisions while using minimal memory.
+In order to achieve this, we can use a so-called perfect hash function (PHF).
+This a special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal memory.
 
 In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph create](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
 According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but it significantly reduces the time for the whole operation:
@@ -136,27 +135,26 @@ According to our benchmarks, using the perfect hash function does introduce some
 | 100k   |   90ns         |  ~20ns            |   220ns       |
 | 10M    |   238ns        |  ~20ns            |   500ns       |
 
-Even thought the absolute time for hasing is higher, the time for the whole operation is lower, because PHF guarantees no collisions.
-The difference is even more significant when we consider the disk read time, which 
+Even thought the absolute time for hashing is higher, the time for the whole operation is lower, because PHF guarantees no collisions.
+The difference is even more significant when we consider disk read time, which 
 might up to several milliseconds (10^6 ns).
 
 PHF RAM size scales linearly for `ph::Function`: 3.46 kB for 10k elements,  119MB for 350M elements.
-And construction time requires to build the hash function is surprisingly low: (we only need to do it once): 
+The construction time required to build the hash function is surprisingly low, and we only need to do it once: 
 
 | Volume | `ph::Function` (construct) | PHF size |
 |--------|----------------------------|----------|
 | 1M     |   52ms                     | 0.34Mb   |
 | 100M   |   7.4s                     | 33.7Mb   |
 
-Usage of PHF in Qdrant allows us to minimize latency of cold reads, which is especially important for large-scale multi-tenant systems.
-With PHF, it is enough to read a single page from a disk to get the exact location of the data.
+The usage of PHF in Qdrant lets us minimize the latency of cold reads, which is especially important for large-scale multi-tenant systems. With PHF, it is enough to read a single page from a disk to get the exact location of the data.
 
 ### Defragmentation
 
 When you read data from a disk, you almost never read a single byte. Instead, you read a page, which is a fixed-size chunk of data.
 On many systems, the page size is 4KB, which means that every read operation will read 4KB of data, even if you only need a single byte.
 
-Vector Search, on the other hand, requires reading a lot of small vectors, which might create a large overhead.
+Vector search, on the other hand, requires reading a lot of small vectors, which might create a large overhead.
 It is especially noticeable if we use binary quantization, where the size of even large OpenAI 1536d vectors is compressed down to **192 bytes**.
 
 {{< figure src="/articles_data/immutable-data-structures/page-vector.png" alt="Overhead when reading single vector" caption="Overhead when reading single vector" width="80%" >}}
@@ -168,16 +166,16 @@ If we knew some additional information about the data, we could combine all rele
 
 {{< figure src="/articles_data/immutable-data-structures/defragmentation.png" alt="Defragmentation" caption="Defragmentation" width="70%" >}}
 
-This additional information is available to Qdrant via the payload index.
+This additional information is available to Qdrant via the [payload index](/documentation/concepts/indexing/#payload-index).
 
 By specifying the payload index, which is going to be used for filtering most of the time, we can put all vectors with the same payload together.
 This way, reading a single page will also read nearby vectors, which will be used in the search.
 
-This approach is especially efficient for multi-tenant systems, where only a small subset of vectors is actively used for search.
+This approach is especially efficient for [multi-tenant systems](/documentation/guides/multiple-partitions/), where only a small subset of vectors is actively used for search.
 Capacity of such deployment is typically defined by the size of hot subset, which is much smaller than the total number of vectors.
 
-Grouping relevant vectors together allows us to optimize the size of the hot subset by avoiding caching of irrelevant data.
-Here are some benchmark data we have for comparing defragmented and non-defragmented storage:
+> Grouping relevant vectors together allows us to optimize the size of the hot subset by avoiding caching of irrelevant data.
+The following benchmark data compares RPS for defragmented and non-defragmented storage:
 
 | % of hot subset | Tenant Size (vectors) | RPS, Non-defragmented | RPS, Defragmented |
 |-----------------|-----------------------|-----------------------|-------------------|
@@ -193,19 +191,19 @@ Here are some benchmark data we have for comparing defragmented and non-defragme
 | 100%            | 5k                    |  2.7                  |  95               |
 
 
-Dataset size: 2M 768d vectors (~6Gb Raw data), binary quantization, 650Mb of RAM limit.
+**Dataset size:** 2M 768d vectors (~6Gb Raw data), binary quantization, 650Mb of RAM limit.
 All benchmarks are made with minimal RAM allocation to demonstrate disk cache efficiency.
 
 As you can see, the biggest impact is on the small tenant size, where defragmentation allows us to achieve **100x more RPS**. 
 Of course, the real-world impact of defragmentation depends on the specific workload and the size of the hot subset, but enabling this feature can significantly improve the performance of Qdrant. 
 
-Please find more details on how to enable defragmentation in the [index documentation](/documentation/concepts/indexing/#tenant-index).
+Please find more details on how to enable defragmentation in the [indexing documentation](/documentation/concepts/indexing/#tenant-index).
 
 
 ## Updating Immutable Data Structures
 
 One may wonder how Qdrant allows updating collection data if everything is immutable.
-Indeed, Qdrant API allows the change of any vector or payload at any time, so from the user's perspective, the whole collection is mutable at any time.
+Indeed, [Qdrant API](https://api.qdrant.tech) allows the change of any vector or payload at any time, so from the user's perspective, the whole collection is mutable at any time.
 
 As it usually happens with every decent magic trick, the secret is disappointingly simple: not all data in Qdrant is immutable.
 In Qdrant, we storage is divided into segments, which might be either mutable or immutable.
