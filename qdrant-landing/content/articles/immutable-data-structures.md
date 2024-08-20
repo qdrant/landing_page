@@ -14,27 +14,32 @@ keywords:
   - immutable data structures
 ---
 
-## Does the Ideal Data Structure Exist?
+## Data Structures 101
 
-Those who took programming courses might remember that there is no such thing as a universal data structure. Some structures are excellent at accessing elements by index (like arrays), while others shine in terms of insertion efficiency (like linked lists).
+Those who took programming courses might remember that there is no such thing as a universal data structure.
+Some structures are good at accessing elements by index (like arrays), while others shine in terms of insertion efficiency (like linked lists).
 
 However, when we move from theoretical data structures to real-world systems, and particularly in performance-critical areas such as vector search, things become more complex. [Big-O notation](https://en.wikipedia.org/wiki/Big_O_notation) provides a good abstraction, but it doesn’t account for the realities of modern hardware: cache misses, memory layout, disk I/O, and other low-level considerations that influence actual performance.
 
-> From the perspective of hardware efficiency, the ideal data structure is a simple, contiguous array of bytes that can be read sequentially in a single thread. This scenario allows hardware optimizations like prefetching, caching, and branch prediction to operate at their best.
+> From the perspective of hardware efficiency, the ideal data structure is a contiguous array of bytes that can be read sequentially in a single thread. This scenario allows hardware optimizations like prefetching, caching, and branch prediction to operate at their best.
 
-However, real-world use cases require more complex structures to meet various operational needs, like mutability, efficient insertions, and indexing. These requirements increase complexity and introduce performance trade-offs, particularly in the case of mutability.
+However, real-world use cases require more complex structures to perform varios operations like insertion, deletion, and search.
+These requirements increase complexity and introduce performance trade-offs.
 
-### Mutability: Trading Performance for Flexibility
+### Mutability
 
 One of the most significant challenges when working with data structures is ensuring mutability — the ability to change the data structure after it’s created, particularly with fast update operations.
 
-Let’s consider a simple example: we want to maintain a list of items that can be accessed in sorted order. Without mutability, we could simply use an array and sort it once, leading to very efficient reads. The array could even be memory-mapped to disk, making it highly space-efficient.
+Let’s consider a simple example: we want to iterate over items in sorted order.
+Without a mutability requirement, we can use a simple array and sort it once. 
+This is very close to our ideal scenario. We can even put the structure on disk - this is trivial for an array.
 
-However, if we need to insert an item into this array, **things get more complicated**. Inserting into a sorted array requires shifting all elements after the insertion point, which leads to linear time complexity for each insertion. This might be tolerable in memory, but it becomes problematic when dealing with disk-based storage.
+However, if we need to insert an item into this array, **things get more complicated**. 
+Inserting into a sorted array requires shifting all elements after the insertion point, which leads to linear time complexity for each insertion, which is not acceptable for many applications.
 
-To handle such cases, more complex structures like [B-trees](https://en.wikipedia.org/wiki/B-tree) come into play. B-trees are specifically designed to optimize both insertion and read operations for large data sets, especially on disk. However, they sacrifice the raw speed of array reads for better insertion performance.
+To handle such cases, more complex structures like [B-trees](https://en.wikipedia.org/wiki/B-tree) come into play. B-trees are specifically designed to optimize both insertion and read operations for large data sets. However, they sacrifice the raw speed of array reads for better insertion performance.
 
-Here’s a benchmark that illustrates the difference between a plain array and a B-tree in Rust.</br> This example shows that B-trees, although necessary for mutable sorted collections, **can significantly slow down read operations compared to arrays**. Therefore, we often aim to minimize mutability in search engines like Qdrant.
+Here’s a benchmark that illustrates the difference between iterating over a plain array and a BTreeSet in Rust:
 
 ```rust
 use std::collections::BTreeSet;
@@ -63,80 +68,64 @@ fn main() {
 }
 ```
 
-## Why Immutability Helps
+Vector Search engines, like Qdrant, have to deal with a large variety of data structures. 
+If we could make them immutable, it would significantly improve performance and optimize memory usage.
 
-Making data structures immutable can unlock significant performance optimizations, especially for read-heavy workloads like those in search engines. When a data structure is immutable, **you know the exact shape and size of the data in advance**, allowing you to optimize memory allocation and avoid costly update operations.
+## What immutability can improve exactly?
 
-Consider a sorted array, for example. When building the array immutably, we can allocate the exact amount of memory upfront and ensure that all data resides in contiguous memory. This avoids cache misses during reads and makes the structure highly efficient to traverse.
+A large part of the immutable advantage comes from the fact that we know the exact data we need to put into the structure even before we start building it.
+The simplest example is a sorted array: we would know exactly how many elements we have to put into the array so we can allocate the exact amount of memory once.
 
-Immutability also enables the use of advanced techniques like [memory-mapped files](https://en.wikipedia.org/wiki/Memory-mapped_file), where data can be stored on disk but treated as if it resides in memory. This makes large datasets manageable and ensures minimal memory usage.
-
-## Immutability in Qdrant: Scalar Quantization
-
-In Qdrant, one example of the benefits of immutability is the [scalar quantization](/articles/scalar-quantization/) technique. Scalar quantization is used to reduce the memory footprint of vector data by encoding it into a smaller representation. To apply this technique effectively, we need to know the distribution of the data upfront, which is only possible with immutable data.
-
-Here’s how it works:
-
-1. **Data distribution:** We collect dataset statistics: min, max, and distribution of vector magnitudes.
-2. **Quantization levels:** Based on this distribution, we compute the optimal quantization levels.
-3. **Encoding:** Once quantization levels are established, we apply them to the entire dataset.
+More complex data structures might require additional statistics to be collected before the structure is built.
+A qdrant-related example of this is Scalar Quantization: in order to select proper quantization levels, we have to know the distribution of the data.
 
 (Image with quatiles here)
 
-This is a computationally expensive process, but it only needs to be done once. 
+Computing this distribution requires knowing all the data in advance, but once we have it, applying scalar quantization is a simple operation.
 
-> If the dataset were mutable, we would need to repeat this process with every update, drastically increasing overhead.
+Let's take a look at a non-exhaustive list of data structures and potential improvements we can get from making them immutable:
 
-## Immutability in Practice: Data Structure Improvements
+|Function| Mutable Data Structure | Immutable Alternative | Potential improvements |
+|----|------|------|------------------------|
+| Read by index | Arrray | Fixed chunk of memory | Allocate exact amount of memory |
+| Vector Storage | Array or Arrays | Memory-mapped file | Offload data to disk |
+| Read sorted ranges| B-Tree | Sorted Array | Store all data close, avoid cache misses |
+| Read by key | Hash Map | Hash Map with Perfect Hashing | Avoid hash collisions |
+| Get documents by keyword | Inverted Index | Inverted Index with Sorted </br> and BitPacked Postings | Less memory usage, faster search |
+| Vector Search | HNSW graph | HNSW graph with </br> payload-aware connections | Better precision with filters |
+| Tenant Isolation | Vector Storage | Defragmented Vector Storage | Faster access to on-disk data |
 
-Here’s a more concrete look at how immutability improves specific data structures used in vector search engines:
-
-| Function | Mutable Data Structure | Immutable Alternative | Potential Improvements |
-|---|---|---|---|
-| **Read by index** | Dynamic Array | Static Array | Memory allocation can be optimized for read-heavy operations, avoiding overhead of resizing. |
-| **Vector Storage** | Array of Arrays | Memory-mapped file | Memory offloading to disk saves RAM and improves cache performance. |
-| **Read sorted ranges** | B-Tree | Sorted Array | Contiguous memory minimizes cache misses and improves read speed. |
-| **Read by key** | Hash Map | Perfect Hash Map | Immutable hash maps can be optimized with **perfect hashing** to avoid collisions, improving lookup time. |
-| **Keyword Search** | Inverted Index | Inverted Index with Bit-Packed Postings | Immutability allows efficient compression of index data, reducing memory footprint and boosting search speed. |
-| **Vector Search** | HNSW Graph | HNSW Graph with Payload-Aware Connections | Immutable graph structures improve precision in filtered vector search. |
-| **Tenant Isolation** | Fragmented Vector Storage | Defragmented Vector Storage | Placing vectors for a tenant contiguously reduces disk I/O and cache misses. |
 
 For more info on payload-aware connections in HNSW, read our [previous article](/articles/filtrable-hnsw/).
 
-This time around, we should focus on the latest additions to Qdrant: 
+This time around, we will focus on the latest additions to Qdrant: 
 - **the immutable hash map with perfect hashing** 
 - **defragmented vector storage**.
 
-### Key Techniques: Perfect Hashing and Defragmentation
+### Perfect Hashing
 
-**Perfect Hashing:** This method allows us to create a hash function that maps keys to unique indices without collisions. This is extremely useful for search engines, where lookup speed is critical. With perfect hashing, we eliminate the overhead of handling collisions, making searches faster and more predictable.
+ToDo: Here describe how hash table with perfect hashing works and why it is important (see notion for details)
 
-A hash table with perfect hashing is built in two steps:
 
-1. **First-level hashing:** We assign each key to a bucket using a standard hash function.
-2. **Second-level hashing:** For each bucket, we create a secondary hash function that ensures no collisions within the bucket.
+### Defragmentation
 
-This two-level hashing guarantees constant time complexity for lookups.
-
-**Defragmentation:** In large-scale systems like vector search engines, defragmentation becomes crucial when storing data on disk. Disk access is page-based, and when vectors are scattered across different pages, it leads to wasted space and cache inefficiencies.
-
-By defragmenting storage, we ensure that vectors belonging to the same tenant or query are stored contiguously. This reduces cache misses and ensures that disk pages are used efficiently.
+* Describe how, why and when it is useful
+  * Disk is accessed by pages
+  * If page is bigger than vector, we waste cache
+  * If all relevant vectors for the tenant are together, we don't have cache misses even if vectors are small
 
 ![defragmentation](/articles_data/immutable-data-structures/defragmentation.png)
 
 ## Updating Immutable Data Structures
 
-Immutability raises a natural question: How do we handle updates? The two primary techniques are copy-on-write and soft-delete.
+ToDo.
 
-### Copy-on-Write:
+Basically, two ideas:
 
-With this method, rather than modifying the data structure directly, we create a new copy with the updated data. The downside is increased memory usage, but it avoids complex locking mechanisms and maintains immutability.
+- Copy-on-write
+- Soft-delete
 
-### Soft-Delete:
-
-When removing data, rather than physically deleting it from the structure, we mark it as deleted. This allows for efficient handling of deletes while keeping the data structure immutable.
-
-**Also, it might be interesting to describe segments and how we can write to the segment, which is currently under optimization (and have to be read-only).**
+Also, it might be interesting to describe segments and how we can write to the segment, which is currently under optimization (and have to be read-only).
 
 ## Downsides and How to Compensate
 
@@ -146,7 +135,10 @@ While immutable data structures are great for read-heavy operations, they come w
 - **Rebuilding overhead:** In some cases, we may need to rebuild indices or structures for the same data more than once.
 - **Read-heavy workloads:** Immutability assumes a search-heavy workload, which is typical for search engines but not for all applications.
 
-In Qdrant, we mitigate these downsides with a hybrid approach: segmenting data. Immutable structures handle the bulk of read operations, but we can fall back on mutable structures for data that is frequently updated.
+In Qdrant, we mitigate these downsides by allowing the user to adapt the system to their specific workload. 
+For example, changing the default size of the segment might help to reduce the overhead of rebuilding indices.
+
+In extreme cases, multi-segment storage can act as a single segment, falling back to the mutable data structure when needed.
 
 ## Conclusion
 
