@@ -76,7 +76,7 @@ fn main() {
 Vector Search engines, like Qdrant, have to deal with a large variety of data structures. 
 If we could make them immutable, it would significantly improve performance and optimize memory usage.
 
-## What immutability can improve exactly?
+## What exactly can immutability improve?
 
 A large part of the immutable advantage comes from the fact that we know the exact data we need to put into the structure even before we start building it.
 The simplest example is a sorted array: we would know exactly how many elements we have to put into the array so we can allocate the exact amount of memory once.
