@@ -1,8 +1,8 @@
 ---
-title: Networking, logging & monitoring
+title: Networking, Logging & Monitoring
 weight: 4
 ---
-# Networking, logging & monitoring
+# Configuring Networking, Logging & Monitoring in Qdrant Hybrid Cloud
 
 ## Configure network policies
 

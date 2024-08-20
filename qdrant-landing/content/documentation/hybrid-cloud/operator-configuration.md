@@ -1,9 +1,9 @@
 ---
-title: Advanced Qdrant Operator configuration
+title: Configure the Qdrant Operator 
 weight: 3
 ---
 
-# Advanced Qdrant Operator configuration
+# Configuring Qdrant Operator: Advanced Options
 
 The Qdrant Operator has several configuration options, which can be configured in the advanced section of your Hybrid Cloud Environment.
 

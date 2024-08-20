@@ -1,5 +1,5 @@
 ---
-title: Hybrid Cloud setup
+title: Setup Hybrid Cloud
 weight: 1
 ---
 

@@ -1,9 +1,9 @@
 ---
-title: Cluster creation
+title: Create a Cluster
 weight: 2
 ---
 
-# Creating a Qdrant cluster in Hybrid Cloud
+# Creating a Qdrant Cluster in Hybrid Cloud
 
 Once you have created a Hybrid Cloud Environment, you can create a Qdrant cluster in that enviroment. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). Make sure to select your Hybrid Cloud Environment as the target.
 
