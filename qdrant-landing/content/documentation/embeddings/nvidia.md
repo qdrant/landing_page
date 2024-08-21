@@ -1,6 +1,6 @@
 ---
 title: Nvidia
-weight: 1200
+weight: 2400
 ---
 
 # Nvidia
