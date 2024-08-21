@@ -27,7 +27,7 @@ However, when we move from theoretical data structures to real-world systems, an
 
 > From the perspective of hardware efficiency, the ideal data structure is a contiguous array of bytes that can be read sequentially in a single thread. This scenario allows hardware optimizations like prefetching, caching, and branch prediction to operate at their best.
 
-However, real-world use cases require more complex structures to perform varios operations like insertion, deletion, and search.
+However, real-world use cases require more complex structures to perform various operations like insertion, deletion, and search.
 These requirements increase complexity and introduce performance trade-offs.
 
 ### Mutability
@@ -123,12 +123,12 @@ In regular mutable hash tables, minimization of collisions is achieved by:
 
 However, these strategies have overheads, which become more significant if we consider using high-latency storage like disk.
 
-Indeed, every read operation from disk is order of magnitude slower than reading from RAM, so we want to know the correct location of the data from the first attempt.
+Indeed, every read operation from disk is several orders of magnitude slower than reading from RAM, so we want to know the correct location of the data from the first attempt.
 
 In order to achieve this, we can use a so-called minimal perfect hash function (MPHF).
-This a special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal amount of buckets.
+This special type of hash function is constructed specifically for a given set of keys, and it guarantees no collisions while using minimal amount of buckets.
 
-In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph create 🦀](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
+In Qdrant, we decided to use *fingerprint-based minimal perfect hash function* implemented in the [ph crate 🦀](https://crates.io/crates/ph) by [Piotr Beling](https://dl.acm.org/doi/10.1145/3596453).
 According to our benchmarks, using the perfect hash function does introduce some overhead in terms of hashing time, but it significantly reduces the time for the whole operation:
 
 | Volume | `ph::Function` | `std::hash::Hash` | `HashMap::get`|
@@ -159,7 +159,7 @@ On many systems, the page size is 4KB, which means that every read operation wil
 Vector search, on the other hand, requires reading a lot of small vectors, which might create a large overhead.
 It is especially noticeable if we use binary quantization, where the size of even large OpenAI 1536d vectors is compressed down to **192 bytes**.
 
-{{< figure src="/articles_data/immutable-data-structures/page-vector.png" alt="Overhead when reading single vector" caption="Overhead when reading single vector" width="80%" >}}
+{{< figure src="/articles_data/immutable-data-structures/page-vector.png" alt="Overhead when reading a single vector" caption="Overhead when reading single vector" width="80%" >}}
 
 That means if the vectors we access during the search are randomly scattered across the disk, we will have to read 4KB for each vector, which is 20 times more than the actual data size.
 
@@ -174,7 +174,7 @@ By specifying the payload index, which is going to be used for filtering most of
 This way, reading a single page will also read nearby vectors, which will be used in the search.
 
 This approach is especially efficient for [multi-tenant systems](/documentation/guides/multiple-partitions/), where only a small subset of vectors is actively used for search.
-Capacity of such deployment is typically defined by the size of hot subset, which is much smaller than the total number of vectors.
+The capacity of such a deployment is typically defined by the size of the hot subset, which is much smaller than the total number of vectors.
 
 > Grouping relevant vectors together allows us to optimize the size of the hot subset by avoiding caching of irrelevant data.
 The following benchmark data compares RPS for defragmented and non-defragmented storage:
@@ -208,7 +208,7 @@ One may wonder how Qdrant allows updating collection data if everything is immut
 Indeed, [Qdrant API](https://api.qdrant.tech) allows the change of any vector or payload at any time, so from the user's perspective, the whole collection is mutable at any time.
 
 As it usually happens with every decent magic trick, the secret is disappointingly simple: not all data in Qdrant is immutable.
-In Qdrant, we storage is divided into segments, which might be either mutable or immutable.
+In Qdrant, storage is divided into segments, which might be either mutable or immutable.
 New data is always written to the mutable segment, which is later converted to the immutable one by the optimization process.
 
 {{< figure src="/articles_data/immutable-data-structures/optimization.png" alt="Optimization process" caption="Optimization process" width="80%" >}}
