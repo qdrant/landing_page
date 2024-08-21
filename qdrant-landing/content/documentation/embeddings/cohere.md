@@ -1,6 +1,6 @@
 ---
 title: Cohere
-weight: 700
+weight: 1400
 aliases: [ ../integrations/cohere/ ]
 ---
 
