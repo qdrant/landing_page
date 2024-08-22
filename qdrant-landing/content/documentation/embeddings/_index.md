@@ -9,7 +9,7 @@ Qdrant supports all available text and multimodal dense vector embedding models 
 
 Additionally, [any open-source embeddings from HuggingFace](https://huggingface.co/spaces/mteb/leaderboard) can be used with Qdrant. 
 
-## The following providers have been tested and verified:
+## The following 25 providers have been tested and verified:
 
 | Embeddings Providers          | Description |
 | ----------------------------- | ----------- |
