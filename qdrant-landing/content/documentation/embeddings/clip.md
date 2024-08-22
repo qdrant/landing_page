@@ -1,11 +1,6 @@
-
 ---
 title: Clip
 weight: 1300
-aliases:
-  - /documentation/examples/clip-search/
-  - /documentation/tutorials/clip-search/
-  - /documentation/integrations/clip/ 
 ---
 
 # Using Clip with Qdrant 

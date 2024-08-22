@@ -1,11 +1,6 @@
-
 ---
 title: John Snow Labs
 weight: 2000
-aliases:
-  - /documentation/examples/john-snow-labs-search/
-  - /documentation/tutorials/john-snow-labs-search/
-  - /documentation/integrations/john-snow-labs/ 
 ---
 
 # Using John Snow Labs with Qdrant 
@@ -21,7 +16,7 @@ pip install johnsnowlabs
 ```
 
 
-Here is an example of how you mmight obtain embeddings using John Snow Labs's API and store them in a Qdrant collection:
+Here is an example of how you might obtain embeddings using John Snow Labs's API and store them in a Qdrant collection:
 
 ```python
 import qdrant_client

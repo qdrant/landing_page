@@ -1,11 +1,6 @@
-
 ---
 title: Instruct
-weight: 1800
-aliases:
-  - /documentation/examples/instruct-search/
-  - /documentation/tutorials/instruct-search/
-  - /documentation/integrations/instruct/ 
+weight: 1800 
 ---
 
 # Using Instruct with Qdrant 

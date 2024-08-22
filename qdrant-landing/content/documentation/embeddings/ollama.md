@@ -1,11 +1,6 @@
-
 ---
 title: Ollama
 weight: 2600
-aliases:
-  - /documentation/examples/ollama-search/
-  - /documentation/tutorials/ollama-search/
-  - /documentation/integrations/ollama/ 
 ---
 
 # Using Ollama with Qdrant 
