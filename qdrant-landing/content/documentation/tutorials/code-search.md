@@ -327,7 +327,7 @@ query = "How do I count points in a collection?"
 
 hits = client.query_points(
     "qdrant-sources",
-    query_vector=nlp_model.encode(query).tolist(),
+    query=nlp_model.encode(query).tolist(),
     using="text",
     limit=5,
 ).points
