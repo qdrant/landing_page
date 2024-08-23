@@ -5,8 +5,8 @@ weight: 4
 
 # Multimodal Search with Qdrant and FastEmbed
 
-| Time: 15 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1prS561Vqqh1p6v_5wUsaHwIBfbZhePNb#scrollTo=cR2a4cWcHxc3)   |
-| --- | ----------- | ----------- |
+| Time: 15 min | Level: Beginner |Output: [GitHub](https://github.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_FastEmbed.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_FastEmbed.ipynb)   |
+| --- | ----------- | ----------- | ----------- |
 
 In this tutorial, you will set up a simple Multimodal Image & Text Search with Qdrant & FastEmbed.
 
