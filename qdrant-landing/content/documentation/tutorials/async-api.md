@@ -66,11 +66,11 @@ async def main():
     )
 
     # Search for nearest neighbors
-    points = await client.search(
+    points = await client.query_points(
         collection_name="my_collection",
-        query_vector=[0.9, 0.1, 0.1, 0.5],
+        query=[0.9, 0.1, 0.1, 0.5],
         limit=2,
-    )
+    ).points
 
     # Your async code using AsyncQdrantClient might be put here
     # ...

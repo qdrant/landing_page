@@ -202,11 +202,11 @@ def search(
         model="embed-multilingual-v3.0",
         input_type="search_query",
     )
-    results = client.search(
+    results = client.query_points(
         collection_name="personal-notes",
-        query_vector=response.embeddings[0],
+        query=response.embeddings[0],
         limit=2,
-    )
+    ).points
     return SearchResults(
         results=[
             Document(**point.payload)

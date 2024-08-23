@@ -192,11 +192,12 @@ client.upload_points(
 Now that the data is stored in Qdrant, you can ask it questions and receive semantically relevant results.
 
 ```python
-hits = client.search(
+hits = client.query_points(
     collection_name="my_books",
-    query_vector=encoder.encode("alien invasion").tolist(),
+    query=encoder.encode("alien invasion").tolist(),
     limit=3,
-)
+).points
+
 for hit in hits:
     print(hit.payload, "score:", hit.score)
 ```
@@ -216,14 +217,15 @@ The search engine shows three of the most likely responses that have to do with 
 How about the most recent book from the early 2000s?
 
 ```python
-hits = client.search(
+hits = client.query_points(
     collection_name="my_books",
-    query_vector=encoder.encode("alien invasion").tolist(),
+    query=encoder.encode("alien invasion").tolist(),
     query_filter=models.Filter(
         must=[models.FieldCondition(key="year", range=models.Range(gte=2000))]
     ),
     limit=1,
-)
+).points
+
 for hit in hits:
     print(hit.payload, "score:", hit.score)
 ```

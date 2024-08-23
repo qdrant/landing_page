@@ -11,7 +11,6 @@ Searching for the nearest vectors is at the core of many representational learni
 Modern neural networks are trained to transform objects into vectors so that objects close in the real world appear close in vector space.
 It could be, for example, texts with similar meanings, visually similar pictures, or songs of the same genre.
 
-
 {{< figure src="/docs/encoders.png" caption="This is how vector similarity works" width="70%" >}}
 
 ## Query API
@@ -35,7 +34,6 @@ Depending on the `query` parameter, Qdrant might prefer different strategies for
 | [Hybrid Search](../hybrid-queries/#hybrid-search) | Combine multiple queries to get better results |
 | [Multi-Stage Search](../hybrid-queries/#multi-stage-queries) | Optimize performance for large embeddings |
 | [Random Sampling](#random-sampling) | Get random points from the collection |
-
 
 **Nearest Neighbors Search**
 
@@ -100,8 +98,8 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f }
+ collectionName: "{collection_name}",
+ query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f }
 );
 ```
 
@@ -168,8 +166,8 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")
+    collectionName: "{collection_name}",
+    query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")
 );
 ```
 
@@ -181,10 +179,10 @@ The choice of metric depends on the vectors obtained and, in particular, on the 
 
 Qdrant supports these most popular types of metrics:
 
-* Dot product: `Dot` - https://en.wikipedia.org/wiki/Dot_product
-* Cosine similarity: `Cosine`  - https://en.wikipedia.org/wiki/Cosine_similarity
-* Euclidean distance: `Euclid` - https://en.wikipedia.org/wiki/Euclidean_distance
-* Manhattan distance: `Manhattan`* - https://en.wikipedia.org/wiki/Taxicab_geometry <i><sup>*Available as of v1.7</sup></i>
+* Dot product: `Dot` - <https://en.wikipedia.org/wiki/Dot_product>
+* Cosine similarity: `Cosine`  - <https://en.wikipedia.org/wiki/Cosine_similarity>
+* Euclidean distance: `Euclid` - <https://en.wikipedia.org/wiki/Euclidean_distance>
+* Manhattan distance: `Manhattan`*- <https://en.wikipedia.org/wiki/Taxicab_geometry> <i><sup>*Available as of v1.7</sup></i>
 
 The most typical metric used in similarity learning models is the cosine metric.
 
@@ -233,8 +231,9 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.search(
+client.query_points(
     collection_name="{collection_name}",
+    query=[0.2, 0.1, 0.9, 0.7],
     query_filter=models.Filter(
         must=[
             models.FieldCondition(
@@ -246,7 +245,6 @@ client.search(
         ]
     ),
     search_params=models.SearchParams(hnsw_ef=128, exact=False),
-    query_vector=[0.2, 0.1, 0.9, 0.7],
     limit=3,
 )
 ```
@@ -385,9 +383,10 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.search(
+client.query_points(
     collection_name="{collection_name}",
-    query_vector=("image", [0.2, 0.1, 0.9, 0.7]),
+    query=[0.2, 0.1, 0.9, 0.7],
+    using="image",
     limit=3,
 )
 ```
@@ -466,7 +465,7 @@ You can still use payload filtering and other features of the search API with sp
 There are however important differences between dense and sparse vector search:
 
 | Index| Sparse Query | Dense Query |
-| --- | --- | --- | 
+| --- | --- | --- |
 | Scoring Metric | Default is `Dot product`, no need to specify it | `Distance` has supported metrics e.g. Dot, Cosine |
 | Search Type | Always exact in Qdrant | HNSW is an approximate NN |
 | Return Behaviour | Returns only vectors with non-zero values in the same indices as the query vector | Returns `limit` vectors |
@@ -490,15 +489,13 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.search(
+client.query_points(
     collection_name="{collection_name}",
-    query_vector=models.NamedSparseVector(
-        name="text",
-        vector=models.SparseVector(
-            indices=[1, 7],
-            values=[2.0, 1.0],
-        ),
+    query=models.SparseVector(
+        indices=[1, 7],
+        values=[2.0, 1.0],
     ),
+    using="text",
     limit=3,
 )
 ```
@@ -598,9 +595,9 @@ POST /collections/{collection_name}/points/query
 ```
 
 ```python
-client.search(
+client.query_points(
     collection_name="{collection_name}",
-    query_vector=[0.2, 0.1, 0.9, 0.7],
+    query=[0.2, 0.1, 0.9, 0.7],
     with_vectors=True,
     with_payload=True,
 )
@@ -669,8 +666,8 @@ await client.QueryAsync(
 );
 ```
 
-You can use `with_payload` to scope to or filter a specific payload subset. 
-You can even specify an array of items to include, such as `city`, 
+You can use `with_payload` to scope to or filter a specific payload subset.
+You can even specify an array of items to include, such as `city`,
 `village`, and `town`:
 
 ```http
@@ -686,9 +683,9 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.search(
+client.query_points(
     collection_name="{collection_name}",
-    query_vector=[0.2, 0.1, 0.9, 0.7],
+    query=[0.2, 0.1, 0.9, 0.7],
     with_payload=["city", "village", "town"],
 )
 ```
@@ -786,9 +783,9 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.search(
+client.query_points(
     collection_name="{collection_name}",
-    query_vector=[0.2, 0.1, 0.9, 0.7],
+    query=[0.2, 0.1, 0.9, 0.7],
     with_payload=models.PayloadSelectorExclude(
         exclude=["city"],
     ),
@@ -866,8 +863,8 @@ await client.QueryAsync(
 ```
 
 It is possible to target nested fields using a dot notation:
-- `payload.nested_field` - for a nested field
-- `payload.nested_array[].sub_field` - for projecting nested fields within an array
+* `payload.nested_field` - for a nested field
+* `payload.nested_array[].sub_field` - for projecting nested fields within an array
 
 Accessing array elements by index is currently not supported.
 
@@ -940,11 +937,11 @@ filter_ = models.Filter(
 )
 
 search_queries = [
-    models.SearchRequest(vector=[0.2, 0.1, 0.9, 0.7], filter=filter_, limit=3),
-    models.SearchRequest(vector=[0.5, 0.3, 0.2, 0.3], filter=filter_, limit=3),
+    models.QueryRequest(query=[0.2, 0.1, 0.9, 0.7], filter=filter_, limit=3),
+    models.QueryRequest(query=[0.5, 0.3, 0.2, 0.3], filter=filter_, limit=3),
 ]
 
-client.search_batch(collection_name="{collection_name}", requests=search_queries)
+client.query_batch_points(collection_name="{collection_name}", requests=search_queries)
 ```
 
 ```typescript
@@ -1113,9 +1110,9 @@ from qdrant_client import QdrantClient
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.search(
+client.query_points(
     collection_name="{collection_name}",
-    query_vector=[0.2, 0.1, 0.9, 0.7],
+    query=[0.2, 0.1, 0.9, 0.7],
     with_vectors=True,
     with_payload=True,
     limit=10,
@@ -1289,10 +1286,10 @@ POST /collections/{collection_name}/points/query/groups
 ```
 
 ```python
-client.search_groups(
+client.query_points_groups(
     collection_name="{collection_name}",
-    # Same as in the regular search() API
-    query_vector=[1.1],
+    # Same as in the regular query_points() API
+    query=[1.1],
     # Grouping parameters
     group_by="document_id",  # Path of the field to group by
     limit=4,  # Max amount of groups
@@ -1448,10 +1445,10 @@ POST /collections/chunks/points/query/groups
 ```
 
 ```python
-client.search_groups(
+client.query_points_groups(
     collection_name="chunks",
     # Same as in the regular search() API
-    query_vector=[1.1],
+    query=[1.1],
     # Grouping parameters
     group_by="document_id",  # Path of the field to group by
     limit=2,  # Max amount of groups
@@ -1538,20 +1535,20 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SearchGroupsAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 1.0f },
-	groupBy: "document_id",
-	limit: 2,
-	groupSize: 2,
-	withLookup: new WithLookup
-	{
-		Collection = "documents",
-		WithPayload = new WithPayloadSelector
-		{
-			Include = new PayloadIncludeSelector { Fields = { new string[] { "title", "text" } } }
-		},
-		WithVectors = false
-	}
+    collectionName: "{collection_name}",
+    vector: new float[] { 1.0f },
+    groupBy: "document_id",
+    limit: 2,
+    groupSize: 2,
+    withLookup: new WithLookup
+    {
+        Collection = "documents",
+        WithPayload = new WithPayloadSelector
+        {
+            Include = new PayloadIncludeSelector { Fields = { new string[] { "title", "text" } } }
+        },
+        WithVectors = false
+    }
 );
 ```
 
@@ -1616,7 +1613,6 @@ Random sampling API is a part of [Universal Query API](#query-api) and can be us
 }
 ```
 
-
 ```python
 from qdrant_client import QdrantClient, models
 
@@ -1679,15 +1675,9 @@ client
 using Qdrant.Client;
 using Qdrant.Client.Grpc;
 
-
 var client = new QdrantClient("localhost", 6334);
 
-
-await client.QueryAsync(
-    collectionName: "{collection_name}",
-    query: Sample.Random
-);
-
+await client.QueryAsync(collectionName: "{collection_name}", query: Sample.Random);
 ```
 
 ## Query planning

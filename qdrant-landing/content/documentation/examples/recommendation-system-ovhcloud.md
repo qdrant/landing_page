@@ -217,15 +217,13 @@ def to_vector(ratings):
 Query Qdrant to find users with similar tastes based on the provided personal ratings. The search returns a list of similar users along with their ratings, facilitating collaborative filtering.
 
 ```python
-results = client.search(
+results = client.query_points(
     "movielens",
-    query_vector=models.NamedSparseVector(
-        name="ratings",
-        vector=to_vector(my_ratings)
-    ),
+    query=to_vector(my_ratings),
+    using="ratings",
     with_vectors=True, # We will use those to find new movies
     limit=20
-)
+).points
 ```
 
 Movie scores are computed based on how frequently each movie appears in the ratings of similar users, weighted by their ratings. This step identifies popular movies among users with similar tastes. Calculate how frequently each movie is found in similar users' ratings

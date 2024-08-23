@@ -195,14 +195,12 @@ From the uploaded list of movies with ratings, we can perform a search in Qdrant
 
 ```python
 # Perform the search
-results = qdrant_client.search(
+results = qdrant_client.query_points(
     collection_name=collection_name,
-    query_vector=NamedSparseVector(
-        name="ratings",
-        vector=to_vector(my_ratings)
-    ),
+    query=to_vector(my_ratings),
+    using="ratings",
     limit=20
-)
+).points
 ```
 
 Now we can find the movies liked by the other similar users, but we haven't seen yet.

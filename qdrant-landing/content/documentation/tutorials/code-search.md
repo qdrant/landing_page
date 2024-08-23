@@ -325,13 +325,12 @@ Fortunately, this model should continue to provide the results you need.</aside>
 ```python
 query = "How do I count points in a collection?"
 
-hits = client.search(
+hits = client.query_points(
     "qdrant-sources",
-    query_vector=(
-        "text", nlp_model.encode(query).tolist()
-    ),
+    query=nlp_model.encode(query).tolist(),
+    using="text",
     limit=5,
-)
+).points
 ```
 
 Now, review the results. The following table lists the module, the file name
@@ -349,13 +348,12 @@ the file.
 It seems we were able to find some relevant code structures. Let's try the same with the code embeddings:
 
 ```python
-hits = client.search(
+hits = client.query_points(
     "qdrant-sources",
-    query_vector=(
-        "code", code_model.encode(query).tolist()
-    ),
+    query=code_model.encode(query).tolist(),
+    using="code",
     limit=5,
-)
+).points
 ```
 
 Output:
@@ -374,27 +372,25 @@ different aspects of the codebase. We can use both models to query the collectio
 and then combine the results to get the most relevant code snippets, from a single batch request.
 
 ```python
-results = client.search_batch(
+responses = client.query_batch_points(
     "qdrant-sources",
     requests=[
-        models.SearchRequest(
-            vector=models.NamedVector(
-                name="text",
-                vector=nlp_model.encode(query).tolist()
-            ),
+        models.QueryRequest(
+            query=nlp_model.encode(query).tolist(),
+            using="text",
             with_payload=True,
             limit=5,
         ),
-        models.SearchRequest(
-            vector=models.NamedVector(
-                name="code",
-                vector=code_model.encode(query).tolist()
-            ),
+        models.QueryRequest(
+            query=code_model.encode(query).tolist(),
+            using="code",
             with_payload=True,
             limit=5,
         ),
     ]
 )
+
+results = [response.points for response in responses]
 ```
 
 Output:
