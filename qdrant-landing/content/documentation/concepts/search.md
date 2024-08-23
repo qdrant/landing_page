@@ -323,12 +323,12 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	filter: MatchKeyword("city", "London"),
-	searchParams: new SearchParams { Exact = false, HnswEf = 128 },
-	limit: 3
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    filter: MatchKeyword("city", "London"),
+    searchParams: new SearchParams { Exact = false, HnswEf = 128 },
+    limit: 3
 );
 ```
 
@@ -443,10 +443,10 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	vectorName: "image",
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	usingVector: "image",
 	limit: 3
 );
 ```
@@ -558,12 +558,11 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 2.0f, 1.0f },
-	vectorName: "text",
-	limit: 3,
-	sparseIndices: new uint[] { 1, 7 }
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new (float, uint)[] { (2.0f, 1), (1.0f, 2) },
+    usingVector: "text",
+    limit: 3
 );
 ```
 
@@ -654,9 +653,9 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	payloadSelector: true,
 	vectorsSelector: true,
 	limit: 3
@@ -747,17 +746,17 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	payloadSelector: new WithPayloadSelector
-	{
-		Include = new PayloadIncludeSelector
-		{
-			Fields = { new string[] { "city", "village", "town" } }
-		}
-	},
-	limit: 3
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    payloadSelector: new WithPayloadSelector
+    {
+        Include = new PayloadIncludeSelector
+        {
+            Fields = { new string[] { "city", "village", "town" } }
+        }
+    },
+    limit: 3
 );
 ```
 
@@ -849,9 +848,9 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	payloadSelector: new WithPayloadSelector
 	{
 		Exclude = new PayloadExcludeSelector { Fields = { new string[] { "city" } } }
@@ -1037,23 +1036,25 @@ var client = new QdrantClient("localhost", 6334);
 
 var filter = MatchKeyword("city", "London");
 
-var searches = new List<SearchPoints>
+var queries = new List<QueryPoints>
 {
-	new()
-	{
-		Vector = { new float[] { 0.2f, 0.1f, 0.9f, 0.7f } },
-		Filter = filter,
-		Limit = 3
-	},
-	new()
-	{
-		Vector = { new float[] { 0.5f, 0.3f, 0.2f, 0.3f } },
-		Filter = filter,
-		Limit = 3
-	}
+    new()
+    {
+        CollectionName = "{collection_name}",
+        Query = new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+        Filter = filter,
+        Limit = 3
+    },
+    new()
+    {
+        CollectionName = "{collection_name}",
+        Query = new float[] { 0.5f, 0.3f, 0.2f, 0.3f },
+        Filter = filter,
+        Limit = 3
+    }
 };
 
-await client.SearchBatchAsync(collectionName: "{collection_name}", searches: searches);
+await client.QueryBatchAsync(collectionName: "{collection_name}", queries: queries);
 ```
 
 The result of this API contains one array per search requests.
@@ -1173,13 +1174,13 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-	"{collection_name}",
-	new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-	payloadSelector: true,
-	vectorsSelector: true,
-	limit: 10,
-	offset: 100
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    payloadSelector: true,
+    vectorsSelector: true,
+    limit: 10,
+    offset: 100
 );
 ```
 
@@ -1331,12 +1332,12 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchGroupsAsync(
-	collectionName: "{collection_name}",
-	vector: new float[] { 1.1f },
-	groupBy: "document_id",
-	limit: 4,
-	groupSize: 2
+await client.QueryGroupsAsync(
+    collectionName: "{collection_name}",
+    query: new float[] { 1.1f },
+    groupBy: "document_id",
+    limit: 4,
+    groupSize: 2
 );
 ```
 
