@@ -1,5 +1,5 @@
 ---
-title: "Hybrid Search Revamped"
+title: "Hybrid Search Revamped - Building with Qdrant's Query API"
 short_description: "Merging different search methods to improve the search quality was never easier"
 description: "Qdrant 1.10 introduces a new Query API to build a search system that combines different search methods to improve the search quality."
 preview_dir: /articles_data/hybrid-search/preview
@@ -32,12 +32,12 @@ endpoint and also supports creating nested multistage queries that can be used t
 If you are an existing Qdrant user, you probably have a running search mechanism that you want to improve, whether sparse 
 or dense. Doing any changes should be preceded by a proper evaluation of its effectiveness. 
 
-### How effective is your search system?
+## How effective is your search system?
 
 None of the experiments makes sense if you don't measure the quality. How else would you compare which method works 
 better for your use case? The most common way of doing that is by using the standard metrics, such as `precision@k`, 
 `MRR`, or `NDCG`. There are existing libraries, such as [ranx](https://amenra.github.io/ranx/), that can help you with 
-that. Obviously, we need to have the ground truth dataset to calculate any of these, but curating it is a separate task.
+that. We need to have the ground truth dataset to calculate any of these, but curating it is a separate task.
 
 ```python
 from ranx import Qrels, Run, evaluate
@@ -60,12 +60,12 @@ run = Run(run_dict)
 evaluate(qrels, run, "ndcg@5")
 ```
 
-### Available embedding options
+## Available embedding options with Query API
 
 Support for multiple vectors per point is nothing new in Qdrant, but introducing the Query API makes it even
 more powerful. The 1.10 release brings support for the multivectors, which allows you to treat lists of embeddings 
 as a single entity. There are many possible ways of utilizing this feature, and the most prominent one is the support
-for late interaction models, such as ColBERT. Instead of having a single embedding for each document or query, this
+for late interaction models, such as [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/). Instead of having a single embedding for each document or query, this
 family of models creates a separate one for each token of text. In the search process, the final score is calculated 
 based on the interaction between the tokens of the query and the document. Contrary to cross-encoders, document
 embedding might be precomputed and stored in the database, which makes the search process much faster. If you are
@@ -75,16 +75,16 @@ AI](https://jina.ai/news/what-is-colbert-and-late-interaction-and-why-they-matte
 ![Late interaction](/articles_data/hybrid-search/late-interaction.png)
 
 Besides multivectors, you can use regular dense and sparse vectors, and experiment with smaller data types to reduce
-the use of memory. Named vectors can help you store different dimensionality's of the embeddings, which is useful if you 
+memory use. Named vectors can help you store different dimensionalities of the embeddings, which is useful if you 
 use multiple models to represent your data, or want to utilize the Matryoshka embeddings.
 
 ![Multiple vectors per point](/articles_data/hybrid-search/multiple-vectors.png)
 
 There is no single way of building hybrid search. The process of designing it is an exploratory exercise, where you
-need to test various setups and measure the effectiveness of each of them. Building a proper search experience is a
+need to test various setups and measure their effectiveness. Building a proper search experience is a
 complex task, and it's better to keep it data-driven, not just rely on the intuition.
 
-### Fusion vs reranking
+## Fusion vs reranking
 
 We can, distinguish two main approaches to building a hybrid search system: fusion and reranking. The former is about 
 combining the results from different search methods, based solely on the scores returned by each method. That usually 
@@ -104,7 +104,7 @@ the candidates without the need to access all the documents in the collection.
 
 ![Reranking](/articles_data/hybrid-search/reranking.png)
 
-#### Why not a linear combination?
+### Why not a linear combination?
 
 It's often proposed to use full-text and vector search scores to form a linear combination formula to rerank 
 the results. So it goes like this:
@@ -124,12 +124,12 @@ a proper hybrid search.*
 Both relevant and non-relevant items are mixed. **None of the linear formulas would be able to distinguish 
 between them.** Thus, that's not the way to solve it.
 
-### Building a hybrid search system in Qdrant
+## Building a hybrid search system in Qdrant
 
 Ultimately, **any search mechanism might also be a reranking mechanism**. You can prefetch results with sparse vectors 
 and then rerank them with the dense ones, or the other way around. Or, if you have Matryoshka embeddings, you can start 
 with oversampling the candidates with the dense vectors of the lowest dimensionality and then gradually reduce the 
-number of candidates by reranking them with the higher-dimensional embeddings. Actually, nothing stops you from 
+number of candidates by reranking them with the higher-dimensional embeddings. Nothing stops you from 
 combining both fusion and reranking. 
 
 Let's go a step further and build a hybrid search mechanism that combines the results from the 
@@ -256,7 +256,7 @@ client.query_points(
 )
 ```
 
-The options are endless, the new Query API gives you the flexibility to experiment with different setups. Obviously, **you
+The options are endless, the new Query API gives you the flexibility to experiment with different setups. **You
 rarely need to build such a complex search pipeline**, but it's good to know that you can do that if needed.
 
 ## Some anecdotal observations
@@ -318,7 +318,7 @@ Also examples where keyword-based search did better:
    </tbody>
 </table>
 
-## Conclusion
+## Try the New Query API in Qdrant 1.10
 
 The new Query API introduced in Qdrant 1.10 is a game-changer for building hybrid search systems. You don't need any
 additional services to combine the results from different search methods, and you can even create more complex pipelines

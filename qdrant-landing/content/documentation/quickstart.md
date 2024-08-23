@@ -317,11 +317,13 @@ console.debug(searchResult);
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 
 let search_result = client
-    .search_points(
-        SearchPointsBuilder::new("test_collection", [0.2, 0.1, 0.9, 0.7], 3).with_payload(true),
+    .query(
+        QueryPointsBuilder::new("test_collection")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .with_payload(true),
     )
     .await?;
 
@@ -332,29 +334,29 @@ dbg!(search_result);
 import java.util.List;
 
 import io.qdrant.client.grpc.Points.ScoredPoint;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
 
 import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+import static io.qdrant.client.QueryFactory.nearest;
 
 List<ScoredPoint> searchResult =
-    client
-        .searchAsync(
-            SearchPoints.newBuilder()
+    client.queryAsync(QueryPoints.newBuilder()
                 .setCollectionName("test_collection")
                 .setLimit(3)
-                .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
                 .setWithPayload(enable(true))
-                .build())
-        .get();
+                .build()).get();
       
 System.out.println(searchResult);
 ```
 
 ```csharp
-var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
-{
-    0.2f, 0.1f, 0.9f, 0.7f
-}, limit: 3, payloadSelector: true);
+var searchResult = await client.QueryAsync(
+    collectionName: "test_collection",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    limit: 3,
+    payloadSelector: true
+);
 
 Console.WriteLine(searchResult);
 ```
@@ -424,12 +426,13 @@ console.debug(searchResult);
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchPointsBuilder};
+use qdrant_client::qdrant::{Condition, Filter, QueryPointsBuilder};
 
 let search_result = client
-    .search_points(
-        SearchPointsBuilder::new("test_collection", [0.2, 0.1, 0.9, 0.7], 3)
-            .filter(Filter::all([Condition::matches(
+    .query(
+        QueryPointsBuilder::new("test_collection")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .filter(Filter::must([Condition::matches(
                 "city",
                 "London".to_string(),
             )]))
@@ -444,16 +447,13 @@ dbg!(search_result);
 import static io.qdrant.client.ConditionFactory.matchKeyword;
 
 List<ScoredPoint> searchResult =
-    client
-        .searchAsync(
-            SearchPoints.newBuilder()
+    client.queryAsync(QueryPoints.newBuilder()
                 .setCollectionName("test_collection")
                 .setLimit(3)
                 .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")))
-                .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
                 .setWithPayload(enable(true))
-                .build())
-        .get();
+                .build()).get();
 
 System.out.println(searchResult);
 ```
@@ -461,10 +461,13 @@ System.out.println(searchResult);
 ```csharp
 using static Qdrant.Client.Grpc.Conditions;
 
-var searchResult = await client.SearchAsync(collectionName: "test_collection", vector: new float[]
-{
-	0.2f, 0.1f, 0.9f, 0.7f
-}, filter: MatchKeyword("city", "London"), limit: 3, payloadSelector: true);
+var searchResult = await client.QueryAsync(
+    collectionName: "test_collection",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    filter: MatchKeyword("city", "London"),
+    limit: 3,
+    payloadSelector: true
+);
 
 Console.WriteLine(searchResult);
 ```

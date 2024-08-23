@@ -202,11 +202,12 @@ Read more about it in the [query planning](#query-planning) section.
 
 Let's look at an example of a search query.
 
-REST API - API Schema definition is available [here](https://api.qdrant.tech/master/api-reference/search/points)
+REST API - API Schema definition is available [here](https://api.qdrant.tech/api-reference/search/query-points)
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.2, 0.1, 0.9, 0.79],
     "filter": {
         "must": [
             {
@@ -221,7 +222,6 @@ POST /collections/{collection_name}/points/search
         "hnsw_ef": 128,
         "exact": false
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 3
 }
 ```
@@ -275,12 +275,14 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::qdrant::{Condition, Filter, QueryPointsBuilder, SearchParamsBuilder};
 use qdrant_client::Qdrant;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
             .filter(Filter::must([Condition::matches(
                 "city",
                 "London".to_string(),
@@ -294,26 +296,24 @@ client
 import java.util.List;
 
 import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.QueryFactory.nearest;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
-            .setParams(SearchParams.newBuilder().setExact(false).setHnswEf(128).build())
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(QueryPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+        .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
+        .setParams(SearchParams.newBuilder().setExact(false).setHnswEf(128).build())
+        .setLimit(3)
+        .build()).get();
 ```
 
 ```csharp
@@ -323,9 +323,9 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
     collectionName: "{collection_name}",
-    vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
     filter: MatchKeyword("city", "London"),
     searchParams: new SearchParams { Exact = false, HnswEf = 128 },
     limit: 3
@@ -370,12 +370,10 @@ to include it.
 If the collection was created with multiple vectors, the name of the vector to use for searching should be provided:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": {
-        "name": "image",
-        "vector": [0.2, 0.1, 0.9, 0.7]
-    },
+    "query": [0.2, 0.1, 0.9, 0.7],
+    "using": "image",
     "limit": 3
 }
 ```
@@ -408,15 +406,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
-            .vector_name("image"),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
+            .using("image"),
     )
     .await?;
 ```
@@ -426,20 +426,19 @@ import java.util.List;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setVectorName("image")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(QueryPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+        .setUsing("image")
+        .setLimit(3)
+        .build()).get();
 ```
 
 ```csharp
@@ -447,11 +446,11 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-    collectionName: "{collection_name}",
-    vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-    vectorName: "image",
-    limit: 3
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	usingVector: "image",
+	limit: 3
 );
 ```
 
@@ -474,16 +473,14 @@ There are however important differences between dense and sparse vector search:
 In general, the speed of the search is proportional to the number of non-zero values in the query vector.
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": {
-        "name": "text",
-        "vector": {
-            "indices": [6, 7],
-            "values": [1.0, 2.0]
-        }    
-    },
-    "limit": 3
+  "query": {
+    "indices": [6, 7],
+    "values": [1, 2]
+  },
+  "using": "text",
+  "limit": 3
 }
 ```
 
@@ -521,16 +518,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![2.0, 1.0], 3)
-            .sparse_indices(vec![1, 7])
-            .vector_name("text"),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![(1, 2.0), (7, 1.0)])
+            .limit(3)
+            .using("text"),
     )
     .await?;
 ```
@@ -540,22 +538,21 @@ import java.util.List;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
-import io.qdrant.client.grpc.Points.SparseIndices;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-.searchAsync(
-    SearchPoints.newBuilder()
-        .setCollectionName("{collection_name}")
-        .setVectorName("text")
-        .addAllVector(List.of(2.0f, 1.0f))
-        .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 7)).build())
-        .setLimit(3)
-        .build())
-.get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setUsing("text")
+                .setQuery(nearest(List.of(2.0f, 1.0f), List.of(1, 7)))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -563,12 +560,11 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
     collectionName: "{collection_name}",
-    vector: new float[] { 2.0f, 1.0f },
-    vectorName: "text",
-    limit: 3,
-    sparseIndices: new uint[] { 1, 7 }
+    query: new (float, uint)[] { (2.0f, 1), (1.0f, 2) },
+    usingVector: "text",
+    limit: 3
 );
 ```
 
@@ -590,9 +586,9 @@ alter this behavior.
 Example:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
     "with_payload": true
 }
@@ -616,14 +612,16 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
             .with_payload(true)
             .with_vectors(true),
     )
@@ -631,28 +629,27 @@ client
 ```
 
 ```java
-import java.util.List;
-
-import static io.qdrant.client.WithPayloadSelectorFactory.enable;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.WithVectorsSelectorFactory;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(enable(true))
-            .setWithVectors(WithVectorsSelectorFactory.enable(true))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(enable(true))
+                .setWithVectors(WithVectorsSelectorFactory.enable(true))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -660,12 +657,12 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-    collectionName: "{collection_name}",
-    vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-    payloadSelector: true,
-    vectorsSelector: true,
-    limit: 3
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	payloadSelector: true,
+	vectorsSelector: true,
+	limit: 3
 );
 ```
 
@@ -674,9 +671,9 @@ You can even specify an array of items to include, such as `city`,
 `village`, and `town`:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "query": [0.2, 0.1, 0.9, 0.7],
     "with_payload": ["city", "village", "town"]
 }
 ```
@@ -705,12 +702,14 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, SearchPointsBuilder};
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
             .with_payload(SelectorOptions::Include(
                 vec![
                     "city".to_string(),
@@ -727,24 +726,24 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.include;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(include(List.of("city", "village", "town")))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(include(List.of("city", "village", "town")))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -753,9 +752,9 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
     collectionName: "{collection_name}",
-    vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
     payloadSelector: new WithPayloadSelector
     {
         Include = new PayloadIncludeSelector
@@ -770,9 +769,9 @@ await client.SearchAsync(
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "query": [0.2, 0.1, 0.9, 0.7],
     "with_payload": {
       "exclude": ["city"]
     }
@@ -807,20 +806,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, SearchPointsBuilder};
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
-            .with_payload(SelectorOptions::Exclude(
-                vec![
-                    "city".to_string(),
-                ]
-                .into(),
-            ))
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
+            .with_payload(SelectorOptions::Exclude(vec!["city".to_string()].into()))
             .with_vectors(true),
     )
     .await?;
@@ -829,24 +825,24 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.exclude;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.exclude;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(exclude(List.of("city")))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(exclude(List.of("city")))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -855,14 +851,14 @@ using Qdrant.Client.Grpc;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-    collectionName: "{collection_name}",
-    vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
-    payloadSelector: new WithPayloadSelector
-    {
-        Exclude = new PayloadExcludeSelector { Fields = { new string[] { "city" } } }
-    },
-    limit: 3
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	payloadSelector: new WithPayloadSelector
+	{
+		Exclude = new PayloadExcludeSelector { Fields = { new string[] { "city" } } }
+	},
+	limit: 3
 );
 ```
 
@@ -889,10 +885,11 @@ This can have a great effect on latency for non trivial filters as the intermedi
 In order to use it, simply pack together your search requests. All the regular attributes of a search request are of course available.
 
 ```http
-POST /collections/{collection_name}/points/search/batch
+POST /collections/{collection_name}/points/query/batch
 {
     "searches": [
         {
+            "query": [0.2, 0.1, 0.9, 0.7],
             "filter": {
                 "must": [
                     {
@@ -903,10 +900,10 @@ POST /collections/{collection_name}/points/search/batch
                     }
                 ]
             },
-            "vector": [0.2, 0.1, 0.9, 0.7],
             "limit": 3
         },
         {
+            "query": [0.5, 0.3, 0.2, 0.3],
             "filter": {
                 "must": [
                     {
@@ -917,7 +914,6 @@ POST /collections/{collection_name}/points/search/batch
                     }
                 ]
             },
-            "vector": [0.5, 0.3, 0.2, 0.3],
             "limit": 3
         }
     ]
@@ -983,53 +979,60 @@ client.searchBatch("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchBatchPointsBuilder, SearchPointsBuilder};
+use qdrant_client::qdrant::{Condition, Filter, QueryBatchPointsBuilder, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let filter = Filter::must([Condition::matches("city", "London".to_string())]);
+
 let searches = vec![
-    SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    QueryPointsBuilder::new("{collection_name}")
+        .query(vec![0.1, 0.2, 0.3, 0.4])
+        .limit(3)
         .filter(filter.clone())
         .build(),
-    SearchPointsBuilder::new("{collection_name}", vec![0.5, 0.3, 0.2, 0.3], 3)
-        .filter(filter.)
+    QueryPointsBuilder::new("{collection_name}")
+        .query(vec![0.5, 0.3, 0.2, 0.3])
+        .limit(3)
+        .filter(filter)
         .build(),
 ];
 
 client
-    .search_batch_points(SearchBatchPointsBuilder::new("{collection_name}", searches))
-    .await?;
+        .query_batch(QueryBatchPointsBuilder::new("{collection_name}", searches))
+        .await?;
 ```
 
 ```java
 import java.util.List;
 
-import static io.qdrant.client.ConditionFactory.matchKeyword;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Filter;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 Filter filter = Filter.newBuilder().addMust(matchKeyword("city", "London")).build();
-List<SearchPoints> searches =
-    List.of(
-        SearchPoints.newBuilder()
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setFilter(filter)
-            .setLimit(3)
-            .build(),
-        SearchPoints.newBuilder()
-            .addAllVector(List.of(0.5f, 0.3f, 0.2f, 0.3f))
-            .setFilter(filter)
-            .setLimit(3)
-            .build());
-client.searchBatchAsync("{collection_name}", searches, null).get();
+
+List<QueryPoints> searches = List.of(
+        QueryPoints.newBuilder()
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setFilter(filter)
+                .setLimit(3)
+                .build(),
+        QueryPoints.newBuilder()
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setFilter(filter)
+                .setLimit(3)
+                .build());
+
+client.queryBatchAsync("{collection_name}", searches).get();
 ```
 
 ```csharp
@@ -1041,23 +1044,25 @@ var client = new QdrantClient("localhost", 6334);
 
 var filter = MatchKeyword("city", "London");
 
-var searches = new List<SearchPoints>
+var queries = new List<QueryPoints>
 {
     new()
     {
-        Vector = { new float[] { 0.2f, 0.1f, 0.9f, 0.7f } },
+        CollectionName = "{collection_name}",
+        Query = new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
         Filter = filter,
         Limit = 3
     },
     new()
     {
-        Vector = { new float[] { 0.5f, 0.3f, 0.2f, 0.3f } },
+        CollectionName = "{collection_name}",
+        Query = new float[] { 0.5f, 0.3f, 0.2f, 0.3f },
         Filter = filter,
         Limit = 3
     }
 };
 
-await client.SearchBatchAsync(collectionName: "{collection_name}", searches: searches);
+await client.QueryBatchAsync(collectionName: "{collection_name}", queries: queries);
 ```
 
 The result of this API contains one array per search requests.
@@ -1090,9 +1095,9 @@ Search and [recommendation](../explore/#recommendation-api) APIs allow to skip f
 Example:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "query": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
     "with_payload": true,
     "limit": 10,
@@ -1130,14 +1135,15 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
             .with_payload(true)
             .with_vectors(true)
             .limit(10)
@@ -1149,27 +1155,27 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.enable;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.WithVectorsSelectorFactory;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(enable(true))
-            .setWithVectors(WithVectorsSelectorFactory.enable(true))
-            .setLimit(10)
-            .setOffset(100)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(enable(true))
+                .setWithVectors(WithVectorsSelectorFactory.enable(true))
+                .setLimit(10)
+                .setOffset(100)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -1177,9 +1183,9 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
-    "{collection_name}",
-    new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+await client.QueryAsync(
+    collectionName: "{collection_name}",
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
     payloadSelector: true,
     vectorsSelector: true,
     limit: 10,
@@ -1265,18 +1271,17 @@ With the ***groups*** API, you will be able to get the best *N* points for each 
 
 ### Search groups
 
-REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/point-groups)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/search/query-points-groups)):
 
 ```http
-POST /collections/{collection_name}/points/search/groups
+POST /collections/{collection_name}/points/query/groups
 {
-    // Same as in the regular search API
-    "vector": [1.1],
-
+    // Same as in the regular query API
+    "query": [1.1],
     // Grouping parameters
     "group_by": "document_id",  // Path of the field to group by
     "limit": 4,                 // Max amount of groups
-    "group_size": 2,            // Max amount of points per group
+    "group_size": 2            // Max amount of points per group
 }
 ```
 
@@ -1302,16 +1307,17 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointGroupsBuilder;
+use qdrant_client::qdrant::QueryPointGroupsBuilder;
 
 client
-    .search_groups(SearchPointGroupsBuilder::new(
-        "{collection_name}",
-        vec![1.1],
-        4,
-        "document_id",
-        2,
-    ))
+    .query_groups(
+        QueryPointGroupsBuilder::new("{collection_name}", "document_id")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(2u64)
+            .with_payload(true)
+            .with_vectors(true)
+            .limit(4u64),
+    )
     .await?;
 ```
 
@@ -1320,16 +1326,15 @@ import java.util.List;
 
 import io.qdrant.client.grpc.Points.SearchPointGroups;
 
-client
-    .searchGroupsAsync(
-        SearchPointGroups.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(1.1f))
-            .setGroupBy("document_id")
-            .setLimit(4)
-            .setGroupSize(2)
-            .build())
-    .get();
+client.queryGroupsAsync(
+        QueryPointGroups.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setGroupBy("document_id")
+                .setLimit(4)
+                .setGroupSize(2)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -1337,9 +1342,9 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchGroupsAsync(
+await client.QueryGroupsAsync(
     collectionName: "{collection_name}",
-    vector: new float[] { 1.1f },
+    query: new float[] { 1.1f },
     groupBy: "document_id",
     limit: 4,
     groupSize: 2
@@ -1413,10 +1418,10 @@ For example, if you have a collection of documents, you may want to chunk them a
 In this case, to bring the information from the documents into the chunks grouped by the document id, you can use the `with_lookup` parameter:
 
 ```http
-POST /collections/chunks/points/search/groups
+POST /collections/chunks/points/query/groups
 {
-    // Same as in the regular search API
-    "vector": [1.1],
+    // Same as in the regular query API
+    "query": [1.1],
 
     // Grouping parameters
     "group_by": "document_id",
@@ -1434,7 +1439,7 @@ POST /collections/chunks/points/search/groups
 
         // Options for specifying what to bring from the vector(s) 
         // of the looked up point, true by default
-        "with_vectors: false
+        "with_vectors": false
     }
 }
 ```
@@ -1469,7 +1474,7 @@ client.searchPointGroups("{collection_name}", {
   limit: 2,
   group_size: 2,
   with_lookup: {
-    collection: w,
+    collection: "documents",
     with_payload: ["title", "text"],
     with_vectors: false,
   },
@@ -1477,13 +1482,14 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{
-    with_payload_selector::SelectorOptions, SearchPointGroupsBuilder, WithLookupBuilder,
-};
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, QueryPointGroupsBuilder, WithLookupBuilder};
 
 client
-    .search_groups(
-        SearchPointGroupsBuilder::new("{collection_name}", vec![1.1], 2, "document_id", 2)
+    .query_groups(
+        QueryPointGroupsBuilder::new("{collection_name}", "document_id")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(2u64)
+            .limit(2u64)
             .with_lookup(
                 WithLookupBuilder::new("documents")
                     .with_payload(SelectorOptions::Include(
@@ -1498,28 +1504,28 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.include;
-import static io.qdrant.client.WithVectorsSelectorFactory.enable;
-
-import io.qdrant.client.grpc.Points.SearchPointGroups;
+import io.qdrant.client.grpc.Points.QueryPointGroups;
 import io.qdrant.client.grpc.Points.WithLookup;
 
-client
-    .searchGroupsAsync(
-        SearchPointGroups.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(1.0f))
-            .setGroupBy("document_id")
-            .setLimit(2)
-            .setGroupSize(2)
-            .setWithLookup(
-                WithLookup.newBuilder()
-                    .setCollection("documents")
-                    .setWithPayload(include(List.of("title", "text")))
-                    .setWithVectors(enable(false))
-                    .build())
-            .build())
-    .get();
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithVectorsSelectorFactory.enable;
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
+
+client.queryGroupsAsync(
+        QueryPointGroups.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setGroupBy("document_id")
+                .setLimit(2)
+                .setGroupSize(2)
+                .setWithLookup(
+                        WithLookup.newBuilder()
+                                .setCollection("documents")
+                                .setWithPayload(include(List.of("title", "text")))
+                                .setWithVectors(enable(false))
+                                .build())
+                .build())
+        .get();
 ```
 
 ```csharp

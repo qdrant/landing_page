@@ -1086,7 +1086,7 @@ This is how we can guarantee even sampling of both colors in the results and als
 
 It is possible to group results by a certain field. This is useful when you have multiple points for the same item, and you want to avoid redundancy of the same item in the results.
 
-REST API ([Schema](https://api.qdrant.tech/master/api-reference/query/query_points_groups)):
+REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/query-points-groups)):
 
 ```http
 POST /collections/{collection_name}/points/query/groups

@@ -312,15 +312,13 @@ await client.UpsertAsync(
 Now you can run a search with sparse vectors:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": {
-        "name": "text",
-        "vector": {
-            "indices": [1, 3, 5, 7],
-            "values": [0.1, 0.2, 0.3, 0.4]
-        }
-    }
+    "query": {
+        "indices": [1, 3, 5, 7],
+        "values": [0.1, 0.2, 0.3, 0.4]
+    },
+    "using": "text"
 }
 ```
 
@@ -338,16 +336,17 @@ result = client.query_points(
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 10)
-            .sparse_indices(vec![1, 3, 5, 7])
-            .vector_name("text")
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![(1, 0.2), (3, 0.1), (5, 0.9), (7, 0.7)])
+            .limit(10)
+            .using("text"),
     )
     .await?;
 ```
@@ -374,23 +373,21 @@ import java.util.List;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
-import io.qdrant.client.grpc.Points.SparseIndices;
-import io.qdrant.client.grpc.Points.Vectors;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
   new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-  .searchAsync(
-    SearchPoints.newBuilder()
-    .setCollectionName("{collection_name}")
-    .setVectorName("text")
-    .addAllVector(List.of(0.1f, 0.2f, 0.3f, 0.4f))
-    .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 3, 5, 7)).build())
-    .setLimit(3)
-    .build())
-  .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setUsing("text")
+                .setQuery(nearest(List.of(0.1f, 0.2f, 0.3f, 0.4f), List.of(1, 3, 5, 7)))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -398,12 +395,11 @@ using Qdrant.Client;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
   collectionName: "{collection_name}",
-  vector: new float[] {0.1f, 0.2f, 0.3f, 0.4f},
-  vectorName: "text",
-  limit: 3,
-  sparseIndices: new uint[] {1, 3, 5, 7}
+  query: new (float, uint)[] {(0.1f, 1), (0.2f, 3), (0.3f, 5), (0.4f, 7)},
+  usingVector: "text",
+  limit: 3
 );
 ```
 
