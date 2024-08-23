@@ -16,22 +16,25 @@ In addition to the regular search, Qdrant also allows you to search based on mul
 REST API - API Schema definition is available [here](https://api.qdrant.tech/api-reference/search/recommend-points)
 
 ```http
-POST /collections/{collection_name}/points/recommend
+POST /collections/{collection_name}/points/query
 {
-  "positive": [100, 231],
-  "negative": [718, [0.2, 0.3, 0.4, 0.5]],
-  "filter": {
-        "must": [
-            {
-                "key": "city",
-                "match": {
-                    "value": "London"
-                }
-            }
-        ]
+  "query": {
+    "recommend": {
+      "positive": [100, 231],
+      "negative": [718, [0.2, 0.3, 0.4, 0.5]],
+      "strategy": "average_vector"
+    }
   },
-  "strategy": "average_vector",
-  "limit": 3
+  "filter": {
+    "must": [
+      {
+        "key": "city",
+        "match": {
+          "value": "London"
+        }
+      }
+    ]
+  }
 }
 ```
 
@@ -223,13 +226,17 @@ Combining negative-only examples with filtering can be a powerful tool for data 
 If the collection was created with multiple vectors, the name of the vector should be specified in the recommendation request:
 
 ```http
-POST /collections/{collection_name}/points/recommend
+POST /collections/{collection_name}/points/query
 {
-  "positive": [100, 231],
-  "negative": [718],
+  "query": {
+    "recommend": {
+      "positive": [100, 231],
+      "negative": [718]
+    }
+  },
   "using": "image",
   "limit": 10
- }
+}
 ```
 
 ```python
@@ -312,17 +319,19 @@ It might be useful, e.g. in the item-to-user recommendations scenario.
 Where user and item embeddings, although having the same vector parameters (distance type and dimensionality), are usually stored in different collections.
 
 ```http
-POST /collections/{collection_name}/points/recommend
-
+POST /collections/{collection_name}/points/query
 {
-  "positive": [100, 231],
-  "negative": [718],
-  "using": "image",
+  "query": {
+    "recommend": {
+      "positive": [100, 231],
+      "negative": [718]
+    }
+  },
   "limit": 10,
   "lookup_from": {
-    "collection":"{external_collection_name}",
-    "vector":"{external_vector_name}"
- }
+    "collection": "{external_collection_name}",
+    "vector": "{external_vector_name}"
+  }
 }
 ```
 
@@ -427,40 +436,48 @@ These vectors then used to perform the recommendation in the current collection,
 Similar to the batch search API in terms of usage and advantages, it enables the batching of recommendation requests.
 
 ```http
-POST /collections/{collection_name}/points/recommend/batch
+POST /collections/{collection_name}/query/batch
 {
-    "searches": [
-        {
-            "filter": {
-                    "must": [
-                        {
-                            "key": "city",
-                            "match": {
-                                "value": "London"
-                            }
-                        }
-                    ]
-            },
-            "negative": [718],
-            "positive": [100, 231],
-            "limit": 10
-        },
-        {
-            "filter": {
-                "must": [
-                    {
-                        "key": "city",
-                        "match": {
-                            "value": "London"
-                        }
-                    }
-                    ]
-            },
-            "negative": [300],
-            "positive": [200, 67],
-            "limit": 10
+  "searches": [
+    {
+      "query": {
+        "recommend": {
+          "positive": [100, 231],
+          "negative": [718]
         }
-    ]
+      },
+      "filter": {
+        "must": [
+          {
+            "key": "city",
+            "match": {
+              "value": "London"
+            }
+          }
+        ]
+      },
+      "limit": 10
+    },
+    {
+      "query": {
+        "recommend": {
+          "positive": [200, 67],
+          "negative": [300]
+        }
+      },
+      "filter": {
+        "must": [
+          {
+            "key": "city",
+            "match": {
+              "value": "London"
+            }
+          }
+        ]
+      },
+      "limit": 10
+    }
+  ]
 }
 ```
 
@@ -687,20 +704,23 @@ where $s(v)$ is the similarity function, $v_t$ is the target vector, and again $
 Example:
 
 ```http
-POST /collections/{collection_name}/points/discover
-
+POST /collections/{collection_name}/points/query
 {
-  "target": [0.2, 0.1, 0.9, 0.7],
-  "context": [
-    {
-      "positive": 100,
-      "negative": 718
-    },
-    {
-      "positive": 200,
-      "negative": 300
+  "query": {
+    "discover": {
+      "target": [0.2, 0.1, 0.9, 0.7],
+      "context": [
+        {
+          "positive": 100,
+          "negative": 718
+        },
+        {
+          "positive": 200,
+          "negative": 300
+        }
+      ]
     }
-  ],
+  },
   "limit": 10
 }
 ```
@@ -874,19 +894,20 @@ Using this kind of search, you can expect the output to not necessarily be aroun
 Example:
 
 ```http
-POST /collections/{collection_name}/points/discover
-
+POST /collections/{collection_name}/points/query
 {
-  "context": [
-    {
-      "positive": 100,
-      "negative": 718
-    },
-    {
-      "positive": 200,
-      "negative": 300
-    }
-  ],
+  "query": {
+    "context": [
+      {
+        "positive": 100,
+        "negative": 718
+      },
+      {
+        "positive": 200,
+        "negative": 300
+      }
+    ]
+  },
   "limit": 10
 }
 ```

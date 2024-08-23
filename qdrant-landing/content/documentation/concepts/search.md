@@ -204,11 +204,12 @@ Read more about it in the [query planning](#query-planning) section.
 
 Let's look at an example of a search query.
 
-REST API - API Schema definition is available [here](https://api.qdrant.tech/master/api-reference/search/points)
+REST API - API Schema definition is available [here](https://api.qdrant.tech/api-reference/search/query-points)
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.2, 0.1, 0.9, 0.79],
     "filter": {
         "must": [
             {
@@ -223,7 +224,6 @@ POST /collections/{collection_name}/points/search
         "hnsw_ef": 128,
         "exact": false
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 3
 }
 ```
@@ -372,12 +372,10 @@ to include it.
 If the collection was created with multiple vectors, the name of the vector to use for searching should be provided:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": {
-        "name": "image",
-        "vector": [0.2, 0.1, 0.9, 0.7]
-    },
+    "query": [0.2, 0.1, 0.9, 0.7],
+    "using": "image",
     "limit": 3
 }
 ```
@@ -475,16 +473,14 @@ There are however important differences between dense and sparse vector search:
 In general, the speed of the search is proportional to the number of non-zero values in the query vector.
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": {
-        "name": "text",
-        "vector": {
-            "indices": [6, 7],
-            "values": [1.0, 2.0]
-        }    
-    },
-    "limit": 3
+  "query": {
+    "indices": [6, 7],
+    "values": [1, 2]
+  },
+  "using": "text",
+  "limit": 3
 }
 ```
 
@@ -593,9 +589,9 @@ alter this behavior.
 Example:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
     "with_payload": true
 }
@@ -677,9 +673,9 @@ You can even specify an array of items to include, such as `city`,
 `village`, and `town`:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "query": [0.2, 0.1, 0.9, 0.7],
     "with_payload": ["city", "village", "town"]
 }
 ```
@@ -773,9 +769,9 @@ await client.SearchAsync(
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "query": [0.2, 0.1, 0.9, 0.7],
     "with_payload": {
       "exclude": ["city"]
     }
@@ -892,10 +888,11 @@ This can have a great effect on latency for non trivial filters as the intermedi
 In order to use it, simply pack together your search requests. All the regular attributes of a search request are of course available.
 
 ```http
-POST /collections/{collection_name}/points/search/batch
+POST /collections/{collection_name}/points/query/batch
 {
     "searches": [
         {
+            "query": [0.2, 0.1, 0.9, 0.7],
             "filter": {
                 "must": [
                     {
@@ -906,10 +903,10 @@ POST /collections/{collection_name}/points/search/batch
                     }
                 ]
             },
-            "vector": [0.2, 0.1, 0.9, 0.7],
             "limit": 3
         },
         {
+            "query": [0.5, 0.3, 0.2, 0.3],
             "filter": {
                 "must": [
                     {
@@ -920,7 +917,6 @@ POST /collections/{collection_name}/points/search/batch
                     }
                 ]
             },
-            "vector": [0.5, 0.3, 0.2, 0.3],
             "limit": 3
         }
     ]
@@ -1093,9 +1089,9 @@ Search and [recommendation](../explore/#recommendation-api) APIs allow to skip f
 Example:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": [0.2, 0.1, 0.9, 0.7],
+    "query": [0.2, 0.1, 0.9, 0.7],
     "with_vectors": true,
     "with_payload": true,
     "limit": 10,
@@ -1268,18 +1264,17 @@ With the ***groups*** API, you will be able to get the best *N* points for each 
 
 ### Search groups
 
-REST API ([Schema](https://api.qdrant.tech/master/api-reference/search/point-groups)):
+REST API ([Schema](https://api.qdrant.tech/api-reference/search/query-points-groups)):
 
 ```http
-POST /collections/{collection_name}/points/search/groups
+POST /collections/{collection_name}/points/query/groups
 {
-    // Same as in the regular search API
-    "vector": [1.1],
-
+    // Same as in the regular query API
+    "query": [1.1],
     // Grouping parameters
     "group_by": "document_id",  // Path of the field to group by
     "limit": 4,                 // Max amount of groups
-    "group_size": 2,            // Max amount of points per group
+    "group_size": 2            // Max amount of points per group
 }
 ```
 
@@ -1416,10 +1411,10 @@ For example, if you have a collection of documents, you may want to chunk them a
 In this case, to bring the information from the documents into the chunks grouped by the document id, you can use the `with_lookup` parameter:
 
 ```http
-POST /collections/chunks/points/search/groups
+POST /collections/chunks/points/query/groups
 {
-    // Same as in the regular search API
-    "vector": [1.1],
+    // Same as in the regular query API
+    "query": [1.1],
 
     // Grouping parameters
     "group_by": "document_id",
@@ -1437,7 +1432,7 @@ POST /collections/chunks/points/search/groups
 
         // Options for specifying what to bring from the vector(s) 
         // of the looked up point, true by default
-        "with_vectors: false
+        "with_vectors": false
     }
 }
 ```

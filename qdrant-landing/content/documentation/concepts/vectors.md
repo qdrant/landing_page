@@ -312,15 +312,13 @@ await client.UpsertAsync(
 Now you can run a search with sparse vectors:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": {
-        "name": "text",
-        "vector": {
-            "indices": [1, 3, 5, 7],
-            "values": [0.1, 0.2, 0.3, 0.4]
-        }
-    }
+    "query": {
+        "indices": [1, 3, 5, 7],
+        "values": [0.1, 0.2, 0.3, 0.4]
+    },
+    "using": "text"
 }
 ```
 
