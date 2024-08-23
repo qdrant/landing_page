@@ -308,12 +308,13 @@ print(search_result)
 ```
 
 ```typescript
-let searchResult = await client.search("test_collection", {
-  vector: [0.2, 0.1, 0.9, 0.7],
-  limit: 3,
+let searchResult = await client.query(
+    "test_collection", {
+    query: [0.2, 0.1, 0.9, 0.7],
+    limit: 3
 });
 
-console.debug(searchResult);
+console.debug(searchResult.points);
 ```
 
 ```rust
@@ -413,13 +414,13 @@ print(search_result)
 ```
 
 ```typescript
-searchResult = await client.search("test_collection", {
-  vector: [0.2, 0.1, 0.9, 0.7],
-  filter: {
-    must: [{ key: "city", match: { value: "London" } }],
-  },
-  with_payload: true,
-  limit: 3,
+searchResult = await client.query("test_collection", {
+    query: [0.2, 0.1, 0.9, 0.7],
+    filter: {
+        must: [{ key: "city", match: { value: "London" } }],
+    },
+    with_payload: true,
+    limit: 3,
 });
 
 console.debug(searchResult);
