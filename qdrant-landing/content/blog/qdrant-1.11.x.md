@@ -55,7 +55,7 @@ With version 1.11, Qdrant changes how vectors from the same tenant are stored on
 ```http
 PUT /collections/{collection_name}/index
 {
-    "field_name": "workspace_2",
+    "field_name": "group_id",
     "field_schema": {
         "type": "keyword",
         "is_tenant": true
@@ -66,7 +66,7 @@ PUT /collections/{collection_name}/index
 ```python
 client.create_payload_index(
     collection_name="{collection_name}",
-    field_name="workspace_2",
+    field_name="group_id",
     field_schema=models.KeywordIndexParams(
         type="keyword",
         is_tenant=True,
@@ -76,7 +76,7 @@ client.create_payload_index(
 
 ```typescript
 client.createPayloadIndex("{collection_name}", {
-  field_name: "workspace_2",
+  field_name: "group_id",
   field_schema: {
     type: "keyword",
     is_tenant: true,
@@ -97,7 +97,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client.create_field_index(
         CreateFieldIndexCollectionBuilder::new(
             "{collection_name}",
-            "workspace_2",
+            "group_id",
             FieldType::Keyword,
         ).field_index_params(
             KeywordIndexParamsBuilder::default()
@@ -119,7 +119,7 @@ QdrantClient client =
 client
     .createPayloadIndexAsync(
         "{collection_name}",
-        "workspace_2",
+        "group_id",
         PayloadSchemaType.Keyword,
         PayloadIndexParams.newBuilder()
             .setKeywordIndexParams(
@@ -141,7 +141,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreatePayloadIndexAsync(
  collectionName: "{collection_name}",
- fieldName: "workspace_2",
+ fieldName: "group_id",
  schemaType: PayloadSchemaType.Keyword,
  indexParams: new PayloadIndexParams
  {
@@ -173,7 +173,7 @@ When managing billions of records across millions of tenants, keeping all data i
 ```http
 PUT /collections/{collection_name}/index
 {
-    "field_name": "workspace_2",
+    "field_name": "group_id",
     "field_schema": {
         "type": "keyword",
         "is_tenant": true,
@@ -185,7 +185,7 @@ PUT /collections/{collection_name}/index
 ```python
 client.create_payload_index(
     collection_name="{collection_name}",
-    field_name="workspace_2",
+    field_name="group_id",
     field_schema=models.KeywordIndexParams(
         type="keyword",
         is_tenant=True,
@@ -196,7 +196,7 @@ client.create_payload_index(
 
 ```typescript
 client.createPayloadIndex("{collection_name}", {
-  field_name: "workspace_2",
+  field_name: "group_id",
   field_schema: {
     type: "keyword",
     is_tenant: true,
@@ -218,7 +218,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client.create_field_index(
     CreateFieldIndexCollectionBuilder::new(
         "{collection_name}",
-        "workspace_2",
+        "group_id",
         FieldType::Keyword,
     )
     .field_index_params(
@@ -242,7 +242,7 @@ QdrantClient client =
 client
     .createPayloadIndexAsync(
         "{collection_name}",
-        "workspace_2",
+        "group_id",
         PayloadSchemaType.Keyword,
         PayloadIndexParams.newBuilder()
             .setKeywordIndexParams(
@@ -265,7 +265,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreatePayloadIndexAsync(
  collectionName: "{collection_name}",
- fieldName: "workspace_2",
+ fieldName: "group_id",
  schemaType: PayloadSchemaType.Keyword,
  indexParams: new PayloadIndexParams
  {

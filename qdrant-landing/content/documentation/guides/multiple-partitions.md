@@ -179,8 +179,9 @@ await client.UpsertAsync(
 2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.1, 0.1, 0.9],
     "filter": {
         "must": [
             {
@@ -191,7 +192,6 @@ POST /collections/{collection_name}/points/search
             }
         ]
     },
-    "vector": [0.1, 0.1, 0.9],
     "limit": 10
 }
 ```
@@ -233,19 +233,22 @@ client.query("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchPointsBuilder};
+use qdrant_client::qdrant::{Condition, Filter, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.1, 0.1, 0.9], 10).filter(
-            Filter::must([Condition::matches("group_id", "user_1".to_string())]),
-        ),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.1, 0.1, 0.9])
+            .limit(10)
+            .filter(Filter::must([Condition::matches(
+                "group_id",
+                "user_1".to_string(),
+            )])),
     )
     .await?;
-
 ```
 
 ```java
@@ -254,21 +257,23 @@ import java.util.List;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Filter;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setFilter(
-                Filter.newBuilder().addMust(matchKeyword("group_id", "user_1")).build())
-            .addAllVector(List.of(0.1f, 0.1f, 0.9f))
-            .setLimit(10)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setFilter(
+                        Filter.newBuilder().addMust(matchKeyword("group_id", "user_1")).build())
+                .setQuery(nearest(0.1f, 0.1f, 0.9f))
+                .setLimit(10)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -278,9 +283,9 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchAsync(
+await client.QueryAsync(
 	collectionName: "{collection_name}",
-	vector: new float[] { 0.1f, 0.1f, 0.9f },
+	query: new float[] { 0.1f, 0.1f, 0.9f },
 	filter: MatchKeyword("group_id", "user_1"),
 	limit: 10
 );
