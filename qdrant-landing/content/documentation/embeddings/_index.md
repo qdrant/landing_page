@@ -18,14 +18,15 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | Embeddings Providers          | Description |
 | ----------------------------- | ----------- |
 | [Aleph Alpha](./aleph-alpha/) | Multilingual embeddings focused on European languages. |
+| [Azure](./azure/)             | Microsoft's embedding model selection. |
 | [Bedrock](./bedrock/)         | AWS's managed service for foundation models and embeddings. |
-| [BGE](./bge/)                 | Chinese embeddings for various NLP tasks. |
 | [Clarifai](./clarifai/)       | Embeddings for image and video recognition. |
 | [Clip](./clip/)               | Aligns images and text, by OpenAI. |
 | [Cohere](./cohere/)           | Language model embeddings for NLP tasks. |
 | [Databricks](./databricks/)   | Scalable embeddings integrated with Apache Spark. |
 | [Gemini](./gemini/)           | Google’s multimodal embeddings for text and vision. |
 | [GPT4All](./gpt4all/)         | Open-source, local embeddings for privacy-focused use. |
+| [GradientAI](./gradient/)     | Instruct a model on your data to see how it learns in real time |
 | [Instruct](./instruct/)       | Embeddings tuned for following instructions. |
 | [Jina](./jina-emebddngs/)     | Customizable embeddings for neural search. |
 | [John Snow Labs](./johnsnow/) | Medical and clinical embeddings. |
@@ -36,6 +37,7 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | [OCI](./oci/)                 | Oracle Cloud’s AI service with embeddings. |
 | [Ollama](./ollama/)           | Embeddings for conversational AI. |
 | [OpenAI](./openai/)           | Industry-leading embeddings for NLP. |
+| [OpenClip](./openclip/)       | Open source version of CLIP |
 | [Prem AI](./premai/)          | Precise language embeddings. |
 | [Snowflake](./snowflake/)     | Scalable embeddings for big data. |
 | [Together AI](./together_ai/) | Community-driven, open-source embeddings. |

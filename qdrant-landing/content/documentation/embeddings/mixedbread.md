@@ -37,7 +37,7 @@ text = "MixedBread provides versatile embeddings for various domains."
 embeddings = model.embed(text)
 
 # Initialize Qdrant client
-qdrant_client = qdrant_client.QdrantClient(host="localhost", port=6333)
+client = qdrant_client.QdrantClient(host="localhost", port=6333)
 
 # Upsert the embedding into Qdrant
 qdrant_client.upsert(

@@ -35,7 +35,7 @@ from aleph_alpha_client import (
 aa_token = "<< your_token >>"
 model = "luminous-base"
 
-qdrant_client = qdrant_client.QdrantClient()
+client = QdrantClient(url="http://localhost:6333")
 async with AsyncClient(token=aa_token) as client:
     prompt = ImagePrompt.from_file("./path/to/the/image.jpg")
     prompt = Prompt.from_image(prompt)
@@ -50,7 +50,7 @@ async with AsyncClient(token=aa_token) as client:
         request=query_request, model=model
     )
     
-    qdrant_client.upsert(
+    client.upsert(
         collection_name="MyCollection",
         points=Batch(
             ids=[1],

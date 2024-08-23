@@ -40,10 +40,10 @@ with torch.no_grad():
     embeddings = model.get_image_features(**inputs).numpy().tolist()
 
 # Initialize Qdrant client
-qdrant_client = qdrant_client.QdrantClient(host="localhost", port=6333)
+client = qdrant_client.QdrantClient(host="localhost", port=6333)
 
 # Upsert the embedding into Qdrant
-qdrant_client.upsert(
+client.upsert(
     collection_name="ImageEmbeddings",
     points=Batch(
         ids=[1],

@@ -39,7 +39,7 @@ response = ai_client.batch_detect_language_entities(text)
 embeddings = response.data[0].entities[0].embedding
 
 # Initialize Qdrant client
-qdrant_client = qdrant_client.QdrantClient(host="localhost", port=6333)
+client = qdrant_client.QdrantClient(host="localhost", port=6333)
 
 # Upsert the embedding into Qdrant
 qdrant_client.upsert(
