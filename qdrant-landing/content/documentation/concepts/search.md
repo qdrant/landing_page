@@ -296,26 +296,24 @@ client
 import java.util.List;
 
 import static io.qdrant.client.ConditionFactory.matchKeyword;
+import static io.qdrant.client.QueryFactory.nearest;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
-            .setParams(SearchParams.newBuilder().setExact(false).setHnswEf(128).build())
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(QueryPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+        .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
+        .setParams(SearchParams.newBuilder().setExact(false).setHnswEf(128).build())
+        .setLimit(3)
+        .build()).get();
 ```
 
 ```csharp
@@ -425,20 +423,19 @@ import java.util.List;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setVectorName("image")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(QueryPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+        .setUsing("image")
+        .setLimit(3)
+        .build()).get();
 ```
 
 ```csharp
@@ -539,22 +536,21 @@ import java.util.List;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
-import io.qdrant.client.grpc.Points.SparseIndices;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-.searchAsync(
-    SearchPoints.newBuilder()
-        .setCollectionName("{collection_name}")
-        .setVectorName("text")
-        .addAllVector(List.of(2.0f, 1.0f))
-        .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 7)).build())
-        .setLimit(3)
-        .build())
-.get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setUsing("text")
+                .setQuery(nearest(List.of(2.0f, 1.0f), List.of(1, 7)))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -630,28 +626,27 @@ client
 ```
 
 ```java
-import java.util.List;
-
-import static io.qdrant.client.WithPayloadSelectorFactory.enable;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.WithVectorsSelectorFactory;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(enable(true))
-            .setWithVectors(WithVectorsSelectorFactory.enable(true))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(enable(true))
+                .setWithVectors(WithVectorsSelectorFactory.enable(true))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -726,24 +721,24 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.include;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(include(List.of("city", "village", "town")))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(include(List.of("city", "village", "town")))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -828,24 +823,24 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.exclude;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.exclude;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(exclude(List.of("city")))
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(exclude(List.of("city")))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -1005,30 +1000,32 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.ConditionFactory.matchKeyword;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Filter;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 Filter filter = Filter.newBuilder().addMust(matchKeyword("city", "London")).build();
-List<SearchPoints> searches =
-    List.of(
-        SearchPoints.newBuilder()
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setFilter(filter)
-            .setLimit(3)
-            .build(),
-        SearchPoints.newBuilder()
-            .addAllVector(List.of(0.5f, 0.3f, 0.2f, 0.3f))
-            .setFilter(filter)
-            .setLimit(3)
-            .build());
-client.searchBatchAsync("{collection_name}", searches, null).get();
+
+List<QueryPoints> searches = List.of(
+        QueryPoints.newBuilder()
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setFilter(filter)
+                .setLimit(3)
+                .build(),
+        QueryPoints.newBuilder()
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setFilter(filter)
+                .setLimit(3)
+                .build());
+
+client.queryBatchAsync("{collection_name}", searches).get();
 ```
 
 ```csharp
@@ -1148,27 +1145,27 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.enable;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.WithVectorsSelectorFactory;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setWithPayload(enable(true))
-            .setWithVectors(WithVectorsSelectorFactory.enable(true))
-            .setLimit(10)
-            .setOffset(100)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setWithPayload(enable(true))
+                .setWithVectors(WithVectorsSelectorFactory.enable(true))
+                .setLimit(10)
+                .setOffset(100)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -1318,16 +1315,15 @@ import java.util.List;
 
 import io.qdrant.client.grpc.Points.SearchPointGroups;
 
-client
-    .searchGroupsAsync(
-        SearchPointGroups.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(1.1f))
-            .setGroupBy("document_id")
-            .setLimit(4)
-            .setGroupSize(2)
-            .build())
-    .get();
+client.queryGroupsAsync(
+        QueryPointGroups.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setGroupBy("document_id")
+                .setLimit(4)
+                .setGroupSize(2)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -1496,28 +1492,28 @@ client
 ```java
 import java.util.List;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.include;
-import static io.qdrant.client.WithVectorsSelectorFactory.enable;
-
-import io.qdrant.client.grpc.Points.SearchPointGroups;
+import io.qdrant.client.grpc.Points.QueryPointGroups;
 import io.qdrant.client.grpc.Points.WithLookup;
 
-client
-    .searchGroupsAsync(
-        SearchPointGroups.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(1.0f))
-            .setGroupBy("document_id")
-            .setLimit(2)
-            .setGroupSize(2)
-            .setWithLookup(
-                WithLookup.newBuilder()
-                    .setCollection("documents")
-                    .setWithPayload(include(List.of("title", "text")))
-                    .setWithVectors(enable(false))
-                    .build())
-            .build())
-    .get();
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.WithVectorsSelectorFactory.enable;
+import static io.qdrant.client.WithPayloadSelectorFactory.include;
+
+client.queryGroupsAsync(
+        QueryPointGroups.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setGroupBy("document_id")
+                .setLimit(2)
+                .setGroupSize(2)
+                .setWithLookup(
+                        WithLookup.newBuilder()
+                                .setCollection("documents")
+                                .setWithPayload(include(List.of("title", "text")))
+                                .setWithVectors(enable(false))
+                                .build())
+                .build())
+        .get();
 ```
 
 ```csharp
