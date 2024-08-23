@@ -8,7 +8,7 @@ The Qdrant Cloud API lets you manage Cloud accounts and their respective Qdrant 
 
 | REST API      | Documentation                                                                        |
 | -------- | ------------------------------------------------------------------------------------ |
-| v.0.1.0 | [OpenAPI Specification](https://cloud.qdrant.io/pa/v1/docs)                       |
+| v.0.1.0 | [OpenAPI Specification](https://cloud.qdrant.io/pa/v1/docs/)                       |
 
 **Note:** This is not the Qdrant REST API. For core product APIs & SDKs, see our list of [interfaces](/documentation/interfaces/)
 
