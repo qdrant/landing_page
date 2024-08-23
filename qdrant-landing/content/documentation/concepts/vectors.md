@@ -341,16 +341,17 @@ result = client.search(
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 10)
-            .sparse_indices(vec![1, 3, 5, 7])
-            .vector_name("text")
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![(1, 0.2), (3, 0.1), (5, 0.9), (7, 0.7)])
+            .limit(10)
+            .using("text"),
     )
     .await?;
 ```

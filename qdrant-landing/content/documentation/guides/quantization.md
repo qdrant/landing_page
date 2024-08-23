@@ -621,21 +621,26 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{QuantizationSearchParamsBuilder, SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::qdrant::{
+    QuantizationSearchParamsBuilder, QueryPointsBuilder, SearchParamsBuilder,
+};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
     
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 10).params(
-            SearchParamsBuilder::default().quantization(
-                QuantizationSearchParamsBuilder::default()
-                    .ignore(false)
-                    .rescore(true)
-                    .oversampling(2.0),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(10)
+            .params(
+                SearchParamsBuilder::default().quantization(
+                    QuantizationSearchParamsBuilder::default()
+                        .ignore(false)
+                        .rescore(true)
+                        .oversampling(2.0),
+                ),
             ),
-        ),
     )
     .await?;
 ```
@@ -760,18 +765,21 @@ client.search("{collection_name}", {
 
 ```rust
 use qdrant_client::qdrant::{
-    QuantizationSearchParamsBuilder, SearchParamsBuilder, SearchPointsBuilder,
+    QuantizationSearchParamsBuilder, QueryPointsBuilder, SearchParamsBuilder,
 };
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3).params(
-            SearchParamsBuilder::default()
-                .quantization(QuantizationSearchParamsBuilder::default().ignore(true)),
-        ),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
+            .params(
+                SearchParamsBuilder::default()
+                    .quantization(QuantizationSearchParamsBuilder::default().ignore(true)),
+            ),
     )
     .await?;
 ```
@@ -1018,17 +1026,22 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{QuantizationSearchParamsBuilder, SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::qdrant::{
+    QuantizationSearchParamsBuilder, QueryPointsBuilder, SearchParamsBuilder,
+};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3).params(
-            SearchParamsBuilder::default()
-                .quantization(QuantizationSearchParamsBuilder::default().rescore(false)),
-        ),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
+            .params(
+                SearchParamsBuilder::default()
+                    .quantization(QuantizationSearchParamsBuilder::default().rescore(false)),
+            ),
     )
     .await?;
 ```

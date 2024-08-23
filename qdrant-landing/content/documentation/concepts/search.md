@@ -277,12 +277,14 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchParamsBuilder, SearchPointsBuilder};
+use qdrant_client::qdrant::{Condition, Filter, QueryPointsBuilder, SearchParamsBuilder};
 use qdrant_client::Qdrant;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
             .filter(Filter::must([Condition::matches(
                 "city",
                 "London".to_string(),
@@ -405,15 +407,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
-            .vector_name("image"),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
+            .using("image"),
     )
     .await?;
 ```
@@ -517,16 +521,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![2.0, 1.0], 3)
-            .sparse_indices(vec![1, 7])
-            .vector_name("text"),
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![(1, 2.0), (7, 1.0)])
+            .limit(3)
+            .using("text"),
     )
     .await?;
 ```
@@ -610,14 +615,16 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
             .with_payload(true)
             .with_vectors(true),
     )
@@ -698,12 +705,14 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, SearchPointsBuilder};
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
             .with_payload(SelectorOptions::Include(
                 vec![
                     "city".to_string(),
@@ -800,20 +809,17 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, SearchPointsBuilder};
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
-            .with_payload(SelectorOptions::Exclude(
-                vec![
-                    "city".to_string(),
-                ]
-                .into(),
-            ))
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
+            .with_payload(SelectorOptions::Exclude(vec!["city".to_string()].into()))
             .with_vectors(true),
     )
     .await?;
@@ -976,24 +982,29 @@ client.searchBatch("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{Condition, Filter, SearchBatchPointsBuilder, SearchPointsBuilder};
+use qdrant_client::qdrant::{Condition, Filter, QueryBatchPointsBuilder, QueryPointsBuilder};
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let filter = Filter::must([Condition::matches("city", "London".to_string())]);
+
 let searches = vec![
-    SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    QueryPointsBuilder::new("{collection_name}")
+        .query(vec![0.1, 0.2, 0.3, 0.4])
+        .limit(3)
         .filter(filter.clone())
         .build(),
-    SearchPointsBuilder::new("{collection_name}", vec![0.5, 0.3, 0.2, 0.3], 3)
-        .filter(filter.)
+    QueryPointsBuilder::new("{collection_name}")
+        .query(vec![0.5, 0.3, 0.2, 0.3])
+        .limit(3)
+        .filter(filter)
         .build(),
 ];
 
 client
-    .search_batch_points(SearchBatchPointsBuilder::new("{collection_name}", searches))
-    .await?;
+        .query_batch(QueryBatchPointsBuilder::new("{collection_name}", searches))
+        .await?;
 ```
 
 ```java
@@ -1127,14 +1138,15 @@ client.search("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointsBuilder;
+use qdrant_client::qdrant::QueryPointsBuilder;
 use qdrant_client::Qdrant;
 
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
-    .search_points(
-        SearchPointsBuilder::new("{collection_name}", vec![0.2, 0.1, 0.9, 0.7], 3)
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
             .with_payload(true)
             .with_vectors(true)
             .limit(10)
@@ -1298,16 +1310,17 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::SearchPointGroupsBuilder;
+use qdrant_client::qdrant::QueryPointGroupsBuilder;
 
 client
-    .search_groups(SearchPointGroupsBuilder::new(
-        "{collection_name}",
-        vec![1.1],
-        4,
-        "document_id",
-        2,
-    ))
+    .query_groups(
+        QueryPointGroupsBuilder::new("{collection_name}", "document_id")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(2u64)
+            .with_payload(true)
+            .with_vectors(true)
+            .limit(4u64),
+    )
     .await?;
 ```
 
@@ -1464,7 +1477,7 @@ client.searchPointGroups("{collection_name}", {
   limit: 2,
   group_size: 2,
   with_lookup: {
-    collection: w,
+    collection: "documents",
     with_payload: ["title", "text"],
     with_vectors: false,
   },
@@ -1472,13 +1485,14 @@ client.searchPointGroups("{collection_name}", {
 ```
 
 ```rust
-use qdrant_client::qdrant::{
-    with_payload_selector::SelectorOptions, SearchPointGroupsBuilder, WithLookupBuilder,
-};
+use qdrant_client::qdrant::{with_payload_selector::SelectorOptions, QueryPointGroupsBuilder, WithLookupBuilder};
 
 client
-    .search_groups(
-        SearchPointGroupsBuilder::new("{collection_name}", vec![1.1], 2, "document_id", 2)
+    .query_groups(
+        QueryPointGroupsBuilder::new("{collection_name}", "document_id")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(2u64)
+            .limit(2u64)
             .with_lookup(
                 WithLookupBuilder::new("documents")
                     .with_payload(SelectorOptions::Include(
