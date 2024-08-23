@@ -2,10 +2,7 @@
 ---
 title: MixedBread
 weight: 2200
-aliases:
-  - /documentation/examples/mixedbread-search/
-  - /documentation/tutorials/mixedbread-search/
-  - /documentation/integrations/mixedbread/ 
+
 ---
 
 # Using MixedBread with Qdrant 

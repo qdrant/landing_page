@@ -2,10 +2,6 @@
 ---
 title: Clarifai
 weight: 1200
-aliases:
-  - /documentation/examples/clarifai-search/
-  - /documentation/tutorials/clarifai-search/
-  - /documentation/integrations/clarifai/ 
 ---
 
 # Using Clarifai Embeddings with Qdrant 

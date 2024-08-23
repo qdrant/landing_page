@@ -2,10 +2,7 @@
 ---
 title: OpenCLIP
 weight: 2750
-aliases:
-  - /documentation/examples/openclip-search/
-  - /documentation/tutorials/openclip-search/
-  - /documentation/integrations/openclip/
+
 ---
 
 # Using OpenCLIP with Qdrant

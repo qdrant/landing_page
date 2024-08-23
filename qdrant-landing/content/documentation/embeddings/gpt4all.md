@@ -2,10 +2,7 @@
 ---
 title: GPT4All
 weight: 1700
-aliases:
-  - /documentation/examples/gpt4all-search/
-  - /documentation/tutorials/gpt4all-search/
-  - /documentation/integrations/gpt4all/ 
+
 ---
 
 # Using GPT4All with Qdrant 

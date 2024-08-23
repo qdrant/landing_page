@@ -2,10 +2,6 @@
 ---
 title: OCI (Oracle Cloud Infrastructure)
 weight: 2500
-aliases:
-  - /documentation/examples/oci-(oracle-cloud-infrastructure)-search/
-  - /documentation/tutorials/oci-(oracle-cloud-infrastructure)-search/
-  - /documentation/integrations/oci-(oracle-cloud-infrastructure)/ 
 ---
 
 # Using OCI (Oracle Cloud Infrastructure) with Qdrant 

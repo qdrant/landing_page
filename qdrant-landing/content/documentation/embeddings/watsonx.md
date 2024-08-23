@@ -2,10 +2,6 @@
 ---
 title: Watsonx
 weight: 3000
-aliases:
-  - /documentation/examples/watsonx-search/
-  - /documentation/tutorials/watsonx-search/
-  - /documentation/integrations/watsonx/ 
 ---
 
 # Using Watsonx with Qdrant 

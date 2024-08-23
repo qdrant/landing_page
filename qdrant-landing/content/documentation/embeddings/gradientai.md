@@ -1,11 +1,7 @@
 
 ---
 title: GradientAI
-weight: 3000
-aliases:
-  - /documentation/examples/gradientai-search/
-  - /documentation/tutorials/gradientai-search/
-  - /documentation/integrations/gradientai/ 
+weight: 1750
 ---
 
 # Using GradientAI with Qdrant 

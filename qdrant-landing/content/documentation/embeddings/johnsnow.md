@@ -2,10 +2,6 @@
 ---
 title: John Snow Labs
 weight: 2000
-aliases:
-  - /documentation/examples/john-snow-labs-search/
-  - /documentation/tutorials/john-snow-labs-search/
-  - /documentation/integrations/john-snow-labs/ 
 ---
 
 # Using John Snow Labs with Qdrant 

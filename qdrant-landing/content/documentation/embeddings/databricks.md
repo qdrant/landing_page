@@ -2,10 +2,6 @@
 ---
 title: Databricks Embeddings
 weight: 1500
-aliases:
-  - /documentation/examples/databricks-embeddings-search/
-  - /documentation/tutorials/databricks-embeddings-search/
-  - /documentation/integrations/databricks-embeddings/
 ---
 
 # Using Databricks Embeddings with Qdrant

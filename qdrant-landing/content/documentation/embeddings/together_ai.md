@@ -2,10 +2,6 @@
 ---
 title: Together AI
 weight: 3000
-aliases:
-  - /documentation/examples/together-ai-search/
-  - /documentation/tutorials/together-ai-search/
-  - /documentation/integrations/together-ai/ 
 ---
 
 # Using Together AI with Qdrant 

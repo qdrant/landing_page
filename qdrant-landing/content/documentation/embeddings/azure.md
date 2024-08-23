@@ -1,11 +1,7 @@
 
 ---
 title: Azure OpenAI
-weight: 3000
-aliases:
-  - /documentation/examples/azure-openai-search/
-  - /documentation/tutorials/azure-openai-search/
-  - /documentation/integrations/azure-openai/ 
+weight: 950
 ---
 
 # Using Azure OpenAI with Qdrant 
