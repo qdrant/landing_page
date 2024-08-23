@@ -10,29 +10,31 @@ weight: 4
 
 In this tutorial, you will set up a simple Multimodal Image & Text Search with Qdrant & FastEmbed.
 
-## What is multimodal search?
+## Overview
 
-Frequently, we perceive and transfer data of different modalities better in combinations. We have cross-modal associations (taste of comfort food bringing you to a childhood slide film of memories), we search for a song by the description "pam pam clap" and use emojis and sticker packs instead of 1000 words.
+We often understand and share information more effectively when combining different types of data. For example, the taste of comfort food can trigger childhood memories. We might describe a song with just “pam pam clap” sounds. Instead of writing paragraphs. Sometimes, we may use emojis and stickers to express how we feel or to share complex ideas.
 
 Modalities of data such as **text**, **images**, **video** and **audio** in various combinations form valuable use cases for Semantic Search applications.
 
 Vector databases, being **modality-agnostic**, are perfect for building these applications.
 
-We chose the two most common modalities for this simple tutorial: **images** and **texts**. However, creating a Semantic Search application with any combination of modalities is possible if the suitable embedding model is chosen to deal with the **semantic gap**.
+In this simple tutorial, we are working with two simple modalities: **image** and **text** data. However, you can create a Semantic Search application with any combination of modalities if you choose the right embedding model to bridge the **semantic gap**.
 
-> **Semantic gap** refers to the difference between low-level features (aka brightness) and high-level concepts (aka cuteness).
+> The **semantic gap** refers to the difference between low-level features (aka brightness) and high-level concepts (aka cuteness).
 
 For example, the [ImageBind model](https://github.com/facebookresearch/ImageBind) from Meta AI is said to bind all 4 mentioned modalities in one shared space.
 
 ## Prerequisites
+
 > **Note**: The code for this tutorial can be found [here](https://github.com/qdrant/examples/multimodal-search)
 
-
-To complete this tutorial, you will need either a Docker to run a pre-built Docker image of Qdrant and Python version ≥ 3.8 or a Google Collab Notebook if you don't want to install anything locally. 
+To complete this tutorial, you will need either Docker to run a pre-built Docker image of Qdrant and Python version ≥ 3.8 or a Google Collab Notebook if you don't want to install anything locally. 
 
 We showed how to run Qdrant in Docker in the ["Create a Simple Neural Search Service"](https://qdrant.tech/documentation/tutorials/neural-search/) Tutorial.
 
-Once you set up the framework for the tutorial, install the required libraries `qdrant-client`, `fastembed` and `Pillow`.
+## Setup
+
+First, install the required libraries `qdrant-client`, `fastembed` and `Pillow`.
 For example, with the `pip` package manager, it can be done in the following way.
 
 ```bash
@@ -40,10 +42,10 @@ python3 -m pip install --upgrade qdrant-client fastembed Pillow
 ```
 
 <aside role="status">
-We will use <a href="https://qdrant.tech/documentation/fastembed/">Fastembed</a> for generating multimodal embeddings and <b>Qdrant</b> for storing and retrieving them.
+We will use <a href="https://qdrant.tech/documentation/fastembed/">FastEmbed</a> for generating multimodal embeddings and <b>Qdrant</b> for storing and retrieving them.
 </aside>
 
-## Prepare sample dataset
+## Dataset
 To make the demonstration simple, we created a tiny dataset of images and their captions for you.
 
 Images can be downloaded from [here](https://github.com/qdrant/examples/multimodal-search/images).
@@ -55,7 +57,7 @@ from PIL import Image
 
 Image.open('images/lizard.jpg')
 ```
-<h3 style="font-size: 1.1em;">Embedding</h3>
+## Vectorize data
 
 `FastEmbed` supports **Contrastive Language–Image Pre-training** ([CLIP](https://openai.com/index/clip/)) model, the old (2021) but gold classics of multimodal Image-Text Machine Learning. 
 **CLIP** model was one of the first models of such kind with ZERO-SHOT capabilities.
@@ -114,7 +116,7 @@ if not client.collection_exists("text_image"): #creating a Collection
  }
  )
 ```
-3. **Upload our images with captions to the **Collection****.
+3. **Upload our images with captions to the Collection**.
 
 Each image with its caption will create a [Point](https://qdrant.tech/documentation/concepts/points/) in Qdrant.
 
@@ -185,7 +187,7 @@ client.search(
 'A photo of a cute pig'
 ```
 
-### Next steps
+## Next steps
 
 Use cases of even just Image & Text Multimodal Search are countless: E-Commerce, Media Management, Content Recommendation, Emotion Recognition Systems, Biomedical Image Retrieval, Spoken Sign Language Transcription, etc.
 
