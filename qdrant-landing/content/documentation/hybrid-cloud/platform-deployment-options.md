@@ -1,9 +1,9 @@
 ---
-title: Deployment platforms
-weight: 4
+title: Deployment Platforms
+weight: 5
 ---
 
-# Platform Deployment Options
+# Qdrant Hybrid Cloud: Hosting Platforms & Deployment Options
 
 This page provides an overview of how to deploy Qdrant Hybrid Cloud on various managed Kubernetes platforms.
 

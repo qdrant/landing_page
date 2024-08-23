@@ -16,7 +16,8 @@ These tutorials demonstrate different ways you can build vector search into your
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
 | [Semantic Search for Beginners](../tutorials/search-beginners/)                 | Create a simple search engine locally in minutes.                 | Qdrant                                      | 
 | [Simple Neural Search](../tutorials/neural-search/)                             | Build and deploy a neural search that browses startup data.       | Qdrant, BERT, FastAPI                       | 
-| [Neural Search with FastEmbed](../tutorials/neural-search-fastembed/)                                 | Build and deploy a neural search with our FastEmbed library.               | Qdrant                                      |  
+| [Neural Search with FastEmbed](../tutorials/neural-search-fastembed/)                                 | Build and deploy a neural search with our FastEmbed library.               | Qdrant                                      | 
+| [Multimodal Search](../tutorials/multimodal-search-fastembed/)                                | Create a simple multimodal search.                                      | Qdrant                                      |  
 | [Bulk Upload Vectors](../tutorials/bulk-upload/)                                | Upload a large scale dataset.                                     | Qdrant                                      | 
 | [Asynchronous API](../tutorials/async-api/)                                     | Communicate with Qdrant server asynchronously with Python SDK.    | Qdrant, Python                              |
 | [Create Dataset Snapshots](../tutorials/create-snapshot/)                       | Turn a dataset into a snapshot by exporting it from a collection. | Qdrant                                      | 

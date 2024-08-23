@@ -1051,8 +1051,9 @@ is consistent across cluster nodes.
 - default `consistency` is `1`
 
 ```http
-POST /collections/{collection_name}/points/search?consistency=majority
+POST /collections/{collection_name}/points/query?consistency=majority
 {
+    "query": [0.2, 0.1, 0.9, 0.7],
     "filter": {
         "must": [
             {
@@ -1067,7 +1068,6 @@ POST /collections/{collection_name}/points/search?consistency=majority
         "hnsw_ef": 128,
         "exact": false
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 3
 }
 ```
@@ -1130,33 +1130,31 @@ client
 ```
 
 ```java
-import java.util.List;
-
-import static io.qdrant.client.ConditionFactory.matchKeyword;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.ReadConsistency;
 import io.qdrant.client.grpc.Points.ReadConsistencyType;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+import static io.qdrant.client.ConditionFactory.matchKeyword;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
-            .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(true).build())
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setLimit(3)
-            .setReadConsistency(
-                ReadConsistency.newBuilder().setType(ReadConsistencyType.Majority).build())
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
+                .setQuery(nearest(.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(true).build())
+                .setLimit(3)
+                .setReadConsistency(
+                        ReadConsistency.newBuilder().setType(ReadConsistencyType.Majority).build())
+                .build())
+        .get();
 ```
 
 ```csharp

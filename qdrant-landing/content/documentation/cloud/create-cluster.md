@@ -1,9 +1,60 @@
 ---
-title: Create a cluster
+title: Create a Cluster
 weight: 20
 ---
 
-# Create a cluster
+# Creating a Qdrant Cloud Cluster
+
+Qdrant Cloud offers two types of clusters: **Free** and **Standard**.
+
+## Free Clusters
+
+Free tier clusters are perfect for prototyping and testing. You don't need a credit card to join.
+
+A free tier cluster only includes 1 single node with the following resources:
+
+| Resource   | Value |
+|------------|-------|
+| RAM        | 1 GB  |
+| vCPU       | 0.5   |
+| Disk space | 4 GB  |
+| Nodes      | 1     |
+
+This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/).
+
+The choice of cloud providers and regions is limited.
+
+It includes:
+
+- Standard Support
+- Basic monitoring
+- Basic log access
+- Basic alerting
+- Version upgrades with downtime
+- Only manual snapshots and restores via API
+- No dedicated resources
+
+If unused, free tier clusters are automatically suspended after 1 week, and deleted after 4 weeks of inactivity if not reactivated.
+
+You can always upgrade to a standard cluster with more resources and features.
+
+## Standard Clusters
+
+On top of the Free cluster features, Standard clusters offer:
+
+- Response time and uptime SLAs
+- Dedicated resources
+- Backup and disaster recovery
+- Multi-node clusters for high availability
+- Horizontal and vertical scaling
+- Monitoring and log management
+- Zero-downtime upgrades for multi-node clusters with replication
+
+You have a broad choice of regions on AWS, Azure and Google Cloud.
+
+For payment information see [**Pricing and Payments**](/documentation/cloud/pricing-payments/).
+
+## Create a cluster
 
 This page shows you how to use the Qdrant Cloud Console to create a custom Qdrant Cloud cluster.
 
@@ -12,55 +63,38 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 1. Start in the **Clusters** section of the [Cloud Dashboard](https://cloud.qdrant.io/). 
 1. Select **Clusters** and then click **+ Create**.
 1. In the **Create a cluster** screen select **Free** or **Standard**
-   For more information on a free cluster, follow [Free Tier Setup](/documentation/cloud/qdrant-cloud-setup/). The remaining steps assume you want a standard cluster.
+   Most of the remaining configuration options are only available for standard clusters.
 1. Select a provider. Currently, you can deploy to:
 
    - Amazon Web Services (AWS)
    - Google Cloud Platform (GCP)
    - Microsoft Azure 
+   - Your own [Hybrid Cloud](/documentation/hybrid-cloud/) Infrastructure
 
-1. Choose your data center region. If you have latency concerns or other topology-related requirements, [**let us know**](mailto:cloud@qdrant.io).
-1. Configure RAM for each node (2 GB to 64 GB). 
-   >  For more information, see our [**Capacity and Sizing**](/documentation/cloud/capacity-sizing/) guidance. If you need more capacity per node, [**let us know**](mailto:cloud@qdrant.io).
-1. Choose the number of vCPUs per node (0.5 core to 16 cores). If you add more
+1. Choose your data center region or Hybrid Cloud environment. 
+1. Configure RAM for each node. 
+   >  For more information, see our [**Capacity and Sizing**](/documentation/cloud/capacity-sizing/) guidance.
+1. Choose the number of vCPUs per node. If you add more
    RAM, the menu provides different options for vCPUs.
-1. Select the number of nodes you want the cluster to be deployed on. 
-
-   > Each node is automatically attached with a disk space offering enough space for your data if you decide to put the metadata or even the index on the disk storage.
-1. Select the disk space for your deployment. You can choose from 8 GB to 2 TB.
+1. Select the number of nodes you want the cluster to be deployed on.
+   > Each node is automatically attached with a disk, that has enough space to store data with Qdrant's default collection configuration.
+1. Select additional disk space for your deployment.
+   > Depending on your collection configuration, you may need more disk space per RAM. For example, if you configure `on_disk: true` and only use RAM for caching. 
 1. Review your cluster configuration and pricing.
 1. When you're ready, select **Create**. It takes some time to provision your cluster.
 
-Once provisioned, you can access your cluster on ports 443 and 6333 (REST)
-and 6334 (gRPC).
+Once provisioned, you can access your cluster on ports 443 and 6333 (REST) and 6334 (gRPC).
 
 ![Cluster configured in the UI](/docs/cloud/create-cluster-test.png)
 
 You should now see the new cluster in the **Clusters** menu.
 
-A custom cluster includes the following resources. The values in the table are maximums.
-
-| Resource   | Value (max) |
-|------------|-------------|
-| RAM        | 64 GB       |
-| vCPU       | 16 vCPU     |
-| Disk space | 2 TB        |
-| Nodes      | 10          |  
-
-### Included features (paid)
-
-The features included with this cluster are:
-
-- Dedicated resources
-- Backup and disaster recovery
-- Horizontal and vertical scaling
-- Monitoring and log management
-
-Learn more about these features in the [Qdrant Cloud dashboard](https://cloud.qdrant.io/).
-
 ## Next steps
 
 You will need to connect to your new Qdrant Cloud cluster. Follow [**Authentication**](/documentation/cloud/authentication/) to create one or more API keys. 
 
-Your new cluster is highly available and responsive to your application requirements and resource load. Read more in [**Cluster Scaling**](/documentation/cloud/cluster-scaling/).
+You can also scale your cluster both horizontally and vertically. Read more in [**Cluster Scaling**](/documentation/cloud/cluster-scaling/).
 
+If a new Qdrant version becomes available, you can upgrade your cluster. See [**Cluster Upgrades**](/documentation/cloud/cluster-upgrades/).
+
+For more information on creating and restoring backups of a cluster, see [**Backups**](/documentation/cloud/backups/).

@@ -332,20 +332,18 @@ dbg!(search_result);
 import java.util.List;
 
 import io.qdrant.client.grpc.Points.ScoredPoint;
-import io.qdrant.client.grpc.Points.SearchPoints;
+import io.qdrant.client.grpc.Points.QueryPoints;
 
 import static io.qdrant.client.WithPayloadSelectorFactory.enable;
+import static io.qdrant.client.QueryFactory.nearest;
 
 List<ScoredPoint> searchResult =
-    client
-        .searchAsync(
-            SearchPoints.newBuilder()
+    client.queryAsync(QueryPoints.newBuilder()
                 .setCollectionName("test_collection")
                 .setLimit(3)
-                .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
                 .setWithPayload(enable(true))
-                .build())
-        .get();
+                .build()).get();
       
 System.out.println(searchResult);
 ```
@@ -446,16 +444,13 @@ dbg!(search_result);
 import static io.qdrant.client.ConditionFactory.matchKeyword;
 
 List<ScoredPoint> searchResult =
-    client
-        .searchAsync(
-            SearchPoints.newBuilder()
+    client.queryAsync(QueryPoints.newBuilder()
                 .setCollectionName("test_collection")
                 .setLimit(3)
                 .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")))
-                .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
                 .setWithPayload(enable(true))
-                .build())
-        .get();
+                .build()).get();
 
 System.out.println(searchResult);
 ```

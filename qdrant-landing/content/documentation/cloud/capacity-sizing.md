@@ -1,11 +1,11 @@
 ---
-title: Capacity and sizing
+title: Configure Size & Capacity
 weight: 40
 aliases:
   - capacity
 ---
 
-# Capacity and sizing
+# Configuring Qdrant Cloud Cluster Capacity and Size
 
 We have been asked a lot about the optimal cluster configuration to serve a number of vectors.
 The only right answer is “It depends”.

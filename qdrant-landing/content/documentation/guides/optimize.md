@@ -159,14 +159,14 @@ await client.CreateCollectionAsync(
 Optionally, you can disable rescoring with search `params`, which will reduce the number of disk reads even further, but potentially slightly decrease the precision.
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.2, 0.1, 0.9, 0.7],
     "params": {
         "quantization": {
             "rescore": false
         }
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 10
 }
 ```
@@ -219,29 +219,29 @@ client
 ```
 
 ```java
-import java.util.List;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 import io.qdrant.client.grpc.Points.QuantizationSearchParams;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setParams(
-                SearchParams.newBuilder()
-                    .setQuantization(
-                        QuantizationSearchParams.newBuilder().setRescore(false).build())
-                    .build())
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(
+                        SearchParams.newBuilder()
+                                .setQuantization(
+                                        QuantizationSearchParams.newBuilder().setRescore(false).build())
+                                .build())
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp
@@ -526,13 +526,13 @@ await client.CreateCollectionAsync(
 There are also some search-time parameters you can use to tune the search accuracy and speed:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
+    "query": [0.2, 0.1, 0.9, 0.7],
     "params": {
         "hnsw_ef": 128,
         "exact": false
     },
-    "vector": [0.2, 0.1, 0.9, 0.7],
     "limit": 3
 }
 ```
@@ -580,25 +580,24 @@ client
 ```
 
 ```java
-import java.util.List;
-
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
 import io.qdrant.client.grpc.Points.SearchParams;
-import io.qdrant.client.grpc.Points.SearchPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-    .searchAsync(
-        SearchPoints.newBuilder()
-            .setCollectionName("{collection_name}")
-            .addAllVector(List.of(0.2f, 0.1f, 0.9f, 0.7f))
-            .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(false).build())
-            .setLimit(3)
-            .build())
-    .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+                .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(false).build())
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp

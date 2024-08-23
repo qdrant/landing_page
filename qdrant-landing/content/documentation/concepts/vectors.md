@@ -312,15 +312,13 @@ await client.UpsertAsync(
 Now you can run a search with sparse vectors:
 
 ```http
-POST /collections/{collection_name}/points/search
+POST /collections/{collection_name}/points/query
 {
-    "vector": {
-        "name": "text",
-        "vector": {
-            "indices": [1, 3, 5, 7],
-            "values": [0.1, 0.2, 0.3, 0.4]
-        }
-    }
+    "query": {
+        "indices": [1, 3, 5, 7],
+        "values": [0.1, 0.2, 0.3, 0.4]
+    },
+    "using": "text"
 }
 ```
 
@@ -379,23 +377,21 @@ import java.util.List;
 
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
-import io.qdrant.client.grpc.Points.SearchPoints;
-import io.qdrant.client.grpc.Points.SparseIndices;
-import io.qdrant.client.grpc.Points.Vectors;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
 
 QdrantClient client =
   new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
-client
-  .searchAsync(
-    SearchPoints.newBuilder()
-    .setCollectionName("{collection_name}")
-    .setVectorName("text")
-    .addAllVector(List.of(0.1f, 0.2f, 0.3f, 0.4f))
-    .setSparseIndices(SparseIndices.newBuilder().addAllData(List.of(1, 3, 5, 7)).build())
-    .setLimit(3)
-    .build())
-  .get();
+client.queryAsync(
+        QueryPoints.newBuilder()
+                .setCollectionName("{collection_name}")
+                .setUsing("text")
+                .setQuery(nearest(List.of(0.1f, 0.2f, 0.3f, 0.4f), List.of(1, 3, 5, 7)))
+                .setLimit(3)
+                .build())
+        .get();
 ```
 
 ```csharp

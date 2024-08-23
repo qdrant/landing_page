@@ -1,6 +1,6 @@
 ---
-title: Join Our Newsletter
-description: We will update you on new features and news regarding Qdrant and Vector Similarity Search.
+title: Sign up for Qdrant updates
+description: We'll occasionally send you best practices for using vector data and similarity search, as well as product news.
 placeholder: Enter your email
 button: Subscribe
 hubspotFormOptions: '{
