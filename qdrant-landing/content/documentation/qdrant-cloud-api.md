@@ -40,6 +40,7 @@ Use these endpoints to create and manage your Qdrant database clusters. The API 
    - **Update Cluster**: Apply modifications to a cluster's configuration.
    - **List Clusters**: Get all clusters associated with a specific account, filtered by region or other criteria.
    - **Create Cluster**: Add new clusters to the account with configurable parameters such as nodes, cloud provider, and regions.
+   - **Get Booking**: Manage hosting across various cloud providers (AWS, GCP, Azure) and their respective regions. 
 
 ## Cluster Authentication Management
 Use these endpoints to manage your cluster API keys.
@@ -48,5 +49,4 @@ Use these endpoints to manage your cluster API keys.
    - **Delete API Key**: Revoke access by deleting a specific API key.
    - **Update API Key**: Modify attributes of an existing API key.
 
-## Booking Packages
-You can manage available service packages across various cloud providers (AWS, GCP, Azure) and their respective regions. Use these endpoints to customize your deployments based on specific needs. 
+
