@@ -1,6 +1,6 @@
 ---
 title: Gemini
-weight: 700
+weight: 1600
 ---
 
 | Time: 10 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/gemini-getting-started/gemini-getting-started/gemini-getting-started.ipynb)   |
