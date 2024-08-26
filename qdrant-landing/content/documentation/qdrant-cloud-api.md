@@ -34,7 +34,7 @@ curl -X 'GET' \
 This request will return a list of clusters associated with your account in JSON format.
 
 ## Cluster Management  
-In addition to basic CRUD operations, the API supports fine-grained control over cluster resources (CPU, RAM, disk), node configurations, tolerations, and other operational characteristics.
+Use these endpoints to create and manage your Qdrant database clusters. The API supports fine-grained control over cluster resources (CPU, RAM, disk), node configurations, tolerations, and other operational characteristics across all cloud providers (AWS, GCP, Azure) and their respective regions in Qdrant Cloud, as well as Hybrid Cloud. 
    - **Get Cluster by ID**: Retrieve detailed information about a specific cluster using the cluster ID and associated account ID.
    - **Delete Cluster**: Remove a cluster, with optional deletion of backups.
    - **Update Cluster**: Apply modifications to a cluster's configuration.
