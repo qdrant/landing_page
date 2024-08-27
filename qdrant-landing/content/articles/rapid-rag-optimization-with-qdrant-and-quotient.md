@@ -58,7 +58,7 @@ The illustration below depicts how we can leverage a RAG Evaluation framework to
 
 ![qdrant_and_quotient.png](/articles_data/rapid-rag-optimization-with-qdrant-and-quotient/qdrant_and_quotient.png)
 
-We are going to build a RAG application using Qdrant’s Documentation and the premeditated [hugging face dataset]([https://huggingface.co/datasets/atitaarora/qdrant_doc](https://huggingface.co/datasets/atitaarora/qdrant_doc)).
+We are going to build a RAG application using Qdrant’s Documentation and the premeditated [hugging face dataset](https://huggingface.co/datasets/atitaarora/qdrant_doc).
 We will then assess our RAG application’s ability to answer questions about Qdrant.
 
 To prepare our knowledge store we will use Qdrant, which can be leveraged in 3 different ways as below : 
@@ -89,7 +89,7 @@ COLLECTION_NAME = "qdrant-docs-quotient"
 
 In this case , we may need to create different collections based on the experiments we conduct.
 
-To help us provide seamless embedding creations throughout the experiment, we will use Qdrant’s native embedding provider [Fastembed]([https://qdrant.github.io/fastembed/](https://qdrant.github.io/fastembed/)) which supports [many different models]([https://qdrant.github.io/fastembed/examples/Supported_Models/](https://qdrant.github.io/fastembed/examples/Supported_Models/)) including dense as well as sparse vector models.
+To help us provide seamless embedding creations throughout the experiment, we will use Qdrant’s native embedding provider [Fastembed](https://qdrant.github.io/fastembed/) which supports [many different models](https://qdrant.github.io/fastembed/examples/Supported_Models/) including dense as well as sparse vector models.
 
 We can initialize and switch the embedding model of our choice as below :
 
