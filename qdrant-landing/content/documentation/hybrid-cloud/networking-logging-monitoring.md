@@ -48,7 +48,7 @@ kubectl -n qdrant-namespace logs -l app=qdrant,cluster-id=9a9f48c7-bb90-4fb2-816
 
 **Writing logs to disk:** You can write logs to disk by specifying a log file. This parameter can be specified in the configuration file or by updating the current configuration with `POST /logger`.
 
-```
+```yaml
 logger:
   on_disk:
     enabled: true
