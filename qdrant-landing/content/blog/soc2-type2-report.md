@@ -26,7 +26,7 @@ At Qdrant, we are happy to announce the successful completion our the SOC 2 Type
 
 ## SOC 2 Type II: What Is It?
 
-SOC 2 Type II certification is an examination of an organization's controls in reference to the American Institute of Certified Public Accountants [(AICPA) Trust Services criteria](https://www.aicpa-cima.com/content/dam/aicpa/interestareas/frc/assuranceadvisoryservices/downloadabledocuments/trust-services-criteria.pdf). It evaluates not only our written policies but also their practical implementation, ensuring alignment between our stated objectives and operational practices. Unlike Type I, which is a snapshot in time, Type II verifies over several months that the company has lived up to those controls. The report represents thorough auditing of our security procedures throughout this examination period: January 1, 2024 to April 7, 2024. 
+SOC 2 Type II certification is an examination of an organization's controls in reference to the American Institute of Certified Public Accountants [(AICPA) Trust Services criteria](https://www.aicpa-cima.com/resources/download/2017-trust-services-criteria-with-revised-points-of-focus-2022). It evaluates not only our written policies but also their practical implementation, ensuring alignment between our stated objectives and operational practices. Unlike Type I, which is a snapshot in time, Type II verifies over several months that the company has lived up to those controls. The report represents thorough auditing of our security procedures throughout this examination period: January 1, 2024 to April 7, 2024. 
 
 
 ## Key Audit Findings
