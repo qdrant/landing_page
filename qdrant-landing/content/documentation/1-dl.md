@@ -4,4 +4,8 @@ title: "User Manual"
 type: delimiter
 weight: 10 # Change this weight to change order of sections
 sitemapExclude: True
+_build:
+  list: never
+  publishResources: false
+  render: never
 ---
