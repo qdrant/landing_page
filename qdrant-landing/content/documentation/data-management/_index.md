@@ -12,6 +12,7 @@ weight: 15
 | [Connect](./redpanda/)          | Declarative data-agnostic streaming service for efficient, stateless processing.                   |
 | [Confluent](./confluent/)       | Fully-managed data streaming platform with a cloud-native Apache Kafka engine.                     |
 | [DLT](./dlt/)                   | Python library to simplify data loading processes between several sources and destinations.        |
+| [Fluvio](./fluvio/)             | Rust-based platform for high speed, real-time data processing.                                     |
 | [Fondant](./fondant/)           | Framework for developing datasets, sharing reusable operations and data processing trees.          |
 | [MindsDB](./mindsdb/)           | Platform to deploy, serve, and fine-tune models with numerous data source integrations.            |
 | [NiFi](./nifi/)                 | Data ingestion platform to manage data transfer between different sources and destination systems. |
