@@ -50,7 +50,7 @@ wget https://storage.googleapis.com/generall-shared-data/startups_demo.json
 pip install sentence-transformers numpy pandas tqdm
 ```
 
-3. Import all relevant models.
+3. Import the required modules.
 
 ```python
 from sentence_transformers import SentenceTransformer

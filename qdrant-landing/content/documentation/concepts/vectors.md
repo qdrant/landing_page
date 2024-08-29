@@ -699,7 +699,7 @@ from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
-client.query(
+client.query_points(
     collection_name="{collection_name}",
     query=[
         [-0.013,  0.020, -0.007, -0.111, ...],
