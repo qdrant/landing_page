@@ -135,11 +135,7 @@ To search with only sparse vectors,
 
 The `langchain-qdrant` package provides a [FastEmbed](https://github.com/qdrant/fastembed) based implementation out of the box.
 
-To use it, install the FastEmbed package.
-
-```sh
-pip install fastembed
-```
+To use it, install the [FastEmbed package](https://github.com/qdrant/fastembed#-installation).
 
 ```python
 from langchain_qdrant import FastEmbedSparse, RetrievalMode
@@ -166,7 +162,25 @@ To perform a hybrid search using dense and sparse vectors with score fusion,
 - A [dense embeddings](https://python.langchain.com/v0.2/docs/integrations/text_embedding/) value should be provided for the `embedding` parameter.
 - An implementation of the [SparseEmbeddings interface](https://github.com/langchain-ai/langchain/blob/master/libs/partners/qdrant/langchain_qdrant/sparse_embeddings.py) using any sparse embeddings provider has to be provided as value to the `sparse_embedding` parameter.
 
-Note that if you've added documents with the HYBRID mode, you can switch to any retrieval mode when searching. Since both the dense and sparse vectors are available in the collection.
+```python
+from langchain_qdrant import FastEmbedSparse, RetrievalMode
+
+sparse_embeddings = FastEmbedSparse(model_name="Qdrant/bm25")
+
+qdrant = QdrantVectorStore.from_documents(
+    docs,
+    embedding=embeddings,
+    sparse_embedding=sparse_embeddings,
+    location=":memory:",
+    collection_name="my_documents",
+    retrieval_mode=RetrievalMode.HYBRID,
+)
+
+query = "What did the president say about Ketanji Brown Jackson"
+found_docs = qdrant.similarity_search(query)
+```
+
+Note that if you've added documents with HYBRID mode, you can switch to any retrieval mode when searching. Since both the dense and sparse vectors are available in the collection.
 
 ## Next steps
 

@@ -32,7 +32,7 @@ POST collections/site/points/search
 }
 ```
 
-Even with avoiding a network round-trip, the embedding still takes some time. As always in optimization, if you cannot do the work faster, a good solution is to avoid work altogether (please don't tell my employer). This can be done by pre-computing common prefixes and calculating embeddings for them, then storing them in a `prefix_cache` collection. Now the [`recommend`](https://docs.rs/qdrant-client/latest/qdrant_client/client/struct.QdrantClient.html#method.recommend) API method can find the best matches without doing any embedding. For now, I use short (up to and including 5 letters) prefixes, but I can also parse the logs to get the most common search terms and add them to the cache later.
+Even with avoiding a network round-trip, the embedding still takes some time. As always in optimization, if you cannot do the work faster, a good solution is to avoid work altogether (please don't tell my employer). This can be done by pre-computing common prefixes and calculating embeddings for them, then storing them in a `prefix_cache` collection. Now the [`recommend`](https://api.qdrant.tech/api-reference/search/recommend-points) API method can find the best matches without doing any embedding. For now, I use short (up to and including 5 letters) prefixes, but I can also parse the logs to get the most common search terms and add them to the cache later.
 
 ![Qdrant Recommendation](/articles_data/search-as-you-type/Qdrant_Recommendation.png)
 
