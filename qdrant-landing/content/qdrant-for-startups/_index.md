@@ -1,6 +1,6 @@
 ---
 title: Qdrant For Startups
-description: Qdrant For Startups
+description: Qdrant For Startups program offers resources
 cascade:
 - _target:
      environment: production
