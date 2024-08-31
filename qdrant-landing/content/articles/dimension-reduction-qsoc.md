@@ -57,13 +57,13 @@ We then calculate the center of mass for each cell represented by a blue circle 
 These optimizations made a remarkable difference — Barnes-Hut t-SNE was eight times faster than the exact t-SNE for 10,000 vectors.
 
 {{< figure 
-    src="/articles_data/dimension-reduction-qsoc/rust_rewrite.webp" 
+    src="/articles_data/dimension-reduction-qsoc/rust_rewrite.jpg" 
     caption="Exact t-SNE - Total time: 884.728s" 
     alt="Image of visualizing 10,000 vectors using exact t-SNE which took 884.728s" 
 >}}
 
 {{< figure 
-    src="/articles_data/dimension-reduction-qsoc/rust_bhtsne.webp" 
+    src="/articles_data/dimension-reduction-qsoc/rust_bhtsne.jpg" 
     caption="Barnes-Hut t-SNE - Total time: 104.191s" 
     alt="Image of visualizing 10,000 vectors using Barnes-Hut t-SNE which took 110.728s" 
 >}}
