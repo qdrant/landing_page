@@ -122,3 +122,5 @@ Participating in the Qdrant Summer of Code 2024 was a deeply rewarding experienc
 This experience has not only honed my technical skills but also ignited a deeper passion for optimizing performance in real-world applications. I’m excited to apply the knowledge and skills I've gained to future projects and to see how Qdrant's enhanced vector visualization feature will benefit users worldwide.
 
 This experience has not only honed my technical skills but also ignited a deeper passion for optimizing performance in real-world applications. I’m excited to apply the knowledge and skills I've gained to future projects and to see how Qdrant's enhanced vector visualization feature will benefit users worldwide.
+
+Thank you for joining me on this coding adventure. I hope you found something valuable in my journey, and I look forward to sharing more exciting projects with you in the future. Happy coding!
