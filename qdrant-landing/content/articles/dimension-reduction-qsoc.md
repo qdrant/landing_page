@@ -29,7 +29,7 @@ Hello, everyone! I'm Jishan Bhattacharya, and I had the incredible opportunity t
 
 ## Project Overview
 
-Hello, everyone! I'm Jishan Bhattacharya, and I had the incredible opportunity to intern at Qdrant this summer as part of the Qdrant Summer of Code 2024. Under the mentorship of the brilliant Andrey Vasnetsov, I dived into the world of performance optimization, focusing on enhancing vector visualization using WebAssembly (WASM). In this article, I'll share the insights, challenges, and accomplishments from my journey — one filled with learning, experimentation, and plenty of coding adventures.
+Qdrant is a robust vector database and search engine designed to store vector data and perform tasks like similarity search and clustering. One of its standout features is the ability to visualize high-dimensional vectors in a 2D space. However, the existing implementation faced performance bottlenecks, especially when scaling to large datasets. My mission was to tackle this challenge by leveraging a WASM-based solution for dimensionality reduction in the visualization process.
 
 
 ## Learnings & Challenges
