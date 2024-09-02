@@ -96,7 +96,7 @@ I introduced a "rendering-on-demand" approach, where the main thread would signa
     alt="Image showing the current architecture of the frontend with rendering-on-demand approach"
 >}}
 
-With these optimizations in place, the final step was wrapping up the project by creating a Node.js package. This package exposed the necessary interfaces to accept the distance matrix, perform calculations, and return the results, making the solution easy to integrate into various projects.
+With these optimizations in place, the final step was wrapping up the project by creating a Node.js [package](https://www.npmjs.com/package/wasm-dist-bhtsne). This package exposed the necessary interfaces to accept the distance matrix, perform calculations, and return the results, making the solution easy to integrate into various projects.
 
 
 ## Areas for Improvement
