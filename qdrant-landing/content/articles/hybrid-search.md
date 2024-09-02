@@ -1,7 +1,7 @@
 ---
 title: "Hybrid Search Revamped - Building with Qdrant's Query API"
 short_description: "Merging different search methods to improve the search quality was never easier"
-description: "Qdrant 1.10 introduces a new Query API to build a search system that combines different search methods to improve the search quality."
+description: "Our new Query API allows you to build a hybrid search system that uses different search methods to improve search quality & experience. Learn more here."
 preview_dir: /articles_data/hybrid-search/preview
 social_preview_image: /articles_data/hybrid-search/social-preview.png
 weight: -150
@@ -63,7 +63,7 @@ evaluate(qrels, run, "ndcg@5")
 ## Available embedding options with Query API
 
 Support for multiple vectors per point is nothing new in Qdrant, but introducing the Query API makes it even
-more powerful. The 1.10 release brings support for the multivectors, which allows you to treat lists of embeddings 
+more powerful. The 1.10 release supports the multivectors, allowing you to treat embedding lists 
 as a single entity. There are many possible ways of utilizing this feature, and the most prominent one is the support
 for late interaction models, such as [ColBERT](https://qdrant.tech/documentation/fastembed/fastembed-colbert/). Instead of having a single embedding for each document or query, this
 family of models creates a separate one for each token of text. In the search process, the final score is calculated 
@@ -80,7 +80,7 @@ use multiple models to represent your data, or want to utilize the Matryoshka em
 
 ![Multiple vectors per point](/articles_data/hybrid-search/multiple-vectors.png)
 
-There is no single way of building hybrid search. The process of designing it is an exploratory exercise, where you
+There is no single way of building a hybrid search. The process of designing it is an exploratory exercise, where you
 need to test various setups and measure their effectiveness. Building a proper search experience is a
 complex task, and it's better to keep it data-driven, not just rely on the intuition.
 
