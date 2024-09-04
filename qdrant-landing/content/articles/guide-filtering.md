@@ -5,7 +5,7 @@ description: "Qdrant 1.10 introduces a new Query API to build a search system th
 preview_dir: /articles_data/guide-filtering/preview
 social_preview_image: /articles_data/guide-filtering/social-preview.png
 weight: -200
-author: David Myriel
+author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-01T00:00:00.000Z
 ---
