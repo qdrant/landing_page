@@ -24,5 +24,4 @@ footer:
   impressumLink:
     url: /legal/impressum/
     text: Impressum
-sitemapExclude: true
 ---

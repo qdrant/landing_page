@@ -1,7 +1,6 @@
 ---
 draft: false
 preview_image: /blog/from_cms/nils-thumbnail.png
-sitemapExclude: true
 title: "From Content Quality to Compression: The Evolution of Embedding Models
   at Cohere with Nils Reimers"
 slug: cohere-embedding-v3
