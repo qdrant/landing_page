@@ -71,7 +71,7 @@ What Qdrant can do:
 
 What Qdrant doesn't plan to support:
 
-- BM25 or other non-vector-based retrieval or ranking functions
+- Non-vector-based retrieval or ranking functions
 - Built-in ontologies or knowledge graphs
 - Query analyzers and other NLP tools
 
