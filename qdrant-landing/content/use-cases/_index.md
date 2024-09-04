@@ -1,8 +1,8 @@
 ---
 title: Vector Database Use Cases
-section_title: Apps and Ideas Qdrant made possible
+section_title: Apps and ideas Qdrant make possible
 type: page
-description: Applications, business cases and startup ideas you can build with Qdrant vector search engine.
+description: Discover the diverse applications of Qdrant vector database, from retrieval and augmented generation to anomaly detection, advanced search, and more.
 build:
   render: always
 cascade:
