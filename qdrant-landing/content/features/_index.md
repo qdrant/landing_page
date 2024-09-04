@@ -2,6 +2,15 @@
 title: "Make the most of your Unstructured Data"
 icon: 
 sitemapExclude: True
+_build:
+  render: never
+  list: never
+  publishResources: false
+cascade:
+  _build:
+    render: never
+    list: never
+    publishResources: false
 ---
 
 Qdrant is a vector database & vector similarity search engine.
