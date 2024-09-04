@@ -97,7 +97,7 @@ distance between a query and all the centroids.
 | **Chunk 1** | 0.08421    | 0.00142    |     |
 | **...**     | ...        | ...        | ... |
 
-## Produc Quantization Benchmarks
+## Product Quantization Benchmarks
 
 Product Quantization comes with a cost - there are some additional operations to perform so 
 that the performance might be reduced. However, memory usage might be reduced drastically as 
