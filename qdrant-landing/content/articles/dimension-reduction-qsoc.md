@@ -24,7 +24,7 @@ keywords:
 
 ## Introduction
 
-Hello, everyone! I'm Jishan Bhattacharya, and I had the incredible opportunity to intern at Qdrant this summer as part of the Qdrant Summer of Code 2024. Under the mentorship of the brilliant Andrey Vasnetsov, I dived into the world of performance optimization, focusing on enhancing vector visualization using WebAssembly (WASM). In this article, I'll share the insights, challenges, and accomplishments from my journey — one filled with learning, experimentation, and plenty of coding adventures.
+Hello, everyone! I'm Jishan Bhattacharya, and I had the incredible opportunity to intern at Qdrant this summer as part of the Qdrant Summer of Code 2024. Under the mentorship of the brilliant [Andrey Vasnetsov](https://www.linkedin.com/in/andrey-vasnetsov-75268897/), I dived into the world of performance optimization, focusing on enhancing vector visualization using WebAssembly (WASM). In this article, I'll share the insights, challenges, and accomplishments from my journey — one filled with learning, experimentation, and plenty of coding adventures.
 
 
 ## Project Overview
@@ -42,7 +42,7 @@ Our weapon of choice was Rust, paired with WASM, and we employed the t-SNE algor
 
 At the outset, Andrey tasked me with rewriting the existing JavaScript implementation of t-SNE in Rust, introducing multi-threading along the way. Setting up WASM with Vite for multi-threaded execution was no small feat, but the effort paid off. The resulting Rust implementation outperformed the single-threaded JavaScript version, although it still struggled with large datasets.
 
-Next came the challenge of optimizing the algorithm further. A key aspect of t-SNE's first step is finding the nearest neighbors for each data point, which requires an efficient data structure. I opted for a Vantage Point Tree (also known as a Ball Tree) to speed up this process. As for the second step, while it is inherently sequential, there was still room for improvement. I incorporated Barnes-Hut approximation to accelerate the gradient calculation. This method approximates the forces between points in low dimensional space, making the process more efficient.
+Next came the challenge of optimizing the algorithm further. A key aspect of t-SNE's first step is finding the nearest neighbors for each data point, which requires an efficient data structure. I opted for a [Vantage Point Tree](https://en.wikipedia.org/wiki/Vantage-point_tree) (also known as a Ball Tree) to speed up this process. As for the second step, while it is inherently sequential, there was still room for improvement. I incorporated Barnes-Hut approximation to accelerate the gradient calculation. This method approximates the forces between points in low dimensional space, making the process more efficient.
 
 To illustrate, imagine dividing a 2D space into quadrants, each containing multiple points. Every quadrant is again subdivided into four quadrants. This is done until every point belongs to a single cell.
 
