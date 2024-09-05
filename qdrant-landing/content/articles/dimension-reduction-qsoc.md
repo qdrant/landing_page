@@ -24,7 +24,7 @@ keywords:
 
 ## Introduction
 
-Hello, everyone! I'm Jishan Bhattacharya, and I had the incredible opportunity to intern at Qdrant this summer as part of the Qdrant Summer of Code 2024. Under the mentorship of the brilliant [Andrey Vasnetsov](https://www.linkedin.com/in/andrey-vasnetsov-75268897/), I dived into the world of performance optimization, focusing on enhancing vector visualization using WebAssembly (WASM). In this article, I'll share the insights, challenges, and accomplishments from my journey — one filled with learning, experimentation, and plenty of coding adventures.
+Hello, everyone! I'm Jishan Bhattacharya, and I had the incredible opportunity to intern at Qdrant this summer as part of the Qdrant Summer of Code 2024. Under the mentorship of [Andrey Vasnetsov](https://www.linkedin.com/in/andrey-vasnetsov-75268897/), I dived into the world of performance optimization, focusing on enhancing vector visualization using WebAssembly (WASM). In this article, I'll share the insights, challenges, and accomplishments from my journey — one filled with learning, experimentation, and plenty of coding adventures.
 
 
 ## Project Overview
