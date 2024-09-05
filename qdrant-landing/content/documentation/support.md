@@ -29,7 +29,7 @@ This includes but is not limited to:
 * Logs or error messages from your application
 * Relevant telemetry from your application
 
-You can also choose a severity, when creating a ticket. This helps us prioritize your issue correctly. Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for a definition of these severity levels and their corresponding response time SLA for your respective [support tier](/documentation/cloud/enterprise/).
+You can also choose a severity, when creating a ticket. This helps us prioritize your issue correctly. Please refer to the [Qdrant Cloud SLA](https://qdrant.to/sla/) for a definition of these severity levels and their corresponding response time SLA for your respective [support tier](/documentation/cloud/premium/).
 
 If you are opening a ticket for a Hybrid Cloud or Private Cloud environment, we may ask for additional information about your environment, such as detailed logs of the Qdrant databases or operator and the state of your Kubernetes cluster.
 
