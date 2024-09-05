@@ -99,7 +99,7 @@ kind: Secret
 metadata:
   name: qdrant-api-key
   namespace: qdrant-private-cloud
-type: kubernetes.io/tls
+type: kubernetes.io/generic
 ```
 
 You can reference the secret in the QdrantCluster spec:
@@ -179,6 +179,8 @@ spec:
     memory: "1Gi"
     storage: "2Gi"
   config:
+    service:
+      enable_tls: true
     tls:
       cert:
         secretKeyRef:
