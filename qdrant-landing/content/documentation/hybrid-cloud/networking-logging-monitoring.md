@@ -46,16 +46,6 @@ kubectl -n qdrant-namespace logs -l app=qdrant,cluster-id=9a9f48c7-bb90-4fb2-816
 
 **Configuring log levels:** You can configure log levels for the databases individually in the configuration section of the Qdrant Cluster detail page. The log level for the **Qdrant Cloud Agent** and **Operator** can be set in the [Hybrid Cloud Environment configuration](/documentation/hybrid-cloud/operator-configuration/).
 
-**Writing logs to disk:** You can write logs to disk by specifying a log file. This parameter can be specified in the configuration file or by updating the current configuration with `POST /logger`.
-
-```yaml
-logger:
-  on_disk:
-    enabled: true
-    log_file: path/to/log/file.log
-    log_level: debug
-```
-
 ## Monitoring
 
 The Qdrant Cloud console gives you access to basic metrics about CPU, memory and disk usage of your Qdrant clusters. You can also access Prometheus metrics endpoint of your Qdrant databases. Finally, you can use a Kubernetes workload monitoring tool of your choice to monitor your Qdrant clusters.
