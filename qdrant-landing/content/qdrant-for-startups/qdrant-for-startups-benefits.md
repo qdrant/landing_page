@@ -2,7 +2,7 @@
 title: Why join Qdrant for Startups?
 mainCard: 
   title: Discount for Qdrant Cloud
-  description: Receive up to <strong>20%</strong> discount on <a href="https://cloud.qdrant.io/" target="_blank">Qdrant Cloud</a> for the first year and start building now.
+  description: Receive a discount on <a href="https://cloud.qdrant.io/" target="_blank">Qdrant Cloud</a> for the first year.
   image:
     src: /img/qdrant-for-startups-benefits/card1.png
     alt: Qdrant Discount for Startups
