@@ -1770,7 +1770,7 @@ await client.CreateAliasAsync(aliasName: "production_collection", collectionName
 ```go
 import "context"
 
-err := client.DeleteAlias(context.Background(), "production_collection")
+client.DeleteAlias(context.Background(), "production_collection")
 client.CreateAlias(context.Background(), "production_collection", "example_collection")
 ```
 

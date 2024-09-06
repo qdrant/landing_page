@@ -1089,6 +1089,16 @@ client
 ```
 
 ```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(collectionName: "{collection_name}", filter: MatchKeyword("country.name", "Germany"));
+```
+
+```go
 import (
 	"context"
 
@@ -1108,9 +1118,6 @@ client.Scroll(context.Background(), &qdrant.ScrollPoints{
 		},
 	},
 })
-```
-
-```go
 ```
 
 You can also search through arrays by projecting inner values using the `[]` syntax.
@@ -2123,7 +2130,17 @@ Conditions.DatetimeRange(
 ```
 
 ```go
+import (
+	"time"
 
+	"github.com/qdrant/go-client/qdrant"
+	"google.golang.org/protobuf/types/known/timestamppb"
+)
+
+qdrant.NewDatetimeRange("date", &qdrant.DatetimeRange{
+	Gt:  timestamppb.New(time.Date(2023, 2, 8, 10, 49, 0, 0, time.UTC)),
+	Lte: timestamppb.New(time.Date(2024, 1, 31, 10, 14, 31, 0, time.UTC)),
+})
 ```
 
 ### UUID Match
