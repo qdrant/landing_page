@@ -38,5 +38,4 @@ cards:
     link:
       text: View Demo
       url: https://code-search.qdrant.tech/
-sitemapExclude: true
 ---

@@ -2,7 +2,6 @@
 draft: false
 title: '"Vector search and applications" by Andrey Vasnetsov, CTO at Qdrant'
 preview_image: /blog/from_cms/ramsri-podcast-preview.png
-sitemapExclude: true
 slug: vector-search-and-applications-record
 short_description: Andrey Vasnetsov, Co-founder and CTO at Qdrant has shared
   about vector search and applications with Learn NLP Academy. 
