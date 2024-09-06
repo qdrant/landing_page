@@ -149,6 +149,29 @@ await client.ScrollAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+			qdrant.NewMatch("color", "red"),
+		},
+	},
+})
+```
+
 Filtered points would be:
 
 ```json
@@ -256,6 +279,29 @@ await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: MatchKeyword("city", "London") | MatchKeyword("color", "red")
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Should: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+			qdrant.NewMatch("color", "red"),
+		},
+	},
+})
 ```
 
 Filtered points would be:
@@ -367,6 +413,29 @@ await client.ScrollAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		MustNot: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+			qdrant.NewMatch("color", "red"),
+		},
+	},
+})
+```
+
 Filtered points would be:
 
 ```json
@@ -473,6 +542,31 @@ await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: MatchKeyword("city", "London") & !MatchKeyword("color", "red")
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+		},
+		MustNot: []*qdrant.Condition{
+			qdrant.NewMatch("color", "red"),
+		},
+	},
+})
 ```
 
 Filtered points would be:
@@ -602,6 +696,33 @@ await client.ScrollAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		MustNot: []*qdrant.Condition{
+			qdrant.NewFilterAsCondition(&qdrant.Filter{
+				Must: []*qdrant.Condition{
+					qdrant.NewMatch("city", "London"),
+					qdrant.NewMatch("color", "red"),
+				},
+			}),
+		},
+	},
+})
+```
+
 Filtered points would be:
 
 ```json
@@ -658,6 +779,12 @@ using static Qdrant.Client.Grpc.Conditions;
 MatchKeyword("color", "red");
 ```
 
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewMatch("color", "red")
+```
+
 For the other types, the match condition will look exactly the same, except for the type used:
 
 ```json
@@ -697,6 +824,12 @@ match("count", 0);
 using static Qdrant.Client.Grpc.Conditions;
 
 Match("count", 0);
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewMatchInt("count", 0)
 ```
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
@@ -751,6 +884,12 @@ matchKeywords("color", List.of("black", "yellow"));
 using static Qdrant.Client.Grpc.Conditions;
 
 Match("color", ["black", "yellow"]);
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewMatchKeywords("color", "black", "yellow")
 ```
 
 In this example, the condition will be satisfied if the stored value is either `black` or `yellow`.
@@ -812,6 +951,12 @@ matchExceptKeywords("color", List.of("black", "yellow"));
 using static Qdrant.Client.Grpc.Conditions;
 
 Match("color", ["black", "yellow"]);
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewMatchExcept("color", "black", "yellow")
 ```
 
 In this example, the condition will be satisfied if the stored value is neither `black` nor `yellow`.
@@ -944,13 +1089,28 @@ client
 ```
 
 ```csharp
-using Qdrant.Client;
-using Qdrant.Client.Grpc;
-using static Qdrant.Client.Grpc.Conditions;
+import (
+	"context"
 
-var client = new QdrantClient("localhost", 6334);
+	"github.com/qdrant/go-client/qdrant"
+)
 
-await client.ScrollAsync(collectionName: "{collection_name}", filter: MatchKeyword("country.name", "Germany"));
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Should: []*qdrant.Condition{
+			qdrant.NewMatch("country.name", "Germany"),
+		},
+	},
+})
+```
+
+```go
 ```
 
 You can also search through arrays by projecting inner values using the `[]` syntax.
@@ -1060,6 +1220,30 @@ await client.ScrollAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Should: []*qdrant.Condition{
+			qdrant.NewRange("country.cities[].population", &qdrant.Range{
+				Gte: qdrant.PtrOf(9.0),
+			}),
+		},
+	},
+})
+```
+
 This query would only output the point with id 2 as only Japan has a city with population greater than 9.0.
 
 And the leaf nested field can also be an array.
@@ -1147,6 +1331,28 @@ await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: MatchKeyword("country.cities[].sightseeing", "Germany")
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Should: []*qdrant.Condition{
+			qdrant.NewMatch("country.cities[].sightseeing", "Germany"),
+		},
+	},
+})
 ```
 
 This query would only output the point with id 2 as only Japan has a city with the "Osaka castke" as part of the sightseeing.
@@ -1287,6 +1493,29 @@ await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: MatchKeyword("diet[].food", "meat") & Match("diet[].likes", true)
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("diet[].food", "meat"),
+			qdrant.NewMatchBool("diet[].likes", true),
+		},
+	},
+})
 ```
 
 This happens because both points are matching the two conditions:
@@ -1438,6 +1667,33 @@ await client.ScrollAsync(
 	collectionName: "{collection_name}",
 	filter: Nested("diet", MatchKeyword("food", "meat") & Match("likes", true))
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewNestedFilter("diet", &qdrant.Filter{
+				Must: []*qdrant.Condition{
+					qdrant.NewMatch("food", "meat"),
+					qdrant.NewMatchBool("likes", true),
+				},
+			}),
+		},
+	},
+})
 ```
 
 The matching logic is modified to be applied at the level of an array element within the payload.
@@ -1605,6 +1861,34 @@ await client.ScrollAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewNestedFilter("diet", &qdrant.Filter{
+				Must: []*qdrant.Condition{
+					qdrant.NewMatch("food", "meat"),
+					qdrant.NewMatchBool("likes", true),
+				},
+			}),
+			qdrant.NewHasID(qdrant.NewIDNum(1)),
+		},
+	},
+})
+```
+
 ### Full Text Match
 
 *Available as of v0.10.0*
@@ -1656,6 +1940,12 @@ matchText("description", "good cheap");
 using static Qdrant.Client.Grpc.Conditions;
 
 MatchText("description", "good cheap");
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewMatchText("description", "good cheap")
 ```
 
 If the query has several words, then the condition will be satisfied only if all of them are present in the text.
@@ -1724,6 +2014,16 @@ range("price", Range.newBuilder().setGte(100.0).setLte(450).build());
 using static Qdrant.Client.Grpc.Conditions;
 
 Range("price", new Qdrant.Client.Grpc.Range { Gte = 100.0, Lte = 450 });
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewRange("price", &qdrant.Range{
+	Gte: qdrant.PtrOf(100.0),
+	Lte: qdrant.PtrOf(450.0),
+})
+
 ```
 
 The `range` condition sets the range of possible values for stored payload values.
@@ -1822,6 +2122,9 @@ Conditions.DatetimeRange(
 );
 ```
 
+```go
+
+```
 
 ### UUID Match
 
@@ -1865,6 +2168,12 @@ matchKeyword("uuid", "f47ac10b-58cc-4372-a567-0e02b2c3d479");
 using static Qdrant.Client.Grpc.Conditions;
 
 MatchKeyword("uuid", "f47ac10b-58cc-4372-a567-0e02b2c3d479");
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewMatch("uuid", "f47ac10b-58cc-4372-a567-0e02b2c3d479")
 ```
 
 ### Geo
@@ -1949,6 +2258,12 @@ using static Qdrant.Client.Grpc.Conditions;
 GeoBoundingBox("location", 52.520711, 13.403683, 52.495862, 13.455868);
 ```
 
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewGeoBoundingBox("location", 52.520711, 13.403683, 52.495862, 13.455868)
+```
+
 It matches with `location`s inside a rectangle with the coordinates of the upper left corner in `bottom_right` and the coordinates of the lower right corner in `top_left`.
 
 #### Geo Radius
@@ -2017,6 +2332,12 @@ geoRadius("location", 52.520711, 13.403683, 1000.0f);
 using static Qdrant.Client.Grpc.Conditions;
 
 GeoRadius("location", 52.520711, 13.403683, 1000.0f);
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewGeoRadius("location", 52.520711, 13.403683, 1000.0)
 ```
 
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
@@ -2291,6 +2612,29 @@ GeoPolygon(
 );
 ```
 
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewGeoPolygon("location",
+	&qdrant.GeoLineString{
+		Points: []*qdrant.GeoPoint{
+			{Lat: -70, Lon: -70},
+			{Lat: 60, Lon: -70},
+			{Lat: 60, Lon: 60},
+			{Lat: -70, Lon: 60},
+			{Lat: -70, Lon: -70},
+		},
+	}, &qdrant.GeoLineString{
+		Points: []*qdrant.GeoPoint{
+			{Lat: -65, Lon: -65},
+			{Lat: 0, Lon: -65},
+			{Lat: 0, Lon: 0},
+			{Lat: -65, Lon: 0},
+			{Lat: -65, Lon: -65},
+		},
+	})
+```
+
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
 
 If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset. 
@@ -2361,6 +2705,14 @@ using static Qdrant.Client.Grpc.Conditions;
 ValuesCount("comments", new ValuesCount { Gt = 2 });
 ```
 
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewValuesCount("comments", &qdrant.ValuesCount{
+	Gt: qdrant.PtrOf(uint64(2)),
+})
+```
+
 The result would be:
 
 ```json
@@ -2415,6 +2767,12 @@ using static Qdrant.Client.Grpc.Conditions;
 IsEmpty("reports");
 ```
 
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewIsEmpty("reports")
+```
+
 This condition will match all records where the field `reports` either does not exist, or has `null` or `[]` value.
 
 <aside role="status">The <b>IsEmpty</b> is often useful together with the logical negation <b>must_not</b>. In this case all non-empty values will be selected.</aside>
@@ -2463,6 +2821,12 @@ using Qdrant.Client.Grpc;
 using static Qdrant.Client.Grpc.Conditions;
 
 IsNull("reports");
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.NewIsNull("reports")
 ```
 
 This condition will match all records where the field `reports` exists and has `NULL` value.
@@ -2550,6 +2914,35 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(collectionName: "{collection_name}", filter: HasId([1, 3, 5, 7, 9, 11]));
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewHasID(
+				qdrant.NewIDNum(1),
+				qdrant.NewIDNum(3),
+				qdrant.NewIDNum(5),
+				qdrant.NewIDNum(7),
+				qdrant.NewIDNum(9),
+				qdrant.NewIDNum(11),
+			),
+		},
+	},
+})
 ```
 
 Filtered points would be:

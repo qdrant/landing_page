@@ -282,6 +282,34 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	QuantizationConfig: qdrant.NewQuantizationScalar(
+		&qdrant.ScalarQuantization{
+            Type:      qdrant.QuantizationType_Int8,
+			Quantile:  qdrant.PtrOf(float32(0.99)),
+			AlwaysRam: qdrant.PtrOf(true),
+		},
+	),
+})
+```
+
 There are 3 parameters that you can specify in the `quantization_config` section:
 
 `type` - the type of the quantized vector components. Currently, Qdrant supports only `int8`.
@@ -418,6 +446,32 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     1536,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	QuantizationConfig: qdrant.NewQuantizationBinary(
+		&qdrant.BinaryQuantization{
+			AlwaysRam: qdrant.PtrOf(true),
+		},
+	),
+})
+```
+
 `always_ram` - whether to keep quantized vectors always cached in RAM or not. By default, quantized vectors are loaded in the same way as the original vectors.
 However, in some setups you might want to keep quantized vectors in RAM to speed up the search process.
 
@@ -551,6 +605,33 @@ await client.CreateCollectionAsync(
   Product = new ProductQuantization { Compression = CompressionRatio.X16, AlwaysRam = true }
  }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	QuantizationConfig: qdrant.NewQuantizationProduct(
+		&qdrant.ProductQuantization{
+			Compression: qdrant.CompressionRatio_x16,
+			AlwaysRam:   qdrant.PtrOf(true),
+		},
+	),
+})
 ```
 
 There are two parameters that you can specify in the `quantization_config` section:
@@ -697,6 +778,31 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Params: &qdrant.SearchParams{
+		Quantization: &qdrant.QuantizationSearchParams{
+			Ignore:       qdrant.PtrOf(false),
+			Rescore:      qdrant.PtrOf(true),
+			Oversampling: qdrant.PtrOf(2.0),
+		},
+	},
+})
+```
+
 `ignore` - Toggle whether to ignore quantized vectors during the search process. By default, Qdrant will use quantized vectors if they are available.
 
 `rescore` - Having the original vectors available, Qdrant can re-evaluate top-k search results using the original vectors.
@@ -825,6 +931,29 @@ await client.QueryAsync(
 	},
 	limit: 10
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Params: &qdrant.SearchParams{
+		Quantization: &qdrant.QuantizationSearchParams{
+			Ignore: qdrant.PtrOf(false),
+		},
+	},
+})
 ```
 
 - **Adjust the quantile parameter**: The quantile parameter in scalar quantization determines the quantization bounds.
@@ -978,6 +1107,34 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+		OnDisk:   qdrant.PtrOf(true),
+	}),
+	QuantizationConfig: qdrant.NewQuantizationScalar(
+		&qdrant.ScalarQuantization{
+			Type:      qdrant.QuantizationType_Int8,
+			AlwaysRam: qdrant.PtrOf(true),
+		},
+	),
+})
+```
+
 In this scenario, the number of disk reads may play a significant role in the search speed.
 In a system with high disk latency, the re-scoring step may become a bottleneck.
 
@@ -1087,6 +1244,29 @@ await client.QueryAsync(
 	},
 	limit: 3
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Params: &qdrant.SearchParams{
+		Quantization: &qdrant.QuantizationSearchParams{
+			Rescore: qdrant.PtrOf(false),
+		},
+	},
+})
 ```
 
 - **All on Disk** - all vectors, original and quantized, are stored on disk. This mode allows to achieve the smallest memory footprint, but at the cost of the search speed.
@@ -1225,4 +1405,32 @@ await client.CreateCollectionAsync(
   Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = false }
  }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+		OnDisk:   qdrant.PtrOf(true),
+	}),
+	QuantizationConfig: qdrant.NewQuantizationScalar(
+		&qdrant.ScalarQuantization{
+			Type:      qdrant.QuantizationType_Int8,
+			AlwaysRam: qdrant.PtrOf(false),
+		},
+	),
+})
 ```

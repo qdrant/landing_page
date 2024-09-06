@@ -108,6 +108,17 @@ var client = new QdrantClient(
 );
 ```
 
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host:   "xyz-example.eu-central.aws.cloud.qdrant.io",
+	Port:   6334,
+	APIKey: "<paste-your-api-key-here>",
+	UseTLS: true,
+})
+```
+
 <aside role="alert">Internal communication channels are <strong>never</strong> protected by an API key nor bearer tokens. Internal gRPC uses port 6335 by default if running in distributed mode. You must ensure that this port is not publicly reachable and can only be used for node communication. By default, this setting is disabled for Qdrant Cloud and the Qdrant Helm chart.</aside>
 
 ### Read-only API key
@@ -215,6 +226,16 @@ var client = new QdrantClient(
 );
 ```
 
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host:   "xyz-example.eu-central.aws.cloud.qdrant.io",
+	Port:   6334,
+	APIKey: "<JWT>",
+	UseTLS: true,
+})
+```
 #### Generating JSON Web Tokens
 
 Due to the nature of JWT, anyone who knows the `api_key` can generate tokens by using any of the existing libraries and tools, it is not necessary for them to have access to the Qdrant instance to generate them.

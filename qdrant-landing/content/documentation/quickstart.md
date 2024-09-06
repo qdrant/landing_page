@@ -53,7 +53,7 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 ```rust
 use qdrant_client::Qdrant;
 
-// The Rust client uses Qdrant's GRPC interface
+// The Rust client uses Qdrant's gRPC interface
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 ```
 
@@ -61,7 +61,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 import io.qdrant.client.QdrantClient;
 import io.qdrant.client.QdrantGrpcClient;
 
-// The Java client uses Qdrant's GRPC interface
+// The Java client uses Qdrant's gRPC interface
 QdrantClient client = new QdrantClient(
     QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 ```
@@ -69,8 +69,18 @@ QdrantClient client = new QdrantClient(
 ```csharp
 using Qdrant.Client;
 
-// The C# client uses Qdrant's GRPC interface
+// The C# client uses Qdrant's gRPC interface
 var client = new QdrantClient("localhost", 6334);
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+// The Go client uses Qdrant's gRPC interface
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
 ```
 
 <aside role="status">By default, Qdrant starts with no encryption or authentication . This means anyone with network access to your machine can access your Qdrant container instance. Please read <a href="/documentation/security/">Security</a> carefully for details on how to secure your instance.</aside>
@@ -122,8 +132,21 @@ await client.CreateCollectionAsync(collectionName: "test_collection", vectorsCon
 });
 ```
 
-<aside role="status">TypeScript, Rust examples use async/await syntax, so should be used in an async block.</aside>
-<aside role="status">Java examples are enclosed within a try/catch block.</aside>
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     4,
+		Distance: qdrant.Distance_Cosine,
+	}),
+})
+```
 
 ## Add vectors
 
@@ -262,6 +285,41 @@ var operationInfo = await client.UpsertAsync(collectionName: "test_collection", 
 Console.WriteLine(operationInfo);
 ```
 
+```go
+import (
+	"context"
+	"fmt"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+operationInfo, err := client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "test_collection",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectors(0.05, 0.61, 0.76, 0.74),
+			Payload: qdrant.NewValueMap(map[string]any{"city": "Berlin"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectors(0.19, 0.81, 0.75, 0.11),
+			Payload: qdrant.NewValueMap(map[string]any{"city": "London"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(3),
+			Vectors: qdrant.NewVectors(0.36, 0.55, 0.47, 0.94),
+			Payload: qdrant.NewValueMap(map[string]any{"city": "Moscow"}),
+		},
+        // Truncated
+	},
+})
+if err != nil {
+	panic(err)
+}
+fmt.Println(operationInfo)
+```
+
 **Response:**
 
 ```python
@@ -295,6 +353,10 @@ status: Completed
 { "operationId": "0", "status": "Completed" }
 ```
 
+```go
+operation_id:0  status:Acknowledged
+```
+
 ## Run a query
 
 Let's ask a basic question - Which of our stored vectors are most similar to the query vector `[0.2, 0.1, 0.9, 0.7]`?
@@ -324,7 +386,6 @@ let search_result = client
     .query(
         QueryPointsBuilder::new("test_collection")
             .query(vec![0.2, 0.1, 0.9, 0.7])
-            .with_payload(true),
     )
     .await?;
 
@@ -337,7 +398,6 @@ import java.util.List;
 import io.qdrant.client.grpc.Points.ScoredPoint;
 import io.qdrant.client.grpc.Points.QueryPoints;
 
-import static io.qdrant.client.WithPayloadSelectorFactory.enable;
 import static io.qdrant.client.QueryFactory.nearest;
 
 List<ScoredPoint> searchResult =
@@ -345,7 +405,6 @@ List<ScoredPoint> searchResult =
                 .setCollectionName("test_collection")
                 .setLimit(3)
                 .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
-                .setWithPayload(enable(true))
                 .build()).get();
       
 System.out.println(searchResult);
@@ -356,10 +415,28 @@ var searchResult = await client.QueryAsync(
     collectionName: "test_collection",
     query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
     limit: 3,
-    payloadSelector: true
 );
 
 Console.WriteLine(searchResult);
+```
+
+```go
+import (
+	"context"
+	"fmt"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+searchResult, err := client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "test_collection",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+})
+if err != nil {
+	panic(err)
+}
+
+fmt.Println(searchResult)
 ```
 
 **Response:**
@@ -471,6 +548,31 @@ var searchResult = await client.QueryAsync(
 );
 
 Console.WriteLine(searchResult);
+```
+
+```go
+import (
+	"context"
+	"fmt"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+searchResult, err := client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "test_collection",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+		},
+	},
+	WithPayload: qdrant.NewWithPayload(true),
+})
+if err != nil {
+	panic(err)
+}
+
+fmt.Println(searchResult)
 ```
 
 **Response:**

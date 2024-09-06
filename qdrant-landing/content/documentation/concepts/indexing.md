@@ -100,6 +100,25 @@ var client = new QdrantClient("localhost", 6334);
 await client.CreatePayloadIndexAsync(collectionName: "{collection_name}", fieldName: "name_of_the_field_to_index");
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "name_of_the_field_to_index",
+	FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
+})
+```
+
 You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](../filtering/#nested-key).
 
 Available field types are:
@@ -261,6 +280,32 @@ await client.CreatePayloadIndexAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "name_of_the_field_to_index",
+	FieldType:      qdrant.FieldType_FieldTypeText.Enum(),
+	FieldIndexParams: qdrant.NewPayloadIndexParamsText(
+		&qdrant.TextIndexParams{
+			Tokenizer:   qdrant.TokenizerType_Whitespace,
+			MinTokenLen: qdrant.PtrOf(uint64(2)),
+			MaxTokenLen: qdrant.PtrOf(uint64(10)),
+			Lowercase:   qdrant.PtrOf(true),
+		}),
+})
+```
+
 Available tokenizers are:
 
 * `word` - splits the string into words, separated by spaces, punctuation marks, and special characters.
@@ -420,6 +465,30 @@ await client.CreatePayloadIndexAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "name_of_the_field_to_index",
+	FieldType:      qdrant.FieldType_FieldTypeInteger.Enum(),
+	FieldIndexParams: qdrant.NewPayloadIndexParamsInt(
+		&qdrant.IntegerIndexParams{
+			Lookup: false,
+			Range:  true,
+		}),
+})
+```
+
 ### On-disk payload index
 
 *Available as of v1.11.0*
@@ -535,7 +604,29 @@ await client.CreatePayloadIndexAsync(
   }
  }
 );
+```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "name_of_the_field_to_index",
+	FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
+	FieldIndexParams: qdrant.NewPayloadIndexParamsKeyword(
+		&qdrant.KeywordIndexParams{
+			OnDisk: qdrant.PtrOf(true),
+		}),
+})
 ```
 
 Payload index on-disk is supported for following types:
@@ -668,9 +759,30 @@ await client.CreatePayloadIndexAsync(
   }
  }
 );
-
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "name_of_the_field_to_index",
+	FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
+	FieldIndexParams: qdrant.NewPayloadIndexParamsKeyword(
+		&qdrant.KeywordIndexParams{
+			IsTenant: qdrant.PtrOf(true),
+		}),
+})
+```
 
 Tenant optimization is supported for the following datatypes:
 
@@ -785,7 +897,29 @@ await client.CreatePayloadIndexAsync(
   }
  }
 );
+```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "name_of_the_field_to_index",
+	FieldType:      qdrant.FieldType_FieldTypeInteger.Enum(),
+	FieldIndexParams: qdrant.NewPayloadIndexParamsInt(
+		&qdrant.IntegerIndexParams{
+			IsPrincipal: qdrant.PtrOf(true),
+		}),
+})
 ```
 
 Principal optimization is supported for following types:
@@ -968,6 +1102,30 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
+		map[string]*qdrant.SparseVectorParams{
+			"splade-model-name": {
+				Index: &qdrant.SparseIndexConfig{
+					OnDisk: qdrant.PtrOf(false),
+				}},
+		}),
+})
+````
+
 The following parameters may affect performance:
 
 - `on_disk: true` - The index is stored on disk, which lets you save memory. This may slow down search performance. 
@@ -1088,6 +1246,29 @@ await client.CreateCollectionAsync(
     Modifier = Modifier.Idf,
   })
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
+		map[string]*qdrant.SparseVectorParams{
+			"text": {
+				Modifier: qdrant.Modifier_Idf.Enum(),
+			},
+		}),
+})
 ```
 
 Qdrant uses the following formula to calculate the IDF modifier:

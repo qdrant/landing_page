@@ -176,6 +176,40 @@ await client.UpsertAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectors(0.9, 0.1, 0.1),
+			Payload: qdrant.NewValueMap(map[string]any{"group_id": "user_1"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectors(0.1, 0.9, 0.1),
+			Payload: qdrant.NewValueMap(map[string]any{"group_id": "user_1"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(3),
+			Vectors: qdrant.NewVectors(0.1, 0.1, 0.9),
+			Payload: qdrant.NewValueMap(map[string]any{"group_id": "user_2"}),
+		},
+	},
+})
+```
+
 2. Use a filter along with `group_id` to filter vectors for each user.
 
 ```http
@@ -289,6 +323,29 @@ await client.QueryAsync(
 	filter: MatchKeyword("group_id", "user_1"),
 	limit: 10
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.1, 0.1, 0.9),
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("group_id", "user_1"),
+		},
+	},
+})
 ```
 
 ## Calibrate performance
@@ -407,6 +464,31 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	HnswConfig: &qdrant.HnswConfigDiff{
+		PayloadM: qdrant.PtrOf(uint64(16)),
+		M:        qdrant.PtrOf(uint64(0)),
+	},
+})
+```
+
 3. Create keyword payload index for `group_id` field.
 
 <aside role="alert">
@@ -512,7 +594,29 @@ await client.CreatePayloadIndexAsync(
 		}
 	}
 );
+```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "group_id",
+	FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
+	FieldIndexParams: qdrant.NewPayloadIndexParams(
+		&qdrant.KeywordIndexParams{
+			IsTenant: qdrant.PtrOf(true),
+		}),
+})
 ```
 
 `is_tenant=true` parameter is optional, but specifying it provides storage with additional inforamtion about the usage patterns the collection is going to use.

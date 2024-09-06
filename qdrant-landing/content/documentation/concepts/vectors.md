@@ -180,6 +180,27 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
+		map[string]*qdrant.SparseVectorParams{
+			"text": {},
+		}),
+})
+```
+
 Insert a point with a sparse vector into the created collection:
 
 ```http
@@ -187,7 +208,7 @@ PUT /collections/{collection_name}/points
 {
     "points": [
         {
-            "id": 129,
+            "id": 1,
             "vector": {
                 "text": {
                     "indices": [1, 3, 5, 7],
@@ -208,7 +229,7 @@ client.upsert(
     collection_name="{collection_name}",
     points=[
         models.PointStruct(
-            id=129,
+            id=1,
             payload={},  # Add any additional payload if necessary
             vector={
                 "text": models.SparseVector(
@@ -229,7 +250,7 @@ const client = new QdrantClient({ host: "localhost", port: 6333 });
 client.upsert("{collection_name}", {
   points: [
     {
-      id: 129,
+      id: 1,
       vector: {
         text: {
           indices: [1, 3, 5, 7],
@@ -248,7 +269,7 @@ use qdrant_client::{Payload, Qdrant};
 let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 let points = vec![PointStruct::new(
-    129,
+    1,
     NamedVectors::default().add_vector(
         "text",
         Vector::new_sparse(vec![1, 3, 5, 7], vec![0.1, 0.2, 0.3, 0.4]),
@@ -281,7 +302,7 @@ client
     "{collection_name}",
     List.of(
       PointStruct.newBuilder()
-      .setId(id(129))
+      .setId(id(1))
       .setVectors(
         namedVectors(Map.of(
           "text", vector(List.of(1.0f, 2.0f), List.of(6, 7))))
@@ -300,13 +321,41 @@ await client.UpsertAsync(
   collectionName: "{collection_name}",
   points: new List < PointStruct > {
     new() {
-      Id = 129,
+      Id = 1,
         Vectors = new Dictionary < string, Vector > {
           ["text"] = ([0.1 f, 0.2 f, 0.3 f, 0.4 f], [1, 3, 5, 7])
         }
     }
   }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id: qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectorsMap(
+				map[string]*qdrant.Vector{
+					"text": qdrant.NewVectorSparse(
+						[]uint32{1, 3, 5, 7},
+						[]float32{0.1, 0.2, 0.3, 0.4}),
+				}),
+		},
+	},
+})
 ```
 
 Now you can run a search with sparse vectors:
@@ -399,6 +448,27 @@ await client.QueryAsync(
   usingVector: "text",
   limit: 3
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQuerySparse(
+		[]uint32{1, 3, 5, 7},
+		[]float32{0.1, 0.2, 0.3, 0.4}),
+	Using: qdrant.PtrOf("text"),
+})
 ```
 
 ### Multivectors
@@ -548,6 +618,30 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     128,
+		Distance: qdrant.Distance_Cosine,
+		MultivectorConfig: &qdrant.MultiVectorConfig{
+			Comparator: qdrant.MultiVectorComparator_MaxSim,
+		},
+	}),
+})
+```
+
 To insert a point with multivector:
 
 ```http
@@ -681,6 +775,33 @@ await client.UpsertAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id: qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectorsMulti(
+				[][]float32{
+					{-0.013, 0.020, -0.007, -0.111},
+					{-0.030, -0.055, 0.001, 0.072},
+					{-0.041, 0.014, -0.032, -0.062}}),
+		},
+	},
+})
+```
+
 To search with multivector (available in `query` API): 
 
 ```http
@@ -775,6 +896,29 @@ await client.QueryAsync(
     [-0.041f, 0.014f, -0.032f, -0.062f],
   }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQueryMulti(
+		[][]float32{
+			{-0.013, 0.020, -0.007, -0.111},
+			{-0.030, -0.055, 0.001, 0.072},
+			{-0.041, 0.014, -0.032, -0.062},
+		}),
+})
 ```
 
 
@@ -910,6 +1054,33 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfigMap(
+		map[string]*qdrant.VectorParams{
+			"image": {
+				Size:     4,
+				Distance: qdrant.Distance_Dot,
+			},
+			"text": {
+				Size:     8,
+				Distance: qdrant.Distance_Cosine,
+			},
+		}),
+})
+```
 
 <!-- ToDo: Examples of insert and search -->
 
@@ -1095,6 +1266,36 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     128,
+		Distance: qdrant.Distance_Cosine,
+		Datatype: qdrant.Datatype_Float16.Enum(),
+	}),
+	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
+		map[string]*qdrant.SparseVectorParams{
+			"text": {
+				Index: &qdrant.SparseIndexConfig{
+					Datatype: qdrant.Datatype_Float16.Enum(),
+				},
+			},
+		}),
+})
+```
+
 **Uint8**
 
 Another step towards memory optimization is to use the Uint8 datatype for vectors.
@@ -1262,6 +1463,36 @@ await client.CreateCollectionAsync(
     }
   )
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     128,
+		Distance: qdrant.Distance_Cosine,
+		Datatype: qdrant.Datatype_Uint8.Enum(),
+	}),
+	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
+		map[string]*qdrant.SparseVectorParams{
+			"text": {
+				Index: &qdrant.SparseIndexConfig{
+					Datatype: qdrant.Datatype_Uint8.Enum(),
+				},
+			},
+		}),
+})
 ```
 
 ## Quantization

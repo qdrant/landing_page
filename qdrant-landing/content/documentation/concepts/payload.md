@@ -406,6 +406,44 @@ await client.UpsertAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectors(0.05, 0.61, 0.76, 0.74),
+			Payload: qdrant.NewValueMap(map[string]any{
+				"city": "Berlin", "price": 1.99}),
+		},
+		{
+			Id:      qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectors(0.19, 0.81, 0.75, 0.11),
+			Payload: qdrant.NewValueMap(map[string]any{
+				"city": []any{"Berlin", "London"}}),
+		},
+		{
+			Id:      qdrant.NewIDNum(3),
+			Vectors: qdrant.NewVectors(0.36, 0.55, 0.47, 0.94),
+			Payload: qdrant.NewValueMap(map[string]any{
+				"city":  []any{"Berlin", "London"},
+				"price": []any{1.99, 2.99}}),
+		},
+	},
+})
+```
+
 ## Update payload
 
 ### Set payload
@@ -502,6 +540,28 @@ await client.SetPayloadAsync(
 	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
 	ids: new ulong[] { 0, 3, 10 }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.SetPayload(context.Background(), &qdrant.SetPayloadPoints{
+	CollectionName: "{collection_name}",
+	Payload: qdrant.NewValueMap(
+		map[string]any{"property1": "string", "property2": "string"}),
+	PointsSelector: qdrant.NewPointsSelector(
+		qdrant.NewIDNum(0),
+		qdrant.NewIDNum(3)),
+})
 ```
 
 You don't need to know the ids of the points you want to modify. The alternative
@@ -617,6 +677,30 @@ await client.SetPayloadAsync(
 	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
 	filter: MatchKeyword("color", "red")
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.SetPayload(context.Background(), &qdrant.SetPayloadPoints{
+	CollectionName: "{collection_name}",
+	Payload: qdrant.NewValueMap(
+		map[string]any{"property1": "string", "property2": "string"}),
+	PointsSelector: qdrant.NewPointsSelectorFilter(&qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("color", "red"),
+		},
+	}),
+})
 ```
 
 _Available as of v1.8.0_
@@ -755,6 +839,28 @@ await client.OverwritePayloadAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.OverwritePayload(context.Background(), &qdrant.SetPayloadPoints{
+	CollectionName: "{collection_name}",
+	Payload: qdrant.NewValueMap(
+		map[string]any{"property1": "string", "property2": "string"}),
+	PointsSelector: qdrant.NewPointsSelector(
+		qdrant.NewIDNum(0),
+		qdrant.NewIDNum(3)),
+})
+```
+
 Like [set payload](#set-payload), you don't need to know the ids of the points
 you want to modify. The alternative is to use filters.
 
@@ -814,6 +920,26 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ClearPayloadAsync(collectionName: "{collection_name}", ids: new ulong[] { 0, 3, 100 });
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.ClearPayload(context.Background(), &qdrant.ClearPayloadPoints{
+	CollectionName: "{collection_name}",
+	Points: qdrant.NewPointsSelector(
+		qdrant.NewIDNum(0),
+		qdrant.NewIDNum(3)),
+})
 ```
 
 <aside role="status">
@@ -892,7 +1018,27 @@ await client.DeletePayloadAsync(
 	keys: ["color", "price"],
 	ids: new ulong[] { 0, 3, 100 }
 );
+```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.DeletePayload(context.Background(), &qdrant.DeletePayloadPoints{
+	CollectionName: "{collection_name}",
+	Keys:           []string{"color", "price"},
+	PointsSelector: qdrant.NewPointsSelector(
+		qdrant.NewIDNum(0),
+		qdrant.NewIDNum(3)),
+})
 ```
 
 Alternatively, you can use filters to delete payload keys from the points.
@@ -992,6 +1138,29 @@ await client.DeletePayloadAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.DeletePayload(context.Background(), &qdrant.DeletePayloadPoints{
+	CollectionName: "{collection_name}",
+	Keys:           []string{"color", "price"},
+	PointsSelector: qdrant.NewPointsSelectorFilter(
+		&qdrant.Filter{
+			Must: []*qdrant.Condition{qdrant.NewMatch("color", "red")},
+		},
+	),
+})
+```
+
 ## Payload indexing
 
 To search more efficiently with filters, Qdrant allows you to create indexes for payload fields by specifying the name and type of field it is intended to be.
@@ -1067,6 +1236,25 @@ await client.CreatePayloadIndexAsync(
 	collectionName: "{collection_name}",
 	fieldName: "name_of_the_field_to_index"
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
+	CollectionName: "{collection_name}",
+	FieldName:      "name_of_the_field_to_index",
+	FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
+})
 ```
 
 The index usage flag is displayed in the payload schema with the [collection info API](https://api.qdrant.tech/api-reference/collections/get-collection).
