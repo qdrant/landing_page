@@ -113,31 +113,35 @@ When a price filter of $1000 is applied, vector search returns the following top
   }
 ]
 ```
-## Creative Uses for Filters
+## Interactive Filtering Tutorial
 
-You can use filters to retrieve data points without knowing their `id`. You can search through data and manage it, solely by using filters. Let's take a look at some creative uses of filters:
+The easiest way to reach that "Hello World" moment is to **try filtering in a live cluster**. Our [**Cloud Quickstart**](/documentation/quickstart-cloud/) tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
-|||
-|-|-|
-| Delete Points | Deletes all points that match the specified filter.|
-| Scroll Points | Lists all points that match the specified filter.|
-| Order Points | Lists all points, sorted by the specified filter.|
-| Count Points | Totals the number of points that match the specified filter.|
-| Set Payload | Adds payload fields to all points that match the specified filter.|
-| Update Payload | Update payload fields for all points that match the specified filter.|
-| Delete Payload | Delete payload fields for all points that match the specified filter.|
+**Figure 2:** Qdrant Dashboard helps you visualize all data management and vector search. 
 
-### Scrolling 
+![qdrant-filtering-tutorial](/articles_data/guide-filtering/qdrant-filtering-tutorial.png)
 
+#### Filtering Clauses to Remember
 
-### Pagination
+| **Clause**         | **Description**                                                               | **Usage**                                                             |
+|--------------------|-------------------------------------------------------------------------------|-----------------------------------------------------------------------|
+| **Must**           | The system includes items that meet this condition.                           | Use this clause to require a condition in the filter.                  |
+| **Should**         | The system increases the relevance of items that meet this condition.          | Use this clause to boost relevance without making it mandatory.        |
+| **Must Not**       | The system excludes items that meet this condition.                           | Use this clause to exclude certain items from the results.             |
+| **Clauses Combination** | The system combines multiple clauses (Must, Should, Must Not) to refine filtering. | Use this to create complex queries with multiple conditions.            |
 
-When you're implementing pagination in filtered queries, indexing becomes even more critical. When paginating results, you often need to exclude items you've already seen. This is typically managed by applying filters that specify which IDs should not be included in the next set of results. 
+> For detailed usage examples, read Qdrant's [Filtering](/documentation/concepts/filtering/) documentation. 
+#### Additional Filtering Conditions
 
-However, an interesting aspect of Qdrant's data model is that a single point can have multiple values for the same field, such as different color options for a product. This means that during filtering, an ID might appear multiple times if it matches on different values of the same field. 
-
-Proper indexing ensures that these queries are efficient, preventing duplicate results and making pagination smoother.
-
+| **Condition**         | **Usage**                                                               | **Condition**         | **Usage**                                                     |
+|-----------------------|-------------------------------------------------------------------------|-----------------------|---------------------------------------------------------------|
+| **Match**             | Require an exact match in the filter.                                   | **Range**             | Filter based on a range of values, such as prices or scores.   |
+| **Match Any**         | Match multiple possible values.                                         | **Datetime Range**    | Filter by dates, such as event times or record creation dates. |
+| **Match Except**      | Exclude specific values from the results.                               | **UUID Match**        | Filter uniquely identifiable records.                         |
+| **Nested Key**        | Filter based on nested data structures.                                 | **Geo**               | Filter data based on location.                                |
+| **Nested Object Filter** | Filter complex data structures with embedded objects or arrays.         | **Values Count**      | Filter records with a specific number of elements in a field.  |
+| **Full Text Match**   | Perform searches on text fields.                                        | **Is Empty**          | Filter records with empty fields.                             |
+| **Has ID**            | Filter items based on their unique identifiers.                         | **Is Null**           | Filter records with missing or undefined values.              |
 
 ## Advanced Filtering Examples
 
@@ -185,6 +189,48 @@ POST /collections/{collection_name}/points/scroll
     }
 }
 ```
+## Creative Uses for Filters
+
+You can use filters to retrieve data points without knowing their `id`. You can search through data and manage it, solely by using filters. Let's take a look at some creative uses of filters:
+
+|||
+|-|-|
+| Delete Points | Deletes all points that match the specified filter.|
+| Scroll Points | Lists all points that match the specified filter.|
+| Order Points | Lists all points, sorted by the specified filter.|
+| Count Points | Totals the number of points that match the specified filter.|
+| Set Payload | Adds payload fields to all points that match the specified filter.|
+| Update Payload | Update payload fields for all points that match the specified filter.|
+| Delete Payload | Delete payload fields for all points that match the specified filter.|
+
+### Scrolling 
+
+
+### Pagination
+
+When you're implementing pagination in filtered queries, indexing becomes even more critical. When paginating results, you often need to exclude items you've already seen. This is typically managed by applying filters that specify which IDs should not be included in the next set of results. 
+
+However, an interesting aspect of Qdrant's data model is that a single point can have multiple values for the same field, such as different color options for a product. This means that during filtering, an ID might appear multiple times if it matches on different values of the same field. 
+
+Proper indexing ensures that these queries are efficient, preventing duplicate results and making pagination smoother.
+
+## Real-Life Use Cases of Filtering
+
+Filtering in a vector database like Qdrant can significantly enhance search capabilities by enabling more precise and efficient retrieval of data. Here are some real-life use cases where filtering is crucial:
+
+Here’s the simplified table:
+
+| **Use Case**                         | **Vector Search**                                                | **Filtering**                                                           |
+|--------------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------|
+| **E-Commerce Product Search**        | Search for products by style or visual similarity                | Filter by price, color, brand, size, ratings                            |
+| **Recommendation Systems**           | Recommend similar content (e.g., movies, songs)                  | Filter by release date, genre, etc. (e.g., movies after 2020)           |
+| **Healthcare Diagnostics**           | Search for similar medical images                                | Filter by age, condition (e.g., patients over 50)                       |
+| **Content Moderation**               | Find posts similar to flagged content                            | Filter by region, timeframe                                             |
+| **Geospatial Search in Ride-Sharing**| Find nearby drivers or delivery partners                         | Filter by rating, distance, vehicle type                                |
+| **Fraud Detection**                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
+| **Personalized News or Content Feeds**| Deliver similar articles                                         | Filter by category, source                                              |
+| **IoT and Environmental Monitoring** | Identify patterns in sensor data                                 | Filter by sensor location, time                                         |
+
 
 ## Filtering With the Payload Index
 
