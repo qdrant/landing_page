@@ -92,7 +92,7 @@ QDRANT__SERVICE__HTTP_PORT=1234 ./qdrant
 log_level: INFO
 
 # Logging to disk
-# You can write logs to disk by specifying a log file. 
+# By default, Qdrant logs to stdout. You can write logs to disk by specifying a log file. 
 # This parameter can be specified in the configuration file 
 # or by updating the current configuration with `POST /logger`.
 # If both the top-level `log_level` and the `logger.log_level` directives are specified, 
