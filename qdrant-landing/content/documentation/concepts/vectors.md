@@ -1087,29 +1087,316 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 To insert a point with named vectors:
 
 ```http
-PUT collections/{collection_name}/points
+PUT /collections/{collection_name}/points
 {
-  "points": [
-    {
-      "id": 1,
-      "vector": {
-        "image": [0.1, 0.2, 0.3, 0.4],
-        "text": [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08]
-      }
-    }
-  ]
+    "points": [
+        {
+            "id": 1,
+            "vector": {
+                "image": [0.9, 0.1, 0.1, 0.2],
+                "text": [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2]
+            }
+        },
+        {
+            "id": 2,
+            "vector": {
+                "image": [0.2, 0.1, 0.3, 0.9],
+                "text": [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9]
+            }
+        }
+    ]
 }
+```
+
+```python
+client.upsert(
+    collection_name="{collection_name}",
+    points=[
+        models.PointStruct(
+            id=1,
+            vector={
+                "image": [0.9, 0.1, 0.1, 0.2],
+                "text": [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+            },
+        ),
+        models.PointStruct(
+            id=2,
+            vector={
+                "image": [0.2, 0.1, 0.3, 0.9],
+                "text": [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+            },
+        ),
+    ],
+)
+```
+
+```typescript
+client.upsert("{collection_name}", {
+  points: [
+    {
+      id: 1,
+      vector: {
+        image: [0.9, 0.1, 0.1, 0.2],
+        text: [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+      },
+    },
+    {
+      id: 2,
+      vector: {
+        image: [0.2, 0.1, 0.3, 0.9],
+        text: [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+      },
+    },
+  ],
+});
+```
+
+```rust
+use std::collections::HashMap;
+
+use qdrant_client::qdrant::{PointStruct, UpsertPointsBuilder};
+use qdrant_client::Payload;
+
+client
+    .upsert_points(
+        UpsertPointsBuilder::new(
+            "{collection_name}",
+            vec![
+                PointStruct::new(
+                    1,
+                    HashMap::from([
+                        ("image".to_string(), vec![0.9, 0.1, 0.1, 0.2]),
+                        (
+                            "text".to_string(),
+                            vec![0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
+                        ),
+                    ]),
+                    Payload::default(),
+                ),
+                PointStruct::new(
+                    2,
+                    HashMap::from([
+                        ("image".to_string(), vec![0.2, 0.1, 0.3, 0.9]),
+                        (
+                            "text".to_string(),
+                            vec![0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
+                        ),
+                    ]),
+                    Payload::default(),
+                ),
+            ],
+        )
+        .wait(true),
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+import java.util.Map;
+
+import static io.qdrant.client.PointIdFactory.id;
+import static io.qdrant.client.VectorFactory.vector;
+import static io.qdrant.client.VectorsFactory.namedVectors;
+
+import io.qdrant.client.grpc.Points.PointStruct;
+
+client
+    .upsertAsync(
+        "{collection_name}",
+        List.of(
+            PointStruct.newBuilder()
+                .setId(id(1))
+                .setVectors(
+                    namedVectors(
+                        Map.of(
+                            "image",
+                            vector(List.of(0.9f, 0.1f, 0.1f, 0.2f)),
+                            "text",
+                            vector(List.of(0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f)))))
+                .build(),
+            PointStruct.newBuilder()
+                .setId(id(2))
+                .setVectors(
+                    namedVectors(
+                        Map.of(
+                            "image",
+                            List.of(0.2f, 0.1f, 0.3f, 0.9f),
+                            "text",
+                            List.of(0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f))))
+                .build()))
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.UpsertAsync(
+	collectionName: "{collection_name}",
+	points: new List<PointStruct>
+	{
+		new()
+		{
+			Id = 1,
+			Vectors = new Dictionary<string, float[]>
+			{
+				["image"] = [0.9f, 0.1f, 0.1f, 0.2f],
+				["text"] = [0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f]
+			}
+		},
+		new()
+		{
+			Id = 2,
+			Vectors = new Dictionary<string, float[]>
+			{
+				["image"] = [0.2f, 0.1f, 0.3f, 0.9f],
+				["text"] = [0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f]
+			}
+		}
+	}
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id: qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"image": qdrant.NewVector(0.9, 0.1, 0.1, 0.2),
+				"text":  qdrant.NewVector(0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2),
+			}),
+		},
+		{
+			Id: qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"image": qdrant.NewVector(0.2, 0.1, 0.3, 0.9),
+				"text":  qdrant.NewVector(0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9),
+			}),
+		},
+	},
+})
 ```
 
 To search with named vectors (available in `query` API):
 
-POST collections/{collection_name}/points/query
+```http
+POST /collections/{collection_name}/points/query
 {
-  "query": {
-    "image": [0.1, 0.2, 0.3, 0.4],
-    "text": [0.01, 0.02, 0.03, 0.04, 0.05, 0.06, 0.07, 0.08]
-  }
+    "query": [0.2, 0.1, 0.9, 0.7],
+    "using": "image",
+    "limit": 3
 }
+```
+
+```python
+from qdrant_client import QdrantClient
+
+client = QdrantClient(url="http://localhost:6333")
+
+client.query_points(
+    collection_name="{collection_name}",
+    query=[0.2, 0.1, 0.9, 0.7],
+    using="image",
+    limit=3,
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.query("{collection_name}", {
+  query: [0.2, 0.1, 0.9, 0.7],
+  using: "image",
+  limit: 3,
+});
+```
+
+```rust
+use qdrant_client::qdrant::QueryPointsBuilder;
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+
+client
+    .query(
+        QueryPointsBuilder::new("{collection_name}")
+            .query(vec![0.2, 0.1, 0.9, 0.7])
+            .limit(3)
+            .using("image"),
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.QueryPoints;
+
+import static io.qdrant.client.QueryFactory.nearest;
+
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client.queryAsync(QueryPoints.newBuilder()
+        .setCollectionName("{collection_name}")
+        .setQuery(nearest(0.2f, 0.1f, 0.9f, 0.7f))
+        .setUsing("image")
+        .setLimit(3)
+        .build()).get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.QueryAsync(
+	collectionName: "{collection_name}",
+	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
+	usingVector: "image",
+	limit: 3
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Using:          qdrant.PtrOf("image"),
+})
+```
+
 ## Datatypes
 
 Newest versions of embeddings models generate vectors with very large dimentionalities.
