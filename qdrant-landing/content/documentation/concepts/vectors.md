@@ -1096,13 +1096,6 @@ PUT /collections/{collection_name}/points
                 "image": [0.9, 0.1, 0.1, 0.2],
                 "text": [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2]
             }
-        },
-        {
-            "id": 2,
-            "vector": {
-                "image": [0.2, 0.1, 0.3, 0.9],
-                "text": [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9]
-            }
         }
     ]
 }
@@ -1119,13 +1112,6 @@ client.upsert(
                 "text": [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
             },
         ),
-        models.PointStruct(
-            id=2,
-            vector={
-                "image": [0.2, 0.1, 0.3, 0.9],
-                "text": [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
-            },
-        ),
     ],
 )
 ```
@@ -1138,13 +1124,6 @@ client.upsert("{collection_name}", {
       vector: {
         image: [0.9, 0.1, 0.1, 0.2],
         text: [0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
-      },
-    },
-    {
-      id: 2,
-      vector: {
-        image: [0.2, 0.1, 0.3, 0.9],
-        text: [0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
       },
     },
   ],
@@ -1169,17 +1148,6 @@ client
                         (
                             "text".to_string(),
                             vec![0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2],
-                        ),
-                    ]),
-                    Payload::default(),
-                ),
-                PointStruct::new(
-                    2,
-                    HashMap::from([
-                        ("image".to_string(), vec![0.2, 0.1, 0.3, 0.9]),
-                        (
-                            "text".to_string(),
-                            vec![0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9],
                         ),
                     ]),
                     Payload::default(),
@@ -1214,16 +1182,6 @@ client
                             vector(List.of(0.9f, 0.1f, 0.1f, 0.2f)),
                             "text",
                             vector(List.of(0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f)))))
-                .build(),
-            PointStruct.newBuilder()
-                .setId(id(2))
-                .setVectors(
-                    namedVectors(
-                        Map.of(
-                            "image",
-                            List.of(0.2f, 0.1f, 0.3f, 0.9f),
-                            "text",
-                            List.of(0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f))))
                 .build()))
     .get();
 ```
@@ -1245,15 +1203,6 @@ await client.UpsertAsync(
 			{
 				["image"] = [0.9f, 0.1f, 0.1f, 0.2f],
 				["text"] = [0.4f, 0.7f, 0.1f, 0.8f, 0.1f, 0.1f, 0.9f, 0.2f]
-			}
-		},
-		new()
-		{
-			Id = 2,
-			Vectors = new Dictionary<string, float[]>
-			{
-				["image"] = [0.2f, 0.1f, 0.3f, 0.9f],
-				["text"] = [0.5f, 0.2f, 0.7f, 0.4f, 0.7f, 0.2f, 0.3f, 0.9f]
 			}
 		}
 	}
@@ -1280,13 +1229,6 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
 				"image": qdrant.NewVector(0.9, 0.1, 0.1, 0.2),
 				"text":  qdrant.NewVector(0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2),
-			}),
-		},
-		{
-			Id: qdrant.NewIDNum(2),
-			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
-				"image": qdrant.NewVector(0.2, 0.1, 0.3, 0.9),
-				"text":  qdrant.NewVector(0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9),
 			}),
 		},
 	},
