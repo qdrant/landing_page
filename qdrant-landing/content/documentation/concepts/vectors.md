@@ -929,7 +929,7 @@ In Qdrant, you can store multiple vectors of different sizes in the same data [p
 To store different vectors from each point, you need to create separate named vector spaces in the [collection](/documentation/concepts/collections/). You can define these vector spaces during collection creation and manage them independently.
 
 <aside role="status">
-Each vectors should have a unique name. Vectors can represent different modalities and you can use different embedding models to generate them.
+Each vector should have a unique name. Vectors can represent different modalities and you can use different embedding models to generate them.
 </aside>
 
 To create a collection with named vectors, you need to specify a configuration for each vector:
