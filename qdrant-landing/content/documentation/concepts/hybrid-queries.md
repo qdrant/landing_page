@@ -208,6 +208,34 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Prefetch: []*qdrant.PrefetchQuery{
+		{
+			Query: qdrant.NewQuerySparse([]uint32{1, 42}, []float32{0.22, 0.8}),
+			Using: qdrant.PtrOf("sparse"),
+		},
+		{
+			Query: qdrant.NewQueryDense([]float32{0.01, 0.45, 0.67}),
+			Using: qdrant.PtrOf("dense"),
+		},
+	},
+	Query: qdrant.NewQueryFusion(qdrant.Fusion_RRF),
+})
+```
+
 ## Multi-stage queries
 
 In many cases, the usage of a larger vector representation gives more accurate search results, but it is also more expensive to compute.
@@ -345,6 +373,32 @@ await client.QueryAsync(
   usingVector: "full",
   limit: 10
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Prefetch: []*qdrant.PrefetchQuery{
+		{
+			Query: qdrant.NewQueryDense([]float32{1, 23, 45, 67}),
+			Using: qdrant.PtrOf("mrl_byte"),
+			Limit: qdrant.PtrOf(uint64(1000)),
+		},
+	},
+	Query: qdrant.NewQueryDense([]float32{0.01, 0.299, 0.45, 0.67}),
+	Using: qdrant.PtrOf("full"),
+})
 ```
 
 Fetch 100 results using the default vector, then re-score them using a multi-vector to get the top 10.
@@ -485,6 +539,35 @@ await client.QueryAsync(
   usingVector: "colbert",
   limit: 10
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Prefetch: []*qdrant.PrefetchQuery{
+		{
+			Query: qdrant.NewQueryDense([]float32{0.01, 0.45, 0.67}),
+			Limit: qdrant.PtrOf(uint64(100)),
+		},
+	},
+	Query: qdrant.NewQueryMulti([][]float32{
+		{0.1, 0.2},
+		{0.2, 0.1},
+		{0.8, 0.9},
+	}),
+	Using: qdrant.PtrOf("colbert"),
+})
 ```
 
 It is possible to combine all the above techniques in a single query:
@@ -667,6 +750,43 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Prefetch: []*qdrant.PrefetchQuery{
+		{
+			Prefetch: []*qdrant.PrefetchQuery{
+				{
+					Query: qdrant.NewQueryDense([]float32{1, 23, 45, 67}),
+					Using: qdrant.PtrOf("mrl_byte"),
+					Limit: qdrant.PtrOf(uint64(1000)),
+				},
+			},
+			Query: qdrant.NewQueryDense([]float32{0.01, 0.45, 0.67}),
+			Limit: qdrant.PtrOf(uint64(100)),
+			Using: qdrant.PtrOf("full"),
+		},
+	},
+	Query: qdrant.NewQueryMulti([][]float32{
+		{0.1, 0.2},
+		{0.2, 0.1},
+		{0.8, 0.9},
+	}),
+	Using: qdrant.PtrOf("colbert"),
+})
+```
+
 ## Flexible interface
 
 Other than the introduction of `prefetch`, the `Query API` has been designed to make querying simpler. Let's look at a few bonus features:
@@ -746,6 +866,24 @@ await client.QueryAsync(
 	collectionName: "{collection_name}",
 	query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04") // <--- point id
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQueryID(qdrant.NewID("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")),
+})
 ```
 
 The above example will fetch the default vector from the point with this id, and use it as the query vector.
@@ -855,6 +993,29 @@ await client.QueryAsync(
       VectorName = "image-512" // <--- vector name in the other collection
   }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQueryID(qdrant.NewID("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")),
+	Using:          qdrant.PtrOf("512d-vector"),
+	LookupFrom: &qdrant.LookupLocation{
+		CollectionName: "another_collection",
+		VectorName:     qdrant.PtrOf("image-512"),
+	},
+})
 ```
 
 In the case above, Qdrant will fetch the `"image-512"` vector from the specified point id in the 
@@ -1075,6 +1236,44 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Prefetch: []*qdrant.PrefetchQuery{
+		{
+			Query: qdrant.NewQuery(0.01, 0.45, 0.67),
+			Filter: &qdrant.Filter{
+				Must: []*qdrant.Condition{
+					qdrant.NewMatch("color", "red"),
+				},
+			},
+		},
+		{
+			Query: qdrant.NewQuery(0.01, 0.45, 0.67),
+			Filter: &qdrant.Filter{
+				Must: []*qdrant.Condition{
+					qdrant.NewMatch("color", "green"),
+				},
+			},
+		},
+	},
+	Query: qdrant.NewQueryOrderBy(&qdrant.OrderBy{
+		Key: "price",
+	}),
+})
+```
+
 In this example, we first fetch 10 points with the color `"red"` and then 10 points with the color `"green"`.
 Then, we order the results by the price field.
 
@@ -1176,6 +1375,26 @@ await client.QueryGroupsAsync(
   limit: 4,
   groupSize: 2
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.01, 0.45, 0.67),
+	GroupBy:        "document_id",
+	GroupSize:      qdrant.PtrOf(uint64(2)),
+})
 ```
 
 For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](./search/#search-groups) and [lookup](./search/#lookup-in-groups).

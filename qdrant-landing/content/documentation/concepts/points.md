@@ -158,10 +158,34 @@ await client.UpsertAsync(
 		{
 			Id = Guid.Parse("5c56c793-69f3-4fbf-87e6-c4bf54c28c26"),
 			Vectors = new[] { 0.05f, 0.61f, 0.76f, 0.74f },
-			Payload = { ["city"] = "red" }
+			Payload = { ["color"] = "Red" }
 		}
 	}
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewID("5c56c793-69f3-4fbf-87e6-c4bf54c28c26"),
+			Vectors: qdrant.NewVectors(0.05, 0.61, 0.76, 0.74),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "Red"}),
+		},
+	},
+})
 ```
 
 and
@@ -270,11 +294,34 @@ await client.UpsertAsync(
 		{
 			Id = 1,
 			Vectors = new[] { 0.05f, 0.61f, 0.76f, 0.74f },
-			Payload = { ["city"] = "red" }
+			Payload = { ["color"] = "Red" }
 		}
 	}
 );
+```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectors(0.05, 0.61, 0.76, 0.74),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "Red"}),
+		},
+	},
+})
 ```
 
 are both possible.
@@ -506,22 +553,56 @@ await client.UpsertAsync(
 		{
 			Id = 1,
 			Vectors = new[] { 0.9f, 0.1f, 0.1f },
-			Payload = { ["city"] = "red" }
+			Payload = { ["color"] = "red" }
 		},
 		new()
 		{
 			Id = 2,
 			Vectors = new[] { 0.1f, 0.9f, 0.1f },
-			Payload = { ["city"] = "green" }
+			Payload = { ["color"] = "green" }
 		},
 		new()
 		{
 			Id = 3,
 			Vectors = new[] { 0.1f, 0.1f, 0.9f },
-			Payload = { ["city"] = "blue" }
+			Payload = { ["color"] = "blue" }
 		}
 	}
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectors(0.9, 0.1, 0.1),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "red"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectors(0.1, 0.9, 0.1),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "green"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(3),
+			Vectors: qdrant.NewVectors(0.1, 0.1, 0.9),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "blue"}),
+		},
+	},
+})
 ```
 
 The Python client has additional features for loading points, which include:
@@ -773,6 +854,39 @@ await client.UpsertAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id: qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"image": qdrant.NewVector(0.9, 0.1, 0.1, 0.2),
+				"text":  qdrant.NewVector(0.4, 0.7, 0.1, 0.8, 0.1, 0.1, 0.9, 0.2),
+			}),
+		},
+		{
+			Id: qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"image": qdrant.NewVector(0.2, 0.1, 0.3, 0.9),
+				"text":  qdrant.NewVector(0.5, 0.2, 0.7, 0.4, 0.7, 0.2, 0.3, 0.9),
+			}),
+		},
+	},
+})
+```
+
 _Available as of v1.2.0_
 
 Named vectors are optional. When uploading points, some vectors may be omitted.
@@ -1002,6 +1116,41 @@ await client.UpsertAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id: qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"text": qdrant.NewVectorSparse(
+					[]uint32{6, 7},
+					[]float32{1.0, 2.0}),
+			}),
+		},
+		{
+			Id: qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"text": qdrant.NewVectorSparse(
+					[]uint32{1, 2, 3, 4, 5},
+					[]float32{0.1, 0.2, 0.3, 0.4, 0.5}),
+			}),
+		},
+	},
+})
+```
+
 ## Modify points
 
 To change a point, you can modify its vectors or its payload. There are several
@@ -1156,6 +1305,37 @@ await client.UpdateVectorsAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.UpdateVectors(context.Background(), &qdrant.UpdatePointVectors{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointVectors{
+		{
+			Id: qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"image": qdrant.NewVector(0.1, 0.2, 0.3, 0.4),
+			}),
+		},
+		{
+			Id: qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectorsMap(map[string]*qdrant.Vector{
+				"text": qdrant.NewVector(0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2),
+			}),
+		},
+	},
+})
+```
+
 To update points and replace all of its vectors, see [uploading
 points](#upload-points).
 
@@ -1281,6 +1461,26 @@ var client = new QdrantClient("localhost", 6334);
 await client.DeleteAsync(collectionName: "{collection_name}", ids: [0, 3, 100]);
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Delete(context.Background(), &qdrant.DeletePoints{
+	CollectionName: "{collection_name}",
+	Points: qdrant.NewPointsSelector(
+		qdrant.NewIDNum(0), qdrant.NewIDNum(3), qdrant.NewIDNum(100),
+	),
+})
+```
+
 Alternative way to specify which points to remove is to use filter.
 
 ```http
@@ -1366,6 +1566,30 @@ var client = new QdrantClient("localhost", 6334);
 await client.DeleteAsync(collectionName: "{collection_name}", filter: MatchKeyword("color", "red"));
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Delete(context.Background(), &qdrant.DeletePoints{
+	CollectionName: "{collection_name}",
+	Points: qdrant.NewPointsSelectorFilter(
+		&qdrant.Filter{
+			Must: []*qdrant.Condition{
+				qdrant.NewMatch("color", "red"),
+			},
+		},
+	),
+})
+```
+
 This example removes all points with `{ "color": "red" }` from the collection.
 
 ## Retrieve points
@@ -1426,6 +1650,26 @@ await client.RetrieveAsync(
 	withPayload: false,
 	withVectors: false
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Get(context.Background(), &qdrant.GetPoints{
+	CollectionName: "{collection_name}",
+	Ids: []*qdrant.PointId{
+		qdrant.NewIDNum(0), qdrant.NewIDNum(3), qdrant.NewIDNum(100),
+	},
+})
 ```
 
 This method has additional parameters `with_vectors` and `with_payload`.
@@ -1553,6 +1797,30 @@ await client.ScrollAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+	client, err := qdrant.NewClient(&qdrant.Config{
+		Host: "localhost",
+		Port: 6334,
+	})
+
+	client.Scroll(context.Background(), &qdrant.ScrollPoints{
+		CollectionName: "{collection_name}",
+		Filter: &qdrant.Filter{
+			Must: []*qdrant.Condition{
+				qdrant.NewMatch("color", "red"),
+			},
+		},
+		Limit:       qdrant.PtrOf(uint32(1)),
+		WithPayload: qdrant.NewWithPayload(true),
+	})
+```
+
 Returns all point with `color` = `red`.
 
 ```json
@@ -1637,6 +1905,27 @@ client.scrollAsync(ScrollPoints.newBuilder()
 await client.ScrollAsync("{collection_name}", limit: 15, orderBy: "timestamp");
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Limit:          qdrant.PtrOf(uint32(15)),
+	OrderBy: &qdrant.OrderBy{
+		Key: "timestamp",
+	},
+})
+```
+
 You need to use the `order_by` `key` parameter to specify the payload key. Then you can add other fields to control the ordering, such as `direction` and `start_from`:
 
 ```http
@@ -1695,6 +1984,16 @@ new OrderBy
  Direction = Direction.Desc,
  StartFrom = 123
 };
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+qdrant.OrderBy{
+	Key:       "timestamp",
+	Direction: qdrant.Direction_Desc.Enum(),
+	StartFrom: qdrant.NewStartFromInt(123),
+}
 ```
 
 <aside role="alert">When you use the <code>order_by</code> parameter, pagination is disabled.</aside>
@@ -1799,6 +2098,28 @@ await client.CountAsync(
 	filter: MatchKeyword("color", "red"),
 	exact: true
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Count(context.Background(), &qdrant.CountPoints{
+	CollectionName: "midlib",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("color", "red"),
+		},
+	},
+})
 ```
 
 Returns number of counts matching given filtering conditions:

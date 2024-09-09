@@ -67,6 +67,21 @@ var client = new QdrantClient("localhost", 6334);
 await client.CreateSnapshotAsync("{collection_name}");
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateSnapshot(context.Background(), "{collection_name}")
+```
+
 This is a synchronous operation for which a `tar` archive file will be generated into the `snapshot_path`.
 
 ### Delete snapshot
@@ -127,6 +142,21 @@ var client = new QdrantClient("localhost", 6334);
 await client.DeleteSnapshotAsync(collectionName: "{collection_name}", snapshotName: "{snapshot_name}");
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.DeleteSnapshot(context.Background(), "{collection_name}", "{snapshot_name}")
+```
+
 ## List snapshot
 
 List of snapshots for a collection:
@@ -175,6 +205,21 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ListSnapshotsAsync("{collection_name}");
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.ListSnapshots(context.Background(), "{collection_name}")
 ```
 
 ## Retrieve snapshot
@@ -395,6 +440,21 @@ var client = new QdrantClient("localhost", 6334);
 await client.CreateFullSnapshotAsync();
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateFullSnapshot(context.Background())
+```
+
 ### Delete full storage snapshot
 
 *Available as of v1.0.0*
@@ -445,6 +505,21 @@ var client = new QdrantClient("localhost", 6334);
 await client.DeleteFullSnapshotAsync("{snapshot_name}");
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.DeleteFullSnapshot(context.Background(), "{snapshot_name}")
+```
+
 ### List full storage snapshots
 
 ```http
@@ -491,6 +566,21 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ListFullSnapshotsAsync();
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.ListFullSnapshots(context.Background())
 ```
 
 ### Download full storage snapshot

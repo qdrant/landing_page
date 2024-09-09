@@ -84,6 +84,10 @@ $tabs-font-color-hover: $neutral-90;
       -webkit-mask-image: url('/icons/outline/csharp.svg');
       mask-image: url('/icons/outline/csharp.svg');
     }
+    &_go {
+      -webkit-mask-image: url('/icons/outline/go.svg');
+      mask-image: url('/icons/outline/go.svg');
+    }
   }
 
   &__button {

@@ -131,6 +131,28 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+		OnDisk:   qdrant.PtrOf(true),
+	}),
+})
+```
+
 This will create a collection with all vectors immediately stored in memmap storage.
 This is the recommended way, in case your Qdrant instance operates with fast disks and you are working with large collections.
 
@@ -241,6 +263,30 @@ await client.CreateCollectionAsync(
 	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{
+		MaxSegmentSize: qdrant.PtrOf(uint64(20000)),
+	},
+})
 ```
 
 The rule of thumb to set the memmap threshold parameter is simple:
@@ -362,6 +408,33 @@ await client.CreateCollectionAsync(
 	optimizersConfig: new OptimizersConfigDiff { MemmapThreshold = 20000 },
 	hnswConfig: new HnswConfigDiff { OnDisk = true }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{
+		MaxSegmentSize: qdrant.PtrOf(uint64(20000)),
+	},
+	HnswConfig: &qdrant.HnswConfigDiff{
+		OnDisk: qdrant.PtrOf(true),
+	},
+})
 ```
 
 ## Payload storage

@@ -154,6 +154,32 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+		OnDisk:   qdrant.PtrOf(true),
+	}),
+	QuantizationConfig: qdrant.NewQuantizationScalar(&qdrant.ScalarQuantization{
+		Type:      qdrant.QuantizationType_Int8,
+		AlwaysRam: qdrant.PtrOf(true),
+	}),
+})
+```
+
 `on_disk` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
 
 Optionally, you can disable rescoring with search `params`, which will reduce the number of disk reads even further, but potentially slightly decrease the precision.
@@ -264,6 +290,29 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Params: &qdrant.SearchParams{
+		Quantization: &qdrant.QuantizationSearchParams{
+			Rescore: qdrant.PtrOf(true),
+		},
+	},
+})
+```
+
 ## Prefer high precision with low memory footprint
 
 In case you need high precision, but don't have enough RAM to store vectors in memory, you can enable on-disk vectors and HNSW index.
@@ -372,6 +421,31 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+		OnDisk:   qdrant.PtrOf(true),
+	}),
+	HnswConfig: &qdrant.HnswConfigDiff{
+		OnDisk: qdrant.PtrOf(true),
+	},
+})
+```
+
 In this scenario you can increase the precision of the search by increasing the `ef` and `m` parameters of the HNSW index, even with limited RAM.
 
 ```json
@@ -399,8 +473,7 @@ PUT /collections/{collection_name}
 {
     "vectors": {
       "size": 768,
-      "distance": "Cosine",
-      "on_disk": true
+      "distance": "Cosine"
     },
     "quantization_config": {
         "scalar": {
@@ -418,7 +491,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE, on_disk=True),
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE),
     quantization_config=models.ScalarQuantization(
         scalar=models.ScalarQuantizationConfig(
             type=models.ScalarType.INT8,
@@ -437,7 +510,6 @@ client.createCollection("{collection_name}", {
   vectors: {
     size: 768,
     distance: "Cosine",
-    on_disk: true,
   },
   quantization_config: {
     scalar: {
@@ -460,7 +532,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client
     .create_collection(
         CreateCollectionBuilder::new("{collection_name}")
-            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine).on_disk(true))
+            .vectors_config(VectorParamsBuilder::new(768, Distance::Cosine))
             .quantization_config(
                 ScalarQuantizationBuilder::default()
                     .r#type(QuantizationType::Int8.into())
@@ -495,7 +567,6 @@ client
                         VectorParams.newBuilder()
                             .setSize(768)
                             .setDistance(Distance.Cosine)
-                            .setOnDisk(true)
                             .build())
                     .build())
             .setQuantizationConfig(
@@ -518,12 +589,37 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.CreateCollectionAsync(
 	collectionName: "{collection_name}",
-	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine, OnDisk = true},
+	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine},
 	quantizationConfig: new QuantizationConfig
 	{
 		Scalar = new ScalarQuantization { Type = QuantizationType.Int8, AlwaysRam = true }
 	}
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	QuantizationConfig: qdrant.NewQuantizationScalar(&qdrant.ScalarQuantization{
+		Type:      qdrant.QuantizationType_Int8,
+		AlwaysRam: qdrant.PtrOf(true),
+	}),
+})
 ```
 
 There are also some search-time parameters you can use to tune the search accuracy and speed:
@@ -617,6 +713,28 @@ await client.QueryAsync(
 	searchParams: new SearchParams { HnswEf = 128, Exact = false },
 	limit: 3
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Params: &qdrant.SearchParams{
+		HnswEf: qdrant.PtrOf(uint64(128)),
+		Exact:  qdrant.PtrOf(false),
+	},
+})
 ```
 
 - `hnsw_ef` - controls the number of neighbors to visit during search. The higher the value, the more accurate and slower the search will be. Recommended range is 32-512.
@@ -736,6 +854,30 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{
+		DefaultSegmentNumber: qdrant.PtrOf(uint64(16)),
+	},
+})
+```
+
 To prefer throughput, you can set up Qdrant to use as many cores as possible for processing multiple requests in parallel.
 To do that, you can configure qdrant to use minimal number of segments, which is usually 2.
 Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. But at the same time require more time to build index.
@@ -841,4 +983,28 @@ await client.CreateCollectionAsync(
 	vectorsConfig: new VectorParams { Size = 768, Distance = Distance.Cosine },
 	optimizersConfig: new OptimizersConfigDiff { DefaultSegmentNumber = 2 }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     768,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{
+		DefaultSegmentNumber: qdrant.PtrOf(uint64(2)),
+	},
+})
 ```

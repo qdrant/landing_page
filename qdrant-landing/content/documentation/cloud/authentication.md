@@ -101,3 +101,14 @@ var client = new QdrantClient(
   apiKey: "<paste-your-api-key-here>"
 );
 ```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host:   "xyz-example.eu-central.aws.cloud.qdrant.io",
+	Port:   6334,
+	APIKey: "<paste-your-api-key-here>",
+	UseTLS: true,
+})
+```

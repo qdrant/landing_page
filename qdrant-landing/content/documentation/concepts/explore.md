@@ -169,6 +169,37 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+		Positive: []*qdrant.VectorInput{
+			qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+			qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+		},
+		Negative: []*qdrant.VectorInput{
+			qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+		},
+	}),
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+		},
+	},
+})
+```
+
 Example result of this API would be
 
 ```json
@@ -335,6 +366,33 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+		Positive: []*qdrant.VectorInput{
+			qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+			qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+		},
+		Negative: []*qdrant.VectorInput{
+			qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+		},
+	}),
+	Using: qdrant.PtrOf("image"),
+})
+```
+
 Parameter `using` specifies which stored vectors to use for the recommendation.
 
 ### Lookup vectors from another collection
@@ -468,6 +526,37 @@ await client.QueryAsync(
 		VectorName = "{external_vector_name}",
 	}
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+		Positive: []*qdrant.VectorInput{
+			qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+			qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+		},
+		Negative: []*qdrant.VectorInput{
+			qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+		},
+	}),
+	Using: qdrant.PtrOf("image"),
+	LookupFrom: &qdrant.LookupLocation{
+		CollectionName: "{external_collection_name}",
+		VectorName:     qdrant.PtrOf("{external_vector_name}"),
+	},
+})
 ```
 
 Vectors are retrieved from the external collection by ids provided in the `positive` and `negative` lists. 
@@ -730,6 +819,59 @@ await client.QueryBatchAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+filter := qdrant.Filter{
+	Must: []*qdrant.Condition{
+		qdrant.NewMatch("city", "London"),
+	},
+}
+client.QueryBatch(context.Background(), &qdrant.QueryBatchPoints{
+	CollectionName: "{collection_name}",
+	QueryPoints: []*qdrant.QueryPoints{
+		{
+			CollectionName: "{collection_name}",
+			Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+				Positive: []*qdrant.VectorInput{
+					qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+					qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+				},
+				Negative: []*qdrant.VectorInput{
+					qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+				},
+			},
+			),
+			Filter: &filter,
+		},
+		{
+			CollectionName: "{collection_name}",
+			Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+				Positive: []*qdrant.VectorInput{
+					qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
+					qdrant.NewVectorInputID(qdrant.NewIDNum(67)),
+				},
+				Negative: []*qdrant.VectorInput{
+					qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
+				},
+			},
+			),
+			Filter: &filter,
+		},
+	},
+},
+)
+```
+
 The result of this API contains one array per recommendation requests.
 
 ```json
@@ -947,6 +1089,38 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQueryDiscover(&qdrant.DiscoverInput{
+		Target: qdrant.NewVectorInput(0.2, 0.1, 0.9, 0.7),
+		Context: &qdrant.ContextInput{
+			Pairs: []*qdrant.ContextInputPair{
+				{
+					Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+					Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+				},
+				{
+					Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
+					Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
+				},
+			},
+		},
+	}),
+})
+```
+
 <aside role="status">
 Notes about discovery search:
 
@@ -1111,6 +1285,35 @@ await client.QueryAsync(
   },
   limit: 10
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQueryContext(&qdrant.ContextInput{
+		Pairs: []*qdrant.ContextInputPair{
+			{
+				Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+				Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+			},
+			{
+				Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
+				Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
+			},
+		},
+	}),
+})
 ```
 
 <aside role="status">

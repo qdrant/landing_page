@@ -270,6 +270,28 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     300,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	ShardNumber: qdrant.PtrOf(uint32(6)),
+})
+```
+
 To ensure all nodes in your cluster are evenly utilized, the number of shards must be a multiple of the number of nodes you are currently running in your cluster.
 
 > Aside: Advanced use cases such as multitenancy may require an uneven distribution of shards. See [Multitenancy](/articles/multitenancy/).
@@ -440,6 +462,30 @@ await client.CreateShardKeyAsync(
     );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	// ... other collection parameters
+	ShardNumber:    qdrant.PtrOf(uint32(1)),
+	ShardingMethod: qdrant.ShardingMethod_Custom.Enum(),
+})
+
+client.CreateShardKey(context.Background(), "{collection_name}", &qdrant.CreateShardKey{
+	ShardKey: qdrant.NewShardKey("{shard_key}"),
+})
+```
+
 In this mode, the `shard_number` means the number of shards per shard key, where points will be distributed evenly. For example, if you have 10 shard keys and a collection config with these settings:
 
 ```json
@@ -562,8 +608,36 @@ await client.UpsertAsync(
 	{
 		new() { Id = 111, Vectors = new[] { 0.1f, 0.2f, 0.3f } }
 	},
-	shardKeySelector: new ShardKeySelector { ShardKeys = { new List<ShardKey> { "user_id" } } }
+	shardKeySelector: new ShardKeySelector { ShardKeys = { new List<ShardKey> { "user_1" } } }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(111),
+			Vectors: qdrant.NewVectors(0.1, 0.2, 0.3),
+		},
+	},
+	ShardKeySelector: &qdrant.ShardKeySelector{
+		ShardKeys: []*qdrant.ShardKey{
+			qdrant.NewShardKey("user_1"),
+		},
+	},
+})
 ```
 
 <aside role="alert">
@@ -789,6 +863,29 @@ await client.CreateCollectionAsync(
 	shardNumber: 6,
 	replicationFactor: 2
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     300,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	ShardNumber:       qdrant.PtrOf(uint32(6)),
+	ReplicationFactor: qdrant.PtrOf(uint32(2)),
+})
 ```
 
 This code sample creates a collection with a total of 6 logical shards backed by a total of 12 physical shards.
@@ -1037,6 +1134,30 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     300,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	ShardNumber:            qdrant.PtrOf(uint32(6)),
+	ReplicationFactor:      qdrant.PtrOf(uint32(2)),
+	WriteConsistencyFactor: qdrant.PtrOf(uint32(2)),
+})
+```
+
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
 
 ### Read consistency
@@ -1151,7 +1272,7 @@ client.queryAsync(
                 .setCollectionName("{collection_name}")
                 .setFilter(Filter.newBuilder().addMust(matchKeyword("city", "London")).build())
                 .setQuery(nearest(.2f, 0.1f, 0.9f, 0.7f))
-                .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(true).build())
+                .setParams(SearchParams.newBuilder().setHnswEf(128).setExact(false).build())
                 .setLimit(3)
                 .setReadConsistency(
                         ReadConsistency.newBuilder().setType(ReadConsistencyType.Majority).build())
@@ -1170,10 +1291,38 @@ await client.QueryAsync(
 	collectionName: "{collection_name}",
 	query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
 	filter: MatchKeyword("city", "London"),
-	searchParams: new SearchParams { HnswEf = 128, Exact = true },
+	searchParams: new SearchParams { HnswEf = 128, Exact = false },
 	limit: 3,
 	readConsistency: new ReadConsistency { Type = ReadConsistencyType.Majority }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+		},
+	},
+	Params: &qdrant.SearchParams{
+		HnswEf: qdrant.PtrOf(uint64(128)),
+	},
+	Limit:           qdrant.PtrOf(uint64(3)),
+	ReadConsistency: qdrant.NewReadConsistencyType(qdrant.ReadConsistencyType_Majority),
+})
 ```
 
 ### Write ordering
@@ -1320,23 +1469,60 @@ await client.UpsertAsync(
 		{
 			Id = 1,
 			Vectors = new[] { 0.9f, 0.1f, 0.1f },
-			Payload = { ["city"] = "red" }
+			Payload = { ["color"] = "red" }
 		},
 		new()
 		{
 			Id = 2,
 			Vectors = new[] { 0.1f, 0.9f, 0.1f },
-			Payload = { ["city"] = "green" }
+			Payload = { ["color"] = "green" }
 		},
 		new()
 		{
 			Id = 3,
 			Vectors = new[] { 0.1f, 0.1f, 0.9f },
-			Payload = { ["city"] = "blue" }
+			Payload = { ["color"] = "blue" }
 		}
 	},
 	ordering: WriteOrderingType.Strong
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Upsert(context.Background(), &qdrant.UpsertPoints{
+	CollectionName: "{collection_name}",
+	Points: []*qdrant.PointStruct{
+		{
+			Id:      qdrant.NewIDNum(1),
+			Vectors: qdrant.NewVectors(0.9, 0.1, 0.1),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "red"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(2),
+			Vectors: qdrant.NewVectors(0.1, 0.9, 0.1),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "green"}),
+		},
+		{
+			Id:      qdrant.NewIDNum(3),
+			Vectors: qdrant.NewVectors(0.1, 0.1, 0.9),
+			Payload: qdrant.NewValueMap(map[string]any{"color": "blue"}),
+		},
+	},
+	Ordering: &qdrant.WriteOrdering{
+		Type: qdrant.WriteOrderingType_Strong,
+	},
+})
 ```
 
 ## Listener mode

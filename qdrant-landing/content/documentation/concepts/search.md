@@ -103,6 +103,24 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+})
+```
+
 **Search By Id**
 
 ```http
@@ -169,6 +187,24 @@ await client.QueryAsync(
     collectionName: "{collection_name}",
     query: Guid.Parse("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQueryID(qdrant.NewID("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")),
+})
 ```
 
 ## Metrics
@@ -332,6 +368,33 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("city", "London"),
+		},
+	},
+	Params: &qdrant.SearchParams{
+		Exact:  qdrant.PtrOf(false),
+		HnswEf: qdrant.PtrOf(uint64(128)),
+	},
+})
+```
+
 In this example, we are looking for vectors similar to vector `[0.2, 0.1, 0.9, 0.7]`.
 Parameter `limit` (or its alias - `top`) specifies the amount of most similar results we would like to retrieve.
 
@@ -452,6 +515,25 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	Using:          qdrant.PtrOf("image"),
+})
+```
+
 Search is processing only among vectors with the same name.
 
 *Available as of v1.7.0*
@@ -564,6 +646,27 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query: qdrant.NewQuerySparse(
+		[]uint32{1, 2},
+		[]float32{2.0, 1.0}),
+	Using: qdrant.PtrOf("text"),
+})
+```
+
 ### Filtering results by score
 
 In addition to payload filtering, it might be useful to filter out results with a low similarity score.
@@ -660,6 +763,26 @@ await client.QueryAsync(
 	vectorsSelector: true,
 	limit: 3
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	WithPayload:    qdrant.NewWithPayload(true),
+	WithVectors:    qdrant.NewWithVectors(true),
+})
 ```
 
 You can use `with_payload` to scope to or filter a specific payload subset.
@@ -762,6 +885,25 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	WithPayload:    qdrant.NewWithPayloadInclude("city", "village", "town"),
+})
+```
+
 Or use `include` or `exclude` explicitly. For example, to exclude `city`:
 
 ```http
@@ -856,6 +998,25 @@ await client.QueryAsync(
 	},
 	limit: 3
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	WithPayload:    qdrant.NewWithPayloadExclude("city"),
+})
 ```
 
 It is possible to target nested fields using a dot notation:
@@ -1061,6 +1222,41 @@ var queries = new List<QueryPoints>
 await client.QueryBatchAsync(collectionName: "{collection_name}", queries: queries);
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+filter := qdrant.Filter{
+	Must: []*qdrant.Condition{
+		qdrant.NewMatch("city", "London"),
+	},
+}
+
+client.QueryBatch(context.Background(), &qdrant.QueryBatchPoints{
+	CollectionName: "{collection_name}",
+	QueryPoints: []*qdrant.QueryPoints{
+		{
+			CollectionName: "{collection_name}",
+			Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+			Filter:         &filter,
+		},
+		{
+			CollectionName: "{collection_name}",
+			Query:          qdrant.NewQuery(0.5, 0.3, 0.2, 0.3),
+			Filter:         &filter,
+		},
+	},
+})
+```
+
 The result of this API contains one array per search requests.
 
 ```json
@@ -1189,6 +1385,27 @@ await client.QueryAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Query(context.Background(), &qdrant.QueryPoints{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	WithPayload:    qdrant.NewWithPayload(true),
+	WithVectors:    qdrant.NewWithVectors(true),
+	Offset:         qdrant.PtrOf(uint64(100)),
+})
+```
+
 Is equivalent to retrieving the 11th page with 10 records per page.
 
 <aside role="alert">Large offset values may cause performance issues</aside>
@@ -1309,7 +1526,7 @@ client
     .query_groups(
         QueryPointGroupsBuilder::new("{collection_name}", "document_id")
             .query(vec![0.2, 0.1, 0.9, 0.7])
-            .limit(2u64)
+            .group_size(2u64)
             .with_payload(true)
             .with_vectors(true)
             .limit(4u64),
@@ -1340,11 +1557,31 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.QueryGroupsAsync(
     collectionName: "{collection_name}",
-    query: new float[] { 1.1f },
+    query: new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
     groupBy: "document_id",
     limit: 4,
     groupSize: 2
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	GroupBy:        "document_id",
+	GroupSize:      qdrant.PtrOf(uint64(2)),
+})
 ```
 
 The output of a ***groups*** call looks like this:
@@ -1532,7 +1769,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.SearchGroupsAsync(
     collectionName: "{collection_name}",
-    vector: new float[] { 1.0f },
+    vector: new float[] { 0.2f, 0.1f, 0.9f, 0.7f},
     groupBy: "document_id",
     limit: 2,
     groupSize: 2,
@@ -1546,6 +1783,30 @@ await client.SearchGroupsAsync(
         WithVectors = false
     }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuery(0.2, 0.1, 0.9, 0.7),
+	GroupBy:        "document_id",
+	GroupSize:      qdrant.PtrOf(uint64(2)),
+	WithLookup: &qdrant.WithLookup{
+		Collection:  "documents",
+		WithPayload: qdrant.NewWithPayloadInclude("title", "text"),
+	},
+})
 ```
 
 For the `with_lookup` parameter, you can also use the shorthand `with_lookup="documents"` to bring the whole payload and vector(s) without explicitly specifying it.
@@ -1674,6 +1935,24 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(collectionName: "{collection_name}", query: Sample.Random);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
+	CollectionName: "{collection_name}",
+	Query:          qdrant.NewQuerySample(qdrant.Sample_Random),
+})
 ```
 
 ## Query planning

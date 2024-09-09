@@ -116,6 +116,27 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     100,
+		Distance: qdrant.Distance_Cosine,
+	}),
+})
+```
+
 In addition to the required options, you can also specify custom values for the following collection options:
 
 * `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
@@ -254,6 +275,28 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     100,
+		Distance: qdrant.Distance_Cosine,
+	}),
+	InitFromCollection: qdrant.PtrOf("{from_collection_name}"),
+})
+```
+
 ### Collection with multiple vectors
 
 *Available as of v0.10.0*
@@ -388,6 +431,34 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfigMap(
+		map[string]*qdrant.VectorParams{
+			"image": {
+				Size:     4,
+				Distance: qdrant.Distance_Dot,
+			},
+			"text": {
+				Size:     8,
+				Distance: qdrant.Distance_Cosine,
+			},
+		}),
+})
+```
+
 For rare use cases, it is possible to create a collection without any vector storage.
 
 *Available as of v1.1.1*
@@ -517,6 +588,28 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfig(&qdrant.VectorParams{
+		Size:     1024,
+		Distance: qdrant.Distance_Cosine,
+		Datatype: qdrant.Datatype_Uint8.Enum(),
+	}),
+})
+```
+
 Vectors with `uint8` datatype are stored in a more compact format, which can save memory and improve search speed at the cost of some precision.
 If you choose to use the `uint8` datatype, elements of the vector will be stored as unsigned 8-bit integers, which can take values **from 0 to 255**.
 
@@ -632,6 +725,27 @@ await client.CreateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.CreateCollection(context.Background(), &qdrant.CreateCollection{
+	CollectionName: "{collection_namee}",
+	SparseVectorsConfig: qdrant.NewSparseVectorsConfig(
+		map[string]*qdrant.SparseVectorParams{
+			"text": {},
+		}),
+})
+```
+
 Outside of a unique name, there are no required configuration parameters for sparse vectors.
 
 The distance function for sparse vectors is always `Dot` and does not need to be specified.
@@ -670,6 +784,12 @@ client.collectionExistsAsync("{collection_name}").get();
 await client.CollectionExistsAsync("{collection_name}");
 ```
 
+```go
+import "context"
+
+client.CollectionExists(context.Background(), "my_collection")
+```
+
 ### Delete collection
 
 ```http
@@ -693,21 +813,17 @@ client.delete_collection("{collection_name}").await?;
 ```
 
 ```java
-import io.qdrant.client.QdrantClient;
-import io.qdrant.client.QdrantGrpcClient;
-
-QdrantClient client =
-    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
-
 client.deleteCollectionAsync("{collection_name}").get();
 ```
 
 ```csharp
-using Qdrant.Client;
-
-var client = new QdrantClient("localhost", 6334);
-
 await client.DeleteCollectionAsync("{collection_name}");
+```
+
+```go
+import "context"
+
+client.DeleteCollection(context.Background(), "{collection_name}")
 ```
 
 ### Update collection parameters
@@ -786,6 +902,26 @@ await client.UpdateCollectionAsync(
 	collectionName: "{collection_name}",
 	optimizersConfig: new OptimizersConfigDiff { IndexingThreshold = 10000 }
 );
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
+	CollectionName: "{collection_name}",
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{
+		IndexingThreshold: qdrant.PtrOf(uint64(10000)),
+	},
+})
 ```
 
 The following parameters can be updated:
@@ -1103,6 +1239,38 @@ await client.UpdateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
+	CollectionName: "{collection_name}",
+	VectorsConfig: qdrant.NewVectorsConfigDiffMap(
+		map[string]*qdrant.VectorParamsDiff{
+			"my_vector": {
+				HnswConfig: &qdrant.HnswConfigDiff{
+					M:           qdrant.PtrOf(uint64(3)),
+					EfConstruct: qdrant.PtrOf(uint64(123)),
+				},
+			},
+		}),
+	QuantizationConfig: qdrant.NewQuantizationDiffScalar(
+		&qdrant.ScalarQuantization{
+			Type:      qdrant.QuantizationType_Int8,
+			Quantile:  qdrant.PtrOf(float32(0.8)),
+			AlwaysRam: qdrant.PtrOf(true),
+		}),
+})
+```
+
 ## Collection info
 
 Qdrant allows determining the configuration parameters of an existing collection to better understand how the points are
@@ -1134,6 +1302,12 @@ client.getCollectionInfoAsync("{collection_name}").get();
 
 ```csharp
 await client.GetCollectionInfoAsync("{collection_name}");
+```
+
+```go
+import "context"
+
+client.GetCollectionInfo(context.Background(), "{collection_name}")
 ```
 
 <details>
@@ -1276,6 +1450,24 @@ await client.UpdateCollectionAsync(
 );
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
+	CollectionName:   "{collection_name}",
+	OptimizersConfig: &qdrant.OptimizersConfigDiff{},
+})
+```
+
 ### Approximate point and vector counts
 
 You may be interested in the count attributes:
@@ -1401,6 +1593,12 @@ client.createAliasAsync("production_collection", "example_collection").get();
 await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
 ```
 
+```go
+import "context"
+
+client.CreateAlias(context.Background(), "production_collection", "example_collection")
+```
+
 ### Remove alias
 
 ```bash
@@ -1462,6 +1660,12 @@ client.deleteAliasAsync("production_collection").get();
 
 ```csharp
 await client.DeleteAliasAsync("production_collection");
+```
+
+```go
+import "context"
+
+client.DeleteAlias(context.Background(), "production_collection")
 ```
 
 ### Switch collection
@@ -1562,6 +1766,14 @@ client.createAliasAsync("production_collection", "example_collection").get();
 await client.DeleteAliasAsync("production_collection");
 await client.CreateAliasAsync(aliasName: "production_collection", collectionName: "example_collection");
 ```
+
+```go
+import "context"
+
+client.DeleteAlias(context.Background(), "production_collection")
+client.CreateAlias(context.Background(), "production_collection", "example_collection")
+```
+
 ### List collection aliases
 
 ```http
@@ -1612,6 +1824,21 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ListCollectionAliasesAsync("{collection_name}");
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.ListCollectionAliases(context.Background(), "{collection_name}")
 ```
 
 ### List all aliases
@@ -1667,6 +1894,21 @@ var client = new QdrantClient("localhost", 6334);
 await client.ListAliasesAsync();
 ```
 
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.ListAliases(context.Background())
+```
+
 ### List all collections
 
 ```http
@@ -1718,4 +1960,19 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ListCollectionsAsync();
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.ListCollections(context.Background())
 ```
