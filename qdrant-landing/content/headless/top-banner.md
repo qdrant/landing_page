@@ -14,7 +14,7 @@ text: "Webinar: Building Agents with LlamaIndex & Qdrant"
 link:
   text: Register now
   url: https://try.qdrant.tech/build-advanced-agents-with-llamaindex-and-qdrant?utm_source=website&utm_medium=homepage-banner&utm_campaign=sept-webinar-agents-llamaindex
-start: 2024-09-7T15:28:00.000Z
+start: 2024-09-07T15:28:00.000Z
 sitemapExclude: true
 end: 2024-09-26T08:00:00.000Z
 ---
