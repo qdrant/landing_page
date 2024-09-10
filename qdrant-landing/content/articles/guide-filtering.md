@@ -52,7 +52,7 @@ If you rely on **searching for the nearest vector**, Qdrant will have to go thro
 
 ![guide-filtering-vector-search](/articles_data/guide-filtering/scanning-lens.png)
 
-In vector search, the processes of filtering and sorting aren't as straightforward as they are in traditional databases, where you might use SQL commands like `WHERE` and `ORDER BY`.
+In vector search, filtering and sorting are more interdependent than they are in traditional databases. While databases like SQL use commands such as `WHERE` and `ORDER BY`, the interplay between these processes in vector search is a bit more complex.
 
 Most people use default settings and build vector search apps that aren't properly configured or even setup for precise retrieval. In this guide, we will show you how to **use filtering to get the most out of vector search** with some basic and advanced strategies that are easy to implement. 
 
