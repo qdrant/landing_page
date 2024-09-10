@@ -67,4 +67,9 @@ This iterative process ensures that your application continuously improves, prov
 
 Combining **Relari** and **Qdrant** allows you to create a data-driven evaluation framework, improving your RAG system for optimal real-world performance.
 
+Below is a link to a notebook where you will build a data driven RAG app using Qdrant and Relari based on the Gitlab legal policies.
+
+
+https://colab.research.google.com/drive/1p6bF15ZWI7qVEh-b_7YGt1n1UwF3QAqd#scrollTo=doDLkvSGQaKn
+
 Happy coding!
