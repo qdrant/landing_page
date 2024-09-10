@@ -24,13 +24,13 @@ questions:
 - id: 4
   question: What criteria are used to select startups for the program?
   answer: We evaluate applications based on the innovation potential of the tech or AI-driven products or services and their alignment with Qdrant’s capabilities. Startups that demonstrate a clear vision and potential for impactful use of our platform are more likely to be selected.
-  - id: 5
+- id: 5
   question: How long is the discount valid, and are there any conditions?
   answer: The discount is valid for 12 months from the date of acceptance and applies exclusively to our Cloud services billed through Stripe. Participants need a Stripe account to utilize the discount.
-  - id: 6
+- id: 6
   question: Can existing Qdrant customers apply for the Startup Program?
   answer: Yes, existing Qdrant customers are eligible to apply for the Startup Program if their cloud account was created within the last 30 days from the date of application. This opportunity is designed to ensure startups at the early stages of using our platform can still benefit from the additional support and resources offered by the program.
-  - id: 7
+- id: 7
   question: Can I reapply if my application is initially rejected?
   answer: Yes, we welcome reapplications from startups whose circumstances have changed or who can provide additional information that might have been overlooked in the initial review. You must wait 2 months to re-apply.
 - id: 8
