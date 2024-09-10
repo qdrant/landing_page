@@ -1,60 +1,70 @@
 ---
-title: Why Rust?
-short_description: "A short history on how we chose rust and what it has brought us"
-description: Qdrant could be built in any language. But it's written in Rust. Here*s why.
-social_preview_image: /articles_data/why-rust/preview/social_preview.jpg
-preview_dir: /articles_data/why-rust/preview
-weight: 10
-author: Andre Bogus
-author_link: https://llogiq.github.io
-date: 2023-05-11T10:00:00+01:00
+title: "Qdrant<>Relari: Best Practices for a Data-driven Approach to Building RAG systems"
+short_description: "Improve RAG systems by combining Qdrant's storage with Relari's evaluation tools for better performance and user experience."
+description: How does Top-K and Auto Prompt Optimization improve RAG systems?
+social_preview_image: 
+preview_dir: 
+weight:
+author: Thierry Damiba
+author_link: https://x.com/thierrypdamiba
+date: 2024-09-09T10:00:00+01:00
 draft: false
-keywords: rust, programming, development
-aliases: [ /articles/why_rust/ ]
+keywords: evaluation, top k, prompt
 ---
 
-# Building Qdrant in Rust
+# Qdrant<>Relari: Best Practices for a Data-driven Approach to Building RAG Systems
 
-Looking at the [github repository](https://github.com/qdrant/qdrant), you can see that Qdrant is built in [Rust](https://rust-lang.org). Other offerings may be written in C++, Go, Java or even Python. So why does Qdrant chose Rust? Our founder Andrey had built the first prototype in C++, but didn’t trust his command of the language to scale to a production system (to be frank, he likened it to cutting his leg off). He was well versed in Java and Scala and also knew some Python. However, he considered neither a good fit:
+When you think of the typical RAG (Retrieval-Augmented Generation) application, it is usually difficult to pinpoint a metric for measurement. Consider an app like ChatGPT: How does OpenAI know if their app is functioning properly? More importantly, how can they measure its performance?
 
-**Java** is also more than 30 years old now. With a throughput-optimized VM it can often at least play in the same ball park as native services, and the tooling is phenomenal. Also portability is surprisingly good, although the GC is not suited for low-memory applications and will generally take good amount of RAM to deliver good performance. That said, the focus on throughput led to the dreaded GC pauses that cause latency spikes. Also the fat runtime incurs high start-up delays, which need to be worked around.
 
-**Scala** also builds on the JVM, although there is a native compiler, there was the question of compatibility. So Scala shared the limitations of Java, and although it has some nice high-level amenities (of which Java only recently copied a subset), it still doesn’t offer the same level of control over memory layout as, say, C++, so it is similarly disqualified.
+![How a RAG works](/articles_data/what-is-rag-in-ai/how-rag-works.jpg)
 
-**Python**, being just a bit younger than Java, is ubiquitous in ML projects, mostly owing to its tooling (notably jupyter notebooks), being easy to learn and integration in most ML stacks. It doesn’t have a traditional garbage collector, opting for ubiquitous reference counting instead, which somewhat helps memory consumption. With that said, unless you only use it as glue code over high-perf modules, you may find yourself waiting for results. Also getting complex python services to perform stably under load is a serious technical challenge.
+At first, you might think accuracy is the right metric. We could measure how often ChatGPT is accurate compared to other models or previous versions, and if it is more accurate, it must be performing better. This seems logical at first, but deeper examination reveals issues with this approach. 
 
-## Into the Unknown
+What if someone asks ChatGPT a subjective question, such as "What’s the best movie ever made?" You could use IMDB ratings as a guide, but what if your target audience is horror enthusiasts? They wouldn't care that _Forrest Gump_ is highly rated.
 
-So Andrey looked around at what younger languages would fit the challenge. After some searching, two contenders emerged: Go and Rust. Knowing neither, Andrey consulted the docs, and found hinself intrigued by Rust with its promise of Systems Programming without pervasive memory unsafety.
+You might instead approach the problem with a product mindset, focusing on how responses affect user churn. However, in some applications, such as medical assistants, you wouldn’t want an inaccurate app that simply doesn’t churn users.
 
-This early decision has been validated time and again. When first learning Rust, the compiler’s error messages are very helpful (and have only improved in the meantime). It’s easy to keep memory profile low when one doesn’t have to wrestle a garbage collector and has complete control over stack and heap. Apart from the much advertised memory safety, many footguns one can run into when writing C++ have been meticulously designed out. And it’s much easier to parallelize a task if one doesn’t have to fear data races.
+The reality is that no single evaluation method can fully capture how to build and monitor a production-grade application. With LLMs (Large Language Models), there is often confusion around evaluation methods and tracking performance. Many applications face the challenge of determining how to measure performance.
 
-With Qdrant written in Rust, we can offer cloud services that don’t keep us awake at night, thanks to Rust’s famed robustness. A current qdrant docker container comes in at just a bit over 50MB — try that for size. As for performance… have some [benchmarks](/benchmarks/).
+We recently partnered with **Relari** for a webinar discussing the best methods for building and evaluating RAG systems. Relari is a toolkit designed for improving LLM applications using both intrinsic and extrinsic evaluation methods. Paired with **Qdrant**, which efficiently stores large amounts of data, Relari provides a comprehensive evaluation framework.
 
-And we don’t have to compromise on ergonomics either, not for us nor for our users. Of course, there are downsides: Rust compile times are usually similar to C++’s, and though the learning curve has been considerably softened in the last years, it’s still no match for easy-entry languages like Python or Go. But learning it is a one-time cost. Contrast this with Go, where you may find [the apparent simplicity is only skin-deep](https://fasterthanli.me/articles/i-want-off-mr-golangs-wild-ride).
+In this blog post, I’ll cover two evaluation methods you can use with Qdrant and Relari and highlight some use cases for each.
 
-## Smooth is Fast
+## Evaluation Metrics: Top-K and Auto Prompt Optimization
 
-The complexity of the type system pays large dividends in bugs that didn’t even make it to a commit. The ecosystem for web services is also already quite advanced, perhaps not at the same point as Java, but certainly matching or outcompeting Go.
+When evaluating a RAG system, optimizing how the model performs in real-world situations is crucial. Traditional metrics like precision, recall, and rank-aware methods are useful but can only go so far. Two impactful strategies for holistic evaluation are **Top-K Parameter Optimization** and **Auto Prompt Optimization**. These methods enhance the likelihood that your model performs optimally with real users.
 
-Some people may think that the strict nature of Rust will slow down development, which is true only insofar as it won’t let you cut any corners. However, experience has conclusively shown that this is a net win. In fact, Rust lets us [ride the wall](https://the-race.com/nascar/bizarre-wall-riding-move-puts-chastain-into-nascar-folklore/), which makes us faster, not slower.
+### Top-K Parameter Optimization
 
-The job market for Rust programmers is certainly not as big as that for Java or Python programmers, but the language has finally reached the mainstream, and we don’t have any problems getting and retaining top talent. And being an open source project, when we get contributions, we don’t have to check for a wide variety of errors that Rust already rules out.
+The **Top-K** parameter determines how many top results are shown to a user. Imagine using a search engine that returns only one result each time. While that result may be good, most users prefer more options. However, too many results can overwhelm the user.
 
-## In Rust We Trust
+For example, in a product recommendation system, the Top-K setting will determine how many items a user sees—whether it's the top 3 best-sellers or 10 options. Adjusting this parameter ensures the user has enough relevant choices without feeling lost.
 
-Finally, the Rust community is a very friendly bunch, and we are delighted to be part of that. And we don’t seem to be alone. Most large IT companies (notably Amazon, Google, Huawei, Meta and Microsoft) have already started investing in Rust. It’s in the Windows font system already and in the process of coming to the Linux kernel (build support has already been included). In machine learning applications, Rust has been tried and proven by the likes of Aleph Alpha and Huggingface, among many others.
+With Relari and Qdrant, experimenting with different Top-K values is simple. Here’s how you can optimize it:
 
-To sum up, choosing Rust was a lucky guess that has brought huge benefits to Qdrant. Rust continues to be our not-so-secret weapon.
+1. Load and embed your data into a Qdrant collection using Langchain.
+2. Embed it with FastEmbed and upsert your data into Qdrant.
+3. Run experiments with different Top-K values to optimize retrieval performance.
+4. Submit evaluations to Relari to analyze precision, recall, and rank-aware metrics (e.g., MAP, MRR, NDCG).
+5. Use Relari’s dashboard to visualize insights and fine-tune Top-K for better user satisfaction.
 
-### Key Takeaways:
+### Auto Prompt Optimization
 
-- **Rust's Advantages for Qdrant:** Rust provides memory safety and control without a garbage collector, which is crucial for Qdrant's high-performance cloud services.
+In conversational applications like chatbots, **Auto Prompt Optimization** improves the app’s ability to communicate. This technique adapts the chatbot's responses over time, learning from past interactions to adjust phrasing for better results.
 
-- **Low Overhead:** Qdrant's Rust-based system offers efficiency, with small Docker container sizes and robust performance benchmarks.
+For example, in a customer service chatbot, the phrasing of questions can significantly affect user satisfaction. Consider ordering in French vs. English in a Parisian cafe—the same information may be transmitted, but it will be received differently.
 
-- **Complexity vs. Simplicity:** Rust's strict type system reduces bugs early in development, making it faster in the long run despite initial learning curves.
+Auto Prompt Optimization continuously refines the chatbot’s responses to improve user interactions. Here's how you can implement it with Relari:
 
-- **Adoption by Major Players:** Large tech companies like Amazon, Google, and Microsoft are embracing Rust, further validating Qdrant's choice.
+1. Set up your pipeline to track bot interactions.
+2. Submit evaluations to Relari, which will suggest prompt adjustments based on performance metrics.
+3. Use the Relari dashboard to review results and fine-tune your chatbot.
 
-- **Community and Talent:** The supportive Rust community and increasing availability of Rust developers make it easier for Qdrant to grow and innovate.
+This iterative process ensures that your application continuously improves, providing more accurate and contextually relevant responses.
+
+---
+
+Combining **Relari** and **Qdrant** allows you to create a data-driven evaluation framework, improving your RAG system for optimal real-world performance.
+
+Happy coding!
