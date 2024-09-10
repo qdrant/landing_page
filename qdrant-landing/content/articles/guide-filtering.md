@@ -520,19 +520,6 @@ The response contains a batch of points that match the criteria and a reference 
 
 Scrolling is designed to be efficient, especially when working with large datasets, because it minimizes the load on the server and reduces memory consumption on the client side by returning only manageable chunks of data at a time.
 
-## Real-life use cases of filtering
-
-Filtering in a vector database like Qdrant can significantly enhance search capabilities by enabling more precise and efficient retrieval of data. Here are some real-life use cases where filtering is crucial:
-
-| **Use Case**                         | **Vector Search**                                                | **Filtering**                                                           |
-|--------------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------|
-| **E-Commerce Product Search**        | Search for products by style or visual similarity                | Filter by price, color, brand, size, ratings                            |
-| **Recommendation Systems**           | Recommend similar content (e.g., movies, songs)                  | Filter by release date, genre, etc. (e.g., movies after 2020)           |
-| **Healthcare Diagnostics**           | Search for similar medical images                                | Filter by age, condition (e.g., patients over 50)                       |
-| **Geospatial Search in Ride-Sharing**| Find nearby drivers or delivery partners                         | Filter by rating, distance, vehicle type                                |
-| **Fraud Detection**                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
-
-
 ## Filtering with the payload index
 
 When you start working with Qdrant, your data is by default organized in a vector index. 
@@ -611,7 +598,6 @@ If your users are often filtering by **laptop** when looking up a product **cate
 |[On-Disk Index](/documentation/concepts/indexing/#on-disk-payload-index)       | Stores indexes on disk to manage large datasets without memory usage.                                                                                 |
 | [Parameterized Index](/documentation/concepts/indexing/#parameterized-index) | Allows for dynamic querying, where the index can adapt based on different parameters or conditions provided by the user. Useful for numeric data like prices or timestamps. |
 
-
 ### Indexing payloads in multitenant setups
 
 Some applications need to have data segregated, whereby different users need to see different data inside of the same program. When setting up storage for such a complex application, many users think they need multiple databases for segregated users.    
@@ -663,7 +649,6 @@ Here is a sample JSON range filter for values greater than or equal to 11.99 and
   }
 }
 ```
-
 ### Working with pagination in queries
 
 When you're implementing pagination in filtered queries, indexing becomes even more critical. When paginating results, you often need to exclude items you've already seen. This is typically managed by applying filters that specify which IDs should not be included in the next set of results. 
@@ -671,3 +656,16 @@ When you're implementing pagination in filtered queries, indexing becomes even m
 However, an interesting aspect of Qdrant's data model is that a single point can have multiple values for the same field, such as different color options for a product. This means that during filtering, an ID might appear multiple times if it matches on different values of the same field. 
 
 Proper indexing ensures that these queries are efficient, preventing duplicate results and making pagination smoother.
+
+## Conclusion: Real-life use cases of filtering
+
+Filtering in a vector database like Qdrant can significantly enhance search capabilities by enabling more precise and efficient retrieval of data. 
+
+As a conclusion to this guide, let's look at some real-life use cases where filtering is crucial:
+
+| **Use Case**                         | **Vector Search**                                                | **Filtering**                                                           |
+|--------------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------|
+| [E-Commerce Product Search](/advanced-search/)        | Search for products by style or visual similarity                | Filter by price, color, brand, size, ratings                            |
+| [Recommendation Systems](/recommendations/)           | Recommend similar content (e.g., movies, songs)                  | Filter by release date, genre, etc. (e.g., movies after 2020)           |
+| [Geospatial Search in Ride-Sharing](/articles/geo-polygon-filter-gsoc/)| Find nearby drivers or delivery partners                         | Filter by rating, distance, vehicle type                                |
+| [Fraud & Anomaly Detection](/data-analysis-anomaly-detection/)                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
