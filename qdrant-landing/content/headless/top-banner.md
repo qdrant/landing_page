@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: How to make data ready for your RAG application
+text: "Webinar: Building Agents with LlamaIndex & Qdrant"
 link:
   text: Register now
-  url: https://try.qdrant.tech/webinar-how-to-make-data-ready-for-your-rag-app?utm_source=event&utm_medium=website&utm_campaign=august-webinar-rag&utm_term=chunking
-start: 2024-08-14T15:28:00.000Z
+  url: https://try.qdrant.tech/build-advanced-agents-with-llamaindex-and-qdrant?utm_source=website&utm_medium=homepage-banner&utm_campaign=sept-webinar-agents-llamaindex
+start: 2024-09-07T15:28:00.000Z
 sitemapExclude: true
-end: 2024-08-29T08:00:00.000Z
+end: 2024-09-26T08:00:00.000Z
 ---
