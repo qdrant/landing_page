@@ -3,7 +3,6 @@ title: "A Complete Guide to Filtering"
 short_description: "Merging different search methods to improve the search quality was never easier"
 description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost search performance and resource usage."
 preview_dir: /articles_data/guide-filtering/preview
-social_preview_image: /articles_data/guide-filtering/social_preview.png
 weight: -200
 author: Sabrina Aquino, David Myriel
 author_link: 
