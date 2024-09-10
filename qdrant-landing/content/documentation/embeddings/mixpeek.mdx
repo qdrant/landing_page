@@ -39,7 +39,18 @@ client = QdrantClient("localhost", port=6333)
 
 ## Usage
 
-### 1. Process and Embed Video
+### 1. Create Qdrant Collection
+
+Make sure to create a Qdrant collection before inserting vectors. You can create a collection with the appropriate vector size (768 for "vuse-generic-v1" model) using:
+
+```python
+client.create_collection(
+    collection_name="video_chunks",
+    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE)
+)
+```
+
+### 2. Process and Embed Video
 
 First, process the video into chunks and embed each chunk:
 
@@ -87,7 +98,7 @@ for index, chunk in enumerate(processed_chunks):
 print(f"Processed and inserted {len(processed_chunks)} chunks")
 ```
 
-### 2. Search for Similar Video Chunks
+### 3. Search for Similar Video Chunks
 
 To search for similar video chunks, you can use either text or video queries:
 
@@ -137,17 +148,6 @@ search_results = client.query_points(
 for result in search_results:
     print(f"Chunk ID: {result.id}, Score: {result.score}")
     print(f"Time range: {result.payload['start_time']} - {result.payload['end_time']}")
-```
-
-## Note on Collection Creation
-
-Make sure to create a Qdrant collection before inserting vectors. You can create a collection with the appropriate vector size (768 for "vuse-generic-v1" model) using:
-
-```python
-client.create_collection(
-    collection_name="video_chunks",
-    vectors_config=models.VectorParams(size=768, distance=models.Distance.COSINE)
-)
 ```
 
 ## Resources
