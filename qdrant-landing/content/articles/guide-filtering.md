@@ -1,7 +1,7 @@
 ---
 title: "A Complete Guide to Filtering"
 short_description: "Merging different search methods to improve the search quality was never easier"
-description: "Qdrant 1.10 introduces a new Query API to build a search system that combines different search methods to improve the search quality."
+description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost search performance and resource usage."
 preview_dir: /articles_data/guide-filtering/preview
 social_preview_image: /articles_data/guide-filtering/social-preview.png
 weight: -200
