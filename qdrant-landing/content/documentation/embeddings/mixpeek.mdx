@@ -104,11 +104,11 @@ query_embedding = mixpeek.embed.video(
 )['embedding']
 
 # Search in Qdrant
-search_results = client.search(
+search_results = client.query_points(
     collection_name="video_chunks",
-    query_vector=query_embedding,
+    query=query_embedding,
     limit=5
-)
+).points
 
 for result in search_results:
     print(f"Chunk ID: {result.id}, Score: {result.score}")
