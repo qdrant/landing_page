@@ -47,7 +47,7 @@ Here is how a **filtered vector search** looks behind the scenes. We'll cover it
 The filtered result will be a combination of the semantic search and the filtering conditions imposed upon the query. In the following pages, we will show that **filtering is a key practice in vector search for two reasons:** 
 
 1. With filtering, you can **dramatically increase search precision**. More on this in the next section.</br>
-2. You can use filtering for resource control and **reduce compute use**. More on this in [**Payload Indexing**](#filtering-with-the-payload-index).
+2. Filtering helps control resources and **reduce compute use**. More on this in [**Payload Indexing**](#filtering-with-the-payload-index).
 
 ## What you will learn in this guide:
 
