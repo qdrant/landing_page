@@ -9,10 +9,11 @@ author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z
 ---
+Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly [search engine](https://qdrant.tech)**.
 
-<img src="/articles_data/vector-search-filtering/vector-search-ecommerce.png" alt="vector-search-ecommerce" width="80%">
+![vector-search-filtering](/articles_data/vector-search-filtering/vector-search-filtering.png)
 
-Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly [search engine](https://qdrant.tech)**. If you’re selling computers and have extensive data on laptops, desktops, and accessories, your search feature should guide customers to the exact device they want - or a **very similar** match needed.
+ If you’re selling computers and have extensive data on laptops, desktops, and accessories, your search feature should guide customers to the exact device they want - or a **very similar** match needed.
 
 When storing data in Qdrant, each product is a point, consisting of an `id`, a `vector` and `payload`:
 
@@ -41,9 +42,33 @@ This is why [semantic search](/advanced-search/) alone **may not be enough**. In
 
 Here is how a **filtered vector search** looks behind the scenes. We'll cover its mechanics in the following section.
 
-![vector-search-filtering](/articles_data/vector-search-filtering/vector-search-filtering.png)
+```http
+POST /collections/online_store/points/search
+{
+  "vector": [ 0.2, 0.1, 0.9, 0.7 ],
+  "filter": {
+    "must": [
+      {
+        "key": "category",
+        "match": { "value": "laptop" }
+      },
+      {
+        "key": "price",
+        "range": {
+          "gt": null,
+          "gte": null,
+          "lt": null,
+          "lte": 1000
+        }
+      }
+    ]
+  },
+  "limit": 3,
+  "with_payload": true,
+  "with_vector": false
+}
+```
 
-#### Want to see the result? Keep reading!
 The filtered result will be a combination of the semantic search and the filtering conditions imposed upon the query. In the following pages, we will show that **filtering is a key practice in vector search for two reasons:** 
 
 1. With filtering, you can **dramatically increase search precision**. More on this in the next section.</br>
