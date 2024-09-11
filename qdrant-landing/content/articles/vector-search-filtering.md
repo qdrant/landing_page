@@ -2,16 +2,17 @@
 title: "A Complete Guide to Filtering"
 short_description: "Merging different search methods to improve the search quality was never easier"
 description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost search performance and resource usage."
-preview_dir: /articles_data/guide-filtering/preview
+preview_dir: /articles_data/vector-search-filtering/preview
+social_preview_image: /articles_data/vector-search-filtering/social-preview.png
 weight: -200
 author: Sabrina Aquino, David Myriel
 author_link: 
-date: 2024-09-01T00:00:00.000Z
+date: 2024-09-10T00:00:00.000Z
 ---
 
-<img src="/articles_data/guide-filtering/vector-search-ecommerce.png" alt="vector-search-ecommerce" width="80%">
+<img src="/articles_data/vector-search-filtering/vector-search-ecommerce.png" alt="vector-search-ecommerce" width="80%">
 
-Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly search bar**. If you’re selling computers and have extensive data on laptops, desktops, and accessories, your search feature should guide customers to the exact device they want - or a **very similar** match needed.
+Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly [search engine](https://qdrant.tech)**. If you’re selling computers and have extensive data on laptops, desktops, and accessories, your search feature should guide customers to the exact device they want - or a **very similar** match needed.
 
 When storing data in Qdrant, each product is a point, consisting of an `id`, a `vector` and `payload`:
 
@@ -25,71 +26,66 @@ When storing data in Qdrant, each product is a point, consisting of an `id`, a `
   }
 }
 ```
-The `id` is a unique identifier for the point in your collection. The `vector` is a mathematical measure of similarity to other points in the collection. 
+The `id` is a unique identifier for the point in your collection. The `vector` is a mathematical representation of similarity to other points in the collection. 
 Finally, the `payload` holds metadata that directly describes the point.
 
 Though we may not be able to decipher the vector, we are able to derive additional information about the item from its metadata, In this specific case, **we are looking at a data point for a laptop that costs $899.99**. 
 
 ## What is filtering?
 
-When searching for the perfect computer, your customers may end up with results that are mathematically similar to the search entry, but not exact. For example, if they are searching for **laptops under $1000**, a simple vector search without constraints might still show laptops over $1000. 
+When searching for the perfect computer, your customers may end up with results that are mathematically similar to the search entry, but not exact. For example, if they are searching for **laptops under $1000**, a simple [vector search](/advanced-search/) without constraints might still show laptops over $1000. 
 
 This is why semantic search alone **may not be enough**. In order to get the exact result, you would need to enforce a payload filter on the `price`. Only then can you be sure that the search results abide by the chosen characteristic.
 
-> This is called **filtering** and it is the most important feature of vector databases. 
+> This is called **filtering** and it is one of the key features of [vector databases](https://qdrant.tech). 
 
 Here is how a **filtered vector search** looks behind the scenes. We'll cover its mechanics in the following section.
 
-<img src="/articles_data/guide-filtering/vector-search-filtering.png" alt="vector-search-ecommerce" width="80%">
+![vector-search-filtering](/articles_data/vector-search-filtering/vector-search-filtering.png)
 
-The filtered result is a combination of the semantic search and the filtering conditions imposed upon the query.
+#### Want to see the result? Keep reading!
+The filtered result will be a combination of the semantic search and the filtering conditions imposed upon the query. In the following pages, we will show that **filtering is a key practice in vector search for two reasons:** 
 
-#### What happens if you don't use filtering?
-
-If you rely on **searching for the nearest vector**, Qdrant will have to go through the entire vector index in the collection. It will have to calculate vector similarities and against each vector and filter every payload in the collection. This can get progressively slower as your dataset grows and the compute requirement will always be increasing.
+1. With filtering, you can **dramatically increase search precision**. More on this in the next section.</br>
+2. You can use filtering for resource control and **reduce compute use**. More on this in [**Payload Indexing**](#filtering-with-the-payload-index).
 
 ## What you will learn in this guide:
 
-![guide-filtering-vector-search](/articles_data/guide-filtering/scanning-lens.png)
-
-In vector search, filtering and sorting are more interdependent than they are in traditional databases. While databases like SQL use commands such as `WHERE` and `ORDER BY`, the interplay between these processes in vector search is a bit more complex.
+In [vector search](/advanced-search/), filtering and sorting are more interdependent than they are in traditional databases. While databases like SQL use commands such as `WHERE` and `ORDER BY`, the interplay between these processes in vector search is a bit more complex.
 
 Most people use default settings and build vector search apps that aren't properly configured or even setup for precise retrieval. In this guide, we will show you how to **use filtering to get the most out of vector search** with some basic and advanced strategies that are easy to implement. 
 
-- With filtering, you can **dramatically increase search precision**. 
-- You can use filtering for resource control and **reduce compute use**. 
+#### Remember to run all tutorial code in Qdrant's Dashboard 
 
-The easiest way to reach that "Hello World" moment is to **try filtering in a live cluster**. Our [**Cloud Quickstart**](/documentation/quickstart-cloud/) tutorial will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
 
-**Qdrant's Web UI dashboard** can helps you visualize all of the exercises in this guide: 
+![qdrant-filtering-tutorial](/articles_data/vector-search-filtering/qdrant-filtering-tutorial.png)
 
-![qdrant-filtering-tutorial](/articles_data/guide-filtering/qdrant-filtering-tutorial.png)
-
-## Qdrant's innovative filtering technology
+## Qdrant's approach to filtering 
 
 Let's take a look at this **3-stage diagram**. In this case, we are trying to find the nearest neighbour to the query vector **(green)**. Your search journey starts at the bottom **(orange)**.
 
 By default, Qdrant connects all your data points within the [**vector index**](/documentation/concepts/indexing/). After you [**introduce filters**](/documentation/concepts/filtering/), some data points become disconnected. Vector search can't cross the grayed out area and it won't reach the nearest neighbor. 
 How can we bridge this gap? 
 
-![filterable-vector-index](/articles_data/guide-filtering/filterable-vector-index.png)
+![filterable-vector-index](/articles_data/vector-search-filtering/filterable-vector-index.png)
 
-[**Filterable vector index**](/documentation/concepts/indexing/): This innovative technology builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points. 
+[**Filterable vector index**](/documentation/concepts/indexing/): This technique builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points. 
 
 ### Qdrant's approach vs traditional filtering methods
 
-![stepping-lens](/articles_data/guide-filtering/stepping-lens.png)
+![stepping-lens](/articles_data/vector-search-filtering/stepping-lens.png)
 
 The filterable vector index is Qdrant's solves pre and post-filtering problems by adding specialized links to the search graph. It aims to maintain the speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search.
 
 #### Pre-filtering reduces your search options
 In pre-filtering, a search engine first narrows down the dataset based on chosen metadata values, and then searches within that filtered subset. This reduces unnecessary computation over a dataset that is potentially much larger.
 
-> If the filters are too restrictive, you might exclude potentially relevant results too early in the process. When the semantic search process begins, it won’t be able to retrieve the pre-excluded data points. 
+> If the filters are too restrictive, you might sever links between points too early in the process. When the semantic search process begins, it won’t be able to travel to those locations. 
 
 **Figure 1:** We start with five products with different prices. First, the $1000 price **filter** is applied, narrowing down the selection of laptops. Then, a vector search finds the relevant **results** within this filtered set. Unfortunately, one result is missed. 
 
-![pre-filtering-vector-search](/articles_data/guide-filtering/pre-filtering.png)
+![pre-filtering-vector-search](/articles_data/vector-search-filtering/pre-filtering.png)
 
 These issues become more pronounced when dealing with HNSW graph structures, where pre-filtering can disrupt the connections within the graph, leading to fragmented search paths. 
 
@@ -100,9 +96,9 @@ In post-filtering, a search engine first looks for similar vectors and retrieves
 
 **Figure 2:** In the same example, we have five laptops. First, the vector search finds the relevant **results**, but they may not meet the price match. When the $1000 price **filter** is applied, two other potential results are discarded.
 
-![post-filtering-vector-search](/articles_data/guide-filtering/post-filtering.png)
+![post-filtering-vector-search](/articles_data/vector-search-filtering/post-filtering.png)
 
-The system will waste computational resources by first finding similar vectors and then discarding many that don't meet the filter criteria. You're also limited to filtering only from the initial set of vector search results. If your desired items aren't in this initial set, you won't find them, even if they exist in the database.
+The system will waste computational resources by first finding similar vectors and then discarding many that don't meet the filter criteria. You're also limited to filtering only from the initial set of [vector search](/advanced-search/) results. If your desired items aren't in this initial set, you won't find them, even if they exist in the database.
 
 ## Basic filtering example
 
@@ -125,7 +121,7 @@ The four-dimensional vector can represent features like laptop CPU, RAM or batte
 
 Now, set the filter to "price is less than $1000":
 
-```http
+```json
 {
   "key": "price",
   "range": {
@@ -139,7 +135,7 @@ Now, set the filter to "price is less than $1000":
 
 When a price filter of < $1000 is applied, vector search returns the following results:
 
-```python
+```json
 [
   {
     "id": 3,
@@ -168,11 +164,43 @@ When a price filter of < $1000 is applied, vector search returns the following r
 ]
 ```
 
-The simultaneous filtering method has the greatest chance of capturing all possible search results. 
+As you can see, Qdrant's filtering method has a greater chance of capturing all possible search results. 
 
 This specific example uses the `range` condition for filtering. Qdrant, however, offers many other possible ways to structure a filter
 
-> For detailed usage examples, read Qdrant's [Filtering](/documentation/concepts/filtering/) documentation. 
+**For detailed usage examples, [filtering](/documentation/concepts/filtering/) docs are the best resource.** 
+
+### Scrolling instead of searching
+
+You don't need to use our `search` and `query` APIs to filter through data. The `scroll` API is another option that lets you retrieve lists of points which meet the filters.
+
+In Qdrant, scrolling is used to iteratively **retrieve large sets of points from a collection**. It is particularly useful when you’re dealing with a large number of points and don’t want to load them all at once. Instead, Qdrant provides a way to scroll through the points **one page at a time**.
+
+You start by sending a scroll request to Qdrant with specific conditions like filtering by payload, vector search, or other criteria.
+
+Let's retrieve a list of top 10 laptops in the store: 
+
+```http
+POST /collections/online_store/points/scroll
+{
+    "filter": {
+        "must": [
+            {
+                "key": "category",
+                "match": {
+                    "value": "laptop"
+                }
+            }
+        ]
+    },
+    "limit": 10,
+    "with_payload": true,
+    "with_vector": false
+}
+```
+The response contains a batch of points that match the criteria and a reference (offset or next page token) to retrieve the next set of points.
+
+> [**Scrolling**](/documentation/concepts/points/#scroll-points) is designed to be efficient. It minimizes the load on the server and reduces memory consumption on the client side by returning only manageable chunks of data at a time.
 
 #### Available filtering conditions
 
@@ -186,12 +214,14 @@ This specific example uses the `range` condition for filtering. Qdrant, however,
 | **Full Text Match**   | Search in text fields.                   | **Is Empty**          | Filter empty fields.                     |
 | **Has ID**            | Filter by unique ID.                     | **Is Null**           | Filter null values.                      |
 
+> All clauses and conditions are outlined in Qdrant's [filtering](/documentation/concepts/filtering/) documentation. 
+
 #### Filtering clauses to remember
 
 | **Clause**          | **Description**                                       | **Clause**          | **Description**                                       |
 |---------------------|-------------------------------------------------------|---------------------|-------------------------------------------------------|
-| **Must**            | Includes items that meet the condition. | **Should**          | Filters if at least one condition is met (similar to **OR**). |
-| **Must Not**        | Excludes items that meet the condition.               | **Clauses Combination** | Combines multiple clauses to refine filterin (similar to **AND**).        |
+| **Must**            | Includes items that meet the condition </br> (similar to `AND`). | **Should**          | Filters if at least one condition is met </br> (similar to `OR`). |
+| **Must Not**        | Excludes items that meet the condition </br> (similar to `NOT`).               | **Clauses Combination** | Combines multiple clauses to refine filterin </br> (similar to `AND`).        |
 
 ## Advanced filtering examples
 
@@ -492,35 +522,9 @@ You can use filters to retrieve data points without knowing their `id`. You can 
 | [Order Points](/documentation/concepts/points/#order-points-by-payload-key) | Lists all points, sorted by the filter. | [Delete Payload](/documentation/concepts/payload/#delete-payload-keys) | Deletes fields for points matching the filter. |
 | [Count Points](/documentation/concepts/points/#counting-points) | Totals the points matching the filter. | | |
 
-### Scrolling instead of searching
-
-In Qdrant, scrolling is used to iteratively retrieve large sets of points from a collection. It is particularly useful when you’re dealing with a large number of points and don’t want to load them all at once. Instead, Qdrant provides a way to scroll through the points in chunks or batches.
-
-You start by sending a scroll request to Qdrant with specific conditions like filtering by payload, vector search, or other criteria.
-
-```http
-POST /collections/{collection_name}/points/scroll
-{
-    "filter": {
-        "must": [
-            {
-                "key": "color",
-                "match": {
-                    "value": "red"
-                }
-            }
-        ]
-    },
-    "limit": 1,
-    "with_payload": true,
-    "with_vector": false
-}
-```
-The response contains a batch of points that match the criteria and a reference (offset or next page token) to retrieve the next set of points.
-
-Scrolling is designed to be efficient, especially when working with large datasets, because it minimizes the load on the server and reduces memory consumption on the client side by returning only manageable chunks of data at a time.
-
 ## Filtering with the payload index
+
+![vector-search-filtering-vector-search](/articles_data/vector-search-filtering/scanning-lens.png)
 
 When you start working with Qdrant, your data is by default organized in a vector index. 
 In addition to this, we recommend adding a secondary data structure - **the payload index**. 
@@ -529,7 +533,7 @@ Just how the vector index organizes vectors, the payload index will structure yo
 
 **Figure 4:** The payload index is an additional data structure that supports vector search. A payload index (in green) organizes candidate results by cardinality, so that semantic search (in red) can traverse the vector index quickly.
 
-![payload-index-vector-search](/articles_data/guide-filtering/payload-index-vector-search.png)
+![payload-index-vector-search](/articles_data/vector-search-filtering/payload-index-vector-search.png)
 
 On its own, semantic searching over terabytes of data can take up lots of RAM. [**Filtering**](/documentation/concepts/filtering/) and [**Indexing**](/documentation/concepts/indexing/) are two easy strategies to reduce your compute usage and still get the best results. Remember, this is only a guide. For an exhaustive list of filtering options, you should read the [filtering documentation](/documentation/concepts/filtering/). 
 
@@ -557,13 +561,29 @@ Once you mark a field indexable, **you don't need to do anything else**. Qdrant 
 
 #### Why should you index metadata?
 
-![payload-index-filtering](/articles_data/guide-filtering/payload-index-filtering.png)
+![payload-index-filtering](/articles_data/vector-search-filtering/payload-index-filtering.png)
 
 The payload index acts as a secondary data structure that speeds up retrieval. Whenever you run vector search with a filter, Qdrant will consult a payload index - if there is one. 
 
-> If you are indexing your metadata, the difference in search performance can be dramatic. 
+<aside role="status">
+If you are indexing your metadata, the difference in search performance can be dramatic. 
+</aside>
 
 As your dataset grows in complexity, Qdrant takes up additional resources to go through all data points. Without a proper data structure, the search can take longer - or run out of resources.
+
+#### Payload indexing helps evaluate the most restrictive filters
+
+The payload index is also used to accurately estimate **filter cardinality**, which helps the query planning choose a search strategy. **Filter cardinality** refers to the number of distinct values that a filter can match within a dataset. Qdrant's search strategy can switch from **HNSW search** to **payload index-based search** if the cardinality is too low.
+
+**How it affects your queries:** Depending on the filter used in the search - there are several possible scenarios for query execution. Qdrant chooses one of the query execution options depending on the available indexes, the complexity of the conditions and the cardinality of the filtering result. 
+
+- The planner estimates the cardinality of a filtered result before selecting a strategy.
+- Qdrant retrieves points using the **payload index** if cardinality is below threshold.
+- Qdrant uses the **filterable vector index** if the cardinality is above a threshold
+
+#### What happens if you don't use payload indexes?
+
+If you only rely on **searching for the nearest vector**, Qdrant will have to go through the entire vector index. It will calculate similarities against each vector in the collection, relevant or not. Alternatively, when you filter with the help of a payload index, the HSNW algorithm won't have to evaluate every point. Furthermore, the payload index will help HNSW  construct the graph with additional links.
 
 ## How does the payload index look?
 
@@ -619,7 +639,7 @@ PUT /collections/{collection_name}/index
 The tenant index is another variant of the payload index. When creating or updating a collection, you can mark a metadata field as indexable. This time, the request will specify the field as a tenant. This means that you can mark various user types and customer id’s as `is_tenant`: true. 
 
 ## Key takeaways in filtering and indexing
-![best-practices](/articles_data/guide-filtering/best-practices.png)
+![best-practices](/articles_data/vector-search-filtering/best-practices.png)
 
 ### Filtering with float-point (decimal) numbers
 If you filter by the float data type, your search precision may be limited and inaccurate. 
@@ -659,7 +679,7 @@ Proper indexing ensures that these queries are efficient, preventing duplicate r
 
 ## Conclusion: Real-life use cases of filtering
 
-Filtering in a vector database like Qdrant can significantly enhance search capabilities by enabling more precise and efficient retrieval of data. 
+Filtering in a [vector database](https://qdrant.tech) like Qdrant can significantly enhance search capabilities by enabling more precise and efficient retrieval of data. 
 
 As a conclusion to this guide, let's look at some real-life use cases where filtering is crucial:
 
@@ -667,5 +687,13 @@ As a conclusion to this guide, let's look at some real-life use cases where filt
 |--------------------------------------|------------------------------------------------------------------|-------------------------------------------------------------------------|
 | [E-Commerce Product Search](/advanced-search/)        | Search for products by style or visual similarity                | Filter by price, color, brand, size, ratings                            |
 | [Recommendation Systems](/recommendations/)           | Recommend similar content (e.g., movies, songs)                  | Filter by release date, genre, etc. (e.g., movies after 2020)           |
-| [Geospatial Search in Ride-Sharing](/articles/geo-polygon-filter-gsoc/)| Find nearby drivers or delivery partners                         | Filter by rating, distance, vehicle type                                |
+| [Geospatial Search in Ride-Sharing](/articles/geo-polygon-filter-gsoc/)| Find similar drivers or delivery partners                         | Filter by rating, distance radius, vehicle type                                |
 | [Fraud & Anomaly Detection](/data-analysis-anomaly-detection/)                  | Detect transactions similar to known fraud cases                 | Filter by amount, time, location                                        |
+
+#### Before you go - all the code is in Qdrant's Dashboard 
+
+The easiest way to reach that "Hello World" moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our interactive tutorial will show you how to create a cluster, add data and try some filtering clauses. 
+
+**It's all in your free cluster!**
+
+[![qdrant-hybrid-cloud](/docs/homepage/cloud-cta.png)](https://qdrant.to/cloud)
