@@ -100,7 +100,7 @@ In post-filtering, a search engine first looks for similar vectors and retrieves
 
 The system will waste computational resources by first finding similar vectors and then discarding many that don't meet the filter criteria. You're also limited to filtering only from the initial set of [vector search](/advanced-search/) results. If your desired items aren't in this initial set, you won't find them, even if they exist in the database.
 
-## Basic filtering example
+## Basic filtering example: ecommerce and laptops
 
 We know that there are three possible laptops that suit our price point. 
 Let's see how Qdrant's filterable vector index works and why it is the best method of capturing all available results.  
@@ -223,7 +223,9 @@ The response contains a batch of points that match the criteria and a reference 
 | **Must**            | Includes items that meet the condition </br> (similar to `AND`). | **Should**          | Filters if at least one condition is met </br> (similar to `OR`). |
 | **Must Not**        | Excludes items that meet the condition </br> (similar to `NOT`).               | **Clauses Combination** | Combines multiple clauses to refine filterin </br> (similar to `AND`).        |
 
-## Advanced filtering examples
+## Advanced filtering example: dinosaur diets
+
+![advanced-payload-filtering](/articles_data/vector-search-filtering/advanced-payload-filtering.png)
 
 We can also use nested filtering to query arrays of objects within the payload. In this example, we have two points. They each represent a dinosaur with a list of food preferences (diet) that indicate what type of food they like or dislike:
 
