@@ -1,5 +1,5 @@
 ---
-title: "A Complete Guide to Filtering"
+title: "A Complete Guide to Filtering in Vector Search"
 short_description: "Merging different search methods to improve the search quality was never easier"
 description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost semantic search performance and reduce Qdrant's resource usage."
 preview_dir: /articles_data/vector-search-filtering/preview
@@ -11,7 +11,7 @@ date: 2024-09-10T00:00:00.000Z
 ---
 Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly [search engine](https://qdrant.tech)**.
 
-![vector-search-filtering](/articles_data/vector-search-filtering/vector-search-filtering.png)
+![vector-search-ecommerce](/articles_data/vector-search-filtering/vector-search-ecommerce.png)
 
  If you’re selling computers and have extensive data on laptops, desktops, and accessories, your search feature should guide customers to the exact device they want - or a **very similar** match needed.
 
@@ -34,7 +34,7 @@ Though we may not be able to decipher the vector, we are able to derive addition
 
 ## What is filtering?
 
-When searching for the perfect computer, your customers may end up with results that are mathematically similar to the search entry, but not exact. For example, if they are searching for **laptops under $1000**, a simple [vector search](/advanced-search/) without constraints might still show laptops over $1000. 
+When searching for the perfect computer, your customers may end up with results that are mathematically similar to the search entry, but not exact. For example, if they are searching for **laptops under $1000**, a simple [vector search](/advanced-search/) without constraints might still show other laptops over $1000. 
 
 This is why [semantic search](/advanced-search/) alone **may not be enough**. In order to get the exact result, you would need to enforce a payload filter on the `price`. Only then can you be sure that the search results abide by the chosen characteristic.
 
@@ -88,11 +88,14 @@ The easiest way to reach that "Hello World" moment is to [**try filtering in a l
 
 ## Qdrant's approach to filtering 
 
+Qdrant follows a specific method of searching and filtering through dense vectors. 
+
 Let's take a look at this **3-stage diagram**. In this case, we are trying to find the nearest neighbour to the query vector **(green)**. Your search journey starts at the bottom **(orange)**.
 
 By default, Qdrant connects all your data points within the [**vector index**](/documentation/concepts/indexing/). After you [**introduce filters**](/documentation/concepts/filtering/), some data points become disconnected. Vector search can't cross the grayed out area and it won't reach the nearest neighbor. 
 How can we bridge this gap? 
 
+**Figure 1:** How Qdrant maintains a filterable vector index. 
 ![filterable-vector-index](/articles_data/vector-search-filtering/filterable-vector-index.png)
 
 [**Filterable vector index**](/documentation/concepts/indexing/): This technique builds additional links **(orange)** between leftover data points. The filtered points which stay behind are now traversible once again. Qdrant uses special category-based methods to connect these data points. 
@@ -103,23 +106,27 @@ How can we bridge this gap?
 
 The filterable vector index is Qdrant's solves pre and post-filtering problems by adding specialized links to the search graph. It aims to maintain the speed advantages of vector search while allowing for precise filtering, addressing the inefficiencies that can occur when applying filters after the vector search.
 
-#### Pre-filtering reduces your search options
+#### Pre-filtering 
+
 In pre-filtering, a search engine first narrows down the dataset based on chosen metadata values, and then searches within that filtered subset. This reduces unnecessary computation over a dataset that is potentially much larger.
 
-> If the filters are too restrictive, you might sever links between points too early in the process. When the semantic search process begins, it won’t be able to travel to those locations. 
+The choice between pre-filtering and using the filterable HNSW index depends on filter cardinality. When metadata cardinality is too low, the filter becomes restrictive and it can disrupt the connections within the graph. This leads to fragmented search paths (as in **Figure 1**). When the semantic search process begins, it won’t be able to travel to those locations. 
 
-**Figure 1:** We start with five products with different prices. First, the $1000 price **filter** is applied, narrowing down the selection of laptops. Then, a vector search finds the relevant **results** within this filtered set. Unfortunately, one result is missed. 
+However, Qdrant still benefits from pre-filtering **under certain conditions**. In cases of low cardinality, Qdrant's query planner stops using HNSW and switches over to the payload index alone. This makes the search process much cheaper and faster than if using HNSW.
+
+**Figure 2:** On the user side, this is how filtering looks. We start with five products with different prices. First, the $1000 price **filter** is applied, narrowing down the selection of laptops. Then, a vector search finds the relevant **results** within this filtered set. 
 
 ![pre-filtering-vector-search](/articles_data/vector-search-filtering/pre-filtering.png)
 
-These issues become more pronounced when dealing with HNSW graph structures, where pre-filtering can disrupt the connections within the graph, leading to fragmented search paths. 
+In conclusion, pre-filtering is efficient in specific cases when you use small datasets with low cardinality metadata. However, pre-filtering should not be used over large datasets as it breaks too many links in the HNSW graph, causing lower accuracy.
 
-#### Post-filtering wastes good search results
+#### Post-filtering 
+
 In post-filtering, a search engine first looks for similar vectors and retrieves a larger set of results. Then, it applies filters to those results based on metadata. The problem with post-filtering becomes apparent when using low-cardinality filters. 
 
 > When you apply a low-cardinality filter after performing a vector search, you often end up discarding a large portion of the results that the vector search returned.  
 
-**Figure 2:** In the same example, we have five laptops. First, the vector search finds the relevant **results**, but they may not meet the price match. When the $1000 price **filter** is applied, two other potential results are discarded.
+**Figure 3:** In the same example, we have five laptops. First, the vector search finds the top two relevant **results**, but they may not meet the price match. When the $1000 price **filter** is applied, other potential results are discarded.
 
 ![post-filtering-vector-search](/articles_data/vector-search-filtering/post-filtering.png)
 
@@ -152,13 +159,13 @@ Now, set the filter to "price is less than $1000":
   "range": {
     "gt": null,
     "gte": null,
-    "lt": 1000,
-    "lte": null
+    "lt": null,
+    "lte": 1000
   }
 }
 ```
 
-When a price filter of < $1000 is applied, vector search returns the following results:
+When a price filter of equal/less than $1000 is applied, vector search returns the following results:
 
 ```json
 [
@@ -199,11 +206,13 @@ This specific example uses the `range` condition for filtering. Qdrant, however,
 
 You don't need to use our `search` and `query` APIs to filter through data. The `scroll` API is another option that lets you retrieve lists of points which meet the filters.
 
+If you aren't interested in finding similar points, you can simply list the ones that match a given filter. While search gives you the most similar points based on some query vector, scroll will give you all points matching your filter not considering similarity. 
+
 In Qdrant, scrolling is used to iteratively **retrieve large sets of points from a collection**. It is particularly useful when you’re dealing with a large number of points and don’t want to load them all at once. Instead, Qdrant provides a way to scroll through the points **one page at a time**.
 
 You start by sending a scroll request to Qdrant with specific conditions like filtering by payload, vector search, or other criteria.
 
-Let's retrieve a list of top 10 laptops in the store: 
+Let's retrieve a list of top 10 laptops ordered by price in the store: 
 
 ```http
 POST /collections/online_store/points/scroll
@@ -220,7 +229,12 @@ POST /collections/online_store/points/scroll
     },
     "limit": 10,
     "with_payload": true,
-    "with_vector": false
+    "with_vector": false,
+    "order_by": [
+        {
+            "key": "price",
+        }
+    ]
 }
 ```
 The response contains a batch of points that match the criteria and a reference (offset or next page token) to retrieve the next set of points.
@@ -279,7 +293,7 @@ To ensure that both conditions are applied to the same array element (e.g., food
 Nested filters are used to apply conditions within an array of objects. They ensure that the conditions are evaluated per array element, rather than across all elements.
 
 ```http
-POST /collections/{collection_name}/points/scroll
+POST /collections/dinosaurs/points/scroll
 {
     "filter": {
         "must": [
@@ -302,7 +316,7 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}",
+    collection_name="dinosaurs",
     scroll_filter=models.Filter(
         must=[
             models.FieldCondition(
@@ -317,7 +331,7 @@ client.scroll(
 ```
 
 ```typescript
-client.scroll("{collection_name}", {
+client.scroll("dinosaurs", {
   filter: {
     must: [
       {
@@ -338,7 +352,7 @@ use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
 
 client
     .scroll(
-        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must([
+        ScrollPointsBuilder::new("dinosaurs").filter(Filter::must([
             Condition::matches("diet[].food", "meat".to_string()),
             Condition::matches("diet[].likes", true),
         ])),
@@ -363,7 +377,7 @@ QdrantClient client =
 client
     .scrollAsync(
         ScrollPoints.newBuilder()
-            .setCollectionName("{collection_name}")
+            .setCollectionName("dinosaurs")
             .setFilter(
                 Filter.newBuilder()
                     .addAllMust(
@@ -380,7 +394,7 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	collectionName: "{collection_name}",
+	collectionName: "dinosaurs",
 	filter: MatchKeyword("diet[].food", "meat") & Match("diet[].likes", true)
 );
 ```
@@ -397,7 +411,7 @@ Nested object filters enable querying arrays of objects independently, ensuring 
 This is done by using the `nested` condition type, which consists of a payload key that targets an array and a filter to apply. The key should reference an array of objects and can be written with or without bracket notation (e.g., "data" or "data[]").
 
 ```http
-POST /collections/{collection_name}/points/scroll
+POST /collections/dinosaurs/points/scroll
 {
     "filter": {
         "must": [{
@@ -427,7 +441,7 @@ POST /collections/{collection_name}/points/scroll
 
 ```python
 client.scroll(
-    collection_name="{collection_name}",
+    collection_name="dinosaurs",
     scroll_filter=models.Filter(
         must=[
             models.NestedCondition(
@@ -451,7 +465,7 @@ client.scroll(
 ```
 
 ```typescript
-client.scroll("{collection_name}", {
+client.scroll("dinosaurs", {
   filter: {
     must: [
       {
@@ -481,7 +495,7 @@ use qdrant_client::qdrant::{Condition, Filter, NestedCondition, ScrollPointsBuil
 
 client
     .scroll(
-        ScrollPointsBuilder::new("{collection_name}").filter(Filter::must([NestedCondition {
+        ScrollPointsBuilder::new("dinosaurs").filter(Filter::must([NestedCondition {
             key: "diet".to_string(),
             filter: Some(Filter::must([
                 Condition::matches("food", "meat".to_string()),
@@ -506,7 +520,7 @@ import io.qdrant.client.grpc.Points.ScrollPoints;
 client
     .scrollAsync(
         ScrollPoints.newBuilder()
-            .setCollectionName("{collection_name}")
+            .setCollectionName("dinosaurs")
             .setFilter(
                 Filter.newBuilder()
                     .addMust(
@@ -529,7 +543,7 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.ScrollAsync(
-	collectionName: "{collection_name}",
+	collectionName: "dinosaurs",
 	filter: Nested("diet", MatchKeyword("food", "meat") & Match("likes", true))
 );
 ```
@@ -607,6 +621,10 @@ The payload index is also used to accurately estimate **filter cardinality**, wh
 - The planner estimates the cardinality of a filtered result before selecting a strategy.
 - Qdrant retrieves points using the **payload index** if cardinality is below threshold.
 - Qdrant uses the **filterable vector index** if the cardinality is above a threshold
+
+<aside role="status">
+Our default full scan threshold is 10 kilobytes. That means we Qdrant will always use HNSW if it estimates you have at least 27k points (dim=1500). 
+</aside>
 
 #### What happens if you don't use payload indexes?
 
