@@ -221,7 +221,7 @@ The response contains a batch of points that match the criteria and a reference 
 | **Clause**          | **Description**                                       | **Clause**          | **Description**                                       |
 |---------------------|-------------------------------------------------------|---------------------|-------------------------------------------------------|
 | **Must**            | Includes items that meet the condition </br> (similar to `AND`). | **Should**          | Filters if at least one condition is met </br> (similar to `OR`). |
-| **Must Not**        | Excludes items that meet the condition </br> (similar to `NOT`).               | **Clauses Combination** | Combines multiple clauses to refine filterin </br> (similar to `AND`).        |
+| **Must Not**        | Excludes items that meet the condition </br> (similar to `NOT`).               | **Clauses Combination** | Combines multiple clauses to refine filtering </br> (similar to `AND`).        |
 
 ## Advanced filtering example: dinosaur diets
 
