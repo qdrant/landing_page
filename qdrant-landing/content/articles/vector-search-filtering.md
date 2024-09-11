@@ -1,7 +1,7 @@
 ---
 title: "A Complete Guide to Filtering"
 short_description: "Merging different search methods to improve the search quality was never easier"
-description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost search performance and resource usage."
+description: "Learn everything about filtering in Qdrant. Discover key tricks and best practices to boost semantic search performance and reduce Qdrant's resource usage."
 preview_dir: /articles_data/vector-search-filtering/preview
 social_preview_image: /articles_data/vector-search-filtering/social-preview.png
 weight: -200
@@ -35,7 +35,7 @@ Though we may not be able to decipher the vector, we are able to derive addition
 
 When searching for the perfect computer, your customers may end up with results that are mathematically similar to the search entry, but not exact. For example, if they are searching for **laptops under $1000**, a simple [vector search](/advanced-search/) without constraints might still show laptops over $1000. 
 
-This is why semantic search alone **may not be enough**. In order to get the exact result, you would need to enforce a payload filter on the `price`. Only then can you be sure that the search results abide by the chosen characteristic.
+This is why [semantic search](/advanced-search/) alone **may not be enough**. In order to get the exact result, you would need to enforce a payload filter on the `price`. Only then can you be sure that the search results abide by the chosen characteristic.
 
 > This is called **filtering** and it is one of the key features of [vector databases](https://qdrant.tech). 
 
