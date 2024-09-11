@@ -71,7 +71,7 @@ POST /collections/online_store/points/search
 
 The filtered result will be a combination of the semantic search and the filtering conditions imposed upon the query. In the following pages, we will show that **filtering is a key practice in vector search for two reasons:** 
 
-1. With filtering, you can **dramatically increase search precision**. More on this in the next section.</br>
+1. With filtering in Qdrant, you can **dramatically increase search precision**. More on this in the next section.</br>
 2. Filtering helps control resources and **reduce compute use**. More on this in [**Payload Indexing**](#filtering-with-the-payload-index).
 
 ## What you will learn in this guide:
@@ -548,9 +548,9 @@ await client.ScrollAsync(
 );
 ```
 
-The matching logic is adjusted to operate at the level of individual elements within an array in the payload.
+The matching logic is adjusted to operate at the level of individual elements within an array in the payload, rather than on all array elements together.
 
-Nested filters function as though each element of the array is evaluated separately. The parent document will be considered a match if at least one array element satisfies the nested filter conditions.
+Nested filters function as though each element of the array is evaluated separately. The parent document will be considered a match if at least one array element satisfies all the nested filter conditions.
 
 ## Other creative uses for filters
 
@@ -607,7 +607,7 @@ Once you mark a field indexable, **you don't need to do anything else**. Qdrant 
 The payload index acts as a secondary data structure that speeds up retrieval. Whenever you run vector search with a filter, Qdrant will consult a payload index - if there is one. 
 
 <aside role="status">
-If you are indexing your metadata, the difference in search performance can be dramatic. 
+Indexing your metadata has a significant positive effect on search performance when searching with filters. 
 </aside>
 
 As your dataset grows in complexity, Qdrant takes up additional resources to go through all data points. Without a proper data structure, the search can take longer - or run out of resources.
@@ -627,6 +627,8 @@ Our default full scan threshold is 10 kilobytes. That means we Qdrant will alway
 </aside>
 
 #### What happens if you don't use payload indexes?
+
+When using filters while querying, Qdrant needs to estimate cardinality of those filters to define a proper query plan. If you don't create a payload index, Qdrant will not be able to do this. It may end up choosing a sub-optimal way of searching causing extremely slow search times or low accuracy results.
 
 If you only rely on **searching for the nearest vector**, Qdrant will have to go through the entire vector index. It will calculate similarities against each vector in the collection, relevant or not. Alternatively, when you filter with the help of a payload index, the HSNW algorithm won't have to evaluate every point. Furthermore, the payload index will help HNSW  construct the graph with additional links.
 
@@ -649,7 +651,7 @@ Payload Index by keyword:
 ```
 When fields are properly indexed, the search engine roughly knows where it can start its journey. It can start looking up points that contain relevant metadata, and it doesn’t need to scan the entire dataset. This reduces the engine’s workload by a lot. As a result, query results are faster and the system can easily scale.
 
-> You may create as many payload indexes as you want, and we recommend you do so for each field that is frequently used. 
+> You may create as many payload indexes as you want, and we recommend you do so for each field that you filter by.
 
 If your users are often filtering by **laptop** when looking up a product **category**, indexing all computer metadata will speed up retrieval and make the results more precise.
 
@@ -671,17 +673,21 @@ We see this quite often. Users very frequently make the mistake of creating a se
 
 To mitigate this, we offer extensive support for multitenant systems, so that you can build an entire global application in one single Qdrant collection. 
 
+When creating or updating a collection, you can mark a metadata field as indexable. To mark `user_id` as a tenant in a shared collection, do the following:
+
 ```http
 PUT /collections/{collection_name}/index
 {
-   "field_name": "payload_field_name",
+   "field_name": "user_id",
    "field_schema": {
        "type": "keyword",
        "is_tenant": true
    }
 }
 ```
-The tenant index is another variant of the payload index. When creating or updating a collection, you can mark a metadata field as indexable. This time, the request will specify the field as a tenant. This means that you can mark various user types and customer id’s as `is_tenant`: true. 
+Additionally, we offer a way of organizing data efficiently by means of the tenant index. This is another variant of the payload index that makes tenant data more accessible. This time, the request will specify the field as a tenant. This means that you can mark various customer types and user id’s as `is_tenant: true`. 
+
+Read more about setting up [tenant defragmentation](/documentation/concepts/indexing/?q=tenant#tenant-index) in multitenant environments,
 
 ## Key takeaways in filtering and indexing
 ![best-practices](/articles_data/vector-search-filtering/best-practices.png)
