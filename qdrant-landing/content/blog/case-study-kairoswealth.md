@@ -19,17 +19,17 @@ tags:
 
 ![Kairoswealth overview](/blog/case-study-kairoswealth/image2.png)
 
-### **About Kairoswealth**
+## **About Kairoswealth**
 
 [Kairoswealth](https://kairoswealth.com/) is a comprehensive wealth management platform designed to provide users with a holistic view of their financial portfolio. The platform offers access to unique financial products and automates back-office operations through its AI assistant, Gaia.
 
 ![Dashboard Kairoswealth](/blog/case-study-kairoswealth/image3.png)
 
-### **Motivations for Adopting a Vector Database**
+## **Motivations for Adopting a Vector Database**
 
 “At Kairoswealth we encountered several use cases necessitating the ability to run similarity queries on large datasets. Key applications included product recommendations and retrieval-augmented generation (RAG),” says [Vincent Teyssier](https://www.linkedin.com/in/vincent-teyssier/), Chief Technology & AI Officer at Kairoswealth. These needs drove the search for a more robust and scalable vector database solution.
 
-### **Challenges with Previous Solutions**
+## **Challenges with Previous Solutions**
 
 “We faced several critical showstoppers with our previous vector database solution, which led us to seek an alternative,” says Teyssier. These challenges included:
 
@@ -37,7 +37,7 @@ tags:
 - **Robust Multi-Tenancy:** The previous solution struggled with multi-tenancy, impacting performance.
 - **RAM Footprint:** High memory consumption was an issue.
 
-### **Qdrant Use Cases at Kairoswealth**
+## **Qdrant Use Cases at Kairoswealth**
 
 Kairoswealth leverages Qdrant for several key use cases:
 
@@ -47,7 +47,7 @@ Kairoswealth leverages Qdrant for several key use cases:
 
 ![Stock recommendation](/blog/case-study-kairoswealth/image1.png)
 
-### **Why Kairoswealth Chose Qdrant**
+## **Why Kairoswealth Chose Qdrant**
 
 Some of the key reasons, why Kairoswealth landed on Qdrant as the vector database of choice are:
 
@@ -56,10 +56,10 @@ Some of the key reasons, why Kairoswealth landed on Qdrant as the vector databas
 3. **Embedded Capabilities:** “Beyond simple search and similarity, Qdrant hosts a bunch of very nice features around recommendation engines, adding positive and negative examples for better spacial narrowing, efficient multi-tenancy, and many more,” says Teyssier.
 4. **Support and Community:** “The Qdrant team, led by Andre Zayarni, provides exceptional support and has a strong passion for data engineering,” notes Teyssier, “the team's commitment to open-source and their active engagement in helping users, from beginners to veterans, is highly valued by Kairoswealth.”
 
-### **Conclusion**
+## **Conclusion**
 
 Kairoswealth's transition to Qdrant has enabled them to overcome significant challenges related to performance, scalability, and memory efficiency, while also benefiting from advanced features and robust support. This partnership positions Kairoswealth to continue innovating in the wealth management sector, leveraging the power of AI to deliver superior services to their clients.
 
-### **Future Roadmap for Kairoswealth**
+## **Future Roadmap for Kairoswealth**
 
 Kairoswealth is seizing the opportunity to disrupt the wealth management sector, which has traditionally been underserved by technology. For example, they are developing the Kairos Terminal, a natural language interface that translates user queries into OpenBB commands (a set of tools for financial analysis and data visualization within the OpenBB Terminal). With regards to the future of the wealth management sector, Teyssier notes that “the integration of Generative AI will automate back-office tasks such as data collation, data reconciliation, and market research. This technology will also enable wealth managers to scale their services to broader segments, including affluent clients, by automating relationship management and interactions.”
