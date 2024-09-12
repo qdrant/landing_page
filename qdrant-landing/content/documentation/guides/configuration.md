@@ -91,6 +91,15 @@ QDRANT__SERVICE__HTTP_PORT=1234 ./qdrant
 ```yaml
 log_level: INFO
 
+# Logging configuration
+# Qdrant logs to stdout. You may configure to also write logs to a file on disk.
+# Be aware that this file may grow indefinitely.
+# logger:
+#   on_disk:
+#     enabled: true
+#     log_file: path/to/log/file.log
+#     log_level: INFO
+
 storage:
   # Where to store all the data
   storage_path: ./storage

@@ -32,6 +32,7 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 | [John Snow Labs](./johnsnow/) | Medical and clinical embeddings. |
 | [Mistral](./mistral/)         | Open-source, efficient language model embeddings. |
 | [MixedBread](./mixedbread/)   | Lightweight embeddings for constrained environments. |
+| [Mixpeek](./mixpeek/)         | Managed SDK for video chunking, embedding, and post-processing.​ |
 | [Nomic](./nomic/)             | Embeddings for data visualization. |
 | [Nvidia](./nvidia/)      | GPU-optimized embeddings from Nvidia. |
 | [OCI](./oci/)                 | Oracle Cloud’s AI service with embeddings. |
