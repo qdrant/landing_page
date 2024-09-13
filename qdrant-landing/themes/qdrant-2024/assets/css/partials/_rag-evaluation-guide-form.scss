@@ -25,6 +25,39 @@
     color: $neutral-30;
   }
 
+  &__block {
+    .contact-form__title {
+      margin-bottom: 0;
+    }
+
+    form.hs-form>fieldset {
+      margin-bottom: 0;
+    }
+
+    form .hs-form-field {
+      margin-bottom: pxToRem(20);
+    }
+
+    form .hs_submit {
+      width: auto;
+      text-align: left;
+      margin-top: pxToRem(12);
+      margin-bottom: $spacer * 0.5;
+    }
+
+    form.hs-form>fieldset.form-columns-2 {
+      gap: 0
+    }
+
+    fieldset:last-of-type {
+      order: 1;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
 

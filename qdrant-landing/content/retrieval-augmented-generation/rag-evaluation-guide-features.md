@@ -28,6 +28,6 @@ cards:
   description: Essential metrics to monitor during testing
 downloadGuide:
   text: Download the Guide
-  url: /
+  url: https://drive.google.com/file/d/16-idQfLo2Z73kCzqFehCEPGUkmSfVY8f/view
 sitemapExclude: true
 ---
