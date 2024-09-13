@@ -7,7 +7,6 @@ description: Learn what vector quantization is and explore how methods like Scal
 preview_dir: /articles_data/what-is-vector-quantization/preview
 weight: -210
 social_preview_image: /articles_data/what-is-vector-quantization/preview/social-preview.jpg
-small_preview_image: /articles_data/what-is-vector-quantization/icon.svg
 date: 2024-09-09T09:29:33-03:00
 author: Sabrina Aquino 
 featured: true 
@@ -58,7 +57,9 @@ There are several methods to achieve this, and here we will focus on three main 
 
 ## 1. What is Scalar Quantization?
 
-In Qdrant, each vector is represented by a float32 value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller int8 type can represent. An int8 can store 256 values (from -128 to 127) which uses only **1 byte.** This typically results in a **75% reduction** in memory size.
+![](/articles_data/what-is-vector-quantization/astronaut-mars.jpg)
+
+In Qdrant, each dimension is represented by a float32 value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller int8 type can represent. An int8 can store 256 values (from -128 to 127, or 0 to 255) which uses only **1 byte.** This results in a **75% reduction** in memory size.
 
 For example, if our data lies in the identified range of -1.0 to 1.0, Scalar Quantization will transform these values to a range that int8 can represent, that is, within -128 to 127. So, the system **maps** the float32 values into this range.
 
@@ -93,6 +94,8 @@ The primary benefit of Scalar Quantization is **memory reduction.** It is especi
 However, these performance gains are significantly lower compared to Binary Quantization, which we'll discuss later.
 
 # 2. What is Product Quantization?
+
+![](/articles_data/what-is-vector-quantization/astronaut-centroids.jpg)
 
 [Product Quantization](https://qdrant.tech/documentation/guides/quantization/#product-quantization) is a method used to compress high-dimensional vectors by representing them with a smaller set of representative points. 
 
@@ -160,6 +163,8 @@ If your application requires high precision or real-time performance, this slowe
 
 # 3. What is Binary Quantization?
 
+![](/articles_data/what-is-vector-quantization/astronaut-white-surreal.jpg)
+
 [Binary Quantization](https://qdrant.tech/documentation/guides/quantization/#binary-quantization) is an excellent option if you're looking to **reduce memory** usage while also achieving a significant **boost in speed**. It works by converting high-dimensional vectors into simple binary (0 or 1) representations.
 
 * Values greater than zero are converted to 1 
@@ -198,7 +203,7 @@ collection_config = {
 }
 ```
 
-Binary Quantization is by far the quantization method that will give you the most processing **speed gains **when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
+Binary Quantization is by far the quantization method that will give you the most processing **speed gains** when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
 
 It can speed up search operations by **up to 40x**, depending on the dataset and hardware. Here's the speed comparison of all three methods:
 
@@ -238,5 +243,7 @@ When you enable rescoring in Qdrant, it refines the top search results by recalc
 
 
 # Wrapping Up
+
+![](/articles_data/what-is-vector-quantization/astronaut-running.jpg)
 
 If you want to learn more about improving accuracy, memory efficiency, and speed when using quantization in Qdrant, we have a dedicated [Quantization tips](https://qdrant.tech/documentation/guides/quantization/#quantization-tips) section in our docs that explains all the quantization tips you can use to enhance your results.
