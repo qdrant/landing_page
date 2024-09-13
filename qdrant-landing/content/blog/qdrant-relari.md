@@ -19,26 +19,58 @@ tags:
 
 # Evaluating RAG Through Performance Metrics
 
-Evaluating RAG application performance can be challenging for developers. At Qdrant, we’ve addressed this by working with Relari to offer an evaluation process that takes a thorough look at application performance. In this combination, Qdrant manages data storage and retrieval, while Relari lets you run experiments to assess your RAG app’s real-world performance. Together, they enable fast, iterative testing and evaluation to keep pace with your development.
+Evaluating RAG application performance can be frustrating for developers. A properly evaluated application retrieves and generates relevant information while minimizing irrelevant content. The goal is to balance signal and noise but finding that balance is challenging and time consuming. 
+
+At Qdrant, we've addressed this challenge by working with Relari to offer some practical examples to tune your application in order to reach the right signal to noise ratio for your use case. Data driven application development leads to users who have a better experience, get better information, and are more likely to use your application in the future.
+
+Qdrant manages data storage and retrieval, while Relari lets you run experiments to assess your RAG app’s real-world performance. Together, they enable fast, iterative testing and evaluation to keep pace with your development.
 
 ## In this blog
 
-In a recent webinar with [Relari](https://www.relari.ai), we explored the best methods for building and evaluating RAG systems. Relari offers tools to enhance LLM applications through intrinsic and extrinsic evaluations. Combined with Qdrant's efficient data storage, it provides a robust evaluation framework. In this post, I’ll outline two evaluation methods you can use with Qdrant and Relari, and show practical use cases.
+In a recent webinar with Relari, we explored the best methods for building and evaluating RAG systems. Relari offers tools to enhance LLM applications by combining a synthetic, Golden Dataset, and traditional Information Retrieval Metrics. With Qdrant, you can upload your data once and use the same code and collection from development to deployment for data management. Qdrant also offers Keyword, Semantic, and Hyrbid search, allowing you to evaluate different retrieval methods without additional libraries. 
 
-In this blog, we will guide you through a sample use case analyzing the GitLab legal policies dataset.
-The code for this exercise can be run from a [Google Colab Notebook](https://colab.research.google.com/drive/1p6bF15ZWI7qVEh-b_7YGt1n1UwF3QAqd). 
+In this blog, we will guide you through a sample use case analyzing the GitLab legal policies dataset. The code for this exercise can be run from a [Google Colab Notebook](https://colab.research.google.com/drive/1p6bF15ZWI7qVEh-b_7YGt1n1UwF3QAqd). 
 
-## Target metrics for RAG evaluation: Top-K and Auto Prompt Optimization
+## Target Metrics for RAG Evaluation: Retrieval and Generation
 
-When evaluating a RAG system, optimizing how the model performs in real-world situations is crucial. Traditional metrics like precision, recall, and rank-aware methods are useful, but they can only go so far. Two impactful strategies for holistic evaluation are **Top-K Parameter Optimization** and **Auto Prompt Optimization**. These methods increase the likelihood that your model performs optimally with real users.
+When evaluating a RAG system, focus on both retrieval and generation components for optimal real-world performance. Below, I’ll walk you through two methods for evaluating retrieval: Top-K Optimization and Retrieval Method Optimization. I’ll end by discussing one key evaluation method for generation: Auto Prompt Optimization (APO).
 
-### Top-K Parameter Optimization
+As I mentioned earlier, in RAG apps a key trade-off to consider is between noise and signal. Successful apps excel at balancing the amount of relevant information (signal) against irrelevant or distracting content (noise). In retrieval, this means maximizing relevant documents while minimizing irrelevant ones to avoid confusing the LLM. In generation, it's about ensuring that responses are clear and accurate without hallucinations, unnecessary information, or misleading content. 
 
-The **Top-K** parameter determines how many top results are shown to a user. Imagine using a search engine that returns only one result each time. While that result may be good, most users prefer more options. However, too many results can overwhelm the user.
+The goal of data driven RAG evaluation is to continuously measure and improve both retrieval and generation by adjusting parameters like Top-K, retrieval methods, or prompt architecture.
 
-For example, in a product recommendation system, the Top-K setting determines how many items a user sees—whether it's the top 3 best-sellers or 10 options. Adjusting this parameter ensures the user has enough relevant choices without feeling lost.
+As you make changes, your system's performance will evolve. Building a RAG system requires countless decisions, and while intuition plays a role, an automated evaluation system helps you iterate faster and make data-driven choices. By understanding the impact of each change in isolation, you gain full clarity over your model’s performance, allowing you to fail fast, refine quickly, and achieve better results.
 
-With Relari and Qdrant, experimenting with different Top-K values is simple. First, we will build a simple RAG app with Qdrant. Then, we will use Relari for evaluation.
+## Retrieval: Top K and Retreival Method Optimization
+
+For evaluating retrieval, there’s no need to reinvent the wheel. First, we can use well established metrics like precision and recall that already exist to measure information retreival systems. Second, we'll use a Golden Dataset, a synthetic dataset containing questions and answers from your dataset as the ground truth. When paired, we have a reliable system to evaluate how well your app is retrieving relevant information.
+
+
+### 1. Optimizing Retrieval with Top-K
+
+The Top-K parameter decides how many top results your retrieval system should return, impacting both recall and precision.
+
+- **Recall** measures how well your system retrieves relevant documents.
+**Focus on this first as poor recall will cause you application to miss important information.**
+
+- **Precision** looks at how relevant the retrieved documents actually are. **Too many irrelevant documents can lead to a poor user experience.**
+
+By fine-tuning Top K, you can strike a balance where the LLM has access to all relevant information without getting bogged down by irrelevant content. 
+
+### 2. Experimenting with Retreival Methods
+
+Testing different retrieval methods helps balance accuracy and relevance. Hybrid search combines semantic retrieval, which captures query meaning, with keyword-based search, which matches exact terms. This dual approach often improves performance by leveraging the strengths of semantic and keyword search.
+
+Combining a keyword-based retriever with a semantic retriever can improve model performance as each method catches what the other might miss. With Qdrant you can iinterchange keyword, semantic, or hybrid retreivers seamlessly by changing a line of code.
+
+
+## Generation: The Other Half of RAG
+
+When you're satisfied with your retrieval, you can optimize your generation. Unlike retrieval, where you measure how many relevant documents are returned, generation focuses on the quality of responses, which is shaped by prompt phrasing. We can evaluate the performance of our application on the Golden dataset depending on the language of the prompt.
+
+### 3. Enhancing Generation with Auto Prompt Optimization
+
+Auto Prompt Optimization (APO) automatically fine-tunes prompts to improve the clarity and accuracy of the LLM's generated responses. By optimizing factors like phrasing and structure, APO eliminates the need for manual adjustments, making it easier to achieve better output quality. This streamlined approach makes your RAG system’s generation  precise and reliable, enhancing the overall performance and user experience without the time-consuming trial-and-error process.
 
 ### Implementation
 
@@ -223,13 +255,64 @@ for k in k_values:
 
 In this example, we can see that with our dataset, if we want the recall to be greater than 85%, we should pick a K value of at least 7.
 
-![Top K](/blog/qdrant-relari/topk.png)
+![Top K](/articles_data/qdrant-relari/topk.png)
 
 We can even look at individual cases in the UI to get more insight into why our retriever failed.
 
-![Top K UI](/blog/qdrant-relari/topk2.png)
+![Top K UI](/articles_data/qdrant-relari/topk2.png)
 
-Relari and Qdrant can also be combined to evaluate your hybrid search. With this information, you can further tweak the parameter or try a different RAG architecture to select the best-performing strategies for your dataset.
+### Experiment with Hybrid Search
+
+Combine keyword-based BM25 retrieval with semantic retrieval to create a hybrid search system:
+
+**First build a keyword based retriever:**
+```python
+from langchain_community.retrievers import BM25Retriever
+
+keyword_retriever = BM25Retriever.from_documents(documents)
+keyword_log = log_retriever_results(keyword_retriever, dataset)
+print(f"Results on {dataset.name} by Keyword Retriever saved!")
+
+keyword_eval_info = client.evaluations.submit(
+        project_id=proj["id"],
+        dataset=dataset_info["id"],
+        name="Keyword Retriever Evaluation",
+        pipeline=[Metric.PrecisionRecallF1, Metric.RankedRetrievalMetrics],
+        data=keyword_log,
+    )
+print(f"Keyword Retriever Evaluation submitted!")
+```
+**Then build a hybrid retriever:**
+```python
+from langchain.retrievers import EnsembleRetriever
+
+# Build a hybrid retriever with equal weighting for
+hybrid_retriever = EnsembleRetriever(
+    retrievers=[keyword_retriever, semantic_retrievers["k_7"]], weights=[0.5, 0.5]
+)
+
+hybrid_log = log_retriever_results(hybrid_retriever, dataset)
+print(f"Results on {dataset.name} by Hybrid Retriever saved!")
+
+
+hybrid_eval_info = client.evaluations.submit(
+        project_id=proj["id"],
+        dataset=dataset_info["id"],
+        name="Hybrid Retriever Evaluation",
+        pipeline=[Metric.PrecisionRecallF1, Metric.RankedRetrievalMetrics],
+        data=hybrid_log,
+    )
+print(f"Hybrid Retriever Evaluation submitted!")
+```
+
+Explore on results on the Relari UI:
+![Relari UI Retreiver Comparison](/articles_data/qdrant-relari/hyrbid.png)
+
+We can see that Keyword-based search  performs very well in a different way, and it is capturing cases where the semantic retriever is not.
+
+The Hybrid retriever as a result has the highest Recall.
+
+We can do further tweaks to the parameter or try a different RAG architectures to select the best performaning strategies on this dataset.
 
 ## Auto Prompt Optimization
 
@@ -237,7 +320,7 @@ In conversational applications like chatbots, **Auto Prompt Optimization (APO)**
 
 For example, in a customer service chatbot, the phrasing of questions can significantly affect user satisfaction. Consider ordering in French versus English in a Parisian cafe—the same information may be transmitted, but it will be received differently.
 
-![French Cafe](/blog/qdrant-relari/cafe.jpg)
+![French Cafe](/articles_data/qdrant-relari/cafe.jpg)
 
 Auto Prompt Optimization continuously refines the chatbot’s responses to improve user interactions. Here's how you can implement APO with Relari:
 
@@ -276,13 +359,14 @@ print(f"Optimization task submitted with ID: {task_id}")
 
 Now you can explore prompts at each iteration in the UI.
 
-![Prompt Iterations](/blog/qdrant-relari/apo1.png)
+![Prompt Iterations](/articles_data/qdrant-relari/apo1.png)
+
 
 The optimal **System Prompt** and **Few-Shot Examples** can then be used in your RAG system to improve its performance.
 
 ## Conclusion
 
-Combining **Relari** and **Qdrant** allows you to create an iterative, data-driven evaluation framework, improving your RAG system for optimal real-world performance. These methods help ensure that your application is both responsive and effective, especially when dealing with user queries or recommendations.
+Combining **Relari** and **Qdrant** allows you to create an iterative, data-driven evaluation framework, improving your RAG system for optimal real-world performance. With Qdrant you can use the same code and collection through the development process, and with Relari you can evaluate your application in real world scenarios.These methods help ensure that your application is both accurate and effective, especially when dealing with user queries or recommendations.
 
 If you’d like to get started, sign up for **free** at [Qdrant Cloud](https://cloud.qdrant.io) and [Relari](https://www.relari.ai).
 
