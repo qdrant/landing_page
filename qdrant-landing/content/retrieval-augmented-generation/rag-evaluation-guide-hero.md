@@ -7,7 +7,7 @@ downloadGuide:
   url: https://drive.google.com/file/d/16-idQfLo2Z73kCzqFehCEPGUkmSfVY8f/view
 learnMore:
   text: Learn More
-  url: /rag
+  url: /rag/
 image:
   src: /img/rag-evaluation-guide/rag-evaluation.svg
   alt: RAG-Evaluation
