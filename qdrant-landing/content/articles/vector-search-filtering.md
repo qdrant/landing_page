@@ -623,7 +623,7 @@ The payload index is also used to accurately estimate **filter cardinality**, wh
 - Qdrant uses the **filterable vector index** if the cardinality is above a threshold
 
 <aside role="status">
-Our default full scan threshold is 10 kilobytes. That means we Qdrant will always use HNSW if it estimates you have at least 27k points (dim=1500). 
+Our default full scan threshold is 10 kilobytes. 
 </aside>
 
 #### What happens if you don't use payload indexes?
