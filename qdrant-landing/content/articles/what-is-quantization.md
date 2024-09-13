@@ -203,7 +203,7 @@ collection_config = {
 }
 ```
 
-Binary Quantization is by far the quantization method that will give you the most processing **speed gains **when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
+Binary Quantization is by far the quantization method that will give you the most processing **speed gains** when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
 
 It can speed up search operations by **up to 40x**, depending on the dataset and hardware. Here's the speed comparison of all three methods:
 
