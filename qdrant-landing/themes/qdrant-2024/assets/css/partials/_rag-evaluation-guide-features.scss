@@ -1,0 +1,74 @@
+@use '../helpers/functions' as *;
+
+.rag-evaluation-guide-features {
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: $spacer * 2.5;
+    text-align: center;
+    color: $neutral-20;
+    max-width: pxToRem(730);
+    margin: 0 auto $spacer * 2.5;
+  }
+
+  &__cards {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 2;
+    margin-bottom: $spacer * 4;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      color: $neutral-30;
+    }
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 5;
+
+    &__title {
+      margin-bottom: $spacer * 4;
+    }
+
+    &__cards {
+      flex-direction: row;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: pxToRem(30);
+    }
+
+    &__card {
+      &:nth-of-type(1),
+      &:nth-of-type(2) {
+        width: calc(50% - 15px);
+      }
+
+      &:nth-of-type(3),
+      &:nth-of-type(4),
+      &:nth-of-type(5) {
+        width: calc((100% / 3) - 20px);
+      }
+    }
+  }
+}
