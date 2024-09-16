@@ -8,7 +8,7 @@ aliases:
 
 # Jina Embeddings
 
-Qdrant has been integrated with [Jina AI](https://jina.ai/). You need an API key from [Jina AI](https://jina.ai/embeddings/) to get embeddings.
+Qdrant is compatible with [Jina AI](https://jina.ai/) embeddings. You need an API key from [Jina AI](https://jina.ai/embeddings/) to get embeddings.
 
 For Qdrant users, use code **QDRANT** for a 10% discount on Jina AI APIs.
 
