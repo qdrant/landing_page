@@ -11,7 +11,7 @@ To learn how Hybrid Cloud works, [read the overview document](/documentation/hyb
 
 ## Prerequisites
 
-- **Kubernetes cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere.
+- **Kubernetes cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
 - **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. For backups and restores, the driver needs to support CSI snapshots and restores.
 
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
@@ -49,6 +49,78 @@ Open Containers Initiative (OCI) Helm charts:
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-operator`
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cluster-manager`
 - `registry.cloud.qdrant.io/qdrant-charts/prometheus`
+
+### Rate limits at `docker.io`
+
+By default, the Qdrant database image will be fetched from Docker Hub, which is the main source of truth. Docker Hub has rate limits for anonymous users. If you have larger setups and also fetch other images from their, you may run into these limits. To solve this, you can provide authentication information for Docker Hub.
+
+First, create a secret with your Docker Hub credentials into your `the-qdrant-namespace` namespace:
+
+```shell
+kubectl create secret docker-registry dockerhub-registry-secret --namespace the-qdrant-namespace --docker-server=https://index.docker.io/v1/ --docker-username=<your-name> --docker-password=<your-pword> --docker-email=<your-email>
+```
+
+Then, you can reference this secret by adding the following configuration in the operator configuration YAML editor in the advanced section of the Hybrid Cloud Environment:
+
+```yaml
+qdrant:
+  image:
+    pull_secret: "dockerhub-registry-secret"
+```
+
+### Mirroring images and charts
+
+To mirror all necessary container images and Helm charts into your own registry, you can either use a replication feature that your registry provides, or you can manually sync the images with [Skopeo](https://github.com/containers/skopeo):
+
+You can find your personal credentials for the Qdrant Cloud registry in the onboarding command, or you can fetch them with `kubectl`:
+
+```shell
+kubectl get secrets qdrant-registry-creds --namespace the-qdrant-namespace -o jsonpath='{.data.\.dockerconfigjson}' | base64 --decode | jq -r '.'
+```
+
+First login to the source registry:
+
+```shell
+skopeo login registry.cloud.qdrant.io
+```
+
+Then login to your own registry:
+
+```shell
+skopeo login your-registry.example.com
+```
+
+To sync all container images:
+
+```shell
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant-operator your-registry.example.com/qdrant/qdrant-operator
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant-cloud-agent your-registry.example.com/qdrant/qdrant-cloud-agent
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/prometheus your-registry.example.com/qdrant/prometheus
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/prometheus-config-reloader your-registry.example.com/qdrant/prometheus-config-reloader
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/kube-state-metrics your-registry.example.com/qdrant/kube-state-metrics
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant your-registry.example.com/qdrant/qdrant
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/cluster-manager your-registry.example.com/qdrant/cluster-manager
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/operator your-registry.example.com/qdrant/operator
+```
+
+To sync all helm charts:
+
+```shell
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/prometheus your-registry.example.com/qdrant-charts/prometheus
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-operator your-registry.example.com/qdrant-charts/qdrant-operator
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-operator-crds your-registry.example.com/qdrant-charts/qdrant-operator-crds
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent your-registry.example.com/qdrant-charts/qdrant-cloud-agent
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/operator your-registry.example.com/qdrant-charts/operator
+```
+
+With the above configuration, you can add the following values to the advanced section of your Hybrid Cloud Environment:
+
+* Container registry URL: `your-registry.example.com/qdrant`
+* Chart repository URL: `oci://your-registry.example.com/qdrant-charts`
+
+If you registry requires authentication, you have to create your own secrets with authentication information into your `the-qdrant-namespace` namespace.
+
+You can then reference they secret by 
 
 ## Installation
 

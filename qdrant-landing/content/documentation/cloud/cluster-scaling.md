@@ -37,4 +37,4 @@ Note, that it is currently not possible to horizontally scale down the cluster i
 
 We will be glad to consult you on an optimal strategy for scaling.
 
-[Let us know](mailto:cloud@qdrant.io) your needs and decide together on a proper solution.
+[Let us know](/documentation/support/) your needs and decide together on a proper solution.

@@ -52,3 +52,19 @@ If you use multiple accounts for different purposes, it is a good idea to give t
 ### Deleting an account
 
 When you delete an account, all database clusters and associated data will be deleted.
+
+## Enterprise Single-Sign-On (SSO)
+
+Qdrant Cloud supports Enterprise Single-Sign-On for Premium Tier customers. The following providers are supported:
+
+* Active Directory/LDAP
+* ADFS
+* Azure Active Directory Native
+* Google Workspace
+* OpenID Connect
+* Okta
+* PingFederate
+* SAML
+* Azure Active Directory
+
+Enterprise Sign-On is available as an add-on for [Premium Tier](/documentation/cloud/premium/) customers. If you are interested in using SSO, please [contact us](/contact-us/).

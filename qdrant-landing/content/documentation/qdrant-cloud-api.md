@@ -49,4 +49,6 @@ Use these endpoints to manage your cluster API keys.
    - **Delete API Key**: Revoke access by deleting a specific API key.
    - **Update API Key**: Modify attributes of an existing API key.
 
+## Terraform Provider
 
+Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. The provider is available on the official [Terraform Registry](https://registry.terraform.io/providers/qdrant/qdrant-cloud).
