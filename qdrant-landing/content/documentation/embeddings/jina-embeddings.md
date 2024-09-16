@@ -43,7 +43,7 @@ You can reference the table below for hints on dimension vs. performance:
 |  Average Retrieval Performance (nDCG@10)   |   52.54     | 58.54 |    61.64    | 62.72 | 63.16  | 63.3  |   63.35    | 
 
 
-## Guide
+## Example
 
 The code below demonstrate how to use `jina-embeddings-v3` together with Qdrant:
 
