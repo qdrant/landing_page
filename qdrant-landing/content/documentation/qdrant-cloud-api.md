@@ -28,7 +28,7 @@ Here's an example of a basic request to **list all clusters** in your Qdrant Clo
 curl -X 'GET' \
   'https://cloud.qdrant.io/pa/v1/accounts/<YOUR_ACCOUNT_ID>/clusters' \
   -H 'accept: application/json' \
-  -H 'Authorization: <YOUR_API_KEY>'
+  -H 'Authorization: apikey <YOUR_API_KEY>'
 ```
 
 This request will return a list of clusters associated with your account in JSON format.
