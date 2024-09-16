@@ -4,7 +4,7 @@ title: Best Practices in RAG Evaluation
 description: Learn how to assess, calibrate, and optimize your RAG applications for long-term success.
 downloadGuide: 
   text: Download the Guide
-  url: https://qdrant.to/rag-evaluation-guide
+  url: "#form"
 learnMore:
   text: Learn More
   url: /rag/

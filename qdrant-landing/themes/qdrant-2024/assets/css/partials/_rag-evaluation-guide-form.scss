@@ -26,6 +26,9 @@
   }
 
   &__block {
+    margin-top: -$spacer * 3;
+    padding-top: $spacer * 6;
+
     .contact-form__title {
       margin-bottom: 0;
     }
@@ -64,6 +67,11 @@
     &__title {
       font-size: $spacer * 3;
       line-height: pxToRem(58);
+    }
+
+    &__block {
+      margin-top: -$spacer * 6;
+      padding-top: $spacer * 6;
     }
   }
 }

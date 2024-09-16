@@ -28,6 +28,6 @@ cards:
   description: Essential metrics to monitor during testing
 downloadGuide:
   text: Download the Guide
-  url: https://qdrant.to/rag-evaluation-guide
+  url: "#form"
 sitemapExclude: true
 ---
