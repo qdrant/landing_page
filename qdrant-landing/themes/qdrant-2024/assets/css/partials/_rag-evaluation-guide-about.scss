@@ -1,0 +1,97 @@
+@use '../helpers/functions' as *;
+
+.rag-evaluation-guide-about {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-94;
+
+  &__preview img {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: pxToRem(445);
+  }
+
+  &__text {
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    color: $neutral-30;
+    margin-bottom: $spacer * 1.5;
+  }
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-20;
+  }
+
+  &__subtitle {
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    margin-bottom: $spacer * 0.5;
+  }
+
+  &__listTitle {
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    color: $neutral-30;
+    margin-bottom: 0;
+  }
+
+  &__list {
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    color: $neutral-30;
+    margin-bottom: 0;
+  }
+
+  &__card {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer;
+
+    &-icon {
+      height: $spacer * 1.5;
+      width: $spacer * 1.5;
+    }
+
+    &-title {
+      margin-bottom: 0;
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
+      color: $neutral-30;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      color: $neutral-30;
+    }
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacer * 4;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__preview img {
+      margin-left: 0;
+    }
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+    }
+
+    &__button {
+      margin-top: $spacer * 5;
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{{ with (.Site.GetPage "/retrieval-augmented-generation/rag-evaluation-guide-hero") }}
+  <section class="rag-evaluation-guide-hero">
+    <div class="container">
+      <div class="row align-items-lg-center">
+        <div class="rag-evaluation-guide-hero__content col-12 col-lg-6">
+          <p class="rag-evaluation-guide-hero__label">{{ .Params.label }}</p>
+          <h1 class="rag-evaluation-guide-hero__title">{{ .Params.title }}</h1>
+          <p class="rag-evaluation-guide-hero__description">{{ .Params.description }}</p>
+          <div class="rag-evaluation-guide-hero__buttons">
+            <a href="{{ .Params.downloadGuide.url }}" class="button button_contained button_lg">
+              {{ .Params.downloadGuide.text }}
+            </a>
+            <a href="{{ .Params.learnMore.url }}" class="button button_outlined button_lg">
+              {{ .Params.learnMore.text }}
+            </a>
+          </div>
+        </div>
+
+        <div class="rag-evaluation-guide-hero__preview col-12 col-lg-6 mt-5 mt-lg-0">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

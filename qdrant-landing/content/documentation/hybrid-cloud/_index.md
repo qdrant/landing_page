@@ -1,6 +1,6 @@
 ---
 title: Hybrid Cloud
-weight: 9
+weight: 13
 ---
 
 # Qdrant Hybrid Cloud

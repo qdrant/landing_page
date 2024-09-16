@@ -1,7 +1,7 @@
 
 ---
 title: Embeddings
-weight: 15
+weight: 19
 ---
 # Supported Embedding Providers & Models
 

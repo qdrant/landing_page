@@ -1,6 +1,6 @@
 ---
 title: Private Cloud
-weight: 10
+weight: 14
 ---
 
 # Qdrant Private Cloud
