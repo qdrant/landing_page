@@ -1273,3 +1273,83 @@ Payload schema example:
     }
 }
 ```
+
+## Facet counts
+
+Faceting is a special counting technique that can be used for various purposes:
+- Know which unique values exist in a field.
+- Know the number of points that contain each unique value.
+- Know how restrictive a filter would become by matching a specific value.
+
+Specifically, it is a counting aggregation for the values in a field, akin to a `GROUP BY` with `COUNT(*)` commands in SQL.
+
+These results for a specific field is called a "facet". For example, when you look at an e-commerce search results page, you might see a list of brands on the sidebar, showing the number of products for each brand. This would be a facet for a `"brand"` field.
+
+<aside role="status">In Qdrant you can facet on a field <strong>only</strong> if you have created a field index that supports <code>MatchValue</code> conditions for it, like a <code>keyword</code> index.</aside>
+
+To get the facet counts for a field, you can use the following:
+
+REST API ([Facet](https://api.qdrant.tech/api-reference/search/facet))
+
+```http
+POST /collections/{collection_name}/facet
+{
+    "key": "size",
+    "filter": {
+      "must": {
+        "key": "color",
+        "match": { "value": "red" }
+      }
+    }
+}
+```
+
+```python
+client.facet(
+    collection_name="{collection_name}",
+    key="size",
+    filter=Filter(must=[Match("color", "red")]),
+)
+```
+
+// TODO: add the rest of the client examples
+
+The response will contain the counts for each unique value in the field:
+
+```json
+{
+  "response": {
+    "hits": [
+      {"value": "L", "count": 19},
+      {"value": "S", "count": 10},
+      {"value": "M", "count": 5},
+      {"value": "XL", "count": 1},
+      {"value": "XXL", "count": 1}
+    ]
+  },
+  "time": 0.0001
+}
+```
+The results are sorted by the count in descending order, then by the value in ascending order.
+
+As a security measure, only values with non-zero counts will be returned.
+
+By default, the way Qdrant the counts for each value is approximate to achieve fast results. This should accurate enough for most cases, but if you need to debug your storage, you can use the `exact` parameter to get exact counts.
+
+```http
+POST /collections/{collection_name}/facet
+{
+    "key": "size",
+    "exact": true
+}
+```
+
+```python
+client.facet(
+    collection_name="{collection_name}",
+    key="size",
+    exact=True,
+)
+```
+
+// TODO: add the rest of the client examples
