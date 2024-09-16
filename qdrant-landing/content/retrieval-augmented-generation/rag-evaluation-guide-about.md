@@ -36,6 +36,6 @@ features:
   description: Using the augmented information, the language model generates a response to the original query.
 downloadGuide:
   text: Download the Guide
-  url: https://drive.google.com/file/d/16-idQfLo2Z73kCzqFehCEPGUkmSfVY8f/view
+  url: https://qdrant.to/rag-evaluation-guide
 sitemapExclude: true
 ---
