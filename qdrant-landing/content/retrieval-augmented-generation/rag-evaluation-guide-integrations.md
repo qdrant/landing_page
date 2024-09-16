@@ -17,8 +17,8 @@ cards:
     src: /img/rag-evaluation-guide/integrations/avoid-hallucinations.svg
     alt: Avoid hallucinations
   description: “Lost in the middle”
-frameworksTitle: Why evaluate your RAG application?
-frameworksDescription: The guide will outline both common issues, as well as recommendations to avoid these pitfalls.
+frameworksTitle: Recommended evaluation frameworks
+frameworksDescription: In the guide, we explore three popular frameworks that can help simplify your evaluation process.
 frameworksCards:
 - id: 0
   image:
