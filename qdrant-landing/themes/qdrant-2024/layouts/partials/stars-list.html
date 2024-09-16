@@ -7,6 +7,9 @@
           <div class="col-12 col-md-6 col-xl-3">
             <div class="stars-list__card">
               <img class="stars-list__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              {{ if .distinguished }}
+                <p class="stars-list__card-distinguished">Distinguished Ambassador</p>
+              {{ end }}
               <h6 class="stars-list__card-title">{{ .name }}</h6>
               <p class="stars-list__card-subtitle">{{ .position }}</p>
               <p class="stars-list__card-description">{{ .description }}</p>
