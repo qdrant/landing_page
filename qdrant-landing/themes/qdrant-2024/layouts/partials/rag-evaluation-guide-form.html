@@ -1,0 +1,22 @@
+{{ with (.Site.GetPage "/retrieval-augmented-generation/rag-evaluation-guide-form") }}
+  <section class="rag-evaluation-guide-form">
+    <div class="container">
+      <div class="row align-items-lg-center">
+        <div class="rag-evaluation-guide-form__content col-12 col-lg-6">
+          <h2 class="rag-evaluation-guide-form__title">{{ .Params.title }}</h2>
+          <p class="rag-evaluation-guide-form__listTitle">{{ .Params.listTitle }}</p>
+          <ul class="rag-evaluation-guide-form__list">
+            {{ range .Params.list }}
+              <li>{{ .text }}</li>
+            {{ end }}
+          </ul>
+        </div>
+
+        <div class="rag-evaluation-guide-form__block col-12 col-lg-6" id="form">
+          {{ partial "contact-form" .Params.form }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}
+

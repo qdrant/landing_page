@@ -1,0 +1,41 @@
+@use '../helpers/functions' as *;
+
+.rag-evaluation-guide-kubernetes-clusters {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 2.5;
+  background-color: $neutral-94;
+
+  &__title {
+    font-size: $spacer * 2;
+    line-height: $spacer * 2.5;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-20;
+  }
+
+  &__description {
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-20;
+  }
+
+  &__preview img {
+    display: block;
+    margin: 0 auto;
+    width: 100%;
+    max-width: pxToRem(540);
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 5;
+
+    &__description {
+      max-width: pxToRem(445);
+    }
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+    }
+  }
+}

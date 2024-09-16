@@ -1,0 +1,71 @@
+@use '../helpers/functions' as *;
+
+.rag-evaluation-guide-hero {
+  background: url('/img/stars-pattern.png') $neutral-10;
+  padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 4;
+  text-align: center;
+
+  &__label {
+    color: $primary-50;
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    font-weight: $font-weight-semibold;
+    margin-bottom: $spacer * 0.5;
+  }
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    margin-bottom: $spacer * 2;
+    color: $neutral-70;
+  }
+
+  &__buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacer * 1.5;
+  }
+
+  &__preview img {
+    display: block;
+    width: 100%;
+    max-width: pxToRem(536);
+    margin: 0 auto;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-bottom: $spacer * 7.5;
+    text-align: left;
+
+    &__content {
+      margin-bottom: 0;
+    }
+
+    &__title {
+      font-size: $spacer * 4;
+      line-height: pxToRem(77);
+    }
+
+    &__description {
+      font-size: $spacer * 1.5;
+      line-height: pxToRem(34);
+    }
+
+    &__buttons {
+      justify-content: flex-start;
+    }
+
+    &__preview img {
+      margin-right: 0;
+    }
+  }
+}

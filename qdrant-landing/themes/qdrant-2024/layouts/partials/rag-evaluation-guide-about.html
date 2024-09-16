@@ -1,0 +1,42 @@
+{{ with (.Site.GetPage "/retrieval-augmented-generation/rag-evaluation-guide-about") }}
+  <section class="rag-evaluation-guide-about">
+    <div class="container">
+      <div class="row align-items-lg-center">
+        <div class="rag-evaluation-guide-about__preview col-12 col-lg-6">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+
+        <div class="col-12 col-lg-6 mt-5 mt-lg-0">
+          <h2 class="rag-evaluation-guide-about__title">{{ .Params.title }}</h2>
+          <p class="rag-evaluation-guide-about__text">{{ .Params.text }}</p>
+          <h6 class="rag-evaluation-guide-about__subtitle">{{ .Params.subtitle }}</h6>
+          <p class="rag-evaluation-guide-about__listTitle">{{ .Params.listTitle }}</p>
+          <ul class="rag-evaluation-guide-about__list">
+            {{ range .Params.list }}
+              <li>{{ .text }}</li>
+            {{ end }}
+          </ul>
+        </div>
+      </div>
+
+      <div class="row g-4 mt-4 mt-lg-5">
+        {{ range .Params.features }}
+          <div class="col-12 col-lg-4">
+            <div class="card rag-evaluation-guide-about__card">
+              <img class="rag-evaluation-guide-about__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="rag-evaluation-guide-about__card-title">{{ .title }}</h6>
+              <p class="rag-evaluation-guide-about__card-description">{{ .description }}</p>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+
+      <div class="rag-evaluation-guide-about__button">
+        <a href="{{ .Params.downloadGuide.url }}" class="button button_contained button_lg">
+          {{ .Params.downloadGuide.text }}
+        </a>
+      </div>
+    </div>
+  </section>
+{{ end }}
+
