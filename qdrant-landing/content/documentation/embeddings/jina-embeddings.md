@@ -22,7 +22,7 @@ For Qdrant users, use code **QDRANT** for a 10% discount on Jina AI APIs.
 |  jina-embeddings-v2-base-es |  768 |  Spanish & English |  No  |  8192 | 
 |  jina-embeddings-v2-base-zh | 768  |  Chinese & English |  No  |  8192 | 
 
-> We recommend using `jina-embeddings-v3` as it is the latest and most performant embedding model released by Jina AI.
+> Jina recommend using `jina-embeddings-v3` as it is the latest and most performant embedding model released by Jina AI.
 
 On top of the backbone, `jina-embeddings-v3` has been trained with 5 task-specific adapters for different embedding uses. Include `task_type` in your request to optimize your downstream application:
 
