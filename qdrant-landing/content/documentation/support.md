@@ -1,6 +1,6 @@
 ---
 title: Support
-weight: 10
+weight: 16
 aliases:
     - /documentation/cloud/support/
 ---
