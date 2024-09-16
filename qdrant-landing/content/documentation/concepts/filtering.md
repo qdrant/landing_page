@@ -5,8 +5,6 @@ aliases:
   - ../filtering
 ---
 
-
-
 # Filtering
 
 With Qdrant, you can set conditions when searching or retrieving points.
