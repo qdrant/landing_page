@@ -1,6 +1,6 @@
 ---
 title: Platforms
-weight: 15
+weight: 22
 ---
 
 ## Platform Integrations
