@@ -1,4 +1,5 @@
 ---
+title: Contact Qdrant Sales
 salesTitle: Qdrant Enterprise Solutions
 description: Our Managed Cloud, Hybrid Cloud, and Private Cloud solutions offer flexible deployment options for top-tier data privacy.
 cards:
