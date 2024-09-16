@@ -8,7 +8,7 @@ aliases:
 
 # Jina Embeddings
 
-Qdrant is compatible with [Jina AI](https://jina.ai/) embeddings. You need an API key from [Jina AI](https://jina.ai/embeddings/) to get embeddings.
+Qdrant is compatible with [Jina AI](https://jina.ai/) embeddings. You can get a free trial key from [Jina Embeddings](https://jina.ai/embeddings/) to get embeddings.
 
 For Qdrant users, use code **QDRANT** for a 10% discount on Jina AI APIs.
 
@@ -24,7 +24,7 @@ For Qdrant users, use code **QDRANT** for a 10% discount on Jina AI APIs.
 
 > Jina recommends using `jina-embeddings-v3` as it is the latest and most performant embedding model released by Jina AI.
 
-On top of the backbone, `jina-embeddings-v3` has been trained with 5 task-specific adapters for different embedding uses. Include `task_type` in your request to optimize your downstream application:
+On top of the backbone, `jina-embeddings-v3` has been trained with 5 task-specific adapters for different embedding uses. Include `task` in your request to optimize your downstream application:
 
 + **retrieval.query**: Used to encode user queries or questions in retrieval tasks.
 + **retrieval.passage**: Used to encode large documents in retrieval tasks at indexing time.
@@ -55,11 +55,10 @@ import qdrant_client
 from qdrant_client.models import Distance, VectorParams, Batch
 
 # Provide Jina API key and choose one of the available models.
-# You can get a free trial key here: https://jina.ai/embeddings/
 JINA_API_KEY = "jina_xxxxxxxxxxx"
 MODEL = "jina-embeddings-v3"
 DIMENSIONS = 1024 # Or choose your desired output vector dimensionality.
-TASK_TYPE = 'retrieval.passage' # For indexing, or set to retrieval.query for quering
+TASK = 'retrieval.passage' # For indexing, or set to retrieval.query for quering
 
 # Get embeddings from the API
 url = "https://api.jina.ai/v1/embeddings"
@@ -73,7 +72,7 @@ data = {
     "input": ["Your text string goes here", "You can send multiple texts"],
     "model": MODEL,
     "dimensions": DIMENSIONS,
-    "task_type": TASK_TYPE,
+    "task": TASK,
 }
 
 response = requests.post(url, headers=headers, json=data)
