@@ -19,13 +19,23 @@ tags:
 
 # Using Performance Metrics to Evaluate RAG Systems 
 
-Evaluating the performance of a [Retrieval-Augmented Generation (RAG)](/rag/) application can be a complex task for developers. To help simplify this, Qdrant has partnered with [Relari](https://www.relari.ai) to provide an in-depth [RAG evaluation](/articles/rapid-rag-optimization-with-qdrant-and-quotient/) process. As a [vector database](https://qdrant.tech), Qdrant handles the data storage and retrieval, while Relari enables you to run experiments to assess how well your RAG app performs in real-world scenarios. Together, they allow for fast, iterative testing and evaluation, making it easier to keep up with your app's development pace.
+Evaluating the performance of a [Retrieval-Augmented Generation (RAG)](/rag/) application can be a complex task for developers. 
+
+To help simplify this, Qdrant has partnered with [Relari](https://www.relari.ai) to provide an in-depth [RAG evaluation](/articles/rapid-rag-optimization-with-qdrant-and-quotient/) process.
+
+As a [vector database](https://qdrant.tech), Qdrant handles the data storage and retrieval, while Relari enables you to run experiments to assess how well your RAG app performs in real-world scenarios. Together, they allow for fast, iterative testing and evaluation, making it easier to keep up with your app's development pace.
+
+{{< figure 
+    src="/blog/qdrant-relari/banner.png" 
+    caption="Qdrant & Relari partnered on a joint project to test RAG performance with synthetic data." 
+    alt="Qdrant & Relari partnered on a joint project to test RAG performance with synthetic data." 
+>}}
 
 ## What you'll learn
 
 In a recent webinar, we discussed the best approaches to building and evaluating RAG systems. Relari offers tools to evaluate [large language model (LLM) applications](/rag/) using both intrinsic and extrinsic methods. Combined with Qdrant’s powerful [data storage](/qdrant-vector-database/), it creates a solid framework for evaluation. 
 
-In this post, we’ll cover two evaluation methods you can use with Qdrant and Relari, along with practical use cases. Specifically, we’ll walk you through an example that analyzes the GitLab legal policies dataset. You can follow along with the code in this [Google Colab Notebook](https://colab.research.google.com/drive/1p6bF15ZWI7qVEh-b_7YGt1n1UwF3QAqd).
+In this post, we’ll cover **two evaluation methods** you can use with Qdrant and Relari, along with practical use cases. Specifically, we’ll walk you through an example that analyzes the GitLab legal policies dataset. You can follow along with the code in this [Google Colab Notebook](https://colab.research.google.com/drive/1p6bF15ZWI7qVEh-b_7YGt1n1UwF3QAqd).
 
 ## Key metrics for RAG evaluation: Top-K and Auto Prompt Optimization
 
