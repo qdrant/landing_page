@@ -1,7 +1,7 @@
 ---
 title: "What is Vector Quantization?"
 draft: false
-slug: what-is-vector-quantization? 
+slug: what-is-vector-quantization 
 short_description:  What is Vector Quantization? Methods & Examples | Qdrant
 description: Learn what vector quantization is and explore how methods like Scalar, Product, and Binary Quantization work. Plus, find out how to choose the best method for your specific application.
 preview_dir: /articles_data/what-is-vector-quantization/preview
@@ -30,24 +30,25 @@ If your dataset has **millions of vectors**, the memory and processing demands a
 
 To understand why this process is so computational demanding, let's take a look at the nature of the [HNSW index.](https://qdrant.tech/documentation/concepts/indexing/#vector-index)
 
-The HNSW (Hierarchical Navigable Small World) index organizes vectors in a layered graph, connecting each vector to its nearest neighbors. At each layer, the algorithm narrows down the search area until it reaches the lower layers, where it efficiently finds the closest matches to the query.
+
+The **HNSW (Hierarchical Navigable Small World) index** organizes vectors in a layered graph, connecting each vector to its nearest neighbors. At each layer, the algorithm narrows down the search area until it reaches the lower layers, where it efficiently finds the closest matches to the query.
+
 
 <img src="/articles_data/what-is-vector-quantization/hnsw-search.png" alt="HNSW Search visualization" width="300">
 
 So each time a new vector is added, the system must determine its position in the existing graph, a process similar to searching. This makes both inserting and searching for vectors complex operations.
 
-One of the key challenges with the HNSW index is that it requires a lot of **random reads** and **sequential traversals** through the graph. This makes the process computationally expensive, especially when you're dealing with millions of high-dimensional vectors. 
+One of the key challenges with the HNSW index is that it requires a lot of **random reads** and **sequential traversals** through the graph. This makes the process computationally expensive, especially when you're dealing with millions of high-dimensional vectors.
 
 The system has to jump between various points in the graph in an unpredictable way. This unpredictability makes it hard to optimize, and as the dataset grows, the memory and processing requirements increase significantly.
 
 
 <img src="/articles_data/what-is-vector-quantization/hnsw-search.png" alt="HNSW Search visualization" width="300">
 
-[to add gif]
 
 And because vectors need to be stored in **fast storage** like **RAM** or **SSD** for low-latency searches, as the size of the data grows, so does the cost of storing and processing it efficiently.
 
-**Quantization** offers a solution by compressing vectors to smaller memory sizes, making the process more efficient. 
+**Quantization** offers a solution by compressing vectors to smaller memory sizes, making the process more efficient.
 
 There are several methods to achieve this, and here we will focus on three main ones:
 
@@ -68,27 +69,42 @@ Here's a simple linear example of what this process looks like:
 
 To set up Scalar Quantization in Qdrant, you need to include the `quantization_config` section when creating or updating a collection:
 
-```python 
-collection_config = {
+```http
+PUT /collections/{collection_name}
+{
     "vectors": {
-        "size": 128,
-        "distance": "Cosine"
+      "size": 128,
+      "distance": "Cosine"
     },
     "quantization_config": {
         "scalar": {
             "type": "int8",
-            "quantile": 0.99,  # Ignoring extreme outliers
-            "always_ram": True
+            "quantile": 0.99,
+            "always_ram": true
         }
     }
 }
 ```
 
-The `quantile` is used to calculate the quantization bounds. For example, if you specify `0.99` as the quantile, 1% of extreme values will be excluded from the quantization bounds. 
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=128, distance=models.Distance.COSINE),
+    quantization_config=models.ScalarQuantization(
+        scalar=models.ScalarQuantizationConfig(
+            type=models.ScalarType.INT8,
+            quantile=0.99,
+            always_ram=True,
+        ),
+    ),
+)
+```
+
+The `quantile` is used to calculate the quantization bounds. For example, if you specify `0.99` as the quantile, 1% of extreme values will be excluded from the quantization bounds.
 
 This parameter only affects the resulting precision, not the memory footprint. You can tune it if you experience a significant decrease in search quality.
 
-Scalar Quantization is a great choice if you're looking to boost search speed and compression without losing much accuracy. It also slighly improves performance, as distance calculations (such as dot product or cosine similarity) using `int8` values are computationally simpler than using `float32` values. 
+Scalar Quantization is a great choice if you're looking to boost search speed and compression without losing much accuracy. It also slighly improves performance, as distance calculations (such as dot product or cosine similarity) using `int8` values are computationally simpler than using `float32` values.
 
 While the performance gains of Scalar Quantization may not reach the levels seen with Binary Quantization (which we'll discuss later), it remains an excellent default choice when Binary Quantization isn’t the right fit for your use case.
 
@@ -98,12 +114,12 @@ While the performance gains of Scalar Quantization may not reach the levels seen
 
 [Binary Quantization](https://qdrant.tech/documentation/guides/quantization/#binary-quantization) is an excellent option if you're looking to **reduce memory** usage while also achieving a significant **boost in speed**. It works by converting high-dimensional vectors into simple binary (0 or 1) representations.
 
-* Values greater than zero are converted to 1 
+* Values greater than zero are converted to 1
 * Values less than or equal to zero are converted to 0
 
 Let's take our initial example of a 1536-dimensional vector that requires **6KB** of memory (4 bytes for each `float32` value).
 
-After Binary Quantization, each dimension is reduced to 1 bit (1/8 byte), so the memory required is: 
+After Binary Quantization, each dimension is reduced to 1 bit (1/8 byte), so the memory required is:
 
 $$
 \frac{1536 \text{ dimensions}}{8 \text{ bits per byte}} = 192 \text{ bytes}
@@ -115,22 +131,36 @@ This leads to a **32x** memory saving.
 <img src="/articles_data/what-is-vector-quantization/binary-quant.png" alt="Binary Quantization example" width="800">
 
 
-Qdrant automates the Binary Quantization process during indexing. As vectors are added to your collection, each 32-bit floating-point component is converted into a binary value according to the configuration you define. 
+Qdrant automates the Binary Quantization process during indexing. As vectors are added to your collection, each 32-bit floating-point component is converted into a binary value according to the configuration you define.
 
 Here’s how you can set it up:
 
-```python 
-collection_config = {
+
+```http
+PUT /collections/{collection_name}
+{
     "vectors": {
-        "size": 1536,
-        "distance": "Cosine"
+      "size": 1536,
+      "distance": "Cosine"
     },
     "quantization_config": {
         "binary": {
-            "always_ram": True
+            "always_ram": true
         }
     }
 }
+```
+
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=1536, distance=models.Distance.COSINE),
+    quantization_config=models.BinaryQuantization(
+        binary=models.BinaryQuantizationConfig(
+            always_ram=True,
+        ),
+    ),
+)
 ```
 
 Binary Quantization is by far the quantization method that will give you the most processing **speed gains** when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
@@ -146,7 +176,7 @@ The models that have shown the best compatibility with this method include:
 
 They demonstrate minimal accuracy loss while still benefiting from the substantial speed and memory gains.
 
-Even though Binary Quantization is incredibly fast and memory-efficient, the trade-offs are in **precision** and **model compatibility**, and you may need to ensure search quality using techniques like oversampling and rescoring. 
+Even though Binary Quantization is incredibly fast and memory-efficient, the trade-offs are in **precision** and **model compatibility**, and you may need to ensure search quality using techniques like oversampling and rescoring.
 
 If you're interested in exploring Binary Quantization in more detail—including implementation examples, benchmark results, and usage recommendations—check out our dedicated article on [Binary Quantization - Vector Search, 40x Faster](https://qdrant.tech/articles/binary-quantization/).
 
@@ -154,7 +184,7 @@ If you're interested in exploring Binary Quantization in more detail—including
 
 ![](/articles_data/what-is-vector-quantization/astronaut-centroids.jpg)
 
-[Product Quantization](https://qdrant.tech/documentation/guides/quantization/#product-quantization) is a method used to compress high-dimensional vectors by representing them with a smaller set of representative points. 
+[Product Quantization](https://qdrant.tech/documentation/guides/quantization/#product-quantization) is a method used to compress high-dimensional vectors by representing them with a smaller set of representative points.
 
 The process begins by splitting the original high-dimensional vectors into smaller **sub-vectors.** Each sub-vector represents a segment of the original vector, which can capture different characteristics of the data.
 
@@ -164,19 +194,35 @@ For each sub-vector, a separate **codebook** is created, representing regions in
 
 The codebook in Qdrant is trained automatically during the indexation process. As vectors are added to the collection, Qdrant uses your specified quantization settings in the `quantization_config` to build the codebook and quantize the vectors. Here’s how you might set it up:
 
-```python 
-collection_config = {
+
+```http
+PUT /collections/{collection_name}
+{
     "vectors": {
-        "size": 1024,
-        "distance": "Cosine"
+      "size": 1024,
+      "distance": "Cosine"
     },
     "quantization_config": {
         "product": {
             "compression": "x32",
-            "always_ram": True
+            "always_ram": true
         }
     }
 }
+```
+
+
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=1024, distance=models.Distance.COSINE),
+    quantization_config=models.ProductQuantization(
+        product=models.ProductQuantizationConfig(
+            compression=models.CompressionRatio.X32,
+            always_ram=True,
+        ),
+    ),
+)
 ```
 
 Each region in the codebook is defined by a **centroid**, which serves as a representative point that summarizes the characteristics of that region. So, instead of treating every single data point as equally important, we can group similar sub-vectors together and represent them with a single centroid that captures the general characteristics of that group.
@@ -203,16 +249,31 @@ Here’s how a 1024-dimensional vector originally taking up 4096 bytes is reduce
 
 After setting up quantization and adding your vectors, you can perform searches as usual. Qdrant will automatically use the quantized vectors, optimizing both speed and memory usage. Optionally, you can enable rescoring for better accuracy.
 
-```python 
-search_payload = {
-    "query": [0.22, -0.01, -0.98, 0.37, ...],
+
+```http
+POST /collections/{collection_name}/points/search
+{
+    "query": [0.22, -0.01, -0.98, 0.37],
     "params": {
         "quantization": {
-            "rescore": True
+            "rescore": true
         }
     },
     "limit": 10
 }
+```
+
+```python
+client.query_points(
+    collection_name="my_collection",
+    query_vector=[0.22, -0.01, -0.98, 0.37],  # Your query vector
+    search_params=models.SearchParams(
+        quantization=models.QuantizationSearchParams(
+            rescore=True  # Enables rescoring with original vectors
+        )
+    ),
+    limit=10  # Return the top 10 results
+)
 ```
 
 Product Quantization can significantly reduce memory usage, potentially offering up to **64x** compression in certain configurations. However, it's important to note that this level of compression can lead to a noticeable drop in quality.
@@ -233,9 +294,9 @@ For a more in-depth understanting of the benchmarks you can expect, check out ou
 
 # Understanding Rescoring, Oversampling, and Reranking
 
-When we use quantization methods like Scalar, Binary, or Product Quantization, we're compressing our vectors to save memory and improve performance. However, this compression strips away some detail from the original vectors. 
+When we use quantization methods like Scalar, Binary, or Product Quantization, we're compressing our vectors to save memory and improve performance. However, this compression strips away some detail from the original vectors.
 
-This can slightly reduce the accuracy of our similarity searches because the quantized vectors are approximations of the original data. To mitigate this loss of accuracy, you can use **oversampling** and **rescoring**, which help improve the accuracy of the final search results. 
+This can slightly reduce the accuracy of our similarity searches because the quantized vectors are approximations of the original data. To mitigate this loss of accuracy, you can use **oversampling** and **rescoring**, which help improve the accuracy of the final search results.
 
 The original vectors are never deleted during this process, and you can easily switch between quantization methods or parameters by updating the collection method at any time.
 
@@ -249,7 +310,7 @@ When you perform a search, Qdrant retrieves the top candidates using the quantiz
 
 ### 2. Oversampling
 
-Oversampling is a technique that helps make up for any precision lost due to quantization. Since quantization simplifies vectors, some relevant matches could be missed in the initial search. To avoid this, you can **retrieve more candidates**, increasing the chances that the most relevant vectors make it into the final results. 
+Oversampling is a technique that helps make up for any precision lost due to quantization. Since quantization simplifies vectors, some relevant matches could be missed in the initial search. To avoid this, you can **retrieve more candidates**, increasing the chances that the most relevant vectors make it into the final results.
 
 You can control the number of extra candidates by setting an `oversampling` parameter. For example, if your desired number of results (`limit`) is 4 and you set an `oversampling` factor of 2, Qdrant will retrieve 8 candidates (4 × 2).
 
@@ -259,17 +320,17 @@ You can adjust the oversampling factor to control how many extra vectors Qdrant 
 
 ### 3. Rescoring with Original Vectors
 
-After oversampling to gather more potential matches, each candidate is re-evaluated based on additional criteria to ensure higher accuracy and relevance to the query. 
+After oversampling to gather more potential matches, each candidate is re-evaluated based on additional criteria to ensure higher accuracy and relevance to the query.
 
 The rescoring process **maps** the quantized vectors to the corresponding original vectors and allows you to consider factors like context, metadata, or additional relevance that wasn't included in the initial search, leading to more accurate results.
 
 ![Rescoring with Original Vectors](/articles_data/what-is-vector-quantization/rescoring.png)
 
-During rescoring, one of the lower-ranked candidates from oversampling might turn out to be a better match than some of the original top-K candidates. 
+During rescoring, one of the lower-ranked candidates from oversampling might turn out to be a better match than some of the original top-K candidates.
 
 ### 4. Reranking
 
-With the new similarity scores from rescoring, **reranking** is where the final top-K candidates are determined based on the updated similarity scores. 
+With the new similarity scores from rescoring, **reranking** is where the final top-K candidates are determined based on the updated similarity scores.
 
 For example, in our case with a limit of 4, one candidate that ranked 6th in the quantized search might improve its score after rescoring because the original vectors capture more context or metadata. As a result, this candidate could move into the final top 4 after reranking, replacing a less relevant option from the initial search.
 
@@ -277,45 +338,176 @@ For example, in our case with a limit of 4, one candidate that ranked 6th in the
 
 Here's how you can set it up:
 
-```python
- search_payload = {
-    "query": [0.22, -0.01, -0.98, 0.37, ...],
-    "params": {
-        "quantization": {
-            "rescore": True,        # Enables rescoring with original vectors
-            "oversampling": 2       # Retrieves extra candidates for rescoring
-        }
-    },
-    "limit": 4                      # Desired number of final results
+
+```http
+POST /collections/{collection_name}/points/search
+
+
+{
+  "query": [0.22, -0.01, -0.98, 0.37],
+  "params": {
+    "quantization": {
+      "rescore": true,
+      "oversampling": 2
+    }
+  },
+  "limit": 4
 }
 ```
-You can adjust the `oversampling` factor to find the right balance between search speed and result accuracy. 
+
+```python
+client.query_points(
+    collection_name="my_collection",
+    query_vector=[0.22, -0.01, -0.98, 0.37],
+    search_params=models.SearchParams(
+        quantization=models.QuantizationSearchParams(
+            rescore=True,   # Enables rescoring with original vectors
+            oversampling=2  # Retrieves extra candidates for rescoring
+        )
+    ),
+    limit=4  # Desired number of final results
+)
+```
+
+You can adjust the `oversampling` factor to find the right balance between search speed and result accuracy.
 
 If quantization is affecting performance in an application that needs high accuracy, combining oversampling with rescoring is a great choice. But if you need faster searches and can tolerate some loss in accuracy, you might choose to use oversampling without rescoring, or adjust the oversampling factor to a lower value.
 
-## Important Consideration: Disk & RAM Storage
+
+### Disk & RAM Storage Tuning
+
 
 Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. If you want to reduce RAM usage, just enabling quantization won't be enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
 
 Here’s an example configuration:
 
-```python
-collection_config = {
-    "vectors": {
-        "size": 1536,
-        "distance": "Cosine",
-        "on_disk": True  # Move original vectors to disk
-    },
-    "quantization_config": {
-        "binary": {
-            "always_ram": True  # Store only quantized vectors in RAM
-        }
+```http
+PUT /collections/{collection_name}
+{
+  "vectors": {
+    "size": 1536,
+    "distance": "Cosine",
+    "on_disk": true  # Move original vectors to disk
+  },
+  "quantization_config": {
+    "binary": {
+      "always_ram": true  # Store only quantized vectors in RAM
     }
+  }
 }
 ```
 
-Without explicitly setting `on_disk=True`, you won't see any RAM savings, even with quantization enabled. So, ensure that you configure both storage and quantization options based on your memory and performance needs.
+```python
+client.update_collection(
+    collection_name="my_collection",
+    vectors_config=models.VectorParams(
+        size=1536,
+        distance=models.Distance.COSINE,
+        on_disk=True  # Move original vectors to disk
+    ),
+    quantization_config=models.BinaryQuantization(
+        binary=models.BinaryQuantizationConfig(
+            always_ram=True  # Store only quantized vectors in RAM
+        )
+    )
+)
+```
 
+
+Without explicitly setting `on_disk=True`, you won't see any RAM savings, even with quantization enabled. So, ensure that you configure both storage and quantization options based on your memory and performance needs. If your storage has high disk latency, you can try disabling rescoring to maintain speed.
+
+
+### Compare Results With and Without Quantization
+
+
+Qdrant uses the quantizes vectors by default if they are avaliable. If you want to see how quantization affects your search results, you can disable it temporarily to compare results from quantized and non-quantized searches. Just set `ignore: true` in the query:
+
+
+
+
+```http
+POST /collections/{collection_name}/points/query
+{
+    "query": [0.22, -0.01, -0.98, 0.37],
+    "params": {
+        "quantization": {
+            "ignore": true,
+        }
+    },
+    "limit": 4
+}
+```
+
+```python
+client.query_points(
+    collection_name="{collection_name}",
+    query=[0.22, -0.01, -0.98, 0.37],
+    search_params=models.SearchParams(
+        quantization=models.QuantizationSearchParams(
+            ignore=True
+        )
+    ),
+)
+```
+### Change the Quantization Method
+
+
+Not sure if you’ve chosen the right quantization method? In Qdrant, you have the flexibility to remove quantization and rely solely on the original vectors, adjust the quantization type, or change compression parameters at any time without affecting your original vectors.
+
+
+To switch to binary quantization and adjust compression rate, for example, you can update the collection's quantization configuration using the `update_collection` method:
+
+
+```http
+PUT /collections/{collection_name}
+{
+  "vectors": {
+    "size": 1536,
+    "distance": "Cosine"
+  },
+  "quantization_config": {
+    "binary": {
+      "always_ram": true,
+      "compression_rate": 0.8  # Set the new compression rate
+    }
+  }
+}
+```
+
+
+```python
+client.update_collection(
+    collection_name="my_collection",
+    quantization_config=models.BinaryQuantization(
+        binary=models.BinaryQuantizationConfig(
+            always_ram=True,  # Store only quantized vectors in RAM
+            compression_rate=0.8  # Set the new compression rate
+        )
+    ),
+)
+```
+
+
+If you decide to **turn off quantization** and use only the original vectors, you can remove the quantization settings entirely with `quantization_config=None`:
+
+
+```http
+PUT /collections/my_collection
+{
+  "vectors": {
+    "size": 1536,
+    "distance": "Cosine"
+  },
+  "quantization_config": null  # Remove quantization and use original vectors only
+}
+```
+
+```python
+client.update_collection(
+    collection_name="my_collection",
+    quantization_config=None  # Remove quantization and rely on original vectors only
+)
+```
 # Wrapping Up
 
 ![](/articles_data/what-is-vector-quantization/astronaut-running.jpg)
@@ -330,7 +522,6 @@ Here are some final thoughts to help you choose the right quantization method fo
 | **Scalar Quantization**  | • **Minimal loss of accuracy**<br>•  Up to **4x** reduced memory footprint | • Safe default choice for most applications.<br>• Offers a good balance between accuracy, speed, and compression.  |
 | **Product Quantization** | • **Highest compression ratio**<br>• Up to **64x** reduced memory footprint | • When minimizing memory usage is the top priority<br>• Acceptable if some loss of accuracy is tolerable |
 
-Not sure if you’ve chosen the right quantization method? In Qdrant, you have the flexibility to set `quantization_config=None` to remove quantization and rely solely on the original vectors, adjust the quantization type, or change compression parameters at any time without affecting your original vectors.
 
 If you want to learn more about improving accuracy, memory efficiency, and speed when using quantization in Qdrant, we have a dedicated [Quantization tips](https://qdrant.tech/documentation/guides/quantization/#quantization-tips) section in our docs that explains all the quantization tips you can use to enhance your results.
 
@@ -342,6 +533,5 @@ Continue learning about how to **optimize precision in real-time using oversampl
   <iframe src="https://www.youtube.com/embed/4aUq5VnR_VI" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 90%;">
   </iframe>
 </div>
-
 
 Stay up-to-date on the latest in vector search and quantization, share your projects, ask questions, [join our vector search community](https://discord.com/invite/qdrant)!
