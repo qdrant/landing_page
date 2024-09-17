@@ -7,7 +7,7 @@ description: Learn what vector quantization is and explore how methods like Scal
 preview_dir: /articles_data/what-is-vector-quantization/preview
 weight: -210
 social_preview_image: /articles_data/what-is-vector-quantization/preview/social-preview.jpg
-date: 2024-09-09T09:29:33-03:00
+date: 2024-09-16T09:29:33-03:00
 author: Sabrina Aquino 
 featured: true 
 tags: 
@@ -47,7 +47,7 @@ The system has to jump between various points in the graph in an unpredictable w
 
 And because vectors need to be stored in **fast storage** like **RAM** or **SSD** for low-latency searches, as the size of the data grows, so does the cost of storing and processing it efficiently.
 
-Quantization offers a solution by compressing vectors to smaller memory sizes, making the process more efficient. 
+**Quantization** offers a solution by compressing vectors to smaller memory sizes, making the process more efficient. 
 
 There are several methods to achieve this, and here we will focus on three main ones:
 
@@ -59,9 +59,9 @@ There are several methods to achieve this, and here we will focus on three main 
 
 ![](/articles_data/what-is-vector-quantization/astronaut-mars.jpg)
 
-In Qdrant, each dimension is represented by a float32 value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller int8 type can represent. An int8 can store 256 values (from -128 to 127, or 0 to 255) which uses only **1 byte.** This results in a **75% reduction** in memory size.
+In Qdrant, each dimension is represented by a `float32` value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller `int8` type can represent. An `int8` can store 256 values (from -128 to 127, or 0 to 255) which uses only **1 byte.** This results in a **75% reduction** in memory size.
 
-For example, if our data lies in the identified range of -1.0 to 1.0, Scalar Quantization will transform these values to a range that int8 can represent, that is, within -128 to 127. So, the system **maps** the float32 values into this range.
+For example, if our data lies in the identified range of -1.0 to 1.0, Scalar Quantization will transform these values to a range that `int8` can represent, that is, within -128 to 127. So, the system **maps** the `float32` values into this range.
 
 Here's a simple linear example of what this process looks like:
 
@@ -85,13 +85,15 @@ collection_config = {
 }
 ```
 
-The **quantile** is used to calculate the quantization bounds. For example, if you specify 0.99 as the quantile, 1% of extreme values will be excluded from the quantization bounds. 
+The `quantile` is used to calculate the quantization bounds. For example, if you specify `0.99` as the quantile, 1% of extreme values will be excluded from the quantization bounds. 
 
 This parameter only affects the resulting precision, not the memory footprint. You can tune it if you experience a significant decrease in search quality.
 
-The primary benefit of Scalar Quantization is **memory reduction.** It is especially useful for large-scale datasets, where memory and processing power become limiting factors. It also slighly improves performance, as distance calculations (such as dot product or cosine similarity) using int8 values are computationally simpler than using float32 values. 
+The primary benefit of Scalar Quantization is **memory reduction.** It is especially useful for large-scale datasets, where memory and processing power become limiting factors. It also slighly improves performance, as distance calculations (such as dot product or cosine similarity) using `int8` values are computationally simpler than using `float32` values. 
 
-However, these performance gains are significantly lower compared to Binary Quantization, which we'll discuss later.
+Scalar Quantization is a great choice if you're looking to boost search speed and compression without losing much accuracy.
+
+These performance gains are significantly lower compared to Binary Quantization, which we'll discuss later. However, it's a good default choice when binary quantization isn’t the right fit for your use case.
 
 # 2. What is Product Quantization?
 
@@ -159,7 +161,7 @@ search_payload = {
 
 Product Quantization is generally more memory efficient than **Scalar Quantization**, being able to reduce the memory footprint by up to **64x** while still retaining much of the essential information. However, the computational overhead of mapping sub-vectors to centroids results in the **slowest performance** compared to the other methods.
 
-If your application requires high precision or real-time performance, this slower computation might be a significant factor to consider.
+If your application requires high precision or real-time performance, this slower computation might be a significant factor to consider. For a more in-depth exploration of benchmarks, check out our dedicated article on [Product Quantization in Vector Search](https://qdrant.tech/articles/product-quantization/).
 
 # 3. What is Binary Quantization?
 
@@ -170,7 +172,7 @@ If your application requires high precision or real-time performance, this slowe
 * Values greater than zero are converted to 1 
 * Values less than or equal to zero are converted to 0
 
-Let's take our initial example of a 1536-dimensional vector that requires **6KB** of memory, 4 bytes for each float32 value.
+Let's take our initial example of a 1536-dimensional vector that requires **6KB** of memory (4 bytes for each `float32` value).
 
 After Binary Quantization, each dimension is reduced to 1 bit (1/8 byte), so the memory required is: 
 
@@ -219,31 +221,96 @@ The models that have shown the best compatibility with this method include:
 
 They demonstrate minimal accuracy loss while still benefiting from the substantial speed and memory gains.
 
-Even though Binary Quantization is incredibly fast and memory-efficient, the trade-offs are in **precision** and **model compatibility**, and you may need **rescoring** to ensure search quality.
+Even though Binary Quantization is incredibly fast and memory-efficient, the trade-offs are in **precision** and **model compatibility**, and you may need to ensure search quality using techniques like oversampling and rescoring. 
 
-# What is Rescoring?
+If you're interested in exploring Binary Quantization in more detail—including implementation examples, benchmark results, and usage recommendations—check out our dedicated article on [Binary Quantization - Vector Search, 40x Faster](https://qdrant.tech/articles/binary-quantization/).
 
-The quantization strips away some detail from the original vector. However, Qdrant mitigates this with **oversampling**, which retrieves extra vectors during the search and then uses the original values to rescore them, improving the accuracy of the final results.
+# Understanding Rescoring, Oversampling, and Reranking
 
-Here’s how you can enable rescoring to maintain higher accuracy:
+When we use quantization methods like Scalar, Product, or Binary Quantization, we're compressing our vectors to save memory and improve performance. However, this compression strips away some detail from the original vectors. This can slightly reduce the accuracy of our similarity searches because the quantized vectors are approximations of the original data.
 
-```python 
-search_payload = {
+To mitigate this loss of accuracy, you can use **oversampling** and **rescoring**, which help improve the accuracy of the final search results.
+
+Here's how the process works, step by step:
+
+### 1. Initial Quantized Search
+
+When you perform a search, Qdrant retrieves the top candidates using the quantized vectors based on their similarity to the query vector, as determined by the quantized data. This step is fast because we're using the quantized vectors.
+
+![ANN Search with Quantization](/articles_data/what-is-vector-quantization/ann-search-quantized.png)
+
+### 2. Oversampling
+
+Oversampling is a technique that helps make up for any precision lost due to quantization. Since quantization simplifies vectors, some relevant matches could be missed in the initial search. To avoid this, you can **retrieve more candidates**, increasing the chances that the most relevant vectors make it into the final results. 
+
+You can control the number of extra candidates by setting an `oversampling` parameter. For example, if your desired number of results (`limit`) is 4 and you set an `oversampling` factor of 2, Qdrant will retrieve 8 candidates (4 × 2).
+
+![ANN Search with Quantization and Oversampling](/articles_data/what-is-vector-quantization/ann-search-quantized-oversampling.png)
+
+You can adjust the oversampling factor to control how many extra vectors Qdrant includes in the initial pool. More candidates mean a better chance of getting high-quality top-K results, especially after rescoring with original vectors.
+
+### 3. Rescoring with Original Vectors
+
+After oversampling to gather more potential matches, each candidate is re-evaluated based on additional criteria to ensure higher accuracy and relevance to the query. 
+
+The rescoring process **maps** the quantized vectors to the corresponding original vectors and allows you to consider factors like context, metadata, or additional relevance that wasn't included in the initial search, leading to more accurate results.
+
+![Rescoring with Original Vectors](/articles_data/what-is-vector-quantization/rescoring.png)
+
+During rescoring, one of the lower-ranked candidates from oversampling might turn out to be a better match than some of the original top-K candidates. 
+
+### 4. Reranking
+
+With the new similarity scores from rescoring, **reranking** is where the final top-K candidates are determined based on the updated similarity scores. 
+
+For example, in our case with a limit of 4, one candidate that ranked 6th in the quantized search might improve its score after rescoring because the original vectors capture more context or metadata. As a result, this candidate could move into the final top 4 after reranking, replacing a less relevant option from the initial search.
+
+![Reranking with Original Vectors](/articles_data/what-is-vector-quantization/reranking.png)
+
+Here's how you can set it up:
+
+```python
+ search_payload = {
     "query": [0.22, -0.01, -0.98, 0.37, ...],
     "params": {
         "quantization": {
-            "rescore": True
+            "rescore": True,        # Enables rescoring with original vectors
+            "oversampling": 2       # Retrieves extra candidates for rescoring
         }
     },
-    "limit": 10
+    "limit": 4                      # Desired number of final results
 }
 ```
+You can adjust the `oversampling` factor to find the right balance between search speed and result accuracy. 
 
-When you enable rescoring in Qdrant, it refines the top search results by recalculating their similarity with the original floating-point vectors.
+If quantization is affecting performance in an application that needs high accuracy, combining oversampling with rescoring is a great choice. But if you need faster searches and can tolerate some loss in accuracy, you might choose to use oversampling without rescoring, or adjust the oversampling factor to a lower value.
 
 
 # Wrapping Up
 
 ![](/articles_data/what-is-vector-quantization/astronaut-running.jpg)
 
+Quantization methods like Scalar, Product, and Binary Quantization offer powerful ways to optimize memory usage and improve search performance when dealing with large datasets of high-dimensional vectors. Each method comes with its own trade-offs between memory savings, computational speed, and accuracy.
+
+Here are some final thoughts to help you choose the right quantization method for your needs:
+
+| **Quantization Method**  | **Key Features**                                            | **When to Use**                                                                            |
+|--------------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------|
+| **Binary Quantization**  | • **Fastest method and most memory-efficient**<br>•  Up to **40x** faster search and **32x** reduced memory footprint | • Use with tested models like OpenAI's `text-embedding-ada-002` and Cohere's `embed-english-v2.0`<br>• When speed and memory efficiency are critical |
+| **Scalar Quantization**  | • **Minimal loss of accuracy**<br>•  Up to **4x** reduced memory footprint | • Safe default choice for most applications.<br>• Offers a good balance between accuracy, speed, and compression.  |
+| **Product Quantization** | • **Highest compression ratio**<br>• Up to **64x** reduced memory footprint | • When minimizing memory usage is the top priority<br>• Acceptable if some loss of accuracy and slower search speed are tolerable |
+
+
 If you want to learn more about improving accuracy, memory efficiency, and speed when using quantization in Qdrant, we have a dedicated [Quantization tips](https://qdrant.tech/documentation/guides/quantization/#quantization-tips) section in our docs that explains all the quantization tips you can use to enhance your results.
+
+Learn more about optimizing real-time precision with oversampling in Binary Quantization by watching this interview with Qdrant’s CTO, Andrey Vasnetsov:
+
+Continue learning about how to **optimize precision in real-time using oversampling in Binary Quantization** by watching this insightful video from Qdrant's CTO, Andrey Vasnetsov:
+
+<div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;">
+  <iframe src="https://www.youtube.com/embed/4aUq5VnR_VI" frameborder="0" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 90%;">
+  </iframe>
+</div>
+
+
+Stay up-to-date on the latest in vector search and quantization, share your projects, ask questions, [join our vector search community](https://discord.com/invite/qdrant)!
