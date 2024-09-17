@@ -27,7 +27,7 @@ In a recent webinar, we discussed the best approaches to building and evaluating
 
 In this post, we’ll cover two evaluation methods you can use with Qdrant and Relari, along with practical use cases. Specifically, we’ll walk you through an example that analyzes the GitLab legal policies dataset. You can follow along with the code in this [Google Colab Notebook](https://colab.research.google.com/drive/1p6bF15ZWI7qVEh-b_7YGt1n1UwF3QAqd).
 
-## Key metrics for RAG evaluation: Top-K and auto prompt optimization
+## Key metrics for RAG evaluation: Top-K and Auto Prompt Optimization
 
 To ensure your RAG system works well in real-world conditions, it's crucial to focus on performance optimization. While traditional metrics like precision, recall, and rank-based methods are helpful, they aren't always enough. Two advanced strategies for evaluating your RAG system are **Top-K Parameter Optimization** and **Auto Prompt Optimization**. These techniques help improve the chances that your model delivers the best experience for actual users.
 
