@@ -85,7 +85,7 @@ Julien Simon from HuggingFace says it best:
 
 ## Get superior accuracy with Qdrant's vector database
 
-As LLMs continue to require enormous computing power, users will need to leverage vector search and [RAG]([https://qdrant.tech/](https://qdrant.tech/rag/rag-evaluation-guide/).
+As LLMs continue to require enormous computing power, users will need to leverage vector search and [RAG](https://qdrant.tech/rag/rag-evaluation-guide/).
 
 Our customers remind us of this fact every day. As a product, [our vector database](https://qdrant.tech/) is highly scalable and business-friendly. We develop our features strategically to follow our company’s Unix philosophy. 
 
