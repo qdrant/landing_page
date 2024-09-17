@@ -24,7 +24,7 @@ tags:
 
 When working with high-dimensional vectors, such as embeddings from AI models like OpenAI, one single 1536-dimensional vector requires **6KB of memory**.
 
-![1536 dimentional vector size is 6KB](/articles_data/what-is-vector-quantization/vector-size.png)
+<img src="/articles_data/what-is-vector-quantization/vector-size.png" alt="1536 dimentional vector size is 6KB" width="700">
 
 If your dataset has **millions of vectors**, the memory and processing demands are very significant.
 
@@ -51,8 +51,7 @@ And because vectors need to be stored in **fast storage** like **RAM** or **SSD*
 
 There are several methods to achieve this, and here we will focus on three main ones:
 
-
-![Types of Quantization: 1. Scalar Quantization, 2. Product Quantization, 3. Binary Quantization](/articles_data/what-is-vector-quantization/types-of-quantization.png)
+<img src="/articles_data/what-is-vector-quantization/types-of-quant.png" alt="Types of Quantization: 1. Scalar Quantization, 2. Product Quantization, 3. Binary Quantization" width="700">
 
 
 ## 1. What is Scalar Quantization?
@@ -65,7 +64,7 @@ For example, if our data lies in the identified range of -1.0 to 1.0, Scalar Qua
 
 Here's a simple linear example of what this process looks like:
 
-![Scalar Quantization example](/articles_data/what-is-vector-quantization/scalar-quantization.png)
+![Scalar Quantization example](/articles_data/what-is-vector-quantization/scalar-quant.png)
 
 To set up Scalar Quantization in Qdrant, you need to include the `quantization_config` section when creating or updating a collection:
 
@@ -103,7 +102,7 @@ These performance gains are significantly lower compared to Binary Quantization,
 
 The process begins by splitting the original high-dimensional vectors into smaller **sub-vectors.** Each sub-vector represents a segment of the original vector, which can capture different characteristics of the data.
 
-![](/articles_data/what-is-vector-quantization/subvectors.png)
+<img src="/articles_data/what-is-vector-quantization/subvec.png" alt="Creation of the Suba-vector" width="700">
 
 For each sub-vector, a separate **codebook** is created, representing regions in the data space where common patterns occur.
 
@@ -129,23 +128,22 @@ Each region in the codebook is defined by a **centroid**, which serves as a repr
 The centroids used in Product Quantization are determined using the **[K-means clustering algorithm](https://en.wikipedia.org/wiki/K-means_clustering)**.
 
 
-![Codebook and Centroids example](/articles_data/what-is-vector-quantization/codebook.png)
+<img src="/articles_data/what-is-vector-quantization/code-book.png" alt="Codebook and Centroids example" width="700">
 
 
 Qdrant always selects **K = 256** for the number of centroids in its implementation based on the fact that 256 is the maximum number of unique values that can be represented by a single byte.
 
 This makes the compression process efficient because each centroid index can be stored in a single byte.
 
-After the codebooks are created, the original high-dimensional vectors are quantized by mapping each sub-vector to the nearest centroid in its respective codebook.
+The original high-dimensional vectors are quantized by mapping each sub-vector to the nearest centroid in its respective codebook.
 
-![Vectors being mapped to their correspondent centroids example](/articles_data/what-is-vector-quantization/centroids-mapping.png)
+<img src="/articles_data/what-is-vector-quantization/mapping.png" alt="Vectors being mapped to their correspondent centroids example" width="700">
 
 The compressed vector stores the index of the closest centroid for each sub-vector.
 
 Here’s how a 1024-dimensional vector originally taking up 4096 bytes is reduced to just 128 bytes by representing it as 128 indexes, each pointing to the centroid of a sub-vector:
 
-
-![Product Quantization example](/articles_data/what-is-vector-quantization/product-quantization.png)
+<img src="/articles_data/what-is-vector-quantization/product-quant.png" alt="Product Quantization example" width="800">
 
 After setting up quantization and adding your vectors, you can perform searches as usual. Qdrant will automatically use the quantized vectors, optimizing both speed and memory usage. Optionally, you can enable rescoring for better accuracy.
 
@@ -187,8 +185,7 @@ $$
 
 This leads to a **32x** memory saving.
 
-
-![Binary Quantization example](/articles_data/what-is-vector-quantization/binary-quantization.png)
+<img src="/articles_data/what-is-vector-quantization/binary-quant.png" alt="Binary Quantization example" width="800">
 
 
 Qdrant automates the Binary Quantization process during indexing. As vectors are added to your collection, each 32-bit floating-point component is converted into a binary value according to the configuration you define. 
@@ -241,7 +238,7 @@ Here's how the process works, step by step:
 
 When you perform a search, Qdrant retrieves the top candidates using the quantized vectors based on their similarity to the query vector, as determined by the quantized data. This step is fast because we're using the quantized vectors.
 
-![ANN Search with Quantization](/articles_data/what-is-vector-quantization/ann-search-quantized.png)
+<img src="/articles_data/what-is-vector-quantization/ann-search-quantized.png" alt="ANN Search with Quantization" width="600">
 
 ### 2. Oversampling
 
@@ -249,7 +246,7 @@ Oversampling is a technique that helps make up for any precision lost due to qua
 
 You can control the number of extra candidates by setting an `oversampling` parameter. For example, if your desired number of results (`limit`) is 4 and you set an `oversampling` factor of 2, Qdrant will retrieve 8 candidates (4 × 2).
 
-![ANN Search with Quantization and Oversampling](/articles_data/what-is-vector-quantization/ann-search-quantized-oversampling.png)
+<img src="/articles_data/what-is-vector-quantization/ann-search-quantized-oversampling.png" alt="ANN Search with Quantization and Oversampling" width="600">
 
 You can adjust the oversampling factor to control how many extra vectors Qdrant includes in the initial pool. More candidates mean a better chance of getting high-quality top-K results, especially after rescoring with original vectors.
 
@@ -269,7 +266,7 @@ With the new similarity scores from rescoring, **reranking** is where the final 
 
 For example, in our case with a limit of 4, one candidate that ranked 6th in the quantized search might improve its score after rescoring because the original vectors capture more context or metadata. As a result, this candidate could move into the final top 4 after reranking, replacing a less relevant option from the initial search.
 
-![Reranking with Original Vectors](/articles_data/what-is-vector-quantization/reranking.png)
+<img src="/articles_data/what-is-vector-quantization/reranking.png" alt="Reranking with Original Vectors" width="600">
 
 Here's how you can set it up:
 
@@ -302,7 +299,7 @@ Here are some final thoughts to help you choose the right quantization method fo
 |--------------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------|
 | **Binary Quantization**  | • **Fastest method and most memory-efficient**<br>•  Up to **40x** faster search and **32x** reduced memory footprint | • Use with tested models like OpenAI's `text-embedding-ada-002` and Cohere's `embed-english-v2.0`<br>• When speed and memory efficiency are critical |
 | **Scalar Quantization**  | • **Minimal loss of accuracy**<br>•  Up to **4x** reduced memory footprint | • Safe default choice for most applications.<br>• Offers a good balance between accuracy, speed, and compression.  |
-| **Product Quantization** | • **Highest compression ratio**<br>• Up to **64x** reduced memory footprint | • When minimizing memory usage is the top priority<br>• Acceptable if some loss of accuracy and slower search speed are tolerable |
+| **Product Quantization** | • **Highest compression ratio**<br>• Up to **64x** reduced memory footprint | • When minimizing memory usage is the top priority<br>• Acceptable if some loss of accuracy is tolerable |
 
 
 If you want to learn more about improving accuracy, memory efficiency, and speed when using quantization in Qdrant, we have a dedicated [Quantization tips](https://qdrant.tech/documentation/guides/quantization/#quantization-tips) section in our docs that explains all the quantization tips you can use to enhance your results.
