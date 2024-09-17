@@ -20,7 +20,7 @@ tags:
 
 ---
 
-> Vector quantization is a technique used to compress high-dimensional data by mapping vectors to a set of reference points. Instead of storing the original vectors, the data is approximated by these reference points, which reduces memory usage while maintaining most of the essential information. This compression allows for more efficient storage and faster search operations, especially in large datasets.
+> Vector quantization is a technique for reducing the size of high-dimensional data. Instead of storing the original vectors, the data is stored in a compressed format, which reduces memory usage while maintaining most of the essential information. This compression allows for more efficient storage and faster search operations, especially in large datasets.
 
 When working with high-dimensional vectors, such as embeddings from AI models like OpenAI, one single 1536-dimensional vector requires **6KB of memory**.
 
