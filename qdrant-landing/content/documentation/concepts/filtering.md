@@ -13,6 +13,10 @@ For example, you can impose conditions on both the [payload](../payload/) and th
 Setting additional conditions is important when it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
 
+## Related Content
+|[A Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/)|Developer advice on proper usage and advanced practices.|
+|-|-|
+
 ## Filtering clauses
 
 Qdrant allows you to combine conditions in clauses.
