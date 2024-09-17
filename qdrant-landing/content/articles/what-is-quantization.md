@@ -94,7 +94,65 @@ Scalar Quantization is a great choice if you're looking to boost search speed an
 
 These performance gains are significantly lower compared to Binary Quantization, which we'll discuss later. However, it's a good default choice when binary quantization isn’t the right fit for your use case.
 
-# 2. What is Product Quantization?
+# 2. What is Binary Quantization?
+
+![](/articles_data/what-is-vector-quantization/astronaut-white-surreal.jpg)
+
+[Binary Quantization](https://qdrant.tech/documentation/guides/quantization/#binary-quantization) is an excellent option if you're looking to **reduce memory** usage while also achieving a significant **boost in speed**. It works by converting high-dimensional vectors into simple binary (0 or 1) representations.
+
+* Values greater than zero are converted to 1 
+* Values less than or equal to zero are converted to 0
+
+Let's take our initial example of a 1536-dimensional vector that requires **6KB** of memory (4 bytes for each `float32` value).
+
+After Binary Quantization, each dimension is reduced to 1 bit (1/8 byte), so the memory required is: 
+
+$$
+\frac{1536 \text{ dimensions}}{8 \text{ bits per byte}} = 192 \text{ bytes}
+$$
+
+
+This leads to a **32x** memory saving.
+
+<img src="/articles_data/what-is-vector-quantization/binary-quant.png" alt="Binary Quantization example" width="800">
+
+
+Qdrant automates the Binary Quantization process during indexing. As vectors are added to your collection, each 32-bit floating-point component is converted into a binary value according to the configuration you define. 
+
+Here’s how you can set it up:
+
+```python 
+collection_config = {
+    "vectors": {
+        "size": 1536,
+        "distance": "Cosine"
+    },
+    "quantization_config": {
+        "binary": {
+            "always_ram": True
+        }
+    }
+}
+```
+
+Binary Quantization is by far the quantization method that will give you the most processing **speed gains** when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
+
+It can speed up search operations by **up to 40x**, depending on the dataset and hardware.
+
+Not all models are equally compatible with Binary Quantization, and in the comparison above, we are only using models that are compatible. Some models may experience a greater loss in accuracy when quantized. We recommend using Binary Quantization with models that have **at least 1024 dimensions** to minimize accuracy loss.
+
+The models that have shown the best compatibility with this method include:
+
+* **OpenAI text-embedding-ada-002** (1536 dimensions)
+* **Cohere AI embed-english-v2.0** (4096 dimensions)
+
+They demonstrate minimal accuracy loss while still benefiting from the substantial speed and memory gains.
+
+Even though Binary Quantization is incredibly fast and memory-efficient, the trade-offs are in **precision** and **model compatibility**, and you may need to ensure search quality using techniques like oversampling and rescoring. 
+
+If you're interested in exploring Binary Quantization in more detail—including implementation examples, benchmark results, and usage recommendations—check out our dedicated article on [Binary Quantization - Vector Search, 40x Faster](https://qdrant.tech/articles/binary-quantization/).
+
+# 3. What is Product Quantization?
 
 ![](/articles_data/what-is-vector-quantization/astronaut-centroids.jpg)
 
@@ -163,52 +221,7 @@ Product Quantization can significantly reduce memory usage, potentially offering
 
 If your application needs high precision or real-time performance, Product Quantization may not be the best choice. But if **memory savings** are critical and some accuracy loss is acceptable, it could still be the ideal solution.
 
-For a more in-depth understanting of the benchmarks you can expect, check out our dedicated article on [Product Quantization in Vector Search](https://qdrant.tech/articles/product-quantization/).
-
-# 3. What is Binary Quantization?
-
-![](/articles_data/what-is-vector-quantization/astronaut-white-surreal.jpg)
-
-[Binary Quantization](https://qdrant.tech/documentation/guides/quantization/#binary-quantization) is an excellent option if you're looking to **reduce memory** usage while also achieving a significant **boost in speed**. It works by converting high-dimensional vectors into simple binary (0 or 1) representations.
-
-* Values greater than zero are converted to 1 
-* Values less than or equal to zero are converted to 0
-
-Let's take our initial example of a 1536-dimensional vector that requires **6KB** of memory (4 bytes for each `float32` value).
-
-After Binary Quantization, each dimension is reduced to 1 bit (1/8 byte), so the memory required is: 
-
-$$
-\frac{1536 \text{ dimensions}}{8 \text{ bits per byte}} = 192 \text{ bytes}
-$$
-
-
-This leads to a **32x** memory saving.
-
-<img src="/articles_data/what-is-vector-quantization/binary-quant.png" alt="Binary Quantization example" width="800">
-
-
-Qdrant automates the Binary Quantization process during indexing. As vectors are added to your collection, each 32-bit floating-point component is converted into a binary value according to the configuration you define. 
-
-Here’s how you can set it up:
-
-```python 
-collection_config = {
-    "vectors": {
-        "size": 1536,
-        "distance": "Cosine"
-    },
-    "quantization_config": {
-        "binary": {
-            "always_ram": True
-        }
-    }
-}
-```
-
-Binary Quantization is by far the quantization method that will give you the most processing **speed gains** when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
-
-It can speed up search operations by **up to 40x**, depending on the dataset and hardware. Here's the speed, accuracy, and compressio comparison of all three methods, adapted from [Qdrant's documentation](https://qdrant.tech/documentation/guides/quantization/#how-to-choose-the-right-quantization-method):
+Here's the speed, accuracy, and compressio comparison of all three methods, adapted from [Qdrant's documentation](https://qdrant.tech/documentation/guides/quantization/#how-to-choose-the-right-quantization-method):
 
 | Quantization method | Accuracy | Speed      | Compression |
 |---------------------|----------|------------|-------------|
@@ -218,22 +231,11 @@ It can speed up search operations by **up to 40x**, depending on the dataset and
 
 \* - for compatible models
 
-Not all models are equally compatible with Binary Quantization, and in the comparison above, we are only using models that are compatible. Some models may experience a greater loss in accuracy when quantized. We recommend using Binary Quantization with models that have **at least 1024 dimensions** to minimize accuracy loss.
-
-The models that have shown the best compatibility with this method include:
-
-* **OpenAI text-embedding-ada-002** (1536 dimensions)
-* **Cohere AI embed-english-v2.0** (4096 dimensions)
-
-They demonstrate minimal accuracy loss while still benefiting from the substantial speed and memory gains.
-
-Even though Binary Quantization is incredibly fast and memory-efficient, the trade-offs are in **precision** and **model compatibility**, and you may need to ensure search quality using techniques like oversampling and rescoring. 
-
-If you're interested in exploring Binary Quantization in more detail—including implementation examples, benchmark results, and usage recommendations—check out our dedicated article on [Binary Quantization - Vector Search, 40x Faster](https://qdrant.tech/articles/binary-quantization/).
+For a more in-depth understanting of the benchmarks you can expect, check out our dedicated article on [Product Quantization in Vector Search](https://qdrant.tech/articles/product-quantization/).
 
 # Understanding Rescoring, Oversampling, and Reranking
 
-When we use quantization methods like Scalar, Product, or Binary Quantization, we're compressing our vectors to save memory and improve performance. However, this compression strips away some detail from the original vectors. 
+When we use quantization methods like Scalar, Binary, or Product Quantization, we're compressing our vectors to save memory and improve performance. However, this compression strips away some detail from the original vectors. 
 
 This can slightly reduce the accuracy of our similarity searches because the quantized vectors are approximations of the original data. To mitigate this loss of accuracy, you can use **oversampling** and **rescoring**, which help improve the accuracy of the final search results. 
 
