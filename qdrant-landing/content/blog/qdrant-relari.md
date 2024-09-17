@@ -6,7 +6,7 @@ description: Learn how Qdrant and Relari enhance RAG systems with vector search 
 preview_image: /blog/qdrant-relari/preview.png
 social_preview_image: /blog/qdrant-relari/preview.png
 date: 2024-09-16T00:02:00Z
-author: Qdrant
+author: Thierry Damiba, David Myriel & Yi Zhang
 featured: false
 tags:
   - Qdrant
