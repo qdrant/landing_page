@@ -293,6 +293,29 @@ You can adjust the `oversampling` factor to find the right balance between searc
 
 If quantization is affecting performance in an application that needs high accuracy, combining oversampling with rescoring is a great choice. But if you need faster searches and can tolerate some loss in accuracy, you might choose to use oversampling without rescoring, or adjust the oversampling factor to a lower value.
 
+## Important Consideration: Disk & RAM Storage
+
+Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. If you want to reduce RAM usage, just enabling quantization won't be enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
+
+Here’s an example configuration:
+
+```python
+collection_config = {
+    "vectors": {
+        "size": 1536,
+        "distance": "Cosine",
+        "on_disk": True  # Move original vectors to disk
+    },
+    "quantization_config": {
+        "binary": {
+            "always_ram": True  # Store only quantized vectors in RAM
+        }
+    }
+}
+```
+
+Without explicitly setting `on_disk=True`, you won't see any RAM savings, even with quantization enabled. So, ensure that you configure both storage and quantization options based on your memory and performance needs.
+
 # Wrapping Up
 
 ![](/articles_data/what-is-vector-quantization/astronaut-running.jpg)
