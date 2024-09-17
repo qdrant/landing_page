@@ -101,7 +101,11 @@ These performance gains are significantly lower compared to Binary Quantization,
 
 [Product Quantization](https://qdrant.tech/documentation/guides/quantization/#product-quantization) is a method used to compress high-dimensional vectors by representing them with a smaller set of representative points. 
 
-The process begins by setting up a **codebook,** which represents regions in the data space where common patterns occur. 
+The process begins by splitting the original high-dimensional vectors into smaller **sub-vectors.** Each sub-vector represents a segment of the original vector, which can capture different characteristics of the data.
+
+![](/articles_data/what-is-vector-quantization/subvectors.png)
+
+For each sub-vector, a separate **codebook** is created, representing regions in the data space where common patterns occur.
 
 The codebook in Qdrant is trained automatically during the indexation process. As vectors are added to the collection, Qdrant uses your specified quantization settings in the `quantization_config` to build the codebook and quantize the vectors. Here’s how you might set it up:
 
@@ -120,9 +124,9 @@ collection_config = {
 }
 ```
 
-Each region in the codebook is defined by a **centroid**, which serves as a representative point that summarizes the characteristics of that region. So, instead of treating every single data point as equally important, we can group similar points together and represent them with a single centroid that is more representative of the general characteristics of that group.
+Each region in the codebook is defined by a **centroid**, which serves as a representative point that summarizes the characteristics of that region. So, instead of treating every single data point as equally important, we can group similar sub-vectors together and represent them with a single centroid that captures the general characteristics of that group.
 
-The centroids used in Product Quantization are determined using the **[K-means clustering algorithm](https://en.wikipedia.org/wiki/K-means_clustering)**, which Qdrant applies to a representative sample of the dataset you want to quantize.
+The centroids used in Product Quantization are determined using the **[K-means clustering algorithm](https://en.wikipedia.org/wiki/K-means_clustering)**.
 
 
 ![Codebook and Centroids example](/articles_data/what-is-vector-quantization/codebook.png)
@@ -132,15 +136,13 @@ Qdrant always selects **K = 256** for the number of centroids in its implementat
 
 This makes the compression process efficient because each centroid index can be stored in a single byte.
 
-After the codebook is created, the original high-dimensional vectors are split into smaller **sub-vectors.** 
-
-Each sub-vector is then compared to every centroid in the codebook and mapped to the nearest centroid.
+After the codebooks are created, the original high-dimensional vectors are quantized by mapping each sub-vector to the nearest centroid in its respective codebook.
 
 ![Vectors being mapped to their correspondent centroids example](/articles_data/what-is-vector-quantization/centroids-mapping.png)
 
-The compressed vector stores the index of the closest centroid for each subvector.
+The compressed vector stores the index of the closest centroid for each sub-vector.
 
-Here’s how a 1024-dimensional vector originally taking up 4096 bytes is reduced to just 128 bytes by representing it as 128 indexes, each pointing to the centroid of a subvector:
+Here’s how a 1024-dimensional vector originally taking up 4096 bytes is reduced to just 128 bytes by representing it as 128 indexes, each pointing to the centroid of a sub-vector:
 
 
 ![Product Quantization example](/articles_data/what-is-vector-quantization/product-quantization.png)
@@ -159,9 +161,11 @@ search_payload = {
 }
 ```
 
-Product Quantization is generally more memory efficient than **Scalar Quantization**, being able to reduce the memory footprint by up to **64x** while still retaining much of the essential information. However, the computational overhead of mapping sub-vectors to centroids results in the **slowest performance** compared to the other methods.
+Product Quantization can significantly reduce memory usage, potentially offering up to **64x** compression in certain configurations. However, it's important to note that this level of compression can lead to a noticeable drop in quality.
 
-If your application requires high precision or real-time performance, this slower computation might be a significant factor to consider. For a more in-depth exploration of benchmarks, check out our dedicated article on [Product Quantization in Vector Search](https://qdrant.tech/articles/product-quantization/).
+If your application needs high precision or real-time performance, Product Quantization may not be the best choice. But if **memory savings** are critical and some accuracy loss is acceptable, it could still be the ideal solution.
+
+For a more in-depth understanting of the benchmarks you can expect, check out our dedicated article on [Product Quantization in Vector Search](https://qdrant.tech/articles/product-quantization/).
 
 # 3. What is Binary Quantization?
 
