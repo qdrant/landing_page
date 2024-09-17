@@ -88,11 +88,9 @@ The `quantile` is used to calculate the quantization bounds. For example, if you
 
 This parameter only affects the resulting precision, not the memory footprint. You can tune it if you experience a significant decrease in search quality.
 
-The primary benefit of Scalar Quantization is **memory reduction.** It is especially useful for large-scale datasets, where memory and processing power become limiting factors. It also slighly improves performance, as distance calculations (such as dot product or cosine similarity) using `int8` values are computationally simpler than using `float32` values. 
+Scalar Quantization is a great choice if you're looking to boost search speed and compression without losing much accuracy. It also slighly improves performance, as distance calculations (such as dot product or cosine similarity) using `int8` values are computationally simpler than using `float32` values. 
 
-Scalar Quantization is a great choice if you're looking to boost search speed and compression without losing much accuracy.
-
-These performance gains are significantly lower compared to Binary Quantization, which we'll discuss later. However, it's a good default choice when binary quantization isn’t the right fit for your use case.
+While the performance gains of Scalar Quantization may not reach the levels seen with Binary Quantization (which we'll discuss later), it remains an excellent default choice when Binary Quantization isn’t the right fit for your use case.
 
 # 2. What is Binary Quantization?
 
