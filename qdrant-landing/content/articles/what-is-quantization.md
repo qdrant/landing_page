@@ -208,12 +208,17 @@ collection_config = {
 
 Binary Quantization is by far the quantization method that will give you the most processing **speed gains** when compared to Scalar and Product Quantizations. This is because the binary representation allows the system to use highly optimized CPU instructions, such as [XOR](https://en.wikipedia.org/wiki/XOR_gate#:~:text=XOR%20represents%20the%20inequality%20function,the%20other%20but%20not%20both%22.) and [Popcount](https://en.wikipedia.org/wiki/Hamming_weight), for fast distance computations.
 
-It can speed up search operations by **up to 40x**, depending on the dataset and hardware. Here's the speed comparison of all three methods:
+It can speed up search operations by **up to 40x**, depending on the dataset and hardware. Here's the speed, accuracy, and compressio comparison of all three methods, adapted from [Qdrant's documentation](https://qdrant.tech/documentation/guides/quantization/#how-to-choose-the-right-quantization-method):
 
-<img src="/articles_data/what-is-vector-quantization/speed-methods.png" alt="Speed by Quantization Method" width="700">
+| Quantization method | Accuracy | Speed      | Compression |
+|---------------------|----------|------------|-------------|
+| Scalar              | 0.99     | up to x2   | 4           |
+| Product             | 0.7      | 0.5        | up to 64    |
+| Binary              | 0.95*    | up to x40  | 32          |
 
+\* - for compatible models
 
-But it’s important to note that not all models are equally compatible with Binary Quantization. Some models may suffer a larger loss in accuracy when quantized, so it's recommended to use it on models of **at least 1024 dimensions.** 
+Not all models are equally compatible with Binary Quantization, and in the comparison above, we are only using models that are compatible. Some models may experience a greater loss in accuracy when quantized. We recommend using Binary Quantization with models that have **at least 1024 dimensions** to minimize accuracy loss.
 
 The models that have shown the best compatibility with this method include:
 
@@ -228,9 +233,11 @@ If you're interested in exploring Binary Quantization in more detail—including
 
 # Understanding Rescoring, Oversampling, and Reranking
 
-When we use quantization methods like Scalar, Product, or Binary Quantization, we're compressing our vectors to save memory and improve performance. However, this compression strips away some detail from the original vectors. This can slightly reduce the accuracy of our similarity searches because the quantized vectors are approximations of the original data.
+When we use quantization methods like Scalar, Product, or Binary Quantization, we're compressing our vectors to save memory and improve performance. However, this compression strips away some detail from the original vectors. 
 
-To mitigate this loss of accuracy, you can use **oversampling** and **rescoring**, which help improve the accuracy of the final search results.
+This can slightly reduce the accuracy of our similarity searches because the quantized vectors are approximations of the original data. To mitigate this loss of accuracy, you can use **oversampling** and **rescoring**, which help improve the accuracy of the final search results. 
+
+The original vectors are never deleted during this process, and you can easily switch between quantization methods or parameters by updating the collection method at any time.
 
 Here's how the process works, step by step:
 
@@ -286,7 +293,6 @@ You can adjust the `oversampling` factor to find the right balance between searc
 
 If quantization is affecting performance in an application that needs high accuracy, combining oversampling with rescoring is a great choice. But if you need faster searches and can tolerate some loss in accuracy, you might choose to use oversampling without rescoring, or adjust the oversampling factor to a lower value.
 
-
 # Wrapping Up
 
 ![](/articles_data/what-is-vector-quantization/astronaut-running.jpg)
@@ -301,6 +307,7 @@ Here are some final thoughts to help you choose the right quantization method fo
 | **Scalar Quantization**  | • **Minimal loss of accuracy**<br>•  Up to **4x** reduced memory footprint | • Safe default choice for most applications.<br>• Offers a good balance between accuracy, speed, and compression.  |
 | **Product Quantization** | • **Highest compression ratio**<br>• Up to **64x** reduced memory footprint | • When minimizing memory usage is the top priority<br>• Acceptable if some loss of accuracy is tolerable |
 
+Not sure if you’ve chosen the right quantization method? In Qdrant, you have the flexibility to set `quantization_config=None` to remove quantization and rely solely on the original vectors, adjust the quantization type, or change compression parameters at any time without affecting your original vectors.
 
 If you want to learn more about improving accuracy, memory efficiency, and speed when using quantization in Qdrant, we have a dedicated [Quantization tips](https://qdrant.tech/documentation/guides/quantization/#quantization-tips) section in our docs that explains all the quantization tips you can use to enhance your results.
 
