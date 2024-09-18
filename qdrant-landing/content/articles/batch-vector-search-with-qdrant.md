@@ -1,14 +1,11 @@
 ---
-draft: false
-title: Mastering Batch Search for Vector Optimization | Qdrant 
-slug: batch-vector-search-with-qdrant
-short_description: Introducing efficient batch vector search capabilities,
-  streamlining and optimizing large-scale searches for enhanced performance.
+title: "Mastering Batch Search for Vector Optimization"
+short_description: "Introducing efficient batch vector search capabilities, streamlining and optimizing large-scale searches for enhanced performance."
 description: "Discover how to optimize your vector search capabilities with efficient batch search. Learn optimization strategies for faster, more accurate results."
-preview_image: /blog/from_cms/andrey.vasnetsov_career_mining_on_the_moon_with_giant_machines_813bc56a-5767-4397-9243-217bea869820.png
-date: 2022-09-26T15:39:53.751Z
+preview_dir: /articles_data/batch-vector-search-with-qdrant/preview
+social_preview_image: /articles_data/batch-vector-search-with-qdrant/social_preview.png
 author: Kacper Łukawski
-featured: false
+date: 2022-09-26T00:00:00-08:00
 tags:
   - Data Science
   - Vector Database

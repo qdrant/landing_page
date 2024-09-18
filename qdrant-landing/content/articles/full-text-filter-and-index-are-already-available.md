@@ -1,20 +1,19 @@
 ---
-draft: false
-title: Full-text filter and index are already available!
+title: "Full-text filter and index are already available!"
 slug: qdrant-introduces-full-text-filters-and-indexes
-short_description: Qdrant v0.10 introduced full-text filters
-description: Qdrant v0.10 introduced full-text filters and indexes to enable
-  more search capabilities for those working with textual data.
-preview_image: /blog/from_cms/andrey.vasnetsov_black_hole_sucking_up_the_word_tag_cloud_f349586d-3e51-43c5-9e5e-92abf9a9e871.png
-date: 2022-11-16T09:53:05.860Z
+short_description: "Qdrant v0.10 introduced full-text filters."
+description: "Qdrant v0.10 introduced full-text filters and indexes to enable more search capabilities for those working with textual data." 
+preview_dir: /articles_data/qdrant-introduces-full-text-filters-and-indexes/preview
+social_preview_image: /articles_data/qdrant-introduces-full-text-filters-and-indexes/social_preview.jpg
 author: Kacper Łukawski
-featured: false
+date: 2022-11-16T00:00:00-08:00
 tags:
   - Information Retrieval
   - Database
   - Open Source
   - Vector Search Database
 ---
+
 Qdrant is designed as an efficient vector database, allowing for a quick search of the nearest neighbours. But, you may find yourself in need of applying some extra filtering on top of the semantic search. Up to version 0.10, Qdrant was offering support for keywords only. Since 0.10, there is a possibility to apply full-text constraints as well. There is a new type of filter that you can use to do that, also combined with every other filter type.
 
 ## Using full-text filters without the payload index
