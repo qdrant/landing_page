@@ -4,7 +4,7 @@ slug: qdrant-introduces-full-text-filters-and-indexes
 short_description: "Qdrant v0.10 introduced full-text filters."
 description: "Qdrant v0.10 introduced full-text filters and indexes to enable more search capabilities for those working with textual data." 
 preview_dir: /articles_data/qdrant-introduces-full-text-filters-and-indexes/preview
-social_preview_image: /articles_data/qdrant-introduces-full-text-filters-and-indexes/social_preview.jpg
+social_preview_image: /articles_data/qdrant-introduces-full-text-filters-and-indexes/preview/social_preview.jpg
 author: Kacper Łukawski
 date: 2022-11-16T00:00:00-08:00
 tags:
