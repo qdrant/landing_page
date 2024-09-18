@@ -25,3 +25,4 @@ These tutorials demonstrate different ways you can build vector search into your
 | [Measure Retrieval Quality](../tutorials/retrieval-quality/)                    | Measure and fine-tune the retrieval quality                       | Qdrant, Python, datasets                    |
 | [Search Through Code](../tutorials/code-search/)      | Implement semantic search application for code search tasks        | Qdrant, Python, sentence-transformers, Jina |
 | [Setup Collaborative Filtering](../tutorials/collaborative-filtering/)      | Implement a collaborative filtering system for recommendation engines        | Qdrant|
+| [Self Query Retrieva](../tutorials/self-query/)      | Avoid using excessive filters by switching to a semantic querying method.        | Qdrant|
