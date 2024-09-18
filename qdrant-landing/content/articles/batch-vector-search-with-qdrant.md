@@ -3,7 +3,7 @@ title: "Mastering Batch Search for Vector Optimization"
 short_description: "Introducing efficient batch vector search capabilities, streamlining and optimizing large-scale searches for enhanced performance."
 description: "Discover how to optimize your vector search capabilities with efficient batch search. Learn optimization strategies for faster, more accurate results."
 preview_dir: /articles_data/batch-vector-search-with-qdrant/preview
-social_preview_image: /articles_data/batch-vector-search-with-qdrant/social_preview.png
+social_preview_image: /articles_data/batch-vector-search-with-qdrant/social_preview.jpg
 author: Kacper Łukawski
 date: 2022-09-26T00:00:00-08:00
 tags:

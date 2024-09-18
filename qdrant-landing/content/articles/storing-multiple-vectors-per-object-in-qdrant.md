@@ -3,9 +3,9 @@ title: "Optimizing Semantic Search by Managing Multiple Vectors"
 short_description: "Qdrant's approach to storing multiple vectors per object, unraveling new possibilities in data representation and retrieval."
 description: "Discover the power of vector storage optimization and learn how to efficiently manage multiple vectors per object for enhanced semantic search capabilities." 
 preview_dir: /articles_data/storing-multiple-vectors-per-object-in-qdrant/preview
-social_preview_image: /articles_data/storing-multiple-vectors-per-object-in-qdrant/social_preview.png
+social_preview_image: /articles_data/storing-multiple-vectors-per-object-in-qdrant/social_preview.jpg
 author: Kacper Łukawski
-date: 2024-09-18T00:00:00-08:00
+date: 2022-10-05T00:00:00-08:00
 tags:
   - Data Science
   - Neural Networks

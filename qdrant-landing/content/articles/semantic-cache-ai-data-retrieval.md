@@ -3,7 +3,7 @@ title: "Semantic Cache: Accelerating AI with Lightning-Fast Data Retrieval"
 short_description: "Semantic Cache for Best Results and Optimization."
 description: "Semantic cache is reshaping AI applications by enabling rapid data retrieval. Discover how its implementation benefits your RAG setup." 
 preview_dir: /articles_data/semantic-cache-ai-data-retrieval/preview
-social_preview_image: /articles_data/semantic-cache-ai-data-retrieval/social_preview.png
+social_preview_image: /articles_data/semantic-cache-ai-data-retrieval/social_preview.jpg
 author: Daniel Romero, David Myriel
 author_link: https://github.com/davidmyriel
 date: 2024-05-07T00:00:00-08:00
