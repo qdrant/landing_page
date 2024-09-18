@@ -7,6 +7,8 @@ preview_dir: /articles_data/qdrant-introduces-full-text-filters-and-indexes/prev
 social_preview_image: /articles_data/qdrant-introduces-full-text-filters-and-indexes/preview/social_preview.jpg
 author: Kacper Łukawski
 date: 2022-11-16T00:00:00-08:00
+aliases:
+  - /blog/qdrant-introduces-full-text-filters-and-indexes/
 tags:
   - Information Retrieval
   - Database

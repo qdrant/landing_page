@@ -6,6 +6,8 @@ preview_dir: /articles_data/storing-multiple-vectors-per-object-in-qdrant/previe
 social_preview_image: /articles_data/storing-multiple-vectors-per-object-in-qdrant/preview/social_preview.jpg
 author: Kacper Łukawski
 date: 2022-10-05T00:00:00-08:00
+aliases:
+  - /blog/storing-multiple-vectors-per-object-in-qdrant/
 tags:
   - Data Science
   - Neural Networks

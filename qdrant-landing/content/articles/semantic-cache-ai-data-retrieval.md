@@ -7,6 +7,8 @@ social_preview_image: /articles_data/semantic-cache-ai-data-retrieval/preview/so
 author: Daniel Romero, David Myriel
 author_link: https://github.com/davidmyriel
 date: 2024-05-07T00:00:00-08:00
+aliases:
+  - /blog/semantic-cache-ai-data-retrieval/
 tags:
   - vector search
   - vector database

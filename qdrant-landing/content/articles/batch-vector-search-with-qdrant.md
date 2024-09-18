@@ -6,6 +6,8 @@ preview_dir: /articles_data/batch-vector-search-with-qdrant/preview
 social_preview_image: /articles_data/batch-vector-search-with-qdrant/preview/social_preview.jpg
 author: Kacper Łukawski
 date: 2022-09-26T00:00:00-08:00
+aliases:
+  - /blog/batch-vector-search-with-qdrant/
 tags:
   - Data Science
   - Vector Database
