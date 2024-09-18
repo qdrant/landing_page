@@ -39,19 +39,22 @@ Accepted startup program members will have the ability to get additional benefit
 - LlamaIndex: discount for 12 months
 - Airbyte: Credits for Airbyte Cloud (Y Combinator startups only)
 
-“Bessemer Venture Partners is excited to be Qdrant's preferred partner in supporting early stage companies through the Qdrant for Startups Program. At Bessemer Venture Partners, we are committed to supporting innovative early-stage companies with the tools and resources they need to succeed. Qdrant’s cutting-edge vector search technology is a game-changer for many industries, and we believe this program will provide tremendous value to the startups we back. We look forward to seeing how this collaboration will foster growth and drive breakthrough advancements in the tech ecosystem.”
+_____
 
-Ready to take your AI startup to the next level?
+<div style="text-align: center;">
+  <h3>Ready to take your AI startup to the next level?</h3>
+  <h1><a href="https://share-eu1.hsforms.com/1WesFiwFFSrC0msN3CNIKYA2b46ng">Apply Now!</a></h1>
+</div>
 
-CTA button: [Apply now](https://share-eu1.hsforms.com/1WesFiwFFSrC0msN3CNIKYA2b46ng)
+_____
 
-## FAQ: 
+## Frequently Asked Questions: 
 
 **Q: What are the eligibility requirements?**
 
 A: You must meet all of the following:
 
-- Pre-seed, Seed or Series A startups (under five years old)
+- Pre-seed, Seed or Series A startups (under five years old) 
 - New user of Qdrant Cloud
 - Has not previously participated in the Qdrant for Startups program
 - Offer is not valid to existing Qdrant customers
