@@ -35,7 +35,7 @@ Guillaume Marquis, a dedicated Engineer and AI enthusiast, serves as the Chief T
 
 Who knew that document retrieval could be creative? Guillaume and VirtualBrain help draft sales proposals using past reports. It's fascinating how tech aids deep work beyond basic search tasks.
 
-Tackling document retrieval and AI assistance, Guillaume furthermore unpacks the ins and outs of searching through vast data using a scoring system, the virtue of RAG for deep work, and going through the 'illusion of work', enhancing insights for knowledge workers while confronting the challenges of scalability and user feedback on hallucinations.
+Tackling document retrieval and AI assistance, Guillaume furthermore unpacks the ins and outs of searching through vast data using a scoring system, the virtue of [RAG](https://qdrant.tech/rag/rag-evaluation-guide/) for deep work, and going through the 'illusion of work', enhancing insights for knowledge workers while confronting the challenges of scalability and user feedback on hallucinations.
 
 Here are some key insight from this episode you need to look out for:
 
@@ -305,7 +305,7 @@ Guillaume Marquis:
 So you can trade for free.
 
 Demetrios:
-Even better. Look at that, Christmas came early. Well, let's go have some fun, play around with it. And I can't promise, but I may give you some feedback, I may give you some evaluation metrics if it's hallucinating.
+Even better. Look at that, Christmas came early. Well, let's go have some fun, play around with it. And I can't promise, but I may give you some feedback, I may give you some [evaluation](https://qdrant.tech/rag/rag-evaluation-guide/) metrics if it's hallucinating.
 
 Guillaume Marquis:
 Or what if I see some thumbs up or thumbs down, I will know that it's you.
