@@ -34,7 +34,7 @@ While you could be more creative with your prompts, it is only a short-term solu
 
 The image above shows how a basic RAG system works. Before forwarding the question to the LLM, we have a layer that searches our knowledge base for the "relevant knowledge" to answer the user query. Specifically, in this case, the spending data from the last month. Our LLM can now generate a **relevant non-hallucinated** response about our budget. 
 
-As your data grows, you’ll need efficient ways to identify the most relevant information for your LLM's limited memory. This is where you’ll want a proper way to store and retrieve the specific data you’ll need for your query, without needing the LLM to remember it. 
+As your data grows, you’ll need [efficient ways](https://qdrant.tech/rag/rag-evaluation-guide/) to identify the most relevant information for your LLM's limited memory. This is where you’ll want a proper way to store and retrieve the specific data you’ll need for your query, without needing the LLM to remember it. 
 
 **Vector databases** store information as **vector embeddings**. This format supports efficient similarity searches to retrieve relevant data for your query. For example, Qdrant is specifically designed to perform fast, even in scenarios dealing with billions of vectors.
 
@@ -167,7 +167,7 @@ Are you ready to create your own RAG chatbot from the ground up? We have a video
 * Applying vector similarity search algorithms
 * Enhancing the efficiency and response quality
 
-After building your RAG chatbot, you'll be able to evaluate its performance against that of a chatbot powered solely by a Large Language Model (LLM).
+After building your RAG chatbot, you'll be able to [evaluate its performance](https://qdrant.tech/rag/rag-evaluation-guide/) against that of a chatbot powered solely by a Large Language Model (LLM).
 
 <div style="max-width: 640px; margin: 0 auto; padding-bottom: 1em"> <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden;"> <iframe width="100%" height="100%" src="https://www.youtube.com/embed/O60-KuZZeQA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe> </div> </div>
 
