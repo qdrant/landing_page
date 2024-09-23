@@ -1,12 +1,13 @@
 ---
 title: Testcontainers
+aliases: [ ../frameworks/testcontainers/ ]
 ---
 
 # Testcontainers
 
-Qdrant is available as a [Testcontainers module](https://testcontainers.com/modules/qdrant/) in multiple languages. It  facilitates the spawning of a Qdrant instance for end-to-end testing.
+[Testcontainers](https://testcontainers.com/) is a testing library that provides easy and lightweight APIs for bootstrapping integration tests with real services wrapped in Docker containers.
 
-As noted by [Testcontainers](https://testcontainers.com/), it "is an open source framework for providing throwaway, lightweight instances of databases, message brokers, web browsers, or just about anything that can run in a Docker container."
+Qdrant is available as a [Testcontainers module](https://testcontainers.com/modules/qdrant/) in multiple languages. It  facilitates the spawning of a Qdrant instance for end-to-end testing.
 
 ## Usage
 

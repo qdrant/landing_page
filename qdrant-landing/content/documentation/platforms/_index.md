@@ -1,6 +1,6 @@
 ---
 title: Platforms
-weight: 22
+weight: 23
 ---
 
 ## Platform Integrations
@@ -16,5 +16,4 @@ weight: 22
 | [Pipedream](./pipedream/)   | Platform for connecting apps and developing event-driven automation.                     |
 | [Portable.io](./portable/)  | Cloud platform for developing and deploying ELT transformations.                         |
 | [PrivateGPT](./privategpt/) | Tool to ask questions about your documents using local LLMs emphasising privacy.         |
-| [Pulumi](./pulumi/)         | Code tool for creating, deploying, and managing cloud infrastructure.                    |
 | [Rivet](./rivet/)           | A visual programming environment for building AI agents with LLMs.                       |

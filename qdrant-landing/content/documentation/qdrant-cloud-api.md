@@ -51,4 +51,4 @@ Use these endpoints to manage your cluster API keys.
 
 ## Terraform Provider
 
-Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. The provider is available on the official [Terraform Registry](https://registry.terraform.io/providers/qdrant/qdrant-cloud).
+Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/infrastructure/terraform/).

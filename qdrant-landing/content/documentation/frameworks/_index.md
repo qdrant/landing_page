@@ -23,6 +23,5 @@ weight: 20
 | [Pandas-AI](./pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
 | [Semantic Router](./semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.             |
 | [Spring AI](./spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design. |
-| [Testcontainers](./testcontainers/)   | Set of frameworks for running containerized dependencies in tests.                                   |
 | [txtai](./txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                  |
 | [Vanna AI](./vanna-ai/)               | Python RAG framework for SQL generation and querying.                                                |
