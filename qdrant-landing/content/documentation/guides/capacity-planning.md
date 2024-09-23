@@ -32,7 +32,7 @@ memory_size = 1,000,000 * 1024 * 4 bytes * 1.5
 ```
 The memory_size is approximately 6,144,000,000 bytes, or about 5.72 GB.
 
-Depending on the use case, large datasets can benefit from reduced memory requirements via [quantization](/documentation/guides/quantization). 
+Depending on the use case, large datasets can benefit from reduced memory requirements via quantization.
 
 ## Calculating payload size
 
