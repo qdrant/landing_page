@@ -73,7 +73,7 @@ This page shows you how to use the Qdrant Cloud Console to create a custom Qdran
 
 1. Choose your data center region or Hybrid Cloud environment. 
 1. Configure RAM for each node. 
-   >  For more information, see our [**Capacity and Sizing**](/documentation/cloud/capacity-sizing/) guidance.
+   >  For more information, see our [Capacity Planning](/documentation/guides/capacity-planning/) guidance.
 1. Choose the number of vCPUs per node. If you add more
    RAM, the menu provides different options for vCPUs.
 1. Select the number of nodes you want the cluster to be deployed on.
