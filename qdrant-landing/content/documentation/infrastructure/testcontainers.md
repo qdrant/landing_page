@@ -1,5 +1,6 @@
 ---
 title: Testcontainers
+aliases: [ ../frameworks/testcontainers/ ]
 ---
 
 # Testcontainers

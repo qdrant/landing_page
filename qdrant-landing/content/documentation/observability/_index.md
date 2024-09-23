@@ -1,6 +1,6 @@
 ---
 title: Observability
-weight: 21
+weight: 22
 ---
 
 ## Observability Integrations
