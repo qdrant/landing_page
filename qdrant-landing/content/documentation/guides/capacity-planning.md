@@ -3,7 +3,7 @@ title: Capacity Planning
 weight: 11
 aliases:
   - capacity
-  - cloud/capacity-sizing
+  - /documentation/cloud/capacity-sizing
 ---
 # Capacity Planning
 
