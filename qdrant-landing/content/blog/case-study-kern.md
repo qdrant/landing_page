@@ -1,7 +1,7 @@
 ---
 draft: false
 title: "Kern AI & Qdrant: Precision AI Solutions for Finance and Insurance"
-short_description: "Transforming customer service in finance and insurance with vector search-based retrieval.</p>"
+short_description: "Transforming customer service in finance and insurance with vector search-based retrieval."
 description: "Revolutionizing customer service in finance and insurance by leveraging vector search for faster responses and improved operational efficiency."
 preview_image: /blog/case-study-kern/preview.png
 social_preview_image: /blog/case-study-kern/preview.png
