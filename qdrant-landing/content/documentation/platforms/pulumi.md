@@ -50,7 +50,96 @@ import com.pulumi.qdrantcloud.*;
 
 ## Usage
 
-The provider includes the following resources and data-sources to work with:
+The provider includes the following data-sources and resources to work with:
+
+### Data Sources
+
+- `qdrant-cloud_booking_packages` - Get IDs and detailed information about the packages/subscriptions available. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/booking_packages.md)
+
+```python
+qdrant_cloud.get_booking_packages(cloud_provider="aws", cloud_region="us-west-2")
+```
+
+```typescript
+qdrantCloud.getBookingPackages({
+    cloudProvider: "aws",
+    cloudRegion: "us-west-2"
+})
+```
+
+```java
+import com.pulumi.qdrantcloud.inputs.GetBookingPackagesArgs;
+
+QdrantcloudFunctions.getBookingPackages(GetBookingPackagesArgs.builder()
+        .cloudProvider("aws")
+        .cloudRegion("us-west-2")
+        .build());
+```
+
+- `qdrant-cloud_accounts_auth_keys` - List API keys for Qdrant clusters. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_auth_keys.md)
+
+```python
+qdrant_cloud.get_accounts_auth_keys(account_id="<ACCOUNT_ID>")
+```
+
+```typescript
+qdrantCloud.getAccountsAuthKeys({
+    accountId: "<ACCOUNT_ID>"
+})
+```
+
+```java
+import com.pulumi.qdrantcloud.inputs.GetAccountsAuthKeysArgs;
+
+QdrantcloudFunctions.getAccountsAuthKeys(GetAccountsAuthKeysArgs.builder()
+        .accountId("<ACCOUNT_ID>")
+        .build());
+```
+
+- `qdrant-cloud_accounts_cluster` - Get Cluster Information. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_cluster.md)
+
+```python
+qdrant_cloud.get_accounts_cluster(
+    account_id="<ACCOUNT_ID>",
+    id="<CLUSTER_ID>",
+)
+```
+
+```typescript
+qdrantCloud.getAccountsCluster({
+    accountId: "<ACCOUNT_ID>",
+    id: "<CLUSTER_ID>"
+})
+```
+
+```java
+import com.pulumi.qdrantcloud.inputs.GetAccountsClusterArgs;
+
+QdrantcloudFunctions.getAccountsCluster(GetAccountsClusterArgs
+        .builder()
+        .accountId("<ACCOUNT_ID>")
+        .id("<CLUSTER_ID>")
+        .build());
+```
+
+- `qdrant-cloud_accounts_clusters` - List Qdrant clusters. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_clusters.md)
+
+```python
+qdrant_cloud.get_accounts_clusters(account_id="<ACCOUNT_ID>")
+```
+
+```typescript
+qdrantCloud.getAccountsClusters({
+    accountId: "<ACCOUNT_ID>"
+})
+```
+
+```java
+import com.pulumi.qdrantcloud.inputs.GetAccountsClustersArgs;
+
+QdrantcloudFunctions.getAccountsClusters(
+        GetAccountsClustersArgs.builder().accountId("<ACCOUNT_ID>").build());
+```
 
 ### Resources
 
@@ -126,95 +215,6 @@ import com.pulumi.qdrantcloud.AccountsAuthKeyArgs;
 
 new AccountsAuthKey("pl-example-key-resource", AccountsAuthKeyArgs.builder()
         .clusterIds("<CLUSTER_ID>", "<CLUSTER_ID_2>")
-        .build());
-```
-
-### Data Sources
-
-- `qdrant-cloud_accounts_auth_keys` - List API keys for Qdrant clusters. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_auth_keys.md)
-
-```python
-qdrant_cloud.get_accounts_auth_keys(account_id="<ACCOUNT_ID>")
-```
-
-```typescript
-qdrantCloud.getAccountsAuthKeys({
-    accountId: "<ACCOUNT_ID>"
-})
-```
-
-```java
-import com.pulumi.qdrantcloud.inputs.GetAccountsAuthKeysArgs;
-
-QdrantcloudFunctions.getAccountsAuthKeys(GetAccountsAuthKeysArgs.builder()
-        .accountId("<ACCOUNT_ID>")
-        .build());
-```
-
-- `qdrant-cloud_accounts_cluster` - Get Cluster Information. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_cluster.md)
-
-```python
-qdrant_cloud.get_accounts_cluster(
-    account_id="<ACCOUNT_ID>",
-    id="<CLUSTER_ID>",
-)
-```
-
-```typescript
-qdrantCloud.getAccountsCluster({
-    accountId: "<ACCOUNT_ID>",
-    id: "<CLUSTER_ID>"
-})
-```
-
-```java
-import com.pulumi.qdrantcloud.inputs.GetAccountsClusterArgs;
-
-QdrantcloudFunctions.getAccountsCluster(GetAccountsClusterArgs
-        .builder()
-        .accountId("<ACCOUNT_ID>")
-        .id("<CLUSTER_ID>")
-        .build());
-```
-
-- `qdrant-cloud_accounts_clusters` - List Qdrant clusters. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/accounts_clusters.md)
-
-```python
-qdrant_cloud.get_accounts_clusters(account_id="<ACCOUNT_ID>")
-```
-
-```typescript
-qdrantCloud.getAccountsClusters({
-    accountId: "<ACCOUNT_ID>"
-})
-```
-
-```java
-import com.pulumi.qdrantcloud.inputs.GetAccountsClustersArgs;
-
-QdrantcloudFunctions.getAccountsClusters(
-        GetAccountsClustersArgs.builder().accountId("<ACCOUNT_ID>").build());
-```
-
-- `qdrant-cloud_booking_packages` - Get detailed information about the packages/subscriptions available. [Reference](https://github.com/qdrant/terraform-provider-qdrant-cloud/blob/main/docs/data-sources/booking_packages.md)
-
-```python
-qdrant_cloud.get_booking_packages(cloud_provider="aws", cloud_region="us-west-2")
-```
-
-```typescript
-qdrantCloud.getBookingPackages({
-    cloudProvider: "aws",
-    cloudRegion: "us-west-2"
-})
-```
-
-```java
-import com.pulumi.qdrantcloud.inputs.GetBookingPackagesArgs;
-
-QdrantcloudFunctions.getBookingPackages(GetBookingPackagesArgs.builder()
-        .cloudProvider("aws")
-        .cloudRegion("us-west-2")
         .build());
 ```
 
