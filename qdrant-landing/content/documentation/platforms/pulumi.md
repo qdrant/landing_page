@@ -40,7 +40,7 @@ pulumi config set qdrant-cloud:apiKey "<QDRANT_CLOUD_API_KEY>" --secret
 import pulumi_qdrant_cloud as qdrant_cloud
 ```
 
-```typscript
+```typescript
 import * as qdrantCloud from "qdrant-cloud";
 ```
 
