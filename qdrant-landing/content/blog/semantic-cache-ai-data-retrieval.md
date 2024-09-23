@@ -39,9 +39,9 @@ In this blog and video, we will walk you through how to use Qdrant to implement 
 
 Semantic cache is increasingly used in Retrieval-Augmented Generation (RAG) applications. In RAG, when a user asks a question, we embed it and search our vector database, either by using keyword, semantic, or hybrid search methods. The matched context is then passed to a Language Model (LLM) along with the prompt and user question for response generation.
 
-Qdrant is recommended for setting up semantic cache as semantically evaluates the response. When semantic cache is implemented, we store common questions and their corresponding answers in a key-value cache. This way, when a user asks a question, we can retrieve the response from the cache if it already exists.
+Qdrant is recommended for setting up semantic cache as semantically [evaluates](https://qdrant.tech/rag/rag-evaluation-guide/) the response. When semantic cache is implemented, we store common questions and their corresponding answers in a key-value cache. This way, when a user asks a question, we can retrieve the response from the cache if it already exists.
 
-**Diagram:** Semantic cache improves RAG by directly retrieving stored answers to the user. **Follow along with the gif** and see how semantic cache stores and retrieves answers.
+**Diagram:** Semantic cache improves [RAG](https://qdrant.tech/rag/rag-evaluation-guide/) by directly retrieving stored answers to the user. **Follow along with the gif** and see how semantic cache stores and retrieves answers.
 
 ![Alt Text](/blog/semantic-cache-ai-data-retrieval/semantic-cache.gif)
 
