@@ -12,9 +12,12 @@ The following sections describe the requirements for deploying Qdrant.
 
 ### CPU and memory
 
-Your CPU must meet the following requirements:
-
-- x86_64/amd64 or AArch64/arm64, 32-bit systems are not supported
+CPU architectures:
+- 64-bit system 
+  - x86_64/amd64 
+  - AArch64/arm64
+- 32-bit system
+  - Not supported
 
 The preferred size of your CPU and RAM depends on:
 
