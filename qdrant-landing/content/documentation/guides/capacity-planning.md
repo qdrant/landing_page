@@ -9,11 +9,11 @@ aliases:
 
 When setting up your cluster, you'll need to figure out the right balance of **RAM** and **disk storage**. The best setup depends on a few things:
 
-- How many [vectors](/documentation/concepts/vectors) you have and their dimensions.
-- The types of [payload](/documentation/concepts/payload) data you're using and their indexes.
-- What data you want to [store](/documentation/concepts/storage) in memory versus on disk.
-- Your cluster's [replication](/documentation/distributed_deployment) settings.
-- Whether you're using [quantization](/documentation/guides/quantization) and how you’ve set it up.
+- How many vectors you have and their dimensions.
+- The types of payload data you're using and their indexes.
+- What data you want to store in memory versus on disk.
+- Your cluster's replication settings.
+- Whether you're using quantization and how you’ve set it up.
 
 ## Calculating RAM size 
 

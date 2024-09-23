@@ -20,7 +20,7 @@ A free tier cluster only includes 1 single node with the following resources:
 | Disk space | 4 GB  |
 | Nodes      | 1     |
 
-This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity and sizing](/documentation/cloud/capacity-sizing/).
+This configuration supports serving about 1 M vectors of 768 dimensions. To calculate your needs, refer to our documentation on [Capacity Planning](/documentation/guides/capacity-planning/).
 
 The choice of cloud providers and regions is limited.
 
