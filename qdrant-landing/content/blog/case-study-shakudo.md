@@ -5,7 +5,7 @@ short_description: "Transforming customer service in finance and insurance with 
 description: "Implementing vector search for enterprise AI via Qdrant's Hybrid Cloud integration into Shakudo’s virtual private cloud."
 preview_image: /blog/case-study-shakudo/preview.png
 social_preview_image: /blog/case-study-shakudo/preview.png
-date: 2024-09-22T00:02:00Z
+date: 2024-09-23T00:02:00Z
 author: Qdrant
 featured: false
 tags:
