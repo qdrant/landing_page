@@ -1,7 +1,7 @@
 ---
 draft: false
 title: "Nyris & Qdrant: How Vectors are the Future of Visual Search"
-short_description: "Transforming customer service in finance and insurance with vector search-based retrieval.</p>"
+short_description: "Transforming customer service in finance and insurance with vector search-based retrieval."
 description: "Revolutionizing customer service in finance and insurance by leveraging vector search for faster responses and improved operational efficiency."
 preview_image: /blog/case-study-nyris/preview.png
 social_preview_image: /blog/case-study-nyris/preview.png
@@ -34,7 +34,7 @@ During his time at Amazon, Lukasson observed that search engines like Google oft
 
 In their quest for the perfect visual search provider, Nyris ultimately decided to develop their own solution.
 
-## The Path to Vector-based Visual Search
+## The Path to Vector-Based Visual Search
 
 Initially in 2015, the team explored traditional search algorithms based on key value SIFT (Scale Invariant Feature Transform) features to locate specific elements within images. However, they quickly realized that these methods were imprecise and unreliable. To address this, Nyris began experimenting with the first Convolutional Neural Networks (CNNs) to extract embeddings for vector search.
 
