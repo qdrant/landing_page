@@ -23,7 +23,7 @@ tags:
 
 **Semantic cache** is a method of retrieval optimization, where similar queries instantly retrieve the same appropriate response from a knowledge base. 
 
-Semantic cache differs from traditional caching methods. In computing, **cache** refers to high-speed memory that efficiently stores frequently accessed data. In the context of vector databases, a **semantic cache** improves AI application performance by storing previously retrieved results along with the conditions under which they were computed. This allows the application to reuse those results when the same or similar conditions occur again, rather than finding them from scratch.
+Semantic cache differs from traditional caching methods. In computing, **cache** refers to high-speed memory that efficiently stores frequently accessed data. In the context of [vector databases](/articles/what-is-a-vector-database/), a **semantic cache** improves AI application performance by storing previously retrieved results along with the conditions under which they were computed. This allows the application to reuse those results when the same or similar conditions occur again, rather than finding them from scratch.
 
 > The term **"semantic"** implies that the cache takes into account the meaning or semantics of the data or computation being cached, rather than just its syntactic representation. This can lead to more efficient caching strategies that exploit the structure or relationships within the data or computation.
 
