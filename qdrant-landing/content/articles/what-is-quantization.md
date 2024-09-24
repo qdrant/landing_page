@@ -34,7 +34,7 @@ To understand why this process is so computational demanding, let's take a look 
 The **HNSW (Hierarchical Navigable Small World) index** organizes vectors in a layered graph, connecting each vector to its nearest neighbors. At each layer, the algorithm narrows down the search area until it reaches the lower layers, where it efficiently finds the closest matches to the query.
 
 
-<img src="/articles_data/what-is-vector-quantization/hnsw-search.png" alt="HNSW Search visualization" width="300">
+<img src="/articles_data/what-is-vector-quantization/hnsw.png" alt="HNSW Search visualization" width="500">
 
 So each time a new vector is added, the system must determine its position in the existing graph, a process similar to searching. This makes both inserting and searching for vectors complex operations.
 
@@ -43,7 +43,7 @@ One of the key challenges with the HNSW index is that it requires a lot of **ran
 The system has to jump between various points in the graph in an unpredictable way. This unpredictability makes it hard to optimize, and as the dataset grows, the memory and processing requirements increase significantly.
 
 
-<img src="/articles_data/what-is-vector-quantization/hnsw-search.png" alt="HNSW Search visualization" width="300">
+<img src="/articles_data/what-is-vector-quantization/hnsw-search2.png" alt="HNSW Search visualization" width="600">
 
 
 And because vectors need to be stored in **fast storage** like **RAM** or **SSD** for low-latency searches, as the size of the data grows, so does the cost of storing and processing it efficiently.
@@ -413,9 +413,24 @@ client.update_collection(
 )
 ```
 
-
 Without explicitly setting `on_disk=True`, you won't see any RAM savings, even with quantization enabled. So, ensure that you configure both storage and quantization options based on your memory and performance needs. If your storage has high disk latency, you can try disabling rescoring to maintain speed.
 
+#### Speeding Up Rescoring with io_uring
+
+When dealing with large collections of quantized vectors, frequent disk reads are required to retrieve both original and compressed data for rescoring operations. Traditional methods like `mmap` involve context switching between user and kernel space, adding latency to each disk access, which can slow down rescoring for large datasets.
+
+On Linux-based systems, `io_uring` allows multiple disk operations to be processed in parallel, significantly reducing I/O overhead. This optimization is particularly effective during rescoring, where multiple vectors need to be re-evaluated after an initial search. With io_uring, Qdrant can retrieve and rescore vectors from disk much faster, improving overall search efficiency.
+
+When you perform vector quantization and store data on disk, Qdrant often needs to access multiple vectors in parallel. Without io_uring, this process can slow down because of the system’s limitations in handling many disk accesses. 
+
+To enable `io_uring` in Qdrant, add the following to your storage configuration:
+```http
+storage:
+  async_scorer: true  # Enable io_uring for async storage
+```
+Without this configuration, Qdrant will default to using mmap for disk I/O operations.
+
+For more information and benchmarks comparing io_uring with traditional I/O approaches like mmap, check out [Qdrant's io_uring implementation article.](https://qdrant.tech/articles/io_uring/)
 
 ### Compare Results With and Without Quantization
 
