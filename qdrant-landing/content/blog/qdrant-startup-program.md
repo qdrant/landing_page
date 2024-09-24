@@ -2,7 +2,7 @@
 draft: false
 title: "Introducing Qdrant for Startups"
 short_description: "Join our Startup Program now and scale your AI-driven applications with ease."
-description: "Enjoy special discounts on Qdrant Cloud, expert support & tooling perks, and be the first to try new features."
+description: "Enjoy special discounts from Qdrant, HuggingFace, LlamaIndex, and Airbyte, as well as expert support & tooling perks, and be the first to try new features."
 preview_image: /blog/qdrant-startup-program/preview.png
 social_preview_image: /blog/qdrant-startup-program/preview.png
 date: 2024-09-16T00:02:00Z
@@ -17,13 +17,13 @@ tags:
 
 # Supporting Early-Stage Startups 
 
-Over the past few years, we’ve witnessed some of the most innovative AI applications being built on Qdrant, our open-source vector database. A significant number of these have come from startups pushing the boundaries of what’s possible in AI. To ensure these pioneering teams have access to the right resources at the right time, we're introducing **Qdrant for Startups**. This initiative is designed to provide startups with the technical support, guidance, and infrastructure they need to scale their AI innovations quickly and effectively.
+Over the past few years, we’ve witnessed some of the most innovative AI applications being built on Qdrant. A significant number of these have come from startups pushing the boundaries of what’s possible in AI. To ensure these pioneering teams have access to the right resources at the right time, we're introducing **Qdrant for Startups**. This initiative is designed to provide startups with the technical support, guidance, and infrastructure they need to scale their AI innovations quickly and effectively.
 
-Qdrant for Startups is designed to help early-stage startups fully leverage the capabilities of vector search technology. Whether you're building retrieval-augmented generation (RAG) systems, recommendation engines, or anomaly detection models, the program offers exclusive benefits, such as Qdrant cloud discounts, expert technical guidance, and co-marketing opportunities - empowering you to build and scale these solutions efficiently and cost-effectively.
+Qdrant for Startups helps early-stage startups fully leverage the capabilities of vector search technology. Whether you're building retrieval-augmented generation (RAG) systems, recommendation engines, or anomaly detection models, the program offers exclusive benefits, such as discounts for Qdrant cloud, expert technical guidance, exclusive partner benefits, and co-marketing opportunities - empowering you to build and scale your AI products efficiently and cost-effectively.
 
 ## Benefits for admitted startups:
 
-- **Qdrant Cloud discount:** Access a 12-month discount on Qdrant Cloud, optimizing costs while scaling with advanced vector search capabilities.
+- **Qdrant Cloud discount:** 20% discount on Qdrant Cloud valid for 12 months, optimizing costs while scaling with advanced vector search capabilities.
 - **Expert technical guidance:** Dedicated technical support and guidance to optimize your application’s performance with vector search.
 - **Co-marketing opportunities:** Collaboration with the Qdrant team on joint marketing initiatives to boost your startup’s visibility.
 - **Early access to features:** Exclusive early access to upcoming Qdrant features, keeping you at the forefront of technological advancements.
@@ -33,10 +33,12 @@ We’ve built this program to support startups with their entire AI tech stack. 
 
 ## Access to popular AI tools 
 
+We’ve built this program to support startups with their entire AI tech stack. In addition to Qdrant, accepted startups will receive exclusive discounts from our program partners - Hugging Face, LlamaIndex, and Airbyte - ensuring you have access to the key tools and resources needed to build and scale AI-driven applications. 
+
 Accepted startup program members will have the ability to get additional benefits:
 
-- Hugging Face: compute credits for the HuggingFace Hub
-- LlamaIndex: discount for 12 months
+- Hugging Face: $500 compute credits for the HuggingFace Hub
+- LlamaIndex: 20% discount for 12 months for LlamaCloud
 - Airbyte: Credits for Airbyte Cloud (Y Combinator startups only)
 
 _____
