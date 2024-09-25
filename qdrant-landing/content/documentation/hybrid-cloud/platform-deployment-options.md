@@ -7,7 +7,7 @@ weight: 5
 
 This page provides an overview of how to deploy Qdrant Hybrid Cloud on various managed Kubernetes platforms.
 
-For a general list of prerequisites and installation steps, see our [Hybrid Cloud setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/).
+For a general list of prerequisites and installation steps, see our [Hybrid Cloud setup guide](/documentation/hybrid-cloud/hybrid-cloud-setup/). This platform specific documentation also applies to Qdrant Private Cloud.
 
 ![Akamai](/documentation/cloud/cloud-providers/akamai.jpg)
 

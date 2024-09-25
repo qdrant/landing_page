@@ -1,0 +1,79 @@
+@use '../helpers/functions' as *;
+
+.rag-evaluation-guide-integrations {
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
+
+  &__reasons {
+    margin-bottom: $spacer * 4;
+
+    &-card {
+      max-width: pxToRem(350);
+      margin: 0 auto;
+
+      img {
+        width: 100%;
+        margin-bottom: $spacer * 2;
+      }
+
+      p {
+        color: $neutral-70;
+        font-size: $spacer * 1.5;
+        line-height: pxToRem(34);
+        margin-bottom: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  &__frameworks {
+    &-card {
+      max-width: pxToRem(350);
+      margin: 0 auto;
+
+      img {
+        width: 100%;
+        margin-bottom: $spacer * 2;
+      }
+
+      p {
+        color: $neutral-70;
+        font-size: pxToRem(18);
+        line-height: pxToRem(27);
+        margin-bottom: 0;
+        text-align: center;
+      }
+    }
+  }
+
+  &__title {
+    font-size: $spacer * 2.5;
+    line-height: $spacer * 3;
+    text-align: center;
+    margin-bottom: $spacer * 1.5;
+    color: $neutral-98;
+  }
+
+  &__description {
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    text-align: center;
+    margin-bottom: $spacer * 5;
+    color: $neutral-70;
+  }
+
+  @include media-breakpoint-up(lg) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+    }
+
+    &__reasons {
+      margin-bottom: $spacer * 7.5;
+    }
+  }
+}

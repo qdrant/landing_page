@@ -52,6 +52,13 @@
       color: $neutral-90;
     }
 
+    &-distinguished {
+      margin-bottom: $spacer * 0.5;
+      font-size: pxToRem(12);
+      line-height: pxToRem(21);
+      color: $secondary-violet-70;
+    }
+
     &-description {
       margin-bottom: 0;
       font-size: pxToRem(14);

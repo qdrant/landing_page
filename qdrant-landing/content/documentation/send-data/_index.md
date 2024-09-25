@@ -1,6 +1,6 @@
 ---
 title: Send Data to Qdrant
-weight: 18
+weight: 25
 ---
 
 ## How to Send Your Data to a Qdrant Cluster

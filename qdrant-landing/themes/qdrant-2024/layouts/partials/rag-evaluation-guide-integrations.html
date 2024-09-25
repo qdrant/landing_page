@@ -1,0 +1,35 @@
+{{ with (.Site.GetPage "/retrieval-augmented-generation/rag-evaluation-guide-integrations") }}
+  <section class="rag-evaluation-guide-integrations">
+    <div class="container">
+      <div class="rag-evaluation-guide-integrations__reasons">
+        <h3 class="rag-evaluation-guide-integrations__title">{{ .Params.title }}</h3>
+        <p class="rag-evaluation-guide-integrations__description">{{ .Params.description }}</p>
+        <div class="rag-evaluation-guide-integrations__reasons-cards row g-4">
+          {{ range .Params.cards }}
+            <div class="col-12 col-lg-4">
+              <div class="rag-evaluation-guide-integrations__reasons-card">
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+                <p>{{ .description }}</p>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+
+      <div class="rag-evaluation-guide-integrations__frameworks">
+        <h3 class="rag-evaluation-guide-integrations__title">{{ .Params.frameworksTitle }}</h3>
+        <p class="rag-evaluation-guide-integrations__description">{{ .Params.frameworksDescription }}</p>
+        <div class="rag-evaluation-guide-integrations__frameworks-cards row g-4">
+          {{ range .Params.frameworksCards }}
+            <div class="col-12 col-lg-4">
+              <div class="rag-evaluation-guide-integrations__frameworks-card">
+                <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+                <p>{{ .description }}</p>
+              </div>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

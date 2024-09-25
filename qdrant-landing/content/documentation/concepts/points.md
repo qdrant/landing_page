@@ -1399,6 +1399,27 @@ client
     .get();
 ```
 
+```csharp
+await client.DeleteVectorsAsync("{collection_name}", ["text", "image"], [0, 3, 10]);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client.DeleteVectors(context.Background(), &qdrant.DeletePointVectors{
+	CollectionName: "{collection_name}",
+	PointsSelector: qdrant.NewPointsSelector(
+		qdrant.NewIDNum(0), qdrant.NewIDNum(3), qdrant.NewIDNum(10)),
+	Vectors: &qdrant.VectorsSelector{
+		Names: []string{"text", "image"},
+	},
+})
+```
+
 To delete entire points, see [deleting points](#delete-points).
 
 ### Update payload

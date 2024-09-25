@@ -1,0 +1,18 @@
+{{ with (.Site.GetPage "/retrieval-augmented-generation/rag-evaluation-guide-kubernetes-clusters") }}
+  <section class="rag-evaluation-guide-kubernetes-clusters">
+    <div class="container">
+      <div class="row justify-content-lg-between align-items-lg-center">
+        <div class="col-12 col-lg-6 rag-evaluation-guide-kubernetes-clusters__content">
+          <h1 class="rag-evaluation-guide-kubernetes-clusters__title">{{ .Params.title }}</h1>
+          <p class="rag-evaluation-guide-kubernetes-clusters__description">{{ .Params.description }}</p>
+          <a href="{{ .Params.downloadGuide.url }}" class="button button_contained button_lg">
+            {{ .Params.downloadGuide.text }}
+          </a>
+        </div>
+        <div class="col-12 col-lg-6 rag-evaluation-guide-kubernetes-clusters__preview mt-5 mt-lg-0">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

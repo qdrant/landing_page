@@ -21,7 +21,7 @@ keywords:
 
 In today's fast-paced, information-rich world, AI is revolutionizing knowledge management. The systematic process of capturing, distributing, and effectively using knowledge within an organization is one of the fields in which AI provides exceptional value today. 
 
-> The potential for AI-powered knowledge management increases when leveraging Retrieval Augmented Generation (RAG), a methodology that enables LLMs to access a vast, diverse repository of factual information from knowledge stores, such as vector databases. 
+> The potential for AI-powered knowledge management increases when leveraging [Retrieval Augmented Generation (RAG)](https://qdrant.tech/rag/rag-evaluation-guide/), a methodology that enables LLMs to access a vast, diverse repository of factual information from knowledge stores, such as vector databases. 
 
 This process enhances the accuracy, relevance, and reliability of generated text, thereby mitigating the risk of faulty, incorrect, or nonsensical results sometimes associated with traditional LLMs. This method not only ensures that the answers are contextually relevant but also up-to-date, reflecting the latest insights and data available.
 
@@ -35,7 +35,7 @@ In this article, we’ll break down a RAG Optimization workflow experiment that 
 
 Alongside Qdrant we will use Quotient, which provides a seamless way to evaluate your RAG implementation, accelerating and improving the experimentation process.
 
-[Quotient](https://www.quotientai.co/) is a platform that provides tooling for AI developers to build evaluation frameworks and conduct experiments on their products. Evaluation is how teams surface the shortcomings of their applications and improve performance in key benchmarks such as faithfulness, and semantic similarity. Iteration is key to building innovative AI products that will deliver value to end users.
+[Quotient](https://www.quotientai.co/) is a platform that provides tooling for AI developers to build [evaluation frameworks](https://qdrant.tech/rag/rag-evaluation-guide/) and conduct experiments on their products. Evaluation is how teams surface the shortcomings of their applications and improve performance in key benchmarks such as faithfulness, and semantic similarity. Iteration is key to building innovative AI products that will deliver value to end users.
 
 > 💡 The [accompanying notebook](https://github.com/qdrant/qdrant-rag-eval/tree/master/workshop-rag-eval-qdrant-quotient) for this exercise can be found on GitHub for future reference.
 
@@ -50,11 +50,11 @@ Let us walk you through how we arrived at these findings!
 
 ## Building a RAG pipeline
 
-To evaluate a RAG pipeline , we will have to build a RAG Pipeline first. In the interest of simplicity, we are building a Naive RAG in this article. There are certainly other versions of RAG :
+To evaluate a RAG pipeline, we will have to build a RAG Pipeline first. In the interest of simplicity, we are building a Naive RAG in this article. There are certainly other versions of RAG :
 
 ![shades_of_rag.png](/articles_data/rapid-rag-optimization-with-qdrant-and-quotient/shades_of_rag.png)
 
-The illustration below depicts how we can leverage a RAG Evaluation framework to assess the quality of RAG Application.
+The illustration below depicts how we can leverage a [RAG Evaluation framework](https://qdrant.tech/rag/rag-evaluation-guide/) to assess the quality of RAG Application.
 
 ![qdrant_and_quotient.png](/articles_data/rapid-rag-optimization-with-qdrant-and-quotient/qdrant_and_quotient.png)
 

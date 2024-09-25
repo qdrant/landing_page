@@ -1,6 +1,6 @@
 ---
 title: Qdrant Cloud API
-weight: 10
+weight: 15
 ---
 # Qdrant Cloud API 
 
@@ -28,7 +28,7 @@ Here's an example of a basic request to **list all clusters** in your Qdrant Clo
 curl -X 'GET' \
   'https://cloud.qdrant.io/pa/v1/accounts/<YOUR_ACCOUNT_ID>/clusters' \
   -H 'accept: application/json' \
-  -H 'Authorization: <YOUR_API_KEY>'
+  -H 'Authorization: apikey <YOUR_API_KEY>'
 ```
 
 This request will return a list of clusters associated with your account in JSON format.
@@ -49,4 +49,6 @@ Use these endpoints to manage your cluster API keys.
    - **Delete API Key**: Revoke access by deleting a specific API key.
    - **Update API Key**: Modify attributes of an existing API key.
 
+## Terraform Provider
 
+Qdrant Cloud also provides a Terraform provider to manage your Qdrant Cloud resources. [Learn more](/documentation/infrastructure/terraform/).

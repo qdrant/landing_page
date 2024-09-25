@@ -38,7 +38,7 @@ kind: Secret
 metadata:
   name: qdrant-api-key
   namespace: the-qdrant-namespace
-type: kubernetes.io/tls
+type: kubernetes.io/generic
 ```
 
 With this command the secret name would be `qdrant-api-key` and the key would be `api-key`.

@@ -36,6 +36,7 @@ cards:
     name: M K Pavan Kumar
     position: Data Scientist and Lead GenAI
     description: A seasoned technology expert with 14 years of experience in full stack development, cloud solutions, & artificial intelligence
+    distinguished: true
   - id: 5
     image:
       src: /img/stars/niranjan-akella.jpg
@@ -99,6 +100,20 @@ cards:
     name: Pavan Nagula
     position: Data Scientist | Machine Learning and Generative AI
     description: I'm Pavan, a data scientist specializing in AI, ML, and big data analytics. I love experimenting with new technologies in the AI and ML space, and Qdrant is a place where I've seen such innovative implementations recently.
+  - id: 14
+    image:
+      src: /img/stars/guohao-li.jpg
+      alt: Guohao Li Photo
+    name: Guohao Li
+    position: Founder of Eigent.AI
+    description: Guohao Li the founder of Eigent.AI, an artificial intelligence researcher and an open-source contributor working on building intelligent agents that can perceive, learn, communicate, reason, and act. He is the core lead of the open source projects CAMEL-AI.org.
+  - id: 15
+    image:
+      src: /img/stars/sahin-utar.jpg
+      alt: Şahin Utar Photo
+    name: Şahin Utar
+    position: Software Builder, Entrepreneur
+    description: Şahin, a dedicated RAG evangelist since 2022, leverages vector databases in his startups as an early GenAI adopter. A former CTO, now an entrepreneur, he focuses on Dart and Python, using GenAI, RAG, and domain ontologies to simplify complex consumer challenges.
 sitemapExclude: true
 ---
 

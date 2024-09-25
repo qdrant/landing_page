@@ -34,7 +34,7 @@ In this case vectors will be stored on the disc in memory-mapped files, and only
 The amount of available RAM will significantly affect the performance of the search.
 As a rule of thumb, if you keep 2 times less vectors in RAM, the search latency will be 2 times lower.
 
-The speed of disks is also important. [Let us know](mailto:cloud@qdrant.io) if you have special requirements for a high-volume search.
+The speed of disks is also important. [Let us know](/documentation/support/) if you have special requirements for a high-volume search.
 
 ## Sub-groups oriented configuration
 

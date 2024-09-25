@@ -1409,7 +1409,7 @@ client.create_collection(
     ),
     sparse_vectors_config={
         "text": models.SparseVectorParams(
-            index=models.SparseIndexConfig(datatype=models.Datatype.FLOAT16)
+            index=models.SparseIndexParams(datatype=models.Datatype.FLOAT16)
         ),
     },
 )

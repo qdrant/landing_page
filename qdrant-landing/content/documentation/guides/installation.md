@@ -6,13 +6,13 @@ aliases:
   - ../installation
 ---
 
-## Installation requirements
+# Installation requirements
 
 The following sections describe the requirements for deploying Qdrant.
 
-### CPU and memory
+## CPU and memory
 
-The CPU and RAM that you need depends on:
+The preferred size of your CPU and RAM depends on:
 
 - Number of vectors
 - Vector dimensions
@@ -22,6 +22,15 @@ The CPU and RAM that you need depends on:
 - How you configure quantization
 
 Our [Cloud Pricing Calculator](https://cloud.qdrant.io/calculator) can help you estimate required resources without payload or index data.
+
+### Supported CPU architectures:
+
+**64-bit system:**
+- x86_64/amd64 
+- AArch64/arm64
+
+**32-bit system:**
+- Not supported
 
 ### Storage
 
