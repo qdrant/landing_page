@@ -419,7 +419,7 @@ Without explicitly setting `on_disk=True`, you won't see any RAM savings, even w
 
 When dealing with large collections of quantized vectors, frequent disk reads are required to retrieve both original and compressed data for rescoring operations. Traditional methods like `mmap` involve context switching between user and kernel space, adding latency to each disk access, which can slow down rescoring for large datasets.
 
-On Linux-based systems, `io_uring` allows multiple disk operations to be processed in parallel, significantly reducing I/O overhead. This optimization is particularly effective during rescoring, where multiple vectors need to be re-evaluated after an initial search. With io_uring, Qdrant can retrieve and rescore vectors from disk much faster, improving overall search efficiency.
+On Linux-based systems, `io_uring` allows multiple disk operations to be processed in parallel, significantly reducing I/O overhead. This optimization is particularly effective during rescoring, where multiple vectors need to be re-evaluated after an initial search. With io_uring, Qdrant can retrieve and rescore vectors from disk in the most efficient way, improving overall search efficiency.
 
 When you perform vector quantization and store data on disk, Qdrant often needs to access multiple vectors in parallel. Without io_uring, this process can slow down because of the system’s limitations in handling many disk accesses. 
 
