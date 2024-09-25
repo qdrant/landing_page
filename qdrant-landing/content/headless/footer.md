@@ -127,5 +127,8 @@ bages:
   - src: /img/soc2-badge.png
     alt: "SOC2"
     url: http://qdrant.to/trust-center
+  - src: /img/gdpr-badge.png
+    alt: "heyData GDPR"
+    url: https://heydata.eu/
 sitemapExclude: true
 ---
