@@ -59,7 +59,7 @@ There are several methods to achieve this, and here we will focus on three main 
 
 ![](/articles_data/what-is-vector-quantization/astronaut-mars.jpg)
 
-In Qdrant, each dimension is represented by a `float32` value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller `int8` type can represent. An `int8` can store 256 values (from -128 to 127, or 0 to 255) which uses only **1 byte.** This results in a **75% reduction** in memory size.
+In Qdrant, each dimension is represented by a `float32` value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller `int8` type can represent. An `int8` is only **1 byte** and can represent 256 values (from -128 to 127, or 0 to 255). This results in a **75% reduction** in memory size.
 
 For example, if our data lies in the identified range of -1.0 to 1.0, Scalar Quantization will transform these values to a range that `int8` can represent, that is, within -128 to 127. So, the system **maps** the `float32` values into this range.
 
