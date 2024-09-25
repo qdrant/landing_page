@@ -29,9 +29,10 @@
         {{ end }}
       </div>
 
-      <div class="qdrant-for-startups-benefits__footer">
-        <p class="qdrant-for-startups-benefits__description">{{ .Params.description }}</p>
-        <a class="link link_xl" href="{{ .Params.link.url }}">{{ .Params.link.text }}</a>
+      <div class="qdrant-for-startups-benefits__button">
+        <a class="button button_contained button_lg" href="{{ .Params.button.url }}">
+          {{ .Params.button.text }}
+        </a>
       </div>
     </div>
   </section>

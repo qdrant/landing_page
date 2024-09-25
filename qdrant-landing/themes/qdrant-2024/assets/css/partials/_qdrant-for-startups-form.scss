@@ -71,6 +71,39 @@
     }
   }
 
+  form {
+    &.hs-form>fieldset {
+      margin-bottom: 0;
+    }
+
+    .hs-form-field {
+      margin-bottom: pxToRem(20);
+    }
+
+    .hs_submit {
+      width: 100%;
+      text-align: left;
+      margin-top: pxToRem(12);
+      margin-bottom: $spacer * 2.5;
+
+      input[type=submit] {
+        width: 100%;
+      }
+    }
+
+    &.hs-form>fieldset.form-columns-2 {
+      gap: 0
+    }
+
+    fieldset:last-of-type {
+      order: 1;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+  }
+
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
     padding-bottom: 0;
@@ -103,5 +136,13 @@
         }
       }
     }
+
+    //form {
+    //  .hs_submit {
+    //    input {
+    //      width: 100%;
+    //    }
+    //  }
+    //}
   }
 }
