@@ -1,26 +1,30 @@
 ---
-title: Optimize Resources
+title: Optimize Performance
 weight: 11
 aliases:
   - ../tutorials/optimize
 ---
 
-# Optimize Qdrant
+# Optimizing Qdrant Performance: Three Scenarios
 
-Different use cases have different requirements for balancing between memory, speed, and precision.
-Qdrant is designed to be flexible and customizable so you can tune it to your needs.
+Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs. 
 
-![Trafeoff](/docs/tradeoff.png)
+This guide will walk you three main optimization strategies:
+- High Speed Search & Low Memory Usage
+- High Precision & Low Memory Usage
+- High Precision & High Speed Search
 
-Let's look deeper into each of those possible optimization scenarios.
+![qdrant resource tradeoffs](/docs/tradeoff.png)
 
-## Prefer low memory footprint with high speed search
+## 1. High-Speed Search with Low Memory Usage
 
-The main way to achieve high speed search with low memory footprint is to keep vectors on disk while at the same time minimizing the number of disk reads.
+To achieve high search speed with minimal memory usage, you can store vectors on disk while minimizing the number of disk reads. Vector quantization is a technique that compresses vectors, allowing more of them to be stored in memory, thus reducing the need to read from disk.
 
-Vector quantization is one way to achieve this. Quantization converts vectors into a more compact representation, which can be stored in memory and used for search. With smaller vectors you can cache more in RAM and reduce the number of disk reads.
+To configure in-memory quantization, with on-disk original vectors, you need to create a collection with the following parameters:
 
-To configure in-memory quantization, with on-disk original vectors, you need to create a collection with the following configuration:
+- `on_disk`: Stores original vectors on disk.
+- `quantization_config`: Compresses quantized vectors to `int8` using the `scalar` method.
+- `always_ram`: Keeps quantized vectors in RAM.
 
 ```http
 PUT /collections/{collection_name}
@@ -180,9 +184,9 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-`on_disk` will ensure that vectors will be stored on disk, while `always_ram` will ensure that quantized vectors will be stored in RAM.
+### Disable Rescoring for Faster Search (optional)
 
-Optionally, you can disable rescoring with search `params`, which will reduce the number of disk reads even further, but potentially slightly decrease the precision.
+This is completely optional. Disabling rescoring with search `params` can further reduce the number of disk reads. Note that this might slightly decrease precision.
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -313,9 +317,11 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 })
 ```
 
-## Prefer high precision with low memory footprint
+## 2. High Precision with Low Memory Usage
 
-In case you need high precision, but don't have enough RAM to store vectors in memory, you can enable on-disk vectors and HNSW index.
+If you require high precision but have limited RAM, you can store both vectors and the HNSW index on disk. This setup reduces memory usage while maintaining search precision.
+
+To store the vectors `on_disk`, you need to configure both the vectors and the HNSW index:
 
 ```http
 PUT /collections/{collection_name}
@@ -446,7 +452,9 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-In this scenario you can increase the precision of the search by increasing the `ef` and `m` parameters of the HNSW index, even with limited RAM.
+### Improving Precision
+
+Increase the `ef` and `m` parameters of the HNSW index to improve precision, even with limited RAM:
 
 ```json
 ...
@@ -458,15 +466,14 @@ In this scenario you can increase the precision of the search by increasing the 
 ...
 ```
 
-The disk IOPS is a critical factor in this scenario, it will determine how fast you can perform search.
+**Note:** The speed of this setup depends on the disk’s IOPS (Input/Output Operations Per Second).</br>
 You can use [fio](https://gist.github.com/superboum/aaa45d305700a7873a8ebbab1abddf2b) to measure disk IOPS.
 
-## Prefer high precision with high speed search
+## 3. High Precision with High-Speed Search
 
-For high speed and high precision search it is critical to keep as much data in RAM as possible.
-By default, Qdrant follows this approach, but you can tune it to your needs.
+For scenarios requiring both high speed and high precision, keep as much data in RAM as possible. Apply quantization with re-scoring for tunable accuracy.
 
-It is possible to achieve high search speed and tunable accuracy by applying quantization with re-scoring.
+Here is how you can configure scalar quantization for a collection:
 
 ```http
 PUT /collections/{collection_name}
@@ -622,7 +629,13 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 })
 ```
 
-There are also some search-time parameters you can use to tune the search accuracy and speed:
+### Fine-Tuning Search Parameters
+
+You can adjust search parameters like `hnsw_ef` and `exact` to balance between speed and precision:
+
+**Key Parameters:**
+- `hnsw_ef`: Number of neighbors to visit during search (higher value = better accuracy, slower speed).
+- `exact`: Set to `true` for exact search, which is slower but more accurate. You can use it to compare results of the search with different `hnsw_ef` values versus the ground truth.
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -737,19 +750,20 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 })
 ```
 
-- `hnsw_ef` - controls the number of neighbors to visit during search. The higher the value, the more accurate and slower the search will be. Recommended range is 32-512.
-- `exact` - if set to `true`, will perform exact search, which will be slower, but more accurate. You can use it to compare results of the search with different `hnsw_ef` values versus the ground truth.
+## 4. Balancing Latency and Throughput
 
-## Latency vs Throughput
+When optimizing search performance, ;atency and throughput are two main metrics to consider:
+- **Latency:** Time taken for a single request.
+- **Throughput:** Number of requests handled per second.
 
-- There are two main approaches to measure the speed of search:
-  - latency of the request - the time from the moment request is submitted to the moment a response is received
-  - throughput - the number of requests per second the system can handle
+The following optimization approaches are not mutually exclusive, but in some cases it might be preferable to optimize for one or another.
 
-Those approaches are not mutually exclusive, but in some cases it might be preferable to optimize for one or another.
+### Minimizing Latency
 
-To prefer minimizing latency, you can set up Qdrant to use as many cores as possible for a single request\.
-You can do this by setting the number of segments in the collection to be equal to the number of cores in the system. In this case, each segment will be processed in parallel, and the final result will be obtained faster.
+To minimize latency, you can set up Qdrant to use as many cores as possible for a single request.
+You can do this by setting the number of segments in the collection to be equal to the number of cores in the system. 
+
+In this case, each segment will be processed in parallel, and the final result will be obtained faster.
 
 ```http
 PUT /collections/{collection_name}
@@ -877,10 +891,13 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	},
 })
 ```
+### Maximizing Throughput
 
-To prefer throughput, you can set up Qdrant to use as many cores as possible for processing multiple requests in parallel.
-To do that, you can configure qdrant to use minimal number of segments, which is usually 2.
-Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. But at the same time require more time to build index.
+To maximize throughput, configure Qdrant to use as many cores as possible to process multiple requests in parallel.
+
+To do that, use fewer segments (usually 2) to handle more requests in parallel.
+
+Large segments benefit from the size of the index and overall smaller number of vector comparisons required to find the nearest neighbors. However, they will require more time to build the HNSW index.
 
 ```http
 PUT /collections/{collection_name}
@@ -1008,3 +1025,13 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 	},
 })
 ```
+
+## Summary
+
+By adjusting configurations like vector storage, quantization, and search parameters, you can optimize Qdrant for different use cases:
+- **Low Memory + High Speed:** Use vector quantization.
+- **High Precision + Low Memory:** Store vectors and HNSW index on disk.
+- **High Precision + High Speed:** Keep data in RAM, use quantization with re-scoring.
+- **Latency vs. Throughput:** Adjust segment numbers based on the priority.
+
+Choose the strategy that best fits your use case to get the most out of Qdrant’s performance capabilities.
