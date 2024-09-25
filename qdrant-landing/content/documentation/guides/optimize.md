@@ -750,7 +750,7 @@ client.Query(context.Background(), &qdrant.QueryPoints{
 })
 ```
 
-## 4. Balancing Latency and Throughput
+## Balancing Latency and Throughput
 
 When optimizing search performance, latency and throughput are two main metrics to consider:
 - **Latency:** Time taken for a single request.
