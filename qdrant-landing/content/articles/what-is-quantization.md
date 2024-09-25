@@ -59,7 +59,7 @@ There are several methods to achieve this, and here we will focus on three main 
 
 ![](/articles_data/what-is-vector-quantization/astronaut-mars.jpg)
 
-In Qdrant, each dimension is represented by a `float32` value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller `int8` type can represent. An `int8` can store 256 values (from -128 to 127, or 0 to 255) which uses only **1 byte.** This results in a **75% reduction** in memory size.
+In Qdrant, each dimension is represented by a `float32` value, which uses **4 bytes** of memory. When using [Scalar Quantization](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization), we are mapping our vectors to a range that the smaller `int8` type can represent. An `int8` is only **1 byte** and can represent 256 values (from -128 to 127, or 0 to 255). This results in a **75% reduction** in memory size.
 
 For example, if our data lies in the identified range of -1.0 to 1.0, Scalar Quantization will transform these values to a range that `int8` can represent, that is, within -128 to 127. So, the system **maps** the `float32` values into this range.
 
@@ -378,8 +378,7 @@ If quantization is affecting performance in an application that needs high accur
 
 ### Disk & RAM Storage Tuning
 
-
-Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. If you want to reduce RAM usage, just enabling quantization won't be enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
+Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. You can leave the original vectors on disk to significantly reduce RAM usage and reduce system costs. Just enabling quantization won't be enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
 
 Here’s an example configuration:
 
@@ -421,7 +420,7 @@ Without explicitly setting `on_disk=True`, you won't see any RAM savings, even w
 
 When dealing with large collections of quantized vectors, frequent disk reads are required to retrieve both original and compressed data for rescoring operations. While `mmap` helps with efficient I/O by reducing user-to-kernel transitions, rescoring can still be slowed down when working with large datasets on disk because frequent disk reads are needed.
 
-On Linux-based systems, `io_uring` allows multiple disk operations to be processed in parallel, significantly reducing I/O overhead. This optimization is particularly effective during rescoring, where multiple vectors need to be re-evaluated after an initial search. With io_uring, Qdrant can retrieve and rescore vectors from disk much faster, improving overall search efficiency.
+On Linux-based systems, `io_uring` allows multiple disk operations to be processed in parallel, significantly reducing I/O overhead. This optimization is particularly effective during rescoring, where multiple vectors need to be re-evaluated after an initial search. With io_uring, Qdrant can retrieve and rescore vectors from disk in the most efficient way, improving overall search efficiency.
 
 When you perform vector quantization and store data on disk, Qdrant often needs to access multiple vectors in parallel. Without io_uring, this process can slow down because of the system’s limitations in handling many disk accesses. 
 
