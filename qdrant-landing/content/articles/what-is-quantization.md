@@ -376,8 +376,7 @@ If quantization is affecting performance in an application that needs high accur
 
 ### Disk & RAM Storage Tuning
 
-
-Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. If you want to reduce RAM usage, just enabling quantization won't be enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
+Qdrant stores both the quantized and original vectors. When you enable quantization, both the original and quantized vectors are stored in RAM by default. You can leave the original vectors on disk to significantly reduce RAM usage and reduce system costs. Just enabling quantization won't be enough—you need to explicitly move the original vectors to disk by setting `on_disk=True`.
 
 Here’s an example configuration:
 
