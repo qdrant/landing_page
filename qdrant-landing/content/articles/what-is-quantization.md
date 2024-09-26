@@ -515,7 +515,7 @@ Here are some final thoughts to help you choose the right quantization method fo
 |--------------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------------|
 | **Binary Quantization**  | • **Fastest method and most memory-efficient**<br>•  Up to **40x** faster search and **32x** reduced memory footprint | • Use with tested models like OpenAI's `text-embedding-ada-002` and Cohere's `embed-english-v2.0`<br>• When speed and memory efficiency are critical |
 | **Scalar Quantization**  | • **Minimal loss of accuracy**<br>•  Up to **4x** reduced memory footprint | • Safe default choice for most applications.<br>• Offers a good balance between accuracy, speed, and compression.  |
-| **Product Quantization** | • **Highest compression ratio**<br>• Up to **64x** reduced memory footprint | • When minimizing memory usage is the top priority<br>• Acceptable if some loss of accuracy is tolerable |
+| **Product Quantization** | • **Highest compression ratio**<br>• Up to **64x** reduced memory footprint | • When minimizing memory usage is the top priority<br>• Acceptable if some loss of accuracy and slower indexing is tolerable |
 
 ### Learn More
 
