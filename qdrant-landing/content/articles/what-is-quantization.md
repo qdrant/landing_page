@@ -7,7 +7,7 @@ description: In this article, we'll teach you about compression methods like Sca
 preview_dir: /articles_data/what-is-vector-quantization/preview
 weight: -210
 social_preview_image: /articles_data/what-is-vector-quantization/preview/social-preview.jpg
-date: 2024-09-16T09:29:33-03:00
+date: 2024-09-25T09:29:33-03:00
 author: Sabrina Aquino 
 featured: true 
 tags: 
