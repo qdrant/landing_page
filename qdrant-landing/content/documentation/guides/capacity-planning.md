@@ -83,6 +83,8 @@ In this scenario, only the active subset of vectors will be cached in RAM, allow
 memory_size = number_of_active_vectors * vector_dimension * 4 bytes * 1.5
 ```
 
+Please refer to our [multitenancy](/documentation/guides/multiple-partitions/) documentation for more details on partitioning data in a Qdrant.
+
 ## Scaling disk space in Qdrant Cloud
 
 Clusters supporting vector search require substantial disk space. If you're running low on disk space, you can use the UI at [cloud.qdrant.io](https://cloud.qdrant.io/) to **Scale Up** your cluster.
