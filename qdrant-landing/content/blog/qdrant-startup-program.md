@@ -41,14 +41,7 @@ Accepted startup program members will have the ability to get additional benefit
 - LlamaIndex: 20% discount for 12 months for LlamaCloud
 - Airbyte: Credits for Airbyte Cloud (Y Combinator startups only)
 
-_____
-
-<div style="text-align: center;">
-  <h3>Ready to take your AI startup to the next level?</h3>
-  <h1><a href="https://share-eu1.hsforms.com/1WesFiwFFSrC0msN3CNIKYA2b46ng">Apply Now!</a></h1>
-</div>
-
-_____
+[qdrant-startup-program](/blog/qdrant-startup-program/startup-cta.png)
 
 ## Frequently Asked Questions: 
 
