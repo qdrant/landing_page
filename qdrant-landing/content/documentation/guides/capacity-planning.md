@@ -36,7 +36,7 @@ Depending on the use case, large datasets can benefit from reduced memory requir
 
 ## Calculating payload size
 
-This is always different. The size of the payload depends on the [structure and content of your data](/documentation/concepts/payload/?q=data+types#payload-types). For instance:
+This is always different. The size of the payload depends on the [structure and content of your data](/documentation/concepts/payload/#payload-types). For instance:
 
 - **Text fields** consume space based on length and encoding (e.g. a large chunk of text vs a few words).
 - **Integers & floats** have fixed sizes (e.g., 4 bytes for `int32` or `float32`, 8 bytes for `int64` or `float64`).
