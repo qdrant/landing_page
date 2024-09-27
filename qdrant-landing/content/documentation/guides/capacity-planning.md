@@ -71,7 +71,7 @@ If your priority is to handle large volumes of vectors with average search laten
 
 The amount of available RAM greatly impacts search performance. As a general rule, if you store half as many vectors in RAM, search latency will roughly double.
 
-Disk speed is also crucial. [Contact us](/documentation/support/) if you have specific requirements for high-volume searches.
+Disk speed is also crucial. [Contact us](/documentation/support/) if you have specific requirements for high-volume searches in our Cloud.
 
 ### Subgroup-oriented configuration
 
