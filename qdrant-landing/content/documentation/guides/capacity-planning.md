@@ -87,7 +87,7 @@ Please refer to our [multitenancy](/documentation/guides/multiple-partitions/) d
 
 ## Scaling disk space in Qdrant Cloud
 
-Clusters supporting vector search require substantial disk space. If you're running low on disk space, you can use the UI at [cloud.qdrant.io](https://cloud.qdrant.io/) to **Scale Up** your cluster.
+Clusters supporting vector search require substantial disk space compared to other search systems. If you're running low on disk space, you can use the UI at [cloud.qdrant.io](https://cloud.qdrant.io/) to **Scale Up** your cluster.
 
 <aside role="status">Note: If you increase disk space via the Qdrant UI, you cannot reduce it later.</aside>
 
