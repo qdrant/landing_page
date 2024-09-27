@@ -15,7 +15,7 @@ cards:
     alt: Expert Technical Advice
 - id: 1
   title: Partner Perks
-  description: We’d love to share your work with our community. Exclusive access to our Vector Space Talks, joint blog posts, and more.
+  description: Receive exclusive perks from Hugging Face, LlamaIndex, and Airbyte, ensuring you have access to key tools and resources for AI-driven applications.
   image:
     src: /img/qdrant-for-startups-benefits/card3.svg
     alt: Co-Marketing Opportunities
