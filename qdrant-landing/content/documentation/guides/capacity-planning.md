@@ -39,7 +39,7 @@ Depending on the use case, large datasets can benefit from reduced memory requir
 This is always different. The size of the payload depends on the [structure and content of your data](/documentation/concepts/payload/#payload-types). For instance:
 
 - **Text fields** consume space based on length and encoding (e.g. a large chunk of text vs a few words).
-- **Integers & floats** have fixed sizes (e.g., 4 bytes for `int32` or `float32`, 8 bytes for `int64` or `float64`).
+- **Floats** have fixed sizes of 8 bytes for `int64` or `float64`.
 - **Boolean fields** typically consume 1 byte. 
 
 <aside role="alert">
@@ -103,3 +103,7 @@ Always remember to add 50% of the vector size. This would account for things lik
 ```text
 total_vector_size = number_of_dimensions * 4 bytes * 1.5
 ```
+
+**Disclaimer**
+
+The above calculations are estimates at best. If you're looking for more accurate numbers, you should always test your data set in practice.
