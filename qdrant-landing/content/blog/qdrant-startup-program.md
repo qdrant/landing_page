@@ -37,11 +37,11 @@ We’ve built this program to support startups with their entire AI tech stack. 
 
 Accepted startup program members will have the ability to get additional benefits:
 
-- Hugging Face: $500 compute credits for the HuggingFace Hub
+- Hugging Face: $100 compute credits for the HuggingFace Hub
 - LlamaIndex: 20% discount for 12 months for LlamaCloud
 - Airbyte: Credits for Airbyte Cloud (Y Combinator startups only)
 
-![qdrant-startup-program](/blog/qdrant-startup-program/startup-cta.png)
+[![qdrant-startup-program](/blog/qdrant-startup-program/startup-cta.png)](https://qdrant.tech/qdrant-for-startups)
 
 ## Frequently Asked Questions: 
 
