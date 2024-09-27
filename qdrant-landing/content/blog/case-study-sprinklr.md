@@ -1,8 +1,8 @@
 ---
 draft: false
 title: "Qdrant and Sprinklr: Building a Platform for GenAI Customer Experience Management"
-short_description: "Transforming customer service in finance and insurance with vector search-based retrieval."
-description: "Learn how Sprinklr uses vector searcg to power AI-driven tools for customer engagement, improving speed, cost-efficiency, and scalability"
+short_description: "Using vector search to power AI-driven tools for customer engagement."
+description: "Learn how Sprinklr uses vector search to power AI-driven tools for customer engagement, improving speed, cost-efficiency, and scalability"
 preview_image: /blog/case-study-sprinklr/preview.png
 social_preview_image: /blog/case-study-sprinklr/preview.png
 date: 2024-09-26T00:02:00Z
