@@ -93,7 +93,7 @@ When running low on disk space, consider the following benefits of scaling up:
 
 - **Larger Datasets**: Supports larger datasets, which can improve the relevance and quality of search results.
 - **Improved Indexing**: Enables the use of advanced indexing strategies like HNSW.
-- **Caching**: Enhances speed by allowing frequently accessed data to be cached on disk.
+- **Caching**: Enhances speed by having more RAM, allowing more frequently accessed data to be cached.
 - **Backups and Redundancy**: Facilitates more frequent backups, which is a key advantage for data safety.
 
 Always remember to add 50% of the vector size. This would account for things like indexes and auxiliary data used during operations such as vector insertion, deletion, and search. Thus, the estimated memory size including metadata is:
