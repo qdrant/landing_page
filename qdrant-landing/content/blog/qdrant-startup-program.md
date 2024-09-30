@@ -39,7 +39,7 @@ Accepted startup program members will have the ability to get additional benefit
 
 - Hugging Face: $100 compute credits for the HuggingFace Hub
 - LlamaIndex: 20% discount for 12 months for LlamaCloud
-- Airbyte: Credits for Airbyte Cloud (Y Combinator startups only)
+- Airbyte: Cloud credits for Y Combinator startups
 
 [![qdrant-startup-program](/blog/qdrant-startup-program/startup-cta.png)](https://qdrant.tech/qdrant-for-startups)
 
