@@ -7,7 +7,7 @@ questions:
     <p>You must meet all of the following:</p>
     <ul>
       <li>New user of Qdrant Cloud.</li>
-      <li>Pre-seed, Seed or Series A startups (under five years old)</li>
+      <li>Pre-seed, Seed, or Series A startups (under five years old) and less than $5M in funding.</li>
       <li>Have not previously participated in the Qdrant for Startups program</li>
       <li>Building an AI-driven product or services (agencies or devshops are not eligible)</li>
       <li>Provide a link to a live, functional website</li>

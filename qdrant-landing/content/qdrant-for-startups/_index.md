@@ -8,6 +8,5 @@ cascade:
     list: never
     render: never
     publishResources: false
-sitemapExclude: true
-# todo: remove sitemapExclude and change building options after the page is ready to be published
+#sitemapExclude: true
 ---
