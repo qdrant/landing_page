@@ -8,5 +8,4 @@ cascade:
     list: never
     render: never
     publishResources: false
-#sitemapExclude: true
 ---
