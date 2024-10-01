@@ -99,6 +99,10 @@ menuItems:
         name: Articles
         icon: articles.svg
         url: /articles/
+      - id: subMenu-3-3
+        name: Startup Program
+        icon: qdrant-for-startups.svg
+        url: /qdrant-for-startups/
   - id: menu-4
     name: Company
     subMenuItems:

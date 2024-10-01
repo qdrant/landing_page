@@ -96,6 +96,9 @@ menuItems:
       - id: 2
         name: Articles
         url: /articles/
+      - id: 3
+        name: Startup Program
+        url: /qdrant-for-startups/
   - title: Company
     items:
       - id: 0
