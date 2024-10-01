@@ -29,8 +29,6 @@ Qdrant for Startups helps early-stage startups fully leverage the capabilities o
 - **Early access to features:** Exclusive early access to upcoming Qdrant features, keeping you at the forefront of technological advancements.
 - **Community access:** Access to Qdrant’s developer and AI community for collaboration, networking, and shared learning.
 
-We’ve built this program to support startups with their entire AI tech stack. In addition to Qdrant, accepted startups will receive exclusive discounts from our partners - Hugging Face, LlamaIndex, and Airbyte - ensuring you have access to the key tools and resources needed to build and scale AI-driven applications.
-
 ## Access to popular AI tools 
 
 We’ve built this program to support startups with their entire AI tech stack. In addition to Qdrant, accepted startups will receive exclusive discounts from our program partners - Hugging Face, LlamaIndex, and Airbyte - ensuring you have access to the key tools and resources needed to build and scale AI-driven applications. 
