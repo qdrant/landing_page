@@ -3,8 +3,8 @@ draft: false
 title: "Introducing Qdrant for Startups"
 short_description: "Join our Startup Program now and scale your AI-driven applications with ease."
 description: "Enjoy special discounts from Qdrant, HuggingFace, LlamaIndex, and Airbyte, as well as expert support & tooling perks, and be the first to try new features."
-preview_image: /blog/qdrant-startup-program/preview.png
-social_preview_image: /blog/qdrant-startup-program/preview.png
+preview_image: /blog/qdrant-for-startups-launch/preview.png
+social_preview_image: /blog/qdrant-for-startups-launch/preview.png
 date: 2024-09-16T00:02:00Z
 author: Qdrant
 featured: false
@@ -41,7 +41,7 @@ Accepted startup program members will have the ability to get additional benefit
 - LlamaIndex: 20% discount for 12 months for LlamaCloud
 - Airbyte: Cloud credits for Y Combinator startups
 
-[![qdrant-startup-program](/blog/qdrant-startup-program/startup-cta.png)](https://qdrant.tech/qdrant-for-startups)
+[![qdrant-for-startups-launch](/blog/qdrant-for-startups-launch/startup-cta.png)](https://qdrant.tech/qdrant-for-startups)
 
 ## Frequently Asked Questions: 
 
