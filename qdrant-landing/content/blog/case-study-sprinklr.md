@@ -1,6 +1,6 @@
 ---
 draft: false
-title: "Qdrant and Sprinklr: Building a Platform for GenAI Customer Experience Management"
+title: "How Sprinklr Leveraged Qdrant to Build a GenAI Platform for Customer Experience Management"
 short_description: "Using vector search to power AI-driven tools for customer engagement."
 description: "Learn how Sprinklr uses vector search to power AI-driven tools for customer engagement, improving speed, cost-efficiency, and scalability"
 preview_image: /blog/case-study-sprinklr/preview.png
@@ -14,8 +14,6 @@ tags:
 ---
 
 ![case-study-shakudo-1](/blog/case-study-sprinklr/image5.png)
-
-## About Sprinklr
 
 [Sprinklr](https://www.sprinklr.com/), a leader in customer experience management, relies on cutting-edge technology to help global brands engage customers meaningfully across every channel. To achieve this, Sprinklr needed a robust platform that could support their AI-driven tools, particularly in handling the vast data requirements of customer interactions.
 
@@ -41,9 +39,9 @@ After evaluating several options, including Pinecone, Weaviate, and ElasticSearc
 
 - **Developer-Friendly Documentation:** “Qdrant’s clear [documentation](https://qdrant.tech/documentation/) enabled our team to integrate it quickly into our workflows,” notes Sonavane.
 - **High Customizability:** Qdrant provided Sprinklr with essential flexibility through high-level abstractions that allowed for extensive customizations. The diverse teams at Sprinklr, working on various GenAI applications, needed a solution that could adapt to different workloads. “The ability to fine-tune configurations at the collection level was crucial for our varied AI applications,” says Sonavane. Qdrant met this need by offering:
-    - **Configuration for high-speed search** that fine-tunes settings for optimal performance.
-    - [**Quantized vectors**](https://qdrant.tech/documentation/guides/quantization/) for high-dimensional data workloads
-    - [**Memory map**](https://qdrant.tech/documentation/concepts/storage/#configuring-memmap-storage) for efficient search optimizing memory usage.
+  - **Configuration for high-speed search** that fine-tunes settings for optimal performance.
+  - [**Quantized vectors**](https://qdrant.tech/documentation/guides/quantization/) for high-dimensional data workloads
+  - [**Memory map**](https://qdrant.tech/documentation/concepts/storage/#configuring-memmap-storage) for efficient search optimizing memory usage.
 - **Speed and Cost Efficiency:** Qdrant provided the best combination of speed and cost, making it the most viable solution for Sprinklr’s needs. “We needed a solution that wouldn’t just meet our performance requirements but also keep costs in check, and Qdrant delivered on both fronts,” says Sonavane.
 - **Enhanced Monitoring:** Qdrant’s monitoring tools further boosted system efficiency, allowing Sprinklr to maintain high performance across their platforms.
 
