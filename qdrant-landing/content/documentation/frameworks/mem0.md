@@ -4,15 +4,7 @@ title: Mem0
 
 # Mem0
 
-[Mem0](https://mem0.ai) enhances AI assistants with an intelligent memory layer for personalized interactions. It remembers user preferences, adapts to needs, and improves over time, ideal for chatbots and AI systems.
-
-Key Features:
-- Multi-Level Memory: User, Session, and AI Agent retention across interactions
-- Adaptive Personalization: Continuously updates based on user feedback
-- Developer-Friendly API: Easy integration into various applications
-- Cross-Platform Consistency: Ensures uniform behavior across devices
-- Managed Service: Hosted solution for simplified deployment
-- Cost-Efficient: Adds relevant memories instead of full transcripts to context
+[Mem0](https://mem0.ai) is a self-improving memory layer for LLM applications, enabling personalized AI experiences that save costs and delight users. Mem0 remembers user preferences, adapts to individual needs, and continuously improves over time, ideal for chatbots and AI systems.
 
 Mem0 supports various vector store providers, including Qdrant, for efficient data handling and search capabilities.
 
