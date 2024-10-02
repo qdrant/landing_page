@@ -5,7 +5,7 @@ short_description: "Join our Startup Program now and scale your AI-driven applic
 description: "Enjoy special discounts from Qdrant, HuggingFace, LlamaIndex, and Airbyte, as well as expert support & tooling perks, and be the first to try new features."
 preview_image: /blog/qdrant-for-startups-launch/preview.png
 social_preview_image: /blog/qdrant-for-startups-launch/preview.png
-date: 2024-09-16T00:02:00Z
+date: 2024-10-02T00:02:00Z
 author: Qdrant
 featured: false
 tags:
