@@ -18,13 +18,13 @@ tags:
 
 ---
 
-> A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
+A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
 
 We can no longer fit our data into rows and columns. 
 
-Most of the millions of terabytes of data that we're generating each day is unstructured.
+Most of the millions of terabytes of data that we're generating each day is unstructured —images, videos, audio, social media content, documents, and more.
 
-Unstructured data is data that doesn’t follow a predefined format or schema. It includes images, videos, audio files, social media posts, emails, documents, code, and almost everything else that we create online.
+Unstructured data doesn’t follow a strict format or schema, making it challenging for conventional databases to handle. Yet, it’s exactly this unstructured data that holds the most potential for AI, machine learning, and modern search technologies. Vector databases are built to make sense of this complexity, allowing us to find meaning and connections within massive, unstructured datasets.
 
 ### The Challenge With Traditional Databases
 
@@ -219,7 +219,7 @@ Qdrant offers a range of SDKs, so you can interact with it using the programming
 
 ### The Core Functionalities of Vector Databases
 
-When you think of a traditional database, the operations are familiar: you **create,** **search,** **update,** and **delete** records. These are the fundamentals. And guess what? In many ways, vector databases work the same way, but the operations are built for the complexity of vectors.
+When you think of a traditional database, the operations are familiar: you **create,** **read,** **update,** and **delete** records. These are the fundamentals. And guess what? In many ways, vector databases work the same way, but the operations are built for the complexity of vectors.
 
 #### 1. Indexing: HNSW Index and Sending Data To Qdrant
 
