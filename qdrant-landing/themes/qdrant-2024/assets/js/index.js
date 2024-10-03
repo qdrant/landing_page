@@ -1,16 +1,10 @@
 import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
-import { initGoToTopButton, getCookie } from './helpers';
-import { loadSegment, createSegmentStoredPage } from './segment-helpers';
+import { initGoToTopButton } from './helpers';
 
-createSegmentStoredPage();
 
 // on document ready
 document.addEventListener('DOMContentLoaded', function () {
-  if (!window.analytics && getCookie('cookie-consent')) {
-    loadSegment();
-  }
-
   // Top banner activation
   const topBanner = document.querySelector('.top-banner');
   if (topBanner) {
