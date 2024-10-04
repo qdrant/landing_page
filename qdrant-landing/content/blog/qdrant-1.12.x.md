@@ -1,5 +1,5 @@
 ---
-title: "Qdrant 1.12 - Enter the Matrix: Clustering and Data Visualization Options"
+title: "Qdrant 1.12 - Distance Matrix, Facet Counting & On-Disk Indexing"
 draft: false
 short_description: "On-Disk Text & Geo Index. Distance Matrix API. Facet API for Cardinality."
 description: "Uncover insights with the Distance Matrix API, dynamically filter via Facet API, and offload additional payload to disk." 
@@ -17,19 +17,31 @@ tags:
   - faceting
   - facet api
 ---
+[**Qdrant 1.12.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.12.0). Let's take a look at major features and a few minor additions:
 
-## Distance Matrix API for Data Exploration
+**Distance Matrix API:** Efficiently calculate pairwise distances between vectors.</br>
+**Faceting API:** Dynamically aggregate and count unique values in specific fields.</br>
+**Text Index on_disk:** Reduce memory usage by storing text indexing data on disk.</br>
 
-In data exploration, tasks like clustering and dimensionality reduction rely on calculating distances between data points. 
-With the **Distance Matrix API**, you can compute a *sparse matrix of distances* that is optimized for large datasets.
+**GUI Data Exploration** Visually navigate your dataset and analyze vector relationships.</br>
+**Geo Index on_disk:** Offload indexed geographic data on disk for memory efficiency.
 
-Imagine a large retail company with 10,000 customers, aiming to segment them based on purchasing behavior. 
-Each customer is stored as a vector in Qdrant, and the company wants to identify customer segments and visualize their relationships based on purchase similarities.
+## Distance Matrix API for Data Insights
+![distance-matrix-api](/blog/qdrant-1.12.x/distance-matrix-api.png)
 
-Without a dedicated API, clustering these customers would require 10,000 separate batch search requests (plus filter). 
-This process is inefficient, costly, and time-consuming.
+> **Qdrant** is a similarity search engine. Our mission is to give you the tools to **discover and understand connections** between vast amounts of semantically relevant data
 
-Here is how you can structure a request to retrieve a sparse matrix that comparing 10 random points:
+**Distance Matrix API** is here to lay the groundwork for such tools.
+
+In data exploration, tasks like [**clustering**](https://en.wikipedia.org/wiki/DBSCAN) and [**dimensionality reduction**](https://en.wikipedia.org/wiki/Dimensionality_reduction) rely on calculating distances between data points. 
+
+**Use Case:** A retail company with 10,000 customers wants to segment them by purchasing behavior. Each customer is stored as a vector in Qdrant, but without a dedicated API, clustering would need 10,000 separate batch requests, making the process inefficient and costly.
+
+You can use this API to compute a **sparse matrix of distances** that is optimized for large datasets. Then, you can filter through the retrieved data to find the exact vector relationships that matter.
+
+### Configuration - Pairs
+
+Use the `pairs` endpoint to compare 10 random point pairs from your dataset:
 
 ```http
 POST /collections/{collection_name}/points/search/matrix/pairs
@@ -37,10 +49,10 @@ POST /collections/{collection_name}/points/search/matrix/pairs
     "sample": 10,
     "limit": 2
 }
-- `sample` will retrieve a random sample of 10 points to compare 
-- `limit` is the number of connections between points to consider 
+```
+Configuring `sample` will retrieve a random group of 10 points to compare. The `limit` is the number of semantic connections between points to consider.
 
-This single request will list a sparse matrix of distances between the closest points. 
+Qdrant will list a sparse matrix of distances **between the closest pairs**:
 
 ```http
 {
@@ -66,7 +78,10 @@ This single request will list a sparse matrix of distances between the closest p
     }
 }
 ```
-The `offsets` endpoint shows the distances in 
+
+### Configuration - Offsets
+
+The `offsets` endpoint is another method of calculating the distance between points:
 
 ```http
 POST /collections/{collection_name}/points/search/matrix/offsets
@@ -74,8 +89,11 @@ POST /collections/{collection_name}/points/search/matrix/offsets
     "sample": 10,
     "limit": 2
 }
-- `sample` will retrieve a random sample of 10 points to compare 
-- `limit` is the number of connections between points to consider 
+```
+
+Qdrant will return a compact representation of the distances between points in the **form of row and column offsets**. 
+
+Two arrays, `offsets_row` and `offsets_col`, represent the positions of non-zero distance values in the matrix. Each entry in these arrays corresponds to a pair of points with a calculated distance.
 
 ```http
 {
@@ -91,24 +109,43 @@ POST /collections/{collection_name}/points/search/matrix/offsets
     }
 }
 ```
-
+*To learn more about the distance matrix, read [**The Distance Matrix documentation**](https://qdrant.tech/).*
 
 ## Distance Matrix API in the Graph UI
 
-INSERT YOUTUBE VIDEO
+We are adding more visualization options to the [**Graph Exploration Tool**](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool), introduced in v.1.10.
+
+You can now leverage the **Distance Matrix API** from within this tool for a **clearer picture** of your data and its relationships.
+
+**Example:** You can retrieve 500 `sample` points, with a `limit` of 5 connections per vector and a `tree` visualization:
+
+```json
+{
+  "limit": 5,
+  "sample": 300,
+  "tree": true
+}
+```
+**The new graphing method is cleaner and can reveals significant relationships in data:**
+
+![distance-matrix](/blog/qdrant-1.12.x/distance-matrix.png)
+
+*To learn more about the Web UI Dashboard, read the [**Interfaces documentation**](/documentation/interfaces/web-ui/).*
 
 ## Facet API for Payload Field Cardinality
 
-In modern applications like e-commerce, users often rely on filters, such as brand or location, to refine search results. 
+![facet-api](/blog/qdrant-1.12.x/facet-api.png)
 
-Facet API can efficiently count and aggregate values for a specific payload field in your data. 
-You can use it to retrieve unique values for a field, along with the number of points that contain each value.
-This functionality is similar to `GROUP BY` with `COUNT(*)` in SQL databases.
+In modern applications like e-commerce, users often rely on [**filters**](/articles/vector-search-filtering/), such as **brand** or **color**, to refine search results. The **Facet API** is designed to help users understand the distribution of values in a dataset. 
 
-Facet counting can only be applied to fields that support `match` conditions, such as fields with a keyword index. 
+The `facet` endpoint can efficiently count and aggregate values for a specific [**payload field**](/documentation/concepts/payload/) in your data. 
 
-The feature is designed to help with understanding the distribution of values in a dataset. 
-For example, in an e-commerce setting, you can easily retrieve the number of products by size or brand.
+You can use it to retrieve unique values for a field, along with the number of points that contain each value. This functionality is similar to `GROUP BY` with `COUNT(*)` in SQL databases.
+
+> **Note:** Facet counting can only be applied to fields that support `match` conditions, such as fields with a keyword index. 
+
+### Configuration 
+
 Here’s a sample query using the REST API to facet on the `size` field, filtered by products where the `color` is red:
 
 ```http
@@ -123,7 +160,7 @@ POST /collections/{collection_name}/facet
     }
 }
 ```
-This returns counts for each unique value in the `size` field, filtered by `color` = `red`. For example:
+This returns counts for each unique value in the `size` field, filtered by `color` = `red`:
 
 ```json
 {
@@ -141,8 +178,9 @@ This returns counts for each unique value in the `size` field, filtered by `colo
 ```
 The results are sorted by count in descending order and only values with non-zero counts are returned.
 
-By default, facet counting runs an approximate filter. 
-If you need a precise count, you can enable the `exact` parameter:
+### Configuration - Precise Facet
+
+By default, facet counting runs an approximate filter. If you need a precise count, you can enable the `exact` parameter:
 
 ```http
 POST /collections/{collection_name}/facet
@@ -153,11 +191,17 @@ POST /collections/{collection_name}/facet
 ```
 This feature provides flexibility between performance and precision, depending on the needs of your application.
 
-## Additional on_disk Support for Payload Indexes
+*To learn more about faceting, read the [**Facet API documentation**](https://qdrant.tech/).*
 
-**Text Index:** Qdrant text indexing involves tokenizing text into smaller units (tokens) based on user-defined settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. With on-disk text indexing, the inverted index is stored on disk, reducing memory usage.
+## Text Index on_disk Support 
+![text-index-disk](/blog/qdrant-1.12.x/text-index-disk.png)
 
-To configure an on-disk text index, simply add "on_disk": true when creating the index:
+[**Qdrant text indexing**](/documentation/concepts/indexing/#full-text-index) involves tokenizing text into smaller units (tokens) based on user-defined settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. 
+
+> With `on_disk` text indexing, the inverted index is stored on disk, reducing memory usage.
+
+### Configuration
+Just like with other indexes, simply add `on_disk`: true when creating the index:
 
 ```http
 PUT /collections/{collection_name}/index
@@ -174,13 +218,19 @@ PUT /collections/{collection_name}/index
 }
 ```
 
-**Geo Index:** Gor large-scale geographic datasets where storing all indexes in memory is impractical, geo indexing in Qdrant allows efficient filtering of points based on geographic coordinates. 
+*To learn more about indexes, read the [**Indexing documentation**](/documentation/concepts/indexing/).*
 
-With on-disk geo indexing, the index is written to disk instead of residing in memory, making it possible to handle large datasets without exhausting system memory. 
+## Geo Index on_disk Support 
 
-This can be crucial when dealing with millions of geo points that don’t require real-time access.
+For [**large-scale geographic datasets**](/documentation/concepts/payload/#geo) where storing all indexes in memory is impractical, **geo indexing** allows efficient filtering of points based on geographic coordinates. 
 
-To enable an on-disk geo index, you modify the index schema for the geographic field by setting the "on_disk": true flag. Here’s an example configuration:
+With `on_disk` geo indexing, the index is written to disk instead of residing in memory, making it possible to handle large datasets without exhausting system memory. 
+
+> This can be crucial when dealing with millions of geo points that don’t require real-time access.
+
+### Configuration
+
+To enable this feature, modify the index schema for the geographic field by setting the `on_disk: true` flag. 
 
 ```http
 PUT /collections/{collection_name}/index
@@ -195,6 +245,18 @@ PUT /collections/{collection_name}/index
 
 ### Performance Considerations
 
-- Cold Query Latency: On-disk indexes require I/O to load index segments, introducing slight latency on first access. Subsequent queries benefit from disk caching.
-- Hot vs. Cold Indexes: Fields frequently queried should stay in memory for faster performance, while on-disk indexes are better for large, infrequently queried fields.
-- Memory vs. Disk Trade-offs: Users can manage memory by deciding which fields to store on disk.
+- **Cold Query Latency:** On-disk indexes require I/O to load index segments, introducing slight latency on first access. Subsequent queries will benefit from disk caching.
+- **Hot vs. Cold Indexes:** Fields frequently queried should stay in memory for faster performance, and on-disk indexes are better for large, infrequently queried fields.
+- **Memory vs. Disk Trade-offs:** Users can manage memory by deciding which fields to store on disk.
+
+![geo-index-disk](/blog/qdrant-1.12.x/geo-index-disk.png)
+
+> To learn how to get the best performance from Qdrant, read the [**Optimization Guide**](/documentation/guides/optimize/).
+
+## Just the Beginning
+
+The easiest way to reach that **Hello World** moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
+
+**All of the new features from version 1.12 can be tested in the Web UI:**
+
+![qdrant-filtering-tutorial](/articles_data/vector-search-filtering/qdrant-filtering-tutorial.png)
