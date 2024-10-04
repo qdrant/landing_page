@@ -20,9 +20,7 @@ tags:
 
 A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
 
-We can no longer fit our data into rows and columns. 
-
-Most of the millions of terabytes of data that we're generating each day is unstructured —images, videos, audio, social media content, documents, and more.
+Most of the millions of terabytes of data that we're generating each day is unstructured —images, videos, audio, social media content, documents, and more. This means we can no longer fit our data into rows and columns. 
 
 Unstructured data doesn’t follow a strict format or schema, making it challenging for conventional databases to handle. Yet, it’s exactly this unstructured data that holds the most potential for AI, machine learning, and modern search technologies. Vector databases are built to make sense of this complexity, allowing us to find meaning and connections within massive, unstructured datasets.
 
@@ -35,17 +33,17 @@ Traditional [OLTP](https://www.ibm.com/topics/oltp) and [OLAP](https://www.ibm.c
 
 But when data can't be easily categorized, like the content inside a PDF file, things start to get complicated. 
 
-Sure, you could store the PDF file as raw data perhaps with some metadata attached to it. But the database still wouldn’t be able to understand what's inside the document, categorize it or even search for the information it may have.
+Sure, you could store the PDF file as raw data, perhaps with some metadata attached. But the database still wouldn’t be able to understand what's inside the document, categorize it, or even search for the information it contains.
 
-And it's not just PDFs. Think about the vast amounts of text, audio, and image data we generate every day. If a database can’t grasp the **meaning** of this data, how do we search or find relationships inside my dataset?
+And it's not just PDFs. Think about the vast amounts of text, audio, and image data we generate every day. If a database can’t grasp the **meaning** of this data, how do we search or find relationships inside the data?
 
 <img src="/articles_data/what-is-a-vector-database-revamp/vector-db-structure.png" alt="Structure of a Vector Database" width="400">
 
-Vector databases allow you to understand the **context** or **conceptual similarity** of unstructured data by representing them as vectors, enabling advanced analysis and retrieval based on data similarity.
+Vector databases allow you to understand the **context** or **conceptual similarity** of unstructured data by representing the data as vectors, enabling advanced analysis and retrieval based on data similarity.
 
-### When To Use a Vector Database?
+### When To Use a Vector Database
 
-Not sure if you should use a vector database or a traditional database? etc -also we can mention about things like elastic search (comment)
+Not sure if you should use a vector database or a traditional database? This chart provides a simple approach. etc -also we can mention about things like elastic search (comment)
 
 | **Feature**         | **OLTP Database**       | **OLAP Database**             | **Vector Database**                        |
 |---------------------|--------------------------------------|--------------------------------------------|--------------------------------------------|
@@ -59,15 +57,15 @@ Not sure if you should use a vector database or a traditional database? etc -als
 
 ### What Is A Vector?
 
-So let’s start at the basics. When a machine needs to process unstructured data—whether it’s an image, a piece of text, or an audio file, it first has to translate that data into a format it can work with: **vectors**.
+Let’s start with the basics. When a machine needs to process unstructured data—whether it’s an image, a piece of text, or an audio file, it first has to translate that data into a format it can work with: **vectors**.
 
-A **vector** is a numerical representations of data that can capture the **context** and **semantics** of data. 
+A **vector** is a numerical representation of data that can capture the **context** and **semantics** of data. 
 
-Imagine you’ve got a photo of a dog. It’s not enough for a machine to just store it like we would in a folder on your desktop. The machine needs to understand it somehow. 
+Imagine you have a photo of a dog. It’s not enough for a machine to store it like we would in a folder on your desktop. The machine needs to understand it somehow. 
 
-The dog photo gets translated into a vector, which is basically a bunch of numbers describing different aspects of that image: the shape, the colors, the patterns, and so on. 
+The dog photo gets translated into a vector, which to simply put, is numbers describing different aspects of that image: the shape, the colors, the patterns, and so on. 
 
-And just like that, the machine isn’t dealing with a random pile of pixels anymore. Now it can compare this dog photo to other images—finding similarities, differences, and maybe even telling you which other photos are close to it.
+And just like that, the machine isn’t dealing with pixels anymore. Now it can compare this dog photo to other images—finding similarities, differences, and maybe even telling you which other photos are close to it.
 
 <img src="/articles_data/what-is-a-vector-database-revamp/vector.png" alt="Structure of OLTP and OLAP databases" width="700">
 
@@ -89,21 +87,21 @@ At the core of every vector is a set of numbers, which together form a represent
 
 These numbers are generated by **embedding models**, such as deep learning algorithms, and capture the essential patterns or relationships within the data. That's why the term **embedding** is often used interchangeably with vector when referring to the output of these models.
 
-To represent textual data, for example, an embedding will encapsulate the nuances of language, such as semantics and context within its dimentions. 
+To represent textual data, for example, an embedding will encapsulate the nuances of language, such as semantics and context within its dimensions. 
 
 <img src="/articles_data/what-is-a-vector-database-revamp/embedding-model.png" alt="Creation of a vector based on a sentence with an embedding model" width="500">
 
-For that reason, when comparing two similar sentences, for example, their embeddings will turn out to be very similar, because they have similar **linguistic elements.**
+For that reason, when comparing two similar sentences, their embeddings will turn out to be very similar, because they have similar **linguistic elements.**
 
-<img src="/articles_data/what-is-a-vector-database-revamp/two-similar-vectors.png" alt="Comparisson of the embeddings of 2 similar sentences" width="500">
+<img src="/articles_data/what-is-a-vector-database-revamp/two-similar-vectors.png" alt="Comparison of the embeddings of 2 similar sentences" width="500">
 
-That’s the beauty of embeddings. It distills the complexity of the data into something that can be compared across a multi-dimensional space.
+That’s the beauty of embeddings. Tthe complexity of the data is distilled into something that can be compared across a multi-dimensional space.
 
 #### 3. The Payload: Adding Context with Metadata
 
-Sometimes you're gonna need more than just numbers to fully understand or refine a search. While the dimensions capture the essence of the data, the payload holds **metadata** for structured information.
+Sometimes you're going to need more than just numbers to fully understand or refine a search. While the dimensions capture the essence of the data, the payload holds **metadata** for structured information.
 
-It could be textual data like descriptions, tags, categories, or it could be numerical values like dates or prices. This extra info is vital when you want to filter or rank search results based on criteria that aren’t directly encoded in the vector.
+It could be textual data like descriptions, tags, categories, or it could be numerical values like dates or prices. This extra information is vital when you want to filter or rank search results based on criteria that aren’t directly encoded in the vector.
 
 This metadata is invaluable when you need to apply additional **filters** or **sorting** criteria. 
 
@@ -115,7 +113,7 @@ The payload can help you narrow down those results by ignoring vectors that does
 
 ### Dense vs. Sparse Vectors
 
-Now that we understand what vectors are how they are created, let's learn more about the two possible types of vectors we can have: **dense** or **sparse**. The main difference between the two are: 
+Now that we understand what vectors are and how they are created, let's learn more about the two possible types of vectors we can have: **dense** or **sparse**. The main difference between the two are: 
 
 #### 1. Dense Vectors
 
@@ -151,11 +149,11 @@ Sparse vectors are ideal for tasks like **keyword search** or **metadata filteri
 
 ### Hybrid Search: Combining Dense and Sparse Vectors for Better Results
 
-Sometimes context alone isn’t always enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the concept or meaning behind the data. Sparse vectors step in when you need exactness.
+Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the concept or meaning behind the data. Sparse vectors step in when you need exactness.
 
 The beauty of hybrid search is that you don’t have to choose one over the other. You can take the semantic power of dense vectors and combine it with the sharp focus of sparse vectors. Together, they deliver results that are both **relevant** and **filtered**.
 
-Qdrant combines dense and sparse vector results through a process of **normalization** and **fusion**. To learn more about what is happening behind the scenes, check out our [dedicated article on Hybrid Search.](https://qdrant.tech/articles/hybrid-search/)
+Qdrant combines dense and sparse vector results through a process of **normalization** and **fusion**. To learn more about what is happening behind the scenes, check out our [article on Hybrid Search.](https://qdrant.tech/articles/hybrid-search/)
 
 <img src="/articles_data/what-is-a-vector-database-revamp/hybrid-search-2.png" alt="Hybrid Search API - How it works" width="500">
 
@@ -200,7 +198,7 @@ A vector database is made of multiple different entities and relations. Here’s
 
 By default, Qdrant stores vectors in RAM, delivering incredibly fast access for datasets that fit comfortably in memory. But when your dataset exceeds RAM capacity, Qdrant offers Memmap as an alternative.
 
-Memmap allows you to store vectors **on disk**, yet still access them efficiently by mapping the data directly into memory if you have enough RAM. While not as fast as pure RAM access. To enable it, you only need to set `"on_disk": true` when you are **creating a collection:**
+Memmap allows you to store vectors **on disk**, yet still access them efficiently by mapping the data directly into memory if you have enough RAM. To enable it, you only need to set `"on_disk": true` when you are **creating a collection:**
 
 ```python
 client.create_collection(
@@ -215,7 +213,7 @@ For other configurations like `hnsw_config.on_disk` or `memmap_threshold_kb`, se
 
 #### SDKs
 
-Qdrant offers a range of SDKs, so you can interact with it using the programming language you're most comfortable with. Whether you're coding in [Python](https://github.com/qdrant/qdrant-client), [Go](https://github.com/qdrant/go-client), [Rust](https://github.com/qdrant/rust-client), or [Javascript/Typescript](https://github.com/qdrant/qdrant-js).
+Qdrant offers a range of SDKs. You can use the programming language you're most comfortable with, whether you're coding in [Python](https://github.com/qdrant/qdrant-client), [Go](https://github.com/qdrant/go-client), [Rust](https://github.com/qdrant/rust-client), or [Javascript/Typescript](https://github.com/qdrant/qdrant-js).
 
 ### The Core Functionalities of Vector Databases
 
