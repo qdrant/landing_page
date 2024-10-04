@@ -1404,6 +1404,9 @@ client
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, SearchMatrixPointsBuilder};
+use qdrant_client::Qdrant;
+
 client
     .search_matrix_pairs(
         SearchMatrixPointsBuilder::new("collection_name")
@@ -1418,10 +1421,33 @@ client
 ```
 
 ```typescript
-...
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.searchMatrixPairs("{collection_name}", {
+    filter: {
+        must: [
+            {
+                key: "color",
+                match: {
+                    value: "red",
+                },
+            },
+        ],
+    },
+    sample: 10,
+    limit: 2,
+});
 ```
 
 ```c#
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
 ...
 ```
 
@@ -1534,6 +1560,9 @@ client
 ```
 
 ```rust
+use qdrant_client::qdrant::{Condition, Filter, SearchMatrixPointsBuilder};
+use qdrant_client::Qdrant;
+
 client
     .search_matrix_offsets(
         SearchMatrixPointsBuilder::new("collection_name")
@@ -1548,10 +1577,33 @@ client
 ```
 
 ```typescript
-...
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
+client.searchMatrixOffsets("{collection_name}", {
+    filter: {
+        must: [
+            {
+                key: "color",
+                match: {
+                    value: "red",
+                },
+            },
+        ],
+    },
+    sample: 10,
+    limit: 2,
+});
 ```
 
 ```c#
+using Qdrant.Client;
+using Qdrant.Client.Grpc;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
 ...
 ```
 
