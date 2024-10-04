@@ -1365,15 +1365,30 @@ POST /collections/{collection_name}/points/search/matrix/pairs
 ```
 
 ```python
+from qdrant_client import QdrantClient, models
+
 client.search_distance_matrix_pairs(
     collection_name="{collection_name}",
     sample=10,
     limit=2,
-    query_filter=Filter(must=[Match("color", "red")]),
+    query_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color", match=models.MatchValue(value="red")
+            ),
+        ]
+    ),
 )
 ```
 
 ```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.SearchMatrixPoints;
+
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
@@ -1480,21 +1495,36 @@ POST /collections/{collection_name}/points/search/matrix/offsets
 ```
 
 ```python
+from qdrant_client import QdrantClient, models
+
 client.search_distance_matrix_pairs(
     collection_name="{collection_name}",
     sample=10,
     limit=2,
-    query_filter=Filter(must=[Match("color", "red")]),
+    query_filter=models.Filter(
+        must=[
+            models.FieldCondition(
+                key="color", match=models.MatchValue(value="red")
+            ),
+        ]
+    ),
 )
 ```
 
 ```java
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.SearchMatrixPoints;
+
 QdrantClient client =
     new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
 
 client
-    .searchMatrixPairsAsync(
-        Points.SearchMatrixPoints.newBuilder()
+    .searchMatrixOffsetsAsync(
+        SearchMatrixPoints.newBuilder()
             .setCollectionName(collectionName)
             .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
             .setSample(10)
