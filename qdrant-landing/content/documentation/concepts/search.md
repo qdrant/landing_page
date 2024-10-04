@@ -1970,11 +1970,11 @@ The API input request consists of the following parameters:
 
 Let's have a look at a basic example with `sample=100`, `limit=10`:
 
-The engine will start by selecting `100` random points from the collection, then for each of the selected points, it will calculate the distance to all other sampled points and return the top `10` closest points.
+The engine starts by selecting `100` random points from the collection, then for each of the selected points, it will compute the top `10` closest points **within** the samples.
 
-This will results return 1000 scores in total represented as a sparse matrix for efficient storage and processing.
+This will results in a total of 1000 scores represented as a sparse matrix for efficient processing.
 
-The distance matrix API offers two different output formats to ease the integration with different tools:
+The distance matrix API offers two output formats to ease the integration with different tools.
 
 ### Pairwise format
 
