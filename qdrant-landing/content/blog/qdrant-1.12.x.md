@@ -126,7 +126,7 @@ You can now leverage the **Distance Matrix API** from within this tool for a **c
   "tree": true
 }
 ```
-**The new graphing method is cleaner and can reveals significant relationships in data:**
+The new graphing method is cleaner and can reveal **relationships and outliers:**
 
 ![distance-matrix](/blog/qdrant-1.12.x/distance-matrix.png)
 
