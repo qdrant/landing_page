@@ -43,19 +43,7 @@ m.add("Likes to play cricket on weekends", user_id="alice", metadata={"category"
 
 ## Configuration
 
-When configuring Mem0 to use `Qdrant` as the vector store, you can specify various parameters in the `config` dictionary. Here are the available options:
-
-| Parameter | Description | Default Value |
-|-----------|-------------|---------------|
-| `collection_name` | The name of the collection to store the vectors | `mem0` |
-| `embedding_model_dims` | Dimensions of the embedding model | `1536` |
-| `client` | Custom client for Qdrant | `None` |
-| `host` | The host where the Qdrant server is running | `None` |
-| `port` | The port where the Qdrant server is running | `None` |
-| `path` | Path for the Qdrant database | `/tmp/qdrant` |
-| `url` | Full URL for the Qdrant server | `None` |
-| `api_key` | API key for the Qdrant server | `None` |
-| `on_disk` | For enabling persistent storage | `False` |
+When configuring Mem0 to use Qdrant as the vector store, you can specify [various parameters](https://docs.mem0.ai/components/vectordbs/dbs/qdrant#config) in the `config` dictionary.
 
 ## Advanced Usage
 
