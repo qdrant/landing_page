@@ -1984,7 +1984,13 @@ Returns the distance matrix as a list of pairs of point `ids` with their respect
 POST /collections/{collection_name}/points/search/matrix/pairs
 {
     "sample": 10,
-    "limit": 2
+    "limit": 2,
+    "filter": {
+        "must": {
+            "key": "color",
+            "match": { "value": "red" }
+        }
+    }  
 }
 ```
 
@@ -1992,12 +1998,21 @@ POST /collections/{collection_name}/points/search/matrix/pairs
 client.search_distance_matrix_pairs(
     collection_name="{collection_name}",
     sample=10,
-    limit=2
+    limit=2,
+    query_filter=Filter(must=[Match("color", "red")]),
 )
 ```
 
 ```java
-...
+client
+    .searchMatrixPairsAsync(
+        Points.SearchMatrixPoints.newBuilder()
+            .setCollectionName(collectionName)
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
+            .setSample(10)
+            .setLimit(2)
+            .build())
+    .get();
 ```
 
 ```rust
@@ -2046,7 +2061,13 @@ Returns the distance matrix as a four arrays:
 POST /collections/{collection_name}/points/search/matrix/pairs
 {
     "sample": 10,
-    "limit": 2
+    "limit": 2,
+    "filter": {
+        "must": {
+            "key": "color",
+            "match": { "value": "red" }
+        }
+    }
 }
 ```
 
@@ -2054,12 +2075,21 @@ POST /collections/{collection_name}/points/search/matrix/pairs
 client.search_distance_matrix_pairs(
     collection_name="{collection_name}",
     sample=10,
-    limit=2
+    limit=2,
+    query_filter=Filter(must=[Match("color", "red")]),
 )
 ```
 
 ```java
-...
+client
+    .searchMatrixPairsAsync(
+        Points.SearchMatrixPoints.newBuilder()
+            .setCollectionName(collectionName)
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
+            .setSample(10)
+            .setLimit(2)
+            .build())
+    .get();
 ```
 
 ```rust
