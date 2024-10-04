@@ -6,16 +6,16 @@ weight: 26
 
 | End-to-End Code Samples                                                                   | Description                                                       | Stack                                       |   
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Multitenancy with LlamaIndex](../examples/llama-index-multitenancy/)          | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex                  |
-| [Implement custom connector for Cohere RAG](../examples/cohere-rag-connector/) | Bring data stored in Qdrant to Cohere RAG                         | Qdrant, Cohere, FastAPI                     |
-| [Chatbot for Interactive Learning](../examples/rag-chatbot-red-hat-openshift-haystack/)                                 | Build a Private RAG Chatbot for Interactive Learning              | Qdrant, Haystack, OpenShift                                      |  
-| [Information Extraction Engine](../examples/rag-chatbot-vultr-dspy-ollama/)                                 | Build a Private RAG Information Extraction Engine               | Qdrant, Vultr, DSPy, Ollama                                      |  
-| [System for Employee Onboarding](../examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)                                 | Build a RAG System for Employee Onboarding               | Qdrant, Cohere, LangChain                                      |  
-| [System for Contract Management](../examples/rag-contract-management-stackit-aleph-alpha/)                                 | Build a Region-Specific RAG System for Contract Management              | Qdrant, Aleph Alpha, STACKIT                                      |  
-| [Question-Answering System for Customer Support](../examples/rag-customer-support-cohere-airbyte-aws/)                                 | Build a RAG System for AI Customer Support               | Qdrant, Cohere, Airbyte, AWS                                      |  
-| [Hybrid Search on PDF Documents](../examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
-| [Blog-Reading RAG Chatbot](../examples/rag-chatbot-scaleway)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-4o   
-| [Movie Recommendation System](../examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |   
+| [Multitenancy with LlamaIndex](/documentation/examples/llama-index-multitenancy/)          | Handle data coming from multiple users in LlamaIndex.             | Qdrant, Python, LlamaIndex                  |
+| [Implement custom connector for Cohere RAG](/documentation/examples/cohere-rag-connector/) | Bring data stored in Qdrant to Cohere RAG                         | Qdrant, Cohere, FastAPI                     |
+| [Chatbot for Interactive Learning](/documentation/examples/rag-chatbot-red-hat-openshift-haystack/)                                 | Build a Private RAG Chatbot for Interactive Learning              | Qdrant, Haystack, OpenShift                                      |  
+| [Information Extraction Engine](/documentation/examples/rag-chatbot-vultr-dspy-ollama/)                                 | Build a Private RAG Information Extraction Engine               | Qdrant, Vultr, DSPy, Ollama                                      |  
+| [System for Employee Onboarding](/documentation/examples/natural-language-search-oracle-cloud-infrastructure-cohere-langchain/)                                 | Build a RAG System for Employee Onboarding               | Qdrant, Cohere, LangChain                                      |  
+| [System for Contract Management](/documentation/examples/rag-contract-management-stackit-aleph-alpha/)                                 | Build a Region-Specific RAG System for Contract Management              | Qdrant, Aleph Alpha, STACKIT                                      |  
+| [Question-Answering System for Customer Support](/documentation/examples/rag-customer-support-cohere-airbyte-aws/)                                 | Build a RAG System for AI Customer Support               | Qdrant, Cohere, Airbyte, AWS                                      |  
+| [Hybrid Search on PDF Documents](/documentation/examples/hybrid-search-llamaindex-jinaai/)                                 | Develop a Hybrid Search System for Product PDF Manuals                | Qdrant, LlamaIndex, Jina AI   
+| [Blog-Reading RAG Chatbot](/documentation/examples/rag-chatbot-scaleway/)                                 | Develop a RAG-based Chatbot on Scaleway and with LangChain                | Qdrant, LangChain, GPT-4o   
+| [Movie Recommendation System](/documentation/examples/recommendation-system-ovhcloud/)                                 | Build a Movie Recommendation System with LlamaIndex and With JinaAI             | Qdrant |   
 
 
 ## Notebooks
