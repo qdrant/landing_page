@@ -1374,6 +1374,9 @@ client.search_distance_matrix_pairs(
 ```
 
 ```java
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
 client
     .searchMatrixPairsAsync(
         Points.SearchMatrixPoints.newBuilder()
@@ -1408,7 +1411,24 @@ client
 ```
 
 ```go
-...
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+sample := uint64(10)
+limit := uint64(10)
+res, err := client.SearchMatrixPairs(ctx, &qdrant.SearchMatrixPoints{
+	CollectionName: "{collection_name}",
+	Sample:         &sample,
+	Limit:          &limit,
+})
 ```
 
 Returns
@@ -1469,6 +1489,9 @@ client.search_distance_matrix_pairs(
 ```
 
 ```java
+QdrantClient client =
+    new QdrantClient(QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
 client
     .searchMatrixPairsAsync(
         Points.SearchMatrixPoints.newBuilder()
@@ -1503,7 +1526,24 @@ client
 ```
 
 ```go
-...
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+sample := uint64(10)
+limit := uint64(10)
+res, err := client.SearchMatrixOffsets(ctx, &qdrant.SearchMatrixPoints{
+	CollectionName: "{collection_name}",
+	Sample:         &sample,
+	Limit:          &limit,
+})
 ```
 
 Returns
