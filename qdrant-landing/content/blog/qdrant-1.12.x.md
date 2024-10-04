@@ -50,7 +50,7 @@ POST /collections/{collection_name}/points/search/matrix/pairs
     "limit": 2
 }
 ```
-Configuring `sample` will retrieve a random group of 10 points to compare. The `limit` is the number of semantic connections between points to consider.
+Configuring the `sample` will retrieve a random group of 10 points to compare. The `limit` is the number of semantic connections between points to consider.
 
 Qdrant will list a sparse matrix of distances **between the closest pairs**:
 
@@ -255,7 +255,7 @@ PUT /collections/{collection_name}/index
 
 ## Just the Beginning
 
-The easiest way to reach that **Hello World** moment is to [**try filtering in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
+The easiest way to reach that **Hello World** moment is to [**try vector search in a live cluster**](/documentation/quickstart-cloud/). Our **interactive tutorial** will show you how to create a cluster, add data and try some filtering clauses. 
 
 **All of the new features from version 1.12 can be tested in the Web UI:**
 
