@@ -299,11 +299,65 @@ qdrant_client.delete(
 ```
 You can use deletion to remove outdated data, clean up duplicates, and manage the lifecycle of vectors by automatically deleting them after a set period to keep your dataset relevant and focused.
 
-#### Distributed Deployment and Sharding
+### Distributed Deployment 
 
-#### Replication Snappshoting
+When thinking about scaling, the key factors to consider are **fault tolerance,** **load balancing,** and **availability.** One node, no matter how powerful, can only take you so far. Eventually, you'll need to spread the workload across multiple machines to ensure the system remains fast and stable.
 
-#### Quantization
+#### Sharding: Distributing Data Across Nodes
+
+In a distributed Qdrant cluster, data is split into smaller units called **shards,** which are distributed across different nodes. which helps balance the load and ensures that queries can be processed in parallel.
+
+Each collection—a group of related data points—can be split into non-overlapping subsets, which are then managed by different nodes.
+
+<img src="/articles_data/what-is-a-vector-database-revamp/sharding-raft.png" alt=" Distributed vector database with sharding and Raft consensus" width="1000">
+
+**Raft Consensus** ensures that all the nodes stay in sync and have a consistent view of the data. Each node knows where every shard is, and Raft ensures that all nodes are in sync. If one node fails, the others know where the missing data is located and can take over.
+
+By default, the number of shards in your Qdrant system matches the number of nodes in your cluster. But if you need more control, you can choose the `shard_number` manually when creating a collection.
+
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
+    shard_number=4, # Custom number of shards
+)
+```
+
+There are two main types of sharding:
+
+1. **Automatic Sharding:** Points (vectors) are automatically distributed across shards using consistent hashing. Each shard contains non-overlapping subsets of the data. 
+2. **User-defined Sharding:** Specify how points are distributed, enabling more control over your data organization, especially for use cases like **multitenancy**, where each tenant (a user, client, or organization) has their own isolated data. 
+
+Each shard is divided into **segments.** They are a smaller storage unit within a shard, storing a subset of vectors and their associated payloads (metadata). When a query is executed, it targets the only relevant segments, processing them in parallel.
+
+<img src="/articles_data/what-is-a-vector-database-revamp/segments.png" alt="Segments act as smaller storage units within a shard" width="700">
+
+#### Replication: High Availability and Data Integrity
+
+Replication ensures that copies of the same data are maintained across multiple nodes for redundancy. This is crucial for **high availability**, since you won't want a single failure to bring your system down.
+
+Qdrant uses a **Replica Set** to manage copies of shards across different nodes. If one replica becomes unavailable, others are there to take over and keep the system running. Whether the data is local or remote is mainly influenced by how you've configured the cluster.
+
+<img src="/articles_data/what-is-a-vector-database-revamp/replication.png" alt=" Replica Set and Replication diagram" width="1000">
+
+When a query is made, if the relevant data is stored locally, the local shard handles the operation. If the data resides on a remote shard, the query will be routed via gRPC to the node where the remote shard is located, and results will be retrieved from there. 
+
+The `replication_factor` controls how many copies of each shard you want to keep. For example, creating a collection with 4 shards and a replication factor of 2 will result in 8 physical shards distributed across the cluster:
+
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
+    shard_number=4,
+    replication_factor=2,
+)
+```
+
+We recommend using sharding and replication together so that your data is both split across nodes and replicated for availability. 
+
+For more details on features like **user-defined sharding, node failure recovery,** and **consistency guarantees,** see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/guides/distributed_deployment/)
+
+### Quantization
 
 #### Multitenancy: Scalable Isolation Without Overhead
 
@@ -313,4 +367,3 @@ You can use deletion to remove outdated data, clean up duplicates, and manage th
 
 #### Vector Databases Comparison
 
-#### Vector Database Use Cases
