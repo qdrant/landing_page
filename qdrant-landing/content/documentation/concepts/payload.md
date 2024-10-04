@@ -1312,7 +1312,23 @@ client.facet(
 )
 ```
 
-// TODO: add the rest of the client examples
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+res, err := client.Facet(ctx, &qdrant.FacetCounts{
+	CollectionName: "{collection_name}",
+	Key:            "key",
+})
+```
 
 The response will contain the counts for each unique value in the field:
 
