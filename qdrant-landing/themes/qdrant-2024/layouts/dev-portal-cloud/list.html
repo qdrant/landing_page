@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+{{- partial "head.html" . -}}
+<body>
+  <main>
+    {{ partial "dev-portal-header" . }}
+
+    <section class="dev-portal documentation documentation_theme-light">
+      <div class="dev-portal__container">
+        <div class="d-flex">
+          {{ partial "dev-portal-docs-menu" . }}
+
+          <div class="dev-portal__article documentation-article">
+            <section class="dev-portal-cloud__hero dev-portal__hero">
+              <div>
+                <h1 class="dev-portal__hero-title">{{ .Params.title }}</h1>
+                <a
+                  href="{{ .Params.startedButton.url }}"
+                  class="button button_outlined button_sm dev-portal__hero-button"
+                >
+                  {{ .Params.startedButton.text }}
+                </a>
+              </div>
+              <img class="dev-portal__hero-image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+            </section>
+
+            <section class="dev-portal-cloud__services">
+              <h2>{{ .Params.servicesTitle }}</h2>
+              <p>{{ .Params.servicesDescription }}</p>
+
+              <div class="row">
+                {{ range .Params.services }}
+                  <div class="col-12 col-lg-4">
+                    <div class="dev-portal-cloud__services-card dev-portal__card">
+                      <img src="{{ .image.src }}" alt="{{ .image.alt }}" />
+                      <h3>{{ .title }}</h3>
+                      <p>{{ .description }}</p>
+                      <a href="{{ .link }}"></a>
+                    </div>
+                  </div>
+                {{ end }}
+              </div>
+            </section>
+
+            {{ partial "dev-portal-footer.html" . }}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+{{ partial "js.html" . }}
+</html>
+
+

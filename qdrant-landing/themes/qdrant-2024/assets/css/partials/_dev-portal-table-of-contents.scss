@@ -1,0 +1,15 @@
+@use '../helpers/functions' as *;
+
+.dev-portal-table-of-contents {
+  padding: 0 $spacer;
+
+  .table-of-contents__external-links {
+    border-bottom: 0;
+    border-top: pxToRem(1) solid $neutral-20;
+  }
+
+  .table-of-contents__title {
+    font-size: $spacer;
+    line-height: $spacer * 1.5;
+  }
+}

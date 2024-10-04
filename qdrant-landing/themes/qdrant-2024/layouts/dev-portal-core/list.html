@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+{{- partial "head.html" . -}}
+<body>
+  <main>
+    {{ partial "dev-portal-header" . }}
+
+    <section class="dev-portal documentation documentation_theme-light">
+      <div class="dev-portal__container">
+        <div class="d-flex">
+          {{ partial "dev-portal-docs-menu" . }}
+
+          <div class="dev-portal-core dev-portal__article documentation-article">
+            <section class="dev-portal-core__hero">
+              <h1 class="dev-portal-core__hero-title">{{ .Params.title }}</h1>
+              <p class="dev-portal-core__hero-description">{{ .Params.description }}</p>
+              <p class="dev-portal-core__hero-link">{{ .Params.linkDescription | safeHTML }}</p>
+              <div class="dev-portal-core__hero-buttons">
+                <a href="{{ .Params.cloudButton.url }}" class="button button_contained button_sm">
+                  {{ .Params.cloudButton.text }}
+                </a>
+                <a href="{{ .Params.localButton.url }}" class="button button_outlined button_sm">
+                  {{ .Params.localButton.text }}
+                </a>
+              </div>
+            </section>
+
+            <section class="dev-portal-core__developing">
+              <h2>{{ .Params.developingTitle }}</h2>
+              <p>{{ .Params.developingDescription | safeHTML }}</p>
+            </section>
+
+            {{ partial "dev-portal-footer.html" . }}
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</body>
+{{ partial "js.html" . }}
+</html>
+
+

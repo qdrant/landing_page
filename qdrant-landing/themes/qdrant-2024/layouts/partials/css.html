@@ -21,7 +21,7 @@
   />
 {{ end }}
 
-{{ if eq .Section "documentation" }}
+{{ if in (slice "dev-portal-build" "dev-portal-cloud" "dev-portal-core" "dev-portal-learn" "documentation") .Section }}
   {{ $documentationCss := resources.Get "css/documentation.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link
     href="{{ $documentationCss.RelPermalink }}"
