@@ -2076,7 +2076,7 @@ Returns the distance matrix as a four arrays:
 - `ids` contains the point ids corresponding to the distance values.
 
 ```http
-POST /collections/{collection_name}/points/search/matrix/pairs
+POST /collections/{collection_name}/points/search/matrix/offsets
 {
     "sample": 10,
     "limit": 2,
