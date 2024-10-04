@@ -149,11 +149,13 @@ Sparse vectors are ideal for tasks like **keyword search** or **metadata filteri
 
 ### Hybrid Search: Combining Dense and Sparse Vectors for Better Results
 
-Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the concept or meaning behind the data. Sparse vectors step in when you need exactness.
+Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching.**
 
-The beauty of hybrid search is that you don’t have to choose one over the other. You can take the semantic power of dense vectors and combine it with the sharp focus of sparse vectors. Together, they deliver results that are both **relevant** and **filtered**.
+With hybrid search you don’t have to choose one over the othe and use both to get searches that are more **relevant** and **filtered**. 
 
-Qdrant combines dense and sparse vector results through a process of **normalization** and **fusion**. To learn more about what is happening behind the scenes, check out our [article on Hybrid Search.](https://qdrant.tech/articles/hybrid-search/)
+To achieve this balance, Qdrant uses **normalization** and **fusion** techniques to blend results from multiple search methods. One common approach is **Reciprocal Rank Fusion (RRF)**, where results from different methods are merged, giving higher importance to items ranked highly by both methods. This ensures that the best candidates, whether identified through dense or sparse vectors, appear at the top of the results.
+
+Qdrant combines dense and sparse vector results through a process of **normalization** and **fusion**.
 
 <img src="/articles_data/what-is-a-vector-database-revamp/hybrid-search-2.png" alt="Hybrid Search API - How it works" width="500">
 
@@ -174,7 +176,9 @@ search_query = {
     }
 }
 ```
-In this query the dense vector search finds papers related to the broad topic of NLP and the sparse vector filtering ensures that the papers specifically mention “transformers”.
+In this query the dense vector search finds papers related to the broad topic of NLP and the sparse vector filtering ensures that the papers specifically mention “transformers”. 
+
+This is just a simple example and there's so much more you can do with it. See our complete [article on Hybrid Search](https://qdrant.tech/articles/hybrid-search/) guide to see what's happening behind the scenes and all the possibilities when building a hybrid search system.
 
 ### Architecture of a Vector Database
 
@@ -347,7 +351,7 @@ client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
     shard_number=4,
-    replication_factor=2,
+    replication_factor=2, 
 )
 ```
 
@@ -355,7 +359,41 @@ We recommend using sharding and replication together so that your data is both s
 
 For more details on features like **user-defined sharding, node failure recovery,** and **consistency guarantees,** see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/guides/distributed_deployment/)
 
-### Quantization
+### Quantization: Get 40x Faster Results 
+
+As vector datasets grow larger, so do the computational demands of searching through them. 
+
+Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization,**](https://qdrant.tech/articles/binary-quantization/) you can see **search speeds improve by up to 40x while memory usage decreases by 32x.** Improvements that can be decicive when dealing with large datasets or needing low-latency results.
+
+It works by converting high-dimensional vectors, which typically use `4 bytes` per dimension, into binary representations, using just `1 bit` per dimension. Values above zero become "1", and everything else becomes "0".
+
+<img src="/articles_data/what-is-a-vector-database-revamp/binary-quantization.png" alt=" Binary Quantization example" width="600">
+
+Quantization reduces data precision, and yes, this does lead to some loss of accuracy.  However, for binary quantization, **OpenAI embeddings** achieves this performance improvement at a cost of only 5% of accuracy. If you apply techniques like **oversampling** and **rescoring,** this loss can be brought down even further.
+
+However, binary quantization isn’t the only available option. Techniques like [**Scalar Quantization**](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization) and [**Product Quantization**](https://qdrant.tech/documentation/guides/quantization/#product-quantization) are also popular alternatives when optimizing vector compression.
+
+You can set up your chosen quantization method using the `quantization_config` parameter when creating a new collection:
+
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(
+        size=1536,  
+        distance=models.Distance.COSINE
+    ),
+
+    # Choose your preferred quantization method
+    quantization_config=models.BinaryQuantization(  
+        binary=models.BinaryQuantizationConfig(
+            always_ram=True,  # Store the quantized vectors in RAM for faster access
+        ),
+    ),
+)
+```
+You can store original vectors on disk within the `vectors_config` by setting `on_disk=True` to save RAM space, while keeping quantized vectors in RAM for faster access
+
+We recommend checking out our [Vector Quantization guide](https://qdrant.tech/articles/what-is-vector-quantization/) for a full breakdown of methods and tips on **optimizing performance** for your specific use case.
 
 #### Multitenancy: Scalable Isolation Without Overhead
 
