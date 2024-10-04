@@ -1955,6 +1955,139 @@ client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
 })
 ```
 
+## Distance Matrix
+
+*Available as of v1.12.0*
+
+The distance matrix API allows to calculate the distance between sampled pairs of vectors and to return the result as a sparse matrix.
+
+Such API enables new data exploration use cases such as clustering similar vectors, visualization of connections or dimension reduction.
+
+The API input request consists of the following parameters:
+- `sample`: the number of vectors to sample
+- `limit`: the number of scores to return per sample
+- `filter`: the filter to apply to constraint the samples
+
+Let's have a look at a basic example with `sample=100`, `limit=10`:
+
+The engine will start by selecting `100` random points from the collection, then for each of the selected points, it will calculate the distance to all other points in the collection and return the top `10` closest points.
+
+This will results return 1000 scores in total represented as a sparse matrix for efficient storage and processing.
+
+The distance matrix API offers two different output formats to ease the integration with different tools:
+
+### Pairwise format
+
+Returns the distance matrix as a list of pairs of point `ids` with their respective score.
+
+```http
+POST /collections/{collection_name}/points/search/matrix/pairs
+{
+    "sample": 10,
+    "limit": 2
+}
+```
+
+```python
+client.search_distance_matrix_pairs(
+    collection_name="{collection_name}",
+    sample=10,
+    limit=2
+)
+```
+
+```java
+...
+```
+
+```rust
+...
+```
+
+```typescript
+...
+```
+
+Returns
+
+```json
+{
+    "result": {
+        "pairs": [
+            {"a": 1, "b": 3, "score": 1.4063001},
+            {"a": 1, "b": 4, "score": 1.2531},
+            {"a": 2, "b": 1, "score": 1.1550001},
+            {"a": 2, "b": 8, "score": 1.1359},
+            {"a": 3, "b": 1, "score": 1.4063001},
+            {"a": 3, "b": 4, "score": 1.2218001},
+            {"a": 4, "b": 1, "score": 1.2531},
+            {"a": 4, "b": 3, "score": 1.2218001},
+            {"a": 5, "b": 3, "score": 0.70239997},
+            {"a": 5, "b": 1, "score": 0.6146},
+            {"a": 6, "b": 3, "score": 0.6353},
+            {"a": 6, "b": 4, "score": 0.5093},
+            {"a": 7, "b": 3, "score": 1.0990001},
+            {"a": 7, "b": 1, "score": 1.0349001},
+            {"a": 8, "b": 2, "score": 1.1359},
+            {"a": 8, "b": 3, "score": 1.0553}
+        ]
+    }
+}
+```
+
+### Offset format
+
+Returns the distance matrix as a four arrays:
+- `offsets_row` and `offsets_col`, represent the positions of non-zero distance values in the matrix.
+- `scores` contains the distance values.
+- `ids` contains the point ids corresponding to the distance values.
+
+```http
+POST /collections/{collection_name}/points/search/matrix/pairs
+{
+    "sample": 10,
+    "limit": 2
+}
+```
+
+```python
+client.search_distance_matrix_pairs(
+    collection_name="{collection_name}",
+    sample=10,
+    limit=2
+)
+```
+
+```java
+...
+```
+
+```rust
+...
+```
+
+```typescript
+...
+```
+
+Returns
+
+```json
+{
+    "result": {
+        "offsets_row": [0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6, 7, 7],
+        "offsets_col": [2, 3, 0, 7, 0, 3, 0, 2, 2, 0, 2, 3, 2, 0, 1, 2],
+        "scores": [
+            1.4063001, 1.2531, 1.1550001, 1.1359, 1.4063001,
+            1.2218001, 1.2531, 1.2218001, 0.70239997, 0.6146, 0.6353,
+            0.5093, 1.0990001, 1.0349001, 1.1359, 1.0553
+            ],
+        "ids": [1, 2, 3, 4, 5, 6, 7, 8]
+    }
+}
+```
+
+
 ## Query planning
 
 Depending on the filter used in the search - there are several possible scenarios for query execution.
