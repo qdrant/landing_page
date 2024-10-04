@@ -113,7 +113,7 @@ Two arrays, `offsets_row` and `offsets_col`, represent the positions of non-zero
 
 ## Distance Matrix API in the Graph UI
 
-We are adding more visualization options to the [**Graph Exploration Tool**](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool), introduced in v.1.10.
+We are adding more visualization options to the [**Graph Exploration Tool**](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool), introduced in v.1.11.
 
 You can now leverage the **Distance Matrix API** from within this tool for a **clearer picture** of your data and its relationships.
 
@@ -201,7 +201,7 @@ This feature provides flexibility between performance and precision, depending o
 > With `on_disk` text indexing, the inverted index is stored on disk, reducing memory usage.
 
 ### Configuration
-Just like with other indexes, simply add `on_disk`: true when creating the index:
+Just like with other indexes, simply add `on_disk: true` when creating the index:
 
 ```http
 PUT /collections/{collection_name}/index
