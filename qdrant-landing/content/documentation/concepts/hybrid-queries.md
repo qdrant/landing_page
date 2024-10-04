@@ -1397,4 +1397,4 @@ client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
 })
 ```
 
-For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](./search/#search-groups) and [lookup](./search/#lookup-in-groups).
+For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](../search/#search-groups) and [lookup](../search/#lookup-in-groups).
