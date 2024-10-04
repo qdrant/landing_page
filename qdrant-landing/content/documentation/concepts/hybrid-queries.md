@@ -10,7 +10,7 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 *Available as of v1.10.0*
 
-With the introduction of [many named vectors per point](../vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries, 
+With the introduction of [many named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries, 
 or by performing the search in more than one stage.
 
 Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
@@ -793,7 +793,7 @@ Other than the introduction of `prefetch`, the `Query API` has been designed to 
 
 ### Query by ID
 
-Whenever you need to use a vector as an input, you can always use a [point ID](../points/#point-ids) instead.
+Whenever you need to use a vector as an input, you can always use a [point ID](/documentation/concepts/points/#point-ids) instead.
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -1397,4 +1397,4 @@ client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
 })
 ```
 
-For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](../search/#search-groups) and [lookup](../search/#lookup-in-groups).
+For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](/documentation/concepts/search/#search-groups) and [lookup](/documentation/concepts/search/#lookup-in-groups).

@@ -82,11 +82,11 @@ Here is how you can take a snapshot and recover a collection:
    - For a single node cluster, call the snapshot endpoint on the exposed URL.
    - For a multi node cluster call a snapshot on each node of the collection. 
      Specifically, prepend `node-{num}-` to your cluster URL.
-     Then call the [snapshot endpoint](../../concepts/snapshots/#create-snapshot) on the individual hosts. Start with node 0.
+     Then call the [snapshot endpoint](/documentation/concepts/snapshots/#create-snapshot) on the individual hosts. Start with node 0.
    - In the response, you'll see the name of the snapshot.
 2. Delete and recreate the collection.
 3. Recover the snapshot:
-   - Call the [recover endpoint](../../concepts/snapshots/#recover-in-cluster-deployment). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
+   - Call the [recover endpoint](/documentation/concepts/snapshots/#recover-in-cluster-deployment). Set a location which points to the snapshot file (`file:///qdrant/snapshots/{collection_name}/{snapshot_file_name}`) for each host.
 
 ## Backup considerations
 

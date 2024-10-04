@@ -51,7 +51,7 @@ Things have changed since then, as so many of you wanted a single tool for spars
 
 If you're coming across the topic of sparse vectors for the first time, our [Brief History of Search](/documentation/overview/vector-search/) explains the difference between sparse and dense vectors.
 
-Check out the [sparse vectors article](../sparse-vectors/) and [sparse vectors index docs](/documentation/concepts/indexing/#sparse-vector-index) for more details on what this new index means for Qdrant users.
+Check out the [sparse vectors article](/articles/sparse-vectors/) and [sparse vectors index docs](/documentation/concepts/indexing/#sparse-vector-index) for more details on what this new index means for Qdrant users.
 
 ### Discovery API
 

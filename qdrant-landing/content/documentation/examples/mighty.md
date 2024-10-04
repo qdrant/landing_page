@@ -63,7 +63,7 @@ Verify that mighty works by calling `curl https://<address>:5050/sentence-transf
 }
 ```
 
-For Qdrant, follow our [cloud documentation](../../cloud/cloud-quick-start/) to spin up a [free tier](https://cloud.qdrant.io/). Make sure to retrieve an API key.
+For Qdrant, follow our [cloud documentation](/documentation/cloud/cloud-quick-start/) to spin up a [free tier](https://cloud.qdrant.io/). Make sure to retrieve an API key.
 
 ## Implement model API
 
