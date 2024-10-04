@@ -31,7 +31,7 @@ tags:
 
 > **Qdrant** is a similarity search engine. Our mission is to give you the tools to **discover and understand connections** between vast amounts of semantically relevant data
 
-**Distance Matrix API** is here to lay the groundwork for such tools.
+The **Distance Matrix API** is here to lay the groundwork for such tools.
 
 In data exploration, tasks like [**clustering**](https://en.wikipedia.org/wiki/DBSCAN) and [**dimensionality reduction**](https://en.wikipedia.org/wiki/Dimensionality_reduction) rely on calculating distances between data points. 
 
