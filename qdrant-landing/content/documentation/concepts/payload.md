@@ -1277,7 +1277,7 @@ Payload schema example:
 ## Facet counts
 
 Faceting is a special counting technique that can be used for various purposes:
-- Know which unique values exist in a field.
+- Know which unique values exist for a payload key.
 - Know the number of points that contain each unique value.
 - Know how restrictive a filter would become by matching a specific value.
 
