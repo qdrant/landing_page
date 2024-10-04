@@ -117,7 +117,7 @@ We are adding more visualization options to the [**Graph Exploration Tool**](htt
 
 You can now leverage the **Distance Matrix API** from within this tool for a **clearer picture** of your data and its relationships.
 
-**Example:** You can retrieve 500 `sample` points, with a `limit` of 5 connections per vector and a `tree` visualization:
+**Example:** You can retrieve 300 `sample` points, with a `limit` of 5 connections per vector and a `tree` visualization:
 
 ```json
 {
