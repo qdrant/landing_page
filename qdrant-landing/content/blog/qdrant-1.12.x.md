@@ -20,10 +20,10 @@ tags:
 [**Qdrant 1.12.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.12.0). Let's take a look at major features and a few minor additions:
 
 **Distance Matrix API:** Efficiently calculate pairwise distances between vectors.</br>
-**Faceting API:** Dynamically aggregate and count unique values in specific fields.</br>
-**Text Index on_disk:** Reduce memory usage by storing text indexing data on disk.</br>
-
 **GUI Data Exploration** Visually navigate your dataset and analyze vector relationships.</br>
+**Faceting API:** Dynamically aggregate and count unique values in specific fields.</br>
+
+**Text Index on_disk:** Reduce memory usage by storing text indexing data on disk.</br>
 **Geo Index on_disk:** Offload indexed geographic data on disk for memory efficiency.
 
 ## Distance Matrix API for Data Insights
@@ -132,7 +132,7 @@ You can now leverage the **Distance Matrix API** from within this tool for a **c
 
 *To learn more about the Web UI Dashboard, read the [**Interfaces documentation**](/documentation/interfaces/web-ui/).*
 
-## Facet API for Payload Field Cardinality
+## Facet API for Metadata Cardinality
 
 ![facet-api](/blog/qdrant-1.12.x/facet-api.png)
 
