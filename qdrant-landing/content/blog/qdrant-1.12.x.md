@@ -39,6 +39,10 @@ In data exploration, tasks like [**clustering**](https://en.wikipedia.org/wiki/D
 
 You can use this API to compute a **sparse matrix of distances** that is optimized for large datasets. Then, you can filter through the retrieved data to find the exact vector relationships that matter.
 
+In terms of endpoints, we offer two different formats to show results:
+- **Pairs** are simple, intutitive and ideal for graph representation.
+- **Offsets** are more comples, but also native when defining CSR sparse matrices.
+
 ### Configuration - Pairs
 
 Use the `pairs` endpoint to compare 10 random point pairs from your dataset:
@@ -81,7 +85,7 @@ Qdrant will list a sparse matrix of distances **between the closest pairs**:
 
 ### Configuration - Offsets
 
-The `offsets` endpoint is another method of calculating the distance between points:
+The `offsets` endpoint offer another format of showing the distance between points:
 
 ```http
 POST /collections/{collection_name}/points/search/matrix/offsets
