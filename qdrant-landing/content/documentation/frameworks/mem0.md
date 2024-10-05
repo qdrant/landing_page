@@ -63,7 +63,4 @@ history = m.history(memory_id="m1")
 ## Further Reading
 
 - [Mem0 GitHub Repository](https://github.com/mem0ai/mem0)
-- [Qdrant Documentation](https://qdrant.tech/documentation/)
-- [OpenAI API Documentation](https://platform.openai.com/docs/api-reference)
-
-For more detailed information on Mem0's features and advanced usage, please refer to the full [documentation](https://docs.mem0.ai/).
+- [Mem0 Documentation](https://docs.mem0.ai/).
