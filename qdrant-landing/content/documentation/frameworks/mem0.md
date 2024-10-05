@@ -63,4 +63,4 @@ history = m.history(memory_id="m1")
 ## Further Reading
 
 - [Mem0 GitHub Repository](https://github.com/mem0ai/mem0)
-- [Mem0 Documentation](https://docs.mem0.ai/).
+- [Mem0 Documentation](https://docs.mem0.ai/)
