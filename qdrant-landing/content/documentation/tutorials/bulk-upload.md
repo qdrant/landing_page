@@ -101,23 +101,23 @@ client.updateCollection("{collection_name}", {
 ## Upload directly to disk
 
 When the vectors you upload do not all fit in RAM, you likely want to use
-[memmap](../../concepts/storage/#configuring-memmap-storage)
+[memmap](/documentation/concepts/storage/#configuring-memmap-storage)
 support.
 
 During collection
-[creation](../../concepts/collections/#create-collection),
+[creation](/documentation/concepts/collections/#create-collection),
 memmaps may be enabled on a per-vector basis using the `on_disk` parameter. This
 will store vector data directly on disk at all times. It is suitable for
 ingesting a large amount of data, essential for the billion scale benchmark.
 
 Using `memmap_threshold_kb` is not recommended in this case. It would require
-the [optimizer](../../concepts/optimizer/) to constantly
+the [optimizer](/documentation/concepts/optimizer/) to constantly
 transform in-memory segments into memmap segments on disk. This process is
 slower, and the optimizer can be a bottleneck when ingesting a large amount of
 data.
 
 Read more about this in
-[Configuring Memmap Storage](../../concepts/storage/#configuring-memmap-storage).
+[Configuring Memmap Storage](/documentation/concepts/storage/#configuring-memmap-storage).
 
 ## Parallel upload into multiple shards
 

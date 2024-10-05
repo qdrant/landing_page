@@ -17,19 +17,19 @@ Additionally, [any open-source embeddings from HuggingFace](https://huggingface.
 
 | Embeddings Providers          | Description |
 | ----------------------------- | ----------- |
-| [Aleph Alpha](./aleph-alpha/) | Multilingual embeddings focused on European languages. |
-| [Bedrock](./bedrock/)         | AWS managed service for foundation models and embeddings. |
-| [Cohere](./cohere/)           | Language model embeddings for NLP tasks. |
-| [Gemini](./gemini/)           | Google’s multimodal embeddings for text and vision. 
-| [Jina AI](./jina-embeddings/)     | Customizable embeddings for neural search. |
-| [Mistral](./mistral/)         | Open-source, efficient language model embeddings. |
-| [MixedBread](./mixedbread/)   | Lightweight embeddings for constrained environments. |
-| [Mixpeek](./mixpeek/)         | Managed SDK for video chunking, embedding, and post-processing.​ |
-| [Nomic](./nomic/)             | Embeddings for data visualization. |
-| [Nvidia](./nvidia/)      | GPU-optimized embeddings from Nvidia. |
-| [Ollama](./ollama/)           | Embeddings for conversational AI. |
-| [OpenAI](./openai/)           | Industry-leading embeddings for NLP. |
-| [Prem AI](./premai/)          | Precise language embeddings. |
-| [Snowflake](./snowflake/)     | Scalable embeddings for big data. |
-| [Upstage](./upstage/)         | Embeddings for speech and language tasks. |
-| [Voyage AI](./voyage/)        | Navigation and spatial understanding embeddings. |
+| [Aleph Alpha](/documentation/embeddings/aleph-alpha/) | Multilingual embeddings focused on European languages. |
+| [Bedrock](/documentation/embeddings/bedrock/)         | AWS managed service for foundation models and embeddings. |
+| [Cohere](/documentation/embeddings/cohere/)           | Language model embeddings for NLP tasks. |
+| [Gemini](/documentation/embeddings/gemini/)           | Google’s multimodal embeddings for text and vision. 
+| [Jina AI](/documentation/embeddings/jina-embeddings/)     | Customizable embeddings for neural search. |
+| [Mistral](/documentation/embeddings/mistral/)         | Open-source, efficient language model embeddings. |
+| [MixedBread](/documentation/embeddings/mixedbread/)   | Lightweight embeddings for constrained environments. |
+| [Mixpeek](/documentation/embeddings/mixpeek/)         | Managed SDK for video chunking, embedding, and post-processing.​ |
+| [Nomic](/documentation/embeddings/nomic/)             | Embeddings for data visualization. |
+| [Nvidia](/documentation/embeddings/nvidia/)      | GPU-optimized embeddings from Nvidia. |
+| [Ollama](/documentation/embeddings/ollama/)           | Embeddings for conversational AI. |
+| [OpenAI](/documentation/embeddings/openai/)           | Industry-leading embeddings for NLP. |
+| [Prem AI](/documentation/embeddings/premai/)          | Precise language embeddings. |
+| [Snowflake](/documentation/embeddings/snowflake/)     | Scalable embeddings for big data. |
+| [Upstage](/documentation/embeddings/upstage/)         | Embeddings for speech and language tasks. |
+| [Voyage AI](/documentation/embeddings/voyage/)        | Navigation and spatial understanding embeddings. |

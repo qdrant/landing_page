@@ -8,7 +8,7 @@ aliases:
 # Points
 
 The points are the central entity that Qdrant operates with.
-A point is a record consisting of a [vector](../vectors/) and an optional [payload](../payload/).
+A point is a record consisting of a [vector](/documentation/concepts/vectors/) and an optional [payload](/documentation/concepts/payload/).
 
 It looks like this:
 
@@ -21,8 +21,8 @@ It looks like this:
 }
 ```
 
-You can search among the points grouped in one [collection](../collections/) based on vector similarity.
-This procedure is described in more detail in the [search](../search/) and [filtering](../filtering/) sections.
+You can search among the points grouped in one [collection](/documentation/concepts/collections/) based on vector similarity.
+This procedure is described in more detail in the [search](/documentation/concepts/search/) and [filtering](/documentation/concepts/filtering/) sections.
 
 This section explains how to create and manage vectors.
 
@@ -343,7 +343,7 @@ Here is a list of supported vector types:
 It is possible to attach more than one type of vector to a single point.
 In Qdrant we call it Named Vectors.
 
-Read more about vector types, how they are stored and optimized in the [vectors](../vectors/) section.
+Read more about vector types, how they are stored and optimized in the [vectors](/documentation/concepts/vectors/) section.
 
 
 ## Upload points
@@ -1424,7 +1424,7 @@ To delete entire points, see [deleting points](#delete-points).
 
 ### Update payload
 
-Learn how to modify the payload of a point in the [Payload](../payload/#update-payload) section.
+Learn how to modify the payload of a point in the [Payload](/documentation/concepts/payload/#update-payload) section.
 
 ## Delete points
 

@@ -63,7 +63,7 @@ The total_payload_size is approximately 5,000,000 bytes, or about 4.77 GB.
 
 For optimal performance, you should store only frequently accessed data in RAM. The rest should be offloaded to the disk. For example, extra payload fields that you don't use for filtering can be stored on disk. 
 
-Only [indexed fields](../../concepts/indexing/#payload-index) should be stored in RAM. You can read more about payload storage in the [Storage](../../concepts/storage/#payload-storage) section.
+Only [indexed fields](/documentation/concepts/indexing/#payload-index) should be stored in RAM. You can read more about payload storage in the [Storage](/documentation/concepts/storage/#payload-storage) section.
 
 ### Storage-focused configuration
 
