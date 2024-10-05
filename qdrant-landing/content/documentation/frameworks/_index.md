@@ -19,6 +19,7 @@ weight: 20
 | [Langchain-Go](/documentation/frameworks/langchain-go/)       | Go framework for building context-aware, reasoning applications using LLMs.                          |
 | [Langchain4j](/documentation/frameworks/langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                        |
 | [LlamaIndex](/documentation/frameworks/llama-index/)          | A data framework for building LLM applications with modular integrations.                            |
+| [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.              |
 | [MemGPT](/documentation/frameworks/memgpt/)                   | System to build LLM agents with long term memory & custom tools                                      |
 | [Pandas-AI](/documentation/frameworks/pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.             |
