@@ -2,7 +2,7 @@
 title: Mem0
 ---
 
-# Mem0
+![Mem0 Logo](/documentation/frameworks/mem0/mem0-logo.png)
 
 [Mem0](https://mem0.ai) is a self-improving memory layer for LLM applications, enabling personalized AI experiences that save costs and delight users. Mem0 remembers user preferences, adapts to individual needs, and continuously improves over time, ideal for chatbots and AI systems.
 
