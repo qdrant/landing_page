@@ -5,7 +5,7 @@ weight: 14
 
 # Qdrant Private Cloud
 
-Qdrant Private Cloud allows you to manage Qdrant database clusters in any Kubernetes cluster on any infrastucture. It uses the same Qdrant Operator that powers Qdrant Managed Cloud and Qdrant Hybrid Cloud, but without any connection to the Qdrant Cloud Management Console.
+Qdrant Private Cloud allows you to manage Qdrant database clusters in any Kubernetes cluster on any infrastructure. It uses the same Qdrant Operator that powers Qdrant Managed Cloud and Qdrant Hybrid Cloud, but without any connection to the Qdrant Cloud Management Console.
 
 On top of the open source Qdrant database, it allows
 

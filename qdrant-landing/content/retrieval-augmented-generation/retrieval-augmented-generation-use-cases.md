@@ -9,8 +9,8 @@ features:
   title: Question and Answer System with LlamaIndex
   description: Combine Qdrant and LlamaIndex to create a self-updating Q&A system.
   link:
-    text: Video Tutorial
-    url: https://www.youtube.com/watch?v=id5ql-Abq4Y&t=56s
+    text: Jupyter Notebook
+    url: https://github.com/qdrant/examples/blob/949669f001a03131afebf2ecd1e0ce63cab01c81/llama_index_recency/Qdrant%20and%20LlamaIndex%20%E2%80%94%20A%20new%20way%20to%20keep%20your%20Q%26A%20systems%20up-to-date.ipynb
 - id: 1
   image:
     src: /img/retrieval-augmented-generation-use-cases/case2.svg

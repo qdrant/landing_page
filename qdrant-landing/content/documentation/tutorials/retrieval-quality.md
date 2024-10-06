@@ -20,7 +20,7 @@ algorithm used in Qdrant, to obtain the best results.
 The quality of the embeddings is a topic for a separate tutorial. In a nutshell, it is usually measured and compared by benchmarks, such as 
 [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard). The evaluation process itself is pretty 
 straightforward and is based on a ground truth dataset built by humans. We have a set of queries and a set of the documents we would expect
-to receive for each of them. In the evaluation process, we take a query, find the most similar documents in the vector space and compare 
+to receive for each of them. In the [evaluation process](https://qdrant.tech/rag/rag-evaluation-guide/), we take a query, find the most similar documents in the vector space and compare 
 them with the ground truth. In that setup, **finding the most similar documents is implemented as full kNN search, without any approximation**.
 As a result, we can measure the quality of the embeddings themselves, without the influence of the ANN algorithm.
 
@@ -50,7 +50,7 @@ algorithm approximates the exact search**.
 
 ## Measure the quality of the search results
 
-Let's build a quality evaluation of the ANN algorithm in Qdrant. We will, first, call the search endpoint in a standard way to obtain
+Let's build a quality [evaluation](https://qdrant.tech/rag/rag-evaluation-guide/) of the ANN algorithm in Qdrant. We will, first, call the search endpoint in a standard way to obtain
 the approximate search results. Then, we will call the exact search endpoint to obtain the exact matches, and finally compare both results
 in terms of precision.
 
@@ -218,7 +218,7 @@ to do it.
 
 ## Wrapping up
 
-Assessing the quality of retrieval is a critical aspect of evaluating semantic search performance. It is imperative to measure retrieval quality when aiming for optimal quality of.
+Assessing the quality of retrieval is a critical aspect of [evaluating](https://qdrant.tech/rag/rag-evaluation-guide/) semantic search performance. It is imperative to measure retrieval quality when aiming for optimal quality of.
 your search results. Qdrant provides a built-in exact search mode, which can be used to measure the quality of the ANN algorithm itself, 
 even in an automated way, as part of your CI/CD pipeline.
 

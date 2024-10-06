@@ -23,7 +23,7 @@ tags:
 
 **Semantic cache** is a method of retrieval optimization, where similar queries instantly retrieve the same appropriate response from a knowledge base. 
 
-Semantic cache differs from traditional caching methods. In computing, **cache** refers to high-speed memory that efficiently stores frequently accessed data. In the context of vector databases, a **semantic cache** improves AI application performance by storing previously retrieved results along with the conditions under which they were computed. This allows the application to reuse those results when the same or similar conditions occur again, rather than finding them from scratch.
+Semantic cache differs from traditional caching methods. In computing, **cache** refers to high-speed memory that efficiently stores frequently accessed data. In the context of [vector databases](/articles/what-is-a-vector-database/), a **semantic cache** improves AI application performance by storing previously retrieved results along with the conditions under which they were computed. This allows the application to reuse those results when the same or similar conditions occur again, rather than finding them from scratch.
 
 > The term **"semantic"** implies that the cache takes into account the meaning or semantics of the data or computation being cached, rather than just its syntactic representation. This can lead to more efficient caching strategies that exploit the structure or relationships within the data or computation.
 
@@ -39,9 +39,9 @@ In this blog and video, we will walk you through how to use Qdrant to implement 
 
 Semantic cache is increasingly used in Retrieval-Augmented Generation (RAG) applications. In RAG, when a user asks a question, we embed it and search our vector database, either by using keyword, semantic, or hybrid search methods. The matched context is then passed to a Language Model (LLM) along with the prompt and user question for response generation.
 
-Qdrant is recommended for setting up semantic cache as semantically evaluates the response. When semantic cache is implemented, we store common questions and their corresponding answers in a key-value cache. This way, when a user asks a question, we can retrieve the response from the cache if it already exists.
+Qdrant is recommended for setting up semantic cache as semantically [evaluates](https://qdrant.tech/rag/rag-evaluation-guide/) the response. When semantic cache is implemented, we store common questions and their corresponding answers in a key-value cache. This way, when a user asks a question, we can retrieve the response from the cache if it already exists.
 
-**Diagram:** Semantic cache improves RAG by directly retrieving stored answers to the user. **Follow along with the gif** and see how semantic cache stores and retrieves answers.
+**Diagram:** Semantic cache improves [RAG](https://qdrant.tech/rag/rag-evaluation-guide/) by directly retrieving stored answers to the user. **Follow along with the gif** and see how semantic cache stores and retrieves answers.
 
 ![Alt Text](/blog/semantic-cache-ai-data-retrieval/semantic-cache.gif)
 

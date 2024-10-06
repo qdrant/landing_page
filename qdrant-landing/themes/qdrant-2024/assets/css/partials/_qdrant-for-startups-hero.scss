@@ -3,44 +3,48 @@
 .qdrant-for-startups-hero {
   position: relative;
   padding-top: $spacer * 2.5;
+  padding-bottom: $spacer * 4;
   background-color: $neutral-10;
   overflow: hidden;
+  text-align: center;
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
 
   &__title {
     margin-bottom: $spacer * 1.5;
     font-size: $spacer * 2.5;
     line-height: $spacer * 3;
     color: $neutral-98;
-    text-align: center;
   }
 
   &__description {
-    margin: 0 auto $spacer * 2;
+    margin-bottom: $spacer * 2;
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
     color: $neutral-70;
-    text-align: center;
   }
 
   &__button {
-    position: relative;
-    display: flex;
-    margin: 0 auto $spacer * 1.5;
     width: pxToRem(200);
+  }
+
+  &__preview {
+    position: relative;
+    margin-top: $spacer * 2.5;
     z-index: 1;
-  }
 
-  &__image {
-    display: none;
-  }
-
-  &__image-mobile {
-    display: block;
-    width: 100%;
-    max-width: pxToRem(730);
-    margin: 0 auto;
+    img {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(480);
+      margin: 0 auto;
+    }
   }
 
   &__overlay {
-    display: none;
     position: absolute;
     right: 0;
     left: 0;
@@ -54,37 +58,24 @@
 
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 3;
+    padding-bottom: $spacer * 7.5;
+    text-align: left;
 
     &__title {
+      max-width: pxToRem(480);
       font-size: $spacer * 4;
       line-height: pxToRem(76);
     }
 
     &__description {
-      position: relative;
-      max-width: pxToRem(730);
-      font-size: pxToRem(18);
-      line-height: pxToRem(27);
-      z-index: 1;
+      max-width: pxToRem(480);
     }
 
-    &__button {
-      margin-bottom: 0;
-    }
-
-    &__image {
-      display: block;
-      width: 100%;
-      max-width: pxToRem(1288);
-      margin: -114px auto 0;
-    }
-
-    &__image-mobile {
-      display: none;
-    }
-
-    &__overlay {
-      display: block;
+    &__preview {
+      img {
+        max-width: none;
+        margin: 0;
+      }
     }
   }
 }

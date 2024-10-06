@@ -27,11 +27,11 @@ jobs:
           export PATH="${CURRENT_DIR}/dart-sass:${PATH}"
           cd qdrant-landing && hugo --gc -b 'http://localhost:1313' && hugo serve &
           sleep 5 # wait for server to start
-      - name: Link Checker
+      - name: Internal Links Check
         id: lychee
         uses: lycheeverse/lychee-action@v1.8.0
         with:
-          args: --max-redirects 0 --exclude '.*' --include 'http://localhost:1313/.*' qdrant-landing/public/
+          args: --max-redirects 0 --exclude '.*' --include 'http://localhost:1313/.*' --base http://localhost:1313/ qdrant-landing/public/
           fail: true
         env:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}

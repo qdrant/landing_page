@@ -234,7 +234,7 @@ llm = AlephAlpha(
 Then, we can glue the components together and build the search process. `RetrievalQA` is a class that takes implements
 the Question Retrieval process, with a specified retriever and Large Language Model. The instance of `Qdrant` might be
 converted into a retriever, with additional filter that will be passed to the `similarity_search` method. The filter
-is created as [in a regular Qdrant query](../../../documentation/concepts/filtering/), with the `roles` field set to the
+is created as [in a regular Qdrant query](/documentation/concepts/filtering/), with the `roles` field set to the
 user's roles.
 
 ```python

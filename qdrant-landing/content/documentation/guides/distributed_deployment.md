@@ -32,7 +32,7 @@ In summary, single-node clusters are best for non-production workloads, replicat
 
 ## Enabling distributed mode in self-hosted Qdrant
 
-To enable distributed deployment - enable the cluster mode in the [configuration](../configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
+To enable distributed deployment - enable the cluster mode in the [configuration](/documentation/guides/configuration/) or using the ENV variable: `QDRANT__CLUSTER__ENABLED=true`.
 
 ```yaml
 cluster:
@@ -152,7 +152,7 @@ Qdrant uses the [Raft](https://raft.github.io/) consensus protocol to maintain c
 
 Operations on points, on the other hand, do not go through the consensus infrastructure.
 Qdrant is not intended to have strong transaction guarantees, which allows it to perform point operations with low overhead.
-In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](../../concepts/points/#awaiting-result) to see the results of your writes.
+In practice, it means that Qdrant does not guarantee atomic distributed updates but allows you to wait until the [operation is complete](/documentation/concepts/points/#awaiting-result) to see the results of your writes.
 
 Operations on collections, on the contrary, are part of the consensus which guarantees that all operations are durable and eventually executed by all nodes.
 In practice it means that a majority of nodes agree on what operations should be applied before the service will perform them.
@@ -171,7 +171,7 @@ There are two methods of distributing points across shards:
 
 - **User-defined sharding**: _Available as of v1.7.0_ - Each point is uploaded to a specific shard, so that operations can hit only the shard or shards they need. Even with this distribution, shards still ensure having non-intersecting subsets of points. [See more...](#user-defined-sharding)
 
-Each node knows where all parts of the collection are stored through the [consensus protocol](./#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
+Each node knows where all parts of the collection are stored through the [consensus protocol](#raft), so when you send a search request to one Qdrant node, it automatically queries all other nodes to obtain the full search result.
 
 ### Choosing the right number of shards
 
@@ -667,7 +667,7 @@ fastest depends on the size and state of a shard.
 Available shard transfer methods are:
 
 - `stream_records`: _(default)_ transfer by streaming just its records to the target node in batches.
-- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](../../concepts/snapshots/) automatically.
+- `snapshot`: transfer including its index and quantized data by utilizing a [snapshot](/documentation/concepts/snapshots/) automatically.
 - `wal_delta`: _(auto recovery default)_ transfer by resolving [WAL] difference; the operations that were missed.
 
 Each has pros, cons and specific requirements, some of which are:
@@ -720,7 +720,7 @@ are acceptable in your use case. If your cluster is unstable and out of
 resources, it's probably best to use the `stream_records` transfer method,
 because it is unlikely to fail.
 
-The `snapshot` transfer method utilizes [snapshots](../../concepts/snapshots/)
+The `snapshot` transfer method utilizes [snapshots](/documentation/concepts/snapshots/)
 to transfer a shard. A snapshot is created automatically. It is then transferred
 and restored on the target node. After this is done, the snapshot is removed
 from both nodes. While the snapshot/transfer/restore operation is happening, the
@@ -749,7 +749,7 @@ The `stream_records` method is currently used as default. This may change in the
 future. As of Qdrant 1.9.0 `wal_delta` is used for automatic shard replications
 to recover dead shards.
 
-[WAL]: ../../concepts/storage/#versioning
+[WAL]: /documentation/concepts/storage/#versioning
 
 ## Replication
 
@@ -985,7 +985,7 @@ Snapshot recovery, used in single-node deployment, is different from cluster one
 Consensus manages all metadata about all collections and does not require snapshots to recover it.
 But you can use snapshots to recover missing shards of the collections.
 
-Use the [Collection Snapshot Recovery API](../../concepts/snapshots/#recover-in-cluster-deployment) to do it.
+Use the [Collection Snapshot Recovery API](/documentation/concepts/snapshots/#recover-in-cluster-deployment) to do it.
 The service will download the specified snapshot of the collection and recover shards with data from it.
 
 Once all shards of the collection are recovered, the collection will become operational again.

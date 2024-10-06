@@ -132,14 +132,14 @@ progress of the synchronization in the UI.
 ## RAG connector
 
 One of our previous tutorials, guides you step-by-step on [implementing custom connector for Cohere 
-RAG](../cohere-rag-connector/) with Cohere Embed v3 and Qdrant. You can just point it to use your Hybrid Cloud
+RAG](documentation/examples/cohere-rag-connector/) with Cohere Embed v3 and Qdrant. You can just point it to use your Hybrid Cloud
 Qdrant instance running on AWS. Created connector might be deployed to Amazon Web Services in various ways, even in a 
 [Serverless](https://aws.amazon.com/serverless/) manner using [AWS 
 Lambda](https://aws.amazon.com/lambda/?c=ser&sec=srv).
 
 In general, RAG connector has to expose a single endpoint that will accept POST requests with `query` parameter and 
 return the matching documents as JSON document with a specific structure. Our FastAPI implementation created [in the
-related tutorial](../cohere-rag-connector/) is a perfect fit for this task. The only difference is that you
+related tutorial](documentation/examples/cohere-rag-connector/) is a perfect fit for this task. The only difference is that you
 should point it to the Cohere models and Qdrant running on AWS infrastructure.
 
 > Our connector is a lightweight web service that exposes a single endpoint and glues the Cohere embedding model with 
