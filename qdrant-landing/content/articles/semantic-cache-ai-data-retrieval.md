@@ -1,14 +1,14 @@
 ---
 title: "Semantic Cache: Accelerating AI with Lightning-Fast Data Retrieval"
-draft: false
-slug:  
 short_description: "Semantic Cache for Best Results and Optimization."
 description: "Semantic cache is reshaping AI applications by enabling rapid data retrieval. Discover how its implementation benefits your RAG setup." 
-preview_image: /blog/semantic-cache-ai-data-retrieval/social_preview.png
-social_preview_image: /blog/semantic-cache-ai-data-retrieval/social_preview.png
-date: 2024-05-07T00:00:00-08:00
+preview_dir: /articles_data/semantic-cache-ai-data-retrieval/preview
+social_preview_image: /articles_data/semantic-cache-ai-data-retrieval/preview/social_preview.jpg
 author: Daniel Romero, David Myriel
-featured: false 
+author_link: https://github.com/davidmyriel
+date: 2024-05-07T00:00:00-08:00
+aliases:
+  - /blog/semantic-cache-ai-data-retrieval/
 tags:
   - vector search
   - vector database
@@ -19,6 +19,7 @@ tags:
   - data retrieval
   - efficient data storage
 ---
+
 ## What is Semantic Cache?
 
 **Semantic cache** is a method of retrieval optimization, where similar queries instantly retrieve the same appropriate response from a knowledge base. 
@@ -27,7 +28,7 @@ Semantic cache differs from traditional caching methods. In computing, **cache**
 
 > The term **"semantic"** implies that the cache takes into account the meaning or semantics of the data or computation being cached, rather than just its syntactic representation. This can lead to more efficient caching strategies that exploit the structure or relationships within the data or computation.
 
-![semantic-cache-question](/blog/semantic-cache-ai-data-retrieval/semantic-cache-question.png)
+![semantic-cache-question](/articles_data/semantic-cache-ai-data-retrieval/semantic-cache-question.png)
 
 Traditional caches operate on an exact match basis, while semantic caches search for the meaning of the key rather than an exact match. For example, **"What is the capital of Brazil?"** and **"Can you tell me the capital of Brazil?"** are semantically equivalent, but not exact matches. A semantic cache recognizes such semantic equivalence and provides the correct result. 
 
@@ -43,7 +44,7 @@ Qdrant is recommended for setting up semantic cache as semantically [evaluates](
 
 **Diagram:** Semantic cache improves [RAG](https://qdrant.tech/rag/rag-evaluation-guide/) by directly retrieving stored answers to the user. **Follow along with the gif** and see how semantic cache stores and retrieves answers.
 
-![Alt Text](/blog/semantic-cache-ai-data-retrieval/semantic-cache.gif)
+![Alt Text](/articles_data/semantic-cache-ai-data-retrieval/semantic-cache.gif)
 
 When using a key-value cache, it's important to consider that slight variations in question wording can lead to different hash values. The two questions convey the same query but differ in wording. A naive cache search might fail due to distinct hashed versions of the questions. Implementing a more nuanced approach is necessary to accommodate phrasing variations and ensure accurate responses.
 
