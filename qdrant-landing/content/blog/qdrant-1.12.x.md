@@ -23,8 +23,8 @@ tags:
 **GUI Data Exploration** Visually navigate your dataset and analyze vector relationships.</br>
 **Faceting API:** Dynamically aggregate and count unique values in specific fields.</br>
 
-**Text Index on_disk:** Reduce memory usage by storing text indexing data on disk.</br>
-**Geo Index on_disk:** Offload indexed geographic data on disk for memory efficiency.
+**Text Index on disk:** Reduce memory usage by storing text indexing data on disk.</br>
+**Geo Index on disk:** Offload indexed geographic data on disk for memory efficiency.
 
 ## Distance Matrix API for Data Insights
 ![distance-matrix-api](/blog/qdrant-1.12.x/distance-matrix-api.png)
