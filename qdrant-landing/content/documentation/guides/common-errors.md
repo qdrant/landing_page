@@ -42,7 +42,7 @@ Can't open Collections meta Wal: Os { code: 11, kind: WouldBlock, message: "Reso
 ```
 
 It means that Qdrant cannot start because a collection cannot be loaded. Its
-associated [WAL](../../concepts/storage/#versioning) files are currently
+associated [WAL](/documentation/concepts/storage/#versioning) files are currently
 unavailable, likely because the same files are already being used by another
 Qdrant instance.
 

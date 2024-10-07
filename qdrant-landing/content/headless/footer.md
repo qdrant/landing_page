@@ -96,6 +96,9 @@ menuItems:
       - id: 2
         name: Articles
         url: /articles/
+      - id: 3
+        name: Startup Program
+        url: /qdrant-for-startups/
   - title: Company
     items:
       - id: 0
@@ -127,5 +130,8 @@ bages:
   - src: /img/soc2-badge.png
     alt: "SOC2"
     url: http://qdrant.to/trust-center
+  - src: /img/gdpr-badge.png
+    alt: "heyData GDPR"
+    url: https://heydata.eu/
 sitemapExclude: true
 ---

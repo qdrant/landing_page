@@ -57,6 +57,15 @@
 
         &-content {
           margin-bottom: $spacer * 2.5;
+
+          ul {
+            list-style-type: "- ";
+            padding-left: pxToRem(14);
+          }
+
+          a {
+            border-bottom: 2px solid $primary-50;
+          }
         }
       }
 
@@ -65,6 +74,16 @@
           background-image: url("data:image/svg+xml,%3Csvg width='24' height='25' viewBox='0 0 24 25' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M22 12.7871H2' stroke='%232F6FF0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
         }
       }
+    }
+  }
+
+  &__button {
+    display: flex;
+    justify-content: center;
+    margin-top: $spacer * 4;
+
+    a {
+      width: $spacer * 12.5;
     }
   }
 
@@ -92,6 +111,10 @@
           padding: 0 $spacer * 5 0 $spacer * 2.5;
         }
       }
+    }
+
+    &__button {
+      margin-top: $spacer * 5;
     }
   }
 }
