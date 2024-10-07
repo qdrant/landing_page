@@ -1,0 +1,88 @@
+@use '../helpers/functions' as *;
+
+.retrieval-augmented-generation-guide {
+  position: relative;
+  padding-top: $spacer * 4;
+  padding-bottom: $spacer * 4;
+  background-color: $neutral-10;
+  overflow: hidden;
+
+  &__content {
+    position: relative;
+    z-index: 1;
+  }
+
+  &__tag {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    margin-bottom: $spacer * 2;
+    padding: calc($spacer / 4) $spacer;
+    border-radius: $spacer;
+    background-color: $neutral-20;
+
+    img {
+      width: $spacer;
+      height: $spacer;
+    }
+
+    p {
+      margin-bottom: 0;
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      font-weight: 400;
+      color: $neutral-90;
+    }
+  }
+
+  &__title {
+    margin-bottom: $spacer * 2;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin-bottom: $spacer * 2;
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    color: $neutral-70;
+  }
+
+  &__preview {
+    img {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(540);
+      margin: $spacer * 2.5 auto 0 auto;
+    }
+  }
+
+  &__overlay-bottom {
+    left: -$spacer * 1.5;
+    bottom: -$spacer * 1.5;
+  }
+
+  @include media-breakpoint-up(xl) {
+    padding-top: $spacer * 7.5;
+    padding-bottom: $spacer * 7.5;
+
+    &__title {
+      max-width: pxToRem(445);
+      font-size: $spacer * 3;
+      line-height: pxToRem(58);
+    }
+
+    &__description {
+      max-width: pxToRem(445);
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
+    }
+
+    &__preview {
+      img {
+        margin: 0 0 0 auto;
+      }
+    }
+  }
+}
