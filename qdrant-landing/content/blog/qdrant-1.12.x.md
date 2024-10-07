@@ -197,7 +197,7 @@ This feature provides flexibility between performance and precision, depending o
 
 *To learn more about faceting, read the [**Facet API documentation**](https://qdrant.tech/).*
 
-## Text Index on_disk Support 
+## Text Index on disk Support 
 ![text-index-disk](/blog/qdrant-1.12.x/text-index-disk.png)
 
 [**Qdrant text indexing**](/documentation/concepts/indexing/#full-text-index) tokenizes text into smaller units (tokens) based on chosen settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. 
