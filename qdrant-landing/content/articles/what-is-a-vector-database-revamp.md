@@ -1,7 +1,7 @@
 ---
-title: "What is a Vector Database? Revamped"
+title: "An Introduction to Vector Databases"
 draft: false
-slug: what-is-a-vector-database-revamped
+slug: introduction-to-vector-databases
 short_description:  What is a Vector Database? Use Cases & Examples | Qdrant
 description: Discover what a vector database is, its core functionalities, and real-world applications.
 preview_dir: /articles_data/what-is-a-vector-database-revamp/preview
@@ -18,11 +18,13 @@ tags:
 
 ---
 
-A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
+> A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized database system designed for efficiently indexing, querying, and retrieving high-dimensional vector data. Those systems enable advanced data analysis and similarity-search operations that extend well beyond the traditional, structured query approach of conventional databases.
 
-Most of the millions of terabytes of data that we're generating each day is unstructured —images, videos, audio, social media content, documents, and more. This means we can no longer fit our data into rows and columns. 
+Most of the millions of terabytes of data we generate each day is **unstructured**. Think about all those meal pictures you take, the PDFs shared at work, or podcasts you save to listen to later even though you probably never will. None of it fits neatly into rows and columns.
 
-Unstructured data doesn’t follow a strict format or schema, making it challenging for conventional databases to handle. Yet, it’s exactly this unstructured data that holds the most potential for AI, machine learning, and modern search technologies. Vector databases are built to make sense of this complexity, allowing us to find meaning and connections within massive, unstructured datasets.
+Unstructured data doesn’t follow a strict format or schema, making it difficult for conventional databases to manage. Yet, it’s exactly this unstructured data that holds the most potential for **AI**, **machine learning**, and **modern search engines**. 
+
+Vector databases are built to make sense of this complexity, allowing us to find meaning and connections within massive, unstructured datasets.
 
 ### The Challenge With Traditional Databases
 
@@ -39,7 +41,7 @@ And it's not just PDFs. Think about the vast amounts of text, audio, and image d
 
 <img src="/articles_data/what-is-a-vector-database-revamp/vector-db-structure.png" alt="Structure of a Vector Database" width="400">
 
-Vector databases allow you to understand the **context** or **conceptual similarity** of unstructured data by representing the data as vectors, enabling advanced analysis and retrieval based on data similarity.
+Vector databases allow you to understand the **context** or **conceptual similarity** of unstructured data by representing the data as **vectors**.
 
 ### When To Use a Vector Database
 
@@ -57,23 +59,21 @@ Not sure if you should use a vector database or a traditional database? This cha
 
 ### What Is A Vector?
 
-Let’s start with the basics. When a machine needs to process unstructured data—whether it’s an image, a piece of text, or an audio file, it first has to translate that data into a format it can work with: **vectors**.
+When a machine needs to process unstructured data—whether it’s an image, a piece of text, or an audio file, it first has to translate that data into a format it can work with: **vectors**.
 
 A **vector** is a numerical representation of data that can capture the **context** and **semantics** of data. 
 
-Imagine you have a photo of a dog. It’s not enough for a machine to store it like we would in a folder on your desktop. The machine needs to understand it somehow. 
+When we deal with unstructured data, traditional databases struggle to understand its meaning. A vector translates that data into something a machine can process. For example, a vector generated from text can represent relationships and meaning between words, making it possible for a machine to compare and understand their context.
 
-The dog photo gets translated into a vector, which to simply put, is numbers describing different aspects of that image: the shape, the colors, the patterns, and so on. 
+There are three key elements that define a vector in a vector database: the **ID**, the **dimensions**, and the **payload**. These components work together to represent a vector effectively within the system. Together, they form what we call a **point**, which is the core unit of data stored and retrieved in a vector database.
 
-And just like that, the machine isn’t dealing with pixels anymore. Now it can compare this dog photo to other images—finding similarities, differences, and maybe even telling you which other photos are close to it.
+<img src="/articles_data/what-is-a-vector-database-revamp/point.png" alt="Representation of a Point in Qdrant" width="700">
 
-<img src="/articles_data/what-is-a-vector-database-revamp/vector.png" alt="Structure of OLTP and OLAP databases" width="700">
-
-Now that we’ve got a handle on what vectors are, let’s talk about the building blocks that make them work inside a vector database. There are three main parts you’ll want to understand: the **ID**, the **dimensions**, and the **payload**. Each part plays a critical role in how vectors are stored, retrieved, and interpreted.
+Each one of these parts plays an important role in how vectors are stored, retrieved, and interpreted. Let's see how. 
 
 #### 1. The ID: Your Vector’s Unique Identifier
 
-Just like in a relational database, each vector in a vector database gets a unique `ID`. Think of it as your vector’s name tag, a **primary key** that ensures the vector can be easily found later. When a vector is added to the database, the ID is created automatically.
+Just like in a relational database, each vector in a vector database gets a unique ID. Think of it as your vector’s name tag, a **primary key** that ensures the vector can be easily found later. When a vector is added to the database, the ID is created automatically.
 
 While the ID itself doesn't play a part in the similarity search (which operates on the vector's numerical data), it is essential for associating the vector with its corresponding "real-world" data, whether that’s a document, an image, or a sound file. 
 
@@ -91,7 +91,7 @@ To represent textual data, for example, an embedding will encapsulate the nuance
 
 <img src="/articles_data/what-is-a-vector-database-revamp/embedding-model.png" alt="Creation of a vector based on a sentence with an embedding model" width="500">
 
-For that reason, when comparing two similar sentences, their embeddings will turn out to be very similar, because they have similar **linguistic elements.**
+For that reason, when comparing two similar sentences, their embeddings will turn out to be very similar, because they have similar **linguistic elements**.
 
 <img src="/articles_data/what-is-a-vector-database-revamp/two-similar-vectors.png" alt="Comparison of the embeddings of 2 similar sentences" width="500">
 
@@ -149,7 +149,7 @@ Sparse vectors are ideal for tasks like **keyword search** or **metadata filteri
 
 ### Hybrid Search: Combining Dense and Sparse Vectors for Better Results
 
-Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching.**
+Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching**.
 
 With hybrid search you don’t have to choose one over the othe and use both to get searches that are more **relevant** and **filtered**. 
 
@@ -182,13 +182,16 @@ This is just a simple example and there's so much more you can do with it. See o
 
 ### Architecture of a Vector Database
 
-A vector database is made of multiple different entities and relations. Here’s a high-level overview of Qdrant’s terminologies and how they fit into the larger picture:
-
+A vector database is made of multiple different entities and relations. Let's understand a bit of what's happening here:
 <img src="/articles_data/what-is-a-vector-database-revamp/architecture-vector-db.png" alt="Architecture Diagram of a Vector Database" width="900">
 
-**Collections:** A [collection](https://qdrant.tech/documentation/concepts/collections/) is essentially a group of **vectors** (or “[points](https://qdrant.tech/documentation/concepts/points/)”) that are logically grouped together based on similarity or a specific task. Every vector within a collection shares the same dimensionality and can be compared using a single metric. 
+#### Collections
 
-**Distance Metrics:** These metrics defines how similarity between vectors is calculated. The choice of distance metric is made when creating a collection and the right choice depends on the type of data you’re working with and how the vectors were created. Here we have the three most common distance metrics:
+A [collection](https://qdrant.tech/documentation/concepts/collections/) is essentially a group of **vectors** (or “[points](https://qdrant.tech/documentation/concepts/points/)”) that are logically grouped together **based on similarity or a specific task**. Every vector within a collection shares the same dimensionality and can be compared using a single metric. Avoid creating multiple collections unless necessary; instead, consider techniques like **sharding** for scaling across nodes or **multitenancy** for handling different use cases within the same infrastructure.
+
+#### Distance Metrics 
+
+These metrics defines how similarity between vectors is calculated. The choice of distance metric is made when creating a collection and the right choice depends on the type of data you’re working with and how the vectors were created. Here we have the three most common distance metrics:
 
 - **Euclidean Distance:** The straight-line path. It’s like measuring the physical distance between two points in space. Pick this one when the actual distance (like spatial data) matters.
 
@@ -221,13 +224,15 @@ Qdrant offers a range of SDKs. You can use the programming language you're most 
 
 ### The Core Functionalities of Vector Databases
 
-When you think of a traditional database, the operations are familiar: you **create,** **read,** **update,** and **delete** records. These are the fundamentals. And guess what? In many ways, vector databases work the same way, but the operations are built for the complexity of vectors.
+When you think of a traditional database, the operations are familiar: you **create**, **read**, **update**, and **delete** records. These are the fundamentals. And guess what? In many ways, vector databases work the same way, but the operations are translated for the complexity of vectors.
 
 #### 1. Indexing: HNSW Index and Sending Data To Qdrant
 
-When it comes to vector search, you want speed without sacrificing accuracy. **HNSW** (Hierarchical Navigable Small World) is an indexing algorithm that helps you find similar vectors efficiently.
+Indexing your vectors is like creating an entry in a traditional database. But for vector databases, this step is very important. Vectors need to be indexed in a way that makes them easy to search later on. 
 
-HNSW works by creating a multi-layered graph. Each vector is a node, and connections between nodes represent similarity. The higher layers are more general, connecting vectors that are broadly similar. As you move down the layers, the connections become more specific, linking vectors that are closely related.
+**HNSW** (Hierarchical Navigable Small World) is an powerful indexing algorithm that most vector databases rely on to organize vectors for fast and efficient search.
+
+It builds a multi-layered graph, where each vector is a node and connections represent similarity. The higher layers connect broadly similar vectors, while lower layers link vectors that are closely related, making searches progressively more refined as they go deeper.
 
 <img src="/articles_data/what-is-a-vector-database-revamp/hnsw.png" alt="Indexing Data with the HNSW algorithm" width="500">
 
@@ -245,19 +250,19 @@ Combining [full-text search](https://qdrant.tech/documentation/concepts/indexing
 
 #### 2. Searching: Approximate Nearest Neighbors (ANN) Search
 
-Similarity search allows you to search by **meaning.** This way you can do searches such as similar songs that evoke the same mood, finding images that match your artistic vision, or even exploring emotional patterns in text.
+Similarity search allows you to search by **meaning**. This way you can do searches such as similar songs that evoke the same mood, finding images that match your artistic vision, or even exploring emotional patterns in text.
 
 <img src="/articles_data/what-is-a-vector-database-revamp/similarity.png" alt="Similar words grouped together" width="800">
 
-The way it works is, when the user queries the database, this query is also converted into a vector. The algorithm quickly identifies the area of the graph likely to contain vectors closest to the **query vector.**
+The way it works is, when the user queries the database, this query is also converted into a vector. The algorithm quickly identifies the area of the graph likely to contain vectors closest to the **query vector**.
 
 <img src="/articles_data/what-is-a-vector-database-revamp/ann-search.png" alt="Approximate Nearest Neighbors (ANN) Search Graph" width="500">
 
-The search then moves down progressively narrowing down to more closely related and relevant vectors. Once the closest vectors are identified at the bottom layer, these points translate back to actual data, representing your **top scored documents.** 
+The search then moves down progressively narrowing down to more closely related and relevant vectors. Once the closest vectors are identified at the bottom layer, these points translate back to actual data, representing your **top scored documents**.
 
 Here's a high-level overview of this process:
 
-<img src="/articles_data/what-is-a-vector-database-revamp/simple-arquitecture.png" alt="Vector Database Seaching Funcionality" width="600">
+<img src="/articles_data/what-is-a-vector-database-revamp/simple-arquitecture.png" alt="Vector Database Seaching Funcionality" width="520">
 
 #### 3. Updating Vectors: Real-Time and Bulk Adjustments
 
@@ -301,75 +306,17 @@ qdrant_client.delete(
 ```
 You can use deletion to remove outdated data, clean up duplicates, and manage the lifecycle of vectors by automatically deleting them after a set period to keep your dataset relevant and focused.
 
-### Distributed Deployment 
-
-When thinking about scaling, the key factors to consider are **fault tolerance,** **load balancing,** and **availability.** One node, no matter how powerful, can only take you so far. Eventually, you'll need to spread the workload across multiple machines to ensure the system remains fast and stable.
-
-#### Sharding: Distributing Data Across Nodes
-
-In a distributed Qdrant cluster, data is split into smaller units called **shards,** which are distributed across different nodes. which helps balance the load and ensures that queries can be processed in parallel.
-
-Each collection—a group of related data points—can be split into non-overlapping subsets, which are then managed by different nodes.
-
-<img src="/articles_data/what-is-a-vector-database-revamp/sharding-raft.png" alt=" Distributed vector database with sharding and Raft consensus" width="1000">
-
-**Raft Consensus** ensures that all the nodes stay in sync and have a consistent view of the data. Each node knows where every shard is, and Raft ensures that all nodes are in sync. If one node fails, the others know where the missing data is located and can take over.
-
-By default, the number of shards in your Qdrant system matches the number of nodes in your cluster. But if you need more control, you can choose the `shard_number` manually when creating a collection.
-
-```python
-client.create_collection(
-    collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
-    shard_number=4, # Custom number of shards
-)
-```
-
-There are two main types of sharding:
-
-1. **Automatic Sharding:** Points (vectors) are automatically distributed across shards using consistent hashing. Each shard contains non-overlapping subsets of the data. 
-2. **User-defined Sharding:** Specify how points are distributed, enabling more control over your data organization, especially for use cases like **multitenancy**, where each tenant (a user, client, or organization) has their own isolated data. 
-
-Each shard is divided into **segments.** They are a smaller storage unit within a shard, storing a subset of vectors and their associated payloads (metadata). When a query is executed, it targets the only relevant segments, processing them in parallel.
-
-<img src="/articles_data/what-is-a-vector-database-revamp/segments.png" alt="Segments act as smaller storage units within a shard" width="700">
-
-#### Replication: High Availability and Data Integrity
-
-Replication ensures that copies of the same data are maintained across multiple nodes for redundancy. This is crucial for **high availability**, since you won't want a single failure to bring your system down.
-
-Qdrant uses a **Replica Set** to manage copies of shards across different nodes. If one replica becomes unavailable, others are there to take over and keep the system running. Whether the data is local or remote is mainly influenced by how you've configured the cluster.
-
-<img src="/articles_data/what-is-a-vector-database-revamp/replication.png" alt=" Replica Set and Replication diagram" width="1000">
-
-When a query is made, if the relevant data is stored locally, the local shard handles the operation. If the data resides on a remote shard, the query will be routed via gRPC to the node where the remote shard is located, and results will be retrieved from there. 
-
-The `replication_factor` controls how many copies of each shard you want to keep. For example, creating a collection with 4 shards and a replication factor of 2 will result in 8 physical shards distributed across the cluster:
-
-```python
-client.create_collection(
-    collection_name="{collection_name}",
-    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
-    shard_number=4,
-    replication_factor=2, 
-)
-```
-
-We recommend using sharding and replication together so that your data is both split across nodes and replicated for availability. 
-
-For more details on features like **user-defined sharding, node failure recovery,** and **consistency guarantees,** see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/guides/distributed_deployment/)
-
 ### Quantization: Get 40x Faster Results 
 
-As vector datasets grow larger, so do the computational demands of searching through them. 
+As your vector dataset grow larger, so do the computational demands of searching through it. 
 
-Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization,**](https://qdrant.tech/articles/binary-quantization/) you can see **search speeds improve by up to 40x while memory usage decreases by 32x.** Improvements that can be decicive when dealing with large datasets or needing low-latency results.
+Quantized vectors are much smaller and easier to compare. With methods like [**Binary Quantization**](https://qdrant.tech/articles/binary-quantization/), you can see **search speeds improve by up to 40x while memory usage decreases by 32x**. Improvements that can be decicive when dealing with large datasets or needing low-latency results.
 
 It works by converting high-dimensional vectors, which typically use `4 bytes` per dimension, into binary representations, using just `1 bit` per dimension. Values above zero become "1", and everything else becomes "0".
 
 <img src="/articles_data/what-is-a-vector-database-revamp/binary-quantization.png" alt=" Binary Quantization example" width="600">
 
-Quantization reduces data precision, and yes, this does lead to some loss of accuracy.  However, for binary quantization, **OpenAI embeddings** achieves this performance improvement at a cost of only 5% of accuracy. If you apply techniques like **oversampling** and **rescoring,** this loss can be brought down even further.
+Quantization reduces data precision, and yes, this does lead to some loss of accuracy.  However, for binary quantization, **OpenAI embeddings** achieves this performance improvement at a cost of only 5% of accuracy. If you apply techniques like **oversampling** and **rescoring**, this loss can be brought down even further.
 
 However, binary quantization isn’t the only available option. Techniques like [**Scalar Quantization**](https://qdrant.tech/documentation/guides/quantization/#scalar-quantization) and [**Product Quantization**](https://qdrant.tech/documentation/guides/quantization/#product-quantization) are also popular alternatives when optimizing vector compression.
 
@@ -395,11 +342,122 @@ You can store original vectors on disk within the `vectors_config` by setting `o
 
 We recommend checking out our [Vector Quantization guide](https://qdrant.tech/articles/what-is-vector-quantization/) for a full breakdown of methods and tips on **optimizing performance** for your specific use case.
 
-#### Multitenancy: Scalable Isolation Without Overhead
+### Distributed Deployment 
 
-#### Efficient Query Processing
+When thinking about scaling, the key factors to consider are **fault tolerance**, **load balancing**, and **availability**. One node, no matter how powerful, can only take you so far. Eventually, you'll need to spread the workload across multiple machines to ensure the system remains fast and stable.
 
-#### Data Security and Access Control
+#### Sharding: Distributing Data Across Nodes
 
-#### Vector Databases Comparison
+In a distributed Qdrant cluster, data is split into smaller units called **shards**, which are distributed across different nodes. which helps balance the load and ensures that queries can be processed in parallel.
+
+Each collection—a group of related data points—can be split into non-overlapping subsets, which are then managed by different nodes.
+
+<img src="/articles_data/what-is-a-vector-database-revamp/sharding-raft.png" alt=" Distributed vector database with sharding and Raft consensus" width="1000">
+
+**Raft Consensus** ensures that all the nodes stay in sync and have a consistent view of the data. Each node knows where every shard is, and Raft ensures that all nodes are in sync. If one node fails, the others know where the missing data is located and can take over.
+
+By default, the number of shards in your Qdrant system matches the number of nodes in your cluster. But if you need more control, you can choose the `shard_number` manually when creating a collection.
+
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
+    shard_number=4, # Custom number of shards
+)
+```
+
+There are two main types of sharding:
+
+1. **Automatic Sharding:** Points (vectors) are automatically distributed across shards using consistent hashing. Each shard contains non-overlapping subsets of the data. 
+2. **User-defined Sharding:** Specify how points are distributed, enabling more control over your data organization, especially for use cases like **multitenancy**, where each tenant (a user, client, or organization) has their own isolated data. 
+
+Each shard is divided into **segments**. They are a smaller storage unit within a shard, storing a subset of vectors and their associated payloads (metadata). When a query is executed, it targets the only relevant segments, processing them in parallel.
+
+<img src="/articles_data/what-is-a-vector-database-revamp/segments.png" alt="Segments act as smaller storage units within a shard" width="700">
+
+#### Replication: High Availability and Data Integrity
+
+You don’t want a single failure to take down your system, right? Replication keeps multiple copies of the same data across different nodes to ensure **high availability**.
+
+In Qdrant, **Replica Sets** manage these copies of shards across different nodes. If one replica becomes unavailable, others are there to take over and keep the system running. Whether the data is local or remote is mainly influenced by how you've configured the cluster.
+
+<img src="/articles_data/what-is-a-vector-database-revamp/replication.png" alt=" Replica Set and Replication diagram" width="1000">
+
+When a query is made, if the relevant data is stored locally, the local shard handles the operation. If the data is on a remote shard, it’s retrieved via gRPC.
+
+You can control how many copies you want with the `replication_factor`. For example, creating a collection with 4 shards and a replication factor of 2 will result in 8 physical shards distributed across the cluster:
+
+```python
+client.create_collection(
+    collection_name="{collection_name}",
+    vectors_config=models.VectorParams(size=300, distance=models.Distance.COSINE),
+    shard_number=4,
+    replication_factor=2, 
+)
+```
+
+We recommend using sharding and replication together so that your data is both split across nodes and replicated for availability. 
+
+For more details on features like **user-defined sharding, node failure recovery**, and **consistency guarantees**, see our guide on [Distributed Deployment.](https://qdrant.tech/documentation/guides/distributed_deployment/)
+
+### Multitenancy: Data Isolation for Multi-Tenant Architectures
+
+Sharding efficiently distributes data across nodes, while replication guarantees redundancy and fault tolerance. But what happens when you’ve got multiple clients or user groups, and you need to keep their data isolated within the same infrastructure?
+
+**Multitenancy** allows you to keep data for different tenants (users, clients, or organizations) isolated within a single cluster. Instead of creating separate collections for `Tenant 1` and `Tenant 2`, you store their data in the same collection but tag each vector with a `group_id` to identify which tenant it belongs to.
+
+<img src="/articles_data/what-is-a-vector-database-revamp/multitenancy.png" alt="Multitenancy dividing data between 2 tenants" width="1000">
+
+In the backend, Qdrant can store `Tenant 1`’s data in Shard 1 located in Canada (perhaps for compliance reasons like GDPR), while `Tenant 2`’s data is stored in Shard 2 located in Germany. The data will be physically separated but still within the same infrastructure.
+
+To implement this, you tag each vector with a tenant-specific `group_id` during the upsert operation:
+
+```python
+client.upsert(
+    collection_name="tenant_data",
+    points=[models.PointStruct(
+        id=2, 
+        payload={"group_id": "tenant_1"}, 
+        vector=[0.1, 0.9, 0.1]
+    )],
+    shard_key_selector="canada"
+)
+```
+
+Each tenant’s data remains isolated while still benefiting from the shared infrastructure. Optimizing for data privacy, compliance with local regulations, and scalability, without the need to create excessive collections or maintain separate clusters for each tenant.
+
+If you want to learn more about working with a multitenant setup in Qdrant, you can check out our [Multitenancy and Custom Sharding dedicated guide.](https://qdrant.tech/articles/multitenancy/)
+
+### Data Security and Access Control
+
+A common security risk in vector databases is the possibility of **embedding inversion attacks**, where attackers could reconstruct the original data from embeddings. There are many layers of protection you can use to secure your instance that are very important before getting your vector database into production.
+
+For quick security in simpler use cases, you can use the **API key authentication**. To enable it, set up the API key in the configuration or environment variable.
+
+```yaml
+service:
+  api_key: your_secret_api_key_here
+  enable_tls: true  # Make sure to enable TLS to protect the API key from being exposed
+```
+
+Once this is set up, remember to include the API key in all your requests:
+
+```python
+client = QdrantClient(
+    url="https://localhost:6333",
+    api_key="your_secret_api_key_here"
+)
+```
+
+In more advanced setups, Qdrant uses **JWT (JSON Web Tokens)** to enforce **Role-Based Access Control (RBAC)**.
+
+RBAC defines roles and assigns permissions, while JWT securely encodes these roles into tokens. Each request is validated against the user's JWT, ensuring they can only access or modify data based on their assigned permissions. 
+
+You can easily setup you access tokens and secure access to sensitive data through the **Qdrant Web UI:**
+
+<img src="/articles_data/what-is-a-vector-database-revamp/jwt-web-ui.png" alt="Qdrant Web UI for generating a new access token." width="1000">
+
+By default, Qdrant instances are **unsecured**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/guides/security/)
+
+### Next Steps:
 
