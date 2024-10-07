@@ -17,7 +17,7 @@ tags:
   - faceting
   - facet api
 ---
-[**Qdrant 1.12.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.12.0). Let's take a look at major features and a few minor additions:
+[**Qdrant 1.12.0 is out!**](https://github.com/qdrant/qdrant/releases/tag/v1.12.0) Let's look at major new features and a few minor additions:
 
 **Distance Matrix API:** Efficiently calculate pairwise distances between vectors.</br>
 **GUI Data Exploration** Visually navigate your dataset and analyze vector relationships.</br>
@@ -41,7 +41,7 @@ You can use this API to compute a **sparse matrix of distances** that is optimiz
 
 In terms of endpoints, we offer two different formats to show results:
 - **Pairs** are simple, intutitive and ideal for graph representation.
-- **Offsets** are more comples, but also native when defining CSR sparse matrices.
+- **Offsets** are more complex, but also native when defining CSR sparse matrices.
 
 ### Configuration - Pairs
 
@@ -142,7 +142,7 @@ The new graphing method is cleaner and reveals **relationships and outliers:**
 
 In modern applications like e-commerce, users often rely on [**filters**](/articles/vector-search-filtering/), such as **brand** or **color**, to refine search results. The **Facet API** is designed to help users understand the distribution of values in a dataset. 
 
-The `facet` endpoint can efficiently count and aggregate values for a specific [**payload field**](/documentation/concepts/payload/) in your data. 
+The `facet` endpoint can efficiently count and aggregate values for a specific [**payload field**](/documentation/concepts/payload/) in your dataset. 
 
 You can use it to retrieve unique values for a field, along with the number of points that contain each value. This functionality is similar to `GROUP BY` with `COUNT(*)` in SQL databases.
 
@@ -200,7 +200,7 @@ This feature provides flexibility between performance and precision, depending o
 ## Text Index on_disk Support 
 ![text-index-disk](/blog/qdrant-1.12.x/text-index-disk.png)
 
-[**Qdrant text indexing**](/documentation/concepts/indexing/#full-text-index) involves tokenizing text into smaller units (tokens) based on user-defined settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. 
+[**Qdrant text indexing**](/documentation/concepts/indexing/#full-text-index) tokenizes text into smaller units (tokens) based on chosen settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. 
 
 > With `on_disk` text indexing, the inverted index is stored on disk, reducing memory usage.
 
