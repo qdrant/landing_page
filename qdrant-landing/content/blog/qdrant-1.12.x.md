@@ -224,7 +224,7 @@ PUT /collections/{collection_name}/index
 
 *To learn more about indexes, read the [**Indexing documentation**](/documentation/concepts/indexing/).*
 
-## Geo Index on_disk Support 
+## Geo Index on disk Support 
 
 For [**large-scale geographic datasets**](/documentation/concepts/payload/#geo) where storing all indexes in memory is impractical, **geo indexing** allows efficient filtering of points based on geographic coordinates. 
 
