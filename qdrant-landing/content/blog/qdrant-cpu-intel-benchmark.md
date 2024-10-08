@@ -8,7 +8,7 @@ preview_image: /blog/qdrant-cpu-intel-benchmark/social_preview.jpg
 social_preview_image: /blog/qdrant-cpu-intel-benchmark/social_preview.jpg
 date: 2024-05-10T00:00:00-08:00
 author: David Myriel, Kumar Shivendu
-featured: true 
+featured: false 
 tags:
   - vector search
   - intel benchmark
