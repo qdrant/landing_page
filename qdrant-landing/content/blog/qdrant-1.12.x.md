@@ -113,11 +113,11 @@ Two arrays, `offsets_row` and `offsets_col`, represent the positions of non-zero
     }
 }
 ```
-*To learn more about the distance matrix, read [**The Distance Matrix documentation**](https://qdrant.tech/).*
+*To learn more about the distance matrix, read [**The Distance Matrix documentation**](/documentation/concepts/explore/#distance-matrix).*
 
 ## Distance Matrix API in the Graph UI
 
-We are adding more visualization options to the [**Graph Exploration Tool**](https://qdrant.tech/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool), introduced in v.1.11.
+We are adding more visualization options to the [**Graph Exploration Tool**](/blog/qdrant-1.11.x/#web-ui-graph-exploration-tool), introduced in v.1.11.
 
 You can now leverage the **Distance Matrix API** from within this tool for a **clearer picture** of your data and its relationships.
 
@@ -195,7 +195,7 @@ POST /collections/{collection_name}/facet
 ```
 This feature provides flexibility between performance and precision, depending on the needs of your application.
 
-*To learn more about faceting, read the [**Facet API documentation**](https://qdrant.tech/).*
+*To learn more about faceting, read the [**Facet API documentation**](/documentation/concepts/payload/#facet-counts).*
 
 ## Text Index on disk Support 
 ![text-index-disk](/blog/qdrant-1.12.x/text-index-disk.png)
