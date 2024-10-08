@@ -1364,7 +1364,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.FacetAsync(
 	"{collection_name}",
-  key: "size",
+	key: "size",
 	filter: MatchKeyword("color", "red"),
 );
 ```
@@ -1463,7 +1463,7 @@ var client = new QdrantClient("localhost", 6334);
 
 await client.FacetAsync(
 	"{collection_name}",
-  key: "size",
+	key: "size",
 	exact: true,
 );
 ```
