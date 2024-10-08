@@ -1314,6 +1314,61 @@ client.facet(
 )
 ```
 
+```typescript
+client.facet("{collection_name}", {
+    filter: {
+        must: [
+            {
+                key: "color",
+                match: {
+                    value: "red",
+                },
+            },
+        ],
+    },
+    key: "size",
+});
+```
+
+```rust
+use qdrant_client::qdrant::{Condition, FacetCountsBuilder, Filter};
+
+client
+    .facet(
+         FacetCountsBuilder::new("{collection_name}", "size")
+             .limit(10)
+             .filter(Filter::must(vec![Condition::matches(
+                 "color",
+                 "red".to_string(),
+             )])),
+     )
+     .await?;
+```
+
+```java
+ client
+      .facetAsync(
+          Points.FacetCounts.newBuilder()
+              .setCollectionName(collection_name)
+              .setKey("foo")
+              .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
+              .build())
+      .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.FacetAsync(
+	"{collection_name}",
+  key: "size",
+	filter: MatchKeyword("color", "red"),
+);
+```
+
 ```go
 import (
 	"context"
@@ -1348,6 +1403,7 @@ The response will contain the counts for each unique value in the field:
   "time": 0.0001
 }
 ```
+
 The results are sorted by the count in descending order, then by the value in ascending order.
 
 As a security measure, only values with non-zero counts will be returned.
@@ -1370,4 +1426,63 @@ client.facet(
 )
 ```
 
-// TODO: add the rest of the client examples
+```typescript
+client.facet("{collection_name}", {
+    key: "size",
+    exact: true,
+});
+```
+
+```rust
+use qdrant_client::qdrant::FacetCountsBuilder;
+
+client
+    .facet(
+         FacetCountsBuilder::new("{collection_name}", "size")
+             .limit(10)
+             .exact(true),
+     )
+     .await?;
+```
+
+```java
+ client
+      .facetAsync(
+          Points.FacetCounts.newBuilder()
+              .setCollectionName(collection_name)
+              .setKey("foo")
+              .setExact(true)
+              .build())
+      .get();
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.FacetAsync(
+	"{collection_name}",
+  key: "size",
+	exact: true,
+);
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+res, err := client.Facet(ctx, &qdrant.FacetCounts{
+	CollectionName: "{collection_name}",
+	Key:            "key",
+  Exact:          true,
+})
+```
