@@ -406,7 +406,7 @@ Sharding efficiently distributes data across nodes, while replication guarantees
 
 **Multitenancy** allows you to keep data for different tenants (users, clients, or organizations) isolated within a single cluster. Instead of creating separate collections for `Tenant 1` and `Tenant 2`, you store their data in the same collection but tag each vector with a `group_id` to identify which tenant it belongs to.
 
-<img src="/articles_data/what-is-a-vector-database-revamp/multitenancy.png" alt="Multitenancy dividing data between 2 tenants" width="1000">
+<img src="/articles_data/what-is-a-vector-database-revamp/multitenancy-1.png" alt="Multitenancy dividing data between 2 tenants" width="1000">
 
 In the backend, Qdrant can store `Tenant 1`’s data in Shard 1 located in Canada (perhaps for compliance reasons like GDPR), while `Tenant 2`’s data is stored in Shard 2 located in Germany. The data will be physically separated but still within the same infrastructure.
 
