@@ -197,7 +197,7 @@ This feature provides flexibility between performance and precision, depending o
 
 *To learn more about faceting, read the [**Facet API documentation**](/documentation/concepts/payload/#facet-counts).*
 
-## Text Index on disk Support 
+## Text Index on Disk Support 
 ![text-index-disk](/blog/qdrant-1.12.x/text-index-disk.png)
 
 [**Qdrant text indexing**](/documentation/concepts/indexing/#full-text-index) tokenizes text into smaller units (tokens) based on chosen settings (e.g., tokenizer type, token length). These tokens are stored in an inverted index for fast text searches. 
@@ -224,7 +224,7 @@ PUT /collections/{collection_name}/index
 
 *To learn more about indexes, read the [**Indexing documentation**](/documentation/concepts/indexing/).*
 
-## Geo Index on disk Support 
+## Geo Index on Disk Support 
 
 For [**large-scale geographic datasets**](/documentation/concepts/payload/#geo) where storing all indexes in memory is impractical, **geo indexing** allows efficient filtering of points based on geographic coordinates. 
 
