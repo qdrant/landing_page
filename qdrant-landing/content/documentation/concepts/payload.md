@@ -1484,8 +1484,6 @@ client
 ```csharp
 using Qdrant.Client;
 
-var client = new QdrantClient("localhost", 6334);
-
 await client.FacetAsync(
     "{collection_name}",
     key: "size",
@@ -1494,17 +1492,6 @@ await client.FacetAsync(
 ```
 
 ```go
-import (
-    "context"
-
-    "github.com/qdrant/go-client/qdrant"
-)
-
-client, err := qdrant.NewClient(&qdrant.Config{
-    Host: "localhost",
-    Port: 6334,
-})
-
 res, err := client.Facet(ctx, &qdrant.FacetCounts{
     CollectionName: "{collection_name}",
     Key:            "key",
