@@ -36,6 +36,30 @@ function tagAllAnchors() {
   }
 }
 
+function tagAllForms() {
+  const forms = document.querySelectorAll('form');
+
+  forms.forEach((form) => {
+    form.addEventListener("submit", (e) => {
+      e.preventDefault();
+      new FormData(form);
+    });
+  
+    form.addEventListener("formdata", (e) => {
+      let data = e.formData;
+      let obj = {};
+  
+      const entries = [...data.entries()];
+  
+      entries.forEach((entry) => (obj[entry[0]] = entry[1]));
+      obj.form_name=form.attributes[2].nodeValue
+
+      trackEvent("form_submit", properties={ ...obj})
+      // analytics.identify("lead form submit", obj);
+    });
+  });
+}
+
 /****************/
 /* Segment CRUD */
 /****************/
@@ -74,4 +98,5 @@ export function handleConsent() {
 document.body.addEventListener('customSegmentIsReady', () => {
   tagCloudUILinksWithAnonymousId();
   tagAllAnchors();
+  tagAllForms();
 }, false);
