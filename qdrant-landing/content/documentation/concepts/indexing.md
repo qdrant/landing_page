@@ -636,6 +636,8 @@ Payload index on-disk is supported for following types:
 * `float`
 * `datetime`
 * `uuid`
+* `text`
+* `geo`
 
 The list will be extended in future versions.
 
