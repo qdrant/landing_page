@@ -171,32 +171,32 @@ await client.QueryAsync(
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
-		Positive: []*qdrant.VectorInput{
-			qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
-			qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
-		},
-		Negative: []*qdrant.VectorInput{
-			qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
-		},
-	}),
-	Filter: &qdrant.Filter{
-		Must: []*qdrant.Condition{
-			qdrant.NewMatch("city", "London"),
-		},
-	},
+    CollectionName: "{collection_name}",
+    Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+        Positive: []*qdrant.VectorInput{
+            qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+            qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+        },
+        Negative: []*qdrant.VectorInput{
+            qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+        },
+    }),
+    Filter: &qdrant.Filter{
+        Must: []*qdrant.Condition{
+            qdrant.NewMatch("city", "London"),
+        },
+    },
 })
 ```
 
@@ -368,28 +368,28 @@ await client.QueryAsync(
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
-		Positive: []*qdrant.VectorInput{
-			qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
-			qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
-		},
-		Negative: []*qdrant.VectorInput{
-			qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
-		},
-	}),
-	Using: qdrant.PtrOf("image"),
+    CollectionName: "{collection_name}",
+    Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+        Positive: []*qdrant.VectorInput{
+            qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+            qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+        },
+        Negative: []*qdrant.VectorInput{
+            qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+        },
+    }),
+    Using: qdrant.PtrOf("image"),
 })
 ```
 
@@ -518,44 +518,44 @@ await client.QueryAsync(
         Positive = { 100, 231 },
         Negative = { 718 }
     },
-	usingVector: "image",
-	limit: 10,
+    usingVector: "image",
+    limit: 10,
     lookupFrom: new LookupLocation
-	{
-		CollectionName = "{external_collection_name}",
-		VectorName = "{external_vector_name}",
-	}
+    {
+        CollectionName = "{external_collection_name}",
+        VectorName = "{external_vector_name}",
+    }
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
-		Positive: []*qdrant.VectorInput{
-			qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
-			qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
-		},
-		Negative: []*qdrant.VectorInput{
-			qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
-		},
-	}),
-	Using: qdrant.PtrOf("image"),
-	LookupFrom: &qdrant.LookupLocation{
-		CollectionName: "{external_collection_name}",
-		VectorName:     qdrant.PtrOf("{external_vector_name}"),
-	},
+    CollectionName: "{collection_name}",
+    Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+        Positive: []*qdrant.VectorInput{
+            qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+            qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+        },
+        Negative: []*qdrant.VectorInput{
+            qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+        },
+    }),
+    Using: qdrant.PtrOf("image"),
+    LookupFrom: &qdrant.LookupLocation{
+        CollectionName: "{external_collection_name}",
+        VectorName:     qdrant.PtrOf("{external_vector_name}"),
+    },
 })
 ```
 
@@ -792,82 +792,82 @@ var client = new QdrantClient("localhost", 6334);
 var filter = MatchKeyword("city", "london");
 
 await client.QueryBatchAsync(
-	collectionName: "{collection_name}",
-	queries:
-	[
-		new QueryPoints()
-		{
-			CollectionName = "{collection_name}",
-			Query = new RecommendInput {
+    collectionName: "{collection_name}",
+    queries:
+    [
+        new QueryPoints()
+        {
+            CollectionName = "{collection_name}",
+            Query = new RecommendInput {
                 Positive = { 100, 231 },
                 Negative = { 718 },
             },
-			Limit = 3,
-			Filter = filter,
-		},
-        		new QueryPoints()
-		{
-			CollectionName = "{collection_name}",
-			Query = new RecommendInput {
+            Limit = 3,
+            Filter = filter,
+        },
+                new QueryPoints()
+        {
+            CollectionName = "{collection_name}",
+            Query = new RecommendInput {
                 Positive = { 200, 67 },
                 Negative = { 300 },
             },
-			Limit = 3,
-			Filter = filter,
-		}
-	]
+            Limit = 3,
+            Filter = filter,
+        }
+    ]
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 filter := qdrant.Filter{
-	Must: []*qdrant.Condition{
-		qdrant.NewMatch("city", "London"),
-	},
+    Must: []*qdrant.Condition{
+        qdrant.NewMatch("city", "London"),
+    },
 }
 client.QueryBatch(context.Background(), &qdrant.QueryBatchPoints{
-	CollectionName: "{collection_name}",
-	QueryPoints: []*qdrant.QueryPoints{
-		{
-			CollectionName: "{collection_name}",
-			Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
-				Positive: []*qdrant.VectorInput{
-					qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
-					qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
-				},
-				Negative: []*qdrant.VectorInput{
-					qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
-				},
-			},
-			),
-			Filter: &filter,
-		},
-		{
-			CollectionName: "{collection_name}",
-			Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
-				Positive: []*qdrant.VectorInput{
-					qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
-					qdrant.NewVectorInputID(qdrant.NewIDNum(67)),
-				},
-				Negative: []*qdrant.VectorInput{
-					qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
-				},
-			},
-			),
-			Filter: &filter,
-		},
-	},
+    CollectionName: "{collection_name}",
+    QueryPoints: []*qdrant.QueryPoints{
+        {
+            CollectionName: "{collection_name}",
+            Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+                Positive: []*qdrant.VectorInput{
+                    qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+                    qdrant.NewVectorInputID(qdrant.NewIDNum(231)),
+                },
+                Negative: []*qdrant.VectorInput{
+                    qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+                },
+            },
+            ),
+            Filter: &filter,
+        },
+        {
+            CollectionName: "{collection_name}",
+            Query: qdrant.NewQueryRecommend(&qdrant.RecommendInput{
+                Positive: []*qdrant.VectorInput{
+                    qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
+                    qdrant.NewVectorInputID(qdrant.NewIDNum(67)),
+                },
+                Negative: []*qdrant.VectorInput{
+                    qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
+                },
+            },
+            ),
+            Filter: &filter,
+        },
+    },
 },
 )
 ```
@@ -1069,8 +1069,8 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.QueryAsync(
-	collectionName: "{collection_name}",
-	query: new DiscoverInput {
+    collectionName: "{collection_name}",
+    query: new DiscoverInput {
         Target = new float[] { 0.2f, 0.1f, 0.9f, 0.7f },
         Context = new ContextInput {
             Pairs = {
@@ -1085,39 +1085,39 @@ await client.QueryAsync(
             }   
         },
     },
-	limit: 10
+    limit: 10
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryDiscover(&qdrant.DiscoverInput{
-		Target: qdrant.NewVectorInput(0.2, 0.1, 0.9, 0.7),
-		Context: &qdrant.ContextInput{
-			Pairs: []*qdrant.ContextInputPair{
-				{
-					Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
-					Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
-				},
-				{
-					Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
-					Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
-				},
-			},
-		},
-	}),
+    CollectionName: "{collection_name}",
+    Query: qdrant.NewQueryDiscover(&qdrant.DiscoverInput{
+        Target: qdrant.NewVectorInput(0.2, 0.1, 0.9, 0.7),
+        Context: &qdrant.ContextInput{
+            Pairs: []*qdrant.ContextInputPair{
+                {
+                    Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+                    Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+                },
+                {
+                    Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
+                    Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
+                },
+            },
+        },
+    }),
 })
 ```
 
@@ -1289,30 +1289,30 @@ await client.QueryAsync(
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.Query(context.Background(), &qdrant.QueryPoints{
-	CollectionName: "{collection_name}",
-	Query: qdrant.NewQueryContext(&qdrant.ContextInput{
-		Pairs: []*qdrant.ContextInputPair{
-			{
-				Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
-				Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
-			},
-			{
-				Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
-				Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
-			},
-		},
-	}),
+    CollectionName: "{collection_name}",
+    Query: qdrant.NewQueryContext(&qdrant.ContextInput{
+        Pairs: []*qdrant.ContextInputPair{
+            {
+                Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(100)),
+                Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(718)),
+            },
+            {
+                Positive: qdrant.NewVectorInputID(qdrant.NewIDNum(200)),
+                Negative: qdrant.NewVectorInputID(qdrant.NewIDNum(300)),
+            },
+        },
+    }),
 })
 ```
 
@@ -1458,22 +1458,27 @@ await client.SearchMatrixPairs(
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 sample := uint64(10)
-limit := uint64(10)
+limit := uint64(2)
 res, err := client.SearchMatrixPairs(ctx, &qdrant.SearchMatrixPoints{
-	CollectionName: "{collection_name}",
-	Sample:         &sample,
-	Limit:          &limit,
+    CollectionName: "{collection_name}",
+    Sample:         &sample,
+    Limit:          &limit,
+    Filter: &qdrant.Filter{
+        Must: []*qdrant.Condition{
+            qdrant.NewMatch("color", "red"),
+        },
+    },
 })
 ```
 
@@ -1619,22 +1624,27 @@ await client.SearchMatrixOffsets(
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 sample := uint64(10)
-limit := uint64(10)
+limit := uint64(2)
 res, err := client.SearchMatrixOffsets(ctx, &qdrant.SearchMatrixPoints{
-	CollectionName: "{collection_name}",
-	Sample:         &sample,
-	Limit:          &limit,
+    CollectionName: "{collection_name}",
+    Sample:         &sample,
+    Limit:          &limit,
+    Filter: &qdrant.Filter{
+        Must: []*qdrant.Condition{
+            qdrant.NewMatch("color", "red"),
+        },
+    },
 })
 ```
 
