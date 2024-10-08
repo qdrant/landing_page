@@ -83,7 +83,7 @@ Qdrant will list a sparse matrix of distances **between the closest pairs**:
 }
 ```
 
-### Configuration - Offsets
+### Output - Offsets
 
 The `offsets` endpoint offer another format of showing the distance between points:
 
