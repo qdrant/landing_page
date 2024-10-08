@@ -7,19 +7,20 @@ startFree:
   url: https://cloud.qdrant.io/
 menuItems:
   - id: menu-0
-    name: Core
-    url: /dev-portal-core/
+    name: Qdrant
+    url: /docs/qdrant/
   - id: menu-1
     name: Cloud
-    url: /dev-portal-cloud/
+    url: /docs/cloud/
   - id: menu-2
     name: Build
-    url: /dev-portal-build/
-  - id: menu-3
-    name: Learn
-    url: /dev-portal-learn/
+    url: /docs/build/
+#  - id: menu-3
+#    name: Learn
+#    url: /dev-portal-learn/
   - id: menu-4
     name: Reference
-    url: #
+    url: https://api.qdrant.tech/api-reference
+    external: true
 sitemapExclude: true
 ---

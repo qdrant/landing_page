@@ -11,4 +11,6 @@ localButton:
   contained: true
 developingTitle: Ready to start developing?
 developingDescription: Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our <a href="https://qdrant.to/cloud" target="_blank">free tier</a> on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.
+aliases:
+    - /docs/
 ---
