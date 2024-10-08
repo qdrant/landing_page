@@ -5,7 +5,7 @@ short_description: "On-Disk Text & Geo Index. Distance Matrix API. Facet API for
 description: "Uncover insights with the Distance Matrix API, dynamically filter via Facet API, and offload additional payload to disk." 
 preview_image: /blog/qdrant-1.12.x/social_preview.png
 social_preview_image: /blog/qdrant-1.12.x/social_preview.png
-date: 2024-10-03T00:00:00-08:00
+date: 2024-10-08T00:00:00-08:00
 author: David Myriel
 featured: true
 tags:
