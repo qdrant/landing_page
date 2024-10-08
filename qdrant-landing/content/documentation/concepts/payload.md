@@ -374,73 +374,73 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.UpsertAsync(
-	collectionName: "{collection_name}",
-	points: new List<PointStruct>
-	{
-		new PointStruct
-		{
-			Id = 1,
-			Vectors = new[] { 0.05f, 0.61f, 0.76f, 0.74f },
-			Payload = { ["city"] = "Berlin", ["price"] = 1.99 }
-		},
-		new PointStruct
-		{
-			Id = 2,
-			Vectors = new[] { 0.19f, 0.81f, 0.75f, 0.11f },
-			Payload = { ["city"] = new[] { "Berlin", "London" } }
-		},
-		new PointStruct
-		{
-			Id = 3,
-			Vectors = new[] { 0.36f, 0.55f, 0.47f, 0.94f },
-			Payload =
-			{
-				["city"] = new[] { "Berlin", "Moscow" },
-				["price"] = new Value
-				{
-					ListValue = new ListValue { Values = { new Value[] { 1.99, 2.99 } } }
-				}
-			}
-		}
-	}
+    collectionName: "{collection_name}",
+    points: new List<PointStruct>
+    {
+        new PointStruct
+        {
+            Id = 1,
+            Vectors = new[] { 0.05f, 0.61f, 0.76f, 0.74f },
+            Payload = { ["city"] = "Berlin", ["price"] = 1.99 }
+        },
+        new PointStruct
+        {
+            Id = 2,
+            Vectors = new[] { 0.19f, 0.81f, 0.75f, 0.11f },
+            Payload = { ["city"] = new[] { "Berlin", "London" } }
+        },
+        new PointStruct
+        {
+            Id = 3,
+            Vectors = new[] { 0.36f, 0.55f, 0.47f, 0.94f },
+            Payload =
+            {
+                ["city"] = new[] { "Berlin", "Moscow" },
+                ["price"] = new Value
+                {
+                    ListValue = new ListValue { Values = { new Value[] { 1.99, 2.99 } } }
+                }
+            }
+        }
+    }
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.Upsert(context.Background(), &qdrant.UpsertPoints{
-	CollectionName: "{collection_name}",
-	Points: []*qdrant.PointStruct{
-		{
-			Id:      qdrant.NewIDNum(1),
-			Vectors: qdrant.NewVectors(0.05, 0.61, 0.76, 0.74),
-			Payload: qdrant.NewValueMap(map[string]any{
-				"city": "Berlin", "price": 1.99}),
-		},
-		{
-			Id:      qdrant.NewIDNum(2),
-			Vectors: qdrant.NewVectors(0.19, 0.81, 0.75, 0.11),
-			Payload: qdrant.NewValueMap(map[string]any{
-				"city": []any{"Berlin", "London"}}),
-		},
-		{
-			Id:      qdrant.NewIDNum(3),
-			Vectors: qdrant.NewVectors(0.36, 0.55, 0.47, 0.94),
-			Payload: qdrant.NewValueMap(map[string]any{
-				"city":  []any{"Berlin", "London"},
-				"price": []any{1.99, 2.99}}),
-		},
-	},
+    CollectionName: "{collection_name}",
+    Points: []*qdrant.PointStruct{
+        {
+            Id:      qdrant.NewIDNum(1),
+            Vectors: qdrant.NewVectors(0.05, 0.61, 0.76, 0.74),
+            Payload: qdrant.NewValueMap(map[string]any{
+                "city": "Berlin", "price": 1.99}),
+        },
+        {
+            Id:      qdrant.NewIDNum(2),
+            Vectors: qdrant.NewVectors(0.19, 0.81, 0.75, 0.11),
+            Payload: qdrant.NewValueMap(map[string]any{
+                "city": []any{"Berlin", "London"}}),
+        },
+        {
+            Id:      qdrant.NewIDNum(3),
+            Vectors: qdrant.NewVectors(0.36, 0.55, 0.47, 0.94),
+            Payload: qdrant.NewValueMap(map[string]any{
+                "city":  []any{"Berlin", "London"},
+                "price": []any{1.99, 2.99}}),
+        },
+    },
 })
 ```
 
@@ -536,31 +536,31 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SetPayloadAsync(
-	collectionName: "{collection_name}",
-	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
-	ids: new ulong[] { 0, 3, 10 }
+    collectionName: "{collection_name}",
+    payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+    ids: new ulong[] { 0, 3, 10 }
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.SetPayload(context.Background(), &qdrant.SetPayloadPoints{
-	CollectionName: "{collection_name}",
-	Payload: qdrant.NewValueMap(
-		map[string]any{"property1": "string", "property2": "string"}),
-	PointsSelector: qdrant.NewPointsSelector(
-		qdrant.NewIDNum(0),
-		qdrant.NewIDNum(3)),
+    CollectionName: "{collection_name}",
+    Payload: qdrant.NewValueMap(
+        map[string]any{"property1": "string", "property2": "string"}),
+    PointsSelector: qdrant.NewPointsSelector(
+        qdrant.NewIDNum(0),
+        qdrant.NewIDNum(3)),
 })
 ```
 
@@ -673,33 +673,33 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.SetPayloadAsync(
-	collectionName: "{collection_name}",
-	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
-	filter: MatchKeyword("color", "red")
+    collectionName: "{collection_name}",
+    payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+    filter: MatchKeyword("color", "red")
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.SetPayload(context.Background(), &qdrant.SetPayloadPoints{
-	CollectionName: "{collection_name}",
-	Payload: qdrant.NewValueMap(
-		map[string]any{"property1": "string", "property2": "string"}),
-	PointsSelector: qdrant.NewPointsSelectorFilter(&qdrant.Filter{
-		Must: []*qdrant.Condition{
-			qdrant.NewMatch("color", "red"),
-		},
-	}),
+    CollectionName: "{collection_name}",
+    Payload: qdrant.NewValueMap(
+        map[string]any{"property1": "string", "property2": "string"}),
+    PointsSelector: qdrant.NewPointsSelectorFilter(&qdrant.Filter{
+        Must: []*qdrant.Condition{
+            qdrant.NewMatch("color", "red"),
+        },
+    }),
 })
 ```
 
@@ -833,31 +833,31 @@ using Qdrant.Client.Grpc;
 var client = new QdrantClient("localhost", 6334);
 
 await client.OverwritePayloadAsync(
-	collectionName: "{collection_name}",
-	payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
-	ids: new ulong[] { 0, 3, 10 }
+    collectionName: "{collection_name}",
+    payload: new Dictionary<string, Value> { { "property1", "string" }, { "property2", "string" } },
+    ids: new ulong[] { 0, 3, 10 }
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.OverwritePayload(context.Background(), &qdrant.SetPayloadPoints{
-	CollectionName: "{collection_name}",
-	Payload: qdrant.NewValueMap(
-		map[string]any{"property1": "string", "property2": "string"}),
-	PointsSelector: qdrant.NewPointsSelector(
-		qdrant.NewIDNum(0),
-		qdrant.NewIDNum(3)),
+    CollectionName: "{collection_name}",
+    Payload: qdrant.NewValueMap(
+        map[string]any{"property1": "string", "property2": "string"}),
+    PointsSelector: qdrant.NewPointsSelector(
+        qdrant.NewIDNum(0),
+        qdrant.NewIDNum(3)),
 })
 ```
 
@@ -924,21 +924,21 @@ await client.ClearPayloadAsync(collectionName: "{collection_name}", ids: new ulo
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.ClearPayload(context.Background(), &qdrant.ClearPayloadPoints{
-	CollectionName: "{collection_name}",
-	Points: qdrant.NewPointsSelector(
-		qdrant.NewIDNum(0),
-		qdrant.NewIDNum(3)),
+    CollectionName: "{collection_name}",
+    Points: qdrant.NewPointsSelector(
+        qdrant.NewIDNum(0),
+        qdrant.NewIDNum(3)),
 })
 ```
 
@@ -1014,30 +1014,30 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.DeletePayloadAsync(
-	collectionName: "{collection_name}",
-	keys: ["color", "price"],
-	ids: new ulong[] { 0, 3, 100 }
+    collectionName: "{collection_name}",
+    keys: ["color", "price"],
+    ids: new ulong[] { 0, 3, 100 }
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.DeletePayload(context.Background(), &qdrant.DeletePayloadPoints{
-	CollectionName: "{collection_name}",
-	Keys:           []string{"color", "price"},
-	PointsSelector: qdrant.NewPointsSelector(
-		qdrant.NewIDNum(0),
-		qdrant.NewIDNum(3)),
+    CollectionName: "{collection_name}",
+    Keys:           []string{"color", "price"},
+    PointsSelector: qdrant.NewPointsSelector(
+        qdrant.NewIDNum(0),
+        qdrant.NewIDNum(3)),
 })
 ```
 
@@ -1132,32 +1132,32 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.DeletePayloadAsync(
-	collectionName: "{collection_name}",
-	keys: ["color", "price"],
-	filter: MatchKeyword("color", "red")
+    collectionName: "{collection_name}",
+    keys: ["color", "price"],
+    filter: MatchKeyword("color", "red")
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.DeletePayload(context.Background(), &qdrant.DeletePayloadPoints{
-	CollectionName: "{collection_name}",
-	Keys:           []string{"color", "price"},
-	PointsSelector: qdrant.NewPointsSelectorFilter(
-		&qdrant.Filter{
-			Must: []*qdrant.Condition{qdrant.NewMatch("color", "red")},
-		},
-	),
+    CollectionName: "{collection_name}",
+    Keys:           []string{"color", "price"},
+    PointsSelector: qdrant.NewPointsSelectorFilter(
+        &qdrant.Filter{
+            Must: []*qdrant.Condition{qdrant.NewMatch("color", "red")},
+        },
+    ),
 })
 ```
 
@@ -1233,27 +1233,27 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.CreatePayloadIndexAsync(
-	collectionName: "{collection_name}",
-	fieldName: "name_of_the_field_to_index"
+    collectionName: "{collection_name}",
+    fieldName: "name_of_the_field_to_index"
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection{
-	CollectionName: "{collection_name}",
-	FieldName:      "name_of_the_field_to_index",
-	FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
+    CollectionName: "{collection_name}",
+    FieldName:      "name_of_the_field_to_index",
+    FieldType:      qdrant.FieldType_FieldTypeKeyword.Enum(),
 })
 ```
 
@@ -1307,14 +1307,22 @@ POST /collections/{collection_name}/facet
 ```
 
 ```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
+
 client.facet(
     collection_name="{collection_name}",
     key="size",
-    facet_filter=Filter(must=[Match("color", "red")]),
+    facet_filter=models.Filter(must=[models.Match("color", "red")]),
 )
 ```
 
 ```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({ host: "localhost", port: 6333 });
+
 client.facet("{collection_name}", {
     filter: {
         must: [
@@ -1332,6 +1340,9 @@ client.facet("{collection_name}", {
 
 ```rust
 use qdrant_client::qdrant::{Condition, FacetCountsBuilder, Filter};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client
     .facet(
@@ -1346,14 +1357,24 @@ client
 ```
 
 ```java
- client
-      .facetAsync(
-          Points.FacetCounts.newBuilder()
-              .setCollectionName(collection_name)
-              .setKey("foo")
-              .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
-              .build())
-      .get();
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+import static io.qdrant.client.ConditionFactory.matchKeyword;
+import io.qdrant.client.grpc.Points;
+import io.qdrant.client.grpc.Filter;
+
+QdrantClient client = new QdrantClient(
+                QdrantGrpcClient.newBuilder("localhost", 6334, false).build());
+
+client
+    .facetAsync(
+        Points.FacetCounts.newBuilder()
+            .setCollectionName(collection_name)
+            .setKey("size")
+            .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
+            .build())
+        .get();
 ```
 
 ```csharp
@@ -1363,27 +1384,32 @@ using static Qdrant.Client.Grpc.Conditions;
 var client = new QdrantClient("localhost", 6334);
 
 await client.FacetAsync(
-	"{collection_name}",
-	key: "size",
-	filter: MatchKeyword("color", "red"),
+    "{collection_name}",
+    key: "size",
+    filter: MatchKeyword("color", "red"),
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 res, err := client.Facet(ctx, &qdrant.FacetCounts{
-	CollectionName: "{collection_name}",
-	Key:            "key",
+    CollectionName: "{collection_name}",
+    Key:            "size",
+        Filter: &qdrant.Filter{
+        Must: []*qdrant.Condition{
+            qdrant.NewMatch("color", "red"),
+        },
+    },
 })
 ```
 
@@ -1405,8 +1431,7 @@ The response will contain the counts for each unique value in the field:
 ```
 
 The results are sorted by the count in descending order, then by the value in ascending order.
-
-As a security measure, only values with non-zero counts will be returned.
+Only values with non-zero counts will be returned.
 
 By default, the way Qdrant the counts for each value is approximate to achieve fast results. This should accurate enough for most cases, but if you need to debug your storage, you can use the `exact` parameter to get exact counts.
 
@@ -1462,27 +1487,27 @@ using Qdrant.Client;
 var client = new QdrantClient("localhost", 6334);
 
 await client.FacetAsync(
-	"{collection_name}",
-	key: "size",
-	exact: true,
+    "{collection_name}",
+    key: "size",
+    exact: true,
 );
 ```
 
 ```go
 import (
-	"context"
+    "context"
 
-	"github.com/qdrant/go-client/qdrant"
+    "github.com/qdrant/go-client/qdrant"
 )
 
 client, err := qdrant.NewClient(&qdrant.Config{
-	Host: "localhost",
-	Port: 6334,
+    Host: "localhost",
+    Port: 6334,
 })
 
 res, err := client.Facet(ctx, &qdrant.FacetCounts{
-	CollectionName: "{collection_name}",
-	Key:            "key",
-  Exact:          true,
+    CollectionName: "{collection_name}",
+    Key:            "key",
+    Exact:          true,
 })
 ```
