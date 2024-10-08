@@ -43,7 +43,7 @@ In terms of endpoints, we offer two different formats to show results:
 - **Pairs** are simple, intutitive and ideal for graph representation.
 - **Offsets** are more complex, but also native when defining CSR sparse matrices.
 
-### Configuration - Pairs
+### Output - Pairs
 
 Use the `pairs` endpoint to compare 10 random point pairs from your dataset:
 
@@ -83,7 +83,7 @@ Qdrant will list a sparse matrix of distances **between the closest pairs**:
 }
 ```
 
-### Configuration - Offsets
+### Output - Offsets
 
 The `offsets` endpoint offer another format of showing the distance between points:
 
