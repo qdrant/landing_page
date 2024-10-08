@@ -1308,7 +1308,7 @@ POST /collections/{collection_name}/facet
 client.facet(
     collection_name="{collection_name}",
     key="size",
-    filter=Filter(must=[Match("color", "red")]),
+    facet_filter=Filter(must=[Match("color", "red")]),
 )
 ```
 
