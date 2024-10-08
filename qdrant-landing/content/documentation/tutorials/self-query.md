@@ -5,6 +5,9 @@ weight: 24
 
 # Self Query Retrieval
 
+| Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/self-query/self-query.ipynb) |Output: [GitHub](https://github.com/qdrant/examples/tree/master/self-query)|
+|--------------|---------------------|--|----|
+
 In this tutorial, we’ll walk through how to create a vector-based search system for wine reviews using Qdrant. We will also touch on **self-query retrieval**, a technique that makes querying smarter, more flexible, and more intuitive.
 
 <p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/iaXFggqqGD0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe></p>
