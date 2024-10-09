@@ -240,7 +240,7 @@ The query has been narrowed down to one result from 2008.
 
 ## Next Steps
 
-Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial you should try building an actual [Neural Search Service with a complete API and a dataset](../../tutorials/neural-search/).
+Congratulations, you have just created your very first search engine! Trust us, the rest of Qdrant is not that complicated, either. For your next tutorial you should try building an actual [Neural Search Service with a complete API and a dataset](/documentation/tutorials/neural-search/).
 
 ## Return to the bash shell
 

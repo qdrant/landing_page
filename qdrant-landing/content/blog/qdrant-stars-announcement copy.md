@@ -130,7 +130,7 @@ I'm really excited to show the power of the Qdrant as vector database. Especiall
 
 We are happy to welcome this group of people who are deeply committed to advancing vector search technology. We look forward to supporting their vision, and helping them make a bigger impact on the community.
 
-You can find and chat with them at our [Discord Community](discord.gg/qdrant).
+You can find and chat with them at our [Discord Community](https://discord.gg/qdrant/).
 
 ### Why become a Qdrant Star?
 

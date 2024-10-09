@@ -65,7 +65,7 @@ While doing a semantic search at scale, because this is what we sometimes call t
 Vector search is an exciting alternative to sparse methods. It solves the issues we had with the keyword-based search without needing to maintain lots of heuristics manually. It requires an additional component, a neural encoder, to convert text into vectors. 
 
 [**Tutorial 1 - Qdrant for Complete Beginners**](/documentation/tutorials/search-beginners/)
-Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](../../tutorials/search-beginners/) will show you how.
+Despite its complicated background, vectors search is extraordinarily simple to set up. With Qdrant, you can have a search engine up-and-running in five minutes. Our [Complete Beginners tutorial](/documentation/tutorials/search-beginners/) will show you how.
 
 [**Tutorial 2 - Question and Answer System**](/articles/qa-with-cohere-and-qdrant/)
 However, you can also choose SaaS tools to generate them and avoid building your model. Setting up a vector search project with Qdrant Cloud and Cohere co.embed API is fairly easy if you follow the [Question and Answer system tutorial](/articles/qa-with-cohere-and-qdrant/).

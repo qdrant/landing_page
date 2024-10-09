@@ -76,19 +76,14 @@
     }
   }
 
-  &__footer {
+  &__button {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+    justify-content: center;
+    margin-top: $spacer * 4;
 
-  &__description {
-    max-width: pxToRem(730);
-    margin: $spacer * 5 auto $spacer;
-    font-size: pxToRem(20);
-    line-height: pxToRem(30);
-    color: $neutral-20;
-    text-align: center;
+    a {
+      width: $spacer * 12.5;
+    }
   }
 
   @include media-breakpoint-up(lg) {
@@ -146,16 +141,17 @@
       }
     }
 
-    &__footer {
+    &__button {
       position: relative;
+      margin-top: $spacer * 5;
 
       &:before,
       &:after {
         content: '';
         display: block;
         position: absolute;
-        top: pxToRem(102);
-        width: calc((100% - 778px) / 2);
+        top: pxToRem(24);
+        width: calc((100% - 440px) / 2);
         height: pxToRem(1);
         background-color: $neutral-80;
       }

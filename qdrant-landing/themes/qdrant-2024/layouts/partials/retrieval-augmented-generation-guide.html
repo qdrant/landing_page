@@ -1,0 +1,24 @@
+{{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-guide") }}
+  <section class="retrieval-augmented-generation-guide">
+    <div class="container">
+      <div class="row align-items-lg-center">
+        <div class="retrieval-augmented-generation-guide__content col-12 col-lg-6">
+          <div class="retrieval-augmented-generation-guide__tag">
+            <img src="{{ .Params.icon.src }}" alt="{{ .Params.icon.alt }}">
+            <p>{{ .Params.label }}</p>
+          </div>
+          <h2 class="retrieval-augmented-generation-guide__title">{{ .Params.title }}</h2>
+          <p class="retrieval-augmented-generation-guide__description">{{ .Params.description }}</p>
+          <a href="{{ .Params.getGuideButton.url }}" class="button button_contained button_sm">
+            {{ .Params.getGuideButton.text }}
+          </a>
+        </div>
+
+        <div class="retrieval-augmented-generation-guide__preview col-12 col-lg-6">
+          <img src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" />
+        </div>
+      </div>
+    </div>
+    {{ partial "top-and-bottom-overlay" (dict "context" . "class" "retrieval-augmented-generation-guide") }}
+  </section>
+{{ end }}

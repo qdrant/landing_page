@@ -1,5 +1,6 @@
 ---
 title: Terraform
+aliases: [ ../platforms/terraform ]
 ---
 
 ![Terraform Logo](/documentation/platforms/terraform/terraform.png)

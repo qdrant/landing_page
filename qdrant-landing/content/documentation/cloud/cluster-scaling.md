@@ -27,11 +27,11 @@ Vertical scaling can be an effective way to improve the performance of a cluster
 
 In such cases, horizontal scaling may be a more effective solution. 
 
-Horizontal scaling, also known as horizontal expansion, is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](../../guides/distributed_deployment/#sharding) section for details.
+Horizontal scaling, also known as horizontal expansion, is the process of increasing the capacity of a cluster by adding more nodes and distributing the load and data among them. The horizontal scaling at Qdrant starts on the collection level. You have to choose the number of shards you want to distribute your collection around while creating the collection.  Please refer to the [sharding documentation](/documentation/guides/distributed_deployment/#sharding) section for details.
 
 After that, you can configure, or change the amount of Qdrant database nodes within a cluster during cluster creation, or on the cluster detail page via "Scale" button.
 
-Important: The number of shards means the maximum amount of nodes you can add to your cluster. In the beginning, all the shards can reside on one node. With the growing amount of data you can add nodes to your cluster and move shards to the dedicated nodes using the [cluster setup API](../../guides/distributed_deployment/#cluster-scaling).
+Important: The number of shards means the maximum amount of nodes you can add to your cluster. In the beginning, all the shards can reside on one node. With the growing amount of data you can add nodes to your cluster and move shards to the dedicated nodes using the [cluster setup API](/documentation/guides/distributed_deployment/#cluster-scaling).
 
 Note, that it is currently not possible to horizontally scale down the cluster in the Qdrant Cloud UI. If you require a horizontal scale down, please open a support ticket.
 
