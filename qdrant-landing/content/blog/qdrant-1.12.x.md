@@ -264,3 +264,6 @@ The easiest way to reach that **Hello World** moment is to [**try vector search 
 **All of the new features from version 1.12 can be tested in the Web UI:**
 
 ![qdrant-filtering-tutorial](/articles_data/vector-search-filtering/qdrant-filtering-tutorial.png)
+
+### Check Out the Tutorial Video
+<iframe width="560" height="315" src="https://www.youtube.com/embed/OzTHZ0SIulg?si=yRzbgKIhwqnglawD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
