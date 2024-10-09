@@ -61,7 +61,7 @@ Not sure if you should use a vector database or a traditional database? This cha
 
 ## What Is a Vector?
 
-![vector-database-architecture](/articles_data/what-is-a-vector-database/vector-database-2.jpeg)
+![vector-database-vector](/articles_data/what-is-a-vector-database/vector-database-7.jpeg)
 
 When a machine needs to process unstructured data - an image, a piece of text, or an audio file, it first has to translate that data into a format it can work with: **vectors**.
 
@@ -283,6 +283,8 @@ Sparse vectors are ideal for tasks like **keyword search** or **metadata filteri
 
 ## Benefits of Hybrid Search
 
+![vector-database-get-started](/articles_data/what-is-a-vector-database/vector-database-5.jpeg)
+
 Sometimes context alone isn’t enough. Sometimes you need precision, too. Dense vectors are fantastic when you need to retrieve results based on the context or meaning behind the data. Sparse vectors are useful when you also need **keyword or specific attribute matching**.
 
 > With hybrid search you don’t have to choose one over the othe and use both to get searches that are more **relevant** and **filtered**. 
@@ -316,7 +318,7 @@ This is just a simple example and there's so much more you can do with it. See o
 
 ## Quantization: Get 40x Faster Results 
 
-![vector-database-get-started](/articles_data/what-is-a-vector-database/vector-database-5.jpeg)
+![vector-database-architecture](/articles_data/what-is-a-vector-database/vector-database-2.jpeg)
 
 As your vector dataset grow larger, so do the computational demands of searching through it. 
 
@@ -412,6 +414,8 @@ For more details on features like **user-defined sharding, node failure recovery
 
 ## Multitenancy: Data Isolation for Multi-Tenant Architectures
 
+![vector-database-get-started](/articles_data/what-is-a-vector-database/vector-database-6.png)
+
 Sharding efficiently distributes data across nodes, while replication guarantees redundancy and fault tolerance. But what happens when you’ve got multiple clients or user groups, and you need to keep their data isolated within the same infrastructure?
 
 **Multitenancy** allows you to keep data for different tenants (users, clients, or organizations) isolated within a single cluster. Instead of creating separate collections for `Tenant 1` and `Tenant 2`, you store their data in the same collection but tag each vector with a `group_id` to identify which tenant it belongs to.
@@ -470,8 +474,6 @@ You can easily setup you access tokens and secure access to sensitive data throu
 By default, Qdrant instances are **unsecured**, so it's important to configure security measures before moving to production. To learn more about how to configure security for your Qdrant instance and other advanced options, please check out the [official Qdrant documentation on security.](https://qdrant.tech/documentation/guides/security/)
 
 ## Time to Experiment
-
-![vector-database-get-started](/articles_data/what-is-a-vector-database/vector-database-6.png)
 
 As we've seen in this article, a vector database is definitely not **just** a database as we traditionally know it. It opens up a world of possibilities, from advanced similarity search to hybrid search that allows content retrieval with both context and precision. 
 
