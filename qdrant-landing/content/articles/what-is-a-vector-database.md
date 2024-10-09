@@ -1,21 +1,20 @@
 ---
 title: "An Introduction to Vector Databases"
 draft: false
-slug: introduction-to-vector-databases
 short_description:  What is a Vector Database? Use Cases & Examples | Qdrant
 description: Discover what a vector database is, its core functionalities, and real-world applications.
 preview_dir: /articles_data/what-is-a-vector-database/preview
 weight: -211
 social_preview_image: /articles_data/what-is-a-vector-database/preview/social-preview.png
 small_preview_image: /articles_data/what-is-a-vector-database/icon.svg
-date: 2024-09-30T09:29:33-03:00
+date: 2024-10-09T09:29:33-03:00
+aliases: [ /blog/what-is-a-vector-database/ ]
 author: Sabrina Aquino 
 featured: true 
 tags: 
   - vector-search
   - vector-database
   - embeddings
-
 ---
 
 ## What Is a Vector Database?
