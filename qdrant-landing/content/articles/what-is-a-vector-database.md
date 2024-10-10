@@ -143,6 +143,10 @@ By default, Qdrant stores vectors in RAM, delivering incredibly fast access for 
 Memmap allows you to store vectors **on disk**, yet still access them efficiently by mapping the data directly into memory if you have enough RAM. To enable it, you only need to set `"on_disk": true` when you are **creating a collection:**
 
 ```python
+from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url='http://localhost:6333')
+
 client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(
@@ -155,7 +159,7 @@ For other configurations like `hnsw_config.on_disk` or `memmap_threshold_kb`, se
 
 ### SDKs
 
-Qdrant offers a range of SDKs. You can use the programming language you're most comfortable with, whether you're coding in [Python](https://github.com/qdrant/qdrant-client), [Go](https://github.com/qdrant/go-client), [Rust](https://github.com/qdrant/rust-client), or [Javascript/Typescript](https://github.com/qdrant/qdrant-js).
+Qdrant offers a range of SDKs. You can use the programming language you're most comfortable with, whether you're coding in [Python](https://github.com/qdrant/qdrant-client), [Go](https://github.com/qdrant/go-client), [Rust](https://github.com/qdrant/rust-client), [Javascript/Typescript](https://github.com/qdrant/qdrant-js), [C#](https://github.com/qdrant/qdrant-dotnet) or [Java](https://github.com/qdrant/java-client).
 
 ## The Core Functionalities of Vector Databases
 
@@ -167,7 +171,7 @@ When you think of a traditional database, the operations are familiar: you **cre
 
 Indexing your vectors is like creating an entry in a traditional database. But for vector databases, this step is very important. Vectors need to be indexed in a way that makes them easy to search later on. 
 
-**HNSW** (Hierarchical Navigable Small World) is an powerful indexing algorithm that most vector databases rely on to organize vectors for fast and efficient search.
+**HNSW** (Hierarchical Navigable Small World) is a powerful indexing algorithm that most vector databases rely on to organize vectors for fast and efficient search.
 
 It builds a multi-layered graph, where each vector is a node and connections represent similarity. The higher layers connect broadly similar vectors, while lower layers link vectors that are closely related, making searches progressively more refined as they go deeper.
 
@@ -181,7 +185,7 @@ In Qdrant, indexing is modular. You can configure indexes for **both vectors and
 
 <img src="/articles_data/what-is-a-vector-database/hnsw-search.png" alt="Searching Data with the HNSW algorithm" width="300">
 
-You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filtrable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) and why it was build like this.
+You need to build the payload index for **each field** you'd like to search. The magic here is in the combination: HNSW finds similar vectors, and the payload index makes sure only the ones that fit your criteria come through. Learn more about Qdrant's [Filtrable HNSW](https://qdrant.tech/articles/filtrable-hnsw/) and why it was built like this.
 
 > Combining [full-text search](https://qdrant.tech/documentation/concepts/indexing/#full-text-index) with vector-based search gives you even more versatility. You can simultaneously search for conceptually similar documents while ensuring specific keywords are present, all within the same query.
 
@@ -195,11 +199,11 @@ The way it works is, when the user queries the database, this query is also conv
 
 <img src="/articles_data/what-is-a-vector-database/ann-search.png" alt="Approximate Nearest Neighbors (ANN) Search Graph" width="500">
 
-The search then moves down progressively narrowing down to more closely related and relevant vectors. Once the closest vectors are identified at the bottom layer, these points translate back to actual data, representing your **top scored documents**.
+The search then moves down progressively narrowing down to more closely related and relevant vectors. Once the closest vectors are identified at the bottom layer, these points translate back to actual data, representing your **top-scored documents**.
 
 Here's a high-level overview of this process:
 
-<img src="/articles_data/what-is-a-vector-database/simple-arquitecture.png" alt="Vector Database Seaching Funcionality" width="520">
+<img src="/articles_data/what-is-a-vector-database/simple-arquitecture.png" alt="Vector Database Searching Functionality" width="520">
 
 ### 3. Updating Vectors: Real-Time and Bulk Adjustments
 
@@ -208,7 +212,7 @@ Data isn't static, and neither are vectors. Keeping your vectors up to date is c
 Vector updates don’t always need to happen instantly, but when they do, Qdrant handles real-time modifications efficiently with a simple API call:
 
 ```python
-qdrant_client.upsert(
+client.upsert(
     collection_name='product_collection',
     points=[PointStruct(id=product_id, vector=new_vector, payload=new_payload)]
 )
@@ -223,7 +227,7 @@ batch_of_updates = [
     # Add more points...
 ]
 
-qdrant_client.upsert(
+client.upsert(
     collection_name='product_collection',
     points=batch_of_updates
 )
@@ -236,9 +240,9 @@ Efficient vector management is key to keeping your searches accurate and your da
 In Qdrant, removing vectors is straightforward, requiring only the vector IDs to be specified:
 
 ```python
-qdrant_client.delete(
+client.delete(
     collection_name='data_collection',
-    points_selector=PointIdsList([vector_id_1, vector_id_2])
+    points_selector=[point_id_1, point_id_2]
 )
 ```
 You can use deletion to remove outdated data, clean up duplicates, and manage the lifecycle of vectors by automatically deleting them after a set period to keep your dataset relevant and focused.
@@ -267,7 +271,7 @@ In the image, you can see a sentence, *“I love Vector Similarity,”* broken d
 
 Sparse vectors, are used for **exact matching** and specific token-based identification. The values on the right, such as `193: 0.04` and `9182: 0.12`, are the scores or weights for each token, showing how relevant or important each token is in the context. The final result is a sparse vector:
 
-```yaml
+```json
 {
    193: 0.04,
    9182: 0.12,
@@ -302,16 +306,17 @@ Qdrant makes it easy to implement hybrid search through its Query API. Here’s 
 
 **Example Hybrid Query:** Let’s say a researcher is looking for papers on NLP, but the paper must specifically mention "transformers" in the content:
 
-```python
+```json
 search_query = {
     "vector": query_vector,  # Dense vector for semantic search
-    "filter": {  # Sparse vector filtering for specific terms
+    "filter": {  # Filtering for specific terms
         "must": [
             {"key": "text", "match": "transformers"}  # Exact keyword match in the paper
         ]
     }
 }
 ```
+
 In this query the dense vector search finds papers related to the broad topic of NLP and the sparse vector filtering ensures that the papers specifically mention “transformers”. 
 
 This is just a simple example and there's so much more you can do with it. See our complete [article on Hybrid Search](https://qdrant.tech/articles/hybrid-search/) guide to see what's happening behind the scenes and all the possibilities when building a hybrid search system.
@@ -457,6 +462,8 @@ service:
 Once this is set up, remember to include the API key in all your requests:
 
 ```python
+from qdrant_client import QdrantClient
+
 client = QdrantClient(
     url="https://localhost:6333",
     api_key="your_secret_api_key_here"
@@ -477,7 +484,7 @@ By default, Qdrant instances are **unsecured**, so it's important to configure s
 
 As we've seen in this article, a vector database is definitely not **just** a database as we traditionally know it. It opens up a world of possibilities, from advanced similarity search to hybrid search that allows content retrieval with both context and precision. 
 
-But there’s no better way to learn than by doing. Try building a [semantic search engine](https://qdrant.tech/documentation/tutorials/search-beginners/) or experiment deploying a [hybrid search service](https://qdrant.tech/documentation/tutorials/hybrid-search-fastembed/) from zero. You'll realize there's endless ways you can take advantage of vectors.
+But there’s no better way to learn than by doing. Try building a [semantic search engine](https://qdrant.tech/documentation/tutorials/search-beginners/) or experiment deploying a [hybrid search service](https://qdrant.tech/documentation/tutorials/hybrid-search-fastembed/) from zero. You'll realize there are endless ways you can take advantage of vectors.
 
 | **Use Case**                     | **How It Works**                                                                                      | **Examples**                                             |
 |-----------------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------|
