@@ -97,7 +97,7 @@ def test_rerank():
         ), f"Model: {model_name}, Scores: {scores}, Expected: {canonical_scores}"
 ```
 
-This rigorous testing process helped ensure that the ONNX models behaved as expected, comparable to models implemented using PyTorch.
+The `CANONICAL_SCORE_VALUES` were retrieved directly from the result of applying the original PyTorch models to the same input
 
 ## Outcomes and Future Improvements
 
