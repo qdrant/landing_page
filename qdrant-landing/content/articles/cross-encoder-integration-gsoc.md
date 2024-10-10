@@ -29,7 +29,7 @@ Qdrant is well known for its vector search capabilities, but my task was to go o
 
 The project revolved around creating a new input-output scheme: text data to scores. For this, I designed a family of classes to support ONNX models. Some of the key models I worked with included Xenova/ms-marco-MiniLM-L-6-v2, Xenova/ms-marco-MiniLM-L-12-v2, and BAAI/bge-reranker, all designed for re-ranking tasks.
 
-An important point to mention is that FastEmbed is a minimalistic library—it doesn’t have heavy dependencies like PyTorch or TensorFlow, and as a result, it is lightweight, occupying far less storage space.
+An important point to mention is that FastEmbed is a minimalistic library: it doesn’t have heavy dependencies like PyTorch or TensorFlow, and as a result, it is lightweight, occupying far less storage space.
 
 Below is a diagram that represents the overall workflow for this project, detailing the key steps from user interaction to the final output validation:
 
