@@ -8,10 +8,14 @@ aliases:
 # Filtering
 
 With Qdrant, you can set conditions when searching or retrieving points.
-For example, you can impose conditions on both the [payload](../payload/) and the `id` of the point.
+For example, you can impose conditions on both the [payload](/documentation/concepts/payload/) and the `id` of the point.
 
 Setting additional conditions is important when it is impossible to express all the features of the object in the embedding.
 Examples include a variety of business requirements: stock availability, user location, or desired price range.
+
+## Related Content
+|[A Complete Guide to Filtering in Vector Search](/articles/vector-search-filtering/)|Developer advice on proper usage and advanced practices.|
+|-|-|
 
 ## Filtering clauses
 
@@ -834,7 +838,7 @@ qdrant.NewMatchInt("count", 0)
 
 The simplest kind of condition is one that checks if the stored value equals the given one.
 If several values are stored, at least one of them should match the condition.
-You can apply it to [keyword](../payload/#keyword), [integer](../payload/#integer) and [bool](../payload/#bool) payloads.
+You can apply it to [keyword](/documentation/concepts/payload/#keyword), [integer](/documentation/concepts/payload/#integer) and [bool](/documentation/concepts/payload/#bool) payloads.
 
 ### Match Any
 
@@ -843,7 +847,7 @@ You can apply it to [keyword](../payload/#keyword), [integer](../payload/#intege
 In case you want to check if the stored value is one of multiple values, you can use the Match Any condition.
 Match Any works as a logical OR for the given values. It can also be described as a `IN` operator.
 
-You can apply it to [keyword](../payload/#keyword) and [integer](../payload/#integer) payloads.
+You can apply it to [keyword](/documentation/concepts/payload/#keyword) and [integer](/documentation/concepts/payload/#integer) payloads.
 
 Example:
 
@@ -905,7 +909,7 @@ In case you want to check if the stored value is not one of multiple values, you
 Match Except works as a logical NOR for the given values.
 It can also be described as a `NOT IN` operator.
 
-You can apply it to [keyword](../payload/#keyword) and [integer](../payload/#integer) payloads.
+You can apply it to [keyword](/documentation/concepts/payload/#keyword) and [integer](/documentation/concepts/payload/#integer) payloads.
 
 Example:
 
@@ -1904,7 +1908,7 @@ A special case of the `match` condition is the `text` match condition.
 It allows you to search for a specific substring, token or phrase within the text field.
 
 Exact texts that will match the condition depend on full-text index configuration.
-Configuration is defined during the index creation and describe at [full-text index](../indexing/#full-text-index).
+Configuration is defined during the index creation and describe at [full-text index](/documentation/concepts/indexing/#full-text-index).
 
 If there is no full-text index for the field, the condition will work as exact substring match.
 
@@ -2043,11 +2047,11 @@ Comparisons that can be used:
 - `lt` - less than
 - `lte` - less than or equal
 
-Can be applied to [float](../payload/#float) and [integer](../payload/#integer) payloads.
+Can be applied to [float](/documentation/concepts/payload/#float) and [integer](/documentation/concepts/payload/#integer) payloads.
 
 ### Datetime Range
 
-The datetime range is a unique range condition, used for [datetime](../payload/#datetime) payloads, which supports RFC 3339 formats. 
+The datetime range is a unique range condition, used for [datetime](/documentation/concepts/payload/#datetime) payloads, which supports RFC 3339 formats. 
 You do not need to convert dates to UNIX timestaps. During comparison, timestamps are parsed and converted to UTC.
 
 _Available as of v1.8.0_
@@ -2360,7 +2364,7 @@ qdrant.NewGeoRadius("location", 52.520711, 13.403683, 1000.0)
 It matches with `location`s inside a circle with the `center` at the center and a radius of `radius` meters.
 
 If several values are stored, at least one of them should match the condition.
-These conditions can only be applied to payloads that match the [geo-data format](../payload/#geo).
+These conditions can only be applied to payloads that match the [geo-data format](/documentation/concepts/payload/#geo).
 
 #### Geo Polygon
 Geo Polygons search is useful for when you want to find points inside an irregularly shaped area, for example a country boundary or a forest boundary. A polygon always has an exterior ring and may optionally include interior rings. A lake with an island would be an example of an interior ring. If you wanted to find points in the water but not on the island, you would make an interior ring for the island. 
@@ -2655,7 +2659,7 @@ qdrant.NewGeoPolygon("location",
 A match is considered any point location inside or on the boundaries of the given polygon's exterior but not inside any interiors.
 
 If several location values are stored for a point, then any of them matching will include that point as a candidate in the resultset. 
-These conditions can only be applied to payloads that match the [geo-data format](../payload/#geo).
+These conditions can only be applied to payloads that match the [geo-data format](/documentation/concepts/payload/#geo).
 
 ### Values count
 

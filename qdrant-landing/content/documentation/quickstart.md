@@ -363,7 +363,10 @@ Let's ask a basic question - Which of our stored vectors are most similar to the
 
 ```python
 search_result = client.query_points(
-    collection_name="test_collection", query=[0.2, 0.1, 0.9, 0.7], limit=3
+    collection_name="test_collection",
+    query=[0.2, 0.1, 0.9, 0.7],
+    with_payload=False,
+    limit=3
 ).points
 
 print(search_result)
@@ -468,7 +471,7 @@ fmt.Println(searchResult)
 ```
 
 The results are returned in decreasing similarity order. Note that payload and vector data is missing in these results by default.
-See [payload and vector in the result](../concepts/search/#payload-and-vector-in-the-result) on how to enable it.
+See [payload and vector in the result](/documentation/concepts/search/#payload-and-vector-in-the-result) on how to enable it.
 
 ## Add a filter
 
@@ -591,14 +594,14 @@ fmt.Println(searchResult)
 ]
 ```
 
-<aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="../concepts/indexing/#payload-index">payload indexes</a>!</aside>
+<aside role="status">To make filtered search fast on real datasets, we highly recommend to create <a href="/documentation/concepts/indexing/#payload-index">payload indexes</a>!</aside>
 
 You have just conducted vector search. You loaded vectors into a database and queried the database with a vector of your own. Qdrant found the closest results and presented you with a similarity score.
 
 ## Next steps
 
-Now you know how Qdrant works. Getting started with [Qdrant Cloud](../cloud/quickstart-cloud/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates.
+Now you know how Qdrant works. Getting started with [Qdrant Cloud](/documentation/cloud/quickstart-cloud/) is just as easy. [Create an account](https://qdrant.to/cloud) and use our SaaS completely free. We will take care of infrastructure maintenance and software updates.
 
-To move onto some more complex examples of vector search, read our [Tutorials](../tutorials/) and create your own app with the help of our [Examples](../examples/).
+To move onto some more complex examples of vector search, read our [Tutorials](/documentation/tutorials/) and create your own app with the help of our [Examples](/documentation/examples/).
 
 **Note:** There is another way of running Qdrant locally. If you are a Python developer, we recommend that you try Local Mode in [Qdrant Client](https://github.com/qdrant/qdrant-client), as it only takes a few moments to get setup.

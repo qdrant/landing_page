@@ -107,6 +107,10 @@ form.hs-form {
           -webkit-appearance: none;
         }
       }
+
+      option {
+        color: $neutral-30;
+      }
     }
 
     select {

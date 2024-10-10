@@ -108,17 +108,17 @@ Let's now evaluate, at a high-level, the way Qdrant is architected.
 The diagram above represents a high-level overview of some of the main components of Qdrant. Here 
 are the terminologies you should get familiar with.
 
-- [Collections](../concepts/collections/): A collection is a named set of points (vectors with a payload) among which you can search. The vector of each point within the same collection must have the same dimensionality and be compared by a single metric. [Named vectors](../concepts/collections/#collection-with-multiple-vectors) can be used to have multiple vectors in a single point, each of which can have their own dimensionality and metric requirements.
+- [Collections](/documentation/concepts/collections/): A collection is a named set of points (vectors with a payload) among which you can search. The vector of each point within the same collection must have the same dimensionality and be compared by a single metric. [Named vectors](/documentation/concepts/collections/#collection-with-multiple-vectors) can be used to have multiple vectors in a single point, each of which can have their own dimensionality and metric requirements.
 - [Distance Metrics](https://en.wikipedia.org/wiki/Metric_space): These are used to measure 
 similarities among vectors and they must be selected at the same time you are creating a 
 collection. The choice of metric depends on the way the vectors were obtained and, in particular, 
 on the neural network that will be used to encode new queries.
-- [Points](../concepts/points/): The points are the central entity that 
+- [Points](/documentation/concepts/points/): The points are the central entity that 
 Qdrant operates with and they consist of a vector and an optional id and payload.
     - id: a unique identifier for your vectors.
     - Vector: a high-dimensional representation of data, for example, an image, a sound, a document, a video, etc.
-    - [Payload](../concepts/payload/): A payload is a JSON object with additional data you can add to a vector.
-- [Storage](../concepts/storage/): Qdrant can use one of two options for 
+    - [Payload](/documentation/concepts/payload/): A payload is a JSON object with additional data you can add to a vector.
+- [Storage](/documentation/concepts/storage/): Qdrant can use one of two options for 
 storage, **In-memory** storage (Stores all vectors in RAM, has the highest speed since disk 
 access is required only for persistence), or **Memmap** storage, (creates a virtual address 
 space associated with the file on disk).

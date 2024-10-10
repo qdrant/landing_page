@@ -52,7 +52,8 @@ data usually sits in various SaaS applications across the organization.
 
 Dust provides companies with the core platform to execute on their GenAI bet
 for their teams by deploying LLMs across the organization and providing context
-aware AI assistants through RAG. Users can manage so-called data sources within
+aware AI assistants through [RAG](https://qdrant.tech/rag/rag-evaluation-guide/)
+. Users can manage so-called data sources within
 Dust and upload files or directly connect to it via APIs to ingest data from
 tools like Notion, Google Drive, or Slack. Dust then handles the chunking
 strategy with the embeddings models and performs retrieval augmented generation.
