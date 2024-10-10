@@ -1,5 +1,5 @@
 import { getCookie, setCookie } from './helpers';
-import { handleConsent } from './segment-helpers';
+import { handleConsent } from '../ts/segment-helpers';
 
 (function () {
   window.cookit = function (options) {

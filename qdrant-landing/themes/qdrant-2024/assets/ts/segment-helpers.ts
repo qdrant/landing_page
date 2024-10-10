@@ -1,9 +1,14 @@
-import { devLog, tagCloudUILinksWithAnonymousId } from './helpers';
+import { devLog, tagCloudUILinksWithAnonymousId } from '../js/helpers';
+import { TrackEvent as TrackEventType} from '@qdrant/qdrant-analytics-events';
 
 const PAYLOAD_BOILERPLATE = {
   url: window.location.href,
   title: document.title,
 };
+
+interface PropertiesType {
+  [key: string]: any;
+}
 
 /***************/
 /* DOM helpers */
@@ -47,15 +52,14 @@ function tagAllForms() {
   
     form.addEventListener("formdata", (e) => {
       let data = e.formData;
-      let obj = {};
-  
-      const entries = [...data.entries()];
-  
-      entries.forEach((entry) => (obj[entry[0]] = entry[1]));
-      obj.form_name=form.attributes[2].nodeValue
+      let properties: PropertiesType = {};
 
-      trackEvent("form_submit", properties={ ...obj})
-      // analytics.identify("lead form submit", obj);
+      const entries = [...data.entries()];  
+
+      entries.forEach((entry) => (properties[entry[0]] = entry[1]));
+      properties.form_id = form.getAttribute("data-form-id");
+
+      // trackEvent("form_submit", properties) TODO: add event to dictionary, bump version, install
     });
   });
 }
@@ -63,17 +67,12 @@ function tagAllForms() {
 /****************/
 /* Segment CRUD */
 /****************/
-const trackEvent = (name, properties = {}) => {
-  const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
-  delete properties['storedTimestamp'];
-
-  if(window.analytics) {
-    window.analytics.track({
-      event: name,
-      properties
-    }, 
-    originalTimestamp ? { timestamp: originalTimestamp } : null
-    )
+const trackEvent: TrackEventType = (eventName, eventPayload = {}) => {
+  if((window as any).analytics) {
+    (window as any).analytics.track({
+      event: eventName,
+      properties: eventPayload
+    })
   }
 }
 
@@ -88,7 +87,7 @@ const trackInteractionEvent = (properties = {}) => {
 /* Consent */
 /***********/
 export function handleConsent() {
-  trackEvent('Consented', PAYLOAD_BOILERPLATE)
+  // trackEvent('Consented', PAYLOAD_BOILERPLATE)
   devLog('User consented...')
 }
 
