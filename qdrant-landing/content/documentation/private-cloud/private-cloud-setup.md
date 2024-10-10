@@ -94,6 +94,8 @@ To uninstall the Qdrant Private Cloud solution, you can use the following comman
 
 ```bash
 helm uninstall qdrant-private-cloud --namespace qdrant-private-cloud
-helm uninstall qdrant-private-cloud-crd --namespace qdrant-private-cloud
+helm uninstall qdrant-private-cloud-crds --namespace qdrant-private-cloud
 kubectl delete namespace qdrant-private-cloud
 ```
+
+Note that uninstalling the `qdrant-private-cloud-crds` Helm chart will remove all Custom Resource Definitions (CRDs) will also remove all Qdrant clusters that were managed by the operator.
