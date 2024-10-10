@@ -25,7 +25,7 @@ This project was both technically challenging and rewarding, pushing me to grow 
 
 ## Project Overview
 
-Qdrant is well-known for its vector search capabilities, but my task was to go one step further—introducing cross-encoders for re-ranking. Traditionally, the FastEmbed library would generate embeddings, but cross-encoders don’t do that. Instead, they provide a list of scores based on how well a query matches a list of documents. This kind of re-ranking is critical when you want to refine search results and bring the most relevant answers to the top.
+Qdrant is well known for its vector search capabilities, but my task was to go one step further — introducing cross-encoders for re-ranking. Traditionally, the FastEmbed library would generate embeddings, but cross-encoders don’t do that. Instead, they provide a list of scores based on how well a query matches a list of documents. This kind of re-ranking is critical when you want to refine search results and bring the most relevant answers to the top.
 
 The project revolved around creating a new input-output scheme: text data to scores. For this, I designed a family of classes to support ONNX models. Some of the key models I worked with included Xenova/ms-marco-MiniLM-L-6-v2, Xenova/ms-marco-MiniLM-L-12-v2, and BAAI/bge-reranker, all designed for re-ranking tasks.
 
