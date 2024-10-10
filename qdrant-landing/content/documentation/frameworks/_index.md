@@ -5,13 +5,14 @@ weight: 20
 
 ## Framework Integrations
 
-| Framework                             | Description                                                                                          |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Framework                                                     | Description                                                                                          |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.             |
 | [Canopy](/documentation/frameworks/canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                    |
 | [DocArray](/documentation/frameworks/docarray/)               | Python library for managing data in multi-modal AI applications.                                     |
 | [DSPy](/documentation/frameworks/dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                     |
+| [dsRAG](/documentation/frameworks/dsRAG/)                     | Retrieval framework for unstructured data.                                                           |
 | [Fifty-One](/documentation/frameworks/fifty-one/)             | Toolkit for building high-quality datasets and computer vision models.                               |
 | [Genkit](/documentation/frameworks/genkit/)                   | Framework to build, deploy, and monitor production-ready AI-powered apps.                            |
 | [Haystack](/documentation/frameworks/haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                |
