@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+{{- partial "head.html" . -}}
+<body>
+<main>
+  {{ partial "dev-portal-header" . }}
+
+  <section class="dev-portal documentation documentation_theme-light">
+    <div class="dev-portal__container">
+      <div class="d-flex">
+        {{ $parts := split .RelPermalink "/" }}
+        {{ $partition := index $parts 2 }}
+
+        {{ partial "dev-portal-docs-menu" (dict "context" . "partition" $partition) }}
+
+        <div class="dev-portal-core dev-portal__article documentation-article">
+          {{ if eq .RelPermalink "/docs/qdrant/" }}
+            {{ partial "docs-core.html" . }}
+          {{ else if eq .RelPermalink "/docs/build/" }}
+            {{ partial "docs-build.html" . }}
+          {{ else if eq .RelPermalink "/docs/cloud/" }}
+            {{ partial "docs-cloud.html" . }}
+          {{ end }}
+
+          {{ partial "dev-portal-footer.html" . }}
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+</body>
+{{ partial "js.html" . }}
+</html>

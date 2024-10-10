@@ -1,0 +1,53 @@
+@use '../helpers/functions' as *;
+
+.dev-portal-header {
+  border-bottom: pxToRem(1) solid $neutral-20;
+
+  .logo {
+    width: pxToRem(148);
+  }
+
+  .main-menu {
+    background-color: $neutral-10;
+
+    &__links {
+      margin-right: auto;
+      padding-left: 0;
+    }
+
+    &__buttons {
+      &-input {
+        width: pxToRem(300);
+        height: pxToRem(35);
+        position: relative;
+        margin-right: $spacer * 1.5;
+
+        svg {
+          position: absolute;
+          top: 50%;
+          left: $spacer;
+          transform: translateY(-50%);
+        }
+
+        button {
+          padding-left: $spacer * 2.8;
+          color: $neutral-70;
+          text-align: left;
+
+          &:after {
+            content: '';
+            display: block;
+            width: 1rem;
+            height: 1rem;
+            margin-top: 1px;
+            position: absolute;
+            top: 50%;
+            left: $spacer;
+            transform: translateY(-50%);
+            background: url('/icons/outline/search-white.svg') no-repeat;
+          }
+        }
+      }
+    }
+  }
+}

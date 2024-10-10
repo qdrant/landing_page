@@ -3,6 +3,7 @@ title: Managed Cloud
 weight: 12
 aliases:
   - /documentation/overview/qdrant-alternatives/documentation/cloud/
+partition: cloud
 ---
 
 # About Qdrant Managed Cloud
