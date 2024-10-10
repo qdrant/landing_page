@@ -24,6 +24,6 @@ weight: 20
 | [Pandas-AI](/documentation/frameworks/pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.             |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design. |
-| [Superduper](./superduper/)                                   | Framework for building flexible, compositional AI apps which may be applied directly to databases.   |
+| [Superduper](/documentation/frameworks/superduper/)           | Framework for building flexible, compositional AI apps which may be applied directly to databases.   |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                  |
 | [Vanna AI](/documentation/frameworks/vanna-ai/)               | Python RAG framework for SQL generation and querying.                                                |
