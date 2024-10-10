@@ -7,7 +7,7 @@ weight: 1
 
 ## Requirements
 
-- **Kubernetes cluster:** To create a Hybrid Cloud Environment, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
+- **Kubernetes cluster:** To install Qdrant Private Cloud, you need a [standard compliant](https://www.cncf.io/training/certification/software-conformance/) Kubernetes cluster. You can run this cluster in any cloud, on-premise or edge environment, with distributions that range from AWS EKS to VMWare vSphere. See [Deployment Platforms](/documentation/hybrid-cloud/platform-deployment-options/) for more information.
 - **Storage:** For storage, you need to set up the Kubernetes cluster with a Container Storage Interface (CSI) driver that provides block storage. For vertical scaling, the CSI driver needs to support volume expansion. For backups and restores, the driver needs to support CSI snapshots and restores.
 
 <aside role="status">Network storage systems like NFS or object storage systems such as S3 are not supported.</aside>
@@ -67,7 +67,7 @@ To sync all helm charts:
 
 ```shell
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud your-registry.example.com/qdrant-charts/qdrant-private-cloud
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/library/qdrant-operator-crds your-registry.example.com/qdrant-charts/qdrant-operator-crds
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-operator-crds your-registry.example.com/qdrant-charts/qdrant-operator-crds
 ```
 
 During the installation or upgrade, you will need to adapt the repository information in the Helm chart values. See [Private Cloud Configuration](/documentation/private-cloud/configuration/) for details.
@@ -80,7 +80,7 @@ Once you are onboarded to Qdrant Private Cloud, you will receive credentials to 
 kubectl create namespace qdrant-private-cloud
 kubectl create secret docker-registry qdrant-registry-creds --docker-server=registry.cloud.qdrant.io --docker-username='your-username' --docker-password='your-password' --namespace qdrant-private-cloud
 helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --password 'your-password'
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/library/qdrant-operator-crds --namespace qdrant-private-cloud --version 1.2.6 --wait
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-operator-crds --namespace qdrant-private-cloud --version 1.2.6 --wait
 helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 0.1.1
 ```
 
