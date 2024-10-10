@@ -56,7 +56,7 @@ Meanwhile, behind the scenes, we manage all the model loading, tokenization, and
 
 Cross-encoders require careful tokenization because they need to distinguish between the query and the documents. This is done using token type IDs, which help the model differentiate between the two. To implement this, I configured the tokenizer to handle pairs of inputs—concatenating the query with each document and assigning token types accordingly.
 
-Efficient tokenization is critical to ensure the performance of the models, and I optimized it specifically for ONNX models. The lightweight nature of FastEmbed means that it runs efficiently even without requiring heavy libraries like PyTorch or TensorFlow.
+Efficient tokenization is critical to ensure the performance of the models, and I optimized it specifically for ONNX models.
 
 ### 3. Model Loading and Integration
 
