@@ -75,7 +75,7 @@ function tagAllForms() {
 
       if (!didSubmit) {
         didSubmit = true;
-        trackEvent("form_submit", properties);
+        trackEvent("form_submitted", properties);
         setTimeout(() => { didSubmit = false}, 500); // debounce
       }
     });
