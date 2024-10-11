@@ -1,14 +1,31 @@
 import { devLog, tagCloudUILinksWithAnonymousId } from '../js/helpers';
 import { TrackEvent as TrackEventType} from '@qdrant/qdrant-analytics-events';
+import { AnalyticsBrowser } from '@segment/analytics-next';
+import type { AnalyticsSnippet } from "@segment/analytics-next";
+
+// const analytics = AnalyticsBrowser.load(
+//   { writeKey: 'FwEYAP1DrY9yTyojPI5F5PCokfDECQXZ'},
+//   { 
+//     batchSize: 1,      // For immediate event dispatch
+//     flushInterval: 5000 // Flush every 5 seconds
+//   });
+
+const trackQueue: (() => void)[] = [];
+
+interface PropertiesType {
+  [key: string]: any;
+};
+
+declare global {
+  interface Window {
+      analytics: AnalyticsSnippet;
+  }
+}
 
 const PAYLOAD_BOILERPLATE = {
   url: window.location.href,
   title: document.title,
 };
-
-interface PropertiesType {
-  [key: string]: any;
-}
 
 /***************/
 /* DOM helpers */
@@ -59,7 +76,7 @@ function tagAllForms() {
       entries.forEach((entry) => (properties[entry[0]] = entry[1]));
       properties.form_id = form.getAttribute("data-form-id");
 
-      // trackEvent("form_submit", properties) TODO: add event to dictionary, bump version, install
+      // trackEvent("form_submit", properties) //TODO: add event to dictionary, bump version, install
     });
   });
 }
@@ -67,16 +84,25 @@ function tagAllForms() {
 /****************/
 /* Segment CRUD */
 /****************/
-const trackEvent: TrackEventType = (eventName, eventPayload = {}) => {
-  if((window as any).analytics) {
-    (window as any).analytics.track({
-      event: eventName,
-      properties: eventPayload
-    })
+function processQueue() {
+  while (trackQueue.length > 0) {
+    const trackCall = trackQueue.shift();
+    if (trackCall) {
+      trackCall();
+    }
   }
 }
 
-const trackInteractionEvent = (properties = {}) => {
+window.onbeforeunload = () => {
+  processQueue();
+}
+
+const trackEvent: TrackEventType = (eventName: string, eventPayload: PropertiesType = {}) => {  
+  trackQueue.push(() => window.analytics.track(eventName, eventPayload));
+  processQueue();
+}
+
+const trackInteractionEvent = (properties: PropertiesType = {}) => {
   trackEvent(
     'interaction',
     properties
