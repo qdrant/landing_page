@@ -59,7 +59,7 @@ import { handleConsent } from '../ts/segment-helpers';
 
     // EVENT LISTENER (click)
     button.addEventListener('click', () => {
-      if (!window.analytics) {
+      if (window.analytics) {
         handleConsent();
       }
 

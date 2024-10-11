@@ -1,18 +1,14 @@
 import { devLog, tagCloudUILinksWithAnonymousId } from '../js/helpers';
 import { TrackEvent as TrackEventType} from '@qdrant/qdrant-analytics-events';
-import { AnalyticsBrowser } from '@segment/analytics-next';
 import type { AnalyticsSnippet } from "@segment/analytics-next";
-
-// const analytics = AnalyticsBrowser.load(
-//   { writeKey: 'FwEYAP1DrY9yTyojPI5F5PCokfDECQXZ'},
-//   { 
-//     batchSize: 1,      // For immediate event dispatch
-//     flushInterval: 5000 // Flush every 5 seconds
-//   });
 
 const trackQueue: (() => void)[] = [];
 
 interface PropertiesType {
+  [key: string]: any;
+};
+
+interface ContextType {
   [key: string]: any;
 };
 
@@ -59,6 +55,7 @@ function tagAllAnchors() {
 }
 
 function tagAllForms() {
+  let didSubmit = false;
   const forms = document.querySelectorAll('form');
 
   forms.forEach((form) => {
@@ -76,7 +73,11 @@ function tagAllForms() {
       entries.forEach((entry) => (properties[entry[0]] = entry[1]));
       properties.form_id = form.getAttribute("data-form-id");
 
-      // trackEvent("form_submit", properties) //TODO: add event to dictionary, bump version, install
+      if (!didSubmit) {
+        didSubmit = true;
+        trackEvent("form_submit", properties);
+        setTimeout(() => { didSubmit = false}, 500); // debounce
+      }
     });
   });
 }
@@ -97,8 +98,12 @@ window.onbeforeunload = () => {
   processQueue();
 }
 
-const trackEvent: TrackEventType = (eventName: string, eventPayload: PropertiesType = {}) => {  
-  trackQueue.push(() => window.analytics.track(eventName, eventPayload));
+const trackEvent: TrackEventType = (
+  eventName: string,
+  eventPayload: PropertiesType = {},
+  eventContext?: ContextType
+) => {  
+  trackQueue.push(() => window.analytics.track(eventName, eventPayload, eventContext));
   processQueue();
 }
 
@@ -113,7 +118,18 @@ const trackInteractionEvent = (properties: PropertiesType = {}) => {
 /* Consent */
 /***********/
 export function handleConsent() {
-  // trackEvent('Consented', PAYLOAD_BOILERPLATE)
+  const contextPayload = {
+    consent: {
+      categoryPreferences: {
+        Advertising: false,
+        Analytics: true,
+        Functional: true,
+        DataSharing: false
+      }
+    }
+  }
+
+  trackEvent('segment_consent_preference_updated', PAYLOAD_BOILERPLATE, contextPayload)
   devLog('User consented...')
 }
 
