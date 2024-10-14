@@ -39,7 +39,7 @@ Below is a diagram that represents the overall workflow for this project, detail
 
 ### 1. Building a New Input-Output Scheme
 
-FastEmbed already had support for embeddings, but re-ranking with cross-encoders meant building a completely new family of classes. These models accept a query and a set of documents, then return a list of relevance scores. For that, I created the base classes like TextCrossEncoderBase and OnnxCrossEncoder, taking inspiration from existing text embedding models.
+FastEmbed already had support for embeddings, but re-ranking with cross-encoders meant building a completely new family of classes. These models accept a query and a set of documents, then return a list of relevance scores. For that, I created the base classes like `TextCrossEncoderBase` and `OnnxCrossEncoder`, taking inspiration from existing text embedding models.
 
 One thing I had to ensure was that the new class hierarchy was user-friendly. Users should be able to work with cross-encoders without needing to know the complexities of the underlying models. For instance, they should be able to just write:
 
