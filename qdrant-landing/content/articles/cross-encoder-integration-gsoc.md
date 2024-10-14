@@ -8,7 +8,7 @@ social_preview_image: /articles_data/cross-encoder-integration-gsoc/preview/soci
 weight: 10
 author: Huong (Celine) Hoang
 author_link: https://www.linkedin.com/in/celine-h-hoang/
-date: 2024-09-07T08:00:00+03:00
+date: 2024-10-14T08:00:00+03:00
 draft: false
 keywords:
   - cross-encoder
