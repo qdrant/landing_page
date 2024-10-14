@@ -5,7 +5,7 @@ description: A summary of my work and experience at Qdrant Summer of Code 2024.
 preview_dir: /articles_data/cross-encoder-integration-gsoc/preview
 small_preview_image: /articles_data/cross-encoder-integration-gsoc/icon.svg
 social_preview_image: /articles_data/cross-encoder-integration-gsoc/preview/social_preview.jpg
-weight: 10
+weight: -212
 author: Huong (Celine) Hoang
 author_link: https://www.linkedin.com/in/celine-h-hoang/
 date: 2024-10-14T08:00:00+03:00
