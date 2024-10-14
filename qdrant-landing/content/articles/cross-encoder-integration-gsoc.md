@@ -33,7 +33,7 @@ An important point to mention is that FastEmbed is a minimalistic library: it do
 
 Below is a diagram that represents the overall workflow for this project, detailing the key steps from user interaction to the final output validation:
 
-<...>
+{{< figure src="/articles_data/cross-encoder-integration-gsoc/rerank-workflow.png" caption="Search workflow with reranking" alt="Search workflow with reranking" >}}
 
 ## Technical Challenges
 
@@ -102,6 +102,7 @@ The `CANONICAL_SCORE_VALUES` were retrieved directly from the result of applying
 ## Outcomes and Future Improvements
 
 By the end of my project, I successfully added cross-encoders to the FastEmbed library, allowing users to re-rank search results based on relevance scores. This enhancement opens up new possibilities for applications that rely on contextual ranking, such as search engines and recommendation systems.
+This functionality will be available as of FastEmbed `0.4.0`.
 
 Some areas for future improvements include:
 - Expanding Model Support: We could add more cross-encoder models, especially from the sentence transformers library, to give users more options.
