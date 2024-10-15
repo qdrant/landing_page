@@ -108,7 +108,7 @@ To sync all helm charts:
 ```shell
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/prometheus your-registry.example.com/qdrant-charts/prometheus
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-operator your-registry.example.com/qdrant-charts/qdrant-operator
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-operator-crds your-registry.example.com/qdrant-charts/qdrant-operator-crds
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api your-registry.example.com/qdrant-charts/qdrant-kubernetes-api
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent your-registry.example.com/qdrant-charts/qdrant-cloud-agent
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/operator your-registry.example.com/qdrant-charts/operator
 ```
