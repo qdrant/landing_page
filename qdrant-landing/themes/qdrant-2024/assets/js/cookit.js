@@ -59,9 +59,7 @@ import { handleConsent } from '../ts/segment-helpers';
 
     // EVENT LISTENER (click)
     button.addEventListener('click', () => {
-      if (window.analytics) {
-        handleConsent();
-      }
+      handleConsent();
 
       banner.remove();
       setCookie('cookie-consent', 1, settings.lifetime);

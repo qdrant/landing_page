@@ -128,8 +128,7 @@ export function handleConsent() {
       categoryPreferences: {
         Advertising: false,
         Analytics: true,
-        Functional: true,
-        DataSharing: false
+        Functional: true
       }
     }
   }
