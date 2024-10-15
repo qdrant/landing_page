@@ -37,7 +37,7 @@ Container images:
 Open Containers Initiative (OCI) Helm charts:
 
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud`
-- `registry.cloud.qdrant.io/library/qdrant-operator-crds`
+- `registry.cloud.qdrant.io/library/qdrant-kubernetes-api`
 - 
 ### Mirroring images and charts
 
@@ -67,7 +67,7 @@ To sync all helm charts:
 
 ```shell
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud your-registry.example.com/qdrant-charts/qdrant-private-cloud
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-operator-crds your-registry.example.com/qdrant-charts/qdrant-operator-crds
+skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api your-registry.example.com/qdrant-charts/qdrant-kubernetes-api
 ```
 
 During the installation or upgrade, you will need to adapt the repository information in the Helm chart values. See [Private Cloud Configuration](/documentation/private-cloud/configuration/) for details.
@@ -80,7 +80,7 @@ Once you are onboarded to Qdrant Private Cloud, you will receive credentials to 
 kubectl create namespace qdrant-private-cloud
 kubectl create secret docker-registry qdrant-registry-creds --docker-server=registry.cloud.qdrant.io --docker-username='your-username' --docker-password='your-password' --namespace qdrant-private-cloud
 helm registry login 'registry.cloud.qdrant.io' --username 'your-username' --password 'your-password'
-helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-operator-crds --namespace qdrant-private-cloud --version v1.2.7 --wait
+helm upgrade --install qdrant-private-cloud-crds oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api --namespace qdrant-private-cloud --version v1.3.0 --wait
 helm upgrade --install qdrant-private-cloud oci://registry.cloud.qdrant.io/qdrant-charts/qdrant-private-cloud --namespace qdrant-private-cloud --version 1.0.0
 ```
 
