@@ -534,7 +534,7 @@ client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(
         size=128,
-        distance=models.Distance.Cosine,
+        distance=models.Distance.COSINE,
         multivector_config=models.MultiVectorConfig(
             comparator=models.MultiVectorComparator.MAX_SIM
         ),
