@@ -1,6 +1,11 @@
 import { devLog, tagCloudUILinksWithAnonymousId } from '../js/helpers';
 import { TrackEvent as TrackEventType} from '@qdrant/qdrant-analytics-events';
+import { AnalyticsBrowser } from "@segment/analytics-next";
 import type { AnalyticsSnippet } from "@segment/analytics-next";
+
+const metaElement = document.querySelector('meta[name="segment"]');
+var segmentWriteKey = metaElement?.getAttribute('content') || "";
+const analytics = AnalyticsBrowser.load({ writeKey: segmentWriteKey });
 
 const trackQueue: (() => void)[] = [];
 
@@ -103,7 +108,7 @@ const trackEvent: TrackEventType = (
   eventPayload: PropertiesType = {},
   eventContext?: ContextType
 ) => {  
-  trackQueue.push(() => window.analytics.track(eventName, eventPayload, eventContext));
+  trackQueue.push(() => analytics.track(eventName, eventPayload, eventContext));
   processQueue();
 }
 
@@ -136,8 +141,10 @@ export function handleConsent() {
 /********************/
 /* Tag DOM Elements */
 /********************/
-document.body.addEventListener('customSegmentIsReady', () => {
+analytics.ready(() => {
+  analytics.page("Qdrant.tech", document.title);
+
   tagCloudUILinksWithAnonymousId();
   tagAllAnchors();
   tagAllForms();
-}, false);
+});

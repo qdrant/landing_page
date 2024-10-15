@@ -19,7 +19,7 @@
     }
   },
   "dependencies": {
-    "@qdrant/qdrant-analytics-events": "file:lib/qdrant-analytics-events-dev.2.tgz",
+    "@qdrant/qdrant-analytics-events": "file:lib/qdrant-analytics-events-1.0.14.pre-release.tgz",
     "@segment/analytics-next": "^1.75.0",
     "@splidejs/splide": "^4.1.4",
     "anchor-js": "^5.0.0",

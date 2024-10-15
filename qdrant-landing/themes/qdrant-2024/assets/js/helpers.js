@@ -81,7 +81,7 @@ const CROSS_SITE_URL_PARAM_KEY = 'ajs_anonymous_id';
 export function tagCloudUILinksWithAnonymousId() {
   const targetUrl = 'https://cloud.qdrant.io/';
 
-  const anonymousId = analytics.user().anonymousId();
+  const anonymousId = getCookie(CROSS_SITE_URL_PARAM_KEY);
   
   // Function to add or update query parameter in the URL
   function addOrUpdateQueryParam(url, paramName, paramValue) {
