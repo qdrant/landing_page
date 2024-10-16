@@ -5,25 +5,25 @@ weight: 6
 
 # How to Generate ColBERT Multivectors with FastEmbed
 
-Qdrant supports [multivector representations](https://qdrant.tech/documentation/concepts/vectors/#multivectors) and with FastEmbed you can use ColBERT to generate multivector embeddings. 
-FastEmbed will provide an optimized pipeline to utilize these embeddings in your search tasks.
+Qdrant supports [multivector representations](https://qdrant.tech/documentation/concepts/vectors/#multivectors). 
+With FastEmbed, you can use ColBERT to generate multivector embeddings; FastEmbed will provide an optimized pipeline to utilize these embeddings in your search tasks.
 
-ColBERT is a powerful model created as a more production-suitable alternative to [cross-encoders](https://sbert.net/examples/applications/cross-encoder/README.html) 
-for reranking. Its improved inference time with preserved high reranking quality is possible due to the `late interaction` mechanism.
+ColBERT produces one vector per token (a `token` is a meaningful text unit for a machine learning model). Consequently,
+ColBERT is more precise than dense embedding models like `BAAI/bge-small-en-v1.5`, which embed a whole text into just a single vector. 
+For the same reason, ColBERT requires significantly more resources than dense embedding models, so it should be primarily used for reranking rather than first-stage retrieval.
+A simple dense retriever can retrieve around 100-500 examples at the first stage; then, you can rerank them using ColBERT, moving the most relevant results to the top.
 
-What is `late interaction`? Cross-encoders ingest both a query and a document as one input, and all the interactions between query 
-and document parts happen "early", inside the model, which produces the similarity score based on how related these parts are. 
-Late interaction models, such as ColBERT, generate one vector per term (token) in a document (quer separately 
-(this is why the embeddings the model produces are multivectors) and the similarity score is computed "later" 
-between these vectors (query/document parts), outside of the model.
+ColBERT is a more production-suitable choice of a reranking model than [cross-encoders](https://sbert.net/examples/applications/cross-encoder/README.html).
+Its faster inference is possible due to the `late interaction` mechanism.
 
-ColBERT with multivector embeddings is more precise than dense embedding models like `BAAI/bge-small-en-v1.5`, 
-which embed a whole document (and query) into just a single vector. 
-Consequently, ColBERT requires significantly more resources, so it should be primarily used for reranking rather than first-stage retrieval.
-The first-stage simple fast retriever can retrieve 100-500 examples. Then, you can rank the remaining results using ColBERT.
+What is `late interaction`? Cross-encoders ingest a query and a document glued together as one input. 
+A cross-encoder model divides this input into meaningful (for the model) parts and checks how these parts relate. 
+So, all interactions between the query and the document happen "early", inside the model. 
+Late interaction models, such as ColBERT, only do the first part, generating document and query parts suitable for comparison. 
+All interactions between these parts are expected to be done "later", outside the model.
 
-However, in this section, we are just showing you how to use the ColBERT with FastEmbed, so we use it as a first-stage retriever on a toy dataset.
-You can see how to use ColBERT as a reranker in our [Multi-stage queries documentation](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries).
+In this tutorial, we use ColBERT as a first-stage retriever on a toy dataset.
+You can see how to use ColBERT as a reranker in our [multi-stage queries documentation](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries).
 ## Setup
 
 Install `fastembed`.
@@ -67,10 +67,7 @@ The model files will be fetched and downloaded, with progress showing.
 
 ## Embed data
 
-Here is our toy dataset of movies.
-![Toy Movie Dataset](/docs/toy_dataset_colBERT.jpg)
-
-We will vectorize movies descriptions with ColBERT:
+We will vectorize a toy movie description dataset with ColBERT:
 
 ```python
 descriptions = ["In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions.",
@@ -117,25 +114,19 @@ That means that for the first description, we have **48** vectors of lengths **1
 
 ## Upload embeddings to Qdrant
 
-Install `qdrant_client`
+Install `qdrant-client`
 
 ```python
-pip install qdrant_client
+pip install qdrant-client
 ```
 
-Here, we're using a free cluster created in Qdrant Cloud. To get it, you need to [register](https://qdrant.tech/documentation/cloud/qdrant-cloud-setup/#registration) in Qdrant Cloud,
-[create a free cluster](https://qdrant.tech/documentation/cloud/create-cluster/#create-a-cluster), and [create an API key](https://qdrant.tech/documentation/cloud/authentication/#create-api-keys).
-You can find cluster endpoint and API keys in "Cluster Details" section.
-
-![Cluster details](/docs/cluster_signup_example.jpg)
+Qdrant Client has a simple in-memory mode that allows you to experiment locally on small data volumes. 
+Alternatively, you could use for experiments [a free cluster](https://qdrant.tech/documentation/cloud/create-cluster/#create-a-cluster) in Qdrant Cloud.
 
 ```python
 from qdrant_client import QdrantClient, models
 
-qdrant_client = QdrantClient(
-    "<CLUSTER ENDPOINT>",
-    api_key="<CLUSTER API KEY>",
-)
+qdrant_client = QdrantClient(":memory:") # Qdrant is running from RAM.
 ```
 
 Now, let's create a small [collection](https://qdrant.tech/documentation/concepts/collections/) with our movie data.
@@ -149,8 +140,8 @@ To configure multivector collection, we need to specify:
 qdrant_client.create_collection(
     collection_name="movies",
     vectors_config=models.VectorParams(
-        size=len(descriptions_embeddings[0][0]), #128, size of each vector produced by ColBERT
-        distance=models.Distance.COSINE, #similaraity metric between each vector
+        size=128, #size of each vector produced by ColBERT
+        distance=models.Distance.COSINE, #similarity metric between each vector
         multivector_config=models.MultiVectorConfig(
             comparator=models.MultiVectorComparator.MAX_SIM #similarity metric between multivectors (matrices)
         ),
@@ -197,8 +188,6 @@ qdrant_client.upload_points(
 ## Querying
 
 ColBERT uses two distinct methods for embedding documents and queries, as do we in Fastembed. However, we altered query pre-processing used in ColBERT, so we don't have to cut all queries after 32-token length but ingest longer queries directly.
-
-<aside role="status">Our query preprocessing method differs slightly from ColBERT's one on queries longer than 32 BERT tokens.</aside>
 
 ```python
 qdrant_client.query_points(
