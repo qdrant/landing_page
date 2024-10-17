@@ -7,7 +7,7 @@ startFree:
   url: https://cloud.qdrant.io/
 menuItems:
   - id: menu-0
-    name: Product
+    name: Products
     subMenuItems:
       - id: subMenu-0-0
         name: Qdrant Vector Database
@@ -18,21 +18,17 @@ menuItems:
         icon: qdrant-cloud.svg
         url: /cloud/
       - id: subMenu-0-2
+        name: Qdrant Hybrid Cloud
+        icon: hybrid-cloud.svg
+        url: /hybrid-cloud/
+      - id: subMenu-0-3
         name: Qdrant Enterprise Solutions
         icon: qdrant-enterprise-solutions.svg
         url: /enterprise-solutions/
-      - id: subMenu-0-3
-        name: Hybrid Cloud
-        icon: hybrid-cloud.svg
-        url: /hybrid-cloud/
 #      - id: subMenu-0-4
 #        name: Private Cloud
 #        icon: private-cloud.svg
 #        url: /private-cloud/
-      - id: subMenu-0-5
-        name: Demos
-        icon: demos.svg
-        url: /demo/
   - id: menu-1
     name: Use Cases
     url: /use-cases/
@@ -100,6 +96,10 @@ menuItems:
         icon: articles.svg
         url: /articles/
       - id: subMenu-3-3
+        name: Demos
+        icon: demos.svg
+        url: /demo/
+      - id: subMenu-3-4
         name: Startup Program
         icon: qdrant-for-startups.svg
         url: /qdrant-for-startups/
