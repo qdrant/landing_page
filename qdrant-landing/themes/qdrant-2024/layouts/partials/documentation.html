@@ -4,8 +4,17 @@
       {{ partial "documentation-menu" . }}
 
       <div class="documentation__content">
+        {{ if not (eq .RelPermalink "/documentation/") }}
+          {{ partial "docs-breadcrumbs" . }}
+        {{ end }}
+
         {{ partial "documentation-article" . }}
         {{ partial "table-of-contents" . }}
+
+        {{ if not (eq .RelPermalink "/documentation/") }}
+          {{ partial "docs-feedback.html" . }}
+        {{ end }}
+
         {{ partial "docs-footer.html" . }}
       </div>
     </div>
