@@ -1533,7 +1533,7 @@ POST /collections/{collection_name}/points/search/matrix/offsets
 ```python
 from qdrant_client import QdrantClient, models
 
-client.search_matrix_pairs(
+client.search_matrix_offsets(
     collection_name="{collection_name}",
     sample=10,
     limit=2,
