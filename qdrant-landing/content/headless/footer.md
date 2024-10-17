@@ -133,5 +133,9 @@ bages:
   - src: /img/gdpr-badge.png
     alt: "heyData GDPR"
     url: https://heydata.eu/
+question: Ready to get started with Qdrant?
+questionButton:
+  text: Start Free
+  url: /#
 sitemapExclude: true
 ---

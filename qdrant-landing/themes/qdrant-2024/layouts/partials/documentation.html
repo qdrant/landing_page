@@ -1,9 +1,22 @@
-<section class="documentation documentation_theme-light">
+<section class="documentation">
   <div class="documentation__container">
-    <div class="row gx-4">
-      {{ partial "docs-menu" . }}
-      {{ partial "documentation-article" . }}
-      {{ partial "table-of-contents" . }}
+    <div class="d-flex flex-column flex-xl-row">
+      {{ partial "documentation-menu" . }}
+
+      <div class="documentation__content">
+        {{ if not (eq .RelPermalink "/documentation/") }}
+          {{ partial "docs-breadcrumbs" . }}
+        {{ end }}
+
+        {{ partial "documentation-article" . }}
+        {{ partial "table-of-contents" . }}
+
+        {{ if not (eq .RelPermalink "/documentation/") }}
+          {{ partial "docs-feedback.html" . }}
+        {{ end }}
+
+        {{ partial "docs-footer.html" . }}
+      </div>
     </div>
   </div>
 </section>
