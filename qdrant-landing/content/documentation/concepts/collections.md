@@ -633,7 +633,7 @@ And additionally, sparse vectors and dense vectors must have different names wit
 PUT /collections/{collection_name}
 {
     "sparse_vectors": {
-        "text": { },
+        "text": { }
     }
 }
 ```
@@ -656,6 +656,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
+    vectors_config={},
     sparse_vectors_config={
         "text": models.SparseVectorParams(),
     },
