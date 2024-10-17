@@ -1,22 +1,26 @@
 @use '../helpers/functions' as *;
 
 .documentation {
-  padding-top: $spacer;
   background-color: $neutral-10;
+  min-height: calc(100vh - 80px);
   color: $neutral-70;
 
   &__container {
     @extend .container;
     max-width: pxToRem(1440);
-    padding: 0 $spacer;
+    margin: 0 auto 0 0;
   }
 
   @include media-breakpoint-up(xl) {
-    padding-top: $spacer * 4;
-    padding-bottom: $spacer * 7.5;
-
     &__container {
-      padding: 0 $spacer * 2.5;
+      padding: 0;
+    }
+
+    &__content {
+      width: calc(100% - 544px);
+      padding: $spacer * 1.5 $spacer * 2.5 0 $spacer * 3.5;
+      margin-left: pxToRem(256);
+      border-left: pxToRem(1) solid $neutral-20;
     }
   }
 }

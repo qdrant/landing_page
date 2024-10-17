@@ -1,5 +1,12 @@
 {{ with (.Site.GetPage "/headless/footer") }}
-  <footer class="footer w-100 p-0">
+  <footer class="footer w-100 py-0 pt-0 pb-4 pb-xl-0">
+    <div class="footer__link">
+      <h4>{{ .Params.question }}</h4>
+      <a href="{{ .Params.questionButton.url }}" class="button button_outlined button_sm" target="_blank">
+        {{ .Params.questionButton.text }}
+      </a>
+    </div>
+
     <div class="footer__bottom">
       <div class="footer__bottom-content">
         <span>{{ .Params.copyright }}</span>

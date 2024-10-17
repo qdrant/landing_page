@@ -31,4 +31,25 @@ services:
   title: Private Cloud
   description: Qdrant Private Cloud allows you to manage Qdrant database clusters in any Kubernetes cluster on any infrastructure.
   link: /#
+supportTitle: Customer Support
+supportDescription: Stream, index, and migrate data to Qdrant with these essential tools and strategies.
+topics:
+- id: 1
+  image:
+    src: /icons/outline/discord-purple.svg
+    alt: Discord icon
+  title: Community Support
+  description: Join 6,000+ active members to learn, collaborate, and participate in Qdrant’s latest activities.
+  link:
+    text: Join our Discord
+    url: /#
+- id: 2
+  image:
+    src: /icons/outline/support-blue.svg
+    alt: Support icon
+  title: Qdrant Cloud Support
+  description: Paying customers have access to our Support team. Links to the support portal are available in the Qdrant Cloud Console.
+  link:
+    text: Join Qdrant
+    url: /#
 ---
