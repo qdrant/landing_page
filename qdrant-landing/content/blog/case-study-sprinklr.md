@@ -5,11 +5,15 @@ short_description: "Using vector search to power AI-driven tools for customer en
 description: "Learn how Sprinklr uses vector search to power AI tools for customer engagement."
 preview_image: /blog/case-study-sprinklr/preview.png
 social_preview_image: /blog/case-study-sprinklr/preview.png
-date: 2024-10-15T00:02:00Z
+date: 2024-10-17T00:02:00Z
 author: Qdrant
 featured: false
 tags:
   - Sprinklr
+  - Qdrant
+  - AI Search
+  - Qdrant Benchmarks
+  - ElasticSearch
   - Vector Search
 ---
 
