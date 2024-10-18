@@ -5,24 +5,28 @@ weight: 6
 
 # How to Generate ColBERT Multivectors with FastEmbed
 
-Qdrant supports [multivector representations](https://qdrant.tech/documentation/concepts/vectors/#multivectors). 
-With FastEmbed, you can use ColBERT to generate multivector embeddings; FastEmbed will provide an optimized pipeline to utilize these embeddings in your search tasks.
+## ColBERT
 
-ColBERT produces one vector per token (a `token` is a meaningful text unit for a machine learning model). Consequently,
-ColBERT is more precise than dense embedding models like `BAAI/bge-small-en-v1.5`, which embed a whole text into just a single vector. 
-For the same reason, ColBERT requires significantly more resources than dense embedding models, so it should be primarily used for reranking rather than first-stage retrieval.
-A simple dense retriever can retrieve around 100-500 examples at the first stage; then, you can rerank them using ColBERT, moving the most relevant results to the top.
+ColBERT is an embedding model that produces a matrix (multivector) representation of input text; it generates one vector per token (a `token` is a meaningful text unit for a machine learning model). 
+This embedding way allows ColBERT to express deeper input semantics than many dense embedding models, which embed a whole input into just a single vector. 
+However, at the same time, storing multiple vectors per input usually leads to more resources (for example, memory) spent. So, even if ColBERT can be a powerful retriever, 
+we recommend using it mainly for reranking rather than first-stage retrieval. A simple dense retriever can retrieve around 100-500 examples at the first stage; 
+then, you can rerank them using ColBERT, moving the most relevant results to the top.
 
-ColBERT is a more production-suitable choice of a reranking model than [cross-encoders](https://sbert.net/examples/applications/cross-encoder/README.html).
-Its faster inference is possible due to the `late interaction` mechanism.
+ColBERT is a considerable alternative of a reranking model to [cross-encoders](https://sbert.net/examples/applications/cross-encoder/README.html), since
+It tends to be faster on inference time due to its `late interaction` mechanism.
 
 What is `late interaction`? Cross-encoders ingest a query and a document glued together as one input. 
 A cross-encoder model divides this input into meaningful (for the model) parts and checks how these parts relate. 
-So, all interactions between the query and the document happen "early", inside the model. 
+So, all interactions between the query and the document happen "early" inside the model. 
 Late interaction models, such as ColBERT, only do the first part, generating document and query parts suitable for comparison. 
-All interactions between these parts are expected to be done "later", outside the model.
+All interactions between these parts are expected to be done "later" outside the model.
 
-In this tutorial, we use ColBERT as a first-stage retriever on a toy dataset.
+## Using ColBERT in Qdrant
+
+Qdrant supports [multivector representations](https://qdrant.tech/documentation/concepts/vectors/#multivectors) out of the box so that you can use any late interaction model as `ColBERT` or `ColPali` in Qdrant without any additional pre/post-processing.
+
+This tutorial uses ColBERT as a first-stage retriever on a toy dataset.
 You can see how to use ColBERT as a reranker in our [multi-stage queries documentation](https://qdrant.tech/documentation/concepts/hybrid-queries/#multi-stage-queries).
 ## Setup
 
@@ -69,6 +73,9 @@ The model files will be fetched and downloaded, with progress showing.
 
 We will vectorize a toy movie description dataset with ColBERT:
 
+<details>
+<summary> Movie description dataset </summary>
+
 ```python
 descriptions = ["In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions.",
  "A film projectionist longs to be a detective, and puts his meagre skills to work when he is framed by a rival for stealing his girlfriend's father's pocketwatch.",
@@ -91,6 +98,7 @@ descriptions = ["In 1431, Jeanne d'Arc is placed on trial on charges of heresy. 
  "Spinal Tap, one of England's loudest bands, is chronicled by film director Marty DiBergi on what proves to be a fateful tour.",
  "Oskar, an overlooked and bullied boy, finds love and revenge through Eli, a beautiful but peculiar girl."]
 ```
+</details>
 
 The vectorization is done with an `embed` generator function.
 
@@ -150,6 +158,9 @@ qdrant_client.create_collection(
 ```
 To make this collection human-readable, let's save movie metadata (name, description in text form and movie's length) together with an embedded description.
 
+<details>
+<summary> Movie metadata </summary>
+
 ```python
 metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min": 114, "movie_description": "In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions."},
 {"movie_name": "Sherlock Jr.", "movie_watch_time_min": 45, "movie_description": "A film projectionist longs to be a detective, and puts his meagre skills to work when he is framed by a rival for stealing his girlfriend's father's pocketwatch."},
@@ -171,7 +182,10 @@ metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min":
 {"movie_name": "Nefes: Vatan Sagolsun", "movie_watch_time_min": 128, "movie_description": "Story of 40-man Turkish task force who must defend a relay station."},
 {"movie_name": "This Is Spinal Tap", "movie_watch_time_min": 82, "movie_description": "Spinal Tap, one of England's loudest bands, is chronicled by film director Marty DiBergi on what proves to be a fateful tour."},
 {"movie_name": "Let the Right One In", "movie_watch_time_min": 114, "movie_description": "Oskar, an overlooked and bullied boy, finds love and revenge through Eli, a beautiful but peculiar girl."}]
+```
+</details>
 
+```python
 qdrant_client.upload_points(
     collection_name="movies",
     points=[
