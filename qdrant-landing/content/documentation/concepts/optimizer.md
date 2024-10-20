@@ -50,7 +50,7 @@ Such segments, for example, are created as copy-on-write segments during optimiz
 It is also essential to have at least one small segment that Qdrant will use to store frequently updated data.
 On the other hand, too many small segments lead to suboptimal search performance.
 
-There is the Merge Optimizer, which combines the smallest segments into one large segment. It is used if too many segments are created.
+Qdrant uses a parameter called max_segment_size to control the size of segments. Increasing this value allows the creation of larger segments, reducing the number of segments and potentially improving search performance.
 
 The criteria for starting the optimizer are defined in the configuration file.
 
@@ -59,8 +59,8 @@ Here is an example of parameter values:
 ```yaml
 storage:
   optimizers:
-    # If the number of segments exceeds this value, the optimizer will merge the smallest segments.
-    max_segment_number: 5
+    # This parameter defines the maximum size of a segment. Increasing this value can help in reducing the number of segments.
+    max_segment_size: <desired_size>
 ```
 
 ## Indexing Optimizer
