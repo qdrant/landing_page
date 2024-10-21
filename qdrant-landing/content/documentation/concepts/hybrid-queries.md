@@ -296,14 +296,14 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.query("{collection_name}", {
-    prefetch: {
-        query: [1, 23, 45, 67], // <------------- small byte vector
-        using: 'mrl_byte',
-        limit: 1000,
-    },
-    query: [0.01, 0.299, 0.45, 0.67, ...], // <-- full vector,
-    using: 'full',
-    limit: 10,
+  prefetch: {
+    query: [1, 23, 45, 67], // <------------- small byte vector
+    using: 'mrl_byte',
+    limit: 1000,
+  },
+  query: [0.01, 0.299, 0.45, 0.67], // <-- full vector,
+  using: 'full',
+  limit: 10,
 });
 ```
 
@@ -628,23 +628,23 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.query("{collection_name}", {
+  prefetch: {
     prefetch: {
-        prefetch: {
-            query: [1, 23, 45, 67, ...], // <------------- small byte vector
-            using: 'mrl_byte',
-            limit: 1000,
-        },
-        query: [0.01, 0.45, 0.67, ...],  // <-- full dense vector
-        using: 'full',
-        limit: 100,
+      query: [1, 23, 45, 67], // <------------- small byte vector
+      using: 'mrl_byte',
+      limit: 1000,
     },
-    query: [
-        [0.1, 0.2], // <─┐
-        [0.2, 0.1], // < ├─ multi-vector
-        [0.8, 0.9], // < ┘
-    ],
-    using: 'colbert',
-    limit: 10,
+    query: [0.01, 0.45, 0.67],  // <-- full dense vector
+    using: 'full',
+    limit: 100,
+  },
+  query: [
+    [0.1, 0.2], // <─┐
+    [0.2, 0.1], // < ├─ multi-vector
+    [0.8, 0.9], // < ┘
+  ],
+  using: 'colbert',
+  limit: 10,
 });
 ```
 
@@ -832,7 +832,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client
     .query(
         QueryPointsBuilder::new("{collection_name}")
-            .query(Query::new_nearest(PointId::new("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+            .query(Query::new_nearest("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")),
     )
     .await?;
 ```
@@ -943,7 +943,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.query(
     QueryPointsBuilder::new("{collection_name}")
-        .query(Query::new_nearest(PointId::new("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+        .query(Query::new_nearest("43cf51e2-8777-4f52-bc74-c2cbde0c8b04"))
         .using("512d-vector")
         .lookup_from(
             LookupLocationBuilder::new("another_collection")

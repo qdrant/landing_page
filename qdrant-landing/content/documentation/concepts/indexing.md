@@ -182,7 +182,7 @@ client.create_payload_index(
 ```
 
 ```typescript
-import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
@@ -379,7 +379,7 @@ client.create_payload_index(
 ```
 
 ```typescript
-import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
