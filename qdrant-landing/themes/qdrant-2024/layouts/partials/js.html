@@ -63,7 +63,7 @@
   </script>
 {{ end }}
 
-{{ if or (eq .Section "docs") (eq .Section "documentation") (and (not .IsPage) (eq .Section "blog")) }}
+{{ if or (in (slice "docs" "documentation") .Section) (and (not .IsPage) (eq .Section "blog")) }}
   {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 {{ end }}
