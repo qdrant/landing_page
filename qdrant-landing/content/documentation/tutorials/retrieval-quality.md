@@ -10,7 +10,27 @@ weight: 21
 
 In this tutorial, we will show you how to measure and improve the quality of retrieval using Qdrant. 
 
-First, we will evaluate search performance and then we will show you how to tune retrieval parameters to improve retrieval performance.
+Semantic search pipelines are as good as the embeddings they use. If your model cannot properly represent input data, similar objects might be far away from each other in the vector space. No surprise, that the search results will be poor in this case. There is, however, another component of the process which can also degrade the quality of the search results. It is the ANN algorithm itself.
+
+In this tutorial, we will show how to measure the quality of the semantic retrieval and how to tune the parameters of the HNSW, the ANN algorithm used in Qdrant, to obtain the best results.
+
+## Embeddings quality
+Embeddings quality is typically measured using benchmarks like the Massive Text Embedding Benchmark (MTEB). The evaluation process compares search results with a human-curated ground truth dataset. This involves taking a query, finding the most similar documents in the vector space using full kNN search, and comparing them with the expected results.
+
+## Retrieval quality
+While embeddings quality is crucial for semantic search, vector search engines like Qdrant use Approximate Nearest Neighbors (ANN) algorithms. These are faster than exact search but may return suboptimal results. The quality of this approximation also contributes to overall search performance.
+
+## Quality metrics
+Various metrics quantify semantic search quality. Precision@k measures relevant documents in top-k results, while Mean Reciprocal Rank (MRR) considers the position of the first relevant document. DCG and NDCG are based on document relevance scores.
+
+For ANN algorithms, precision@k is most applicable. It's calculated as the number of relevant documents in top-k results divided by k. Using exact kNN search as ground truth, we can measure how well the ANN algorithm approximates exact search.
+
+To evaluate ANN quality in Qdrant:
+1. Perform an approximate search
+2. Perform an exact search
+3. Compare results using precision
+
+Let's demonstrate this process using the "Qdrant/arxiv-titles-instructorxl-embeddings" dataset from Hugging Face hub. We'll create a collection, populate it with data, evaluate the search quality, and then tune parameters to improve the results. This will involve adjusting HNSW parameters such as `ef_construct`, `m`, and `ef_search` to find the optimal balance between search speed and accuracy.
 
 ## Step 0: Install Required Packages
 
@@ -22,7 +42,7 @@ pip install qdrant-client datasets
 
 ## Step 1: Load the Dataset
 
-We’ll use a pre-embedded dataset from Hugging Face to train and test Qdrant’s search capabilities. First, load and split the dataset for training (1,000 items) and testing (100 items). 
+We’ll use a pre-embedded dataset from Hugging Face to train and test Qdrant’s search capabilities. First, load and split the dataset for training (50,000 items) and testing (5,000 items). 
 
 ```python
 from datasets import load_dataset
