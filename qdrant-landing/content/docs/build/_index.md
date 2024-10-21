@@ -1,6 +1,7 @@
 ---
 title: Build World-Class Applications
 description: Dev-portal Build
+partition: build
 image:
   src: /img/dev-portal-build/spanish-ai-app-hero.png
   alt: Spanish AI app.png

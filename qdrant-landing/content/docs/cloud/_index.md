@@ -1,6 +1,7 @@
 ---
 title: Welcome to Qdrant Cloud
 description: Dev-portal Cloud
+partition: cloud
 image:
   src: /img/dev-portal-cloud/dev-portal-cloud-hero.png
   alt: Qdrant cloud dashboard

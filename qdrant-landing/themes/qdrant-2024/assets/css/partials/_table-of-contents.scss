@@ -1,5 +1,5 @@
 @use '../helpers/functions' as *;
-@use "sass:math";
+@use 'sass:math';
 
 .table-of-contents {
   &__head {
@@ -33,7 +33,6 @@
 
       a {
         display: block;
-        margin-bottom: math.div($spacer, 4);
         padding: math.div($spacer, 4) math.div($spacer, 2);
         color: $neutral-70;
         font-size: pxToRem(14);

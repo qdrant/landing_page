@@ -1,7 +1,10 @@
 <section class="documentation">
   <div class="documentation__container">
     <div class="d-flex flex-column flex-xl-row">
-      {{ partial "documentation-menu" . }}
+      {{ $partition := partial "get-partition.html" (dict "page" .) }}
+
+      {{ partial "docs-menu" (dict "context" . "partition" $partition) }}
+
 
       <div class="documentation__content">
         {{ if not (eq .RelPermalink "/documentation/") }}

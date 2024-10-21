@@ -1,6 +1,7 @@
 ---
 title: Qdrant Documentation
 description: Qdrant is an AI-native vector database and a semantic search engine. You can use it to extract meaningful information from unstructured data.
+partition: qdrant 
 linkDescription: <a href="/qdrant/qdrant_demo/">Clone this repo now</a> and build a search engine in five minutes.
 cloudButton:
   text: Cloud Quickstart
