@@ -10,6 +10,7 @@ aliases:
 Different use cases require different balances between memory usage, search speed, and precision. Qdrant is designed to be flexible and customizable so you can tune it to your specific needs. 
 
 This guide will walk you three main optimization strategies:
+
 - High Speed Search & Low Memory Usage
 - High Precision & Low Memory Usage
 - High Precision & High Speed Search

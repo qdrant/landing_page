@@ -535,8 +535,7 @@ client.upsert(
 ```
 
 ```typescript
-
-client.upsertPoints("{collection_name}", {
+client.upsert("{collection_name}", {
     points: [
         {
             id: 1111,
