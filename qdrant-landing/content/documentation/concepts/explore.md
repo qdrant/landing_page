@@ -1395,7 +1395,7 @@ QdrantClient client =
 client
     .searchMatrixPairsAsync(
         Points.SearchMatrixPoints.newBuilder()
-            .setCollectionName(collectionName)
+            .setCollectionName("{collection_name}")
             .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
             .setSample(10)
             .setLimit(2)
@@ -1448,7 +1448,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchMatrixPairs(
+await client.SearchMatrixPairsAsync(
     collectionName: "{collection_name}",
     filter: MatchKeyword("color", "red"),
     sample: 10,
@@ -1561,7 +1561,7 @@ QdrantClient client =
 client
     .searchMatrixOffsetsAsync(
         SearchMatrixPoints.newBuilder()
-            .setCollectionName(collectionName)
+            .setCollectionName("{collection_name}")
             .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
             .setSample(10)
             .setLimit(2)
@@ -1614,7 +1614,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchMatrixOffsets(
+await client.SearchMatrixOffsetsAsync(
     collectionName: "{collection_name}",
     filter: MatchKeyword("color", "red"),
     sample: 10,

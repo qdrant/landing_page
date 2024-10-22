@@ -1367,7 +1367,7 @@ client.delete_vectors(
 ```typescript
 client.deleteVectors("{collection_name}", {
   points: [0, 3, 10],
-  vectors: ["text", "image"],
+  vector: ["text", "image"],
 });
 ```
 
