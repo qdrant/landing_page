@@ -91,7 +91,7 @@ When documents are uploaded into a database, the importance of words in a docume
 and stored in the inverted index in the same way as term frequencies in BM25 retrievers. 
 Then, the retrieval process is identical to the BM25 one.
 
-***Why DeepCT is not a perfect solution?*** To train linear regression, the authors needed to provide the true value (**ground truth**) 
+***Why is DeepCT not a perfect solution?*** To train linear regression, the authors needed to provide the true value (**ground truth**) 
 of each word’s importance so the model could “see” what the right answer should be. 
 This score is hard to define in a way that it truly expresses the query-document relevancy.
  Which score should have the most relevant word to a query when this word is taken from a five-page document? The second relevant? The third? 
@@ -142,7 +142,7 @@ So, for example, if we are searching for “*Revolut bank \<finance institution\
 the first one will have a bigger value of a dot product with a “*bank*” in the query, and it will count towards the final score. 
 The final relevancy score of a document is a sum of scores of query terms matched. 
 
-***Why COIL is not a perfect solution?*** This way of defining the importance score captures deeper semantics; 
+***Why is COIL not a perfect solution?*** This way of defining the importance score captures deeper semantics; 
 more meaning comes with more values used to describe it. 
 However, storing 32-dimensional vectors for every term is far more expensive, 
 and an inverted index does not work as-is with this architecture.
@@ -221,7 +221,7 @@ For each token in BERT vocabulary, they find the maximum dot product between it 
 and learn a threshold of a considerable (non-zero) effect.
 Then, at the inference time, the only thing to be done is to sum up all scores of query tokens in that document.
 
-***Why SPARTA is not a perfect solution?*** Trained on the MS MARCO dataset, many sparse neural retrievers, including SPARTA, 
+***Why is SPARTA not a perfect solution?*** Trained on the MS MARCO dataset, many sparse neural retrievers, including SPARTA, 
 show good results on MS MARCO test data, but when it comes to generalisation (working with other data), they 
 [could perform worse than BM25](https://arxiv.org/pdf/2307.10488).
 
