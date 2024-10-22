@@ -21,7 +21,7 @@ questions:
   answer: We evaluate applications based on the innovation potential of the tech or AI-driven products or services and their alignment with Qdrant’s capabilities. Startups that demonstrate a clear vision and potential for impactful use of our platform are more likely to be selected.
 - id: 3
   question: How long is the discount valid, and what are the conditions?
-  answer: The discount is valid for 12 months from the date of acceptance and applies exclusively to our Cloud services billed through Stripe. Participants need a Stripe account to utilize the discount. Billing can not be through a marketplace. For details on pricing, please visit qdrant.tech/pricing.
+  answer: The discount is valid for 12 months from the date of acceptance and applies exclusively to our Cloud services billed through Qdrant (via Stripe). Participants must add credit card details to their Qdrant account to utilize the discount. Billing can not be through a marketplace. For details on pricing, please visit qdrant.tech/pricing.
 - id: 4
   question: How can I maximize the co-marketing opportunities offered by the program?
   answer: Engage actively with our marketing team for features on social media, possible appearances in Discord talks or webinars, and case studies to maximize your startup's visibility and showcase your innovative use of Qdrant.
