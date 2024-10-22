@@ -121,7 +121,7 @@ This ensures that misconfigurations are caught early, preventing Qdrant from run
 
 ## Configuration Options
 
-The following YAML example includes all the support configuration options.
+The following YAML example describes the available configuration options.
 
 ```yaml
 log_level: INFO
@@ -441,6 +441,7 @@ cluster:
 
 # Set to true to prevent service from sending usage statistics to the developers.
 # Read more: https://qdrant.tech/documentation/guides/telemetry
+# Defaults: false
 telemetry_disabled: false
 
 # TLS configuration.
