@@ -2,7 +2,7 @@
 title: Qdrant Documentation
 description: Qdrant is an AI-native vector database and a semantic search engine. You can use it to extract meaningful information from unstructured data.
 partition: qdrant 
-linkDescription: <a href="/qdrant/qdrant_demo/">Clone this repo now</a> and build a search engine in five minutes.
+linkDescription: <a href="https://github.com/qdrant/qdrant" target="_blank">Clone this repo now</a> and build a search engine in five minutes.
 cloudButton:
   text: Cloud Quickstart
   url: /documentation/quickstart-cloud/
@@ -16,7 +16,7 @@ developingBlock:
   title: Create your first Qdrant Cloud cluster today
   button:
     text: Get Started
-    url: /#
+    url: https://qdrant.to/cloud
   image:
     src: /img/rocket.svg
     alt: Rocket

@@ -1,9 +1,6 @@
 {{ $partition := .partition }}
 
-{{ with .context.Site.GetPage "section" "documentation" }}
-{{ end }}
-
-{{ $currentNode := . }}
+{{ $currentNode := .context }}
 <div class="docs-menu">
   <div id="sidebar-toggle" class="docs-menu__header">
     <h2>Docs Menu</h2>

@@ -1,6 +1,7 @@
 ---
 title: Hybrid Cloud
 weight: 13
+partition: cloud
 ---
 
 # Qdrant Hybrid Cloud
