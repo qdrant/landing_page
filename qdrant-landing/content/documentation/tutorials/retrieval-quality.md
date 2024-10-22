@@ -1,3 +1,4 @@
+---
 title: Measure retrieval quality
 weight: 21
 ---
@@ -7,35 +8,32 @@ weight: 21
 | Time: 30 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|
 
-Semantic search pipelines are as good as the embeddings they use. If your model cannot properly represent input data, similar objects might be far away from each other in the vector space. No surprise, that the search results will be poor in this case. There is, however, another component of the process which can also degrade the quality of the search results. It is the ANN algorithm itself. 
+In this tutorial, you will:
 
-In this tutorial, we will show how to measure the quality of the semantic retrieval and how to tune the parameters of the HNSW, the ANN algorithm used in Qdrant, to obtain the best results.
+1. Load and prepare a dataset of arXiv titles with pre-computed embeddings.
+2. Create a collection in Qdrant and index the training data.
+3. Implement a function to measure retrieval quality using precision@k.
+4. Compare the results of ANN search with exact search.
+5. Tune HNSW parameters to improve retrieval quality.
+6. Analyze the results and explore the trade-offs between precision and performance.
 
-## Step 1: Understanding Embeddings Quality and Retrieval Quality
+By the end of this tutorial, you'll have a practical understanding of how to measure and improve retrieval quality in Qdrant.
 
-### Embeddings quality
+### Step 0: Understanding the Impact of Search Algorithms on Your Retrieval Quality
 
-The quality of the embeddings is typically measured and compared by benchmarks, such as [Massive Text Embedding Benchmark (MTEB)](https://huggingface.co/spaces/mteb/leaderboard). The evaluation process is based on a ground truth dataset built by humans. We have a set of queries and a set of the documents we would expect to receive for each of them. In the [evaluation process](https://qdrant.tech/rag/rag-evaluation-guide/), we take a query, find the most similar documents in the vector space and compare them with the ground truth. In that setup, **finding the most similar documents is implemented as full kNN search, without any approximation**. As a result, we can measure the quality of the embeddings themselves, without the influence of the ANN algorithm.
+Semantic search pipelines rely heavily on the quality of the embeddings they use. If your model cannot properly represent input data, similar objects might be far apart in the vector space, leading to poor search results. Another critical component that affects search quality is the Approximate Nearest Neighbor (ANN) algorithm itself.
 
-### Retrieval quality
+Qdrant harnesses the power of ANN algorithms to handle massive datasets efficiently. As your dataset grows, exact k-Nearest Neighbors (kNN) search starts to suffer in performance due to the increased computational time required to compute distances between the query and every point in the dataset. This makes exact kNN impractical for large-scale applications. ANN algorithms like HNSW provide a significant advantage by approximating the nearest neighbors, allowing you to perform fast and scalable searches over large volumes of data.
 
-Embeddings quality is indeed the most important factor in the semantic search quality. However, vector search engines, such as Qdrant, do not perform pure kNN search. Instead, they use **Approximate Nearest Neighbors** (ANN) algorithms, which are much faster than the exact search, but can return suboptimal results. We can also **measure the retrieval quality of that approximation** which also contributes to the overall search quality.
+While ANN algorithms are faster, they may return approximate results, which can impact search quality. It's important to measure the retrieval quality of the ANN algorithm compared to the kNN algorithm to ensure it approximates the exact search effectively.
 
-### Quality metrics
 
-There are various ways to quantify the quality of semantic search:
-- [Precision@k](https://en.wikipedia.org/wiki/Evaluation_measures_(information_retrieval)#Precision_at_k): Based on the number of relevant documents in the top-k search results.
-- [Mean Reciprocal Rank (MRR)](https://en.wikipedia.org/wiki/Mean_reciprocal_rank): Takes into account the position of the first relevant document in the search results.
-- [DCG and NDCG](https://en.wikipedia.org/wiki/Discounted_cumulative_gain): Based on the relevance score of the documents.
+### Step 1: Load and Prepare the Dataset
 
-For ANN algorithms, `precision@k` is most applicable. It is calculated as the number of relevant documents in the top-k search results divided by `k`. We can use the exact kNN search as a ground truth to measure **how well the ANN algorithm approximates the exact search**.
-
-## Step 2: Load and Prepare the Dataset
-
-Let's start by loading the dataset and preparing it for our evaluation:
+First, we need to load a dataset and prepare it for evaluation. We'll use the `Qdrant/arxiv-titles-instructorxl-embeddings` dataset from the Hugging Face Hub.
 
 ```python
-#install required libraries
+# Install required libraries
 pip install qdrant-client datasets
 
 from datasets import load_dataset
@@ -51,37 +49,37 @@ train_dataset = [next(dataset_iterator) for _ in range(50000)]
 test_dataset = [next(dataset_iterator) for _ in range(5000)]
 ```
 
-This code loads the `Qdrant/arxiv-titles-instructorxl-embeddings` dataset from Hugging Face hub and splits it into 50,000 items for training and 5,000 for testing.
+This code loads the dataset and splits it into two parts: 50,000 items for training and 5,000 items for testing. This separation will allow us to build the search index with training data and evaluate its quality using the test data.
 
-## Step 3: Create a Collection in Qdrant
+### Step 2: Create a Collection in Qdrant
 
-Now, let's create a collection and set up the Qdrant client:
+Next, we need to create a collection in Qdrant to store the vectors.
 
 ```python
 from qdrant_client import QdrantClient, models
 
+# Set up Qdrant client
 client = QdrantClient("http://localhost:6333")
+
+# Create a collection in Qdrant
 client.create_collection(
     collection_name="arxiv-titles-instructorxl-embeddings",
     vectors_config=models.VectorParams(
-        size=768,  # Size of the embeddings generated by InstructorXL model
+        size=768,  # Size of the embeddings generated by the InstructorXL model
         distance=models.Distance.COSINE,
     ),
 )
 ```
 
-<aside role="status">
-    Distance function is another parameter that may impact the retrieval quality. If the embedding model was not trained to minimize cosine 
-    distance, you can get suboptimal search results by using it. Please test different distance functions to find the best one for your embeddings, 
-    if you don't know the specifics of the model training.
-</aside>
+This code creates a collection in Qdrant. The `size` parameter represents the dimensionality of the embedding vectors, and the `distance` parameter specifies the distance function to use (e.g., cosine). Using the correct distance function is important for achieving good retrieval quality.
 
-## Step 4: Index the Training Data
+### Step 3: Index the Training Data
 
-Let's upload the training data to Qdrant:
+Once the collection is set up, we need to upload the training data into Qdrant for indexing.
 
 ```python
-client.upload_points(  # upload_points is available as of qdrant-client v1.7.1
+# Upload training data to Qdrant
+client.upload_points(  # Available as of qdrant-client v1.7.1
     collection_name="arxiv-titles-instructorxl-embeddings",
     points=[
         models.PointStruct(
@@ -93,73 +91,81 @@ client.upload_points(  # upload_points is available as of qdrant-client v1.7.1
     ]
 )
 
-# Wait for indexing to finish
+# Wait for indexing to complete
 while True:
     collection_info = client.get_collection(collection_name="arxiv-titles-instructorxl-embeddings")
     if collection_info.status == models.CollectionStatus.GREEN:
         break
 ```
 
-## Step 5: Create a Function to Measure Retrieval Quality
+This code uploads the training dataset to Qdrant, creating an index that can be used for approximate nearest neighbor (ANN) searches. The status check ensures that indexing is complete before moving forward.
 
-Now, let's create a function to measure the retrieval quality using precision@k:
+### Step 4: Measure Retrieval Quality
+
+To assess retrieval quality, we need to compare the results of an ANN search with the results of an exact search. This comparison will help determine how well the ANN algorithm approximates the true nearest neighbors.
+
+The function `avg_precision_at_k(k)` calculates the average precision at k by comparing the ANN results against the exact search results for each item in the test dataset. Precision at k measures how many of the top k results from ANN match the exact search results.
 
 ```python
 def avg_precision_at_k(k: int):
     precisions = []
     for item in test_dataset:
+        # Perform ANN search
         ann_result = client.query_points(
             collection_name="arxiv-titles-instructorxl-embeddings",
             query=item["vector"],
             limit=k,
         ).points
     
+        # Perform exact search
         knn_result = client.query_points(
             collection_name="arxiv-titles-instructorxl-embeddings",
             query=item["vector"],
             limit=k,
             search_params=models.SearchParams(
-                exact=True,  # Turns on the exact search mode
+                exact=True,  # Enables exact search mode
             ),
         ).points
 
         # Calculate precision@k
-        ann_ids = set(item.id for item in ann_result)
-        knn_ids = set(item.id for item in knn_result)
+        ann_ids = set(point.id for point in ann_result)
+        knn_ids = set(point.id for point in knn_result)
         precision = len(ann_ids.intersection(knn_ids)) / k
         precisions.append(precision)
     
     return sum(precisions) / len(precisions)
 ```
 
-## Step 6: Measure Initial Retrieval Quality
-
-Let's measure the initial retrieval quality:
+### Step 5: Measure Retrieval Quality
 
 ```python
 print(f"Initial avg(precision@5) = {avg_precision_at_k(k=5)}")
 ```
 
-## Step 7: Tune HNSW Parameters for Better Precision
+This step measures the initial retrieval quality before any tuning of the HNSW parameters. The HNSW (Hierarchical Navigable Small World) algorithm has two key parameters that influence search performance and quality:
 
-Now, let's adjust the HNSW parameters to improve precision. HNSW (Hierarchical Navigable Small World) is the graph-based algorithm used by Qdrant for approximate nearest neighbor search. Two key parameters we can tune are:
+- **m**: This parameter determines the maximum number of connections per node in the HNSW graph. A higher value for `m` increases the connectivity of the graph, potentially improving search accuracy at the cost of increased memory usage and indexing time. The default value for `m` is 16.
+- **ef_construct**: This parameter controls the size of the dynamic candidate list during index construction. A higher value of `ef_construct` leads to a more exhaustive search during the indexing phase, resulting in a higher quality graph and improved search accuracy. However, this comes at the cost of longer indexing times. The default value for `ef_construct` is 100.
 
-1. `m`: This parameter determines the maximum number of edges per node in the HNSW graph. A higher value of `m` increases the connectivity of the graph, potentially improving search accuracy at the cost of increased memory usage and indexing time.
+We will use the untuned HNSW as the baseline to compare how changes affect the precision of the search. Initially, we will use the default values of `m` (16) and `ef_construct` (100) for the HNSW algorithm. Later, we will double these values to observe their impact on retrieval quality.
 
-2. `ef_construct`: This parameter controls the size of the dynamic candidate list during index construction. A higher value of `ef_construct` results in a more exhaustive search during indexing, which can lead to a higher quality graph at the expense of longer indexing times.
+Qdrant allows us to easily compare the performance between exact and approximate searches. For smaller datasets (e.g., up to 20,000 documents), exact search can be practical, but as the dataset scales, ANN algorithms like HNSW become necessary to handle the increased data volume efficiently.
 
-Let's adjust these parameters:
+### Step 6: Tune HNSW Parameters for Better Precision
+
+The HNSW algorithm used in Qdrant can be fine-tuned for better precision by adjusting parameters like `m` and `ef_construct`.
 
 ```python
+# Tune HNSW parameters for improved precision
 client.update_collection(
     collection_name="arxiv-titles-instructorxl-embeddings",
     hnsw_config=models.HnswConfigDiff(
-        m=32,  # Increase the number of edges per node from the default 16 to 32
-        ef_construct=200,  # Increase the number of neighbours considered during indexing from the default 100 to 200
+        m=32,          # Increase from the default 16 to 32
+        ef_construct=200,  # Increase from the default 100 to 200
     )
 )
 
-# Wait for re-indexing
+# Wait for re-indexing to complete
 while True:
     collection_info = client.get_collection(collection_name="arxiv-titles-instructorxl-embeddings")
     if collection_info.status == models.CollectionStatus.GREEN:
@@ -169,21 +175,43 @@ while True:
 print(f"New avg(precision@5) = {avg_precision_at_k(k=5)}")
 ```
 
-By increasing `m` from its default value (usually 16) to 32, we're allowing more connections between nodes in the HNSW graph. This can help improve the search accuracy by providing more paths to explore during the search process.
+By increasing `m` and `ef_construct`, you're allowing for a more connected graph and a more exhaustive search during indexing, which should lead to higher precision. After tuning, it's important to measure the precision again to verify improvements.
 
-Increasing `ef_construct` from its default (usually 100) to 200 means that during the index construction, the algorithm will consider more potential neighbors for each point. This can result in a higher quality graph structure, potentially leading to more accurate search results.
+### How to Select HNSW Parameters
 
-It's important to note that these improvements in accuracy come at the cost of increased memory usage and longer indexing times. The optimal values for these parameters can vary depending on your specific dataset and use case, so it's often beneficial to experiment with different values to find the best trade-off between accuracy and performance for your application.
+- If you require higher precision, increase `m` and `ef_construct` while considering the increased memory usage and indexing time.
+- If memory and indexing time are critical constraints, tune the parameters incrementally to find the right balance.
 
-## Step 8: Analyze Results and Conclusion
+### Measuring Search Quality in the WebUI
 
-Analyze the results of the initial and improved precision. The precision should have increased after tuning the HNSW parameters.
+If you prefer a visual interface, you can also measure search quality in the Qdrant WebUI. To do this, first go to [Qdrant Cloud](https://cloud.qdrant.io/) and select a collection. Then, navigate to the Search Quality tab. 
 
-Remember that there's a trade-off between precision, search latency, and memory requirements. In some cases, you may want to increase precision as much as possible, but it's important to find the right balance for your specific use case.
 
-Assessing the quality of retrieval is crucial for optimizing semantic search performance. Qdrant's built-in exact search mode allows you to measure the quality of the ANN algorithm, which can be automated as part of your CI/CD pipeline.
+![Search Quality Report in Qdrant WebUI](/articles_data/retrieval-evaluation/user_clean.png)
 
-While HNSW performs well in terms of precision and is highly tunable, keep in mind that **the quality of the embeddings is the most important factor** in overall search quality. Other ANN algorithms like [IVF*](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes#cell-probe-methods-indexivf-indexes) are available, but they often [perform worse than HNSW in terms of quality and performance](https://nirantk.com/writing/pgvector-vs-qdrant/#correctness).
 
-By following these steps, you can effectively measure and improve the retrieval quality of your Qdrant-based semantic search system.
-](https://github.com/qdrant/landing_page.git)
+
+From here you can run a simple search Quality Report on your collection. Qdrant will select a random sample of 100 points for you and run an exact search and an ANN search. It will then compare the results and calculate the precision@10.
+
+![Search Quality Report in Qdrant WebUI](/articles_data/retrieval-evaluation/clean_precision_ran.png)
+
+You can also run a more comprehensive Search Quality Report by clicking on the `Advanced Mod` button. This will open an interface where you can specify parameters like ef and m and evaluate the Search Quality in the webui.
+
+![Search Quality Report in Qdrant WebUI](/articles_data/retrieval-evaluation/clean_advanced.png)
+
+### Step 7: Analyze Results and Conclusion
+
+Finally, analyze the results:
+
+- Compare the initial and new precision scores to determine the impact of parameter changes.
+- Assess whether the improvements justify the increased resource usage.
+
+By following these steps, you can effectively measure and improve the retrieval quality of your Qdrant-based semantic search system. Qdrant's ANN capabilities provide the ability to efficiently handle massive datasets while maintaining acceptable levels of accuracy.
+
+### Additional Considerations
+
+- **Embeddings Quality Is Crucial**: While tuning ANN parameters can improve retrieval quality, the quality of the embeddings is a major factor.
+- **Exact Search as Baseline**: Use exact search as a baseline to compare with ANN to separate the impact of embedding quality from the search methods.
+- **Monitor Performance**: Continuously monitor retrieval quality and adjust parameters accordingly to optimize both performance and accuracy.
+
+By leveraging Qdrant's ANN capabilities, you can build a robust and scalable semantic search system that delivers high-quality results even at the scale of billions of vectors.
