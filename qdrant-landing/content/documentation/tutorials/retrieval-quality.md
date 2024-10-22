@@ -1,4 +1,3 @@
-[---
 title: Measure retrieval quality
 weight: 21
 ---
