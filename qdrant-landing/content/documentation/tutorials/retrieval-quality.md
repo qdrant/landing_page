@@ -1,4 +1,4 @@
----
+[---
 title: Measure retrieval quality
 weight: 21
 ---
@@ -187,3 +187,4 @@ Assessing the quality of retrieval is crucial for optimizing semantic search per
 While HNSW performs well in terms of precision and is highly tunable, keep in mind that **the quality of the embeddings is the most important factor** in overall search quality. Other ANN algorithms like [IVF*](https://github.com/facebookresearch/faiss/wiki/Faiss-indexes#cell-probe-methods-indexivf-indexes) are available, but they often [perform worse than HNSW in terms of quality and performance](https://nirantk.com/writing/pgvector-vs-qdrant/#correctness).
 
 By following these steps, you can effectively measure and improve the retrieval quality of your Qdrant-based semantic search system.
+](https://github.com/qdrant/landing_page.git)
