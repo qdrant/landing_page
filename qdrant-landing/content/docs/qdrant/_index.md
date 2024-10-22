@@ -11,7 +11,7 @@ localButton:
   url: /documentation/quick-start/
   contained: true
 developingTitle: Ready to start developing?
-developingDescription: Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our <a href="https://qdrant.to/cloud" target="_blank">free tier</a> on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.
+developingDescription: Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our <a href="https://github.com/qdrant/qdrant_demo/" target="_blank">free tier</a> on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.
 developingBlock:
   title: Create your first Qdrant Cloud cluster today
   button:

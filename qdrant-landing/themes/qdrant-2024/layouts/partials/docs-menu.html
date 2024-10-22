@@ -28,7 +28,8 @@
             <h3 class="docs-menu__links-title">{{ .Title }}</h3>
           {{ else }}
             {{ if and (.IsPage) (not .Params.hideInSidebar) }}
-              <div class="docs-menu__links-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active{{ end }}">
+              <div class="docs-menu__links-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active{{ end }}
+{{- if (eq .Params.type "external-link") }}external-link{{ end -}} ">
               <div class="docs-menu__links-group-heading">
                 <a
                   href="{{ if (eq .Params.type "external-link") }}
@@ -39,9 +40,6 @@
                   {{ if (eq .Params.type "external-link") }}target="_blank"{{ end }}
                 >
                   {{ .Title }}
-                  {{ if (eq .Params.type "external-link") }}
-                    {{ partial "svg" "external-link.svg" }}
-                  {{ end }}
                 </a>
               </div>
             </div>
