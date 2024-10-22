@@ -1,29 +1,25 @@
 ---
 title: "Modern Sparse Neural Retrieval: From Theory to Practice"
-draft: true 
-slug: modern-sparse-neural-retrieval 
-short_description: "A comprehensive guide to modern sparse neural retrievers: how do they work and when they are the right choice."
-description: "A two-part guide to sparse neural retrieval: Part 1 covers models like COIL, TILDEv2, SPLADE, and more; Part 2 offers practical steps to use SPLADE++ with Qdrant and FastEmbed." 
-# Follow instructions in https://github.com/qdrant/landing_page?tab=readme-ov-file#articles to create preview images
-# social_preview_image: /articles_data/<slug>/social_preview.jpg # This image will be used in social media previews, should be 1200x600px. Required.
-# small_preview_image: /articles_data/<slug>/icon.svg # This image will be used in the list of articles at the footer, should be 40x40px
-# preview_dir: /articles_data/<slug>/preview # This directory contains images that will be used in the article preview. They can be generated from one image. Read more below. Required.
+short_description: ""
+description: "A comprehensive guide to modern sparse neural retrievers: COIL, TILDEv2, SPLADE, and more. Find out how they work and learn how to use them effectively." 
+preview_dir: /articles_data/modern-sparse-neural-retrieval/preview
+social_preview_image: /articles_data/modern-sparse-neural-retrieval/social-preview.png
 weight: -213 
 author: Evgeniya Sukhodolskaya
-date: 2024-10-21T13:00:00+03:00
+date: 2024-10-21T00:00:00.000Z
 tags: 
   - sparse retriever
   - sparse retrieval
   - splade
   - bm25
 ---
-Finding enough time to study all the modern solutions when you need to get your production running is rarely possible: 
-dense retrievers, hybrid retrievers, late interaction… How do they work, what solution do they fit? 
-If only we could compare retrievers like products on Amazon! 
 
-We checked out the most popular modern sparse neural retrieval models to break down them for you. \
-After reading this blog, you’ll have a complete understanding of what’s going on in the field of sparse neural retrieval 
-and how not to get fooled by long, math-full research papers with sky-high NDCG scores.
+Finding enough time to study all the modern solutions while keeping your production running is rarely feasible.
+Dense retrievers, hybrid retrievers, late interaction… How do they work, and where do they fit best?
+If only we could compare retrievers as easily as products on Amazon!
+
+We explored the most popular modern sparse neural retrieval models and broke them down for you.
+By the end of this article, you’ll have a clear understanding of the current landscape in sparse neural retrieval and how to navigate through complex, math-heavy research papers with sky-high NDCG scores without getting overwhelmed.
 
 [The first part](#sparse-neural-retrieval-evolution) of this article is theoretical, comparing different approaches used in 
 modern sparse neural retrieval.\
@@ -52,17 +48,16 @@ are capable of breaching this gap and finding you “*a piece of Gouda*”.
 
 ![Dense Retrieval](/articles_data/modern-sparse-neural-retrieval/DenseRetrievers.png)
 
- However, explainability here suffers: why is this query representation close to this document representation? 
- Why, searching for “*cheese*”, we’re also offered “*mouse traps*”? What does each number in this vector representation mean? 
- Which one of them is capturing the cheesiness?
+However, explainability here suffers: why is this query representation close to this document representation? 
+Why, searching for “*cheese*”, we’re also offered “*mouse traps*”? What does each number in this vector representation mean? 
+Which one of them is capturing the cheesiness?
 
-With a lack of understanding, it’s hard to balance the quality of results and the consumption of resources. 
-Since every document, hypothetically, is fit to match a query, it’s impossible to use an inverted index tied 
-to the exact matching mechanism. It does not mean that dense retrievers are necessarily slower; 
-however, lexical retrieval has been around long enough to produce various great architectural choices tied to it, which makes sense to reuse.
+Without a solid understanding, balancing result quality and resource consumption becomes challenging.
+Since, hypothetically, any document could match a query, relying on an inverted index with exact matching isn’t feasible.
+This doesn’t mean dense retrievers are inherently slower. However, lexical retrieval has been around long enough to inspire several effective architectural choices, which are often worth reusing.
 
 Sooner or later, there should have been somebody who would say, 
-“*Wait, but what if I want something timeproof like BM25 but with semantical understanding?*”
+“*Wait, but what if I want something timeproof like BM25 but with semantic understanding?*”
 
 ## Sparse Neural Retrieval Evolution
 
@@ -71,17 +66,16 @@ Imagine searching for a “*flabbergasting murder*” story.
 Consequently, there is a high chance that a text unrelated to any crimes but mentioning something “*flabbergasting*” will pop up in the top results.
 
 What if we could instead of relying on term frequency in a document as a proxy of term’s importance as it happens in BM25, 
-directly predict term’s importance? The goal is for rare but non-impactful terms to have a much smaller weight than for important terms 
-of the same frequency, while both would be equally treated in the BM25 scenario. 
+directly predict a term’s importance? The goal is for rare but non-impactful terms to be assigned a much smaller weight than important terms with the same frequency, while both would be equally treated in the BM25 scenario. 
 
-How can one understand if one term is more important than another? 
+How can we determine if one term is more important than another?
 Word impact is related to its meaning, and its meaning can be derived from its context (words which surround this particular word). 
 That’s how dense contextual embedding models come into the picture. 
 
 All the sparse retrievers are based on the idea of taking a model which produces contextual dense vector representations for terms 
 and teaching it to produce sparse ones. Very often, 
 [Bidirectional Encoder Representations from the Transformers (BERT)](https://huggingface.co/docs/transformers/en/model_doc/bert) is used as a 
-base model, and a very simple trainable neural network is added on top of it to sparse the representations out. 
+base model, and a very simple trainable neural network is added on top of it to sparsify the representations out. 
 Training this small neural network is usually done by sampling from the [MS MARCO](https://microsoft.github.io/msmarco/) dataset a query, 
 relevant and irrelevant to it documents and shifting the parameters of the neural network in the direction of relevancy.
 
@@ -91,7 +85,7 @@ relevant and irrelevant to it documents and shifting the parameters of the neura
 ![Deep Contextualized Term Weighting (DeepCT)](/articles_data/modern-sparse-neural-retrieval/DeepCT.png)
 The authors of one of the first sparse retrievers, the `Deep Contextualized Term Weighting framework (DeepCT)`, 
 predict an integer word’s impact value separately for each unique word in a document and a query. 
-They use a linear regression model on top of contextual representations produced by the basic BERT model, the output of the model is rounded.
+They use a linear regression model on top of the contextual representations produced by the basic BERT model, the model's output is rounded.
 
 When documents are uploaded into a database, the importance of words in a document is predicted by a trained linear regression model 
 and stored in the inverted index in the same way as term frequencies in BM25 retrievers. 
@@ -107,18 +101,18 @@ This score is hard to define in a way that it truly expresses the query-document
 ![DeepImpact](/articles_data/modern-sparse-neural-retrieval/DeepImpact.png)
 It’s much easier to define whether a document as a whole is relevant or irrelevant to a query. 
 That’s why the `DeepImpact` Sparse Neural Retriever authors directly used the relevancy between a query and a document as a training objective. 
-They take BERT’s contextualised embeddings of the document’s words, transform them through a simple 2-layer neural network in a single scalar 
+They take BERT’s contextualized embeddings of the document’s words, transform them through a simple 2-layer neural network in a single scalar 
 score and sum these scores up for each word overlapping with a query. 
 The training objective is to make this score reflect the relevance between the query and the document.
 
-***Why DeepImpact is not a perfect solution?***
+***Why is DeepImpact not a perfect solution?***
 When converting texts into dense vector representations, 
 the BERT model does not work on a word level. Sometimes, it breaks the words into parts. 
 For example, the word “*vector*” will be processed by BERT as one piece, but for some words that, for example, 
 BERT hasn’t seen before, it is going to cut the word in pieces 
 [as “Qdrant” turns to “Q”, “#dra” and “#nt”](https://huggingface.co/spaces/Xenova/the-tokenizer-playground) 
 
-The DeepImpact model (as the DeepCT model) takes the first piece BERT produces for a word and discards the rest. 
+The DeepImpact model (like the DeepCT model) takes the first piece BERT produces for a word and discards the rest. 
 However, what can one find searching for “*Q*” instead of “*Qdrant*”?
 
 ### Know Thine Tokenization
@@ -128,7 +122,7 @@ To solve the problems of DeepImpact's architecture, the `Term Independent Likeli
 sparse encodings on a level of BERT’s representations, not on words level. Aside from that, its authors use the identical architecture 
 to the DeepImpact model.
 
-***Why TILDEv2 is not a perfect solution?***
+***Why is TILDEv2 not a perfect solution?***
 A single scalar importance score value might not be enough to capture all distinct meanings of a word. 
 **Homonyms** (pizza, cocktail, flower, and female name “*Margherita*”) are one of the troublemakers in information retrieval.
 
@@ -142,16 +136,16 @@ Instead of squeezing 768-dimensional BERT’s contextualised embeddings into one
 they down-project them (through the similar “relevance” training objective) to 32 dimensions. 
 Moreover, not to miss a detail, they also encode the query terms as vectors. 
 
-For each vector representing a query token, COIL finds the closest (using maximum over dot products) vector of the same token in a document.
- So, for example, if we are searching for “*Revolut bank \<finance institution\>*” and a document in a database has the sentence 
- “*Vivid bank \<finance institution\> was moved to the bank of Amstel \<river\>*”, out of two “banks”, 
- the first one will have a bigger value of a dot product with a “*bank*” in the query, and it will count towards the final score. 
- The final relevancy score of a document is a sum of scores of query terms matched. 
+For each vector representing a query token, COIL finds the closest match (using the maximum dot product) vector of the same token in a document.
+So, for example, if we are searching for “*Revolut bank \<finance institution\>*” and a document in a database has the sentence 
+“*Vivid bank \<finance institution\> was moved to the bank of Amstel \<river\>*”, out of two “banks”, 
+the first one will have a bigger value of a dot product with a “*bank*” in the query, and it will count towards the final score. 
+The final relevancy score of a document is a sum of scores of query terms matched. 
 
- ***Why COIL is not a perfect solution?*** This way of defining the importance score captures deeper semantics; 
- more meaning comes with more values used to describe it. 
- However, storing 32-dimensional vectors for every term is far more expensive, 
- and an inverted index does not work as-is with this architecture.
+***Why COIL is not a perfect solution?*** This way of defining the importance score captures deeper semantics; 
+more meaning comes with more values used to describe it. 
+However, storing 32-dimensional vectors for every term is far more expensive, 
+and an inverted index does not work as-is with this architecture.
 
 ### Back to the Roots
 
@@ -184,7 +178,7 @@ and applying exact matching methods.
 
 ![External Document Expansion with docT5query](/articles_data/modern-sparse-neural-retrieval/docT5queryDocumentExpansion.png)
 `docT5query` is the most used document expansion model. 
-It is based on a [Text-to-Text Transfer Transformer (T5)](https://huggingface.co/docs/transformers/en/model_doc/t5) model trained to 
+It is based on the [Text-to-Text Transfer Transformer (T5)](https://huggingface.co/docs/transformers/en/model_doc/t5) model trained to 
 generate top-k possible queries for which the given document would be an answer. 
 These predicted short queries (up to ~50-60 words) can have repetitions in them, 
 so it also contributes to the frequency of the terms if the term frequency is considered by the retriever.
@@ -211,7 +205,7 @@ To solve this problem, a generation of models was developed which do everything 
 ### Internal Document Expansion
 
 Let’s assume we don’t care about the context of query terms, so we can treat them as independent words that we combine in random order to get 
-the result. Then, for each contextualised term in a document, we are free to pre-compute how this term affects every word in our vocabulary. 
+the result. Then, for each contextualized term in a document, we are free to pre-compute how this term affects every word in our vocabulary. 
 
 For each document, a vector of the vocabulary length is created. To fill this vector in, for each word in the vocabulary, it is checked if the 
 influence of any document term on it is big enough to consider it. Otherwise, the vocabulary word’s score in a document vector will be zero. 
@@ -223,13 +217,13 @@ for this small document of two words, we will get a 50,000-dimensional vector of
 ![Sparse Transformer Matching (SPARTA)](/articles_data/modern-sparse-neural-retrieval/SPARTA.png)
 
 The authors of the `Sparse Transformer Matching (SPARTA)` model use BERT’s model and BERT’s vocabulary (around 30,000 tokens). 
-For each token in BERT vocabulary, they find the maximum dot product between it and contextualised tokens in a document 
+For each token in BERT vocabulary, they find the maximum dot product between it and contextualized tokens in a document 
 and learn a threshold of a considerable (non-zero) effect.
 Then, at the inference time, the only thing to be done is to sum up all scores of query tokens in that document.
 
- ***Why SPARTA is not a perfect solution?*** Trained on the MS MARCO dataset, many sparse neural retrievers, including SPARTA, 
- show good results on MS MARCO test data, but when it comes to generalisation (working with other data), they 
- [could perform worse than BM25](https://arxiv.org/pdf/2307.10488).
+***Why SPARTA is not a perfect solution?*** Trained on the MS MARCO dataset, many sparse neural retrievers, including SPARTA, 
+show good results on MS MARCO test data, but when it comes to generalisation (working with other data), they 
+[could perform worse than BM25](https://arxiv.org/pdf/2307.10488).
 
 ### State-of-the-Art of Modern Sparse Neural Retrieval
 
@@ -246,7 +240,7 @@ so SPLADE models introduce a trainable neural network on top of BERT with a spec
 
 One of the last versions of the SPLADE family of models is `SPLADE++`. \
 SPLADE++, opposed to SPARTA model, expands not only documents but also queries at inference time. 
-We’re going to demonstrate it in the next section.
+We’ll demonstrate this in the next section.
 
 ## SPLADE++ in Qdrant
 In Qdrant, you can use `SPLADE++` easily with our lightweight library for embeddings called [FastEmbed](https://qdrant.tech/documentation/fastembed/).
@@ -621,11 +615,9 @@ and others, so **exact matching** works.
 ## Key Takeaways: When to Choose Sparse Neural Models for Retrieval
 Sparse Neural Retrieval makes sense:
 
-- In areas where keyword matching is crucial, and yet BM25 is not enough for the initial retrieval, 
-so semantical matching (synonyms, homonyms, etc) adds a lot of value. 
-For example, in medical, academic and legal fields, e-commerce with brand names and serial numbers. 
-Dense retrievers are prone to return a lot of false positives in retrieved results, and sparse neural retrieval narrows this false positive set down.
-- As a valuable option for scaling. Sparse Neural Retrieval might be a good option for working with large datasets 
-since exact matching using an inverted index could be fast (depending on your data).
-- If you’re using traditional retrieval systems. Sparse Neural Retrieval is compatible with them while bridging the semantic gap.
+- In areas where keyword matching is crucial but BM25 is insufficient for initial retrieval, semantic matching (e.g., synonyms, homonyms) adds significant value. This is especially true in fields such as medicine, academia, law, and e-commerce, where brand names and serial numbers play a critical role. Dense retrievers tend to return many false positives, while sparse neural retrieval helps narrow down these false positives.
+
+- Sparse neural retrieval can be a valuable option for scaling, especially when working with large datasets. It leverages exact matching using an inverted index, which can be fast depending on the nature of your data.
+
+- If you’re using traditional retrieval systems, sparse neural retrieval is compatible with them and helps bridge the semantic gap.
 
