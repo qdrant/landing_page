@@ -6,7 +6,7 @@ preview_dir: /articles_data/modern-sparse-neural-retrieval/preview
 social_preview_image: /articles_data/modern-sparse-neural-retrieval/social-preview.png
 weight: -213 
 author: Evgeniya Sukhodolskaya
-date: 2024-10-21T00:00:00.000Z
+date: 2024-10-23T00:00:00.000Z
 tags: 
   - sparse retriever
   - sparse retrieval
