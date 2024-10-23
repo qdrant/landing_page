@@ -83,7 +83,7 @@ relevant and irrelevant to it documents and shifting the parameters of the neura
 ### The Pioneer Of Sparse Neural Retrieval
 
 ![Deep Contextualized Term Weighting (DeepCT)](/articles_data/modern-sparse-neural-retrieval/DeepCT.png)
-The authors of one of the first sparse retrievers, the `Deep Contextualized Term Weighting framework (DeepCT)`, 
+The authors of one of the first sparse retrievers, the [`Deep Contextualized Term Weighting framework (DeepCT)`](https://arxiv.org/pdf/1910.10687), 
 predict an integer word’s impact value separately for each unique word in a document and a query. 
 They use a linear regression model on top of the contextual representations produced by the basic BERT model, the model's output is rounded.
 
@@ -100,7 +100,7 @@ This score is hard to define in a way that it truly expresses the query-document
 
 ![DeepImpact](/articles_data/modern-sparse-neural-retrieval/DeepImpact.png)
 It’s much easier to define whether a document as a whole is relevant or irrelevant to a query. 
-That’s why the `DeepImpact` Sparse Neural Retriever authors directly used the relevancy between a query and a document as a training objective. 
+That’s why the [`DeepImpact`](https://arxiv.org/pdf/2104.12016) Sparse Neural Retriever authors directly used the relevancy between a query and a document as a training objective. 
 They take BERT’s contextualized embeddings of the document’s words, transform them through a simple 2-layer neural network in a single scalar 
 score and sum these scores up for each word overlapping with a query. 
 The training objective is to make this score reflect the relevance between the query and the document.
@@ -118,7 +118,7 @@ However, what can one find searching for “*Q*” instead of “*Qdrant*”?
 ### Know Thine Tokenization
 
 ![Term Independent Likelihood MoDEl v2 (TILDE v2)](/articles_data/modern-sparse-neural-retrieval/TILDEv2.png)
-To solve the problems of DeepImpact's architecture, the `Term Independent Likelihood MoDEl (TILDEv2)` model generates
+To solve the problems of DeepImpact's architecture, the [`Term Independent Likelihood MoDEl (TILDEv2)`](https://arxiv.org/pdf/2108.08513) model generates
 sparse encodings on a level of BERT’s representations, not on words level. Aside from that, its authors use the identical architecture 
 to the DeepImpact model.
 
@@ -131,7 +131,7 @@ A single scalar importance score value might not be enough to capture all distin
 ![COntextualized Inverted List (COIL)](/articles_data/modern-sparse-neural-retrieval/COIL.png)
 
 If one value for the term importance score is insufficient, we could describe the term’s importance in a vector form! 
-Authors of the `Contextualized Inverted List (COIL)` model based their work on this idea. 
+Authors of the [`COntextualized Inverted List (COIL)`](https://arxiv.org/pdf/2104.07186) model based their work on this idea. 
 Instead of squeezing 768-dimensional BERT’s contextualised embeddings into one value, 
 they down-project them (through the similar “relevance” training objective) to 32 dimensions. 
 Moreover, not to miss a detail, they also encode the query terms as vectors. 
@@ -150,7 +150,7 @@ and an inverted index does not work as-is with this architecture.
 ### Back to the Roots
 
 ![Universal COntextualized Inverted List (UniCOIL)](/articles_data/modern-sparse-neural-retrieval/UNICOIL.png)
-`Universal COntextualized Inverted List (UniCOIL)`, made by the authors of COIL as a follow-up, goes back to producing a scalar value as the importance score 
+[`Universal COntextualized Inverted List (UniCOIL)`](https://arxiv.org/pdf/2106.14807), made by the authors of COIL as a follow-up, goes back to producing a scalar value as the importance score 
 rather than a vector, leaving unchanged all other COIL design decisions. \
 It optimizes resources consumption but the deep semantics understanding tied to COIL architecture is again lost.
 
@@ -177,7 +177,7 @@ and applying exact matching methods.
 #### External Document Expansion with docT5query
 
 ![External Document Expansion with docT5query](/articles_data/modern-sparse-neural-retrieval/docT5queryDocumentExpansion.png)
-`docT5query` is the most used document expansion model. 
+[`docT5query`](https://github.com/castorini/docTTTTTquery) is the most used document expansion model. 
 It is based on the [Text-to-Text Transfer Transformer (T5)](https://huggingface.co/docs/transformers/en/model_doc/t5) model trained to 
 generate top-k possible queries for which the given document would be an answer. 
 These predicted short queries (up to ~50-60 words) can have repetitions in them, 
@@ -190,7 +190,7 @@ it can generate only one token per run, and it spends a fair share of resources 
 
 ![External Document Expansion with Term Independent Likelihood MODel (TILDE)](/articles_data/modern-sparse-neural-retrieval/TILDEDocumentExpansion.png)
 
-`Term Independent Likelihood MODel (TILDE)` is an external expansion method that reduces the passage expansion time compared to 
+[`Term Independent Likelihood MODel (TILDE)`](https://github.com/ielab/TILDE) is an external expansion method that reduces the passage expansion time compared to 
 docT5query by 98%. It uses the assumption that words in texts are independent of each other 
 (as if we were inserting in our speech words without paying attention to their order), which allows for the parallelisation of document expansion.
 
@@ -216,7 +216,7 @@ for this small document of two words, we will get a 50,000-dimensional vector of
 ### Sparse Neural Retriever with Internal Document Expansion
 ![Sparse Transformer Matching (SPARTA)](/articles_data/modern-sparse-neural-retrieval/SPARTA.png)
 
-The authors of the `Sparse Transformer Matching (SPARTA)` model use BERT’s model and BERT’s vocabulary (around 30,000 tokens). 
+The authors of the [`Sparse Transformer Matching (SPARTA)`](https://arxiv.org/pdf/2009.13013) model use BERT’s model and BERT’s vocabulary (around 30,000 tokens). 
 For each token in BERT vocabulary, they find the maximum dot product between it and contextualized tokens in a document 
 and learn a threshold of a considerable (non-zero) effect.
 Then, at the inference time, the only thing to be done is to sum up all scores of query tokens in that document.
@@ -228,7 +228,7 @@ show good results on MS MARCO test data, but when it comes to generalisation (wo
 ### State-of-the-Art of Modern Sparse Neural Retrieval
 
 ![Sparse Lexical and Expansion Model Plus Plus, (SPLADE++)](/articles_data/modern-sparse-neural-retrieval/SPLADE++.png)
-The authors of the `Sparse Lexical and Expansion Model (SPLADE)]` family of models added dense model training tricks to the 
+The authors of the [`Sparse Lexical and Expansion Model (SPLADE)]`](https://arxiv.org/pdf/2109.10086) family of models added dense model training tricks to the 
 internal document expansion idea, which made the retrieval quality noticeably better. 
 
 - The SPARTA model is not sparse enough by construction, so authors of the SPLADE family of models introduced explicit **sparsity regularisation**, 
@@ -238,12 +238,12 @@ so SPLADE models introduce a trainable neural network on top of BERT with a spec
 - SPLADE family of models, finally, uses **knowledge distillation**, which is learning from a bigger 
 (and therefore much slower, not-so-fit for production tasks) model how to predict good representations.
 
-One of the last versions of the SPLADE family of models is `SPLADE++`. \
+One of the last versions of the SPLADE family of models is [`SPLADE++`](https://arxiv.org/pdf/2205.04733). \
 SPLADE++, opposed to SPARTA model, expands not only documents but also queries at inference time. 
 We’ll demonstrate this in the next section.
 
 ## SPLADE++ in Qdrant
-In Qdrant, you can use `SPLADE++` easily with our lightweight library for embeddings called [FastEmbed](https://qdrant.tech/documentation/fastembed/).
+In Qdrant, you can use [`SPLADE++`](https://arxiv.org/pdf/2205.04733) easily with our lightweight library for embeddings called [FastEmbed](https://qdrant.tech/documentation/fastembed/).
 #### Setup
 Install `FastEmbed`.
 
@@ -324,7 +324,7 @@ SparseTextEmbedding.list_supported_models()
 ```
 </details>
 
-Load `SPLADE++`.
+Load SPLADE++.
 ```python
 sparse_model_name = "prithivida/Splade_PP_en_v1"
 sparse_model = SparseTextEmbedding(model_name=sparse_model_name)
