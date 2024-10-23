@@ -4,8 +4,9 @@ section_title: Subscribe
 subtitle: Subscribe 
 description: Subscribe 
 image: 
-  src: /img/subscribe.svg
-  srcMobile: /img/mobile/subscribe.svg
+  src: /img/subscribe.webp
+  srcMobile: /img/mobile/subscribe.webp
+  # always add png image to the same folder as webp image for compatibility with older browsers
   alt: Astronaut
 form:
   title: Sign up for Qdrant Updates
