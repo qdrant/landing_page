@@ -7,13 +7,17 @@ weight: 6
 
 ## ColBERT
 
-ColBERT is an embedding model that produces a matrix (multivector) representation of input text; it generates one vector per token (a `token` is a meaningful text unit for a machine learning model). 
-This embedding way allows ColBERT to capture deeper input semantics than many dense embedding models, which embed a whole input into just a single vector. 
-However, at the same time, storing multiple vectors per input usually leads to higher resource consumption, such as increased memory usage.
+ColBERT is an embedding model that produces a matrix (multivector) representation of input text, 
+generating one vector per token (a token being a meaningful text unit for a machine learning model). 
+This approach allows ColBERT to capture more nuanced input semantics than many dense embedding models, 
+which represent an entire input with a single vector. By producing more granular input representations, 
+ColBERT becomes a strong retriever. However, this advantage comes at the cost of increased resource consumption compared to 
+traditional dense embedding models, both in terms of speed and memory.
 
-So, even if ColBERT can be a powerful retriever, storing multivectors for all the entities in your data might be too costly. Therefore,
-we recommend using it mainly for reranking on a small retrieved set of data rather than first-stage retrieval. A simple dense retriever can retrieve around 100-500 examples at the first stage; 
-then, you can rerank them using ColBERT, moving the most relevant results to the top.
+Despite ColBERT being a powerful retriever, it's speed limitation might make it less suitable for large-scale retrieval.
+Therefore, we generally recommend using ColBERT for reranking a small set of already retrieved examples, rather than for first-stage retrieval. 
+A simple dense retriever can initially retrieve around 100-500 candidates, which can then be reranked with ColBERT to bring the most relevant results 
+to the top.
 
 ColBERT is a considerable alternative of a reranking model to [cross-encoders](https://sbert.net/examples/applications/cross-encoder/README.html), since
 It tends to be faster on inference time due to its `late interaction` mechanism.
