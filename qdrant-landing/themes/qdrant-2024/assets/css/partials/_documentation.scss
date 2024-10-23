@@ -23,11 +23,13 @@
       border-left: pxToRem(1) solid $neutral-20;
     }
   }
-}
 
-[data-theme='light'] {
-  .documentation {
+  [data-theme='light'] & {
     background-color: $neutral-98;
     color: $neutral-30;
+
+    &__content {
+      border-left-color: $neutral-80;
+    }
   }
 }
