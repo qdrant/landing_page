@@ -187,16 +187,16 @@ By increasing `m` and `ef_construct`, you're allowing for a more connected graph
 If you prefer a visual interface, you can also measure search quality in the Qdrant WebUI. To do this, first go to [Qdrant Cloud](https://cloud.qdrant.io/) and select a collection. Then, navigate to the Search Quality tab. 
 
 
-![Search Quality Report in Qdrant WebUI](/img/retrieval-quality/user_clean.png)
+![Search Quality Report in Qdrant WebUI](/articles_data/retrieval-quality/user_clean.png)
 
 
 From here you can run a simple search Quality Report on your collection. Qdrant will select a random sample of 100 points for you and run an exact search and an ANN search. It will then compare the results and calculate the precision@10.
 
-![Search Quality Report in Qdrant WebUI](/img/retrieval-quality/clean_precision_ran.png)
+![Search Quality Report in Qdrant WebUI](/articles_data/retrieval-quality/clean_precision_ran.png)
 
 You can also run a more comprehensive Search Quality Report by clicking on the `Advanced Mod` button. This will open an interface where you can specify parameters like ef and m and evaluate the Search Quality in the webui.
 
-![Search Quality Report in Qdrant WebUI](/img/retrieval-quality/clean_advanced.png)
+![Search Quality Report in Qdrant WebUI](/articles_data/retrieval-quality/clean_advanced.png)
 
 ### Step 7: Analyze Results and Conclusion
 
