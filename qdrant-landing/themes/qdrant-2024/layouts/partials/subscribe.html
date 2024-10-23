@@ -17,14 +17,19 @@
       </div>
     </div>
     <picture>
-      <source srcset="{{ .Params.image.src | replaceRE "\\.[^.]+$" ".png" }}" type="image/png" />
-      <img class="subscribe-body__image" src="{{ .Params.image.src }}" alt="{{ .Params.image.alt }}" loading="lazy" />
+      <source srcset="{{ .Params.image.src }}" type="image/png" />
+      <img
+        class="subscribe-body__image"
+        src="{{ .Params.image.src | replaceRE "\\.[^.]+$" ".png" }} "
+        alt="{{ .Params.image.alt }}"
+        loading="lazy"
+      />
     </picture>
     <picture>
-      <source srcset="{{ .Params.image.srcMobile | replaceRE "\\.[^.]+$" ".png" }}" type="image/png" />
+      <source srcset="{{ .Params.image.srcMobile }}" type="image/png" />
       <img
         class="subscribe-body__image-mobile"
-        src="{{ .Params.image.srcMobile }}"
+        src="{{ .Params.image.srcMobile | replaceRE "\\.[^.]+$" ".png" }}"
         alt="{{ .Params.image.alt }}"
         loading="lazy"
       />
