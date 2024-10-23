@@ -326,6 +326,11 @@
     }
   }
   [data-theme='light'] & {
+    &__card {
+      background: $neutral-98;
+      border-color: $neutral-90;
+    }
+
     @include media-breakpoint-up(xl) {
       &__article {
         border-left-color: $neutral-80;

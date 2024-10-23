@@ -340,12 +340,10 @@
     }
 
     @include media-breakpoint-up(xl) {
-      background-color: $neutral-98;
 
       &__links-group {
         &.active {
           .docs-menu__links-group-heading > a {
-            background-color: $neutral-94;
             color: $neutral-30;
           }
         }
