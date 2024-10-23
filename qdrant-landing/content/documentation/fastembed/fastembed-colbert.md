@@ -8,15 +8,17 @@ weight: 6
 ## ColBERT
 
 ColBERT is an embedding model that produces a matrix (multivector) representation of input text; it generates one vector per token (a `token` is a meaningful text unit for a machine learning model). 
-This embedding way allows ColBERT to express deeper input semantics than many dense embedding models, which embed a whole input into just a single vector. 
-However, at the same time, storing multiple vectors per input usually leads to more resources (for example, memory) spent. So, even if ColBERT can be a powerful retriever, 
-we recommend using it mainly for reranking rather than first-stage retrieval. A simple dense retriever can retrieve around 100-500 examples at the first stage; 
+This embedding way allows ColBERT to capture deeper input semantics than many dense embedding models, which embed a whole input into just a single vector. 
+However, at the same time, storing multiple vectors per input usually leads to higher resource consumption, such as increased memory usage.
+
+So, even if ColBERT can be a powerful retriever, storing multivectors for all the entities in your data might be too costly. Therefore,
+we recommend using it mainly for reranking on a small retrieved set of data rather than first-stage retrieval. A simple dense retriever can retrieve around 100-500 examples at the first stage; 
 then, you can rerank them using ColBERT, moving the most relevant results to the top.
 
 ColBERT is a considerable alternative of a reranking model to [cross-encoders](https://sbert.net/examples/applications/cross-encoder/README.html), since
 It tends to be faster on inference time due to its `late interaction` mechanism.
 
-What is `late interaction`? Cross-encoders ingest a query and a document glued together as one input. 
+How does `late interaction` work? Cross-encoders ingest a query and a document glued together as one input. 
 A cross-encoder model divides this input into meaningful (for the model) parts and checks how these parts relate. 
 So, all interactions between the query and the document happen "early" inside the model. 
 Late interaction models, such as ColBERT, only do the first part, generating document and query parts suitable for comparison. 
@@ -74,7 +76,7 @@ The model files will be fetched and downloaded, with progress showing.
 We will vectorize a toy movie description dataset with ColBERT:
 
 <details>
-<summary> Movie description dataset </summary>
+<summary> <span style="background-color: gray; color: black;"> Movie description dataset </span> </summary>
 
 ```python
 descriptions = ["In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions.",
@@ -159,7 +161,7 @@ qdrant_client.create_collection(
 To make this collection human-readable, let's save movie metadata (name, description in text form and movie's length) together with an embedded description.
 
 <details>
-<summary> Movie metadata </summary>
+<summary> <span style="background-color: gray; color: black;"> Movie metadata </span> </summary>
 
 ```python
 metadata = [{"movie_name": "The Passion of Joan of Arc", "movie_watch_time_min": 114, "movie_description": "In 1431, Jeanne d'Arc is placed on trial on charges of heresy. The ecclesiastical jurists attempt to force Jeanne to recant her claims of holy visions."},
