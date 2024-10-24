@@ -1,5 +1,6 @@
 ---
 title: FAQ
-weight: 28
+weight: 31
+partition: qdrant
 is_empty: true
 ---

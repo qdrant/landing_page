@@ -1,6 +1,7 @@
 ---
 title: Frameworks 
 weight: 20
+partition: build
 ---
 
 ## Framework Integrations

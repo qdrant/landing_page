@@ -1,0 +1,8 @@
+{{- $page := .page -}}
+{{- $partition := $page.Params.partition -}}
+{{- if not $partition -}}
+  {{- if $page.Parent -}}
+    {{- $partition = partial "get-partition.html" (dict "page" $page.Parent) -}}
+  {{- end -}}
+{{- end -}}
+{{- return $partition -}}

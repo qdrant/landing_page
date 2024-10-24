@@ -3,6 +3,7 @@ title: What is Qdrant?
 weight: 3
 aliases:
   - overview
+partition: qdrant
 ---
 
 # Introduction

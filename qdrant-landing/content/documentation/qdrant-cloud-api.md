@@ -1,6 +1,7 @@
 ---
 title: Qdrant Cloud API
-weight: 15
+weight: 26
+partition: cloud 
 ---
 # Qdrant Cloud API 
 

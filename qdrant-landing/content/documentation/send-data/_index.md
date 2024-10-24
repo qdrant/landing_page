@@ -1,6 +1,7 @@
 ---
 title: Send Data to Qdrant
 weight: 25
+partition: build
 ---
 
 ## How to Send Your Data to a Qdrant Cluster

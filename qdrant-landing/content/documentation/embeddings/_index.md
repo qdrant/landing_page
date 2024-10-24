@@ -2,6 +2,7 @@
 ---
 title: Embeddings
 weight: 19
+partition: build
 ---
 # Supported Embedding Providers & Models
 

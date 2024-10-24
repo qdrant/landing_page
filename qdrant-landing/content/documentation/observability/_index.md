@@ -1,6 +1,7 @@
 ---
 title: Observability
 weight: 22
+partition: build
 ---
 
 ## Observability Integrations
