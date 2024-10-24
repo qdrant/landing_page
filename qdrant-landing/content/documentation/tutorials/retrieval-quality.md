@@ -147,7 +147,7 @@ This step measures the initial retrieval quality before any tuning of the HNSW p
 - **m**: This parameter determines the maximum number of connections per node in the HNSW graph. A higher value for `m` increases the connectivity of the graph, potentially improving search accuracy at the cost of increased memory usage and indexing time. The default value for `m` is 16.
 - **ef_construct**: This parameter controls the size of the dynamic candidate list during index construction. A higher value of `ef_construct` leads to a more exhaustive search during the indexing phase, resulting in a higher quality graph and improved search accuracy. However, this comes at the cost of longer indexing times. The default value for `ef_construct` is 100.
 
-We will use the untuned HNSW as the baseline to compare how changes affect the precision of the search. Initially, we will use the default values of `m` (16) and `ef_construct` (100) for the HNSW algorithm. Later, we will double these values to observe their impact on retrieval quality.
+We'll use the default m and ef as a baseline and then tweak the params to see how it affects the precision of the search. Later, we will double these values to observe their impact on retrieval quality.
 
 Qdrant allows us to easily compare the performance between exact and approximate searches. For smaller datasets (e.g., up to 20,000 documents), exact search can be practical, but as the dataset scales, ANN algorithms like HNSW become necessary to handle the increased data volume efficiently.
 
@@ -178,9 +178,9 @@ print(f"New avg(precision@5) = {avg_precision_at_k(k=5)}")
 By increasing `m` and `ef_construct`, you're allowing for a more connected graph and a more exhaustive search during indexing, which should lead to higher precision. After tuning, it's important to measure the precision again to verify improvements.
 
 ### How to Select HNSW Parameters
-
 - If you require higher precision, increase `m` and `ef_construct` while considering the increased memory usage and indexing time.
 - If memory and indexing time are critical constraints, tune the parameters incrementally to find the right balance.
+- Consider adjusting `ef` (also known as `efSearch`), which controls the number of neighbors evaluated during the search. A higher value may increase precision but also increases latency.
 
 ### Measuring Search Quality in the WebUI
 
