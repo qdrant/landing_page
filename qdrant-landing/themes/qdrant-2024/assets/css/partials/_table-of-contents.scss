@@ -89,12 +89,12 @@
   }
 
   @include media-breakpoint-up(xl) {
-    height: calc(100% - 80px);
+    max-height: calc(100vh - 80px);
     width: pxToRem(232);
-    position: fixed;
+    position: sticky;
     overflow-x: hidden;
+    overflow-y: auto;
     top: $spacer * 5;
-    right: $spacer * 3.5;
     flex-shrink: 0;
     padding: $spacer * 1.5 $spacer;
 

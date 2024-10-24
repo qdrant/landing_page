@@ -1,33 +1,39 @@
 <!doctype html>
 <html lang="en">
-{{- partial "head.html" . -}}
-<body>
-<main>
-  {{ partial "docs-header" . }}
+  {{- partial "head.html" . -}}
+  <body>
+    <main>
+      {{ partial "docs-header" . }}
 
-  <section class="docs documentation">
-    <div class="documentation__container">
-      <div class="d-flex flex-column flex-xl-row">
-        {{ $parts := split .RelPermalink "/" }}
-        {{ $partition := index $parts 2 }}
 
-        {{ partial "docs-menu" (dict "context" . "partition" $partition) }}
+      <section class="docs documentation">
+        <div class="documentation__container">
+          <div class="d-flex flex-column flex-xl-row">
+            {{ $parts := split .RelPermalink "/" }}
+            {{ $partition := index $parts 2 }}
 
-        <div class="docs-core docs__article documentation-article">
-          {{ if eq .RelPermalink "/docs/qdrant/" }}
-            {{ partial "docs-core.html" . }}
-          {{ else if eq .RelPermalink "/docs/build/" }}
-            {{ partial "docs-build.html" . }}
-          {{ else if eq .RelPermalink "/docs/cloud/" }}
-            {{ partial "docs-cloud.html" . }}
-          {{ end }}
+            {{ partial "docs-menu" (dict "context" . "partition" $partition) }}
 
-          {{ partial "docs-footer.html" . }}
+
+            <div class="docs-core documentation-article">
+              <div class="documentation__content-wrapper">
+                <div class="documentation__article-wrapper">
+                  {{ if eq .RelPermalink "/docs/qdrant/" }}
+                    {{ partial "docs-core.html" . }}
+                  {{ else if eq .RelPermalink "/docs/build/" }}
+                    {{ partial "docs-build.html" . }}
+                  {{ else if eq .RelPermalink "/docs/cloud/" }}
+                    {{ partial "docs-cloud.html" . }}
+                  {{ end }}
+                </div>
+              </div>
+
+              {{ partial "docs-footer.html" . }}
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
-</main>
-</body>
-{{ partial "js.html" . }}
+      </section>
+    </main>
+  </body>
+  {{ partial "js.html" . }}
 </html>

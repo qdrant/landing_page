@@ -7,29 +7,32 @@
 
   &__container {
     @extend .container;
-    max-width: pxToRem(1440);
-    margin: 0 auto 0 0;
+    margin: 0;
   }
 
   @include media-breakpoint-up(xl) {
     &__container {
+      max-width: 100vw !important;
       padding: 0;
     }
 
     &__content {
-      width: calc(100% - 544px);
-      padding: $spacer * 1.5 $spacer * 2.5 0 $spacer * 3.5;
-      margin-left: pxToRem(256);
-      border-left: pxToRem(1) solid $neutral-20;
+      $side-menu-width: pxToRem(256);
+      width: calc(100% - #{$side-menu-width});
+      padding: $spacer * 1.5 $spacer * 2.5 $spacer * 3.5;
+    }
+    &__content-wrapper {
+      max-width: calc(1136px - $spacer * 2.5 * 2);
+      display: flex;
+      margin: 0 auto;
+    }
+    &__article-wrapper {
+      padding-right: calc(#{pxToRem(40)} - $spacer);
     }
   }
 
   [data-theme='light'] & {
     background-color: $neutral-94;
     color: $neutral-30;
-
-    &__content {
-      border-left-color: $neutral-80;
-    }
   }
 }

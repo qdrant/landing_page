@@ -7,17 +7,20 @@
 
 
       <div class="documentation__content">
-        {{ if not (eq .RelPermalink "/documentation/") }}
-          {{ partial "docs-breadcrumbs" . }}
-        {{ end }}
+        <div class="documentation__content-wrapper">
+          <div class="documentation__article-wrapper">
+            {{ if not (eq .RelPermalink "/documentation/") }}
+              {{ partial "docs-breadcrumbs" . }}
+            {{ end }}
 
-        {{ partial "documentation-article" . }}
-        {{ partial "table-of-contents" . }}
+            {{ partial "documentation-article" . }}
+            {{ if not (eq .RelPermalink "/documentation/") }}
+              {{ partial "docs-feedback.html" . }}
+            {{ end }}
+          </div>
+          {{ partial "table-of-contents" . }}
 
-        {{ if not (eq .RelPermalink "/documentation/") }}
-          {{ partial "docs-feedback.html" . }}
-        {{ end }}
-
+        </div>
         {{ partial "docs-footer.html" . }}
       </div>
     </div>
