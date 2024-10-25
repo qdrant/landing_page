@@ -251,8 +251,8 @@ storage:
     # To enable memmap storage, lower the threshold
     # Note: 1Kb = 1 vector of size 256
     # To explicitly disable mmap optimization, set to `0`.
-    # If not set, will be disabled by default.
-    memmap_threshold_kb: null
+    # If not set, will be disabled by default. Previously this was calles memmap_threshold_kb.
+    memmap_threshold: null
 
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
     # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
@@ -277,7 +277,7 @@ storage:
   #  vacuum_min_vector_number: 1000
   #  default_segment_number: 0
   #  max_segment_size_kb: null
-  #  memmap_threshold_kb: null
+  #  memmap_threshold: null
   #  indexing_threshold_kb: 20000
   #  flush_interval_sec: 5
   #  max_optimization_threads: null

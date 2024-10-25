@@ -153,7 +153,7 @@ client.create_collection(
 )
 ```
 
-For other configurations like `hnsw_config.on_disk` or `memmap_threshold_kb`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/concepts/storage/)
+For other configurations like `hnsw_config.on_disk` or `memmap_threshold`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/concepts/storage/)
 
 ### SDKs
 
