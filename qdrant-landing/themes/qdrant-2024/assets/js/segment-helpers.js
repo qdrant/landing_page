@@ -1,4 +1,4 @@
-import { getCookie, devLog, tagCloudUILinksWithAnonymousId } from './helpers';
+import { addGA4Properties, getCookie, devLog, tagCloudUILinksWithAnonymousId } from './helpers';
 
 const WRITE_KEY = 'segmentWriteKey';
 const PAGES_SESSION_STORAGE_KEY = 'segmentPages';
@@ -125,6 +125,8 @@ const trackStoredPageViews = () => {
     const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
     delete properties['storedTimestamp'];
 
+    addGA4Properties(properties);
+
     if(window.analytics) {
       window.analytics.page(
         category,
@@ -150,6 +152,8 @@ const trackStoredInteractions = () => {
 const trackEvent = (name, properties = {}) => {
   const originalTimestamp = properties.storedEvent ? properties.storedTimestamp : null;
   delete properties['storedTimestamp'];
+
+  addGA4Properties(properties);
 
   if(window.analytics) {
     window.analytics.track({
