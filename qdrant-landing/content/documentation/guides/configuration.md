@@ -8,7 +8,7 @@ aliases:
 
 # Configuration
 
-Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these default settings in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize these settings, you can do so using configuration files and environment variables.
+Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these defaults in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize the settings, you can do so using configuration files and environment variables.
 
 <aside role="status">
   Qdrant Cloud does not allow modifying the Qdrant configuration.

@@ -27,10 +27,86 @@ aliases:
 ## Access the cluster dashboard
 
 1. Go to your **Clusters**. Under **Actions**, open the **Dashboard**.
-2. Paste your new API key here. If you lost it, make another in **Access Management**.
+2. Paste your new API key here. You can revoke and create new API keys in **Access Management**.
 3. The key will grant you access to your Qdrant instance. Now you can see the cluster Dashboard.
 
 ![access the dashboard](/docs/gettingstarted/gui-quickstart/access-dashboard.png)
+
+## Authenticate via SDKs
+
+Now that you have your cluster and key, you can use our official SDKs to access Qdrant Cloud from within your application.
+
+```bash
+curl \
+  -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333 \
+  --header 'api-key: <your-api-key>'
+
+# Alternatively, you can use the `Authorization` header with the `Bearer` prefix
+curl \
+  -X GET https://xyz-example.eu-central.aws.cloud.qdrant.io:6333 \
+  --header 'Authorization: Bearer <your-api-key>'
+```
+
+```python
+from qdrant_client import QdrantClient
+
+qdrant_client = QdrantClient(
+    "xyz-example.eu-central.aws.cloud.qdrant.io",
+    api_key="<your-api-key>",
+)
+```
+
+```typescript
+import { QdrantClient } from "@qdrant/js-client-rest";
+
+const client = new QdrantClient({
+  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
+  apiKey: "<your-api-key>",
+});
+```
+
+```rust
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("https://xyz-example.eu-central.aws.cloud.qdrant.io:6334")
+    .api_key("<your-api-key>")
+    .build()?;
+```
+
+```java
+import io.qdrant.client.QdrantClient;
+import io.qdrant.client.QdrantGrpcClient;
+
+QdrantClient client =
+    new QdrantClient(
+        QdrantGrpcClient.newBuilder(
+                "xyz-example.eu-central.aws.cloud.qdrant.io",
+                6334,
+                true)
+            .withApiKey("<your-api-key>")
+            .build());
+```
+
+```csharp
+using Qdrant.Client;
+
+var client = new QdrantClient(
+  host: "xyz-example.eu-central.aws.cloud.qdrant.io",
+  https: true,
+  apiKey: "<your-api-key>"
+);
+```
+
+```go
+import "github.com/qdrant/go-client/qdrant"
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host:   "xyz-example.eu-central.aws.cloud.qdrant.io",
+	Port:   6334,
+	APIKey: "<your-api-key>",
+	UseTLS: true,
+})
+```
 
 ## Try the Tutorial sandbox
 
