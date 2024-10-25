@@ -7,31 +7,31 @@ image:
   alt: Qdrant cloud dashboard
 startedButton:
   text: Get Started
-  url: /#
+  url: https://qdrant.to/cloud
 servicesTitle: Managed Services
 servicesDescription: Deploy and manage high-performance vector search clusters across cloud environments. Easily scale with fully managed cloud solutions, integrate seamlessly across hybrid setups, or maintain complete control with private cloud deployments in Kubernetes.
-services: 
+services:
 - id: 1
   image:
     src: /img/dev-portal-cloud/managed-cloud.png
     alt: Qdrant Cloud
   title: Qdrant Cloud
   description: Qdrant Managed Cloud is our SaaS solution, providing managed Qdrant database clusters on the cloud.
-  link: /#
+  link: /documentation/cloud/
 - id: 2
   image:
     src: /img/dev-portal-cloud/hybrid-cloud.png
     alt: Hybrid Cloud
   title: Hybrid Cloud
   description: Deploy and manage your vector database across diverse environments, ensuring performance, security, and cost efficiency.
-  link: /#
+  link: /documentation/hybrid-cloud/
 - id: 3
   image:
     src: /img/dev-portal-cloud/private-cloud.png
     alt: Private Cloud
   title: Private Cloud
   description: Qdrant Private Cloud allows you to manage Qdrant database clusters in any Kubernetes cluster on any infrastructure.
-  link: /#
+  link: /documentation/private-cloud/
 supportTitle: Customer Support
 supportDescription: Stream, index, and migrate data to Qdrant with these essential tools and strategies.
 topics:
@@ -43,7 +43,7 @@ topics:
   description: Join 6,000+ active members to learn, collaborate, and participate in Qdrant’s latest activities.
   link:
     text: Join our Discord
-    url: /#
+    url: https://qdrant.to/discord
 - id: 2
   image:
     src: /icons/outline/support-blue.svg
@@ -52,5 +52,5 @@ topics:
   description: Paying customers have access to our Support team. Links to the support portal are available in the Qdrant Cloud Console.
   link:
     text: Join Qdrant
-    url: /#
+    url: https://qdrant.to/cloud
 ---
