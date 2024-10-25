@@ -7,29 +7,29 @@ image:
   alt: Spanish AI app.png
 startedButton:
   text: Get Started
-  url: /#
+  url: https://qdrant.to/cloud
 buildingTitle: Start Building
 buildingDescription: Deploy and manage high-performance vector search clusters across cloud environments. Easily scale with fully managed cloud solutions, integrate seamlessly across hybrid setups, or maintain complete control with private cloud deployments in Kubernetes.
-services: 
+services:
 - id: 1
   image:
     src: /img/dev-portal-build/search.png
     alt: Search
   title: Search
-  description: Qdrant Managed Cloud is our SaaS (software-as-a-service) solution, providing managed Qdrant database clusters on the cloud.
-  link: /#
+  description: Build a simple neural search service with Qdrant and Fastembed. Learn how to upload data, create index and make search queries.
+  link: /documentation/tutorials/hybrid-search-fastembed/
 - id: 2
   image:
     src: /img/dev-portal-build/rag.png
     alt: RAG
   title: RAG
-  description: Qdrant Managed Cloud is our SaaS (software-as-a-service) solution, providing managed Qdrant database clusters on the cloud.
-  link: /#
+  description: Learn how Qdrant integrates with popular RAG frameworks like LangChain and Llamaindex.
+  link: /documentation/frameworks/langchain/
 - id: 3
   image:
     src: /img/dev-portal-build/pipelines.png
     alt: Pipelines
   title: Pipelines
-  description: Qdrant Private Cloud allows you to manage Qdrant database clusters in any Kubernetes cluster on any infrastructure.
-  link: /#
+  description: Integrate Qdrant into your data infrastructure by connecting with Kafka, Databricks, Airflow, and more.
+  link: /documentation/send-data/
 ---
