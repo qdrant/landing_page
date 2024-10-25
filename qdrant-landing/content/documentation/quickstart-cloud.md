@@ -51,7 +51,7 @@ curl \
 from qdrant_client import QdrantClient
 
 qdrant_client = QdrantClient(
-    "xyz-example.eu-central.aws.cloud.qdrant.io",
+    host="xyz-example.eu-central.aws.cloud.qdrant.io",
     api_key="<your-api-key>",
 )
 ```
