@@ -72,10 +72,14 @@ function tagAllForms() {
     form.addEventListener("formdata", (e) => {
       let data = e.formData;
       let properties: PropertiesType = {};
+      properties.source = "frontend";
+ 
+      [...data.entries()].forEach((entry) => {
+        if (entry[0].includes('email') && !entry[0].includes('password')) {
+          properties[entry[0]] = entry[1]
+        }
+    });
 
-      const entries = [...data.entries()];  
-
-      entries.forEach((entry) => (properties[entry[0]] = entry[1]));
       properties.form_id = form.getAttribute("data-form-id");
 
       if (!didSubmit) {
@@ -126,9 +130,9 @@ export function handleConsent() {
   const contextPayload = {
     consent: {
       categoryPreferences: {
-        Advertising: false,
-        Analytics: true,
-        Functional: true
+        advertising: false, // regional conditionals
+        analytics: true, 
+        functional: true
       }
     }
   }
