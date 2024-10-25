@@ -19,7 +19,7 @@ menuItems:
 #    name: Learn
 #    url: /dev-portal-learn/
   - id: menu-4
-    name: Reference
+    name: API Reference
     url: https://api.qdrant.tech/api-reference
     external: true
 sitemapExclude: true
