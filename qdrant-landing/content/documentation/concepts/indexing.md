@@ -41,7 +41,7 @@ client = QdrantClient(url="http://localhost:6333")
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="name_of_the_field_to_index",
-    field_schema="keyword",
+    field_schema=models.PayloadSchemaType.KEYWORD,
 )
 ```
 
@@ -520,7 +520,7 @@ client.create_payload_index(
     collection_name="{collection_name}",
     field_name="payload_field_name",
     field_schema=models.KeywordIndexParams(
-        type="keyword",
+        type=models.KeywordIndexType.KEYWORD,
         on_disk=True,
     ),
 )
@@ -677,7 +677,7 @@ client.create_payload_index(
     collection_name="{collection_name}",
     field_name="payload_field_name",
     field_schema=models.KeywordIndexParams(
-        type="keyword",
+        type=models.KeywordIndexType.KEYWORD,
         is_tenant=True,
     ),
 )
@@ -814,8 +814,8 @@ PUT /collections/{collection_name}/index
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="timestamp",
-    field_schema=models.KeywordIndexParams(
-        type="integer",
+    field_schema=models.IntegerIndexParams(
+        type=models.IntegerIndexType.INTEGER,
         is_principal=True,
     ),
 )
@@ -834,7 +834,7 @@ client.createPayloadIndex("{collection_name}", {
 ```rust
 use qdrant_client::qdrant::{
     CreateFieldIndexCollectionBuilder,
-    IntegerdIndexParamsBuilder,
+    IntegerIndexParamsBuilder,
     FieldType
 };
 use qdrant_client::{Qdrant, QdrantError};
@@ -848,7 +848,7 @@ client.create_field_index(
         FieldType::Integer,
     )
     .field_index_params(
-        IntegerdIndexParamsBuilder::default()
+        IntegerIndexParamsBuilder::default()
             .is_principal(true),
     ),
 );
