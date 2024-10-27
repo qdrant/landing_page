@@ -89,7 +89,7 @@ client.query_points(
             limit=20,
         ),
         models.Prefetch(
-            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            query=[0.01, 0.45, 0.67],  # <-- dense vector
             using="dense",
             limit=20,
         ),
@@ -284,7 +284,7 @@ client.query_points(
         using="mrl_byte",
         limit=1000,
     ),
-    query=[0.01, 0.299, 0.45, 0.67, ...],  # <-- full vector
+    query=[0.01, 0.299, 0.45, 0.67],  # <-- full vector
     using="full",
     limit=10,
 )
@@ -428,13 +428,13 @@ client = QdrantClient(url="http://localhost:6333")
 client.query_points(
     collection_name="{collection_name}",
     prefetch=models.Prefetch(
-        query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+        query=[0.01, 0.45, 0.67, 0.53],  # <-- dense vector
         limit=100,
     ),
     query=[
-        [0.1, 0.2, ...],  # <─┐
-        [0.2, 0.1, ...],  # < ├─ multi-vector
-        [0.8, 0.9, ...],  # < ┘
+        [0.1, 0.2, 0.32],  # <─┐
+        [0.2, 0.1, 0.52],  # < ├─ multi-vector
+        [0.8, 0.9, 0.93],  # < ┘
     ],
     using="colbert",
     limit=10,
@@ -608,14 +608,14 @@ client.query_points(
             using="mrl_byte",
             limit=1000,
         ),
-        query=[0.01, 0.45, 0.67, ...],  # <-- full dense vector
+        query=[0.01, 0.45, 0.67],  # <-- full dense vector
         using="full",
         limit=100,
     ),
     query=[
-        [0.1, 0.2, ...],  # <─┐
-        [0.2, 0.1, ...],  # < ├─ multi-vector
-        [0.8, 0.9, ...],  # < ┘
+        [0.17, 0.23, 0.52],  # <─┐
+        [0.22, 0.11, 0.63],  # < ├─ multi-vector
+        [0.86, 0.93, 0.12],  # < ┘
     ],
     using="colbert",
     limit=10,
@@ -913,7 +913,7 @@ client.query_points(
     collection_name="{collection_name}",
     query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04",  # <--- point id
     using="512d-vector",
-    lookup_from=models.LookupFrom(
+    lookup_from=models.LookupLocation(
         collection="another_collection",  # <--- other collection name
         vector="image-512",  # <--- vector name in the other collection
     )
@@ -1079,21 +1079,21 @@ client.query_points(
     collection_name="{collection_name}",
     prefetch=[
         models.Prefetch(
-            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            query=[0.01, 0.45, 0.67],  # <-- dense vector
             filter=models.Filter(
                 must=models.FieldCondition(
                     key="color",
-                    match=models.Match(value="red"),
+                    match=models.MatchValue(value="red"),
                 ),
             ),
             limit=10,
         ),
         models.Prefetch(
-            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            query=[0.01, 0.45, 0.67],  # <-- dense vector
             filter=models.Filter(
                 must=models.FieldCondition(
                     key="color",
-                    match=models.Match(value="green"),
+                    match=models.MatchValue(value="green"),
                 ),
             ),
             limit=10,

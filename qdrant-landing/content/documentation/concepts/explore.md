@@ -980,6 +980,10 @@ discover_queries = [
         limit=10,
     ),
 ]
+
+client.query_batch_points(
+    collection_name="{collection_name}", requests=discover_queries
+)
 ```
 
 ```typescript
@@ -1189,6 +1193,10 @@ discover_queries = [
         limit=10,
     ),
 ]
+
+client.query_batch_points(
+    collection_name="{collection_name}", requests=discover_queries
+)
 ```
 
 ```typescript
@@ -1367,6 +1375,8 @@ POST /collections/{collection_name}/points/search/matrix/pairs
 ```python
 from qdrant_client import QdrantClient, models
 
+client = QdrantClient(url="http://localhost:6333")
+
 client.search_matrix_pairs(
     collection_name="{collection_name}",
     sample=10,
@@ -1532,6 +1542,8 @@ POST /collections/{collection_name}/points/search/matrix/offsets
 
 ```python
 from qdrant_client import QdrantClient, models
+
+client = QdrantClient(url="http://localhost:6333")
 
 client.search_matrix_offsets(
     collection_name="{collection_name}",
