@@ -1705,13 +1705,6 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/get-point)):
 GET /collections/{collection_name}/points/{point_id}
 ```
 
-<!--
-Python client:
-
-```python
-```
- -->
-
 ## Scroll points
 
 Sometimes it might be necessary to get all stored points without knowing ids, or iterate over points that correspond to a filter.
