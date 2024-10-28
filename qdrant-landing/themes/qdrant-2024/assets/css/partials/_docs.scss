@@ -162,11 +162,14 @@
       margin: $spacer * 2 $spacer * 1.5 0;
     }
 
-    h3.docs__card-title {
+    .docs__card-title {
       padding: 0;
       margin: 0 $spacer * 1.5;
       font-size: pxToRem(20);
       line-height: pxToRem(30);
+      a {
+        color: $neutral-98;
+      }
     }
 
     p.docs__card-description {
@@ -175,7 +178,7 @@
       line-height: pxToRem(21);
     }
 
-    &-arrow {
+    .docs__card-arrow {
       margin: auto $spacer * 1.5 $spacer * 1.5 auto;
 
       a {
@@ -201,7 +204,11 @@
     &:hover {
       background: linear-gradient(180deg, $neutral-20 0%, #0e1424 100%);
 
-      a {
+      .docs__card-title a {
+        text-decoration: none;
+      }
+
+      .docs__card-arrow a {
         background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.0001 3.33337L14.6667 8.00004L10.0001 12.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.33337 8.00006H14.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
       }
     }
