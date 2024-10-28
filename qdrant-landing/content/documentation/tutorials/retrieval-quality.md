@@ -147,11 +147,11 @@ This step measures the initial retrieval quality before any tuning of the HNSW(H
 In order to improve performance, HNSW limits the maximum degree of nodes on each layer of the graph to m. There are two types of parameters that can be tuned:
 
 Index-time parameters:
-- **m**: This parameter limits the maximum number of connections (degree) per node in each layer of the HNSW graph. A higher value for `m` allows more connections between nodes, potentially improving search accuracy but requiring more memory and indexing time. The default value for `m` is 16.
-- **ef_construct**: This parameter defines the search range during index construction. A higher value of `ef_construct` means a wider search range during indexing, resulting in a higher quality graph structure. However, this increases the indexing time. The default value for `ef_construct` is 100.
+- `m`: This parameter limits the maximum number of connections (degree) per node in each layer of the HNSW graph. A higher value for `m` allows more connections between nodes, potentially improving search accuracy but requiring more memory and indexing time. The default value for `m` is 16.
+- `ef_construct`: This parameter defines the search range during index construction. A higher value of `ef_construct` means a wider search range during indexing, resulting in a higher quality graph structure. However, this increases the indexing time. The default value for `ef_construct` is 100.
 
 Search-time parameter:
-- **ef** (also known as `efSearch`): This parameter controls the search range when looking for nearest neighbors during queries. A higher value widens the search range, increasing the likelihood of finding true nearest neighbors at the cost of higher search latency. The default value depends on the value of `ef_construct`.
+- `ef`: (also known as `efSearch`): This parameter controls the search range when looking for nearest neighbors during queries. A higher value of `ef` widens the search range, increasing the likelihood of finding true nearest neighbors at the cost of higher search latency. The default value depends on the value of `ef_construct`.
 
 We'll use the default m and ef_construct as a baseline and then tweak the parameters to see how it affects the precision of the search. Later, we will double these values and observe their impact on retrieval quality.
 
