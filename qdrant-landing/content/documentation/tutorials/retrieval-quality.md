@@ -23,7 +23,7 @@ By the end of this tutorial, you'll have a practical understanding of how to mea
 
 Semantic search pipelines rely heavily on the quality of the embeddings they use. If your model cannot properly represent input data, similar objects might be far apart in the vector space, leading to poor search results. Another critical component that affects search quality is the Approximate Nearest Neighbor (ANN) algorithm itself.
 
-Qdrant harnesses the power of ANN algorithms to handle massive datasets efficiently. As your dataset grows, exact k-Nearest Neighbors (kNN) search starts to suffer in performance due to the increased computational time required to compute distances between the query and every point in the dataset. This makes exact kNN impractical for large-scale applications. ANN algorithms like HNSW provide a significant advantage by approximating the nearest neighbors, allowing you to perform fast and scalable searches over large volumes of data.
+Qdrant harnesses the power of ANN algor "ithms to handle massive datasets efficiently. As your dataset grows, exact k-Nearest Neighbors (kNN) search starts to suffer in performance due to the increased computational time required to compute distances between the query and every point in the dataset. This makes exact kNN impractical for large-scale applications. ANN algorithms like HNSW provide a significant advantage by approximating the nearest neighbors, allowing you to perform fast and scalable searches over large volumes of data.
 
 While ANN algorithms are faster, they may return approximate results, which can impact search quality. It's important to measure the retrieval quality of the ANN algorithm compared to the kNN algorithm to ensure it approximates the exact search effectively.
 
@@ -142,12 +142,18 @@ def avg_precision_at_k(k: int):
 print(f"Initial avg(precision@5) = {avg_precision_at_k(k=5)}")
 ```
 
-This step measures the initial retrieval quality before any tuning of the HNSW parameters. The HNSW (Hierarchical Navigable Small World) algorithm has two key parameters that influence search performance and quality:
+This step measures the initial retrieval quality before any tuning of the HNSW(Hierarchical Navigable Small World) parameters. HNSW is a graph-based indexing algorithm that builds a multi-layer navigation structure. The upper layers are sparse with nodes far apart, while lower layers are denser with closer nodes. The search starts from the top layer, finds the closest node to the target, then moves down to denser layers, iteratively approaching the target position.
 
-- **m**: This parameter determines the maximum number of connections per node in the HNSW graph. A higher value for `m` increases the connectivity of the graph, potentially improving search accuracy at the cost of increased memory usage and indexing time. The default value for `m` is 16.
-- **ef_construct**: This parameter controls the size of the dynamic candidate list during index construction. A higher value of `ef_construct` leads to a more exhaustive search during the indexing phase, resulting in a higher quality graph and improved search accuracy. However, this comes at the cost of longer indexing times. The default value for `ef_construct` is 100.
+In order to improve performance, HNSW limits the maximum degree of nodes on each layer of the graph to m. There are two types of parameters that can be tuned:
 
-We'll use the default m and ef as a baseline and then tweak the params to see how it affects the precision of the search. Later, we will double these values to observe their impact on retrieval quality.
+Index-time parameters:
+- **m**: This parameter limits the maximum number of connections (degree) per node in each layer of the HNSW graph. A higher value for `m` allows more connections between nodes, potentially improving search accuracy but requiring more memory and indexing time. The default value for `m` is 16.
+- **ef_construct**: This parameter defines the search range during index construction. A higher value of `ef_construct` means a wider search range during indexing, resulting in a higher quality graph structure. However, this increases the indexing time. The default value for `ef_construct` is 100.
+
+Search-time parameter:
+- **ef** (also known as `efSearch`): This parameter controls the search range when looking for nearest neighbors during queries. A higher value widens the search range, increasing the likelihood of finding true nearest neighbors at the cost of higher search latency. The default value depends on the value of `ef_construct`.
+
+We'll use the default m and ef_construct as a baseline and then tweak the parameters to see how it affects the precision of the search. Later, we will double these values and observe their impact on retrieval quality.
 
 Qdrant allows us to easily compare the performance between exact and approximate searches. For smaller datasets (e.g., up to 20,000 documents), exact search can be practical, but as the dataset scales, ANN algorithms like HNSW become necessary to handle the increased data volume efficiently.
 
