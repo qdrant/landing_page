@@ -378,6 +378,14 @@
     &__card {
       background: $neutral-98;
       border-color: $neutral-90;
+      .docs__card-title a {
+        color: $neutral-10;
+      }
+      &:hover {
+        .docs__card-title a {
+          color: $primary-50;
+        }
+      }
     }
 
     @include media-breakpoint-up(xl) {

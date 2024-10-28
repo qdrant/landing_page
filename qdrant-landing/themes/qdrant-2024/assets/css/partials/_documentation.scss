@@ -34,6 +34,8 @@
       margin: 0 auto;
     }
     &__article-wrapper {
+      $toc-width: pxToRem(232);
+      width: calc(100% - #{$toc-width});
       padding-right: calc(#{pxToRem(40)} - $spacer);
       flex: 1;
     }
