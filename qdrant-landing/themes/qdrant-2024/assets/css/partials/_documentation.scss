@@ -8,6 +8,14 @@
   &__container {
     @extend .container;
     margin: 0;
+    max-width: 100%;
+  }
+  &__article-wrapper {
+    width: 100%;
+  }
+  &__content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
   }
 
   @include media-breakpoint-up(xl) {
@@ -23,11 +31,11 @@
     }
     &__content-wrapper {
       max-width: calc(1136px - $spacer * 2.5 * 2);
-      display: flex;
       margin: 0 auto;
     }
     &__article-wrapper {
       padding-right: calc(#{pxToRem(40)} - $spacer);
+      flex: 1;
     }
   }
 

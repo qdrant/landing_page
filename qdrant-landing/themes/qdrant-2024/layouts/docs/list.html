@@ -16,7 +16,7 @@
 
 
             <div class="docs-core documentation-article">
-              <div class="documentation__content-wrapper">
+              <div class="documentation__content-wrapper pt-4">
                 <div class="documentation__article-wrapper">
                   {{ if eq .RelPermalink "/docs/qdrant/" }}
                     {{ partial "docs-core.html" . }}
@@ -26,9 +26,9 @@
                     {{ partial "docs-cloud.html" . }}
                   {{ end }}
                 </div>
-              </div>
 
               {{ partial "docs-footer.html" . }}
+              </div>
             </div>
           </div>
         </div>
