@@ -145,7 +145,8 @@
       gap: $spacer * 0.5;
       padding: $spacer * 1.5 $spacer * 1.5 0;
 
-      p, img {
+      p,
+      img {
         margin: 0;
       }
     }
@@ -161,11 +162,14 @@
       margin: $spacer * 2 $spacer * 1.5 0;
     }
 
-    h3.docs__card-title {
+    .docs__card-title {
       padding: 0;
       margin: 0 $spacer * 1.5;
       font-size: pxToRem(20);
       line-height: pxToRem(30);
+      a {
+        color: $neutral-98;
+      }
     }
 
     p.docs__card-description {
@@ -174,7 +178,7 @@
       line-height: pxToRem(21);
     }
 
-    &-arrow {
+    .docs__card-arrow {
       margin: auto $spacer * 1.5 $spacer * 1.5 auto;
 
       a {
@@ -198,9 +202,13 @@
     }
 
     &:hover {
-      background: linear-gradient(180deg, $neutral-20 0%, #0E1424 100%);
+      background: linear-gradient(180deg, $neutral-20 0%, #0e1424 100%);
 
-      a {
+      .docs__card-title a {
+        text-decoration: none;
+      }
+
+      .docs__card-arrow a {
         background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.0001 3.33337L14.6667 8.00004L10.0001 12.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.33337 8.00006H14.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
       }
     }
@@ -283,6 +291,9 @@
     }
 
     &-core {
+      &__hero {
+        padding: $spacer * 1.5 pxToRem(120);
+      }
       &__developing {
         &-block {
           padding: 0;
@@ -290,7 +301,8 @@
           &-text {
             text-align: left;
 
-            h3, a {
+            h3,
+            a {
               margin-left: $spacer * 2.5;
             }
           }
@@ -320,6 +332,57 @@
 
       &-table {
         width: pxToRem(232);
+      }
+    }
+  }
+  [data-theme='light'] & {
+    .docs-core__hero {
+      background: linear-gradient(180deg, $neutral-20 0%, $neutral-10 100%);
+      color: $neutral-70;
+      &-title {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+    .docs-core__developing-block {
+      h3 {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+    &__hero-content {
+      h1 {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+
+    &__card {
+      background: $neutral-98;
+      border-color: $neutral-90;
+    }
+
+    @include media-breakpoint-up(xl) {
+      &__article {
+        border-left-color: $neutral-80;
       }
     }
   }

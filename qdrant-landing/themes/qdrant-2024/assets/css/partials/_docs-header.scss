@@ -1,8 +1,10 @@
 @use '../helpers/functions' as *;
 
 .docs-header {
-  position: relative;
+  position: sticky;
+  top: 0;
   background: $neutral-10;
+  z-index: 4;
 
   .logo {
     width: pxToRem(148);
@@ -68,6 +70,6 @@
 
 @include media-breakpoint-up(xl) {
   .scrolled .main-menu {
-    padding: $spacer* 2 $spacer * 1.5 $spacer * 0.5;
+    padding: $spacer * 2 $spacer * 1.5 $spacer * 0.5;
   }
 }

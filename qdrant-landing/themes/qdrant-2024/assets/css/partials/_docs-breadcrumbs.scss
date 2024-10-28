@@ -15,6 +15,7 @@
     font-size: pxToRem(14);
     line-height: pxToRem(21);
     padding: math.div($spacer, 4) 0;
+    font-weight: 400;
 
     &:last-child {
       color: $neutral-98;
@@ -36,6 +37,14 @@
       background-repeat: no-repeat;
       background-position: center;
       background-size: cover;
+    }
+  }
+
+  [data-theme='light'] & {
+    &__crumb {
+      &:last-child {
+        color: $neutral-20;
+      }
     }
   }
 }

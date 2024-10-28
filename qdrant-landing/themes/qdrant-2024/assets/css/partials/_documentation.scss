@@ -7,27 +7,48 @@
 
   &__container {
     @extend .container;
-    max-width: pxToRem(1440);
-    margin: 0 auto 0 0;
+    margin: 0;
+    max-width: 100%;
+  }
+  &__article-wrapper {
+    width: 100%;
+  }
+  &__content-wrapper {
+    display: flex;
+    flex-wrap: wrap;
   }
 
   @include media-breakpoint-up(xl) {
     &__container {
+      max-width: 100vw !important;
       padding: 0;
     }
 
     &__content {
-      width: calc(100% - 544px);
-      padding: $spacer * 1.5 $spacer * 2.5 0 $spacer * 3.5;
-      margin-left: pxToRem(256);
-      border-left: pxToRem(1) solid $neutral-20;
+      $side-menu-width: pxToRem(256);
+      width: calc(100% - #{$side-menu-width});
+      padding: $spacer * 1.5 $spacer * 2.5 $spacer * 3.5;
+    }
+    &__content-wrapper {
+      max-width: calc(1136px - $spacer * 2.5 * 2);
+      margin: 0 auto;
+    }
+    &__article-wrapper {
+      padding-right: calc(#{pxToRem(40)} - $spacer);
+      flex: 1;
     }
   }
-}
 
-[data-theme='light'] {
-  .documentation {
-    background-color: $neutral-98;
+  [data-theme='light'] & {
+    background-color: $neutral-94;
     color: $neutral-30;
+
+    .button_outlined {
+      color: $neutral-30;
+      box-shadow: 0 0 0 1px $neutral-70;
+      &:hover {
+        box-shadow: 0 0 0 2px $neutral-70;
+      }
+    }
   }
 }
