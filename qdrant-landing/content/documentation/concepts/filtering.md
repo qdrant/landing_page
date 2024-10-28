@@ -449,7 +449,7 @@ Filtered points would be:
 ]
 ```
 
-When using `must_not`, the clause becomes `true` if none if the conditions listed inside `should` is satisfied.
+When using `must_not`, the clause becomes `true` if none of the conditions listed inside `should` is satisfied.
 In this sense, `must_not` is equivalent to the expression `(NOT A) AND (NOT B) AND (NOT C)`.
 
 ### Clauses combination
