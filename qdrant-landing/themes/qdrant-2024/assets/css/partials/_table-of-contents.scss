@@ -97,7 +97,7 @@
     top: $spacer * 5;
     flex-shrink: 0;
     padding: $spacer * 1.5 $spacer;
-    margin-bottom: 6rem;
+    margin-bottom: pxToRem(220);
 
     &__external-links {
       border-bottom: none;
@@ -111,15 +111,23 @@
   }
 
   [data-theme='light'] & {
-    background-color: $neutral-98;
-    margin-bottom: $spacer * 2;
+    &__title,
+    &__head {
+      color: $neutral-30;
+    }
 
     &__title {
       color: $neutral-30;
+      font-weight: 400;
     }
 
     a {
       color: $neutral-30;
+      font-weight: 400;
+      transition: color 0.3s;
+      &:hover {
+        color: $primary-50;
+      }
     }
 
     &__external-links {
@@ -129,7 +137,21 @@
 
     &__link {
       a {
-        color: $primary-50;
+        color: $neutral-30;
+        transition:
+          color 0.3s,
+          fill 0.25s;
+        font-weight: 500;
+        svg path {
+          fill: $neutral-30;
+        }
+        &:hover {
+          color: $primary-50;
+          text-decoration: none;
+          svg path {
+            fill: $primary-50;
+          }
+        }
       }
     }
   }

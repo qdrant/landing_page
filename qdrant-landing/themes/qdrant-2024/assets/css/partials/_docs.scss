@@ -284,6 +284,9 @@
     }
 
     &-core {
+      &__hero {
+        padding: $spacer * 1.5 pxToRem(120);
+      }
       &__developing {
         &-block {
           padding: 0;
@@ -326,6 +329,45 @@
     }
   }
   [data-theme='light'] & {
+    .docs-core__hero {
+      background: linear-gradient(180deg, $neutral-20 0%, $neutral-10 100%);
+      color: $neutral-70;
+      &-title {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+    .docs-core__developing-block {
+      h3 {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+    &__hero-content {
+      h1 {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+
     &__card {
       background: $neutral-98;
       border-color: $neutral-90;

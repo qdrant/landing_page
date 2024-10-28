@@ -42,5 +42,13 @@
   [data-theme='light'] & {
     background-color: $neutral-94;
     color: $neutral-30;
+
+    .button_outlined {
+      color: $neutral-30;
+      box-shadow: 0 0 0 1px $neutral-70;
+      &:hover {
+        box-shadow: 0 0 0 2px $neutral-70;
+      }
+    }
   }
 }
