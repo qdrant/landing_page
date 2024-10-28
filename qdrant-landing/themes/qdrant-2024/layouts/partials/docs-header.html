@@ -1,7 +1,7 @@
-<header class="site-header docs-header">
+<header class="docs-header">
   {{ $partition := partial "get-partition.html" (dict "page" .) }}
   {{ with (.Site.GetPage "/headless/docs-header") }}
-    <div class="main-menu z-2">
+    <div class="main-menu z-5">
       <a href="/">
         {{ partial "logo.html" . }}
       </a>
