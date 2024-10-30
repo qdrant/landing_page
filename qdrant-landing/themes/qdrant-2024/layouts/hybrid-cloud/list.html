@@ -7,10 +7,6 @@
   {{ partial "hybrid-cloud-how-it-works" . }}
   {{ partial "hybrid-cloud-video" . }}
 
-  {{ with (.Site.GetPage "/headless/get-started-small-database") }}
-    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
-  {{ end }}
-
   {{ partial "hybrid-cloud-features" . }}
   {{ partial "hybrid-cloud-partners" . }}
 
