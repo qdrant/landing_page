@@ -1,11 +1,6 @@
 {{ define "main" }}
   {{ partial "site-header" . }}
   {{ partial "qdrant-cloud-hero" . }}
-
-  {{ with (.Site.GetPage "/headless/get-started-small-database") }}
-    {{ partial "get-started-small" (dict "context" . "class" "get-started-small-database") }}
-  {{ end }}
-
   {{ partial "qdrant-cloud-bento-cards" . }}
   {{ partial "qdrant-cloud-features-link" . }}
 
