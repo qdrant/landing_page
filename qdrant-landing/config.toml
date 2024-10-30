@@ -107,6 +107,8 @@ disableKinds = ["taxonomy", "term"]
   [markup.highlight]
     noClasses = false
     codeFences=true
+  [markup.tableOfContents]
+    startLevel = 1
 
 [related]
   includeNewer = true

@@ -1,5 +1,6 @@
 import ThemeSwitch from './theme-switch.js';
 import { XL_BREAKPOINT } from './constants';
+import ScrollSpy from 'bootstrap/js/src/scrollspy';
 
 const themeSwitch = new ThemeSwitch();
 
@@ -15,10 +16,10 @@ document.addEventListener('DOMContentLoaded', () => {
     sidebar.classList.toggle('active');
   });
 
-  const moveSearchButton = function() {
+  const moveSearchButton = function () {
     const checkIfFirstChildIsSearch = (element) => {
       return element.children.length > 0 && element.children[0].classList.contains('docs-menu__input');
-    }
+    };
 
     const isMobile = window.innerWidth <= XL_BREAKPOINT;
     if (isMobile && !checkIfFirstChildIsSearch(docsMenu)) {
@@ -26,9 +27,18 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (!isMobile && !checkIfFirstChildIsSearch(sidebar)) {
       sidebar.before(searchbar);
     }
-  }
+  };
 
   moveSearchButton();
 
   window.addEventListener('resize', moveSearchButton);
+
+  // table of contents scrollspy
+  const documentationArticle = document.body.querySelectorAll('.documentation-article')[0];
+  if (documentationArticle && document.getElementById('TableOfContents')) {
+    new ScrollSpy(documentationArticle, {
+      target: '#TableOfContents',
+      offset: 100,
+    });
+  }
 });

@@ -30,7 +30,7 @@
       padding: $spacer * 1.5 $spacer * 2.5 $spacer * 3.5;
     }
     &__content-wrapper {
-      max-width: calc(1136px - $spacer * 2.5 * 2);
+      max-width: calc(1136px - $spacer * 2.5 * 1.5);
       margin: 0 auto;
     }
     &__article-wrapper {
