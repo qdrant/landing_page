@@ -2,5 +2,10 @@
   {{ partial "top-banner" . }}
 
   {{ partial "menu" . }}
+
+  {{ if and (eq .Section "blog") (.IsPage) }}
+    {{ partial "progress-bar" . }}
+  {{ end }}
+
   {{ partial "menu-mobile" . }}
 </header>
