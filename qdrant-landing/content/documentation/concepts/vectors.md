@@ -108,6 +108,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
+    vectors_config={},
     sparse_vectors_config={
         "text": models.SparseVectorParams(),
     },
@@ -380,7 +381,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 result = client.query_points(
     collection_name="{collection_name}",
-    query_vector=models.SparseVector(indices=[1, 3, 5, 7], values=[0.1, 0.2, 0.3, 0.4]),
+    query=models.SparseVector(indices=[1, 3, 5, 7], values=[0.1, 0.2, 0.3, 0.4]),
     using="text",
 ).points
 ```
@@ -672,9 +673,9 @@ client.upsert(
         models.PointStruct(
             id=1,
             vector=[
-                [-0.013,  0.020, -0.007, -0.111, ...],
-                [-0.030, -0.055,  0.001,  0.072, ...],
-                [-0.041,  0.014, -0.032, -0.062, ...]
+                [-0.013,  0.020, -0.007, -0.111],
+                [-0.030, -0.055,  0.001,  0.072],
+                [-0.041,  0.014, -0.032, -0.062]
             ],
         )
     ],
@@ -824,9 +825,9 @@ client = QdrantClient(url="http://localhost:6333")
 client.query_points(
     collection_name="{collection_name}",
     query=[
-        [-0.013,  0.020, -0.007, -0.111, ...],
-        [-0.030, -0.055,  0.001,  0.072, ...],
-        [-0.041,  0.014, -0.032, -0.062, ...]
+        [-0.013,  0.020, -0.007, -0.111],
+        [-0.030, -0.055,  0.001,  0.072],
+        [-0.041,  0.014, -0.032, -0.062]
     ],
 )
 ```
@@ -1598,13 +1599,11 @@ client = QdrantClient(url="http://localhost:6333")
 client.create_collection(
     collection_name="{collection_name}",
     vectors_config=models.VectorParams(
-        size=128,
-        distance=models.Distance.COSINE,
-        datatype=models.Datatype.UINT8
+        size=128, distance=models.Distance.COSINE, datatype=models.Datatype.UINT8
     ),
     sparse_vectors_config={
         "text": models.SparseVectorParams(
-            index=models.SparseIndexConfig(datatype=models.Datatype.UINT8)
+            index=models.SparseIndexParams(datatype=models.Datatype.UINT8)
         ),
     },
 )

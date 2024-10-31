@@ -153,10 +153,10 @@ storage:
     #   endpoint_url: ""
 
   # Where to store temporary files
-  # If null, temporary snapshot are stored in: storage/snapshots_temp/
+  # If null, temporary snapshots are stored in: storage/snapshots_temp/
   temp_path: null
 
-  # If true - point's payload will not be stored in memory.
+  # If true - the point's payload will not be stored in memory.
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
   # Note: those payload values that are involved in filtering and are indexed - remain in RAM.
@@ -251,7 +251,7 @@ storage:
     # To enable memmap storage, lower the threshold
     # Note: 1Kb = 1 vector of size 256
     # To explicitly disable mmap optimization, set to `0`.
-    # If not set, will be disabled by default. Previously this was calles memmap_threshold_kb.
+    # If not set, will be disabled by default. Previously this was called memmap_threshold_kb.
     memmap_threshold: null
 
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
