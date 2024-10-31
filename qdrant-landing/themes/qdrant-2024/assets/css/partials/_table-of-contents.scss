@@ -132,7 +132,7 @@
     a {
       color: $neutral-30;
       font-weight: 400;
-      transition: color 0.3s;
+      transition: all 0.3s;
       &:hover {
         color: $primary-50;
       }

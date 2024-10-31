@@ -109,6 +109,7 @@ disableKinds = ["taxonomy", "term"]
     codeFences=true
   [markup.tableOfContents]
     startLevel = 1
+    endLevel = 6
 
 [related]
   includeNewer = true

@@ -1,6 +1,6 @@
 import ThemeSwitch from './theme-switch.js';
 import { XL_BREAKPOINT } from './constants';
-import ScrollSpy from 'bootstrap/js/src/scrollspy';
+import TableOfContents from './table-of-content';
 
 const themeSwitch = new ThemeSwitch();
 
@@ -33,12 +33,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   window.addEventListener('resize', moveSearchButton);
 
-  // table of contents scrollspy
-  const documentationArticle = document.body.querySelectorAll('.documentation-article')[0];
-  if (documentationArticle && document.getElementById('TableOfContents')) {
-    new ScrollSpy(documentationArticle, {
-      target: '#TableOfContents',
-      offset: 100,
-    });
+  // if #TableOfContents and .documentation-article exists on the page, initialize TableOfContents class
+  if (document.getElementById('TableOfContents') && document.querySelector('.documentation-article')) {
+    new TableOfContents('#TableOfContents', '.documentation-article');
   }
 });
