@@ -1,3 +1,5 @@
+import { DOCS_HEADER_OFFSET } from './constants';
+
 class TableOfContents {
   constructor(tocSelector, contentSelector) {
     this.tocLinks = Array.from(document.querySelectorAll(`${tocSelector} a`));
@@ -7,7 +9,14 @@ class TableOfContents {
       ),
     );
     this.currentActiveIndex = -1; // Track the current active heading index
+    this.currentActive = null; // Track the current active heading element
+
+
     this.debounceTimeout = null;
+
+    this.currentlyVisibleHeaderIds = new Set();
+
+    this.headerOffset = DOCS_HEADER_OFFSET + 10;
 
     this.init();
   }
@@ -15,10 +24,6 @@ class TableOfContents {
   // Initialize the Table of Contents functionality
   init() {
     this.setupObserver();
-    this.initializeActiveLink();
-
-    // Run initialization on resize
-    window.addEventListener('resize', () => this.initializeActiveLink());
   }
 
   // Clear 'active' class from all links
@@ -28,72 +33,52 @@ class TableOfContents {
 
   // Set active link with debounce
   setActiveLink(index) {
-    clearTimeout(this.debounceTimeout);
-    this.debounceTimeout = setTimeout(() => {
-      if (index !== this.currentActiveIndex) {
-        this.clearActiveClasses();
-        if (this.tocLinks[index]) {
-          this.tocLinks[index].classList.add('active');
-          this.currentActiveIndex = index;
-        }
+    if (index !== this.currentActiveIndex) {
+      this.clearActiveClasses();
+      if (this.tocLinks[index]) {
+        this.tocLinks[index].classList.add('active');
+        this.currentActiveIndex = index;
+        this.currentActive = this.headings[index];
       }
-    }, 50); // Small debounce for smoother highlighting
+    }
   }
 
   // Setup Intersection Observer
   setupObserver() {
     const observerCallback = (entries) => {
+
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          const entryIndex = this.headings.indexOf(entry.target);
+        const entryIndex = this.headings.indexOf(entry.target);
+        const isIntersecting = entry.isIntersecting;
 
-          // Determine scroll direction
-          const isScrollingDown = entryIndex > this.currentActiveIndex;
-          const step = isScrollingDown ? 1 : -1;
-
-          // Step through active links
-          for (let i = this.currentActiveIndex + step; i !== entryIndex + step; i += step) {
-            this.setActiveLink(i);
-          }
-
-          // Ensure the intersecting entry's link is active
-          this.setActiveLink(entryIndex);
+        if (isIntersecting) {
+          this.currentlyVisibleHeaderIds.add(entryIndex);
+        } else {
+          this.currentlyVisibleHeaderIds.delete(entryIndex);
         }
       });
+      
+      if (this.currentlyVisibleHeaderIds.size !== 0) {
+        let minimalVisibleHeaderId = Math.min(...Array.from(this.currentlyVisibleHeaderIds));
+        this.setActiveLink(minimalVisibleHeaderId);
+      } else {
+        // No intersection found
+        // If current active heading is below the viewport, then set current active to one above it
+        if (this.currentActive && this.currentActive.getBoundingClientRect().top > this.headerOffset) {
+          this.setActiveLink(this.currentActiveIndex - 1);
+        }
+      }
     };
 
     // Observer options
     const observerOptions = {
       root: null,
-      rootMargin: '0px 0px -50% 0px',
-      threshold: 0.25, // Lower threshold for better visibility
+      rootMargin: `-${this.headerOffset}px 0px -25% 0px`,
+      threshold: 0.0, // Lower threshold for better visibility
     };
 
     const observer = new IntersectionObserver(observerCallback, observerOptions);
     this.headings.forEach((heading) => observer.observe(heading));
-  }
-
-  // todo: should we rely on reaching the article's top or end instead of page's top or end?
-  // Initialize active link based on current scroll position
-  initializeActiveLink() {
-    const scrollTop = window.scrollY || document.documentElement.scrollTop;
-    const scrollBottom = scrollTop + window.innerHeight;
-    const pageBottom = document.documentElement.scrollHeight - window.innerHeight;
-
-    const offset = 0;
-
-    if (scrollTop <= offset) {
-      // At the very top (considering offset), highlight the first link
-      this.setActiveLink(0);
-    } else if (Math.abs(scrollBottom - pageBottom) <= offset) {
-      // At the very bottom (considering offset), highlight the last link
-      this.setActiveLink(this.tocLinks.length - 1);
-    } else {
-      // other code to handle mid-page logic
-      const firstVisibleHeading = this.headings.find((heading) => heading.getBoundingClientRect().top >= offset);
-      const firstVisibleIndex = this.headings.indexOf(firstVisibleHeading);
-      this.setActiveLink(firstVisibleIndex);
-    }
   }
 }
 
