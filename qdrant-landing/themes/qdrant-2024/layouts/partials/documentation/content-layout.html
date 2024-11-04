@@ -23,9 +23,7 @@
               {{ end }}
 
               {{ partial "documentation-article" . }}
-              {{ if not (eq .RelPermalink "/documentation/") }}
-                {{ partial "docs-feedback.html" . }}
-              {{ end }}
+              {{ partial "docs-feedback.html" . }}
             </div>
             {{ partial "table-of-contents" . }}
           {{ end }}
