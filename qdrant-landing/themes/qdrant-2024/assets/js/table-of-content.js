@@ -5,7 +5,7 @@ class TableOfContents {
     this.tocLinks = Array.from(document.querySelectorAll(`${tocSelector} a`));
     this.headings = Array.from(
       document.querySelectorAll(
-        `${contentSelector} h1, ${contentSelector} h2, ${contentSelector} h3, ${contentSelector} h4, ${contentSelector} h5, ${contentSelector} h6`,
+        `${contentSelector} h1, ${contentSelector} h2, ${contentSelector} h3`,
       ),
     );
     this.currentActiveIndex = -1; // Track the current active heading index
