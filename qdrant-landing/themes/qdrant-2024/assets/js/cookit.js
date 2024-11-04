@@ -1,5 +1,5 @@
 import { getCookie, setCookie } from './helpers';
-import { loadSegment, handleConsent } from './segment-helpers';
+import { handleConsent } from '../ts/segment-helpers';
 
 (function () {
   window.cookit = function (options) {
@@ -59,10 +59,7 @@ import { loadSegment, handleConsent } from './segment-helpers';
 
     // EVENT LISTENER (click)
     button.addEventListener('click', () => {
-      if (!window.analytics) {
-        loadSegment();
-        handleConsent();
-      }
+      handleConsent();
 
       banner.remove();
       setCookie('cookie-consent', 1, settings.lifetime);

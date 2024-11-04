@@ -1,6 +1,8 @@
 {
   "comments": {
     "dependencies": {
+      "@qdrant/qdrant-analytics-events": "qdrant-2024",
+      "@segment/analytics-next": "qdrant-2024",
       "@splidejs/splide": "qdrant-2024",
       "anchor-js": "qdrant-2024",
       "bootstrap": "qdrant-2024",
@@ -17,6 +19,8 @@
     }
   },
   "dependencies": {
+    "@qdrant/qdrant-analytics-events": "file:lib/qdrant-analytics-events-1.0.14.pre-release.tgz",
+    "@segment/analytics-next": "^1.75.0",
     "@splidejs/splide": "^4.1.4",
     "anchor-js": "^5.0.0",
     "bootstrap": "^5.3.3",
