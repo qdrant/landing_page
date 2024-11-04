@@ -153,7 +153,7 @@
 
       a {
         padding: math.div($spacer, 4) $spacer * 1.5 math.div($spacer, 4) math.div($spacer, 2);
-        margin-bottom: math.div($spacer, 4);
+        // margin-bottom: math.div($spacer, 4);
       }
 
       &.external-link {
