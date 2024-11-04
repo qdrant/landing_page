@@ -1,0 +1,14 @@
+<div class="col-12 col-lg-4">
+  <div class="docs-core__data-card docs__card">
+    <div class="docs__card-tag purple">
+      <!-- todo: tag purple should go from the data-->
+      <img src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+      <p>{{ .tag }}</p>
+    </div>
+    <h3 class="docs__card-title"><a href="{{ .link }}">{{ .title }}</a></h3>
+    <p class="docs__card-description">{{ .description }}</p>
+    <div class="docs__card-arrow">
+      <a href="{{ .link }}"></a>
+    </div>
+  </div>
+</div>

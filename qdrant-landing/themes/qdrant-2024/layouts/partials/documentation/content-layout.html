@@ -1,0 +1,36 @@
+<section class="docs documentation">
+  <div class="documentation__container">
+    <div class="d-flex flex-column flex-xl-row">
+      {{ $partition := partial "get-partition.html" (dict "page" .) }}
+
+      {{ partial "documentation/sidebar-menu" (dict "context" . "partition" $partition) }}
+
+
+      <div class="documentation__content">
+        <!--        todo: update this and styles to support both types of content on the same page-->
+        <div class="documentation__content-wrapper">
+          {{ if .Params.content }}
+            <div class="documentation__article-wrapper">
+              <div class="docs-core documentation-article">
+                {{ partial "documentation/custom-content.html" . }}
+              </div>
+            </div>
+          {{ else }}
+
+            <div class="documentation__article-wrapper">
+              {{ if not (eq .Params.breadcrumb false) }}
+                {{ partial "docs-breadcrumbs" . }}
+              {{ end }}
+
+              {{ partial "documentation-article" . }}
+              {{ partial "docs-feedback.html" . }}
+            </div>
+            {{ partial "table-of-contents" . }}
+          {{ end }}
+
+          {{ partial "docs-footer.html" . }}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

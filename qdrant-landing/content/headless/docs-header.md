@@ -8,16 +8,16 @@ startFree:
 menuItems:
   - id: menu-0
     name: Qdrant
-    url: /docs/qdrant/
+    url: /documentation/
   - id: menu-1
     name: Cloud
-    url: /docs/cloud/
+    url: /documentation/cloud-intro/
   - id: menu-2
     name: Build
-    url: /docs/build/
+    url: /documentation/build/
 #  - id: menu-3
 #    name: Learn
-#    url: /dev-portal-learn/
+#    url: /documentation/learn/
   - id: menu-4
     name: API Reference
     url: https://api.qdrant.tech/api-reference
