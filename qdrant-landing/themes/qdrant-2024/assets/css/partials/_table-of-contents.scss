@@ -40,9 +40,17 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+        transition: all 0.3s;
 
         &:hover {
           color: $neutral-98;
+        }
+
+        &.active {
+          font-weight: 600;
+          background-color: $neutral-30;
+          color: $neutral-90;
+          border-radius: $spacer * 0.5;
         }
       }
 
@@ -124,9 +132,15 @@
     a {
       color: $neutral-30;
       font-weight: 400;
-      transition: color 0.3s;
+      transition: all 0.3s;
       &:hover {
         color: $primary-50;
+      }
+      &.active {
+        font-weight: 600;
+        background-color: $neutral-90;
+        color: $neutral-30;
+        border-radius: $spacer * 0.5;
       }
     }
 

@@ -1,5 +1,6 @@
 import AnchorJS from 'anchor-js';
 import { scrollIntoViewWithOffset } from '../helpers';
+import { DOCS_HEADER_OFFSET } from '../constants';
 
 const anchors = new AnchorJS();
 anchors.options.placement = 'left';
@@ -12,15 +13,15 @@ document.addEventListener('DOMContentLoaded', function (event) {
   }
 
   // scroll to anchors:
-  let offset = 100;
+  let offset = DOCS_HEADER_OFFSET;
 
   if (window.location.hash) {
-    scrollIntoViewWithOffset(window.location.hash.replace('#', ''), offset).catch((e) => {
-      console.error(e);
-    });
+    scrollIntoViewWithOffset(window.location.hash.replace('#', ''), offset);
   }
 
-  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+  let allLinks = document.querySelectorAll('a[href^="#"]');
+
+  allLinks.forEach((anchor) => {
     const target = anchor.getAttribute('href');
     anchor.addEventListener('click', function (e) {
       e.preventDefault();

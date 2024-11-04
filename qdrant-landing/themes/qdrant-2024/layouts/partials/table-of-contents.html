@@ -2,9 +2,9 @@
   {{ if gt (.TableOfContents | len) 34 }}
     <div class="table-of-contents">
       <p class="table-of-contents__head">On this page:</p>
-      <p class="table-of-contents__title">{{ .Params.title }}</p>
 
       {{ .TableOfContents }}
+
 
       <ul class="table-of-contents__external-links">
         <li class="table-of-contents__link">
