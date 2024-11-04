@@ -3,45 +3,54 @@ title: Ollama
 weight: 2600
 ---
 
-# Using Ollama with Qdrant 
+# Using Ollama with Qdrant
 
-Ollama provides specialized embeddings for niche applications. Ollama supports a variety of embedding models, making it possible to build retrieval augmented generation (RAG) applications that combine text prompts with existing documents or other data in specialized areas.
-
-
+[Ollama](https://ollama.com) provides specialized embeddings for niche applications. Ollama supports a [variety of embedding models](https://ollama.com/search?c=embedding), making it possible to build retrieval augmented generation (RAG) applications that combine text prompts with existing documents or other data in specialized areas.
 
 ## Installation
 
-You can install the required package using the following pip command:
+You can install the required packages using the following pip command:
 
 ```bash
-pip install ollama
+pip install ollama qdrant-client
 ```
+
 ## Integration Example
 
+The following code assumes Ollama is accessible at port `11434` and Qdrant at port `6334`.
 
 ```python
-import qdrant_client
-from qdrant_client.models import Batch
-from ollama import Ollama
+from qdrant_client import QdrantClient, models
+import ollama
 
-# Initialize Ollama model
-model = Ollama("ollama-unique")
+COLLECTION_NAME = "NicheApplications"
 
-# Generate embeddings for niche applications
-text = "Ollama excels in niche applications with specific embeddings."
-embeddings = model.embed(text)
+# Initialize Ollama client
+oclient = ollama.Client(host="localhost")
 
 # Initialize Qdrant client
-qdrant_client = qdrant_client.QdrantClient(host="localhost", port=6333)
+qclient = QdrantClient(host="localhost", port=6333)
 
-# Upsert the embedding into Qdrant
-qdrant_client.upsert(
-    collection_name="NicheApplications",
-    points=Batch(
-        ids=[1],
-        vectors=[embeddings],
+# Text to embed
+text = "Ollama excels in niche applications with specific embeddings"
+
+# Generate embeddings
+response = oclient.embeddings(model="llama3.2", prompt=text)
+embeddings = response["embedding"]
+
+# Create a collection if it doesn't already exist
+if not qclient.collection_exists(COLLECTION_NAME):
+    qclient.create_collection(
+        collection_name=COLLECTION_NAME,
+        vectors_config=models.VectorParams(
+            size=len(embeddings), distance=models.Distance.COSINE
+        ),
     )
+
+# Upload the vectors to the collection along with the original text as payload
+qclient.upsert(
+    collection_name=COLLECTION_NAME,
+    points=[models.PointStruct(id=1, vector=embeddings, payload={"text": text})],
 )
 
 ```
-
