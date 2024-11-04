@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="en">
-{{- partial "head.html" . -}}
-<body>
-  <main>
-    {{ partial "docs-header" . }}
-    {{ partial "documentation" .}}
-  </main>
-</body>
-{{ partial "js.html" . }}
+  {{- partial "head.html" . -}}
+  <body>
+    <main>
+      {{ partial "docs-header" . }}
+      {{ partial "documentation/content-layout" . }}
+    </main>
+  </body>
+  {{ partial "js.html" . }}
 </html>

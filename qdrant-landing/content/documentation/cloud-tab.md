@@ -1,5 +1,7 @@
 ---
 title: Welcome to Qdrant Cloud
+slug: cloud-intro
+breadcrumb: false
 content:
   - partial: documentation/banners/banner-b
     title: Welcome to Qdrant Cloud
@@ -60,4 +62,5 @@ content:
         text: Join Qdrant
         url: https://qdrant.to/cloud
 partition: cloud
+hideInSidebar: true
 ---

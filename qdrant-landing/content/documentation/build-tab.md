@@ -1,5 +1,7 @@
 ---
 title: Build World-Class Applications
+slug: build
+breadcrumb: false
 content:
   - partial: documentation/banners/banner-c
     title: Build World-Class Applications
@@ -37,4 +39,5 @@ content:
       description: Integrate Qdrant into your data infrastructure by connecting with Kafka, Databricks, Airflow, and more.
       link: /documentation/send-data/
 partition: build
+hideInSidebar: true
 ---
