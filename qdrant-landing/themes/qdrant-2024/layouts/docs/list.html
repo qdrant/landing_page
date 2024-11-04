@@ -19,15 +19,15 @@
               <div class="documentation__content-wrapper pt-4">
                 <div class="documentation__article-wrapper">
                   {{ if eq .RelPermalink "/docs/qdrant/" }}
-                    {{ partial "docs-core.html" . }}
+                    {{ partial "documentation/docs-core.html" . }}
                   {{ else if eq .RelPermalink "/docs/build/" }}
-                    {{ partial "docs-build.html" . }}
+                    {{ partial "documentation/docs-build.html" . }}
                   {{ else if eq .RelPermalink "/docs/cloud/" }}
-                    {{ partial "docs-cloud.html" . }}
+                    {{ partial "documentation/docs-cloud.html" . }}
                   {{ end }}
                 </div>
 
-              {{ partial "docs-footer.html" . }}
+                {{ partial "docs-footer.html" . }}
               </div>
             </div>
           </div>
