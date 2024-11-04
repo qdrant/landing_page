@@ -5,6 +5,7 @@
   background-color: $neutral-20;
   border-top: 1px solid $neutral-30;
   margin: 0 (-$spacer) $spacer * 2;
+  scrollbar-width: thin;
 
   &__header {
     display: flex;
