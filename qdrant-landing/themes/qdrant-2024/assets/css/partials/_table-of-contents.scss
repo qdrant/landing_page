@@ -103,9 +103,9 @@
     overflow-x: hidden;
     overflow-y: auto;
     top: $spacer * 5;
+    bottom: pxToRem(220);
     flex-shrink: 0;
     padding: $spacer * 1.5 $spacer;
-    margin-bottom: pxToRem(220);
 
     &__external-links {
       border-bottom: none;
