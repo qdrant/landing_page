@@ -1,0 +1,39 @@
+@use '../helpers/functions' as *;
+@use 'sass:math';
+
+.progress-bar {
+  display: block;
+  position: sticky;
+  top: pxToRem(60);
+  left: 0;
+  right: 0;
+  height: math.div($spacer, 4);
+  width: 100%;
+  border-radius: 0;
+  border: none;
+  color: $primary-50;
+  z-index: 1;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+
+  &::-webkit-progress-bar {
+    background-color: $neutral-98;
+  }
+
+  &::-webkit-progress-value {
+    background-color: $primary-50;
+  }
+
+  &::-moz-progress-bar {
+    background-color: $primary-50;
+  }
+
+  @include media-breakpoint-up(xl) {
+    top: pxToRem(52);
+  }
+}
+
+:indeterminate::-moz-progress-bar {
+  width: 0;
+}

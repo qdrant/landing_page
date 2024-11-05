@@ -146,3 +146,20 @@
     });
   </script>
 {{ end }}
+
+{{ if and (eq .Section "blog") (.IsPage) }}
+  <script>
+    document.addEventListener("scroll", () => {
+      const article = document.getElementById("article");
+      const progress = document.getElementById("progress");
+
+      const articleHeight = article.scrollHeight - window.innerHeight;
+      const scrollTop = window.scrollY - article.offsetTop;
+
+      progress.value = Math.min(
+        Math.max((scrollTop / articleHeight) * 100, 0),
+        100
+      );
+    });
+  </script>
+{{ end }}
