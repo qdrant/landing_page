@@ -3,6 +3,10 @@
 
 .progress-bar {
   display: block;
+  position: sticky;
+  top: pxToRem(60);
+  left: 0;
+  right: 0;
   height: math.div($spacer, 4);
   width: 100%;
   border-radius: 0;
@@ -24,18 +28,9 @@
   &::-moz-progress-bar {
     background-color: $primary-50;
   }
-}
 
-.scrolled {
-  .progress-bar {
-    position: fixed;
-    top: pxToRem(60);
-    left: 0;
-    right: 0;
-
-    @include media-breakpoint-up(xl) {
-      top: pxToRem(52);
-    }
+  @include media-breakpoint-up(xl) {
+    top: pxToRem(52);
   }
 }
 
