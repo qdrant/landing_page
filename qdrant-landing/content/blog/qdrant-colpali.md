@@ -70,9 +70,18 @@ In an experiment based on a [**blog post by Daniel Van Strien**](https://danielv
 
 ## Using ColPali with Qdrant
 
-**Now it's time to try the code.** Here’s a simplified Notebook to test ColPali for yourself:
+**Now it's time to try the code.** </br>
+Here’s a simplified Notebook to test ColPali for yourself:
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sabrinaaquino/colpali-qdrant-demo/blob/main/colpali_demo_binary.ipynb)
+
+Our goal is to go through a dataset of multilingual newspaper articles like the ones below. We will detect which images contain text about **UFO's** and **Top Secret** events. 
+
+![Qdrant and Colpali](/blog/qdrant-colpali/qdrant-colpali-4.png)
+
+*The full dataset is accessible from the notebook.*
+
+### Procedure
 
 1. **Setup ColPali and Qdrant:** Import the necessary libraries, including a fine-tuned model optimized for your dataset (in this case, a UFO document set).
 2. **Dataset Preparation:** Load your document images into ColPali, previewing complex images to appreciate the challenge for traditional retrieval methods.
@@ -80,9 +89,15 @@ In an experiment based on a [**blog post by Daniel Van Strien**](https://danielv
 4. **Batch Uploading Vectors:** Use a retry checkpoint to handle any exceptions during indexing. Batch processing allows you to adjust batch size based on available GPU resources.
 5. **Query Processing and Search:** Encode queries as multivectors for Qdrant. Set up rescoring and oversampling to fine-tune accuracy while optimizing speed.
 
+### Results
+
 > In our testing, the search time was reduced to 0.81 seconds. 
 
 This is significantly faster than with Scalar Quantization, and we still retrieved the top document matches with remarkable accuracy.
+
+However, keep in mind that this is just a quick experiment. Performance may vary, so it's important to test Binary Quantization on your own datasets to see how it performs for your specific use case. 
+
+That said, it's promising to see Binary Quantization maintaining search quality while potentially offering performance improvements with ColPali.
 
 ## Future Directions with ColPali
 ![Qdrant and Colpali](/blog/qdrant-colpali/qdrant-colpali-2.png)
