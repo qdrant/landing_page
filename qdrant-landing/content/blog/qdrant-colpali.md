@@ -22,7 +22,7 @@ It’s no secret that even the most modern document retrieval systems have a har
 
 ColPali introduces a multimodal retrieval approach that uses **Vision Language Models (VLMs)** instead of the traditional OCR and text-based extraction. 
 
-By processing document images directly, it creates **multi-vector embeddings** from both the visual and textual content, capturing the document's structure and context more effectively. This method outperforms traditional techniques, as demonstrated by the Visual Document Retrieval Benchmark (ViDoRe) introduced in the paper.
+By processing document images directly, it creates **multi-vector embeddings** from both the visual and textual content, capturing the document's structure and context more effectively. This method outperforms traditional techniques, as demonstrated by the [**Visual Document Retrieval Benchmark (ViDoRe)**](https://huggingface.co/vidore).
 
 **Before we go any deeper, watch our short video:**
 
