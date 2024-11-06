@@ -72,7 +72,7 @@ In an experiment based on a [**blog post by Daniel Van Strien**](https://danielv
 
 **Now it's time to try the code.** Here’s a simplified Notebook to test ColPali for yourself:
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/sabrinaaquino/colpali-qdrant-demo/blob/main/colpali_demo_binary.ipynb)
 
 1. **Setup ColPali and Qdrant:** Import the necessary libraries, including a fine-tuned model optimized for your dataset (in this case, a UFO document set).
 2. **Dataset Preparation:** Load your document images into ColPali, previewing complex images to appreciate the challenge for traditional retrieval methods.
