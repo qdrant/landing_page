@@ -1,0 +1,17 @@
+<div class="col-12 col-lg-6">
+  <a href="{{ .link.url }}" class="docs-card">
+    {{ if or (.tag) (.icon) }}
+      <div class="docs-card__tag {{ if .tagColor }}docs-card__tag_{{- .tagColor -}}{{ end }}">
+        {{ if .icon }}
+          <img class="docs-card__icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+        {{ end }}
+        {{ if .tag }}
+          <span>{{ .tag }}</span>
+        {{ end }}
+      </div>
+    {{ end }}
+    <h3 class="docs-card__title">{{ .title }}</h3>
+    <p class="docs-card__description">{{ .description }}</p>
+    <span class="docs-card__link link link_sm">{{ .link.text }}</span>
+  </a>
+</div>

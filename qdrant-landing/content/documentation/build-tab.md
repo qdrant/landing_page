@@ -15,7 +15,7 @@ content:
   - partial: documentation/sections/cards-section
     title: Start Building
     description: Deploy and manage high-performance vector search clusters across cloud environments. Easily scale with fully managed cloud solutions, integrate seamlessly across hybrid setups, or maintain complete control with private cloud deployments in Kubernetes.
-    cardsPartial: documentation/cards/card-with-image
+    cardsPartial: documentation/cards/docs-card-arrow
     cards:
     - id: 1
       image:

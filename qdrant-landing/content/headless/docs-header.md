@@ -5,6 +5,7 @@ logIn:
 startFree:
   text: Start Free
   url: https://cloud.qdrant.io/
+logoLink: /
 menuItems:
   - id: menu-0
     name: Qdrant

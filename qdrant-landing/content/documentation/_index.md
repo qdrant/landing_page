@@ -32,7 +32,7 @@ content:
     button:
       text: Learn More
       url: /documentation/guides/optimize/
-    cardsPartial: documentation/cards/simple-card
+    cardsPartial: documentation/cards/docs-card-arrow
     cards:
       - id: 1
         tag: Documents
@@ -52,6 +52,7 @@ content:
         link: /documentation/guides/multiple-partitions/
       - id: 3
         tag: Blog
+        tagColor: violet
         icon:
           src: /icons/outline/blog-purple.svg
           alt: Blog
