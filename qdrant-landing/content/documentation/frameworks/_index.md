@@ -5,8 +5,8 @@ weight: 20
 
 ## Framework Integrations
 
-| Framework                             | Description                                                                                          |
-| ------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Framework                                                     | Description                                                                                          |
+| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.             |
 | [Canopy](/documentation/frameworks/canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                    |
@@ -23,8 +23,9 @@ weight: 20
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.              |
 | [MemGPT](/documentation/frameworks/memgpt/)                   | System to build LLM agents with long term memory & custom tools                                      |
 | [Pandas-AI](/documentation/frameworks/pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language        |
+| [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                 |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.             |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design. |
-| [Sycamore](/documentation/frameworks/sycamore/)             | Document processing engine for ETL, RAG, LLM-based applications, and analytics on unstructured data. |
+| [Sycamore](/documentation/frameworks/sycamore/)               | Document processing engine for ETL, RAG, LLM-based applications, and analytics on unstructured data. |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                  |
 | [Vanna AI](/documentation/frameworks/vanna-ai/)               | Python RAG framework for SQL generation and querying.                                                |
