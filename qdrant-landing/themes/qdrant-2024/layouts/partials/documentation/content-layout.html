@@ -1,3 +1,4 @@
+<!--documentation content layout, aka middle part of the documentation page where the actual content is displayed-->
 <section class="docs documentation">
   <div class="documentation__container">
     <div class="d-flex flex-column flex-xl-row">
@@ -19,16 +20,18 @@
 
             <div class="documentation__article-wrapper">
               {{ if not (eq .Params.breadcrumb false) }}
-                {{ partial "docs-breadcrumbs" . }}
+                {{ partial "documentation/breadcrumbs" . }}
               {{ end }}
 
-              {{ partial "documentation-article" . }}
-              {{ partial "docs-feedback.html" . }}
+              <article class="documentation-article">
+                {{ partial "article-content.html" . }}
+              </article>
+              {{ partial "documentation/feedback.html" . }}
             </div>
             {{ partial "table-of-contents" . }}
           {{ end }}
 
-          {{ partial "docs-footer.html" . }}
+          {{ partial "documentation/footer.html" . }}
         </div>
       </div>
     </div>

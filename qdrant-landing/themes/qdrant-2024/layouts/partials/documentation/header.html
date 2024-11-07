@@ -2,7 +2,7 @@
   {{ $partition := partial "get-partition.html" (dict "page" .) }}
   {{ with (.Site.GetPage "/headless/docs-header") }}
     <div class="main-menu z-5">
-      <a href="/">
+      <a href="{{.Params.logoLink}}">
         {{ partial "logo.html" . }}
       </a>
 
