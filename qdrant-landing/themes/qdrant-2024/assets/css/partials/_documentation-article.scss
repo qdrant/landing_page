@@ -29,7 +29,7 @@
     margin-bottom: $spacer;
   }
 
-  a:hover {
+  a:not([class]):hover {
     text-decoration: underline;
   }
 
@@ -39,7 +39,7 @@
     margin-bottom: $spacer * 0.5;
   }
 
-  code:not([class]) {
+  code {
     padding: pxToRem(4);
     color: $neutral-90;
     background-color: $neutral-20;

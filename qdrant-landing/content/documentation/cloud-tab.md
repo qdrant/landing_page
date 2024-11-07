@@ -15,7 +15,7 @@ content:
   - partial: documentation/sections/cards-section
     title: Managed Services
     description: Deploy and manage high-performance vector search clusters across cloud environments. Easily scale with fully managed cloud solutions, integrate seamlessly across hybrid setups, or maintain complete control with private cloud deployments in Kubernetes.
-    cardsPartial: documentation/cards/card-with-image
+    cardsPartial: documentation/cards/docs-card-arrow
     cards:
     - id: 1
       image:
@@ -41,10 +41,10 @@ content:
   - partial: documentation/sections/cards-section
     title: Customer Support
     description: Stream, index, and migrate data to Qdrant with these essential tools and strategies.
-    cardsPartial: documentation/cards/card-with-icon
+    cardsPartial: documentation/cards/docs-card-link
     cards:
     - id: 1
-      image:
+      icon:
         src: /icons/outline/discord-purple.svg
         alt: Discord icon
       title: Community Support
@@ -53,7 +53,7 @@ content:
         text: Join our Discord
         url: https://qdrant.to/discord
     - id: 2
-      image:
+      icon:
         src: /icons/outline/support-blue.svg
         alt: Support icon
       title: Qdrant Cloud Support
