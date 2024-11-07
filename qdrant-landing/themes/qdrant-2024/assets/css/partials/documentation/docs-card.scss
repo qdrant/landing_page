@@ -102,11 +102,13 @@
   [data-theme='light'] & {
     background: $neutral-98;
     border-color: $neutral-90;
-    .docs__card-title {
+    color: $neutral-10;
+
+    .docs-card__title {
       color: $neutral-10;
     }
     &:hover {
-      .docs__card-title {
+      .docs-card__title {
         color: $primary-50;
       }
     }
