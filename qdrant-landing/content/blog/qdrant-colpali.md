@@ -41,7 +41,7 @@ Imagine you have a PDF packed with complex layouts, tables, and images, and you 
 
 ### Why is ColPali Better?
 
-This entire process can be time-consuming, especially for complex documents, with each page often taking over seven seconds to process. For text-heavy documents, this approach might suffice, but real-world data is often rich and complex, making traditional extraction methods less effective.
+This entire process can require too many steps, especially for complex documents, with each page often taking over seven seconds to process. For text-heavy documents, this approach might suffice, but real-world data is often rich and complex, making traditional extraction methods less effective.
 
 This is where ColPali comes into play. **ColPali, or Contextualized Late Interaction Over PaliGemma**, uses a vision language model (VLM) to simplify and enhance the document retrieval process. 
 
@@ -50,7 +50,7 @@ Instead of relying on text-only methods, ColPali generates contextualized **mult
 ## How ColPali Works Under the Hood
 ![Qdrant and Colpali](/blog/qdrant-colpali/qdrant-colpali-1.png)
 
-Rather than relying on OCR, ColPali **processes the entire document as an image** using a Vision Encoder. It creates multi-vector embeddings that capture both the textual content and the visual structure of the document which are then passed through a Language Model (LLM), which integrates the information into a representation that retains both text and visual features.
+Rather than relying on OCR, ColPali **processes the entire document as an image** using a Vision Encoder. It creates multi-vector embeddings that capture both the textual content and the visual structure of the document which are then passed through a Large Language Model (LLM), which integrates the information into a representation that retains both text and visual features.
 
 Here’s a step-by-step look at the ColPali architecture and how it enhances document retrieval:
 
@@ -91,7 +91,7 @@ Our goal is to go through a dataset of multilingual newspaper articles like the 
 
 ### Results
 
-> In our testing, the search time was reduced to 0.81 seconds. 
+> Success! Tests shows that search time is 2x faster than with Scalar Quantization. 
 
 This is significantly faster than with Scalar Quantization, and we still retrieved the top document matches with remarkable accuracy.
 
