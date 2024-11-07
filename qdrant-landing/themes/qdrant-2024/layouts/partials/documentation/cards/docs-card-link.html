@@ -1,5 +1,5 @@
 <div class="col-12 col-lg-6">
-  <a href="{{ .link.url }}" class="docs-card">
+  <a href="{{ .link.url }}" {{ if strings.HasPrefix .link.url "https://" }}target="_blank"{{ end }} class="docs-card">
     {{ if or (.tag) (.icon) }}
       <div class="docs-card__tag {{ if .tagColor }}docs-card__tag_{{- .tagColor -}}{{ end }}">
         {{ if .icon }}

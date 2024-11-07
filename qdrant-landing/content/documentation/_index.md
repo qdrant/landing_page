@@ -13,7 +13,7 @@ content:
       url: /documentation/quickstart-cloud/
     localButton:
       text: Local Quickstart
-      url: /documentation/quick-start/
+      url: /documentation/quickstart/
       contained: true
   - partial: documentation/banners/banner-d
     developingTitle: Ready to start developing?

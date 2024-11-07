@@ -1,7 +1,7 @@
 <section class="docs-build__hero docs__hero">
   <div class="docs__hero-content">
     <h1 class="docs__hero-title">{{ .title }}</h1>
-    <a href="{{ .startedButton.url }}" class="button button_outlined button_sm docs__hero-button">
+    <a href="{{ .startedButton.url }}" {{ if strings.HasPrefix .startedButton.url "https://" }}target="_blank"{{ end }} class="button button_outlined button_sm docs__hero-button">
       {{ .startedButton.text }}
     </a>
   </div>

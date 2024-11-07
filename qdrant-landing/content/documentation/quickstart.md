@@ -5,7 +5,6 @@ partition: qdrant
 aliases:
   - quick_start
   - quick-start
-  - quickstart
 ---
 # How to Get Started with Qdrant Locally
 

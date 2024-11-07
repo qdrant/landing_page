@@ -6,7 +6,7 @@
       <p class="mb-3">{{ .description }}</p>
     </div>
     {{ if .button }}
-      <a href="{{ .dataButton.url }}" class="button button_outlined button_sm">
+      <a href="{{ .button.url }}" {{ if strings.HasPrefix .button.url "https://" }}target="_blank"{{ end }} class="button button_outlined button_sm">
         {{ .button.text }}
       </a>
     {{ end }}

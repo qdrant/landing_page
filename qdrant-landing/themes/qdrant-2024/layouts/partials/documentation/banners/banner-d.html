@@ -6,7 +6,7 @@
     <div class="row align-items-center">
       <div class="docs-core__developing-block-text col-12 col-lg-7">
         <h3 class="docs-core__developing-bloc-title">{{ .developingBlock.title }}</h3>
-        <a href="{{ .developingBlock.button.url }}" class="button button_outlined button_sm" target="_blank">
+        <a href="{{ .developingBlock.button.url }}" {{ if strings.HasPrefix .developingBlock.url "https://" }}target="_blank"{{ end }} class="button button_outlined button_sm" target="_blank">
           {{ .developingBlock.button.text }}
         </a>
       </div>

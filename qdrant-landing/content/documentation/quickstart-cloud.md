@@ -3,7 +3,6 @@ title: Cloud Quickstart
 weight: 4
 partition: qdrant
 aliases:
-  - quickstart-cloud
   - ../cloud-quick-start
   - cloud-quick-start
   - cloud-quickstart
