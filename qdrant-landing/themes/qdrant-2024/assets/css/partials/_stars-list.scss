@@ -82,7 +82,7 @@
     align-items: center;
     justify-content: space-between;
     max-width: none;
-    max-height: none;
+    min-height: auto;
     gap: $spacer * 1.5;
 
     &-content {
