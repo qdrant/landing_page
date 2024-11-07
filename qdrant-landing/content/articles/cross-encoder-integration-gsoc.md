@@ -44,9 +44,9 @@ FastEmbed already had support for embeddings, but re-ranking with cross-encoders
 One thing I had to ensure was that the new class hierarchy was user-friendly. Users should be able to work with cross-encoders without needing to know the complexities of the underlying models. For instance, they should be able to just write:
 
 ```python
-from fastembed import TextCrossEncoder
+from fastembed.rerank.cross_encoder import TextCrossEncoder
 
-encoder = TextCrossEncoder(model_name='Xenova/ms-marco-MiniLM-L-6-v2')
+encoder = TextCrossEncoder(model_name="Xenova/ms-marco-MiniLM-L-6-v2")
 scores = encoder.rerank(query, documents)
 ```
 
