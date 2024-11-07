@@ -1,6 +1,6 @@
 ---
 title: Meet our Stars
-distinguishedCards:
+mainCards:
 - id: 0
   headTitle: Distinguished Ambassador
   headIcon:

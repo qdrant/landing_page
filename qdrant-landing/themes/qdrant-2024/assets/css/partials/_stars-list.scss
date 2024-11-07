@@ -76,7 +76,7 @@
     }
   }
 
-  &__card-distinguished {
+  &__main-card {
     display: flex;
     flex-direction: column-reverse;
     align-items: center;
@@ -156,7 +156,7 @@
       row-gap: $spacer * 2.5;
     }
 
-    &__card-distinguished {
+    &__main-card {
       flex-direction: row;
       align-items: flex-start;
       padding: $spacer * 3.5 $spacer * 3;

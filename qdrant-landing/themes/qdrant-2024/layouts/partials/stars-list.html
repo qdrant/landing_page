@@ -3,19 +3,19 @@
     <div class="container">
       <h2 class="stars-list__title">{{ .Params.title }}</h2>
       <div class="stars-list__cards row gx-4">
-        {{ range .Params.distinguishedCards }}
+        {{ range .Params.mainCards }}
           <div class="col-12">
-            <div class="stars-list__card stars-list__card-distinguished">
-             <div class="stars-list__card-distinguished-content">
-               <p class="stars-list__card-distinguished-head">
+            <div class="stars-list__card stars-list__main-card">
+             <div class="stars-list__main-card-content">
+               <p class="stars-list__main-card-head">
                  {{ .headTitle }}
                  <img src="{{ .headIcon.src }}" alt="{{ .headIcon.alt }}">
                </p>
-               <h6 class="stars-list__card-distinguished-title">{{ .name }}</h6>
-               <p class="stars-list__card-distinguished-subtitle">{{ .position }}</p>
-               <p class="stars-list__card-distinguished-description">{{ .description | safeHTML }}</p>
+               <h6 class="stars-list__main-card-title">{{ .name }}</h6>
+               <p class="stars-list__main-card-subtitle">{{ .position }}</p>
+               <p class="stars-list__main-card-description">{{ .description | safeHTML }}</p>
              </div>
-              <img class="stars-list__card-distinguished-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              <img class="stars-list__main-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
               <div class="stars-list__card-overlay"></div>
             </div>
           </div>
