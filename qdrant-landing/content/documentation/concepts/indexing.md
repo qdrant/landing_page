@@ -12,14 +12,14 @@ A key feature of Qdrant is the effective combination of vector and traditional i
 The indexes in the segments exist independently, but the parameters of the indexes themselves are configured for the whole collection.
 
 Not all segments automatically have indexes.
-Their necessity is determined by the [optimizer](../optimizer/) settings and depends, as a rule, on the number of stored points.
+Their necessity is determined by the [optimizer](/documentation/concepts/optimizer/) settings and depends, as a rule, on the number of stored points.
 
 ## Payload Index
 
 Payload index in Qdrant is similar to the index in conventional document-oriented databases.
 This index is built for a specific field and type, and is used for quick point requests by the corresponding filtering condition.
 
-The index is also used to accurately estimate the filter cardinality, which helps the [query planning](../search/#query-planning) choose a search strategy.
+The index is also used to accurately estimate the filter cardinality, which helps the [query planning](/documentation/concepts/search/#query-planning) choose a search strategy.
 
 Creating an index requires additional computational resources and memory, so choosing fields to be indexed is essential. Qdrant does not make this choice but grants it to the user.
 
@@ -41,7 +41,7 @@ client = QdrantClient(url="http://localhost:6333")
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="name_of_the_field_to_index",
-    field_schema="keyword",
+    field_schema=models.PayloadSchemaType.KEYWORD,
 )
 ```
 
@@ -119,19 +119,19 @@ client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection
 })
 ```
 
-You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](../filtering/#nested-key).
+You can use dot notation to specify a nested field for indexing. Similar to specifying [nested filters](/documentation/concepts/filtering/#nested-key).
 
 Available field types are:
 
-* `keyword` - for [keyword](../payload/#keyword) payload, affects [Match](../filtering/#match) filtering conditions.
-* `integer` - for [integer](../payload/#integer) payload, affects [Match](../filtering/#match) and [Range](../filtering/#range) filtering conditions.
-* `float` - for [float](../payload/#float) payload, affects [Range](../filtering/#range) filtering conditions.
-* `bool` - for [bool](../payload/#bool) payload, affects [Match](../filtering/#match) filtering conditions (available as of v1.4.0).
-* `geo` - for [geo](../payload/#geo) payload, affects [Geo Bounding Box](../filtering/#geo-bounding-box) and [Geo Radius](../filtering/#geo-radius) filtering conditions.
-* `datetime` - for [datetime](../payload/#datetime) payload, affects [Range](../filtering/#range) filtering conditions (available as of v1.8.0).
-* `text` - a special kind of index, available for [keyword](../payload/#keyword) / string payloads, affects [Full Text search](../filtering/#full-text-match) filtering conditions.
-* `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](../payload/#uuid).
-Affects [Match](../filtering/#match) filtering conditions. (available as of v1.11.0)
+* `keyword` - for [keyword](/documentation/concepts/payload/#keyword) payload, affects [Match](/documentation/concepts/filtering/#match) filtering conditions.
+* `integer` - for [integer](/documentation/concepts/payload/#integer) payload, affects [Match](/documentation/concepts/filtering/#match) and [Range](/documentation/concepts/filtering/#range) filtering conditions.
+* `float` - for [float](/documentation/concepts/payload/#float) payload, affects [Range](/documentation/concepts/filtering/#range) filtering conditions.
+* `bool` - for [bool](/documentation/concepts/payload/#bool) payload, affects [Match](/documentation/concepts/filtering/#match) filtering conditions (available as of v1.4.0).
+* `geo` - for [geo](/documentation/concepts/payload/#geo) payload, affects [Geo Bounding Box](/documentation/concepts/filtering/#geo-bounding-box) and [Geo Radius](/documentation/concepts/filtering/#geo-radius) filtering conditions.
+* `datetime` - for [datetime](/documentation/concepts/payload/#datetime) payload, affects [Range](/documentation/concepts/filtering/#range) filtering conditions (available as of v1.8.0).
+* `text` - a special kind of index, available for [keyword](/documentation/concepts/payload/#keyword) / string payloads, affects [Full Text search](/documentation/concepts/filtering/#full-text-match) filtering conditions.
+* `uuid` - a special type of index, similar to `keyword`, but optimized for [UUID values](/documentation/concepts/payload/#uuid).
+Affects [Match](/documentation/concepts/filtering/#match) filtering conditions. (available as of v1.11.0)
 
 Payload index may occupy some additional memory, so it is recommended to only use index for those fields that are used in filtering conditions.
 If you need to filter by many fields and the memory limits does not allow to index all of them, it is recommended to choose the field that limits the search result the most.
@@ -182,7 +182,7 @@ client.create_payload_index(
 ```
 
 ```typescript
-import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
@@ -313,7 +313,7 @@ Available tokenizers are:
 * `prefix` - splits the string into words, separated by spaces, punctuation marks, and special characters, and then creates a prefix index for each word. For example: `hello` will be indexed as `h`, `he`, `hel`, `hell`, `hello`.
 * `multilingual` - special type of tokenizer based on [charabia](https://github.com/meilisearch/charabia) package. It allows proper tokenization and lemmatization for multiple languages, including those with non-latin alphabets and non-space delimiters. See [charabia documentation](https://github.com/meilisearch/charabia) for full list of supported languages supported normalization options. In the default build configuration, qdrant does not include support for all languages, due to the increasing size of the resulting binary. Chinese, Japanese and Korean languages are not enabled by default, but can be enabled by building qdrant from source with `--features multiling-chinese,multiling-japanese,multiling-korean` flags. 
 
-See [Full Text match](../filtering/#full-text-match) for examples of querying with full-text index.
+See [Full Text match](/documentation/concepts/filtering/#full-text-match) for examples of querying with full-text index.
 
 ### Parameterized index
 
@@ -379,7 +379,7 @@ client.create_payload_index(
 ```
 
 ```typescript
-import { QdrantClient, Schemas } from "@qdrant/js-client-rest";
+import { QdrantClient } from "@qdrant/js-client-rest";
 
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
@@ -520,7 +520,7 @@ client.create_payload_index(
     collection_name="{collection_name}",
     field_name="payload_field_name",
     field_schema=models.KeywordIndexParams(
-        type="keyword",
+        type=models.KeywordIndexType.KEYWORD,
         on_disk=True,
     ),
 )
@@ -636,6 +636,8 @@ Payload index on-disk is supported for following types:
 * `float`
 * `datetime`
 * `uuid`
+* `text`
+* `geo`
 
 The list will be extended in future versions.
 
@@ -645,7 +647,7 @@ The list will be extended in future versions.
 
 Many vector search use-cases require multitenancy. In a multi-tenant scenario the collection is expected to contain multiple subsets of data, where each subset belongs to a different tenant. 
 
-Qdrant supports efficient multi-tenant search by enabling [special configuration](../guides/multiple-partitions/) vector index, which disables global search and only builds sub-indexes for each tenant.
+Qdrant supports efficient multi-tenant search by enabling [special configuration](/documentation/guides/multiple-partitions/) vector index, which disables global search and only builds sub-indexes for each tenant.
 
 <aside role="note">
     In Qdrant, tenants are not necessarily non-overlapping. It is possible to have subsets of data that belong to multiple tenants.
@@ -675,7 +677,7 @@ client.create_payload_index(
     collection_name="{collection_name}",
     field_name="payload_field_name",
     field_schema=models.KeywordIndexParams(
-        type="keyword",
+        type=models.KeywordIndexType.KEYWORD,
         is_tenant=True,
     ),
 )
@@ -812,8 +814,8 @@ PUT /collections/{collection_name}/index
 client.create_payload_index(
     collection_name="{collection_name}",
     field_name="timestamp",
-    field_schema=models.KeywordIndexParams(
-        type="integer",
+    field_schema=models.IntegerIndexParams(
+        type=models.IntegerIndexType.INTEGER,
         is_principal=True,
     ),
 )
@@ -832,7 +834,7 @@ client.createPayloadIndex("{collection_name}", {
 ```rust
 use qdrant_client::qdrant::{
     CreateFieldIndexCollectionBuilder,
-    IntegerdIndexParamsBuilder,
+    IntegerIndexParamsBuilder,
     FieldType
 };
 use qdrant_client::{Qdrant, QdrantError};
@@ -846,7 +848,7 @@ client.create_field_index(
         FieldType::Integer,
     )
     .field_index_params(
-        IntegerdIndexParamsBuilder::default()
+        IntegerIndexParamsBuilder::default()
             .is_principal(true),
     ),
 );
@@ -960,7 +962,7 @@ storage:
 
 ```
 
-And so in the process of creating a [collection](../collections/). The `ef` parameter is configured during [the search](../search/) and by default is equal to `ef_construct`.
+And so in the process of creating a [collection](/documentation/concepts/collections/). The `ef` parameter is configured during [the search](/documentation/concepts/search/) and by default is equal to `ef_construct`.
 
 HNSW is chosen for several reasons.
 First, HNSW is well-compatible with the modification that allows Qdrant to use filters during a search.
@@ -969,7 +971,7 @@ Second, it is one of the most accurate and fastest algorithms, according to [pub
 *Available as of v1.1.1*
 
 The HNSW parameters can also be configured on a collection and named vector
-level by setting [`hnsw_config`](../indexing/#vector-index) to fine-tune search
+level by setting [`hnsw_config`](/documentation/concepts/indexing/#vector-index) to fine-tune search
 performance.
 
 ## Sparse Vector Index

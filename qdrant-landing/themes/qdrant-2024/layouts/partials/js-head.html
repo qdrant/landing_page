@@ -38,6 +38,6 @@
 
 <!--Segment-->
 {{ if and hugo.IsProduction .Site.Params.segmentWriteKey }}
-  {{ $segmentJs := resources.Get "js/segment-setup.js" | js.Build (dict "params" (dict "segmentWriteKey" .Site.Params.segmentWriteKey)) | minify | resources.Fingerprint "sha512" }}
-  <script src="{{ $segmentJs.RelPermalink }}"></script>
+  {{ $segmentJs := resources.Get "js/segment-setup.js" | js.Build (dict "params" (dict "segmentWriteKey" .Site.Params.segmentWriteKey "gaMeasurementId" .Site.GoogleAnalytics)) | minify | resources.Fingerprint "sha512" }}
+  <script src="{{ $segmentJs.RelPermalink }}?v=eu"></script>
 {{ end }}

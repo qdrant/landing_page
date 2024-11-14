@@ -347,7 +347,7 @@ query_vec, query_tokens = compute_vector(query_text)
 query_vec.shape
 
 query_indices = query_vec.nonzero().numpy().flatten()
-query_values = query_vec.detach().numpy()[indices]
+query_values = query_vec.detach().numpy()[query_indices]
 ```
 
 In this example, we use the same model for both document and query. This is not a requirement, but it's a simpler approach.

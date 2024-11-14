@@ -612,7 +612,7 @@ also configure to use an [S3 storage](#s3) service for them.
 By default, snapshots are stored at `./snapshots` or at `/qdrant/snapshots` when
 using our Docker image.
 
-The target directory can be controlled through the [configuration](../../guides/configuration/):
+The target directory can be controlled through the [configuration](/documentation/guides/configuration/):
 
 ```yaml
 storage:
@@ -640,7 +640,7 @@ storage:
 
 Rather than storing snapshots on the local file system, you may also configure
 to store snapshots in an S3-compatible storage service. To enable this, you must
-configure it in the [configuration](../../guides/configuration/) file.
+configure it in the [configuration](/documentation/guides/configuration/) file.
 
 For example, to configure for AWS S3:
 

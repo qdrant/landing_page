@@ -2,7 +2,7 @@
 cards:
 - id: 0
   popular: true
-  title: Qdrant Cloud
+  title: Managed Cloud
   price: Starting at $0
   description: Starts with 1GB free cluster, no credit card required.
   button:
@@ -33,7 +33,7 @@ cards:
   - id: 8
     content: Unlimited users
   - id: 9
-    content: Standard support plan
+    content: Standard support and uptime SLAs, can be upgraded to Premium
   # - id: 10
   #   content: Can be upgraded to premium support plan
 - id: 1
@@ -54,9 +54,7 @@ cards:
   - id: 2
     content: Use the Managed Cloud Central Cluster Management
   - id: 3
-    content: Standard support plan
-  - id: 4
-    content: Can be upgraded to premium support plan
+    content: Standard support and uptime SLAs, can be upgraded to Premium
 #  minPrice: <span>*</span>Min $99 / month
 - id: 2
   popular: false
@@ -74,7 +72,7 @@ cards:
   - id: 1
     content: Security, data isolation, optimal latency
   - id: 2
-    content: Use the Managed Cloud Central Cluster Management or run the Central Cluster Management Interface in your own infrastructure, in the cloud, on-premise at the edge, even fully air-gapped
+    content: Manage Qdrant database clusters on your infrastructure, in the cloud, on-premise at the edge, even fully air-gapped without a connection to Qdrant Cloud
   - id: 3
     content: Premium Support Plan
 sitemapExclude: true

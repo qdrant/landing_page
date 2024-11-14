@@ -72,7 +72,7 @@ THIS CONTENT IS GOING TO BE IGNORED FOR NOW
 
 # Documentation
 
-Qdrant is an AI-native vector dabatase and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
+Qdrant is an AI-native vector database and a semantic search engine. You can use it to extract meaningful information from unstructured data. Want to see how it works? [Clone this repo now](https://github.com/qdrant/qdrant_demo/) and build a search engine in five minutes.
 
 |||
 |-:|:-|

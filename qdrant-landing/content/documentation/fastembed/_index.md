@@ -15,7 +15,7 @@ FastEmbed easily integrates with Qdrant for a variety of multimodal search purpo
 
 |Beginner|Advanced|
 |:-:|:-:|
-|[Generate Text Embedings with FastEmbed](fastembed-quickstart/)|[Combine FastEmbed with Qdrant for Vector Search](fastembed-semantic-search/)|
+|[Generate Text Embedings with FastEmbed](/documentation/fastembed/fastembed-quickstart/)|[Combine FastEmbed with Qdrant for Vector Search](/documentation/fastembed/fastembed-semantic-search/)|
 
 ## Why is FastEmbed useful?
 

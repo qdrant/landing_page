@@ -50,7 +50,7 @@ We're incredibly excited about this collaboration with Azure Marketplace and the
 
 Ready to elevate your business with Qdrant? **Click the banner and get started today!**
 
-[![Get Started on Azure Marketplace](cta.png)](https://azuremarketplace.microsoft.com/en-en/marketplace/apps/qdrantsolutionsgmbh1698769709989.qdrant-db)
+[![Get Started on Azure Marketplace](/blog/azure-marketplace/cta.png)](https://azuremarketplace.microsoft.com/en-en/marketplace/apps/qdrantsolutionsgmbh1698769709989.qdrant-db)
 
 ### About Qdrant:
 

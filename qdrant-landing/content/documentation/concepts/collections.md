@@ -28,7 +28,7 @@ These settings can be changed at any time by a corresponding request.
 
 ## Setting up multitenancy
 
-**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://en.wikipedia.org/wiki/Multitenancy). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](../../tutorials/multiple-partitions/)
+**How many collections should you create?** In most cases, you should only use a single collection with payload-based partitioning. This approach is called [multitenancy](https://en.wikipedia.org/wiki/Multitenancy). It is efficient for most of users, but it requires additional configuration. [Learn how to set it up](/documentation/tutorials/multiple-partitions/)
 
 **When should you create multiple collections?** When you have a limited number of users and you need isolation. This approach is flexible, but it may be more costly, since creating numerous collections may result in resource overhead. Also, you need to ensure that they do not affect each other in any way, including performance-wise. 
 
@@ -139,12 +139,12 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 
 In addition to the required options, you can also specify custom values for the following collection options:
 
-* `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
-* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](../storage/#versioning)
-* `optimizers_config` - see [optimizer](../optimizer/) for details.
-* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](../../guides/distributed_deployment/#sharding) section for details.
+* `hnsw_config` - see [indexing](/documentation/concepts/indexing/#vector-index) for details.
+* `wal_config` - Write-Ahead-Log related configuration. See more details about [WAL](/documentation/concepts/storage/#versioning)
+* `optimizers_config` - see [optimizer](/documentation/concepts/optimizer/) for details.
+* `shard_number` - which defines how many shards the collection should have. See [distributed deployment](/documentation/guides/distributed_deployment/#sharding) section for details.
 * `on_disk_payload` - defines where to store payload data. If `true` - payload will be stored on disk only. Might be useful for limiting the RAM usage in case of large payload.
-* `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
+* `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
 
 Default parameters for the optional collection parameters are defined in [configuration file](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
 
@@ -155,7 +155,7 @@ See [schema definitions](https://api.qdrant.tech/api-reference/collections/creat
 Vectors all live in RAM for very quick access. The `on_disk` parameter can be
 set in the vector configuration. If true, all vectors will live on disk. This
 will enable the use of
-[memmaps](../../concepts/storage/#configuring-memmap-storage),
+[memmaps](/documentation/concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
 ### Create collection from another collection
@@ -200,7 +200,7 @@ curl -X PUT http://localhost:6333/collections/{collection_name} \
 ```
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
@@ -466,8 +466,8 @@ For rare use cases, it is possible to create a collection without any vector sto
 *Available as of v1.1.1*
 
 For each named vector you can optionally specify
-[`hnsw_config`](../indexing/#vector-index) or
-[`quantization_config`](../../guides/quantization/#setting-up-quantization-in-qdrant) to
+[`hnsw_config`](/documentation/concepts/indexing/#vector-index) or
+[`quantization_config`](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) to
 deviate from the collection configuration. This can be useful to fine-tune
 search performance on a vector level.
 
@@ -476,7 +476,7 @@ search performance on a vector level.
 Vectors all live in RAM for very quick access. On a per-vector basis you can set
 `on_disk` to true to store all vectors on disk at all times. This will enable
 the use of
-[memmaps](../../concepts/storage/#configuring-memmap-storage),
+[memmaps](/documentation/concepts/storage/#configuring-memmap-storage),
 which is suitable for ingesting a large amount of data.
 
 
@@ -633,7 +633,7 @@ And additionally, sparse vectors and dense vectors must have different names wit
 PUT /collections/{collection_name}
 {
     "sparse_vectors": {
-        "text": { },
+        "text": { }
     }
 }
 ```
@@ -656,6 +656,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
+    vectors_config={},
     sparse_vectors_config={
         "text": models.SparseVectorParams(),
     },
@@ -752,7 +753,7 @@ Outside of a unique name, there are no required configuration parameters for spa
 
 The distance function for sparse vectors is always `Dot` and does not need to be specified.
 
-However, there are optional parameters to tune the underlying [sparse vector index](../indexing/#sparse-vector-index).
+However, there are optional parameters to tune the underlying [sparse vector index](/documentation/concepts/indexing/#sparse-vector-index).
 
 ### Check collection existence
 
@@ -858,7 +859,7 @@ curl -X PATCH http://localhost:6333/collections/{collection_name} \
 ```python
 client.update_collection(
     collection_name="{collection_name}",
-    optimizer_config=models.OptimizersConfigDiff(indexing_threshold=10000),
+    optimizers_config=models.OptimizersConfigDiff(indexing_threshold=10000),
 )
 ```
 
@@ -928,9 +929,9 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 
 The following parameters can be updated:
 
-* `optimizers_config` - see [optimizer](../optimizer/) for details.
-* `hnsw_config` - see [indexing](../indexing/#vector-index) for details.
-* `quantization_config` - see [quantization](../../guides/quantization/#setting-up-quantization-in-qdrant) for details.
+* `optimizers_config` - see [optimizer](/documentation/concepts/optimizer/) for details.
+* `hnsw_config` - see [indexing](/documentation/concepts/indexing/#vector-index) for details.
+* `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
 * `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
 
@@ -1495,14 +1496,14 @@ round of automatic optimizations has completed.
 To clarify: these numbers don't represent the exact amount of points or vectors
 you have inserted, nor does it represent the exact number of distinguishable
 points or vectors you can query. If you want to know exact counts, refer to the
-[count API](../points/#counting-points).
+[count API](/documentation/concepts/points/#counting-points).
 
 _Note: these numbers may be removed in a future version of Qdrant._
 
 ### Indexing vectors in HNSW
 
 In some cases, you might be surprised the value of `indexed_vectors_count` is lower than `vectors_count`. This is an intended behaviour and
-depends on the [optimizer configuration](../optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
+depends on the [optimizer configuration](/documentation/concepts/optimizer/). A new index segment is built if the size of non-indexed vectors is higher than the
 value of `indexing_threshold`(in kB).  If your collection is very small or the dimensionality of the vectors is low, there might be no HNSW segment
 created and `indexed_vectors_count` might be equal to `0`.
 

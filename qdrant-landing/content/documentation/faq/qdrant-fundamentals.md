@@ -53,7 +53,7 @@ If you're still seeing `"vector": null` in your results, it might be that the ve
 
 ### How can I search without a vector?
 
-You are likely looking for the [scroll](../../concepts/points/#scroll-points) method. It allows you to retrieve the records based on filters or even iterate over all the records in the collection.
+You are likely looking for the [scroll](/documentation/concepts/points/#scroll-points) method. It allows you to retrieve the records based on filters or even iterate over all the records in the collection.
 
 ### Does Qdrant support a full-text search or a hybrid search?
 
@@ -64,10 +64,10 @@ What Qdrant can do:
 
 - Search with full-text filters
 - Apply full-text filters to the vector search (i.e., perform vector search among the records with specific words or phrases)
-- Do prefix search and semantic [search-as-you-type](../../../articles/search-as-you-type/)
+- Do prefix search and semantic [search-as-you-type](/articles/search-as-you-type/)
 - Sparse vectors, as used in [SPLADE](https://github.com/naver/splade) or similar models
-- [Multi-vectors](../../concepts/vectors/#multivectors), for example ColBERT and other late-interaction models
-- Combination of the [multiple searches](../../concepts/hybrid-queries/)
+- [Multi-vectors](/documentation/concepts/vectors/#multivectors), for example ColBERT and other late-interaction models
+- Combination of the [multiple searches](/documentation/concepts/hybrid-queries/)
 
 What Qdrant doesn't plan to support:
 
@@ -76,7 +76,7 @@ What Qdrant doesn't plan to support:
 - Query analyzers and other NLP tools
 
 Of course, you can always combine Qdrant with any specialized tool you need, including full-text search engines.
-Read more about [our approach](../../../articles/hybrid-search/) to hybrid search.
+Read more about [our approach](/articles/hybrid-search/) to hybrid search.
 
 ## Collections
 
@@ -87,11 +87,11 @@ It is _highly_ recommended not to create many small collections, as it will lead
 
 We consider creating a collection for each user/dialog/document as an antipattern.
 
-Please read more about collections, isolation, and multiple users in our [Multitenancy](../../tutorials/multiple-partitions/) tutorial.
+Please read more about collections, isolation, and multiple users in our [Multitenancy](/documentation/tutorials/multiple-partitions/) tutorial.
 
 ### How do I upload a large number of vectors into a Qdrant collection?
 
-Read about our recommendations in the [bulk upload](../../tutorials/bulk-upload/) tutorial.
+Read about our recommendations in the [bulk upload](/documentation/tutorials/bulk-upload/) tutorial.
 
 ### Can I only store quantized vectors and discard full precision vectors?
 

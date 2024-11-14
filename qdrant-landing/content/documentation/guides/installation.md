@@ -206,4 +206,4 @@ After a successful build, you can find the binary in the following subdirectory 
 
 ## Client libraries
 
-In addition to the service, Qdrant provides a variety of client libraries for different programming languages. For a full list, see our [Client libraries](../../interfaces/#client-libraries) documentation.
+In addition to the service, Qdrant provides a variety of client libraries for different programming languages. For a full list, see our [Client libraries](/documentation/interfaces/#client-libraries) documentation.

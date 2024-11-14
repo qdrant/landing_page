@@ -40,6 +40,7 @@
 @import 'partials/demos';
 @import 'partials/tutorials';
 @import 'partials/qdrant-blog-features';
+@import 'partials/qdrant-blog-post';
 @import 'partials/qdrant-blog-posts';
 @import 'partials/qdrant-blog-hero';
 @import 'partials/pagination';
@@ -62,6 +63,7 @@
 @import 'partials/case-study';
 @import 'partials/advanced-search-use-cases';
 @import 'partials/recommendations-api';
+@import 'partials/retrieval-augmented-generation-guide';
 @import 'partials/retrieval-augmented-generation-integrations';
 @import 'partials/retrieval-augmented-generation-evaluation';
 @import 'partials/data-analysis-anomaly-detection';
@@ -103,3 +105,4 @@
 @import 'partials/rag-evaluation-guide-integrations';
 @import 'partials/rag-evaluation-guide-kubernetes-clusters';
 @import 'partials/rag-evaluation-guide-features';
+@import 'partials/progress-bar';

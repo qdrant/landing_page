@@ -10,7 +10,7 @@ hideInSidebar: false # Optional. If true, the page will not be shown in the side
 
 *Available as of v1.10.0*
 
-With the introduction of [many named vectors per point](../vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries, 
+With the introduction of [many named vectors per point](/documentation/concepts/vectors/#named-vectors), there are use-cases when the best search is obtained by combining multiple queries, 
 or by performing the search in more than one stage.
 
 Qdrant has a flexible and universal interface to make this possible, called `Query API` ([API reference](https://api.qdrant.tech/api-reference/search/query-points)).
@@ -89,7 +89,7 @@ client.query_points(
             limit=20,
         ),
         models.Prefetch(
-            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            query=[0.01, 0.45, 0.67],  # <-- dense vector
             using="dense",
             limit=20,
         ),
@@ -284,7 +284,7 @@ client.query_points(
         using="mrl_byte",
         limit=1000,
     ),
-    query=[0.01, 0.299, 0.45, 0.67, ...],  # <-- full vector
+    query=[0.01, 0.299, 0.45, 0.67],  # <-- full vector
     using="full",
     limit=10,
 )
@@ -296,14 +296,14 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.query("{collection_name}", {
-    prefetch: {
-        query: [1, 23, 45, 67], // <------------- small byte vector
-        using: 'mrl_byte',
-        limit: 1000,
-    },
-    query: [0.01, 0.299, 0.45, 0.67, ...], // <-- full vector,
-    using: 'full',
-    limit: 10,
+  prefetch: {
+    query: [1, 23, 45, 67], // <------------- small byte vector
+    using: 'mrl_byte',
+    limit: 1000,
+  },
+  query: [0.01, 0.299, 0.45, 0.67], // <-- full vector,
+  using: 'full',
+  limit: 10,
 });
 ```
 
@@ -428,13 +428,13 @@ client = QdrantClient(url="http://localhost:6333")
 client.query_points(
     collection_name="{collection_name}",
     prefetch=models.Prefetch(
-        query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+        query=[0.01, 0.45, 0.67, 0.53],  # <-- dense vector
         limit=100,
     ),
     query=[
-        [0.1, 0.2, ...],  # <─┐
-        [0.2, 0.1, ...],  # < ├─ multi-vector
-        [0.8, 0.9, ...],  # < ┘
+        [0.1, 0.2, 0.32],  # <─┐
+        [0.2, 0.1, 0.52],  # < ├─ multi-vector
+        [0.8, 0.9, 0.93],  # < ┘
     ],
     using="colbert",
     limit=10,
@@ -608,14 +608,14 @@ client.query_points(
             using="mrl_byte",
             limit=1000,
         ),
-        query=[0.01, 0.45, 0.67, ...],  # <-- full dense vector
+        query=[0.01, 0.45, 0.67],  # <-- full dense vector
         using="full",
         limit=100,
     ),
     query=[
-        [0.1, 0.2, ...],  # <─┐
-        [0.2, 0.1, ...],  # < ├─ multi-vector
-        [0.8, 0.9, ...],  # < ┘
+        [0.17, 0.23, 0.52],  # <─┐
+        [0.22, 0.11, 0.63],  # < ├─ multi-vector
+        [0.86, 0.93, 0.12],  # < ┘
     ],
     using="colbert",
     limit=10,
@@ -628,23 +628,23 @@ import { QdrantClient } from "@qdrant/js-client-rest";
 const client = new QdrantClient({ host: "localhost", port: 6333 });
 
 client.query("{collection_name}", {
+  prefetch: {
     prefetch: {
-        prefetch: {
-            query: [1, 23, 45, 67, ...], // <------------- small byte vector
-            using: 'mrl_byte',
-            limit: 1000,
-        },
-        query: [0.01, 0.45, 0.67, ...],  // <-- full dense vector
-        using: 'full',
-        limit: 100,
+      query: [1, 23, 45, 67], // <------------- small byte vector
+      using: 'mrl_byte',
+      limit: 1000,
     },
-    query: [
-        [0.1, 0.2], // <─┐
-        [0.2, 0.1], // < ├─ multi-vector
-        [0.8, 0.9], // < ┘
-    ],
-    using: 'colbert',
-    limit: 10,
+    query: [0.01, 0.45, 0.67],  // <-- full dense vector
+    using: 'full',
+    limit: 100,
+  },
+  query: [
+    [0.1, 0.2], // <─┐
+    [0.2, 0.1], // < ├─ multi-vector
+    [0.8, 0.9], // < ┘
+  ],
+  using: 'colbert',
+  limit: 10,
 });
 ```
 
@@ -793,7 +793,7 @@ Other than the introduction of `prefetch`, the `Query API` has been designed to 
 
 ### Query by ID
 
-Whenever you need to use a vector as an input, you can always use a [point ID](../points/#point-ids) instead.
+Whenever you need to use a vector as an input, you can always use a [point ID](/documentation/concepts/points/#point-ids) instead.
 
 ```http
 POST /collections/{collection_name}/points/query
@@ -832,7 +832,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 client
     .query(
         QueryPointsBuilder::new("{collection_name}")
-            .query(Query::new_nearest(PointId::new("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+            .query(Query::new_nearest("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")),
     )
     .await?;
 ```
@@ -913,7 +913,7 @@ client.query_points(
     collection_name="{collection_name}",
     query="43cf51e2-8777-4f52-bc74-c2cbde0c8b04",  # <--- point id
     using="512d-vector",
-    lookup_from=models.LookupFrom(
+    lookup_from=models.LookupLocation(
         collection="another_collection",  # <--- other collection name
         vector="image-512",  # <--- vector name in the other collection
     )
@@ -943,7 +943,7 @@ let client = Qdrant::from_url("http://localhost:6334").build()?;
 
 client.query(
     QueryPointsBuilder::new("{collection_name}")
-        .query(Query::new_nearest(PointId::new("43cf51e2-8777-4f52-bc74-c2cbde0c8b04")))
+        .query(Query::new_nearest("43cf51e2-8777-4f52-bc74-c2cbde0c8b04"))
         .using("512d-vector")
         .lookup_from(
             LookupLocationBuilder::new("another_collection")
@@ -1079,21 +1079,21 @@ client.query_points(
     collection_name="{collection_name}",
     prefetch=[
         models.Prefetch(
-            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            query=[0.01, 0.45, 0.67],  # <-- dense vector
             filter=models.Filter(
                 must=models.FieldCondition(
                     key="color",
-                    match=models.Match(value="red"),
+                    match=models.MatchValue(value="red"),
                 ),
             ),
             limit=10,
         ),
         models.Prefetch(
-            query=[0.01, 0.45, 0.67, ...],  # <-- dense vector
+            query=[0.01, 0.45, 0.67],  # <-- dense vector
             filter=models.Filter(
                 must=models.FieldCondition(
                     key="color",
-                    match=models.Match(value="green"),
+                    match=models.MatchValue(value="green"),
                 ),
             ),
             limit=10,
@@ -1397,4 +1397,4 @@ client.QueryGroups(context.Background(), &qdrant.QueryPointGroups{
 })
 ```
 
-For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](./search/#search-groups) and [lookup](./search/#lookup-in-groups).
+For more information on the `grouping` capabilities refer to the reference documentation for search with [grouping](/documentation/concepts/search/#search-groups) and [lookup](/documentation/concepts/search/#lookup-in-groups).

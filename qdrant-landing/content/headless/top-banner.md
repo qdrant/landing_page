@@ -10,11 +10,11 @@ icon: <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
   7.86204 15.74L14.5287 7.07333C14.6834 6.87199 14.71 6.59999 14.598 6.37199Z"
   fill="#8547FF"/></g><defs><clipPath id="clip0_770_2716"><rect width="16"
   height="16" fill="white"/></clipPath></defs></svg>
-text: "Webinar: Building Agents with LlamaIndex & Qdrant"
+text: "Learn How to Use ColPali and Binary Quantization for Efficient Multimodal Retrieval"
 link:
   text: Register now
-  url: https://try.qdrant.tech/build-advanced-agents-with-llamaindex-and-qdrant?utm_source=website&utm_medium=homepage-banner&utm_campaign=sept-webinar-agents-llamaindex
-start: 2024-09-07T15:28:00.000Z
+  url: https://try.qdrant.tech/colpali-webinar?utm_source=website&utm_medium=homepage-banner&utm_campaign=colpali-webinar
+start: 2024-10-29T10:28:00.000Z
 sitemapExclude: true
-end: 2024-09-26T08:00:00.000Z
+end: 2024-11-20T08:00:00.000Z
 ---

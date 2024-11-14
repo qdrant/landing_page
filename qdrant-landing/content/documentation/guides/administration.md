@@ -13,6 +13,7 @@ Qdrant exposes administration tools which enable to modify at runtime the behavi
 
 A locking API enables users to restrict the possible operations on a qdrant process.
 It is important to mention that:
+
 - The configuration is not persistent therefore it is necessary to lock again following a restart.
 - Locking applies to a single node only. It is necessary to call lock on all the desired nodes in a distributed deployment setup.
 
@@ -44,7 +45,7 @@ example, by deleting a collection. After resolving Qdrant can be restarted
 normally to continue operation.
 
 In recovery mode, collection operations are limited to
-[deleting](../../concepts/collections/#delete-collection) a
+[deleting](/documentation/concepts/collections/#delete-collection) a
 collection. That is because only collection metadata is loaded during recovery.
 
 To enable recovery mode with the Qdrant Docker image you must set the
