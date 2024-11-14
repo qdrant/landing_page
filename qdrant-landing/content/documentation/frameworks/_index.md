@@ -23,6 +23,7 @@ partition: build
 | [LlamaIndex](/documentation/frameworks/llama-index/)          | A data framework for building LLM applications with modular integrations.                                            |
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.                              |
 | [MemGPT](/documentation/frameworks/memgpt/)                   | System to build LLM agents with long term memory & custom tools                                                      |
+| [Neo4j GraphRAG](/documentation/frameworks/neo4j-graphrag/)   | Package to build graph retrieval augmented generation (GraphRAG) applications using Neo4j and Python.                |
 | [Pandas-AI](/documentation/frameworks/pandas-ai/)             | Python library to query/visualize your data (CSV, XLSX, PostgreSQL, etc.) in natural language                        |
 | [Ragbits](/documentation/frameworks/ragbits/)                 | Python package that offers essential "bits" for building powerful Retrieval-Augmented Generation (RAG) applications. |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.                             |
