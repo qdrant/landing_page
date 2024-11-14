@@ -32,7 +32,7 @@ content:
     button:
       text: Learn More
       url: /documentation/guides/optimize/
-    cardsPartial: documentation/cards/docs-card-arrow
+    cardsPartial: documentation/cards/docs-cards
     cards:
       - id: 1
         tag: Documents
@@ -41,7 +41,9 @@ content:
           alt: Documents
         title: Distributed Deployment
         description: Scale Qdrant beyond a single node and optimize for high availability, fault tolerance, and billion-scale performance.
-        link: /documentation/guides/distributed_deployment/
+        link:
+          url: /documentation/guides/distributed_deployment/
+          text: Read More
       - id: 2
         tag: Documents
         icon:
@@ -49,7 +51,9 @@ content:
           alt: Documents
         title: Multitenancy
         description: Build vector search apps that serve millions of users. Learn about data isolation, security, and performance tuning.
-        link: /documentation/guides/multiple-partitions/
+        link:
+          url: /documentation/guides/multiple-partitions/
+          text: Read More
       - id: 3
         tag: Blog
         tagColor: violet
@@ -58,7 +62,9 @@ content:
           alt: Blog
         title: Vector Quantization
         description: Learn about cutting-edge techniques for vector quantization and how they can be used to improve search performance.
-        link: /articles/what-is-vector-quantization/
+        link:
+          url: /articles/what-is-vector-quantization/
+          text: Read More
 partition: qdrant
 ---
 

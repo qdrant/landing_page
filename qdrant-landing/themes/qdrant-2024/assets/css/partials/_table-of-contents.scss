@@ -107,7 +107,7 @@
     top: $spacer * 5;
     bottom: pxToRem(220);
     flex-shrink: 0;
-    padding: $spacer * 1.5 $spacer;
+    padding: $spacer * 1.5 $spacer $spacer * 1.5 pxToRem(40);
 
     &__external-links {
       border-bottom: none;

@@ -2,7 +2,7 @@
   {{ $partition := partial "get-partition.html" (dict "page" .) }}
   {{ with (.Site.GetPage "/headless/docs-header") }}
     <div class="main-menu z-5">
-      <a href="{{.Params.logoLink}}">
+      <a href="{{ .Params.logoLink }}">
         {{ partial "logo.html" . }}
       </a>
 
@@ -65,8 +65,15 @@
           </button>
         </div>
         {{ partial "theme-switch" . }}
-        <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3">{{ .Params.logIn.text }}</a>
-        <a data-metric-loc="nav" href="{{ .Params.startFree.url }}" class="button button_contained button_sm">
+        <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3" target="_blank"
+          >{{ .Params.logIn.text }}</a
+        >
+        <a
+          data-metric-loc="nav"
+          href="{{ .Params.startFree.url }}"
+          class="button button_contained button_sm"
+          target="_blank"
+        >
           {{ .Params.startFree.text }}
         </a>
       </div>
@@ -120,10 +127,16 @@
           data-metric-loc="mobile_nav"
           href="{{ .Params.logIn.url }}"
           class="button button_outlined button_lg menu-mobile__login"
+          target="_blank"
         >
           {{ .Params.logIn.text }}
         </a>
-        <a data-metric-loc="mobile_nav" href="{{ .Params.startFree.url }}" class="button button_contained button_lg">
+        <a
+          data-metric-loc="mobile_nav"
+          href="{{ .Params.startFree.url }}"
+          class="button button_contained button_lg"
+          target="_blank"
+        >
           {{ .Params.startFree.text }}
         </a>
       </div>
