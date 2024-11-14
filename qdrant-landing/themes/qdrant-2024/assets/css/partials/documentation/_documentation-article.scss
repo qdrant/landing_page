@@ -1,9 +1,9 @@
-@use '../helpers/functions' as *;
-@use '../mixins/mixins' as *;
+@use '../../helpers/functions' as *;
+@use '../../mixins/mixins' as *;
 
 .documentation-article {
-  padding-top: $spacer * 2;
   padding-bottom: $spacer * 1.5;
+  font-weight: 400;
 
   h1 {
     font-size: $spacer * 2;
@@ -17,17 +17,19 @@
   h3,
   h4 {
     font-size: $spacer * 1.5;
+    font-weight: 500;
     line-height: pxToRem(34);
     color: $neutral-98;
     margin-bottom: $spacer;
     padding-top: $spacer * 0.5;
   }
 
-  p, summary {
+  p,
+  summary {
     margin-bottom: $spacer;
   }
 
-  a:hover {
+  a:not([class]):hover {
     text-decoration: underline;
   }
 
@@ -57,8 +59,7 @@
   }
 
   @include media-breakpoint-up(xl) {
-    margin: -8px 0 -16px;
-    padding: 0 $spacer * 1.5;
+    width: 100%;
   }
 }
 

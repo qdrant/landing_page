@@ -1,6 +1,7 @@
 ---
 title: Frameworks 
 weight: 20
+partition: build
 ---
 
 ## Framework Integrations
@@ -12,7 +13,7 @@ weight: 20
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
 | [DocArray](/documentation/frameworks/docarray/)               | Python library for managing data in multi-modal AI applications.                                                     |
 | [DSPy](/documentation/frameworks/dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                                     |
-| [Feast](/documentation/frameworks/feast/)                     | Open-source feature store to operate production ML systems at scale as a set of features.                           |
+| [Feast](/documentation/frameworks/feast/)                     | Open-source feature store to operate production ML systems at scale as a set of features.                            |
 | [Fifty-One](/documentation/frameworks/fifty-one/)             | Toolkit for building high-quality datasets and computer vision models.                                               |
 | [Genkit](/documentation/frameworks/genkit/)                   | Framework to build, deploy, and monitor production-ready AI-powered apps.                                            |
 | [Haystack](/documentation/frameworks/haystack/)               | LLM orchestration framework to build customizable, production-ready LLM applications.                                |

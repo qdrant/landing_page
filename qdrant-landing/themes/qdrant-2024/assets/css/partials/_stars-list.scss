@@ -16,11 +16,16 @@
     z-index: 1;
   }
 
+  &__cards {
+    row-gap: pxToRem(30);
+  }
+
   &__card {
     position: relative;
     width: 100%;
     max-width: pxToRem(255);
     height: 100%;
+    min-height: pxToRem(375);
     margin: 0 auto;
     padding: $spacer * 1.5;
     border-radius: pxToRem(12);
@@ -52,13 +57,6 @@
       color: $neutral-90;
     }
 
-    &-distinguished {
-      margin-bottom: $spacer * 0.5;
-      font-size: pxToRem(12);
-      line-height: pxToRem(21);
-      color: $secondary-violet-70;
-    }
-
     &-description {
       margin-bottom: 0;
       font-size: pxToRem(14);
@@ -75,6 +73,61 @@
       background-image: url('/img/blurred/blurred-light-15.svg');
       background-position: top;
       background-size: cover;
+    }
+  }
+
+  &__main-card {
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: space-between;
+    max-width: none;
+    min-height: auto;
+    gap: $spacer * 1.5;
+
+    &-content {
+      max-width: pxToRem(431);
+    }
+
+    &-head {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacer * 0.5;
+      margin-bottom: $spacer;
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      color: $secondary-violet-70;
+
+      img {
+        width: $spacer;
+        height: $spacer;
+      }
+    }
+
+    &-title {
+      margin-bottom: $spacer * 0.5;
+      font-size: $spacer * 2;
+      line-height: $spacer * 2.5;
+      color: $neutral-98;
+    }
+
+    &-subtitle {
+      color: $neutral-90;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      color: $neutral-60;
+    }
+
+    &-image {
+      position: relative;
+      width: 100%;
+      max-width: pxToRem(431);
+      z-index: 1;
     }
   }
 
@@ -95,30 +148,23 @@
 
     &__title {
       margin-bottom: $spacer * 5;
-      font-size: $spacer * 4;
+      font-size: $spacer * 3.5;
       line-height: pxToRem(67);
     }
 
-    &__cards > div {
-      &:nth-of-type(1),
-      &:nth-of-type(3) {
-        .stars-list__card {
-          margin: 0 0 0 auto;
-        }
-      }
-
-      &:nth-of-type(2),
-      &:nth-of-type(4) {
-        .stars-list__card {
-          margin: 0 auto 0 0;
-        }
-      }
+    &__cards {
+      row-gap: $spacer * 2.5;
     }
-  }
 
-  @include media-breakpoint-up(xl) {
-    &__card {
-      margin: 0 auto !important;
+    &__main-card {
+      flex-direction: row;
+      align-items: flex-start;
+      padding: $spacer * 3.5 $spacer * 3;
+      text-align: left;
+
+      &-head {
+        justify-content: start;
+      }
     }
   }
 }

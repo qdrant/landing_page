@@ -2,14 +2,28 @@
   <section class="stars-list">
     <div class="container">
       <h2 class="stars-list__title">{{ .Params.title }}</h2>
-      <div class="stars-list__cards row g-4 gy-md-3 justify-content-center">
+      <div class="stars-list__cards row gx-4">
+        {{ range .Params.mainCards }}
+          <div class="col-12">
+            <div class="stars-list__card stars-list__main-card">
+             <div class="stars-list__main-card-content">
+               <p class="stars-list__main-card-head">
+                 {{ .headTitle }}
+                 <img src="{{ .headIcon.src }}" alt="{{ .headIcon.alt }}">
+               </p>
+               <h6 class="stars-list__main-card-title">{{ .name }}</h6>
+               <p class="stars-list__main-card-subtitle">{{ .position }}</p>
+               <p class="stars-list__main-card-description">{{ .description | safeHTML }}</p>
+             </div>
+              <img class="stars-list__main-card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
+              <div class="stars-list__card-overlay"></div>
+            </div>
+          </div>
+        {{ end }}
         {{ range .Params.cards }}
-          <div class="col-12 col-md-6 col-xl-3">
+          <div class="col-12 col-md-6 col-lg-4 col-xl-3">
             <div class="stars-list__card">
               <img class="stars-list__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
-              {{ if .distinguished }}
-                <p class="stars-list__card-distinguished">Distinguished Ambassador</p>
-              {{ end }}
               <h6 class="stars-list__card-title">{{ .name }}</h6>
               <p class="stars-list__card-subtitle">{{ .position }}</p>
               <p class="stars-list__card-description">{{ .description }}</p>

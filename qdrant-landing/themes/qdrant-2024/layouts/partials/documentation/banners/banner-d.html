@@ -1,0 +1,19 @@
+<section class="docs-core__developing">
+  <h2>{{ .developingTitle }}</h2>
+  <p>{{ .developingDescription | safeHTML }}</p>
+
+  <div class="docs-core__developing-block">
+    <div class="row align-items-center">
+      <div class="docs-core__developing-block-text col-12 col-lg-7">
+        <h3 class="docs-core__developing-bloc-title">{{ .developingBlock.title }}</h3>
+        <a href="{{ .developingBlock.button.url }}" {{ if strings.HasPrefix .developingBlock.url "https://" }}target="_blank"{{ end }} class="button button_outlined button_sm" target="_blank">
+          {{ .developingBlock.button.text }}
+        </a>
+      </div>
+      <div class="docs-core__developing-block-image col-12 col-lg-5">
+        <img src="{{ .developingBlock.image.src }}" alt="{{ .image.alt }}" />
+      </div>
+      <div class="docs-core__overlay"></div>
+    </div>
+  </div>
+</section>

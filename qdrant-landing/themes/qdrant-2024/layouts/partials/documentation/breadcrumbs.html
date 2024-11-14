@@ -1,0 +1,13 @@
+<ul class="docs-breadcrumbs">
+  {{ $rellink := "" }}
+  {{ $paths := (split .RelPermalink "/") }}
+  {{ $len := sub (len $paths) 2 }}
+  {{ range first $len $paths }}
+    {{ if gt (len . ) 0 }}
+      {{ $rellink = printf "%s/%s" $rellink . }}
+      <li class="docs-breadcrumbs__crumb"><a href="{{ $rellink }}/">{{ humanize . }}</a></li>
+      <li class="docs-breadcrumbs__crumb-separator"></li>
+    {{ end }}
+  {{ end }}
+  <li class="docs-breadcrumbs__crumb">{{ .Params.title | safeHTML }}</li>
+</ul>
