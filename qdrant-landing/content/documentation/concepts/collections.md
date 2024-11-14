@@ -859,7 +859,7 @@ curl -X PATCH http://localhost:6333/collections/{collection_name} \
 ```python
 client.update_collection(
     collection_name="{collection_name}",
-    optimizer_config=models.OptimizersConfigDiff(indexing_threshold=10000),
+    optimizers_config=models.OptimizersConfigDiff(indexing_threshold=10000),
 )
 ```
 

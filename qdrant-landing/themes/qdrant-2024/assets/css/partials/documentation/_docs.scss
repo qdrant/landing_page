@@ -1,0 +1,289 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.docs {
+  &-core {
+    h2 {
+      padding-top: 0;
+      margin-bottom: $spacer * 0.5;
+    }
+
+    p {
+      margin-bottom: $spacer * 1.5;
+    }
+
+    a.button:hover {
+      text-decoration: none;
+    }
+
+    section {
+      margin-bottom: $spacer * 4;
+    }
+
+    &__overlay {
+      width: 100%;
+      height: 100%;
+      position: absolute;
+      overflow: hidden;
+      top: 0;
+      left: 0;
+
+      &:before,
+      &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        width: pxToRem(294);
+        height: pxToRem(240);
+        background-position: bottom;
+        background-size: cover;
+        z-index: 1;
+      }
+
+      &:before {
+        left: 0;
+        bottom: 0;
+        background-image: url('/img/blurred/blurred-light-17.svg');
+      }
+
+      &:after {
+        top: 0;
+        right: 0;
+        background-image: url('/img/blurred/blurred-light-18.svg');
+      }
+    }
+
+    &__hero {
+      width: 100%;
+      padding: $spacer * 1.5 $spacer * 1.5 $spacer * 2;
+      background: linear-gradient(180deg, $neutral-20 0%, rgba(14, 20, 36, 0.1) 100%);
+      text-align: center;
+      border: pxToRem(1) solid $neutral-20;
+      border-radius: pxToRem(12);
+
+      &-title {
+        padding-top: 0 !important;
+        margin-bottom: $spacer * 0.5 !important;
+        font-size: pxToRem(32); // take from variables
+        color: $neutral-98;
+        line-height: pxToRem(40);
+      }
+
+      &-description {
+        margin-bottom: $spacer * 0.5 !important;
+      }
+
+      &-link {
+        margin-bottom: $spacer * 2 !important;
+      }
+
+      &-buttons {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: $spacer * 1.5;
+      }
+    }
+
+    &__developing {
+      &-block {
+        position: relative;
+        overflow: hidden;
+        padding: $spacer * 1.5 $spacer;
+        background: url('/img/stars-pattern.png') $neutral-10;
+        border: pxToRem(1) solid $neutral-20;
+        border-radius: $spacer * 0.5;
+
+        &-text {
+          position: relative;
+          text-align: center;
+          z-index: 2;
+
+          h3 {
+            font-size: pxToRem(20);
+            line-height: pxToRem(30);
+            font-weight: 500;
+            padding: 0;
+            margin-bottom: $spacer * 1.5;
+          }
+
+          a {
+            font-size: pxToRem(14);
+            font-weight: 500;
+          }
+        }
+
+        &-image {
+          position: relative;
+          height: $spacer * 10;
+          z-index: 2;
+
+          img {
+            height: 100%;
+            margin: $spacer * 2 auto 0;
+          }
+        }
+      }
+    }
+  }
+
+  &__hero {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    flex-direction: column;
+    gap: $spacer * 2;
+    width: 100%;
+    min-height: pxToRem(240);
+    padding: $spacer * 1.5 $spacer;
+    background: url('/img/stars-pattern.png') $neutral-10;
+    border: pxToRem(1) solid $neutral-20;
+    border-radius: pxToRem(12);
+
+    &-content {
+      position: relative;
+      align-self: center;
+      text-align: center;
+      z-index: 2;
+    }
+
+    &-title {
+      max-width: pxToRem(400);
+      padding-top: 0 !important;
+      margin-bottom: $spacer * 1.5 !important;
+      font-size: pxToRem(32); // take from variables
+      color: $neutral-98;
+      line-height: pxToRem(40);
+    }
+
+    &-image {
+      position: relative;
+      align-self: center;
+      width: 100%;
+      max-width: pxToRem(360) !important;
+      margin: 0 !important;
+      z-index: 2;
+    }
+
+    a {
+      font-size: pxToRem(14);
+      font-weight: 500;
+    }
+  }
+
+  &-cloud {
+    &__hero {
+      .dev-portal__hero-image {
+        max-width: pxToRem(459) !important;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    &__hero {
+      flex-direction: row;
+      gap: 0;
+      padding: 0 $spacer * 2.5;
+
+      &-content {
+        text-align: left;
+      }
+
+      &-image {
+        align-self: end;
+      }
+    }
+
+    &-core {
+      &__hero {
+        padding: $spacer * 1.5 pxToRem(120);
+      }
+      &__developing {
+        &-block {
+          padding: 0;
+
+          &-text {
+            text-align: left;
+
+            h3,
+            a {
+              margin-left: $spacer * 2.5;
+            }
+          }
+
+          &-image {
+            img {
+              margin: 0 0 0 auto;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__article {
+      width: calc(100% - 256px);
+      min-height: calc(100vh - 80px);
+      padding: $spacer * 1.5 $spacer * 5 0;
+      margin: 0 0 0 pxToRem(256);
+      border-left: pxToRem(1) solid $neutral-20;
+
+      &-content {
+        width: calc(100% - 232px);
+        padding-right: $spacer * 2.5;
+      }
+
+      &-table {
+        width: pxToRem(232);
+      }
+    }
+  }
+  [data-theme='light'] & {
+    .docs-core__hero {
+      background: linear-gradient(180deg, $neutral-20 0%, $neutral-10 100%);
+      color: $neutral-70;
+      &-title {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+    .docs-core__developing-block {
+      h3 {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+    &__hero-content {
+      h1 {
+        color: $neutral-98;
+      }
+      .button_outlined {
+        color: $neutral-100;
+        box-shadow: 0 0 0 1px $neutral-60;
+        &:hover {
+          box-shadow: 0 0 0 2px $neutral-60;
+        }
+      }
+    }
+
+    @include media-breakpoint-up(xl) {
+      &__article {
+        border-left-color: $neutral-80;
+      }
+    }
+  }
+}
