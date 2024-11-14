@@ -8,12 +8,12 @@
     display: none;
     margin-bottom: 0;
     padding: 0 math.div($spacer, 2) $spacer;
-    color: $neutral-98;
+    color: $neutral-20;
   }
 
   &__title {
     display: none;
-    color: $neutral-98;
+    color: $neutral-30;
     margin-bottom: math.div($spacer, 4);
     padding: math.div($spacer, 4) math.div($spacer, 2);
     font-size: pxToRem(14);
@@ -36,7 +36,8 @@
       a {
         display: block;
         padding: math.div($spacer, 4) math.div($spacer, 2);
-        color: $neutral-70;
+        color: $neutral-30;
+        font-weight: 400;
         font-size: pxToRem(14);
         line-height: pxToRem(21);
         white-space: nowrap;
@@ -45,13 +46,13 @@
         transition: all 0.3s;
 
         &:hover {
-          color: $neutral-98;
+          color: $primary-50;
         }
 
         &.active {
           font-weight: 600;
-          background-color: $neutral-30;
-          color: $neutral-90;
+          background-color: $neutral-90;
+          color: $neutral-30;
           border-radius: $spacer * 0.5;
         }
       }
@@ -63,8 +64,8 @@
   }
 
   &__external-links {
-    border-top: pxToRem(1) solid $neutral-20;
-    border-bottom: pxToRem(1) solid $neutral-20;
+    border-top: 1px solid $neutral-90;
+    border-bottom: 1px solid $neutral-90;
     list-style: none;
     padding: $spacer * 1.5 0;
     margin: 0;
@@ -84,10 +85,15 @@
       align-items: center;
       gap: calc($spacer / 2);
       padding: 0 math.div($spacer, 2);
-      color: $neutral-98;
+      color: $neutral-30;
+      font-weight: 500;
 
       &:hover {
-        text-decoration: underline;
+        color: $primary-50;
+        text-decoration: none;
+        svg path {
+          fill: $primary-50;
+        }
       }
     }
 
@@ -95,6 +101,9 @@
       display: block;
       width: pxToRem(16);
       height: pxToRem(16);
+      path {
+        fill: $neutral-30;
+      }
     }
   }
 
@@ -107,7 +116,6 @@
     top: $spacer * 5;
     margin-bottom: pxToRem(220);
     flex-shrink: 0;
-    padding: $spacer * 1.5 $spacer $spacer * 1.5 pxToRem(40);
 
     &__external-links {
       border-bottom: none;
@@ -120,54 +128,86 @@
     }
   }
 
-  [data-theme='light'] & {
+  [data-theme='dark'] & {
     &__title,
     &__head {
-      color: $neutral-30;
-    }
-
-    &__title {
-      color: $neutral-30;
-      font-weight: 400;
+      color: $neutral-98;
     }
 
     a {
-      color: $neutral-30;
-      font-weight: 400;
+      color: $neutral-70;
       transition: all 0.3s;
       &:hover {
-        color: $primary-50;
+        color: $neutral-98;
       }
       &.active {
         font-weight: 600;
-        background-color: $neutral-90;
-        color: $neutral-30;
+        background-color: $neutral-30;
+        color: $neutral-90;
         border-radius: $spacer * 0.5;
       }
     }
 
     &__external-links {
-      border-top: 1px solid $neutral-90;
-      border-bottom: 1px solid $neutral-90;
+      border-top: 1px solid $neutral-20;
+      border-bottom: 1px solid $neutral-20;
     }
 
     &__link {
       a {
-        color: $neutral-30;
+        color: $neutral-98;
         transition:
           color 0.3s,
           fill 0.25s;
-        font-weight: 500;
         svg path {
-          fill: $neutral-30;
+          fill: $neutral-98;
         }
         &:hover {
-          color: $primary-50;
-          text-decoration: none;
+          text-decoration: underline;
+          color: $neutral-98;
           svg path {
-            fill: $primary-50;
+            fill: $neutral-98;
           }
         }
+      }
+    }
+  }
+
+  // scoped styles
+  .documentation & {
+    &__external-links {
+      display: none;
+    }
+    @include media-breakpoint-up(xl) {
+      padding: $spacer * 1.5 $spacer $spacer * 1.5 pxToRem(40);
+      &__external-links {
+        display: block;
+      }
+    }
+  }
+
+  .qdrant-blog-post & {
+    &__external-links {
+      display: flex;
+      justify-content: space-between;
+      column-gap: pxToRem(12);
+      padding-bottom: $spacer * 1.5;
+    }
+    @include media-breakpoint-down(xl) {
+      &__external-links {
+        padding-top: 0;
+        border-top: 0;
+      }
+      &__link {
+        margin: 0;
+      }
+    }
+    @include media-breakpoint-up(xl) {
+      width: $spacer * 15;
+      padding-top: $spacer;
+
+      &__external-links {
+        flex-direction: column;
       }
     }
   }
