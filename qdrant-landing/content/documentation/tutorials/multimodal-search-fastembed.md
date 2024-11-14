@@ -159,7 +159,7 @@ Image.open(client.search(
 
 ![Coffee Image](/docs/coffee.jpg)
 
-<h3 style="font-size: 1.25em;">Image-to-Text</h3>
+### Image-to-Text
 Now, let's do a reverse search with an image:
 
 

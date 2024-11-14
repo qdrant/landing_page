@@ -1,0 +1,84 @@
+@use '../../helpers/functions' as *;
+
+.docs-footer {
+  &__cta {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: $spacer * 2.5 0;
+    border-top: 1px solid $neutral-20;
+    border-bottom: 1px solid $neutral-20;
+    color: $neutral-98;
+
+    h4 {
+      margin-bottom: $spacer * 1.5;
+      padding: 0 !important;
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
+      font-weight: 500;
+    }
+  }
+
+  &__bottom {
+    @extend .footer__bottom;
+  }
+
+  &__bottom-content {
+    @extend .footer__bottom-content;
+
+    & span,
+    & a {
+      color: $neutral-70;
+      font-weight: 400;
+      font-size: map-get($font-sizes-text, 's');
+      line-height: pxToRem(21);
+    }
+
+    & a {
+      text-decoration: none;
+    }
+  }
+
+  &__bottom-links {
+    @extend .footer__bottom-links;
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__bottom {
+      @extend .footer__bottom;
+    }
+
+    &__bottom-content {
+      @extend .footer__bottom-content;
+    }
+
+    &__cta {
+      flex-direction: row;
+      justify-content: space-between;
+
+      h4 {
+        margin: 0;
+      }
+    }
+  }
+
+  [data-theme='light'] & {
+    color: $neutral-30;
+
+    &__bottom-content * {
+      color: $neutral-30;
+    }
+
+    &__cta {
+      border-top-color: $neutral-80;
+      border-bottom-color: $neutral-80;
+      color: $neutral-30;
+
+      h4 {
+        border-color: $neutral-20;
+      }
+    }
+  }
+}

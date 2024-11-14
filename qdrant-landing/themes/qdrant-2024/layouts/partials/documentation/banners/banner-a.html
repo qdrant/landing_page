@@ -1,0 +1,13 @@
+<section class="docs-core__hero">
+  <h1 class="docs-core__hero-title">{{ .title }}</h1>
+  <p class="docs-core__hero-description">{{ .description }}</p>
+  <p class="docs-core__hero-link">{{ .linkDescription | safeHTML }}</p>
+  <div class="docs-core__hero-buttons">
+    <a href="{{ .cloudButton.url }}" {{ if strings.HasPrefix .cloudButton.url "https://" }}target="_blank"{{ end }} class="button button_contained button_sm">
+      {{ .cloudButton.text }}
+    </a>
+    <a href="{{ .localButton.url }}" {{ if strings.HasPrefix .localButton.url "https://" }}target="_blank"{{ end }} class="button button_outlined button_sm">
+      {{ .localButton.text }}
+    </a>
+  </div>
+</section>

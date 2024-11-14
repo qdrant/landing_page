@@ -1,32 +1,37 @@
-{{ $currentNode := . }}
-<div class="col-12 col-xl-2">
-  <div class="docs-menu">
-    <div id="sidebar-toggle" class="docs-menu__header">
-      <h2>Docs Menu</h2>
-      <button type="button" class="docs-menu__button">{{ partial "svg" "arrow-sm-down-white.svg" }}</button>
+{{ $partition := .partition }}
+
+{{ $currentNode := .context }}
+<div class="docs-menu">
+  <div id="sidebar-toggle" class="docs-menu__header">
+    <h2>Docs Menu</h2>
+    <button type="button" class="docs-menu__button">{{ partial "svg" "arrow-sm-down-white.svg" }}</button>
+  </div>
+  <div id="sidebar" class="docs-menu__content">
+    <div class="docs-menu__input">
+      <button
+        class="qdr-search-input-btn q-input input_md input_light-bg"
+        type="button"
+        name="search"
+        data-target="#searchModal"
+      >
+        Search
+      </button>
     </div>
-    <div id="sidebar" class="docs-menu__content">
-      <div class="docs-menu__input">
-        <button
-          class="qdr-search-input-btn q-input input_md input_light-bg"
-          type="button"
-          name="search"
-          data-target="#searchModal"
-        >
-          Search
-        </button>
-      </div>
 
-      {{ $subject := site.GetPage "documentation" }}
+    {{ $subject := site.GetPage "documentation" }}
 
 
-      <nav class="docs-menu__links">
-        {{ range $subject.Pages }}
+    <nav class="docs-menu__links">
+      {{ range $subject.Pages }}
+        {{ if and (eq .Params.partition $partition) (not .Params.hideInSidebar) }}
           {{ if (eq .Params.type "delimiter") }}
             <h3 class="docs-menu__links-title">{{ .Title }}</h3>
           {{ else }}
             {{ if and (.IsPage) (not .Params.hideInSidebar) }}
-              <div class="docs-menu__links-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active{{ end }}">
+              <div
+                class="docs-menu__links-group {{ if eq .File.UniqueID $currentNode.File.UniqueID }}active{{ end }}
+{{- if (eq .Params.type "external-link") }}external-link{{ end -}} "
+              >
                 <div class="docs-menu__links-group-heading">
                   <a
                     href="{{ if (eq .Params.type "external-link") }}
@@ -37,9 +42,6 @@
                     {{ if (eq .Params.type "external-link") }}target="_blank"{{ end }}
                   >
                     {{ .Title }}
-                    {{ if (eq .Params.type "external-link") }}
-                      {{ partial "svg" "external-link.svg" }}
-                    {{ end }}
                   </a>
                 </div>
               </div>
@@ -102,7 +104,7 @@
             {{ end }}
           {{ end }}
         {{ end }}
-      </nav>
-    </div>
+      {{ end }}
+    </nav>
   </div>
 </div>

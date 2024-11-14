@@ -1,0 +1,6 @@
+<!--template for displaying `content` list from front matter-->
+{{ if .Params.content }}
+  {{ range .Params.content }}
+    {{ partial .partial . }}
+  {{ end }}
+{{ end }}
