@@ -1,8 +1,7 @@
 {{ if not .Params.hideTOC }}
-<div class="col-12 col-xl-2">
   {{ if gt (.TableOfContents | len) 34 }}
     <div class="table-of-contents">
-      <h2 class="table-of-contents__title">{{ .Params.title }}</h2>
+      <p class="table-of-contents__head">On this page:</p>
 
       {{ .TableOfContents }}
 
@@ -10,19 +9,17 @@
       <ul class="table-of-contents__external-links">
         <li class="table-of-contents__link">
           <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
-            {{ partial "svg" "github-red.svg" }}
+            {{ partial "svg" "github.svg" }}
             Edit on Github
           </a>
         </li>
         <li class="table-of-contents__link">
           <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
-            {{ partial "svg" "bug-red.svg" }}
+            {{ partial "svg" "bug.svg" }}
             Create an issue
           </a>
         </li>
       </ul>
-      {{ partial "feedback" . }}
     </div>
   {{ end }}
-</div>
 {{ end }}

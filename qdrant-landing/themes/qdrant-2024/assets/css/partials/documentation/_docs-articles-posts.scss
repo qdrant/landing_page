@@ -1,0 +1,31 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.dev-portal-articles-posts {
+  .post {
+    &-preview {
+      padding-bottom: 0;
+      margin-bottom: $spacer;
+      border-radius: $spacer * 0.5;
+      height: auto;
+    }
+
+    &-title {
+      margin-bottom: math.div($spacer, 4);
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+      color: $neutral-98;
+    }
+
+    &-description {
+      margin-bottom: $spacer * 0.5;
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      color: $neutral-70;
+    }
+
+    &-about {
+      color: $neutral-50;
+    }
+  }
+}

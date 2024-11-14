@@ -1,0 +1,134 @@
+@use '../../helpers/functions' as *;
+@use 'sass:math';
+
+.docs-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: pxToRem(12);
+  height: 100%;
+  width: 100%;
+  max-width: pxToRem(456);
+  margin: 0 auto;
+  padding: $spacer * 1.5;
+  border: pxToRem(1) solid $neutral-20;
+  background: linear-gradient(180deg, $neutral-20 0%, rgba(14, 20, 36, 0.1) 100%);
+  border-radius: pxToRem(12);
+  overflow: hidden;
+  color: $neutral-70;
+
+  &__tag {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    color: $secondary-blue-50;
+
+    &_violet {
+      color: $secondary-violet-50;
+    }
+    &_teal {
+      color: $secondary-teal-50;
+    }
+  }
+
+  img.docs-card__icon {
+    width: $spacer * 1.5;
+    height: $spacer * 1.5;
+    margin: 0;
+    // :has() selector only works in newer versions of browsers
+    // but in this case it has just minor visual effect
+    &:has(+ span) {
+      width: auto;
+      height: $spacer * 0.9;
+    }
+  }
+
+  img.docs-card__image {
+    $correctingMargin: $spacer * -1.5;
+    width: calc(100% + $spacer * 3);
+    max-width: none;
+    margin: $correctingMargin $correctingMargin $spacer * 0.75 $correctingMargin;
+  }
+
+  &__title,
+  h3.docs-card__title {
+    font-size: pxToRem(20);
+    line-height: pxToRem(30);
+    color: $neutral-98;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__description,
+  p.docs-card__description {
+    font-size: pxToRem(14);
+    line-height: pxToRem(21);
+    margin: 0;
+    @include media-breakpoint-up(lg) {
+      flex-grow: 1;
+    }
+  }
+
+  &__arrow {
+    margin: auto 0 0 auto;
+
+    &:after {
+      content: '';
+      display: block;
+      margin-top: pxToRem(12);
+      height: $spacer;
+      width: $spacer;
+      background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 3.33337L14.6667 8.00004L10 12.6667' stroke='%238F98B3' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.33331 8H14.6666' stroke='%238F98B3' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+    }
+  }
+
+  a.docs__card-link {
+    margin: 0 0 $spacer * 2 $spacer * 1.5;
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+
+  &:hover {
+    background: linear-gradient(180deg, $neutral-20 0%, #0e1424 100%);
+
+    .docs-card__arrow:after {
+      background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.0001 3.33337L14.6667 8.00004L10.0001 12.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.33337 8.00006H14.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    }
+
+    .docs-card__link {
+      $icon-width: pxToRem(20);
+      padding-right: calc($icon-width + 6px);
+      &:after {
+        animation: dash 0.3s ease-in-out forwards;
+      }
+
+      &:before {
+        animation: dash 0.3s ease-in-out forwards;
+      }
+    }
+  }
+
+  @include media-breakpoint-up(lg) {
+    max-width: none;
+  }
+
+  [data-theme='light'] & {
+    background: $neutral-98;
+    border-color: $neutral-90;
+    color: $neutral-10;
+
+    .docs-card__title {
+      color: $neutral-10;
+    }
+    &:hover {
+      .docs-card__title {
+        color: $primary-50;
+      }
+    }
+  }
+}

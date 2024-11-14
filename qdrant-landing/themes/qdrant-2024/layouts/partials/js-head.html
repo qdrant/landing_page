@@ -31,13 +31,13 @@
   <script src="{{ $filterChartJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if eq .Section "documentation" }}
+{{ if in (slice "docs" "documentation") .Section }}
   {{ $documentationJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $documentationJs.RelPermalink }}"></script>
 {{ end }}
 
 <!--Segment-->
-{{ if .Site.Params.segmentWriteKey }}
+{{ if and hugo.IsProduction .Site.Params.segmentWriteKey }}
   {{ $segmentJs := resources.Get "js/segment-setup.js" | js.Build (dict "params" (dict "segmentWriteKey" .Site.Params.segmentWriteKey "gaMeasurementId" .Site.GoogleAnalytics)) | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $segmentJs.RelPermalink }}?v=eu"></script>
 {{ end }}

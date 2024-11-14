@@ -1,0 +1,36 @@
+<section class="dev-portal-articles-posts">
+  <div class="dev-portal-articles-posts__articles row gx-3 gy-5 gy-lg-4">
+    {{ $all := ($.Site.GetPage "articles" .Section).Pages.ByPublishDate.Reverse }}
+    {{ $paginator := .Paginate $all 14 }}
+    {{ range $paginator.Pages }}
+      {{ .Scratch.Set "scope" "list" }}
+
+      {{ $link := .Permalink }}
+      {{ if .Params.external_link }}
+        {{ $link = .Params.external_link }}
+      {{ end }}
+      <article class="col-12 col-lg-6 col-xl-4 post">
+        <a class="post-link" href="{{ .RelPermalink }}">
+          <div class="post-preview">
+            <img src="{{ .Params.preview_dir }}/preview.jpg" alt="Preview" />
+          </div>
+          <h6 class="post-title">{{ .Params.title }}</h6>
+          <p class="post-description">{{ .Params.description }}</p>
+          <div class="post-about">
+            <p>{{ .Params.author }}</p>
+            <span>&middot;</span>
+            <p>{{ time.Format "January 02, 2006" .Date }}</p>
+          </div>
+        </a>
+      </article>
+    {{ end }}
+  </div>
+
+  <div class="row">
+    <div class="qdrant-articles-posts__pagination col-12">
+      {{ if gt $paginator.TotalPages 1 }}
+        {{ partial "pagination" $paginator }}
+      {{ end }}
+    </div>
+  </div>
+</section>

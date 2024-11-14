@@ -1,8 +1,9 @@
 ---
 #Delimiter files are used to separate the list of documentation pages into sections.
-title: "Getting Started"
+title: "Examples"
 type: delimiter
-weight: 1 # Change this weight to change order of sections
+weight: 24 # Change this weight to change order of sections
+partition: build
 sitemapExclude: True
 _build:
   publishResources: false

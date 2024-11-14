@@ -1,8 +1,8 @@
 ---
 title: Cloud Quickstart
 weight: 4
+partition: qdrant
 aliases:
-  - quickstart-cloud
   - ../cloud-quick-start
   - cloud-quick-start
   - cloud-quickstart
@@ -124,3 +124,4 @@ When ready, use the Console and our complete REST API to try other operations.
 
 Now that you have a Qdrant Cloud cluster up and running, you should [test remote access](/documentation/cloud/authentication/#test-cluster-access) with a Qdrant Client.
 
+For more about Qdrant Cloud, check our [dedicated documentation](/documentation/cloud-intro/). 

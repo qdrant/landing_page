@@ -22,6 +22,19 @@ html {
   }
   scrollbar-width: thin;
   scrollbar-color: $neutral-50 $neutral-20;
+
+  &[data-theme="light"] {
+    &::-webkit-scrollbar-thumb {
+      background: $neutral-80;
+    }
+    &::-webkit-scrollbar-track {
+      background: $neutral-94;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+      background: $neutral-90;
+    }
+    scrollbar-color: $neutral-80 $neutral-94;
+  }
 }
 
 .scrolled {
