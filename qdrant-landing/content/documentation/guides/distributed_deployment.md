@@ -1159,6 +1159,17 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
 
+The configuration of the `write_consistency_factor` is important for adjusting the cluster's behavior when some nodes go offline due to restarts, upgrades, or failures.
+
+By default, the cluster continues to accept updates as long as at least one replica of each shard is online. However, this behavior means that once an offline replica is restored, it will require additional synchronization with the rest of the cluster. In some cases, this synchronization can be resource-intensive and undesirable.
+
+Setting the `write_consistency_factor` to match the replication factor modifies the cluster's behavior so that unreplicated updates are rejected, preventing the need for extra synchronization.
+
+If the update is applied to enough replicas - according to the `write_consistency_factor` - the update will return a successful status. Any replicas that failed to apply the update will be temporarily disabled and are automatically recovered to keep data consistency. If the update could not be applied to enough replicas, it'll return an error and may be partially applied. The user must submit the operation again to ensure data consistency.
+
+For asynchronous updates and injection pipelines capable of handling errors and retries, this strategy might be preferable.
+
+
 ### Read consistency
 
 Read `consistency` can be specified for most read requests and will ensure that the returned result
