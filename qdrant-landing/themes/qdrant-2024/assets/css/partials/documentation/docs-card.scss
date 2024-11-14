@@ -26,6 +26,9 @@
     &_violet {
       color: $secondary-violet-50;
     }
+    &_teal {
+      color: $secondary-teal-50;
+    }
   }
 
   img.docs-card__icon {
@@ -61,6 +64,9 @@
     font-size: pxToRem(14);
     line-height: pxToRem(21);
     margin: 0;
+    @include media-breakpoint-up(lg) {
+      flex-grow: 1;
+    }
   }
 
   &__arrow {
@@ -92,6 +98,18 @@
 
     .docs-card__arrow:after {
       background-image: url("data:image/svg+xml,%3Csvg width='16' height='16' viewBox='0 0 16 16' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10.0001 3.33337L14.6667 8.00004L10.0001 12.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M1.33337 8.00006H14.6667' stroke='%23DC244C' stroke-width='1.33333' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E%0A");
+    }
+
+    .docs-card__link {
+      $icon-width: pxToRem(20);
+      padding-right: calc($icon-width + 6px);
+      &:after {
+        animation: dash 0.3s ease-in-out forwards;
+      }
+
+      &:before {
+        animation: dash 0.3s ease-in-out forwards;
+      }
     }
   }
 
