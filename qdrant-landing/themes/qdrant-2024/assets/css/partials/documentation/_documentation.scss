@@ -32,7 +32,6 @@
     &__content-wrapper {
       max-width: calc(1136px - $spacer * 2.5 * 1.5);
       margin: 0 auto;
-      column-gap: calc(#{pxToRem(40)} - $spacer);
     }
     &__article-wrapper {
       $toc-width: pxToRem(232);
