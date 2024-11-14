@@ -1,5 +1,5 @@
-@use '../helpers/functions' as *;
-@use '../mixins/mixins' as *;
+@use '../../helpers/functions' as *;
+@use '../../mixins/mixins' as *;
 
 .documentation-article {
   padding-bottom: $spacer * 1.5;
@@ -39,7 +39,7 @@
     margin-bottom: $spacer * 0.5;
   }
 
-  code {
+  code:not([class]) {
     padding: pxToRem(4);
     color: $neutral-90;
     background-color: $neutral-20;

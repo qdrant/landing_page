@@ -1,4 +1,4 @@
-@use '../helpers/functions' as *;
+@use '../../helpers/functions' as *;
 
 .documentation {
   background-color: $neutral-10;
@@ -32,11 +32,11 @@
     &__content-wrapper {
       max-width: calc(1136px - $spacer * 2.5 * 1.5);
       margin: 0 auto;
+      column-gap: calc(#{pxToRem(40)} - $spacer);
     }
     &__article-wrapper {
       $toc-width: pxToRem(232);
       width: calc(100% - #{$toc-width});
-      padding-right: calc(#{pxToRem(40)} - $spacer);
       flex: 1;
     }
   }
