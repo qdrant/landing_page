@@ -17,7 +17,7 @@ content:
       contained: true
   - partial: documentation/banners/banner-d
     developingTitle: Ready to start developing?
-    developingDescription: Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our <a href="https://qdrant.to/cloud" target="_blank">free tier</a> on Qdrant Cloud. It scales easily and provides an UI where you can interact with data.
+    developingDescription: Qdrant is open-source and can be self-hosted. However, the quickest way to get started is with our <a href="https://qdrant.to/cloud" target="_blank">free tier</a> on Qdrant Cloud. It scales easily and provides a UI where you can interact with data.
     developingBlock:
       title: Create your first Qdrant Cloud cluster today
       button:
@@ -27,8 +27,8 @@ content:
         src: /img/rocket.svg
         alt: Rocket
   - partial: documentation/sections/cards-section
-    title: Optimize Qdrant performance
-    description: Boost search speed, reduce latency, and improve the accuracy and memory usage of your qdrant deployment.
+    title: Optimize Qdrant's performance
+    description: Boost search speed, reduce latency, and improve the accuracy and memory usage of your Qdrant deployment.
     button:
       text: Learn More
       url: /documentation/guides/optimize/
@@ -48,7 +48,7 @@ content:
           src: /icons/outline/documentation-blue.svg
           alt: Documents
         title: Multitenancy
-        description: Serve Vector Search for millions of users. Learn about data isolation, security, and performance tuning for multi-tenant applications.
+        description: Build vector search apps that serve millions of users. Learn about data isolation, security, and performance tuning.
         link: /documentation/guides/multiple-partitions/
       - id: 3
         tag: Blog
