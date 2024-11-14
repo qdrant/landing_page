@@ -2,6 +2,7 @@ import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
 import { initGoToTopButton, getCookie } from './helpers';
 import { loadSegment, createSegmentStoredPage } from './segment-helpers';
+import TableOfContents from './table-of-content';
 
 createSegmentStoredPage();
 
@@ -101,4 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   initGoToTopButton('#scrollToTopBtn');
+
+  if (document.getElementById('TableOfContents') && document.querySelector('.qdrant-post__body')) {
+    new TableOfContents('#TableOfContents', '.qdrant-post__body');
+  }
 });

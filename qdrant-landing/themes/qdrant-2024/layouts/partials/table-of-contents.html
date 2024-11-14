@@ -7,18 +7,37 @@
 
 
       <ul class="table-of-contents__external-links">
-        <li class="table-of-contents__link">
-          <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
-            {{ partial "svg" "github.svg" }}
-            Edit on Github
-          </a>
-        </li>
-        <li class="table-of-contents__link">
-          <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
-            {{ partial "svg" "bug.svg" }}
-            Create an issue
-          </a>
-        </li>
+        {{ if eq .Section "documentation" }}
+          <li class="table-of-contents__link">
+            <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
+              {{ partial "svg" "github.svg" }}
+              Edit on Github
+            </a>
+          </li>
+          <li class="table-of-contents__link">
+            <a href="{{ .Site.Params.githubIssueLink }}" target="_blank">
+              {{ partial "svg" "bug.svg" }}
+              Create an issue
+            </a>
+          </li>
+        {{ end }}
+
+        {{ if eq .Section "blog" }}
+          {{ $link := urlquery .Permalink }}
+          {{ $title := .Title }}
+          {{ with (.Site.GetPage "/headless/share-buttons") }}
+            {{ range .Params.buttons }}
+              {{ $url := .url | replaceRE "\\{\\{\\s*\\$link\\s*\\}\\}" $link | replaceRE "\\{\\{\\s*\\$title\\s*\\}\\}" $title }}
+              <li class="table-of-contents__link">
+                <a href="{{ $url }}" target="_blank" rel="noopener noreferrer" title="{{ .title }}">
+                  {{ .icon | safeHTML }}
+                  {{ .subtitle }}
+                </a>
+              </li>
+            {{ end }}
+          {{ end }}
+
+        {{ end }}
       </ul>
     </div>
   {{ end }}
