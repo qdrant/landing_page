@@ -1165,6 +1165,8 @@ By default, the cluster continues to accept updates as long as at least one repl
 
 Setting the write_consistency_factor to match the replication factor modifies the cluster's behavior so that unreplicated updates are rejected, preventing the need for extra synchronization.
 
+If the update is applied to enough replicas - according to the `write_consistency_factor` - the update will return a successful status. Any replicas that failed to apply the update will be temporarily disabled and are automatically recovered to keep data consistency. If the update could not be applied to enough replicas, it'll return an error and may be partially applied. The user must submit the operation again to ensure data consistency.
+
 For asynchronous updates and injection pipelines capable of handling errors and retries, this strategy might be preferable.
 
 
