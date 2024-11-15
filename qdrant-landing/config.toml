@@ -86,16 +86,6 @@ disableKinds = ["taxonomy", "term"]
   name = "Andrey Vasnetsov"
   email = "info@qdrant.tech"
 
-[params.feedback]
-  enable = true
-  title = "Feedback"
-  question = "Was this page helpful?"
-  positive = "Yes"
-  negative = "No"
-  on_yes = "Thanks! 🙏"
-  on_no = "Sorry! 😔"
-
-
 [taxonomies]
     tag = "tags"
     category = "categories"
