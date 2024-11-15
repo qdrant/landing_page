@@ -1,6 +1,6 @@
 ---
-title: Create and restore from snapshot
-weight: 14
+title: Create & Restore Snapshots
+weight: 2
 ---
 
 # Create and restore collections from snapshot

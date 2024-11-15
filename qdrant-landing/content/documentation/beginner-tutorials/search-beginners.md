@@ -1,6 +1,6 @@
 ---
 title: Semantic Search 101
-weight: -100
+weight: 1
 aliases:
   - /documentation/tutorials/mighty.md/
 ---

@@ -1,6 +1,6 @@
 ---
-title: Measure retrieval quality
-weight: 21
+title: Measure Search Quality
+weight: 4
 ---
 
 # Measure retrieval quality

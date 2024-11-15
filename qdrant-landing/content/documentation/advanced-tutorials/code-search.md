@@ -1,6 +1,6 @@
 ---
-title: Semantic code search
-weight: 22
+title: Semantic Search Over Code
+weight: 2
 ---
 
 # Use semantic search to navigate your codebase

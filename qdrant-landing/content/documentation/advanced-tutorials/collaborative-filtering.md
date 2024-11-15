@@ -1,10 +1,10 @@
 ---
-title: Collaborative filtering
+title: Collaborative Filtering
 short_description: "Build an effective movie recommendation system using collaborative filtering and Qdrant's similarity search."
 description: "Build an effective movie recommendation system using collaborative filtering and Qdrant's similarity search." 
 preview_image: /blog/collaborative-filtering/social_preview.png
 social_preview_image: /blog/collaborative-filtering/social_preview.png
-weight: 23
+weight: 3
 ---
 
 # Create a collaborative filtering system

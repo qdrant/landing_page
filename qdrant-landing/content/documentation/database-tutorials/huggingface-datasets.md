@@ -1,6 +1,6 @@
 ---
-title: Load Hugging Face dataset
-weight: 19
+title: Load a HuggingFace Dataset
+weight: 3
 ---
 
 # Loading a dataset from Hugging Face hub

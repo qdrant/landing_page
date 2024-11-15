@@ -1,6 +1,6 @@
 ---
-title: Hybrid Search with Fastembed
-weight: 2
+title: Hybrid Search with FastEmbed
+weight: 3
 
 aliases:
   - /documentation/tutorials/neural-search-fastembed/

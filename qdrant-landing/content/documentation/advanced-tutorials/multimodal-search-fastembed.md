@@ -1,6 +1,6 @@
 ---
 title: Multimodal Search
-weight: 4
+weight: 1
 ---
 
 # Multimodal Search with Qdrant and FastEmbed
