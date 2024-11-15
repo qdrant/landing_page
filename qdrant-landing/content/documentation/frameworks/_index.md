@@ -11,6 +11,7 @@ partition: build
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.                             |
 | [Canopy](/documentation/frameworks/canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                                |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
+| [CrewAI](/documentation/frameworks/crewai/)                   | CrewAI is a framework to build automated workflows using multiple AI agents that perform complex tasks.              |
 | [DocArray](/documentation/frameworks/docarray/)               | Python library for managing data in multi-modal AI applications.                                                     |
 | [DSPy](/documentation/frameworks/dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                                     |
 | [Feast](/documentation/frameworks/feast/)                     | Open-source feature store to operate production ML systems at scale as a set of features.                            |
@@ -33,4 +34,3 @@ partition: build
 | [Sycamore](/documentation/frameworks/sycamore/)               | Document processing engine for ETL, RAG, LLM-based applications, and analytics on unstructured data.                 |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                                  |
 | [Vanna AI](/documentation/frameworks/vanna-ai/)               | Python RAG framework for SQL generation and querying.                                                                |
-
