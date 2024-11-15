@@ -1009,12 +1009,11 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
-    sparse_vectors={
-        "text": models.SparseVectorIndexParams(
-            index=models.SparseVectorIndexType(
-                on_disk=False,
-            ),
-        ),
+    vectors_config={},
+    sparse_vectors_config={
+        "text": models.SparseVectorParams(
+            index=models.SparseIndexParams(on_disk=False),
+        )
     },
 )
 ```
@@ -1169,7 +1168,8 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
-    sparse_vectors={
+    vectors_config={},
+    sparse_vectors_config={
         "text": models.SparseVectorParams(
             modifier=models.Modifier.IDF,
         ),
