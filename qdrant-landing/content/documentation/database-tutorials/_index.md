@@ -15,8 +15,8 @@ These tutorials demonstrate different ways you can build vector search into your
 
 | Essential How-Tos                                                                      | Description                                                       | Stack                                       |   
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Bulk Upload Vectors](/documentation/tutorials/bulk-upload/)                                | Upload a large scale dataset.                                     | Qdrant                                      | 
-| [Asynchronous API](/documentation/tutorials/async-api/)                                     | Communicate with Qdrant server asynchronously with Python SDK.    | Qdrant, Python                              |
-| [Create Dataset Snapshots](/documentation/tutorials/create-snapshot/)                       | Turn a dataset into a snapshot by exporting it from a collection. | Qdrant                                      | 
-| [Load HuggingFace Dataset](/documentation/tutorials/huggingface-datasets/)                      | Load a Hugging Face dataset to Qdrant                             | Qdrant, Python, datasets                    |
+| [Bulk Upload Vectors](bulk-upload/)                                | Upload a large scale dataset.                                     | Qdrant                                      | 
+| [Asynchronous API](async-api/)                                     | Communicate with Qdrant server asynchronously with Python SDK.    | Qdrant, Python                              |
+| [Create Dataset Snapshots](create-snapshot/)                       | Turn a dataset into a snapshot by exporting it from a collection. | Qdrant                                      | 
+| [Load HuggingFace Dataset](huggingface-datasets/)                      | Load a Hugging Face dataset to Qdrant                             | Qdrant, Python, datasets                    |
 

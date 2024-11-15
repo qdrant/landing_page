@@ -15,6 +15,6 @@ These tutorials demonstrate different ways you can build vector search into your
 
 | Essential How-Tos                                                                      | Description                                                       | Stack                                       |   
 |---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Collaborative Ffiltering](/documentation/tutorials/collaborative-filtering/)                 | Set up a recommendation engine purely with vector search               | Qdrant                                      | 
-| [Multimodal Search](/documentation/tutorials/multimodal-search-fastembed/)                                | Create a simple multimodal search engine.                                      | Qdrant                                      |  
-| [Search Through Code](/documentation/tutorials/code-search/)      | Implement semantic search application for code search tasks        | Qdrant, Python, sentence-transformers, Jina |
+| [Collaborative Filtering](collaborative-filtering/)                 | Set up a recommendation engine purely with vector search               | Qdrant                                      | 
+| [Multimodal Search](multimodal-search-fastembed/)                                | Create a simple multimodal search engine.                                      | Qdrant                                      |  
+| [Search Through Code](code-search/)      | Implement semantic search application for code search tasks        | Qdrant, Python, sentence-transformers, Jina |
