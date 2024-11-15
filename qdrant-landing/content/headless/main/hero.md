@@ -5,8 +5,8 @@ startFree:
   text: Get Started
   url: https://cloud.qdrant.io/
 learnMore:
-  text: Learn More
-  url: /qdrant-vector-database/
+  text: Talk to Sales
+  url: /contact-sales/
 heroImageSources:
   - minWidth: 2881px
     srcset: /img/hero-home-illustration-x3.webp
