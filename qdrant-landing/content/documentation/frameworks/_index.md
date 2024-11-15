@@ -30,7 +30,7 @@ partition: build
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.                             |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
+| [Swarm](/documentation/frameworks/swarm/)                     | Python framework for managing multiple AI agents that can work together.                                             |
 | [Sycamore](/documentation/frameworks/sycamore/)               | Document processing engine for ETL, RAG, LLM-based applications, and analytics on unstructured data.                 |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                                  |
 | [Vanna AI](/documentation/frameworks/vanna-ai/)               | Python RAG framework for SQL generation and querying.                                                                |
-
