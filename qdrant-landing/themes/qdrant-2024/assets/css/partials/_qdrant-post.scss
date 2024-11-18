@@ -150,7 +150,8 @@
     }
 
     &__content {
-      width: calc(100% - 160px);
+      min-width: calc(100% - 160px);
+      max-width: 100%;
 
       p,
       li {

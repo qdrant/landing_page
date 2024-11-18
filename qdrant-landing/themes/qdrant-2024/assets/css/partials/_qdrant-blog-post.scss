@@ -65,7 +65,8 @@
       }
 
       &__content {
-        width: calc(100% - $spacer * 19);
+        min-width: calc(100% - $spacer * 19);
+        max-width: 100%;
       }
     }
   }
