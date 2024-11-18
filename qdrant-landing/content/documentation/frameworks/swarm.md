@@ -168,5 +168,4 @@ Our `qdrant_agent` can now query a Qdrant collection whenever deemed necessary t
 
 ## Further Reading
 
-- [End to end Example]()
-- [Swarm Samples](https://github.com/openai/swarm/blob/main/examples/)
+You can find more usage examples in the [Swarm repo](https://github.com/openai/swarm/blob/main/examples/) that further describe its capabilities.
