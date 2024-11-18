@@ -7,6 +7,9 @@ weight: 1
 
 The following instruction set will show you how to properly set up a **Qdrant cluster** in your **Hybrid Cloud Environment**. 
 
+You can also watch a video demo on how to set up a Hybrid Cloud Environment:
+<p align="center"><iframe width="560" height="315" src="https://www.youtube.com/embed/BF02jULGCfo?si=apU1uQOE8AMjq9hD" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe></p>
+
 To learn how Hybrid Cloud works, [read the overview document](/documentation/hybrid-cloud/). 
 
 ## Prerequisites
