@@ -5,7 +5,7 @@ aliases:
 weight: 4
 ---
 
-# Measure retrieval quality
+# Measure and Improve Retrieval Quality in Semantic Search
 
 | Time: 30 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|

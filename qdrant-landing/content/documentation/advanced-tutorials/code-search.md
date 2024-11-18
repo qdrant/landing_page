@@ -1,11 +1,11 @@
 ---
-title: Semantic Search Over Code
+title: Search Through Your Codebase
 aliases:
   - /documentation/tutorials/code-search/
 weight: 2
 ---
 
-# Use semantic search to navigate your codebase
+# Navigate Your Codebase with Semantic Search and Qdrant
 
 | Time: 45 min | Level: Intermediate | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/qdrant/examples/blob/master/code-search/code-search.ipynb) |    |
 |--------------|---------------------|--|----|

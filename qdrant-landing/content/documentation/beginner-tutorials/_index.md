@@ -13,9 +13,9 @@ partition: qdrant
 
 # Beginner Tutorials 
 
-| Tutorial                                 | Description                                             | 
-|----------------------------------------------------|---------------------------------------------------------|
-| [Semantic Search for Beginners](/documentation/beginner-tutorials/search-beginners/) | Create a simple search engine locally in minutes.       |
-| [Simple Neural Search](/documentation/beginner-tutorials/neural-search/)             | Build and deploy a neural search that browses startup data. | 
-| [Hybrid Search with FastEmbed](/documentation/beginner-tutorials/hybrid-search-fastembed/) | Build and deploy a hybrid search with our FastEmbed library. | 
-| [Measure Retrieval Quality](/documentation/beginner-tutorials/retrieval-quality/)    | Measure and fine-tune the retrieval quality             | 
+|                                 | 
+|----------------------------------------------------|
+| [Build Your First Semantic Search Engine in 5 Minutes](/documentation/beginner-tutorials/search-beginners/) | 
+| [Build a Neural Search Service with Sentence Transformers and Qdrant](/documentation/beginner-tutorials/neural-search/)             | 
+| [Build a Hybrid Search Service with FastEmbed and Qdrant](/documentation/beginner-tutorials/hybrid-search-fastembed/) | 
+| [Measure and Improve Retrieval Quality in Semantic Search](/documentation/beginner-tutorials/retrieval-quality/)    | 

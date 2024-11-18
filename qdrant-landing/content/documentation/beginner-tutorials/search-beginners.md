@@ -6,7 +6,7 @@ aliases:
   - /documentation/tutorials/search-beginners/
 ---
 
-# Semantic Search for Beginners
+# Build Your First Semantic Search Engine in 5 Minutes
 
 | Time: 5 - 15 min | Level: Beginner |  |   |
 | --- | ----------- | ----------- |----------- |

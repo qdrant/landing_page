@@ -1,14 +1,11 @@
 ---
-title: Hybrid Search with FastEmbed
+title: Setup Hybrid Search with FastEmbed
 aliases:
   - /documentation/tutorials/hybrid-search-fastembed/
 weight: 3
-
-aliases:
-  - /documentation/tutorials/neural-search-fastembed/
 ---
 
-# Create a Hybrid Search Service with Fastembed
+# Build a Hybrid Search Service with FastEmbed and Qdrant
 
 | Time: 20 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/) |
 | --- | ----------- | ----------- |----------- |

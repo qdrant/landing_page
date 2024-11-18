@@ -1,11 +1,11 @@
 ---
-title: Multimodal Search
+title: Setup Text/Image Multimodal Search
 aliases:
   - /documentation/tutorials/multimodal-search-fastembed/
 weight: 1
 ---
 
-# Multimodal Search with Qdrant and FastEmbed
+# Build a Multimodal Search System with Qdrant and FastEmbed
 
 | Time: 15 min | Level: Beginner |Output: [GitHub](https://github.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_FastEmbed.ipynb)|[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/master/multimodal-search/Multimodal_Search_with_FastEmbed.ipynb)   |
 | --- | ----------- | ----------- | ----------- |

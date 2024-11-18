@@ -5,7 +5,7 @@ aliases:
 weight: 3
 ---
 
-# Loading a dataset from Hugging Face hub
+# Load and Search Hugging Face Datasets with Qdrant
 
 [Hugging Face](https://huggingface.co/) provides a platform for sharing and using ML models and
 datasets. [Qdrant](https://huggingface.co/Qdrant) also publishes datasets along with the

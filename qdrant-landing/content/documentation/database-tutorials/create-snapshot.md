@@ -5,7 +5,7 @@ aliases:
 weight: 2
 ---
 
-# Create and restore collections from snapshot
+# Backup and Restore Qdrant Collections Using Snapshots
 
 | Time: 20 min | Level: Beginner |  |    |
 |--------------|-----------------|--|----|

@@ -11,9 +11,9 @@ partition: qdrant
 
 # Database Tutorials 
 
-| Tutorial                      | Description                                                    | 
-|--------------------------------------------|----------------------------------------------------------------|
-| [Bulk Upload Vectors](/documentation/database-tutorials/bulk-upload/)        | Upload a large scale dataset.                                  | 
-| [Asynchronous API](/documentation/database-tutorials/async-api/)            | Communicate with Qdrant server asynchronously with Python SDK. | 
-| [Create Dataset Snapshots](/documentation/database-tutorials/create-snapshot/) | Turn a dataset into a snapshot by exporting it from a collection. |
-| [Load HuggingFace Dataset](/documentation/database-tutorials/huggingface-datasets/) | Load a Hugging Face dataset to Qdrant                          | 
+|                 | 
+|--------------------------------------------|
+| [Bulk Upload Vectors to a Qdrant Collection](/documentation/database-tutorials/bulk-upload/)        | 
+| [Backup and Restore Qdrant Collections Using Snapshots](/documentation/database-tutorials/create-snapshot/) |
+| [Load and Search Hugging Face Datasets with Qdrant](/documentation/database-tutorials/huggingface-datasets/)                       | 
+| [Using Qdrant’s Async API for Efficient Python Applications](/documentation/database-tutorials/async-api/)            | 

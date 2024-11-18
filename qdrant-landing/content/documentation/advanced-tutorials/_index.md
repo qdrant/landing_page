@@ -11,8 +11,8 @@ partition: qdrant
 
 # Advanced Tutorials 
 
-| Tutorial                                     | Description                                                        |
-|----------------------------------------------------------|--------------------------------------------------------------------|
-| [Collaborative Filtering](/documentation/advanced-tutorials/collaborative-filtering/)      | Set up a recommendation engine purely with vector search.          |
-| [Multimodal Search](/documentation/advanced-tutorials/multimodal-search-fastembed/)        | Create a simple multimodal search engine.                         |
-| [Search Through Code](/documentation/advanced-tutorials/code-search/)                     | Implement semantic search application for code search tasks.       |
+|                                     | 
+|----------------------------------------------------------|
+| [Use Collaborative Filtering to Build a Movie Recommendation System with Qdrant](/documentation/advanced-tutorials/collaborative-filtering/)      | 
+| [Build a Text/Image Multimodal Search System with Qdrant and FastEmbed](/documentation/advanced-tutorials/multimodal-search-fastembed/)        | 
+| [Navigate Your Codebase with Semantic Search and Qdrant](/documentation/advanced-tutorials/code-search/)                     | 
