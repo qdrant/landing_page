@@ -28,12 +28,12 @@ features:
   description: Qdrant's capability extends to multi-modal search, indexing and retrieving various data forms (text, images, audio) once vectorized, facilitating a comprehensive search experience.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/aleph-alpha-search/
+    url: /documentation/tutorials/multimodal-search-fastembed/
 - id: 3
   icon:
     src: /icons/outline/filter-blue.svg
     alt: Filter
-  title: Single Stage filtering that Works
+  title: Single Stage filtering That Works
   description: Qdrant enhances search speeds and control and context understanding through filtering on any nested entry in our payload. Unique architecture allows Qdrant to avoid expensive pre-filtering and post-filtering stages, making search faster and accurate.
   link:
     text: Learn More

@@ -14,11 +14,11 @@ features:
   image:
     src: /img/advanced-search-use-cases/multimodal-semantic-search.svg
     alt: Multimodal Semantic Search
-  title: Multimodal Semantic Search with Aleph Alpha
+  title: Multimodal Semantic Search with FastEmbed
   description: This tutorial shows you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks.
   link:
     text: View Tutorial
-    url: /documentation/examples/aleph-alpha-search/
+    url: /documentation/tutorials/multimodal-search-fastembed/
 - id: 2
   image:
     src: /img/advanced-search-use-cases/simple-neural-search.svg
