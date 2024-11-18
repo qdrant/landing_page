@@ -927,13 +927,13 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 })
 ```
 
-The following parameters can be updated:
+The following parameters can be updated (parameter names in **python**):
 
 * `optimizers_config` - see [optimizer](/documentation/concepts/optimizer/) for details.
 * `hnsw_config` - see [indexing](/documentation/concepts/indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
 * `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
-* `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
+* `collection_params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).
 
