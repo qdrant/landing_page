@@ -11,12 +11,9 @@ partition: qdrant
 
 # Database Tutorials 
 
-These tutorials demonstrate different ways you can build vector search into your applications. 
-
-| Essential How-Tos                                                                      | Description                                                       | Stack                                       |   
-|---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Bulk Upload Vectors](bulk-upload/)                                | Upload a large scale dataset.                                     | Qdrant                                      | 
-| [Asynchronous API](async-api/)                                     | Communicate with Qdrant server asynchronously with Python SDK.    | Qdrant, Python                              |
-| [Create Dataset Snapshots](create-snapshot/)                       | Turn a dataset into a snapshot by exporting it from a collection. | Qdrant                                      | 
-| [Load HuggingFace Dataset](huggingface-datasets/)                      | Load a Hugging Face dataset to Qdrant                             | Qdrant, Python, datasets                    |
-
+| Tutorial                      | Description                                                    | Stack                 |
+|--------------------------------------------|----------------------------------------------------------------|-----------------------|
+| [Bulk Upload Vectors](bulk-upload/)        | Upload a large scale dataset.                                  | Qdrant               |
+| [Asynchronous API](async-api/)            | Communicate with Qdrant server asynchronously with Python SDK. | Qdrant, Python       |
+| [Create Dataset Snapshots](create-snapshot/) | Turn a dataset into a snapshot by exporting it from a collection. | Qdrant               |
+| [Load HuggingFace Dataset](huggingface-datasets/) | Load a Hugging Face dataset to Qdrant                          | Qdrant, Python, datasets |
