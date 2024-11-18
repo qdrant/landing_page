@@ -11,10 +11,8 @@ partition: qdrant
 
 # Advanced Tutorials 
 
-These tutorials demonstrate different ways you can build vector search into your applications. 
-
-| Essential How-Tos                                                                      | Description                                                       | Stack                                       |   
-|---------------------------------------------------------------------------------|-------------------------------------------------------------------|---------------------------------------------|
-| [Collaborative Filtering](collaborative-filtering/)                 | Set up a recommendation engine purely with vector search               | Qdrant                                      | 
-| [Multimodal Search](multimodal-search-fastembed/)                                | Create a simple multimodal search engine.                                      | Qdrant                                      |  
-| [Search Through Code](code-search/)      | Implement semantic search application for code search tasks        | Qdrant, Python, sentence-transformers, Jina |
+| Tutorial                                     | Description                                                        |
+|----------------------------------------------------------|--------------------------------------------------------------------|
+| [Collaborative Filtering](/documentation/advanced-tutorials/collaborative-filtering/)      | Set up a recommendation engine purely with vector search.          |
+| [Multimodal Search](/documentation/advanced-tutorials/multimodal-search-fastembed/)        | Create a simple multimodal search engine.                         |
+| [Search Through Code](/documentation/advanced-tutorials/code-search/)                     | Implement semantic search application for code search tasks.       |
