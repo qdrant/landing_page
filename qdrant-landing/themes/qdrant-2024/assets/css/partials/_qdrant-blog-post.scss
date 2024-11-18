@@ -63,6 +63,11 @@
         width: pxToRem(984);
         margin-left: pxToRem(91);
       }
+
+      &__content {
+        min-width: calc(100% - $spacer * 19);
+        max-width: 100%;
+      }
     }
   }
 }

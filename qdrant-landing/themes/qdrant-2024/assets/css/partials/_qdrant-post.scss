@@ -150,6 +150,9 @@
     }
 
     &__content {
+      min-width: calc(100% - 160px);
+      max-width: 100%;
+
       p,
       li {
         font-size: pxToRem(18);
