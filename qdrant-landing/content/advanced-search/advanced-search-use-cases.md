@@ -27,7 +27,7 @@ features:
   description: This tutorial shows you how to build and deploy your own neural search service.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/neural-search/
+    url: /documentation/beginner-tutorials/neural-search/
 - id: 3
   image:
     src: /img/advanced-search-use-cases/image-classification.svg
@@ -45,7 +45,7 @@ features:
   description: Build a semantic search engine for science fiction books in 5 mins.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/search-beginners/
+    url: /documentation/beginner-tutorials/search-beginners/
 - id: 5
   image:
     src: /img/advanced-search-use-cases/hybrid-search-service-fastembed.svg
