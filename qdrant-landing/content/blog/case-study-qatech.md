@@ -51,7 +51,7 @@ Handling hundreds of simultaneous actions on a web interface individually create
 
 **Optimizing CPU Load for Embedding Processing**
 
-PostgreSQL’s transaction guarantees resulted in high CPU usage when processing embeddings, especially at scale. von Ehrenheim noted that adding many new embeddings "requires much more CPU," which led to performance bottlenecks. Qdrant’s architecture efficiently handled large-scale embeddings, preventing CPU overload and ensuring smooth, uninterrupted performance, a key requirement for AI Agents.
+PostgreSQL’s transaction guarantees resulted in high CPU usage when processing embeddings, especially at scale. Von Ehrenheim noted that adding many new embeddings "requires much more CPU," which led to performance bottlenecks. Qdrant’s architecture efficiently handled large-scale embeddings, preventing CPU overload and ensuring smooth, uninterrupted performance, a key requirement for AI Agents.
 
 **Managing Multiple Embeddings for Different Use Cases**
 
