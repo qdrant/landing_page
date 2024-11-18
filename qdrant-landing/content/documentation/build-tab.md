@@ -24,7 +24,7 @@ content:
       title: Search
       description: Build a simple neural search service with Qdrant and FastEmbed. Learn how to upload data, create indexes, and run search queries.
       link:
-        url: /documentation/tutorials/hybrid-search-fastembed/
+        url: /documentation/beginner-tutorials/hybrid-search-fastembed/
         text: Read More
     - id: 2
       image:

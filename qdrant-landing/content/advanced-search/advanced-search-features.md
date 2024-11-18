@@ -19,7 +19,7 @@ features:
   description: By combining dense vector embeddings with sparse vectors e.g. BM25, Qdrant powers semantic search to deliver context-aware results, transcending traditional keyword search by understanding the deeper meaning of data.
   link:
     text: Learn More
-    url: /documentation/tutorials/hybrid-search-fastembed/
+    url: /documentation/beginner-tutorials/hybrid-search-fastembed/
 - id: 2
   icon:
     src: /icons/outline/selection-blue.svg
