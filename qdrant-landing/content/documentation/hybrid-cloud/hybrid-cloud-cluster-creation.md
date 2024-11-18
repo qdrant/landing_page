@@ -132,7 +132,7 @@ spec:
                 number: 6333
 ```
 
-Please refer to the Kubernetes, ingress controller and cloud provider documention for more details.
+Please refer to the Kubernetes, ingress controller and cloud provider documentation for more details.
 
 If you expose the database like this, you will be able to see this also reflected as an endpoint on the cluster detail page. And will see the Qdrant database dashboard link pointing to it.
 
@@ -143,7 +143,7 @@ If you want to configure TLS for accessing your Qdrant database in Hybrid Cloud,
 * You can offload TLS at the ingress or loadbalancer level.
 * You can configure TLS directly in the Qdrant database.
 
-If you want to offload TLS at the ingress or loadbancer level, please refer to their respective documentation.
+If you want to offload TLS at the ingress or loadbancer level, please refer to their respective documents.
 
 If you want to configure TLS directly in the Qdrant database, you can reference a secret containing the TLS certificate and key in the "Configuration" section of the Qdrant Cluster detail page.
 
@@ -171,7 +171,11 @@ With this command the secret name to enter into the UI would be `qdrant-tls` and
 
 ### Configuring CPU and memory resource reservations
 
-If you create a Qdrant database cluster with a certain amount of CPU and memory resources, the Qdrant Cloud platform will schedule Pods that have these resources configured as requests and limits. Keeping requests and limits the same is necessary to guarantee optimal performance and stable operations. It is recommended to create Kubernetes nodes with the same size, so that one database Pod runs per VM. To accomodate the additional resources your need for the operating system, Kubernetes and Kubernetes system components, the Qdrant Cloud platform will automatically reserve some resources for these components by requesting less resources. By default, Qdrant will not use 20% of the available CPU and memory. While it is a conservative setting, this may not be correct for your setup. E.g. on smaller nodes you may need a higher percentage reserved for the system, on larger nodes less. You can change the resource reservation in the "Configuration" section of the Qdrant Cluster detail page.
+When creating a Qdrant database cluster, Qdrant Cloud schedules Pods with specific CPU and memory requests and limits to ensure optimal performance. It’s important to use equal requests and limits for stability. Ideally, Kubernetes nodes should match the Pod size, with one database Pod per VM. 
+
+To support the operating system, Kubernetes, and system components, Qdrant Cloud reserves some resources, defaulting to 20% of available CPU and memory. This conservative default may need adjustment depending on node size, whereby smaller nodes might require more, and larger nodes less resources. 
+
+You can modify this reservation in the “Configuration” section of the Qdrant Cluster detail page.
 
 If you want to check how much resources are availabe on an empty Kubernetes node, you can use the following command:
 

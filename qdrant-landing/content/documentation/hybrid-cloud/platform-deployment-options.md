@@ -35,7 +35,7 @@ First, consult AWS' managed Kubernetes instructions below. Then, **to set up Qdr
 
 For a good balance between peformance and cost, we recommend:
 
-* Depending on your cluster resource onfiguration either general purpuse (m6*, m7*, or m8*), memory optimized (r6*, r7*, or r8*) or cpu optimized (c6*, c7*, or c8*) instance types. Qdrant Hybrid Cloud also supports AWS Graviton ARM64 instances.
+* Depending on your cluster resource configuration either general purpose (m6*, m7*, or m8*), memory optimized (r6*, r7*, or r8*) or cpu optimized (c6*, c7*, or c8*) instance types. Qdrant Hybrid Cloud also supports AWS Graviton ARM64 instances.
 * At least gp3 EBS volumes for storage
 
 ### More on Amazon Elastic Kubernetes Service
@@ -138,7 +138,7 @@ First, consult GCP's managed Kubernetes instructions below. Then, **to set up Qd
 
 For a good balance between peformance and cost, we recommend:
 
-* Depending on your cluster resource onfiguration either general purpuse (standard), memory optimized (highmem) or cpu optimized (highcpu) instance types of at least 2nd generation. Qdrant Hybrid Cloud also supports ARM64 instances.
+* Depending on your cluster resource configuration either general purpose (standard), memory optimized (highmem) or cpu optimized (highcpu) instance types of at least 2nd generation. Qdrant Hybrid Cloud also supports ARM64 instances.
 * At least pd-balanced disks for storage
 
 ### More on the Google Kubernetes Engine
@@ -169,7 +169,7 @@ First, consult Azure's managed Kubernetes instructions below. Then, **to set up 
 
 For a good balance between peformance and cost, we recommend:
 
-* Depending on your cluster resource onfiguration either general purpuse (D-family), memory optimized (E-family) or cpu optimized (F-family) instance types. Qdrant Hybrid Cloud also supports Azure Cobalt ARM64 instances.
+* Depending on your cluster resource configuration either general purpose (D-family), memory optimized (E-family) or cpu optimized (F-family) instance types. Qdrant Hybrid Cloud also supports Azure Cobalt ARM64 instances.
 * At least Premium SSD v2 disks for storage
 
 ### More on Azure Kubernetes Service

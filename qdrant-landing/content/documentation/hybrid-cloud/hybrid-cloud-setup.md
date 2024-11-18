@@ -77,10 +77,10 @@ After creating your Hybrid Cloud, select **Generate Installation Command** to ge
 
 It will:
 
-- Create the Kubernetes namespace, if not present
+- Create the Kubernetes namespace, if not present.
 - Set up the necessary secrets with credentials to access the Qdrant container registry and the Qdrant Cloud API.
-- Sign in to the Helm registry at `registry.cloud.qdrant.io`
-- Install the Qdrant cloud agent and Kubernetes operator chart
+- Sign in to the Helm registry at `registry.cloud.qdrant.io`.
+- Install the Qdrant cloud agent and Kubernetes operator chart.
 
 You need this command only for the initial installation. After that, you can update the agent and operator using the Qdrant Cloud Console.
 
@@ -111,7 +111,7 @@ Open Containers Initiative (OCI) Helm charts:
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cluster-manager`
 - `registry.cloud.qdrant.io/qdrant-charts/prometheus`
 
-To mirror all necessary container images and Helm charts into your own registry, we recommend to use an automatic replication feature that your registry provides, so that you have new image versions available automatically. Alternatively you can manually sync the images with tools like [Skopeo](https://github.com/containers/skopeo). When syncing images manually, make sure that you sync then with all, or with the right CPU architecture.
+To mirror all necessary container images and Helm charts into your own registry, you should use an automatic replication feature that your registry provides, so that you have new image versions available automatically. Alternatively you can manually sync the images with tools like [Skopeo](https://github.com/containers/skopeo). When syncing images manually, make sure that you sync then with all, or with the right CPU architecture.
 
 ##### Automatic replication
 
