@@ -1,5 +1,7 @@
 ---
 title: Neural Search Service
+aliases:
+  - /documentation/tutorials/neural-search/
 weight: 2
 ---
 

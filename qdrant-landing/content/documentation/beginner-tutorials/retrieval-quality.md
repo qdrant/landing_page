@@ -1,5 +1,7 @@
 ---
 title: Measure Search Quality
+aliases:
+  - /documentation/tutorials/retrieval-quality/
 weight: 4
 ---
 

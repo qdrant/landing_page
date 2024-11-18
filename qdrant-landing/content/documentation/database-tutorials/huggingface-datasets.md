@@ -1,5 +1,7 @@
 ---
 title: Load a HuggingFace Dataset
+aliases:
+  - /documentation/tutorials/huggingface-datasets/
 weight: 3
 ---
 

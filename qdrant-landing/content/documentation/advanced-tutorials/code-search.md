@@ -1,5 +1,7 @@
 ---
 title: Semantic Search Over Code
+aliases:
+  - /documentation/tutorials/code-search/
 weight: 2
 ---
 

@@ -1,5 +1,7 @@
 ---
 title: Hybrid Search with FastEmbed
+aliases:
+  - /documentation/tutorials/hybrid-search-fastembed/
 weight: 3
 
 aliases:

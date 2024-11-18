@@ -1,5 +1,7 @@
 ---
 title: Create & Restore Snapshots
+aliases:
+  - /documentation/tutorials/create-snapshot/
 weight: 2
 ---
 

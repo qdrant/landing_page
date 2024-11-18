@@ -1,5 +1,7 @@
 ---
 title: Bulk Upload Vectors
+aliases:
+  - /documentation/tutorials/bulk-upload/
 weight: 1
 ---
 

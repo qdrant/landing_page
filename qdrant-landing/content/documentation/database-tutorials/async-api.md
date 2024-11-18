@@ -1,5 +1,7 @@
 ---
 title: Using the Async API
+aliases:
+  - /documentation/tutorials/async-api/
 weight: 4
 ---
 

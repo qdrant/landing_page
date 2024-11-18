@@ -1,5 +1,7 @@
 ---
 title: Multimodal Search
+aliases:
+  - /documentation/tutorials/multimodal-search-fastembed/
 weight: 1
 ---
 

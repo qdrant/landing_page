@@ -3,6 +3,7 @@ title: Semantic Search 101
 weight: 1
 aliases:
   - /documentation/tutorials/mighty.md/
+  - /documentation/tutorials/search-beginners/
 ---
 
 # Semantic Search for Beginners
