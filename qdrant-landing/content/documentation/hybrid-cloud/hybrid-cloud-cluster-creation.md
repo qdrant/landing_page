@@ -7,6 +7,8 @@ weight: 2
 
 Once you have created a Hybrid Cloud Environment, you can create a Qdrant cluster in that enviroment. Use the same process to [Create a cluster](/documentation/cloud/create-cluster/). Make sure to select your Hybrid Cloud Environment as the target.
 
+![Create Hybrid Cloud Cluster](/documentation/cloud/hybrid_cloud_create_cluster.png)
+
 Note that in the "Kubernetes Configuration" section you can additionally configure:
 
 * Node selectors for the Qdrant database pods
@@ -16,11 +18,19 @@ Note that in the "Kubernetes Configuration" section you can additionally configu
 
 These settings can also be changed after the cluster is created on the cluster detail page.
 
+![Create Hybrid Cloud Cluster - Kubernetes Configuration](/documentation/cloud/hybrid_cloud_kubernetes_configuration.png)
+
+### Scheduling Configuration
+
+When creating or editing a cluster, you can configure how the database Pods get scheduled in your Kubernetes cluster. This can be useful to ensure that the Qdrant databases will run on dedicated nodes. You can configure the necessary node selectors and tolerations in the "Kubernetes Configuration" section during cluster creation, or on the cluster detail page.
+
 ### Authentication to your Qdrant clusters
 
 In Hybrid Cloud the authentication information is provided by Kubernetes secrets.
 
 You can configure authentication for your Qdrant clusters in the "Configuration" section of the Qdrant Cluster detail page. There you can configure the Kubernetes secret name and key to be used as an API key and/or read-only API key.
+
+![Hybrid Cloud cluster configuration](/documentation/cloud/hybrid_cloud_detail_cluster_configuration.png)
 
 One way to create a secret is with kubectl:
 
@@ -133,6 +143,8 @@ If you want to configure TLS for accessing your Qdrant database in Hybrid Cloud,
 * You can offload TLS at the ingress or loadbalancer level.
 * You can configure TLS directly in the Qdrant database.
 
+If you want to offload TLS at the ingress or loadbancer level, please refer to their respective documentation.
+
 If you want to configure TLS directly in the Qdrant database, you can reference a secret containing the TLS certificate and key in the "Configuration" section of the Qdrant Cluster detail page.
 
 To create such a secret, you can use `kubectl`:
@@ -156,3 +168,15 @@ type: kubernetes.io/tls
 ```
 
 With this command the secret name to enter into the UI would be `qdrant-tls` and the keys would be `tls.crt` and `tls.key`.
+
+### Configuring CPU and memory resource reservations
+
+If you create a Qdrant database cluster with a certain amount of CPU and memory resources, the Qdrant Cloud platform will schedule Pods that have these resources configured as requests and limits. Keeping requests and limits the same is necessary to guarantee optimal performance and stable operations. It is recommended to create Kubernetes nodes with the same size, so that one database Pod runs per VM. To accomodate the additional resources your need for the operating system, Kubernetes and Kubernetes system components, the Qdrant Cloud platform will automatically reserve some resources for these components by requesting less resources. By default, Qdrant will not use 20% of the available CPU and memory. While it is a conservative setting, this may not be correct for your setup. E.g. on smaller nodes you may need a higher percentage reserved for the system, on larger nodes less. You can change the resource reservation in the "Configuration" section of the Qdrant Cluster detail page.
+
+If you want to check how much resources are availabe on an empty Kubernetes node, you can use the following command:
+
+```shell
+kubectl describe node <node-name>
+```
+
+This will give you a breakdown of the available resources to Kubernetes and how much is already reserved and used for system Pods.
