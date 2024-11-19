@@ -1,9 +1,11 @@
 ---
-title: Create and restore from snapshot
-weight: 14
+title: Create & Restore Snapshots
+aliases:
+  - /documentation/tutorials/create-snapshot/
+weight: 2
 ---
 
-# Create and restore collections from snapshot
+# Backup and Restore Qdrant Collections Using Snapshots
 
 | Time: 20 min | Level: Beginner |  |    |
 |--------------|-----------------|--|----|

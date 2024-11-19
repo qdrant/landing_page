@@ -1,9 +1,11 @@
 ---
-title: Measure retrieval quality
-weight: 21
+title: Measure Search Quality
+aliases:
+  - /documentation/tutorials/retrieval-quality/
+weight: 4
 ---
 
-# Measure retrieval quality
+# Measure and Improve Retrieval Quality in Semantic Search
 
 | Time: 30 min | Level: Intermediate |  |    |
 |--------------|---------------------|--|----|

@@ -1,9 +1,11 @@
 ---
 title: Bulk Upload Vectors
-weight: 13
+aliases:
+  - /documentation/tutorials/bulk-upload/
+weight: 1
 ---
 
-# Bulk upload a large number of vectors
+# Bulk Upload Vectors to a Qdrant Collection
 
 Uploading a large-scale dataset fast might be a challenge, but Qdrant has a few tricks to help you with that.
 

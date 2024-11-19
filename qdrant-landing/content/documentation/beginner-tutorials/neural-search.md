@@ -1,14 +1,14 @@
 ---
-title: Neural Search Service
-weight: 1
+title: Build a Neural Search Service
+aliases:
+  - /documentation/tutorials/neural-search/
+weight: 2
 ---
 
-# Create a Simple Neural Search Service
+# Build a Neural Search Service with Sentence Transformers and Qdrant
 
 | Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
 | --- | ----------- | ----------- |----------- |
-
-
 
 This tutorial shows you how to build and deploy your own neural search service to look through descriptions of companies from [startups-list.com](https://www.startups-list.com/) and pick the most similar ones to your query. The website contains the company names, descriptions, locations, and a picture for each entry. 
 
@@ -16,7 +16,7 @@ A neural search service uses artificial neural networks to improve the accuracy 
 
 <aside role="status">
 There is a version of this tutorial that uses <a href="https://github.com/qdrant/fastembed">Fastembed</a> model inference engine instead of Sentence Transformers.
-Check it out <a href="/documentation/tutorials/hybrid-search-fastembed/">here</a>.
+Check it out <a href="/documentation/beginner-tutorials/hybrid-search-fastembed/">here</a>.
 </aside>
 
 

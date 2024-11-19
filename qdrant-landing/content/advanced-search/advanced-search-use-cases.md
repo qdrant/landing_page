@@ -14,11 +14,11 @@ features:
   image:
     src: /img/advanced-search-use-cases/multimodal-semantic-search.svg
     alt: Multimodal Semantic Search
-  title: Multimodal Semantic Search with Aleph Alpha
+  title: Multimodal Semantic Search with FastEmbed
   description: This tutorial shows you how to run a proper multimodal semantic search system with a few lines of code, without the need to annotate the data or train your networks.
   link:
     text: View Tutorial
-    url: /documentation/examples/aleph-alpha-search/
+    url: /documentation/tutorials/multimodal-search-fastembed/
 - id: 2
   image:
     src: /img/advanced-search-use-cases/simple-neural-search.svg
@@ -27,7 +27,7 @@ features:
   description: This tutorial shows you how to build and deploy your own neural search service.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/neural-search/
+    url: /documentation/beginner-tutorials/neural-search/
 - id: 3
   image:
     src: /img/advanced-search-use-cases/image-classification.svg
@@ -45,16 +45,16 @@ features:
   description: Build a semantic search engine for science fiction books in 5 mins.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/search-beginners/
+    url: /documentation/beginner-tutorials/search-beginners/
 - id: 5
   image:
     src: /img/advanced-search-use-cases/hybrid-search-service-fastembed.svg
-    alt: Create a Hybrid Search Service with Fastembed
-  title: Create a Hybrid Search Service with Fastembed
-  description: This tutorial guides you through building and deploying your own hybrid search service using Fastembed.
+    alt: Create a Hybrid Search Service with FastEmbed
+  title: Create a Hybrid Search Service with FastEmbed
+  description: This tutorial guides you through building and deploying your own hybrid search service using FastEmbed.
   link:
     text: View Tutorial
-    url: /documentation/tutorials/hybrid-search-fastembed/
+    url: /documentation/beginner-tutorials/hybrid-search-fastembed/
 sitemapExclude: true
 ---
 
