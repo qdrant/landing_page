@@ -1,7 +1,7 @@
 ---
 title: Infrastructure
-weight: 21
-partition: build
+weight: 29
+partition: cloud
 ---
 
 ## Infrastructure Integrations
