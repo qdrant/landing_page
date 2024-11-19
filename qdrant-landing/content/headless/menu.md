@@ -49,6 +49,10 @@ menuItems:
         name: Data Analysis & Anomaly Detection
         icon: data-analysis-anomaly-detection.svg
         url: /data-analysis-anomaly-detection/
+      - id: subMenu-1-4
+        name: AI Agents
+        icon: rag.svg
+        url: /ai-agents/
 #      - id: subMenu-1-4
 #        name: Qdrant for Startups
 #        icon: qdrant-for-startups.svg

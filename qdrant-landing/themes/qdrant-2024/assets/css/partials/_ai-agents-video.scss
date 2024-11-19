@@ -27,6 +27,15 @@
     color: $neutral-20;
   }
 
+  .video {
+    max-width: none;
+    margin-top: $spacer * 3;
+
+    iframe {
+      max-width: none;
+    }
+  }
+
   @include media-breakpoint-up(lg) {
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 7.5;
