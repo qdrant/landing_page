@@ -1,6 +1,6 @@
 ---
 title: Search
-weight: 50
+weight: 1
 aliases:
   - ../search
 ---

@@ -1,6 +1,7 @@
 ---
 title: Capacity Planning
-weight: 11
+weight: 2
+partition: qdrant
 aliases:
   - capacity
   - /documentation/cloud/capacity-sizing

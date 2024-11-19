@@ -1,6 +1,7 @@
 ---
-title: Qdrant Web UI
-weight: 2
+title: WebUI Dashboard
+weight: 17
+partition: qdrant
 aliases:
   - /documentation/web-ui/
 ---

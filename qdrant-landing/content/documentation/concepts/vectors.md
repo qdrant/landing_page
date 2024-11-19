@@ -1,6 +1,6 @@
 ---
 title: Vectors
-weight: 41
+weight: 3
 aliases:
   - /vectors
 ---

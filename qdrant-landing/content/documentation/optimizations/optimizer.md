@@ -1,6 +1,6 @@
 ---
-title: Optimizer
-weight: 70
+title: Database Optimizer
+weight: 1
 aliases:
   - ../optimizer
 ---

@@ -1,11 +1,11 @@
 ---
-title: Configuration
-weight: 160
+title: Configuration Options
+weight: 3
+partition: qdrant
 aliases:
   - ../configuration
   - /guides/configuration/
 ---
-
 # Configuration
 
 Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these defaults in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize the settings, you can do so using configuration files and environment variables.

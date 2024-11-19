@@ -1,6 +1,6 @@
 ---
 title: API & SDKs
-weight: 6
+weight: 7
 partition: qdrant
 aliases:
   - /documentation/interfaces/

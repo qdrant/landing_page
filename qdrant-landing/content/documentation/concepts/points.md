@@ -1,6 +1,6 @@
 ---
 title: Points
-weight: 40
+weight: 2
 aliases:
   - ../points
 ---

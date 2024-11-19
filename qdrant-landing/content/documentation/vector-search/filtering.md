@@ -1,6 +1,6 @@
 ---
 title: Filtering
-weight: 60
+weight: 2
 aliases:
   - ../filtering
 ---
