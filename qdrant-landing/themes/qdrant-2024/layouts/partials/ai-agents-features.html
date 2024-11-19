@@ -1,0 +1,42 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-features") }}
+  <section class="use-cases-vector-features">
+    <div class="container">
+      <div class="use-cases-vector-features__cases row">
+        <div class="col-12 col-lg-6">
+          <img
+            class="use-cases-vector-features__cases-image"
+            src="{{ .Params.image.src }}"
+            alt="{{ .Params.image.alt }}"
+          />
+        </div>
+        <div class="col-12 col-lg-6">
+          <h3 class="use-cases-vector-features__cases-title">{{ .Params.title }}</h3>
+          <p class="use-cases-vector-features__cases-description">{{ .Params.description }}</p>
+          {{ range .Params.cases }}
+            <div class="use-cases-vector-features__cases-item">
+              <h6 class="use-cases-vector-features__cases-item-title">{{ .title }}</h6>
+              <p class="use-cases-vector-features__cases-item-description">{{ .description }}</p>
+            </div>
+          {{ end }}
+        </div>
+      </div>
+
+      <h3 class="use-cases-vector-features__feature-title">{{ .Params.featuresTitle }}</h3>
+
+      <div class="row g-4 gy-md-3">
+        {{ range $index, $element := .Params.features }}
+          <div class="col-12 col-md-6 {{ if or (eq $index 3) (eq $index 4) }}col-xl-6{{ else }}col-xl-4{{ end }}">
+            <div class="card use-cases-vector-features__card">
+              <img class="use-cases-vector-features__card-icon" src="{{ .icon.src }}" alt="{{ .icon.alt }}" />
+              <h6 class="use-cases-vector-features__card-title">{{ .title }}</h6>
+              <p class="use-cases-vector-features__card-description">{{ .description }}</p>
+              <a class="use-cases-vector-features__card-link link link_md align-self-start" href="{{ .link.url }}">
+                {{ .link.text }}
+              </a>
+            </div>
+          </div>
+        {{ end }}
+      </div>
+    </div>
+  </section>
+{{ end }}
