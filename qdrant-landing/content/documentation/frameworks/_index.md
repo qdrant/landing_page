@@ -22,6 +22,7 @@ partition: build
 | [Langchain](/documentation/frameworks/langchain/)             | Python framework for building context-aware, reasoning applications using LLMs.                                      |
 | [Langchain-Go](/documentation/frameworks/langchain-go/)       | Go framework for building context-aware, reasoning applications using LLMs.                                          |
 | [Langchain4j](/documentation/frameworks/langchain4j/)         | Java framework for building context-aware, reasoning applications using LLMs.                                        |
+| [LangGraph](/documentation/frameworks/langgraph/)             | Python, Javascript libraries for building stateful, multi-actor applications.                                        |
 | [LlamaIndex](/documentation/frameworks/llama-index/)          | A data framework for building LLM applications with modular integrations.                                            |
 | [Mem0](/documentation/frameworks/mem0/)                       | Self-improving memory layer for LLM applications, enabling personalized AI experiences.                              |
 | [MemGPT](/documentation/frameworks/memgpt/)                   | System to build LLM agents with long term memory & custom tools                                                      |
@@ -33,5 +34,6 @@ partition: build
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
 | [Swarm](/documentation/frameworks/swarm/)                     | Python framework for managing multiple AI agents that can work together.                                             |
 | [Sycamore](/documentation/frameworks/sycamore/)               | Document processing engine for ETL, RAG, LLM-based applications, and analytics on unstructured data.                 |
+| [Testcontainers](/documentation/frameworks/testcontainers/)   | Framework for providing throwaway, lightweight instances of systems for testing                                      |
 | [txtai](/documentation/frameworks/txtai/)                     | Python library for semantic search, LLM orchestration and language model workflows.                                  |
 | [Vanna AI](/documentation/frameworks/vanna-ai/)               | Python RAG framework for SQL generation and querying.                                                                |
