@@ -16,7 +16,11 @@ LangGraph works seamlessly with all the components of LangChain. This means we c
 - Install the required dependencies
 
 ```python
-$ pip install langgraph langchain_community langchain_qdrant
+$ pip install langgraph langchain_community langchain_qdrant fastembed
+```
+
+```typescript
+$ npm install @langchain/langgraph langchain @langchain/qdrant @langchain/openai
 ```
 
 - Create a retriever tool to add to the LangGraph workflow.
@@ -53,6 +57,7 @@ import { createRetrieverTool } from "langchain/tools/retriever";
 
 const vectorStore = await QdrantVectorStore.fromTexts(
     ["<SOME_KNOWLEDGE_TEXT>", "<SOME_OTHER_TEXT>"],
+    [{ id: 2 }, { id: 1 }],
     new OpenAIEmbeddings(),
     {
         url: "http://localhost:6333/",
@@ -91,7 +96,7 @@ import { StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 
 // Define the graph
-const workflow = new StateGraph(GraphState)
+const workflow = new StateGraph(SomeGraphState)
   // Define the nodes which we'll cycle between.
   .addNode("retrieve", new ToolNode([tool]));
 
