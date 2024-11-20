@@ -1,6 +1,6 @@
 ---
 title: Local Quickstart
-weight: 5
+weight: 4
 partition: qdrant
 aliases:
   - quick_start
