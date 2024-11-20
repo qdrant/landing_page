@@ -1,6 +1,7 @@
 ---
 title: Pulumi
-aliases: [ ../platforms/pulumi ]
+aliases:
+  - /documentation/infrastructure/pulumi/
 ---
 
 ![Pulumi Logo](/documentation/platforms/pulumi/pulumi-logo.png)
