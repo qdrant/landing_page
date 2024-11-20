@@ -1,6 +1,6 @@
 ---
 title: "FastEmbed" 
-weight: 6
+weight: 7
 partition: qdrant
 ---
 
