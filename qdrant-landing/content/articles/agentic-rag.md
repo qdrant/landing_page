@@ -45,8 +45,6 @@ the combination of RAG with agents. This allows the agent to use external knowle
 primarily to decide when the external knowledge is needed. We can describe a system as Agentic RAG if it breaks the 
 linear flow of a standard RAG system, and gives the agent the ability to take multiple steps to achieve a goal.
 
-TODO: describe how agents are different from a regular application
-
 A simple router that chooses a path to follow is often described as the simplest form of an agent. Such a system has 
 multiple paths with conditions describing when to take a certain path. In the context of Agentic RAG, the agent can 
 decide to query a vector database if the context is not enough to answer, or skip the query if it's enough, or when the 
@@ -55,7 +53,7 @@ information, and the agent can decide which collection to query based on the con
 decision of choosing a path is made by the LLM, which is the core of the agent. A routing agent never comes back to the
 previous step, so it's ultimately just a conditional decision-making system.
 
-TODO: diagram of an agent with multiple paths
+TODO: diagram of a router agent
 
 However, routing is just the beginning. Agents can be much more complex, and extreme forms of agents can have complete
 freedom to act. In such cases, the agent is given a set of tools and can autonomously decide which ones to use, how to 
@@ -65,6 +63,8 @@ Acyclic Graph), and can have loops that help to self-correct the decisions made 
 built in that manner can have tools not only to query a vector database, but also to play with the query, summarize the
 results, or even generate new data to answer the question. Options are endless, but there are some common patterns
 that can be observed in the wild. 
+
+TODO: diagram of a fully autonomous agent
 
 ### Solving Information Retrieval Problems with LLMs
 
@@ -206,9 +206,9 @@ stacks.
 ### CrewAI
 
 CrewAI is another popular choice for building agents, including agentic RAG. It's a high-level framework that assumes
-there are some agents working together to achieve a common goal. That's where the "crew" in CrewAI comes from. CrewAI is 
-designed with multi-agent systems in mind. Contrary to LangGraph, the developer does not create a graph of processing, 
-but defines agents and their roles within the crew.
+there are some LLM-based agents working together to achieve a common goal. That's where the "crew" in CrewAI comes from. 
+CrewAI is designed with multi-agent systems in mind. Contrary to LangGraph, the developer does not create a graph of 
+processing, but defines agents and their roles within the crew.
 
 Some of the key concepts of CrewAI include:
 
@@ -225,6 +225,8 @@ Some of the key concepts of CrewAI include:
 
 TODO: describe CrewAI concept of a process and agents
 
+TODO: add code snippet presenting a similar application implemented in CrewAI
+
 Although it's not a technical advantage, CrewAI has a [great documentation](https://docs.crewai.com/introduction). The 
 framework is available for Python, and it's easy to get started with it. CrewAI also has a commercial offering, CrewAI 
 Enterprise, which provides a platform for building and deploying agents at scale.
@@ -234,7 +236,23 @@ Enterprise, which provides a platform for building and deploying agents at scale
 AutoGen emphasizes multi-agent architectures as a fundamental design principle. The framework requires at least two 
 agents in any system - typically an assistant and a user proxy exchange messages to achieve a common goal.
 
-TODO: visualize main concepts of AutoGen
+TODO: describe AutoGen concepts based on the notes in the comments
+
+[//]: # (- Assumes there are multiple agents! At least two &#40;e.g., assistant and user proxy&#41;.)
+[//]: # (- Each agent has a set of components &#40;i.e., human-in-the-loop, code executor, tool executor, LLM&#41;, but it is flexible.)
+[//]: # (- Supports human-in-the-loop &#40;three modes: NEVER, TERMINATE, ALWAYS&#41;.)
+[//]: # (- Agents can chat with each other to communicate to make progress on a task.)
+[//]: # (- Built-in code executors &#40;local command, Docker command, Jupyter&#41;.)
+[//]: # (- Tool use: 0.2.x supports only OpenAI-compatible tool call API. Type annotations are used for each tool, as tools are just Python callables.)
+[//]: # (- Pydantic models are supported for more complex type schema.)
+[//]: # (- Conversation patterns: Two-agent chat / Sequential chat &#40;two agents talk to each other, and the summary of their conversation is brought to the context of the next char&#41; / Group chat / Nested chat &#40;for internal dialogue&#41;)
+[//]: # (- Observability is supported &#40;SQLite / File logger / [AgentOps]&#40;https://www.agentops.ai/&#41;&#41; )
+[//]: # (- Prompting and reasoning strategies: ReAct, Reflection / self-critique)
+[//]: # (- RAG through `RetrieveUserProxyAgent`)
+[//]: # (- Low-code interface for building prototypes: **AutoGen Studio** &#40;not production ready agents, but lower the entry barrier&#41;)
+[//]: # (- No persistence / state management. Chat resuming is possible, but it's not that prominent on their website. Not sure about 0.4.x thougt)
+
+TODO: add code snippet with a similar app implemented in Autogen
 
 For those new to agent development, AutoGen offers AutoGen Studio, a low-code interface for prototyping agents. While
 not intended for production use, it significantly lowers the barrier to entry for experimenting with agent 
@@ -308,7 +326,8 @@ response = client.run(
 ```
 
 Even though we don't explicitly define the graph of processing, the agents can still decide to hand off the processing
-to a different agent. 
+to a different agent. There is no concept of a state, so everything relies on the messages exchanged between different
+components. 
 
 OpenAI Swarm does not focus on integration with external tools, and **if you would like to integrate semantic search 
 with Qdrant, you would have to implement it fully yourself**. Obviously, the libraru is tightly coupled with OpenAI 
