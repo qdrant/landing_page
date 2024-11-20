@@ -1,6 +1,6 @@
 ---
 title: Snapshots
-weight: 2
+weight: 6
 aliases:
   - ../snapshots
 ---

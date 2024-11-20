@@ -1,8 +1,8 @@
 ---
-title: Optimization Strategies
-weight: 2
-aliases:
-  - ../tutorials/optimize
+title: Resource Optimization
+weight: 14
+# If the index.md file is empty, the link to the section will be hidden from the sidebar
+partition: qdrant
 ---
 
 # Optimizing Qdrant Performance: Three Scenarios

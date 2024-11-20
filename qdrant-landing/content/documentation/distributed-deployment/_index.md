@@ -1,6 +1,8 @@
 ---
 title: Distributed Deployment
-weight: 2
+weight: 15
+# If the index.md file is empty, the link to the section will be hidden from the sidebar
+partition: qdrant
 aliases:
   - ../distributed_deployment
   - /guides/distributed_deployment
