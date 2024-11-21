@@ -5,7 +5,7 @@ short_description: "Using vectors to enable scalable & real-time QA testing."
 description: "QA.tech uses Qdrant to power AI agents, enabling scalable, real-time web testing with custom embeddings and batch efficiency."
 preview_image: /blog/case-study-qatech/preview.png
 social_preview_image: /blog/case-study-qatech/preview.png
-date: 2024-11-17T00:02:00Z
+date: 2024-11-20T00:02:00Z
 author: Qdrant
 featured: false
 tags:
