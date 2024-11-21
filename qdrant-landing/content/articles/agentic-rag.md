@@ -355,3 +355,12 @@ No matter which framework you choose, Qdrant is a great tool to build agentic RA
 integrations](/documentation/frameworks/) to choose the best one for your use case and preferences. The easiest way to 
 start using Qdrant is to use our managed service, [Qdrant Cloud](https://cloud.qdrant.io). A free 1GB cluster is 
 available for free, so you can start building your agentic RAG system in minutes.
+
+## Further Reading
+
+See how Qdrant integrates with:
+
+- [Autogen](https://qdrant.tech/documentation/frameworks/autogen/)
+- [CrewAI](https://qdrant.tech/documentation/frameworks/crewai/)
+- [LangGraph](https://qdrant.tech/documentation/frameworks/langgraph/)
+- [Swarm](https://qdrant.tech/documentation/frameworks/swarm/)
