@@ -223,7 +223,14 @@ Some of the key concepts of CrewAI include:
   memory that combines the other three. There is also user memory for preferences and personalization. **This is where
   Qdrant comes into play, as it might be used as a long-term memory layer.**
 
-TODO: describe CrewAI concept of a process and agents
+CrewAI provides a rich set of tools integrated into the framework. That may be a huge advantage for those who want to
+combine RAG with e.g. code execution, or image generation. The ecosystem is rich, however brining your own tools is
+not a big deal, as CrewAI is designed to be extensible.
+
+A simple agentic RAG application implemented in CrewAI could look like this:
+
+```python
+```
 
 TODO: add code snippet presenting a similar application implemented in CrewAI
 
@@ -293,8 +300,6 @@ result = user_proxy.initiate_chat(
     problem="Why Qdrant is the best vector database out there?",
     max_turns=10,
 )
-
-print(result)
 ```
 
 For those new to agent development, AutoGen offers AutoGen Studio, a low-code interface for prototyping agents. While
@@ -399,7 +404,8 @@ with that ecosystem, it may suit you better.
 
 All the frameworks have different approaches to building agents, so it's worth experimenting with all of them to see 
 which one fits your needs the best. LangGraph and CrewAI are more mature and have more features, while AutoGen and 
-OpenAI Swarm are more lightweight and more experimental.
+OpenAI Swarm are more lightweight and more experimental. However, **none of the existing frameworks solves all the 
+mentioned Information Retrieval problems**, so you might have to build your own tools to fill the gaps.
 
 ## Building Agentic RAG with Qdrant
 
