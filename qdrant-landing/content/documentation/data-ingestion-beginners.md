@@ -42,7 +42,7 @@ In this section, you’ll get a step-by-step guide on ingesting data from an S3 
 |AWS Account|An active [AWS account](https://aws.amazon.com/free/) with access to S3 services.|
 |Qdrant Account|A [Qdrant Cloud account](https://cloud.qdrant.io) with access to the WebUI for managing collections and running queries.|
 |Embedding Models|Use embedding models such as [OpenAI's text embedding model](https://openai.com/index/openai-api/) for text files and CLIP for images.|
-|LangChain| You will use this [popular framework]((https://python.langchain.com/)) to tie everything together. |
+|LangChain| You will use this [popular framework](https://python.langchain.com/) to tie everything together. |
 
 #### Supported Document Types
 
