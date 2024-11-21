@@ -33,7 +33,7 @@ On top of the backbone, `jina-embeddings-v3` has been trained with 5 task-specif
 + **text-matching**: Used to encode text for similarity matching, such as measuring similarity between two sentences.
 + **separation**: Used for clustering or reranking tasks.
 
-`jina-embeddings-v3` and `jina-clip-v2` supports **Matryoshka Representation Learning**, allowing users to control the embedding dimension with minimal performance loss.  
+`jina-embeddings-v3` and `jina-clip-v2` support **Matryoshka Representation Learning**, allowing users to control the embedding dimension with minimal performance loss.  
 Include `dimensions` in your request to select the desired dimension.  
 By default, **dimensions** is set to 1024, and a number between 256 and 1024 is recommended.  
 You can reference the table below for hints on dimension vs. performance:
