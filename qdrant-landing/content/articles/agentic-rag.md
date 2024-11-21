@@ -230,9 +230,52 @@ not a big deal, as CrewAI is designed to be extensible.
 A simple agentic RAG application implemented in CrewAI could look like this:
 
 ```python
+from crewai import Crew, Agent, Task
+from crewai.memory.entity.entity_memory import EntityMemory
+from crewai.memory.short_term.short_term_memory import ShortTermMemory
+from crewai.memory.storage.rag_storage import RAGStorage
+
+class QdrantStorage(RAGStorage):
+    ...
+
+response_generator_agent = Agent(
+    role="Generate response based on the conversation",
+    goal="Provide the best response, or admit when the response is not available.",
+    backstory=(
+        "I am a response generator agent. I generate "
+        "responses based on the conversation."
+    ),
+    verbose=True,
+)
+
+query_reformulation_agent = Agent(
+    role="Reformulate the query",
+    goal="Rewrite the query to get better results. Fix typos, grammar, word choice, etc.",
+    backstory=(
+        "I am a query reformulation agent. I reformulate the " 
+        "query to get better results."
+    ),
+    verbose=True,
+)
+
+task = Task(
+    description="Let me know why Qdrant is the best vector database out there.",
+    expected_output="3 bullet points",
+    agent=response_generator_agent,
+)
+
+crew = Crew(
+    agents=[response_generator_agent, query_reformulation_agent],
+    tasks=[task],
+    memory=True,
+    entity_memory=EntityMemory(storage=QdrantStorage("entity")),
+    short_term_memory=ShortTermMemory(storage=QdrantStorage("short-term")),
+)
+crew.kickoff()
 ```
 
-TODO: add code snippet presenting a similar application implemented in CrewAI
+*Disclaimer: QdrantStorage is not a part of the CrewAI framework, but it's taken from the Qdrant documentation on [how
+to integrate Qdrant with CrewAI](https://qdrant.tech/documentation/frameworks/crewai/).*
 
 Although it's not a technical advantage, CrewAI has a [great documentation](https://docs.crewai.com/introduction). The 
 framework is available for Python, and it's easy to get started with it. CrewAI also has a commercial offering, CrewAI 
@@ -249,12 +292,13 @@ agents, and the chat conversation is the only way to communicate between them.
 There are many interesting concepts in the framework, some of them even quite unique:
 
 - **Tools/functions** - external components that can be used by agents to communicate with the outside world. They are 
-  defined as Python callables, and **can be used to query a vector database**, for example. Type annotations are used
-  to define the input and output of the tools, and Pydantic models are supported for more complex type schema. AutoGen
-  supports only OpenAI-compatible tool call API for the time being.
+  defined as Python callables, and can be used for any external interaction we want to allow the agent to do. Type 
+  annotations are used to define the input and output of the tools, and Pydantic models are supported for more complex 
+  type schema. AutoGen supports only OpenAI-compatible tool call API for the time being.
 - **Code executors** - built-in code executors include local command, Docker command, and Jupyter. An agent can write
   and launch code, so theoretically the agents can do anything that can be done in Python. None of the other frameworks 
-  made code generation and execution that prominent.
+  made code generation and execution that prominent. Code execution being the first-class citizen in AutoGen is an 
+  interesting concept.
 
 Each AutoGen agent uses at least one of the components: human-in-the-loop, code executor, tool executor, or LLM. 
 A simple agentic RAG, based on the conversation of two agents which can retrieve documents from a vector database,
@@ -405,7 +449,7 @@ with that ecosystem, it may suit you better.
 All the frameworks have different approaches to building agents, so it's worth experimenting with all of them to see 
 which one fits your needs the best. LangGraph and CrewAI are more mature and have more features, while AutoGen and 
 OpenAI Swarm are more lightweight and more experimental. However, **none of the existing frameworks solves all the 
-mentioned Information Retrieval problems**, so you might have to build your own tools to fill the gaps.
+mentioned Information Retrieval problems**, so you still have to build your own tools to fill the gaps. 
 
 ## Building Agentic RAG with Qdrant
 
@@ -414,7 +458,7 @@ integrations](/documentation/frameworks/) to choose the best one for your use ca
 start using Qdrant is to use our managed service, [Qdrant Cloud](https://cloud.qdrant.io). A free 1GB cluster is 
 available for free, so you can start building your agentic RAG system in minutes.
 
-## Further Reading
+### Further Reading
 
 See how Qdrant integrates with:
 
