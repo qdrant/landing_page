@@ -1,7 +1,7 @@
 ---
 title: "What is Agentic RAG? Building Agents with Qdrant"
-short_description: ""
-description: ""
+short_description: "Will agentic RAG replace linear RAG? Learn how to build agents with Qdrant and which framework is best for your use case."
+description: "Agents are a new paradigm in AI, and they are changing how we build RAG systems. Learn how to build agents with Qdrant and which framework to choose."
 preview_dir: /articles_data/agentic-rag/preview
 social_preview_image: /articles_data/agentic-rag/social-preview.png
 weight: -150
@@ -27,16 +27,16 @@ a query, retrieve relevant documents, and generate a response. In many cases tha
 problem. In the worst case scenario, your LLM will just decide to not answer the question, because the context does not 
 provide enough information.
 
-TODO: diagram presenting a standard RAG architecture
+![Standard, linear RAG pipeline](/articles_data/agentic-rag/linear-rag.png)
 
 On the other hand, we have agents. These systems are given more freedom to act, and can take multiple non-linear steps 
 to achieve a certain goal. There isn't a single definition of what an agent is, but in general, it is an application
 that uses LLM and usually some tools to communicate with the outside world. LLMs are used as decision-makers which
 decide what action to take next. Actions can be anything, but they are usually well-defined and limited to a certain
 set of possibilities. One of these actions might be to query a vector database, like Qdrant, to retrieve relevant
-documents, if the context is not enough to make a decision.
+documents, if the context is not enough to make a decision. However, RAG is just a single tool in the agent's arsenal.
 
-TODO: diagram of an agent architecture with multiple tools
+![AI Agent](/articles_data/agentic-rag/ai-agent.png)
 
 ## Agentic RAG: Combining RAG with Agents
 
@@ -53,7 +53,7 @@ information, and the agent can decide which collection to query based on the con
 decision of choosing a path is made by the LLM, which is the core of the agent. A routing agent never comes back to the
 previous step, so it's ultimately just a conditional decision-making system.
 
-TODO: diagram of a router agent
+![Routing Agent](/articles_data/agentic-rag/routing-agent.png)
 
 However, routing is just the beginning. Agents can be much more complex, and extreme forms of agents can have complete
 freedom to act. In such cases, the agent is given a set of tools and can autonomously decide which ones to use, how to 
@@ -64,7 +64,7 @@ built in that manner can have tools not only to query a vector database, but als
 results, or even generate new data to answer the question. Options are endless, but there are some common patterns
 that can be observed in the wild. 
 
-TODO: diagram of a fully autonomous agent
+![Autonomous Agent](/articles_data/agentic-rag/autonomous-agent.png)
 
 ### Solving Information Retrieval Problems with LLMs
 
@@ -74,18 +74,17 @@ the same. What kind of tools you can consider using in an agentic RAG? Here are 
 
 - **Querying a vector database** - the most common tool used in agentic RAG systems. It allows the agent to retrieve 
   relevant documents based on the query.
-  ![TODO: RAG pipeline image](/articles_data/agentic-rag/rag-pipeline.png)
 - **Query expansion** - a tool that can be used to improve the query. It can be used to add synonyms, correct typos, or 
   even to generate new queries based on the original one.
-  ![TODO: Query expansion image](/articles_data/agentic-rag/query-expansion.png)
+  ![Query expansion example](/articles_data/agentic-rag/query-expansion.png)
 - **Extracting filters** - vector search alone is sometimes not enough. In many cases, you might want to filter the 
   results based on some criteria. Extracting filters can be used to extract such criteria from the query in an automated
   way. Otherwise, your users would have to manually define that criteria.
-  ![TODO: Extracting filters image](/articles_data/agentic-rag/extracting-filters.png)
+  ![Extracting filters](/articles_data/agentic-rag/extracting-filters.png)
 - **Quality judgement** - knowing the quality of the results for given query can be used to decide whether they are good 
   enough to answer, or if the agent should take another step to improve them somehow. Alternatively it can also admit 
   the failure to provide good response.
-  ![TODO: Quality judgement image](/articles_data/agentic-rag/quality-judgement.png)
+  ![Quality judgement](/articles_data/agentic-rag/quality-judgement.png)
 
 These are just some of the examples, but the list is not exhaustive. For example, your LLM could possibly play with
 Qdrant search parameters or choose different methods to query it. An example? If your users are searching using some
@@ -196,12 +195,12 @@ compiled_graph.invoke({
 ```
 
 Each node of the process is just a Python function that does certain operation. You can call an LLM of your choice 
-inside of them, if you want to, but there is no assumption about the messages being created by any AI. LangGraph rather 
-acts as a runtime that launches these functions in a specific order, and passes the state between them. While [LangGraph
-](https://www.langchain.com/langgraph) integrates well with the LangChain ecosystem, it can be used independently. For 
-teams looking for additional support and features, there's also a commercial offering called LangGraph Platform. The 
-framework is available for both Python and JavaScript environments, making it possible to be used in different tech 
-stacks.
+inside of them, if you want to, but there is no assumption about the messages being created by any AI. **LangGraph 
+rather acts as a runtime that launches these functions in a specific order, and passes the state between them**. While 
+[LangGraph](https://www.langchain.com/langgraph) integrates well with the LangChain ecosystem, it can be used 
+independently. For teams looking for additional support and features, there's also a commercial offering called 
+LangGraph Platform. The framework is available for both Python and JavaScript environments, making it possible to be 
+used in different tech stacks.
 
 ### CrewAI
 
