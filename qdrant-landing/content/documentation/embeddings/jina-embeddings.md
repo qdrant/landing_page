@@ -142,7 +142,7 @@ text_embedding = response_data[0]["embedding"] #jina-clip-v2 model doesn't diffe
 image_embedding = response_data[1]["embedding"]
 
 # Initialize Qdrant client
-client = QdrantClient(":memory:")  # Use ":memory:" for in-memory storage or specify a URL for a persistent instance.
+client = QdrantClient(url="http://localhost:6333/")
 
 # Create a collection with named vectors
 collection_name = "MyCollection"
