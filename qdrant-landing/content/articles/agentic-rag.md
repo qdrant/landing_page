@@ -234,33 +234,76 @@ Enterprise, which provides a platform for building and deploying agents at scale
 ### AutoGen
 
 AutoGen emphasizes multi-agent architectures as a fundamental design principle. The framework requires at least two 
-agents in any system - typically an assistant and a user proxy exchange messages to achieve a common goal.
+agents in any system to really call an application agentic - typically an assistant and a user proxy exchange messages 
+to achieve a common goal. Sequential chat with more than two agents is also supported, as well as group chat and nested
+chat for internal dialogue. However, AutoGen does not assume there is a structured state that is passed between the
+agents, and the chat conversation is the only way to communicate between them.
 
-TODO: describe AutoGen concepts based on the notes in the comments
+There are many interesting concepts in the framework, some of them even quite unique:
 
-[//]: # (- Assumes there are multiple agents! At least two &#40;e.g., assistant and user proxy&#41;.)
-[//]: # (- Each agent has a set of components &#40;i.e., human-in-the-loop, code executor, tool executor, LLM&#41;, but it is flexible.)
-[//]: # (- Supports human-in-the-loop &#40;three modes: NEVER, TERMINATE, ALWAYS&#41;.)
-[//]: # (- Agents can chat with each other to communicate to make progress on a task.)
-[//]: # (- Built-in code executors &#40;local command, Docker command, Jupyter&#41;.)
-[//]: # (- Tool use: 0.2.x supports only OpenAI-compatible tool call API. Type annotations are used for each tool, as tools are just Python callables.)
-[//]: # (- Pydantic models are supported for more complex type schema.)
-[//]: # (- Conversation patterns: Two-agent chat / Sequential chat &#40;two agents talk to each other, and the summary of their conversation is brought to the context of the next char&#41; / Group chat / Nested chat &#40;for internal dialogue&#41;)
-[//]: # (- Observability is supported &#40;SQLite / File logger / [AgentOps]&#40;https://www.agentops.ai/&#41;&#41; )
-[//]: # (- Prompting and reasoning strategies: ReAct, Reflection / self-critique)
-[//]: # (- RAG through `RetrieveUserProxyAgent`)
-[//]: # (- Low-code interface for building prototypes: **AutoGen Studio** &#40;not production ready agents, but lower the entry barrier&#41;)
-[//]: # (- No persistence / state management. Chat resuming is possible, but it's not that prominent on their website. Not sure about 0.4.x thougt)
+- **Tools/functions** - external components that can be used by agents to communicate with the outside world. They are 
+  defined as Python callables, and **can be used to query a vector database**, for example. Type annotations are used
+  to define the input and output of the tools, and Pydantic models are supported for more complex type schema. AutoGen
+  supports only OpenAI-compatible tool call API for the time being.
+- **Code executors** - built-in code executors include local command, Docker command, and Jupyter. An agent can write
+  and launch code, so theoretically the agents can do anything that can be done in Python. None of the other frameworks 
+  made code generation and execution that prominent.
 
-TODO: add code snippet with a similar app implemented in Autogen
+Each AutoGen agent uses at least one of the components: human-in-the-loop, code executor, tool executor, or LLM. 
+A simple agentic RAG, based on the conversation of two agents which can retrieve documents from a vector database,
+or improve the query, could look like this:
+
+```python
+from os import environ
+
+from autogen import ConversableAgent
+from autogen.agentchat.contrib.retrieve_user_proxy_agent import RetrieveUserProxyAgent
+from qdrant_client import QdrantClient
+
+client = QdrantClient(...)
+
+response_generator_agent = ConversableAgent(
+    name="response_generator_agent",
+    system_message=(
+        "You answer user questions based solely on the provided context. You ask to retrieve relevant documents for "
+        "your query, or reformulate the query, if it is incorrect in some way."
+    ),
+    description="A response generator agent that can answer your queries.",
+    llm_config={"config_list": [{"model": "gpt-4", "api_key": environ.get("OPENAI_API_KEY")}]},
+    human_input_mode="NEVER",
+)
+
+user_proxy = RetrieveUserProxyAgent(
+    name="retrieval_user",
+    llm_config={"config_list": [{"model": "gpt-4", "api_key": environ.get("OPENAI_API_KEY")}]},
+    human_input_mode="NEVER",
+    retrieve_config={
+        "task": "qa",
+        "chunk_token_size": 2000,
+        "vector_db": "qdrant",
+        "db_config": {"client": client},
+        "get_or_create": True,
+        "overwrite": True,
+    },
+)
+
+result = user_proxy.initiate_chat(
+    response_generator_agent,
+    message=user_proxy.message_generator,
+    problem="Why Qdrant is the best vector database out there?",
+    max_turns=10,
+)
+
+print(result)
+```
 
 For those new to agent development, AutoGen offers AutoGen Studio, a low-code interface for prototyping agents. While
 not intended for production use, it significantly lowers the barrier to entry for experimenting with agent 
 architectures.
 
-TODO: add screenshot of AutoGen Studio
+![AutoGen Studio](/articles_data/agentic-rag/autogen-studio.png)
 
-It's worth noting that AutoGen is currently undergoing significant changes, with version 0.4.x in development
+It's worth noting that AutoGen is currently undergoing significant updates, with version 0.4.x in development
 introducing substantial API changes compared to the stable 0.2.x release. While the framework currently has limited
 built-in persistence and state management capabilities, these features may evolve in future releases.
 
@@ -330,7 +373,7 @@ to a different agent. There is no concept of a state, so everything relies on th
 components. 
 
 OpenAI Swarm does not focus on integration with external tools, and **if you would like to integrate semantic search 
-with Qdrant, you would have to implement it fully yourself**. Obviously, the libraru is tightly coupled with OpenAI 
+with Qdrant, you would have to implement it fully yourself**. Obviously, the library is tightly coupled with OpenAI 
 models, and while using some other ones is possible, it requires some additional work like setting up proxy that will 
 adjust the interface to OpenAI API.
 
@@ -344,10 +387,19 @@ ecosystem of the tools you want your agent to interact with.
 
 There are, however, some important factors to consider when choosing a framework for your agentic RAG system:
 
-- **human-in-the-loop** - 
-- **structured response** - for passing structured messages between steps/agents
+- **Human-in-the-loop** - even though we aim to build autonomous agents, it's often important to include the feedback
+  from the human, so our agents cannot perform malicious actions. 
+- **Observability** - how easy it is to debug the system, and how easy it is to understand what's happening inside.
+  Especially important, since we are dealing with lots of LLM prompts.
 
-TODO: finish the list
+Still, choosing the right toolkit depends on the state of your project, and the specific requirements you have. If you
+want to integrate your agent with number of external tools, CrewAI might be the best choice, as the set of 
+out-of-the-box integrations is the biggest. However, LangGraph integrates well with LangChain, so if you are familiar
+with that ecosystem, it may suit you better. 
+
+All the frameworks have different approaches to building agents, so it's worth experimenting with all of them to see 
+which one fits your needs the best. LangGraph and CrewAI are more mature and have more features, while AutoGen and 
+OpenAI Swarm are more lightweight and more experimental.
 
 ## Building Agentic RAG with Qdrant
 
