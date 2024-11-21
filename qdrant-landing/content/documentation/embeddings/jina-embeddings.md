@@ -186,11 +186,12 @@ data = {
 response = requests.post(url, headers=headers, json=data)
 query_embedding = response.json()["data"][0]["embedding"]
 
-search_results = client.search(
+search_results = client.query_points(
     collection_name=collection_name,
-    query_vector=("image_vector", query_embedding),  # Search against image vectors
+    query=query_embedding,
+    using="image_vector",
     limit=5
-)
+).points
 
 for result in search_results:
     print(f"ID: {result.id}, Score: {result.score}")
