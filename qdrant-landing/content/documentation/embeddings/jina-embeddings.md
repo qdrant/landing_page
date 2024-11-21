@@ -154,14 +154,11 @@ client.recreate_collection(
     },
 )
 
-# Upsert the point with named vectors
-point_id = 0  # Unique identifier for the point, UUID is also a good choice
-
 client.upsert(
     collection_name=collection_name,
     points=[
         PointStruct(
-            id=point_id,
+            id=0,
             vector={
                 "text_vector": text_embedding,
                 "image_vector": image_embedding,
