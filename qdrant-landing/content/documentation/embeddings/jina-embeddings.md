@@ -137,8 +137,8 @@ data = {
 response = requests.post(url, headers=headers, json=data)
 response_data = response.json()["data"]
 
-# Extract embeddings
-text_embedding = response_data[0]["embedding"] #jina-clip-v2 model doesn't differentiate between images and text, so we just assign them based on the order
+# The model doesn't differentiate between images and text, so we extract output based on the input order.
+text_embedding = response_data[0]["embedding"]
 image_embedding = response_data[1]["embedding"]
 
 # Initialize Qdrant client
