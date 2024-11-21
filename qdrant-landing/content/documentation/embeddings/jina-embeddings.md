@@ -2,8 +2,8 @@
 title: Jina Embeddings
 weight: 1900
 aliases: 
-  - /documentation/embeddings/jina-emebddngs/
-  - ../integrations/jina-embeddings/
+  - /documentation/embeddings/jina-embeddings/
+  - /documentation/integrations/jina-embeddings/
 ---
 
 # Jina Embeddings
@@ -18,10 +18,10 @@ Qdrant users can receive a 10% discount on Jina AI APIs by using the code **QDRA
 |:----------------------:|:---------:|:---------:|:-----------:|:---------:|
 | **jina-clip-v2** | **1024** | **Multilingual (100+, focus on 30)** | **Yes** | **Text/Image** |
 |  jina-embeddings-v3  |  1024 | Multilingual (89 languages)  |  Yes  | 8192 |
-|  jina-embeddings-v2-base-en |  768 |  English |  No | 8192  | 
-|  jina-embeddings-v2-base-de |  768 |  German & English |  No  |  8192 | 
-|  jina-embeddings-v2-base-es |  768 |  Spanish & English |  No  |  8192 | 
-|  jina-embeddings-v2-base-zh | 768  |  Chinese & English |  No  |  8192 | 
+|  jina-embeddings-v2-base-en |  768 |  English |  No | 8192  |
+|  jina-embeddings-v2-base-de |  768 |  German & English |  No  |  8192 |
+|  jina-embeddings-v2-base-es |  768 |  Spanish & English |  No  |  8192 |
+|  jina-embeddings-v2-base-zh | 768  |  Chinese & English |  No  |  8192 |
 
 > Jina recommends using `jina-embeddings-v3` for text-only tasks and `jina-clip-v2` for multimodal tasks or when enhanced visual retrieval is required.
 
@@ -38,19 +38,17 @@ Include `dimensions` in your request to select the desired dimension.
 By default, **dimensions** is set to 1024, and a number between 256 and 1024 is recommended.  
 You can reference the table below for hints on dimension vs. performance:
 
-
-|         Dimension          | 32 |  64  | 128 |  256   |  512   |   768 |  1024   | 
+|         Dimension          | 32 |  64  | 128 |  256   |  512   |   768 |  1024   |
 |:----------------------:|:---------:|:---------:|:-----------:|:---------:|:----------:|:---------:|:---------:|
-|  Average Retrieval Performance (nDCG@10)   |   52.54     | 58.54 |    61.64    | 62.72 | 63.16  | 63.3  |   63.35    | 
+|  Average Retrieval Performance (nDCG@10)   |   52.54     | 58.54 |    61.64    | 62.72 | 63.16  | 63.3  |   63.35    |
 
-`jina-embeddings-v3` supports [Late Chunking](https://jina.ai/news/late-chunking-in-long-context-embedding-models/), the technique to leverage the model's long-context capabilities for generating contextual chunk embeddings. Include `late_chunking=True` in your request to enable contextual chunked representation. When set to true, Jina AI API will concatenate all sentences in the input field and feed them as a single string to the model. Internally, the model embeds this long concatenated string and then performs late chunking, returning a list of embeddings that matches the size of the input list. 
+`jina-embeddings-v3` supports [Late Chunking](https://jina.ai/news/late-chunking-in-long-context-embedding-models/), the technique to leverage the model's long-context capabilities for generating contextual chunk embeddings. Include `late_chunking=True` in your request to enable contextual chunked representation. When set to true, Jina AI API will concatenate all sentences in the input field and feed them as a single string to the model. Internally, the model embeds this long concatenated string and then performs late chunking, returning a list of embeddings that matches the size of the input list.
 
 ## Example
 
 ### Jina Embeddings v3
 
-The code below demonstrate how to use `jina-embeddings-v3` together with Qdrant:
-
+The code below demonstrates how to use `jina-embeddings-v3` with Qdrant:
 
 ```python
 import requests
@@ -62,7 +60,7 @@ from qdrant_client.models import Distance, VectorParams, Batch
 JINA_API_KEY = "jina_xxxxxxxxxxx"
 MODEL = "jina-embeddings-v3"
 DIMENSIONS = 1024 # Or choose your desired output vector dimensionality.
-TASK = 'retrieval.passage' # For indexing, or set to retrieval.query for quering
+TASK = 'retrieval.passage' # For indexing, or set to retrieval.query for querying
 
 # Get embeddings from the API
 url = "https://api.jina.ai/v1/embeddings"
@@ -105,6 +103,7 @@ qdrant_client.upsert(
 ### Jina CLIP v2
 
 The code below demonstrates how to use `jina-clip-v2` with Qdrant:
+
 ```python
 import requests
 from qdrant_client import QdrantClient
