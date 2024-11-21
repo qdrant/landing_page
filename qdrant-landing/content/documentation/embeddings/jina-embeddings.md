@@ -104,7 +104,7 @@ qdrant_client.upsert(
 
 ### Jina CLIP v2
 
-The code below demonstrate how to use `jina-clip-v2` together with Qdrant:
+The code below demonstrates how to use `jina-clip-v2` with Qdrant:
 ```python
 import requests
 from qdrant_client import QdrantClient
