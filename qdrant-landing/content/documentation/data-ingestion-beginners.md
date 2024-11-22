@@ -107,7 +107,7 @@ docs = loader.load()
 
 ## Step 2. Turning Documents into Embeddings
 
-[Embeddings](/articles/what-are-embeddings/) are the secret sauce here—they’re numerical representations of data (like text, images, or audio) that capture the “meaning” in a form that’s easy to compare. By converting text and images into embeddings, you’ll be able to perform similarity searches quickly and efficiently. Think of embeddings as the bridge to storing and retrieving meaningful insights from your data in Qdrant..
+[Embeddings](/articles/what-are-embeddings/) are the secret sauce here—they’re numerical representations of data (like text, images, or audio) that capture the “meaning” in a form that’s easy to compare. By converting text and images into embeddings, you’ll be able to perform similarity searches quickly and efficiently. Think of embeddings as the bridge to storing and retrieving meaningful insights from your data in Qdrant.
 
 ### Models We’ll Use for Generating Embeddings
 
