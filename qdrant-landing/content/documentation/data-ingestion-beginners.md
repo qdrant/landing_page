@@ -25,7 +25,7 @@ We’ll set up a powerful document ingestion and analysis pipeline in this workf
 
 Let's break down each component of this workflow:
 
-- **S3 Bucket:** This is your starting point—a centralized, scalable storage solution for various file types like PDFs, images, and text.
+- **S3 Bucket:** This is our starting point—a centralized, scalable storage solution for various file types like PDFs, images, and text.
 - **LangChain:** Acting as the pipeline’s orchestrator, LangChain handles extraction, preprocessing, and manages data flow for embedding generation. It simplifies processing PDFs, so you won’t need to worry about applying OCR (Optical Character Recognition) here.
 - **Text Embeddings API:** This API transforms text from files and PDFs into vector representations, capturing semantic meaning for advanced analysis and search.
 - **Image Embeddings API:** This tool takes image files and converts them into vector representations, making similarity search and analysis possible for visual content.
