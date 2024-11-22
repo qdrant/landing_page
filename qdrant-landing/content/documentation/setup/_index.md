@@ -1,6 +1,6 @@
 ---
 title: Setup Instructions
-weight: 8
+weight: 10
 is_empty: true
 partition: qdrant
 ---
