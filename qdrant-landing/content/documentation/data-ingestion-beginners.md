@@ -50,7 +50,7 @@ The documents used for ingestion can be of various types, such as PDFs, text fil
 
 #### Python Environment 
 
-Ensure you have a Python environment (Python 3.7 or higher) with these libraries installed:
+Ensure you have a Python environment (Python 3.9 or higher) with these libraries installed:
 
 ```jsx
 boto3
