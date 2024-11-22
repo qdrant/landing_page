@@ -7,20 +7,8 @@ social_preview_image: /articles_data/agentic-rag/social-preview.png
 weight: -150
 author: Kacper Łukawski
 author_link: https://www.kacperlukawski.com
-date: 2024-11-18T00:00:00.000Z
+date: 2024-11-22T00:00:00.000Z
 ---
-
-[//]: # (Plan:)
-[//]: # (1. Intro and Architecture)
-[//]: # (2. Where are Agents Used?)
-[//]: # (3. Which Framework is Best?)
-[//]: # (	- LangGraph)
-[//]: # (	- CrewAI)
-[//]: # (	- AutoGen)
-[//]: # (	- OpenAI Swarm - not sure if it's a good idea to mention it, as it's not prod-ready)
-[//]: # (4. Building RAG Agents with Qdrant)
-[//]: # (	- High Level Explanation)
-[//]: # (	- Code Sample)
 
 Standard [Retrieval Augmented Generation](/articles/what-is-rag-in-ai/) follows a predictable, linear path: receive 
 a query, retrieve relevant documents, and generate a response. In many cases that might be enough to solve a particular 
