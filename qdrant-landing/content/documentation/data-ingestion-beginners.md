@@ -8,7 +8,7 @@ social_preview_image: /documentation/examples/data-ingestion-beginners/social_pr
 
 # Send S3 Data to Qdrant Vector Store with LangChain
 
-| Time: 30 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/qdrant_demo/tree/sentense-transformers) | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1kPktoudAP8Tu8n8l-iVMOQhVmHkWV_L9?usp=sharing)   |
+| Time: 30 min | Level: Beginner |  |    |
 | --- | ----------- | ----------- |----------- |
 
 **Data ingestion into a vector store** is essential for building effective search and retrieval algorithms, especially since nearly 80% of data is unstructured, lacking any predefined format.
