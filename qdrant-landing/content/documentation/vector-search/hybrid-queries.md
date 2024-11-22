@@ -1,6 +1,6 @@
 ---
 title: Hybrid Queries #required
-weight: 57 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
+weight: 4 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
 aliases: 
   - ../hybrid-queries
 hideInSidebar: false # Optional. If true, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).

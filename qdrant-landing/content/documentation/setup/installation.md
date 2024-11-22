@@ -1,6 +1,7 @@
 ---
-title: Installation
-weight: 5
+title: Installation Guide
+weight: 1
+partition: qdrant
 aliases:
   - ../install
   - ../installation

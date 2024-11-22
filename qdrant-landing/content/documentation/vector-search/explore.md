@@ -1,6 +1,6 @@
 ---
 title: Explore
-weight: 55
+weight: 3
 aliases:
   - ../explore
 ---

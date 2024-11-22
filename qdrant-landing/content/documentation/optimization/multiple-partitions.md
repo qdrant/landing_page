@@ -1,6 +1,6 @@
 ---
 title: Multitenancy
-weight: 12
+weight: 3
 aliases:
   - ../tutorials/multiple-partitions
   - /tutorials/multiple-partitions/

@@ -1,6 +1,6 @@
 ---
 title: Monitoring
-weight: 155
+weight: 3
 aliases:
   - ../monitoring
 ---

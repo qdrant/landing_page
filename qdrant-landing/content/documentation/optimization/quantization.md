@@ -1,6 +1,6 @@
 ---
-title: Quantization
-weight: 120
+title: Vector Quantization
+weight: 3
 aliases:
   - ../quantization
   - /articles/dedicated-service/documentation/guides/quantization/

@@ -1,6 +1,6 @@
 ---
 title: Telemetry
-weight: 150
+weight: 4
 aliases:
   - ../telemetry
 ---

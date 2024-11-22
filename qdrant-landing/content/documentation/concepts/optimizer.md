@@ -1,6 +1,6 @@
 ---
 title: Optimizer
-weight: 70
+weight: 5
 aliases:
   - ../optimizer
 ---
