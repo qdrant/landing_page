@@ -66,7 +66,7 @@ qdrant_client
 
 **Access Keys:** Store your AWS access key, S3 secret key, and Qdrant API key in a .env file for easy access. You’ll also need an **OpenAI API key**. Here’s a sample `.env` file.
 
-```jsx
+```text
 ACCESS_KEY = ""
 SECRET_ACCESS_KEY = ""
 OPENAI_API_KEY = ""
