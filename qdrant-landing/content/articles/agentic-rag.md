@@ -65,9 +65,9 @@ the same. What kind of tools you can consider using in an agentic RAG? Here are 
 - **Query expansion** - a tool that can be used to improve the query. It can be used to add synonyms, correct typos, or 
   even to generate new queries based on the original one.
   ![Query expansion example](/articles_data/agentic-rag/query-expansion.png)
-- **Extracting filters** - vector search alone is sometimes not enough. In many cases, you might want to filter the 
-  results based on some criteria. Extracting filters can be used to extract such criteria from the query in an automated
-  way. Otherwise, your users would have to manually define that criteria.
+- **Extracting filters** - vector search alone is sometimes not enough. In many cases, you might want to narrow down 
+  the results based on specific parameters. This extraction process can automatically identify relevant conditions from 
+  the query. Otherwise, your users would have to manually define these search constraints.
   ![Extracting filters](/articles_data/agentic-rag/extracting-filters.png)
 - **Quality judgement** - knowing the quality of the results for given query can be used to decide whether they are good 
   enough to answer, or if the agent should take another step to improve them somehow. Alternatively it can also admit 
