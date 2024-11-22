@@ -17,7 +17,7 @@ In this tutorial, we’ll create a streamlined data ingestion pipeline, pulling 
 
 ## Ingestion Workflow Architecture
 
-In this workflow, we’ll set up a powerful document ingestion and analysis pipeline using cloud storage, natural language processing (NLP) tools, and embedding technologies. Starting with raw data in an S3 bucket, we'll preprocess it with LangChain, apply embedding APIs for both text and images, and store the results in Qdrant – a vector database optimized for similarity search.
+We’ll set up a powerful document ingestion and analysis pipeline in this workflow using cloud storage, natural language processing (NLP) tools, and embedding technologies. Starting with raw data in an S3 bucket, we'll preprocess it with LangChain, apply embedding APIs for both text and images and store the results in Qdrant – a vector database optimized for similarity search.
 
 **Figure 1: Data Ingestion Workflow Architecture**
 
