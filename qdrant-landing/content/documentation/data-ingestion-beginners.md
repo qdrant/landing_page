@@ -206,7 +206,7 @@ First, the function checks the file type using the file extension (.txt, .pdf, .
 
 - **File Processing**
     - **Text Files (.txt):** For text files, it’s straightforward—the content is extracted as plain text and passed to the OpenAIEmbeddings model. Then, the embed_documents() function transforms this text into numerical vectors, capturing its meaning in embedding form.
-    - **PDFs:** PDFs often have a lot to offer, like multi-page content. Here, we’re using LangChain’s document loader to extract the text from each page, then converting it into embeddings with the OpenAI text embedding model. This lets you capture the full richness of the document.
+    - **PDFs:** PDFs often have a lot to offer, like multi-page content. Here, we’re using LangChain’s document loader to extract the text from each page, and then converting it into embeddings with the OpenAI text embedding model. This lets you capture the full richness of the document.
     - **Images (.png):** For images (e.g., .png files), the function fetches the image from S3 using its URL. Once loaded with the Python Imaging Library (PIL), the image is passed to the CLIP model, which generates an embedding that represents the image’s semantic features.
 
 ### Helper Functions for Document Processing
