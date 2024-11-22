@@ -362,7 +362,7 @@ Now, let’s retrieve some documents from the database using a query!.
 **Figure 6: Querying the Qdrant Client to Retrieve Relevant Documents**
 ![data-ingestion-beginners-3.png](/documentation/examples/data-ingestion-beginners/data-ingestion-3.png)
 
-In this example, we queried **Phones with improved design**. Then, we converted the text to vectors using OpenAI, and retrieved a relevant phone review highlighting design improvements.
+In this example, we queried **Phones with improved design**. Then, we converted the text to vectors using OpenAI and retrieved a relevant phone review highlighting design improvements.
 
 ## Conclusion
 
