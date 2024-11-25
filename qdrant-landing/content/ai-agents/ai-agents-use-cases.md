@@ -19,7 +19,7 @@ features:
   title: Building OpenAI Swarm Agents with Qdrant
   description: Learn how to build OpenAI Swarm agents using Qdrant for fast, scalable vector search and real-time actions.
   link:
-    text: Read Docs
+    text: Read the Docs
     url: /documentation/frameworks/swarm/
 - id: 2
   image:
