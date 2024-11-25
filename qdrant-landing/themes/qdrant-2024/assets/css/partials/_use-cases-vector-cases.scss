@@ -21,7 +21,9 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
+    margin: 0 auto;
     padding: $spacer * 2;
+    max-width: pxToRem(540);
 
     &-image {
       display: none;
@@ -41,6 +43,24 @@
       line-height: pxToRem(27);
       color: $neutral-40;
       margin-bottom: $spacer;
+    }
+  }
+
+  &.ai-agents-use-cases {
+    .use-cases-vector-cases__card {
+      &-title {
+        font-size: pxToRem(20);
+        line-height: pxToRem(30);
+      }
+
+      &-description {
+        font-size: $spacer;
+        line-height: $spacer * 1.5;
+      }
+
+      &-link {
+        margin-top: auto;
+      }
     }
   }
 
@@ -68,6 +88,21 @@
         &-mobile {
           display: none;
         }
+      }
+    }
+
+    &.ai-agents-use-cases {
+      .use-cases-vector-cases__title {
+        font-size: $spacer * 3.5;
+        line-height: pxToRem(67);
+      }
+
+      .use-cases-vector-cases__cards {
+        margin-bottom: $spacer * 5;
+      }
+
+      .use-cases-vector-cases__card {
+        min-height: pxToRem(518);
       }
     }
   }

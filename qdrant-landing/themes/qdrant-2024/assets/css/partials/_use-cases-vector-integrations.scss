@@ -1,6 +1,6 @@
 @use '../helpers/functions' as *;
 
-.retrieval-augmented-generation-integrations {
+.use-cases-vector-integrations {
   position: relative;
   padding-top: $spacer * 4;
   padding-bottom: $spacer * 4;
@@ -40,6 +40,11 @@
       line-height: pxToRem(21);
       margin-bottom: 0;
       color: $neutral-70;
+    }
+  }
+  a.use-cases-vector-integrations__card:hover {
+    .use-cases-vector-integrations__card-title {
+      text-decoration: underline;
     }
   }
 
