@@ -6,11 +6,10 @@ partition: build
 
 # Agentic RAG With Claude, CrewAI & Qdrant 
 
-| Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/) |
+| Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) |
 | --- | ----------- | ----------- |----------- |
 
 By combining the power of Qdrant for vector search and CrewAI for orchestrating modular agents, you can build systems that don't just answer questions but analyze, interpret, and act. 
-
 
 Traditional RAG systems focus on fetching data and generating responses, but they lack the ability to reason deeply or handle multi-step processes. Agentic RAG solves this by combining:
 
@@ -95,37 +94,39 @@ The system is built on three main components:
 ## Setup
 
 1. **Clone the Repository**:
-   ```bash
-   git clone <repository-url>
-   cd qdrant-agentic-rag
-   ```
+```bash
+git clone https://github.com/qdrant/examples.git
+cd agentic_rag_zoom_crewai
+```
 
 2. **Create and Activate a Python Virtual Environment with Python 3.10 for compatibility**:
-   ```bash
-   python3.10 -m venv venv
-   source venv/bin/activate  # Windows: venv\Scripts\activate
-   ```
+```bash
+python3.10 -m venv venv
+source venv/bin/activate  # Windows: venv\Scripts\activate
+```
 
 3. **Install Dependencies**:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```bash
+pip install -r requirements.txt
+```
 
 4. **Configure Environment Variables**:
-   Create a `.env.local` file with:
-   ```bash
-   openai_api_key=your_openai_key_here
-   anthropic_api_key=your_anthropic_key_here
-   qdrant_url=your_qdrant_url_here
-   qdrant_api_key=your_qdrant_api_key_here
-   ```
+Create a `.env.local` file with:
+
+```bash
+openai_api_key=your_openai_key_here
+anthropic_api_key=your_anthropic_key_here
+qdrant_url=your_qdrant_url_here
+qdrant_api_key=your_qdrant_api_key_here
+```
 
 ---
 
 ## Usage
 
 ### 1. Process Meeting Data
-The [`data_loader.py`](https://github.com/thierrypdamiba/qdrant_example_zoom/blob/crewai/vector/data_loader.py) script processes meeting data and stores it in Qdrant:
+The [`data_loader.py`](https://github.com/qdrant/examples/blob/master/agentic_rag_zoom_crewai/vector/data_loader.py) script processes meeting data and stores it in Qdrant:
+
 ```bash
 python vector/data_loader.py
 ```
@@ -133,7 +134,8 @@ python vector/data_loader.py
 After this script has run, you should see a new collection in your Qdrant Cloud account called `zoom_recordings`. This collection contains the vector embeddings of the meeting transcripts. The points in the collection contain the original meeting data, including the topic, content, and summary.
 
 ### 2. Launch the Interface
-The [`streamlit_app.py`](https://github.com/thierrypdamiba/qdrant_example_zoom/blob/crewai/vector/streamlit_app.py) is located in the `vector` folder. To launch it, run:
+The [`streamlit_app.py`](https://github.com/qdrant/examples/blob/master/agentic_rag_zoom_crewai/vector/streamlit_app.py) is located in the `vector` folder. To launch it, run:
+
 ```bash
 streamlit run vector/streamlit_app.py
 ```
