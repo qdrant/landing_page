@@ -118,8 +118,8 @@ class MeetingData:
         self.meetings = self._load_meetings()
         
         self.qdrant_client = QdrantClient(
-            url=os.getenv('qdrantUrl'),
-            api_key=os.getenv('qdrantApiKey')
+            url=os.getenv('qdrant_url'),
+            api_key=os.getenv('qdrant_api_key')
         )
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 ```
