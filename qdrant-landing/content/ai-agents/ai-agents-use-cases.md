@@ -10,7 +10,7 @@ features:
   description: This guide offers a comparison of key AI agent frameworks, highlighting their strengths and ideal use cases for developers.
   link:
     text: View Guide
-    url: /
+    url: /articles/agentic-rag/
 - id: 1
   image:
     src: /img/ai-agents-use-cases/open-ai-agents.svg
@@ -19,18 +19,18 @@ features:
   title: Building OpenAI Swarm Agents with Qdrant
   description: Learn how to build OpenAI Swarm agents using Qdrant for fast, scalable vector search and real-time actions.
   link:
-    text: Read Blog
-    url: /
+    text: Read Docs
+    url: /documentation/frameworks/swarm/
 - id: 2
   image:
     src: /img/ai-agents-use-cases/ai-scheduler.svg
     srcMobile: /img/ai-agents-use-cases/ai-scheduler.svg
     alt: AI scheduler
-  title: Building an AI Scheduler with Zoom, LlamaIndex, and Qdrant
+  title: Building an AI Scheduler with Zoom, CrewAI, and Qdrant
   description: Learn how to build an AI meeting scheduler with Zoom, LlamaIndex, and Qdrant, featuring a hands-on RAG recommendation engine code sample.
   link:
     text: View Tutorial
-    url: /
+    url: /documentation/agentic-rag-crewai-zoom/
 caseStudy:
   logo:
     src: /img/ai-agents-use-cases/customer-logo.svg
