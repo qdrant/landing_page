@@ -11,7 +11,7 @@ cases:
 - id: 1
   title: Adaptive Learning
   description: Qdrant supports continuous learning by enabling efficient vector retrieval and updates, allowing agents to learn and evolve based on real-time interactions and new data points.
-featuresTitle: Qdrant equips AI systems to adapt, learn, and collaborate efficiently.
+featuresTitle: Qdrant equips AI agents to adapt, learn, and collaborate efficiently.
 features:
 - id: 0
   icon: 
