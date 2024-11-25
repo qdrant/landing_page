@@ -87,8 +87,8 @@ The system is built on three main components:
    ```bash
    openai_api_key=your_openai_key_here
    anthropic_api_key=your_anthropic_key_here
-   qdrantUrl=your_qdrant_url_here
-   qdrantApiKey=your_qdrant_api_key_here
+   qdrant_url=your_qdrant_url_here
+   qdrant_api_key=your_qdrant_api_key_here
    ```
 
 ---
