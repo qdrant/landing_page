@@ -373,6 +373,6 @@ This foundation can be extended in many ways, such as:
 - Enhancing the user interface
 - Integrating with other data sources
 
-The code is available in the repository, and we encourage you to experiment with your own modifications and improvements.
+The code is available in the [repository](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai), and we encourage you to experiment with your own modifications and improvements.
 
 ---
