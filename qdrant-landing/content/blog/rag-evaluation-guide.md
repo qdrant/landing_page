@@ -222,7 +222,7 @@ RAG evaluation is just the beginning. It lays the foundation for continuous impr
 
 By continuously evaluating your application, you can ensure that the system adapts to changing requirements and maintains its performance over time. You should regularly calibrate all components such as embedding models, retrieval algorithms, and the LLM itself. This iterative process will help you identify and fix emerging problems, optimize system parameters, and incorporate user feedback.
 
-The practice of RAG evaluation is in the early stages of development. Keep this guide and wait as more techniques, models, and evaluation framew
+The practice of RAG evaluation is in the early stages of development. Keep this guide and wait as more techniques, models, and evaluation frameworks are developed. We strongly recommend you incorporate them into your evaluation process.
 
 ### Helpful Links
 - Join our community on [Discord](https://discord.com/invite/qdrant)
