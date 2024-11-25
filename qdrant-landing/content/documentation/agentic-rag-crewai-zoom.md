@@ -33,24 +33,25 @@ When you interact with the system, here's what happens behind the scenes:
 
 First the user submits a query to the system. In this example, we want to find out the avergae length of Marketing meetings. Since one of the data points from the meetings is the duration of the meeting, the agent can calculate the average duration of the meetings by averaging the duration of all meetings with the keyword "Marketing" in the topic or content.
 
-![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/query1.png)
+![User Query Interface](/articles_data/agentic-rag-crewai-zoom/query1.png)
 
 Next, the agent used the `search_meetings` tool to search the Qdrant vector database for the most semantically similar meeting points. We asked about Marketing meetings, so the agent searched the database with the search meeting tool for all meetings with the keyword "Marketing" in the topic or content.
 
-![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/output1.png)
+![Vector Search Results](/articles_data/agentic-rag-crewai-zoom/output0.png)
 
 
 Next, the agent used the `calculator` tool to find the average duration of the meetings.
 
-![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/output2.png)
+![Duration Calculation](/articles_data/agentic-rag-crewai-zoom/output.png)
 
 Finally, the agent used the `Information Synthesizer` tool to synthesize the analysis and present it in a natural language format.
-`
-![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/output3.png)
+
+![Synthesized Analysis](/articles_data/agentic-rag-crewai-zoom/output4.png)
 
 The user sees the final output in a chat-like interface.
 
-![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/app.png)
+![Chat Interface](/articles_data/agentic-rag-crewai-zoom/app.png)
+
 The user can then continue to interact with the system by asking more questions.
 
 
@@ -99,9 +100,9 @@ The system is built on three main components:
    cd qdrant-agentic-rag
    ```
 
-2. **Create and Activate a Python Virtual Environment**:
+2. **Create and Activate a Python Virtual Environment with Python 3.10 for compatibility**:
    ```bash
-   python3 -m venv venv
+   python3.10 -m venv venv
    source venv/bin/activate  # Windows: venv\Scripts\activate
    ```
 
