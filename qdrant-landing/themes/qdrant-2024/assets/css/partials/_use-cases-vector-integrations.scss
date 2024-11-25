@@ -42,6 +42,11 @@
       color: $neutral-70;
     }
   }
+  a.use-cases-vector-integrations__card:hover {
+    .use-cases-vector-integrations__card-title {
+      text-decoration: underline;
+    }
+  }
 
   @include media-breakpoint-up(xl) {
     padding-top: $spacer * 7.5;
