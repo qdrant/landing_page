@@ -6,7 +6,7 @@ startFree:
   url: https://cloud.qdrant.io/
 learnMore:
   text: Learn More
-  url: /
+  url: "#ai-agents"
 image:
   src: /img/vectors/vector-4.svg
   alt: AI agents chat

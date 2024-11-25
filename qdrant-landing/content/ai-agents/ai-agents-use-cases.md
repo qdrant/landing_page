@@ -39,7 +39,7 @@ caseStudy:
   description: QA.tech enhanced web app testing by deploying AI agents that mimic user interactions. To handle high-speed actions and make real-time decisions, they integrated Qdrant for scalable vector search, allowing for faster and more efficient data proc...
   link:
     text: Read Case Study
-    url: /
+    url: /blog/case-study-qatech/
   image:
     src: /img/ai-agents-use-cases/case-study.png
     alt: Preview
