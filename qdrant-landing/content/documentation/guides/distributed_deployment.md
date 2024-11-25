@@ -752,8 +752,6 @@ to recover dead shards.
 
 ## Replication
 
-*Available as of v0.11.0*
-
 Qdrant allows you to replicate shards between nodes in the cluster.
 
 Shard replication increases the reliability of the cluster by keeping several copies of a shard spread across the cluster.
@@ -761,9 +759,9 @@ This ensures the availability of the data in case of node failures, except if al
 
 ### Replication factor
 
-When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. You can change that by setting the `replication_factor` when you create a collection.
+When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. If you configured a default replication factor in the [Qdrant configuration](/documentation/guides/configuration/#configuration-options), this value will be the default for new collections instead. You can change that by setting the `replication_factor` when you create a collection.
 
-Currently, the replication factor of a collection can only be configured at creation time.
+The `replication_factor` can also be updated for existing collections. In Qdrant open-source, this will not automatically create new replicas. See [Creating new Shard Replicas](#creating-new-shard-replicas) for a description on how to create them manually. But in Qdrant Cloud, including Hybrid Cloud and Private Cloud, the shards will be automatically replicated or removed if you change the `replication_factor`.
 
 ```http
 PUT /collections/{collection_name}
@@ -893,7 +891,7 @@ Since a replication factor of "2" would require twice as much storage space, it 
 
 ### Creating new shard replicas
 
-It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster).
+It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster). This is usually only necessary if you run Qdrant open-source. In Qdrant Cloud shard replication is handled and updated automatically.
 
 A replica can be added on a specific peer by specifying the peer from which to replicate.
 
