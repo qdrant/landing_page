@@ -9,7 +9,8 @@ partition: build
 | Time: 45 min | Level: Beginner | Output: [GitHub](https://github.com/qdrant/examples/) |
 | --- | ----------- | ----------- |----------- |
 
-By combining the power of Qdrant for vector search and CrewAI for orchestrating modular agents, you can build systems that don't just answer questions but analyze, interpret, and act.
+By combining the power of Qdrant for vector search and CrewAI for orchestrating modular agents, you can build systems that don't just answer questions but analyze, interpret, and act. 
+
 
 Traditional RAG systems focus on fetching data and generating responses, but they lack the ability to reason deeply or handle multi-step processes. Agentic RAG solves this by combining:
 
@@ -25,6 +26,33 @@ In this hands-on tutorial, we'll create a system that:
 This project demonstrates how to build a Vector Search powered Agentic workflow to extract insights from meeting recordings. By combining Qdrant's vector search capabilities with CrewAI agents, users can search through and analyze their own meeting content. 
 
 The application first converts the meeting transcript into vector embeddings and stores them in a Qdrant vector database. It then uses CrewAI agents to query the vector database and extract insights from the meeting content. Finally, it uses Anthropic Claude to generate natural language responses to user queries based on the extracted insights from the vector database.
+
+### How Does It Work?
+
+When you interact with the system, here's what happens behind the scenes:
+
+First the user submits a query to the system. In this example, we want to find out the avergae length of Marketing meetings. Since one of the data points from the meetings is the duration of the meeting, the agent can calculate the average duration of the meetings by averaging the duration of all meetings with the keyword "Marketing" in the topic or content.
+
+![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/query1.png)
+
+Next, the agent used the `search_meetings` tool to search the Qdrant vector database for the most semantically similar meeting points. We asked about Marketing meetings, so the agent searched the database with the search meeting tool for all meetings with the keyword "Marketing" in the topic or content.
+
+![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/output1.png)
+
+
+Next, the agent used the `calculator` tool to find the average duration of the meetings.
+
+![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/output2.png)
+
+Finally, the agent used the `Information Synthesizer` tool to synthesize the analysis and present it in a natural language format.
+`
+![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/output3.png)
+
+The user sees the final output in a chat-like interface.
+
+![Agentic RAG Application Architecture](/articles_data/agentic-rag-crewai-zoom/app.png)
+The user can then continue to interact with the system by asking more questions.
+
 
 ### Architecture
 
@@ -96,16 +124,20 @@ The system is built on three main components:
 ## Usage
 
 ### 1. Process Meeting Data
-The `data_loader.py` script processes meeting data and stores it in Qdrant:
+The [`data_loader.py`](https://github.com/thierrypdamiba/qdrant_example_zoom/blob/crewai/vector/data_loader.py) script processes meeting data and stores it in Qdrant:
 ```bash
 python vector/data_loader.py
 ```
 
+After this script has run, you should see a new collection in your Qdrant Cloud account called `zoom_recordings`. This collection contains the vector embeddings of the meeting transcripts. The points in the collection contain the original meeting data, including the topic, content, and summary.
+
 ### 2. Launch the Interface
-Start the interactive app:
+The [`streamlit_app.py`](https://github.com/thierrypdamiba/qdrant_example_zoom/blob/crewai/vector/streamlit_app.py) is located in the `vector` folder. To launch it, run:
 ```bash
 streamlit run vector/streamlit_app.py
 ```
+When you run this script, you will be able to interact with the system through a chat-like interface. Ask questions about the meeting content, and the system will use the AI agents to find the most relevant information and present it in a natural language format.
+
 
 ### The Data Pipeline
 
@@ -123,6 +155,7 @@ class MeetingData:
         )
         self.embedding_model = SentenceTransformer('all-MiniLM-L6-v2')
 ```
+The singleton pattern in data_loader.py is implemented through a MeetingData class that uses Python's __new__ and __init__ methods. The class maintains a private _instance variable to track if an instance exists, and a _initialized flag to ensure the initialization code only runs once. When creating a new instance with MeetingData(), __new__ first checks if _instance exists - if it doesn't, it creates one and sets the initialization flag to False. The __init__ method then checks this flag, and if it's False, runs the initialization code and sets the flag to True. This ensures that all subsequent calls to MeetingData() return the same instance with the same initialized resources.
 
 When processing meetings, we need to consider both the content and context. Each meeting gets converted into a rich text representation before being transformed into a vector:
 
