@@ -761,7 +761,7 @@ This ensures the availability of the data in case of node failures, except if al
 
 When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/guides/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
 
-The `replication_factor` can also be updated for existing collections. In Qdrant open-source, this will not automatically create new replicas. See [Creating new Shard Replicas](#creating-new-shard-replicas) for a description on how to create them manually. But in Qdrant Cloud, including Hybrid Cloud and Private Cloud, the shards will be automatically replicated or removed if you change the `replication_factor`.
+The `replication_factor` can be updated for an existing collection, but the effect of this depends on how you're running Qdrant. If you're hosting the open source version of Qdrant yourself, changing the replication factor after collection creation doesn't do anything. You can manually [create](#creating-new-shard-replicas) or drop shard replicas to achieve your desired replication factor. In Qdrant Cloud (including Hybrid Cloud, Private Cloud) your shards will automatically be replicated or dropped to match your configured replication factor.
 
 ```http
 PUT /collections/{collection_name}
