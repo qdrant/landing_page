@@ -2,7 +2,6 @@
 title: Reranking in Hybrid Search
 weight: 2
 partition: build
-social_preview_image: /documentation/examples/reranking-hybrid-search/social_preview.png
 ---
 
 # Implementing Hybrid Search with Reranking

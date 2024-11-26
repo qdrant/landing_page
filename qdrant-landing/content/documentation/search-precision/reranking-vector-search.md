@@ -2,7 +2,6 @@
 title: Reranking in Vector Search
 weight: 1
 partition: build
-social_preview_image: /documentation/examples/reranking-vector-search/social_preview.png
 ---
 
 # Reranking in RAG with Qdrant Vector Database
