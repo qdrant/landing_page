@@ -2,12 +2,13 @@
 
 .top-banner {
   display: flex;
-  height: pxToRem(40);
   justify-content: center;
   align-items: center;
   gap: $spacer * 1.5;
   border-bottom: 1px solid $neutral-20;
   background: $neutral-10;
+  padding: 0.5 * $spacer $spacer;
+  line-height: 1.2;
 
   &__text {
     color: $neutral-94;

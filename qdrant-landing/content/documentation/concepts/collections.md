@@ -200,7 +200,7 @@ curl -X PUT http://localhost:6333/collections/{collection_name} \
 ```
 
 ```python
-from qdrant_client import QdrantClient
+from qdrant_client import QdrantClient, models
 
 client = QdrantClient(url="http://localhost:6333")
 
@@ -633,7 +633,7 @@ And additionally, sparse vectors and dense vectors must have different names wit
 PUT /collections/{collection_name}
 {
     "sparse_vectors": {
-        "text": { },
+        "text": { }
     }
 }
 ```
@@ -656,6 +656,7 @@ client = QdrantClient(url="http://localhost:6333")
 
 client.create_collection(
     collection_name="{collection_name}",
+    vectors_config={},
     sparse_vectors_config={
         "text": models.SparseVectorParams(),
     },
@@ -858,7 +859,7 @@ curl -X PATCH http://localhost:6333/collections/{collection_name} \
 ```python
 client.update_collection(
     collection_name="{collection_name}",
-    optimizer_config=models.OptimizersConfigDiff(indexing_threshold=10000),
+    optimizers_config=models.OptimizersConfigDiff(indexing_threshold=10000),
 )
 ```
 
@@ -931,7 +932,7 @@ The following parameters can be updated:
 * `optimizers_config` - see [optimizer](/documentation/concepts/optimizer/) for details.
 * `hnsw_config` - see [indexing](/documentation/concepts/indexing/#vector-index) for details.
 * `quantization_config` - see [quantization](/documentation/guides/quantization/#setting-up-quantization-in-qdrant) for details.
-* `vectors` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
+* `vectors_config` - vector-specific configuration, including individual `hnsw_config`, `quantization_config` and `on_disk` settings.
 * `params` - other collection parameters, including `write_consistency_factor` and `on_disk_payload`. 
 
 Full API specification is available in [schema definitions](https://api.qdrant.tech/api-reference/collections/update-collection).

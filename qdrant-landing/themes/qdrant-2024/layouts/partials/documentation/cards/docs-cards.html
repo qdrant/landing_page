@@ -1,0 +1,36 @@
+{{ $cardsPerRow := .cardsPerRow }}
+{{ $cardsPerRow = $cardsPerRow | int }}
+{{ $cardsPerRow = div 12 $cardsPerRow }}
+{{ $cardsPerRow = print $cardsPerRow }}
+{{ $cardsPerRow = printf "col-12 col-lg-%s" $cardsPerRow }}
+{{ $cardsPerRow = print $cardsPerRow }}
+
+
+<div class="{{- $cardsPerRow -}}">
+  <a
+    href="{{ .card.link.url }}"
+    {{ if strings.HasPrefix .card.link.url "https://" }}target="_blank"{{ end }}
+    class="docs-card"
+  >
+    {{ if or (.card.tag) (.card.icon) }}
+      <div class="docs-card__tag {{ if .card.tagColor }}docs-card__tag_{{- .card.tagColor -}}{{ end }}">
+        {{ if .card.icon }}
+          <img class="docs-card__icon" src="{{ .card.icon.src }}" alt="{{ .card.icon.alt }}" />
+        {{ end }}
+        {{ if .card.tag }}
+          <span>{{ .card.tag }}</span>
+        {{ end }}
+      </div>
+    {{ end }}
+    {{ if .card.image }}
+      <img class="docs-card__image" src="{{ .card.image.src }}" alt="{{ .card.image.alt }}" />
+    {{ end }}
+    <h3 class="docs-card__title">{{ .card.title }}</h3>
+    <p class="docs-card__description">{{ .card.description }}</p>
+    {{ if .card.link.text }}
+      <span class="docs-card__link link link_sm">{{ .card.link.text }}</span>
+    {{ else }}
+      <div class="docs-card__arrow"></div>
+    {{ end }}
+  </a>
+</div>

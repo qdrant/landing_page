@@ -9,6 +9,10 @@
     text-align: center;
   }
 
+  &__breadcrumbs {
+    margin-bottom: $spacer * 3;
+  }
+
   &__title {
     font-size: $spacer * 2;
     line-height: pxToRem(38);
@@ -146,7 +150,8 @@
     }
 
     &__content {
-      width: calc(100% - 160px);
+      min-width: calc(100% - 160px);
+      max-width: 100%;
 
       p,
       li {

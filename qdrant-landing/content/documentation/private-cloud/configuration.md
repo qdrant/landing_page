@@ -5,7 +5,7 @@ weight: 2
 
 # Private Cloud Configuration
 
-The Qdrant Privagte Cloud helm chart has several configuration options. The following YAML shows all configuration options with their default values:
+The Qdrant Private Cloud helm chart has several configuration options. The following YAML shows all configuration options with their default values:
 
 ```yaml
 operator:

@@ -1,5 +1,11 @@
-{{ define "main" }}
-  {{ partial "site-header" . }}
-
-  {{ partial "documentation" . }}
-{{ end }}
+<!doctype html>
+<html lang="en">
+  {{- partial "head.html" . -}}
+  <body>
+    <main>
+      {{ partial "documentation/header" . }}
+      {{ partial "documentation/content-layout" . }}
+    </main>
+  </body>
+  {{ partial "js.html" . }}
+</html>

@@ -35,7 +35,9 @@ service:
 Or alternatively, you can use the environment variable:
 
 ```bash
-export QDRANT__SERVICE__API_KEY=your_secret_api_key_here
+docker run -p 6333:6333 \
+    -e QDRANT__SERVICE__API_KEY=your_secret_api_key_here \
+    qdrant/qdrant
 ```
 
 <aside role="alert"><a href="#tls">TLS</a> must be used to prevent leaking the API key over an unencrypted connection.</aside>

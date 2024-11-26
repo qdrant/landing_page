@@ -33,6 +33,11 @@ At the time of writing, Linode [does not support CSI Volume Snapshots](https://g
 
 First, consult AWS' managed Kubernetes instructions below. Then, **to set up Qdrant Hybrid Cloud on AWS**, follow our [step-by-step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
+For a good balance between peformance and cost, we recommend:
+
+* Depending on your cluster resource configuration either general purpose (m6*, m7*, or m8*), memory optimized (r6*, r7*, or r8*) or cpu optimized (c6*, c7*, or c8*) instance types. Qdrant Hybrid Cloud also supports AWS Graviton ARM64 instances.
+* At least gp3 EBS volumes for storage
+
 ### More on Amazon Elastic Kubernetes Service
 
 - [Getting Started with Amazon EKS](https://docs.aws.amazon.com/eks/)
@@ -131,6 +136,11 @@ First, consult Gcore's managed Kubernetes instructions below. Then, **to set up 
 
 First, consult GCP's managed Kubernetes instructions below. Then, **to set up Qdrant Hybrid Cloud on GCP**, follow our [step-by-step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
 
+For a good balance between peformance and cost, we recommend:
+
+* Depending on your cluster resource configuration either general purpose (standard), memory optimized (highmem) or cpu optimized (highcpu) instance types of at least 2nd generation. Qdrant Hybrid Cloud also supports ARM64 instances.
+* At least pd-balanced disks for storage
+
 ### More on the Google Kubernetes Engine
 
 - [Getting Started with GKE](https://cloud.google.com/kubernetes-engine/docs/quickstart)
@@ -156,6 +166,11 @@ driver: pd.csi.storage.gke.io
 With [Azure Kubernetes Service (AKS)](https://azure.microsoft.com/en-in/products/kubernetes-service), you can start developing and deploying cloud-native apps in Azure, data centres, or at the edge. Get unified management and governance for on-premises, edge, and multi-cloud Kubernetes clusters. Interoperate with Azure security, identity, cost management, and migration services.
 
 First, consult Azure's managed Kubernetes instructions below. Then, **to set up Qdrant Hybrid Cloud on Azure**, follow our [step-by-step documentation](/documentation/hybrid-cloud/hybrid-cloud-setup/). 
+
+For a good balance between peformance and cost, we recommend:
+
+* Depending on your cluster resource configuration either general purpose (D-family), memory optimized (E-family) or cpu optimized (F-family) instance types. Qdrant Hybrid Cloud also supports Azure Cobalt ARM64 instances.
+* At least Premium SSD v2 disks for storage
 
 ### More on Azure Kubernetes Service
 

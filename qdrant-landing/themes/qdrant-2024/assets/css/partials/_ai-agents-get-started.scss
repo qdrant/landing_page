@@ -1,0 +1,30 @@
+@use '../mixins/get-started-small' as get-started-small;
+
+.ai-agents-get-started {
+  @include get-started-small.base(
+    $spacer * 5,
+    $spacer * 4,
+    $spacer * 3.5,
+    $spacer * 2.5,
+    $neutral-94,
+    url('/img/stars-pattern.png') $neutral-10,
+    url('/img/stars-pattern.png') $neutral-10
+  );
+
+  @include media-breakpoint-up(lg) {
+    &__title,
+    &__description,
+    .button {
+      margin-left: $spacer * 4;
+    }
+
+    &__text {
+      padding-top: $spacer * 2.5;
+      padding-bottom: $spacer * 2.5;
+    }
+
+    &__image {
+      align-self: center;
+    }
+  }
+}

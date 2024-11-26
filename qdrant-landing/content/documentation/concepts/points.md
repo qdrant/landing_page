@@ -1367,7 +1367,7 @@ client.delete_vectors(
 ```typescript
 client.deleteVectors("{collection_name}", {
   points: [0, 3, 10],
-  vectors: ["text", "image"],
+  vector: ["text", "image"],
 });
 ```
 
@@ -1705,13 +1705,6 @@ REST API ([Schema](https://api.qdrant.tech/api-reference/points/get-point)):
 GET /collections/{collection_name}/points/{point_id}
 ```
 
-<!--
-Python client:
-
-```python
-```
- -->
-
 ## Scroll points
 
 Sometimes it might be necessary to get all stored points without knowing ids, or iterate over points that correspond to a filter.
@@ -1825,21 +1818,21 @@ import (
 	"github.com/qdrant/go-client/qdrant"
 )
 
-	client, err := qdrant.NewClient(&qdrant.Config{
-		Host: "localhost",
-		Port: 6334,
-	})
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
 
-	client.Scroll(context.Background(), &qdrant.ScrollPoints{
-		CollectionName: "{collection_name}",
-		Filter: &qdrant.Filter{
-			Must: []*qdrant.Condition{
-				qdrant.NewMatch("color", "red"),
-			},
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewMatch("color", "red"),
 		},
-		Limit:       qdrant.PtrOf(uint32(1)),
-		WithPayload: qdrant.NewWithPayload(true),
-	})
+	},
+	Limit:       qdrant.PtrOf(uint32(1)),
+	WithPayload: qdrant.NewWithPayload(true),
+})
 ```
 
 Returns all point with `color` = `red`.
