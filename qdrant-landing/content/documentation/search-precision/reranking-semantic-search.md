@@ -1,5 +1,5 @@
 ---
-title: Reranking in Vector Search
+title: Reranking in Semantic Search
 weight: 1
 partition: build
 ---
@@ -20,7 +20,7 @@ This section is broken down into key parts to help you easily grasp the backgrou
 
 In search systems, two metrics—precision and recall—are the backbone of success. But what do they mean? Precision tells us how many of the retrieved results are actually relevant, while recall measures how well we’ve captured all the relevant results out there. Simply put:
 
-![image5.png](/documentation/examples/reranking-vector-search/image5.png)
+![image5.png](/documentation/examples/reranking-semantic-search/image5.png)
 
 Sparse vector searches usually give you high precision because they’re great at finding exact matches. But, here's the catch—your recall can suffer when relevant documents don’t contain those exact keywords. On the flip side, dense vector searches are fantastic for recall since they grasp the broader, semantic meaning of your query. However, this can lead to lower precision, where you might see results that are only loosely related.
 
@@ -32,7 +32,7 @@ Picture this: You walk into a massive library and ask for a book on "climate cha
 
 Now, imagine a smarter, more intuitive librarian who really gets what you’re after. This one knows exactly which books are most impactful, the most current, and perfectly aligned with what you need. That’s what reranking does for your search results—it doesn’t just grab any relevant document; it smartly reorders them so the best ones land at the top of your list. It’s like having a librarian who knows exactly what you’re looking for before you do!
 
-![image6.png](/documentation/examples/reranking-vector-search/image6.png)
+![image6.png](/documentation/examples/reranking-semantic-search/image6.png)
 
 An illustration of the rerank model prioritizing better results
 
@@ -68,7 +68,7 @@ A typical search system works in two main stages: Ingestion and Retrieval. Think
 
 Check out the architectural diagram below to visualize how these stages work together.
 
-![image1.png](/documentation/examples/reranking-vector-search/image1.png)
+![image1.png](/documentation/examples/reranking-semantic-search/image1.png)
 
 The two essential stages of a search system: Ingestion and Retrieval Process
 
@@ -125,7 +125,7 @@ Qdrant is a powerful vector similarity search engine that gives you a production
 
 Finally, under the Overview section, you’ll see the following code snippet:
 
-![image7.png](/documentation/examples/reranking-vector-search/image7.png)
+![image7.png](/documentation/examples/reranking-semantic-search/image7.png)
 
 Qdrant Overview Section
 

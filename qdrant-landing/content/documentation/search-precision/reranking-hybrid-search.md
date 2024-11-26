@@ -4,7 +4,7 @@ weight: 2
 partition: build
 ---
 
-# Implementing Hybrid Search with Reranking
+# Reranking Hybrid Search Results with Qdrant Vector Database
 
 Hybrid search combines dense and sparse retrieval to deliver precise and comprehensive results. By adding reranking with ColBERT, you can further refine search outputs for maximum relevance. 
 
