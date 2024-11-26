@@ -17,6 +17,8 @@ Traditional RAG systems focus on fetching data and generating responses, but the
 
 In this tutorial, we'll walk you through building an Agentic RAG system step by step. By the end, you'll have a working framework for storing data in a Qdrant Vector Database and extracting insights using CrewAI agents in conjunction with Vector Search over your data.
 
+We already built this app for you. [Clone this repository](https://github.com/qdrant/examples/tree/master/agentic_rag_zoom_crewai) and follow along with the tutorial. 
+
 ## What You'll Build
 In this hands-on tutorial, we'll create a system that:
 
@@ -148,7 +150,7 @@ When you run this script, you will be able to interact with the system through a
 
 ### The Data Pipeline
 
-At the heart of our system is the data processing pipeline. We use a singleton pattern to ensure efficient resource usage:
+At the heart of our system is the data processing pipeline:
 
 ```python
 class MeetingData:
