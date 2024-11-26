@@ -6,7 +6,8 @@
   color: $neutral-98;
   cursor: pointer;
 
-  &:hover {
+  &:hover,
+  &.active {
     color: $primary-50;
   }
 }

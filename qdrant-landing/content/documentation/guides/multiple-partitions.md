@@ -619,7 +619,7 @@ client.CreateFieldIndex(context.Background(), &qdrant.CreateFieldIndexCollection
 })
 ```
 
-`is_tenant=true` parameter is optional, but specifying it provides storage with additional inforamtion about the usage patterns the collection is going to use.
+`is_tenant=true` parameter is optional, but specifying it provides storage with additional information about the usage patterns the collection is going to use.
 When specified, storage structure will be organized in a way to co-locate vectors of the same tenant together, which can significantly improve performance in some cases. 
 
 

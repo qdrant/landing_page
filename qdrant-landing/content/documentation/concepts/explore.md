@@ -980,6 +980,10 @@ discover_queries = [
         limit=10,
     ),
 ]
+
+client.query_batch_points(
+    collection_name="{collection_name}", requests=discover_queries
+)
 ```
 
 ```typescript
@@ -1189,6 +1193,10 @@ discover_queries = [
         limit=10,
     ),
 ]
+
+client.query_batch_points(
+    collection_name="{collection_name}", requests=discover_queries
+)
 ```
 
 ```typescript
@@ -1367,6 +1375,8 @@ POST /collections/{collection_name}/points/search/matrix/pairs
 ```python
 from qdrant_client import QdrantClient, models
 
+client = QdrantClient(url="http://localhost:6333")
+
 client.search_matrix_pairs(
     collection_name="{collection_name}",
     sample=10,
@@ -1395,7 +1405,7 @@ QdrantClient client =
 client
     .searchMatrixPairsAsync(
         Points.SearchMatrixPoints.newBuilder()
-            .setCollectionName(collectionName)
+            .setCollectionName("{collection_name}")
             .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
             .setSample(10)
             .setLimit(2)
@@ -1448,7 +1458,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchMatrixPairs(
+await client.SearchMatrixPairsAsync(
     collectionName: "{collection_name}",
     filter: MatchKeyword("color", "red"),
     sample: 10,
@@ -1533,7 +1543,9 @@ POST /collections/{collection_name}/points/search/matrix/offsets
 ```python
 from qdrant_client import QdrantClient, models
 
-client.search_matrix_pairs(
+client = QdrantClient(url="http://localhost:6333")
+
+client.search_matrix_offsets(
     collection_name="{collection_name}",
     sample=10,
     limit=2,
@@ -1561,7 +1573,7 @@ QdrantClient client =
 client
     .searchMatrixOffsetsAsync(
         SearchMatrixPoints.newBuilder()
-            .setCollectionName(collectionName)
+            .setCollectionName("{collection_name}")
             .setFilter(Filter.newBuilder().addMust(matchKeyword("color", "red")).build())
             .setSample(10)
             .setLimit(2)
@@ -1614,7 +1626,7 @@ using static Qdrant.Client.Grpc.Conditions;
 
 var client = new QdrantClient("localhost", 6334);
 
-await client.SearchMatrixOffsets(
+await client.SearchMatrixOffsetsAsync(
     collectionName: "{collection_name}",
     filter: MatchKeyword("color", "red"),
     sample: 10,

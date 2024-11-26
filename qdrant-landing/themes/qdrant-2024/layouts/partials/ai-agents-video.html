@@ -1,0 +1,14 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-video") }}
+  <section class="ai-agents-video">
+    <div class="container">
+      <div class="ai-agents-video__content">
+        {{ partial "tag" . }}
+        <h3 class="ai-agents-video__title">{{ .Params.title }}</h3>
+        <p class="ai-agents-video__description">{{ .Params.description }}</p>
+        <a class="link link_md" href="{{ .Params.link.url }}" target="_blank">{{ .Params.link.text }}</a>
+      </div>
+
+      {{ partial "youtube-video" .Params.youtube }}
+    </div>
+  </section>
+{{ end }}

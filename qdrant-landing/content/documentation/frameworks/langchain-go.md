@@ -54,7 +54,7 @@ func main() {
     }
 
     store, err: = qdrant.New(
-        qdrant.WithURL( * url),
+        qdrant.WithURL(*url),
         qdrant.WithCollectionName("YOUR_COLLECTION_NAME"),
         qdrant.WithEmbedder(e),
     )

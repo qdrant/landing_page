@@ -8,85 +8,120 @@ aliases:
 
 # Configuration
 
-To change or correct Qdrant's behavior, default collection settings, and network interface parameters, you can use configuration files.
+Qdrant ships with sensible defaults for collection and network settings that are suitable for most use cases. You can view these defaults in the [Qdrant source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml). If you need to customize the settings, you can do so using configuration files and environment variables.
 
-The default configuration file is located at [config/config.yaml](https://github.com/qdrant/qdrant/blob/master/config/config.yaml).
+<aside role="status">
+  Qdrant Cloud does not allow modifying the Qdrant configuration.
+</aside>
 
-To change the default configuration, add a new configuration file and specify
-the path with `--config-path path/to/custom_config.yaml`. If running in
-production mode, you could also choose to overwrite `config/production.yaml`.
-See [ordering](#order-and-priority) for details on how configurations are
-loaded.
+## Configuration Files
 
-The [Installation](/documentation/guides/installation/) guide contains examples of how to set up Qdrant with a custom configuration for the different deployment methods.
+To customize Qdrant, you can mount your configuration file in any of the following locations. This guide uses `.yaml` files, but Qdrant also supports other formats such as `.toml`, `.json`, and `.ini`.
 
-## Order and priority
+1. **Main Configuration: `qdrant/config/config.yaml`**
 
-*Effective as of v1.2.1*
+   Mount your custom `config.yaml` file to override default settings:
 
-Multiple configurations may be loaded on startup. All of them are merged into a
-single effective configuration that is used by Qdrant.
+   ```bash
+   docker run -p 6333:6333 \
+       -v $(pwd)/config.yaml:/qdrant/config/config.yaml \
+       qdrant/qdrant
+   ```
 
-Configurations are loaded in the following order, if present:
+2. **Environment-Specific Configuration: `config/{RUN_MODE}.yaml`**
 
-1. Embedded base configuration ([source](https://github.com/qdrant/qdrant/blob/master/config/config.yaml))
-2. File `config/config.yaml`
-3. File `config/{RUN_MODE}.yaml` (such as `config/production.yaml`)
-4. File `config/local.yaml`
-5. Config provided with `--config-path PATH` (if set)
-6. [Environment variables](#environment-variables)
+   Qdrant looks for an environment-specific configuration file based on the `RUN_MODE` variable. By default, the [official Docker image](https://hub.docker.com/r/qdrant/qdrant) uses `RUN_MODE=production`, meaning it will look for `config/production.yaml`.
 
-This list is from least to most significant. Properties in later configurations
-will overwrite those loaded before it. For example, a property set with
-`--config-path` will overwrite those in other files.
+   You can override this by setting `RUN_MODE` to another value (e.g., `dev`), and providing the corresponding file:
 
-Most of these files are included by default in the Docker container. But it is
-likely that they are absent on your local machine if you run the `qdrant` binary
-manually.
+   ```bash
+   docker run -p 6333:6333 \
+       -v $(pwd)/dev.yaml:/qdrant/config/dev.yaml \
+       -e RUN_MODE=dev \
+       qdrant/qdrant
+   ```
 
-If file 2 or 3 are not found, a warning is shown on startup.
-If file 5 is provided but not found, an error is shown on startup.
+3. **Local Configuration: `config/local.yaml`**
 
-Other supported configuration file formats and extensions include: `.toml`, `.json`, `.ini`.
+   The `local.yaml` file is typically used for machine-specific settings that are not tracked in version control:
 
-## Environment variables
+   ```bash
+   docker run -p 6333:6333 \
+       -v $(pwd)/local.yaml:/qdrant/config/local.yaml \
+       qdrant/qdrant
+   ```
 
-It is possible to set configuration properties using environment variables.
-Environment variables are always the most significant and cannot be overwritten
-(see [ordering](#order-and-priority)).
+4. **Custom Configuration via `--config-path`**
 
-All environment variables are prefixed with `QDRANT__` and are separated with
-`__`.
+   You can specify a custom configuration file path using the `--config-path` argument. This will override other configuration files:
 
-These variables:
+   ```bash
+   docker run -p 6333:6333 \
+       -v $(pwd)/config.yaml:/path/to/config.yaml \
+       qdrant/qdrant \
+       ./qdrant --config-path /path/to/config.yaml
+   ```
+
+For details on how these configurations are loaded and merged, see the [loading order and priority](#loading-order-and-priority). The full list of available configuration options can be found [below](#configuration-options).
+
+## Environment Variables
+
+You can also configure Qdrant using environment variables, which always take the highest priority and override any file-based settings.
+
+Environment variables follow this format: they should be prefixed with `QDRANT__`, and nested properties should be separated by double underscores (`__`). For example:
 
 ```bash
-QDRANT__LOG_LEVEL=INFO
-QDRANT__SERVICE__HTTP_PORT=6333
-QDRANT__SERVICE__ENABLE_TLS=1
-QDRANT__TLS__CERT=./tls/cert.pem
-QDRANT__TLS__CERT_TTL=3600
+docker run -p 6333:6333 \
+    -e QDRANT__LOG_LEVEL=INFO \
+    -e QDRANT__SERVICE__API_KEY=<MY_SECRET_KEY> \
+    -e QDRANT__SERVICE__ENABLE_TLS=1 \
+    -e QDRANT__TLS__CERT=./tls/cert.pem \
+    qdrant/qdrant
 ```
 
-result in this configuration:
+This results in the following configuration:
 
 ```yaml
 log_level: INFO
 service:
-  http_port: 6333
   enable_tls: true
+  api_key: <MY_SECRET_KEY>
 tls:
   cert: ./tls/cert.pem
-  cert_ttl: 3600
 ```
 
-To run Qdrant locally with a different HTTP port you could use:
+## Loading Order and Priority
 
-```bash
-QDRANT__SERVICE__HTTP_PORT=1234 ./qdrant
+During startup, Qdrant merges multiple configuration sources into a single effective configuration. The loading order is as follows (from least to most significant):
+
+1. Embedded default configuration
+2. `config/config.yaml`
+3. `config/{RUN_MODE}.yaml`
+4. `config/local.yaml`
+5. Custom configuration file
+6. Environment variables
+
+### Overriding Behavior
+
+Settings from later sources in the list override those from earlier sources:
+
+- Settings in `config/{RUN_MODE}.yaml` (3) will override those in `config/config.yaml` (2).
+- A custom configuration file provided via `--config-path` (5) will override all other file-based settings.
+- Environment variables (6) have the highest priority and will override any settings from files.
+
+## Configuration Validation
+
+Qdrant validates the configuration during startup. If any issues are found, the server will terminate immediately, providing information about the error. For example:
+
+```console
+Error: invalid type: 64-bit integer `-1`, expected an unsigned 64-bit or smaller integer for key `storage.hnsw_index.max_indexing_threads` in config/production.yaml
 ```
 
-## Configuration file example
+This ensures that misconfigurations are caught early, preventing Qdrant from running with invalid settings.
+
+## Configuration Options
+
+The following YAML example describes the available configuration options.
 
 ```yaml
 log_level: INFO
@@ -118,10 +153,10 @@ storage:
     #   endpoint_url: ""
 
   # Where to store temporary files
-  # If null, temporary snapshot are stored in: storage/snapshots_temp/
+  # If null, temporary snapshots are stored in: storage/snapshots_temp/
   temp_path: null
 
-  # If true - point's payload will not be stored in memory.
+  # If true - the point's payload will not be stored in memory.
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
   # Note: those payload values that are involved in filtering and are indexed - remain in RAM.
@@ -178,12 +213,12 @@ storage:
     # Default is to allow 1 transfer.
     # If null - allow unlimited transfers.
     #outgoing_shard_transfers_limit: 1
-    
+
     # Enable async scorer which uses io_uring when rescoring.
     # Only supported on Linux, must be enabled in your kernel.
     # See: <https://qdrant.tech/articles/io_uring/#and-what-about-qdrant>
     #async_scorer: false
-      
+
   optimizers:
     # The minimal fraction of deleted vectors in a segment, required to perform segment optimization
     deleted_threshold: 0.2
@@ -216,8 +251,8 @@ storage:
     # To enable memmap storage, lower the threshold
     # Note: 1Kb = 1 vector of size 256
     # To explicitly disable mmap optimization, set to `0`.
-    # If not set, will be disabled by default.
-    memmap_threshold_kb: null
+    # If not set, will be disabled by default. Previously this was called memmap_threshold_kb.
+    memmap_threshold: null
 
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
     # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
@@ -242,7 +277,7 @@ storage:
   #  vacuum_min_vector_number: 1000
   #  default_segment_number: 0
   #  max_segment_size_kb: null
-  #  memmap_threshold_kb: null
+  #  memmap_threshold: null
   #  indexing_threshold_kb: 20000
   #  flush_interval_sec: 5
   #  max_optimization_threads: null
@@ -297,6 +332,32 @@ storage:
     # Default quantization configuration.
     # More info: https://qdrant.tech/documentation/guides/quantization
     quantization: null
+
+    # Default strict mode parameters for newly created collections.
+    strict_mode:
+      # Whether strict mode is enabled for a collection or not.
+      enabled: false
+
+      # Max allowed `limit` parameter for all APIs that don't have their own max limit.
+      max_query_limit: null
+
+      # Max allowed `timeout` parameter.
+      max_timeout: null
+
+      # Allow usage of unindexed fields in retrieval based (eg. search) filters.
+      unindexed_filtering_retrieve: null
+
+      # Allow usage of unindexed fields in filtered updates (eg. delete by payload).
+      unindexed_filtering_update: null
+
+      # Max HNSW value allowed in search parameters.
+      search_max_hnsw_ef: null
+
+      # Whether exact search is allowed or not.
+      search_allow_exact: null
+
+      # Max oversampling value allowed in search.
+      search_max_oversampling: null
 
 service:
   # Maximum size of POST data in a single request in megabytes
@@ -378,11 +439,10 @@ cluster:
     # We encourage you NOT to change this parameter unless you know what you are doing.
     tick_period_ms: 100
 
-
 # Set to true to prevent service from sending usage statistics to the developers.
 # Read more: https://qdrant.tech/documentation/guides/telemetry
+# Defaults: false
 telemetry_disabled: false
-
 
 # TLS configuration.
 # Required if either service.enable_tls or cluster.p2p.enable_tls is true.
@@ -408,19 +468,3 @@ tls:
   # If `null` - TTL is disabled.
   cert_ttl: 3600
 ```
-
-## Validation
-
-*Available since v1.1.1*
-
-The configuration is validated on startup. If a configuration is loaded but
-validation fails, a warning is logged. E.g.:
-
-```text
-WARN Settings configuration file has validation errors:
-WARN - storage.optimizers.memmap_threshold: value 123 invalid, must be 1000 or larger
-WARN - storage.hnsw_index.m: value 1 invalid, must be from 4 to 10000
-```
-
-The server will continue to operate. Any validation errors should be fixed as
-soon as possible though to prevent problematic behavior.

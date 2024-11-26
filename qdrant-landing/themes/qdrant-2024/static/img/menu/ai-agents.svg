@@ -1,0 +1,15 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="chat-bot 2" clip-path="url(#clip0_6954_9557)">
+<path id="Vector" d="M12.8462 6H2.61538C1.72369 6 1 6.756 1 7.6875V13.3125C1 14.244 1.72369 15 2.61538 15H13.3846C14.2763 15 15 14.244 15 13.3125V7.6875C15 6.756 14.2763 6 13.3846 6H12.8462Z" stroke="#DC244C" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M5 4V2" stroke="#DC244C" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_3" d="M5 2C5.27614 2 5.5 1.77614 5.5 1.5C5.5 1.22386 5.27614 1 5 1C4.72386 1 4.5 1.22386 4.5 1.5C4.5 1.77614 4.72386 2 5 2Z" fill="#DC244C" stroke="#DC244C" stroke-linecap="square"/>
+<path id="Vector_4" d="M5.5 10.5C6.05228 10.5 6.5 10.0523 6.5 9.5C6.5 8.94772 6.05228 8.5 5.5 8.5C4.94772 8.5 4.5 8.94772 4.5 9.5C4.5 10.0523 4.94772 10.5 5.5 10.5Z" fill="#DC244C"/>
+<path id="Vector_5" d="M10.5 10.5C11.0523 10.5 11.5 10.0523 11.5 9.5C11.5 8.94772 11.0523 8.5 10.5 8.5C9.94772 8.5 9.5 8.94772 9.5 9.5C9.5 10.0523 9.94772 10.5 10.5 10.5Z" fill="#DC244C"/>
+<path id="Line 12" d="M6 12.5H10" stroke="#DC244C" stroke-linecap="round"/>
+</g>
+<defs>
+<clipPath id="clip0_6954_9557">
+<rect width="16" height="16" fill="white"/>
+</clipPath>
+</defs>
+</svg>

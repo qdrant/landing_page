@@ -5,11 +5,15 @@
   {{ end }}
 
   {{ partial "retrieval-augmented-generation-features" . }}
-  {{ partial "retrieval-augmented-generation-integrations" . }}
+
+  {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-integrations") }}
+    {{ partial "use-cases-vector-integrations" (dict "context" . "class" "rag-integrations") }}
+  {{ end }}
+
   {{ partial "retrieval-augmented-generation-evaluation" . }}
 
   {{ with (.Site.GetPage "/retrieval-augmented-generation/retrieval-augmented-generation-use-cases") }}
-    {{ partial "use-cases-vector-cases" . }}
+    {{ partial "use-cases-vector-cases" (dict "context" . "class" "rag-use-cases") }}
   {{ end }}
 
   {{ partial "retrieval-augmented-generation-guide" . }}

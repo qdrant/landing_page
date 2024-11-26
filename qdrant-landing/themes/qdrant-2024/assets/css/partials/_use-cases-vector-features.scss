@@ -5,6 +5,15 @@
   padding-bottom: $spacer * 4;
   background-color: $neutral-94;
 
+  &__feature-title {
+    max-width: pxToRem(730);
+    margin: $spacer * 3.5 auto;
+    text-align: center;
+    font-size: $spacer * 2;
+    line-height: pxToRem(38);
+    color: $neutral-20;
+  }
+
   &__title {
     font-size: $spacer * 2;
     line-height: pxToRem(38);
@@ -21,7 +30,48 @@
     margin-bottom: $spacer * 2.5;
   }
 
+  &__cases {
+    &-image {
+      display: block;
+      width: 100%;
+      max-width: pxToRem(506);
+      margin: 0 auto $spacer * 2.5;
+    }
+
+    &-title {
+      margin-bottom: $spacer;
+      font-size: $spacer * 2;
+      line-height: pxToRem(38);
+      color: $neutral-20;
+    }
+
+    &-description {
+      margin-bottom: 0;
+      color: $neutral-30;
+    }
+
+    &-item {
+      margin-top: $spacer * 2.5;
+      padding-left: $spacer * 1.5;
+      border-left: pxToRem(2) solid $neutral-80;
+
+      &-title {
+        margin-bottom: $spacer * 0.5;
+        font-size: pxToRem(18);
+        line-height: pxToRem(27);
+        color: $neutral-20;
+      }
+
+      &-description {
+        margin-bottom: 0;
+        color: $neutral-30;
+      }
+    }
+  }
+
   &__card {
+    justify-content: flex-start;
+
     &-icon {
       height: $spacer * 1.5;
       width: $spacer * 1.5;
@@ -60,6 +110,12 @@
     padding-top: $spacer * 7.5;
     padding-bottom: $spacer * 7.5;
 
+    &__feature-title {
+      margin: $spacer * 5 auto;
+      font-size: $spacer * 2.5;
+      line-height: pxToRem(50);
+    }
+
     &__header {
       margin-bottom: $spacer * 5;
     }
@@ -74,6 +130,18 @@
     &__description {
       font-size: pxToRem(18);
       line-height: pxToRem(27);
+    }
+
+    &__cases {
+      &-image {
+        max-width: 94%;
+        margin: 0 auto 0 0;
+      }
+
+      &-title {
+        font-size: $spacer * 3;
+        line-height: pxToRem(58);
+      }
     }
   }
 }

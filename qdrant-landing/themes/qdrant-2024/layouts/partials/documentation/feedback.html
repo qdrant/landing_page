@@ -1,0 +1,46 @@
+{{ with (.Site.GetPage "/headless/docs-feedback") }}
+  <section class="docs-feedback d-print-none">
+    <h5 class="docs-feedback__title">{{ .Params.title }}</h5>
+    <div class="docs-feedback__buttons">
+      <button class="button button_outlined button_sm docs-feedback__button" id="feedback__answer_yes">
+        <img src="{{ .Params.positiveButton.icon.src }}" alt="{{ .Params.positiveButton.icon.alt }}" />
+        {{ .Params.positiveButton.text }}
+      </button>
+      <button class="button button_outlined button_sm docs-feedback__button" id="feedback__answer_no">
+        <img src="{{ .Params.negativeButton.icon.src }}" alt="{{ .Params.negativeButton.icon.alt }}" />
+        {{ .Params.negativeButton.text }}
+      </button>
+    </div>
+  </section>
+  <section class="docs-feedback__responses d-none">
+    <p class="docs-feedback__response docs-feedback__response_yes" id="feedback__response_yes">
+      {{ .Params.positiveFeedback | safeHTML }}
+    </p>
+    <p class="docs-feedback__response docs-feedback__response_no" id="feedback__response_no">
+      {{ $negativeFeedback := replace (.Params.negativeFeedback | .RenderString) "#edit" (path.Join $.Site.Params.githubDocPrefix (path.Clean $.File.Path)) }}
+      {{ $negativeFeedback = replace $negativeFeedback "#issue" $.Site.Params.githubIssueLink }}
+      {{ $negativeFeedback | safeHTML }}
+    </p>
+  </section>
+
+  <script>
+    const buttonsSection = document.querySelector('.docs-feedback');
+    const responsesSection = document.querySelector('.docs-feedback__responses');
+    const yesButton = document.querySelector('#feedback__answer_yes');
+    const noButton = document.querySelector('#feedback__answer_no');
+    const yesResponse = document.querySelector('#feedback__response_yes');
+    const noResponse = document.querySelector('#feedback__response_no');
+    const toggleResponses = () => {
+      buttonsSection.classList.add('d-none');
+      responsesSection.classList.remove('d-none');
+    };
+    yesButton.addEventListener('click', () => {
+      yesResponse.classList.add('feedback__response_visible');
+      toggleResponses();
+    });
+    noButton.addEventListener('click', () => {
+      noResponse.classList.add('feedback__response_visible');
+      toggleResponses();
+    });
+  </script>
+{{ end }}

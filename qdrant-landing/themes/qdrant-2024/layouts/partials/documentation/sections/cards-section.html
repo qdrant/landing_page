@@ -1,0 +1,25 @@
+{{ $context := . }}
+<section class="docs-core__data">
+  <div class="d-flex justify-content-between align-items-center flex-wrap column-gap-4 mb-5 mb-lg-3">
+    <div>
+      <h2>{{ .title }}</h2>
+      <p class="mb-3">{{ .description }}</p>
+    </div>
+    {{ if .button }}
+      <a
+        href="{{ .button.url }}"
+        {{ if strings.HasPrefix .button.url "https://" }}target="_blank"{{ end }}
+        class="button button_outlined button_sm"
+      >
+        {{ .button.text }}
+      </a>
+    {{ end }}
+  </div>
+
+  <div class="row g-4 g-lg-3">
+    {{ range $index, $element := .cards }}
+      {{ $cardsPerRow := $context.cardsPerRow | default 3 }}
+      {{ partial $context.cardsPartial (dict "card" $element "cardsPerRow" $cardsPerRow) }}
+    {{ end }}
+  </div>
+</section>

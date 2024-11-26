@@ -2,11 +2,11 @@
 title: High-Performance Vector Search at Scale
 subtitle: Powering the next generation of AI applications with advanced, open-source vector similarity search technology.
 startFree:
-  text: Start Free
+  text: Get Started
   url: https://cloud.qdrant.io/
 learnMore:
-  text: Learn More
-  url: /qdrant-vector-database/
+  text: Talk to Sales
+  url: /contact-sales/
 heroImageSources:
   - minWidth: 2881px
     srcset: /img/hero-home-illustration-x3.webp

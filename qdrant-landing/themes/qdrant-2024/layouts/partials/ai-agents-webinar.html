@@ -1,0 +1,22 @@
+{{ with (.Site.GetPage "/ai-agents/ai-agents-webinar") }}
+  <section class="ai-agents-webinar">
+    <div class="container">
+      <div class="align-items-center row">
+        <div class="col-12 col-lg-5">
+          {{ partial "tag" . }}
+
+          <h3 class="ai-agents-webinar__title">{{ .Params.title }}</h3>
+          <p class="ai-agents-webinar__description">{{ .Params.description }}</p>
+          <a class="link link_md" href="{{ .Params.link.url }}" target="_blank">{{ .Params.link.text }}</a>
+        </div>
+        <div class="col-12 col-lg-7 d-flex justify-content-center justify-content-lg-end">
+          <img
+            class="ai-agents-webinar__image"
+            src="{{ .Params.image.src }}"
+            alt="{{ .Params.image.alt }}"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+{{ end }}

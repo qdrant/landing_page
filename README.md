@@ -10,7 +10,7 @@
 
 - [Node.js](https://nodejs.org/en/download/)
 - [npm](https://www.npmjs.com/get-npm)
-- [sass](https://sass-lang.com/install) - be aware that you need a Dart Sass version, don't use npm package `sass` as it's a different implementation of Sass
+- [Dart Sass](https://sass-lang.com/install) - Don't use the npm package `sass` as it's a different implementation of Sass
 
 ## Run
 
@@ -34,7 +34,7 @@ hugo serve -D
 
 ## Build css from scss
 
-For previous theme, it was required to build css files. We don't need to explicitly build css from scss anymore. It's done automatically by Hugo uses Dart Sass, which should be installed on your machine to see results).
+For the previous theme, it was required to build CSS files. We don't need to build CSS from SCSS anymore explicitly. It's done automatically by Hugo using Dart Sass, which should be installed on your machine to see results).
 
 # Content Management
 
@@ -50,9 +50,9 @@ If you want to make your changes live, you need to merge your pull request to th
 
 To add a customer logo to the marquee on the main page:
 
-1. Add a logo to `/qdrant-landing/static/content/images/logos` directory. The logo should be in png format and have a transparent background and width 200px. The color of the logo should be `#B6C0E4`.
+1. Add a logo to `/qdrant-landing/static/content/images/logos` directory. The logo should be in PNG format and have a transparent background and a width of 200px. The color of the logo should be `#B6C0E4`.
 
-2. Add a markdown file to `content/stack` directory using next command (replace `customer-name` with the name of the customer):
+2. Add a markdown file to `content/stack` directory using the next command (replace `customer-name` with the name of the customer):
 
 ``` bash
 cd qdrant-landing
@@ -61,7 +61,7 @@ hugo new --kind customer-logo stack/customer-name.md
 
 Edit the file if needed.
 
-3. If total number of slides changed - update `static/css/main.scss` file. Find line:
+3. If the total number of slides changed - update `static/css/main.scss` file. Find line:
 
 ```scss
 @include marquee.base(80px, 200px, 13, 6, 20px, false, 50s);
@@ -69,7 +69,7 @@ Edit the file if needed.
 
 and change 13 to the number of logos.
 
-Rebuild css from scss (see instructions [above](#build-css-from-scss)).
+Rebuild CSS from SCSS (see instructions [above](#build-css-from-scss)).
 
 4. To change order of the logos - add or change `weight` parameter in the markdown files in `/qdrant-landing/content/stack` directory.
 
@@ -103,11 +103,11 @@ keywords: # Keywords for SEO
 
 ### Preview image mechanism
 
-Preview image for each page is selected based from the following places in the following order:
+Preview image for each page is selected based on the following places in the following order:
 
-- If document has param `social_preview_image` - it will be used as preview image
-- If there is a file `static/<path-to-section>/<file-name>-social-preview.png` - it will be used as preview image
-- Global `preview_image = "/images/social_preview.png"` will be used as preview image
+- If the document has param `social_preview_image` - it will be used as the preview image
+- If there is a file `static/<path-to-section>/<file-name>-social-preview.png` - it will be used as the preview image
+- Global `preview_image = "/images/social_preview.png"` will be used as the preview image
 
 ### Article preview
 
@@ -121,11 +121,11 @@ curl -s https://raw.githubusercontent.com/Intervox/node-webp/latest/bin/install_
 
 #### Prepare preview image
 
-For the preview use image with the aspect ratio 3 to 1 in jpg or png format. With resolution not smaller than 1200x630px. The image should illustrate in some way the article's core idea. Fill free got creative. Check out that most important part of the image is in the center.
+For the preview use an image with an aspect ratio of 3 to 1 in JPG or PNG format. With a resolution not smaller than 1200x630px. The image should illustrate in some way the article's core idea. Fill free got creative. Check out that the most important part of the image is in the center.
 
 #### Generating preview images
 
-To generate preview images, run the following command from the root of project:
+To generate preview images, run the following command from the root of the project:
 
 ```bash
 bash -x automation/process-article-img.sh <path-to-image> <alias-for-the-article>
@@ -137,7 +137,7 @@ For example:
 bash -x automation/process-article-img.sh ~/Pictures/my_preview.jpg filtrable-hnsw 
 ```
 
-This command will create a directory `preview` in `static/article_data/filtrable-hnsw` and generate preview images in it. If the directory `static/article_data/filtrable-hnsw` doesn't exist, it will be created. If it exists, only files in children `preview` directory will be affected. In this case preview images will be overwritten. Your original image will not be affected.
+This command will create a directory `preview` in `static/article_data/filtrable-hnsw` and generate preview images in it. If the directory `static/article_data/filtrable-hnsw` doesn't exist, it will be created. If it exists, only files in the children `preview` directory will be affected. In this case, preview images will be overwritten. Your original image will not be affected.
 
 #### Preview images set
 
@@ -159,7 +159,7 @@ Documentation pages are written in markdown and stored in `content/documentation
 ---
 title: Here goes the title of the page #required
 weight: 10 # This is the order of the page in the sidebar. The lower the number, the higher the page will be in the sidebar.
-canonicalUrl: https://qdrant.io/documentation/ # Optional. This is the canonical url of the page.
+canonicalUrl: https://qdrant.io/documentation/ # Optional. This is the canonical URL of the page.
 hideInSidebar: true # Optional. If true, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
 ---
 ```
@@ -174,15 +174,15 @@ Branded individual preview images for documentation pages might be auto-generate
 bash -x automation/generate-all-docs-preview.sh
 ```
 
-It will automatically insert documentation Section name and Title of the page into the preview.
+It will automatically insert the documentation Section name and Title of the page into the preview.
 If there is a custom background for the image - it should be placed in the `static/documentation/<section-name>/<page>-bg.png`.
 <!-- (Use midjourney and one of the styles https://www.notion.so/qdrant/Midjourney-styles-a8dbc94761a74bb287a8a8ad05d593d1 to generate the background) -->
 
-If there is no custom background - random default background will be used.
+If there is no custom background - a random default background will be used.
 
 Generated images will be placed in the `static/documentation/<section-name>/<page>-social-preview.png`.
 
-To re-generate preview image, remove the previously generated one and run the command again.
+To re-generate the preview image, remove the previously generated one and re-run the command.
 
 ### Documentation sidebar
 
@@ -197,7 +197,7 @@ hugo new --kind delimiter documentation/<delimiter-title>.md
 
 It will create a file `content/documentation/<delimiter-title>.md`.
 
-To put a delimiter to desired place in the sidebar, set the `weight` parameter to the desired value. The lower the value, the higher the delimiter will be in the sidebar.
+To put a delimiter to the desired place in the sidebar, set the `weight` parameter to the desired value. The lower the value, the higher the delimiter will be in the sidebar.
 
 #### External link
 
@@ -212,13 +212,13 @@ It will create a file `content/documentation/<link-title>.md`. Open it and set t
 
 #### Params
 
-Additionally, to the standard hugo front matter params, we have the following params:
+Additionally, to the standard Hugo front matter params, we have the following params:
 
 ```yaml
 hideInSidebar: true
 ```
 
-If `true`, the page will not be shown in the sidebar. It can be used in regular documentation pages and in documentation section pages (_index.md).
+If `true`, the page will not be shown in the sidebar. It can be used in regular documentation and section pages (_index.md).
 
 ## Blog
 
@@ -248,7 +248,7 @@ In the blog post file, you'll see:
 ### Important notes
 
 - Add tags. While they're not shown on the blog post page, they are used to display related posts.
-- If post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
+- If a post has `featured: true` property in the front matter this post will appear in the "Features and News" blog section. Only the last 4 featured posts will be displayed in this section. Featured posts will not appear in the regular post list.
   - If there are more than 4 `featured: true` posts (where `draft: false`), the oldest post disappears from /blog.
 
 ## Marketing Landing Pages
@@ -269,9 +269,9 @@ Structured data is a standardized format for providing information about a page 
 
 We use JSON-LD format for structured data. Data is stored in JSON files in the `/assets/schema` directory. If no specific schema is provided for a page, the default schema is used based on the page type as defined in the `qdrant-landing/themes/qdrant/layouts/partials/seo_schema.html` file.
 
-To add specific schema to a specific page, use the `seo_schema` or `seo_schema_json` parameter in the front matter of content markdown files (directory `content`).
+To add schema to a specific page, use the `seo_schema` or `seo_schema_json` parameter in the front matter of content markdown files (directory `content`).
 
-To add json directly to the page, use the `seo_schema` parameter. The value should be a JSON object.
+To add JSON directly to the page, use the `seo_schema` parameter. The value should be a JSON object.
 
 Example:
 
@@ -289,7 +289,7 @@ seo_schema: {
   }
 ```
 
-To add a path to a JSON files with schema data, use the `seo_schema_json` parameter. This parameter should contain a list of paths to JSON files.
+To add a path to a JSON file with schema data, use the `seo_schema_json` parameter. This parameter should contain a list of paths to JSON files.
 The path should be relative to the `qdrant-landing/assets` directory.
 
 Example:

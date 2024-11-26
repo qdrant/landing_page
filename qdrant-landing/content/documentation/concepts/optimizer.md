@@ -82,7 +82,7 @@ storage:
     # Memmap storage is disabled by default, to enable it, set this threshold to a reasonable value.
     # To disable memmap storage, set this to `0`.
     # Note: 1Kb = 1 vector of size 256
-    memmap_threshold_kb: 200000
+    memmap_threshold: 200000
 
     # Maximum size (in kilobytes) of vectors allowed for plain index, exceeding this threshold will enable vector indexing
     # Default value is 20,000, based on <https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md>.

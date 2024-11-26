@@ -98,3 +98,9 @@ export function tagCloudUILinksWithAnonymousId() {
     link.href = addOrUpdateQueryParam(link.href, CROSS_SITE_URL_PARAM_KEY, anonymousId);
   });
 }
+
+export function addGA4Properties(properties) {
+  const gaMeasurementId = getCookie('ga_measurement_id')?.replace('G-', '');
+  properties.ga_session_id = getCookie('_ga_' + gaMeasurementId)?.replace('GS1.1.','').split('.')[0];
+  properties.ga_client_id = getCookie('_ga')?.replace('GA1.1.','');
+}

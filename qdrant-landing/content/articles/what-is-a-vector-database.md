@@ -21,13 +21,11 @@ tags:
 
 ![vector-database-architecture](/articles_data/what-is-a-vector-database/vector-database-1.jpeg)
 
-A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized system designed to efficiently handle high-dimensional vector data. It excels at indexing, querying, and retrieving this data, enabling advanced analysis and similarity searches that traditional databases cannot easily perform.
-
 Most of the millions of terabytes of data we generate each day is **unstructured**. Think of the meal photos you snap, the PDFs shared at work, or the podcasts you save but may never listen to. None of it fits neatly into rows and columns.
 
 Unstructured data lacks a strict format or schema, making it challenging for conventional databases to manage. Yet, this unstructured data holds immense potential for **AI**, **machine learning**, and **modern search engines**.
 
-> Vector databases are built to unravel this complexity, allowing us to extract meaning and find connections within vast, unstructured datasets.
+> A [Vector Database](https://qdrant.tech/qdrant-vector-database/) is a specialized system designed to efficiently handle high-dimensional vector data. It excels at indexing, querying, and retrieving this data, enabling advanced analysis and similarity searches that traditional databases cannot easily perform.
 
 ### The Challenge with Traditional Databases
 
@@ -43,7 +41,7 @@ Also, this applies to more than just PDF documents. Think about the vast amounts
 
 <img src="/articles_data/what-is-a-vector-database/vector-db-structure.png" alt="Structure of a Vector Database" width="400">
 
-This is where vector databases come in. They can help you understand the **context** or **conceptual similarity** of unstructured data by representing the data as **vectors**.
+Vector databases allow you to understand the **context** or **conceptual similarity** of unstructured data by representing them as vectors, enabling advanced analysis and retrieval based on data similarity.
 
 ## When to Use a Vector Database
 
@@ -155,7 +153,7 @@ client.create_collection(
 )
 ```
 
-For other configurations like `hnsw_config.on_disk` or `memmap_threshold_kb`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/concepts/storage/)
+For other configurations like `hnsw_config.on_disk` or `memmap_threshold`, see the Qdrant documentation for [Storage.](https://qdrant.tech/documentation/concepts/storage/)
 
 ### SDKs
 
