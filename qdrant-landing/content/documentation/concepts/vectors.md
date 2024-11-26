@@ -1043,7 +1043,7 @@ client
                         .setDistance(Distance.Cosine)
                         .build()))))
             .setSparseVectorsConfig(SparseVectorConfig.newBuilder().putMap(
-                "text", SparseVectorParams.getDefaultInstance()))
+                "text-sparse", SparseVectorParams.getDefaultInstance()))
             .build())
     .get();
 ```
