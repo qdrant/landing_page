@@ -14,6 +14,7 @@ partition: build
 | [CrewAI](/documentation/frameworks/crewai/)                   | CrewAI is a framework to build automated workflows using multiple AI agents that perform complex tasks.              |
 | [DocArray](/documentation/frameworks/docarray/)               | Python library for managing data in multi-modal AI applications.                                                     |
 | [DSPy](/documentation/frameworks/dspy/)                       | Framework for algorithmically optimizing LM prompts and weights.                                                     |
+| [dsRAG](/documentation/frameworks/dsRAG/)                     | High-performance Python retrieval engine for unstructured data.                                                      |
 | [Feast](/documentation/frameworks/feast/)                     | Open-source feature store to operate production ML systems at scale as a set of features.                            |
 | [Fifty-One](/documentation/frameworks/fifty-one/)             | Toolkit for building high-quality datasets and computer vision models.                                               |
 | [Genkit](/documentation/frameworks/genkit/)                   | Framework to build, deploy, and monitor production-ready AI-powered apps.                                            |
