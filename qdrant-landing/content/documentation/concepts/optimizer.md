@@ -50,7 +50,15 @@ Such segments, for example, are created as copy-on-write segments during optimiz
 It is also essential to have at least one small segment that Qdrant will use to store frequently updated data.
 On the other hand, too many small segments lead to suboptimal search performance.
 
-There is the Merge Optimizer, which combines the smallest segments into one large segment. It is used if too many segments are created.
+The merge optimizer constantly tries to reduce the number of segments if there
+currently are too many. The desired number of segments is specified
+with `default_segment_number` and defaults to the number of CPUs. The optimizer
+may takes at least the three smallest segments and merges them into one.
+
+Segments will not be merged if they'll exceed the maximum configured segment
+size with `max_segment_size_kb`. It prevents creating segments that are too
+large to efficiently index. Increasing this number may help to reduce the number
+of segments if you have a lot of data, and can potentially improve search performance.
 
 The criteria for starting the optimizer are defined in the configuration file.
 
@@ -59,8 +67,25 @@ Here is an example of parameter values:
 ```yaml
 storage:
   optimizers:
-    # If the number of segments exceeds this value, the optimizer will merge the smallest segments.
-    max_segment_number: 5
+    # Target amount of segments optimizer will try to keep.
+    # Real amount of segments may vary depending on multiple parameters:
+    #  - Amount of stored points
+    #  - Current write RPS
+    #
+    # It is recommended to select default number of segments as a factor of the number of search threads,
+    # so that each segment would be handled evenly by one of the threads.
+    # If `default_segment_number = 0`, will be automatically selected by the number of available CPUs
+    default_segment_number: 0
+
+    # Do not create segments larger this size (in KiloBytes).
+    # Large segments might require disproportionately long indexation times,
+    # therefore it makes sense to limit the size of segments.
+    #
+    # If indexation speed have more priority for your - make this parameter lower.
+    # If search speed is more important - make this parameter higher.
+    # Note: 1Kb = 1 vector of size 256
+    # If not set, will be automatically selected considering the number of available CPUs.
+    max_segment_size_kb: null
 ```
 
 ## Indexing Optimizer
