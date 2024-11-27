@@ -1,0 +1,73 @@
+@use '../helpers/functions' as *;
+@use 'sass:math';
+
+.qdrant-blog-post {
+  article {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .qdrant-post {
+    &__breadcrumbs {
+      margin-top: $spacer * 2.5;
+      margin-bottom: $spacer;
+      order: 1;
+    }
+
+    &__title {
+      text-align: left;
+    }
+
+    &__about {
+      justify-content: flex-start;
+      margin-bottom: $spacer * 1.5;
+    }
+
+    &__header {
+      padding-top: 0;
+      padding-bottom: $spacer * 1.5;
+      order: 2;
+    }
+
+    &__body {
+      gap: $spacer * 1.5;
+      padding-bottom: $spacer * 5;
+      order: 3;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .qdrant-post {
+      &__breadcrumbs {
+        margin-top: $spacer * 1.5;
+        margin-bottom: $spacer * 2.5;
+      }
+
+      &__title {
+        text-align: center;
+      }
+
+      &__about {
+        justify-content: center;
+        margin-bottom: $spacer * 2.5;
+      }
+
+      &__header {
+        padding-bottom: $spacer * 4;
+      }
+
+      &__body {
+        align-items: flex-start;
+        flex-direction: row-reverse;
+        gap: $spacer * 4;
+        width: pxToRem(984);
+        margin-left: pxToRem(91);
+      }
+
+      &__content {
+        min-width: calc(100% - $spacer * 19);
+        max-width: 100%;
+      }
+    }
+  }
+}

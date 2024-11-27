@@ -449,7 +449,7 @@ Filtered points would be:
 ]
 ```
 
-When using `must_not`, the clause becomes `true` if none if the conditions listed inside `should` is satisfied.
+When using `must_not`, the clause becomes `true` if none of the conditions listed inside `should` is satisfied.
 In this sense, `must_not` is equivalent to the expression `(NOT A) AND (NOT B) AND (NOT C)`.
 
 ### Clauses combination
@@ -2158,7 +2158,7 @@ Functionally, it will work with `keyword` and `uuid` indexes exactly the same, b
 {
   "key": "uuid",
   "match": {
-    "uuid": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
+    "value": "f47ac10b-58cc-4372-a567-0e02b2c3d479"
   }
 }
 ```
@@ -2166,14 +2166,14 @@ Functionally, it will work with `keyword` and `uuid` indexes exactly the same, b
 ```python
 models.FieldCondition(
     key="uuid",
-    match=models.MatchValue(uuid="f47ac10b-58cc-4372-a567-0e02b2c3d479"),
+    match=models.MatchValue(value="f47ac10b-58cc-4372-a567-0e02b2c3d479"),
 )
 ```
 
 ```typescript
 {
     key: 'uuid',
-    match: {uuid: 'f47ac10b-58cc-4372-a567-0e02b2c3d479'}    
+    match: {value: 'f47ac10b-58cc-4372-a567-0e02b2c3d479'}    
 }
 ```
 
@@ -2462,57 +2462,59 @@ models.FieldCondition(
 
 ```typescript
 {
-    key: 'location', 
-    geo_polygon: {
-        exterior: {
-            points: [
-                {
-                    lon: -70.0,
-                    lat: -70.0
-                },
-                {
-                    lon: 60.0,
-                    lat: -70.0
-                },
-                {
-                    lon: 60.0,
-                    lat: 60.0
-                },
-                {
-                    lon: -70.0,
-                    lat: 60.0
-                },
-                {
-                    lon: -70.0,
-                    lat: -70.0
-                }
-            ]
+  key: "location",
+  geo_polygon: {
+    exterior: {
+      points: [
+        {
+          lon: -70.0,
+          lat: -70.0
         },
-        interiors: {
-            points: [
-                {
-                    lon: -65.0,
-                    lat: -65.0
-                },
-                {
-                    lon: 0.0,
-                    lat: -65.0
-                },
-                {
-                    lon: 0.0,
-                    lat: 0.0
-                },
-                {
-                    lon: -65.0,
-                    lat: 0.0
-                },
-                {
-                    lon: -65.0,
-                    lat: -65.0
-                }
-            ]
+        {
+          lon: 60.0,
+          lat: -70.0
+        },
+        {
+          lon: 60.0,
+          lat: 60.0
+        },
+        {
+          lon: -70.0,
+          lat: 60.0
+        },
+        {
+          lon: -70.0,
+          lat: -70.0
         }
-    }
+      ]
+    },
+    interiors: [
+      {
+        points: [
+          {
+            lon: -65.0,
+            lat: -65.0
+          },
+          {
+            lon: 0,
+            lat: -65.0
+          },
+          {
+            lon: 0,
+            lat: 0
+          },
+          {
+            lon: -65.0,
+            lat: 0
+          },
+          {
+            lon: -65.0,
+            lat: -65.0
+          }
+        ]
+      }
+    ]
+  }
 }
 ```
 
@@ -2764,7 +2766,7 @@ models.IsEmptyCondition(
 ```typescript
 {
   is_empty: {
-    key: "reports";
+    key: "reports"
   }
 }
 ```
@@ -2820,7 +2822,7 @@ models.IsNullCondition(
 ```typescript
 {
   is_null: {
-    key: "reports";
+    key: "reports"
   }
 }
 ```

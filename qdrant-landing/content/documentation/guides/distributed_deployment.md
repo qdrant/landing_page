@@ -535,8 +535,7 @@ client.upsert(
 ```
 
 ```typescript
-
-client.upsertPoints("{collection_name}", {
+client.upsert("{collection_name}", {
     points: [
         {
             id: 1111,
@@ -753,8 +752,6 @@ to recover dead shards.
 
 ## Replication
 
-*Available as of v0.11.0*
-
 Qdrant allows you to replicate shards between nodes in the cluster.
 
 Shard replication increases the reliability of the cluster by keeping several copies of a shard spread across the cluster.
@@ -762,9 +759,9 @@ This ensures the availability of the data in case of node failures, except if al
 
 ### Replication factor
 
-When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. You can change that by setting the `replication_factor` when you create a collection.
+When you create a collection, you can control how many shard replicas you'd like to store by changing the `replication_factor`. By default, `replication_factor` is set to "1", meaning no additional copy is maintained automatically. The default can be changed in the [Qdrant configuration](/documentation/guides/configuration/#configuration-options). You can change that by setting the `replication_factor` when you create a collection.
 
-Currently, the replication factor of a collection can only be configured at creation time.
+The `replication_factor` can be updated for an existing collection, but the effect of this depends on how you're running Qdrant. If you're hosting the open source version of Qdrant yourself, changing the replication factor after collection creation doesn't do anything. You can manually [create](#creating-new-shard-replicas) or drop shard replicas to achieve your desired replication factor. In Qdrant Cloud (including Hybrid Cloud, Private Cloud) your shards will automatically be replicated or dropped to match your configured replication factor.
 
 ```http
 PUT /collections/{collection_name}
@@ -894,7 +891,7 @@ Since a replication factor of "2" would require twice as much storage space, it 
 
 ### Creating new shard replicas
 
-It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster).
+It is possible to create or delete replicas manually on an existing collection using the [Update collection cluster setup API](https://api.qdrant.tech/master/api-reference/distributed/update-collection-cluster). This is usually only necessary if you run Qdrant open-source. In Qdrant Cloud shard replication is handled and updated automatically, matching the configured `replication_factor`.
 
 A replica can be added on a specific peer by specifying the peer from which to replicate.
 
@@ -1159,6 +1156,17 @@ client.CreateCollection(context.Background(), &qdrant.CreateCollection{
 ```
 
 Write operations will fail if the number of active replicas is less than the `write_consistency_factor`.
+
+The configuration of the `write_consistency_factor` is important for adjusting the cluster's behavior when some nodes go offline due to restarts, upgrades, or failures.
+
+By default, the cluster continues to accept updates as long as at least one replica of each shard is online. However, this behavior means that once an offline replica is restored, it will require additional synchronization with the rest of the cluster. In some cases, this synchronization can be resource-intensive and undesirable.
+
+Setting the `write_consistency_factor` to match the replication factor modifies the cluster's behavior so that unreplicated updates are rejected, preventing the need for extra synchronization.
+
+If the update is applied to enough replicas - according to the `write_consistency_factor` - the update will return a successful status. Any replicas that failed to apply the update will be temporarily disabled and are automatically recovered to keep data consistency. If the update could not be applied to enough replicas, it'll return an error and may be partially applied. The user must submit the operation again to ensure data consistency.
+
+For asynchronous updates and injection pipelines capable of handling errors and retries, this strategy might be preferable.
+
 
 ### Read consistency
 

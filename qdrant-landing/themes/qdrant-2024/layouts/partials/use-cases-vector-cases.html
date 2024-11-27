@@ -1,9 +1,10 @@
-<section class="use-cases-vector-cases">
+{{ $class := .class }}
+<section class="use-cases-vector-cases {{ $class }}">
   <div class="container">
-    <h3 class="use-cases-vector-cases__title">{{ .Params.title }}</h3>
+    <h3 class="use-cases-vector-cases__title">{{ .context.Params.title }}</h3>
     <div class="use-cases-vector-cases__cards row g-4">
-      {{ range .Params.features }}
-        <div class="col-12 col-md-6">
+      {{ range .context.Params.features }}
+        <div class="col-12 {{ if eq $class "ai-agents-use-cases" }}col-xl-4{{ else }}col-md-6{{ end }}">
           <div class="card use-cases-vector-cases__card">
             <img class="use-cases-vector-cases__card-image" src="{{ .image.src }}" alt="{{ .image.alt }}" />
             <img
@@ -20,6 +21,6 @@
         </div>
       {{ end }}
     </div>
-    {{ partial "case-study" . }}
+    {{ partial "case-study" .context }}
   </div>
 </section>

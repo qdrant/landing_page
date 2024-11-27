@@ -9,7 +9,7 @@
   {{ partial "recommendations-api" . }}
 
   {{ with (.Site.GetPage "/recommendations/recommendations-use-cases") }}
-    {{ partial "use-cases-vector-cases" . }}
+    {{ partial "use-cases-vector-cases" (dict "context" . "class" "recommendations-use-cases") }}
   {{ end }}
 
 

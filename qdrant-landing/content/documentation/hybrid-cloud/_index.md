@@ -1,6 +1,7 @@
 ---
 title: Hybrid Cloud
 weight: 13
+partition: cloud
 ---
 
 # Qdrant Hybrid Cloud
@@ -28,6 +29,13 @@ The Cloud Agent will establish an outgoing connection to `cloud.qdrant.io` on po
 The Qdrant Kubernetes Operator will manage the Qdrant databases within your Kubernetes cluster. Based on the Qdrant CRs, it will interact with the Kubernetes API through a ServiceAccount to create and manage the necessary resources to deploy and run Qdrant databases, such as Pods, Services, ConfigMaps, and Secrets.
 
 Both component's access is limited to the Kubernetes namespace that you chose during the onboarding process.
+
+The Cloud Agent only sends telemetry data and status information to the Qdrant Cloud platform. It does not send any user data or sensitive information. The telemetry data includes:
+
+* The health status and resource (CPU, memory, disk and network) usage of the Qdrant databases and Qdrant control plane components.
+* Information about the Qdrant databases, such as the number, name and configuration of collections, the number of vectors, the number of queries, and the number of indexing operations.
+* Telemetry and notification data from the Qdrant databases.
+* Kubernetes operations and scheduling events reported for the Qdrant databases and Qdrant control plane components.
 
 After the initial onboarding, the lifecycle of these components will be controlled by the Qdrant Cloud platform via the built-in Helm controller.
 

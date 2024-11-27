@@ -2,6 +2,7 @@ import scrollHandler from './scroll-handler';
 import { XXL_BREAKPOINT } from './constants';
 import { initGoToTopButton, getCookie } from './helpers';
 import { loadSegment, createSegmentStoredPage } from './segment-helpers';
+import TableOfContents from './table-of-content';
 
 createSegmentStoredPage();
 
@@ -31,11 +32,17 @@ document.addEventListener('DOMContentLoaded', function () {
   let menuOffset = window.innerWidth >= 1400 ? PADDING_PART_TO_HIDE : 0; // 24px is a PART of padding-top which we want to scroll over
 
   function addScrollStateToPage() {
+    if (!header) {
+      return;
+    }
     header.style.minHeight = `${header.offsetHeight}px`;
     body.classList.add('scrolled');
   }
 
   function removeScrollStateFromPage() {
+    if (!header) {
+      return;
+    }
     header.style.minHeight = '';
     body.classList.remove('scrolled');
   }
@@ -95,4 +102,8 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   initGoToTopButton('#scrollToTopBtn');
+
+  if (document.getElementById('TableOfContents') && document.querySelector('.qdrant-post__body')) {
+    new TableOfContents('#TableOfContents', '.qdrant-post__body');
+  }
 });

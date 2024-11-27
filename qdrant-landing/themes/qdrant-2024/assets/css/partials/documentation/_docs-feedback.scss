@@ -1,0 +1,65 @@
+@use '../../helpers/functions' as *;
+
+.docs-feedback {
+  $sectionPadding: $spacer * 2.5 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: $spacer;
+  padding: $sectionPadding;
+
+  &__title {
+    color: $neutral-98;
+    font-size: pxToRem(18);
+    line-height: pxToRem(27);
+    margin: 0;
+  }
+
+  &__buttons {
+    display: flex;
+    gap: $spacer * 0.5;
+  }
+
+  &__button {
+    display: flex;
+    align-items: center;
+    gap: $spacer * 0.5;
+    box-shadow: 0 0 0 pxToRem(1) $neutral-30;
+  }
+  &__responses {
+    padding: $sectionPadding;
+  }
+  &__response {
+    display: none;
+    padding: 8px;
+    color: $neutral-100;
+    background: $neutral-20;
+    border-radius: 8px;
+    font-size: $font-size-sm;
+    margin: 0;
+
+    &_visible {
+      display: block;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    justify-content: flex-start;
+  }
+
+  [data-theme='light'] & {
+    &__title {
+      color: $neutral-20;
+    }
+    &__button {
+      img {
+        filter: invert(1);
+      }
+    }
+    &__response {
+      color: $neutral-30;
+      background: $neutral-90;
+    }
+  }
+}

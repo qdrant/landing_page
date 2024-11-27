@@ -1,0 +1,26 @@
+{{ define "main" }}
+  {{ partial "site-header" . }}
+
+  {{ with (.Site.GetPage "/ai-agents/ai-agents-hero") }}
+    {{ partial "use-cases-vector-hero" . }}
+  {{ end }}
+
+  <div id="ai-agents"></div>
+  {{ partial "ai-agents-features" . }}
+
+  {{ with (.Site.GetPage "/ai-agents/ai-agents-integrations") }}
+    {{ partial "use-cases-vector-integrations" (dict "context" . "class" "ai-agents-integrations") }}
+  {{ end }}
+
+  {{ partial "ai-agents-webinar" . }}
+
+  {{ with (.Site.GetPage "/ai-agents/ai-agents-use-cases") }}
+    {{ partial "use-cases-vector-cases" (dict "context" . "class" "ai-agents-use-cases") }}
+  {{ end }}
+
+  {{ partial "ai-agents-video" . }}
+
+  {{ with (.Site.GetPage "/ai-agents/ai-agents-get-started") }}
+    {{ partial "get-started-small" (dict "context" . "class" "ai-agents-get-started") }}
+  {{ end }}
+{{ end }}
