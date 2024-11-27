@@ -24,7 +24,7 @@ tags: # Change this, related by tags posts will be shown on the blog page
 
 ---
 
-ColPali is a fascinating leap in document retrieval. Its precision in handling visually rich PDFs is phenomenal, but scaling it to handle real-world datasets is of course not without computational challenges. 
+ColPali is a fascinating leap in document retrieval. Its precision in handling visually rich PDFs is phenomenal, but scaling it to handle real-world datasets comes with its share of computational challenges.
 
 Here's how we solved these challenges to make ColPali 13x faster without sacrificing the precision it’s known for.
 
