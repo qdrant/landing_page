@@ -13,27 +13,25 @@ You can set up the Qdrant-Spark Connector in a few different ways, depending on 
 
 ### GitHub Releases
 
-The simplest way to get started is by downloading pre-packaged JAR file releases from the [GitHub releases page](https://github.com/qdrant/qdrant-spark/releases). These JAR files come with all the necessary dependencies.
+You can download the packaged JAR file from the [GitHub releases](https://github.com/qdrant/qdrant-spark/releases). It comes with all the required dependencies.
 
 ### Building from Source
 
-If you prefer to build the JAR from source, you'll need [JDK 8](https://www.azul.com/downloads/#zulu) and [Maven](https://maven.apache.org/) installed on your system. Once you have the prerequisites in place, navigate to the project's root directory and run the following command:
+To build the JAR from source, you'll need [JDK 8](https://www.azul.com/downloads/#zulu) and [Maven](https://maven.apache.org/) installed on your system. Once you have those in place, navigate to the project's root directory and run the following command:
 
 ```bash
-mvn package
+mvn package -DskipTests
 ```
 
-This command will compile the source code and generate a fat JAR, which will be stored in the `target` directory by default.
+This will compile the source code and generate a fat JAR, which will be stored in the `target` directory by default.
 
 ### Maven Central
 
-For use with Java and Scala projects, the package can be found [here](https://central.sonatype.com/artifact/io.qdrant/spark).
+The package can be found [here](https://central.sonatype.com/artifact/io.qdrant/spark).
 
 ## Usage
 
-Below, we'll walk through the steps of creating a Spark session with Qdrant support and loading data into Qdrant.
-
-### Creating a single-node Spark session with Qdrant Support
+Below, we'll walk through the steps of creating a Spark session and ingesting data into Qdrant.
 
 To begin, import the necessary libraries and create a Spark session with Qdrant support:
 
@@ -42,7 +40,7 @@ from pyspark.sql import SparkSession
 
 spark = SparkSession.builder.config(
         "spark.jars",
-        "spark-VERSION.jar",  # Specify the downloaded JAR file
+        "spark-VERSION.jar",  # Specify the path to the downloaded JAR file
     )
     .master("local[*]")
     .appName("qdrant")
@@ -53,7 +51,7 @@ spark = SparkSession.builder.config(
 import org.apache.spark.sql.SparkSession
 
 val spark = SparkSession.builder
-  .config("spark.jars", "spark-VERSION.jar") // Specify the downloaded JAR file
+  .config("spark.jars", "spark-VERSION.jar") // Specify the path to the downloaded JAR file
   .master("local[*]")
   .appName("qdrant")
   .getOrCreate()
@@ -65,15 +63,13 @@ import org.apache.spark.sql.SparkSession;
 public class QdrantSparkJavaExample {
     public static void main(String[] args) {
         SparkSession spark = SparkSession.builder()
-                .config("spark.jars", "spark-VERSION.jar") // Specify the downloaded JAR file
+                .config("spark.jars", "spark-VERSION.jar") // Specify the path to the downloaded JAR file
                 .master("local[*]")
                 .appName("qdrant")
                 .getOrCreate(); 
     }
 }
 ```
-
-### Loading data into Qdrant
 
 <aside role="status">Before loading the data using this connector, a collection has to be <a href="/documentation/concepts/collections/#create-a-collection">created</a> in advance with the appropriate vector dimensions and configurations.</aside>
 
@@ -229,7 +225,7 @@ You can use the `qdrant-spark` connector as a library in [Databricks](https://ww
 
 ## Datatype Support
 
-Qdrant supports all the Spark data types, and the appropriate data types are mapped based on the provided schema.
+Qdrant supports most Spark data types, and the appropriate data types are mapped based on the provided schema.
 
 ## Configuration Options
 
