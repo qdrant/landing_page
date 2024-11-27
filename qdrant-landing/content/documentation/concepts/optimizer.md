@@ -59,8 +59,25 @@ Here is an example of parameter values:
 ```yaml
 storage:
   optimizers:
-    # This parameter defines the maximum size of a segment. Increasing this value can help in reducing the number of segments.
-    max_segment_size: <desired_size>
+    # Target amount of segments optimizer will try to keep.
+    # Real amount of segments may vary depending on multiple parameters:
+    #  - Amount of stored points
+    #  - Current write RPS
+    #
+    # It is recommended to select default number of segments as a factor of the number of search threads,
+    # so that each segment would be handled evenly by one of the threads.
+    # If `default_segment_number = 0`, will be automatically selected by the number of available CPUs
+    default_segment_number: 0
+
+    # Do not create segments larger this size (in KiloBytes).
+    # Large segments might require disproportionately long indexation times,
+    # therefore it makes sense to limit the size of segments.
+    #
+    # If indexation speed have more priority for your - make this parameter lower.
+    # If search speed is more important - make this parameter higher.
+    # Note: 1Kb = 1 vector of size 256
+    # If not set, will be automatically selected considering the number of available CPUs.
+    max_segment_size_kb: null
 ```
 
 ## Indexing Optimizer
