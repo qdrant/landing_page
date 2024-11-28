@@ -1,6 +1,5 @@
 ---
 title: Upstage
-weight: 3100
 ---
 
 # Upstage

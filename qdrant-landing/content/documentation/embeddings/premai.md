@@ -1,6 +1,5 @@
 ---
 title: Prem AI
-weight: 2800
 ---
 
 # Prem AI

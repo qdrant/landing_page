@@ -1,6 +1,5 @@
 ---
 title: "Nomic"
-weight: 2300
 ---
 
 # Nomic

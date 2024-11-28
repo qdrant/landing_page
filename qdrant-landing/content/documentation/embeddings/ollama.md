@@ -1,6 +1,5 @@
 ---
 title: Ollama
-weight: 2600
 ---
 
 # Using Ollama with Qdrant

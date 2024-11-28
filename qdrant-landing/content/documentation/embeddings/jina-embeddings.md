@@ -1,6 +1,5 @@
 ---
 title: Jina Embeddings
-weight: 1900
 aliases: 
   - /documentation/embeddings/jina-embeddings/
   - /documentation/integrations/jina-embeddings/

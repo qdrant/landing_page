@@ -1,6 +1,5 @@
 ---
 title: Voyage AI
-weight: 3200
 ---
 
 # Voyage AI

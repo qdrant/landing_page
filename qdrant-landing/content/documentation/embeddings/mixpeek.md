@@ -1,6 +1,5 @@
 ---
 title: Mixpeek
-weight: 2250
 ---
 
 # Mixpeek Video Embeddings
