@@ -1291,6 +1291,8 @@ These results for a specific field is called a "facet". For example, when you lo
 
 To get the facet counts for a field, you can use the following:
 
+<aside role="status">By default, the number of <code>hits</code> returned is 10. To change this, use the <code>limit</code> field. Keep this in mind if you are checking the number of unique values your payload field equals.</aside>
+
 REST API ([Facet](https://api.qdrant.tech/api-reference/search/facet))
 
 ```http
