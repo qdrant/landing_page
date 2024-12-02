@@ -446,6 +446,8 @@ client.Upsert(context.Background(), &qdrant.UpsertPoints{
 
 ## Update payload
 
+Updating payloads in Qdrant offers flexible methods to manage vector metadata. The **set payload** method updates specific fields while keeping others unchanged, while the **overwrite** method replaces the entire payload. Developers can also use **clear payload** to remove all metadata or delete fields to remove specific keys without affecting the rest. These options provide precise control for adapting to dynamic datasets.
+
 ### Set payload
 
 Set only the given payload values on a point.
