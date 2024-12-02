@@ -22,7 +22,7 @@ tags:
 weight: -130
 
 aliases: [ /blog/binary-quantization-openai/ ]
-url: /articles/embed-data/binary-quantization
+url: /articles/embed-data/binary-quantization-openai
 category: embed-data
 ---
 

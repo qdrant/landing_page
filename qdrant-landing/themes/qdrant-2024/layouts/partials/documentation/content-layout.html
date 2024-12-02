@@ -141,14 +141,17 @@
 
                 <article class="documentation-article">
                   <div class="documentation-article__header">
-                    {{ $categorySubject := site.GetPage .Params.category }}
                     {{ $firstUrlElement := index (split .RelPermalink "/") 1 }}
+                    {{ $secondUrlElement := index (split .RelPermalink "/") 2 }}
+                    {{ $url := path.Join $firstUrlElement $secondUrlElement }}
 
-                    <a href="/{{ $firstUrlElement }}/{{ .Params.category }}" class="documentation-article__header-link">
+                    <a href="/{{ $url }}" class="documentation-article__header-link">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14.6668 8.00004H1.3335M1.3335 8.00004L6.00016 12.6667M1.3335 8.00004L6.00016 3.33337" stroke="#8F98B3" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
-                      Back to {{ $categorySubject.Title }}
+                      {{ with (.Site.GetPage $url) }}
+                        Back to {{ .Params.Title }}
+                      {{ end }}
                     </a>
                     <h1 class="documentation-article__header-title">{{ .Params.title }}</h1>
                     <div class="documentation-article__header-about">
