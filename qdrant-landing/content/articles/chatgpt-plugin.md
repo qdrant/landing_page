@@ -16,6 +16,8 @@ keywords:
   - chatgpt plugin
   - knowledge base
   - similarity search
+url: /articles/manage-vectors/chatgpt-plugin
+category: manage-vectors
 ---
 
 In recent months, ChatGPT has revolutionised the way we communicate, learn, and interact

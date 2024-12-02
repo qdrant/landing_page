@@ -31,7 +31,7 @@
   <script src="{{ $filterChartJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if in (slice "docs" "documentation") .Section }}
+{{ if in (slice "docs" "documentation" "articles") .Section }}
   {{ $documentationJs := resources.Get "/js/documentation.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $documentationJs.RelPermalink }}"></script>
 {{ end }}

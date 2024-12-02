@@ -5,6 +5,53 @@
   padding-bottom: $spacer * 1.5;
   font-weight: 400;
 
+  &__header {
+    margin-bottom: $spacer * 2;
+
+    .documentation-article__header-link {
+      display: flex;
+      align-items: center;
+      gap: $spacer * 0.5;
+      margin-bottom: $spacer;
+      padding: $spacer * 0.5 0;
+      color: $neutral-70
+    }
+
+    .documentation-article__header-title {
+      margin-bottom: $spacer;
+      padding-top: 0;
+      font-size: $spacer * 2;
+      line-height: pxToRem(38);
+      color: $neutral-98;
+    }
+
+    .documentation-article__header-about {
+      margin-bottom: $spacer * 2;
+      display: flex;
+      justify-content: flex-start;
+      gap: $spacer * 0.5;
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+      color: $neutral-90;
+
+      p {
+        margin-bottom: 0;
+      }
+    }
+
+    .documentation-article__header-preview {
+      width: 100%;
+      margin: 0;
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+        margin: 0 auto;
+      }
+    }
+  }
+
   h1 {
     font-size: $spacer * 2;
     line-height: pxToRem(38);
@@ -60,6 +107,13 @@
 
   @include media-breakpoint-up(xl) {
     width: 100%;
+
+    &__header {
+      .documentation-article__header-title {
+        font-size: $spacer * 2.5;
+        line-height: pxToRem(50);
+      }
+    }
   }
 }
 

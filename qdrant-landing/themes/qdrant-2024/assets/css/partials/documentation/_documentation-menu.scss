@@ -200,6 +200,17 @@
     }
   }
 
+  &__articles-link {
+    &.active {
+      background-color: $neutral-20;
+      border-radius: $spacer * 0.5;
+
+      a {
+        color: $neutral-98;
+      }
+    }
+  }
+
   @include media-breakpoint-up(xl) {
     height: calc(100vh - 80px);
     width: pxToRem(256);

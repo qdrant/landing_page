@@ -1,31 +1,112 @@
 @use '../../helpers/functions' as *;
 @use 'sass:math';
 
-.dev-portal-articles-posts {
+.docs-articles {
+  &__title {
+    margin-bottom: math.div($spacer, 2);
+    font-size: $spacer * 1.5;
+    line-height: $spacer * 2;
+    color: $neutral-98;
+  }
+
+  &__description {
+    margin-bottom: 0;
+    color: $neutral-70;
+  }
+
+  &__blocks {
+    display: flex;
+    flex-direction: column;
+    gap: $spacer * 5;
+    padding-bottom: $spacer * 3;
+  }
+
+  &__block {
+    &-header {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacer * 1.5;
+    }
+
+    &-link {
+      flex-shrink: 0;
+    }
+  }
+
+  &__list {
+    padding-bottom: $spacer * 3;
+  }
+
+  &__posts {
+    margin-top: $spacer * 2;
+  }
+
+  &__pagination {
+    padding-top: $spacer * 5;
+  }
+
   .post {
     &-preview {
+      width: 100%;
+      height: auto;
       padding-bottom: 0;
       margin-bottom: $spacer;
       border-radius: $spacer * 0.5;
-      height: auto;
     }
 
     &-title {
       margin-bottom: math.div($spacer, 4);
-      font-size: pxToRem(18);
-      line-height: pxToRem(27);
       color: $neutral-98;
     }
 
     &-description {
       margin-bottom: $spacer * 0.5;
-      font-size: pxToRem(14);
-      line-height: pxToRem(21);
       color: $neutral-70;
     }
 
     &-about {
+      display: flex;
+      justify-content: flex-start;
+      gap: $spacer * 0.5;
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
       color: $neutral-50;
+    }
+  }
+
+  .post-sm {
+    .post-title {
+      font-size: pxToRem(18);
+      line-height: pxToRem(27);
+    }
+
+    .post-description {
+      font-size: pxToRem(14);
+      line-height: pxToRem(21);
+    }
+  }
+
+  .post-md {
+    .post-title {
+      font-size: pxToRem(20);
+      line-height: pxToRem(30);
+    }
+
+    .post-description {
+      font-size: $spacer;
+      line-height: $spacer * 1.5;
+    }
+  }
+
+  @include media-breakpoint-up(xl) {
+    &__block {
+      &-header {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        gap: $spacer * 4;
+      }
     }
   }
 }

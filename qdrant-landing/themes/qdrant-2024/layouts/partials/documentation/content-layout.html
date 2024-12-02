@@ -10,25 +10,170 @@
       <div class="documentation__content">
         <!--        todo: update this and styles to support both types of content on the same page-->
         <div class="documentation__content-wrapper">
-          {{ if .Params.content }}
-            <div class="documentation__article-wrapper">
-              <div class="docs-core documentation-article">
-                {{ partial "documentation/custom-content.html" . }}
+          {{ if eq .Section "documentation" }}
+            {{ if .Params.content }}
+              <div class="documentation__article-wrapper">
+                <div class="docs-core documentation-article">
+                  {{ partial "documentation/custom-content.html" . }}
+                </div>
               </div>
-            </div>
-          {{ else }}
+            {{ else }}
 
-            <div class="documentation__article-wrapper">
-              {{ if not (eq .Params.breadcrumb false) }}
+              <div class="documentation__article-wrapper">
+                {{ if not (eq .Params.breadcrumb false) }}
+                  {{ partial "documentation/breadcrumbs" . }}
+                {{ end }}
+
+                <article class="documentation-article">
+                  {{ partial "article-content.html" . }}
+                </article>
+                {{ partial "documentation/feedback.html" . }}
+              </div>
+              {{ partial "table-of-contents" . }}
+            {{ end }}
+          {{ end }}
+
+          {{ if eq .Section "articles" }}
+            {{ $subject := site.GetPage "articles" }}
+            {{ $currentNode := .Params }}
+
+            {{ if .Params.isMainPage }}
+              <div class="docs-articles docs-articles__blocks">
+                {{ range $subject.Pages }}
+                  {{ if .Params.isCategoryPage }}
+                    <div class="docs-articles__block">
+                      <div class="docs-articles__block-header">
+                        <div>
+                          <h4 class="docs-articles__title">{{ .Params.title }}</h4>
+                          <p class="docs-articles__description">{{ .Params.description }}</p>
+                        </div>
+                        <a href="{{ .Params.url }}" class="docs-articles__block-link button button_outlined button_sm">
+                          {{ $currentNode.learnButton }}
+                        </a>
+                      </div>
+
+                      {{ $category := .Params.category }}
+
+                      <div class="docs-articles__posts">
+                        <div class="row gy-4">
+                          {{ $list := first 0 site.Pages }}
+
+                          {{ range $subject.Pages }}
+                            {{ if and (eq .Params.category $category) (not .Params.isCategoryPage) }}
+                              {{ $list = $list | append . }}
+                            {{ end }}
+                          {{ end }}
+
+                          {{ $all := $list.ByPublishDate.Reverse }}
+                          {{ range first 3 $all }}
+                            <article class="col-12 col-lg-4 post post-sm">
+                              <a class="post-link" href="{{ .RelPermalink }}">
+                                <div class="post-preview">
+                                  <img src="{{ .Params.preview_dir }}/preview.jpg" alt="Preview" />
+                                </div>
+                                <h6 class="post-title">{{ .Params.title }}</h6>
+                                <p class="post-description">{{ .Params.description }}</p>
+                                <div class="post-about">
+                                  <p>{{ .Params.author }}</p>
+                                  <span>&middot;</span>
+                                  <p>{{ time.Format "January 02, 2006" .Date }}</p>
+                                </div>
+                              </a>
+                            </article>
+                          {{ end }}
+                        </div>
+                      </div>
+                    </div>
+                  {{ end }}
+                {{ end }}
+              </div>
+            {{ else if .Params.isCategoryPage }}
+              <div class="docs-articles docs-articles__list">
                 {{ partial "documentation/breadcrumbs" . }}
-              {{ end }}
 
-              <article class="documentation-article">
-                {{ partial "article-content.html" . }}
-              </article>
-              {{ partial "documentation/feedback.html" . }}
-            </div>
-            {{ partial "table-of-contents" . }}
+                <h4 class="docs-articles__title">{{ .Params.title }}</h4>
+                <p class="docs-articles__description">{{ .Params.description }}</p>
+
+                {{ $category := .Params.category }}
+
+                <div class="docs-articles__posts">
+                  <div class="row gx-4 gy-5">
+                    {{ $list := first 0 site.Pages }}
+                    {{ range $subject.Pages }}
+                      {{ if and (eq .Params.category $category) (not .Params.isCategoryPage) }}
+                        {{ $list = $list | append . }}
+                      {{ end }}
+                    {{ end }}
+
+                    {{ $all := $list.ByPublishDate.Reverse }}
+                    {{ $paginator := .Paginate $all 14 }}
+
+                    {{ range $paginator.Pages }}
+                      <article class="col-12 col-lg-6 post post-md">
+                        <a class="post-link" href="{{ .RelPermalink }}">
+                          <div class="post-preview">
+                            <img src="{{ .Params.preview_dir }}/preview.jpg" alt="Preview" />
+                          </div>
+                          <h6 class="post-title">{{ .Params.title }}</h6>
+                          <p class="post-description">{{ .Params.description }}</p>
+                          <div class="post-about">
+                            <p>{{ .Params.author }}</p>
+                            <span>&middot;</span>
+                            <p>{{ time.Format "January 02, 2006" .Date }}</p>
+                          </div>
+                        </a>
+                      </article>
+                    {{ end }}
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="docs-articles__pagination col-12">
+                    {{ if gt $paginator.TotalPages 1 }}
+                      {{ partial "pagination" $paginator }}
+                    {{ end }}
+                  </div>
+                </div>
+              </div>
+            {{ else }}
+              <div class="documentation__article-wrapper">
+                {{ partial "documentation/breadcrumbs" . }}
+
+                <article class="documentation-article">
+                  <div class="documentation-article__header">
+                    {{ $categorySubject := site.GetPage .Params.category }}
+                    {{ $firstUrlElement := index (split .RelPermalink "/") 1 }}
+
+                    <a href="/{{ $firstUrlElement }}/{{ .Params.category }}" class="documentation-article__header-link">
+                      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M14.6668 8.00004H1.3335M1.3335 8.00004L6.00016 12.6667M1.3335 8.00004L6.00016 3.33337" stroke="#8F98B3" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
+                      </svg>
+                      Back to {{ $categorySubject.Title }}
+                    </a>
+                    <h1 class="documentation-article__header-title">{{ .Params.title }}</h1>
+                    <div class="documentation-article__header-about">
+                      <p>{{ .Params.author }}</p>
+                      <span>&middot;</span>
+                      <p>{{ time.Format "January 02, 2006" .Date }}</p>
+                    </div>
+                    {{ if .Params.preview_dir }}
+                      <picture class="documentation-article__header-preview">
+                        <source srcset="{{ .Params.preview_dir }}/title.webp" type="image/webp" />
+                        <img alt="{{ .Title }}" src="{{ .Params.preview_dir }}/title.jpg" />
+                      </picture>
+                    {{ else }}
+                    <picture class="documentation-article__preview">
+                      {{ partial "preview-image" (dict "context" . "default_file_name" "title.jpg" "preview_file" .Params.title_preview_image) }}
+                    </picture>
+                    {{ end }}
+                  </div>
+
+                  {{ partial "article-content.html" . }}
+                </article>
+                {{ partial "documentation/feedback.html" . }}
+              </div>
+              {{ partial "table-of-contents" . }}
+            {{ end }}
           {{ end }}
 
           {{ partial "documentation/footer.html" . }}

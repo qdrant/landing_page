@@ -15,6 +15,8 @@ keywords:
   - reranking
   - fastembed
   - qsoc'24
+url: /articles/manage-vectors/cross-encoder-integration-gsoc
+category: manage-vectors
 ---
 
 ## Introduction

@@ -7,7 +7,7 @@
 
 
       <ul class="table-of-contents__external-links">
-        {{ if eq .Section "documentation" }}
+        {{ if or (eq .Section "documentation") (eq .Section "articles") }}
           <li class="table-of-contents__link">
             <a href="{{ .Site.Params.githubDocPrefix }}{{ path.Clean .File.Path }}" target="_blank">
               {{ partial "svg" "github.svg" }}
