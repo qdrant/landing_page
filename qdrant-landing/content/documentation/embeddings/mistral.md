@@ -1,6 +1,5 @@
 ---
 title: Mistral 
-weight: 2100
 ---
 
 | Time: 10 min | Level: Beginner | [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://githubtocolab.com/qdrant/examples/blob/mistral-getting-started/mistral-embed-getting-started/mistral_qdrant_getting_started.ipynb)   |

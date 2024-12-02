@@ -1,6 +1,5 @@
 ---
 title: MixedBread
-weight: 2200
 ---
 
 # Using MixedBread with Qdrant 

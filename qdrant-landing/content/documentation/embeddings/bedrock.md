@@ -1,6 +1,5 @@
 ---
 title: AWS Bedrock
-weight: 1000
 ---
 
 # Bedrock Embeddings

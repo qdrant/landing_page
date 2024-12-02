@@ -1,6 +1,5 @@
 ---
 title: Snowflake Models
-weight: 2900
 ---
 
 # Snowflake

@@ -1,6 +1,5 @@
 ---
 title: Aleph Alpha
-weight: 900
 aliases:
   - /documentation/examples/aleph-alpha-search/
   - /documentation/tutorials/aleph-alpha-search/
