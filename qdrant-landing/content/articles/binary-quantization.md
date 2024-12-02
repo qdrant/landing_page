@@ -14,7 +14,6 @@ keywords:
   - vector search
   - binary quantization
   - memory optimization
-url: /articles/embed-data/binary-quantization
 category: embed-data
 ---
 

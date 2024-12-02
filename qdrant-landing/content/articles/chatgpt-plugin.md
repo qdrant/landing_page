@@ -16,7 +16,6 @@ keywords:
   - chatgpt plugin
   - knowledge base
   - similarity search
-url: /articles/manage-vectors/chatgpt-plugin
 category: manage-vectors
 ---
 
