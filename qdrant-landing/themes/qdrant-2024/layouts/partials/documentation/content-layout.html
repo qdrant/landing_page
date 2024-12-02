@@ -144,7 +144,7 @@
                     {{ $firstUrlElement := index (split .RelPermalink "/") 1 }}
                     {{ $url := path.Join $firstUrlElement .Params.category }}
 
-                    <a href="/{{ $url }}" class="documentation-article__header-link">
+                    <a href="/{{ $url }}/" class="documentation-article__header-link">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M14.6668 8.00004H1.3335M1.3335 8.00004L6.00016 12.6667M1.3335 8.00004L6.00016 3.33337" stroke="#8F98B3" stroke-width="1.33333" stroke-linecap="round" stroke-linejoin="round"/>
                       </svg>
