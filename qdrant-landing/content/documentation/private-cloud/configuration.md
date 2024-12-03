@@ -30,10 +30,10 @@ operator:
   # Service account configuration
   serviceAccount:
     create: true
-    annotations: { }
+    annotations: {}
 
   # Additional pod annotations
-  podAnnotations: { }
+  podAnnotations: {}
 
   # pod security context
   podSecurityContext:
@@ -46,7 +46,7 @@ operator:
   securityContext:
     capabilities:
       drop:
-        - ALL
+      - ALL
     readOnlyRootFilesystem: true
     runAsNonRoot: true
     runAsUser: 10001
@@ -66,22 +66,22 @@ operator:
     enabled: false
 
   # Resource requests and limits for the Qdrant operator
-  resources: { }
+  resources: {}
 
   # Node selector for the Qdrant operator
-  nodeSelector: { }
+  nodeSelector: {}
 
   # Tolerations for the Qdrant operator
-  tolerations: [ ]
+  tolerations: []
 
   # Affinity configuration for the Qdrant operator
-  affinity: { }
+  affinity: {}
 
   watch:
     # If true, watches only the namespace where the Qdrant operator is deployed, otherwise watches the namespaces in watch.namespaces
     onlyReleaseNamespace: true
     # an empty list watches all namespaces.
-    namespaces: [ ]
+    namespaces: []
 
   limitRBAC: true
 
@@ -91,7 +91,7 @@ operator:
     appEnvironment: kubernetes
     # The log level for the operator
     # Available options: DEBUG | INFO | WARN | ERROR
-    logLevel: INFO
+    logLevel: INFO 
     # Metrics contains the operator config related the metrics
     metrics:
       # The port used for metrics
@@ -103,13 +103,16 @@ operator:
     # Controller related settings
     controller:
       # The period a forced recync is done by the controller (if watches are missed / nothing happened)
-      forceResyncPeriod: 2m
+      forceResyncPeriod: 10h
       # QPS indicates the maximum QPS to the master from this client.
       # Default is 200
       qps: 200
       # Maximum burst for throttle.
       # Default is 500.
       burst: 500
+      # If set to true, the operator reconciles all watched CRs,
+      # fully ignoring operator.qdrant.com/version annotation on them
+      disableOperatorVersionCheck: true
     # Features contains the settings for enabling / disabling the individual features of the operator
     features:
       # ClusterManagement contains the settings for qdrant (database) cluster management
@@ -121,16 +124,16 @@ operator:
         # The StorageClass used to make database and snapshot PVCs.
         # Default is nil, meaning the default storage class of Kubernetes.
         storageClass:
-        # The StorageClass used to make database PVCs.
-        # Default is nil, meaning the default storage class of Kubernetes.
-        #database: 
-        # The StorageClass used to make snapshot PVCs.
-        # Default is nil, meaning the default storage class of Kubernetes.
-        #snapshot:
+          # The StorageClass used to make database PVCs.
+          # Default is nil, meaning the default storage class of Kubernetes.
+          #database:
+          # The StorageClass used to make snapshot PVCs.
+          # Default is nil, meaning the default storage class of Kubernetes.
+          #snapshot:
         # Qdrant config contains settings specific for the database
         qdrant:
           # The config where to find the image for qdrant
-          image:
+          image: 
             # The repository where to find the image for qdrant
             # Default is "qdrant/qdrant"
             repository: registry.cloud.qdrant.io/qdrant/qdrant
@@ -141,6 +144,18 @@ operator:
             # This secret should be available in the namespace where the cluster is running
             # Default not set
             pullSecretName: qdrant-registry-creds
+          # storage contains the settings for the storage of the Qdrant cluster
+          storage:
+            performance:
+              # CPU budget, how many CPUs (threads) to allocate for an optimization job.
+              # If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size
+              # If negative - subtract this number of CPUs from the available CPUs.
+              # If positive - use this exact number of CPUs.
+              optimizerCpuBudget: 0
+              # Enable async scorer which uses io_uring when rescoring.
+              # Only supported on Linux, must be enabled in your kernel.
+              # See: <https://qdrant.tech/articles/io_uring/#and-what-about-qdrant>
+              asyncScorer: false
           # Qdrant DB log level
           # Available options: DEBUG | INFO | WARN | ERROR 
           # Default is "INFO"
@@ -169,21 +184,17 @@ operator:
                     port: 6334
             # Allow DNS resolution from qdrant pods at Kubernetes internal DNS server
             egress:
-              - to:
-                  - namespaceSelector:
-                      matchLabels:
-                        kubernetes.io/metadata.name: kube-system
-                ports:
+              - ports:
                   - protocol: UDP
                     port: 53
         # Scheduling config contains the settings specific for scheduling
         scheduling:
           # Default topology spread constraints (list from type corev1.TopologySpreadConstraint)
           # Default is an empty list
-          topologySpreadConstraints: [ ]
+          topologySpreadConstraints: []
           # Default pod disruption budget (object from type policyv1.PodDisruptionBudgetSpec)
           # Default is not set
-          podDisruptionBudget: { }
+          podDisruptionBudget:  {}
         # ClusterManager config contains the settings specific for cluster manager
         clusterManager:
           # Whether or not the cluster manager (on operator level).
@@ -201,11 +212,11 @@ operator:
           timeout: 30s
           # Specifies overrides for the manage rules
           manageRulesOverrides:
-          #dry_run: 
-          #max_transfers:
-          #max_transfers_per_collection:
-          #rebalance:
-          #replicate:
+            #dry_run: 
+            #max_transfers:
+            #max_transfers_per_collection:
+            #rebalance:
+            #replicate:
         # Ingress config contains the settings specific for ingress
         ingress:
           # Whether or not the Ingress feature is enabled.
@@ -224,7 +235,7 @@ operator:
             secretName: ""
             # List of Traefik middlewares to apply
             # Default is an empty list
-            middlewares: [ ]
+            middlewares: []
             # IP Allowlist Strategy for Traefik
             # Default is None
             ipAllowlistStrategy:
@@ -233,14 +244,18 @@ operator:
             enableBodyValidatorPlugin: false
           # The specific settings when the Provider is KubernetesIngress
           kubernetesIngress:
-          # Name of the ingress class
-          # Default is None
-          #ingressClassName:
+            # Name of the ingress class
+            # Default is None
+            #ingressClassName:
         # TelemetryTimeout is the duration a single call to the cluster telemetry endpoint is allowed to take.
         # Default is 3 seconds
         telemetryTimeout: 3s
         # MaxConcurrentReconciles is the maximum number of concurrent Reconciles which can be run. Defaults to 20.
-        maxConcurrentReconciles: 20
+        maxConcurrentReconciles: 20  
+        # VolumeExpansionMode specifies the expansion mode, which can be online or offline (e.g. in case of Azure).
+        # Available options: Online, Offline
+        # Default is Online
+        volumeExpansionMode: Online
       # BackupManagementConfig contains the settings for backup management
       backupManagement:
         # Whether or not the backup features are enabled.

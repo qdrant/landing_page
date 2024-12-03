@@ -24,8 +24,8 @@ Package v1 contains API Schema definitions for the qdrant.io v1 API group
 - [QdrantClusterScheduledSnapshotList](#qdrantclusterscheduledsnapshotlist)
 - [QdrantClusterSnapshot](#qdrantclustersnapshot)
 - [QdrantClusterSnapshotList](#qdrantclustersnapshotlist)
-- [QdrantVersion](#qdrantversion)
-- [QdrantVersionList](#qdrantversionlist)
+- [QdrantRelease](#qdrantrelease)
+- [QdrantReleaseList](#qdrantreleaselist)
 
 
 
@@ -127,7 +127,6 @@ _Appears in:_
 | `enabled` _boolean_ | Enabled specifies whether to enable ingress for the cluster or not. |  |  |
 | `annotations` _object (keys:string, values:string)_ | Annotations specifies annotations for the ingress. |  |  |
 | `ingressClassName` _string_ | IngressClassName specifies the name of the ingress class |  |  |
-| `type` _[IngressType](#ingresstype)_ | Type specifies whether it is path or host based routing. | path | Enum: [path host] <br /> |
 | `host` _string_ | Host specifies the host for the ingress. |  |  |
 | `tls` _boolean_ | TLS specifies whether to enable tls for the ingress.<br />The default depends on the ingress provider:<br />- KubernetesIngress: False<br />- NginxIngress: False<br />- QdrantCloudTraefik: Depending on the config.tls setting of the operator. |  |  |
 | `tlsSecretName` _string_ | TLSSecretName specifies the name of the secret containing the tls certificate. |  |  |
@@ -135,7 +134,7 @@ _Appears in:_
 | `traefik` _[TraefikConfig](#traefikconfig)_ | Traefik specifies the traefik ingress specific configurations. |  |  |
 
 
-#### IngressType
+#### KubernetesDistribution
 
 _Underlying type:_ _string_
 
@@ -144,7 +143,7 @@ _Underlying type:_ _string_
 
 
 _Appears in:_
-- [Ingress](#ingress)
+- [QdrantCloudRegionStatus](#qdrantcloudregionstatus)
 
 
 
@@ -198,6 +197,36 @@ _Appears in:_
 | --- | --- | --- | --- |
 | `annotations` _object (keys:string, values:string)_ | Annotations specifies the annotations for the StatefulSet. |  |  |
 | `pods` _[KubernetesPod](#kubernetespod)_ | Pods  specifies the configuration of the Pods of the Qdrant StatefulSet. |  |  |
+
+
+#### MetricSource
+
+_Underlying type:_ _string_
+
+
+
+
+
+_Appears in:_
+- [Monitoring](#monitoring)
+
+
+
+#### Monitoring
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantCloudRegionStatus](#qdrantcloudregionstatus)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `cAdvisorMetricSource` _[MetricSource](#metricsource)_ | CAdvisorMetricSource specifies the cAdvisor metric source |  |  |
+| `nodeMetricSource` _[MetricSource](#metricsource)_ | NodeMetricSource specifies the node metric source |  |  |
 
 
 #### NGINXConfig
@@ -301,22 +330,6 @@ _Underlying type:_ _string_
 
 _Appears in:_
 - [Operation](#operation)
-
-
-
-#### OperatorVersion
-
-_Underlying type:_ _string_
-
-
-
-
-
-_Appears in:_
-- [QdrantClusterRestoreSpec](#qdrantclusterrestorespec)
-- [QdrantClusterScheduledSnapshotSpec](#qdrantclusterscheduledsnapshotspec)
-- [QdrantClusterSnapshotSpec](#qdrantclustersnapshotspec)
-- [QdrantClusterSpec](#qdrantclusterspec)
 
 
 
@@ -482,7 +495,6 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `operatorVersion` _[OperatorVersion](#operatorversion)_ | The version of the operator which reconciles this instance | V1 | Enum: [V1 V2] <br /> |
 | `source` _[RestoreSource](#restoresource)_ | Source defines the source snapshot from which the restore will be done |  |  |
 | `destination` _[RestoreDestination](#restoredestination)_ | Destination defines the destination cluster where the source data will end up |  |  |
 
@@ -539,7 +551,6 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `operatorVersion` _[OperatorVersion](#operatorversion)_ | The version of the operator which reconciles this instance | V1 | Enum: [V1 V2] <br /> |
 | `cluster-id` _string_ | Id specifies the unique identifier of the cluster |  |  |
 | `scheduleShortId` _string_ | Specifies short Id which identifies a schedule |  | MaxLength: 8 <br /> |
 | `schedule` _string_ | Cron expression for frequency of creating snapshots, see https://en.wikipedia.org/wiki/Cron.<br />The schedule is specified in UTC. |  | Pattern: `^(@(annually|yearly|monthly|weekly|daily|hourly|reboot))|(@every (\d+(ns|us|µs|ms|s|m|h))+)|((((\d+,)+\d+|([\d\*]+(\/|-)\d+)|\d+|\*) ?){5,7})$` <br /> |
@@ -611,7 +622,6 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `operatorVersion` _[OperatorVersion](#operatorversion)_ | The version of the operator which reconciles this instance | V1 | Enum: [V1 V2] <br /> |
 | `cluster-id` _string_ | The cluster ID for which a Snapshot need to be taken<br />The cluster should be in the same namespace as this QdrantClusterSnapshot is located |  |  |
 | `creation-timestamp` _integer_ | The CreationTimestamp of the backup (expressed in Unix epoch format) |  |  |
 | `scheduleShortId` _string_ | Specifies the short Id which identifies a schedule, if any.<br />This field should not be set if the backup is made manually. |  | MaxLength: 8 <br /> |
@@ -633,12 +643,11 @@ _Appears in:_
 
 | Field | Description | Default | Validation |
 | --- | --- | --- | --- |
-| `operatorVersion` _[OperatorVersion](#operatorversion)_ | The version of the operator which reconciles this instance | V1 | Enum: [V1 V2] <br /> |
 | `id` _string_ | Id specifies the unique identifier of the cluster |  |  |
 | `version` _string_ | Version specifies the version of Qdrant to deploy |  |  |
 | `size` _integer_ | Size specifies the desired number of Qdrant nodes in the cluster |  | Maximum: 30 <br />Minimum: 1 <br /> |
 | `servicePerNode` _boolean_ | ServicePerNode specifies whether the cluster should start a dedicated service for each node. | true |  |
-| `clusterManager` _boolean_ | ClusterManager specifies whether to use the cluster manager for this cluster.<br />The Python-operator will deploy a dedicated cluster manager instance.<br />The Go-operator will use a shared instance. | false |  |
+| `clusterManager` _boolean_ | ClusterManager specifies whether to use the cluster manager for this cluster.<br />The Python-operator will deploy a dedicated cluster manager instance.<br />The Go-operator will use a shared instance.<br />If not set, the default will be taken from the operator config. |  |  |
 | `suspend` _boolean_ | Suspend specifies whether to suspend the cluster.<br />If enabled, the cluster will be suspended and all related resources will be removed except the PVCs. | false |  |
 | `pauses` _[Pause](#pause) array_ | Pauses specifies a list of pause request by developer for manual maintenance.<br />Operator will skip handling any changes in the CR if any pause request is present. |  |  |
 | `distributed` _boolean_ | Deprecated |  |  |
@@ -654,6 +663,7 @@ _Appears in:_
 | `storageClassNames` _[StorageClassNames](#storageclassnames)_ | StorageClassNames specifies the storage class names for db and snapshots. |  |  |
 | `topologySpreadConstraints` _[TopologySpreadConstraint](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#topologyspreadconstraint-v1-core)_ | TopologySpreadConstraints specifies the topology spread constraints for the cluster. |  |  |
 | `podDisruptionBudget` _[PodDisruptionBudgetSpec](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#poddisruptionbudgetspec-v1-policy)_ | PodDisruptionBudget specifies the pod disruption budget for the cluster. |  |  |
+| `restartAllPodsConcurrently` _boolean_ | RestartAllPodsConcurrently specifies whether to restart all pods concurrently (also called one-shot-restart).<br />If enabled, all the pods in the cluster will be restarted concurrently in situations where multiple pods<br />need to be restarted like when RestartedAtAnnotationKey is added/updated or the Qdrant version need to be upgraded.<br />This helps sharded but not replicated clusters to reduce downtime to possible minimum during restart. |  |  |
 
 
 
@@ -675,6 +685,7 @@ _Appears in:_
 | `log_level` _string_ | LogLevel specifies the log level for Qdrant. |  |  |
 | `service` _[QdrantConfigurationService](#qdrantconfigurationservice)_ | Service specifies the service level configuration for Qdrant. |  |  |
 | `tls` _[QdrantConfigurationTLS](#qdrantconfigurationtls)_ | TLS specifies the TLS configuration for Qdrant. |  |  |
+| `storage` _[StorageConfig](#storageconfig)_ | Storage specifies the storage configuration for Qdrant. |  |  |
 
 
 #### QdrantConfigurationCollection
@@ -727,6 +738,7 @@ _Appears in:_
 | `api_key` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | ApiKey for the qdrant instance |  |  |
 | `read_only_api_key` _[QdrantSecretKeyRef](#qdrantsecretkeyref)_ | ReadOnlyApiKey for the qdrant instance |  |  |
 | `jwt_rbac` _boolean_ | JwtRbac specifies whether to enable jwt rbac for the qdrant instance<br />Default is false |  |  |
+| `hide_jwt_dashboard` _boolean_ | HideJwtDashboard specifies whether to hide the JWT dashboard of the embedded UI<br />Default is false |  |  |
 | `enable_tls` _boolean_ | EnableTLS specifies whether to enable tls for the qdrant instance<br />Default is false |  |  |
 
 
@@ -765,6 +777,67 @@ _Appears in:_
 | `pullSecretName` _string_ | PullSecretName specifies the pull secret for the Qdrant image. |  |  |
 
 
+#### QdrantRelease
+
+
+
+QdrantRelease describes an available Qdrant release
+
+
+
+_Appears in:_
+- [QdrantReleaseList](#qdrantreleaselist)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `apiVersion` _string_ | `qdrant.io/v1` | | |
+| `kind` _string_ | `QdrantRelease` | | |
+| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `spec` _[QdrantReleaseSpec](#qdrantreleasespec)_ |  |  |  |
+
+
+#### QdrantReleaseList
+
+
+
+QdrantReleaseList contains a list of QdrantRelease
+
+
+
+
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `apiVersion` _string_ | `qdrant.io/v1` | | |
+| `kind` _string_ | `QdrantReleaseList` | | |
+| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
+| `items` _[QdrantRelease](#qdrantrelease) array_ |  |  |  |
+
+
+#### QdrantReleaseSpec
+
+
+
+QdrantReleaseSpec defines the desired state of QdrantRelease
+
+
+
+_Appears in:_
+- [QdrantRelease](#qdrantrelease)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `version` _string_ | Version number (should be semver compliant).<br />E.g. "v1.10.1" |  |  |
+| `default` _boolean_ | If set, this version is default for new clusters on Cloud.<br />There should be only 1 Qdrant version in the platform set as default. | false |  |
+| `image` _string_ | Full docker image to use for this version.<br />If empty, a default image will be derived from Version (and qdrant/qdrant is assumed). |  |  |
+| `unavailable` _boolean_ | If set, this version cannot be used for new clusters. | false |  |
+| `endOfLife` _boolean_ | If set, this version is no longer actively supported. | false |  |
+| `accountIds` _string array_ | If set, this version can only be used by accounts with given IDs. |  |  |
+| `accountPrivileges` _string array_ | If set, this version can only be used by accounts that have been given the listed privileges. |  |  |
+| `remarks` _string_ | General remarks for human reading |  |  |
+| `releaseNotesURL` _string_ | Release Notes URL for the specified version |  |  |
+
+
 #### QdrantSecretKeyRef
 
 
@@ -798,67 +871,6 @@ _Appears in:_
 | `user` _integer_ | User specifies the user to run the Qdrant process as. |  |  |
 | `group` _integer_ | Group specifies the group to run the Qdrant process as. |  |  |
 | `fsGroup` _integer_ | FsGroup specifies file system group to run the Qdrant process as. |  |  |
-
-
-#### QdrantVersion
-
-
-
-QdrantVersion is the Schema for the qdrantversions API
-
-
-
-_Appears in:_
-- [QdrantVersionList](#qdrantversionlist)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `apiVersion` _string_ | `qdrant.io/v1` | | |
-| `kind` _string_ | `QdrantVersion` | | |
-| `metadata` _[ObjectMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#objectmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
-| `spec` _[QdrantVersionSpec](#qdrantversionspec)_ |  |  |  |
-
-
-#### QdrantVersionList
-
-
-
-QdrantVersionList contains a list of QdrantVersion
-
-
-
-
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `apiVersion` _string_ | `qdrant.io/v1` | | |
-| `kind` _string_ | `QdrantVersionList` | | |
-| `metadata` _[ListMeta](https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.28/#listmeta-v1-meta)_ | Refer to Kubernetes API documentation for fields of `metadata`. |  |  |
-| `items` _[QdrantVersion](#qdrantversion) array_ |  |  |  |
-
-
-#### QdrantVersionSpec
-
-
-
-QdrantVersionSpec defines the desired state of QdrantVersion
-
-
-
-_Appears in:_
-- [QdrantVersion](#qdrantversion)
-
-| Field | Description | Default | Validation |
-| --- | --- | --- | --- |
-| `version` _string_ | Version number (should be semver compliant).<br />E.g. "v1.10.1" |  |  |
-| `isDefault` _boolean_ | If set, this version is default for new clusters on Cloud.<br />There should be only 1 Qdrant version in the platform set as default. | false |  |
-| `image` _string_ | Full docker image to use for this version.<br />If empty, a default image will be derived from Version (and qdrant/qdrant is assumed). |  |  |
-| `unavailable` _boolean_ | If set, this version cannot be used for new clusters. | false |  |
-| `isEndOfLife` _boolean_ | If set, this version is no longer actively supported. | false |  |
-| `accountIds` _string array_ | If set, this version can only be used by accounts with given IDs. |  |  |
-| `accountPrivileges` _string array_ | If set, this version can only be used by accounts that have been given the listed privileges. |  |  |
-| `remarks` _string_ | General remarks for human reading |  |  |
-| `releaseNotesURL` _string_ | Release Notes URL for the specified version |  |  |
 
 
 #### RegionCapabilities
@@ -1017,6 +1029,39 @@ _Appears in:_
 | `snapshots` _string_ | Snapshots specifies the storage class name for snapshots volume. |  |  |
 
 
+#### StorageConfig
+
+
+
+
+
+
+
+_Appears in:_
+- [QdrantConfiguration](#qdrantconfiguration)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `performance` _[StoragePerformanceConfig](#storageperformanceconfig)_ | Performance configuration |  |  |
+
+
+#### StoragePerformanceConfig
+
+
+
+
+
+
+
+_Appears in:_
+- [StorageConfig](#storageconfig)
+
+| Field | Description | Default | Validation |
+| --- | --- | --- | --- |
+| `optimizerCPUBudget` _integer_ | OptimizerCPUBudget defines the number of CPU allocation.<br />If 0 - auto selection, keep 1 or more CPUs unallocated depending on CPU size<br />If negative - subtract this number of CPUs from the available CPUs.<br />If positive - use this exact number of CPUs. |  |  |
+| `asyncScorer` _boolean_ | AsyncScorer enables io_uring when rescoring |  |  |
+
+
 #### TraefikConfig
 
 
@@ -1049,5 +1094,5 @@ _Appears in:_
 | `volumeSnapshotName` _string_ | VolumeSnapshotName is the name of the volume snapshot |  |  |
 | `volumeName` _string_ | VolumeName is the name of the volume that was backed up |  |  |
 | `readyToUse` _boolean_ | ReadyToUse indicates if the volume snapshot is ready to use |  |  |
-
+| `snapshotHandle` _string_ | SnapshotHandle is the identifier of the volume snapshot in the respective cloud provider |  |  |
 
