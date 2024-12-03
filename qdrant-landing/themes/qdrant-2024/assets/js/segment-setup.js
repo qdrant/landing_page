@@ -22,7 +22,7 @@ function addUTMToLinks() {
         source: urlParams.get('utm_source'),
         medium: urlParams.get('utm_medium'),
         campaign: urlParams.get('utm_campaign'),
-        campaign: urlParams.get('utm_content')
+        content: urlParams.get('utm_content')
     };
 
     const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]');
