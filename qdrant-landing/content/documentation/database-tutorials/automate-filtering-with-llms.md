@@ -138,7 +138,7 @@ to automatically determine the fields that can be used for filtering. Here is ho
 from qdrant_client import QdrantClient
 
 client = QdrantClient("http://localhost:6333")
-collection_info = client.get_collection_(collection_name="test_filter")
+collection_info = client.get_collection(collection_name="test_filter")
 indexes = collection_info.payload_schema
 print(indexes)
 ```
