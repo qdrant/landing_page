@@ -120,7 +120,7 @@ Qdrant stands out as a high-performance [**vector database**](/qdrant-vector-dat
 
 ## Lessons and Takeaways
 
-Scalability poses challenges when working with large datasets, such as 20,000+ images. Optimizations like using [**quantization techniques**](/documentation/guides/quantization/) to reduce memory usage or precomputing average embeddings for clusters can significantly minimize storage and computational costs. These strategies ensure the system remains performant as the dataset grows.
+Scalability poses challenges when working with large datasets, such as 20,000+ images. Consider optimizations like [**quantization**](/documentation/guides/quantization/) to reduce memory usage or precomputing average embeddings for clusters can significantly minimize storage and computational costs. These strategies ensure the system remains performant as the dataset grows.
 
 The potential real-world applications of this technology extend far beyond entertainment. Similar systems can be used in security applications for embedding-based facial recognition to secure access to buildings or devices. 
 
