@@ -143,5 +143,3 @@ To enhance functionality, explore features like **video input for real-time matc
 - Miguel's [Substack blog](https://theneuralmaze.substack.com)
 - The Neural Maze [YouTube channel](https://www.youtube.com/@TheNeuralMaze)
 - Twin Celebrity [GitHub Repository](https://github.com/neural-maze/vector-twin)
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LltFAum3gVg?si=yg95IvS38gXIrNlB" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
