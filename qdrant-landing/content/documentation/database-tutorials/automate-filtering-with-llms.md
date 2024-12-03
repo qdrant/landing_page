@@ -77,6 +77,8 @@ A decorated client slightly modifies the original API, so you can pass the `resp
 of Qdrant filters, it should be a `Filter` model:
 
 ```python
+from qdrant_client import models
+
 qdrant_filter = anthropic_client.messages.create(
     model="claude-3-5-sonnet-latest",
     response_model=models.Filter,
@@ -136,7 +138,7 @@ to automatically determine the fields that can be used for filtering. Here is ho
 from qdrant_client import QdrantClient
 
 client = QdrantClient("http://localhost:6333")
-collection_info = client.get_collection_info(collection_name="my_collection")
+collection_info = client.get_collection_(collection_name="test_filter")
 indexes = collection_info.payload_schema
 print(indexes)
 ```
