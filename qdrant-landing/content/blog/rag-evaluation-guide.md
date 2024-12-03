@@ -224,6 +224,8 @@ By continuously evaluating your application, you can ensure that the system adap
 
 The practice of RAG evaluation is in the early stages of development. Keep this guide and wait as more techniques, models, and evaluation frameworks are developed. We strongly recommend you incorporate them into your evaluation process.
 
+**Want to download a printer-friendly version of this guide? [Fill out this form](/rag/rag-evaluation-guide/#form) and we will email you the PDF.**
+
 ### Helpful Links
 - Join our community on [Discord](https://discord.com/invite/qdrant)
 - Check out our [latest articles](https://qdrant.tech/articles/)
