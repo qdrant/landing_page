@@ -38,7 +38,7 @@ Open Terminal and run the request. You should get a response that looks like thi
 ## Authenticate via SDK
 
 Now that you have created your first cluster and key, you might want to access your database from within your application.
-Our [official Qdrant clients](/documentation/interfaces) for Python, TypeScript, Go, Rust, .NET and Java all support the API key parameter. 
+Our [official Qdrant clients](/documentation/interfaces/) for Python, TypeScript, Go, Rust, .NET and Java all support the API key parameter. 
 
 ```bash
 curl \

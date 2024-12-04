@@ -9,7 +9,7 @@ Once you [created](/documentation/cloud/create-cluster/) a cluster, and set up a
 
 ## Web UI
 
-There is the convenient link on the cluster detail page in the Qdrant Cloud Console to access the [Web UI](/documentation/web-ui) of your cluster.
+There is the convenient link on the cluster detail page in the Qdrant Cloud Console to access the [Web UI](/documentation/web-ui/) of your cluster.
 
 ![Cluster Web UI](/documentation/cloud/cloud-db-dashboard.png)
 
