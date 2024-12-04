@@ -38,24 +38,21 @@ We interviewed the engineer behind this project, [**Miguel Otero Pedrido**](http
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/UJ2jTEBae3A?si=m9sHtiXTY4n0OsB2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-Miguel recently published a video on his YouTube channel: [**The Neural Maze**](https://www.youtube.com/@TheNeuralMaze).
-
-For detailed steps to build the app, watch [**Building a Twin Celebrity App**](https://www.youtube.com/watch?v=LltFAum3gVg).
 ___
 
 ## Architecture
 
-**Search Engine:** [Qdrant](https://qdrant.tech) stands out as a high-performance [**vector database**](/qdrant-vector-database/) built in Rust, known for its reliability and speed. Its advanced features, such as [**vector visualization**](/documentation/web-ui/) and efficient [**querying**](/documentation/concepts/search/), make it a go-to choice for developers working on embedding-based projects. 
+**Search Engine & DB:** [**Qdrant**](https://qdrant.tech) stands out as a high-performance [**vector database**](/qdrant-vector-database/) built in Rust, known for its reliability and speed. Its advanced features, such as [**vector visualization**](/documentation/web-ui/) and efficient [**querying**](/documentation/concepts/search/), make it a go-to choice for developers working on embedding-based projects. 
 
 ![architecture](/blog/facial-recognition/architecture.png)
 
-**ML Framework:** [ZenML](https://www.zenml.io) simplifies pipeline creation with a modular, cloud-agnostic framework that ensures clean, scalable, and portable code, ideal for cross-platform workflows.
+**ML Framework:** [**ZenML**](https://www.zenml.io) simplifies pipeline creation with a modular, cloud-agnostic framework that ensures clean, scalable, and portable code, ideal for cross-platform workflows.
 
-**Facial Recognition:** [MTCNN](https://github.com/ipazc/mtcnn#) ensures consistent face alignment, making the embeddings more reliable.
+**Facial Recognition:** [**MTCNN**](https://github.com/ipazc/mtcnn#) ensures consistent face alignment, making the embeddings more reliable.
 
-**Embedding Model:** [FaceNet](https://github.com/davidsandberg/facenet) provides lightweight, pre-trained facial embeddings, balancing accuracy and efficiency, making it perfect for tasks like the Twin Celebrity app.
+**Embedding Model:** [**FaceNet**](https://github.com/davidsandberg/facenet) provides lightweight, pre-trained facial embeddings, balancing accuracy and efficiency, making it perfect for tasks like the Twin Celebrity app.
 
-**Frontend:** [Streamlit](https://github.com/streamlit) streamlines UI development, enabling rapid prototyping with minimal effort, allowing developers to focus on core functionalities.
+**Frontend:** [**Streamlit**](https://github.com/streamlit) streamlines UI development, enabling rapid prototyping with minimal effort, allowing developers to focus on core functionalities.
 
 ## Application Workflows
 
@@ -85,6 +82,10 @@ Finally, the results are displayed in an intuitive interface, showing the user t
 ---
 
 ## How to Build the App
+
+Miguel recently published a video on his YouTube channel: [**The Neural Maze**](https://www.youtube.com/@TheNeuralMaze).
+
+For detailed steps to build the app, watch [**Building a Twin Celebrity App**](https://www.youtube.com/watch?v=LltFAum3gVg).
 
 ### 1. Set Up the Offline Pipeline
 Using ZenML, the pipeline consists of:
