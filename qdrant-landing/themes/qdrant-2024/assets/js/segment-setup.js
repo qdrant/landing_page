@@ -45,14 +45,16 @@ function addUTMToLinks() {
             newParams += `utm_${key}=${utmParams[key]}&`;
         }
     }
-    newParams = newParams.replace(/[&|?]$/, ''); // remove trailing & or ?
 
-    // Add url params to outbount links to product site
-    const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]');
-    links.forEach(link => {
-        const href = link.href;
-        const separator = newParams.length === 0 ? '' : href.indexOf('?') === -1 ? '?' : '&';
-        
-        link.href = `${href}${separator}${newParams}`;
-    });
+    // Add url params to outbound links to product site
+    if (newParams.length === 0) {
+        newParams = newParams.replace(/[&|?]$/, ''); // remove trailing & or ?
+
+        const links = document.querySelectorAll('a[href*="cloud.qdrant.io"]');
+        links.forEach(link => {
+            const href = link.href;
+            const separator = href.indexOf('?') === -1 ? '?' : '&';
+            link.href = `${href}${separator}${newParams}`;
+        });
+    }
   }
