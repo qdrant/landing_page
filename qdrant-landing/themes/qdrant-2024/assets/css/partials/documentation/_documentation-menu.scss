@@ -375,5 +375,16 @@
         }
       }
     }
+    &__articles-link {
+      &.active {
+        background-color: $neutral-90;
+        border-radius: $spacer * 0.5;
+
+        a {
+          color: $neutral-30;
+          font-weight: bold;
+        }
+      }
+    }
   }
 }

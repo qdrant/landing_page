@@ -73,6 +73,18 @@
       line-height: pxToRem(21);
       color: $neutral-50;
     }
+    [data-theme="light"] & {
+      &-about {
+        color: $neutral-30;
+      }
+      &-title {
+        color: $neutral-30;
+      }
+      &-description {
+        color: $neutral-50;
+        font-weight: 400;
+      }
+    }
   }
 
   .post-sm {
@@ -107,6 +119,16 @@
         align-items: flex-end;
         gap: $spacer * 4;
       }
+    }
+  }
+
+  [data-theme="light"] & {
+    &__title {
+      color: $neutral-30;
+    }
+    &__description {
+      color: $neutral-50;
+      font-weight: 400;
     }
   }
 }

@@ -14,7 +14,13 @@
       gap: $spacer * 0.5;
       margin-bottom: $spacer;
       padding: $spacer * 0.5 0;
-      color: $neutral-70
+      color: $neutral-70;
+      &:hover {
+        color: $neutral-90;
+        svg path {
+            stroke: $neutral-90;
+        }
+      }
     }
 
     .documentation-article__header-title {
@@ -137,6 +143,21 @@
       .table {
         @extend .table-light;
       }
+    }
+    &__header-link {
+      color: $neutral-50;
+      svg path {
+        stroke: $neutral-50;
+      }
+      &:hover {
+        color: $neutral-30;
+        svg path {
+          stroke: $neutral-30;
+        }
+      }
+    }
+    &__header-about {
+      color: $neutral-50;
     }
   }
 }
