@@ -38,7 +38,7 @@ We interviewed the engineer behind this project, [**Miguel Otero Pedrido**](http
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/UJ2jTEBae3A?si=m9sHtiXTY4n0OsB2" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
-#### Turns out he looks like...Andy Samberg
+#### Turns out his celebrity twin is...Andy Samberg
 ![samberg](/blog/facial-recognition/samberg.png)
 ___
 
