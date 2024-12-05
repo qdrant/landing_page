@@ -14,6 +14,7 @@ keywords:
   - vector search
   - binary quantization
   - memory optimization
+category: embed-data
 ---
 
 # Optimizing High-Dimensional Vectors with Binary Quantization

@@ -4,13 +4,10 @@ class TableOfContents {
   constructor(tocSelector, contentSelector) {
     this.tocLinks = Array.from(document.querySelectorAll(`${tocSelector} a`));
     this.headings = Array.from(
-      document.querySelectorAll(
-        `${contentSelector} h1, ${contentSelector} h2, ${contentSelector} h3`,
-      ),
+      document.querySelectorAll(`${contentSelector} h1[id], ${contentSelector} h2[id], ${contentSelector} h3[id]`),
     );
     this.currentActiveIndex = -1; // Track the current active heading index
     this.currentActive = null; // Track the current active heading element
-
 
     this.debounceTimeout = null;
 
@@ -46,7 +43,6 @@ class TableOfContents {
   // Setup Intersection Observer
   setupObserver() {
     const observerCallback = (entries) => {
-
       entries.forEach((entry) => {
         const entryIndex = this.headings.indexOf(entry.target);
         const isIntersecting = entry.isIntersecting;
@@ -57,7 +53,7 @@ class TableOfContents {
           this.currentlyVisibleHeaderIds.delete(entryIndex);
         }
       });
-      
+
       if (this.currentlyVisibleHeaderIds.size !== 0) {
         let minimalVisibleHeaderId = Math.min(...Array.from(this.currentlyVisibleHeaderIds));
         this.setActiveLink(minimalVisibleHeaderId);
