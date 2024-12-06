@@ -1,16 +1,20 @@
 ---
-title: Telemetry
-weight: 150
+title: Usage Statistics
+weight: 166
 aliases:
   - ../telemetry
+  - /documentation/guides/telemetry
 ---
 
-# Telemetry
+# Usage statistics
 
-Qdrant collects anonymized usage statistics from users in order to improve the engine.
-You can [deactivate](#deactivate-telemetry) at any time, and any data that has already been collected can be [deleted on request](#request-information-deletion).
+The Qdrant open-source container image collects anonymized usage statistics from users in order to improve the engine by default.  You can [deactivate](#deactivate-telemetry) at any time, and any data that has already been collected can be [deleted on request](#request-information-deletion). 
 
-## Why do we collect telemetry?
+Deactivating this will not affect your ability to monitor the Qdrant database yourself by accessing the `/metrics` or `/telemetry` endpoints of your database. It will just stop sending independend, anonymized usage statistics to the Qdrant team.
+
+<aside role="status">When using Qdrant Cloud, this setting does not apply and anonymized usage statistics are disabled by default.</aside>
+
+## Why do we collect usage statistics?
 
 We want to make Qdrant fast and reliable. To do this, we need to understand how it performs in real-world scenarios.
 We do a lot of benchmarking internally, but it is impossible to cover all possible use cases, hardware, and configurations.
@@ -55,17 +59,17 @@ You can see exact version of anomymized collected data by accessing the [telemet
 For example, <http://localhost:6333/telemetry?details_level=6&anonymize=true>
 
 
-## Deactivate telemetry
+## Deactivate usage statistics
 
-You can deactivate telemetry by:
+You can deactivate usage statistics by:
 
 - setting the `QDRANT__TELEMETRY_DISABLED` environment variable to `true`
 - setting the config option `telemetry_disabled` to `true` in the `config/production.yaml` or `config/config.yaml` files
 - using cli option `--disable-telemetry`
 
-Any of these options will prevent Qdrant from sending any telemetry data.
+Any of these options will prevent Qdrant from sending any usage statistics data.
 
-If you decide to deactivate telemetry, we kindly ask you to share your feedback with us in the [Discord community](https://qdrant.to/discord) or GitHub [discussions](https://github.com/qdrant/qdrant/discussions)
+If you decide to deactivate usage statistics, we kindly ask you to share your feedback with us in the [Discord community](https://qdrant.to/discord) or GitHub [discussions](https://github.com/qdrant/qdrant/discussions)
 
 ## Request information deletion
 
