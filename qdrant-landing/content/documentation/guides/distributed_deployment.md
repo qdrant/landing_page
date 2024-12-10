@@ -1541,7 +1541,7 @@ In some cases it might be useful to have a Qdrant node that only accumulates dat
 There are several scenarios where this can be useful:
 
 - Listener option can be used to store data in a separate node, which can be used for backup purposes or to store data for a long time.
-- Listener node can be used to syncronize data into another region, while still performing search operations in the local region.
+- Listener node can be used to synchronize data into another region, while still performing search operations in the local region.
 
 
 To enable listener mode, set `node_type` to `Listener` in the config file:
