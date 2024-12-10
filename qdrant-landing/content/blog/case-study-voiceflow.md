@@ -5,7 +5,7 @@ short_description: "Enabling scalable, no-code AI agent creation."
 description: "Learn how Voiceflow builds scalable, customizable, no-code AI agent solutions for enterprises."
 preview_image: /blog/case-study-voiceflow/image0.png
 social_preview_image: /blog/case-study-voiceflow/image0.png
-date: 2024-12-06T00:02:00Z
+date: 2024-12-10T00:02:00Z
 author: Qdrant
 featured: false
 tags:
