@@ -1,11 +1,11 @@
 ---
-title: Monitoring
+title: Monitoring & Telemetry
 weight: 155
 aliases:
   - ../monitoring
 ---
 
-# Monitoring
+# Monitoring & Telemetry
 
 Qdrant exposes its metrics in [Prometheus](https://prometheus.io/docs/instrumenting/exposition_formats/#text-based-format)/[OpenMetrics](https://github.com/OpenObservability/OpenMetrics) format, so you can integrate them easily
 with the compatible tools and monitor Qdrant with your own monitoring system. You can
@@ -61,6 +61,10 @@ There are also some metrics which are exposed in distributed mode only.
 | cluster_commit                   | counter | Index of last committed (finalized) operation cluster peer is aware of |
 | cluster_pending_operations_total | gauge   | Total number of pending operations for cluster peer                    |
 | cluster_voter                    | gauge   | Whether the cluster peer is a voter or learner. 1 - VOTER              |
+
+## Telemetry endpoint
+
+Qdrant also provides a `/telemetry` endpoint, which provides information about the current state of the database, including the number of vectors, shards, and other useful information. You can find a full documentation of this endpoint in the [API reference](https://api.qdrant.tech/api-reference/service/telemetry).
 
 ## Kubernetes health endpoints
 
