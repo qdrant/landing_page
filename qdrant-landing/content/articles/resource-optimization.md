@@ -3,7 +3,7 @@ title: "A Complete Guide to Resource Optimization"
 short_description: "Combine optimization methods to improve resource usage."
 description: "Combine optimization methods in Qdrant. Discover key tricks and best practices to boost semantic search performance and reduce Qdrant's resource usage."
 preview_dir: /articles_data/resource-optimization/preview
-social_preview_image: /articles_data/resource-optimization/social-preview.png
+social_preview_image: /articles_data/resource-optimization/social_preview.png
 weight: -200
 author: David Myriel
 author_link: 
