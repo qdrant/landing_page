@@ -13,7 +13,7 @@ The API key is only shown once after creation. If you lose it, you will need to 
 However, we recommend rotating the keys from time to time. To create additional API keys do the following.
 
 1. Go to the [Cloud Dashboard](https://qdrant.to/cloud).
-2. SGo to the **API Keys** section of the Cluster detail page.
+2. Go to the **API Keys** section of the Cluster detail page.
 3. Click **Create**. If you have granular access control activated, you can now configure the permissions for the new key.
 4. Click **OK** and retrieve your API key. 
 
