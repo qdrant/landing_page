@@ -40,9 +40,9 @@ const qdrant = new QdrantVector({
 
 | Name       | Type                                     | Description                                     | Default Value |
 |------------|------------------------------------------|-------------------------------------------------|--------------|
-| `indexName` | `string`                               | Name of the index to create                     |              |
-| `dimension` | `number`                               | Vector dimension size                           |              |
-| `metric`    | `'cosine' | 'euclidean' | 'dotproduct'` | Distance metric for similarity search           | `cosine`     |
+| `indexName` | `string`                                | Name of the index to create                     |              |
+| `dimension` | `number`                                | Vector dimension size                           |              |
+| `metric`    | `string`                                | Distance metric for similarity search           | `cosine`     |
 
 ### `upsert()`
 
