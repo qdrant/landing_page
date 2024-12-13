@@ -3,7 +3,6 @@ languageCode = "en-us"
 title = "Qdrant - Vector Database"
 theme = "qdrant-2024"
 
-googleAnalytics = "G-NZYW2651NE"
 enableRobotsTXT = true
 canonifyURLs = true
 
@@ -117,4 +116,6 @@ disableKinds = ["taxonomy", "term"]
     environment = '{production}'
     path = '{**.skip,**.skip/*}'
 
-
+[services]
+  [services.googleAnalytics]
+    id = 'G-NZYW2651NE'
