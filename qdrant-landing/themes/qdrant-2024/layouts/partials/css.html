@@ -6,7 +6,7 @@
   <link href="{{ $splideCss.RelPermalink }}" rel="stylesheet" integrity="{{ $splideCss.Data.Integrity }}" />
 {{ end }}
 
-{{ if in (slice "blog" "docs" "documentation") .Section }}
+{{ if in (slice "blog" "docs" "documentation" "articles") .Section }}
   {{ $pageSearchCss := resources.Get "css/search/search.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link href="{{ $pageSearchCss.RelPermalink }}" rel="stylesheet" integrity="{{ $pageSearchCss.Data.Integrity }}" />
 {{ end }}
@@ -21,7 +21,7 @@
   />
 {{ end }}
 
-{{ if in (slice "docs" "documentation") .Section }}
+{{ if in (slice "docs" "documentation" "articles") .Section }}
   {{ $documentationCss := resources.Get "css/documentation.scss" | toCSS $opts | minify | resources.Fingerprint "sha512" }}
   <link
     href="{{ $documentationCss.RelPermalink }}"
