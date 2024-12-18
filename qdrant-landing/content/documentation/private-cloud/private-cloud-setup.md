@@ -88,6 +88,34 @@ For a list of available versions consult the [Private Cloud Changelog](/document
 
 Especially ensure, that the default values to reference `StorageClasses` and the corresponding `VolumeSnapshotClass` are set correctly in your environment.
 
+### Scope of the operator
+
+By default, the Qdrant Operator will only manage Qdrant clusters in the same Kubernetes namespace, where it is already deployed. The RoleBindings are also limited to this specific namespace. If you want to manage Qdrant clusters in multiple namespaces with the same operator, you can either configure a list of namespaces that the operator should watch:
+
+```yaml
+operator:
+  watch:
+    # If true, watches only the namespace where the Qdrant operator is deployed, otherwise watches the namespaces in watch.namespaces
+    onlyReleaseNamespace: false
+    # an empty list watches all namespaces.
+    namespaces:
+      - qdrant-private-cloud
+      - some-other-namespase
+  limitRBAC: true
+```
+
+Or you can configure the operator to watch all namespaces:
+
+```yaml 
+operator:
+  watch:
+    # If true, watches only the namespace where the Qdrant operator is deployed, otherwise watches the namespaces in watch.namespaces
+    onlyReleaseNamespace: false
+    # an empty list watches all namespaces.
+    namespaces: []
+  limitRBAC: false
+```
+
 ## Uninstallation
 
 To uninstall the Qdrant Private Cloud solution, you can use the following command:
