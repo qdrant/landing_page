@@ -1,9 +1,11 @@
-{{ define "main" }}
-  {{ partial "site-header" . }}
-
-  {{ partial "qdrant-post" (dict "context" . "variant" "centered") }}
-
-  {{ with (.Site.GetPage "/headless/get-started-blogs") }}
-    {{ partial "get-started-small" (dict "context" . "class" "get-started-blogs") }}
-  {{ end }}
-{{ end }}
+<!doctype html>
+<html lang="en">
+  {{- partial "head.html" . -}}
+  <body>
+    <main>
+      {{ partial "documentation/header" . }}
+      {{ partial "documentation/content-layout" . }}
+    </main>
+  </body>
+  {{ partial "js.html" . }}
+</html>

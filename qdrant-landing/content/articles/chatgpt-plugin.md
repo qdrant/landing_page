@@ -16,6 +16,7 @@ keywords:
   - chatgpt plugin
   - knowledge base
   - similarity search
+category: practicle-examples
 ---
 
 In recent months, ChatGPT has revolutionised the way we communicate, learn, and interact

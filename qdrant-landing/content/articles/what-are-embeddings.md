@@ -18,7 +18,7 @@ tags:
   - embeddings
   - machine-learning
   - artificial intelligence
-
+category: vector-search-manuals
 ---
 
 > **Embeddings** are numerical machine learning representations of the semantic of the input data. They capture the meaning of complex, high-dimensional data, like text, images, or audio, into vectors. Enabling algorithms to process and analyze the data more efficiently.

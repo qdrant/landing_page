@@ -15,6 +15,7 @@ tags:
   - vector-search
   - vector-database
   - embeddings
+category: vector-search-manuals
 ---
 
 ## What Is a Vector Database?

@@ -10,6 +10,7 @@ author: Yusuf Sarıgöz
 author_link: https://medium.com/@yusufsarigoz
 date: 2022-05-04T13:00:00+03:00
 draft: false
+category: machine-learning
 # aliases: [ /articles/detecting-coffee-anomalies/ ]
 ---
 

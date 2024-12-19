@@ -10,6 +10,7 @@ weight: 60
 date: 2019-11-24T22:44:08+03:00
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
+category: qdrant-internals
 # aliases: [ /articles/filtrable-hnsw/ ]
 ---
 

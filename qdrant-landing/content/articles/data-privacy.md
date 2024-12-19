@@ -15,6 +15,7 @@ keywords: # Keywords for SEO
   - Secure AI Data Management
   - Qdrant Data Security
   - Enterprise Data Compliance
+category: vector-search-manuals
 ---
 
 Data stored in vector databases is often proprietary to the enterprise and may include sensitive information like customer records, legal contracts, electronic health records (EHR), financial data, and intellectual property. Moreover, strong security measures become critical to safeguarding this data. If the data stored in a vector database is not secured, it may open a vulnerability known as "[embedding inversion attack](https://arxiv.org/abs/2004.00053)," where malicious actors could potentially [reconstruct the original data from the embeddings](https://arxiv.org/pdf/2305.03010) themselves. 

@@ -8,6 +8,7 @@ weight: -150
 author: Kacper Łukawski
 author_link: https://kacperlukawski.com
 date: 2024-07-25T00:00:00.000Z
+category: vector-search-manuals
 ---
 
 It's been over a year since we published the original article on how to build a hybrid

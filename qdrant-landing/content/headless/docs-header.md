@@ -16,9 +16,9 @@ menuItems:
   - id: menu-2
     name: Build
     url: /documentation/build/
-#  - id: menu-3
-#    name: Learn
-#    url: /documentation/learn/
+  - id: menu-3
+    name: Learn
+    url: /articles/
   - id: menu-4
     name: API Reference
     url: https://api.qdrant.tech/api-reference

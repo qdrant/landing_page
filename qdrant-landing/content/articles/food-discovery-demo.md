@@ -9,6 +9,7 @@ weight: -30
 author: Kacper Łukawski
 author_link: https://medium.com/@lukawskikacper
 date: 2023-09-05T11:32:00.000Z
+category: practicle-examples
 ---
 
 Not every search journey begins with a specific destination in mind. Sometimes, you just want to explore and see what’s out there and what you might like.

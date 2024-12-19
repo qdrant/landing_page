@@ -15,6 +15,7 @@ keywords:
   - linux
   - optimization
 aliases: [ /articles/io-uring/ ]
+category: qdrant-internals
 ---
 
 With Qdrant [version 1.3.0](https://github.com/qdrant/qdrant/releases/tag/v1.3.0) we

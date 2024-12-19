@@ -11,13 +11,13 @@ author_link: https://kartik-gupta-ij.vercel.app/
 date: 2023-08-28T08:00:00+03:00
 draft: false
 keywords: 
-
     - vector reduction
     - console 
     - gsoc'23 
     - vector similarity
     - exploration
     - recommendation
+category: ecosystem
 ---
 
 

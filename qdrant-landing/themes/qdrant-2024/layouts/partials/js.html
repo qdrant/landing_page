@@ -63,7 +63,7 @@
   </script>
 {{ end }}
 
-{{ if or (in (slice "docs" "documentation") .Section) (and (not .IsPage) (eq .Section "blog")) }}
+{{ if or (in (slice "docs" "documentation" "articles") .Section) (and (not .IsPage) (eq .Section "blog")) }}
   {{ $pageSearchJs := resources.Get "/js/search/search.js" | js.Build | minify | resources.Fingerprint "sha512" }}
   <script src="{{ $pageSearchJs.RelPermalink }}" type="module"></script>
 {{ end }}
@@ -115,7 +115,7 @@
   <script src="{{ $anchorJs.RelPermalink }}"></script>
 {{ end }}
 
-{{ if or (eq .Section "blog") (eq .Section "docs") (eq .Section "documentation") }}
+{{ if or (eq .Section "blog") (eq .Section "docs") (eq .Section "documentation") (eq .Section "articles") }}
   <script>
     document.addEventListener('keydown', function (event) {
       if ((event.metaKey || event.ctrlKey) && event.key === 'k') {

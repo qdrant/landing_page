@@ -10,6 +10,7 @@ weight: 50
 author: Andrey Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2021-06-10T10:18:00.000Z
+category: vector-search-manuals
 # aliases: [ /articles/neural-search-tutorial/ ]
 ---
 # Neural Search 101: A Comprehensive Guide and Step-by-Step Tutorial

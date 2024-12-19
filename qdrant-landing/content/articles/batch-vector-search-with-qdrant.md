@@ -13,6 +13,7 @@ tags:
   - Vector Database
   - Machine Learning
   - Information Retrieval
+category: vector-search-manuals
 ---
 
 # How to Optimize Vector Search Using Batch Search in Qdrant 0.10.0

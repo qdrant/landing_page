@@ -15,6 +15,7 @@ keywords:
     - vector search
     - best practices
     - anti-patterns
+category: qdrant-internals
 ---
 
 
