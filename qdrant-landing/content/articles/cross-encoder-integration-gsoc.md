@@ -15,7 +15,7 @@ keywords:
   - reranking
   - fastembed
   - qsoc'24
-category: manage-vectors
+category: ml-with-qdrant
 ---
 
 ## Introduction

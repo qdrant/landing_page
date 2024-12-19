@@ -4,4 +4,5 @@ description: Take full control of your vector data with Qdrant. Learn how to eas
 category: vector-search-manuals
 url: /articles/vector-search-manuals/
 isCategoryPage: true
+weight: 10
 ---

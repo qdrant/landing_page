@@ -4,4 +4,5 @@ description: Explore Machine Learning principles and practices which make modern
 category: ml-with-qdrant
 url: /articles/machine-learning/
 isCategoryPage: true
+weight: 40
 ---

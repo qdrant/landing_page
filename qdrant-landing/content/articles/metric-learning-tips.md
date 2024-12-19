@@ -10,6 +10,7 @@ weight: 20
 author: Andrei Vasnetsov
 author_link: https://blog.vasnetsov.com/
 date: 2021-05-15T10:18:00.000Z
+category: ml-with-qdrant
 # aliases: [ /articles/metric-learning-tips/ ]
 ---
 

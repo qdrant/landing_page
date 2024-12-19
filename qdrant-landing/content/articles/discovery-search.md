@@ -17,6 +17,7 @@ keywords:
   - multimodal
   - state-of-the-art
   - vector-search
+category: data-exploration
 ---
 
 # Discovery needs context

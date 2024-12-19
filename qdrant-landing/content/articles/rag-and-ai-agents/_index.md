@@ -4,4 +4,5 @@ description: Leverage Qdrant for Retrieval-Augmented Generation (RAG) and build 
 category: rag-and-ai-agents
 url: /articles/rag/
 isCategoryPage: true
+weight: 50
 ---

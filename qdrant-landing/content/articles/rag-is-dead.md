@@ -15,6 +15,7 @@ keywords:
   - vector search
   - retrieval augmented generation
   - gemini 1.5
+category: rag-and-ai-agents
 ---
 
 # Is RAG Dead? The Role of Vector Databases in AI Efficiency and Vector Search 

@@ -4,4 +4,5 @@ description: Learn how you can leverage vector similarity beyond just search. Re
 category: data-exploration
 url: /articles/data-exploration/
 isCategoryPage: true
+weight: 30
 ---
