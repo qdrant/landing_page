@@ -9,6 +9,7 @@ partition: build
 | Framework                                                     | Description                                                                                                          |
 | ------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
 | [AutoGen](/documentation/frameworks/autogen/)                 | Framework from Microsoft building LLM applications using multiple conversational agents.                             |
+| [Camel](/documentation/frameworks/camel/)                     | Framework to build and use LLM-based agents for real-world task solving                                              |
 | [Canopy](/documentation/frameworks/canopy/)                   | Framework from Pinecone for building RAG applications using LLMs and knowledge bases.                                |
 | [Cheshire Cat](/documentation/frameworks/cheshire-cat/)       | Framework to create personalized AI assistants using custom data.                                                    |
 | [CrewAI](/documentation/frameworks/crewai/)                   | CrewAI is a framework to build automated workflows using multiple AI agents that perform complex tasks.              |
