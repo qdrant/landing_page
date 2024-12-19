@@ -12,7 +12,7 @@ tags:
   - sparse retrieval
   - splade
   - bm25
-category: ml-with-qdrant
+category: machine-learning
 ---
 
 Finding enough time to study all the modern solutions while keeping your production running is rarely feasible.

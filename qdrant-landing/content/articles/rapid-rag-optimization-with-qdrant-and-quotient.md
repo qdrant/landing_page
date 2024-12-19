@@ -17,7 +17,7 @@ keywords:
 - quotient
 - optimization
 - rag
-category: rag-and-ai-agents
+category: rag-and-genai
 ---
 
 In today's fast-paced, information-rich world, AI is revolutionizing knowledge management. The systematic process of capturing, distributing, and effectively using knowledge within an organization is one of the fields in which AI provides exceptional value today. 

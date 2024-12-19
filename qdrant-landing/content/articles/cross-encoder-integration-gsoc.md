@@ -15,7 +15,7 @@ keywords:
   - reranking
   - fastembed
   - qsoc'24
-category: ml-with-qdrant
+category: machine-learning
 ---
 
 ## Introduction
