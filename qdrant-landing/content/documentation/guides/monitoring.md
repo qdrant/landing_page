@@ -52,7 +52,7 @@ Each Qdrant server will expose the following metrics.
 | memory_active_bytes                 | gauge   | Total number of bytes in active pages allocated by the application |
 | memory_allocated_bytes              | gauge   | Total number of bytes allocated by the application                 |
 | memory_metadata_bytes               | gauge   | Total number of bytes dedicated to metadata                        |
-| memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped"  |
+| memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped   |
 | memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings                   |
 | collection_hardware_metric_cpu      | gauge   | CPU measurements of a collection                                   |
 
