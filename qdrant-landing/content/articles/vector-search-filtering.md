@@ -8,6 +8,7 @@ weight: -200
 author: Sabrina Aquino, David Myriel
 author_link: 
 date: 2024-09-10T00:00:00.000Z
+category: vector-search-manuals
 ---
 Imagine you sell computer hardware. To help shoppers easily find products on your website, you need to have a **user-friendly [search engine](https://qdrant.tech)**.
 

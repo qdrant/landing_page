@@ -9,6 +9,7 @@ weight: 9
 author: George Panchuk
 author_link: https://medium.com/@george.panchuk
 date: 2022-06-28T08:57:07.604Z
+category: practicle-examples
 # aliases: [ /articles/faq-question-answering/ ]
 ---
 

@@ -11,13 +11,13 @@ author_link: https://www.linkedin.com/in/j16n/
 date: 2024-08-31T10:39:48.312Z
 draft: false
 keywords:
-
     - dimension reduction
     - web assembly
     - qsoc'24
     - vector similarity
     - tsne
     - qdrant data visualization
+category: ecosystem
 ---
 
 

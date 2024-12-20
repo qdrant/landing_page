@@ -14,6 +14,7 @@ keywords:
   - immutable data structures
   - perfect hashing
   - defragmentation
+category: qdrant-internals
 ---
 
 ## Data Structures 101
