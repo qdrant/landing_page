@@ -30,6 +30,8 @@
     <link href="{{ .RelPermalink }}" rel="feed" type="{{ .MediaType.Type }}" title="{{ $.Site.Title }}" />
   {{ end }}
 
+  {{ partial "segment-snippet" . }}
+
   {{ partial "seo_schema" . }}
   {{ partial "js-head" . }}
 </head>
