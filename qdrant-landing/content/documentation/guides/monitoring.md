@@ -49,11 +49,11 @@ Each Qdrant server will expose the following metrics.
 | grpc_responses_min_duration_seconds | gauge   | Minimum response duration in gRPC API                                                                                              |
 | grpc_responses_max_duration_seconds | gauge   | Maximum response duration in gRPC API                                                                                              |
 | cluster_enabled                     | gauge   | Whether the cluster support is enabled. 1 - YES                                                                                    |
-| memory_active_bytes                 | gauge   | Total number of bytes in active pages allocated by the application ([jemalloc](https://jemalloc.net/jemalloc.3.html#stats.active)) |
-| memory_allocated_bytes              | gauge   | Total number of bytes allocated by the application ([jemalloc](https://jemalloc.net/jemalloc.3.html#stats.allocated))              |
-| memory_metadata_bytes               | gauge   | Total number of bytes dedicated to allocator metadata ([jemalloc](https://jemalloc.net/jemalloc.3.html#stats.metadata))            |
-| memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped ([resident](https://jemalloc.net/jemalloc.3.html#stats.resident)) |
-| memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings ([retained](https://jemalloc.net/jemalloc.3.html#stats.retained))                 |
+| memory_active_bytes                 | gauge   | Total number of bytes in active pages allocated by the application. [Reference](https://jemalloc.net/jemalloc.3.html#stats.active) |
+| memory_allocated_bytes              | gauge   | Total number of bytes allocated by the application. [Reference](https://jemalloc.net/jemalloc.3.html#stats.allocated)              |
+| memory_metadata_bytes               | gauge   | Total number of bytes dedicated to allocator metadata. [Reference](https://jemalloc.net/jemalloc.3.html#stats.metadata)            |
+| memory_resident_bytes               | gauge   | Maximum number of bytes in physically resident data pages mapped. [Reference](https://jemalloc.net/jemalloc.3.html#stats.resident) |
+| memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings. [Reference](https://jemalloc.net/jemalloc.3.html#stats.retained)                 |
 | collection_hardware_metric_cpu      | gauge   | CPU measurements of a collection                                                                                                   |
 
 ### Cluster-related metrics
