@@ -1471,6 +1471,9 @@ client.UpdateCollection(context.Background(), &qdrant.UpdateCollection{
 })
 ```
 
+Alternatively you may use the `Trigger Optimizers` button in the [Qdrant Web UI](/documentation/web-ui/).
+It is shown next to the grey collection status on the collection info page.
+
 ### Approximate point and vector counts
 
 You may be interested in the count attributes:
