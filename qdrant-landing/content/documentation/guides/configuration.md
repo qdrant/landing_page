@@ -150,16 +150,17 @@ storage:
     #   region: ""
     #   access_key: ""
     #   secret_key: ""
-    #   endpoint_url: ""
 
   # Where to store temporary files
   # If null, temporary snapshots are stored in: storage/snapshots_temp/
   temp_path: null
 
-  # If true - the point's payload will not be stored in memory.
+  # If true - point payloads will not be stored in memory.
   # It will be read from the disk every time it is requested.
   # This setting saves RAM by (slightly) increasing the response time.
   # Note: those payload values that are involved in filtering and are indexed - remain in RAM.
+  # 
+  # Default: true
   on_disk_payload: true
 
   # Maximum number of concurrent updates to shard replicas
@@ -247,12 +248,12 @@ storage:
     max_segment_size_kb: null
 
     # Maximum size (in KiloBytes) of vectors to store in-memory per segment.
-    # Segments larger than this threshold will be stored as read-only memmaped file.
+    # Segments larger than this threshold will be stored as read-only memmapped file.
     # To enable memmap storage, lower the threshold
     # Note: 1Kb = 1 vector of size 256
     # To explicitly disable mmap optimization, set to `0`.
-    # If not set, will be disabled by default. Previously this was called memmap_threshold_kb.
-    memmap_threshold: null
+    # If not set, will be disabled by default.
+    memmap_threshold_kb: null
 
     # Maximum size (in KiloBytes) of vectors allowed for plain index.
     # Default value based on https://github.com/google-research/google-research/blob/master/scann/docs/algorithms.md
@@ -277,7 +278,7 @@ storage:
   #  vacuum_min_vector_number: 1000
   #  default_segment_number: 0
   #  max_segment_size_kb: null
-  #  memmap_threshold: null
+  #  memmap_threshold_kb: null
   #  indexing_threshold_kb: 20000
   #  flush_interval_sec: 5
   #  max_optimization_threads: null
@@ -441,7 +442,6 @@ cluster:
 
 # Set to true to prevent service from sending usage statistics to the developers.
 # Read more: https://qdrant.tech/documentation/guides/telemetry
-# Defaults: false
 telemetry_disabled: false
 
 # TLS configuration.
