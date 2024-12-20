@@ -33,7 +33,7 @@ After that, you can configure, or change the amount of Qdrant database nodes wit
 
 Important: The number of shards means the maximum amount of nodes you can add to your cluster. In the beginning, all the shards can reside on one node. With the growing amount of data you can add nodes to your cluster and move shards to the dedicated nodes using the [cluster setup API](/documentation/guides/distributed_deployment/#cluster-scaling).
 
-Note, that it is currently not possible to horizontally scale down the cluster in the Qdrant Cloud UI. If you require a horizontal scale down, please open a support ticket.
+When scaling down horizontally, the cloud platform will automatically ensure that any shards that are present on the nodes to be deleted, are moved to the remaining nodes.
 
 We will be glad to consult you on an optimal strategy for scaling.
 
