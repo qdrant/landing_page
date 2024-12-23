@@ -32,7 +32,7 @@ There are two endpoints avaliable:
 
 - `/metrics` is the direct endpoint of the underlying Qdrant database node.
 
-- `/sys_metrics` is a cloud-only endpoint that not only shares information about the database from `/metrics` but also provides additional operational data from our infrastructure about your cluster, including information from our load balancers, ingresses, and cluster workloads themselves.
+- `/sys_metrics` is a Qdrant cloud-only endpoint that provides additional operational and infrastructure metrics about your cluster, like CPU, memory and disk utilisation, collection metrics and load balancer telemetry.
 
 
 ### Node metrics `/metrics`
