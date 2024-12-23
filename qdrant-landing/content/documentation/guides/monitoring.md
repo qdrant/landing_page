@@ -80,7 +80,7 @@ There are also some metrics which are exposed in distributed mode only.
 
 ### Cluster system metrics `/sys_metrics`
 
-Each Qdrant cluster will expose the following metrics.
+In Qdrant Cloud, each Qdrant cluster will expose the following metrics. This endpoint is not available when running Qdrant open-source.
 
 **Important Base Metrics**
 
