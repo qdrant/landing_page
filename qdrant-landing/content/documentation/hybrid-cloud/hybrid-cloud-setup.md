@@ -96,7 +96,6 @@ Container images:
 
 - `registry.cloud.qdrant.io/qdrant/qdrant`
 - `registry.cloud.qdrant.io/qdrant/qdrant-cloud-agent`
-- `registry.cloud.qdrant.io/qdrant/qdrant-operator`
 - `registry.cloud.qdrant.io/qdrant/operator`
 - `registry.cloud.qdrant.io/qdrant/cluster-manager`
 - `registry.cloud.qdrant.io/qdrant/prometheus`
@@ -106,7 +105,6 @@ Container images:
 Open Containers Initiative (OCI) Helm charts:
 
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent`
-- `registry.cloud.qdrant.io/qdrant-charts/qdrant-operator`
 - `registry.cloud.qdrant.io/qdrant-charts/operator`
 - `registry.cloud.qdrant.io/qdrant-charts/qdrant-cluster-manager`
 - `registry.cloud.qdrant.io/qdrant-charts/prometheus`
@@ -155,7 +153,6 @@ skopeo login your-registry.example.com
 To sync all container images:
 
 ```shell
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant-operator your-registry.example.com/qdrant/qdrant-operator
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/operator your-registry.example.com/qdrant/operator
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/qdrant-cloud-agent your-registry.example.com/qdrant/qdrant-cloud-agent
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant/prometheus your-registry.example.com/qdrant/prometheus
@@ -171,7 +168,6 @@ To sync all helm charts:
 ```shell
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/prometheus your-registry.example.com/qdrant-charts/prometheus
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/operator your-registry.example.com/qdrant-charts/operator
-skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-operator your-registry.example.com/qdrant-charts/qdrant-operator
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-kubernetes-api your-registry.example.com/qdrant-charts/qdrant-kubernetes-api
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/qdrant-cloud-agent your-registry.example.com/qdrant-charts/qdrant-cloud-agent
 skopeo sync --all --src docker --dest docker registry.cloud.qdrant.io/qdrant-charts/operator your-registry.example.com/qdrant-charts/operator
