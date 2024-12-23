@@ -31,7 +31,7 @@ You can also access the `/telemetry` [endpoint](https://api.qdrant.tech/api-refe
 
 Cluster system metrics is a cloud-only endpoint that not only shares information about the database from `/metrics` but also provides additional operational data from our infrastructure about your cluster, including information from our load balancers, ingresses, and cluster workloads themselves.
 
-Metrics in a Prometheus-compatible format are available at the `/sys_metrics` cluster endpoint. Data Access Control Keys are used to authenticate access to cluster system metrics. If you are already querying the `/metrics` endpoint in a managed cloud cluster, the same key can be reused—you just need to update the endpoint.
+Metrics in a Prometheus-compatible format are available at the `/sys_metrics` cluster endpoint. Database API Keys are used to authenticate access to cluster system metrics. If you are already querying the `/metrics` endpoint in a managed cloud cluster, the same key can be reused—you just need to update the endpoint.
 
 For more information see [Qdrant monitoring](/documentation/guides/monitoring/#monitoring-in-qdrant-cloud).
 
