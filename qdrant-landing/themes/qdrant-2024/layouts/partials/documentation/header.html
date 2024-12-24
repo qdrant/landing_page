@@ -121,7 +121,6 @@
         </ul>
       {{ end }}
 
-      {{ $partition := partial "get-partition.html" (dict "page" .) }}
       {{ partial "documentation/sidebar-menu" (dict "context" . "partition" $partition) }}
     </div>
 </header>
