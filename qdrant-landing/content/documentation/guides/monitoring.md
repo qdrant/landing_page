@@ -24,9 +24,18 @@ each node individually instead of using a load-balanced URL. Otherwise, your met
 
 ## Monitoring in Qdrant Cloud
 
-To scrape metrics from a Qdrant cluster running in Qdrant Cloud, note that an [API key](/documentation/cloud/authentication/) is required to access `/metrics`. Qdrant Cloud also supports supplying the API key as a [Bearer token](https://www.rfc-editor.org/rfc/rfc6750.html), which may be required by some providers.
+To scrape metrics from a Qdrant cluster running in Qdrant Cloud, note that an [API key](/documentation/cloud/authentication/) is required to access `/metrics` and `/sys_metrics`. Qdrant Cloud also supports supplying the API key as a [Bearer token](https://www.rfc-editor.org/rfc/rfc6750.html), which may be required by some providers.
 
 ## Exposed metrics
+
+There are two endpoints avaliable:
+
+- `/metrics` is the direct endpoint of the underlying Qdrant database node.
+
+- `/sys_metrics` is a Qdrant cloud-only endpoint that provides additional operational and infrastructure metrics about your cluster, like CPU, memory and disk utilisation, collection metrics and load balancer telemetry.
+
+
+### Node metrics `/metrics`
 
 Each Qdrant server will expose the following metrics.
 
@@ -56,7 +65,7 @@ Each Qdrant server will expose the following metrics.
 | memory_retained_bytes               | gauge   | Total number of bytes in virtual memory mappings. [Reference](https://jemalloc.net/jemalloc.3.html#stats.retained)                 |
 | collection_hardware_metric_cpu      | gauge   | CPU measurements of a collection                                                                                                   |
 
-### Cluster-related metrics
+**Cluster-related metrics**
 
 There are also some metrics which are exposed in distributed mode only.
 
@@ -67,6 +76,50 @@ There are also some metrics which are exposed in distributed mode only.
 | cluster_commit                   | counter | Index of last committed (finalized) operation cluster peer is aware of |
 | cluster_pending_operations_total | gauge   | Total number of pending operations for cluster peer                    |
 | cluster_voter                    | gauge   | Whether the cluster peer is a voter or learner. 1 - VOTER              |
+
+
+### Cluster system metrics `/sys_metrics`
+
+In Qdrant Cloud, each Qdrant cluster will expose the following metrics. This endpoint is not available when running Qdrant open-source.
+
+**Important Base Metrics**
+
+| Name                                | Type    | Meaning                                                                                                                            |
+| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| container_cpu_cfs_throttled_periods_total | counter | Indicating that your CPU demand was higher than what your instance offers                                                           |
+| kube_pod_container_resource_limits | gauge   | Response contains list of metrics for CPU and Mem.                                                                                  |
+| qdrant_collection_number_of_grpc_requests | counter | Total number of gRPC requests on a collection                                                                                        |
+| qdrant_collection_number_of_rest_requests | counter | Total number of REST requests on a collection                                                                                        |
+| qdrant_node_rssanon_bytes           | gauge   | Allocated memory without memory-mapped files. This is the hard metric on memory which will lead to an OOM if it goes over the limit  |
+| kubelet_volume_stats_used_bytes    | gauge   | Amount of disk used                                                                                                                 |
+| traefik_service_requests_total      | counter | Response contains list of metrics for each Traefik service.                                                                         |
+| traefik_service_request_duration_seconds_sum | gauge   | Response contains list of metrics for each Traefik service.                                                                         |
+
+**Additional Metrics**
+
+| Name                                | Type    | Meaning                                                                                                                            |
+| ----------------------------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| app_info                            | gauge   | Information about the Qdrant server                                                                                               |
+| app_status_recovery_mode            | gauge   | If Qdrant is currently started in recovery mode                                                                                   |
+| cluster_peers_total                 | counter | Total number of cluster peers                                                                                                     |
+| cluster_pending_operations_total    | counter | Total number of pending operations in the cluster                                                                                 |
+| collections_total                   | counter | Number of collections                                                                                                             |
+| collections_vector_total            | counter | Total number of vectors in all collections                                                                                        |
+| container_cpu_usage_seconds_total   | counter | Total CPU usage in seconds                                                                                                        |
+| container_fs_reads_bytes_total      | counter | Total number of bytes read by the container file system (disk)                                                                    |
+| container_fs_reads_total            | counter | Total number of read operations on the container file system (disk)                                                               |
+| container_fs_writes_bytes_total     | counter | Total number of bytes written by the container file system (disk)                                                                 |
+| container_fs_writes_total           | counter | Total number of write operations on the container file system (disk)                                                              |
+| container_memory_cache              | gauge   | Memory used for cache in the container                                                                                             |
+| container_memory_mapped_file        | gauge   | Memory used for memory-mapped files in the container                                                                              |
+| container_memory_rss                | gauge   | Resident Set Size (RSS) - Memory used by the container excluding swap space                                                      |
+| container_memory_working_set_bytes  | gauge   | Total memory used by the container, including both anonymous and file-backed memory                                               |
+| container_network_receive_bytes_total | counter | Total bytes received over the container's network interface                                                                       |
+| container_network_transmit_bytes_total | counter | Total bytes transmitted over the container's network interface                                                                    |
+| kube_pod_status_phase               | gauge   | Pod status in terms of different phases (Failed/Running/Succeeded/Unknown)                                                        |
+| kube_pod_status_ready               | gauge   | Pod readiness state (unknown/false/true)                                                                                           |
+| qdrant_collection_number_of_collections | counter | Total number of collections in Qdrant                                                                                             |
+| qdrant_collection_pending_operations | counter | Total number of pending operations on a collection                                                                                 |
 
 ## Telemetry endpoint
 
