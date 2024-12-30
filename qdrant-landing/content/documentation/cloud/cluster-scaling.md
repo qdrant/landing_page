@@ -17,7 +17,7 @@ Vertical scaling is the process of increasing the capacity of a cluster by addin
 
 You can start with a minimal cluster configuration of 2GB of RAM and resize it up to 64GB of RAM (or even more if desired) over the time step by step with the growing amount of data in your application. If your cluster consists of several nodes each node will need to be scaled to the same size. Please note that vertical cluster scaling will require a short downtime period to restart your cluster.  In order to avoid a downtime you can make use of data replication, which can be configured on the collection level.  Vertical scaling can be initiated on the cluster detail page via the button "scale".
 
-If you want to scale your cluster down, the new, smaller memory size must be still sufficient to store all the data in the cluster. Otherwise, the database cluster could run out of memory and crash. Therefore, the new memory size must be at least as large as the current memory usage of the database cluster including a bit of buffer. Qdrant Cloud will automatically prevent you from scaling down the Qdrant datab ase cluster with a too small memory size.
+If you want to scale your cluster down, the new, smaller memory size must be still sufficient to store all the data in the cluster. Otherwise, the database cluster could run out of memory and crash. Therefore, the new memory size must be at least as large as the current memory usage of the database cluster including a bit of buffer. Qdrant Cloud will automatically prevent you from scaling down the Qdrant database cluster with a too small memory size.
 
 Note, that it is not possible to scale down the disk space of the cluster due to technical limitations of the underlying cloud providers.
 
