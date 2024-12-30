@@ -1,59 +1,97 @@
 <header class="docs-header">
   {{ $partition := partial "get-partition.html" (dict "page" .) }}
-  {{ with (.Site.GetPage "/headless/docs-header") }}
     <div class="main-menu z-5">
-      <a href="{{ .Params.logoLink }}">
-        {{ partial "logo.html" . }}
-      </a>
+      {{ with (.Site.GetPage "/headless/docs-header") }}
+        <a href="{{ .Params.logoLink }}">
+          {{ partial "logo.html" . }}
+        </a>
 
-      <div class="d-flex d-xl-none justify-content-end align-items-center gap-4">
-        <div class="d-block d-xl-none">
-          {{ partial "theme-switch" . }}
+        <div class="d-flex d-xl-none justify-content-end align-items-center gap-4">
+          <div class="d-block d-xl-none">
+            {{ partial "theme-switch" . }}
+          </div>
+          <button type="button" class="main-menu__trigger">{{ partial "svg" "hamburger-menu-white.svg" }}</button>
         </div>
-        <button type="button" class="main-menu__trigger">{{ partial "svg" "hamburger-menu-white.svg" }}</button>
-      </div>
 
-      <ul class="main-menu__links">
-        {{ range $index, $element := .Params.menuItems }}
-          <li class="main-menu__item">
-            {{ if .url }}
-              <a
-                class="menu-link {{- if eq (lower .name) $partition }}active{{- end -}}"
-                href="{{ .url }}"
-                {{ if (eq $index 4) }}target="_blank"{{ end }}
-              >
-                {{ .name }}
-              </a>
-            {{ else }}
-              <span>{{ .name }}</span>
-            {{ end }}
+        <ul class="main-menu__links">
+          {{ range $index, $element := .Params.menuItems }}
+            <li class="main-menu__item">
+              {{ if .url }}
+                <a
+                  class="menu-link {{- if eq (lower .name) $partition }}active{{- end -}}"
+                  href="{{ .url }}"
+                  {{ if (eq $index 4) }}target="_blank"{{ end }}
+                >
+                  {{ .name }}
+                </a>
+              {{ else }}
+                <span>{{ .name }}</span>
+              {{ end }}
 
-            {{ if .subMenuItems }}
-              <ul class="main-menu__submenu">
-                {{ if .url }}
-                  <li class="main-menu__section-link">
-                    <a class="link link_neutral link_sm" href="{{ .url }}">
-                      {{ .name }}
-                    </a>
-                  </li>
-                {{ end }}
-                {{ range .subMenuItems }}
-                  <li class="main-menu__submenu-item">
-                    <a
-                      href="{{ .url }}"
-                      {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer nofollow"{{ end }}
-                    >
-                      <img src="/img/menu/{{ .icon }}" draggable="false" />
-                      <span>{{ .name }}</span>
-                    </a>
-                  </li>
-                {{ end }}
-              </ul>
-            {{ end }}
-          </li>
-        {{ end }}
-      </ul>
-      <div class="main-menu__buttons">
+              {{ if .subMenuItems }}
+                <ul class="main-menu__submenu">
+                  {{ if .url }}
+                    <li class="main-menu__section-link">
+                      <a class="link link_neutral link_sm" href="{{ .url }}">
+                        {{ .name }}
+                      </a>
+                    </li>
+                  {{ end }}
+                  {{ range .subMenuItems }}
+                    <li class="main-menu__submenu-item">
+                      <a
+                        href="{{ .url }}"
+                        {{ if strings.HasPrefix .url "http" }}target="_blank" rel="noopener noreferrer nofollow"{{ end }}
+                      >
+                        <img src="/img/menu/{{ .icon }}" draggable="false" />
+                        <span>{{ .name }}</span>
+                      </a>
+                    </li>
+                  {{ end }}
+                </ul>
+              {{ end }}
+            </li>
+          {{ end }}
+        </ul>
+        <div class="main-menu__buttons">
+          <div class="main-menu__buttons-input">
+            <button
+              class="qdr-search-input-btn q-input input_md input_light-bg"
+              type="button"
+              name="search"
+              data-target="#searchModal"
+            >
+              Search
+            </button>
+          </div>
+          {{ partial "theme-switch" . }}
+          <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3" target="_blank"
+            >{{ .Params.logIn.text }}</a
+          >
+          <a
+            data-metric-loc="nav"
+            href="{{ .Params.startFree.url }}"
+            class="button button_contained button_sm"
+            target="_blank"
+          >
+            {{ .Params.startFree.text }}
+          </a>
+        </div>
+      {{end}}
+    </div>
+
+    <div class="menu-mobile">
+      {{ with (.Site.GetPage "/headless/docs-header") }}
+        <div class="menu-mobile__header">
+          {{ partial "logo.html" . }}
+          <div class="d-flex d-xl-none justify-content-end align-items-center gap-4">
+            <div class="d-block d-xl-none">
+              {{ partial "theme-switch" . }}
+            </div>
+            <button type="button" class="menu-mobile__close">{{ partial "svg" "close-white.svg" }}</button>
+          </div>
+        </div>
+
         <div class="main-menu__buttons-input">
           <button
             class="qdr-search-input-btn q-input input_md input_light-bg"
@@ -64,82 +102,25 @@
             Search
           </button>
         </div>
-        {{ partial "theme-switch" . }}
-        <a data-metric-loc="nav" href="{{ .Params.logIn.url }}" class="menu-link mx-3" target="_blank"
-          >{{ .Params.logIn.text }}</a
-        >
-        <a
-          data-metric-loc="nav"
-          href="{{ .Params.startFree.url }}"
-          class="button button_contained button_sm"
-          target="_blank"
-        >
-          {{ .Params.startFree.text }}
-        </a>
-      </div>
-    </div>
 
-    <div class="menu-mobile">
-      <div class="menu-mobile__header">
-        {{ partial "logo.html" . }}
-        <button type="button" class="menu-mobile__close">{{ partial "svg" "close.svg" }}</button>
-      </div>
-      <ul class="menu-mobile__items">
-        {{ range .Params.menuItems }}
-          <li class="menu-mobile__item" data-path="{{ .id }}">
-            <div class="menu-mobile__item-content">
-              {{ if and (not .subMenuItems) .url }}
-                <a href="{{ .url }}">
+        <ul class="menu-mobile__items">
+          {{ range $index, $element := .Params.menuItems }}
+            <li class="menu-mobile__item" data-path="{{ .id }}">
+              <div class="menu-mobile__item-content">
+                <a
+                  class="{{ if eq (lower .name) $partition }} active{{ end }}"
+                  href="{{ .url }}"
+                  {{ if (eq $index 4) }}target="_blank"{{ end }}
+                >
+                  {{ partial "svg" .icon }}
                   {{ .name }}
                 </a>
-              {{ else }}
-                {{ .name }}
-              {{ end }}
+              </div>
+            </li>
+          {{ end }}
+        </ul>
+      {{ end }}
 
-              {{ if .subMenuItems }}
-                <button type="button" class="menu-mobile__expand">{{ partial "svg" "arrow-sm-down.svg" }}</button>
-              {{ end }}
-            </div>
-            {{ if .subMenuItems }}
-              <ul class="menu-mobile__subitems">
-                {{ if .url }}
-                  <li class="menu-mobile__section-link">
-                    <a class="link link_neutral link_sm" href="{{ .url }}">
-                      {{ .name }}
-                    </a>
-                  </li>
-                {{ end }}
-                {{ range .subMenuItems }}
-                  <a href="{{ .url }}">
-                    <li class="menu-mobile__subitem">
-                      <span style="background-image: url(/img/menu/{{ .icon }})"> </span>
-                      {{ .name }}
-                    </li>
-                  </a>
-                {{ end }}
-              </ul>
-            {{ end }}
-          </li>
-        {{ end }}
-      </ul>
-      <div class="menu-mobile__controls">
-        <a
-          data-metric-loc="mobile_nav"
-          href="{{ .Params.logIn.url }}"
-          class="button button_outlined button_lg menu-mobile__login"
-          target="_blank"
-        >
-          {{ .Params.logIn.text }}
-        </a>
-        <a
-          data-metric-loc="mobile_nav"
-          href="{{ .Params.startFree.url }}"
-          class="button button_contained button_lg"
-          target="_blank"
-        >
-          {{ .Params.startFree.text }}
-        </a>
-      </div>
+      {{ partial "documentation/sidebar-menu" (dict "context" . "partition" $partition) }}
     </div>
-  {{ end }}
 </header>

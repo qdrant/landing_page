@@ -11,7 +11,7 @@
   }
 
   .main-menu {
-    border-bottom: pxToRem(1) solid $neutral-20;
+    padding: pxToRem(68) $spacer $spacer * 1.5;
 
     &__links {
       margin-right: auto;
@@ -20,10 +20,10 @@
 
     &__buttons {
       &-input {
-        width: pxToRem(300);
-        height: pxToRem(35);
+        width: 100%;
+        padding: 0 $spacer;
+        height: $spacer * 2.5;
         position: relative;
-        margin-right: $spacer * 1.5;
 
         svg {
           position: absolute;
@@ -33,12 +33,11 @@
         }
 
         button {
+          position: relative;
           height: 100%;
           padding-left: $spacer * 2.5;
           color: $neutral-70;
           text-align: left;
-          font-size: pxToRem(14);
-          line-height: pxToRem(18);
 
           &:after {
             content: '';
@@ -57,13 +56,132 @@
   }
 
   .menu-mobile {
-    padding-top: pxToRem(12);
+    gap: $spacer * 1.5;
+    background: $neutral-20;
+    padding-top: 0;
+
+    &__header {
+      padding: pxToRem(68) $spacer $spacer * 1.5;
+      border-bottom: pxToRem(1) solid $neutral-40;
+    }
+
+    &__close {
+      width: $spacer * 2.5;
+      height: $spacer * 2.5;
+      padding: $spacer * 0.5;
+      border-radius: $spacer * 0.5;
+      z-index: 1;
+      background: linear-gradient($neutral-30, #141B2E);
+    }
+
+    &__items {
+      padding: 0 $spacer;
+    }
+
+    &__item {
+      border-bottom: none;
+      font-size: $spacer;
+      line-height: $spacer * 1.5;
+
+      &-content {
+        padding: $spacer * 0.5 pxToRem(12);
+        min-height: 0;
+      }
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: pxToRem(12);
+        color: $neutral-94;
+
+        svg {
+          height: $spacer;
+          width: $spacer;
+        }
+
+        &.active {
+          color: $primary-50;
+
+          svg {
+            fill: $primary-50;
+          }
+        }
+      }
+
+      &:nth-of-type(4) {
+        a {
+          &.active {
+            svg {
+              fill: none;
+              stroke: $primary-50;
+            }
+          }
+        }
+      }
+    }
+
+    [data-theme='light'] & {
+      background: $neutral-94;
+
+      &__item {
+        a {
+          color: $neutral-30;
+
+          svg {
+            fill: $neutral-30;
+          }
+
+          &.active {
+            color: $primary-50;
+
+            svg {
+              fill: $primary-50;
+            }
+          }
+        }
+
+        &:nth-of-type(4) {
+          a {
+            svg {
+              fill: none;
+              stroke: $neutral-30;
+            }
+
+            &.active {
+              svg {
+                fill: none;
+                stroke: $primary-50;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .docs-menu {
+    display: block;
   }
 
   @include media-breakpoint-up(xl) {
     .main-menu {
       height: $spacer * 5;
       padding: pxToRem(22) $spacer * 1.5;
+      border-bottom: pxToRem(1) solid $neutral-20;
+
+      &__buttons {
+        &-input {
+          width: pxToRem(300);
+          height: pxToRem(35);
+          margin-right: $spacer * 1.5;
+          padding: 0;
+
+          button {
+            font-size: pxToRem(14);
+            line-height: pxToRem(18);
+          }
+        }
+      }
     }
   }
 }
