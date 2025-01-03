@@ -4,7 +4,7 @@ title: SmolAgents
 
 # SmolAgents
 
-[SmolAgents](https://github.com/huggingface/smolagents) is Python library for building AI agents. These agents write python code to call tools and orchestrate other agents.
+HuggingFace [SmolAgents](https://github.com/huggingface/smolagents) is Python library for building AI agents. These agents write python code to call tools and orchestrate other agents.
 
 It uses `CodeAgent`. An LLM engine that writes its actions in code. SmolAgents suggests that this approach is demonstrated to work better than the current industry practice of letting the LLM output a dictionary of the tools it wants to calls: [uses 30% fewer steps](https://huggingface.co/papers/2402.01030) (thus 30% fewer LLM calls)
 and [reaches higher performance on difficult benchmarks](https://huggingface.co/papers/2411.01747).
