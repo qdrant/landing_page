@@ -275,7 +275,7 @@ ColBERT-style models as a reranking step**, after retrieving candidates with sin
 This reflects the latest trends in the field, as single-vector methods are still the most efficient, but multivectors
 capture the nuances of the text better.
 
-TODO: add a diagram with the search pipeline (dense + sparse, rerank with late interaction)
+![Reranking with late interaction models](/articles_data/hybrid-search/late-interaction-reranking.png)
 
 Assuming you never use late interaction models for retrieval alone, but only for reranking, this setup comes with a 
 hidden cost. By default, each configured dense vector of the collection will have a corresponding HNSW graph created. 
@@ -288,6 +288,7 @@ client = QdrantClient(...)
 client.create_collection(
     collection_name="my-collection",
     vectors_config={
+        "dense": models.VectorParams(...),
         "late-interaction": models.VectorParams(
             size=128,
             distance=models.Distance.COSINE,
@@ -295,6 +296,9 @@ client.create_collection(
                 comparator=models.MultiVectorComparator.MAX_SIM
             ),
         )
+    },
+    sparse_vectors_config={
+        "sparse": models.SparseVectorParams(...)
     },
 )
 ```
@@ -309,6 +313,7 @@ graph creation for this kind of model**:
 client.create_collection(
     collection_name="my-collection",
     vectors_config={
+        "dense": models.VectorParams(...),
         "late-interaction": models.VectorParams(
             size=128,
             distance=models.Distance.COSINE,
@@ -319,6 +324,9 @@ client.create_collection(
                 m=0,  # Disable HNSW graph creation
             ),
         )
+    },
+    sparse_vectors_config={
+        "sparse": models.SparseVectorParams(...)
     },
 )
 ```
