@@ -4,9 +4,9 @@ title: SmolAgents
 
 # SmolAgents
 
-HuggingFace [SmolAgents](https://github.com/huggingface/smolagents) is Python library for building AI agents. These agents write python code to call tools and orchestrate other agents.
+HuggingFace [SmolAgents](https://github.com/huggingface/smolagents) is a Python library for building AI agents. These agents write Python code to call tools and orchestrate other agents.
 
-It uses `CodeAgent`. An LLM engine that writes its actions in code. SmolAgents suggests that this approach is demonstrated to work better than the current industry practice of letting the LLM output a dictionary of the tools it wants to calls: [uses 30% fewer steps](https://huggingface.co/papers/2402.01030) (thus 30% fewer LLM calls)
+It uses `CodeAgent`. An LLM engine that writes its actions in code. SmolAgents suggests that this approach is demonstrated to work better than the current industry practice of letting the LLM output a dictionary of the tools it wants to call: [uses 30% fewer steps](https://huggingface.co/papers/2402.01030) (thus 30% fewer LLM calls)
 and [reaches higher performance on difficult benchmarks](https://huggingface.co/papers/2411.01747).
 
 ## Usage with Qdrant
@@ -21,7 +21,7 @@ pip install smolagents qdrant-client fastembed
 
 ### Setup a Qdrant tool
 
-We'll build SmolAgents tool that can query a Qdrant collection. This tool will use [FastEmbed](https://github.com/qdrant/fastembed) to vectorize queries locally.
+We'll build a SmolAgents tool that can query a Qdrant collection. This tool will vectorise queries locally using [FastEmbed](https://github.com/qdrant/fastembed).
 
 Initially, we'll be populating a Qdrant collection with information about 1000 movies from IMDb that we can search across.
 
