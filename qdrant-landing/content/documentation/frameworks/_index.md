@@ -34,6 +34,7 @@ partition: build
 | [Ragbits](/documentation/frameworks/ragbits/)                 | Python package that offers essential "bits" for building powerful Retrieval-Augmented Generation (RAG) applications. |
 | [Rig-rs](/documentation/frameworks/rig-rs/)                   | Rust library for building scalable, modular, and ergonomic LLM-powered applications.                                 |
 | [Semantic Router](/documentation/frameworks/semantic-router/) | Python library to build a decision-making layer for AI applications using vector search.                             |
+| [SmolAgents](/documentation/frameworks/smolagents/)           | Barebones library for agents. Agents write python code to call tools and orchestrate other agent.                    |
 | [Spring AI](/documentation/frameworks/spring-ai/)             | Java AI framework for building with Spring design principles such as portability and modular design.                 |
 | [Superduper](/documentation/frameworks/superduper/)           | Framework for building flexible, compositional AI apps which may be applied directly to databases.                   |
 | [Swarm](/documentation/frameworks/swarm/)                     | Python framework for managing multiple AI agents that can work together.                                             |
