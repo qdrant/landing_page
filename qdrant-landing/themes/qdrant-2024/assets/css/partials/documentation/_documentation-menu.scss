@@ -70,6 +70,7 @@
       &-heading {
         display: block;
         position: relative;
+
         // hide native details marker
         &::-webkit-details-marker {
           display: none;
@@ -100,7 +101,7 @@
       }
 
       &.active {
-        .docs-menu__links-group-heading > a {
+        .docs-menu__links-group-heading>a {
           font-weight: 600;
           background-color: $neutral-30;
           color: $neutral-90;
@@ -194,22 +195,54 @@
 
     &__links {
       &-title {
+        padding: math.div($spacer, 2);
+
         &:not(:nth-of-type(1)) {
           border-top: pxToRem(1) solid $neutral-20;
+          margin-top: pxToRem(12);
+          padding-top: $spacer;
         }
       }
 
-      & > :last-child {
+      &> :last-child {
         padding-bottom: $spacer;
         border-bottom: pxToRem(1) solid $neutral-20;
       }
+
+      &-submenu-item {
+        a {
+          font-size: pxToRem(14);
+          line-height: pxToRem(21);
+        }
+      }
     }
+
 
     &__links-group {
       &.active {
-        .docs-menu__links-group-heading > a {
+        .docs-menu__links-group-heading>a {
           background-color: $neutral-20;
         }
+
+        summary:after {
+          top: pxToRem(10);
+        }
+      }
+
+      summary:after {
+        top: pxToRem(10);
+      }
+
+      &-heading {
+        a {
+          font-size: pxToRem(14);
+          line-height: pxToRem(21);
+        }
+      }
+
+      a {
+        padding: math.div($spacer, 4) $spacer * 1.5 math.div($spacer, 4) math.div($spacer, 2);
+        margin: 0;
       }
     }
   }
@@ -266,7 +299,7 @@
         }
 
         &.active {
-          .docs-menu__links-group-heading > a {
+          .docs-menu__links-group-heading>a {
             color: $primary-50;
             background: $neutral-90;
           }
@@ -302,7 +335,7 @@
       }
     }
 
-    &__links > :last-child,
+    &__links> :last-child,
     &__links-title:not(:nth-of-type(1)) {
       border-color: $neutral-80;
     }
@@ -312,7 +345,7 @@
 
       &__links-group {
         &.active {
-          .docs-menu__links-group-heading > a {
+          .docs-menu__links-group-heading>a {
             color: $neutral-30;
           }
         }
@@ -330,6 +363,7 @@
         }
       }
     }
+
     &__articles-link {
       &.active {
         background-color: $neutral-90;
