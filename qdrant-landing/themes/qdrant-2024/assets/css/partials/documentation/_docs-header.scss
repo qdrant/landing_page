@@ -11,7 +11,6 @@
   }
 
   .main-menu {
-    padding: pxToRem(68) $spacer $spacer * 1.5;
 
     &__links {
       margin-right: auto;
@@ -61,7 +60,7 @@
     padding-top: 0;
 
     &__header {
-      padding: pxToRem(68) $spacer $spacer * 1.5;
+      padding: pxToRem(12) $spacer * 1.25 $spacer * 1.5;
       border-bottom: pxToRem(1) solid $neutral-40;
     }
 
