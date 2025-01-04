@@ -12,6 +12,15 @@
 - [npm](https://www.npmjs.com/get-npm)
 - [Dart Sass](https://sass-lang.com/install) - Don't use the npm package `sass` as it's a different implementation of Sass
 
+#### Updating npm dependencies via hugo
+
+1. Go to `qdrant-landing/themes/qdrant-2024/package.hugo.json` and configure desired versions of npm packages.
+2. Run `hugo mod npm pack` to update the `qdrant-landing/themes/qdrant-2024/package.json` file from `qdrant-landing/themes/qdrant-2024` directory.
+3. Go to `qdrant-landing` and run `hugo mod npm pack` again to update global `package.json` file.
+4. Run `npm install` to install the updated dependencies.
+
+
+
 ## Run
 
 ```bash
