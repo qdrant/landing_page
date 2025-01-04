@@ -1,27 +1,11 @@
 {{ $partition := .partition }}
-{{ $section := .Section }}
 
 {{ $currentNode := .context }}
 <div class="docs-menu">
-  <div id="sidebar-toggle" class="docs-menu__header">
-    <h2>Docs Menu</h2>
-    <button type="button" class="docs-menu__button">{{ partial "svg" "arrow-sm-down-white.svg" }}</button>
-  </div>
   <div id="sidebar" class="docs-menu__content">
-    <div class="docs-menu__input">
-      <button
-        class="qdr-search-input-btn q-input input_md input_light-bg"
-        type="button"
-        name="search"
-        data-target="#searchModal"
-      >
-        Search
-      </button>
-    </div>
 
     {{ if eq $currentNode.Section "documentation" }}
       {{ $subject := site.GetPage "documentation" }}
-
 
       <nav class="docs-menu__links">
         {{ range $subject.Pages }}
