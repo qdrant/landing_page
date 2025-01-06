@@ -341,7 +341,7 @@ Here is a list of supported vector types:
 | MultiVectors | Matrices of numbers with fixed length but variable height. <br> Usually obtained from late interaction models like ColBERT. |
 
 It is possible to attach more than one type of vector to a single point.
-In Qdrant we call it Named Vectors.
+In Qdrant we call these Named Vectors.
 
 Read more about vector types, how they are stored and optimized in the [vectors](/documentation/concepts/vectors/) section.
 
