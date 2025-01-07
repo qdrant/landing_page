@@ -68,9 +68,9 @@ features:
 - id: 3
   icon:
     src: /icons/outline/mail-blue.svg
-    alt: Newsletter
-  title: Newsletter
-  description: Stay up to date with all the latest Qdrant news
+    alt: News & Updates
+  title: News & Updates
+  description: Stay up to date on product news, technical articles, and more. 
   link:
     text: Learn More
     url: /subscribe/
