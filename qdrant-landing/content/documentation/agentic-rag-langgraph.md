@@ -2,7 +2,6 @@
 title: Agentic RAG With LangGraph 
 weight: 13
 partition: build
-social_preview_image: /documentation/examples/agentic-rag-langgraph/social_preview.png
 ---
 # Agentic RAG With LangGraph and Qdrant
 
@@ -55,15 +54,11 @@ Before we dive into building our agent, let’s get everything set up.
 
 We’ll use **Qdrant Cloud** as our vector store for document embeddings. Here’s how to set it up:
 
-1. **Create an Account**If you don’t already have one, head to Qdrant Cloud and sign up.
-2. **Set Up a Cluster**
-    - Log in to your account and find the **Create New Cluster** button on the dashboard.
-    - Follow the prompts to configure:
-        - Select your **preferred region**.
-        - Choose the **free tier** for testing.
-3. **Secure Your Details**Once your cluster is ready, note these details:
-- **Cluster URL** (e.g., https://xxx-xxx-xxx.aws.cloud.qdrant.io)
-- **API Key**
+| **Step**                     | **Description**                                                                                                                                           |
+|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. Create an Account**     | If you don’t already have one, head to Qdrant Cloud and sign up.                                                                                           |
+| **2. Set Up a Cluster**      | Log in to your account and find the **Create New Cluster** button on the dashboard. Follow the prompts to configure: <br> - Select your **preferred region**. <br> - Choose the **free tier** for testing. |
+| **3. Secure Your Details**   | Once your cluster is ready, note these details: <br> - **Cluster URL** (e.g., https://xxx-xxx-xxx.aws.cloud.qdrant.io) <br> - **API Key**                  |
 
 Save these securely for future use!
 
@@ -97,13 +92,7 @@ brave_key = os.getenv("BRAVE_API_KEY")
 
 ---
 
-Let’s look at the imports now.
-
-### Imports
-
-Here are the imports required:
-
-### Document Processing: The First Building Block
+### Document Processing
 
 Before we can create our agent, we need to process and store the documentation. We’ll be working with two datasets from Hugging Face: their general documentation and Transformers-specific documentation.
 
