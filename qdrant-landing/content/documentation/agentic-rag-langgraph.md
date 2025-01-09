@@ -8,68 +8,33 @@ social_preview_image: /documentation/examples/agentic-rag-langgraph/social_previ
 
 Traditional Retrieval-Augmented Generation (RAG) systems follow a straightforward path: query → retrieve → generate. Sure, this works well for many scenarios. But let’s face it—this linear approach often struggles when you're dealing with complex queries that demand multiple steps or pulling together diverse types of information.
 
-Enter [Agentic RAG](https://qdrant.tech/articles/agentic-rag/), the next step in the RAG evolution. It takes things up a notch by introducing AI agents that can orchestrate multiple retrieval steps and smartly decide how to gather and use the information you need. Think of it this way: in an Agentic RAG workflow, RAG becomes just one powerful tool in a much bigger and more versatile toolkit.
+[Agentic RAG](https://qdrant.tech/articles/agentic-rag/) takes things up a notch by introducing AI agents that can orchestrate multiple retrieval steps and smartly decide how to gather and use the information you need. Think of it this way: in an Agentic RAG workflow, RAG becomes just one powerful tool in a much bigger and more versatile toolkit.
 
 By combining LangGraph’s robust state management with Qdrant’s cutting-edge vector search, we’ll build a system that doesn’t just answer questions—it tackles complex, multi-step information retrieval tasks with finesse.
 
 ## What We’ll Build
 
-Before diving into Agentic RAG, let’s clear something up: not every RAG implementation needs to be agentic. Traditional RAG systems are often simpler, less resource-intensive, and get the job done for many use cases. Agentic RAG, while powerful, introduces extra complexity, potential failure points, and higher computational costs. So, if a traditional RAG setup can meet your needs, stick with it—it’s the practical choice.
+We’re building an AI agent to answer questions about Hugging Face and Transformers documentation using LangGraph. At the heart of our AI agent lies LangGraph, which acts like a conductor in an orchestra. It directs the flow between various components—deciding when to retrieve information, when to perform a web search, and when to generate responses.
 
-That said, you might want to consider leveling up to Agentic RAG if you’re running into these roadblocks with your traditional setup:
-
-- **Query Refinement Challenges:** Does your system struggle with complex user queries? If breaking questions into sub-queries or rephrasing them is necessary to get meaningful results, it’s a sign traditional RAG might not be cutting it.
-- **Multi-Step Information Gathering:** Are single retrievals falling short? If answers require stitching together data from multiple sources or making several retrieval passes, you’ll benefit from the orchestration power of Agentic RAG.
-- **Context Quality Issues:** Does your system generate responses without ensuring the retrieved information is relevant or complete? Agentic RAG can step in to evaluate the quality of information before generating answers.
-- **Tool Integration Needs:** Do you need to go beyond vector search? Whether it’s combining web search, APIs, or performing calculations, Agentic RAG shines when multiple tools need to work together seamlessly.
-
-We’re building an Agentic RAG system that takes smart decision-making to the next level. Unlike standard RAG, which sticks to searching a single vector database, our system juggles three powerful tools: two Qdrant vector stores and a web search engine. Here’s the magic—it doesn’t just blindly follow one path. Instead, it evaluates each query and decides whether to tap into the first vector store, the second one, or search the web.
+The components are: two Qdrant vector stores and the Brave web search engine. However, our agent doesn’t just blindly follow one path. Instead, it evaluates each query and decides whether to tap into the first vector store, the second one, or search the web.
 
 This selective approach gives your system the flexibility to choose the best data source for the job, rather than being locked into the same retrieval process every time, like traditional RAG. While we won’t dive into query refinement in this tutorial, the concepts you’ll learn here are a solid foundation for adding that functionality down the line.
 
-## How It Works
-
-The Agentic RAG (Retrieval-Augmented Generation) system is powered by an AI agent that smartly coordinates multiple tools and databases to deliver precise answers to your queries. Here’s how the architecture of Agentic RAG shapes up:
+## Workflow 
 
 ![image1](/documentation/examples/agentic-rag-langgraph/image1.png)
 
-Fig. 1: Agentic RAG Workflow
+| **Step** | **Description**                                                                                                                                                                           |
+|----------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **1. User Input**              | You start by entering a query or request through an interface, like a chatbot or a web form. This query is sent straight to the AI Agent, the brain of the operation.|
+| **2. AI Agent Processes the Query** | The AI Agent analyzes your query, figuring out what you’re asking and which tools or data sources will best answer your question.                                   |
+| **3. Tool Selection**          | Based on its analysis, the AI Agent picks the right tool for the job. Your data is spread across two vector databases, and depending on the query, it chooses the appropriate one. For queries needing real-time or external web data, the agent taps into a web search tool powered by BraveSearchAPI. |
+| **4. Query Execution**         | The AI Agent then puts its chosen tool to work: <br> - **RAG Tool 1** queries Vector Database 1. <br> - **RAG Tool 2** queries Vector Database 2. <br> - **Web Search Tool** dives into the internet using the search API. |
+| **5. Data Retrieval**          | The results roll in: <br> - Vector Database 1 and 2 return the most relevant documents for your query. <br> - The Web Search Tool provides up-to-date or external information.|
+| **6. Response Generation**     | Using a text generation model (like GPT), the AI Agent crafts a detailed and accurate response tailored to your query.                                               |
+| **7. User Response**           | The polished response is sent back to you through the interface, ready to use.                                                                                      |
 
-### Agentic RAG Workflow
-
-Here’s a step-by-step breakdown of how the Agentic RAG system works:
-
-- **User Input:** You start by entering a query or request through an interface, like a chatbot or a web form. This query is sent straight to the AI Agent, the brain of the operation.
-- **AI Agent Processes the Query:** The AI Agent analyzes your query, figuring out what you’re asking and which tools or data sources will best answer your question.
-- **Tool Selection:** Based on its analysis, the AI Agent picks the right tool for the job. Your data is spread across two vector databases, and depending on the query, it chooses the appropriate one. For queries needing real-time or external web data, the agent taps into a web search tool powered by BraveSearchAPI.
-- **Query Execution:** The AI Agent then puts its chosen tool to work:
-    - **RAG Tool 1** queries Vector Database 1.
-    - **RAG Tool 2** queries Vector Database 2.
-    - **Web Search Tool** dives into the internet using the search API.
-- **Data Retrieval:** The results roll in:
-    - Vector Database 1 and 2 return the most relevant documents for your query.
-    - The Web Search Tool provides up-to-date or external information.
-- **Response Generation:** Using a text generation model (like GPT), the AI Agent crafts a detailed and accurate response tailored to your query.
-- **User Response:** The polished response is sent back to you through the interface, ready to use.
-
-Let’s dive into the workings of the RAG Tool:
-
-![image3](/documentation/examples/agentic-rag-langgraph/image3.png)
-
-Fig. 2: Architecture of the RAG Tool
-
-- **AI Agent Receives Input:** The AI agent, powered by OpenAI, takes your query as the starting point.
-- **Query Extraction:** The agent breaks down your query into key components, preparing it for further processing.
-- **Embedding Generation:** OpenAI transforms the query into vector embeddings using a specialized embedding model.
-- **Vector Database Querying:** These embeddings are sent to a vector database, such as Qdrant, to fetch relevant documents.
-- **Document Retrieval:** The vector database compares the query embeddings against its stored vectors and pulls the most relevant documents.
-- **Context Preparation:** The retrieved documents are processed and structured to create a rich context for the large language model (LLM).
-- **LLM Response Generation:** OpenAI’s LLM takes this context and crafts a response perfectly tailored to your query.
-- **Response Delivery:** Finally, the AI agent pulls it all together and delivers a polished response straight to you.
-
-In the next section, we’ll explore the technology stack required to bring these components to life.
-
-## The Architecture
+## The Stack
 
 The architecture taps into cutting-edge tools to power efficient Agentic RAG workflows. Here’s a quick overview of its components and the technologies you’ll need:
 
@@ -82,17 +47,9 @@ The architecture taps into cutting-edge tools to power efficient Agentic RAG wor
 
 Ready to start building this system from the ground up? Let’s get to it!
 
-## The Implementation
+## Implementation
 
-We’re building an AI agent to answer questions about Hugging Face and Transformers documentation using LangGraph. Let’s break it down into the basics, working on the problem step by step.
-
-### Understanding the Foundation
-
-At the heart of our AI agent lies LangGraph, which acts like a conductor in an orchestra. It directs the flow between various components—deciding when to retrieve information, when to perform a web search, and when to generate responses.
-
-### Prerequisites
-
-Before we dive into building our agent, let’s get everything set up. Don’t worry, we’ve got you covered!
+Before we dive into building our agent, let’s get everything set up. 
 
 ### Qdrant Vector Database Setup
 
@@ -344,7 +301,7 @@ graph_builder.add_edge(START, "agent")
 
 This is what the graph looks like:
 
-![image2](/documentation/examples/agentic-rag-langgraph/image2.png)
+![image2](/documentation/examples/agentic-rag-langgraph/image2.jpg)
 
 Fig. 3: Agentic RAG with LangGraph
 
@@ -363,40 +320,39 @@ def run_agent(user_input: str):
 
 Now, you’re ready to ask questions about Hugging Face and Transformers! Our agent will intelligently combine information from the documentation with web search results when needed.
 
-For example, you can ask: *"In the Transformers library, are there any multilingual models?"*
+For example, you can ask: 
+
+```txt
+In the Transformers library, are there any multilingual models?
+```
 
 The agent will dive into the Transformers documentation, extract relevant details about multilingual models, and deliver a clear, comprehensive answer.
 
 Here’s what the response might look like:
 
+```txt
 Yes, the Transformers library includes several multilingual models. Here are some examples:
 
-*BERT Multilingual**: Models like `bert-base-multilingual-uncased` can be used just like monolingual models.
+BERT Multilingual: 
+Models like `bert-base-multilingual-uncased` can be used just like monolingual models.
 
-*XLM (Cross-lingual Language Model)**: Models like `xlm-mlm-ende-1024` (English-German), `xlm-mlm-enfr-1024` (English-French), and others use language embeddings to specify the language used at inference.
+XLM (Cross-lingual Language Model): 
+Models like `xlm-mlm-ende-1024` (English-German), `xlm-mlm-enfr-1024` (English-French), and others use language embeddings to specify the language used at inference.
 
-*M2M100*: Models like `facebook/m2m100_418M` and `facebook/m2m100_1.2B` are used for multilingual translation.
+M2M100: 
+Models like `facebook/m2m100_418M` and `facebook/m2m100_1.2B` are used for multilingual translation.
 
-*MBart*: Models like `facebook/mbart-large-50-one-to-many-mmt` and `facebook/mbart-large-50-many-to-many-mmt` are used for multilingual machine translation across 50 languages.
+MBart: 
+Models like `facebook/mbart-large-50-one-to-many-mmt` and `facebook/mbart-large-50-many-to-many-mmt` are used for multilingual machine translation across 50 languages.
 
 These models are designed to handle multiple languages and can be used for tasks like translation, classification, and more.
+```
 
 ---
 
-We’ve successfully implemented Agentic RAG. But this is just the beginning—there’s plenty more you can explore to take your system to the next level.
-
-### What's Next?
-
-Here are some exciting ways to extend and enhance your implementation:
-
-- **Incorporate Additional Documentation Sources**Expand your agent’s knowledge base by integrating more documentation repositories.
-- **Explore Different Search Strategies**Experiment with advanced search methods to improve retrieval accuracy and relevance.
-- **Add Memory for Context**Equip your agent with memory capabilities to maintain context across multiple queries for a more conversational experience.
-- **Implement Error Handling and Retry Mechanisms**Make your system more robust by adding mechanisms to gracefully handle errors and retry failed operations.
-
-The beauty of LangGraph is that you can effortlessly modify your graph structure to introduce new features while keeping your codebase clean, organized, and easy to maintain.
-
 ## Conclusion
+
+We’ve successfully implemented Agentic RAG. But this is just the beginning—there’s plenty more you can explore to take your system to the next level.
 
 Agentic RAG is transforming how businesses connect data sources with AI, enabling smarter and more dynamic interactions. In this tutorial, you’ve learned how to build an Agentic RAG system that combines the power of LangGraph, Qdrant, and web search into one seamless workflow.
 
