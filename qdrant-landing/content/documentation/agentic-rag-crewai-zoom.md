@@ -13,7 +13,7 @@ social_preview_image: /documentation/examples/agentic-rag-crewai-zoom/social_pre
 
 By combining the power of Qdrant for vector search and CrewAI for orchestrating modular agents, you can build systems that don't just answer questions but analyze, interpret, and act. 
 
-Traditional RAG systems focus on fetching data and generating responses, but they lack the ability to reason deeply or handle multi-step processes. Agentic RAG solves this by combining:
+Traditional RAG systems focus on fetching data and generating responses, but they lack the ability to reason deeply or handle multi-step processes. 
 
 In this tutorial, we'll walk you through building an Agentic RAG system step by step. By the end, you'll have a working framework for storing data in a Qdrant Vector Database and extracting insights using CrewAI agents in conjunction with Vector Search over your data.
 
@@ -34,7 +34,7 @@ The application first converts the meeting transcript into vector embeddings and
 
 When you interact with the system, here's what happens behind the scenes:
 
-First the user submits a query to the system. In this example, we want to find out the avergae length of Marketing meetings. Since one of the data points from the meetings is the duration of the meeting, the agent can calculate the average duration of the meetings by averaging the duration of all meetings with the keyword "Marketing" in the topic or content.
+First the user submits a query to the system. In this example, we want to find out the average length of Marketing meetings. Since one of the data points from the meetings is the duration of the meeting, the agent can calculate the average duration of the meetings by averaging the duration of all meetings with the keyword "Marketing" in the topic or content.
 
 ![User Query Interface](/articles_data/agentic-rag-crewai-zoom/query1.png)
 
