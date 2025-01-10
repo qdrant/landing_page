@@ -16,3 +16,4 @@ partition: qdrant
 | [Use Collaborative Filtering to Build a Movie Recommendation System with Qdrant](/documentation/advanced-tutorials/collaborative-filtering/)      | 
 | [Build a Text/Image Multimodal Search System with Qdrant and FastEmbed](/documentation/advanced-tutorials/multimodal-search-fastembed/)        | 
 | [Navigate Your Codebase with Semantic Search and Qdrant](/documentation/advanced-tutorials/code-search/)                     | 
+| [Ensure optimal large-scale PDF Retrieval with Qdrant and ColPali/ColQwen](/documentation/advanced-tutorials/pdf-retrieval-at-scale/)                     | 
