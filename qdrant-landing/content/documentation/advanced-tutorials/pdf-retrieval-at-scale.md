@@ -18,40 +18,40 @@ Many traditional PDF retrieval solutions rely on **optical character recognition
 
 Recent advancements in **Vision Large Language Models (VLLMs)**, such as [**ColPali**](https://huggingface.co/blog/manu/colpali) and its successor [**ColQwen**](https://huggingface.co/vidore/colqwen2-v0.1), started the transformation of the PDF retrieval. These multimodal models work directly with PDF pages as inputs, no pre-processing required. Anything that can be converted into an **image** (think of PDFs as screenshots of document pages) can be effectively processed by these models. Being far simpler in use, VLLMs achieve state-of-the-art performance in PDF retrieval benchmarks like the [Visual Document Retrieval (ViDoRe) Benchmark](https://huggingface.co/spaces/vidore/vidore-leaderboard).
 
-### How VLLMs Work for PDF Retrieval
+## How VLLMs Work for PDF Retrieval
 
 VLLMs like **ColPali** and **ColQwen** generate **multivector representations** for each PDF page; the representations are stored and indexed in a vector database. During the retrieval process, models dynamically create multivector representations for (textual) user queries, and precise retrieval -- matching between PDF pages and queries -- is achieved through [late-interaction mechanism](https://qdrant.tech/blog/qdrant-colpali/#how-colpali-works-under-the-hood).
 
 <aside role="status"> Qdrant supports <a href="https://qdrant.tech/documentation/concepts/vectors/#multivectors">multivector representations</a>, making it well-suited for using embedding models such as ColPali, ColQwen, or <a href="https://qdrant.tech/documentation/fastembed/fastembed-colbert/">ColBERT</a></aside>
 
-### Challenges of Scaling VLLMs
+## Challenges of Scaling VLLMs
 
 The heavy multivector representations produced by VLLMs make PDF retrieval at scale computationally intensive. These models are inefficient for large-scale PDF retrieval tasks if used without optimization.
 
 ### Math Behind the Scaling
 
-**ColPali** generates over **1,000 vectors per PDF page**, and its successor, **ColQwen**, generates up to **768 vectors**, dynamically based on the image size. Typically, **ColQwen** produces **~700 vectors per page**.
+**ColPali** generates over **1,000 vectors per PDF page**, while its successor, **ColQwen**, generates slightly fewer — up to **768 vectors**, dynamically adjusted based on the image size. Typically, ColQwen produces **~700 vectors per page**.
 
-To understand the impact, consider the construction of an [**HNSW**](https://qdrant.tech/articles/what-is-a-vector-database/#1-indexing-hnsw-index-and-sending-data-to-qdrant), a common indexing algorithm for vector databases. Although HNSW is built with optimization over a number of comparisons, let’s assume a worst-case scenario where every vector is compared to every other vector to construct the index.
+To understand the impact, consider the construction of an [**HNSW index**](https://qdrant.tech/articles/what-is-a-vector-database/#1-indexing-hnsw-index-and-sending-data-to-qdrant), a common indexing algorithm for vector databases. Let's roughly estimate the number of comparisons needed to insert a new PDF page into the index.
 
-Example:
-- **Number of pages:** 20,000
 - **Vectors per page:** ~700 (ColQwen) or ~1,000 (ColPali)
-- **Vector dimensions:** 128
+- **[ef_construct](https://qdrant.tech/documentation/concepts/indexing/#vector-index):** 100 (default)
 
-The number of comparisons required to construct the index for **ColQwen** is:
+The number of comparisons required is:
 
 $$
-700 \times 700 \times 128 \times 20,000 = 1.25 \ \text{ trillion comparisons!}
+700 \times 700 \times 100 = 49 \, \text{millions}
 $$
 
-For **ColPali**, this number doubles. This number leads to:
-- **Slow Index Construction:** Building or updating the index takes an immense amount of time.
-- **Inefficient Retrieval:** Even with a successfully constructed index, retrieval times are slow.
+Now imagine how much it will take to build an index on **20,000 pages**!
+
+For ColPali, this number doubles. The result is **extremely slow index construction time**.
 
 ### Our Solution
 
 We recommend reducing the number of vectors in a PDF page representation for the **first-stage retrieval**. After the first stage retrieval with a reduced amount of vectors, we propose to **rerank** retrieved subset with the original uncompressed representation.
+
+<aside role="status"> You might consider using <b>quantization</b> (e.g., binary quantization) to reduce computational resources. However, as you can see above, quantization does not impact the parameters that determine the number of comparisons, so its effect in this context would be <b>minimal.</b> </aside>
 
 The reduction of vectors can be achieved by applying a **mean pooling operation** to the multivector VLLM-generated outputs. Mean pooling averages the values across all vectors within a selected subgroup, condensing multiple vectors into a single representative vector. If done right, it allows the preservation of important information from the original page while significantly reducing the number of vectors.
 
@@ -64,18 +64,12 @@ For example:
 ![ColPali patching of a PDF page](/documentation/tutorials/pdf-retrieval-at-scale/pooling-by-rows.png)
 
 We tested this approach with the ColPali model, mean pooling its multivectors by PDF page rows. The results showed:
-- **13x speedup in retrieval time.**
+- **Indexing time faster by an order of magnitude**
 - **Retrieval quality comparable to the original model**
 
-For details of this experiment refer to our ["ColPali retrieval optimization demo" gitHub repository](https://github.com/qdrant/demo-colpali-optimized), [ColPali optimization blog post](https://qdrant.tech/blog/colpali-qdrant-optimization/) or [webinar "PDF Retrieval at Scale"](https://www.youtube.com/watch?v=_h6SN1WwnLs)
+For details of this experiment refer to our [gitHub repository](https://github.com/qdrant/demo-colpali-optimized), [ColPali optimization blog post](https://qdrant.tech/blog/colpali-qdrant-optimization/) or [webinar "PDF Retrieval at Scale"](https://www.youtube.com/watch?v=_h6SN1WwnLs)
 
-### Flexibility in Application
-
-1. **Pooling by rows or columns:** While our experiments tested pooling by rows, pooling by columns may be more effective for certain datasets or use cases. Both approaches are included in this tutorial.
-   
-2. **Applicability to ColQwen:** Although our experiments were conducted on ColPali, we believe the same approach applies to ColQwen. This tutorial includes instructions for optimizing retrieval with both models.
-
-### Goal of This Tutorial
+## Goal of This Tutorial
 
 In this tutorial, we will demonstrate a scalable approach to PDF retrieval using **Qdrant** and **ColPali** & **ColQwen2** VLLMs.
 The presented approach is **highly recommended** to avoid the common pitfalls of long indexing times and slow retrieval speeds.
@@ -89,14 +83,13 @@ In the following sections, we will demonstrate an optimized retrieval algorithm 
 **Reranking with Original Model Multivectors:**
    - Use the original multivectors from ColPali or ColQwen2 **to rerank** the results retrieved in the first stage.
 
-### Setup
+## Setup
 Install & import required libraries
 
 ```python
 from colpali_engine.models import ColPali, ColPaliProcessor, ColQwen2, ColQwen2Processor
 from datasets import load_dataset 
-from qdrant_client import QdrantClient
-from qdrant_client.http import models
+from qdrant_client import QdrantClient, models
 import torch
 from tqdm import tqdm
 import uuid
@@ -131,7 +124,7 @@ colpali_model = ColPali.from_pretrained(
 colpali_processor = ColPaliProcessor.from_pretrained("vidore/colpali-v1.3")
 ```
 
-### Create Qdrant Collections
+## Create Qdrant Collections
 
 We will create two separate collections: one for the **ColQwen** model and one for the **ColPali** model. Each collection will include **mean pooled** by rows and columns representations of a PDF page.
 
@@ -170,7 +163,7 @@ for collection_name in ["colpali_tutorial", "colqwen_tutorial"]:
         }
     )
 ```
-### Choose a dataset
+## Choose a dataset
 
 We’ll use the **UFO Dataset** by Daniel van Strien for this tutorial. It’s available on Hugging Face; you can download it directly from there. 
 
@@ -179,7 +172,7 @@ ufo_dataset = "davanstrien/ufo-ColPali"
 dataset = load_dataset(ufo_dataset, split="train")
 ```
 
-### Embedding and Mean Pooling
+## Embedding and Mean Pooling
 
 We'll use a function that generates multivector representations and their mean pooled versions of each PDF page (aka image) in batches.
 For complete understanding, it's important to consider the following specifics of **ColPali** and **ColQwen**:
@@ -190,19 +183,41 @@ In theory, ColPali is designed to generate 1,024 vectors per PDF page, but in pr
 **ColQwen:**
 ColQwen dynamically determines the number of patches in "rows and columns" of a PDF page based on its size. Consequently, the number of multivectors can vary between inputs. ColQwen pre-processor prepends `<|im_start|>user<|vision_start|>` and appends `<|vision_end|>Describe the image.<|im_end|><|endoftext|>`.
 
-We choose to **preserve these additional vectors**. Our **pooling** operation compresses the multivectors representing **the image tokens** based on the number of rows and columns determined by the model (static 32x32 for ColPali, dynamic XxY for ColQwen). Function retains and integrates the additional multivectors produced by the model back to pooled representations.
+For example, that's how ColQwen multivector output is formed.
+
+![that's how ColQwen multivector output is formed](/documentation/tutorials/pdf-retrieval-at-scale/ColQwen-preprocessing.png)
+
+The `get_patches` function is to get the number of `x_patches` (rows) and `y_patches` (columns) ColPali/ColQwen2 models will divide a PDF page into.
+For ColPali, the numbers will always be 32 by 32; ColQwen will define them dynamically based on the PDF page size.
 
 ```python
 def get_patches(image_size, model_processor, model, model_name):
     if model_name == "colPali":
-        return model_processor.get_n_patches(image_size, 
-                                             patch_size=model.patch_size)
+        return model_processor.get_n_patches(
+            image_size, 
+            patch_size=model.patch_size
+        )
     elif model_name == "colQwen":
-        return model_processor.get_n_patches(image_size, 
-                                             patch_size=model.patch_size,
-                                             spatial_merge_size=model.spatial_merge_size)
+        return model_processor.get_n_patches(
+            image_size, 
+            patch_size=model.patch_size,
+            spatial_merge_size=model.spatial_merge_size
+        )
     return None, None
+```
 
+We choose to **preserve prefix and postfix multivectors**. Our **pooling** operation compresses the multivectors representing **the image tokens** based on the number of rows and columns determined by the model (static 32x32 for ColPali, dynamic XxY for ColQwen). Function retains and integrates the additional multivectors produced by the model back to pooled representations.
+
+That's an illustration of this process:
+
+![Our mean pooling strategy](/documentation/tutorials/pdf-retrieval-at-scale/mean-pooling.png)
+
+`embed_and_mean_pool_batch` is the universal function which embeds a batch of PDF pages with ColPali (ColQwen) and then does the explained mean pooling processing.
+
+<details>
+<summary> <span style="background-color: gray; color: black;"> Code of the function </span> </summary>
+
+```python
 def embed_and_mean_pool_batch(image_batch, model_processor, model, model_name):
     #embed
     with torch.no_grad():
@@ -247,29 +262,28 @@ def embed_and_mean_pool_batch(image_batch, model_processor, model, model_name):
 
     return image_embeddings_batch, pooled_by_rows_batch, pooled_by_columns_batch
 ```
-### Batch uploading to Qdrant
+
+</details>
+
+## Batch uploading to Qdrant
 Below is the function to batch upload multivectors into the collections created earlier to Qdrant.
 ```python
 def upload_batch(original_batch, pooled_by_rows_batch, pooled_by_columns_batch, payload_batch, collection_name):
-    try:
-        client.upsert(
-            collection_name=collection_name,
-            points=models.Batch( #batch upsert
-                ids=[str(uuid.uuid4()) for i in range(len(original_batch))],
-                payloads=payload_batch,
-                vectors={
-                    "mean_pooling_columns": pooled_by_columns_batch,
-                    "original": original_batch,
-                    "mean_pooling_rows": pooled_by_rows_batch
-                    }
-            )
-        )
-    except Exception as e:
-        print(f"Error during upsert: {e}")
+    client.upload_collection(
+        collection_name=collection_name,
+        vectors={
+            "mean_pooling_columns": pooled_by_columns_batch,
+            "original": original_batch,
+            "mean_pooling_rows": pooled_by_rows_batch
+        },
+        payload=payload_batch,
+        ids=[str(uuid.uuid4()) for i in range(len(original_batch))]
+    )
 ```
 Now you can test the uploading process of the **UFO dataset**, pre-processed according to our approach by `embed_and_mean_pool_batch` function.
 
-### For ColPali
+<details>
+<summary> <span style="background-color: gray; color: black;"> Uploading "UFO dataset" to "colpali_tutorial" collection </span> </summary>
 
 ```python
 batch_size = 1 #based on available compute
@@ -281,38 +295,34 @@ with tqdm(total=len(dataset), desc=f"Uploading progress of \"{dataset_source}\" 
         batch = dataset[i : i + batch_size]
         image_batch = batch["image"]
         current_batch_size = len(image_batch)
-        try:
-            original_batch, pooled_by_rows_batch, pooled_by_columns_batch = embed_and_mean_pool_batch(image_batch, 
-                                                                                          colpali_processor, 
-                                                                                          colpali_model, 
-                                                                                          "colPali")
-        except Exception as e:
-            print(f"Error during embed: {e}")
-            continue
-        try:
-            upload_batch(
-                original_batch,
-                pooled_by_rows_batch,
-                pooled_by_columns_batch,
-                [
-                    {
-                        "source": dataset_source, 
-                        "index": j
-                    }
-                    for j in range(i, i + current_batch_size)
-                ],
-                collection_name
-            )
-        except Exception as e:
-            print(f"Error during upsert: {e}")
-            continue
+        original_batch, pooled_by_rows_batch, pooled_by_columns_batch = embed_and_mean_pool_batch(
+            image_batch, 
+            colpali_processor, 
+            colpali_model, 
+            "colPali"
+        )
+        upload_batch(
+            np.asarray(original_batch, dtype=np.float32),
+            np.asarray(pooled_by_rows_batch, dtype=np.float32),
+            np.asarray(pooled_by_columns_batch, dtype=np.float32),
+            [
+                {
+                    "source": dataset_source, #HF dataset handle
+                    "index": j #order of an image in the dataset
+                }
+                for j in range(i, i + current_batch_size)
+            ],
+            collection_name
+        )
         # Update the progress bar
         pbar.update(current_batch_size)
 print("Uploading complete!")
 ```
+</details>
 
+<details>
+<summary> <span style="background-color: gray; color: black;"> Uploading "UFO dataset" to "colqwen_tutorial" collection </span> </summary>
 
-### For ColQwen2
 ```python
 batch_size = 1 #based on available compute
 dataset_source = ufo_dataset
@@ -323,36 +333,32 @@ with tqdm(total=len(dataset), desc=f"Uploading progress of \"{dataset_source}\" 
         batch = dataset[i : i + batch_size]
         image_batch = batch["image"]
         current_batch_size = len(image_batch)
-        try:
-            original_batch, pooled_by_rows_batch, pooled_by_columns_batch = embed_and_mean_pool_batch(image_batch, 
-                                                                                          colqwen_processor, 
-                                                                                          colqwen_model, 
-                                                                                          "colQwen")
-        except Exception as e:
-            print(f"Error during embed: {e}")
-            continue
-        try:
-            upload_batch(
-                original_batch,
-                pooled_by_rows_batch,
-                pooled_by_columns_batch,
-                [
-                    {
-                        "source": dataset_source, 
-                        "index": j
-                    }
-                    for j in range(i, i + current_batch_size)
-                ],
-                collection_name
-            )
-        except Exception as e:
-            print(f"Error during upsert: {e}")
-            continue
+        original_batch, pooled_by_rows_batch, pooled_by_columns_batch = embed_and_mean_pool_batch(
+            image_batch, 
+            colqwen_processor, 
+            colqwen_model, 
+            "colQwen"
+        )
+        upload_batch(
+            np.asarray(original_batch, dtype=np.float32),
+            np.asarray(pooled_by_rows_batch, dtype=np.float32),
+            np.asarray(pooled_by_columns_batch, dtype=np.float32),
+            [
+                {
+                    "source": dataset_source, #HF dataset handle
+                    "index": j #order of an image in the dataset
+                }
+                for j in range(i, i + current_batch_size)
+            ],
+            collection_name
+        )
         # Update the progress bar
         pbar.update(current_batch_size)
 print("Uploading complete!")
 ```
-### Querying PDFs
+</details>
+
+## Querying PDFs
 
 After indexing PDF documents, we can move on to querying them using our two-stage retrieval approach.
 
@@ -363,21 +369,19 @@ def batch_embed_query(query_batch, model_processor, model):
         query_embeddings_batch = model(**processed_queries)
     return query_embeddings_batch.cpu().float().numpy()
 ```
-Let's select some random batch of queries from the "UFO dataset" for testing.
+Let's use some query from the "UFO dataset" for testing.
 ```python
-import random
+query = "Lee Harvey Oswald's involvement in the JFK assassination"
+colpali_query = batch_embed_query([query], colpali_processor, colpali_model)
+colqwen_query = batch_embed_query([query], colqwen_processor, colqwen_model)
 
-query_batch = random.sample(dataset['specific_detail_query'], 4)
-colpali_query_batch = batch_embed_query(query_batch, colpali_processor, colpali_model)
-colqwen_query_batch = batch_embed_query(query_batch, colqwen_processor, colqwen_model)
-
-print(f"ColPali embedded query \"{query_batch[0]}\" with {len(colpali_query_batch[0])} multivectors of dim {len(colpali_query_batch[0][0])}")
-print(f"ColQwen embedded query \"{query_batch[0]}\" with {len(colqwen_query_batch[0])} multivectors of dim {len(colqwen_query_batch[0][0])}")
+print(f"ColPali embedded query \"{query}\" with {len(colpali_query[0])} multivectors of dim {len(colpali_query[0][0])}")
+print(f"ColQwen embedded query \"{query}\" with {len(colqwen_query[0])} multivectors of dim {len(colqwen_query[0][0])}")
 ```
 For example, our random batch had this query within:
 ```bash
-ColPali embedded query "Lee Harvey Oswald's involvement in the JFK assassination" with 27 multivectors of dim 128
-ColQwen embedded query "Lee Harvey Oswald's involvement in the JFK assassination" with 25 multivectors of dim 128
+ColPali embedded query "Lee Harvey Oswald's involvement in the JFK assassination" with 22 multivectors of dim 128
+ColQwen embedded query "Lee Harvey Oswald's involvement in the JFK assassination" with 21 multivectors of dim 128
 ```
 Now let's design a function for the two-stage retrieval with multivectors produced by VLLMs:
 
@@ -387,22 +391,24 @@ Now let's design a function for the two-stage retrieval with multivectors produc
 This function supports batch querying.
 ```python
 def reranking_search_batch(query_batch,
-                           named_vector_prefetch,
                            collection_name,
-                           search_limit=20, #adjust based on your requirements
-                           prefetch_limit=200, #adjust based on your requirements
-                           timeout=10):
+                           search_limit=20,
+                           prefetch_limit=200):
     search_queries = [
       models.QueryRequest(
           query=query,
-          prefetch=models.Prefetch(
-              query=query,
-              limit=prefetch_limit,
-              using=named_vector_prefetch
-          ),
-          params=models.SearchParams(
-              exact=True #no HNSW needed
-          ),
+          prefetch=[
+              models.Prefetch(
+                  query=query,
+                  limit=prefetch_limit,
+                  using="mean_pooling_columns"
+              ),
+              models.Prefetch(
+                  query=query,
+                  limit=prefetch_limit,
+                  using="mean_pooling_rows"
+              ),
+          ],
           limit=search_limit,
           with_payload=True,
           with_vector=False,
@@ -411,31 +417,38 @@ def reranking_search_batch(query_batch,
     ]
     return client.query_batch_points(
         collection_name=collection_name,
-        requests=search_queries,
-        timeout=timeout
+        requests=search_queries
     )
 ```
-Let's query our collections using mean pooled by columns representations for the first stage of retrieval.
+Let's query our collections using combined  mean pooled representations for the first stage of retrieval.
 ```python
-batch_answer_colpali = reranking_search_batch(colpali_query_batch, "mean_pooling_columns", "colpali_tutorial")
-batch_answer_colqwen = reranking_search_batch(colqwen_query_batch, "mean_pooling_columns", "colqwen_tutorial")
+answer_colpali = reranking_search_batch(colpali_query, "colpali_tutorial")
+answer_colqwen = reranking_search_batch(colqwen_query, "colqwen_tutorial")
 ```
 And check the top retrieved result to our query *"Lee Harvey Oswald's involvement in the JFK assassination"*.
 
 ### Results, ColPali
 ```python
-dataset[batch_answer_colpali[0].points[0].payload['index']]['image']
+dataset[answer_colpali[0].points[0].payload['index']]['image']
 ```
+
+<details>
+<summary> <span style="background-color: gray; color: black;"> Result </span> </summary>
+
 ![Results, ColPali](/documentation/tutorials/pdf-retrieval-at-scale/result-VLLMs.png)
+</details>
 
 ### Results, ColQwen2
 ```python
-dataset[batch_answer_colqwen[0].points[0].payload['index']]['image']
+dataset[answer_colqwen[0].points[0].payload['index']]['image']
 ```
+<details>
+<summary> <span style="background-color: gray; color: black;"> Result </span> </summary>
 
 ![Results, ColQwen2](/documentation/tutorials/pdf-retrieval-at-scale/result-VLLMs.png)
+</details>
 
-### Conclusion
+## Conclusion
 
 In this tutorial, we demonstrated an optimized approach using **Qdrant for PDF retrieval at scale** with VLLMs producing **heavy multivector representations** like **ColPali** and **ColQwen2**.
 
