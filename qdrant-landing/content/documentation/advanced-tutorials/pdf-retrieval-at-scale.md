@@ -225,7 +225,7 @@ We choose to **preserve prefix and postfix multivectors**. Our **pooling** opera
 
 Simplified version of pooling for **ColQwen** / **ColPali** models:
 
-(see the full version in the [tutorial notebook](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen_Tutorial.ipynb))
+(see the full version in the [tutorial notebook](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb))
 
 ```python
 
@@ -272,7 +272,7 @@ pooled_by_columns = torch.cat([pooled_by_columns, image_embedding[~mask]])
 Upload process is trivial, the only thing to pay attention to is the compute cost for ColPali and ColQwen2 models. 
 In low-resource environments, it's recommended to use a smaller batch size for embedding and mean pooling.
 
-Full version of the upload code is available in the [tutorial notebook](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen_Tutorial.ipynb)
+Full version of the upload code is available in the [tutorial notebook](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb)
 
 
 ## Querying PDFs
