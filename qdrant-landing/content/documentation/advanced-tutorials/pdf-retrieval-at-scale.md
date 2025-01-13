@@ -283,7 +283,7 @@ After indexing PDF documents, we can move on to querying them using our two-stag
 query = "Lee Harvey Oswald's involvement in the JFK assassination"
 processed_queries = model_processor.process_queries([query]).to(model.device)
 
-# Resulting query embedding is a tensor of shape (2, 128)
+# Resulting query embedding is a tensor of shape (22, 128)
 query_embedding = model(**processed_queries)[0]
 ```
 
