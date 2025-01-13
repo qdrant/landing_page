@@ -40,7 +40,7 @@ To understand the impact, consider the construction of an [**HNSW index**](/arti
 The lower bound estimation for the number of vector comparisions comparisons would be:
 
 $$
-700 \times 700 \times 100 = 49 \, \text{millions}
+700 \times 700 \times 100 = 49 \ \text{millions}
 $$
 
 Now imagine how much it will take to build an index on **20,000 pages**!
@@ -223,9 +223,9 @@ model_processor.get_n_patches(
 We choose to **preserve prefix and postfix multivectors**. Our **pooling** operation compresses the multivectors representing **the image tokens** based on the number of rows and columns determined by the model (static 32x32 for ColPali, dynamic XxY for ColQwen). Function retains and integrates the additional multivectors produced by the model back to pooled representations.
 
 
-Simplified version of pooling for **ColQwen** / **ColPali** models:
+Simplified version of pooling for **ColPali** model:
 
-(see the full version in the [tutorial notebook](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb))
+(see the full version -- also applicable for **ColQwen** -- in the [tutorial notebook](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb))
 
 ```python
 
@@ -236,13 +236,13 @@ image_embeddings = model(**processed_images)
 # (1030, 128)
 image_embedding = image_embeddings[0] # take the first element of the batch
 
-# Now we need to find identify sub-vectors that correspond to the image tokens
+# Now we need to identify vectors that correspond to the image tokens
 # It can be done by selecting tokens corresponding to special `image_token_id`
 
-# (1030, ) - boolean mask that is True for image tokens
+# (1030, ) - boolean mask (for the first element in the batch), True for image tokens 
 mask = processed_images.input_ids[0] == model_processor.image_token_id
 
-# For convenience we now select only image tokens 
+# For convenience, we now select only image tokens 
 #   and reshape them to (x_patches, y_patches, dim)
 
 # (x_patches, y_patches, 128)
@@ -256,7 +256,8 @@ pooled_by_rows = image_tokens.mean(dim=0)
 # (y_patches, 128)
 pooled_by_columns = image_tokens.mean(dim=1)
 
-# [Optionally] we can also concatenate special tokens to the pooled representations
+# [Optionally] we can also concatenate special tokens to the pooled representations, 
+# For ColPali, it's only postfix
 
 # (x_patches + 6, 128)
 pooled_by_rows = torch.cat([pooled_by_rows, image_embedding[~mask]])
@@ -269,7 +270,7 @@ pooled_by_columns = torch.cat([pooled_by_columns, image_embedding[~mask]])
 
 ## Upload to Qdrant
 
-Upload process is trivial, the only thing to pay attention to is the compute cost for ColPali and ColQwen2 models. 
+The upload process is trivial; the only thing to pay attention to is the compute cost for ColPali and ColQwen2 models. 
 In low-resource environments, it's recommended to use a smaller batch size for embedding and mean pooling.
 
 Full version of the upload code is available in the [tutorial notebook](https://githubtocolab.com/qdrant/examples/blob/master/pdf-retrieval-at-scale/ColPali_ColQwen2_Tutorial.ipynb)
