@@ -20,9 +20,9 @@ Recent advancements in **Vision Large Language Models (VLLMs)**, such as [**ColP
 
 ## How VLLMs Work for PDF Retrieval
 
-VLLMs like **ColPali** and **ColQwen** generate **multivector representations** for each PDF page; the representations are stored and indexed in a vector database. During the retrieval process, models dynamically create multivector representations for (textual) user queries, and precise retrieval -- matching between PDF pages and queries -- is achieved through [late-interaction mechanism](https://qdrant.tech/blog/qdrant-colpali/#how-colpali-works-under-the-hood).
+VLLMs like **ColPali** and **ColQwen** generate **multivector representations** for each PDF page; the representations are stored and indexed in a vector database. During the retrieval process, models dynamically create multivector representations for (textual) user queries, and precise retrieval -- matching between PDF pages and queries -- is achieved through [late-interaction mechanism](/blog/qdrant-colpali/#how-colpali-works-under-the-hood).
 
-<aside role="status"> Qdrant supports <a href="https://qdrant.tech/documentation/concepts/vectors/#multivectors">multivector representations</a>, making it well-suited for using embedding models such as ColPali, ColQwen, or <a href="https://qdrant.tech/documentation/fastembed/fastembed-colbert/">ColBERT</a></aside>
+<aside role="status"> Qdrant supports <a href="/documentation/concepts/vectors/#multivectors">multivector representations</a>, making it well-suited for using embedding models such as ColPali, ColQwen, or <a href="/documentation/fastembed/fastembed-colbert/">ColBERT</a></aside>
 
 ## Challenges of Scaling VLLMs
 
@@ -32,10 +32,10 @@ The heavy multivector representations produced by VLLMs make PDF retrieval at sc
 
 **ColPali** generates over **1,000 vectors per PDF page**, while its successor, **ColQwen**, generates slightly fewer — up to **768 vectors**, dynamically adjusted based on the image size. Typically, ColQwen produces **~700 vectors per page**.
 
-To understand the impact, consider the construction of an [**HNSW index**](https://qdrant.tech/articles/what-is-a-vector-database/#1-indexing-hnsw-index-and-sending-data-to-qdrant), a common indexing algorithm for vector databases. Let's roughly estimate the number of comparisons needed to insert a new PDF page into the index.
+To understand the impact, consider the construction of an [**HNSW index**](/articles/what-is-a-vector-database/#1-indexing-hnsw-index-and-sending-data-to-qdrant), a common indexing algorithm for vector databases. Let's roughly estimate the number of comparisons needed to insert a new PDF page into the index.
 
 - **Vectors per page:** ~700 (ColQwen) or ~1,000 (ColPali)
-- **[ef_construct](https://qdrant.tech/documentation/concepts/indexing/#vector-index):** 100 (default)
+- **[ef_construct](/documentation/concepts/indexing/#vector-index):** 100 (default)
 
 The number of comparisons required is:
 
@@ -67,7 +67,7 @@ We tested this approach with the ColPali model, mean pooling its multivectors by
 - **Indexing time faster by an order of magnitude**
 - **Retrieval quality comparable to the original model**
 
-For details of this experiment refer to our [gitHub repository](https://github.com/qdrant/demo-colpali-optimized), [ColPali optimization blog post](https://qdrant.tech/blog/colpali-qdrant-optimization/) or [webinar "PDF Retrieval at Scale"](https://www.youtube.com/watch?v=_h6SN1WwnLs)
+For details of this experiment refer to our [gitHub repository](https://github.com/qdrant/demo-colpali-optimized), [ColPali optimization blog post](/blog/colpali-qdrant-optimization/) or [webinar "PDF Retrieval at Scale"](https://www.youtube.com/watch?v=_h6SN1WwnLs)
 
 ## Goal of This Tutorial
 
@@ -95,7 +95,7 @@ from tqdm import tqdm
 import uuid
 ```
 
-To run these experiments, we’re using a **Qdrant cluster**. If you’re just getting started, you can set up a **free-tier cluster** for testing and exploration. Follow the instructions in the documentation ["How to Create a Free-Tier Qdrant Cluster"](https://qdrant.tech/documentation/cloud/create-cluster/?q=free+tier#free-clusters)
+To run these experiments, we’re using a **Qdrant cluster**. If you’re just getting started, you can set up a **free-tier cluster** for testing and exploration. Follow the instructions in the documentation ["How to Create a Free-Tier Qdrant Cluster"](/documentation/cloud/create-cluster/?q=free+tier#free-clusters)
 
 ```python
 client = QdrantClient(
