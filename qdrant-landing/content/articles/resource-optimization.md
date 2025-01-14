@@ -327,7 +327,7 @@ When implementing user-defined sharding in Qdrant, two key parameters are critic
 
 1. **Shard Key**:
     
-    The shard key determines how data points are distributed across shards. For example, using a key like tenant_idallows you to control how Qdrant partitions the data. Each data point added to the collection will be assigned to a shard based on the value of this key, ensuring logical isolation of data.
+    The shard key determines how data points are distributed across shards. For example, using a key like `tenant_id` allows you to control how Qdrant partitions the data. Each data point added to the collection will be assigned to a shard based on the value of this key, ensuring logical isolation of data.
     
 2. **Shard Number**:
     
