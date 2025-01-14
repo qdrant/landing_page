@@ -50,6 +50,25 @@ Ready to start building this system from the ground up? Let’s get to it!
 
 Before we dive into building our agent, let’s get everything set up. 
 
+### Imports
+
+Here’s a list of key imports required:
+
+```python
+import os
+import json
+from typing import Annotated, TypedDict
+from dotenv import load_dotenv
+from langchain.embeddings import OpenAIEmbeddings
+from langgraph import StateGraph, tool, ToolNode, ToolMessage
+from langchain.document_loaders import HuggingFaceDatasetLoader
+from langchain.text_splitter import RecursiveCharacterTextSplitter
+from langchain.llms import ChatOpenAI
+from qdrant_client import QdrantClient
+from qdrant_client.http.models import VectorParams
+from brave_search import BraveSearch
+```
+
 ### Qdrant Vector Database Setup
 
 We’ll use **Qdrant Cloud** as our vector store for document embeddings. Here’s how to set it up:
