@@ -5,7 +5,7 @@ startFree:
   text: Get Started
   url: https://cloud.qdrant.io/
 learnMore:
-  text: Talk to Sales
+  text: Learn More
   url: /contact-sales/
 heroImageSources:
   - minWidth: 2881px
