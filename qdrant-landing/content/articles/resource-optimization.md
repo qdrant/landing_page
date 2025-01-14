@@ -361,30 +361,6 @@ Improving vector database performance is critical when dealing with large datase
 
 Optimizing your queries is key to improving both search efficiency and accuracy. Qdrant provides several powerful techniques for streamlining your queries:
 
-### 1. Prefiltering and Post-filtering
-
-**Prefiltering**:
-
-This applies filters **before** the search, narrowing down the dataset to focus on relevant records. It reduces the search space, making queries faster and more efficient.
-
-Example:
-
-```python
-client.search(collection_name="my_collection",      
-query_vector=query_vector, 
-query_filter={ 
-"must": [ {"key": "price", 
-            "range": {"gte": 10, "lte": 200}} ]}
-)
-```
-
----
-
----
-
-**Post-filtering**:
-
-This refines the results **after** the vector search, ensuring they meet specific conditions. It is ideal for applying additional criteria to already retrieved results.
 
 ### 2. Projection
 
