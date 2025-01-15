@@ -3001,8 +3001,8 @@ PUT /collections/{collection_name}
         }
     },
     "sparse_vectors": {
-      "sparse-image": {},
-      "sparse-text": {},
+        "sparse-image": {},
+        "sparse-text": {},
     },
 }
 ```
@@ -3021,7 +3021,6 @@ POST /collections/{collection_name}/points/scroll
             { "has_vector": "image" }
         ]
     }
-  ...
 }
 ```
 
