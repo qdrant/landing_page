@@ -45,7 +45,7 @@ The code for this tutorial can be found <a href="https://github.com/qdrant/examp
 
 To make the demonstration simple, we created a tiny dataset of images and their captions for you.
 
-Images can be downloaded from [here](https://github.com/qdrant/examples/multimodal-search/images). It's **important** to place them in the same folder as your code/notebook, in the folder named `images`.
+Images can be downloaded from [here](https://github.com/qdrant/examples/tree/master/multimodal-search/images). It's **important** to place them in the same folder as your code/notebook, in the folder named `images`.
 
 ## Vectorize data
 
