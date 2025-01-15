@@ -2985,7 +2985,27 @@ Filtered points would be:
 
 This condition enables filtering by the presence of a given named vector on a point.
 
-For example, to search for points with the `image` vector:
+For example, if we have two named vector in our collection.
+
+```http
+PUT /collections/{collection_name}
+{
+    "vectors": {
+        "image": {
+            "size": 4,
+            "distance": "Dot"
+        },
+        "text": {
+            "size": 8,
+            "distance": "Cosine"
+        }
+    }
+}
+```
+
+Some points in the collection might have both `image` and `text` vectors, some might have only one of them.
+
+This is how you can search for points which have the `image` vector defined:
 
 ```http
 POST /collections/{collection_name}/points/scroll
