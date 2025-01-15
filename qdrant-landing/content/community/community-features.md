@@ -6,7 +6,7 @@ resources:
   description: Qdrant Stars are our top contributors, organizers, and evangelists. Learn more about how you can become a Star.
   link:
     text: Learn More
-    url: /blog/qdrant-stars-announcement/
+    url: /stars/
   image:
     src: /img/community-features/qdrant-stars.svg
     alt: Avatar
