@@ -2977,3 +2977,116 @@ Filtered points would be:
   { "id": 5, "city": "Moscow", "color": "green" }
 ]
 ```
+
+
+### Has vector
+
+*Available as of v1.13.0*
+
+This condition enables filtering by the presence of a given named vector on a point.
+
+For example, to search for points with the `image` vector:
+
+```http
+POST /collections/{collection_name}/points/scroll
+{
+    "filter": {
+        "must": [
+            { "has_vector": "image" }
+        ]
+    }
+  ...
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        must=[
+            models.HasVectorCondition(has_vector="image"),
+        ],
+    ),
+)
+```
+
+
+```typescript
+client.scroll("{collection_name}", {
+  filter: {
+    must: [
+      {
+        has_vector: "image",
+      },
+    ],
+  },
+});
+```
+
+```rust
+use qdrant_client::qdrant::{Condition, Filter, ScrollPointsBuilder};
+use qdrant_client::Qdrant;
+
+let client = Qdrant::from_url("http://localhost:6334").build()?;
+    
+client
+    .scroll(
+        ScrollPointsBuilder::new("{collection_name}")
+            .filter(Filter::must([Condition::has_vector("image")])),
+    )
+    .await?;
+```
+
+```java
+import java.util.List;
+
+import static io.qdrant.client.ConditionFactory.hasVector;
+import static io.qdrant.client.PointIdFactory.id;
+
+import io.qdrant.client.grpc.Points.Filter;
+import io.qdrant.client.grpc.Points.ScrollPoints;
+
+client
+    .scrollAsync(
+        ScrollPoints.newBuilder()
+            .setCollectionName("{collection_name}")
+            .setFilter(
+                Filter.newBuilder()
+                    .addMust(hasVector("image"))
+                    .build())
+            .build())
+    .get();
+```
+
+```csharp
+using Qdrant.Client;
+using static Qdrant.Client.Grpc.Conditions;
+
+var client = new QdrantClient("localhost", 6334);
+
+await client.ScrollAsync(collectionName: "{collection_name}", filter: HasVector("image"));
+```
+
+```go
+import (
+	"context"
+
+	"github.com/qdrant/go-client/qdrant"
+)
+
+client, err := qdrant.NewClient(&qdrant.Config{
+	Host: "localhost",
+	Port: 6334,
+})
+
+client.Scroll(context.Background(), &qdrant.ScrollPoints{
+	CollectionName: "{collection_name}",
+	Filter: &qdrant.Filter{
+		Must: []*qdrant.Condition{
+			qdrant.NewHasVector(
+        "image",
+			),
+		},
+	},
+})
+```
