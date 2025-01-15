@@ -512,7 +512,7 @@ Python client:
 
 ## Counting points
 
-*Avalable since v0.8.4*
+*Available as of v0.8.4*
 
 Sometimes it can be useful to know how many points fit the filter conditions without doing a real search.
 

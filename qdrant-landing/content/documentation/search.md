@@ -268,7 +268,7 @@ Example result of this API would be
 
 ## Pagination
 
-*Avalable since v0.8.3*
+*Available as of v0.8.3*
 
 Search and recommendation APIs allow to skip first results of the search and return only the result starting from some specified offset:
 

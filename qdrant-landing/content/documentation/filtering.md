@@ -548,3 +548,33 @@ Filtered points would be:
     {"id": 5, "city": "Moscow", "color": "green"},
 ]
 ```
+
+### Has vector
+
+*Available as of v1.13.0*
+
+This condition enables filtering by the presence of a given named vector in a point.
+
+```http
+POST /collections/{collection_name}/points/scroll
+
+{
+    "filter": {
+        "must": [
+            { "has_vector": "image" }
+        ]
+    }
+  ...
+}
+```
+
+```python
+client.scroll(
+    collection_name="{collection_name}",
+    scroll_filter=models.Filter(
+        must=[
+            models.HasVectorCondition(has_vector="image"),
+        ],
+    ),
+)
+```
