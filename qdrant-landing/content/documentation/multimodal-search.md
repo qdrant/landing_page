@@ -8,7 +8,7 @@ aliases:
   - /documentation/advanced-tutorials/multimodal-search-fastembed/
 ---
 
-# Multilingual & Multimodal RAG with LlamaIndex
+# Multilingual & Multimodal Search with LlamaIndex
 
 ![Snow prints](/documentation/examples/multimodal-search/image-1.png)
 
