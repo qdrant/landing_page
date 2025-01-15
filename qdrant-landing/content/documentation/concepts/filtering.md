@@ -2999,13 +2999,19 @@ PUT /collections/{collection_name}
             "size": 8,
             "distance": "Cosine"
         }
-    }
+    },
+    "sparse_vectors": {
+      "sparse-image": {},
+      "sparse-text": {},
+    },
 }
 ```
 
-Some points in the collection might have both `image` and `text` vectors, some might have only one of them.
+Some points in the collection might have all vectors, some might have only a subset of them.
 
-This is how you can search for points which have the `image` vector defined:
+<aside role="status">If your collection does not have named vectors, use an empty (<code>""</code>) name.</aside>
+
+This is how you can search for points which have the dense `image` vector defined:
 
 ```http
 POST /collections/{collection_name}/points/scroll
